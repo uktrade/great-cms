@@ -12,15 +12,12 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 ROOT_DIR = (environ.Path(__file__) - 3)
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+env = environ.Env()
 
 for env_file in env.list('ENV_FILES', default=[]):
     env.read_env(f'config/env/{env_file}')
 
-DEBUG = env.bool('DJANGO_DEBUG')
+DEBUG = env.bool('DJANGO_DEBUG', False)
 SECRET_KEY = env.str('SECRET_KEY')
 
 # As the app is running behind a host-based router supplied by Heroku or other

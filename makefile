@@ -35,8 +35,8 @@ css:
 	./node_modules/.bin/gulp sass
 
 secrets:
-	cp conf/env/secrets-template conf/env/secrets-do-not-commit; \
-	sed -i -e 's/#DO NOT ADD SECRETS TO THIS FILE//g' conf/env/secrets-do-not-commit
+	cp config/env/secrets-template config/env/secrets-do-not-commit; \
+	sed -i -e 's/#DO NOT ADD SECRETS TO THIS FILE//g' config/env/secrets-do-not-commit
 
 worker:
 	ENV_FILES='secrets-do-not-commit,dev' celery -A conf worker -l info
