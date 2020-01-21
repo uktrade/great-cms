@@ -1,0 +1,14 @@
+SECRET_KEY=debug
+DEBUG=true
+SESSION_COOKIE_SECURE=false
+UTM_COOKIE_DOMAIN=.great
+SECURE_HSTS_SECONDS=0
+PYTHONDEBUG=true
+HEALTH_CHECK_TOKEN=debug
+DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
+CSRF_COOKIE_SECURE=false
+EMAIL_BACKEND_CLASS_NAME=console
+FEATURE_DEBUG_TOOLBAR_ENABLED=false
+REDIS_URL=redis://localhost:6379
+FEATURE_ENFORCE_STAFF_SSO_ENABLED=false
+STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
