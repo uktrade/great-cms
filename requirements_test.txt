@@ -17,8 +17,8 @@ botocore==1.14.6          # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
-coverage==4.5.4           # via coveralls, django-coverage-plugin, pytest-cov
-coveralls==1.10.0
+codecov==2.0.15
+coverage==4.5.4           # via codecov, django-coverage-plugin, pytest-cov
 decorator==4.4.1          # via ipython, traitlets
 django-coverage-plugin==1.7.0
 django-debug-toolbar==2.1
@@ -34,7 +34,7 @@ django-taggit==1.2.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
 django==2.2.9
 djangorestframework==3.11.0  # via wagtail
-docopt==0.6.2             # via coveralls, notifications-python-client
+docopt==0.6.2             # via notifications-python-client
 docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
 entrypoints==0.3          # via flake8
@@ -85,7 +85,7 @@ python-dateutil==2.6.1    # via botocore, faker
 pytz==2019.3              # via django, django-modelcluster, wagtail
 redis==3.3.11             # via django-redis
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.22.0          # via coveralls, notifications-python-client, requests-oauthlib, wagtail
+requests==2.22.0          # via codecov, notifications-python-client, requests-oauthlib, wagtail
 s3transfer==0.3.1         # via boto3
 sentry-sdk==0.13.4
 six==1.14.0               # via astroid, django-coverage-plugin, django-extensions, html5lib, packaging, pip-tools, python-dateutil, traitlets, wagtail
