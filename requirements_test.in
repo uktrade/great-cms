@@ -2,26 +2,22 @@
 
 # Testing
 # ------------
+Werkzeug
 pytest
 pytest-cov
 pytest-django
 pytest-sugar
-requests_mock
-freezegun
-factory-boy
 wagtail-factories
 django-debug-toolbar
 pip-tools
 ipdb
 django-coverage-plugin
-django-extensions
 
 
 # Code quality
 # -------------
 flake8
 pylint-django
-pylint-celery
 coveralls
 
 

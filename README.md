@@ -26,8 +26,14 @@
 
 [Redis](https://redis.io/)
 
+### Install virtualenv
 
-#### Configuration
+`pip` 18 is required. Refer to the [pip website](https://pip.pypa.io/en/stable/installing/#installing-with-get-pip-py) for more info.
+
+    $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    $ python get-pip.py pip==18
+
+### Configuration
 
 Secrets such as API keys and environment specific configurations are placed in `conf/env/secrets-do-not-commit` - a file that is not added to version control. To create a template secrets file with dummy values run `make secrets`.
 
@@ -56,29 +62,18 @@ Secrets such as API keys and environment specific configurations are placed in `
 
 `make database` drops then recreates the local database. 
 
-    $ make load_fixtures
-
 
 ### Image storage
 
-Pages and images can be copied "upstream" from one environment to another. To facilitate this a single S3 bucket is used by all environments. A constraint of this approach is the bucket is immutable insofar as images can be uploaded but not deleted or changed.
+Local development uses `django.core.files.storage.FileSystemStorage`
 
-The entries must be added on your `conf/.env` file:
-```
-AWS_STORAGE_BUCKET_NAME
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-```
-
-Speak to a team mate or consult dev vault to retrieve the `AWS_STORAGE_BUCKET_NAME`.
-
-#### /etc/hosts file entry
+### /etc/hosts file entry
 
 UI clients on local expect the CMS to be reachable at the address http://cms.trade.great.
 
      Add 127.0.0.1 greatcms.trade.great
 
-You can test this works by attempting to visit http://greatcms.trade.great:8010/admin in your browser.
+You can test this works by attempting to visit http://greatcms.trade.great:8020/admin in your browser.
 
 ## Session
 

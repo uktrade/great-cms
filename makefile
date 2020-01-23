@@ -22,7 +22,7 @@ check_migrations:
 	yes n | ENV_FILES=$(ENV_FILES) ./manage.py migrate --plan
 
 webserver:
-	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver 0.0.0.0:8010 $(ARGUMENTS)
+	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver 0.0.0.0:8020 $(ARGUMENTS)
 
 requirements:
 	pip-compile -r --annotate requirements.in
@@ -37,9 +37,6 @@ css:
 secrets:
 	cp config/env/secrets-template config/env/secrets-do-not-commit; \
 	sed -i -e 's/#DO NOT ADD SECRETS TO THIS FILE//g' config/env/secrets-do-not-commit
-
-worker:
-	ENV_FILES='secrets-do-not-commit,dev' celery -A conf worker -l info
 
 database:
 	PGPASSWORD=debug dropdb  greatcms

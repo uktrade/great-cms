@@ -4,13 +4,14 @@
 #
 #    pip-compile requirements_test.in
 #
+--no-binary django-pglocks
 --no-binary psycopg2
 
 appnope==0.1.0            # via ipython
-astroid==2.3.3            # via pylint, pylint-celery
-attrs==19.3.0             # via jsonschema, pytest
+astroid==2.3.3            # via pylint
+attrs==19.3.0             # via pytest
 backcall==0.1.0           # via ipython
-beautifulsoup4==4.6.0     # via directory-components, wagtail
+beautifulsoup4==4.6.0     # via wagtail
 boto3==1.11.6
 botocore==1.14.6          # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
@@ -19,32 +20,27 @@ click==7.0                # via pip-tools
 coverage==4.5.4           # via coveralls, django-coverage-plugin, pytest-cov
 coveralls==1.10.0
 decorator==4.4.1          # via ipython, traitlets
-directory-components==35.10.0
-directory-constants==20.10.0
-directory-healthcheck==1.1.1
 django-coverage-plugin==1.7.0
 django-debug-toolbar==2.1
 django-environ==0.4.5
 django-extensions==2.2.6
 django-filter==2.2.0
-django-health-check==3.8.0  # via directory-healthcheck
 django-modelcluster==5.0.1  # via wagtail
 django-pglocks==1.0.2
 django-redis==4.10.0
-django-staff-sso-client==1.0.0
+django-staff-sso-client==1.0.1
 django-storages[boto3]==1.8
 django-taggit==1.2.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
 django==2.2.9
-djangorestframework==3.11.0  # via sigauth, wagtail
+djangorestframework==3.11.0  # via wagtail
 docopt==0.6.2             # via coveralls, notifications-python-client
 docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
 entrypoints==0.3          # via flake8
-factory-boy==2.12.0
+factory-boy==2.12.0       # via wagtail-factories
 faker==4.0.0              # via factory-boy
 flake8==3.7.9
-freezegun==0.3.13
 future==0.18.2            # via notifications-python-client
 gunicorn==19.5.0
 html5lib==1.0.1           # via wagtail
@@ -56,10 +52,8 @@ ipython==7.11.1           # via ipdb
 isort==4.3.21             # via pylint
 jedi==0.15.2              # via ipython
 jmespath==0.9.4           # via boto3, botocore
-jsonschema==3.0.1         # via directory-components
 lazy-object-proxy==1.4.3  # via astroid
 mccabe==0.6.1             # via flake8, pylint
-mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via notifications-python-client
 more-itertools==8.1.0     # via pytest, zipp
 notifications-python-client==5.5.0
@@ -79,27 +73,22 @@ pycodestyle==2.5.0        # via flake8
 pyflakes==2.1.1           # via flake8
 pygments==2.5.2           # via ipython
 pyjwt==1.7.1              # via notifications-python-client
-pylint-celery==0.3
 pylint-django==2.0.13
-pylint-plugin-utils==0.6  # via pylint-celery, pylint-django
-pylint==2.4.4             # via pylint-celery, pylint-django, pylint-plugin-utils
+pylint-plugin-utils==0.6  # via pylint-django
+pylint==2.4.4             # via pylint-django, pylint-plugin-utils
 pyparsing==2.4.6          # via packaging
-pyrsistent==0.15.7        # via jsonschema
 pytest-cov==2.8.1
 pytest-django==3.8.0
 pytest-sugar==0.9.2
 pytest==5.3.4
-python-dateutil==2.6.1    # via botocore, faker, freezegun
+python-dateutil==2.6.1    # via botocore, faker
 pytz==2019.3              # via django, django-modelcluster, wagtail
-raven==6.10.0             # via django-staff-sso-client
 redis==3.3.11             # via django-redis
-requests-mock==1.7.0
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.22.0          # via coveralls, notifications-python-client, requests-mock, requests-oauthlib, wagtail
+requests==2.22.0          # via coveralls, notifications-python-client, requests-oauthlib, wagtail
 s3transfer==0.3.1         # via boto3
 sentry-sdk==0.13.4
-sigauth==4.1.0
-six==1.14.0               # via astroid, django-coverage-plugin, django-extensions, freezegun, html5lib, jsonschema, mohawk, packaging, pip-tools, pyrsistent, python-dateutil, requests-mock, traitlets, wagtail
+six==1.14.0               # via astroid, django-coverage-plugin, django-extensions, html5lib, packaging, pip-tools, python-dateutil, traitlets, wagtail
 sqlparse==0.3.0           # via django, django-debug-toolbar
 termcolor==1.1.0          # via pytest-sugar
 text-unidecode==1.3       # via faker
@@ -109,9 +98,9 @@ unidecode==1.1.1          # via wagtail
 urllib3==1.25.7           # via botocore, requests, sentry-sdk
 wagtail-factories==2.0.0
 wagtail==2.7.1
-wagtailmedia==0.4.0
 wcwidth==0.1.8            # via prompt-toolkit, pytest
 webencodings==0.5.1       # via html5lib
+werkzeug==0.16.0
 whitenoise==4.1.2
 willow==1.3               # via wagtail
 wrapt==1.11.2             # via astroid
