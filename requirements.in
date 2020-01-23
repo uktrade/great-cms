@@ -23,7 +23,8 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 django-staff-sso-client==1.0.1
-
+directory-sso-api-client==6.2.0
+directory-components==35.6.1
 
 notifications-python-client==5.5.*
 whitenoise==4.1.*

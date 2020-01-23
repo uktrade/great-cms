@@ -79,9 +79,26 @@ You can test this works by attempting to visit http://greatcms.trade.great:8020/
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
 
+## React components
+
+To add new react components:
+
+1. Add the file to javascript/src/ e.g. javascript/src/myFile.js
+2. Update javascript/src/bundle.js  e.g, 
+```
+import myFile from './myFile';
+
+export default {
+    ...,
+    myFile
+};
+```
+
+3. Run `npm run build`
+4. The new component is now available on window.ditMVP.myFile
+
 
 ## Caching
-
 
 
 ## Staff SSO

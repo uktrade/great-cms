@@ -1,1 +1,25 @@
-<h1>Homepage goes here</h1>
+{% load static wagtailuserbar %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
+    </head>
+    <body>
+        <h1>Homepage goes here</h1>
+        <div id="login-state">
+            {% if not request.user.is_authenticated %}
+                <a id="header-sign-in-link" href="{{ sso_login_url }}">Sign in</a>
+            {% else %}
+                <div>Hello, <strong>{{request.user.get_full_name }}</strong></div>
+                <a id="header-sign-out-link" href="{{ sso_logout_url }}">Sign out</a>
+            {% endif %}
+        </div>
+        <script type="text/javascript">
+            ditMVP.createLoginModal({
+                element: document.querySelector("#header-sign-in-link"),
+                action: '{{ sso_login_url }}'
+            });
+        </script>
+    </body>
+</html>
