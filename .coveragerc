@@ -2,9 +2,9 @@
 omit =
     .venv/*
     venv/*
-    conf/wsgi.py
-    conf/settings.py
-    conf/celery.py
+    config/wsgi.py
+    config/settings.py
+    config/urls.py
     manage.py
     **/tests/*
     conftest.py

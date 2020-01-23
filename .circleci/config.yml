@@ -1,0 +1,49 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3.6.6
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - restore_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - run:
+          name: Create virtualenv and install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            make install_requirements
+      - save_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=html
+            codecov
+
+  flake8:
+    docker:
+    - image: circleci/python:3.6.6
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Run flake8
+        command: |
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install flake8
+          flake8
+
+workflows:
+  version: 2
+  test_and_flake8:
+    jobs:
+      - test
+      - flake8
