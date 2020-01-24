@@ -9,6 +9,7 @@ pytest-django
 pytest-sugar
 wagtail-factories
 django-debug-toolbar
+requests-mock
 pip-tools
 ipdb
 django-coverage-plugin

@@ -30,3 +30,4 @@ notifications-python-client==5.5.*
 whitenoise==4.1.*
 psycopg2==2.8.* --no-binary psycopg2
 boto3==1.11.*
+djangorestframework==3.9.4

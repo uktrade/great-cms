@@ -15,11 +15,14 @@
                 <a id="header-sign-out-link" href="{{ sso_logout_url }}">Sign out</a>
             {% endif %}
         </div>
+        {% if not request.user.is_authenticated %}
         <script type="text/javascript">
-            ditMVP.createLoginModal({
+            ditMVP.LoginModal({
                 element: document.querySelector("#header-sign-in-link"),
-                action: '{{ sso_login_url }}'
+                action: '{% url "sso:business-login-api" %}',
+                csrfToken: '{{ csrf_token }}'
             });
         </script>
+        {% endif %}
     </body>
 </html>

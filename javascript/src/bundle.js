@@ -1,5 +1,5 @@
-import createLoginModal from './modal';
+import LoginModal from './LoginModal';
 
 export default {
-    createLoginModal
+    LoginModal
 };

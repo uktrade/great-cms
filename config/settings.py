@@ -380,3 +380,10 @@ if env.bool('ENFORCE_STAFF_SSO_ON', False):
     MIGRATE_EMAIL_USER_ON_LOGIN = env.bool('MIGRATE_EMAIL_USER_ON_LOGIN', False)
 else:
     LOGIN_URL = '/admin/login/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
