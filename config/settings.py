@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'taggit',
     'storages',
     'django_extensions',
+    'directory_components',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,6 +85,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'directory_components.context_processors.urls_processor',
+                'directory_components.context_processors.header_footer_processor',
             ],
         },
     },
@@ -326,9 +329,7 @@ GOVNOTIFY_USER_PENDING_APPROVAL_TEMPLATE_ID = env.str('GOVNOTIFY_USER_PENDING_AP
 GOVNOTIFY_USER_APPROVED_TEMPLATE_ID = env.str('GOVNOTIFY_USER_APPROVED_TEMPLATE_ID', '')
 
 if DEBUG:
-
     INSTALLED_APPS += ['debug_toolbar']
-
     MIDDLEWARE = (
         ['debug_toolbar.middleware.DebugToolbarMiddleware'] +
         MIDDLEWARE
