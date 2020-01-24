@@ -314,7 +314,7 @@ AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN', '')
 WS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'https:')
 AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
-AWS_S3_HOST = 's3-us-west-1.amazonaws.com'
+AWS_S3_HOST =env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
 
 
 if DEBUG:
