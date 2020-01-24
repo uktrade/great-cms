@@ -310,14 +310,16 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME', '')
 AWS_DEFAULT_ACL = 'public-read'
 AWS_AUTO_CREATE_BUCKET = False
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_ENCRYPTION = False
+AWS_S3_ENCRYPTION = True
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN', '')
-WS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'https:')
+AWS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'https:')
 AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
 AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
+AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
+AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
+S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
 
 
 if DEBUG:
@@ -329,7 +331,7 @@ if DEBUG:
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
 
-if env.bool('ENFORCE_STAFF_SSO_ON', False):
+if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
     AUTHENTICATION_BACKENDS = [
         'django.contrib.auth.backends.ModelBackend',
         'authbroker_client.backends.AuthbrokerBackend'
