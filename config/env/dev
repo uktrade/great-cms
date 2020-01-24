@@ -8,7 +8,6 @@ HEALTH_CHECK_TOKEN=debug
 DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
 CSRF_COOKIE_SECURE=false
 EMAIL_BACKEND_CLASS_NAME=console
-FEATURE_DEBUG_TOOLBAR_ENABLED=false
 REDIS_URL=redis://localhost:6379
 FEATURE_ENFORCE_STAFF_SSO_ENABLED=false
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage

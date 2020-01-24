@@ -23,7 +23,8 @@ export function LoginModal(props){
   const usernameRef = React.createRef();
   const passwordRef = React.createRef();
 
-  function openModal() {
+  function openModal(event) {
+    event.preventDefault();
     setIsOpen(true);
   }
 
@@ -61,7 +62,7 @@ export function LoginModal(props){
 
   return (
     <div>
-      <a href="#" onClick={openModal}>Sign in</a>
+      <a id="header-sign-in-link" onClick={openModal} class="account-link signin" href="#">Sign in</a>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

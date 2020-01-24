@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'storages',
     'django_extensions',
     'directory_sso_api_client',
+    'directory_components',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     'sso',
     'core',
     'domestic',
+    'users.apps.UsersConfig'
 ]
 
 MIDDLEWARE = [
@@ -87,6 +89,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'directory_components.context_processors.sso_processor',
+                'directory_components.context_processors.urls_processor',
+                'directory_components.context_processors.header_footer_processor',
             ],
         },
     },
@@ -317,23 +321,11 @@ AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN', '')
 WS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'https:')
 AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
-AWS_S3_HOST = 's3-us-west-1.amazonaws.com'
-
-# NOTE: Notify keys must be in a specfic format for the client to initialise,
-# so using an invalid default here to prevent breakages locally / in tests
-GOVNOTIFY_API_KEY = env.str(
-    'GOVNOTIFY_API_KEY',
-    'directory_cms_invalid-03185ee5-578c-4ffc-8774-2288e7b34e63-e82262ea-ae8c-4c6d-8570-c16afdc8347f' # noqa
-)
-GOVNOTIFY_REPLY_TO_EMAIL_ID = env.str('GOVNOTIFY_REPLY_TO_EMAIL_ID', '')
-GOVNOTIFY_USER_PENDING_APPROVAL_TEMPLATE_ID = env.str('GOVNOTIFY_USER_PENDING_APPROVAL_TEMPLATE_ID', '')
-GOVNOTIFY_USER_APPROVED_TEMPLATE_ID = env.str('GOVNOTIFY_USER_APPROVED_TEMPLATE_ID', '')
+AWS_S3_HOST = env.str('AWS_S3_HOST', 's3-eu-west-2.amazonaws.com')
 
 
-if env.bool('DEBUG_TOOLBAR_ON', False):
-
+if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
-
     MIDDLEWARE = (
         ['debug_toolbar.middleware.DebugToolbarMiddleware'] +
         MIDDLEWARE
@@ -370,14 +362,10 @@ if env.bool('ENFORCE_STAFF_SSO_ON', False):
     AUTHBROKER_CLIENT_ID = env.str('AUTHBROKER_CLIENT_ID')
     AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
 
-    MIDDLEWARE.append(
-        'users.middleware.SSORedirectUsersToRequestAccessViews'
-    )
     # Disable password management in Wagtail admin
     WAGTAIL_PASSWORD_MANAGEMENT_ENABLED = False
     WAGTAIL_PASSWORD_RESET_ENABLED = False
     WAGTAILUSERS_PASSWORD_ENABLED = False
-    MIGRATE_EMAIL_USER_ON_LOGIN = env.bool('MIGRATE_EMAIL_USER_ON_LOGIN', False)
 else:
     LOGIN_URL = '/admin/login/'
 

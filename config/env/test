@@ -1,6 +1,6 @@
-DATABASE_URL=sqlite://cms-test-db.db
+DATABASE_URL=sqlite:///cms-test-db.db
 DEFAULT_FILE_STORAGE=core.storage_backends.FileSystemStorage
-API_CACHE_DISABLED=false
+API_CACHE_DISABLED=true
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
 DEBUG=false
 AWS_STORAGE_BUCKET_NAME=debug

@@ -19,7 +19,7 @@ django-coverage-plugin
 # -------------
 flake8
 pylint-django
-coveralls
+codecov
 
 
 
