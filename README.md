@@ -22,7 +22,7 @@
 ### Requirements
 [Python 3.6](https://www.python.org/downloads/release/python-368/)
 
-[Postgres 9.5](https://www.postgresql.org/)
+[Postgres 10](https://www.postgresql.org/)
 
 [Redis](https://redis.io/)
 
