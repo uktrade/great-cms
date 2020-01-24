@@ -22,7 +22,8 @@ sentry-sdk==0.13.*
 
 # DIT packages
 # ------------
-django-staff-sso-client==1.0.1
+django-staff-sso-client==1.0.*
+directory-components==35.10.*
 
 
 whitenoise==4.1.*
