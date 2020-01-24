@@ -332,7 +332,7 @@ if DEBUG:
 
 
 if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
-    AUTHENTICATION_BACKENDS = [
+    AUTHENTICATION_BACKENDS = +[
         'django.contrib.auth.backends.ModelBackend',
         'authbroker_client.backends.AuthbrokerBackend'
     ]
@@ -343,10 +343,5 @@ if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
     AUTHBROKER_URL = env.str('STAFF_SSO_AUTHBROKER_URL')
     AUTHBROKER_CLIENT_ID = env.str('AUTHBROKER_CLIENT_ID')
     AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
-
-    # Disable password management in Wagtail admin
-    WAGTAIL_PASSWORD_MANAGEMENT_ENABLED = False
-    WAGTAIL_PASSWORD_RESET_ENABLED = False
-    WAGTAILUSERS_PASSWORD_ENABLED = False
 else:
     LOGIN_URL = '/admin/login/'
