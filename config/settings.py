@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'taggit',
     'storages',
     'django_extensions',
-    'directory_sso_api_client',
     'directory_components',
 
     'django.contrib.admin',

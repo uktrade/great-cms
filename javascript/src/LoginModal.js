@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 
 
+export const MESSAGE_INCORRECT_CREDENTIALS = 'Incorrect username or password';
+export const MESSAGE_UNEXPEXCTED_ERROR = 'Unexpected Error';
 const customStyles = {
   content : {
     top: '50%',
@@ -15,10 +18,30 @@ const customStyles = {
 };
 
 
+export function checkCredentials({url, csrfToken, username, password}) {
+  return fetch(url, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrfToken,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    body: JSON.stringify({username, password}),
+  }).then(response => {
+    if (response.status == 400) {
+      throw MESSAGE_INCORRECT_CREDENTIALS;
+    } else if (response.status != 200) {
+      throw MESSAGE_UNEXPEXCTED_ERROR;
+    };
+  });
+}
+
+
 export function LoginModal(props){
-  const [modalIsOpen,setIsOpen] = React.useState(false);
-  const [isError,setIsError] = React.useState(false);
-  const [isInProgress,setIsInProgress] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(props.isOpen);
+  const [errorMessage, setErrorMessage] = React.useState(props.errorMessage);
+  const [isInProgress, setIsInProgress] = React.useState(props.isInProgress);
 
   const usernameRef = React.createRef();
   const passwordRef = React.createRef();
@@ -32,56 +55,70 @@ export function LoginModal(props){
     setIsOpen(false);
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event){
     event.preventDefault();
-    const data = {
-      'username': usernameRef.current.value,
-      'password': passwordRef.current.value,
-    };
-    setIsError(false);
+    setErrorMessage('');
     setIsInProgress(true);
-
-    fetch(props.action, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': props.csrfToken,
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-      body: JSON.stringify(data),
-    }).then(response => {
-      setIsInProgress(false);
-      if (response.status == 400) {
-        setIsError(true);
-      } else if (response.status == 200) {
-        location.reload();
-      }
+    const promise = checkCredentials({
+      url: props.action,
+      username: usernameRef.current.value,
+      password: passwordRef.current.value,
+      csrfToken: props.csrfToken,
     });
+    promise
+      .then(response => {
+         location.reload();
+      })
+      .catch(error => {
+        setErrorMessage(error);
+        setIsInProgress(false);
+      })
   }
 
   return (
     <div>
-      <a id="header-sign-in-link" onClick={openModal} class="account-link signin" href="#">Sign in</a>
+      <a id="header-sign-in-link" onClick={openModal} className="account-link signin" href="#">Sign in</a>
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={isOpen}
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Login Modal"
       >
         <button onClick={closeModal}>close</button>
         <form onSubmit={handleSubmit}>
-            <div>{isError?'Incorrect username or password':''}</div>
-            <label>Username</label><input type="text" name="login" ref={usernameRef} disabled={isInProgress} />
+            {errorMessage ? <div>{errorMessage}</div> : ''}
+            <label>Username</label><input type="text" name="username" ref={usernameRef} disabled={isInProgress} />
             <label>Username</label><input type="password" name="password" ref={passwordRef} disabled={isInProgress} />
             <input type="submit" value="Login" disabled={isInProgress} />
         </form>
       </Modal>
     </div>
   );
-}
+};
+
+LoginModal.propTypes = {
+  isOpen: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  isInProgress: PropTypes.bool,
+  action: PropTypes.string.isRequired,
+  csrfToken: PropTypes.string.isRequired,
+};
+
+LoginModal.defaultProps = {
+  isOpen: false,
+  errorMessage: '',
+  isInProgress: false,
+};
 
 export default function createLoginModal(options) {
     Modal.setAppElement(options.element);
-    ReactDOM.render(<LoginModal action={options.action} csrfToken={options.csrfToken} />, options.element);
-}
+    ReactDOM.render(
+      <LoginModal
+        action={options.action}
+        csrfToken={options.csrfToken}
+        isOpen={options.isOpen}
+        isInProgress={options.isInProgress}
+        rrrorMessage={options.errorMessage}
+      />, options.element
+    );
+};

@@ -26,6 +26,24 @@ jobs:
             make pytest -- --cov=. --cov-config=.coveragerc --cov-report=html
             codecov
 
+  test_javascript:
+    docker:
+      - image: circleci/node:8.5.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-deps-{{ checksum "package.json" }}
+      - run:
+          name: Install node modules
+          command: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package.json" }}
+          paths:
+            - "node_modules"
+      - run:
+          name: Run Javascript tests
+          command: npm test
+
   flake8:
     docker:
     - image: circleci/python:3.6.6
@@ -46,4 +64,5 @@ workflows:
   test_and_flake8:
     jobs:
       - test
+      - test_javascript
       - flake8
