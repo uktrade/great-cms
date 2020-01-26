@@ -17,7 +17,9 @@ def sso_request(rf, settings, client):
 
 
 @mock.patch.object(sso_api_client.user, 'get_session_user', wraps=sso_api_client.user.get_session_user)
-def test_auth_ok(mock_get_session_user, sso_request, requests_mock):
+def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
+    settings.AUTHENTICATION_BACKENDS = ['sso.backends.BusinessSSOUserBackend']
+
     requests_mock.get(
         'http://sso.trade.great:8003/api/v1/session-user/',
         json={
@@ -32,7 +34,7 @@ def test_auth_ok(mock_get_session_user, sso_request, requests_mock):
             }
         }
     )
-    
+
     user = authenticate(sso_request)
 
     assert isinstance(user, models.BusinessSSOUser)

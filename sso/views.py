@@ -1,11 +1,8 @@
 import requests
 from rest_framework import generics
-from rest_framework.response import Response
 
 from django.conf import settings
 from django.http import JsonResponse
-from django.views import View
-from django.views.generic.edit import FormMixin, ProcessFormView
 
 from sso import helpers, serializers
 

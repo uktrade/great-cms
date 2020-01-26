@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path
 
@@ -12,10 +12,10 @@ import sso.urls
 
 urlpatterns = [
 
-    url(r'^django-admin/', admin.site.urls),
-    url(r'^admin/', include(wagtailadmin_urls)),
-    url(r'^documents/', include(wagtaildocs_urls)),
-    url(r'^sso/', include(sso.urls)),
+    path('django-admin/', admin.site.urls),
+    path('admin/', include(wagtailadmin_urls)),
+    path('documents/', include(wagtaildocs_urls)),
+    path('sso/', include(sso.urls)),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
