@@ -332,7 +332,7 @@ if DEBUG:
 
 
 if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
-    AUTHENTICATION_BACKENDS += [
+    AUTHENTICATION_BACKENDS = [
         'django.contrib.auth.backends.ModelBackend',
         'authbroker_client.backends.AuthbrokerBackend'
     ]
