@@ -82,6 +82,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -335,8 +336,9 @@ if DEBUG:
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
+ENFORCE_STAFF_SSO_ENABLED = env.bool('ENFORCE_STAFF_SSO_ENABLED', False)
 
-if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
+if ENFORCE_STAFF_SSO_ENABLED:
     AUTHENTICATION_BACKENDS.append('authbroker_client.backends.AuthbrokerBackend')
     LOGIN_URL = reverse_lazy('authbroker_client:login')
     LOGIN_REDIRECT_URL = reverse_lazy('wagtailadmin_home')
@@ -345,7 +347,6 @@ if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
     AUTHBROKER_URL = env.str('STAFF_SSO_AUTHBROKER_URL')
     AUTHBROKER_CLIENT_ID = env.str('AUTHBROKER_CLIENT_ID')
     AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
-else:
     LOGIN_URL = '/admin/login/'
 
 
@@ -369,3 +370,5 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
+
+WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'

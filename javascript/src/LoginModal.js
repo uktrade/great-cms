@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 
 
 export const MESSAGE_INCORRECT_CREDENTIALS = 'Incorrect username or password';
-export const MESSAGE_UNEXPEXCTED_ERROR = 'Unexpected Error';
+export const MESSAGE_UNEXPECTED_ERROR = 'Unexpected Error';
 const customStyles = {
   content : {
     top: '50%',
@@ -32,7 +32,7 @@ export function checkCredentials({url, csrfToken, username, password}) {
     if (response.status == 400) {
       throw MESSAGE_INCORRECT_CREDENTIALS;
     } else if (response.status != 200) {
-      throw MESSAGE_UNEXPEXCTED_ERROR;
+      throw MESSAGE_UNEXPECTED_ERROR;
     };
   });
 }
@@ -118,7 +118,7 @@ export default function createLoginModal(options) {
         csrfToken={options.csrfToken}
         isOpen={options.isOpen}
         isInProgress={options.isInProgress}
-        rrrorMessage={options.errorMessage}
+        errorMessage={options.errorMessage}
       />, options.element
     );
 };

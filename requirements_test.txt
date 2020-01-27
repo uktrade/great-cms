@@ -9,7 +9,7 @@
 astroid==2.3.3            # via pylint
 attrs==19.3.0             # via jsonschema, pytest
 backcall==0.1.0           # via ipython
-beautifulsoup4==4.6.0     # via directory-components, wagtail
+beautifulsoup4==4.6.0
 boto3==1.11.8
 botocore==1.14.8          # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk

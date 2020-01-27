@@ -1,15 +1,22 @@
 [run]
+
 omit =
     .venv/*
     venv/*
-    config/wsgi.py
-    config/settings.py
-    config/urls.py
+    config/*
     manage.py
     **/tests/*
     conftest.py
     **/migrations/*
     *__init__*
+    docs/*
+    htmlcov/*
+    node_modules/*
+    javascript/*
+    static/*
+
+plugins =
+    django_coverage_plugin
 
 [report]
 exclude_lines =

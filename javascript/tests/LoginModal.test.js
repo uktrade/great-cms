@@ -6,13 +6,12 @@ import { mount, shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import fetchMock from 'fetch-mock'
-import "regenerator-runtime/runtime"
 
 import {
   LoginModal,
   checkCredentials,
   MESSAGE_INCORRECT_CREDENTIALS,
-  MESSAGE_UNEXPEXCTED_ERROR
+  MESSAGE_UNEXPECTED_ERROR
 } from '../src/LoginModal'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -57,10 +56,10 @@ test('Modal opens and closes on link click', () => {
 test('Modal shows error message', () => {
   // when there is an error
   const component = shallow(
-    <LoginModal action={formUrl} csrfToken={csrfToken} isOpen={true} errorMessage={MESSAGE_UNEXPEXCTED_ERROR} />
+    <LoginModal action={formUrl} csrfToken={csrfToken} isOpen={true} errorMessage={MESSAGE_UNEXPECTED_ERROR} />
   )
   // then the validation message is displayed
-  expect(component.find('form div').text()).toEqual(MESSAGE_UNEXPEXCTED_ERROR)
+  expect(component.find('form div').text()).toEqual(MESSAGE_UNEXPECTED_ERROR)
 })
 
 test('Modal form elements are disabled while in progress', () => {
@@ -160,7 +159,7 @@ describe('Modal end to end', () => {
 
     fetchMock.flush().then(() => {
       component.update()
-      expect(component.find('form div').text()).toEqual(MESSAGE_UNEXPEXCTED_ERROR)
+      expect(component.find('form div').text()).toEqual(MESSAGE_UNEXPECTED_ERROR)
       expect(window.location.reload).not.toHaveBeenCalled()
       done()
     })

@@ -1,9 +1,9 @@
 from unittest import mock
 
-from django.contrib.auth import authenticate
+from directory_sso_api_client import sso_api_client
 import pytest
 
-from directory_sso_api_client import sso_api_client
+from django.contrib.auth import authenticate
 
 from sso import models
 
