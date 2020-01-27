@@ -1,17 +1,16 @@
 from wagtail.core import blocks
+from wagtail.images.blocks import ImageChooserBlock
 
 from core import blocks as core_blocks
 from domestic import blocks as domestic_blocks
 
 
 def test_campaign_block():
-    assert issubclass(
-        domestic_blocks.CampaignBlock,
-        (core_blocks.ImageBaseBlock, core_blocks.LinkBlock)
-    )
+    assert issubclass(domestic_blocks.CampaignBlock, core_blocks.LinkBlock)
     child_blocks = domestic_blocks.CampaignBlock().child_blocks
     assert type(child_blocks['heading']) is blocks.CharBlock
     assert type(child_blocks['subheading']) is blocks.CharBlock
+    assert type(child_blocks['image']) is ImageChooserBlock
 
 
 def test_market_access_db_block():

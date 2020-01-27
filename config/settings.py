@@ -345,3 +345,6 @@ if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
     AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
 else:
     LOGIN_URL = '/admin/login/'
+
+
+WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
