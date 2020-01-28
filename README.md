@@ -66,7 +66,8 @@ Secrets such as API keys and environment specific configurations are placed in `
     
     $ make manage bootstrap_great
     
- It creates the Great domestic empty homepage and assigns it to the site root. 
+ It creates the Great domestic empty homepage and assigns it to the site root.
+ It also creates a superuser `test` with password `password`, for local development.
 
 
 ### Image storage

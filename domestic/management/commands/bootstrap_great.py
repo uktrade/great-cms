@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
 from wagtail.core.models import Page, Site
 
 from tests.domestic import factories
+
+User = get_user_model()
 
 
 class Command(BaseCommand):
@@ -16,3 +19,9 @@ class Command(BaseCommand):
         site.save()
         # Delete welcome to wagtail page
         Page.objects.get(pk=2).delete()
+
+        # creates a superuser for local environment
+        user = User(username='test', is_staff=True, is_superuser=True, is_active=True)
+        user.save()
+        user.set_password('password')
+        user.save()
