@@ -60,7 +60,13 @@ Secrets such as API keys and environment specific configurations are placed in `
 
     $ make database
 
-`make database` drops then recreates the local database. 
+`make database` drops then recreates the local database.
+
+### Getting started
+    
+    $ make manage bootstrap_great
+    
+ It creates the Great domestic empty homepage and assigns it to the site root. 
 
 
 ### Image storage
@@ -96,9 +102,6 @@ export default {
 
 3. Run `npm run build`
 4. The new component is now available on window.ditMVP.myFile
-
-
-## Caching
 
 
 ## Staff SSO
