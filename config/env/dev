@@ -13,3 +13,11 @@ FEATURE_ENFORCE_STAFF_SSO_ENABLED=false
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
 DEFAULT_FILE_STORAGE=django.core.files.storage.FileSystemStorage
 BASE_URL=localhost
+SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/
+SSO_SIGNATURE_SECRET=api_signature_debug
+SSO_SESSION_COOKIE=debug_sso_session_cookie
+SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/sso/accounts/login/
+SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/sso/accounts/logout/?next=http://gcms.trade.great:8020/thing/
+SSO_PROXY_PASSWORD_RESET_URL=http://sso.trade.great:8004/sso/accounts/password/reset/
+SSO_PROXY_REDIRECT_FIELD_NAME=next
+SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/thing/

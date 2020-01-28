@@ -1,6 +1,7 @@
 import pytest
-from django.contrib.contenttypes.models import ContentType
 from wagtail.core.models import Page
+
+from django.contrib.contenttypes.models import ContentType
 
 
 @pytest.fixture

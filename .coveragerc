@@ -1,4 +1,5 @@
 [run]
+
 omit =
     .venv/*
     venv/*
@@ -10,6 +11,10 @@ omit =
     *__init__*
     docs/*
     htmlcov/*
+    node_modules/*
+    javascript/*
+    static/*
+
 plugins =
     django_coverage_plugin
 

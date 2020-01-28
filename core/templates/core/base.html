@@ -3,3 +3,22 @@
 {% load static_absolute from directory_components %}
 
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
+
+{% block head_js %}
+	{{ block.super }}
+    <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>	
+{% endblock %}
+
+{% block body_header %}
+	{{ block.super }}
+    {% if not request.user.is_authenticated %}
+    <script type="text/javascript">
+        ditMVP.LoginModal({
+            element: document.querySelector("#header-sign-in-link"),
+            action: '{% url "sso:business-login-api" %}',
+            csrfToken: '{{ csrf_token }}'
+        });
+    </script>
+    {% endif %}
+{% endblock %}
+

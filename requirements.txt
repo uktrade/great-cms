@@ -5,60 +5,60 @@
 #    pip-compile requirements.in
 #
 --no-binary psycopg2
---no-binary django-pglocks
 
 attrs==19.3.0             # via jsonschema
 beautifulsoup4==4.6.0     # via directory-components, wagtail
-boto3==1.11.6
-botocore==1.14.6          # via boto3, s3transfer
+boto3==1.11.8
+botocore==1.14.8          # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
+directory-client-core==6.1.0  # via directory-sso-api-client
 directory-components==35.10.0
 directory-constants==20.10.0  # via directory-components
+directory-sso-api-client==6.2.0
 django-environ==0.4.5
 django-extensions==2.2.6
 django-filter==2.2.0
 django-modelcluster==5.0.1  # via wagtail
-django-pglocks==1.0.2
+django-pglocks==1.0.4
 django-redis==4.10.0
 django-staff-sso-client==1.0.1
 django-storages[boto3]==1.8
 django-taggit==1.2.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
 django==2.2.9
-djangorestframework==3.11.0  # via wagtail
-docopt==0.6.2             # via notifications-python-client
+djangorestframework==3.9.4
 docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
-future==0.18.2            # via notifications-python-client
 gunicorn==19.5.0
 html5lib==1.0.1           # via wagtail
 idna==2.8                 # via requests
 importlib-metadata==1.4.0  # via jsonschema
 jmespath==0.9.4           # via boto3, botocore
 jsonschema==3.2.0         # via directory-components
-monotonic==1.5            # via notifications-python-client
+mohawk==0.3.4             # via sigauth
+monotonic==1.5            # via directory-client-core
 more-itertools==8.1.0     # via zipp
-notifications-python-client==5.5.0
 oauthlib==3.1.0           # via requests-oauthlib
 pillow==6.2.2             # via wagtail
 psycopg2==2.8.4
-pyjwt==1.7.1              # via notifications-python-client
 pyrsistent==0.15.7        # via jsonschema
-python-dateutil==2.6.1    # via botocore
+python-dateutil==2.8.1    # via botocore
 pytz==2019.3              # via django, django-modelcluster, wagtail
 redis==3.3.11             # via django-redis
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.22.0          # via notifications-python-client, requests-oauthlib, wagtail
-s3transfer==0.3.1         # via boto3
-sentry-sdk==0.13.4
-six==1.14.0               # via django-extensions, html5lib, jsonschema, pyrsistent, python-dateutil, wagtail
+requests==2.22.0          # via directory-client-core, requests-oauthlib, wagtail
+s3transfer==0.3.2         # via boto3
+sentry-sdk==0.13.5
+sigauth==4.1.1            # via directory-client-core
+six==1.14.0               # via django-extensions, django-pglocks, html5lib, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib, wagtail
 sqlparse==0.3.0           # via django
 unidecode==1.1.1          # via wagtail
-urllib3==1.25.7           # via botocore, requests, sentry-sdk
+urllib3==1.25.8           # via botocore, requests, sentry-sdk
+w3lib==1.21.0             # via directory-client-core
 wagtail==2.7.1
 webencodings==0.5.1       # via html5lib
-whitenoise==4.1.2
+whitenoise==4.1.4
 willow==1.3               # via wagtail
 zipp==2.0.1               # via importlib-metadata
 

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'sso',
     'core',
     'domestic',
     'users.apps.UsersConfig'
@@ -65,11 +66,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
@@ -81,11 +82,13 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'directory_components.context_processors.sso_processor',
                 'directory_components.context_processors.urls_processor',
                 'directory_components.context_processors.header_footer_processor',
             ],
@@ -153,6 +156,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     str(ROOT_DIR('core/static')),
+    str(ROOT_DIR('javascript/dist')),
 ]
 
 STATICFILES_STORAGE = env.str(
@@ -330,12 +334,12 @@ if DEBUG:
     )
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
-if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
-    AUTHENTICATION_BACKENDS = [
-        'django.contrib.auth.backends.ModelBackend',
-        'authbroker_client.backends.AuthbrokerBackend'
-    ]
+ENFORCE_STAFF_SSO_ENABLED = env.bool('ENFORCE_STAFF_SSO_ENABLED', False)
+
+if ENFORCE_STAFF_SSO_ENABLED:
+    AUTHENTICATION_BACKENDS.append('authbroker_client.backends.AuthbrokerBackend')
     LOGIN_URL = reverse_lazy('authbroker_client:login')
     LOGIN_REDIRECT_URL = reverse_lazy('wagtailadmin_home')
 
@@ -343,8 +347,28 @@ if env.bool('ENFORCE_STAFF_SSO_ENABLED', False):
     AUTHBROKER_URL = env.str('STAFF_SSO_AUTHBROKER_URL')
     AUTHBROKER_CLIENT_ID = env.str('AUTHBROKER_CLIENT_ID')
     AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
-else:
     LOGIN_URL = '/admin/login/'
 
+
+# Business SSO API Client
+DIRECTORY_SSO_API_CLIENT_BASE_URL = env.str('SSO_API_CLIENT_BASE_URL', '')
+DIRECTORY_SSO_API_CLIENT_API_KEY = env.str('SSO_SIGNATURE_SECRET', '')
+DIRECTORY_SSO_API_CLIENT_SENDER_ID = env.str('DIRECTORY_SSO_API_CLIENT_SENDER_ID', 'directory')
+DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT = 15
+SSO_PROXY_LOGOUT_URL = env.str('SSO_PROXY_LOGOUT_URL')
+SSO_PROXY_SIGNUP_URL = env.str('SSO_PROXY_SIGNUP_URL')
+SSO_PROXY_LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
+SSO_PROFILE_URL = ''
+SSO_PROXY_PASSWORD_RESET_URL = env.str('SSO_PROXY_PASSWORD_RESET_URL')
+SSO_PROXY_REDIRECT_FIELD_NAME = env.str('SSO_PROXY_REDIRECT_FIELD_NAME')
+SSO_SESSION_COOKIE = env.str('SSO_SESSION_COOKIE')
+AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
