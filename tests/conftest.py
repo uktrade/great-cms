@@ -4,8 +4,6 @@ from wagtail_factories import SiteFactory, PageFactory
 
 from tests.domestic import factories
 
-from django.contrib.contenttypes.models import ContentType
-
 
 @pytest.fixture
 def root_page():
