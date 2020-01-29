@@ -9,6 +9,11 @@ urlpatterns = [
     path(
         'api/business-login/',
         sso.views.SSOBusinessUserLoginView.as_view(),
-        name='business-login-api'
+        name='business-sso-login-api'
+    ),
+    path(
+        'api/business-user-create/',
+        sso.views.SSOBusinessUserCreateView.as_view(),
+        name='business-sso-create-user-api'
     ),
 ]

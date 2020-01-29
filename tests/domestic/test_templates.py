@@ -19,7 +19,7 @@ def page_to_soup(page, request):
 
 
 def soup_to_html(soup):
-    return soup.text.replace('\n', '').replace('  ', '')
+    return soup.text.replace('\n', '').replace('  ', '').strip()
 
 
 @pytest.mark.django_db
@@ -31,11 +31,14 @@ def test_domestic_home_template_contains_login_javascript(client, rf):
 
     expected = BeautifulSoup("""
         <script type="text/javascript">
-            ditMVP.LoginModal({
-                element: document.querySelector("#header-sign-in-link"),
-                action: '/sso/api/business-login/',
-                csrfToken: '123'
-            });
+            var loginLink = document.getElementById("header-sign-in-link")
+            if (loginLink) {
+                ditMVP.LoginModal({
+                    element: loginLink,
+                    loginUrl: '/sso/api/business-login/',
+                    csrfToken: '123'
+                });
+            }
         </script>
     """, 'html.parser')
 

@@ -91,6 +91,7 @@ TEMPLATES = [
                 'directory_components.context_processors.sso_processor',
                 'directory_components.context_processors.urls_processor',
                 'directory_components.context_processors.header_footer_processor',
+                'core.context_processors.signup_modal',
             ],
         },
     },
@@ -362,6 +363,7 @@ SSO_PROFILE_URL = ''
 SSO_PROXY_PASSWORD_RESET_URL = env.str('SSO_PROXY_PASSWORD_RESET_URL')
 SSO_PROXY_REDIRECT_FIELD_NAME = env.str('SSO_PROXY_REDIRECT_FIELD_NAME')
 SSO_SESSION_COOKIE = env.str('SSO_SESSION_COOKIE')
+SSO_OAUTH2_LINKEDIN_URL = env.str('SSO_OAUTH2_LINKEDIN_URL')
 AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
 
 
