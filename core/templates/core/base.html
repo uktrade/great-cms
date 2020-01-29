@@ -13,11 +13,14 @@
 	{{ block.super }}
     {% if not request.user.is_authenticated %}
     <script type="text/javascript">
-        ditMVP.LoginModal({
-            element: document.querySelector("#header-sign-in-link"),
-            action: '{% url "sso:business-login-api" %}',
+        var loginLink = document.getElementById("header-sign-in-link")
+        if (loginLink) {
+          ditMVP.LoginModal({
+            element: loginLink,
+            loginUrl: '{% url "sso:business-sso-login-api" %}',
             csrfToken: '{{ csrf_token }}'
-        });
+          });
+        }
     </script>
     {% endif %}
 {% endblock %}

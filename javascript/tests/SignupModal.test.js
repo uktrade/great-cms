@@ -6,7 +6,7 @@ import { mount, shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import { LoginModal } from '../src/LoginModal'
+import { SignupModal } from '../src/SignupModal'
 import ErrorList from '../src/ErrorList'
 
 import Services from '../src/Services'
@@ -16,8 +16,6 @@ Enzyme.configure({ adapter: new Adapter() })
 
 jest.mock('../src/Services');
 
-const formUrl = 'http://www.example.com'
-const csrfToken = '123'
 const createEvent = () => ({ preventDefault: jest.fn() })
 
 
@@ -29,13 +27,20 @@ afterEach(() => {
   jest.useRealTimers()
 })
 
+const defaultProps = {
+  signupUrl: 'http://www.example.com',
+  csrfToken: '123',
+  linkedInUrl: 'http://www.example.com/oauth2/linkedin',
+  termsUrl: 'https://www.great.gov.uk/terms-and-conditions/',
+}
+
 test('Modal opens and closes on link click', () => {
-  const component = shallow(<LoginModal loginUrl={formUrl} csrfToken={csrfToken} />)
+  const component = shallow(<SignupModal {...defaultProps} />)
   const event = createEvent()
 
   // when the user clicks the button
   act(() => {
-    component.find('#header-sign-in-link').simulate('click', event)
+    component.find('#header-signup-link').simulate('click', event)
   })
 
   // then the modal s open
@@ -54,16 +59,16 @@ test('Modal opens and closes on link click', () => {
 
 test('Modal shows error message', () => {
   // when there is an error
-  const component = shallow(
-    <LoginModal loginUrl={formUrl} csrfToken={csrfToken} isOpen={true} errorMessage={'some error'} />
-  )
+  const props = {...defaultProps, errorMessage: 'some error'}
+  const component = shallow(<SignupModal {...props}  />)
   // then the validation message is displayed
   expect(component.find(ErrorList).prop('message')).toEqual('some error')
 })
 
 test('Modal form elements are disabled while in progress', () => {
   // when the form submission is in progress
-  const component = mount(<LoginModal loginUrl={formUrl} csrfToken={csrfToken} isOpen={true} isInProgress={true} />)
+  const props = {...defaultProps, isOpen: true, isInProgress: true}
+  const component = mount(<SignupModal {...props} />)
   // then the form elements are disabled
   expect(component.find('input[name="username"]').getDOMNode().disabled).toEqual(true)
   expect(component.find('input[name="password"]').getDOMNode().disabled).toEqual(true)
@@ -73,7 +78,8 @@ test('Modal form elements are disabled while in progress', () => {
 
 test('Modal form elements are not disabled while not in progress', () => {
   // when the form submission is in progress
-  const component = mount(<LoginModal loginUrl={formUrl} csrfToken={csrfToken} isOpen={true} isInProgress={false} />)
+  const props = {...defaultProps, isOpen: true}
+  const component = mount(<SignupModal {...props} />)
   // then the form elements are disabled
   expect(component.find('input[name="username"]').getDOMNode().disabled).toEqual(false)
   expect(component.find('input[name="password"]').getDOMNode().disabled).toEqual(false)
@@ -96,15 +102,15 @@ describe('Modal end to end', () => {
 
   test('bad credentials results in error message', done => {
     // given the credentials are incorrect
-    const event = createEvent()
-    Services.checkCredentials.mockImplementation(() => Promise.reject('An erorr occured'));
+    Services.createUser.mockImplementation(() => Promise.reject('An erorr occured'));
 
-    const component = mount(<LoginModal loginUrl={formUrl} csrfToken={csrfToken} isOpen={true} />)
+    const props = {...defaultProps, isOpen: true}
+    const component = mount(<SignupModal {...props} />)
 
     act(() => {
       component.find('input[name="username"]').getDOMNode().value = 'username'
       component.find('input[name="password"]').getDOMNode().value = 'password'
-      component.find('form').simulate('submit', event)
+      component.find('form').simulate('submit', createEvent())
     })
 
     // then an error message is displayed
@@ -118,15 +124,14 @@ describe('Modal end to end', () => {
 
   test('good credentials results in page reload', done => {
     // given the credentials are correct
-    const event = createEvent()
-    Services.checkCredentials.mockImplementation(() => Promise.resolve());
-
-    const component = mount(<LoginModal loginUrl={formUrl} csrfToken={csrfToken} isOpen={true} />)
+    Services.createUser.mockImplementation(() => Promise.resolve());
+    const props = {...defaultProps, isOpen: true}
+    const component = mount(<SignupModal {...props} />)
 
     act(() => {
       component.find('input[name="username"]').getDOMNode().value = 'username'
       component.find('input[name="password"]').getDOMNode().value = 'password'
-      component.find('form').simulate('submit', event)
+      component.find('form').simulate('submit', createEvent())
     })
 
     // then an error message is not displayed

@@ -5,8 +5,8 @@
   "scripts": {
     "test": "jest javascript/tests/",
     "start": "webpack-dev-server --config javascript/webpack.config.js --hot --mode development",
-    "build-dev": "webpack --config javascript/webpack.config.js --mode development --mode production",
-    "build": "webpack --config javascript/webpack.config.js --mode development --mode development"
+    "build-dev": "webpack --config javascript/webpack.config.js --mode development --mode development",
+    "build": "webpack --config javascript/webpack.config.js --mode development --mode production"
   },
   "repository": {
     "type": "git",
@@ -55,7 +55,7 @@
       "node_modules"
     ],
     "transform": {
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest"
     },
     "setupFiles": [
       "./javascript/setupJest.js"
