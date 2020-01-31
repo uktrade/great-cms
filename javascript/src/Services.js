@@ -1,6 +1,6 @@
-const MESSAGE_ACCOUNT_ALREADY_EXISTS = 'Email already registered';
-const MESSAGE_UNEXPECTED_ERROR = 'Unexpected Error';
-const MESSAGE_INCORRECT_CREDENTIALS = 'Incorrect username or password';
+const MESSAGE_ACCOUNT_ALREADY_EXISTS = 'Email already registered'
+const MESSAGE_UNEXPECTED_ERROR = 'Unexpected Error'
+const MESSAGE_INCORRECT_CREDENTIALS = 'Incorrect username or password'
 
 
 const post = function({url, csrfToken, data}) {
@@ -18,26 +18,26 @@ const post = function({url, csrfToken, data}) {
 
 
 const createUser = function({url, csrfToken, username, password}) {
-  const data = {username, password};
+  const data = {username, password}
   return post({url, csrfToken, data}).then(response => {
     if (response.status == 400) {
-      throw MESSAGE_ACCOUNT_ALREADY_EXISTS;
+      throw MESSAGE_ACCOUNT_ALREADY_EXISTS
     } else if (response.status != 200) {
-      throw MESSAGE_UNEXPECTED_ERROR;
-    };
-  });
+      throw MESSAGE_UNEXPECTED_ERROR
+    }
+  })
 }
 
 
 const checkCredentials = function({url, csrfToken, username, password}) {
-  const data = {username, password};
+  const data = {username, password}
   return post({url, csrfToken, data}).then(response => {
     if (response.status == 400) {
-      throw MESSAGE_INCORRECT_CREDENTIALS;
+      throw MESSAGE_INCORRECT_CREDENTIALS
     } else if (response.status != 200) {
-      throw MESSAGE_UNEXPECTED_ERROR;
-    };
-  });
+      throw MESSAGE_UNEXPECTED_ERROR
+    }
+  })
 }
 
 

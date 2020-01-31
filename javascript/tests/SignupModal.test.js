@@ -6,7 +6,7 @@ import { mount, shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import { SignupModal } from '../src/SignupModal'
+import SignupModal from '../src/SignupModal'
 import ErrorList from '../src/ErrorList'
 
 import Services from '../src/Services'
@@ -31,29 +31,24 @@ const defaultProps = {
   signupUrl: 'http://www.example.com',
   csrfToken: '123',
   linkedInUrl: 'http://www.example.com/oauth2/linkedin',
+  googleUrl: 'http://www.example.com/oauth2/google',
   termsUrl: 'https://www.great.gov.uk/terms-and-conditions/',
+  handleClose: function () {},
 }
 
-test('Modal opens and closes on link click', () => {
-  const component = shallow(<SignupModal {...defaultProps} />)
+test('Modal opens and closes', () => {
   const event = createEvent()
-
-  // when the user clicks the button
-  act(() => {
-    component.find('#header-signup-link').simulate('click', event)
-  })
-
-  // then the modal s open
-  expect(component.find(Modal).prop('isOpen')).toEqual(true)
-  expect(event.preventDefault).toBeCalled()
+  const props = {...defaultProps, handleClose: jest.fn() }
+  const component = shallow(<SignupModal {...props} />)
 
   // when the user clicks the close button
   act(() => {
     component.find(Modal).find(".link").simulate('click', event)
   })
 
-  // then the modal is closed
-  expect(component.find(Modal).prop('isOpen')).toEqual(false)
+  // then the handler is called
+  expect(event.preventDefault).toHaveBeenCalled();
+  expect(props.handleClose).toHaveBeenCalled()
 
 })
 

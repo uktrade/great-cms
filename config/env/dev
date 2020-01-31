@@ -21,4 +21,5 @@ SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/sso/accounts/logout/?next=http:
 SSO_PROXY_PASSWORD_RESET_URL=http://sso.trade.great:8004/sso/accounts/password/reset/
 SSO_PROXY_REDIRECT_FIELD_NAME=next
 SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/thing/
-SSO_OAUTH2_LINKEDIN_URL=http://example.com/oauth2/linkedin/
+SSO_OAUTH2_LINKEDIN_URL=http://sso.trade.great:8004/sso/accounts/login/via-linkedin/
+SSO_OAUTH2_GOOGLE_URL=debug # setting this up in local dev is very hard due to google validating the redirect uri domain. don't bother.
