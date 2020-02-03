@@ -13,13 +13,17 @@
 	{{ block.super }}
     {% if not request.user.is_authenticated %}
     <script type="text/javascript">
-        var loginLink = document.getElementById("header-sign-in-link")
-        if (loginLink) {
-          ditMVP.LoginModal({
-            element: loginLink,
-            loginUrl: '{% url "sso:business-sso-login-api" %}',
-            csrfToken: '{{ csrf_token }}'
-          });
+        var element = document.getElementById("header-sign-in-link")
+        if (element) {
+            ditMVP.UserStateModal({
+                element: element,
+                loginUrl: '{% url "sso:business-sso-login-api" %}',
+                signupUrl: '{% url "sso:business-sso-create-user-api" %}',
+                csrfToken: '{{ csrf_token }}',
+                linkedInUrl: '{{ signup_modal.linkedin_url }}',
+                googleUrl: '{{ signup_modal.google_url }}',
+                termsUrl: '{{ signup_modal.terms_url }}'
+            })
         }
     </script>
     {% endif %}

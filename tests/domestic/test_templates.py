@@ -1,17 +1,18 @@
+from bs4 import BeautifulSoup
+from directory_components.context_processors import urls_processor
 import pytest
 
 from django.template.loader import render_to_string
 
 from tests.domestic import factories
-
-from directory_components.context_processors import urls_processor
-from bs4 import BeautifulSoup
+from core.context_processors import signup_modal
 
 
 def page_to_soup(page, request):
     context = {
         **page.get_context(request=request),
         **urls_processor(request),
+        **signup_modal(request),
         'csrf_token': '123',
     }
     html = render_to_string(page.get_template(request=request), context=context)
@@ -31,13 +32,17 @@ def test_domestic_home_template_contains_login_javascript(client, rf):
 
     expected = BeautifulSoup("""
         <script type="text/javascript">
-            var loginLink = document.getElementById("header-sign-in-link")
-            if (loginLink) {
-                ditMVP.LoginModal({
-                    element: loginLink,
+            var element = document.getElementById("header-sign-in-link")
+            if (element) {
+                ditMVP.UserStateModal({
+                    element: element,
                     loginUrl: '/sso/api/business-login/',
-                    csrfToken: '123'
-                });
+                    signupUrl: '/sso/api/business-user-create/',
+                    csrfToken: '123',
+                    linkedInUrl: 'http://sso.trade.great:8004/sso/accounts/login/via-linkedin/?next=http://testserver/',
+                    googleUrl: 'debug?next=http://testserver/',
+                    termsUrl: 'https://www.great.gov.uk/terms-and-conditions/'
+                })
             }
         </script>
     """, 'html.parser')
