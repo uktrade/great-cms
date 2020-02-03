@@ -18,7 +18,7 @@
             ditMVP.UserStateModal({
                 element: element,
                 loginUrl: '{% url "sso:business-sso-login-api" %}',
-                signupUrl: 'http://gcms.trade.great:8020/sso/api/business-login/',
+                signupUrl: '{% url "sso:business-sso-create-user-api" %}',
                 csrfToken: '{{ csrf_token }}',
                 linkedInUrl: '{{ signup_modal.linkedin_url }}',
                 googleUrl: '{{ signup_modal.google_url }}',
