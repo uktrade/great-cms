@@ -19,7 +19,8 @@ jest.mock('../src/Services');
 const defaultProps = {
   csrfToken: '123',
   handleClose: function () {},
-  loginUrl: 'http://www.example.com',
+  loginUrl: 'http://www.example.com/login',
+  signupUrl: 'http://www.example.com/signup',
   linkedInUrl: 'http://www.example.com/oauth2/linkedin',
   googleUrl: 'http://www.example.com/oauth2/google',
   termsUrl: 'https://www.great.gov.uk/terms-and-conditions/',
