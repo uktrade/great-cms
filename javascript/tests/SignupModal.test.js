@@ -8,6 +8,7 @@ import Adapter from 'enzyme-adapter-react-16'
 
 import SignupModal from '../src/SignupModal'
 import ErrorList from '../src/ErrorList'
+import SocialLoginButtons from '../src/SocialLoginButtons'
 
 import Services from '../src/Services'
 
@@ -33,7 +34,10 @@ const defaultProps = {
   linkedInUrl: 'http://www.example.com/oauth2/linkedin',
   googleUrl: 'http://www.example.com/oauth2/google',
   termsUrl: 'https://www.great.gov.uk/terms-and-conditions/',
+  username: '',
+  password: '',
   handleClose: function () {},
+  handleLoginOpen: function () {},
 }
 
 test('Modal opens and closes', () => {
@@ -81,6 +85,14 @@ test('Modal form elements are not disabled while not in progress', () => {
   expect(component.find('input[type="submit"]').getDOMNode().disabled).toEqual(false)
 })
 
+test('passes props to SocialLoginButtons', () => {
+  const props = {...defaultProps, isOpen: true}
+  const component = shallow(<SignupModal {...props} />)
+
+  expect(component.find(SocialLoginButtons).prop('linkedInUrl')).toEqual(props.linkedInUrl)
+  expect(component.find(SocialLoginButtons).prop('googleUrl')).toEqual(props.googleUrl)
+})
+
 
 describe('Modal end to end', () => {
 
@@ -99,12 +111,10 @@ describe('Modal end to end', () => {
     // given the credentials are incorrect
     Services.createUser.mockImplementation(() => Promise.reject('An erorr occured'));
 
-    const props = {...defaultProps, isOpen: true}
+    const props = {...defaultProps, isOpen: true, username: 'username', password: 'password'}
     const component = mount(<SignupModal {...props} />)
 
     act(() => {
-      component.find('input[name="username"]').getDOMNode().value = 'username'
-      component.find('input[name="password"]').getDOMNode().value = 'password'
       component.find('form').simulate('submit', createEvent())
     })
 
@@ -120,12 +130,10 @@ describe('Modal end to end', () => {
   test('good credentials results in page reload', done => {
     // given the credentials are correct
     Services.createUser.mockImplementation(() => Promise.resolve());
-    const props = {...defaultProps, isOpen: true}
+    const props = {...defaultProps, isOpen: true, username: 'username', password: 'password'}
     const component = mount(<SignupModal {...props} />)
 
     act(() => {
-      component.find('input[name="username"]').getDOMNode().value = 'username'
-      component.find('input[name="password"]').getDOMNode().value = 'password'
       component.find('form').simulate('submit', createEvent())
     })
 

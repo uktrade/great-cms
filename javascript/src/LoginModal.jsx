@@ -4,32 +4,38 @@ import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
 
 import ErrorList from './ErrorList'
+import Field from './Field'
 import Services from './Services'
+import VerticalSeparator from './VerticalSeparator'
 
 
 const styles = {
   close: {
-    'float': 'right',
-  },
-  input: {
     width: '100%',
+    fontSize: 20,
+    display: 'inline-block',
+    textAlign: 'right',
   },
   button: {
-    background: '#000000',
+    background: '#333',
     color: '#ffffff',
   },
   modal: {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      textAlign: 'center',
-      width: 350,
       background: '#f5f2ed',
-    }
+      bottom: 'auto',
+      left: '50%',
+      marginRight: '-50%',
+      padding: 35,
+      right: 'auto',
+      textAlign: 'center',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 450,
+    },
+    overlay: {
+      zIndex: 1000,
+    },
   }
 }
 
@@ -37,26 +43,23 @@ const styles = {
 export default function LoginModal(props){
   const [errorMessage, setErrorMessage] = React.useState(props.errorMessage)
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-  const usernameRef = React.createRef()
-  const passwordRef = React.createRef()
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
   function handleSubmit(event){
     event.preventDefault()
     setErrorMessage('')
     setIsInProgress(true)
-    Services.checkCredentials({
-      url: props.loginUrl,
-      username: usernameRef.current.value,
-      password: passwordRef.current.value,
-      csrfToken: props.csrfToken,
-    }).then(response => {
-       location.reload()
-    })
-    .catch(error => {
-      const message = error.message || error
-      setErrorMessage(message)
-      setIsInProgress(false)
-    })
+    const data = {url: props.loginUrl, username, password, csrfToken: props.csrfToken}
+    Services.checkCredentials(data)
+      .then(response => {
+        location.reload()
+      })
+      .catch(error => {
+        const message = error.message || error
+        setErrorMessage(message)
+        setIsInProgress(false)
+      })
   }
 
   function handleClose(event) {
@@ -67,36 +70,31 @@ export default function LoginModal(props){
   return (
     <Modal
       isOpen={props.isOpen}
+      parentSelector={() => document.body}
       onRequestClose={props.handleClose}
       style={styles.modal}
       contentLabel='Login Modal'
     >
-      <a href='#' className='link' onClick={handleClose} style={styles.close}>close</a>
-      <h2 className='heading-large'>Login</h2>
+      <a href='#' className='link' onClick={handleClose} style={styles.close}>Close</a>
+      <h2 className='heading-xlarge'>Login</h2>
       <form onSubmit={handleSubmit}>
         { errorMessage && <ErrorList message={errorMessage} /> }
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Email address'
-            name='username'
-            className='form-control'
-            ref={usernameRef}
-            disabled={isInProgress}
-            style={styles.input}
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            className='form-control'
-            ref={passwordRef}
-            disabled={isInProgress}
-            style={styles.input}
-          />
-        </div>
+        <Field
+          type="text"
+          placeholder="Email address"
+          name="username"
+          disabled={isInProgress}
+          value={username}
+          handleChange={setUsername}
+        />
+        <Field
+          type="password"
+          placeholder="Password"
+          name="password"
+          disabled={isInProgress}
+          value={password}
+          handleChange={setPassword}
+        />
         <input
           type='submit'
           value='Log in'
@@ -105,7 +103,7 @@ export default function LoginModal(props){
           style={styles.button}
         />
       </form>
-      <p>-- or --</p>
+      <VerticalSeparator />
       <a onClick={props.handleSignupClick} className='button' style={styles.button}>Signup</a>
     </Modal>
   )

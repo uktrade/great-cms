@@ -19,7 +19,10 @@ jest.mock('../src/Services');
 const defaultProps = {
   csrfToken: '123',
   handleClose: function () {},
+  handleSignupClick: function () {},
   loginUrl: 'http://www.example.com',
+  username: '',
+  password: '',
 }
 
 
@@ -96,12 +99,10 @@ describe('Modal end to end', () => {
     const event = createEvent()
     Services.checkCredentials.mockImplementation(() => Promise.reject('An erorr occured'));
  
-    const props = {...defaultProps, isOpen: true}
+    const props = {...defaultProps, isOpen: true, username: 'username', password: 'password'}
     const component = mount(<LoginModal {...props} />)
 
     act(() => {
-      component.find('input[name="username"]').getDOMNode().value = 'username'
-      component.find('input[name="password"]').getDOMNode().value = 'password'
       component.find('form').simulate('submit', event)
     })
 
@@ -118,12 +119,10 @@ describe('Modal end to end', () => {
     // given the credentials are correct
     const event = createEvent()
     Services.checkCredentials.mockImplementation(() => Promise.resolve());
-    const props = {...defaultProps, isOpen: true}
+    const props = {...defaultProps, isOpen: true, username: 'username', password: 'password'}
     const component = mount(<LoginModal {...props} />)
 
     act(() => {
-      component.find('input[name="username"]').getDOMNode().value = 'username'
-      component.find('input[name="password"]').getDOMNode().value = 'password'
       component.find('form').simulate('submit', event)
     })
 

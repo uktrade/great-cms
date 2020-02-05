@@ -4,37 +4,50 @@ import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
 
 import ErrorList from './ErrorList'
+import Field from './Field'
+import SocialLoginButtons from './SocialLoginButtons'
 import Services from './Services'
-
+import VerticalSeparator from './VerticalSeparator'
 
 const styles = {
   close: {
-    'float': 'right',
-  },
-  input: {
     width: '100%',
+    fontSize: 20,
+    display: 'inline-block',
+    textAlign: 'right',
   },
   button: {
-    background: '#000000',
+    background: '#333',
     color: '#ffffff',
+    width: 300,
   },
-  socialLogin: {
+  synopsis: {
+    fontSize: 20,
     marginBottom: 30,
-    background: '#000000',
-    color: '#ffffff',
+  },
+  heading: {
+    marginBottom: 0,
+  },
+  terms: {
+    fontSize: 20,
+    marginBottom: 60,
   },
   modal: {
     content : {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      textAlign: 'center',
-      width: 350,
       background: '#f5f2ed',
-    }
+      bottom: 'auto',
+      left: '50%',
+      marginRight: '-50%',
+      padding: 35,
+      right: 'auto',
+      textAlign: 'center',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 450,
+    },
+    overlay: {
+      zIndex: 1000,
+    },
   }
 }
 
@@ -42,27 +55,23 @@ const styles = {
 export default function SignupModal(props){
   const [errorMessage, setErrorMessage] = React.useState(props.errorMessage)
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-
-  const usernameRef = React.createRef()
-  const passwordRef = React.createRef()
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
   function handleSubmit(event){
     event.preventDefault()
     setErrorMessage('')
     setIsInProgress(true)
-    Services.createUser({
-      url: props.signupUrl,
-      username: usernameRef.current.value,
-      password: passwordRef.current.value,
-      csrfToken: props.csrfToken,
-    }).then(response => {
-      location.reload()
-    })
-    .catch(error => {
-      const message = error.message || error
-      setErrorMessage(error)
-      setIsInProgress(false)
-    })
+    const data = { url: props.signupUrl, username, password, csrfToken: props.csrfToken}
+    Services.createUser(data)
+      .then(response => {
+        location.reload()
+      })
+      .catch(error => {
+        const message = error.message || error
+        setErrorMessage(error)
+        setIsInProgress(false)
+      })
   }
 
   function handleClose(event) {
@@ -77,36 +86,33 @@ export default function SignupModal(props){
       style={styles.modal}
       contentLabel="Login Modal"
     >
-      <a href="#" className="link" onClick={handleClose} style={styles.close}>close</a>
-      <h2 className="heading-large">Sign up</h2>
-      <a href={props.linkedInUrl} className="button" style={styles.socialLogin}>Continue with LinkedIn</a>
-      <a href={props.googleUrl} className="button" style={styles.socialLogin}>Continue with Google</a>
-      <p>-- or --</p>
+      <a href="#" className="link" onClick={handleClose} style={styles.close}>Close</a>
+      <h2 className="heading-xlarge" style={styles.heading}>Sign up</h2>
+      <p className="body-text" style={styles.synopsis}>
+        <span>It's easier to sign up now and save your progress, already have an account? </span>
+        <a href="#" onClick={props.handleLoginOpen}>Log in</a>
+      </p>
+      <SocialLoginButtons linkedInUrl={props.linkedInUrl} googleUrl={props.googleUrl} />
+      <VerticalSeparator />
       <form onSubmit={handleSubmit}>
         { errorMessage && <ErrorList message={errorMessage} /> }
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Email address"
-            name="username"
-            className="form-control"
-            ref={usernameRef}
-            disabled={isInProgress}
-            style={styles.input}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            className="form-control"
-            ref={passwordRef}
-            disabled={isInProgress}
-            style={styles.input}
-          />
-        </div>
-        <p>By clicking Sign up, you accept the <a href={props.termsUrl} target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
+        <Field
+          type="text"
+          placeholder="Email address"
+          name="username"
+          disabled={isInProgress}
+          value={username}
+          handleChange={setUsername}
+        />
+        <Field
+          type="password"
+          placeholder="Password"
+          name="password"
+          disabled={isInProgress}
+          value={password}
+          handleChange={setPassword}
+        />
+        <p style={styles.terms}>By clicking Sign up, you accept the <a href={props.termsUrl} target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
         <input
           type="submit"
           value="Sign up"
@@ -120,14 +126,15 @@ export default function SignupModal(props){
 }
 
 SignupModal.propTypes = {
-  signupUrl: PropTypes.string.isRequired,
   csrfToken: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
+  googleUrl: PropTypes.string.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleLoginOpen: PropTypes.func.isRequired,
   isInProgress: PropTypes.bool,
   isOpen: PropTypes.bool,
-  handleClose: PropTypes.func.isRequired,
   linkedInUrl: PropTypes.string.isRequired,
-  googleUrl: PropTypes.string.isRequired,
+  signupUrl: PropTypes.string.isRequired,
   termsUrl: PropTypes.string.isRequired,
 }
 

@@ -29,6 +29,7 @@ export function UserStateModal(props){
   function closeSignupModal(){
     setIsSignupModalOpen(false)
   }
+
   return (
     <div>
       <a
@@ -52,6 +53,7 @@ export function UserStateModal(props){
         termsUrl={props.termsUrl}
         isOpen={isSignupModalOpen}
         handleClose={closeSignupModal}
+        handleLoginOpen={openLoginModal}
       />
     </div>
   )
