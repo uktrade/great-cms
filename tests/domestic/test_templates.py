@@ -19,8 +19,8 @@ def page_to_soup(page, request):
     return BeautifulSoup(html, 'html.parser')
 
 
-def soup_to_html(soup):
-    return soup.text.replace('\n', '').replace('  ', '').strip()
+def remove_whitespace(html):
+    return html.replace('\n', '').replace('  ', '').strip()
 
 
 @pytest.mark.django_db
@@ -28,24 +28,26 @@ def test_domestic_home_template_contains_login_javascript(client, rf):
     page = factories.DomesticHomePageFactory()
     soup = page_to_soup(page=page, request=rf.get('/'))
 
-    scripts = soup.find_all('script')
+    cofig_js = """
+        ditMVP.setConfig({
+            loginUrl: '/sso/api/business-login/',
+            signupUrl: '/sso/api/business-user-create/',
+            verifyCodeUrl: '/sso/api/business-verify-code/',
+            csrfToken: '123',
+            linkedInUrl: 'http://sso.trade.great:8004/sso/accounts/login/via-linkedin/?next=http://testserver/',
+            googleUrl: 'debug?next=http://testserver/',
+            termsUrl: 'https://www.great.gov.uk/terms-and-conditions/'
+        })
+    """
+    modal_js = """
+        ditMVP.SignupModal({
+            element: element.parentElement,
+            currentStep: step,
+            isOpen: isOpen,
+            username: username
+        })
+    """
 
-    expected = BeautifulSoup("""
-        <script type="text/javascript">
-            var element = document.getElementById("header-sign-in-link")
-            if (element) {
-                ditMVP.UserStateModal({
-                    element: element,
-                    loginUrl: '/sso/api/business-login/',
-                    signupUrl: '/sso/api/business-user-create/',
-                    csrfToken: '123',
-                    linkedInUrl: 'http://sso.trade.great:8004/sso/accounts/login/via-linkedin/?next=http://testserver/',
-                    googleUrl: 'debug?next=http://testserver/',
-                    termsUrl: 'https://www.great.gov.uk/terms-and-conditions/'
-                })
-            }
-        </script>
-    """, 'html.parser')
-
-    assert soup_to_html(scripts[-1]) == soup_to_html(expected)
+    assert remove_whitespace(cofig_js) in remove_whitespace(soup.text)
+    assert remove_whitespace(modal_js) in remove_whitespace(soup.text)
     assert soup.find(id='header-sign-in-link') is not None

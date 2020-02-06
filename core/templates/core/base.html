@@ -5,24 +5,41 @@
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
 {% block head_js %}
-	{{ block.super }}
-    <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>	
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script> 
 {% endblock %}
 
 {% block body_header %}
-	{{ block.super }}
+    {{ block.super }}
     {% if not request.user.is_authenticated %}
     <script type="text/javascript">
         var element = document.getElementById("header-sign-in-link")
         if (element) {
-            ditMVP.UserStateModal({
-                element: element,
+            ditMVP.setConfig({
                 loginUrl: '{% url "sso:business-sso-login-api" %}',
                 signupUrl: '{% url "sso:business-sso-create-user-api" %}',
+                verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
                 csrfToken: '{{ csrf_token }}',
                 linkedInUrl: '{{ signup_modal.linkedin_url }}',
                 googleUrl: '{{ signup_modal.google_url }}',
                 termsUrl: '{{ signup_modal.terms_url }}'
+            })
+
+            {% if 'verify' in request.GET %}
+                var step = ditMVP.STEP_VERIFICATION_CODE;
+                var isOpen = true;
+                var username = request.GET.verify;
+            {% else %}
+                var step = ditMVP.STEP_CREDENTIALS;
+                var isOpen = false;
+                var username = ''
+            {% endif %}
+
+            ditMVP.SignupModal({
+                element: element.parentElement,
+                currentStep: step,
+                isOpen: isOpen,
+                username: username
             })
         }
     </script>

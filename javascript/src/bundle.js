@@ -1,10 +1,10 @@
-import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
-import UserStateModal from './UserStateModal'
-
+import {STEP_CREDENTIALS, STEP_VERIFICATION_CODE} from './SignupWizard'
+import Services from './Services'
 
 export default {
-    LoginModal,
-    SignupModal,
-    UserStateModal,
+  setConfig: Services.setConfig,
+  SignupModal,
+  STEP_CREDENTIALS,
+  STEP_VERIFICATION_CODE,
 };

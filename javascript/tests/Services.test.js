@@ -3,35 +3,40 @@ import fetchMock from 'fetch-mock'
 
 import Services from '../src/Services'
 
-
-const formUrl = 'http://www.example.com/create-user/'
-const csrfToken = '123'
-
 beforeEach(() => {
   fetchMock.reset()
   jest.useFakeTimers()
+  Services.setConfig({
+    signupUrl: 'http://www.example.com/signup/',
+    loginUrl: 'http://www.example.com/login/',
+    csrfToken: '123',
+    linkedInUrl: 'http://www.example.com/oauth2/linkedin/',
+    googleUrl: 'http://www.example.com/oauth2/google/',
+    termsUrl: 'https://www.great.gov.uk/terms-and-conditions/',
+  })
 })
 
 afterEach(() => {
   jest.useRealTimers()
+  Services.setConfig({})
 })
 
 test('checkCredentials passes params', done => {
   // given the form submission will result in success.getDOMNodeful login
-  fetchMock.post(formUrl, 200)
+  fetchMock.post(Services.config.loginUrl, 200)
 
-  Services.checkCredentials({url: formUrl, csrfToken: csrfToken, username: 'example', password: 'password'})
+  Services.checkCredentials({username: 'example', password: 'password'})
 
   fetchMock.flush().then(() => {
     const calls = fetchMock.calls()
     expect(calls.length).toEqual(1)
-    expect(calls[0][0]).toEqual(formUrl)
+    expect(calls[0][0]).toEqual(Services.config.loginUrl)
     expect(calls[0][1]).toEqual({
       method: 'post',
       headers: {
        'Accept': 'application/json',
        'Content-Type': 'application/json',
-       'X-CSRFToken': '123',
+       'X-CSRFToken': Services.config.csrfToken,
        'X-Requested-With': 'XMLHttpRequest',
       },
       body: '{"username":"example","password":"password"}',
@@ -42,20 +47,20 @@ test('checkCredentials passes params', done => {
 
 test('createUser passes params', done => {
   // given the form submission will result in success.getDOMNodeful login
-  fetchMock.post(formUrl, 200)
+  fetchMock.post(Services.config.signupUrl, 200)
 
-  Services.createUser({url: formUrl, csrfToken: csrfToken, username: 'example', password: 'password'})
+  Services.createUser({username: 'example', password: 'password'})
 
   fetchMock.flush().then(() => {
     const calls = fetchMock.calls()
     expect(calls.length).toEqual(1)
-    expect(calls[0][0]).toEqual(formUrl)
+    expect(calls[0][0]).toEqual(Services.config.signupUrl)
     expect(calls[0][1]).toEqual({
       method: 'post',
       headers: {
        'Accept': 'application/json',
        'Content-Type': 'application/json',
-       'X-CSRFToken': '123',
+       'X-CSRFToken': Services.config.csrfToken,
        'X-Requested-With': 'XMLHttpRequest',
       },
       body: '{"username":"example","password":"password"}',

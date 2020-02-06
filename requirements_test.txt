@@ -18,9 +18,10 @@ click==7.0                # via pip-tools
 codecov==2.0.15
 coverage==5.0.3           # via codecov, django-coverage-plugin, pytest-cov
 decorator==4.4.1          # via ipython, traitlets
-directory-client-core==6.1.0  # via directory-sso-api-client
+directory-client-core==6.1.0  # via directory-forms-api-client, directory-sso-api-client
 directory-components==35.10.0
 directory-constants==20.10.0  # via directory-components
+directory-forms-api-client==5.0
 directory-sso-api-client==6.2.0
 django-coverage-plugin==1.8.0
 django-debug-toolbar==2.1

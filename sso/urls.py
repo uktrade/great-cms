@@ -16,4 +16,9 @@ urlpatterns = [
         sso.views.SSOBusinessUserCreateView.as_view(),
         name='business-sso-create-user-api'
     ),
+    path(
+        'api/business-verify-code/',
+        sso.views.SSOBusinessVerifyCodeView.as_view(),
+        name='business-sso-verify-code-api'
+    ),
 ]

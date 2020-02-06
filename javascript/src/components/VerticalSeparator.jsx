@@ -4,20 +4,21 @@ import PropTypes from 'prop-types'
 
 const styles = {
   p: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 30,
+    marginBottom: 30,
   },
   span: {
     dislay: 'inline-block',
     marginLeft: 20,
     marginRight: 20,
-    fontSize: 20,
+    fontSize: 19,
   },
   hr: {
     verticalAlign: 'middle',
     width: '40%',
     display: 'inline-block',
-    background: '#666',
+    background: '#979797',
+    margin: 0,
   }
 }
 
