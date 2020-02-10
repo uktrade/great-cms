@@ -23,3 +23,5 @@ SSO_PROXY_REDIRECT_FIELD_NAME=next
 SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/thing/
 SSO_OAUTH2_LINKEDIN_URL=http://sso.trade.great:8004/sso/accounts/login/via-linkedin/
 SSO_OAUTH2_GOOGLE_URL=debug
+DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011
+DIRECTORY_FORMS_DEFAULT_TIMEOUT=30

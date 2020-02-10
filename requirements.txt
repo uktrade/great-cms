@@ -12,9 +12,10 @@ boto3==1.11.8
 botocore==1.14.8          # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
-directory-client-core==6.1.0  # via directory-sso-api-client
+directory-client-core==6.1.0  # via directory-forms-api-client, directory-sso-api-client
 directory-components==35.10.0
 directory-constants==20.10.0  # via directory-components
+directory-forms-api-client==5.0
 directory-sso-api-client==6.2.0
 django-environ==0.4.5
 django-extensions==2.2.6

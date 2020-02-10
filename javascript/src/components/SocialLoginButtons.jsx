@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import googleIcon from '../assets/google-icon.png'
-import linkedinIcon from '../assets/linkedin-icon.png'
-
+import googleIcon from '../../assets/google-icon.png'
+import linkedinIcon from '../../assets/linkedin-icon.png'
+import Services from '../Services'
 
 const styles = {
   img: {
@@ -17,7 +17,11 @@ const styles = {
   a: {
     background: '#333',
     color: '#ffffff',
-    width: 300,
+    width: 272,
+    height: 41,
+    fontSize: 16,
+    fontWeight: 'bold',
+    lineHeight: '19px',
   },
   linkedin: {
     marginBottom: 20,
@@ -27,20 +31,14 @@ const styles = {
 export default function SocialLoginButtons(props){
   return (
     <div>
-      <a href={props.linkedInUrl} className="button" style={{...styles.a, ...styles.linkedin}}>
+      <a href={Services.config.linkedInUrl} className="button" style={{...styles.a, ...styles.linkedin}}>
         <img style={styles.img} src={linkedinIcon} />
         <span style={styles.span}>Continue with LinkedIn</span>
       </a>
-      <a href={props.googleUrl} className="button" style={styles.a}>
+      <a href={Services.config.googleUrl} className="button" style={styles.a}>
         <img style={styles.img} src={googleIcon} />
         <span style={styles.span}>Continue with Google</span>
       </a>
     </div>
   )
-}
-  
-
-SocialLoginButtons.propTypes = {
-  linkedInUrl: PropTypes.string.isRequired,
-  googleUrl: PropTypes.string.isRequired,
 }
