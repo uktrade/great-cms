@@ -1,16 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-
-const styles = {
-  input: {
-    width: 371,
-    padding: 10,
-    borderColor: '#333333',
-    height: 51,
-    backgroundColor: '#FFFFFF',
-  },
-}
+import '../stylesheets/Field.scss'
 
 export default function Field(props){
 
@@ -19,13 +10,12 @@ export default function Field(props){
   }
 
   return (
-    <div className="form-group">
+    <div className="form-group great-mvp-field">
       <input
         type={props.type}
         placeholder={props.placeholder}
         name={props.name}
         className="form-control"
-        style={styles.input}
         value={props.value}
         onChange={handleChange}
         disabled={props.disabled}

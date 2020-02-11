@@ -1,13 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import '../stylesheets/ErrorList.scss'
 
-const styles = {
-  errors: {
-    textAlign: 'left',
-    marginBottom: 30,
-  }
-}
 
 export default function ErrorList(props){
   if (Object.entries(props.errors).length === 0) {
@@ -19,12 +14,12 @@ export default function ErrorList(props){
     for (let i in props.errors[key]) {
       const error = props.errors[key][i]
       const prefix = key === '__all__' ? '' : `${key}: ` 
-      errors.push(<li key={i} style={styles.errors}>{prefix}{error}</li>)
+      errors.push(<li key={i}>{prefix}{error}</li>)
     }
   }
 
   return (
-    <div className="form-group-error">
+    <div className="form-group-error great-mvp-error-list">
       <ul className="errorlist">{errors}</ul>
     </div>
   )

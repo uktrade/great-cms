@@ -1,0 +1,35 @@
+@import 'great-styles/src/helpers/_colours';
+
+body {
+    background-color: $light-grey;
+
+    header {
+        background-color: $white;
+
+        .container {
+            display: flex;
+
+            img {
+                height: 75px;
+                vertical-align: text-top;
+            }
+
+            nav {
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+
+                ul li {
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    margin-top: auto;
+                    margin-bottom: auto;
+
+                    a.link-heading {
+                        color: $grey;
+                    }
+                }
+            }
+        }
+    }
+}

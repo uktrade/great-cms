@@ -7,39 +7,14 @@ import Field from './components/Field'
 import SocialLoginButtons from './components/SocialLoginButtons'
 import VerticalSeparator from './components/VerticalSeparator'
 
-const styles = {
-  button: {
-    background: '#333',
-    color: '#ffffff',
-    width: 300,
-  },
-  h2: {
-    marginBottom: 0,
-    marginTop: 25,
-    marginBottom: 35,
-  },
-  synopsis: {
-    marginTop: 0,
-    fontSize: 19,
-    marginBottom: 30,
-  },
-  terms: {
-    fontSize: 19,
-    marginBottom: 50,
-    marginTop: 10, // complements 30px margin of the form-group above it
-  },
-  submit: {
-    marginBottom: 15, // complements 30px padding of the modal
-    height: 41,
-  },
-}
+import './stylesheets/SignupWizardStep1.scss'
 
 
 export default function SignupWizardStep1(props){
   return (
-    <div>
-      <h2 className="heading-xlarge" style={styles.h2}>Sign up</h2>
-      <p className="body-text" style={styles.synopsis}>
+    <div className='great-mvp-signup-wizard-step-1'>
+      <h2 className="heading-xlarge">Sign up</h2>
+      <p className="body-text great-mvp-synopsis">
         <span>It's easier to sign up now and save your progress, already have an account? </span>
         <a href="#">Log in</a>
       </p>
@@ -64,13 +39,12 @@ export default function SignupWizardStep1(props){
           value={props.password}
           handleChange={props.handlePasswordChange}
         />
-        <p style={styles.terms}>By clicking Sign up, you accept the <a href={Services.config.termsUrl} target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
+        <p className='great-mvp-terms'>By clicking Sign up, you accept the <a href={Services.config.termsUrl} target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
         <input
           type="submit"
           value="Sign up"
-          className="button"
+          className="button great-mvp-submit great-mvp-button"
           disabled={props.disabled}
-          style={{...styles.button, ...styles.submit}}
         />
       </form>
     </div>
