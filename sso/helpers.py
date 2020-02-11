@@ -1,8 +1,20 @@
 from directory_forms_api_client import actions
+from directory_sso_api_client import sso_api_client
+
+from rest_framework.response import Response
+from rest_framework.exceptions import APIException
 
 from django.conf import settings
 from django.utils import formats
 from django.utils.dateparse import parse_datetime
+
+
+class InvalidVerificationCode(APIException):
+    pass
+
+
+class CreateUserException(APIException):
+    pass
 
 
 def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
@@ -17,6 +29,16 @@ def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
                 domain=cookie.domain,
                 httponly=cookie.has_nonstandard_attr('HttpOnly'),
             )
+
+
+def response_factory(cookie_jar):
+    response = Response(status=200)
+    set_cookies_from_cookie_jar(
+        cookie_jar=cookie_jar,
+        response=response,
+        whitelist=[settings.SSO_SESSION_COOKIE, 'sso_display_logged_in']
+    )
+    return response
 
 
 def send_verification_code_email(email, verification_code, form_url, verification_link):
@@ -35,3 +57,30 @@ def send_verification_code_email(email, verification_code, form_url, verificatio
     })
     response.raise_for_status()
     return response
+
+
+def send_welcome_notificaction(email, form_url):
+    action = actions.GovNotifyEmailAction(
+        template_id=settings.ENROLMENT_WELCOME_TEMPLATE_ID,
+        email_address=email,
+        form_url=form_url,
+    )
+    response = action.save({})
+    response.raise_for_status()
+    return response
+
+
+def check_verification_code(email, code):
+    response = sso_api_client.user.verify_verification_code({'email': email, 'code': code})
+    if response.status_code in [400, 404]:
+        raise InvalidVerificationCode(code=response.status_code)
+    response.raise_for_status()
+    return response
+
+
+def create_user(email, password):
+    response = sso_api_client.user.create_user(email=email, password=password)
+    if response.status_code == 400:
+        raise CreateUserException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
