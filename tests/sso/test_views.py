@@ -1,12 +1,9 @@
 from unittest import mock
 
-from directory_sso_api_client import sso_api_client
 import pytest
 
 from django.conf import settings
 from django.urls import reverse
-
-from tests.helpers import create_response
 
 from sso import helpers
 
@@ -54,10 +51,10 @@ def test_business_sso_user_create_validation_error(client):
 
 
 @pytest.mark.django_db
-@mock.patch.object(sso_api_client.user, 'create_user')
+@mock.patch.object(helpers, 'create_user')
 @mock.patch.object(helpers, 'send_verification_code_email')
 def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user, client):
-    mock_create_user.return_value = create_response({'verification_code': '12345'})
+    mock_create_user.return_value = {'verification_code': '12345'}
 
     url = reverse('sso:business-sso-create-user-api')
     data = {'username': 'test@example.com', 'password': 'password'}
@@ -74,10 +71,10 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
 
 
 @pytest.mark.django_db
-@mock.patch.object(sso_api_client.user, 'create_user')
+@mock.patch.object(helpers, 'create_user')
 @mock.patch.object(helpers, 'send_verification_code_email')
 def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user, client):
-    mock_create_user.return_value = create_response(status_code=400)
+    mock_create_user.side_effect = helpers.CreateUserException(detail={}, code=400)
 
     response = client.post(reverse('sso:business-sso-create-user-api'), {'username': 'test', 'password': 'password'})
 
@@ -86,10 +83,9 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('status_code', (400, 404))
-@mock.patch.object(sso_api_client.user, 'verify_verification_code')
-def test_business_sso_verify_code_invalid(mock_verify_verification_code, status_code, client):
-    mock_verify_verification_code.return_value = create_response(status_code=status_code)
+@mock.patch.object(helpers, 'check_verification_code')
+def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
+    mock_check_verification_code.side_effect = helpers.InvalidVerificationCode(code=400)
 
     data = {'username': 'test@example.com', 'code': '12345'}
 
@@ -100,17 +96,16 @@ def test_business_sso_verify_code_invalid(mock_verify_verification_code, status_
 
 
 @pytest.mark.django_db
-@mock.patch.object(sso_api_client.user, 'verify_verification_code')
-def test_business_sso_verify_code_valid(mock_verify_verification_code, client):
-    mock_verify_verification_code.return_value = create_response(status_code=200)
-
+@mock.patch.object(helpers, 'check_verification_code')
+@mock.patch.object(helpers, 'send_welcome_notificaction')
+def test_business_sso_verify_code_valid(mock_send_welcome_notificaction, mock_check_verification_code, client):
     data = {'username': 'test@example.com', 'code': '12345'}
+    url = reverse('sso:business-sso-verify-code-api')
 
-    response = client.post(reverse('sso:business-sso-verify-code-api'), data)
+    response = client.post(url, data)
 
     assert response.status_code == 200
-    assert mock_verify_verification_code.call_count == 1
-    assert mock_verify_verification_code.call_args == mock.call({
-        'email': data['username'],
-        'code': data['code'],
-    })
+    assert mock_check_verification_code.call_count == 1
+    assert mock_check_verification_code.call_args == mock.call(email=data['username'], code=data['code'])
+    assert mock_send_welcome_notificaction.call_count == 1
+    assert mock_send_welcome_notificaction.call_args == mock.call(email=data['username'], form_url=url)
