@@ -28,8 +28,6 @@
     "css-loader": "^3.4.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.6.2",
-    "expect": "^1.20.2",
-    "expect-enzyme": "^1.3.0",
     "fetch-mock": "^8.3.2",
     "file-loader": "^5.0.2",
     "identity-obj-proxy": "^3.0.0",
@@ -59,7 +57,8 @@
       "jsx"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/javascript/tests/imageMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/javascript/tests/imageMock.js",
+      "^.+\\.(css|scss)$": "<rootDir>/javascript/tests/css-stub.js"
     },
     "moduleDirectories": [
       "node_modules"

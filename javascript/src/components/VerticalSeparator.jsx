@@ -6,11 +6,11 @@ import '../stylesheets/VerticalSeparator.scss'
 
 export default function VerticalSeparator(props){
   return (
-    <p className='great-mvp-vertical-separator'>
+    <div className='great-mvp-vertical-separator'>
       <hr/>
       <span>or</span>
       <hr/>
-    </p>
+    </div>
   )
 }
 

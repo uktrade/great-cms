@@ -1,4 +1,5 @@
-@import 'great-styles/src/helpers/_colours';
+@import 'helpers/_colours';
+
 
 body {
     background-color: $light-grey;
@@ -6,7 +7,7 @@ body {
     header {
         background-color: $white;
 
-        .container {
+        div.container {
             display: flex;
 
             img {
@@ -19,17 +20,44 @@ body {
                 display: flex;
                 justify-content: flex-end;
 
-                ul li {
-                    padding-right: 15px;
-                    padding-left: 15px;
-                    margin-top: auto;
-                    margin-bottom: auto;
+                ul {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin: 0;
 
-                    a.link-heading {
-                        color: $grey;
+                    li {
+                        padding-right: 15px;
+                        padding-left: 15px;
+                        margin-top: auto;
+                        margin-bottom: auto;
+
+                        &.name-greet {
+                            max-width: 200px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+
+                        a {
+                            color: $grey;
+                            font-size: 16px;
+                            text-decoration: none;
+                        }
                     }
                 }
             }
+        }
+    }
+
+    .great-dashboard-card {
+        flex-flow: row wrap;
+
+        > h3 {
+            width: 100%;
+        }
+
+        .grid {
+            width: 100%;
         }
     }
 }

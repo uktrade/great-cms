@@ -18,57 +18,33 @@ afterEach(() => {
 })
 
 test('ErrorList handles no errors', () => {
-  const errors = {}
+  const errors = []
   const component = shallow(<ErrorList errors={errors} />)
 
   expect(component).toEqual({})
 })
 
 test('ErrorList handles one error', () => {
-  const errors = {
-    'some-field': ['something went wrong'],
-  }
+  const errors = ['something went wrong']
   const component = shallow(<ErrorList errors={errors} />)
 
   expect(component.matchesElement(
-    <div className="form-group-error">
-      <ul className="errorlist">
-        <li key={0}>some-field: something went wrong</li>
-      </ul>
-    </div>
+    <ul className="great-mvp-error-list errorlist">
+      <li key={0} className="error-message">something went wrong</li>
+    </ul>
   )).toEqual(true)
 })
 
 test('ErrorList handles multiple errors', () => {
-  const errors = {
-    'some-field': ['something went wrong', 'something else went wrong'],
-    'some-other-field': ['something went wrong', 'something else went wrong'],
-  }
+  const errors = ['something went wrong', 'something else went wrong']
   const component = shallow(<ErrorList errors={errors} />)
 
-  expect(component.matchesElement(
-    <div className="form-group-error">
-      <ul className="errorlist">
-        <li key={0}>some-field: something went wrong</li>
-        <li key={1}>some-field: something else went wrong</li>
-        <li key={2}>some-other-field: something went wrong</li>
-        <li key={3}>some-other-field: something else went wrong</li>
-      </ul>
-    </div>
+  expect(component.containsMatchingElement(
+    <ul className="great-mvp-error-list errorlist">
+      <li key={0} className="error-message">something went wrong</li>
+      <li key={1} className="error-message">something else went wrong</li>
+    </ul>
   )).toEqual(true)
 })
 
-test('ErrorList handles multiple errors', () => {
-  const errors = {
-    '__all__': ['some general error occured'],
-  }
-  const component = shallow(<ErrorList errors={errors} />)
-
-  expect(component.matchesElement(
-    <div className="form-group-error">
-      <ul className="errorlist">
-        <li key={0}>some general error occured</li>
-      </ul>
-    </div>
-  )).toEqual(true)
-})
+  

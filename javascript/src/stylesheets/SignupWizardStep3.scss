@@ -1,14 +1,16 @@
+@import 'helpers/_colours';
+
+
 .great-mvp-signup-wizard-step-3 {
     .great-mvp-button {
-        background: #333;
-        color: #ffffff;
+        background: $grey;
+        color: $white;
         width: 300px;
     }
 
     h2 {
-        margin-bottom: 0;
         margin-top: 25px;
-        margin-bottom: 35px;
+        padding-bottom: 35px;
     }
 
     .great-mvp-subtitle {

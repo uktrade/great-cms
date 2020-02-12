@@ -21,7 +21,7 @@
     {{ block.super }}
     {% if not request.user.is_authenticated %}
     <script type="text/javascript">
-        var element = document.getElementById("header-sign-in-link")
+        var element = document.getElementById("header-sign-up-link")
         if (element) {
             ditMVP.setConfig({
                 loginUrl: '{% url "sso:business-sso-login-api" %}',

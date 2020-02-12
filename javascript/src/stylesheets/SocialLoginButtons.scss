@@ -1,3 +1,6 @@
+@import 'helpers/_colours';
+
+
 .great-mvp-social-login-buttons {
     img {
         vertical-align: middle;
@@ -9,17 +12,21 @@
         display: inline-block;
     }
 
-    a {
+    .g-button {
         background: #333;
-        color: #ffffff;
-        width: 272px;
-        height: 41px;
+        color: $white;
         font-size: 16px;
         font-weight: bold;
-        line-height: 19px;
+        height: 41px;
+        line-height: 41px;
+        margin-top: 0;
+        padding: 0;
+        width: 272px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
-    .great-mvp-linkedin {
-        margin-bottom: 20px;
-    }
+
 }

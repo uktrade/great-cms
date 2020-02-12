@@ -6,17 +6,21 @@
             <img src="{% static 'directory_components/images/eig-logo-stacked.svg' %}" alt="Exporting is Great">
         </a>
         <nav>
-            <ul class="nav-list">
-                <li><a href="#" class="link-heading">Learning</a></li>
-                <li><a href="#" class="link-heading">Export plan</a></li>
-                <li><a href="#" class="link-heading">Markets</a></li>
-                <li><a href="#" class="link-heading">Services</a></li>
+            <ul>
+                <li><a href="#">Learning</a></li>
+                <li><a href="#">Export plan</a></li>
+                <li><a href="#">Markets</a></li>
+                <li><a href="#">Services</a></li>
             </ul>
-            <ul class="nav-list bg-light-grey">
-                <li><a href="#" class="link-heading">(N)</a></li>
-                <li><a href="#" class="link-heading">(U)</a></li>
-                <li><a href="#" class="link-heading">Hello john</a></li>
-                <li><a href="#" class="link-heading">Dashboard</a></li>
+            <ul class="bg-light-grey">
+                {% if request.user.is_authenticated %}
+                    <li><a href="#">(N)</a></li>
+                    <li><a href="#">(U)</a></li>
+                    <li class="name-greet"><a href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                {% else %}
+                    <li><a href="#" id="header-sign-up-link">Sign up</a></li>
+                {% endif %}
             </ul>
         </nav>
     </div>

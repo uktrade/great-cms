@@ -41,11 +41,11 @@ test('SocialLoginButtons should render', () => {
 
   expect(component.matchesElement(
     <div>
-      <a href={linkedInUrl} className="button">
+      <a href={linkedInUrl} className="g-button">
         <img />
         <span>Continue with LinkedIn</span>
       </a>
-      <a href={googleUrl} className="button">
+      <a href={googleUrl} className="g-button">
         <img />
         <span >Continue with Google</span>
       </a>
