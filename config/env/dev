@@ -25,3 +25,6 @@ SSO_OAUTH2_LINKEDIN_URL=http://sso.trade.great:8004/sso/accounts/login/via-linke
 SSO_OAUTH2_GOOGLE_URL=debug
 DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011
 DIRECTORY_FORMS_DEFAULT_TIMEOUT=30
+API_CLIENT_BASE_URL=http://api.trade.great:8000
+API_SIGNATURE_SECRET=debug
+MAXMIND_LICENCE_KEY=debug
