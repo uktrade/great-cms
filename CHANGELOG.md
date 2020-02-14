@@ -12,3 +12,4 @@
 - MVP-174 - Add "welcome" notification
 - MVP-113 - Add skeleton of dashboard
 - MVP-111 - Show welcome message to logged in users
+- MVP-125 - Store user's location

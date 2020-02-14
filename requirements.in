@@ -1,13 +1,14 @@
 # Django
 # ------------
-django==2.2.*
+django==2.2.10
 django-environ==0.4.*
 django-filter==2.2.*
 django-redis==4.10.*
 django_storages[boto3]==1.8.*
 django-pglocks==1.0.*
 django-extensions==2.2.*
-
+django-ipware==2.1.*
+djangorestframework==3.9.*
 
 # Wagtail
 # ------------
@@ -22,12 +23,13 @@ sentry-sdk==0.13.*
 
 # DIT packages
 # ------------
-directory-sso-api-client==6.2.*
-django-staff-sso-client==1.0.*
+directory-api-client==21.2.*
 directory-components==35.10.*
 directory-forms-api-client==5.0.*
+directory-sso-api-client==6.2.*
+django-staff-sso-client==1.0.*
 
 whitenoise==4.1.*
 psycopg2==2.8.* --no-binary psycopg2
 boto3==1.11.*
-djangorestframework==3.9.*
+geoip2==2.9.*
