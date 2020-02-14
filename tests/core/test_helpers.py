@@ -55,6 +55,7 @@ def test_get_location_success(mock_get_client_ip, mock_city, rf):
     assert actual == {
         'country': 'US',
         'region': 'CA',
+        'city': 'Mountain View',
         'latitude': 37.419200897216797,
         'longitude': -122.05740356445312,
     }

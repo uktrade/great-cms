@@ -15,15 +15,16 @@ def get_location(request):
     client_ip, is_routable = get_client_ip(request)
     if client_ip and is_routable:
         try:
-            city = GeoIP2().city(client_ip)
+            result = GeoIP2().city(client_ip)
         except GeoIP2Exception:
             logger.error(USER_LOCATION_DETERMINE_ERROR)
         else:
             return {
-                'country': city['country_code'],
-                'region': city['region'],
-                'latitude': city['latitude'],
-                'longitude': city['longitude'],
+                'country': result['country_code'],
+                'region': result['region'],
+                'city': result['city'],
+                'latitude': result['latitude'],
+                'longitude': result['longitude'],
             }
 
 
