@@ -50,4 +50,4 @@ def test_domestic_home_template_contains_login_javascript(client, rf):
 
     assert remove_whitespace(cofig_js) in remove_whitespace(soup.text)
     assert remove_whitespace(modal_js) in remove_whitespace(soup.text)
-    assert soup.find(id='header-sign-in-link') is not None
+    assert soup.find(id='header-sign-up-link') is not None

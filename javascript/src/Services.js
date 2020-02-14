@@ -3,9 +3,6 @@ const MESSAGE_INCORRECT_CREDENTIALS = {'__all__': ['Incorrect username or passwo
 
 
 const post = function(url, data) {
-  console.log(url)
-  console.log(data)
-  console.log(config.csrfToken)
   return fetch(url, {
     method: 'post',
     headers: {

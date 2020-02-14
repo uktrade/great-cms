@@ -5,31 +5,25 @@ import Modal from 'react-modal'
 
 import SignupWizard from './SignupWizard'
 
+import './stylesheets/SignupModal.scss'
 
-const styles = {
-  close: {
-    width: '100%',
-    fontSize: 19,
-    display: 'inline-block',
-    textAlign: 'right',
+
+const modalStyles = {
+  content : {
+    background: '#f5f2ed',
+    bottom: 'auto',
+    left: '50%',
+    marginRight: '-50%',
+    padding: 30,
+    right: 'auto',
+    textAlign: 'center',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 430,
   },
-  modal: {
-    content : {
-      background: '#f5f2ed',
-      bottom: 'auto',
-      left: '50%',
-      marginRight: '-50%',
-      padding: 30,
-      right: 'auto',
-      textAlign: 'center',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 430,
-    },
-    overlay: {
-      zIndex: 1000,
-    },
-  }
+  overlay: {
+    zIndex: 1000,
+  },
 }
 
 export function SignupModal(props){
@@ -46,7 +40,7 @@ export function SignupModal(props){
   }
 
   return (
-    <div>
+    <div className='great-mvp-signup-modal'>
       <a
         id='header-sign-in-link'
         onClick={handleOpen}
@@ -56,14 +50,13 @@ export function SignupModal(props){
       <Modal
         isOpen={isOpen}
         onRequestClose={handleClose}
-        style={styles.modal}
+        style={modalStyles}
         contentLabel="Modal"
       >
         <a
           href="#"
-          className="link"
-          onClick={handleClose}
-          style={styles.close}>Close
+          className="link great-mvp-close"
+          onClick={handleClose} >Close
         </a>
         <SignupWizard
           currentStep={props.currentStep}

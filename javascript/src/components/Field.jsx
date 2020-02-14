@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ErrorList from './ErrorList'
 
-const styles = {
-  input: {
-    width: 371,
-    padding: 10,
-    borderColor: '#333333',
-    height: 51,
-    backgroundColor: '#FFFFFF',
-  },
-}
+import '../stylesheets/Field.scss'
+
 
 export default function Field(props){
 
@@ -19,13 +13,13 @@ export default function Field(props){
   }
 
   return (
-    <div className="form-group">
+    <div className="form-group great-mvp-field">
+      <ErrorList errors={props.errors || []} />
       <input
         type={props.type}
         placeholder={props.placeholder}
         name={props.name}
         className="form-control"
-        style={styles.input}
         value={props.value}
         onChange={handleChange}
         disabled={props.disabled}
@@ -43,10 +37,12 @@ Field.propTypes = {
   handleChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  autofocus: PropTypes.bool
+  autofocus: PropTypes.bool,
+  errors: PropTypes.array,
 }
 
 Field.defaultProps = {
   autofocus: false,
-  disabled: false
+  disabled: false,
+  errors: [],
 }

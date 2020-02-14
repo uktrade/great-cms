@@ -1,0 +1,155 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="h-s">Welcome back {{ request.user.first_name|default:request.user.email }}</h2>
+        <h2 class="h-s">Continue learning</h2>
+
+        <div class="grid m-b-s">
+            <div class="c-1-2">
+                <div class="bg-white p-s">
+                    <h3 class="text-mid-grey m-b-s">Marketing</h3>
+                    <h3 class="h-l">Setting marketing budget and resource</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-grid m-b-s">
+            <div class="c-1-2">
+                <div class="bg-white p-s great-dashboard-card">
+                    <h3 class="c-full text-mid-grey m-b-s">Your progress</h3>
+
+                    <div class="grid m-b-s">
+                        <h3 class="c-1-3 h-s">Finding export opportunities</h3>
+                        <div class="c-1-3">|||-------</div>
+                        <div class="c-1-3">30%</div>
+                    </div>
+
+                    <div class="grid m-b-s">
+                        <h3 class="c-1-3 h-s">Moving goods, people or non-physical assets across borders</h3>
+                        <div class="c-1-3">----------</div>
+                        <div class="c-1-3">0%</div>
+                    </div>
+
+                    <div class="grid m-b-s">
+                        <h3 class="c-1-3 h-s">Funding and finances</h3>
+                        <div class="c-1-3">|||||-----</div>
+                        <div class="c-1-3">50%</div>
+                    </div>
+
+                    <div class="grid m-b-s">
+                        <h3 class="c-1-3 h-s">Planning and winning</h3>
+                        <div class="c-1-3">----------</div>
+                        <div class="c-1-3">0%</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="c-1-2">
+                <div class="bg-white p-s great-dashboard-card">
+                    <h3 class="text-mid-grey m-b-s">Your export plan</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-grid m-b-s">
+            <div class="c-1-2">
+                <div class="bg-white p-s great-dashboard-card">
+                    <h3 class="text-mid-grey m-b-s">Did you know</h3>
+                    <h3 class="h-s">Trade barriers such as terriffs raise prices and reduce avaiabile quantities of goods and services for U.S. businesses and consumers which results in lower income, reduced employment, and lower economic output.</h3>
+                </div>
+            </div>
+
+            <div class="c-1-2">
+                <div class="bg-white p-s great-dashboard-card">
+                    <h3 class="text-mid-grey m-b-s">Discover new markets</h3>
+
+                    <div class="grid m-b-s">
+                        <h3 class="c-2-3 h-s">United States</h3>
+                        <div class="c-1-3">
+                            <ul>
+                                <li>FOOD AND DRINK</li>
+                                <li>AGRICULTURE</li>
+                                <li>RAIL</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid m-b-s">
+                        <h3 class="c-2-3 h-s">France</h3>
+                        <div class="c-1-3">
+                            <ul>
+                                <li>FOOD AND DRINK</li>
+                                <li>AGRICULTURE</li>
+                                <li>RAIL</li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="grid m-b-s">
+                        <h3 class="c-2-3 h-s">Belgium</h3>
+                        <div class="c-1-3">
+                            <ul>
+                                <li>FOOD AND DRINK</li>
+                                <li>AGRICULTURE</li>
+                                <li>RAIL</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="flex-grid m-b-s">
+            <div class="c-1-2">
+                <div class="bg-white p-s great-dashboard-card">
+                    <h3 class="text-mid-grey m-b-s">Export opportunities</h3>
+                </div>
+            </div>
+            <div class="c-1-2">
+                <div class="bg-white p-s great-dashboard-card">
+                    <h3 class="text-mid-grey m-b-s">Events</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-grid m-b-s">
+            <div class="c-2-2">
+                <div class="bg-white p-s great-dashboard-card">
+                    <h3 class="text-mid-grey m-b-s">Tariffs and duties</h3>
+                    <div>Exporting to <a href="#" class="link">China</a></div>
+                    
+                    <div class="grid m-b-s">
+                        <h3 class="c-2-3 h-s">COMMODITY</h3>
+                        <div class="c-1-3 h-s">
+                            <div class="grid">
+                                <div class="c-1-2">VAT</div>
+                                <div class="c-1-2">THIRD COUNTRY DUTY</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid m-b-s great-dashboard-card">
+                        <div class="c-2-3">
+                            <div class="bold">0747439</div>
+                            <div>Fresh or chilled edible mushrooms (excl. chaterelles, flap mushrooms, mushrooms of genus "Agaricus" and truffles)</div>
+                        </div>
+                        <div class="c-1-3">
+                            <div class="grid">
+                                <div class="c-1-2 h-2">0%</div>
+                                <div class="c-1-2 h-s">12%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block feedback_reporter %}{% endblock %}

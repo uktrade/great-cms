@@ -59,7 +59,7 @@ describe('SignupWizard', () => {
 
   test('bad credentials results in errors passed down', done => {
     // given the credentials are incorrect
-    const errors = {'field': ['An error occured']}
+    const errors = {'username': ['An error occured']}
     Services.createUser.mockImplementation(() => Promise.reject(errors))
 
     const component = mount(<SignupWizard {...defaultProps} />)
@@ -70,13 +70,13 @@ describe('SignupWizard', () => {
 
     // then an error message is displayed
     setImmediate(() => {
-      // component.update()
-
+      component.update()
       expect(component.containsMatchingElement(
         <SignupWizardStep1
           disabled={false}
           username='username'
           password='password'
+          errors={errors}
         />
       )).toEqual(true)
 
@@ -108,12 +108,12 @@ describe('SignupWizard', () => {
 
   test('incorrect verification code results in errors passed down', done => {
     // given the credentials are incorrect
-    const errors = {'field': ['An error occured']}
+    const errors = {'username': ['An error occured']}
     Services.checkVerificationCode.mockImplementation(() => Promise.reject(errors))
     const props = {...defaultProps, currentStep: STEP_VERIFICATION_CODE}
     const component = mount(<SignupWizard {...props} />)
 
-    expect(component.containsMatchingElement(<SignupWizardStep2 />)).toEqual(true)
+    expect(component.exists(SignupWizardStep2)).toEqual(true)
 
     act(() => {
       component.find(SignupWizardStep2).prop('handleCodeChange')('123456')
@@ -134,7 +134,7 @@ describe('SignupWizard', () => {
     const props = {...defaultProps, currentStep: STEP_VERIFICATION_CODE}
     const component = mount(<SignupWizard {...props} />)
 
-    expect(component.containsMatchingElement(<SignupWizardStep2 />)).toEqual(true)
+    expect(component.exists(SignupWizardStep2)).toEqual(true)
 
     act(() => {
       component.find(SignupWizardStep2).prop('handleCodeChange')('123456')
