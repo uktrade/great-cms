@@ -12,7 +12,8 @@ boto3==1.11.8
 botocore==1.14.8          # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
-directory-client-core==6.1.0  # via directory-forms-api-client, directory-sso-api-client
+directory-api-client==21.2.1
+directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-components==35.10.0
 directory-constants==20.10.0  # via directory-components
 directory-forms-api-client==5.0
@@ -20,6 +21,7 @@ directory-sso-api-client==6.2.0
 django-environ==0.4.5
 django-extensions==2.2.6
 django-filter==2.2.0
+django-ipware==2.1.0
 django-modelcluster==5.0.1  # via wagtail
 django-pglocks==1.0.4
 django-redis==4.10.0
@@ -27,16 +29,18 @@ django-staff-sso-client==1.0.1
 django-storages[boto3]==1.8
 django-taggit==1.2.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
-django==2.2.9
+django==2.2.10
 djangorestframework==3.9.4
 docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
+geoip2==2.9.0
 gunicorn==19.5.0
 html5lib==1.0.1           # via wagtail
 idna==2.8                 # via requests
 importlib-metadata==1.4.0  # via jsonschema
 jmespath==0.9.4           # via boto3, botocore
 jsonschema==3.2.0         # via directory-components
+maxminddb==1.5.2          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-client-core
 more-itertools==8.1.0     # via zipp
@@ -48,7 +52,7 @@ python-dateutil==2.8.1    # via botocore
 pytz==2019.3              # via django, django-modelcluster, wagtail
 redis==3.3.11             # via django-redis
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.22.0          # via directory-client-core, requests-oauthlib, wagtail
+requests==2.22.0          # via directory-api-client, directory-client-core, geoip2, requests-oauthlib, wagtail
 s3transfer==0.3.2         # via boto3
 sentry-sdk==0.13.5
 sigauth==4.1.1            # via directory-client-core
