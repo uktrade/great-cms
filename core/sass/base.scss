@@ -1,52 +1,99 @@
 @import 'helpers/_colours';
 
 
+.text-center {
+    text-align: center;
+}
+
+.text-12 {
+    font-size: 12px;
+}
+
+.text-16 {
+    font-size: 16px;
+}
+
+.card-heading {
+    font-weight: bold;
+    color: $grey;
+    text-decoration: none;
+}
+
+
+#discover-new-markets-card {
+    display: inline-block;
+}
+
+#tariffs-and-duties-card {
+    th:last-child {
+        width: 16%;
+    }
+    tbody tr {
+        border-bottom: 1px solid $light-grey;
+    }
+}
+
 body {
-    background-color: $light-grey;
+    background-color: #EFEFEF;
 
-    header {
+    hr {
+        height: 1px;
+    }
+
+    .gutter-top {
+        padding-top: 60px;
+    }
+
+    aside {
         background-color: $white;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 260px;
+        padding-left: 30px;
+        padding-right: 30px;
 
-        div.container {
-            display: flex;
+        ul {
+            margin: 0;
+            li {
+                a {
+                    font-color: $mid-grey;
+                    font-size: 12px;
+                    font-weight: bold;
+                    height: 30px;
+                    line-height: 30px;
+                    text-transform: uppercase;
+                    margin-bottom: 10px;
 
-            img {
-                height: 75px;
-                vertical-align: text-top;
-            }
-
-            nav {
-                width: 100%;
-                display: flex;
-                justify-content: flex-end;
-
-                ul {
-                    display: flex;
-                    flex-wrap: wrap;
-                    margin: 0;
-
-                    li {
-                        padding-right: 15px;
-                        padding-left: 15px;
-                        margin-top: auto;
-                        margin-bottom: auto;
-
-                        &.name-greet {
-                            max-width: 200px;
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                        }
-
-                        a {
-                            color: $grey;
-                            font-size: 16px;
-                            text-decoration: none;
-                        }
+                    &.inactive-link {
+                        color: #A2A2A2
                     }
                 }
             }
         }
+    }
+
+    #great-hero {
+        background-color: $light-grey;
+        padding-bottom: 75px;
+        margin-bottom: -75px;
+    }
+
+    #content {
+        display: flex;
+    }
+
+    main {
+       > .container {
+            padding-left: 45px;
+
+        }
+    }
+
+    #great-continue-learning-box {
+        h4 {
+            line-height: 1;
+        }
+
     }
 
     .great-dashboard-card {
@@ -55,9 +102,19 @@ body {
         > h3 {
             width: 100%;
         }
-
         .grid {
             width: 100%;
+            div:last-child {
+                text-align: right;
+            }
+        }
+
+        progress {
+            width: 100%;
+        }
+
+        table th, table td {
+            border-bottom: 0
         }
     }
 }
