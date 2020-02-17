@@ -3,9 +3,13 @@
 # Testing
 # ------------
 Werkzeug
+allure-pytest
+pillow
 pytest
+pytest-bdd
 pytest-cov
 pytest-django
+pytest-splinter
 pytest-sugar
 wagtail-factories
 django-debug-toolbar
@@ -20,7 +24,3 @@ beautifulsoup4
 flake8
 pylint-django
 codecov
-
-
-
-
