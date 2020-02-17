@@ -9,7 +9,7 @@ from tests.helpers import create_response
 
 @pytest.fixture(autouse=True)
 def mock_airtable_search():
-    airtable_data=[
+    airtable_data = [
         {
             'id': '1',
             'fields':
@@ -130,7 +130,7 @@ def test_get_rules_and_regulations(mock_airtable_search):
 
 @mock.patch.object(api_client.exportplan, 'exportplan_create')
 def test_create_export_plan(mock_exportplan_create):
-    export_plan_data = {'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1':'12343'}}
+    export_plan_data = {'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}
     mock_exportplan_create.return_value = create_response(status_code=201)
     helpers.create_export_plan(sso_session_id=123, exportplan_data=export_plan_data)
 
