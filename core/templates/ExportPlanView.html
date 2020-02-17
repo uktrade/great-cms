@@ -1,0 +1,35 @@
+{% load static from staticfiles %}
+{% block head_title %}Export Plan - great.gov.uk{% endblock %}
+{% block tab_content %}
+    <div class="grid-row" id="tab-content">
+        <div class="column-two-thirds">
+            <section id="welcome-message">
+                <h2 class="heading-large margin-top-60 margin-bottom-30">Your Export Plan</h2>
+                <div id="business-details-edit-form">
+
+                </div>
+            </section>
+        </div>
+        {% if rules_regs %}
+                <table border="1">
+                     <thead>
+                      <tr>
+                          {% for key,value in rules_regs.items %}
+                            <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">{{ key }}</th>
+                          {% endfor %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                         {% for key,value in rules_regs.items %}
+                        <td class="border-white padding-top-15 padding-bottom-10">{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                </form>
+        {% endif %}
+    </div>
+{% endblock tab_content %}

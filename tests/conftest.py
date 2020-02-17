@@ -6,6 +6,7 @@ from wagtail_factories import SiteFactory, PageFactory
 
 from tests.domestic import factories
 from tests.helpers import create_response
+from core.helpers import Airtable
 
 from sso.models import BusinessSSOUser
 
@@ -68,3 +69,32 @@ def client(client, auth_backend, settings):
         })
     client.force_login = force_login
     return client
+
+
+@pytest.fixture(autouse=True)
+def mock_airtable_rules_regs():
+    airtable_data = [
+        {
+            'id': '1',
+            'fields':
+                {
+                    'Country': 'India',
+                    'Export Duty': 1.5,
+                    'Commodity code': '2208.50.12',
+                    'Commodity Name': 'Gin and Geneva 2l'
+                },
+         },
+        {
+            'id': '2',
+            'fields':
+                {
+                    'Country': 'China',
+                    'Export Duty': 1.5,
+                    'Commodity code': '2208.50.13',
+                    'Commodity Name': 'Gin and Geneva'
+                },
+        },
+    ]
+    patch = mock.patch.object(Airtable, 'get_all', return_value=airtable_data)
+    yield patch.start()
+    patch.stop()
