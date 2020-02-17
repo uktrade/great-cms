@@ -162,7 +162,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     str(ROOT_DIR('core/static')),
-    str(ROOT_DIR('javascript/dist')),
+    str(ROOT_DIR('react-components/dist')),
 ]
 
 STATICFILES_STORAGE = env.str(

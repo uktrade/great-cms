@@ -13,54 +13,18 @@
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script> 
 {% endblock %}
 
-{% block body_header %}{% endblock %}
+{% block body_header %}
+	{% include 'core/header.html' %}
+{% endblock %}
 
 
 {% block body_content_container %}
     <div id="content" tabindex="-1" class="container">
-        {% block aside %}{% include 'core/aside.html' %}{% endblock %}
         <main role="main">
             {% block content %}{% endblock %}
         </main>
     </div>
 {% endblock %}
 
-
-{% block body_js %}
-    {{ block.super }}
-    {% if not request.user.is_authenticated %}
-    <script type="text/javascript">
-        var element = document.getElementById("header-sign-up-link")
-        if (element) {
-            ditMVP.setConfig({
-                loginUrl: '{% url "sso:business-sso-login-api" %}',
-                signupUrl: '{% url "sso:business-sso-create-user-api" %}',
-                verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-                csrfToken: '{{ csrf_token }}',
-                linkedInUrl: '{{ signup_modal.linkedin_url }}',
-                googleUrl: '{{ signup_modal.google_url }}',
-                termsUrl: '{{ signup_modal.terms_url }}'
-            })
-
-            {% if 'verify' in request.GET %}
-                var step = ditMVP.STEP_VERIFICATION_CODE;
-                var isOpen = true;
-                var username = request.GET.verify;
-            {% else %}
-                var step = ditMVP.STEP_CREDENTIALS;
-                var isOpen = false;
-                var username = ''
-            {% endif %}
-
-            ditMVP.SignupModal({
-                element: element.parentElement,
-                currentStep: step,
-                isOpen: isOpen,
-                username: username
-            })
-        }
-    </script>
-    {% endif %}
-{% endblock %}
 
 {% block body_footer %}{% endblock %}

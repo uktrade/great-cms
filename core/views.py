@@ -1,14 +1,16 @@
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
-import core.mixins
-from core import helpers
-import core.forms
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+from core import forms, helpers, permissions, serializers
 
 
 class ExportPlanStartView(FormView):
     template_name = 'core/exportplanstart.html'
-    form_class = core.forms.ExportPlanFormStart
+    form_class = forms.ExportPlanFormStart
     success_url = reverse_lazy('core:exportplan-start')
 
     def get_initial(self):
@@ -53,3 +55,29 @@ class ExportPlanView(TemplateView):
 
 class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
+
+
+class EnrolCompanyAPIView(generics.GenericAPIView):
+
+    serializer_class = serializers.EnrolCompanySerializer
+    permission_classes = [IsAuthenticated, permissions.HasNoCompany]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        company_data = {
+            'sso_id': self.request.user.id,
+            'company_email': self.request.user.email,
+            'contact_email_address': self.request.user.email,
+            'company_name': self.request.data.get('company_name', '<unknown>'),
+            'expertise_industries': self.request.data['expertise_industries'],
+            'expertise_countries': self.request.data.get('expertise_countries', {}),
+        }
+        helpers.create_company_profile(company_data)
+        if 'first_name' in self.request.data:
+            user_data = {
+                'first_name': self.request.data['first_name'],
+                'last_name': self.request.data['last_name'],
+            }
+            helpers.create_user_profile(data=user_data, sso_session_id=self.request.user.session_id)
+        return Response(status=200)

@@ -1,0 +1,18 @@
+@import 'helpers/_colours';
+
+@import '@src/stylesheets/_WizardStep';
+
+
+.great-mvp-signup-wizard-step-1 {
+
+    .great-mvp-synopsis {
+        margin-top: 0;
+        font-size: 19px;
+        margin-bottom: 30px;
+    }
+
+    .great-mvp-terms {
+        fontSize: 19px;
+        margin-top: 10px;
+    }
+}

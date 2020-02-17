@@ -22,4 +22,9 @@ urlpatterns = [
         core.views.ExportPlanView.as_view(),
         name='exportplan-view'
     ),
+    path(
+        'api/create-company/',
+        core.views.EnrolCompanyAPIView.as_view(),
+        name='api-create-company'
+    ),
 ]

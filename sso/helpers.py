@@ -1,3 +1,4 @@
+from directory_api_client import api_client
 from directory_forms_api_client import actions
 from directory_sso_api_client import sso_api_client
 
@@ -82,5 +83,13 @@ def create_user(email, password):
     response = sso_api_client.user.create_user(email=email, password=password)
     if response.status_code == 400:
         raise CreateUserException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_company_profile(sso_session_id):
+    response = api_client.company.profile_retrieve(sso_session_id)
+    if response.status_code == 404:
+        return None
     response.raise_for_status()
     return response.json()
