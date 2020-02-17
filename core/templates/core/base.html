@@ -13,9 +13,18 @@
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script> 
 {% endblock %}
 
-{% block body_header %}
-    {% include 'core/header.html' %}
+{% block body_header %}{% endblock %}
+
+
+{% block body_content_container %}
+    <div id="content" tabindex="-1" class="container">
+        {% block aside %}{% include 'core/aside.html' %}{% endblock %}
+        <main role="main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 {% endblock %}
+
 
 {% block body_js %}
     {{ block.super }}
@@ -54,6 +63,4 @@
     {% endif %}
 {% endblock %}
 
-
-{% block body_footer %}
-{% endblock %}
+{% block body_footer %}{% endblock %}
