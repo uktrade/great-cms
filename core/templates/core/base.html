@@ -4,16 +4,33 @@
 
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
+{% block head_css %}
+    <link href="{% static 'ditMVP.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
 {% block head_js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script> 
 {% endblock %}
 
-{% block body_header %}
+{% block body_header %}{% endblock %}
+
+
+{% block body_content_container %}
+    <div id="content" tabindex="-1" class="container">
+        {% block aside %}{% include 'core/aside.html' %}{% endblock %}
+        <main role="main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+{% endblock %}
+
+
+{% block body_js %}
     {{ block.super }}
     {% if not request.user.is_authenticated %}
     <script type="text/javascript">
-        var element = document.getElementById("header-sign-in-link")
+        var element = document.getElementById("header-sign-up-link")
         if (element) {
             ditMVP.setConfig({
                 loginUrl: '{% url "sso:business-sso-login-api" %}',
@@ -46,3 +63,4 @@
     {% endif %}
 {% endblock %}
 
+{% block body_footer %}{% endblock %}

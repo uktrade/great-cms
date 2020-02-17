@@ -1,0 +1,22 @@
+@import 'helpers/_colours';
+
+
+.great-mvp-vertical-separator {
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    span {
+      dislay: inline-block;
+      margin-left: 20px;
+      margin-right: 20px;
+      font-size: 19px;
+    }
+
+    hr {
+      vertical-align: middle;
+      width: 40%;
+      display: inline-block;
+      background: $mid-grey;
+      margin: 0;
+    }
+}

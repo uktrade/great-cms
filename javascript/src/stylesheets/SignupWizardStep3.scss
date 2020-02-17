@@ -1,0 +1,43 @@
+@import 'helpers/_colours';
+
+
+.great-mvp-signup-wizard-step-3 {
+    .great-mvp-button {
+        background: $grey;
+        color: $white;
+        width: 300px;
+    }
+
+    h2 {
+        margin-top: 25px;
+        padding-bottom: 35px;
+    }
+
+    .great-mvp-subtitle {
+        font-size: 19px;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+
+    .great-mvp-synopsis {
+        font-size: 19px;
+        margin-bottom: 30px;
+        margin-bottom: 30px;
+        padding-top: 45px;
+        text-align: left;
+    }
+
+    .great-mvp-terms {
+        fontSize: 19px;
+        margin-bottom: 50px;
+        margin-top: 10px;
+    }
+
+    .great-mvp-submit {
+        margin-bottom: 15px;
+        height: 41px;
+        font-size: 19px;
+        cursor: pointer;
+    }
+  
+}

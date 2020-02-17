@@ -1,0 +1,32 @@
+@import 'helpers/_colours';
+
+
+.great-mvp-social-login-buttons {
+    img {
+        vertical-align: middle;
+    }
+
+    span {
+        vertical-align: middle;
+        margin-left: 10px;
+        display: inline-block;
+    }
+
+    .g-button {
+        background: #333;
+        color: $white;
+        font-size: 16px;
+        font-weight: bold;
+        height: 41px;
+        line-height: 41px;
+        margin-top: 0;
+        padding: 0;
+        width: 272px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+
+}

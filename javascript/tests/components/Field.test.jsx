@@ -5,6 +5,8 @@ import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import Field from '../../src/components/Field'
+import ErrorList from '../../src/components/ErrorList'
+
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -19,6 +21,7 @@ afterEach(() => {
 
 
 test('Field should use props', () => {
+  const errors = ['some error']
   const component = shallow(
     <Field 
       type='text'
@@ -28,11 +31,13 @@ test('Field should use props', () => {
       handleChange={() => {}}
       disabled={true}
       autofocus={true}
+      errors={errors}
     />
   )
 
   expect(component.matchesElement(
-    <div className="form-group">
+    <div className="form-group great-mvp-field">
+      <ErrorList errors={errors} />
       <input
         type="text"
         placeholder="some placeholder"
@@ -48,6 +53,7 @@ test('Field should use props', () => {
 
 
 test('Field should handle defaul props', () => {
+  const errors = []
   const component = shallow(
     <Field 
       type='text'
@@ -55,11 +61,13 @@ test('Field should handle defaul props', () => {
       name='some-name'
       value='some value'
       handleChange={() => {}}
+      errors={errors}
     />
   )
 
-  expect(component.matchesElement(
-    <div className="form-group">
+  expect(component.containsMatchingElement(
+    <div className="form-group great-mvp-field">
+      <ErrorList errors={errors} />
       <input
         type="text"
         placeholder="some placeholder"
