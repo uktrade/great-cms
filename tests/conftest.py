@@ -2,6 +2,7 @@ from unittest import mock
 
 from directory_api_client import api_client
 import pytest
+from splinter import Browser
 from wagtail.core.models import Page
 from wagtail_factories import SiteFactory, PageFactory
 
@@ -106,3 +107,38 @@ def mock_user_location_create():
     stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture(scope='session')
+def browser():
+    browser = Browser()
+    yield browser
+    browser.quit()
+
+
+@pytest.fixture(autouse=True)
+def base_url(live_server):
+    """Get the base url for a live Django server running in a background thread.
+
+    See: https://pytest-django.readthedocs.io/en/latest/helpers.html#live-server
+    """
+    return live_server.url
+
+
+@pytest.fixture
+def visit_home_page(browser, base_url, request, domestic_site):
+    browser.visit(base_url)
+    return browser
+
+
+def pytest_bdd_apply_tag(tag, function):
+    """Force pytest-bdd to work with pytest-django.
+    See: https://github.com/pytest-dev/pytest-bdd/issues/215
+    """
+    if tag == "django_db":
+        marker = pytest.mark.django_db(transaction=True)
+        marker(function)
+        return True
+    else:
+        # Fall back to pytest-bdd's default behavior
+        return None
