@@ -23,7 +23,7 @@ sentry-sdk==0.13.*
 
 # DIT packages
 # ------------
-directory-api-client==21.2.*
+directory-api-client==21.2.2
 directory-components==35.10.*
 directory-forms-api-client==5.0.*
 directory-sso-api-client==6.2.*
@@ -33,3 +33,4 @@ whitenoise==4.1.*
 psycopg2==2.8.* --no-binary psycopg2
 boto3==1.11.*
 geoip2==2.9.*
+airtable==0.3.1
