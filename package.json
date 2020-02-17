@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest javascript/tests/",
-    "build-dev": "webpack --config javascript/webpack.config.js --mode development",
-    "build": "webpack --config javascript/webpack.config.js --mode production"
+    "test": "jest reactComponents/tests/",
+    "build-dev": "webpack --config reactComponents/webpack.config.js --mode development",
+    "build": "webpack --config reactComponents/webpack.config.js --mode production"
   },
   "repository": {
     "type": "git",
@@ -57,8 +57,8 @@
       "jsx"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/javascript/tests/imageMock.js",
-      "^.+\\.(css|scss)$": "<rootDir>/javascript/tests/css-stub.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/reactComponents/tests/imageMock.js",
+      "^.+\\.(css|scss)$": "<rootDir>/reactComponents/tests/css-stub.js"
     },
     "moduleDirectories": [
       "node_modules"
@@ -67,7 +67,7 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "setupFiles": [
-      "./javascript/setupJest.js"
+      "./reactComponents/setupJest.js"
     ]
   }
 }
