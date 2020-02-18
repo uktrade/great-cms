@@ -12,7 +12,7 @@ def test_exportplan_form_start(client):
     assert response.status_code == 200
     assert response.context['form'].initial['country'] == 'China'
     assert response.context['form'].initial['commodity'] == '1234'
-    assert response.context['rules_regs'] == {
+    assert response.context['rules_regulation'] == {
         'Commodity Name': 'Gin and Geneva 2l',
         'Commodity code': '2208.50.12',
         'Country': 'India', 'Export Duty': 1.5
@@ -58,4 +58,4 @@ def test_exportplan_view(mock_get_export_plan_rules_regs, mock_user_location_cre
     assert mock_get_export_plan_rules_regs.call_count == 1
     assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
 
-    assert response.context['rules_regs'] == {'rule1': 'r1'}
+    assert response.context['rules_regulation'] == {'rule1': 'r1'}
