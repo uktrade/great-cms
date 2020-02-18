@@ -39,3 +39,18 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
         sso_session_id=user.session_id,
         exportplan_data={'rule1': 'r1'},
     )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'store_user_location')
+@mock.patch.object(helpers, 'get_exportplan_rules_regulations')
+def test_exportplan_view(mock_get_export_plan_rules_regs, mock_user_location_create, client, user):
+    client.force_login(user)
+    mock_get_export_plan_rules_regs.return_value = {'rule1': 'r1'}
+
+    response = client.get(reverse('core:exportplan-view'))
+
+    assert mock_get_export_plan_rules_regs.call_count == 1
+    assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
+
+    assert response.context['rules_regs'] == {'rule1': 'r1'}

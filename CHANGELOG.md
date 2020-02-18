@@ -13,3 +13,4 @@
 - MVP-113 - Implement dashboard
 - MVP-111 - Show welcome message to logged in users
 - MVP-125 - Store user's location
+- MVP-102 - select-commodity-code 
