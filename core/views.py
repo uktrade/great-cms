@@ -25,9 +25,19 @@ class ExportPlanStartView(FormView):
 
     def form_valid(self, form):
         rules_regs = helpers.get_rules_and_regulations(self.request.GET.get('country'))
-        helpers.create_export_plan(sso_session_id=self.request.user.session_id, exportplan_data=rules_regs)
+        helpers.create_export_plan(
+            sso_session_id=self.request.user.session_id,
+            exportplan_data=self.serialize_exportplan_data(rules_regs)
+        )
         self.success_url = reverse_lazy('core:exportplan-view')
         return super().form_valid(form)
+
+    def serialize_exportplan_data(self, exportplan_data):
+        return {
+            'export_countries': [exportplan_data['Country']],
+            'export_commodity_codes': [exportplan_data['Commodity code']],
+            'rules_regulations': exportplan_data,
+        }
 
 
 class ExportPlanView(TemplateView):

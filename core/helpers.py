@@ -47,11 +47,11 @@ def get_madb_country_list():
 def get_madb_commodity_list():
     airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
     commodity_name_set = set()
-    for d in airtable.get_all(view='Grid view'):
-        Commodity_code = d['fields']['Commodity code']
-        Commodity_name = d['fields']['Commodity Name']
-        commodity_name_code = f'{Commodity_name} - {Commodity_code}'
-        commodity_name_set.add((Commodity_code, commodity_name_code))
+    for row in airtable.get_all(view='Grid view'):
+        commodity_code = row['fields']['Commodity code']
+        commodity_name = row['fields']['Commodity Name']
+        commodity_name_code = f'{commodity_name} - {commodity_code}'
+        commodity_name_set.add((commodity_code, commodity_name_code))
     return commodity_name_set
 
 
@@ -60,23 +60,12 @@ def get_rules_and_regulations(country):
     rules = airtable.search('country', country)
     if rules:
         return rules[0]['fields']
-    else:
-        return None
 
 
 def create_export_plan(sso_session_id, exportplan_data):
-    data = serialize_exportplan_data(exportplan_data)
-    response = api_client.exportplan.exportplan_create(sso_session_id=sso_session_id, data=data)
+    response = api_client.exportplan.exportplan_create(sso_session_id=sso_session_id, data=exportplan_data)
     response.raise_for_status()
     return response.json()
-
-
-def serialize_exportplan_data(exportplan_data):
-    return {
-        'export_countries': [exportplan_data['Country']],
-        'export_commodity_codes': [exportplan_data['Commodity code']],
-        'rules_regulations': exportplan_data,
-    }
 
 
 def get_exportplan_rules_regulations(sso_session_id):

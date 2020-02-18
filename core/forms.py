@@ -4,7 +4,10 @@ from core import helpers
 
 
 class ExportPlanFormStart(forms.Form):
-    COUNTRY_CHOICE = helpers.get_madb_country_list()
-    COMMODITY_CHOICE = helpers.get_madb_commodity_list()
-    commodity = forms.CharField(required=False, label='commodity name',  widget=forms.Select(choices=COMMODITY_CHOICE))
-    country = forms.CharField(required=False, label='country',  widget=forms.Select(choices=COUNTRY_CHOICE))
+    commodity = forms.ChoiceField(required=False, label='commodity name')
+    country = forms.ChoiceField(required=False, label='country')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['country'].choices = helpers.get_madb_country_list()
+        self.fields['commodity'].choices = helpers.get_madb_commodity_list()

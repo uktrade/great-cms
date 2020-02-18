@@ -25,7 +25,9 @@ def test_exportplan_form_start(client):
 @mock.patch.object(helpers, 'create_export_plan')
 def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_user_location_create, client, user):
     client.force_login(user)
-    mock_helper_get_regs.return_value = {'rule1': 'r1'}
+    rules = {'Country': 'r1', 'Commodity code': '1'}
+
+    mock_helper_get_regs.return_value = rules
 
     url = reverse('core:exportplan-start') + '?country=India'
     response = client.post(url)
@@ -36,8 +38,11 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
     assert mock_helper_get_regs.call_args == mock.call('India')
     assert mock_helpers_create_plan.call_count == 1
     assert mock_helpers_create_plan.call_args == mock.call(
-        sso_session_id=user.session_id,
-        exportplan_data={'rule1': 'r1'},
+        exportplan_data={
+            'export_countries': ['r1'], 'export_commodity_codes': ['1'],
+            'rules_regulations': {'Country': 'r1', 'Commodity code': '1'}
+        },
+        sso_session_id='123'
     )
 
 

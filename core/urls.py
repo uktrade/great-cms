@@ -13,12 +13,12 @@ urlpatterns = [
         name='dashboard'
     ),
     path(
-        'exportplan-start/$',
+        'exportplan-start/',
         core.views.ExportPlanStartView.as_view(),
         name='exportplan-start'
     ),
     path(
-        'exportplan-create/$',
+        'exportplan-create/',
         core.views.ExportPlanView.as_view(),
         name='exportplan-view'
     ),

@@ -143,7 +143,7 @@ def test_create_export_plan(mock_exportplan_create):
 
     assert mock_exportplan_create.call_count == 1
     assert mock_exportplan_create.call_args == mock.call(
-        data={'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': export_plan_data},
+        data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}},
         sso_session_id=123
     )
 
