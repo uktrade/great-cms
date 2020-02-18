@@ -7,7 +7,7 @@ import core.forms
 
 
 class ExportPlanStartView(FormView):
-    template_name = 'ExportPlanStart.html'
+    template_name = 'core/exportplanstart.html'
     form_class = core.forms.ExportPlanFormStart
     success_url = reverse_lazy('core:exportplan-start')
 
@@ -18,19 +18,22 @@ class ExportPlanStartView(FormView):
         }
 
     def get_context_data(self, **kwargs):
-        rules_regs = None
+        rules_regulation = None
         if self.request.GET.get('country'):
-            rules_regs = helpers.get_rules_and_regulations(self.request.GET.get('country'))
-        return super().get_context_data(rules_regs=rules_regs, **kwargs)
+            rules_regulation = helpers.get_rules_and_regulations(self.request.GET.get('country'))
+        return super().get_context_data(rules_regulation=rules_regulation, **kwargs)
 
     def form_valid(self, form):
-        rules_regs = helpers.get_rules_and_regulations(self.request.GET.get('country'))
+        rules_regulation = helpers.get_rules_and_regulations(self.request.GET.get('country'))
         helpers.create_export_plan(
             sso_session_id=self.request.user.session_id,
-            exportplan_data=self.serialize_exportplan_data(rules_regs)
+            exportplan_data=self.serialize_exportplan_data(rules_regulation)
         )
-        self.success_url = reverse_lazy('core:exportplan-view')
         return super().form_valid(form)
+
+    def get_success_url(self):
+        if self.request.method == 'POST':
+            return reverse_lazy('core:exportplan-view')
 
     def serialize_exportplan_data(self, exportplan_data):
         return {
@@ -41,11 +44,11 @@ class ExportPlanStartView(FormView):
 
 
 class ExportPlanView(TemplateView):
-    template_name = 'ExportPlanView.html'
+    template_name = 'core/exportplanview.html'
 
     def get_context_data(self, **kwargs):
-        rules_regs = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
-        return super().get_context_data(rules_regs=rules_regs, **kwargs)
+        rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
+        return super().get_context_data(rules_regulation=rules_regulation, **kwargs)
 
 
 class DashboardView(TemplateView):
