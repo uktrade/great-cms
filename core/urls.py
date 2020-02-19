@@ -12,4 +12,14 @@ urlpatterns = [
         login_required(core.views.DashboardView.as_view(), login_url='/'),
         name='dashboard'
     ),
+    path(
+        'exportplan-start/',
+        core.views.ExportPlanStartView.as_view(),
+        name='exportplan-start'
+    ),
+    path(
+        'exportplan-create/',
+        core.views.ExportPlanView.as_view(),
+        name='exportplan-view'
+    ),
 ]
