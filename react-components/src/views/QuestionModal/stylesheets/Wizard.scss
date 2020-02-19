@@ -1,0 +1,25 @@
+@import 'helpers/colours';
+
+.great-mvp-modal {
+    padding: 30px;
+}
+
+.great-mvp-step-progress-bar {
+    margin: 0 -30px -30px -30px;  // counteract the modal's padding
+    padding: 0 30px;
+}
+
+.great-mvp-modal-title {
+    font-size: 19px;
+    font-weight: bold;
+    color: $mid-grey;
+}
+
+.great-mvp-modal-title-line {
+    width: 86px;
+    background-color: $grey;
+    margin: 0;
+    height: 3px;
+    margin-top: 10px;
+}
+

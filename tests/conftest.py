@@ -1,5 +1,6 @@
 from unittest import mock
 
+from directory_api_client import api_client
 import pytest
 from wagtail.core.models import Page
 from wagtail_factories import SiteFactory, PageFactory
@@ -7,7 +8,6 @@ from wagtail_factories import SiteFactory, PageFactory
 from tests.domestic import factories
 from tests.helpers import create_response
 from core.helpers import Airtable
-
 from sso.models import BusinessSSOUser
 
 
@@ -98,3 +98,11 @@ def mock_airtable_rules_regs():
     patch = mock.patch.object(Airtable, 'get_all', return_value=airtable_data)
     yield patch.start()
     patch.stop()
+
+
+@pytest.fixture(autouse=True)
+def mock_user_location_create():
+    response = create_response()
+    stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
+    yield stub.start()
+    stub.stop()

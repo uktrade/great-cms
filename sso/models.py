@@ -1,6 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 
 from django.db import models
+from django.utils.functional import cached_property
+
+from directory_components.helpers import CompanyParser
+
+from sso import helpers
 
 
 class BusinessSSOUser(AbstractUser):
@@ -14,6 +19,12 @@ class BusinessSSOUser(AbstractUser):
     has_user_profile = models.BooleanField()
     job_title = models.TextField()
     mobile_phone_number = models.TextField()
+
+    @cached_property
+    def company(self):
+        company = helpers.get_company_profile(self.session_id)
+        if company:
+            return CompanyParser(company)
 
     def get_username(self):
         return self.email

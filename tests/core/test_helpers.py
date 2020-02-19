@@ -1,7 +1,9 @@
-import pytest
 from unittest import mock
 
 from directory_api_client import api_client
+from directory_sso_api_client import sso_api_client
+import pytest
+from requests.exceptions import HTTPError
 
 from core import helpers
 from tests.helpers import create_response
@@ -170,3 +172,26 @@ def test_get_exportplan_rules_regulations_empty(mock_get_exportplan):
     assert mock_get_exportplan.call_count == 1
     assert mock_get_exportplan.call_args == mock.call(123)
     assert rules is None
+
+
+@mock.patch.object(sso_api_client.user, 'create_user_profile')
+def test_create_user_profile_success(mock_create_user_profile, user, rf):
+    mock_create_user_profile.return_value = create_response(status_code=200)
+    data = {'foo': 'bar'}
+
+    helpers.create_user_profile(data=data, sso_session_id='123')
+
+    assert mock_create_user_profile.call_count == 1
+    assert mock_create_user_profile.call_args == mock.call(
+        sso_session_id='123',
+        data=data
+    )
+
+
+@mock.patch.object(sso_api_client.user, 'create_user_profile')
+def test_create_user_profile_failure(mock_create_user_profile, user, rf):
+    mock_create_user_profile.return_value = create_response(status_code=400)
+    data = {'foo': 'bar'}
+
+    with pytest.raises(HTTPError):
+        helpers.create_user_profile(data=data, sso_session_id='123')

@@ -2,21 +2,32 @@
 
 {% block content %}
     <div id="great-hero" class="container gutter-top">
-        <h1 class="h-s p-t-0 text-mid-grey">Dashboard</h1>
         <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
-        <p class="w-1-2 m-b-0">{% lorem 19 w %}</p>
-        <h3 class="h-s p-v-s">Continue learning</h3>
+        {% if 'success' not in request.GET %}
+            <h3 class="h-s p-v-s">Start learning</h3>
+        {% endif %}
     </div>
 
     <div class="container">
-        <div class="grid m-b-s" id="great-continue-learning-box">
-            <div class="c-1-2">
-                <div class="bg-white p-xs great-dashboard-card">
-                    <h3 class="card-heading text-16 m-b-xs">Market research</h3>
-                    <h4 class="h-l p-b-0">Calculate consumer demand</h4>
+        {% if 'success' in request.GET %}
+            <div class="grid m-b-s">
+                <div class="c-full">
+                    <div class="bg-white p-s great-mvp-success-card">
+                        <h3>Complete, discover your next step</h3>
+                        <p class="m-b-0 w-1-2">You can always come back and edit your answers to the questions <a href="#">here</a></p>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% else %}
+            <div class="grid m-b-s" id="great-continue-learning-box">
+                <div class="c-1-2">
+                    <div class="bg-white p-xs great-dashboard-card">
+                        <h3 class="card-heading text-16 m-b-xs">Market research</h3>
+                        <h4 class="h-l p-b-0">Calculate consumer demand</h4>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
         <div class="flex-grid m-b-s">
             <div class="c-1-2">
@@ -180,10 +191,29 @@
                     </table>
                 </div>
             </div>
-        </div>        
-
+        </div>
     </div>
 {% endblock %}
 
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        ditMVP.setConfig({
+            csrfToken: '{{ csrf_token }}',
+            enrolCompanyUrl: '{% url "core:api-create-company" %}'
+        });
+        var isOpen = {% if request.user.company %}false{%else %}true{% endif %};
+        ditMVP.QuestionModal({
+            element: element,
+            isOpen: isOpen
+        });
+    </script>
+{% endblock %}
 
 {% block feedback_reporter %}{% endblock %}
+
+{% block body_google_tag_manager %}{% endblock %}
+
+{% block head_google_tag_manager %}{% endblock %}

@@ -1,10 +1,11 @@
 from logging import getLogger
 
-from ipware import get_client_ip
-from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from airtable import Airtable
-
 from directory_api_client import api_client
+from directory_sso_api_client import sso_api_client
+from ipware import get_client_ip
+
+from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
@@ -75,3 +76,15 @@ def get_exportplan_rules_regulations(sso_session_id):
         return response.json()[0]['rules_regulations']
     else:
         None
+
+
+def create_company_profile(data):
+    response = api_client.enrolment.send_form(data)
+    response.raise_for_status()
+    return response
+
+
+def create_user_profile(data, sso_session_id):
+    response = sso_api_client.user.create_user_profile(sso_session_id=sso_session_id, data=data)
+    response.raise_for_status()
+    return response
