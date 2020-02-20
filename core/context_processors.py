@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from directory_components.helpers import add_next
+from great_components.helpers import add_next
 from directory_constants import urls
 
 

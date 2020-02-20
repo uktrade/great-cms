@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load breadcrumbs from great_components %}
+
+{% block content %}
+    <div id="great-hero" class="container gutter-top">
+        <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
+        {% breadcrumbs article_name %}
+	      <a href="http://www.example.com">{{ topic_name }}</a>
+	      <a href="http://www.example.com">{{ chapter_name }}</a>
+	    {% endbreadcrumbs %}
+    </div>
+
+  	<div class="container">
+        <div class="grid m-b-s">
+            <div class="c-full">
+                <form class="bg-white p-s great-mvp-success-card" action="post">
+                    <h3 class="w-1-2">{{ article_name|title }}</h3>
+                    <p class="m-b-0 ">{% lorem 5 p %}</p>
+                    <button class="g-button">Mark as read</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

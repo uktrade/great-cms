@@ -13,6 +13,11 @@ urlpatterns = [
         name='dashboard'
     ),
     path(
+        'capability/<str:topic>/<str:chapter>/<str:article>/',
+        login_required(core.views.ArticleView.as_view(), login_url='/'),
+        name='dashboard'
+    ),
+    path(
         'exportplan-start/',
         core.views.ExportPlanStartView.as_view(),
         name='exportplan-start'

@@ -11,3 +11,7 @@ class ExportPlanFormStart(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['country'].choices = helpers.get_madb_country_list()
         self.fields['commodity'].choices = helpers.get_madb_commodity_list()
+
+
+class ArticleForm(forms.Form):
+	pass

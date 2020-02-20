@@ -15,3 +15,4 @@
 - MVP-125 - Store user's location
 - MVP-102 - select-commodity-code 
 - MVP-146 - Question modal
+- MVP-214 - Dummy capability article page
