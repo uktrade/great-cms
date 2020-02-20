@@ -21,6 +21,36 @@ $lighter-grey: #EFEFEF;
   text-align: right;
 }
 
+.great-mvp-small-checkbox-container {
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .multiple-choice {
+    min-height: 30px;
+  }
+
+  .multiple-choice input:disabled + label {
+    opacity: 1;
+    padding-left: 0;
+  }
+
+  .multiple-choice [type="checkbox"] + label::before,
+  .multiple-choice input, {
+    height: 28px;
+    width: 28px;
+    box-sizing: border-box;
+  }
+
+  .multiple-choice input:checked + label::after {
+    width: 14px;
+    height: 6px;
+    top: 6px;
+    left: 4px;
+  }
+}
+
+
 body {
   background-color: $lighter-grey;
 
