@@ -75,7 +75,7 @@ export default function Wizard(props){
   function handleFormSubmit() {
     const data = {
       company_name: companyName,
-      expertise_industries: industries,
+      expertise_industries: industries.map(item => item.value),
       expertise_countries: countries,
       first_name: firstName,
       last_name: lastName,
@@ -155,10 +155,12 @@ Wizard.propTypes = {
   errors: PropTypes.object,
   username: PropTypes.string,
   password: PropTypes.string,
+  industries: PropTypes.array,
 }
 
 Wizard.defaultProps = {
   errors: {},
   isInProgress: false,
   currentStep: STEP_SECTORS,
+  industries: [],
 }

@@ -21,7 +21,7 @@ def test_business_sso_login_validation_error(client, requests_mock):
 def test_business_sso_login_200_upstream(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
 
-    response = client.post(reverse('sso:business-sso-login-api'), {'username': 'test', 'password': 'password'})
+    response = client.post(reverse('sso:business-sso-login-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 400
 
@@ -30,7 +30,7 @@ def test_business_sso_login_200_upstream(client, requests_mock):
 def test_business_sso_login_302_upstream(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
 
-    response = client.post(reverse('sso:business-sso-login-api'), {'username': 'test', 'password': 'password'})
+    response = client.post(reverse('sso:business-sso-login-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 200
 
@@ -40,7 +40,7 @@ def test_business_sso_login_500_upstream(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=500)
 
     with pytest.raises(Exception):
-        client.post(reverse('sso:business-sso-login-api'), {'username': 'test', 'password': 'password'})
+        client.post(reverse('sso:business-sso-login-api'), {'email': 'test', 'password': 'password'})
 
 
 @pytest.mark.django_db
@@ -57,13 +57,13 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
     mock_create_user.return_value = {'verification_code': '12345'}
 
     url = reverse('sso:business-sso-create-user-api')
-    data = {'username': 'test@example.com', 'password': 'password'}
+    data = {'email': 'test@example.com', 'password': 'password'}
     response = client.post(url, data)
 
     assert response.status_code == 200
     assert mock_send_code.call_count == 1
     assert mock_send_code.call_args == mock.call(
-        email=data['username'],
+        email=data['email'],
         verification_code='12345',
         form_url=url,
         verification_link=f'http://testserver/?verify=test@example.com'
@@ -76,7 +76,7 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
 def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user, client):
     mock_create_user.side_effect = helpers.CreateUserException(detail={}, code=400)
 
-    response = client.post(reverse('sso:business-sso-create-user-api'), {'username': 'test', 'password': 'password'})
+    response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 400
     assert mock_send_code.call_count == 0
@@ -87,7 +87,7 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
 def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
     mock_check_verification_code.side_effect = helpers.InvalidVerificationCode(code=400)
 
-    data = {'username': 'test@example.com', 'code': '12345'}
+    data = {'email': 'test@example.com', 'code': '12345'}
 
     response = client.post(reverse('sso:business-sso-verify-code-api'), data)
 
@@ -99,13 +99,13 @@ def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
 @mock.patch.object(helpers, 'check_verification_code')
 @mock.patch.object(helpers, 'send_welcome_notificaction')
 def test_business_sso_verify_code_valid(mock_send_welcome_notificaction, mock_check_verification_code, client):
-    data = {'username': 'test@example.com', 'code': '12345'}
+    data = {'email': 'test@example.com', 'code': '12345'}
     url = reverse('sso:business-sso-verify-code-api')
 
     response = client.post(url, data)
 
     assert response.status_code == 200
     assert mock_check_verification_code.call_count == 1
-    assert mock_check_verification_code.call_args == mock.call(email=data['username'], code=data['code'])
+    assert mock_check_verification_code.call_args == mock.call(email=data['email'], code=data['code'])
     assert mock_send_welcome_notificaction.call_count == 1
-    assert mock_send_welcome_notificaction.call_args == mock.call(email=data['username'], form_url=url)
+    assert mock_send_welcome_notificaction.call_args == mock.call(email=data['email'], form_url=url)

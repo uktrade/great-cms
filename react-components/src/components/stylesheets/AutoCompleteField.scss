@@ -1,0 +1,43 @@
+$asset-root: '../../../assets/';
+
+@import 'helpers/colours';
+@import 'elements/forms/general';
+
+
+.great-mvp-field-input {
+    @extend .form-control;
+    width: 371px;
+    padding: 10px;
+    border-color: $grey;
+    height: 51px;
+    background-color: $white;
+
+    &[disabled] {
+        background-color: $light-grey;
+    }
+}
+
+.great-mvp-field-label {
+    height: 29px;
+    width: 510px;
+    color: $grey;
+    font-size: 19px;
+    line-height: 29px;
+}
+
+body .great-mvp-autocomplete-field__multi-value__remove {
+    color: $white;
+}
+
+body .great-mvp-autocomplete-field__multi-value {
+    background: $mid-grey;
+}
+
+body .great-mvp-autocomplete-field__multi-value__label {
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    color: $white;
+    font-weight: bold;
+}

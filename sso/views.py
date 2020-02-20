@@ -16,7 +16,7 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         data = {
             'password': serializer.validated_data['password'],
-            'login': serializer.validated_data['username'],
+            'login': serializer.validated_data['email'],
         }
         sso_response = requests.post(url=settings.SSO_PROXY_LOGIN_URL, data=data, allow_redirects=False)
         if sso_response.status_code == 302:
@@ -44,14 +44,14 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user_details = helpers.create_user(
-            email=serializer.validated_data['username'],
+            email=serializer.validated_data['email'],
             password=serializer.validated_data['password'],
         )
         helpers.send_verification_code_email(
-            email=serializer.validated_data['username'],
+            email=serializer.validated_data['email'],
             verification_code=user_details['verification_code'],
             form_url=self.request.path,
-            verification_link=self.get_verification_link(serializer.validated_data['username'])
+            verification_link=self.get_verification_link(serializer.validated_data['email'])
         )
         return Response(status=200)
 
@@ -69,11 +69,11 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         upstream_response = helpers.check_verification_code(
-            email=serializer.validated_data['username'],
+            email=serializer.validated_data['email'],
             code=serializer.validated_data['code'],
         )
         helpers.send_welcome_notificaction(
-            email=serializer.validated_data['username'],
+            email=serializer.validated_data['email'],
             form_url=self.request.path
         )
         return helpers.response_factory(cookie_jar=upstream_response.cookies)

@@ -7,7 +7,6 @@
 --no-binary psycopg2
 
 airtable-python-wrapper==0.12.0
-appnope==0.1.0            # via ipython
 astroid==2.3.3            # via pylint
 attrs==19.3.0             # via jsonschema, pytest
 backcall==0.1.0           # via ipython
@@ -23,7 +22,7 @@ decorator==4.4.1          # via ipython, traitlets
 directory-api-client==21.2.2
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-components==35.10.0
-directory-constants==20.10.0  # via directory-components
+directory-constants==20.11.0
 directory-forms-api-client==5.0
 directory-sso-api-client==6.2.0
 django-coverage-plugin==1.8.0

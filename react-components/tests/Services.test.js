@@ -50,7 +50,7 @@ test('createUser passes params', done => {
   // given the form submission will result in success.getDOMNodeful login
   fetchMock.post(Services.config.signupUrl, 200)
 
-  Services.createUser({username: 'example', password: 'password'})
+  Services.createUser({email: 'example', password: 'password'})
 
   fetchMock.flush().then(() => {
     const calls = fetchMock.calls()
@@ -64,7 +64,7 @@ test('createUser passes params', done => {
        'X-CSRFToken': Services.config.csrfToken,
        'X-Requested-With': 'XMLHttpRequest',
       },
-      body: '{"username":"example","password":"password"}',
+      body: '{"email":"example","password":"password"}',
     })
     done()
   })
