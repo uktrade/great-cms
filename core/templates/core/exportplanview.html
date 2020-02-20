@@ -10,18 +10,18 @@
                 </div>
             </section>
         </div>
-        {% if rules_regs %}
+        {% if rules_regulation %}
                 <table border="1">
                      <thead>
                       <tr>
-                          {% for key,value in rules_regs.items %}
+                          {% for key,value in rules_regulation.items %}
                             <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">{{ key }}</th>
                           {% endfor %}
                       </tr>
                     </thead>
                     <tbody>
                     <tr>
-                         {% for key,value in rules_regs.items %}
+                         {% for key,value in rules_regulation.items %}
                         <td class="border-white padding-top-15 padding-bottom-10">{{ value }}</td>
                         {% endfor %}
                     </tr>
