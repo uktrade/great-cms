@@ -9,6 +9,10 @@ from django.views.generic import TemplateView, FormView
 from core import forms, helpers, permissions, serializers
 
 
+class LandingPageView(TemplateView):
+    template_name = 'domestic/domestic_home_page.html'
+
+
 class ExportPlanStartView(FormView):
     template_name = 'core/exportplanstart.html'
     form_class = forms.ExportPlanFormStart
@@ -87,3 +91,20 @@ class EnrolCompanyAPIView(generics.GenericAPIView):
             }
             helpers.create_user_profile(data=user_data, sso_session_id=self.request.user.session_id)
         return Response(status=200)
+
+
+class ArticleView(FormView):
+    template_name = 'core/article.html'
+    success_url = reverse_lazy('core:dashboard')
+    form_class = forms.ArticleForm
+
+    def form_valid(self, form):
+        # TODO: store the fact the article was viewed
+        return super().form_valid(form)
+
+    def get_context_data(self):
+        return super().get_context_data(
+            topic_name=self.kwargs['topic'],
+            chapter_name=self.kwargs['chapter'],
+            article_name=self.kwargs['article']
+        )

@@ -1,4 +1,4 @@
-from directory_components import forms
+from great_components import forms
 
 from core import helpers
 
@@ -33,3 +33,7 @@ class ExportPlanForm(forms.Form):
     step_i = build_checkbox('Travel and business policies')
     step_j = build_checkbox('Busines risk')
     step_k = build_checkbox('Action plan')
+
+
+class ArticleForm(forms.Form):
+    pass

@@ -138,3 +138,52 @@ def test_api_create_company_already_has_company(mock_get_company_profile, client
     response = client.post(reverse('core:api-create-company'), enrol_data)
 
     assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_landing_page_logged_in(client, user):
+    client.force_login(user)
+
+    url = reverse('core:landing-page')
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == reverse('core:dashboard')
+
+
+@pytest.mark.django_db
+def test_landing_page_not_logged_in(client, user):
+    url = reverse('core:landing-page')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_capability_article_logged_in(client, user):
+    client.force_login(user)
+    url = reverse(
+        'core:capability-article', kwargs={'topic': 'some topic', 'chapter': 'some chapter', 'article': 'some article'}
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['topic_name'] == 'some topic'
+    assert response.context_data['chapter_name'] == 'some chapter'
+    assert response.context_data['article_name'] == 'some article'
+
+
+@pytest.mark.django_db
+def test_capability_article_not_logged_in(client):
+
+    url = reverse(
+        'core:capability-article', kwargs={'topic': 'some-topic', 'chapter': 'some-chapter', 'article': 'some-article'}
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == reverse('core:landing-page') + f'?next={url}'

@@ -8,14 +8,13 @@
 
 airtable-python-wrapper==0.12.0
 attrs==19.3.0             # via jsonschema
-beautifulsoup4==4.6.0     # via directory-components, wagtail
+beautifulsoup4==4.6.0     # via great-components, wagtail
 boto3==1.11.8
 botocore==1.14.8          # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 directory-api-client==21.2.2
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
-directory-components==35.10.0
 directory-constants==20.11.0
 directory-forms-api-client==5.0
 directory-sso-api-client==6.2.0
@@ -35,12 +34,13 @@ djangorestframework==3.9.4
 docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
 geoip2==2.9.0
+great-components==1.0.0
 gunicorn==19.5.0
 html5lib==1.0.1           # via wagtail
 idna==2.8                 # via requests
 importlib-metadata==1.4.0  # via jsonschema
 jmespath==0.9.4           # via boto3, botocore
-jsonschema==3.2.0         # via directory-components
+jsonschema==3.2.0         # via great-components
 maxminddb==1.5.2          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-client-core
