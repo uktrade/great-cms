@@ -35,7 +35,7 @@ export default function Step1(props){
 
 Step1.propTypes = {
   disabled: PropTypes.bool,
-  errors: PropTypes.array,
+  errors: PropTypes.object,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   value: PropTypes.string,

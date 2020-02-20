@@ -17,7 +17,7 @@ export default function Wizard(props){
   const [errors, setErrors] = React.useState(props.errors)
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
   const [currentStep, setCurrentStep] = React.useState(props.currentStep)
-  const [username, setUsername] = React.useState(props.username)
+  const [email, setEmail] = React.useState(props.email)
   const [password, setPassword] = React.useState(props.password)
   const [code, setCode] = React.useState('')
 
@@ -35,7 +35,7 @@ export default function Wizard(props){
   function handleStep1Submit() {
     setErrors({})
     setIsInProgress(true)
-    Services.createUser({username, password})
+    Services.createUser({email, password})
       .then(() => handleSuccess(STEP_VERIFICATION_CODE))
       .catch(handleError)
   }
@@ -43,13 +43,13 @@ export default function Wizard(props){
   function handleStep2Submit(){
     setErrors({})
     setIsInProgress(true)
-    Services.checkVerificationCode({username, code})
+    Services.checkVerificationCode({email, code})
       .then(() => handleSuccess(STEP_COMPLETE))
       .catch(handleError)
   }
 
   function handleStep3Submit() {
-    location.reload()
+    location.assign(props.nextUrl)
   }
 
   if (currentStep == STEP_CREDENTIALS) {
@@ -58,9 +58,9 @@ export default function Wizard(props){
         errors={errors}
         disabled={isInProgress}
         handleSubmit={handleStep1Submit}
-        handleUsernameChange={setUsername}
+        handleEmailChange={setEmail}
         handlePasswordChange={setPassword}
-        username={username}
+        email={email}
         password={password}
       />
     )
@@ -86,14 +86,15 @@ Wizard.propTypes = {
   currentStep: PropTypes.number,
   isInProgress: PropTypes.bool,
   errors: PropTypes.object,
-  username: PropTypes.string,
+  email: PropTypes.string,
   password: PropTypes.string,
+  nextUrl: PropTypes.string.isRequired,
 }
 
 Wizard.defaultProps = {
   errors: {},
   isInProgress: false,
   currentStep: STEP_CREDENTIALS,
-  username: '',
+  email: '',
   password: ''
 }

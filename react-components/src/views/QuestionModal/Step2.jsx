@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import Field from '@src/components/Field'
+import AutoCompleteField from '@src/components/AutoCompleteField'
 
 import './stylesheets/Step.scss'
 
@@ -12,9 +12,10 @@ export default function Step2(props){
     <div className="great-mvp-wizard-step">
       <h2 className="great-mvp-wizard-step-heading">Business details</h2>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
-        <Field
+        <AutoCompleteField
           type="text"
           label="What sectors are you interested in?"
+          choices={Services.config.industryOptions}
           name="expertise_industries"
           disabled={props.disabled}
           value={props.value}

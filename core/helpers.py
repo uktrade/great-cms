@@ -88,3 +88,65 @@ def create_user_profile(data, sso_session_id):
     response = sso_api_client.user.create_user_profile(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()
     return response
+
+
+def get_dashboard_events():
+    return [
+        {
+            'title': 'Food and drink taster visit to Bruges',
+            'description': 'Join the Department for international Trade (DIT) and Northern...',
+            'url': '#',
+            'location': 'London',
+            'date': '11 Feb 2020',
+        },
+        {
+            'title': 'Food and drink taster visit to Bruges',
+            'description': (
+                'Join the Department for international Trade (DIT) and Northern England with the great real...'
+            ),
+            'url': '#',
+            'location': 'London',
+            'date': '11 Feb 2020',
+        },
+        {
+            'title': 'Food and drink taster visit to Bruges',
+            'description': (
+                'Join the Department for international Trade (DIT) and Northern England with the great real...'
+            ),
+            'url': '#',
+            'location': 'London',
+            'date': '11 Feb 2020',
+        }
+    ]
+
+
+def get_dashboard_export_opportunities():
+    return [
+        {
+            'title': 'Jordan - Healthy foods',
+            'description': '',
+            'provider': 'OpenOpps',
+            'provider_image': '/path/to/shamrock',
+            'url': '#',
+            'published_data': '11 Feb 2020',
+            'closing_data': '11 March 2020',
+        },
+        {
+            'title': 'Jordan - Healthy foods',
+            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'provider': '',
+            'provider_image': '',
+            'url': '#',
+            'published_data': '11 Feb 2020',
+            'closing_data': '11 March 2020',
+        },
+        {
+            'title': 'Jordan - Healthy foods',
+            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'provider': '',
+            'provider_image': '',
+            'url': '#',
+            'published_data': '11 Feb 2020',
+            'closing_data': '11 March 2020',
+        }
+    ]

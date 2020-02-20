@@ -62,6 +62,7 @@ export function Modal(props){
           currentStep={props.currentStep}
           username={props.username}
           handleClose={handleClose}
+          nextUrl={props.nextUrl}
         />
       </ReactModal>
     </div>
@@ -72,6 +73,7 @@ Modal.propTypes = {
   isOpen: PropTypes.bool,
   currentStep: PropTypes.number,
   username: PropTypes.string,
+  nextUrl: PropTypes.string.isRequired,
 }
 
 Modal.defaultProps = {

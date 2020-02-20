@@ -1,9 +1,10 @@
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView
-
+from directory_constants import choices
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, FormView
 
 from core import forms, helpers, permissions, serializers
 
@@ -11,7 +12,7 @@ from core import forms, helpers, permissions, serializers
 class ExportPlanStartView(FormView):
     template_name = 'core/exportplanstart.html'
     form_class = forms.ExportPlanFormStart
-    success_url = reverse_lazy('core:exportplan-start')
+    success_url = reverse_lazy('core:exportplan-view')
 
     def get_initial(self):
         return {
@@ -22,7 +23,7 @@ class ExportPlanStartView(FormView):
     def get_context_data(self, **kwargs):
         rules_regulation = None
         if self.request.GET.get('country'):
-            rules_regulation = helpers.get_rules_and_regulations(self.request.GET.get('country'))
+            rules_regulation = helpers.get_rules_and_regulations(self.request.GET['country'])
         return super().get_context_data(rules_regulation=rules_regulation, **kwargs)
 
     def form_valid(self, form):
@@ -32,10 +33,6 @@ class ExportPlanStartView(FormView):
             exportplan_data=self.serialize_exportplan_data(rules_regulation)
         )
         return super().form_valid(form)
-
-    def get_success_url(self):
-        if self.request.method == 'POST':
-            return reverse_lazy('core:exportplan-view')
 
     def serialize_exportplan_data(self, exportplan_data):
         return {
@@ -55,6 +52,14 @@ class ExportPlanView(TemplateView):
 
 class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
+            events=helpers.get_dashboard_events(),
+            export_opportunities=helpers.get_dashboard_export_opportunities(),
+            **kwargs,
+        )
 
 
 class EnrolCompanyAPIView(generics.GenericAPIView):

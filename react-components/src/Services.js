@@ -17,13 +17,13 @@ const post = function(url, data) {
 }
 
 
-const createUser = function({username, password}) {
-  return post(config.signupUrl, {username, password}).then(responseHandler)
+const createUser = function({email, password}) {
+  return post(config.signupUrl, {email, password}).then(responseHandler)
 }
 
 
-const checkVerificationCode = function({ username, code}) {
-  return post(config.verifyCodeUrl, {username, code}).then(responseHandler)
+const checkVerificationCode = function({ email, code}) {
+  return post(config.verifyCodeUrl, {email, code}).then(responseHandler)
 }
 
 const checkCredentials = function({ username, password }) {
@@ -62,6 +62,7 @@ const setConfig = function({
   googleUrl,
   termsUrl,
   enrolCompanyUrl,
+  industryOptions,
 }) {
   config.loginUrl = loginUrl
   config.signupUrl = signupUrl
@@ -71,6 +72,7 @@ const setConfig = function({
   config.googleUrl = googleUrl
   config.termsUrl = termsUrl
   config.enrolCompanyUrl = enrolCompanyUrl
+  config.industryOptions = industryOptions
 }
 
 export default {

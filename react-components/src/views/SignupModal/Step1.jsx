@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import Field from '@src/components/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
-import VerticalSeparator from '@src/components/VerticalSeparator'
 
 import './stylesheets/Step1.scss'
 
@@ -18,17 +17,21 @@ export default function Step1(props){
         <a href="#">Log in</a>
       </p>
       <SocialLoginButtons />
-      <VerticalSeparator />
+      <div className='great-mvp-vertical-separator'>
+        <hr/>
+        <span>or</span>
+        <hr/>
+      </div>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <Field
           type="text"
           placeholder="Email address"
-          name="username"
+          name="email"
           disabled={props.disabled}
-          value={props.username}
-          handleChange={props.handleUsernameChange}
+          value={props.email}
+          handleChange={props.handleEmailChange}
           autofocus={true}
-          errors={props.errors.username || []}
+          errors={props.errors.email || []}
         />
         <Field
           type="password"
@@ -43,7 +46,7 @@ export default function Step1(props){
         <input
           type="submit"
           value="Sign up"
-          className="g-button great-mvp-submit great-mvp-button"
+          className="great-mvp-wizard-step-submit"
           disabled={props.disabled}
         />
       </form>
@@ -56,14 +59,14 @@ Step1.propTypes = {
   errors: PropTypes.array,
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  handleUsernameChange: PropTypes.func.isRequired,
+  handleEmailChange: PropTypes.func.isRequired,
   password: PropTypes.string,
-  username: PropTypes.string,
+  email: PropTypes.string,
 }
 
 Step1.defaultProps = {
   disabled: false,
   errors: [],
   password: '',
-  username: '',
+  email: '',
 }

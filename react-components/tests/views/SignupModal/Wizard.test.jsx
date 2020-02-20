@@ -37,7 +37,7 @@ afterEach(() => {
 })
 
 const defaultProps = {
-  username: 'username',
+  email: 'email',
   password: 'password',
   handleClose: function () {},
   handleLoginOpen: function () {},
@@ -46,20 +46,20 @@ const defaultProps = {
 
 describe('SignupWizard', () => {
 
-  const { reload } = window.location
+  const { assign } = window.location
 
   beforeEach(() => {
     delete window.location
-    window.location = { reload: jest.fn() }
+    window.location = { assign: jest.fn() }
   })
 
   afterEach(() => {
-    window.location.reload = reload
+    window.location.assign = assign
   })
 
   test('bad credentials results in errors passed down', done => {
     // given the credentials are incorrect
-    const errors = {'username': ['An error occured']}
+    const errors = {'email': ['An error occured']}
     Services.createUser.mockImplementation(() => Promise.reject(errors))
 
     const component = mount(<Wizard {...defaultProps} />)
@@ -74,7 +74,7 @@ describe('SignupWizard', () => {
       expect(component.containsMatchingElement(
         <Step1
           disabled={false}
-          username='username'
+          email='email'
           password='password'
           errors={errors}
         />
@@ -108,7 +108,7 @@ describe('SignupWizard', () => {
 
   test('incorrect verification code results in errors passed down', done => {
     // given the credentials are incorrect
-    const errors = {'username': ['An error occured']}
+    const errors = {'email': ['An error occured']}
     Services.checkVerificationCode.mockImplementation(() => Promise.reject(errors))
     const props = {...defaultProps, currentStep: STEP_VERIFICATION_CODE}
     const component = mount(<Wizard {...props} />)
@@ -149,7 +149,7 @@ describe('SignupWizard', () => {
 
   })
 
-  test('submitting final step results in page reload', () => {
+  test('submitting final step results in page assign', () => {
     // given the credentials are correct
     const props = {...defaultProps, currentStep: STEP_COMPLETE}
     const component = mount(<Wizard {...props} />)
@@ -158,7 +158,7 @@ describe('SignupWizard', () => {
       component.find(Success).prop('handleSubmit')()
     })
 
-    expect(location.reload).toHaveBeenCalled()
+    expect(location.assign).toHaveBeenCalled()
 
   })
 

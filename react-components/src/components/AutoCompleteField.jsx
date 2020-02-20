@@ -2,22 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ErrorList from './ErrorList'
+import Select from 'react-select'
 
-import './stylesheets/Field.scss'
+import './stylesheets/AutoCompleteField.scss'
 
 
-export default function Field(props){
+export default function AutoCompleteField(props){
 
   const id_for_label = `id_${props.name}`
 
-  function handleChange(event) {
-    props.handleChange(event.target.value)
+  function handleChange(values, { action, removedValue }) {
+    props.handleChange(values)
   }
 
   function getLabel() {
     if (props.label) {
       return (
-        <label htmlFor={id_for_label} className="great-mvp-field-label">{props.label}</label>
+        <label htmlFor={id_for_label} className='great-mvp-field-label'>{props.label}</label>
       )
     }
   }
@@ -26,23 +27,26 @@ export default function Field(props){
     <div>
       {getLabel()}
       <ErrorList errors={props.errors || []} />
-      <input
-        autoFocus={props.autofocus}
-        className="great-mvp-field-input"
-        disabled={props.disabled}
+      <Select
         id={id_for_label}
+        options={props.choices}
+        isMulti={true}
+        isClearable={true}
         name={props.name}
         onChange={handleChange}
-        placeholder={props.placeholder}
-        type={props.type}
         value={props.value}
+        autoFocus={props.autofocus}
+        className='great-mvp-autocomplete-field'
+        classNamePrefix='great-mvp-autocomplete-field'
+        disabled={props.disabled}
+        placeholder={props.placeholder}
       />
     </div>
   )
 }
   
 
-Field.propTypes = {
+AutoCompleteField.propTypes = {
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -53,7 +57,7 @@ Field.propTypes = {
   errors: PropTypes.array,
 }
 
-Field.defaultProps = {
+AutoCompleteField.defaultProps = {
   autofocus: false,
   disabled: false,
   errors: [],
