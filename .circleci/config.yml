@@ -60,6 +60,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
+            mkdir results
             LOCUST_FILE=tests/load/test_mvp.py make test_load
       - store_test_results:
           path: ~/greatcms/results
