@@ -5,6 +5,7 @@
 Werkzeug
 allure-pytest
 pillow
+locustio
 pytest
 pytest-bdd
 pytest-cov
