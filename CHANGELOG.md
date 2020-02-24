@@ -16,3 +16,4 @@
 - MVP-102 - select-commodity-code 
 - MVP-146 - Question modal
 - MVP-214 - Dummy capability article page
+- MVP-228 - custom duties url

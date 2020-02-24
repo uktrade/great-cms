@@ -195,3 +195,8 @@ def test_create_user_profile_failure(mock_create_user_profile, user, rf):
 
     with pytest.raises(HTTPError):
         helpers.create_user_profile(data=data, sso_session_id='123')
+
+
+def test_get_custom_duties_url():
+    url = helpers.get_custom_duties_url(product_code='8424.10', country='CN')
+    assert url == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=CN&pc=8424.10'

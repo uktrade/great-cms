@@ -150,3 +150,7 @@ def get_dashboard_export_opportunities():
             'closing_data': '11 March 2020',
         }
     ]
+
+
+def get_custom_duties_url(product_code, country):
+    return f'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d={country}&pc={product_code}'
