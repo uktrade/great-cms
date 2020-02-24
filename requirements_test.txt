@@ -119,7 +119,7 @@ selenium==3.141.0         # via pytest-splinter, splinter
 sentry-sdk==0.13.5
 sigauth==4.1.1            # via directory-client-core
 six==1.14.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, django-coverage-plugin, django-extensions, django-pglocks, geventhttpclient-wheels, html5lib, jsonschema, locustio, mohawk, packaging, parse-type, pip-tools, pyrsistent, pytest-bdd, python-dateutil, requests-mock, splinter, traitlets, w3lib, wagtail
-splinter==0.13.0          # via pytest-splinter
+splinter==0.13.0
 sqlparse==0.3.0           # via django, django-debug-toolbar
 termcolor==1.1.0          # via pytest-sugar
 text-unidecode==1.3       # via faker

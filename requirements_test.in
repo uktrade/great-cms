@@ -5,6 +5,7 @@
 Werkzeug
 allure-pytest
 pillow
+splinter
 locustio
 pytest
 pytest-bdd
