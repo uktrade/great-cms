@@ -23,7 +23,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=html
+            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=html --ignore=tests/load
             codecov
 
   test_load:
