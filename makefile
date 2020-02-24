@@ -24,6 +24,24 @@ check_migrations:
 webserver:
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
 
+LOCUST := \
+	locust \
+		--locustfile $$LOCUST_FILE \
+		--clients=$$NUM_CLIENTS \
+		--hatch-rate=$$HATCH_RATE \
+		--only-summary \
+		--no-web \
+		--csv=./results/results \
+		--run-time=$$RUN_TIME
+
+PKILL_WEBSERVER := \
+    pkill -f runserver_plus
+
+test_load:
+	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 &
+	sleep 5
+	$(LOCUST) && $(PKILL_WEBSERVER) || $(PKILL_WEBSERVER)
+
 requirements:
 	pip-compile -r --annotate requirements.in
 	pip-compile -r --annotate requirements_test.in
@@ -43,4 +61,4 @@ database:
 	PGPASSWORD=debug createdb -h localhost -U debug greatcms
 
 
-.PHONY: clean pytest flake8 manage webserver requirements install_requirements css worker secrets check_migrations database
+.PHONY: clean pytest test_load dflake8 manage webserver requirements install_requirements css worker secrets check_migrations database
