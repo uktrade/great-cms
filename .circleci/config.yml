@@ -30,6 +30,7 @@ jobs:
     working_directory: ~/greatcms
     docker:
       - image: circleci/python:3.6.6
+        name: greatcms.trade.great
       - image: circleci/postgres:9.6.2-alpine
         environment:
           POSTGRES_USER: root
@@ -41,10 +42,6 @@ jobs:
       NUM_CLIENTS: 10
     steps:
       - checkout
-      - run:
-          name: add entry to etc hosts
-          command: |
-            sudo echo "127.0.0.1   greatcms.trade.great" >> /etc/hosts
       - run:
           name: Create virtualenv and install dependencies
           command: |
