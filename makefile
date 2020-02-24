@@ -38,7 +38,7 @@ PKILL_WEBSERVER := \
     pkill -f runserver_plus
 
 test_load:
-	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 &
+	ENV_FILES='test,dev' python manage.py runserver_plus 0.0.0.0:8020 &
 	sleep 5
 	$(LOCUST) && $(PKILL_WEBSERVER) || $(PKILL_WEBSERVER)
 

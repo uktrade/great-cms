@@ -54,6 +54,7 @@ jobs:
       - run:
           name: Database Setup
           command: |
+            make secrets
             make database
             make manage migrate
       - run:
