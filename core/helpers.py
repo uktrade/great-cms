@@ -6,6 +6,7 @@ from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
+from django.conf import settings
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
@@ -150,3 +151,7 @@ def get_dashboard_export_opportunities():
             'closing_data': '11 March 2020',
         }
     ]
+
+
+def get_custom_duties_url(product_code, country):
+    return f'{settings.MADB_URL}/summary?d={country}&pc={product_code}'
