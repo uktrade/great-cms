@@ -55,6 +55,7 @@ jobs:
       - run:
           name: Database Setup
           command: |
+            . venv/bin/activate
             make secrets
             make database
             make manage migrate
