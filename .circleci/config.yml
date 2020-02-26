@@ -63,7 +63,7 @@ jobs:
           command: |
             . venv/bin/activate
             mkdir results
-            LOCUST_FILE=tests/load/test_mvp.py make test_load
+            LOCUST_FILE=tests/load/mvp_home.py make test_load
       - store_test_results:
           path: ./results
 
