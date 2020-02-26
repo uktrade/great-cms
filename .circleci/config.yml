@@ -58,7 +58,7 @@ jobs:
             . venv/bin/activate
             make secrets
             make database
-            make manage migrate
+            ENV_FILES='test,dev' ./manage.py migrate
       - run:
           name: Run tests
           command: |
