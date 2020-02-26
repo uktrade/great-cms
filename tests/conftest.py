@@ -111,7 +111,7 @@ def mock_user_location_create():
 
 @pytest.fixture(scope='session')
 def browser():
-    browser = Browser()
+    browser = Browser('chrome', headless=True)
     yield browser
     browser.quit()
 
