@@ -47,7 +47,7 @@ requirements:
 	pip-compile -r --annotate requirements_test.in
 
 install_requirements:
-	pip install -r requirements_test.txt
+	pip install -q -r requirements_test.txt
 
 css:
 	./node_modules/.bin/gulp sass
