@@ -35,7 +35,7 @@ jobs:
         environment:
           POSTGRES_USER: debug
           POSTGRES_PASSWORD: debug
-          POSTGRES_DB: test_greatcms
+          POSTGRES_DB: greatcms
       - image: circleci/redis:5.0.7-alpine
     environment:
       HATCH_RATE: 2
