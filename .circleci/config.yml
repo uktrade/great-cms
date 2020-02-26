@@ -33,7 +33,8 @@ jobs:
         name: greatcms.trade.great
       - image: circleci/postgres:9.6.16-alpine-ram
         environment:
-          POSTGRES_USER: root
+          POSTGRES_USER: debug
+          POSTGRES_PASSWORD: debug
           POSTGRES_DB: test_greatcms
       - image: circleci/redis:5.0.7-alpine
     environment:
