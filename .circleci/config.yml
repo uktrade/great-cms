@@ -31,7 +31,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.6
         name: greatcms.trade.great
-      - image: circleci/postgres:9.6.2-alpine
+      - image: circleci/postgres:9.6.16-alpine-ram
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: test_greatcms
@@ -40,8 +40,11 @@ jobs:
       HATCH_RATE: 2
       RUN_TIME: 30s
       NUM_CLIENTS: 10
+      TEST_DATABASE_URL: postgresql://root@localhost/test_greatcms
     steps:
       - checkout
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client-9.6
       - run:
           name: Create virtualenv and install dependencies
           command: |
