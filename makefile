@@ -34,13 +34,14 @@ LOCUST := \
 		--csv=./results/results \
 		--run-time=$$RUN_TIME
 
-PKILL_WEBSERVER := \
-    pkill -f runserver_plus
+kill_webserver := \
+	pkill -f runserver_plus
 
 test_load:
 	ENV_FILES='test,dev' python manage.py runserver_plus 0.0.0.0:8020 &
 	sleep 5
-	$(LOCUST) && $(PKILL_WEBSERVER) || $(PKILL_WEBSERVER)
+	$(LOCUST)
+	-$(kill_webserver)
 
 requirements:
 	pip-compile -r --annotate requirements.in
