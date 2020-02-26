@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .sass-cache/
+venv/
 .venv/
 staticfiles
 BrowserStackLocal
@@ -47,6 +48,8 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+results/
+cms-test-db.db
 
 # Django stuff:
 *.log
