@@ -30,7 +30,6 @@ jobs:
     working_directory: ~/greatcms
     docker:
       - image: circleci/python:3.6.6-browsers
-        name: greatcms.trade.great
       - image: circleci/postgres:9.6.16-alpine-ram
         environment:
           POSTGRES_USER: debug

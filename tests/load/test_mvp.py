@@ -10,6 +10,6 @@ class MVPTasks(TaskSet):
 
 
 class MVP(HttpLocust):
-    host = "http://greatcms.trade.great:8020"
+    host = "http://localhost:8020"
     task_set = MVPTasks
     wait_time = between(1, 2)
