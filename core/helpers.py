@@ -8,6 +8,8 @@ from ipware import get_client_ip
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
 
+from .serializers import parse_opportunities, parse_events
+
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
 
@@ -91,66 +93,20 @@ def create_user_profile(data, sso_session_id):
     return response
 
 
-def get_dashboard_events():
-    return [
-        {
-            'title': 'Food and drink taster visit to Bruges',
-            'description': 'Join the Department for international Trade (DIT) and Northern...',
-            'url': '#',
-            'location': 'London',
-            'date': '11 Feb 2020',
-        },
-        {
-            'title': 'Food and drink taster visit to Bruges',
-            'description': (
-                'Join the Department for international Trade (DIT) and Northern England with the great real...'
-            ),
-            'url': '#',
-            'location': 'London',
-            'date': '11 Feb 2020',
-        },
-        {
-            'title': 'Food and drink taster visit to Bruges',
-            'description': (
-                'Join the Department for international Trade (DIT) and Northern England with the great real...'
-            ),
-            'url': '#',
-            'location': 'London',
-            'date': '11 Feb 2020',
-        }
-    ]
+def get_dashboard_events(sso_session_id):
+    results = api_client.personalisation.events_by_location_list(sso_session_id)
+    if (results.status_code == 200):
+        return parse_events(results.json()['results'])
+    else:
+        return []
 
 
-def get_dashboard_export_opportunities():
-    return [
-        {
-            'title': 'Jordan - Healthy foods',
-            'description': '',
-            'provider': 'OpenOpps',
-            'provider_image': '/path/to/shamrock',
-            'url': '#',
-            'published_data': '11 Feb 2020',
-            'closing_data': '11 March 2020',
-        },
-        {
-            'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
-            'provider': '',
-            'provider_image': '',
-            'url': '#',
-            'published_data': '11 Feb 2020',
-            'closing_data': '11 March 2020',
-        },
-        {
-            'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
-            'provider': '',
-            'provider_image': '',
-            'url': '#',
-            'published_data': '11 Feb 2020',
-            'closing_data': '11 March 2020',
-        }
-    ]
+def get_dashboard_export_opportunities(sso_session_id):
+    results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id)
+    if (results.status_code == 200):
+        return parse_opportunities(results.json()['results'])
+    else:
+        return []
 
 
 def get_custom_duties_url(product_code, country):

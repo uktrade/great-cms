@@ -1,4 +1,5 @@
 from unittest import mock
+from unittest.mock import patch, Mock
 import json
 
 import pytest
@@ -159,6 +160,69 @@ def test_landing_page_not_logged_in(client, user):
     response = client.get(url)
 
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_dashboard_apis_ok(client, user):
+
+    with patch(
+        'directory_api_client.api_client.personalisation.events_by_location_list'
+    ) as events_api_results:
+        events_api_results.return_value = Mock(status_code=200, **{'json.return_value': {
+            'results': [{
+                'name': 'Global Aid and Development Directory',
+                'content': 'DIT is producing a directory of companies \
+who supply, or would like to supply, relevant humanitarian aid \
+and development products and services to the United Nations \
+family of organisations and NGOs.  ',
+                'location': {'city': 'London'},
+                'url': 'www.example.com',
+                'date': '2020-06-06'
+            }]}})
+
+        with patch(
+            'directory_api_client.api_client.\
+personalisation.export_opportunities_by_relevance_list'
+        ) as exops_api_results:
+            exops_api_results.return_value = Mock(status_code=200, **{'json.return_value': {
+                'results': [{'title': 'French sardines required',
+                             'url': 'http://exops.trade.great:3001/\
+export-opportunities/opportunities/french-sardines-required',
+                             'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
+                             'published_date': '2020-01-14T15:26:45.334Z',
+                             'closing_date': '2020-06-06',
+                             'source': 'post'}]
+            }})
+
+            client.force_login(user)
+
+            url = reverse('core:dashboard')
+
+            response = client.get(url)
+
+            assert response.status_code == 200
+            assert response.context_data['events'] == [{
+                'title': 'Global Aid and Development Directory',
+                'description': 'DIT is producing a directory of compani…',
+                'url': 'www.example.com',
+                'location': 'London',
+                'date': '06 Jun 2020'
+            }]
+            assert response.context_data['export_opportunities'] == [{
+                'title': 'French sardines required',
+                'description': 'Nam dolor nostrum distinctio.…',
+                'source': 'post',
+                'url': 'http://exops.trade.great:3001/export-opportunities\
+/opportunities/french-sardines-required',
+                'published_date': '14 Jan 2020',
+                'closing_date': '06 Jun 2020'
+            }]
+
+
+# TODO
+@pytest.mark.django_db
+def test_dashboard_apis_fail(client, user):
+    pass
 
 
 @pytest.mark.django_db

@@ -58,11 +58,13 @@ class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
 
     def get_context_data(self, **kwargs):
+        # hashed_uuid = self.request.user.hashed_uuid
+        hashed_uuid = 'fbvrul199tcomaomt49xm7qcaid4ss0z'  # WT Local hashed_uuid as sign-in not functioning?
         return super().get_context_data(
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(),
-            export_opportunities=helpers.get_dashboard_export_opportunities(),
+            events=helpers.get_dashboard_events(hashed_uuid),
+            export_opportunities=helpers.get_dashboard_export_opportunities(hashed_uuid),
             **kwargs,
         )
 

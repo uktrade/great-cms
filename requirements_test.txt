@@ -7,6 +7,7 @@
 --no-binary psycopg2
 
 airtable-python-wrapper==0.12.0
+appnope==0.1.0            # via ipython
 astroid==2.3.3            # via pylint
 attrs==19.3.0             # via jsonschema, pytest
 backcall==0.1.0           # via ipython
@@ -19,7 +20,7 @@ click==7.0                # via pip-tools
 codecov==2.0.15
 coverage==5.0.3           # via codecov, django-coverage-plugin, pytest-cov
 decorator==4.4.1          # via ipython, traitlets
-directory-api-client==21.2.2
+directory-api-client==21.3.0
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0
 directory-forms-api-client==5.0
@@ -59,6 +60,7 @@ jedi==0.15.2              # via ipython
 jmespath==0.9.4           # via boto3, botocore
 jsonschema==3.2.0         # via great-components
 lazy-object-proxy==1.4.3  # via astroid
+markdown2==2.3.8
 maxminddb==1.5.2          # via geoip2
 mccabe==0.6.1             # via flake8, pylint
 mohawk==0.3.4             # via sigauth

@@ -16,7 +16,7 @@
                 {% if request.user.is_authenticated %}
                     <li><a href="#"><img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a></li>
                     <li><a href="#"><img class="great-mvp-header-icon" src="{% static 'images/user-icon.png' %}" /></a></li>
-                    <li class="name-greet"><a href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
+                    <li class="name-greet"><a href="#">Hello {{ request.user.first_name|default:"friend" }}</a></li>
                     <li><a href="#" class="great-mvp-header-link">Dashboard</a></li>
                 {% else %}
                     <li><a href="#" id="header-sign-up-link">Sign up</a></li>
