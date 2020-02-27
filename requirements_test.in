@@ -5,13 +5,12 @@
 Werkzeug
 allure-pytest
 pillow
-splinter
+selenium
 locustio
 pytest
 pytest-bdd
 pytest-cov
 pytest-django
-pytest-splinter
 pytest-sugar
 wagtail-factories
 django-debug-toolbar
