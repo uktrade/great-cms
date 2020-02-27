@@ -14,6 +14,7 @@ flake8:
 	--exclude=.venv,venv,node_modules,migrations \
 	--max-line-length=120
 
+.PHONY: "manage migrate"
 manage:
 	ENV_FILES='secrets-do-not-commit,dev' ./manage.py $(ARGUMENTS)
 
@@ -65,4 +66,4 @@ database:
 	PGPASSWORD=debug createdb -h localhost -U debug greatcms
 
 
-.PHONY: clean pytest test_load dflake8 manage webserver requirements install_requirements css worker secrets check_migrations database
+.PHONY: clean pytest test_load dflake8 manage migrate webserver requirements install_requirements css worker secrets check_migrations database
