@@ -86,7 +86,8 @@ jobs:
             . venv/bin/activate
             make secrets
             make database
-            ENV_FILES='test,dev' ./manage.py migrate
+            make manage migrate
+            make css
       - run:
           name: Run tests
           command: |
