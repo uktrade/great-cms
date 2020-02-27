@@ -49,6 +49,7 @@ coverage.xml
 *,cover
 .hypothesis/
 results/
+allure_results/
 cms-test-db.db
 
 # Django stuff:

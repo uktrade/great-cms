@@ -23,8 +23,19 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=html --ignore='./venv/'
+            make pytest -- \
+            --cov=. \
+            --cov-config=.coveragerc \
+            --cov-report=html \
+            --junit-xml=./results/pytest_report.xml \
+            --alluredir=allure_results \
+            --ignore='./venv/'
             codecov
+      - store_test_results:
+          path: ./results/
+      - store_artifacts:
+          path: ./allure_results/
+          destination: allure_results
 
   test_load:
     working_directory: ~/greatcms
@@ -63,9 +74,10 @@ jobs:
           command: |
             . venv/bin/activate
             mkdir results
-            LOCUST_FILE=tests/load/mvp_home.py make test_load
-      - store_test_results:
-          path: ./results
+            make test_load
+      - store_artifacts:
+          path: ./results/
+          destination: locust_results
 
   test_javascript:
     docker:
