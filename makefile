@@ -34,7 +34,6 @@ LOCUST := \
 		--clients=$(NUM_CLIENTS) \
 		--hatch-rate=$(HATCH_RATE) \
 		--run-time=$(RUN_TIME) \
-		--only-summary \
 		--no-web \
 		--csv=./results/results
 
