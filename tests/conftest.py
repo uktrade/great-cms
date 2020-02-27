@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from wagtail.core.models import Page
 from wagtail_factories import SiteFactory, PageFactory
 
-from tests.domestic import factories
+from tests.unit.domestic import factories
 from tests.helpers import create_response
 from core.helpers import Airtable
 from sso.models import BusinessSSOUser

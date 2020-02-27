@@ -1,7 +1,7 @@
 import pytest
 
 from domestic.models import DomesticHomePage
-from tests.domestic import factories
+from tests.unit.domestic import factories
 
 
 @pytest.mark.django_db
