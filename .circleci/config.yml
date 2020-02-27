@@ -28,7 +28,7 @@ jobs:
             --cov-config=.coveragerc \
             --cov-report=html \
             --junit-xml=./results/pytest_report.xml \
-            --alluredir=./allure_results \
+            --alluredir=./allure_results/ \
             --ignore='./venv/'
             codecov
       - store_test_results:
@@ -40,14 +40,16 @@ jobs:
             wget https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -O allure.zip
             unzip -q allure.zip
             find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
+            rm allure.zip
       - run:
           name: Generate Allure report
           when: always
           command: |
-            export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
-            export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
             pwd
             ls -la
+            ls -la ./allure/
+            export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+            export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
             echo Allure
             allure --version
             allure generate --clean --output ./allure_report ./allure_results/
