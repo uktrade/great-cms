@@ -1,8 +1,9 @@
 from unittest import mock
 
-from directory_api_client import api_client
 import pytest
-from splinter import Browser
+from directory_api_client import api_client
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from wagtail.core.models import Page
 from wagtail_factories import SiteFactory, PageFactory
 
@@ -111,7 +112,9 @@ def mock_user_location_create():
 
 @pytest.fixture(scope='session')
 def browser():
-    browser = Browser('chrome', headless=True)
+    options = Options()
+    options.add_argument("--headless")
+    browser = webdriver.Chrome(options=options)
     yield browser
     browser.quit()
 
@@ -127,7 +130,7 @@ def base_url(live_server):
 
 @pytest.fixture
 def visit_home_page(browser, base_url, request, domestic_site):
-    browser.visit(base_url)
+    browser.get(base_url)
     return browser
 
 
