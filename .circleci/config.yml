@@ -44,6 +44,10 @@ jobs:
           name: Generate Allure report
           when: always
           command: |
+            echo ${JAVA_HOME}
+            echo ${PATH}
+            which javac
+            java -version
             export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
             export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
             allure --version
