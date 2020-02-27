@@ -28,7 +28,7 @@ jobs:
             --cov-config=.coveragerc \
             --cov-report=html \
             --junit-xml=./results/pytest_report.xml \
-            --alluredir=allure_results \
+            --alluredir=./allure_results \
             --ignore='./venv/'
             codecov
       - store_test_results:
@@ -48,7 +48,7 @@ jobs:
             export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
             echo Allure
             allure --version
-            allure generate --clean --output ./allure_report allure_results/
+            allure generate --clean --output ./allure_report ./allure_results/
       - store_artifacts:
           path: ./allure_report/
           destination: allure_report
