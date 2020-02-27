@@ -47,6 +47,7 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make pytest -- --last-failed` | Run the last tests to fail |
 | make pytest -- -k foo         | Run the test called foo |
 | make pytest -- <foo>          | Run arbitrary pytest command |
+| make test_load                | Run load tests |
 | make flake8                   | Run linting |
 | make manage <foo>             | Run arbitrary management command |
 | make webserver                | Run the development web server |
@@ -117,6 +118,25 @@ AUTHBROKER_CLIENT_SECRET
 ```
 
 Speak to webops or a team mate for the above values.
+
+
+## Load tests
+
+We're using [locust](https://locust.io/) to run load tests against local instance of 
+the service.
+
+To run them with default settings use:
+```bash
+make test_load
+```
+This target, will spawn a local instance of the service and tear it down after tests 
+are finished.
+
+
+You can control the execution with env vars:
+```bash
+LOCUST_FILE=tests/load/mvp_home.py NUM_CLIENTS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
+```
 
 
 ## Helpful links
