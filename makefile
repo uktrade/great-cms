@@ -24,15 +24,19 @@ check_migrations:
 webserver:
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
 
+LOCUST_FILE?=tests/load/mvp_home.py
+NUM_CLIENTS?=10
+HATCH_RATE?=2
+RUN_TIME?=30s
 LOCUST := \
 	locust \
-		--locustfile $$LOCUST_FILE \
-		--clients=$$NUM_CLIENTS \
-		--hatch-rate=$$HATCH_RATE \
+		--locustfile $(LOCUST_FILE) \
+		--clients=$(NUM_CLIENTS) \
+		--hatch-rate=$(HATCH_RATE) \
+		--run-time=$(RUN_TIME) \
 		--only-summary \
 		--no-web \
-		--csv=./results/results \
-		--run-time=$$RUN_TIME
+		--csv=./results/results
 
 kill_webserver := \
 	pkill -f runserver_plus
