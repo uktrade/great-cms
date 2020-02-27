@@ -74,6 +74,8 @@ jobs:
           command: |
             . venv/bin/activate
             mkdir results
+            pwd
+            ls -la
             make test_load
       - store_artifacts:
           path: ./results/
