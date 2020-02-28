@@ -10,6 +10,14 @@ jobs:
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - run:
+          name: Install Allure CLI
+          when: always
+          command: |
+            wget https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -O allure.zip
+            unzip -q allure.zip
+            find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
+            rm allure.zip
+      - run:
           name: Create virtualenv and install dependencies
           command: |
             python3 -m venv venv
@@ -34,25 +42,11 @@ jobs:
       - store_test_results:
           path: ./results/
       - run:
-          name: Install Allure CLI
-          when: always
-          command: |
-            wget https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -O allure.zip
-            unzip -q allure.zip
-            find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
-            rm allure.zip
-      - run:
           name: Generate Allure report
           when: always
           command: |
-            pwd
-            ls -la
-            ls -la ./allure/
             export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
             export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
-            echo ${JAVA_HOME}
-            echo ${PATH}
-            echo Allure
             ./allure/bin/allure generate --clean --output ./allure_report ./allure_results/
       - store_artifacts:
           path: ./allure_report/
