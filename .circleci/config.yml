@@ -47,7 +47,7 @@ jobs:
           command: |
             export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
             export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
-            ./allure/bin/allure generate --clean --output ./allure_report ./allure_results/
+            allure generate --clean --output ./allure_report ./allure_results/
       - store_artifacts:
           path: ./allure_report/
           destination: allure_report
