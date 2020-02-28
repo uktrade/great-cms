@@ -1,5 +1,3 @@
-import pytest
-
 from domestic.models import DomesticHomePage
 from tests.unit.domestic import factories
 
