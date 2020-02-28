@@ -97,8 +97,8 @@ jobs:
             . venv/bin/activate
             make secrets
             make database
-            make manage migrate
-            make manage bootstrap_great
+            make ARGUMENTS=migrate manage
+            make ARGUMENTS=bootstrap_great manage
       - run:
           name: Run tests
           command: |
