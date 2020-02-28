@@ -2,13 +2,18 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/python:3.6.6-browsers
+      - image: circleci/python:3.6.6-node-browsers
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - run:
+          name: Install moxci to send CircleCI notifacations to Slack
+          when: always
+          command: |
+            sudo npm install -g moxci@0.1.3
       - run:
           name: Install Allure CLI
           when: always
@@ -51,6 +56,14 @@ jobs:
       - store_artifacts:
           path: ./allure_report/
           destination: allure_report
+      - run:
+          name: Push Allure report link to Slack with moxci
+          when: always
+          command: |
+            set -e
+            export CIRCLE_PULL_REQUEST="${CIRCLE_PULL_REQUEST:-none}"
+            export SUMMARY="$(./parse_test_summary_json.py allure_report/widgets/summary.json)"
+            moxci allure_report/index.html --slack_message "The latest report from Great CMS unit tests (PR: ${CIRCLE_PULL_REQUEST}). ${SUMMARY}"
 
   test_load:
     working_directory: ~/greatcms
