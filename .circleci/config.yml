@@ -79,7 +79,7 @@ jobs:
       HATCH_RATE: 2
       RUN_TIME: 30s
       NUM_CLIENTS: 10
-      TEST_DATABASE_URL: postgresql://root@localhost/test_greatcms
+      DATABASE_URL: postgresql://debug:debug@localhost/greatcms
     steps:
       - checkout
       - run: sudo apt-get update
