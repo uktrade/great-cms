@@ -20,11 +20,11 @@
 
 
 ### Requirements
-[Python 3.6](https://www.python.org/downloads/release/python-368/)
 
-[Postgres 10](https://www.postgresql.org/)
-
-[Redis](https://redis.io/)
+* [Python 3.6](https://www.python.org/downloads/release/python-368/)
+* [Postgres 10](https://www.postgresql.org/)
+* [Redis](https://redis.io/)
+* Any [browser based on Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) and [Chrome driver](https://chromedriver.chromium.org/)
 
 ### Install virtualenv
 
@@ -62,6 +62,12 @@ Secrets such as API keys and environment specific configurations are placed in `
     $ make database
 
 `make database` drops then recreates the local database.
+
+### Setting up the Chrome Driver
+
+1. Download `Chrome driver` from the official site https://chromedriver.chromium.org/
+2. Place the binary on you `PATH`
+
 
 ### Getting started
     
@@ -123,7 +129,8 @@ Speak to webops or a team mate for the above values.
 ## Load tests
 
 We're using [locust](https://locust.io/) to run load tests against local instance of 
-the service.
+the service and in-memory SQLite.  
+See Django [database documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases) for more details.
 
 To run them with default settings use:
 ```bash
