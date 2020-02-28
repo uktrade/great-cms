@@ -50,9 +50,10 @@ jobs:
             ls -la ./allure/
             export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
             export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
+            echo ${JAVA_HOME}
+            echo ${PATH}
             echo Allure
-            allure --version
-            allure generate --clean --output ./allure_report ./allure_results/
+            ./allure/bin/allure generate --clean --output ./allure_report ./allure_results/
       - store_artifacts:
           path: ./allure_report/
           destination: allure_report
