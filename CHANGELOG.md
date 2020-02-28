@@ -17,5 +17,7 @@
 - MVP-146 - Question modal
 - MVP-214 - Dummy capability article page
 - MVP-228 - add custom duties url
-- MVP-144 - add load & browser tests
+- MVP-138 - add example browser and load tests
+- MVP-144 - add example BDD browser tests
+- no ticket - move tests to dedicated folders: browser, load & unit
 
