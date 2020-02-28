@@ -16,15 +16,15 @@
     $ cd directory-cms
     $ [create and activate virtual environment]
     $ make install_requirements
-    $ make manage migrate
+    $ make ARGUMENTS=migrate manage
 
 
 ### Requirements
-[Python 3.6](https://www.python.org/downloads/release/python-368/)
 
-[Postgres 10](https://www.postgresql.org/)
-
-[Redis](https://redis.io/)
+* [Python 3.6](https://www.python.org/downloads/release/python-368/)
+* [Postgres 10](https://www.postgresql.org/)
+* [Redis](https://redis.io/)
+* Any [browser based on Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) and [Chrome driver](https://chromedriver.chromium.org/)
 
 ### Install virtualenv
 
@@ -47,6 +47,7 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make pytest -- --last-failed` | Run the last tests to fail |
 | make pytest -- -k foo         | Run the test called foo |
 | make pytest -- <foo>          | Run arbitrary pytest command |
+| make test_load                | Run load tests |
 | make flake8                   | Run linting |
 | make manage <foo>             | Run arbitrary management command |
 | make webserver                | Run the development web server |
@@ -62,9 +63,15 @@ Secrets such as API keys and environment specific configurations are placed in `
 
 `make database` drops then recreates the local database.
 
+### Setting up the Chrome Driver
+
+1. Download `Chrome driver` from the official site https://chromedriver.chromium.org/
+2. Place the binary on you `PATH`
+
+
 ### Getting started
     
-    $ make manage bootstrap_great
+    $ make ARGUMENTS=bootstrap_great manage
     
  It creates the Great domestic empty homepage and assigns it to the site root.
  It also creates a superuser `test` with password `password`, for local development.
@@ -117,6 +124,26 @@ AUTHBROKER_CLIENT_SECRET
 ```
 
 Speak to webops or a team mate for the above values.
+
+
+## Load tests
+
+We're using [locust](https://locust.io/) to run load tests against local instance of 
+the service and in-memory SQLite.  
+See Django [database documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases) for more details.
+
+To run them with default settings use:
+```bash
+make test_load
+```
+This target, will spawn a local instance of the service and tear it down after tests 
+are finished.
+
+
+You can control the execution with env vars:
+```bash
+LOCUST_FILE=tests/load/mvp_home.py NUM_CLIENTS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
+```
 
 
 ## Helpful links
