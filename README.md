@@ -16,7 +16,7 @@
     $ cd directory-cms
     $ [create and activate virtual environment]
     $ make install_requirements
-    $ make manage migrate
+    $ make ARGUMENTS=migrate manage
 
 
 ### Requirements
@@ -65,7 +65,7 @@ Secrets such as API keys and environment specific configurations are placed in `
 
 ### Getting started
     
-    $ make manage bootstrap_great
+    $ make ARGUMENTS=bootstrap_great manage
     
  It creates the Great domestic empty homepage and assigns it to the site root.
  It also creates a superuser `test` with password `password`, for local development.
