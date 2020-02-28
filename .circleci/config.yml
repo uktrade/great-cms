@@ -89,15 +89,16 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
+            pip install --upgrade pip
             make install_requirements
       - run:
-          name: Database Setup
+          name: Database and UI Setup
           command: |
             . venv/bin/activate
             make secrets
             make database
             make manage migrate
-            make css
+            make manage bootstrap_great
       - run:
           name: Run tests
           command: |
