@@ -69,21 +69,12 @@ jobs:
     working_directory: ~/greatcms
     docker:
       - image: circleci/python:3.6.6
-      - image: circleci/postgres:9.6.16-alpine-ram
-        environment:
-          POSTGRES_USER: debug
-          POSTGRES_PASSWORD: debug
-          POSTGRES_DB: greatcms
-      - image: circleci/redis:5.0.7-alpine
     environment:
+      NUM_CLIENTS: 10
       HATCH_RATE: 2
       RUN_TIME: 30s
-      NUM_CLIENTS: 10
-      DATABASE_URL: postgresql://debug:debug@localhost/greatcms
     steps:
       - checkout
-      - run: sudo apt-get update
-      - run: sudo apt-get install postgresql-client-9.6
       - run:
           name: Create virtualenv and install dependencies
           command: |
@@ -96,9 +87,8 @@ jobs:
           command: |
             . venv/bin/activate
             make secrets
-            make database
-            make ARGUMENTS=migrate manage
-            make ARGUMENTS=bootstrap_great manage
+            ENV_FILES='test,dev' ./manage.py migrate
+            ENV_FILES='test,dev' ./manage.py bootstrap_great
       - run:
           name: Run tests
           command: |
