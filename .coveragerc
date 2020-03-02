@@ -14,6 +14,7 @@ omit =
     node_modules/*
     javascript/*
     static/*
+    parse_test_summary_json.py
 
 plugins =
     django_coverage_plugin
