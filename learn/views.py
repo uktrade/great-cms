@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.middleware.csrf import get_token
-from django_common.http import JsonResponse
+from django.http import JsonResponse
 from learn.models import Lesson
 from learn.forms import LessonForm
 
@@ -16,11 +16,12 @@ def lesson_list(request, template='lesson/list.html'):
                 'id': item.id,
                 'name': str(item),
                 'form': LessonForm().as_p(),
-                'token': get_token(request)
+                'token': get_token(request),
+                'success': 'true'
             })
         else:
             d['form'] = form
-            return JsonResponse(data={'form': d['form'].as_p(), 'token': get_token(request)}, success=False)
+            return JsonResponse(data={'form': d['form'].as_p(), 'token': get_token(request)})
     d['lesson_list'] = Lesson.objects.all()
     return render(request, template, d)
 
@@ -33,10 +34,14 @@ def lesson_details(request, id, template='lesson/details.html'):
         form = LessonForm(request.POST, instance=item)
         if form.is_valid():
             item = form.save()
-            return JsonResponse(data={'form': LessonForm(instance=item).as_p(), 'token': get_token(request)})
+            return JsonResponse(data={
+                'form': LessonForm(instance=item).as_p(),
+                'token': get_token(request),
+                'success': 'true'
+            })
         else:
             d['form'] = form
-            return JsonResponse(data={'form': d['form'].as_p(), 'token': get_token(request)}, success=False)
+            return JsonResponse(data={'form': d['form'].as_p(), 'token': get_token(request)})
     d['lesson'] = Lesson.objects.get(pk=id)
     return render(request, template, d)
 
@@ -44,4 +49,4 @@ def lesson_details(request, id, template='lesson/details.html'):
 def lesson_delete(request, id):
     item = Lesson.objects.get(pk=id)
     item.delete()
-    return JsonResponse()
+    return JsonResponse({'success': 'true'})
