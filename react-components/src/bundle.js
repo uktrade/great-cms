@@ -1,5 +1,4 @@
-import '../../core/sass/base.scss'
-import 'great-styles/src/great-styles.scss'
+import '../../core/sass/main.scss'
 
 import SignupModal from '@src/views/SignupModal/Modal'
 import QuestionModal from '@src/views/QuestionModal/Modal'
