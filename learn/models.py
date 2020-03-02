@@ -14,7 +14,7 @@ class Topic(models.Model):
 
 
 class Lesson(models.Model):
-    
+
     description = models.TextField()
     topic = models.ForeignKey(
         Topic,

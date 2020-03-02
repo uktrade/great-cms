@@ -1,7 +1,7 @@
 from django import forms
 
-
 from learn.models import Lesson
+
 
 class LessonForm(forms.ModelForm):
 

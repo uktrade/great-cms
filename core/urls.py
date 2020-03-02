@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
-from django.conf.urls import url
 
 import core.views
 from learn import views as learn_views
@@ -55,5 +54,3 @@ urlpatterns += [
     path('lesson/<int:id>/', learn_views.lesson_details, name='lesson_details'),
     path('lesson/<int:id>/delete/', learn_views.lesson_delete, name='lesson_delete'),
 ]
-
-

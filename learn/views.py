@@ -1,9 +1,4 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
-from django.contrib.auth.models import User, Group
+from django.shortcuts import render, get_object_or_404
 from django.middleware.csrf import get_token
 from django_common.http import JsonResponse
 from learn.models import Lesson
@@ -17,7 +12,12 @@ def lesson_list(request, template='lesson/list.html'):
         form = LessonForm(request.POST)
         if form.is_valid():
             item = form.save()
-            return JsonResponse(data={'id': item.id, 'name': str(item), 'form': LessonForm().as_p(), 'token': get_token(request)})
+            return JsonResponse(data={
+                'id': item.id,
+                'name': str(item),
+                'form': LessonForm().as_p(),
+                'token': get_token(request)
+            })
         else:
             d['form'] = form
             return JsonResponse(data={'form': d['form'].as_p(), 'token': get_token(request)}, success=False)

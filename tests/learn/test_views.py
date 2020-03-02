@@ -12,7 +12,7 @@ class LessonTest(TestCase):
 
     def test_lesson_crud(self):
         # Create new instance
-        response = self.client.post(reverse('core:lesson_list'), { 'description': 'Test', 'position': '1' })
+        response = self.client.post(reverse('core:lesson_list'), {'description': 'Test', 'position': '1'})
         self.assertContains(response, '"success": true')
 
         # Read instance
@@ -25,8 +25,8 @@ class LessonTest(TestCase):
 
         # Update instance
         response = self.client.post(
-            reverse('core:lesson_details',kwargs={'id': item.id}),
-            { 'description': 'Test 2', 'position': '2' }
+            reverse('core:lesson_details', kwargs={'id': item.id}),
+            {'description': 'Test 2', 'position': '2'}
         )
         self.assertContains(response, '"success": true')
 
@@ -35,4 +35,3 @@ class LessonTest(TestCase):
         self.assertContains(response, '"success": true')
         items = Lesson.objects.all()
         self.failUnlessEqual(items.count(), 0)
-
