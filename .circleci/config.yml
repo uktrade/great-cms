@@ -2,13 +2,26 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/python:3.6.6
+      - image: circleci/python:3.6.6-node-browsers
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - run:
+          name: Install moxci to send CircleCI notifacations to Slack
+          when: always
+          command: |
+            sudo npm install -g moxci@0.1.3
+      - run:
+          name: Install Allure CLI
+          when: always
+          command: |
+            wget https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -O allure.zip
+            unzip -q allure.zip
+            find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
+            rm allure.zip
       - run:
           name: Create virtualenv and install dependencies
           command: |
@@ -23,8 +36,68 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=html
+            make pytest -- \
+            --cov=. \
+            --cov-config=.coveragerc \
+            --cov-report=html \
+            --junit-xml=./results/pytest_report.xml \
+            --alluredir=./allure_results/ \
+            --ignore='./venv/'
             codecov
+      - store_test_results:
+          path: ./results/
+      - run:
+          name: Generate Allure report
+          when: always
+          command: |
+            export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+            export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
+            allure generate --clean --output ./allure_report ./allure_results/
+      - store_artifacts:
+          path: ./allure_report/
+          destination: allure_report
+      - run:
+          name: Push Allure report link to Slack with moxci
+          when: always
+          command: |
+            set -e
+            export CIRCLE_PULL_REQUEST="${CIRCLE_PULL_REQUEST:-none}"
+            export SUMMARY="$(./parse_test_summary_json.py allure_report/widgets/summary.json)"
+            moxci allure_report/index.html --slack_message "The latest report from Great CMS unit tests (PR: ${CIRCLE_PULL_REQUEST}). ${SUMMARY}"
+
+  test_load:
+    working_directory: ~/greatcms
+    docker:
+      - image: circleci/python:3.6.6
+    environment:
+      NUM_CLIENTS: 10
+      HATCH_RATE: 2
+      RUN_TIME: 30s
+    steps:
+      - checkout
+      - run:
+          name: Create virtualenv and install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            make install_requirements
+      - run:
+          name: Database and UI Setup
+          command: |
+            . venv/bin/activate
+            make secrets
+            ENV_FILES='test,dev' ./manage.py migrate
+            ENV_FILES='test,dev' ./manage.py bootstrap_great
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            mkdir results
+            make test_load
+      - store_artifacts:
+          path: ./results/
+          destination: locust_results
 
   test_javascript:
     docker:
@@ -56,6 +129,7 @@ jobs:
         command: |
           python3 -m venv venv
           . venv/bin/activate
+          pip install --upgrade pip
           pip install flake8
           flake8
 
@@ -65,4 +139,5 @@ workflows:
     jobs:
       - test
       - test_javascript
+      - test_load
       - flake8

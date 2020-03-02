@@ -3,7 +3,12 @@
 # Testing
 # ------------
 Werkzeug
+allure-pytest
+pillow
+selenium
+locustio
 pytest
+pytest-bdd
 pytest-cov
 pytest-django
 pytest-sugar
