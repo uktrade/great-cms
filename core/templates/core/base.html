@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block head_js %}
-    {{ block.super }}
-    <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script> 
+  {{ block.super }}
+    <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
 {% endblock %}
 
 {% block body_header %}
@@ -19,19 +19,21 @@
 
 
 {% block body_content_container %}
-    <div id="content" tabindex="-1" class="container">
-        <main role="main" class="c-full">
-            {% block content %}{% endblock %}
-        </main>
-    </div>
+  <main id="content" class="{% block css_layout_class %}{% endblock %}">
+      {% block content %}{% endblock %}
+  </main>
 {% endblock %}
 
 {% block cookie_notice %}{% endblock %}
 
-{% block body_footer %}{% endblock %}
+{% block body_footer %}
+  <div class="bg-stone p-v-l">
+    &nbsp;
+  </div>
+{% endblock %}
 
 {% block body_js %}
-    {{ block.super }}
+  {{ block.super }}
     {% if not request.user.is_authenticated %}
     <script type="text/javascript">
         var element = document.getElementById("header-sign-up-link")

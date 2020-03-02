@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'sso',
     'core',
     'domestic',
+    'exportplan',
     'users.apps.UsersConfig'
 ]
 
