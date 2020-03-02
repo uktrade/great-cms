@@ -24,6 +24,7 @@ django-filter==2.2.0
 django-ipware==2.1.0
 django-modelcluster==5.0.1  # via wagtail
 django-pglocks==1.0.4
+django-positions==0.6.0
 django-redis==4.10.0
 django-staff-sso-client==1.0.1
 django-storages[boto3]==1.8

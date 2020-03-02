@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'sso',
     'core',
     'domestic',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'learn.apps.LearnConfig'
 ]
 
 MIDDLEWARE = [

@@ -7,6 +7,7 @@
 --no-binary psycopg2
 
 airtable-python-wrapper==0.12.0
+appnope==0.1.0            # via ipython
 astroid==2.3.3            # via pylint
 attrs==19.3.0             # via jsonschema, pytest
 backcall==0.1.0           # via ipython
@@ -32,6 +33,7 @@ django-filter==2.2.0
 django-ipware==2.1.0
 django-modelcluster==5.0.1  # via wagtail
 django-pglocks==1.0.4
+django-positions==0.6.0
 django-redis==4.10.0
 django-staff-sso-client==1.0.1
 django-storages[boto3]==1.8

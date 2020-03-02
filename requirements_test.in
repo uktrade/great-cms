@@ -20,7 +20,3 @@ beautifulsoup4
 flake8
 pylint-django
 codecov
-
-
-
-
