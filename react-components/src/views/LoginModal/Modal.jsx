@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 
 import Wizard from './Wizard'
+import Services from '@src/Services'
 
 import './stylesheets/Modal.scss'
 
@@ -18,9 +19,9 @@ const modalStyles = {
     right: 'auto',
     textAlign: 'center',
     top: '50%',
+    transform: 'translate(20%, 0)',
     top: 75,
     width: 430,
-    inset: '75px auto auto 17%',
   },
   overlay: {
     zIndex: 1000,
@@ -36,46 +37,20 @@ export function Modal(props){
     setIsOpen(true)
   }
 
-  function handleClose(event){
-    event.preventDefault()
-    setIsOpen(false)
-  }
-
-  function getCloseButton() {
-    if (props.preventClose) {
-      return <div className="m-t-l">&nbsp;</div>
-    } else {
-      return (
-        <a
-          href="#"
-          className="link great-mvp-close"
-          onClick={handleClose} >Close
-        </a>
-      )
-    }
-  }
-
   return (
     <div className='great-mvp-signup-modal'>
       <a
         id='header-sign-in-link'
         onClick={handleOpen}
         className='account-link signin'
-        href='#'
+        href={Services.config.dashboardUrl}
       >Sign up</a>
       <ReactModal
         isOpen={isOpen}
-        onRequestClose={!props.preventClose && handleClose}
         style={modalStyles}
         contentLabel="Modal"
       >
-        {getCloseButton()}
-        <Wizard
-          currentStep={props.currentStep}
-          username={props.username}
-          handleClose={handleClose}
-          nextUrl={props.nextUrl}
-        />
+        <Wizard nextUrl={props.nextUrl} />
       </ReactModal>
     </div>
   )
@@ -83,16 +58,11 @@ export function Modal(props){
 
 Modal.propTypes = {
   isOpen: PropTypes.bool,
-  currentStep: PropTypes.number,
-  username: PropTypes.string,
   nextUrl: PropTypes.string.isRequired,
-  preventClose: PropTypes.bool,
 }
 
 Modal.defaultProps = {
   isOpen: false,
-  username: '',
-  preventClose: false,
 }
 
 export default function createModal({ element, ...params }) {

@@ -20,7 +20,7 @@
 
 {% block body_content_container %}
     <div id="content" tabindex="-1" class="container">
-        <main role="main">
+        <main role="main" class="c-full">
             {% block content %}{% endblock %}
         </main>
     </div>
@@ -37,13 +37,14 @@
         var element = document.getElementById("header-sign-up-link")
         if (element) {
             ditMVP.setConfig({
-                loginUrl: '{% url "sso:business-sso-login-api" %}',
-                signupUrl: '{% url "sso:business-sso-create-user-api" %}',
+                apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
                 verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
                 csrfToken: '{{ csrf_token }}',
                 linkedInUrl: '{{ signup_modal.linkedin_url }}',
                 googleUrl: '{{ signup_modal.google_url }}',
-                termsUrl: '{{ signup_modal.terms_url }}'
+                termsUrl: '{{ signup_modal.terms_url }}',
+                loginUrl: '{% url "core:login" %}',
+                dashboardUrl: '{% url "core:dashboard" %}'
             })
 
             {% if 'verify' in request.GET %}
@@ -59,7 +60,8 @@
                 currentStep: step,
                 isOpen: true,
                 username: username,
-                nextUrl: '{% url "core:dashboard" %}'
+                nextUrl: '{% url "core:dashboard" %}',
+                preventClose: true
             })
         }
     </script>

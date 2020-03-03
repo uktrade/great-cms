@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import Field from '@src/components/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
+import ErrorList from '@src/components/ErrorList'
 
 import './stylesheets/Step1.scss'
 
@@ -11,18 +12,9 @@ import './stylesheets/Step1.scss'
 export default function Step1(props){
   return (
     <div className='great-mvp-signup-wizard-step-1'>
-      <h2 className="h-xl">Sign up</h2>
-      <p className="body-text great-mvp-synopsis">
-        <span>It's easier to sign up now and save your progress, already have an account? </span>
-        <a href={Services.config.loginUrl}>Log in</a>
-      </p>
-      <SocialLoginButtons />
-      <div className='great-mvp-vertical-separator'>
-        <hr/>
-        <span>or</span>
-        <hr/>
-      </div>
+      <h2 className="h-xl m-t-l">Log in</h2>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
+        <ErrorList errors={props.errors.__all__ || []} className="m-b-s" />
         <Field
           type="text"
           placeholder="Email address"
@@ -42,21 +34,30 @@ export default function Step1(props){
           handleChange={props.handlePasswordChange}
           errors={props.errors.password || []}
         />
-        <p className='great-mvp-terms'>By clicking Sign up, you accept the <a href={Services.config.termsUrl} target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
         <input
           type="submit"
-          value="Sign up"
+          value="Log in"
           className="great-mvp-wizard-step-submit"
           disabled={props.disabled}
         />
-      </form>
+        <p><a href={Services.config.passwordResetUrl}>Forgotten password?</a></p>
+      </form>          
+
+      <div className='great-mvp-vertical-separator'>
+        <hr/>
+        <span>or</span>
+        <hr/>
+      </div>
+
+      <SocialLoginButtons />
+      <p>Do not have an account? <a href={Services.config.dashboardUrl}>Sign up</a></p>
     </div>
   )
 }
 
 Step1.propTypes = {
   disabled: PropTypes.bool,
-  errors: PropTypes.array,
+  errors: PropTypes.object,
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleEmailChange: PropTypes.func.isRequired,
@@ -66,7 +67,7 @@ Step1.propTypes = {
 
 Step1.defaultProps = {
   disabled: false,
-  errors: [],
+  errors: {},
   password: '',
   email: '',
 }
