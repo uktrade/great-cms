@@ -9,8 +9,8 @@
 airtable-python-wrapper==0.12.0
 attrs==19.3.0             # via jsonschema
 beautifulsoup4==4.6.0     # via great-components, wagtail
-boto3==1.11.8
-botocore==1.14.8          # via boto3, s3transfer
+boto3==1.11.17
+botocore==1.14.17         # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 directory-api-client==21.2.2
@@ -19,7 +19,7 @@ directory-constants==20.11.0
 directory-forms-api-client==5.0
 directory-sso-api-client==6.2.0
 django-environ==0.4.5
-django-extensions==2.2.6
+django-extensions==2.2.8
 django-filter==2.2.0
 django-ipware==2.1.0
 django-modelcluster==5.0.1  # via wagtail
@@ -38,29 +38,28 @@ geoip2==2.9.0
 great-components==1.0.0
 gunicorn==19.5.0
 html5lib==1.0.1           # via wagtail
-idna==2.8                 # via requests
-importlib-metadata==1.4.0  # via jsonschema
+idna==2.9                 # via requests
+importlib-metadata==1.5.0  # via jsonschema
 iso3166==1.0.1
-jmespath==0.9.4           # via boto3, botocore
+jmespath==0.9.5           # via boto3, botocore
 jsonschema==3.2.0         # via great-components
 maxminddb==1.5.2          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-client-core
-more-itertools==8.1.0     # via zipp
 oauthlib==3.1.0           # via requests-oauthlib
 pillow==6.2.2             # via wagtail
 psycopg2==2.8.4
 pyrsistent==0.15.7        # via jsonschema
 python-dateutil==2.8.1    # via botocore, freezegun
 pytz==2019.3              # via django, django-modelcluster, wagtail
-redis==3.3.11             # via django-redis
+redis==3.4.1              # via django-redis
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.22.0          # via airtable-python-wrapper, directory-api-client, directory-client-core, geoip2, requests-oauthlib, wagtail
-s3transfer==0.3.2         # via boto3
+requests==2.23.0          # via airtable-python-wrapper, directory-api-client, directory-client-core, geoip2, requests-oauthlib, wagtail
+s3transfer==0.3.3         # via boto3
 sentry-sdk==0.13.5
 sigauth==4.1.1            # via directory-client-core
 six==1.14.0               # via airtable-python-wrapper, django-extensions, django-pglocks, html5lib, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib, wagtail
-sqlparse==0.3.0           # via django
+sqlparse==0.3.1           # via django
 unidecode==1.1.1          # via wagtail
 urllib3==1.25.8           # via botocore, requests, sentry-sdk
 w3lib==1.21.0             # via directory-client-core
@@ -68,7 +67,7 @@ wagtail==2.7.1
 webencodings==0.5.1       # via html5lib
 whitenoise==4.1.4
 willow==1.3               # via wagtail
-zipp==2.0.1               # via importlib-metadata
+zipp==3.0.0               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
