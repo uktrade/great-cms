@@ -39,7 +39,12 @@ urlpatterns = [
     path(
         'exportplan-create/',
         core.views.ExportPlanView.as_view(),
-        name='exportplan-view'
+        name='exportplan'
+    ),
+    path(
+        'login/',
+        anonymous_user_required(core.views.LoginView.as_view()),
+        name='login'
     ),
     path(
         'api/create-company/',

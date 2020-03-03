@@ -11,6 +11,8 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
     serializer_class = serializers.SSOBusinessUserSerializer
     permission_classes = []
 
+    MESSAGE_INVALID_CREDENTIALS = 'Incorrect username or password'
+
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -24,7 +26,7 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
             return helpers.response_factory(cookie_jar=sso_response.cookies)
         elif sso_response.status_code == 200:
             # 200 from sso indicate the credentials were not correct
-            return Response(status=400)
+            return Response(data={'__all__': [self.MESSAGE_INVALID_CREDENTIALS]}, status=400)
         sso_response.raise_for_status()
 
 

@@ -1,5 +1,4 @@
 const MESSAGE_UNEXPECTED_ERROR = {'__all__': ['Unexpected Error']}
-const MESSAGE_INCORRECT_CREDENTIALS = {'__all__': ['Incorrect username or password']}
 const MESSAGE_PERMISSION_DENIED = {'__all__': ['You do not have permission to perform this action']}
 
 
@@ -18,7 +17,7 @@ const post = function(url, data) {
 
 
 const createUser = function({email, password}) {
-  return post(config.signupUrl, {email, password}).then(responseHandler)
+  return post(config.apiSignupUrl, {email, password}).then(responseHandler)
 }
 
 
@@ -26,14 +25,8 @@ const checkVerificationCode = function({ email, code}) {
   return post(config.verifyCodeUrl, {email, code}).then(responseHandler)
 }
 
-const checkCredentials = function({ username, password }) {
-  return post(config.loginUrl, {username, password}).then(response => {
-    if (response.status == 400) {
-      throw MESSAGE_INCORRECT_CREDENTIALS
-    } else {
-      return responseHandler(response)
-    }
-  })
+const checkCredentials = function({ email, password }) {
+  return post(config.apiLoginUrl, {email, password}).then(responseHandler)
 }
 
 const enrolCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
@@ -54,8 +47,8 @@ const responseHandler = function(response) {
 // static values that will not change during execution of the code
 let config = {}
 const setConfig = function({
-  loginUrl,
-  signupUrl,
+  apiLoginUrl,
+  apiSignupUrl,
   verifyCodeUrl,
   csrfToken,
   linkedInUrl,
@@ -63,9 +56,12 @@ const setConfig = function({
   termsUrl,
   enrolCompanyUrl,
   industryOptions,
+  dashboardUrl,
+  loginUrl,
+  passwordResetUrl,
 }) {
-  config.loginUrl = loginUrl
-  config.signupUrl = signupUrl
+  config.apiLoginUrl = apiLoginUrl
+  config.apiSignupUrl = apiSignupUrl
   config.verifyCodeUrl = verifyCodeUrl
   config.csrfToken = csrfToken
   config.linkedInUrl = linkedInUrl
@@ -73,6 +69,9 @@ const setConfig = function({
   config.termsUrl = termsUrl
   config.enrolCompanyUrl = enrolCompanyUrl
   config.industryOptions = industryOptions
+  config.dashboardUrl = dashboardUrl
+  config.loginUrl = loginUrl
+  config.passwordResetUrl = passwordResetUrl
 }
 
 export default {
@@ -84,6 +83,6 @@ export default {
   config,
   messages: {
     MESSAGE_UNEXPECTED_ERROR,
-    MESSAGE_INCORRECT_CREDENTIALS,
+    MESSAGE_PERMISSION_DENIED,
   }
 }
