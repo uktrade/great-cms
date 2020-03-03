@@ -1,3 +1,10 @@
+# I100 Imported names are in the wrong order
+# I101 Imported names are in the wrong order
+# I201 Missing newline between import groups
+# I202 Additional newline in a group of imports
+
 [flake8]
 exclude=.venv,venv,**migrations**,node_modules
 max-line-length=120
+max-complexity = 7
+ignore = I100, I101, I201, I202
