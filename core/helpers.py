@@ -1,5 +1,4 @@
 from logging import getLogger
-from datetime import datetime
 import pytz
 
 from airtable import Airtable
@@ -162,17 +161,10 @@ def get_custom_duties_url(product_code, country):
 
 def country_code_iso3_to_iso2(iso3_country_code):
     if countries_by_alpha3.get(iso3_country_code):
-        return countries_by_alpha3['CHN'].alpha2
+        return countries_by_alpha3[iso3_country_code].alpha2
 
 
-def get_local_time(country_code):
-    local_time = {}
-    format = '%Y-%m-%d %H:%M %Z%z'
+def get_timezone(country_code):
     iso3_country_code = country_code_iso3_to_iso2(country_code)
-    if iso3_country_code and pytz.country_timezones('CN'):
-        local_time['timezone'] = pytz.country_timezones('CN')[0]
-        country_timezone = pytz.timezone(local_time["timezone"])
-        utc_dt = datetime.now(pytz.utc)
-        loc_dt = utc_dt.astimezone(country_timezone)
-        local_time['local_time'] = loc_dt.strftime(format)
-    return local_time
+    if iso3_country_code and pytz.country_timezones(iso3_country_code):
+        return pytz.country_timezones(iso3_country_code)[0]
