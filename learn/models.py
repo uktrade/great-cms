@@ -6,6 +6,7 @@ from django.db import models
 
 
 class TopicPage(Page):
+    parent_page_types = ['domestic.DomesticHomePage']
 
     description = models.TextField()
 

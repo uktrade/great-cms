@@ -7,7 +7,7 @@ clean:
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
-	pytest tests/unit $(ARGUMENTS)
+	pytest $(ARGUMENTS)
 
 flake8:
 	flake8 . \
