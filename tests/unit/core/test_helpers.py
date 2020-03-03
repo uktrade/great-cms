@@ -19,7 +19,7 @@ def mock_airtable_search():
                     'Country': 'India',
                     'Export Duty': 1.5,
                 },
-         },
+        },
     ]
     patch = mock.patch.object(helpers.Airtable, 'search', return_value=airtable_data)
     yield patch.start()
@@ -200,3 +200,19 @@ def test_create_user_profile_failure(mock_create_user_profile, user, rf):
 def test_get_custom_duties_url():
     url = helpers.get_custom_duties_url(product_code='8424.10', country='CN')
     assert url == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=CN&pc=8424.10'
+
+
+def test_country_code_iso3_to_iso2():
+    assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
+
+
+def test_country_code_iso3_to_iso2_not_found():
+    assert helpers.country_code_iso3_to_iso2('XNY') is None
+
+
+def test_get_timezone():
+    assert helpers.get_timezone('CHN') == 'Asia/Shanghai'
+
+
+def test_get_local_time_not_found():
+    assert helpers.get_timezone('XS') is None
