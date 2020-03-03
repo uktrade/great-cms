@@ -19,7 +19,7 @@ def mock_airtable_search():
                     'Country': 'India',
                     'Export Duty': 1.5,
                 },
-         },
+        },
     ]
     patch = mock.patch.object(helpers.Airtable, 'search', return_value=airtable_data)
     yield patch.start()

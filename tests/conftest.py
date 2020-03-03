@@ -85,7 +85,7 @@ def mock_airtable_rules_regs():
                     'Commodity code': '2208.50.12',
                     'Commodity Name': 'Gin and Geneva 2l'
                 },
-         },
+        },
         {
             'id': '2',
             'fields':
@@ -113,12 +113,12 @@ def mock_user_location_create():
 @pytest.fixture(scope='session')
 def browser():
     options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--window-size=1600x2200")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--start-maximized")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--no-sandbox")
+    options.add_argument('--headless')
+    options.add_argument('--window-size=1600x2200')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--start-maximized')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--no-sandbox')
     browser = webdriver.Chrome(options=options)
     yield browser
     browser.quit()
@@ -143,7 +143,7 @@ def pytest_bdd_apply_tag(tag, function):
     """Force pytest-bdd to work with pytest-django.
     See: https://github.com/pytest-dev/pytest-bdd/issues/215
     """
-    if tag == "django_db":
+    if tag == 'django_db':
         marker = pytest.mark.django_db(transaction=True)
         marker(function)
         return True

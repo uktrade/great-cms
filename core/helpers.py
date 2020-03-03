@@ -136,7 +136,7 @@ def get_dashboard_export_opportunities():
         },
         {
             'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'description': "A company is looking for healthy food and snacks to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
@@ -145,7 +145,7 @@ def get_dashboard_export_opportunities():
         },
         {
             'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'description': "A company is looking for healthy food and snacks to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
