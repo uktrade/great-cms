@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 
 import core.views
-from learn import views as learn_views
 
 app_name = 'core'
 
@@ -47,10 +46,4 @@ urlpatterns = [
         core.views.EnrolCompanyAPIView.as_view(),
         name='api-create-company'
     ),
-]
-
-urlpatterns += [
-    path('lessons/', learn_views.lesson_list, name='lesson_list'),
-    path('lesson/<int:id>/', learn_views.lesson_details, name='lesson_details'),
-    path('lesson/<int:id>/delete/', learn_views.lesson_delete, name='lesson_delete'),
 ]

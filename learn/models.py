@@ -1,29 +1,25 @@
+from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.core.models import Page, Orderable
+
 from django.db import models
 
-from positions import PositionField
 
-
-class Topic(models.Model):
+class TopicPage(Page):
 
     description = models.TextField()
-    update_date = models.DateTimeField(auto_now=True)
-    create_date = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        ordering = ['-id']
+    content_panels = Page.content_panels + [
+        FieldPanel('description'),
+        InlinePanel('lessons', label='Lessons'),
+    ]
 
 
-class Lesson(models.Model):
+class LessonPage(Orderable):
 
     description = models.TextField()
-    topic = models.ForeignKey(
-        Topic,
-        models.SET_NULL,
-        blank=True,
-        null=True,)
-    position = PositionField(collection='topic')
-    update_date = models.DateTimeField(auto_now=True)
-    create_date = models.DateTimeField(auto_now_add=True)
+    page = ParentalKey(TopicPage, on_delete=models.CASCADE, related_name='lessons')
 
-    class Meta:
-        ordering = ['-id']
+    panels = [
+        FieldPanel('description'),
+    ]

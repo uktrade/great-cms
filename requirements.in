@@ -35,4 +35,3 @@ psycopg2==2.8.* --no-binary psycopg2
 boto3==1.11.*
 geoip2==2.9.*
 airtable-python-wrapper==0.12.*
-django-positions==0.6.0
