@@ -9,26 +9,13 @@
 airtable-python-wrapper==0.12.0  # via -r requirements.in (line 37)
 attrs==19.3.0             # via jsonschema
 beautifulsoup4==4.6.0     # via great-components, wagtail
-<<<<<<< HEAD
-boto3==1.11.17
 botocore==1.14.17         # via boto3, s3transfer
-=======
 boto3==1.11.8             # via -r requirements.in (line 35), django-storages
-botocore==1.14.8          # via boto3, s3transfer
->>>>>>> develop
+botocore==1.14.17         # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 directory-api-client==21.2.2  # via -r requirements.in (line 26)
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
-<<<<<<< HEAD
-directory-constants==20.11.0
-directory-forms-api-client==5.0
-directory-sso-api-client==6.2.0
-django-environ==0.4.5
-django-extensions==2.2.8
-django-filter==2.2.0
-django-ipware==2.1.0
-=======
 directory-constants==20.11.0  # via -r requirements.in (line 28), great-components
 directory-forms-api-client==5.0  # via -r requirements.in (line 29)
 directory-sso-api-client==6.2.0  # via -r requirements.in (line 30)
@@ -36,7 +23,6 @@ django-environ==0.4.5     # via -r requirements.in (line 4)
 django-extensions==2.2.6  # via -r requirements.in (line 9)
 django-filter==2.2.0      # via -r requirements.in (line 5)
 django-ipware==2.1.0      # via -r requirements.in (line 10)
->>>>>>> develop
 django-modelcluster==5.0.1  # via wagtail
 django-pglocks==1.0.4     # via -r requirements.in (line 8)
 django-redis==4.10.0      # via -r requirements.in (line 6)
@@ -68,15 +54,9 @@ python-dateutil==2.8.1    # via botocore, freezegun
 pytz==2019.3              # via django, django-modelcluster, wagtail
 redis==3.4.1              # via django-redis
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-<<<<<<< HEAD
 requests==2.23.0          # via airtable-python-wrapper, directory-api-client, directory-client-core, geoip2, requests-oauthlib, wagtail
 s3transfer==0.3.3         # via boto3
 sentry-sdk==0.13.5
-=======
-requests==2.22.0          # via airtable-python-wrapper, directory-api-client, directory-client-core, geoip2, requests-oauthlib, wagtail
-s3transfer==0.3.2         # via boto3
-sentry-sdk==0.13.5        # via -r requirements.in (line 21)
->>>>>>> develop
 sigauth==4.1.1            # via directory-client-core
 six==1.14.0               # via airtable-python-wrapper, django-extensions, django-pglocks, html5lib, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib, wagtail
 sqlparse==0.3.1           # via django
