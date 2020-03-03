@@ -1,5 +1,6 @@
 from unittest import mock
 
+from freezegun import freeze_time
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 import pytest
@@ -200,3 +201,20 @@ def test_create_user_profile_failure(mock_create_user_profile, user, rf):
 def test_get_custom_duties_url():
     url = helpers.get_custom_duties_url(product_code='8424.10', country='CN')
     assert url == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=CN&pc=8424.10'
+
+
+def test_country_code_iso3_to_iso2():
+    assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
+
+
+def test_country_code_iso3_to_iso2_not_found():
+    assert helpers.country_code_iso3_to_iso2('XNY') is None
+
+
+@freeze_time("2012-01-14 03:21:34")
+def test_get_local_time():
+    assert helpers.get_local_time('CHN') == {'local_time': '2012-01-14 11:21 CST+0800', 'timezone': 'Asia/Shanghai'}
+
+
+def test_get_local_time_not_found():
+    assert helpers.get_local_time('XS') == {}
