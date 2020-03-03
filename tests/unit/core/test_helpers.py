@@ -211,7 +211,7 @@ def test_country_code_iso3_to_iso2_not_found():
     assert helpers.country_code_iso3_to_iso2('XNY') is None
 
 
-@freeze_time("2012-01-14 03:21:34")
+@freeze_time('2012-01-14 03:21:34')
 def test_get_local_time():
     assert helpers.get_local_time('CHN') == {'local_time': '2012-01-14 11:21 CST+0800', 'timezone': 'Asia/Shanghai'}
 

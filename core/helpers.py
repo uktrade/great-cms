@@ -170,9 +170,9 @@ def get_local_time(country_code):
     format = '%Y-%m-%d %H:%M %Z%z'
     iso3_country_code = country_code_iso3_to_iso2(country_code)
     if iso3_country_code and pytz.country_timezones('CN'):
-        local_time["timezone"] = pytz.country_timezones('CN')[0]
+        local_time['timezone'] = pytz.country_timezones('CN')[0]
         country_timezone = pytz.timezone(local_time["timezone"])
         utc_dt = datetime.now(pytz.utc)
         loc_dt = utc_dt.astimezone(country_timezone)
-        local_time["local_time"] = loc_dt.strftime(format)
+        local_time['local_time'] = loc_dt.strftime(format)
     return local_time
