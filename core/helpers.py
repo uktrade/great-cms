@@ -1,9 +1,11 @@
 from logging import getLogger
+import pytz
 
 from airtable import Airtable
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
+from iso3166 import countries_by_alpha3
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
@@ -134,7 +136,7 @@ def get_dashboard_export_opportunities():
         },
         {
             'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'description': "A company is looking for healthy food and snacks to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
@@ -143,7 +145,7 @@ def get_dashboard_export_opportunities():
         },
         {
             'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'description': "A company is looking for healthy food and snacks to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
@@ -155,3 +157,14 @@ def get_dashboard_export_opportunities():
 
 def get_custom_duties_url(product_code, country):
     return f'{settings.MADB_URL}/summary?d={country}&pc={product_code}'
+
+
+def country_code_iso3_to_iso2(iso3_country_code):
+    if countries_by_alpha3.get(iso3_country_code):
+        return countries_by_alpha3[iso3_country_code].alpha2
+
+
+def get_timezone(country_code):
+    iso3_country_code = country_code_iso3_to_iso2(country_code)
+    if iso3_country_code and pytz.country_timezones(iso3_country_code):
+        return pytz.country_timezones(iso3_country_code)[0]
