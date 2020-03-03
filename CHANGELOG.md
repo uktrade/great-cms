@@ -20,5 +20,4 @@
 - MVP-216 - Add lesson object
 - MVP-138 - add example browser and load tests
 - MVP-144 - add example BDD browser tests
-- no ticket - move tests to dedicated folders: browser, load & unit
-
+- MVP-224 - Implement design for login page

@@ -7,8 +7,8 @@ beforeEach(() => {
   fetchMock.reset()
   jest.useFakeTimers()
   Services.setConfig({
-    signupUrl: 'http://www.example.com/signup/',
-    loginUrl: 'http://www.example.com/login/',
+    apiSignupUrl: 'http://www.example.com/signup/',
+    apiLoginUrl: 'http://www.example.com/login/',
     csrfToken: '123',
     linkedInUrl: 'http://www.example.com/oauth2/linkedin/',
     googleUrl: 'http://www.example.com/oauth2/google/',
@@ -24,14 +24,14 @@ afterEach(() => {
 
 test('checkCredentials passes params', done => {
   // given the form submission will result in success.getDOMNodeful login
-  fetchMock.post(Services.config.loginUrl, 200)
+  fetchMock.post(Services.config.apiLoginUrl, 200)
 
-  Services.checkCredentials({username: 'example', password: 'password'})
+  Services.checkCredentials({email: 'example', password: 'password'})
 
   fetchMock.flush().then(() => {
     const calls = fetchMock.calls()
     expect(calls.length).toEqual(1)
-    expect(calls[0][0]).toEqual(Services.config.loginUrl)
+    expect(calls[0][0]).toEqual(Services.config.apiLoginUrl)
     expect(calls[0][1]).toEqual({
       method: 'post',
       headers: {
@@ -40,7 +40,7 @@ test('checkCredentials passes params', done => {
        'X-CSRFToken': Services.config.csrfToken,
        'X-Requested-With': 'XMLHttpRequest',
       },
-      body: '{"username":"example","password":"password"}',
+      body: '{"email":"example","password":"password"}',
     })
     done()
   })
@@ -48,14 +48,14 @@ test('checkCredentials passes params', done => {
 
 test('createUser passes params', done => {
   // given the form submission will result in success.getDOMNodeful login
-  fetchMock.post(Services.config.signupUrl, 200)
+  fetchMock.post(Services.config.apiSignupUrl, 200)
 
   Services.createUser({email: 'example', password: 'password'})
 
   fetchMock.flush().then(() => {
     const calls = fetchMock.calls()
     expect(calls.length).toEqual(1)
-    expect(calls[0][0]).toEqual(Services.config.signupUrl)
+    expect(calls[0][0]).toEqual(Services.config.apiSignupUrl)
     expect(calls[0][1]).toEqual({
       method: 'post',
       headers: {

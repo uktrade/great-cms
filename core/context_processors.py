@@ -10,5 +10,6 @@ def signup_modal(request):
         'linkedin_url': add_next(settings.SSO_OAUTH2_LINKEDIN_URL, url),
         'google_url': add_next(settings.SSO_OAUTH2_GOOGLE_URL, url),
         'terms_url': urls.domestic.TERMS_AND_CONDITIONS,
+        'password_reset_url': urls.domestic.SINGLE_SIGN_ON / 'accounts/password/reset/',
     }
     return {'signup_modal': login_modal}
