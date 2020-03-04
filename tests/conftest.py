@@ -141,16 +141,3 @@ def base_url(live_server):
 def visit_home_page(browser, base_url, request, domestic_site):
     browser.get(base_url)
     return browser
-
-
-def pytest_bdd_apply_tag(tag, function):
-    """Force pytest-bdd to work with pytest-django.
-    See: https://github.com/pytest-dev/pytest-bdd/issues/215
-    """
-    if tag == 'django_db':
-        marker = pytest.mark.django_db(transaction=True)
-        marker(function)
-        return True
-    else:
-        # Fall back to pytest-bdd's default behavior
-        return None
