@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+
+{% load great_components %}
+
+{% block css_layout_class %}export-plan-builder{% endblock %}
+
+{% block content %}
+
+{% include "exportplan/includes/sticky-header.html" %}
+
+<section class="bg-stone-30 p-v-m">
+  <div class="container">
+    <div class="grid">
+
+      <aside class="completion-status c-1-4">
+        <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="" class="w-full">
+        <h2 class="h-s">Export plan</h2>
+        <p class="text-mid-grey">20% completed</p>
+        <h2 class="h-s m-b-s">Continue learning</h2>
+        {% card title='Calculate consumer demand' subheading='Market research' url='#' %}
+      </aside>
+
+      <div class="section-list c-3-4" id="section-list">
+        <div class="flex-grid">
+          {% for section in sections %}
+          <div class="c-1-3">
+            <div class="bg-white m-b-s">
+              {% if forloop.first %}
+              <a class="w-full" href="{% url 'exportplan:about-your-business' %}">
+              {% else %}
+              <a class="w-full" href="#">
+              {% endif %}
+                <img class="w-full" src="https://via.placeholder.com/160x90/dfd5c5?text=Preview image" alt="">
+                <div class="p-h-s p-b-s">
+                  <h3 class="h-s">{{ section }}</h3>
+                </div>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+
+.export-plan-builder {
+
+  .banner-image {
+    width: 100%;
+  }
+
+  .nav-section {
+    float: left;
+    width: 300px;
+    background-color: $white;
+    border-right: 1px solid $light-grey;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .main-section {
+    display: flex;
+  }
+
+  .content-section {
+    width: calc(100% - 300px);
+  }
+
+  .section-content {
+    width: 50%;
+    margin: 0 auto;
+  }
+}

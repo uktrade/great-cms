@@ -1,0 +1,30 @@
+
+.pill {
+  border-radius: 1em;
+  padding: .333em .75em;
+  margin: 0 .333em;
+}
+
+
+.centre-children {
+  text-align: center;
+
+  > * {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.clearfix:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.relative {
+  position: relative;
+}

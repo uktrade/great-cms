@@ -1,27 +1,27 @@
 {% load static %}
 
-<header class="g-header" dir="ltr" data-ga-section="header">
-    <div class="container">
-        <a href="/">
-            <img class="great-mvp-header-logo" src="{% static 'images/exporting-is-great-logo.png' %}" alt="Exporting is Great">
-        </a>
-        <nav>
-            <ul id="services-area">
-                <li><a href="#">Learning</a></li>
-                <li><a href="#">Export plan</a></li>
-                <li><a href="#">Markets</a></li>
-                <li><a href="#">Services</a></li>
-            </ul>
-            <ul class="bg-light-grey" id="user-state-area">
-                {% if request.user.is_authenticated %}
-                    <li><a href="#"><img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a></li>
-                    <li><a href="#"><img class="great-mvp-header-icon" src="{% static 'images/user-icon.png' %}" /></a></li>
-                    <li class="name-greet"><a href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
-                    <li><a href="#" class="great-mvp-header-link">Dashboard</a></li>
-                {% else %}
-                    <li><a href="#" id="header-sign-up-link">Sign up</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+<header class="great-mvp-header" dir="ltr" data-ga-section="header">
+  <nav>
+    <a href="/">
+        <img class="great-mvp-header-logo" id="great-mvp-header-logo" src="{% static 'images/exporting-is-great-logo.png' %}" alt="Exporting is Great">
+    </a>
+    <div class="great-mvp-header-links">
+      <ul id="services-area" class="services-area">
+          <li><a href="#">Learning</a></li>
+          <li><a href="{% url 'exportplan:index' %}">Export plan</a></li>
+          <li><a href="#">Markets</a></li>
+          <li><a href="#">Services</a></li>
+      </ul>
+      <ul class="bg-stone-50 user-state-area" id="user-state-area">
+          {% if request.user.is_authenticated %}
+              <li><a href="#"><img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a></li>
+              <li><a href="#"><img class="great-mvp-header-icon" src="{% static 'images/user-icon.png' %}" /></a></li>
+              <li class="name-greet"><a href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
+              <li><a href="{% url 'core:dashboard' %}" class="great-mvp-header-link">Dashboard</a></li>
+          {% else %}
+              <li><a href="#" id="header-sign-up-link">Sign up</a></li>
+          {% endif %}
+      </ul>
     </div>
+  </nav>
 </header>

@@ -27,7 +27,7 @@ def attach_jpg_screenshot(browser, page_name):
 @allure.step('check if on home page')
 def should_be_on_home_page(browser):
     attach_jpg_screenshot(browser, 'home page')
-    logo = browser.find_element_by_css_selector('body > header > div > a > img')
+    logo = browser.find_element_by_css_selector('#great-mvp-header-logo')
     assert logo.is_displayed()
 
 
