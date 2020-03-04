@@ -1,11 +1,3 @@
-@import 'helpers/_colours';
-
-@import '_header';
-@import '_dashboard';
-@import '_login';
-
-
-$lighter-grey: #EFEFEF;
 
 .text-center {
   text-align: center;
@@ -54,26 +46,15 @@ $lighter-grey: #EFEFEF;
 
 
 body {
-  background-color: $lighter-grey;
-
-  #content {
-    display: flex;
-  }
+  background-color: $stone-30;
 
   #great-hero {
-    background-color: $light-grey;
+    background-color: $stone;
     padding-bottom: 75px;
     margin-bottom: -75px;
 
     .g-breadcrumbs ol li::after {
       border-color: $grey;
-    }
-  }
-
-  main {
-    > .container {
-      padding-left: 45px;
-      padding-right: 45px;
     }
   }
 

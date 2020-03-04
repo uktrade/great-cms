@@ -1,8 +1,8 @@
-@import 'helpers/_colours';
+@import 'helpers/colours';
 
 .great-mvp-step-progress-bar {
     overflow: hidden;
-    background: white;
+    background: $white;
     ul {
         display: flex;
         li {
@@ -23,7 +23,7 @@
                 margin: 0 auto 10px auto;
                 border-radius: 50%;
                 box-sizing: border-box;
-                border: 2px solid black;
+                border: 2px solid $black;
                 background-color: $black;
             }
 
@@ -37,7 +37,7 @@
                 left: -50%;
                 z-index: -1;
             }
-            
+
             &:first-child:after {
                 content: none;
             }

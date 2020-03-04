@@ -42,12 +42,12 @@ export default function Step1(props){
           handleChange={props.handlePasswordChange}
           errors={props.errors.password || []}
         />
-        <p className='great-mvp-terms'>By clicking Sign up, you accept the <a href={Services.config.termsUrl} id="signup-modal-t-and-c" target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
+        <p className='great-mvp-terms m-0'>By clicking Sign up, you accept the <a href={Services.config.termsUrl} target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
         <input
           type="submit"
           value="Sign up"
           id="signup-modal-submit"
-          className="great-mvp-wizard-step-submit"
+          className="great-mvp-wizard-step-submit g-button"
           disabled={props.disabled}
         />
       </form>

@@ -1,27 +1,27 @@
 {% load static %}
 
-<header class="g-header" dir="ltr" id="header" data-ga-section="header">
-    <div class="container">
-        <a id="header-logo-link" href="/">
-            <img class="great-mvp-header-logo" src="{% static 'images/exporting-is-great-logo.png' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
-        </a>
-        <nav>
-            <ul id="services-area">
-                <li><a id="header-link-learning" href="#">Learning</a></li>
-                <li><a id="header-link-exporting-plan" href="#">Export plan</a></li>
-                <li><a id="header-link-markets" href="#">Markets</a></li>
-                <li><a id="header-link-services" href="#">Services</a></li>
-            </ul>
-            <ul class="bg-light-grey" id="user-state-area">
-                {% if request.user.is_authenticated %}
-                    <li><a id="header-link-notifications" href="#"><img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a></li>
-                    <li><a id="header-link-user-profile" href="#"><img class="great-mvp-header-icon" src="{% static 'images/user-icon.png' %}" /></a></li>
-                    <li class="name-greet"><a id="header-link-user-profile-email-link" href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
-                    <li><a id="header-link-dashboard" href="#" class="great-mvp-header-link">Dashboard</a></li>
-                {% else %}
-                    <li><a id="header-sign-up-link" href="#">Sign up</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+<header class="great-mvp-header" id="header" dir="ltr" data-ga-section="header">
+  <nav>
+    <a href="/">
+        <img class="great-mvp-header-logo" id="great-mvp-header-logo" src="{% static 'images/exporting-is-great-logo.png' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
+    </a>
+    <div class="great-mvp-header-links">
+      <ul id="services-area" class="services-area">
+          <li><a id="header-link-learning" href="#">Learning</a></li>
+          <li><a id="header-link-exporting-plan" href="{% url 'exportplan:index' %}">Export plan</a></li>
+          <li><a id="header-link-markets" href="#">Markets</a></li>
+          <li><a id="header-link-services" href="#">Services</a></li>
+      </ul>
+      <ul class="bg-stone-50 user-state-area" id="user-state-area">
+          {% if request.user.is_authenticated %}
+              <li><a id="header-link-notifications" href="#"><img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a></li>
+              <li><a id="header-link-user-profile" href="#"><img class="great-mvp-header-icon" src="{% static 'images/user-icon.png' %}" /></a></li>
+              <li class="name-greet"><a id="header-link-user-profile-email-link" href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
+              <li><a id="header-link-user-profile-email-link" href="{% url 'core:dashboard' %}" class="great-mvp-header-link">Dashboard</a></li>
+          {% else %}
+              <li><a id="header-sign-up-link" href="#" id="header-sign-up-link">Sign up</a></li>
+          {% endif %}
+      </ul>
     </div>
+  </nav>
 </header>

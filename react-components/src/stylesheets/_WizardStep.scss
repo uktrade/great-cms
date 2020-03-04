@@ -1,27 +1,13 @@
-@import 'helpers/_colours';
-@import 'helpers/_typography-mixins';
-@import 'elements/_typography';
-@import 'elements/_buttons';
 
+@import 'helpers/colours';
 
 .great-mvp-wizard-step-heading {
-    @extend .h-xl;
-    font-size: 38px;
     margin-top: 20px;
     padding-bottom: 30px;
 }
 
 .great-mvp-wizard-step-button {
-    @extend .g-button;
     background: $grey;
     color: $white;
     width: 300px;
-}
-
-.great-mvp-wizard-step-submit {
-    @extend .great-mvp-wizard-step-button;
-    margin-bottom: 15px;
-    height: 41px;
-    padding: 0;
-    line-height: 41px;
 }
