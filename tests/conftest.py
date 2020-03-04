@@ -1,5 +1,6 @@
 from unittest import mock
 
+import environ
 import pytest
 from directory_api_client import api_client
 from selenium import webdriver
@@ -113,9 +114,12 @@ def mock_user_location_create():
 @pytest.fixture(scope='session')
 def browser():
     options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--window-size=1600x2200')
-    options.add_argument('--disable-gpu')
+    env = environ.Env()
+    headless = env.bool('HEADLESS', True)
+    if headless:
+        options.add_argument('--headless')
+        options.add_argument('--window-size=1600x2200')
+        options.add_argument('--disable-gpu')
     options.add_argument('--start-maximized')
     options.add_argument('--disable-extensions')
     options.add_argument('--no-sandbox')
