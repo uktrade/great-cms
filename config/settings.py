@@ -54,15 +54,15 @@ INSTALLED_APPS = [
     'core',
     'domestic',
     'exportplan',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'learn.apps.LearnConfig'
 ]
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'directory_sso_api_client.middleware.AuthenticationMiddleware',
+    'sso.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
