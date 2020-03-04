@@ -168,3 +168,19 @@ def get_timezone(country_code):
     iso3_country_code = country_code_iso3_to_iso2(country_code)
     if iso3_country_code and pytz.country_timezones(iso3_country_code):
         return pytz.country_timezones(iso3_country_code)[0]
+
+def get_exportplan_marketdata(country_code):
+    # This is a temp wrapper for MVP as we finalise the source(s) this should move to backend
+    country_code = 'CHN'
+    exportplan_marketdata = {}
+    exportplan_marketdata['timezone'] = get_timezone(country_code)
+    response = api_client.dataservices.get_corruption_perceptions_index(country_code)
+    response.raise_for_status()
+    if response.json():
+        exportplan_marketdata['corruption_perceptions_index'] = response.json()
+    response = api_client.dataservices.get_easeofdoingbusiness(country_code)
+    response.raise_for_status()
+    if response.json():
+        exportplan_marketdata['easeofdoingbusiness'] = response.json()
+    return exportplan_marketdata
+
