@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from collections import namedtuple
 from enum import Enum
 
 from selenium.webdriver.common.by import By
@@ -47,13 +47,18 @@ class ElementType(Enum):
         return self.value
 
 
-@dataclass
-class Selector:
-    by: By
-    selector: str
-    type: ElementType = None
-    is_visible: bool = True
-    is_authenticated: bool = False
+Selector = namedtuple(
+    "Selector",
+    [
+        "by",
+        "selector",
+        "type",
+        "is_visible",
+        "is_authenticated",
+    ],
+)
+# define default values for Selector named tuple
+Selector.__new__.__defaults__ = (None, None, None, True, False)
 
 
 class Header(SelectorsEnum):
