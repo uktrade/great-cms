@@ -1,9 +1,13 @@
 from io import BytesIO
+from typing import List
 
 import allure
 from PIL import Image
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.browser.common_selectors import Selector
 
@@ -45,3 +49,21 @@ def is_element_present(browser: WebDriver, selector: Selector) -> bool:
     except NoSuchElementException:
         found = False
     return found
+
+
+def find_element(browser: WebDriver, selector: Selector) -> WebElement:
+    return browser.find_element(selector.by, selector.selector)
+
+
+def find_elements(browser: WebElement, selector: Selector) -> List[WebElement]:
+    return browser.find_elements(selector.by, selector.selector)
+
+
+def wait_for_element_visibility(
+        driver: WebDriver, selector: Selector, *, time_to_wait: int = 3
+):
+    """Wait until element is visible."""
+    locator = (selector.by, selector.selector)
+    WebDriverWait(driver, time_to_wait).until(
+        expected_conditions.visibility_of_element_located(locator)
+    )
