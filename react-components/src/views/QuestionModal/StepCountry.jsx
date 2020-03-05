@@ -7,21 +7,20 @@ import AutoCompleteField from '@src/components/AutoCompleteField'
 import './stylesheets/Step.scss'
 
 
-export default function Step2(props){
+export default function StepCountry(props){
   return (
     <div className="great-mvp-wizard-step">
       <h2 className="great-mvp-wizard-step-heading">Business details</h2>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <AutoCompleteField
-          type="text"
-          label="What sectors are you interested in?"
-          choices={Services.config.industryOptions}
-          name="expertise_industries"
+          label="What country would you like to export to?"
+          choices={Services.config.countryOptions}
+          name="expertise_countries"
           disabled={props.disabled}
           value={props.value}
           handleChange={props.handleChange}
           autofocus={true}
-          errors={props.errors.expertise_industries || []}
+          errors={props.errors.expertise_countries || []}
         />
         <input
           type="submit"
@@ -34,7 +33,7 @@ export default function Step2(props){
   )
 }
 
-Step2.propTypes = {
+StepCountry.propTypes = {
   disabled: PropTypes.bool,
   errors: PropTypes.array,
   handleChange: PropTypes.func.isRequired,
@@ -42,7 +41,7 @@ Step2.propTypes = {
   value: PropTypes.string,
 }
 
-Step2.defaultProps = {
+StepCountry.defaultProps = {
   disabled: false,
   errors: [],
   password: '',

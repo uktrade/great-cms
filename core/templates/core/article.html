@@ -23,4 +23,25 @@
             </div>
         </div>
     </div>
+    {{ request.user.company }}
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        ditMVP.setConfig({
+            csrfToken: '{{ csrf_token }}',
+            enrolCompanyUrl: '{% url "core:api-create-company" %}',
+            countryOptions: {{ country_choices|safe }},
+            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}'
+        });
+        var isOpen = {% if request.user.company.expertise_countries_label %}false{%else %}true{% endif %};
+        ditMVP.QuestionModal({
+            element: element,
+            isOpen: isOpen,
+            currentStep: 'country'
+        });
+    </script>
 {% endblock %}

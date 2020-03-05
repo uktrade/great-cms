@@ -225,10 +225,11 @@
             enrolCompanyUrl: '{% url "core:api-create-company" %}',
             industryOptions: {{ industry_options|safe }}
         });
-        var isOpen = {% if request.user.company %}false{%else %}true{% endif %};
+        var isOpen = {% if request.user.company.expertise_industries %}false{%else %}true{% endif %};
         ditMVP.QuestionModal({
             element: element,
-            isOpen: isOpen
+            isOpen: isOpen,
+            currentStep: 'sectors'
         });
     </script>
 {% endblock %}
