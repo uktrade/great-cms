@@ -55,7 +55,7 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, clien
     response = client.post(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('core:exportplan-view')
+    assert response.url == reverse('core:exportplan')
     assert mock_helper_get_regs.call_count == 1
     assert mock_helper_get_regs.call_args == mock.call('India')
     assert mock_helpers_create_plan.call_count == 1
@@ -77,7 +77,7 @@ def test_exportplan_view(mock_get_export_plan_rules_regs, mock_exportplan_market
     mock_get_export_plan_rules_regs.return_value = {'rule1': 'r1'}
     mock_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', 'CPI': 10}
 
-    response = client.get(reverse('core:exportplan-view'))
+    response = client.get(reverse('core:exportplan'))
 
     assert mock_get_export_plan_rules_regs.call_count == 1
     assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
@@ -214,3 +214,23 @@ def test_capability_article_not_logged_in(client):
 
     assert response.status_code == 302
     assert response.url == reverse('core:landing-page') + f'?next={url}'
+
+
+@pytest.mark.django_db
+def test_login_page_not_logged_in(client):
+    url = reverse('core:login')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_login_page_logged_in(client, user):
+    client.force_login(user)
+    url = reverse('core:login')
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == reverse('core:dashboard')

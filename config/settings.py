@@ -53,15 +53,16 @@ INSTALLED_APPS = [
     'sso',
     'core',
     'domestic',
-    'users.apps.UsersConfig'
+    'exportplan',
+    'users.apps.UsersConfig',
+    'learn.apps.LearnConfig'
 ]
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'directory_sso_api_client.middleware.AuthenticationMiddleware',
+    'sso.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -407,3 +408,6 @@ AIRTABLE_API_KEY = env.str('AIRTABLE_API_KEY')
 MADB_URL = env.str(
     'MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 )
+
+# directory constants
+DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')

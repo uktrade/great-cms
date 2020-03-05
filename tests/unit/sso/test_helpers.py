@@ -1,9 +1,11 @@
 from unittest import mock
 
-import pytest
+from directory_api_client import api_client
 from directory_forms_api_client import actions
 from directory_sso_api_client import sso_api_client
+import pytest
 from requests.cookies import RequestsCookieJar
+from requests.exceptions import HTTPError
 
 from django.http import JsonResponse
 
@@ -80,3 +82,27 @@ def test_create_user_failure(mock_create_user):
 
     with pytest.raises(helpers.CreateUserException):
         helpers.create_user(email='jim@example.com', password='12345')
+
+
+@mock.patch.object(api_client.company, 'profile_retrieve')
+def test_get_company_profile_404(mock_profile_retrieve):
+    mock_profile_retrieve.return_value = create_response(status_code=404)
+
+    assert helpers.get_company_profile(123) is None
+    assert mock_profile_retrieve.call_count == 1
+    assert mock_profile_retrieve.call_args == mock.call(123)
+
+
+@mock.patch.object(api_client.company, 'profile_retrieve')
+def test_get_company_profile_500(mock_profile_retrieve):
+    mock_profile_retrieve.return_value = create_response(status_code=500)
+
+    with pytest.raises(HTTPError):
+        helpers.get_company_profile(123)
+
+
+@mock.patch.object(api_client.company, 'profile_retrieve')
+def test_get_company_profile_200(mock_profile_retrieve):
+    mock_profile_retrieve.return_value = create_response({'name': 'foo'})
+
+    assert helpers.get_company_profile(123) == {'name': 'foo'}

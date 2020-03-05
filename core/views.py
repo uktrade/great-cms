@@ -19,7 +19,7 @@ class LandingPageView(TemplateView):
 class ExportPlanStartView(FormView):
     template_name = 'core/exportplanstart.html'
     form_class = forms.ExportPlanFormStart
-    success_url = reverse_lazy('core:exportplan-view')
+    success_url = reverse_lazy('core:exportplan')
 
     def get_initial(self):
         return {
@@ -119,3 +119,7 @@ class ArticleView(FormView):
             chapter_name=self.kwargs['chapter'],
             article_name=self.kwargs['article']
         )
+
+
+class LoginView(TemplateView):
+    template_name = 'core/login.html'

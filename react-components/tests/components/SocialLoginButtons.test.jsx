@@ -28,7 +28,7 @@ afterEach(() => {
 
 test('SocialLoginButtons should render', () => {
   const component = shallow(
-    <SocialLoginButtons 
+    <SocialLoginButtons
       type='text'
       placeholder='some placeholder'
       name='some-name'
@@ -41,11 +41,11 @@ test('SocialLoginButtons should render', () => {
 
   expect(component.matchesElement(
     <div>
-      <a href={linkedInUrl} className="g-button">
+      <a href={linkedInUrl} className="g-button m-t-0 m-b-xs">
         <img />
         <span>Continue with LinkedIn</span>
       </a>
-      <a href={googleUrl} className="g-button">
+      <a href={googleUrl} className="g-button m-t-0 m-b-xs">
         <img />
         <span >Continue with Google</span>
       </a>

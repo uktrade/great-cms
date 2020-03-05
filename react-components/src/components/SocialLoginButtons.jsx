@@ -10,12 +10,12 @@ import './stylesheets/SocialLoginButtons.scss'
 
 export default function SocialLoginButtons(props){
   return (
-    <div className='great-mvp-social-login-buttons'>
-      <a href={Services.config.linkedInUrl} className="g-button">
+    <div className="great-mvp-social-login-buttons">
+      <a href={Services.config.linkedInUrl} className="g-button m-t-0 m-b-xs">
         <img src={linkedinIcon} />
         <span>Continue with LinkedIn</span>
       </a>
-      <a href={Services.config.googleUrl} className="g-button">
+      <a href={Services.config.googleUrl} className="g-button m-t-0 m-b-xs">
         <img src={googleIcon} />
         <span>Continue with Google</span>
       </a>

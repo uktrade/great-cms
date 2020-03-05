@@ -26,7 +26,7 @@ export default function Step2(props){
         <input
           type="submit"
           value="Continue"
-          className="great-mvp-wizard-step-submit"
+          className="great-mvp-wizard-step-submit g-button"
           disabled={props.disabled}
         />
       </form>

@@ -38,7 +38,7 @@ def visit_landing_page(actor_alias, browser, visit_home_page):
 @then(parsers.cfparse('"{actor_alias}" should be on the home page'))
 def should_be_on_home_page(actor_alias, browser):
     attach_jpg_screenshot(browser, 'home page')
-    logo = browser.find_element_by_css_selector('body > header > div > a > img')
+    logo = browser.find_element_by_css_selector('#great-mvp-header-logo')
     assert logo.is_displayed()
 
 

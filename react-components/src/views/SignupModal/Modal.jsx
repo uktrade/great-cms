@@ -18,11 +18,13 @@ const modalStyles = {
     right: 'auto',
     textAlign: 'center',
     top: '50%',
-    transform: 'translate(-50%, -50%)',
+    top: 75,
     width: 430,
+    inset: '75px auto auto 17%',
   },
   overlay: {
     zIndex: 1000,
+    backgroundColor: 'transparent',
   },
 }
 
@@ -39,6 +41,20 @@ export function Modal(props){
     setIsOpen(false)
   }
 
+  function getCloseButton() {
+    if (props.preventClose) {
+      return <div className="m-t-l">&nbsp;</div>
+    } else {
+      return (
+        <a
+          href="#"
+          className="link great-mvp-close"
+          onClick={handleClose} >Close
+        </a>
+      )
+    }
+  }
+
   return (
     <div className='great-mvp-signup-modal'>
       <a
@@ -49,15 +65,11 @@ export function Modal(props){
       >Sign up</a>
       <ReactModal
         isOpen={isOpen}
-        onRequestClose={handleClose}
+        onRequestClose={!props.preventClose && handleClose}
         style={modalStyles}
         contentLabel="Modal"
       >
-        <a
-          href="#"
-          className="link great-mvp-close"
-          onClick={handleClose} >Close
-        </a>
+        {getCloseButton()}
         <Wizard
           currentStep={props.currentStep}
           username={props.username}
@@ -74,11 +86,13 @@ Modal.propTypes = {
   currentStep: PropTypes.number,
   username: PropTypes.string,
   nextUrl: PropTypes.string.isRequired,
+  preventClose: PropTypes.bool,
 }
 
 Modal.defaultProps = {
   isOpen: false,
   username: '',
+  preventClose: false,
 }
 
 export default function createModal({ element, ...params }) {
