@@ -98,3 +98,14 @@ class SignUpModal(SelectorsEnum):
     SUBMIT = Selector(By.ID, 'signup-modal-submit', ElementType.BUTTON)
     EMAIL = Selector(By.ID, 'id_email', ElementType.INPUT)
     PASSWORD = Selector(By.ID, 'id_password', ElementType.INPUT)
+    ERROR_MESSAGES = Selector(By.CSS_SELECTOR, 'li.error-message', is_visible=False)
+
+
+class SignUpModalVerificationCode(SelectorsEnum):
+    VERIFICATION_CODE = Selector(By.ID, 'id_code')
+    SUBMIT_CODE = Selector(By.ID, 'signup-modal-submit-code', ElementType.BUTTON)
+
+
+class SignUpModalSuccess(SelectorsEnum):
+    MODAL = Selector(By.ID, 'signup-modal-success')
+    SUBMIT_SUCCESS = Selector(By.ID, 'signup-modal-submit-success', ElementType.BUTTON)
