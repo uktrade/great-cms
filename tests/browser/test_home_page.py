@@ -117,7 +117,6 @@ def test_error_messages_for_invalid_credential(
     submit_sign_up_form(browser, email, password)
     attach_jpg_screenshot(browser, f'Sign-up modal', selector=SignUpModal.MODAL)
 
-    # with wait_for_element_visibility(browser, SignUpModal.ERROR_MESSAGES):
     error_elements = find_elements(browser, SignUpModal.ERROR_MESSAGES)
     error_messages = [error.text for error in error_elements]
     for error in expected_email_errors:
