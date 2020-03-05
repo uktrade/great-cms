@@ -7,7 +7,8 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 from tests.browser.common_selectors import Selector
 
-def convert_png_to_jpg(screenshot_png):
+
+def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
     raw_image = Image.open(BytesIO(screenshot_png))
     image = raw_image.convert('RGB')
     with BytesIO() as f:
