@@ -1,8 +1,18 @@
+import allure
 import pytest
 from tests.browser.common_selectors import Header, SignUpModal
 from tests.browser.util import attach_jpg_screenshot, is_element_present
 
 pytestmark = pytest.mark.browser
+
+
+@allure.step('Should see all elements from: {selectors_enum}')
+def should_see_all_elements(browser, selectors_enum):
+    for selector in selectors_enum:
+        if not selector.is_visible:
+            continue
+        element = find_element(browser, selector)
+        assert element.is_displayed(), f'Expected element "{selector}" is not visible'
 
 
 def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
@@ -11,7 +21,7 @@ def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
     attach_jpg_screenshot(browser, 'home page')
     for selector in Header:
         if not selector.is_authenticated:
-            element = browser.find_element(selector.by, selector.selector)
+            element = find_element(browser, selector)
             assert element.is_displayed()
         else:
             assert not is_element_present(browser, selector), (
@@ -21,6 +31,4 @@ def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
 
 def test_anonymous_user_should_see_sign_up_modal(browser, visit_home_page):
     attach_jpg_screenshot(browser, 'home page')
-    for selector in SignUpModal:
-        element = browser.find_element(selector.by, selector.selector)
-        assert element.is_displayed(), f'Expected element "{selector}" is not visible'
+    should_see_all_elements(browser, SignUpModal)
