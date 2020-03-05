@@ -27,6 +27,7 @@ export default function Step2(props){
         <input
           type="submit"
           value="Submit"
+          id="signup-modal-submit-code"
           className="great-mvp-wizard-step-submit g-button"
           disabled={props.disabled}
         />
