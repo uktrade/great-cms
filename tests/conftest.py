@@ -1,5 +1,6 @@
 from unittest import mock
 
+import environ
 import pytest
 from directory_api_client import api_client
 from selenium import webdriver
@@ -113,9 +114,12 @@ def mock_user_location_create():
 @pytest.fixture(scope='session')
 def browser():
     options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--window-size=1600x2200')
-    options.add_argument('--disable-gpu')
+    env = environ.Env()
+    headless = env.bool('HEADLESS', True)
+    if headless:
+        options.add_argument('--headless')
+        options.add_argument('--window-size=1600x2200')
+        options.add_argument('--disable-gpu')
     options.add_argument('--start-maximized')
     options.add_argument('--disable-extensions')
     options.add_argument('--no-sandbox')
@@ -137,16 +141,3 @@ def base_url(live_server):
 def visit_home_page(browser, base_url, request, domestic_site):
     browser.get(base_url)
     return browser
-
-
-def pytest_bdd_apply_tag(tag, function):
-    """Force pytest-bdd to work with pytest-django.
-    See: https://github.com/pytest-dev/pytest-bdd/issues/215
-    """
-    if tag == 'django_db':
-        marker = pytest.mark.django_db(transaction=True)
-        marker(function)
-        return True
-    else:
-        # Fall back to pytest-bdd's default behavior
-        return None

@@ -4,6 +4,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+    devtool: 'source-map',
     entry: {
         'ditMVP': './react-components/src/bundle.js',
     },
@@ -32,17 +33,23 @@ module.exports = {
               {
                 test: /\.scss$/i,
                 use: [
-                  // Creates `style` nodes from JS strings
-                  'style-loader',
                   // extract to seperate file
                   MiniCssExtractPlugin.loader,
                   // Translates CSS into CommonJS
-                  'css-loader',
+                  {
+                    loader: 'css-loader',
+                    options: {
+                      sourceMap: true,
+                    },
+                  },
                   // Compiles Sass to CSS
                   {
                     loader: 'sass-loader',
                     options: {
+                      implementation: require('node-sass'),
+                      sourceMap: true,
                       sassOptions: {
+                        outputStyle: 'compressed',
                         includePaths: ['./node_modules/great-styles/src/'],
                       },
                     },

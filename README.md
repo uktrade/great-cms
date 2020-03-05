@@ -68,6 +68,19 @@ Secrets such as API keys and environment specific configurations are placed in `
 1. Download `Chrome driver` from the official site https://chromedriver.chromium.org/
 2. Place the binary on you `PATH`
 
+#### Running browser tests in "headfull" mode
+
+In case you'd like to run all browser tests in "headfull" mode, then simply set `HEADLESS` env var to `false`:
+
+```bash
+HEADLESS=false make ARGUMENTS="-m browser" pytest
+```
+
+You can also use regular pytest filters:
+```bash
+HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
+```
+
 
 ### Getting started
     

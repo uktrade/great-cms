@@ -100,4 +100,3 @@ test('enrolCompany passes params', done => {
     done()
   })
 })
-

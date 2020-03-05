@@ -1,0 +1,44 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block css_layout_class %}export-plan-builder{% endblock %}
+
+{% block content %}
+
+<section class="main-section clearfix relative">
+  <nav class="nav-section p-h-s" id="sidebar-content">
+    <div class="centre-children width-full p-t-m">
+      <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="" class="w-1-2">
+    </div>
+    <ul>
+      {% for section in sections %}
+        {% if forloop.first %}
+        <li class="h-s"><a href="{% url 'exportplan:about-your-business' %}" class="link">{{ section }}</a></li>
+        {% else %}
+        <li class="h-s"><a href="#" class="link">{{ section }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="content-section bg-stone-50">
+
+    {% include "exportplan/includes/sticky-header.html" %}
+
+    <div class="section-content p-t-l">
+      <h1 class="h-xl">{{ title }}</h1>
+      {% lorem 1 p %}
+    </div>
+      <img src="https://via.placeholder.com/1600x200/dfd5c5?text=Banner image" alt="" class="width-full banner-image">
+    <div class="section-content">
+      <div class="g-panel">
+        {% lorem 1 p random %}
+      </div>
+      {% lorem 3 p random %}
+    </div>
+
+  </div>
+
+</section>
+
+{% endblock %}
