@@ -3,7 +3,9 @@ from io import BytesIO
 import allure
 from PIL import Image
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.remote.webdriver import WebDriver
 
+from tests.browser.common_selectors import Selector
 
 def convert_png_to_jpg(screenshot_png):
     raw_image = Image.open(BytesIO(screenshot_png))
@@ -23,14 +25,15 @@ def attach_jpg_screenshot(browser, page_name):
     )
 
 
-def is_element_present(browser, selector):
-    """Check if sought element is present"""
+def is_element_present(browser: WebDriver, selector: Selector) -> bool:
+    """Check if sought element is present.
+
+    If selector returns more than 1 element then find_element() will return the first
+    element from the list.
+    """
+    found = True
     try:
-        elements = browser.find_elements(by=selector.by, value=selector.selector)
-        if elements:
-            found = True
-        else:
-            found = False
+        browser.find_element(by=selector.by, value=selector.selector)
     except NoSuchElementException:
         found = False
     return found
