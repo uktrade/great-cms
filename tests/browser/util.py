@@ -15,13 +15,20 @@ def convert_png_to_jpg(screenshot_png):
         return f.getvalue()
 
 
-def attach_jpg_screenshot(browser, page_name):
-    screenshot_png = browser.get_screenshot_as_png()
+def attach_jpg_screenshot(
+        browser: WebDriver, page_name: str, *, selector: Selector = None
+):
+    if selector:
+        element = find_element(browser, selector)
+        screenshot_png = element.screenshot_as_png
+    else:
+        screenshot_png = browser.get_screenshot_as_png()
     screenshot_jpg = convert_png_to_jpg(screenshot_png)
     allure.attach(
         screenshot_jpg,
         name=page_name,
-        attachment_type=allure.attachment_type.JPG
+        attachment_type=allure.attachment_type.JPG,
+        extension='jpg'
     )
 
 
