@@ -108,4 +108,11 @@ class SignUpModalVerificationCode(SelectorsEnum):
 
 class SignUpModalSuccess(SelectorsEnum):
     MODAL = Selector(By.ID, 'signup-modal-success')
-    SUBMIT_SUCCESS = Selector(By.ID, 'signup-modal-submit-success', ElementType.BUTTON)
+    SUBMIT = Selector(By.ID, 'signup-modal-submit-success', ElementType.BUTTON)
+
+
+class DashboardModalLetsGetToKnowYou(SelectorsEnum):
+    MODAL = Selector(By.ID, 'dashboard-question-modal-lets-get-to-know-you')
+    INDUSTRIES_INPUT = Selector(By.ID, 'react-select-2-input', ElementType.INPUT)
+    SUBMIT = Selector(By.ID, 'dashboard-question-modal-submit', ElementType.BUTTON)
+    ERROR_MESSAGES = Selector(By.CSS_SELECTOR, 'li.error-message', is_visible=False)
