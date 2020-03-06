@@ -126,7 +126,7 @@ def test_error_messages_for_invalid_credential(
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'send_welcome_notificaction')
+@mock.patch.object(helpers, 'send_welcome_notification')
 @mock.patch.object(helpers, 'check_verification_code')
 @mock.patch.object(helpers, 'send_verification_code_email')
 @mock.patch.object(helpers, 'create_user')

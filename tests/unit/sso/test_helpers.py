@@ -34,8 +34,8 @@ def test_set_cookies_from_cookie_jar():
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
-def test_send_welcome_notificaction(mock_action_class, settings):
-    helpers.send_welcome_notificaction(email='jim@example.com', form_url='foo')
+def test_send_welcome_notification(mock_action_class, settings):
+    helpers.send_welcome_notification(email='jim@example.com', form_url='foo')
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
