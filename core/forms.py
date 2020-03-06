@@ -1,7 +1,5 @@
 from great_components import forms
 
-from core import helpers
-
 
 def build_checkbox(label):
     return forms.BooleanField(
@@ -9,16 +7,6 @@ def build_checkbox(label):
         required=False,
         widget=forms.CheckboxWithInlineLabel(attrs={'disabled': True})
     )
-
-
-class ExportPlanFormStart(forms.Form):
-    commodity = forms.ChoiceField(required=False, label='commodity name')
-    country = forms.ChoiceField(required=False, label='country')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['country'].choices = helpers.get_madb_country_list()
-        self.fields['commodity'].choices = helpers.get_madb_commodity_list()
 
 
 class ExportPlanForm(forms.Form):

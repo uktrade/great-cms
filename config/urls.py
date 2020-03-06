@@ -20,7 +20,7 @@ urlpatterns = [
     path('documents/', include(wagtaildocs_urls)),
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
-    path('export-plan/', include(exportplan.urls, namespace='exportplan')),
+    path('export-plan/', include(exportplan.urls)),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
