@@ -131,8 +131,8 @@ def test_error_messages_for_invalid_credential(
 @mock.patch.object(helpers, 'send_verification_code_email')
 @mock.patch.object(helpers, 'create_user')
 def test_sign_up(
-    mock_create_user, mock_send_code, mock_verification, mock_notification, browser,
-    visit_home_page,
+    mock_create_user, mock_send_code, mock_verification, mock_notification,
+    mock_user_location_create, browser, visit_home_page,
 ):
     code = '12345'
     email = f'test+{uuid4()}@example.com'
