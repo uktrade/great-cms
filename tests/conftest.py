@@ -147,7 +147,6 @@ def visit_home_page(browser, base_url, request, domestic_site):
 
 @pytest.fixture(autouse=True)
 def mock_get_company_profile():
-    """This is for you Rich"""
     stub = mock.patch('sso.helpers.get_company_profile', return_value=None)
     yield stub.start()
     stub.stop()

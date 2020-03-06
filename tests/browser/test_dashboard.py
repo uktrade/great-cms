@@ -94,14 +94,16 @@ def should_not_see(browser, selectors_enum):
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'create_company_profile')
 def test_dashboard_forced_user(mock_create_company_profile, mock_get_company_profile, server_user_browser_dashboard):
+
+    def side_effect():
+        mock_get_company_profile.return_value = {'foo': 'bar'}
+
     mock_create_company_profile.return_value = create_response()
+    mock_create_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
-    # and this one is also for you Rich
-    # probably this line has to be removed
-    mock_get_company_profile.return_value = {'foo': 'bar'}
     industries = random.sample(industry_options, random.randint(1, 5))
     submit_industries(browser, industries)
 
