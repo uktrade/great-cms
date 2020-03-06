@@ -1,9 +1,12 @@
 import random
+from unittest import mock
 
 import allure
 import pytest
 from selenium.webdriver.common.keys import Keys
 
+from core import helpers
+from tests.helpers import create_response
 from tests.browser.common_selectors import (
     DashboardModalLetsGetToKnowYou
 )
@@ -88,7 +91,10 @@ def should_not_see(browser, selectors_enum):
             raise
 
 
-def test_dashboard_forced_user(server_user_browser_dashboard):
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_company_profile')
+def test_dashboard_forced_user(mock_create_company_profile, server_user_browser_dashboard):
+    mock_create_company_profile.return_value = create_response()
     live_server, user, browser = server_user_browser_dashboard
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)

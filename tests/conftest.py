@@ -146,10 +146,8 @@ def visit_home_page(browser, base_url, request, domestic_site):
 
 
 @pytest.fixture
-def server_user_browser(browser, live_server, settings):
+def server_user_browser(browser, live_server, settings, user):
     settings.SELENIUM_LOGIN_START_PAGE = '/login/'
-    User = get_user_model()
-    user = User.objects.create_user(username='myuser', password='password')
     force_login(user, browser, live_server.url)
     return live_server, user, browser
 
