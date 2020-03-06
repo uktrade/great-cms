@@ -145,6 +145,14 @@ def visit_home_page(browser, base_url, request, domestic_site):
     return browser
 
 
+@pytest.fixture(autouse=True)
+def mock_get_company_profile():
+    """This is for you Rich"""
+    stub = mock.patch('sso.helpers.get_company_profile', return_value=None)
+    yield stub.start()
+    stub.stop()
+
+
 @pytest.fixture
 def server_user_browser(browser, live_server, user, client):
     client.force_login(user)
@@ -152,7 +160,7 @@ def server_user_browser(browser, live_server, user, client):
 
 
 @pytest.fixture
-def server_user_browser_dashboard(server_user_browser, settings):
+def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings):
     live_server, user, browser = server_user_browser
     browser.get('{}/dashboard/'.format(live_server.url))
 
