@@ -216,3 +216,24 @@ def test_get_timezone():
 
 def test_get_local_time_not_found():
     assert helpers.get_timezone('XS') is None
+
+
+@mock.patch.object(api_client.enrolment, 'send_form')
+def test_create_company_profile(mock_send_form):
+    data = {'foo': 'bar'}
+
+    helpers.create_company_profile(data)
+
+    assert mock_send_form.call_count == 1
+    assert mock_send_form.call_args == mock.call(data)
+
+
+@mock.patch.object(api_client.company, 'profile_update')
+def test_update_company_profile(mock_profile_update):
+    data = {'foo': 'bar'}
+    sso_session_id = 123
+
+    helpers.update_company_profile(data=data, sso_session_id=sso_session_id)
+
+    assert mock_profile_update.call_count == 1
+    assert mock_profile_update.call_args == mock.call(data=data, sso_session_id=sso_session_id)

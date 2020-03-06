@@ -69,7 +69,7 @@ class DashboardView(TemplateView):
 
 class EnrolCompanyAPIView(generics.GenericAPIView):
 
-    serializer_class = serializers.EnrolCompanySerializer
+    serializer_class = serializers.CompanySerializer
     permission_classes = [IsAuthenticated, permissions.HasNoCompany]
 
     def post(self, request, *args, **kwargs):
@@ -93,6 +93,18 @@ class EnrolCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
+class UpdateCompanyAPIView(generics.GenericAPIView):
+
+    serializer_class = serializers.CompanySerializer
+    permission_classes = [IsAuthenticated, permissions.HasCompany]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=serializer.data)
+        return Response(status=200)
+
+
 class ArticleView(FormView):
     template_name = 'core/article.html'
     success_url = reverse_lazy('core:dashboard')
@@ -106,7 +118,8 @@ class ArticleView(FormView):
         return super().get_context_data(
             topic_name=self.kwargs['topic'],
             chapter_name=self.kwargs['chapter'],
-            article_name=self.kwargs['article']
+            article_name=self.kwargs['article'],
+            country_choices=[{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES],
         )
 
 

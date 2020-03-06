@@ -87,6 +87,12 @@ def create_company_profile(data):
     return response
 
 
+def update_company_profile(data, sso_session_id):
+    response = api_client.company.profile_update(sso_session_id=sso_session_id, data=data)
+    response.raise_for_status()
+    return response
+
+
 def create_user_profile(data, sso_session_id):
     response = sso_api_client.user.create_user_profile(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()
