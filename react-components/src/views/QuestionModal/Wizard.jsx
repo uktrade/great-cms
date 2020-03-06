@@ -140,7 +140,7 @@ export default function Wizard(props){
   }
 
   return (
-    <div className="great-mvp-modal">
+    <div className="great-mvp-modal" id="dashboard-question-modal-lets-get-to-know-you">
       <h3 className="great-mvp-modal-title">Let’s get to know you</h3>
       <hr className="great-mvp-modal-title-line" />
       <ErrorList errors={errors.__all__ || []} className="m-t-s" />
