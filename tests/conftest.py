@@ -3,8 +3,10 @@ from unittest import mock
 import environ
 import pytest
 from directory_api_client import api_client
+from django.contrib.auth import get_user_model
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from seleniumlogin import force_login
 from wagtail.core.models import Page
 from wagtail_factories import SiteFactory, PageFactory
 
@@ -141,3 +143,19 @@ def base_url(live_server):
 def visit_home_page(browser, base_url, request, domestic_site):
     browser.get(base_url)
     return browser
+
+
+@pytest.fixture
+def server_user_browser(browser, live_server, settings):
+    settings.SELENIUM_LOGIN_START_PAGE = '/login/'
+    User = get_user_model()
+    user = User.objects.create_user(username='myuser', password='password')
+    force_login(user, browser, live_server.url)
+    return live_server, user, browser
+
+
+@pytest.fixture
+def server_user_browser_dashboard(server_user_browser):
+    live_server, user, browser = server_user_browser
+    browser.get('{}/dashboard/'.format(live_server.url))
+    return live_server, user, browser
