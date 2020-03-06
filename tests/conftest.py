@@ -146,14 +146,21 @@ def visit_home_page(browser, base_url, request, domestic_site):
 
 
 @pytest.fixture
-def server_user_browser(browser, live_server, settings, user):
-    settings.SELENIUM_LOGIN_START_PAGE = '/login/'
-    force_login(user, browser, live_server.url)
+def server_user_browser(browser, live_server, user, client):
+    client.force_login(user)
     return live_server, user, browser
 
 
 @pytest.fixture
-def server_user_browser_dashboard(server_user_browser):
+def server_user_browser_dashboard(server_user_browser, settings):
     live_server, user, browser = server_user_browser
     browser.get('{}/dashboard/'.format(live_server.url))
+
+    browser.add_cookie({
+        'name': settings.SSO_SESSION_COOKIE,
+        'value': user.session_id,
+        'path': '/',
+    })
+    browser.refresh()
+
     return live_server, user, browser
