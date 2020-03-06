@@ -13,6 +13,7 @@ pytest-django
 pytest-sugar
 wagtail-factories
 django-debug-toolbar
+django-selenium-login
 requests-mock
 pip-tools
 ipdb
