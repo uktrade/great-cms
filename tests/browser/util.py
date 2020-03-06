@@ -38,17 +38,31 @@ def attach_jpg_screenshot(
 
 
 def is_element_present(browser: WebDriver, selector: Selector) -> bool:
-    """Check if sought element is present.
+    """Check if sought element is present (doesn't have to be visible).
 
     If selector returns more than 1 element then find_element() will return the first
     element from the list.
     """
-    found = True
+    is_present = True
     try:
         browser.find_element(by=selector.by, value=selector.selector)
     except NoSuchElementException:
-        found = False
-    return found
+        is_present = False
+    return is_present
+
+
+def is_element_visible(browser: WebDriver, selector: Selector) -> bool:
+    """Check if sought element is visible.
+
+    If element is not present it will also return False.
+    """
+    try:
+        is_visible = browser.find_element(
+            by=selector.by, value=selector.selector
+        ).is_displayed()
+    except NoSuchElementException:
+        is_visible = False
+    return is_visible
 
 
 def find_element(browser: WebDriver, selector: Selector) -> WebElement:
