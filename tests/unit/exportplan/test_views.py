@@ -1,5 +1,7 @@
+from datetime import datetime
 from unittest import mock
 
+from freezegun import freeze_time
 import pytest
 
 from django.urls import reverse
@@ -23,21 +25,6 @@ def test_export_plan_about_your_business(client):
     url = reverse('exportplan:about-your-business')
     response = client.get(url)
     assert response.status_code == 200
-
-
-@pytest.mark.django_db
-@mock.patch('core.helpers.store_user_location')
-@mock.patch.object(helpers, 'get_exportplan_rules_regulations')
-def test_exportplan_view(mock_get_export_plan_rules_regs, mock_user_location_create, client, user):
-    client.force_login(user)
-    mock_get_export_plan_rules_regs.return_value = {'rule1': 'r1'}
-
-    response = client.get(reverse('exportplan:create'))
-
-    assert mock_get_export_plan_rules_regs.call_count == 1
-    assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
-
-    assert response.context['rules_regulation'] == {'rule1': 'r1'}
 
 
 @pytest.mark.django_db
@@ -78,3 +65,26 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
         },
         sso_session_id='123'
     )
+
+
+pytest.mark.django_db
+@freeze_time('2016-11-23T11:21:10.977518Z')
+@mock.patch.object(helpers, 'get_exportplan_marketdata')
+@mock.patch.object(helpers, 'get_exportplan_rules_regulations')
+@mock.patch('core.helpers.store_user_location')
+def test_exportplan_view(
+    mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata, client, user
+):
+    client.force_login(user)
+    mock_get_export_plan_rules_regs.return_value = {'rule1': 'r1'}
+    mock_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', 'CPI': 10}
+
+    response = client.get(reverse('exportplan:create'))
+
+    assert mock_get_export_plan_rules_regs.call_count == 1
+    assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
+
+    assert response.context['rules_regulation'] == {'rule1': 'r1'}
+    assert response.context['export_marketdata'] == {'timezone': 'Asia/Shanghai', 'CPI': 10}
+    assert response.context['datenow'] == datetime.now()
+    assert response.context['utz_offset'] == '+0800'

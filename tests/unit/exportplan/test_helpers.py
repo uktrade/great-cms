@@ -84,3 +84,41 @@ def test_get_rules_and_regulations_empty(mock_airtable_search):
     rules = helpers.get_rules_and_regulations('India')
     assert mock_airtable_search.call_args == mock.call('country', 'India')
     assert rules is None
+
+
+@mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
+@mock.patch.object(api_client.dataservices, 'get_easeofdoingbusiness')
+def test_get_exportplan_marketdata(mock_cpi, mock_easeofdoingbusiness):
+    timezone_data = 'Asia/Shanghai'
+    cpi_data = {'country_name': 'China', 'country_code': 'CHN', 'cpi_score_2019': 41, 'rank': 80}
+    easeofdoingbusiness_data = {'country_name': 'China', 'country_code': 'CHN', 'cpi_score_2019': 41, 'rank': 80}
+
+    mock_easeofdoingbusiness.return_value = create_response(status_code=200, json_body=easeofdoingbusiness_data)
+    mock_cpi.return_value = create_response(status_code=200, json_body=cpi_data)
+
+    exportplan_marketdata = helpers.get_exportplan_marketdata('CHN')
+
+    assert mock_easeofdoingbusiness.call_count == 1
+    assert mock_easeofdoingbusiness.call_args == mock.call('CHN')
+    assert mock_cpi.call_count == 1
+    assert mock_cpi.call_args == mock.call('CHN')
+
+    assert exportplan_marketdata['timezone'] == timezone_data
+    assert exportplan_marketdata['corruption_perceptions_index'] == cpi_data
+    assert exportplan_marketdata['easeofdoingbusiness'] == easeofdoingbusiness_data
+
+
+def test_country_code_iso3_to_iso2():
+    assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
+
+
+def test_country_code_iso3_to_iso2_not_found():
+    assert helpers.country_code_iso3_to_iso2('XNY') is None
+
+
+def test_get_timezone():
+    assert helpers.get_timezone('CHN') == 'Asia/Shanghai'
+
+
+def test_get_local_time_not_found():
+    assert helpers.get_timezone('XS') is None

@@ -123,22 +123,6 @@ def test_get_custom_duties_url():
     assert url == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=CN&pc=8424.10'
 
 
-def test_country_code_iso3_to_iso2():
-    assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
-
-
-def test_country_code_iso3_to_iso2_not_found():
-    assert helpers.country_code_iso3_to_iso2('XNY') is None
-
-
-def test_get_timezone():
-    assert helpers.get_timezone('CHN') == 'Asia/Shanghai'
-
-
-def test_get_local_time_not_found():
-    assert helpers.get_timezone('XS') is None
-
-
 @mock.patch.object(api_client.enrolment, 'send_form')
 def test_create_company_profile(mock_send_form):
     data = {'foo': 'bar'}

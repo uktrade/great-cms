@@ -1,5 +1,8 @@
+import pytz
+
 from airtable import Airtable
 from directory_api_client import api_client
+from iso3166 import countries_by_alpha3
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -38,3 +41,30 @@ def get_rules_and_regulations(country):
     rules = airtable.search('country', country)
     if rules:
         return rules[0]['fields']
+
+
+def get_exportplan_marketdata(country_code):
+    # This is a temp wrapper for MVP as we finalise the source(s) this should move to backend
+    country_code = 'CHN'
+    exportplan_marketdata = {}
+    exportplan_marketdata['timezone'] = get_timezone(country_code)
+
+    exportplan_response = api_client.dataservices.get_corruption_perceptions_index(country_code)
+    exportplan_response.raise_for_status()
+    exportplan_marketdata['corruption_perceptions_index'] = exportplan_response.json()
+
+    marketdata_response = api_client.dataservices.get_easeofdoingbusiness(country_code)
+    marketdata_response.raise_for_status()
+    exportplan_marketdata['easeofdoingbusiness'] = marketdata_response.json()
+    return exportplan_marketdata
+
+
+def country_code_iso3_to_iso2(iso3_country_code):
+    if countries_by_alpha3.get(iso3_country_code):
+        return countries_by_alpha3[iso3_country_code].alpha2
+
+
+def get_timezone(country_code):
+    iso3_country_code = country_code_iso3_to_iso2(country_code)
+    if iso3_country_code and pytz.country_timezones(iso3_country_code):
+        return pytz.country_timezones(iso3_country_code)[0]
