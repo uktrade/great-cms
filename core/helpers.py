@@ -175,12 +175,12 @@ def get_exportplan_marketdata(country_code):
     country_code = 'CHN'
     exportplan_marketdata = {}
     exportplan_marketdata['timezone'] = get_timezone(country_code)
-    response = api_client.dataservices.get_corruption_perceptions_index(country_code)
-    response.raise_for_status()
-    if response.json():
-        exportplan_marketdata['corruption_perceptions_index'] = response.json()
-    response = api_client.dataservices.get_easeofdoingbusiness(country_code)
-    response.raise_for_status()
-    if response.json():
-        exportplan_marketdata['easeofdoingbusiness'] = response.json()
+
+    exportplan_response = api_client.dataservices.get_corruption_perceptions_index(country_code)
+    exportplan_response.raise_for_status()
+    exportplan_marketdata['corruption_perceptions_index'] = exportplan_response.json()
+
+    marketdata_response = api_client.dataservices.get_easeofdoingbusiness(country_code)
+    marketdata_response.raise_for_status()
+    exportplan_marketdata['easeofdoingbusiness'] = marketdata_response.json()
     return exportplan_marketdata
