@@ -93,9 +93,11 @@ def should_not_see(browser, selectors_enum):
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'create_company_profile')
-def test_dashboard_forced_user(mock_create_company_profile, mock_get_company_profile, server_user_browser_dashboard):
+def test_dashboard_forced_user(
+    mock_create_company_profile, mock_get_company_profile, server_user_browser_dashboard
+):
 
-    def side_effect():
+    def side_effect(_):
         mock_get_company_profile.return_value = {'foo': 'bar'}
 
     mock_create_company_profile.return_value = create_response()
