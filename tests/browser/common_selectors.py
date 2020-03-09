@@ -48,13 +48,13 @@ class ElementType(Enum):
 
 
 Selector = namedtuple(
-    "Selector",
+    'Selector',
     [
-        "by",
-        "selector",
-        "type",
-        "is_visible",
-        "is_authenticated",
+        'by',
+        'selector',
+        'type',
+        'is_visible',
+        'is_authenticated',
     ],
 )
 # define default values for Selector named tuple

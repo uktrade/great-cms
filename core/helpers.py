@@ -1,11 +1,8 @@
 from logging import getLogger
-import pytz
 
-from airtable import Airtable
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
-from iso3166 import countries_by_alpha3
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
@@ -39,46 +36,6 @@ def store_user_location(request):
     )
     if not response.ok:
         logger.error(USER_LOCATION_CREATE_ERROR)
-
-
-def get_madb_country_list():
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    airtable_data = airtable.get_all(view='Grid view')
-    country_list = [c['Country'] for c in [f['fields'] for f in airtable_data]]
-    return list(zip(country_list, country_list))
-
-
-def get_madb_commodity_list():
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    commodity_name_set = set()
-    for row in airtable.get_all(view='Grid view'):
-        commodity_code = row['fields']['Commodity code']
-        commodity_name = row['fields']['Commodity Name']
-        commodity_name_code = f'{commodity_name} - {commodity_code}'
-        commodity_name_set.add((commodity_code, commodity_name_code))
-    return commodity_name_set
-
-
-def get_rules_and_regulations(country):
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    rules = airtable.search('country', country)
-    if rules:
-        return rules[0]['fields']
-
-
-def create_export_plan(sso_session_id, exportplan_data):
-    response = api_client.exportplan.exportplan_create(sso_session_id=sso_session_id, data=exportplan_data)
-    response.raise_for_status()
-    return response.json()
-
-
-def get_exportplan_rules_regulations(sso_session_id):
-    response = api_client.exportplan.exportplan_list(sso_session_id)
-    response.raise_for_status()
-    if response.json():
-        return response.json()[0]['rules_regulations']
-    else:
-        None
 
 
 def create_company_profile(data):
@@ -163,30 +120,3 @@ def get_dashboard_export_opportunities():
 
 def get_custom_duties_url(product_code, country):
     return f'{settings.MADB_URL}/summary?d={country}&pc={product_code}'
-
-
-def country_code_iso3_to_iso2(iso3_country_code):
-    if countries_by_alpha3.get(iso3_country_code):
-        return countries_by_alpha3[iso3_country_code].alpha2
-
-
-def get_timezone(country_code):
-    iso3_country_code = country_code_iso3_to_iso2(country_code)
-    if iso3_country_code and pytz.country_timezones(iso3_country_code):
-        return pytz.country_timezones(iso3_country_code)[0]
-
-
-def get_exportplan_marketdata(country_code):
-    # This is a temp wrapper for MVP as we finalise the source(s) this should move to backend
-    country_code = 'CHN'
-    exportplan_marketdata = {}
-    exportplan_marketdata['timezone'] = get_timezone(country_code)
-
-    exportplan_response = api_client.dataservices.get_corruption_perceptions_index(country_code)
-    exportplan_response.raise_for_status()
-    exportplan_marketdata['corruption_perceptions_index'] = exportplan_response.json()
-
-    marketdata_response = api_client.dataservices.get_easeofdoingbusiness(country_code)
-    marketdata_response.raise_for_status()
-    exportplan_marketdata['easeofdoingbusiness'] = marketdata_response.json()
-    return exportplan_marketdata
