@@ -25,13 +25,21 @@ const checkVerificationCode = function({ email, code}) {
   return post(config.verifyCodeUrl, {email, code}).then(responseHandler)
 }
 
+
 const checkCredentials = function({ email, password }) {
   return post(config.apiLoginUrl, {email, password}).then(responseHandler)
 }
 
+
 const enrolCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
   const data = { company_name, expertise_industries, expertise_countries, first_name, last_name }
   return post(config.enrolCompanyUrl, data).then(responseHandler)
+}
+
+
+const updateCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
+  const data = { company_name, expertise_industries, expertise_countries, first_name, last_name }
+  return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
 }
 
 const responseHandler = function(response) {
@@ -49,29 +57,33 @@ let config = {}
 const setConfig = function({
   apiLoginUrl,
   apiSignupUrl,
-  verifyCodeUrl,
+  apiUpdateCompanyUrl,
+  countryOptions,
   csrfToken,
-  linkedInUrl,
-  googleUrl,
-  termsUrl,
-  enrolCompanyUrl,
-  industryOptions,
   dashboardUrl,
+  enrolCompanyUrl,
+  googleUrl,
+  industryOptions,
+  linkedInUrl,
   loginUrl,
   passwordResetUrl,
+  termsUrl,
+  verifyCodeUrl,
 }) {
   config.apiLoginUrl = apiLoginUrl
   config.apiSignupUrl = apiSignupUrl
-  config.verifyCodeUrl = verifyCodeUrl
+  config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
+  config.countryOptions = countryOptions
   config.csrfToken = csrfToken
-  config.linkedInUrl = linkedInUrl
-  config.googleUrl = googleUrl
-  config.termsUrl = termsUrl
-  config.enrolCompanyUrl = enrolCompanyUrl
-  config.industryOptions = industryOptions
   config.dashboardUrl = dashboardUrl
+  config.enrolCompanyUrl = enrolCompanyUrl
+  config.googleUrl = googleUrl
+  config.industryOptions = industryOptions
+  config.linkedInUrl = linkedInUrl
   config.loginUrl = loginUrl
   config.passwordResetUrl = passwordResetUrl
+  config.termsUrl = termsUrl
+  config.verifyCodeUrl = verifyCodeUrl
 }
 
 export default {
@@ -79,6 +91,7 @@ export default {
   checkCredentials,
   checkVerificationCode,
   enrolCompany,
+  updateCompany,
   setConfig,
   config,
   messages: {

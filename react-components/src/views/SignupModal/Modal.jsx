@@ -68,6 +68,7 @@ export function Modal(props){
         onRequestClose={!props.preventClose && handleClose}
         style={modalStyles}
         contentLabel="Modal"
+        id="signup-modal"
       >
         {getCloseButton()}
         <Wizard

@@ -3,6 +3,14 @@ from great_components import forms
 from core import helpers
 
 
+def build_checkbox(label):
+    return forms.BooleanField(
+        label=label,
+        required=False,
+        widget=forms.CheckboxWithInlineLabel(attrs={'disabled': True})
+    )
+
+
 class ExportPlanFormStart(forms.Form):
     commodity = forms.ChoiceField(required=False, label='commodity name')
     country = forms.ChoiceField(required=False, label='country')
@@ -14,13 +22,6 @@ class ExportPlanFormStart(forms.Form):
 
 
 class ExportPlanForm(forms.Form):
-
-    def build_checkbox(label):
-        return forms.BooleanField(
-            label=label,
-            required=False,
-            widget=forms.CheckboxWithInlineLabel(attrs={'disabled': True})
-        )
 
     step_a = build_checkbox('About your business')
     step_b = build_checkbox('Objectives')

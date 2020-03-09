@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class EnrolCompanySerializer(serializers.Serializer):
+class CompanySerializer(serializers.Serializer):
     company_name = serializers.CharField(required=False)
     expertise_industries = serializers.JSONField()
     expertise_countries = serializers.JSONField(required=False)

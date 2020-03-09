@@ -51,4 +51,9 @@ urlpatterns = [
         core.views.EnrolCompanyAPIView.as_view(),
         name='api-create-company'
     ),
+    path(
+        'api/update-company/',
+        core.views.UpdateCompanyAPIView.as_view(),
+        name='api-update-company'
+    ),
 ]
