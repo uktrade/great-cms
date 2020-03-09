@@ -3,10 +3,8 @@ from unittest import mock
 import environ
 import pytest
 from directory_api_client import api_client
-from django.contrib.auth import get_user_model
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from seleniumlogin import force_login
 from wagtail.core.models import Page
 from wagtail_factories import SiteFactory, PageFactory
 
