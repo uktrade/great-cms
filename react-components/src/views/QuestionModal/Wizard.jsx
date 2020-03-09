@@ -7,17 +7,17 @@ import ErrorList from '@src/components/ErrorList'
 import Services from '@src/Services'
 import StepProgressBar from '@src/components/StepProgressBar';
 import Step1 from './Step1'
-import Step2 from './Step2'
-import Step3 from './Step3'
+import StepSectors from './StepSectors'
+import StepCountry from './StepCountry'
 import Step4 from './Step4'
 
 import './stylesheets/Wizard.scss'
 
 
-export const STEP_COMPANY_NAME = 0
-export const STEP_SECTORS = 1
-export const STEP_COUNTRIES = 2
-export const STEP_PERSONAL_DETAILS = 3
+export const STEP_COMPANY_NAME = 'company-name'
+export const STEP_SECTORS = 'sectors'
+export const STEP_COUNTRIES = 'country'
+export const STEP_PERSONAL_DETAILS = 'personal-details'
 const PROGRESS_BAR_STEPS = [
   STEP_COMPANY_NAME,
   STEP_SECTORS,
@@ -55,42 +55,38 @@ export default function Wizard(props){
     setCurrentStep(nextStep)
   }
 
-  function handleStep1Submit() {
-    setCurrentStep(STEP_SECTORS)
+  function handeleApiUpdateError(errors) {
+    setErrors(errors)
+    for (let [fieldName, stepName] of FIELD_STEP_MAPPING) {
+      if (errors[fieldName]) {
+        setCurrentStep(stepName)
+      }
+    }
   }
 
-  function handleStep2Submit(){
-    // if we we're to implement multiple steps, then we would call setCurrentStep(STEP_COUNTRIES)
-    handleFormSubmit()
+  function handeleApiUpdateSuccess() {
+    window.location.assign(`${window.location}?success`)
   }
 
-  function handleStep3Submit() {
-    setCurrentStep(STEP_PERSONAL_DETAILS)
+  function handleCountriesSubmit() {
+    Services.enrolCompany({expertise_countries: countries.map(item => item.value)})
+      .then(handeleApiUpdateSuccess)
+      .catch(handeleApiUpdateError)
   }
 
-  function handleStep4Submit() {
-    handleFormSubmit()
-  }
-
-  function handleFormSubmit() {
+  function handleUpdateCompany() {
+    
     const data = {
       company_name: companyName,
       expertise_industries: industries.map(item => item.value),
-      expertise_countries: countries,
+      expertise_countries: countries.map(item => item.value),
       first_name: firstName,
       last_name: lastName,
     }
 
-    Services.enrolCompany(data)
-      .then(() => { window.location.assign(`${window.location}?success`) })
-      .catch(errors => {
-        setErrors(errors)
-        for (let [fieldName, stepName] of FIELD_STEP_MAPPING) {
-          if (errors[fieldName]) {
-            setCurrentStep(stepName)
-          }
-        }
-      })
+    Services.updateCompany(data)
+      .then(handeleApiUpdateSuccess)
+      .catch(handeleApiUpdateError)
   }
 
   function getStep() {
@@ -99,27 +95,27 @@ export default function Wizard(props){
         <Step1
           errors={errors}
           disabled={isInProgress}
-          handleSubmit={handleStep1Submit}
+          handleSubmit={handleUpdateCompany}
           handleChange={setCompanyName}
           value={companyName}
         />
       )
     } else if (currentStep == STEP_SECTORS) {
       return (
-        <Step2
+        <StepSectors
           errors={errors}
           disabled={isInProgress}
-          handleSubmit={handleStep2Submit}
+          handleSubmit={handleCountriesSubmit}
           handleChange={setIndustries}
           value={industries}
         />
       )
     } else if (currentStep == STEP_COUNTRIES) {
       return (
-        <Step3
+        <StepCountry
           errors={errors}
           disabled={isInProgress}
-          handleSubmit={handleStep3Submit}
+          handleSubmit={handleUpdateCompany}
           handleChange={setCountries}
           value={countries}
         />
@@ -129,7 +125,7 @@ export default function Wizard(props){
         <Step4
           errors={errors}
           disabled={isInProgress}
-          handleSubmit={handleStep4Submit}
+          handleSubmit={handleUpdateCompany}
           handleFirstNameChange={setFirstName}
           handleLastNameChange={setLastName}
           firstNameValue={firstName}
@@ -156,6 +152,7 @@ Wizard.propTypes = {
   username: PropTypes.string,
   password: PropTypes.string,
   industries: PropTypes.array,
+  countries: PropTypes.array,
 }
 
 Wizard.defaultProps = {
@@ -163,4 +160,5 @@ Wizard.defaultProps = {
   isInProgress: false,
   currentStep: STEP_SECTORS,
   industries: [],
+  countries: [],
 }

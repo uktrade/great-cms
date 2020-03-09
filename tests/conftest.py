@@ -2,6 +2,8 @@ from unittest import mock
 
 import environ
 import pytest
+
+from airtable import Airtable
 from directory_api_client import api_client
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -10,7 +12,6 @@ from wagtail_factories import SiteFactory, PageFactory
 
 from tests.unit.domestic import factories
 from tests.helpers import create_response
-from core.helpers import Airtable
 from sso.models import BusinessSSOUser
 
 

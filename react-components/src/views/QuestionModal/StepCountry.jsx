@@ -2,19 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import Field from '@src/components/Field'
+import AutoCompleteField from '@src/components/AutoCompleteField'
 
 import './stylesheets/Step.scss'
 
 
-export default function Step3(props){
+export default function StepCountry(props){
   return (
     <div className="great-mvp-wizard-step">
       <h2 className="great-mvp-wizard-step-heading">Business details</h2>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
-        <Field
-          type="text"
+        <AutoCompleteField
           label="What country would you like to export to?"
+          choices={Services.config.countryOptions}
           name="expertise_countries"
           disabled={props.disabled}
           value={props.value}
@@ -33,7 +33,7 @@ export default function Step3(props){
   )
 }
 
-Step3.propTypes = {
+StepCountry.propTypes = {
   disabled: PropTypes.bool,
   errors: PropTypes.array,
   handleChange: PropTypes.func.isRequired,
@@ -41,7 +41,7 @@ Step3.propTypes = {
   value: PropTypes.string,
 }
 
-Step3.defaultProps = {
+StepCountry.defaultProps = {
   disabled: false,
   errors: [],
   password: '',

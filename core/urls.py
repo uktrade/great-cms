@@ -32,16 +32,6 @@ urlpatterns = [
         name='capability-article'
     ),
     path(
-        'exportplan-start/',
-        core.views.ExportPlanStartView.as_view(),
-        name='exportplan-start'
-    ),
-    path(
-        'exportplan-create/',
-        core.views.ExportPlanView.as_view(),
-        name='exportplan'
-    ),
-    path(
         'login/',
         anonymous_user_required(core.views.LoginView.as_view()),
         name='login'
@@ -50,5 +40,10 @@ urlpatterns = [
         'api/create-company/',
         core.views.EnrolCompanyAPIView.as_view(),
         name='api-create-company'
+    ),
+    path(
+        'api/update-company/',
+        core.views.UpdateCompanyAPIView.as_view(),
+        name='api-update-company'
     ),
 ]
