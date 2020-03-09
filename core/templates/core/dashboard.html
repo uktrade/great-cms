@@ -227,7 +227,7 @@
             enrolCompanyUrl: '{% url "core:api-create-company" %}',
             industryOptions: {{ industry_options|safe }}
         });
-        var isOpen = {% if request.user.company.expertise_industries %}false{%else %}true{% endif %};
+        var isOpen = {% if request.user.company.expertise_industries_label %}false{%else %}true{% endif %};
         ditMVP.QuestionModal({
             element: element,
             isOpen: isOpen,

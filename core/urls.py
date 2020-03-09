@@ -27,6 +27,11 @@ urlpatterns = [
         name='dashboard'
     ),
     path(
+        'markets/',
+        core.views.MarketsView.as_view(),
+        name='markets'
+    ),
+    path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
         login_required(core.views.ArticleView.as_view(), login_url='/'),
         name='capability-article'

@@ -84,3 +84,22 @@ class ArticleView(FormView):
 
 class LoginView(TemplateView):
     template_name = 'core/login.html'
+
+
+class MarketsView(TemplateView):
+    template_name = 'core/markets.html'
+
+    def get_page_title(self):
+        if self.request.user.is_authenticated:
+            return helpers.get_markets_page_title(self.request.user.company)
+
+    def get_most_popular_countries(self):
+        if self.request.user.is_authenticated:
+            return helpers.get_popular_export_destinations(self.request.user.company.first_expertise_industry_label)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            page_title=self.get_page_title(),
+            most_popular_countries=self.get_most_popular_countries(),
+            **kwargs
+        )

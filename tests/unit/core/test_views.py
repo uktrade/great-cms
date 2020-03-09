@@ -211,3 +211,27 @@ def test_login_page_logged_in(client, user):
 
     assert response.status_code == 302
     assert response.url == reverse('core:dashboard')
+
+
+@mock.patch.object(helpers, 'get_markets_page_title')
+def test_markets_logged_in(mock_get_markets_page_title, mock_get_company_profile, user, client):
+    mock_get_markets_page_title.return_value = 'Some page title'
+    mock_get_company_profile.return_value = {'expertise_countries': ['AF'], 'expertise_industries': ['AEROSPACE']}
+    client.force_login(user)
+    url = reverse('core:markets')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['page_title'] == 'Some page title'
+    assert len(response.context_data['most_popular_countries']) == 5
+
+
+def test_markets_not_logged_in(mock_get_company_profile, client):
+    url = reverse('core:markets')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['page_title'] is None
+    assert response.context_data['most_popular_countries'] is None
