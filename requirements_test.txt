@@ -22,7 +22,7 @@ codecov==2.0.16           # via -r requirements_test.in
 configargparse==1.0       # via locustio
 coverage==5.0.3           # via codecov, django-coverage-plugin, pytest-cov
 decorator==4.4.2          # via ipython, traitlets
-directory-api-client==21.2.2  # via -r requirements.in
+directory-api-client==21.5.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in

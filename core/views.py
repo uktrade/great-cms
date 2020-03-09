@@ -1,3 +1,6 @@
+import pytz
+from datetime import datetime
+
 from directory_constants import choices
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -51,7 +54,15 @@ class ExportPlanView(TemplateView):
 
     def get_context_data(self, **kwargs):
         rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
-        return super().get_context_data(rules_regulation=rules_regulation, **kwargs)
+        export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('Country code'))
+        utz_offset = datetime.now(pytz.timezone(export_marketdata['timezone'])).strftime('%z')
+        return super().get_context_data(
+            rules_regulation=rules_regulation,
+            export_marketdata=export_marketdata,
+            datenow=datetime.now(),
+            utz_offset=utz_offset,
+            **kwargs
+        )
 
 
 class DashboardView(TemplateView):

@@ -32,4 +32,22 @@
                 </form>
         {% endif %}
     </div>
+    <div>
+        Country: {{ export_marketdata.corruption_perceptions_index.country_name }}<br>
+        Corruption Perception Index: {{ export_marketdata.corruption_perceptions_index.cpi_score_2019 }} <br>
+        Rank: {{ export_marketdata.corruption_perceptions_index.rank }}
+    </div>
+    <div>
+        <br><br>
+        Ease of doing business: {{ export_marketdata.easeofdoingbusiness.year_2019 }} of {{ export_marketdata.easeofdoingbusiness.total }} <br>
+    </div>
+    <div>
+        <br><br>
+        TimeZone: {{ export_marketdata.timezone }} <br>
+        {% load tz %}
+        Local time: {{ datenow|timezone:export_marketdata.timezone|date:'H:i' }} <br>
+        GMT:  {{  utz_offset }}
+
+    </div>
+
 {% endblock tab_content %}
