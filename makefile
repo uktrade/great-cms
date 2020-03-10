@@ -57,9 +57,6 @@ requirements:
 install_requirements:
 	pip install -q -r requirements_test.txt
 
-css:
-	./node_modules/.bin/gulp sass
-
 secrets:
 	cp config/env/secrets-template config/env/secrets-do-not-commit; \
 	sed -i -e 's/#DO NOT ADD SECRETS TO THIS FILE//g' config/env/secrets-do-not-commit
