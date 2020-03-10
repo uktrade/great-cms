@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from core import helpers
 from tests.helpers import create_response
+from directory_api_client import api_client
 
 
 @pytest.fixture
@@ -137,7 +138,11 @@ def test_landing_page_logged_in(client, user):
 
 
 @pytest.mark.django_db
-def test_dashboard_page_logged_in(client, user):
+@mock.patch.object(api_client.personalisation, 'events_by_location_list')
+@mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
+def test_dashboard_page_logged_in(mock_events_by_location_list, mock_export_opportunities_by_relevance_list, client, user):
+    mock_events_by_location_list.return_value = create_response(json_body={'results': []})
+    mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
 
     url = reverse('core:dashboard')
@@ -145,16 +150,6 @@ def test_dashboard_page_logged_in(client, user):
     response = client.get(url)
 
     assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_dashboard_page_not_logged_in(client):
-    url = reverse('core:dashboard')
-
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == f'/?next={url}'
 
 
 @pytest.mark.django_db
