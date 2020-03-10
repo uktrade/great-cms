@@ -96,7 +96,7 @@
   var element = document.getElementById("sector-selection");
     ditMVP.SectorChooser({
       element: element,
-      name: 'Jim'
+      sectorList: {{ sectors|safe }}
     })
   </script>
 {% endblock %}

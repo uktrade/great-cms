@@ -6,18 +6,19 @@ import Sector from './Sector'
 
 const element = document.getElementById('sector-selection')
 
-const uuid = function() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
 export class SectorChooser extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {sectorList: []};
-    this.handleClick = this.handleClick.bind(this);
+    super(props)
+    this.state = {
+      sectorList: props.sectorList.map((sector) =>
+        <Sector name={sector.name} key={sector.id} />
+      ),
+      sectorListIsVisible: false,
+      tooltipIsVisible: false,
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
   componentDidMount() {
@@ -26,38 +27,71 @@ export class SectorChooser extends React.Component {
   componentWillUnmount() {
   }
 
+  showSectorList() {
+    this.setState({sectorListIsVisible: true})
+  }
+
   handleClick(e) {
     e.preventDefault()
-    this.setState({
-      sectorList: this.state.sectorList.concat([
-        <Sector name='food and drink' key={uuid()}/>
-      ])
-    })
-    console.log(this.state.sectorList);
+    this.showSectorList()
+  }
+
+  handleMouseOver(e) {
+    this.setState({tooltipIsVisible: true})
+  }
+
+  handleMouseOut(e) {
+    this.setState({tooltipIsVisible: false})
   }
 
   render() {
-    return (
-      <>
+    let sectorList;
+    if (this.state.sectorListIsVisible) {
+      sectorList = (
         <ul className='sector-list'>
           {this.state.sectorList}
         </ul>
-        <button
-          type="button"
-          className="plus-button"
-          onClick={this.handleClick}
-          >
-          Add a sector
-        </button>
+      )
+    }
+
+    let sectorChooserButton;
+    if (!this.state.sectorListIsVisible) {
+      sectorChooserButton = (
+        <div
+          id="sector-chooser"
+          className="sector-chooser">
+          <div
+            aria-hidden={!this.state.tooltipIsVisible}
+            id="sector-list-tooltip"
+            className={`sector-list-tooltip ${this.state.tooltipIsVisible ? '' : 'visually-hidden'}`}
+            role="tooltip">Add sectors</div>
+          <button
+            type="button"
+            className="plus-button"
+            onClick={this.handleClick}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
+            aria-describedby="sector-list-tooltip"
+            >
+            Add a sector
+          </button>
+        </div>
+      )
+    }
+
+    return (
+      <>
+        {sectorList}
+        {sectorChooserButton}
       </>
     )
   }
 }
 
 SectorChooser.propTypes = {
-  name: PropTypes.string
+  sectorList: PropTypes.array.isRequired
 }
 
 export default function createSectorChooser({ element, ...params }) {
-  ReactDOM.render(<SectorChooser />, element)
+  ReactDOM.render(<SectorChooser {...params} />, element)
 }

@@ -18,15 +18,47 @@
     padding-left: calc(100% / 12 * 3);
   }
 
+  .sector-chooser {
+    position: relative;
+  }
+
+  .sector-list-tooltip {
+    @include body-medium-bold;
+    @include shadow;
+    padding: 2px $space-xs-m;
+    @include desktop {
+      padding: 2px $space-xs;
+    }
+    position: absolute;
+    left: -160px;
+    background-color: $grey;
+    color: $white;
+
+    &:after {
+      display: block;
+      content: '';
+      width: 0;
+      height: 0;
+      border-top: 17px solid transparent;
+      border-left: 16px solid $grey;
+      border-bottom: 17px solid transparent;
+      position: absolute;
+      right: -16px;
+      top: 0;
+    }
+  }
+
   .sector-selection {
     & > * {
-      float: left;
-      display: block;
       line-height: 1;
     }
 
     .sector-list li {
       display: inline-block;
+      margin-bottom: $space-xxs-m;
+      @include desktop {
+        margin-bottom: $space-xxs;
+      }
     }
 
     .plus-button {

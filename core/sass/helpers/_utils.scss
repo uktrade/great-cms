@@ -47,6 +47,12 @@ $colours:
   }
 }
 
+@each $colour, $name in $colours {
+  .border-hover-#{$name}:hover {
+    border-color: $colour;
+  }
+}
+
 .plus-button {
   @extend .pill;
   @extend .bg-white;
@@ -57,6 +63,7 @@ $colours:
   position: relative;
   display: block;
   padding: 15px;
+  padding-bottom: 14px;
   font-size: 0;
   border-radius: $space-m-m;
 
