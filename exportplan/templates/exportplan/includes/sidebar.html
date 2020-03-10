@@ -1,0 +1,16 @@
+<nav class="sidebar p-h-s p-b-m" id="sidebar-content">
+  <div class="sidebar-sticky">
+    <div class="centre-children width-full p-t-m">
+      <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="" class="w-1-2">
+    </div>
+    <ul>
+      {% for section in sections %}
+        {% if section == 'Target markets' %}
+        <li class="h-s"><a href="{% url 'exportplan:target-markets' %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
+        {% else %}
+        <li class="h-s"><a href="#" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</nav>

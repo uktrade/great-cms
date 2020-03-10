@@ -1,10 +1,106 @@
 
 .pill {
   border-radius: 1em;
-  padding: .333em .75em;
-  margin: 0 .333em;
+  padding: 5px 15px;
+  margin-right: 10px;
 }
 
+$colours:
+  ($black, black),
+  ($grey, grey),
+  ($mid-grey, mid-grey),
+  ($light-grey, light-grey),
+  ($offwhite, offwhite),
+  ($white, white),
+  (transparent, transparent),
+  ($purple, purple),
+  ($great-blue, great-blue),
+  ($dark-navy, dark-navy),
+  ($mid-blue, mid-blue),
+  ($active-blue, active-blue),
+  ($light-blue, light-blue),
+  ($aqua, aqua),
+  ($teal, teal),
+  ($flag-red, flag-red),
+  ($great-red, great-red),
+  ($focus-yellow, focus-yellow),
+  ($stone-10, stone-10),
+  ($stone-20, stone-20),
+  ($stone-30, stone-30),
+  ($stone-40, stone-40),
+  ($stone-50, stone-50),
+  ($stone-60, stone-60),
+  ($stone-70, stone-70),
+  ($stone-80, stone-80),
+  ($stone-90, stone-90),
+  ($stone, stone);
+
+@each $colour, $name in $colours {
+  .bg-hover-#{$name}:hover {
+    background-color: $colour;
+  }
+}
+
+@each $colour, $name in $colours {
+  .text-hover-#{$name}:hover {
+    color: $colour;
+  }
+}
+
+.plus-button {
+  @extend .pill;
+  @extend .bg-white;
+  @extend .border-grey;
+  @extend .border-thin;
+  @extend .bg-hover-grey;
+  @extend .text-hover-white;
+  position: relative;
+  display: block;
+  padding: 15px;
+  font-size: 0;
+  border-radius: $space-m-m;
+
+  @include desktop {
+    border-radius: $space-m;
+  }
+
+  &:hover:after,
+  &:hover:before {
+    background-color: $white;
+  }
+
+  &:after {
+    height: 20px;
+    width: 2px;
+    background-color: $grey;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 14px;
+
+    @include desktop {
+      top: 5px;
+      left: 14px;
+    }
+  }
+
+  &:before {
+    width: 20px;
+    height: 2px;
+    background-color: $grey;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 14px;
+    left: 5px;
+
+    @include desktop {
+      top: 14px;
+      left: 5px;
+    }
+  }
+}
 
 .centre-children {
   text-align: center;

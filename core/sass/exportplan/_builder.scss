@@ -5,26 +5,32 @@
     width: 100%;
   }
 
-  .nav-section {
+  .sidebar {
     float: left;
     width: 300px;
     background-color: $white;
     border-right: 1px solid $light-grey;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    position: absolute;
+    z-index: 1;
   }
 
-  .main-section {
-    display: flex;
+  .intro-content {
+    padding-left: calc(100% / 12 * 3);
   }
 
-  .content-section {
-    width: calc(100% - 300px);
-  }
+  .sector-selection {
+    & > * {
+      float: left;
+      display: block;
+      line-height: 1;
+    }
 
-  .section-content {
-    width: 50%;
-    margin: 0 auto;
+    .sector-list li {
+      display: inline-block;
+    }
+
+    .plus-button {
+      @extend .m-v-s;
+    }
   }
 }

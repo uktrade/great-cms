@@ -5,40 +5,98 @@
 
 {% block content %}
 
-<section class="main-section clearfix relative">
-  <nav class="nav-section p-h-s" id="sidebar-content">
-    <div class="centre-children width-full p-t-m">
-      <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="" class="w-1-2">
-    </div>
-    <ul>
-      {% for section in sections %}
-        {% if forloop.first %}
-        <li class="h-s"><a href="{% url 'exportplan:about-your-business' %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
-        {% else %}
-        <li class="h-s"><a href="#" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </nav>
+{% include "exportplan/includes/sidebar.html" %}
+{% include "exportplan/includes/sticky-header.html" %}
 
-  <div class="content-section bg-stone-50" id="about-your-business-content">
+<section class="main-section bg-stone-50" id="target-markets-content">
 
-    {% include "exportplan/includes/sticky-header.html" %}
-
-    <div class="section-content p-t-l">
-      <h1 class="h-xl">{{ title }}</h1>
-      {% lorem 1 p %}
-    </div>
-      <img src="https://via.placeholder.com/1600x200/dfd5c5?text=Banner image" alt="" class="width-full banner-image">
-    <div class="section-content">
-      <div class="g-panel">
-        {% lorem 1 p random %}
+  <section class="container">
+    <div class="grid">
+      <div class="c-1-3">&nbsp;</div>
+      <div class="c-1-2 p-t-l">
+        <h1 class="h-xl">Target markets</h1>
+        <p>Identify the markets that will most likely respond to your product or service. You will learn how to research and assess potential markets from a range of different methods.</p>
       </div>
-      {% lorem 3 p random %}
     </div>
+  </section>
 
-  </div>
+  <img src="https://via.placeholder.com/1600x200/dfd5c5?text=Banner image" alt="" class="width-full banner-image">
+
+  <section class="container">
+
+    <div class="grid">
+      <div class="c-1-3">&nbsp;</div>
+      <div class="c-1-2">
+        <div class="g-panel">
+          <p>Which countries are you targeting, with which products or services, and why? Use research to identify evidence of both market attractiveness, and ease of operating in the market.</p>
+          <p>Some examples of market attractiveness are:</p>
+          <ul class="list-bullet">
+            <li>evidence of consumer demand</li>
+            <li>identifying a unique selling point (USP) for your product in 	the market</li>
+          </ul>
+          <p>Some examples of market ease are:</p>
+          <ul class="list-bullet">
+            <li>ease of doing business in the market (World Bank score)</li>
+            <li>the level of adaptation required for your product and 	packaging, or service, to sell it in the market</li>
+          </ul>
+          <p><a href="#">See examples</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="container">
+    <div class="grid">
+      <div class="c-1-4">&nbsp;</div>
+      <div class="c-3-4">
+        <h2 class="h-m">Recommended countries</h2>
+        <p>Add sectors you're interested in so we can recommend some countries.</p>
+        <div class="sector-selection" id="sector-selection">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="container">
+    <div class="grid">
+      <div class="c-1-4">&nbsp;</div>
+        <div class="c-3-4">
+        <button type="button" class="g-button bg-white text-grey pill">Add country</button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="m-b-0">
+
+  <section class="bg-white">
+    <div class="container">
+      <div class="grid p-t-s">
+        <div class="c-1-4">&nbsp;</div>
+          <div class="c-3-4">
+            <h2 class="h-m">Your actions</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
 
 </section>
 
+{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+  var element = document.getElementById("sector-selection");
+    ditMVP.SectorChooser({
+      element: element,
+      name: 'Jim'
+    })
+  </script>
 {% endblock %}
