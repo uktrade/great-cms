@@ -1,16 +1,18 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <div id="great-hero" class="container gutter-top">
+    <div id="great-hero" class="p-t-l">
+      <div class="container">
         <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
         {% if 'success' not in request.GET %}
             <h3 class="h-s p-v-s">Start learning</h3>
         {% endif %}
+      </div>
     </div>
 
     <div class="container">
         {% if 'success' in request.GET %}
-            <div class="grid m-b-s">
+            <div class="grid m-s">
                 <div class="c-full">
                     <div class="bg-white p-s great-mvp-success-card">
                         <h3>Complete, discover your next step</h3>
@@ -191,7 +193,7 @@
                     <div class="m-b-xs">Exporting to <a href="#" class="link">China</a></div>
 
                     <table>
-                        <thead> 
+                        <thead>
                             <tr>
                                 <th class="card-heading text-12">COMMODITY</th>
                                 <th class="card-heading text-12">VAT</th>
@@ -225,10 +227,11 @@
             enrolCompanyUrl: '{% url "core:api-create-company" %}',
             industryOptions: {{ industry_options|safe }}
         });
-        var isOpen = {% if request.user.company %}false{%else %}true{% endif %};
+        var isOpen = {% if request.user.company.expertise_industries_label %}false{%else %}true{% endif %};
         ditMVP.QuestionModal({
             element: element,
-            isOpen: isOpen
+            isOpen: isOpen,
+            currentStep: 'sectors'
         });
     </script>
 {% endblock %}

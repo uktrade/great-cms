@@ -1,6 +1,9 @@
 from unittest import mock
 
+import environ
 import pytest
+
+from airtable import Airtable
 from directory_api_client import api_client
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -9,7 +12,6 @@ from wagtail_factories import SiteFactory, PageFactory
 
 from tests.unit.domestic import factories
 from tests.helpers import create_response
-from core.helpers import Airtable
 from sso.models import BusinessSSOUser
 
 
@@ -85,7 +87,7 @@ def mock_airtable_rules_regs():
                     'Commodity code': '2208.50.12',
                     'Commodity Name': 'Gin and Geneva 2l'
                 },
-         },
+        },
         {
             'id': '2',
             'fields':
@@ -113,12 +115,15 @@ def mock_user_location_create():
 @pytest.fixture(scope='session')
 def browser():
     options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--window-size=1600x2200")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--start-maximized")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--no-sandbox")
+    env = environ.Env()
+    headless = env.bool('HEADLESS', True)
+    if headless:
+        options.add_argument('--headless')
+        options.add_argument('--window-size=1600x2200')
+        options.add_argument('--disable-gpu')
+    options.add_argument('--start-maximized')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--no-sandbox')
     browser = webdriver.Chrome(options=options)
     yield browser
     browser.quit()
@@ -137,16 +142,3 @@ def base_url(live_server):
 def visit_home_page(browser, base_url, request, domestic_site):
     browser.get(base_url)
     return browser
-
-
-def pytest_bdd_apply_tag(tag, function):
-    """Force pytest-bdd to work with pytest-django.
-    See: https://github.com/pytest-dev/pytest-bdd/issues/215
-    """
-    if tag == "django_db":
-        marker = pytest.mark.django_db(transaction=True)
-        marker(function)
-        return True
-    else:
-        # Fall back to pytest-bdd's default behavior
-        return None

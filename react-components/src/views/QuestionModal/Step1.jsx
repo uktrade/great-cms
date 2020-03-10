@@ -10,7 +10,7 @@ import './stylesheets/Step.scss'
 export default function Step1(props){
   return (
     <div className="great-mvp-wizard-step">
-      <h2 className="great-mvp-wizard-step-heading">Business details</h2>
+      <h2 className="h-xl p-b-s m-t-s">Business details</h2>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <Field
           type="text"
@@ -25,7 +25,7 @@ export default function Step1(props){
         <input
           type="submit"
           value="Continue"
-          className="great-mvp-wizard-step-submit"
+          className="g-button"
           disabled={props.disabled}
         />
       </form>

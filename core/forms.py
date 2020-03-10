@@ -1,26 +1,15 @@
 from great_components import forms
 
-from core import helpers
 
-
-class ExportPlanFormStart(forms.Form):
-    commodity = forms.ChoiceField(required=False, label='commodity name')
-    country = forms.ChoiceField(required=False, label='country')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['country'].choices = helpers.get_madb_country_list()
-        self.fields['commodity'].choices = helpers.get_madb_commodity_list()
+def build_checkbox(label):
+    return forms.BooleanField(
+        label=label,
+        required=False,
+        widget=forms.CheckboxWithInlineLabel(attrs={'disabled': True})
+    )
 
 
 class ExportPlanForm(forms.Form):
-
-    def build_checkbox(label):
-        return forms.BooleanField(
-            label=label,
-            required=False,
-            widget=forms.CheckboxWithInlineLabel(attrs={'disabled': True})
-        )
 
     step_a = build_checkbox('About your business')
     step_b = build_checkbox('Objectives')

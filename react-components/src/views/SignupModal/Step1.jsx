@@ -14,7 +14,7 @@ export default function Step1(props){
       <h2 className="h-xl">Sign up</h2>
       <p className="body-text great-mvp-synopsis">
         <span>It's easier to sign up now and save your progress, already have an account? </span>
-        <a href="#">Log in</a>
+        <a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
       </p>
       <SocialLoginButtons />
       <div className='great-mvp-vertical-separator'>
@@ -42,11 +42,12 @@ export default function Step1(props){
           handleChange={props.handlePasswordChange}
           errors={props.errors.password || []}
         />
-        <p className='great-mvp-terms'>By clicking Sign up, you accept the <a href={Services.config.termsUrl} target="_blank">terms and conditions</a> of the great.gov.uk service.</p>
+        <p className='great-mvp-terms m-0'>By clicking Sign up, you accept the <a href={Services.config.termsUrl} target="_blank" id="signup-modal-t-and-c">terms and conditions</a> of the great.gov.uk service.</p>
         <input
           type="submit"
           value="Sign up"
-          className="great-mvp-wizard-step-submit"
+          id="signup-modal-submit"
+          className="great-mvp-wizard-step-submit g-button"
           disabled={props.disabled}
         />
       </form>

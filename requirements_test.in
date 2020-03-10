@@ -8,7 +8,6 @@ pillow
 selenium
 locustio
 pytest
-pytest-bdd
 pytest-cov
 pytest-django
 pytest-sugar
@@ -23,5 +22,12 @@ beautifulsoup4
 # Code quality
 # -------------
 flake8
+flake8-quotes
+flake8-blind-except
+flake8-debugger
+flake8-print
+flake8-quotes
+flake8-string-format
+pep8-naming
 pylint-django
 codecov

@@ -1,7 +1,11 @@
+from collections import Counter
+import csv
+from difflib import SequenceMatcher
+import functools
 from logging import getLogger
 
-from airtable import Airtable
 from directory_api_client import api_client
+import great_components.helpers
 from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
 
@@ -31,56 +35,24 @@ def get_location(request):
 
 
 def store_user_location(request):
-    response = api_client.personalisation.user_location_create(
-        sso_session_id=request.user.session_id,
-        data=get_location(request)
-    )
-    if not response.ok:
-        logger.error(USER_LOCATION_CREATE_ERROR)
-
-
-def get_madb_country_list():
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    airtable_data = airtable.get_all(view='Grid view')
-    country_list = [c['Country'] for c in [f['fields'] for f in airtable_data]]
-    return list(zip(country_list, country_list))
-
-
-def get_madb_commodity_list():
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    commodity_name_set = set()
-    for row in airtable.get_all(view='Grid view'):
-        commodity_code = row['fields']['Commodity code']
-        commodity_name = row['fields']['Commodity Name']
-        commodity_name_code = f'{commodity_name} - {commodity_code}'
-        commodity_name_set.add((commodity_code, commodity_name_code))
-    return commodity_name_set
-
-
-def get_rules_and_regulations(country):
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    rules = airtable.search('country', country)
-    if rules:
-        return rules[0]['fields']
-
-
-def create_export_plan(sso_session_id, exportplan_data):
-    response = api_client.exportplan.exportplan_create(sso_session_id=sso_session_id, data=exportplan_data)
-    response.raise_for_status()
-    return response.json()
-
-
-def get_exportplan_rules_regulations(sso_session_id):
-    response = api_client.exportplan.exportplan_list(sso_session_id)
-    response.raise_for_status()
-    if response.json():
-        return response.json()[0]['rules_regulations']
-    else:
-        None
+    location = get_location(request)
+    if location:
+        response = api_client.personalisation.user_location_create(
+            sso_session_id=request.user.session_id,
+            data=location
+        )
+        if not response.ok:
+            logger.error(USER_LOCATION_CREATE_ERROR)
 
 
 def create_company_profile(data):
     response = api_client.enrolment.send_form(data)
+    response.raise_for_status()
+    return response
+
+
+def update_company_profile(data, sso_session_id):
+    response = api_client.company.profile_update(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()
     return response
 
@@ -134,7 +106,7 @@ def get_dashboard_export_opportunities():
         },
         {
             'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'description': "A company is looking for healthy food and snacks to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
@@ -143,7 +115,7 @@ def get_dashboard_export_opportunities():
         },
         {
             'title': 'Jordan - Healthy foods',
-            'description': 'A company is looking for healthy food and snacks to sell in it\'s branches',
+            'description': "A company is looking for healthy food and snacks to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
@@ -155,3 +127,45 @@ def get_dashboard_export_opportunities():
 
 def get_custom_duties_url(product_code, country):
     return f'{settings.MADB_URL}/summary?d={country}&pc={product_code}'
+
+
+def get_markets_page_title(company):
+    industries, countries = company.data['expertise_industries'], company.data['expertise_countries']
+    if industries and countries:
+        return f'The {company.first_expertise_industry_label} market in {company.expertise_countries_label}'
+    elif industries:
+        return f'The {company.first_expertise_industry_label} market'
+    elif countries:
+        return f'The market in {company.expertise_countries_label}'
+
+
+def get_canonical_sector_label(label):
+    return label.lower().replace(' & ', ' and ')
+
+
+@functools.lru_cache(maxsize=None)
+def is_fuzzy_match(label_a, label_b):
+    match = SequenceMatcher(None, get_canonical_sector_label(label_a), get_canonical_sector_label(label_b))
+    return match.ratio() > 0.9
+
+
+def get_popular_export_destinations(sector_label):
+    export_destinations = Counter()
+
+    with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
+        for row in csv.DictReader(f, delimiter=','):
+            row_sectors = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
+            if is_fuzzy_match(label_a=row_sectors, label_b=sector_label):
+                export_destinations.update([row['country']])
+    return export_destinations.most_common(5)
+
+
+class CompanyParser(great_components.helpers.CompanyParser):
+
+    @property
+    def first_expertise_industry_label(self):
+        if self.data['expertise_industries']:
+            return great_components.helpers.values_to_labels(
+                values=[self.data['expertise_industries'][0]],
+                choices=self.SECTORS
+            )

@@ -28,7 +28,7 @@ export default function Field(props){
       <ErrorList errors={props.errors || []} />
       <input
         autoFocus={props.autofocus}
-        className="great-mvp-field-input"
+        className="great-mvp-field-input form-control"
         disabled={props.disabled}
         id={id_for_label}
         name={props.name}
@@ -40,7 +40,7 @@ export default function Field(props){
     </div>
   )
 }
-  
+
 
 Field.propTypes = {
   type: PropTypes.string.isRequired,

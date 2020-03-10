@@ -13,47 +13,6 @@ class LandingPageView(TemplateView):
     template_name = 'domestic/domestic_home_page.html'
 
 
-class ExportPlanStartView(FormView):
-    template_name = 'core/exportplanstart.html'
-    form_class = forms.ExportPlanFormStart
-    success_url = reverse_lazy('core:exportplan-view')
-
-    def get_initial(self):
-        return {
-            'country': self.request.GET.get('country'),
-            'commodity': self.request.GET.get('commodity code'),
-        }
-
-    def get_context_data(self, **kwargs):
-        rules_regulation = None
-        if self.request.GET.get('country'):
-            rules_regulation = helpers.get_rules_and_regulations(self.request.GET['country'])
-        return super().get_context_data(rules_regulation=rules_regulation, **kwargs)
-
-    def form_valid(self, form):
-        rules_regulation = helpers.get_rules_and_regulations(self.request.GET.get('country'))
-        helpers.create_export_plan(
-            sso_session_id=self.request.user.session_id,
-            exportplan_data=self.serialize_exportplan_data(rules_regulation)
-        )
-        return super().form_valid(form)
-
-    def serialize_exportplan_data(self, exportplan_data):
-        return {
-            'export_countries': [exportplan_data['Country']],
-            'export_commodity_codes': [exportplan_data['Commodity code']],
-            'rules_regulations': exportplan_data,
-        }
-
-
-class ExportPlanView(TemplateView):
-    template_name = 'core/exportplanview.html'
-
-    def get_context_data(self, **kwargs):
-        rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
-        return super().get_context_data(rules_regulation=rules_regulation, **kwargs)
-
-
 class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
 
@@ -69,7 +28,7 @@ class DashboardView(TemplateView):
 
 class EnrolCompanyAPIView(generics.GenericAPIView):
 
-    serializer_class = serializers.EnrolCompanySerializer
+    serializer_class = serializers.CompanySerializer
     permission_classes = [IsAuthenticated, permissions.HasNoCompany]
 
     def post(self, request, *args, **kwargs):
@@ -93,6 +52,18 @@ class EnrolCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
+class UpdateCompanyAPIView(generics.GenericAPIView):
+
+    serializer_class = serializers.CompanySerializer
+    permission_classes = [IsAuthenticated, permissions.HasCompany]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=serializer.data)
+        return Response(status=200)
+
+
 class ArticleView(FormView):
     template_name = 'core/article.html'
     success_url = reverse_lazy('core:dashboard')
@@ -106,5 +77,29 @@ class ArticleView(FormView):
         return super().get_context_data(
             topic_name=self.kwargs['topic'],
             chapter_name=self.kwargs['chapter'],
-            article_name=self.kwargs['article']
+            article_name=self.kwargs['article'],
+            country_choices=[{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES],
+        )
+
+
+class LoginView(TemplateView):
+    template_name = 'core/login.html'
+
+
+class MarketsView(TemplateView):
+    template_name = 'core/markets.html'
+
+    def get_page_title(self):
+        if self.request.user.is_authenticated:
+            return helpers.get_markets_page_title(self.request.user.company)
+
+    def get_most_popular_countries(self):
+        if self.request.user.is_authenticated:
+            return helpers.get_popular_export_destinations(self.request.user.company.first_expertise_industry_label)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            page_title=self.get_page_title(),
+            most_popular_countries=self.get_most_popular_countries(),
+            **kwargs
         )

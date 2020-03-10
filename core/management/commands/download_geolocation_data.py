@@ -16,7 +16,7 @@ class GeolocationRemoteFileArchive:
     location = settings.GEOLOCATION_MAXMIND_DATABASE_FILE_URL
 
     def decompress(self, file_like_object, file_name):
-        tar = tarfile.open(mode="r:gz", fileobj=file_like_object)
+        tar = tarfile.open(mode='r:gz', fileobj=file_like_object)
         for member in tar.getmembers():
             if member.name.endswith(file_name):
                 member.name = file_name

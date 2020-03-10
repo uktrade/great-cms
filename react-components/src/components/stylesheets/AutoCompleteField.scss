@@ -1,11 +1,8 @@
-$asset-root: '../../../assets/';
 
 @import 'helpers/colours';
-@import 'elements/forms/general';
 
 
 .great-mvp-field-input {
-    @extend .form-control;
     width: 371px;
     padding: 10px;
     border-color: $grey;

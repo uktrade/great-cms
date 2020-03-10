@@ -10,6 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 import sso.urls
 import core.urls
+import exportplan.urls
 
 
 urlpatterns = [
@@ -18,7 +19,8 @@ urlpatterns = [
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('sso/', include(sso.urls)),
-    path('', include(core.urls)),
+    path('', include(core.urls, namespace='core')),
+    path('export-plan/', include(exportplan.urls)),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
