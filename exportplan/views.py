@@ -16,12 +16,6 @@ class BaseExportPlanView(TemplateView):
 class ExportPlanBuilderSectionView(BaseExportPlanView):
     template_name = 'exportplan/builder_section.html'
 
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            title=data.SECTION_TITLES[0],
-            *args, **kwargs
-        )
-
 
 class ExportPlanStartView(FormView):
     template_name = 'exportplan/start.html'
