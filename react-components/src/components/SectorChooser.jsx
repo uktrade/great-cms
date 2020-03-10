@@ -8,17 +8,37 @@ const element = document.getElementById('sector-selection')
 
 export class SectorChooser extends React.Component {
   constructor(props) {
+
     super(props)
+
     this.state = {
       sectorList: props.sectorList.map((sector) =>
-        <Sector name={sector.name} key={sector.id} />
+        <Sector name={sector.name} key={sector.id} id={sector.id} addRemoveSector={this.addRemoveSector} />
       ),
+      selectedSectors: [],
       sectorListIsVisible: false,
       tooltipIsVisible: false,
     }
+
     this.handleClick = this.handleClick.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
+  }
+
+  addRemoveSector = (sector) => {
+    if (this.state.selectedSectors.indexOf(sector) == -1) {
+      this.setState({selectedSectors: this.state.selectedSectors.concat([sector])})
+      return true
+
+    } else {
+      const updatedSelectedSectors = this.state.selectedSectors.filter(
+        function(item) {
+          return item != sector
+        }
+      )
+      this.setState({selectedSectors: updatedSelectedSectors})
+      return false
+    }
   }
 
   componentDidMount() {

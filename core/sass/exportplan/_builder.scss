@@ -53,11 +53,20 @@
       line-height: 1;
     }
 
-    .sector-list li {
-      display: inline-block;
-      margin-bottom: $space-xxs-m;
-      @include desktop {
-        margin-bottom: $space-xxs;
+    .sector-list {
+      li {
+        display: inline-block;
+        margin-bottom: $space-xxs-m;
+        @include desktop {
+          margin-bottom: $space-xxs;
+        }
+      }
+
+      .selected {
+        @extend .bg-stone;
+        @extend .text-grey;
+        @extend .border-stone;
+        font-weight: $bold;
       }
     }
 
