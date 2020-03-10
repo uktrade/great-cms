@@ -21,8 +21,8 @@ class DashboardView(TemplateView):
         return super().get_context_data(
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(hashed_uuid),
-            export_opportunities=helpers.get_dashboard_export_opportunities(hashed_uuid),
+            events=helpers.get_dashboard_events(self.request.user.company),
+            export_opportunities=helpers.get_dashboard_export_opportunities(self.request.user.company),
             **kwargs,
         )
 
@@ -95,8 +95,8 @@ class MarketsView(TemplateView):
             return helpers.get_markets_page_title(self.request.user.company)
 
     def get_most_popular_countries(self):
-        if self.request.user.is_authenticated:
-            return helpers.get_popular_export_destinations(self.request.user.company.first_expertise_industry_label)
+        if self.request.user.is_authenticated and self.request.user.company.expertise_industries_labels:
+            return helpers.get_popular_export_destinations(self.request.user.company.expertise_industries_labels[0])
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

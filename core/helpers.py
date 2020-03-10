@@ -1,11 +1,13 @@
 from collections import Counter
-import csv
 from difflib import SequenceMatcher
-import functools
 from logging import getLogger
+import csv
+import functools
+from random import choice
 
 from directory_api_client import api_client
 import great_components.helpers
+from directory_constants import choices
 from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
 
@@ -74,6 +76,7 @@ def get_dashboard_events(sso_session_id):
 
 
 def get_dashboard_export_opportunities(sso_session_id):
+    sectors = (company and company.expertise_industries_labels) or list(CompanyParser.SECTORS.values())
     results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id)
     if (results.status_code == 200):
         return parse_opportunities(results.json()['results'])
@@ -88,9 +91,9 @@ def get_custom_duties_url(product_code, country):
 def get_markets_page_title(company):
     industries, countries = company.data['expertise_industries'], company.data['expertise_countries']
     if industries and countries:
-        return f'The {company.first_expertise_industry_label} market in {company.expertise_countries_label}'
+        return f'The {company.expertise_industries_labels[0]} market in {company.expertise_countries_label}'
     elif industries:
-        return f'The {company.first_expertise_industry_label} market'
+        return f'The {company.expertise_industries_labels[0]} market'
     elif countries:
         return f'The market in {company.expertise_countries_label}'
 
@@ -118,10 +121,20 @@ def get_popular_export_destinations(sector_label):
 
 class CompanyParser(great_components.helpers.CompanyParser):
 
+    INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
+
     @property
-    def first_expertise_industry_label(self):
+    def expertise_industries_labels(self):
         if self.data['expertise_industries']:
-            return great_components.helpers.values_to_labels(
-                values=[self.data['expertise_industries'][0]],
-                choices=self.SECTORS
-            )
+            return values_to_labels(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
+        return []
+
+    @property
+    def expertise_countries_labels(self):
+        if self.data['expertise_countries']:
+            return values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
+        return []
+
+
+def values_to_labels(values, choices):
+    return [choices.get(item) for item in values if item in choices]

@@ -2,6 +2,7 @@ from unittest import mock
 from unittest.mock import patch, Mock
 import json
 
+from directory_constants import choices
 import pytest
 
 from django.urls import reverse
@@ -275,7 +276,9 @@ def test_login_page_logged_in(client, user):
 @mock.patch.object(helpers, 'get_markets_page_title')
 def test_markets_logged_in(mock_get_markets_page_title, mock_get_company_profile, user, client):
     mock_get_markets_page_title.return_value = 'Some page title'
-    mock_get_company_profile.return_value = {'expertise_countries': ['AF'], 'expertise_industries': ['AEROSPACE']}
+    mock_get_company_profile.return_value = {
+        'expertise_countries': ['AF'], 'expertise_industries': [choices.SECTORS[0][0]]
+    }
     client.force_login(user)
     url = reverse('core:markets')
 
