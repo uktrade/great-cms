@@ -1,6 +1,11 @@
+from collections import Counter
+import csv
+from difflib import SequenceMatcher
+import functools
 from logging import getLogger
 
 from directory_api_client import api_client
+import great_components.helpers
 from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
 
@@ -30,12 +35,14 @@ def get_location(request):
 
 
 def store_user_location(request):
-    response = api_client.personalisation.user_location_create(
-        sso_session_id=request.user.session_id,
-        data=get_location(request)
-    )
-    if not response.ok:
-        logger.error(USER_LOCATION_CREATE_ERROR)
+    location = get_location(request)
+    if location:
+        response = api_client.personalisation.user_location_create(
+            sso_session_id=request.user.session_id,
+            data=location
+        )
+        if not response.ok:
+            logger.error(USER_LOCATION_CREATE_ERROR)
 
 
 def create_company_profile(data):
@@ -120,3 +127,45 @@ def get_dashboard_export_opportunities():
 
 def get_custom_duties_url(product_code, country):
     return f'{settings.MADB_URL}/summary?d={country}&pc={product_code}'
+
+
+def get_markets_page_title(company):
+    industries, countries = company.data['expertise_industries'], company.data['expertise_countries']
+    if industries and countries:
+        return f'The {company.first_expertise_industry_label} market in {company.expertise_countries_label}'
+    elif industries:
+        return f'The {company.first_expertise_industry_label} market'
+    elif countries:
+        return f'The market in {company.expertise_countries_label}'
+
+
+def get_canonical_sector_label(label):
+    return label.lower().replace(' & ', ' and ')
+
+
+@functools.lru_cache(maxsize=None)
+def is_fuzzy_match(label_a, label_b):
+    match = SequenceMatcher(None, get_canonical_sector_label(label_a), get_canonical_sector_label(label_b))
+    return match.ratio() > 0.9
+
+
+def get_popular_export_destinations(sector_label):
+    export_destinations = Counter()
+
+    with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
+        for row in csv.DictReader(f, delimiter=','):
+            row_sectors = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
+            if is_fuzzy_match(label_a=row_sectors, label_b=sector_label):
+                export_destinations.update([row['country']])
+    return export_destinations.most_common(5)
+
+
+class CompanyParser(great_components.helpers.CompanyParser):
+
+    @property
+    def first_expertise_industry_label(self):
+        if self.data['expertise_industries']:
+            return great_components.helpers.values_to_labels(
+                values=[self.data['expertise_industries'][0]],
+                choices=self.SECTORS
+            )

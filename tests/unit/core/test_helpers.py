@@ -142,3 +142,25 @@ def test_update_company_profile(mock_profile_update):
 
     assert mock_profile_update.call_count == 1
     assert mock_profile_update.call_args == mock.call(data=data, sso_session_id=sso_session_id)
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_countries': [], 'expertise_industries': []}, None],
+    [{'expertise_countries': ['FR'], 'expertise_industries': ['AEROSPACE']}, 'The Aerospace market in France'],
+    [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
+    [{'expertise_countries': [], 'expertise_industries': ['AEROSPACE']}, 'The Aerospace market'],
+])
+def test_get_markets_page_title(company_profile, expected):
+    company = helpers.CompanyParser(company_profile)
+
+    assert helpers.get_markets_page_title(company) == expected
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_industries': []}, None],
+    [{'expertise_industries': ['AEROSPACE']}, 'Aerospace'],
+    [{'expertise_industries': ['AEROSPACE', 'FOOD_AND_DRINK']}, 'Aerospace'],
+
+])
+def test_company_parser_first_expertise_industry_label_no_industries(company_profile, expected):
+    assert helpers.CompanyParser(company_profile).first_expertise_industry_label == expected
