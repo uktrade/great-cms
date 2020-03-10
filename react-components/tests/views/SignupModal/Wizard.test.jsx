@@ -23,7 +23,7 @@ const createEvent = () => ({ preventDefault: jest.fn() })
 beforeEach(() => {
   jest.useFakeTimers()
   Services.setConfig({
-    signupUrl: 'http://www.example.com',
+    apiSignupUrl: 'http://www.example.com',
     csrfToken: '123',
     linkedInUrl: 'http://www.example.com/oauth2/linkedin',
     googleUrl: 'http://www.example.com/oauth2/google',

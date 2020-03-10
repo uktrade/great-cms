@@ -28,23 +28,28 @@ urlpatterns = [
         name='dashboard'
     ),
     path(
+        'markets/',
+        core.views.MarketsView.as_view(),
+        name='markets'
+    ),
+    path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
         login_required(core.views.ArticleView.as_view(), login_url='/'),
         name='capability-article'
     ),
     path(
-        'exportplan-start/',
-        core.views.ExportPlanStartView.as_view(),
-        name='exportplan-start'
-    ),
-    path(
-        'exportplan-create/',
-        core.views.ExportPlanView.as_view(),
-        name='exportplan-view'
+        'login/',
+        anonymous_user_required(core.views.LoginView.as_view()),
+        name='login'
     ),
     path(
         'api/create-company/',
         core.views.EnrolCompanyAPIView.as_view(),
         name='api-create-company'
+    ),
+    path(
+        'api/update-company/',
+        core.views.UpdateCompanyAPIView.as_view(),
+        name='api-update-company'
     ),
 ]

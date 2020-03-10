@@ -7,7 +7,7 @@ clean:
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
-	pytest tests $(ARGUMENTS)
+	pytest $(ARGUMENTS)
 
 flake8:
 	flake8 . \
@@ -24,12 +24,34 @@ check_migrations:
 webserver:
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
 
+LOCUST_FILE?=tests/load/mvp_home.py
+NUM_CLIENTS?=10
+HATCH_RATE?=2
+RUN_TIME?=30s
+LOCUST := \
+	locust \
+		--locustfile $(LOCUST_FILE) \
+		--clients=$(NUM_CLIENTS) \
+		--hatch-rate=$(HATCH_RATE) \
+		--run-time=$(RUN_TIME) \
+		--no-web \
+		--csv=./results/results
+
+kill_webserver := \
+	pkill -f runserver_plus
+
+test_load:
+	ENV_FILES='test,dev' python manage.py runserver_plus 0.0.0.0:8020 &
+	sleep 5
+	$(LOCUST)
+	-$(kill_webserver)
+
 requirements:
 	pip-compile -r --annotate requirements.in
 	pip-compile -r --annotate requirements_test.in
 
 install_requirements:
-	pip install -r requirements_test.txt
+	pip install -q -r requirements_test.txt
 
 css:
 	./node_modules/.bin/gulp sass
@@ -43,4 +65,4 @@ database:
 	PGPASSWORD=debug createdb -h localhost -U debug greatcms
 
 
-.PHONY: clean pytest flake8 manage webserver requirements install_requirements css worker secrets check_migrations database
+.PHONY: clean pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database

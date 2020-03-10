@@ -6,10 +6,10 @@ import { mount, shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import Wizard, {STEP_PERSONAL_DETAILS} from '@src/views/QuestionModal/Wizard'
+import Wizard, {STEP_SECTORS, STEP_COUNTRIES} from '@src/views/QuestionModal/Wizard'
 import Step1 from '@src/views/QuestionModal/Step1'
-import Step2 from '@src/views/QuestionModal/Step2'
-import Step3 from '@src/views/QuestionModal/Step3'
+import StepSectors from '@src/views/QuestionModal/StepSectors'
+import StepCountry from '@src/views/QuestionModal/StepCountry'
 import Step4 from '@src/views/QuestionModal/Step4'
 import Services from '@src/Services'
 
@@ -66,14 +66,14 @@ describe('QuestionWizard', () => {
     />)
 
     act(() => {
-      component.find(Step2).prop('handleSubmit')()
+      component.find(StepSectors).prop('handleSubmit')()
     })
 
     // then an error message is displayed
     setImmediate(() => {
       component.update()
       expect(component.containsMatchingElement(
-        <Step2
+        <StepSectors
           disabled={false}
           value={['some industry']}
           errors={errors}
@@ -84,24 +84,48 @@ describe('QuestionWizard', () => {
     })
   })
 
-  test('end to end wizard render', done => {
+  test('end to end sector select', done => {
     // given the credentials are correct
     Services.enrolCompany.mockImplementation(() => Promise.resolve())
-    const component = mount(<Wizard {...defaultProps} />)
+    // and the user is on the sectors step
+    const props = {...defaultProps, currentStep: STEP_SECTORS}
+    const component = mount(<Wizard {...props} />)
 
-    expect(component.exists(Step2)).toEqual(true)
-
+    // when the user chooses "some industry"
     act(() => {
-      component.find(Step2).prop('handleChange')(['some industry'])
-      component.find(Step2).prop('handleSubmit')()
+      component.find(StepSectors).prop('handleChange')(['some industry'])
+      component.find(StepSectors).prop('handleSubmit')()
     })
 
     setImmediate(() => {
+      // then the company is enrolled
       expect(Services.enrolCompany).toHaveBeenCalled()
+      // and the page is refreshed
       expect(location.assign).toHaveBeenCalled()
       done()
     })
+  })
 
+  test('end to end country select', done => {
+    // given the credentials are correct
+    Services.updateCompany.mockImplementation(() => Promise.resolve())
+    // and the user is on the country step
+    const props = {...defaultProps, currentStep: STEP_COUNTRIES}
+    const component = mount(<Wizard {...props} />)
+
+    // when the user chooses "some country"
+    act(() => {
+      component.find(StepCountry).prop('handleChange')(['some country'])
+      component.find(StepCountry).prop('handleSubmit')()
+    })
+
+    setImmediate(() => {
+      // then the company is updated
+      expect(Services.updateCompany).toHaveBeenCalled()
+      // and the page is refreshed
+      expect(location.assign).toHaveBeenCalled()
+      done()
+    })
   })
 
 })

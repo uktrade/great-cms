@@ -1,13 +1,17 @@
 from unittest import mock
 
-from directory_api_client import api_client
+import environ
 import pytest
+
+from airtable import Airtable
+from directory_api_client import api_client
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from wagtail.core.models import Page
 from wagtail_factories import SiteFactory, PageFactory
 
-from tests.domestic import factories
+from tests.unit.domestic import factories
 from tests.helpers import create_response
-from core.helpers import Airtable
 from sso.models import BusinessSSOUser
 
 
@@ -83,7 +87,7 @@ def mock_airtable_rules_regs():
                     'Commodity code': '2208.50.12',
                     'Commodity Name': 'Gin and Geneva 2l'
                 },
-         },
+        },
         {
             'id': '2',
             'fields':
@@ -106,3 +110,35 @@ def mock_user_location_create():
     stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture(scope='session')
+def browser():
+    options = Options()
+    env = environ.Env()
+    headless = env.bool('HEADLESS', True)
+    if headless:
+        options.add_argument('--headless')
+        options.add_argument('--window-size=1600x2200')
+        options.add_argument('--disable-gpu')
+    options.add_argument('--start-maximized')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--no-sandbox')
+    browser = webdriver.Chrome(options=options)
+    yield browser
+    browser.quit()
+
+
+@pytest.fixture(autouse=True)
+def base_url(live_server):
+    """Get the base url for a live Django server running in a background thread.
+
+    See: https://pytest-django.readthedocs.io/en/latest/helpers.html#live-server
+    """
+    return live_server.url
+
+
+@pytest.fixture
+def visit_home_page(browser, base_url, request, domestic_site):
+    browser.get(base_url)
+    return browser

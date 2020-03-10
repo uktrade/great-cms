@@ -23,7 +23,7 @@ afterEach(() => {
 test('Field should use props', () => {
   const errors = ['some error']
   const component = shallow(
-    <Field 
+    <Field
       type='text'
       placeholder='some placeholder'
       name='some-name'
@@ -42,7 +42,7 @@ test('Field should use props', () => {
         type="text"
         placeholder="some placeholder"
         name="some-name"
-        className="great-mvp-field-input"
+        className="great-mvp-field-input form-control"
         value="some value"
         disabled={true}
         autoFocus={true}
@@ -52,10 +52,10 @@ test('Field should use props', () => {
 })
 
 
-test('Field should handle defaul props', () => {
+test('Field should handle default props', () => {
   const errors = []
   const component = shallow(
-    <Field 
+    <Field
       type='text'
       placeholder='some placeholder'
       name='some-name'
@@ -72,7 +72,7 @@ test('Field should handle defaul props', () => {
         type="text"
         placeholder="some placeholder"
         name="some-name"
-        className="great-mvp-field-input"
+        className="great-mvp-field-input form-control"
         value="some value"
         disabled={false}
         autoFocus={false}

@@ -2,7 +2,7 @@
 {% load breadcrumbs from great_components %}
 
 {% block content %}
-    <div id="great-hero" class="container gutter-top">
+    <div id="great-hero" class="container p-t-l">
         <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
         {% breadcrumbs article_name %}
 	      <a href="{% url 'core:dashboard' %}">Home</a>
@@ -16,11 +16,31 @@
             <div class="c-full">
                 <form class="bg-white p-s great-mvp-success-card" method="post">
             		{% csrf_token %}
-                    <h3 class="w-1-2">{{ article_name|title }}</h3>
+                    <h3 class="h-l pb-xxs w-1-2">{{ article_name|title }}</h3>
                     <p class="m-b-0 ">{% lorem 5 p %}</p>
                     <button class="g-button">Mark as read</button>
                 </form>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        ditMVP.setConfig({
+            csrfToken: '{{ csrf_token }}',
+            enrolCompanyUrl: '{% url "core:api-create-company" %}',
+            countryOptions: {{ country_choices|safe }},
+            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}'
+        });
+        var isOpen = {% if request.user.company.expertise_countries_label %}false{%else %}true{% endif %};
+        ditMVP.QuestionModal({
+            element: element,
+            isOpen: isOpen,
+            currentStep: 'country'
+        });
+    </script>
 {% endblock %}

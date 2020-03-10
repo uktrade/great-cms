@@ -5,8 +5,6 @@ import ReactModal from 'react-modal'
 
 import Wizard from './Wizard'
 
-import './stylesheets/Modal.scss'
-
 
 const modalStyles = {
   content : {
@@ -24,6 +22,7 @@ const modalStyles = {
   },
   overlay: {
     zIndex: 1000,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
 }
 

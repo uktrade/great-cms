@@ -1,8 +1,3 @@
-@import 'helpers/_colours';
-@import 'helpers/_typography-mixins';
-@import 'elements/_typography';
-@import 'elements/_spacing';
-
 
 .card-heading {
   font-weight: bold;
@@ -31,23 +26,6 @@ body {
     height: 1px;
   }
 
-  .gutter-top {
-    padding-top: 60px;
-  }
-
-  #great-continue-learning-box {
-    h4 {
-      line-height: 1;
-    }
-  }
-
-  .great-mvp-success-card {
-    h3 {
-      @extend .h-l;
-      @extend .p-b-xxs;
-    }
-  }
-
   .your-progress-card {
     h3 {
       padding-top: 0;
@@ -60,11 +38,11 @@ body {
     > h3 {
       width: 100%;
     }
-    
+
     .grid {
       width: 100%;
     }
-    
+
     progress {
       width: 100%;
     }
