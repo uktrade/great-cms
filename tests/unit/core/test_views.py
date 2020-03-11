@@ -141,7 +141,12 @@ def test_landing_page_logged_in(client, user):
 @pytest.mark.django_db
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
-def test_dashboard_page_logged_in(mock_events_by_location_list, mock_export_opportunities_by_relevance_list, client, user):
+def test_dashboard_page_logged_in(
+    mock_events_by_location_list,
+    mock_export_opportunities_by_relevance_list,
+    client,
+    user
+):
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)

@@ -3,7 +3,6 @@ from difflib import SequenceMatcher
 from logging import getLogger
 import csv
 import functools
-from random import choice
 
 from directory_api_client import api_client
 import great_components.helpers
@@ -75,9 +74,10 @@ def get_dashboard_events(sso_session_id):
         return []
 
 
-def get_dashboard_export_opportunities(sso_session_id):
+def get_dashboard_export_opportunities(company, sso_session_id):
     sectors = (company and company.expertise_industries_labels) or list(CompanyParser.SECTORS.values())
-    results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id)
+    search_term = ' '.join(sectors)
+    results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id, search_term)
     if (results.status_code == 200):
         return parse_opportunities(results.json()['results'])
     else:

@@ -38,7 +38,7 @@ def parse_events(results):
         content = result.get('content', '')
         html = markdown2.markdown(content)
         stripped_content = ''.join(
-            BeautifulSoup(html, "html.parser").findAll(text=True)
+            BeautifulSoup(html, 'html.parser').findAll(text=True)
         ).rstrip()
         return Truncator(stripped_content).chars(40)
 
@@ -46,13 +46,13 @@ def parse_events(results):
         if 'location' in result.keys() and 'city' in result['location'].keys():
             return result['location']['city']
         else:
-            return "n/a"
+            return 'n/a'
 
     def date(result):
         if 'date' in result.keys():
             return _date_format(result['date'])
         else:
-            return "n/a"
+            return 'n/a'
 
     return [
         {
