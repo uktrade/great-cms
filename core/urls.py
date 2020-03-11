@@ -22,9 +22,9 @@ urlpatterns = [
         name='landing-page'
     ),
     path(
-        'dashboard/', core.views.DashboardView.as_view(),
-        # login_required(
-        #     core.views.DashboardView.as_view(), login_url='/'),
+        login_required(
+            core.views.DashboardView.as_view(), login_url='/'
+        ),
         name='dashboard'
     ),
     path(
