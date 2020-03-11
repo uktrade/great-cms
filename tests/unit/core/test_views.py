@@ -183,7 +183,13 @@ family of organisations and NGOs.  ',
                 'location': {'city': 'London'},
                 'url': 'www.example.com',
                 'date': '2020-06-06'
-            }]}})
+            },
+            {
+                'name': 'Less Info',
+                'content': 'Content',
+                'url': 'www.example.com',
+            }]
+        }})
 
         with patch(
             'directory_api_client.api_client.\
@@ -212,6 +218,12 @@ export-opportunities/opportunities/french-sardines-required',
                 'url': 'www.example.com',
                 'location': 'London',
                 'date': '06 Jun 2020'
+            },{
+                'title': 'Less Info',
+                'description': 'Content',
+                'url': 'www.example.com',
+                'location': 'n/a',
+                'date': 'n/a'
             }]
             assert response.context_data['export_opportunities'] == [{
                 'title': 'French sardines required',
@@ -224,11 +236,28 @@ export-opportunities/opportunities/french-sardines-required',
             }]
 
 
-# TODO
 @pytest.mark.django_db
 def test_dashboard_apis_fail(client, user):
-    pass
+    with patch(
+        'directory_api_client.api_client.personalisation.events_by_location_list'
+    ) as events_api_results:
+        events_api_results.return_value = Mock(status_code=500, **{'json.return_value': {}})
 
+        with patch(
+            'directory_api_client.api_client.\
+personalisation.export_opportunities_by_relevance_list'
+        ) as exops_api_results:
+            exops_api_results.return_value = Mock(status_code=500, **{'json.return_value': {}})
+
+            client.force_login(user)
+
+            url = reverse('core:dashboard')
+
+            response = client.get(url)
+
+            assert response.status_code == 200
+            assert response.context_data['events'] == []
+            assert response.context_data['export_opportunities'] == []
 
 @pytest.mark.django_db
 def test_capability_article_logged_in(client, user):
