@@ -86,6 +86,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'great_components.context_processors.sso_processor',
+                'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.signup_modal',
@@ -398,8 +399,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 )
 
 # directory-api
-DIRECTORY_API_CLIENT_BASE_URL = env.str('API_CLIENT_BASE_URL')
-DIRECTORY_API_CLIENT_API_KEY = env.str('API_SIGNATURE_SECRET')
+DIRECTORY_API_CLIENT_BASE_URL = env.str('DIRECTORY_API_CLIENT_BASE_URL')
+DIRECTORY_API_CLIENT_API_KEY = env.str('DIRECTORY_API_CLIENT_API_KEY')
 DIRECTORY_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_API_CLIENT_DEFAULT_TIMEOUT = 15
 

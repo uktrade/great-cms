@@ -1,4 +1,5 @@
 from unittest import mock
+from unittest.mock import patch, Mock
 import json
 
 import pytest
@@ -7,6 +8,7 @@ from django.urls import reverse
 
 from core import helpers
 from tests.helpers import create_response
+from directory_api_client import api_client
 
 
 @pytest.fixture
@@ -136,7 +138,16 @@ def test_landing_page_logged_in(client, user):
 
 
 @pytest.mark.django_db
-def test_dashboard_page_logged_in(client, user):
+@mock.patch.object(api_client.personalisation, 'events_by_location_list')
+@mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
+def test_dashboard_page_logged_in(
+    mock_events_by_location_list,
+    mock_export_opportunities_by_relevance_list,
+    client,
+    user
+):
+    mock_events_by_location_list.return_value = create_response(json_body={'results': []})
+    mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
 
     url = reverse('core:dashboard')
@@ -147,22 +158,104 @@ def test_dashboard_page_logged_in(client, user):
 
 
 @pytest.mark.django_db
-def test_dashboard_page_not_logged_in(client):
-    url = reverse('core:dashboard')
-
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == f'/?next={url}'
-
-
-@pytest.mark.django_db
 def test_landing_page_not_logged_in(client, user):
     url = reverse('core:landing-page')
 
     response = client.get(url)
 
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_dashboard_apis_ok(client, user):
+
+    with patch(
+        'directory_api_client.api_client.personalisation.events_by_location_list'
+    ) as events_api_results:
+        events_api_results.return_value = Mock(status_code=200, **{'json.return_value': {
+            'results': [{
+                'name': 'Global Aid and Development Directory',
+                'content': 'DIT is producing a directory of companies \
+who supply, or would like to supply, relevant humanitarian aid \
+and development products and services to the United Nations \
+family of organisations and NGOs.  ',
+                'location': {'city': 'London'},
+                'url': 'www.example.com',
+                'date': '2020-06-06'
+            }, {
+                'name': 'Less Info',
+                'content': 'Content',
+                'url': 'www.example.com',
+            }]
+        }})
+
+        with patch(
+            'directory_api_client.api_client.\
+personalisation.export_opportunities_by_relevance_list'
+        ) as exops_api_results:
+            exops_api_results.return_value = Mock(status_code=200, **{'json.return_value': {
+                'results': [{'title': 'French sardines required',
+                             'url': 'http://exops.trade.great:3001/\
+export-opportunities/opportunities/french-sardines-required',
+                             'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
+                             'published_date': '2020-01-14T15:26:45.334Z',
+                             'closing_date': '2020-06-06',
+                             'source': 'post'}]
+            }})
+
+            client.force_login(user)
+
+            url = reverse('core:dashboard')
+
+            response = client.get(url)
+
+            assert response.status_code == 200
+            assert response.context_data['events'] == [{
+                'title': 'Global Aid and Development Directory',
+                'description': 'DIT is producing a directory of compani…',
+                'url': 'www.example.com',
+                'location': 'London',
+                'date': '06 Jun 2020'
+            }, {
+                'title': 'Less Info',
+                'description': 'Content',
+                'url': 'www.example.com',
+                'location': 'n/a',
+                'date': 'n/a'
+            }]
+            assert response.context_data['export_opportunities'] == [{
+                'title': 'French sardines required',
+                'description': 'Nam dolor nostrum distinctio.…',
+                'source': 'post',
+                'url': 'http://exops.trade.great:3001/export-opportunities\
+/opportunities/french-sardines-required',
+                'published_date': '14 Jan 2020',
+                'closing_date': '06 Jun 2020'
+            }]
+
+
+@pytest.mark.django_db
+def test_dashboard_apis_fail(client, user):
+    with patch(
+        'directory_api_client.api_client.personalisation.events_by_location_list'
+    ) as events_api_results:
+        events_api_results.return_value = Mock(status_code=500, **{'json.return_value': {}})
+
+        with patch(
+            'directory_api_client.api_client.\
+personalisation.export_opportunities_by_relevance_list'
+        ) as exops_api_results:
+            exops_api_results.return_value = Mock(status_code=500, **{'json.return_value': {}})
+
+            client.force_login(user)
+
+            url = reverse('core:dashboard')
+
+            response = client.get(url)
+
+            assert response.status_code == 200
+            assert response.context_data['events'] == []
+            assert response.context_data['export_opportunities'] == []
 
 
 @pytest.mark.django_db

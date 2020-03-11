@@ -17,11 +17,12 @@ class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
 
     def get_context_data(self, **kwargs):
+        hashed_uuid = self.request.user.hashed_uuid
         return super().get_context_data(
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(self.request.user.company),
-            export_opportunities=helpers.get_dashboard_export_opportunities(self.request.user.company),
+            events=helpers.get_dashboard_events(hashed_uuid),
+            export_opportunities=helpers.get_dashboard_export_opportunities(self.request.user.company, hashed_uuid),
             **kwargs,
         )
 
