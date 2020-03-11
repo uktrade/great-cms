@@ -116,3 +116,49 @@ class DashboardModalLetsGetToKnowYou(SelectorsEnum):
     INDUSTRIES_INPUT = Selector(By.ID, 'react-select-2-input', ElementType.INPUT)
     SUBMIT = Selector(By.ID, 'dashboard-question-modal-submit', ElementType.BUTTON)
     ERROR_MESSAGES = Selector(By.CSS_SELECTOR, 'li.error-message', is_visible=False)
+
+
+class MarketsContainer(SelectorsEnum):
+    BREADCRUMBS = Selector(By.ID, 'great-hero')
+    BREADCRUMBS_HOME = Selector(By.ID, 'breadcrumbs-home', ElementType.LINK)
+    BREADCRUMBS_MARKETS = Selector(By.CSS_SELECTOR, '#great-hero nav li span')
+    CONTENT_CONTAINER = Selector(By.ID, 'markets-container')
+    FORM = Selector(By.ID, 'markets-form')
+
+
+class StickyHeader(SelectorsEnum):
+    STICKY_HEADER = Selector(By.ID, 'sticky-header')
+    WHAT = Selector(By.ID, 'sticky-header-what')
+    WHERE = Selector(By.ID, 'sticky-header-where')
+    SHARE = Selector(By.ID, 'sticky-header-share', ElementType.LINK)
+    DOWNLOAD = Selector(By.ID, 'sticky-header-download', ElementType.LINK)
+
+
+class ExportPlanDashboard(SelectorsEnum):
+    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'about-your-business', ElementType.LINK)
+    OBJECTIVES = Selector(By.ID, 'objectives', ElementType.LINK)
+    TARGET_MARKETS = Selector(By.ID, 'target-markets', ElementType.LINK)
+    ADAPTATION = Selector(By.ID, 'adaptation-for-international-markets', ElementType.LINK)
+    MARKETING_APPROACH = Selector(By.ID, 'marketing-approach', ElementType.LINK)
+    FINANCE = Selector(By.ID, 'finance', ElementType.LINK)
+    COSTS_AND_PRICING = Selector(By.ID, 'costs-and-pricing', ElementType.LINK)
+    PAYMENT_METHODS = Selector(By.ID, 'payment-methods', ElementType.LINK)
+    TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'travel-and-business-policies', ElementType.LINK)
+    BUSINESS_RISK = Selector(By.ID, 'business-risk', ElementType.LINK)
+    ACTION_PLAN = Selector(By.ID, 'action-plan', ElementType.LINK)
+
+
+class ExportPlanAboutYourBusiness(SelectorsEnum):
+    SIDEBAR = Selector(By.ID, 'sidebar-content')
+    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', ElementType.LINK)
+    OBJECTIVES = Selector(By.ID, 'sidebar-objectives', ElementType.LINK)
+    TARGET_MARKETS = Selector(By.ID, 'sidebar-target-markets', ElementType.LINK)
+    ADAPTATION = Selector(By.ID, 'sidebar-adaptation-for-international-markets', ElementType.LINK)
+    MARKETING_APPROACH = Selector(By.ID, 'sidebar-marketing-approach', ElementType.LINK)
+    FINANCE = Selector(By.ID, 'sidebar-finance', ElementType.LINK)
+    COSTS_AND_PRICING = Selector(By.ID, 'sidebar-costs-and-pricing', ElementType.LINK)
+    PAYMENT_METHODS = Selector(By.ID, 'sidebar-payment-methods', ElementType.LINK)
+    TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'sidebar-travel-and-business-policies', ElementType.LINK)
+    BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', ElementType.LINK)
+    ACTION_PLAN = Selector(By.ID, 'sidebar-action-plan', ElementType.LINK)
+    CONTENT = Selector(By.ID, 'about-your-business-content')
