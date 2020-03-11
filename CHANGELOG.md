@@ -24,3 +24,5 @@
 - MVP-224 - Implement design for login page
 - no ticket - move tests to dedicated folders: browser, load & unit
 - MVP-256 - add data services
+- MVP-292 - Add dummy markets page
+- MVP-297 - Add dummy export opportunies

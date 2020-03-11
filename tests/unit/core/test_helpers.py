@@ -1,6 +1,7 @@
 from unittest import mock
 
 from directory_api_client import api_client
+from directory_constants import choices
 from directory_sso_api_client import sso_api_client
 import pytest
 from requests.exceptions import HTTPError
@@ -142,3 +143,31 @@ def test_update_company_profile(mock_profile_update):
 
     assert mock_profile_update.call_count == 1
     assert mock_profile_update.call_args == mock.call(data=data, sso_session_id=sso_session_id)
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_countries': [], 'expertise_industries': []}, None],
+    [
+        {'expertise_countries': ['FR'], 'expertise_industries': [choices.SECTORS[1][0]]},
+        'The Aerospace market in France'
+    ],
+    [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
+    [{'expertise_countries': [], 'expertise_industries': [choices.SECTORS[1][0]]}, 'The Aerospace market'],
+])
+def test_get_markets_page_title(company_profile, expected):
+    company = helpers.CompanyParser(company_profile)
+
+    assert helpers.get_markets_page_title(company) == expected
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_industries': []}, []],
+    [{'expertise_industries': [choices.SECTORS[0][0]]}, [choices.SECTORS[0][1]]],
+    [
+        {'expertise_industries': [choices.SECTORS[0][0], choices.SECTORS[1][0]]},
+        [choices.SECTORS[0][1], choices.SECTORS[1][1]]
+    ],
+
+])
+def test_company_parser_first_expertise_industies_labels_no_industries(company_profile, expected):
+    assert helpers.CompanyParser(company_profile).expertise_industries_labels == expected
