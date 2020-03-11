@@ -70,8 +70,7 @@ def get_dashboard_events(sso_session_id):
     results = api_client.personalisation.events_by_location_list(sso_session_id)
     if (results.status_code == 200):
         return parse_events(results.json()['results'])
-    else:
-        return []
+    return []
 
 
 def get_dashboard_export_opportunities(company, sso_session_id):
@@ -80,8 +79,7 @@ def get_dashboard_export_opportunities(company, sso_session_id):
     results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id, search_term)
     if (results.status_code == 200):
         return parse_opportunities(results.json()['results'])
-    else:
-        return []
+    return []
 
 
 def get_custom_duties_url(product_code, country):
