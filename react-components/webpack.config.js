@@ -1,7 +1,7 @@
 const path = require('path');
-
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 module.exports = {
     devtool: 'source-map',
@@ -20,7 +20,7 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         alias: {
           '@src': path.resolve(__dirname, 'src'),
-          '@assets': path.resolve(__dirname, 'assets')
+          '@assets': path.resolve(__dirname, 'assets'),
         }
     },
     module: {
@@ -57,10 +57,13 @@ module.exports = {
                 ],
               },
             {
-                test: /\.(jpg|png|gif|jpeg|woff|woff2|eot|ttf|svg)$/,
-                loader: 'url-loader?limit=10000&name=img/[name].[ext]'
+              test: /\.(jpg|png|gif|jpeg|woff|woff2|eot|ttf|svg)$/,
+              loader: 'url-loader?limit=10000&name=img/[name].[ext]'
             }
         ]
     },
-    plugins: [new MiniCssExtractPlugin()],
+    plugins: [
+      new MiniCssExtractPlugin(),
+      new CopyWebpackPlugin([{from: './node_modules/great-styles/src/images', to: 'images'}]),
+    ],
 };
