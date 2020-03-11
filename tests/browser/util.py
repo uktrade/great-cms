@@ -1,15 +1,18 @@
 from io import BytesIO
-from typing import List
+from typing import List, Union
 
 import allure
 from PIL import Image
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    StaleElementReferenceException,
+)
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests.browser.common_selectors import Selector
+from tests.browser.common_selectors import Selector, SelectorsEnum
 
 
 def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
@@ -21,7 +24,8 @@ def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
 
 
 def attach_jpg_screenshot(
-        browser: WebDriver, page_name: str, *, selector: Selector = None
+        browser: WebDriver, page_name: str, *,
+        selector: Union[Selector, SelectorsEnum] = None
 ):
     if selector:
         element = find_element(browser, selector)
@@ -81,3 +85,30 @@ def wait_for_element_visibility(
     WebDriverWait(driver, time_to_wait).until(
         expected_conditions.visibility_of_element_located(locator)
     )
+
+
+@allure.step('Should see all elements from: {selectors_enum}')
+def should_see_all_elements(browser, selectors_enum):
+    for selector in selectors_enum:
+        if not selector.is_visible:
+            continue
+        error = f'Expected element "{selector}" is not visible'
+        if not is_element_visible(browser, selector):
+            attach_jpg_screenshot(browser, str(selectors_enum))
+        assert is_element_visible(browser, selector), error
+
+
+@allure.step('Should not see elements from: {selectors_enum}')
+def should_not_see(browser, selectors_enum):
+    for selector in selectors_enum:
+        if not selector.is_visible:
+            continue
+        assertion_error = f'Unexpected element is visible "{selector}"'
+        try:
+            assert is_element_visible(browser, selector), assertion_error
+        except AssertionError:
+            attach_jpg_screenshot(browser, assertion_error)
+            raise
+        except StaleElementReferenceException:
+            attach_jpg_screenshot(browser, 'StaleElementReferenceException')
+            raise
