@@ -68,8 +68,8 @@ export default function Wizard(props){
     window.location.assign(`${window.location}?success`)
   }
 
-  function handleCountriesSubmit() {
-    Services.enrolCompany({expertise_countries: countries.map(item => item.value)})
+  function handleIndustriesSubmit() {
+    Services.enrolCompany({expertise_industries: industries.map(item => item.value)})
       .then(handeleApiUpdateSuccess)
       .catch(handeleApiUpdateError)
   }
@@ -105,7 +105,7 @@ export default function Wizard(props){
         <StepSectors
           errors={errors}
           disabled={isInProgress}
-          handleSubmit={handleCountriesSubmit}
+          handleSubmit={handleIndustriesSubmit}
           handleChange={setIndustries}
           value={industries}
         />

@@ -1,11 +1,13 @@
 from collections import Counter
-import csv
 from difflib import SequenceMatcher
-import functools
 from logging import getLogger
+import csv
+import functools
+from random import choice
 
 from directory_api_client import api_client
 import great_components.helpers
+from directory_constants import choices
 from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
 
@@ -63,17 +65,18 @@ def create_user_profile(data, sso_session_id):
     return response
 
 
-def get_dashboard_events():
+def get_dashboard_events(company):
+    sectors = (company and company.expertise_industries_labels) or list(CompanyParser.SECTORS.values())
     return [
         {
-            'title': 'Food and drink taster visit to Bruges',
+            'title': f'{choice(sectors)} taster visit to Bruges',
             'description': 'Join the Department for international Trade (DIT) and Northern...',
             'url': '#',
             'location': 'London',
             'date': '11 Feb 2020',
         },
         {
-            'title': 'Food and drink taster visit to Bruges',
+            'title': f'{choice(sectors)} visit to London',
             'description': (
                 'Join the Department for international Trade (DIT) and Northern England with the great real...'
             ),
@@ -82,7 +85,7 @@ def get_dashboard_events():
             'date': '11 Feb 2020',
         },
         {
-            'title': 'Food and drink taster visit to Bruges',
+            'title': f'{choice(sectors)} event in Paris',
             'description': (
                 'Join the Department for international Trade (DIT) and Northern England with the great real...'
             ),
@@ -93,10 +96,12 @@ def get_dashboard_events():
     ]
 
 
-def get_dashboard_export_opportunities():
+def get_dashboard_export_opportunities(company):
+    countries = (company and company.expertise_countries_labels) or list(CompanyParser.COUNTRIES.values())
+    sectors = (company and company.expertise_industries_labels) or list(CompanyParser.SECTORS.values())
     return [
         {
-            'title': 'Jordan - Healthy foods',
+            'title': f'{choice(sectors)} needed in {choice(countries)}',
             'description': '',
             'provider': 'OpenOpps',
             'provider_image': '/path/to/shamrock',
@@ -105,22 +110,22 @@ def get_dashboard_export_opportunities():
             'closing_data': '11 March 2020',
         },
         {
-            'title': 'Jordan - Healthy foods',
-            'description': "A company is looking for healthy food and snacks to sell in it's branches",
+            'title': f'{choice(countries)} - {choice(sectors)} required',
+            'description': "A company is looking products to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
-            'published_data': '11 Feb 2020',
-            'closing_data': '11 March 2020',
+            'published_data': '10 March 2020',
+            'closing_data': '15 December 2020',
         },
         {
-            'title': 'Jordan - Healthy foods',
-            'description': "A company is looking for healthy food and snacks to sell in it's branches",
+            'title': f'{choice(countries)} - {choice(sectors)} products',
+            'description': "A company is looking for products to sell in it's branches",
             'provider': '',
             'provider_image': '',
             'url': '#',
-            'published_data': '11 Feb 2020',
-            'closing_data': '11 March 2020',
+            'published_data': '03 January 2020',
+            'closing_data': '05 June 2020',
         }
     ]
 
@@ -132,9 +137,9 @@ def get_custom_duties_url(product_code, country):
 def get_markets_page_title(company):
     industries, countries = company.data['expertise_industries'], company.data['expertise_countries']
     if industries and countries:
-        return f'The {company.first_expertise_industry_label} market in {company.expertise_countries_label}'
+        return f'The {company.expertise_industries_labels[0]} market in {company.expertise_countries_label}'
     elif industries:
-        return f'The {company.first_expertise_industry_label} market'
+        return f'The {company.expertise_industries_labels[0]} market'
     elif countries:
         return f'The market in {company.expertise_countries_label}'
 
@@ -154,18 +159,28 @@ def get_popular_export_destinations(sector_label):
 
     with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
         for row in csv.DictReader(f, delimiter=','):
-            row_sectors = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
-            if is_fuzzy_match(label_a=row_sectors, label_b=sector_label):
+            row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
+            if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
                 export_destinations.update([row['country']])
     return export_destinations.most_common(5)
 
 
 class CompanyParser(great_components.helpers.CompanyParser):
 
+    INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
+
     @property
-    def first_expertise_industry_label(self):
+    def expertise_industries_labels(self):
         if self.data['expertise_industries']:
-            return great_components.helpers.values_to_labels(
-                values=[self.data['expertise_industries'][0]],
-                choices=self.SECTORS
-            )
+            return values_to_labels(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
+        return []
+
+    @property
+    def expertise_countries_labels(self):
+        if self.data['expertise_countries']:
+            return values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
+        return []
+
+
+def values_to_labels(values, choices):
+    return [choices.get(item) for item in values if item in choices]

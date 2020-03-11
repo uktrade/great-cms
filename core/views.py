@@ -20,8 +20,8 @@ class DashboardView(TemplateView):
         return super().get_context_data(
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(),
-            export_opportunities=helpers.get_dashboard_export_opportunities(),
+            events=helpers.get_dashboard_events(self.request.user.company),
+            export_opportunities=helpers.get_dashboard_export_opportunities(self.request.user.company),
             **kwargs,
         )
 
@@ -60,7 +60,10 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=serializer.data)
+        helpers.update_company_profile(
+            sso_session_id=self.request.user.session_id,
+            data={key: value for key, value in serializer.data.items() if value}
+        )
         return Response(status=200)
 
 
@@ -94,8 +97,8 @@ class MarketsView(TemplateView):
             return helpers.get_markets_page_title(self.request.user.company)
 
     def get_most_popular_countries(self):
-        if self.request.user.is_authenticated:
-            return helpers.get_popular_export_destinations(self.request.user.company.first_expertise_industry_label)
+        if self.request.user.is_authenticated and self.request.user.company:
+            return helpers.get_popular_export_destinations(self.request.user.company.expertise_industries_labels[0])
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
