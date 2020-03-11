@@ -2,12 +2,13 @@
 {% load breadcrumbs from great_components %}
 
 {% block content %}
-    <div id="welcome-back-hero" class="container gutter-top c-full">
-        <h2 class="h-l w-1-2 m-t-xl">Welcome back</h2>
-        <p class="w-1-2">{% lorem 20 w %}</p>
+    <div class="container">
+        <div id="welcome-back-hero" class="gutter-top c-full">
+            <h2 class="h-l w-1-2 m-t-xl">Welcome back</h2>
+            <p class="w-1-2">{% lorem 20 w %}</p>
+        </div>
     </div>
 {% endblock %}
-
 
 {% block body_js %}
     {% if not request.user.is_authenticated %}

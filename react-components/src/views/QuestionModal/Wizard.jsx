@@ -69,7 +69,7 @@ export default function Wizard(props){
   }
 
   function handleCountriesSubmit() {
-    Services.enrolCompany({expertise_countries: countries.map(item => item.value)})
+    Services.enrolCompany({expertise_industries: industries.map(item => item.value)})
       .then(handeleApiUpdateSuccess)
       .catch(handeleApiUpdateError)
   }

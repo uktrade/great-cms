@@ -129,8 +129,7 @@
             <div class="c-1-2">
                 <div class="bg-white p-xs great-dashboard-card">
                     <h3 class="m-b-s card-heading text-16">Export opportunities</h3>
-
-                    <ul class="m-v-0">
+                    <ul class="m-v-0 c-full">
                         {% for opportunity in export_opportunities %}
                             <li>
                                 <a class="g-link m-b-xs" href="{{ opportunity.url }}">{{ opportunity.title }}</a>
@@ -147,7 +146,7 @@
                                         <div><strong>Published:</strong>{{ opportunity.published_data }}</div>
                                     </div>
                                     <div class="c-1-2">
-                                        <div><strong>Closing date:</strong>{{ opportunity.closing_data }}</div>
+                                        <div><strong>Closing date:</strong> {{ opportunity.closing_data }}</div>
                                     </div>
                                 </div>
                                 <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
@@ -227,7 +226,7 @@
             enrolCompanyUrl: '{% url "core:api-create-company" %}',
             industryOptions: {{ industry_options|safe }}
         });
-        var isOpen = {% if request.user.company.expertise_industries_label %}false{%else %}true{% endif %};
+        var isOpen = {% if request.user.company.expertise_industries_labels %}false{%else %}true{% endif %};
         ditMVP.QuestionModal({
             element: element,
             isOpen: isOpen,
