@@ -1,6 +1,7 @@
 from unittest import mock
 
 from directory_api_client import api_client
+from directory_constants import choices
 from directory_sso_api_client import sso_api_client
 import pytest
 from requests.exceptions import HTTPError
@@ -150,8 +151,13 @@ def test_update_company_profile(mock_profile_update):
         {'expertise_countries': ['FR'], 'expertise_industries': ['SL10001']},
         'The Advanced Engineering market in France'
     ],
-    [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
     [{'expertise_countries': [], 'expertise_industries': ['SL10001']}, 'The Advanced Engineering market'],
+    [
+        {'expertise_countries': ['FR'], 'expertise_industries': [choices.SECTORS[1][0]]},
+        'The Aerospace market in France'
+    ],
+    [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
+    [{'expertise_countries': [], 'expertise_industries': [choices.SECTORS[1][0]]}, 'The Aerospace market'],
 ])
 def test_get_markets_page_title(company_profile, expected):
     company = helpers.CompanyParser(company_profile)
@@ -163,7 +169,6 @@ def test_get_markets_page_title(company_profile, expected):
     [{'expertise_industries': []}, []],
     [{'expertise_industries': ['SL10001']}, ['Advanced Engineering']],
     [{'expertise_industries': ['SL10001', 'SL10002']}, ['Advanced Engineering', 'Aerospace']],
-
 ])
 def test_company_parser_expertise_industries_labels_no_industries(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_industries_labels == expected

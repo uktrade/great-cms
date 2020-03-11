@@ -97,7 +97,7 @@ class MarketsView(TemplateView):
             return helpers.get_markets_page_title(self.request.user.company)
 
     def get_most_popular_countries(self):
-        if self.request.user.is_authenticated and self.request.user.company:
+        if self.request.user.is_authenticated and self.request.user.company.expertise_industries_labels:
             return helpers.get_popular_export_destinations(self.request.user.company.expertise_industries_labels[0])
 
     def get_context_data(self, **kwargs):

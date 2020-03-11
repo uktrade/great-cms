@@ -2,7 +2,7 @@
 {% load breadcrumbs from great_components %}
 
 {% block content %}
-    <div id="great-hero" class="container p-t-l">
+    <div id="great-hero" class="container p-s">
         <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
         {% breadcrumbs article_name %}
 	      <a href="{% url 'core:dashboard' %}">Home</a>
