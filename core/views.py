@@ -60,7 +60,10 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=serializer.data)
+        helpers.update_company_profile(
+            sso_session_id=self.request.user.session_id,
+            data={key: value for key, value in serializer.data.items() if value}
+        )
         return Response(status=200)
 
 

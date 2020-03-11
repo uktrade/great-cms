@@ -159,8 +159,8 @@ def get_popular_export_destinations(sector_label):
 
     with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
         for row in csv.DictReader(f, delimiter=','):
-            row_sectors = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
-            if is_fuzzy_match(label_a=row_sectors, label_b=sector_label):
+            row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
+            if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
                 export_destinations.update([row['country']])
     return export_destinations.most_common(5)
 
