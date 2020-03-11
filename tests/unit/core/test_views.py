@@ -183,8 +183,7 @@ family of organisations and NGOs.  ',
                 'location': {'city': 'London'},
                 'url': 'www.example.com',
                 'date': '2020-06-06'
-            },
-            {
+            }, {
                 'name': 'Less Info',
                 'content': 'Content',
                 'url': 'www.example.com',
@@ -218,7 +217,7 @@ export-opportunities/opportunities/french-sardines-required',
                 'url': 'www.example.com',
                 'location': 'London',
                 'date': '06 Jun 2020'
-            },{
+            }, {
                 'title': 'Less Info',
                 'description': 'Content',
                 'url': 'www.example.com',
@@ -258,6 +257,7 @@ personalisation.export_opportunities_by_relevance_list'
             assert response.status_code == 200
             assert response.context_data['events'] == []
             assert response.context_data['export_opportunities'] == []
+
 
 @pytest.mark.django_db
 def test_capability_article_logged_in(client, user):
