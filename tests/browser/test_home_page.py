@@ -16,6 +16,7 @@ from tests.browser.util import (
     find_element,
     find_elements,
     is_element_present,
+    should_see_all_elements,
 )
 
 pytestmark = pytest.mark.browser
@@ -51,15 +52,6 @@ def should_not_see_sign_up_errors(browser):
             browser, 'Unexpected error(s) during sign-up', selector=SignUpModal.MODAL
         )
         raise
-
-
-@allure.step('Should see all elements from: {selectors_enum}')
-def should_see_all_elements(browser, selectors_enum):
-    for selector in selectors_enum:
-        if not selector.is_visible:
-            continue
-        element = find_element(browser, selector)
-        assert element.is_displayed(), f'Expected element "{selector}" is not visible'
 
 
 def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
