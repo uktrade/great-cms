@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Fixed bugs
+- No ticket - Fix broken static files
 
 ### Implemented enhancements
 - MVP-99 - Added skeleton for export plan dashboard and first page of builder
