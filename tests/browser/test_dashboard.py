@@ -5,10 +5,13 @@ import allure
 import pytest
 from selenium.webdriver.common.keys import Keys
 
-from directory_constants import choices
-
 from core import helpers
-from tests.browser.common_selectors import DashboardModalLetsGetToKnowYou
+from directory_constants import choices
+from tests.browser.common_selectors import (
+    DashboardContents,
+    DashboardModalLetsGetToKnowYou,
+    HeaderSignedIn,
+)
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
@@ -62,3 +65,5 @@ def test_dashboard_forced_user(
 
     attach_jpg_screenshot(browser, 'Dashboard')
     should_not_see(browser, DashboardModalLetsGetToKnowYou)
+    should_see_all_elements(browser, HeaderSignedIn)
+    should_see_all_elements(browser, DashboardContents)
