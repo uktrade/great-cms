@@ -135,11 +135,11 @@ class MarketsContainer(SelectorsEnum):
 
 
 class StickyHeader(SelectorsEnum):
-    STICKY_HEADER = Selector(By.ID, 'sticky-header')
-    WHAT = Selector(By.ID, 'sticky-header-what')
-    WHERE = Selector(By.ID, 'sticky-header-where')
-    SHARE = Selector(By.ID, 'sticky-header-share', ElementType.LINK)
-    DOWNLOAD = Selector(By.ID, 'sticky-header-download', ElementType.LINK)
+    STICKY_HEADER = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
+    WHAT = Selector(By.ID, 'exportplan-country-sector-what')
+    WHERE = Selector(By.ID, 'exportplan-country-sector-where')
+    SHARE = Selector(By.ID, 'exportplan-collaboraton-menu-share', ElementType.LINK)
+    DOWNLOAD = Selector(By.ID, 'exportplan-collaboraton-menur-download', ElementType.LINK)
 
 
 class ExportPlanDashboard(SelectorsEnum):
