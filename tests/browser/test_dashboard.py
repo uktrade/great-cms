@@ -9,6 +9,8 @@ from core import helpers
 from directory_constants import choices
 from tests.browser.common_selectors import (
     DashboardContents,
+    DashboardContentsOnSuccess,
+    DashboardContentsWithoutSuccess,
     DashboardModalLetsGetToKnowYou,
     HeaderSignedIn,
 )
@@ -44,16 +46,26 @@ def submit_industries(browser, industries):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'get_dashboard_export_opportunities')
+@mock.patch.object(helpers, 'get_dashboard_events')
 @mock.patch.object(helpers, 'create_company_profile')
-def test_dashboard_forced_user(
-    mock_create_company_profile, mock_get_company_profile, server_user_browser_dashboard
+def test_dashboard_with_success_query_parameter(
+    mock_create_company_profile, mock_get_dashboard_events,
+    mock_get_dashboard_export_opportunities, mock_get_company_profile,
+    server_user_browser_dashboard, single_event, single_opportunity
 ):
     def side_effect(_):
         mock_get_company_profile.return_value = {
             'expertise_countries': [],
-            'expertise_industries': [],
+            'expertise_industries': ['SL10001', 'SL10002'],
         }
 
+    mock_get_dashboard_events.return_value = create_response()
+    mock_get_dashboard_events.side_effect = [[], [single_event], [single_event]]
+    mock_get_dashboard_export_opportunities.return_value = create_response()
+    mock_get_dashboard_export_opportunities.side_effect = [
+        [], [single_opportunity], [single_opportunity]
+    ]
     mock_create_company_profile.return_value = create_response()
     mock_create_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
