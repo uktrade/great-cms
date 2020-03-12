@@ -61,7 +61,7 @@ Selector = namedtuple(
 Selector.__new__.__defaults__ = (None, None, None, True, False)
 
 
-class Header(SelectorsEnum):
+class HeaderCommon(SelectorsEnum):
     HEADER_SECTION = Selector(By.ID, 'header', ElementType.HEADER)
     LOGO_LINK = Selector(By.ID, 'header-logo-link', ElementType.LINK)
     LOGO = Selector(By.ID, 'header-logo-exporting-is-great', ElementType.IMAGE)
@@ -70,23 +70,31 @@ class Header(SelectorsEnum):
     EXPORTING_PLAN = Selector(By.ID, 'header-link-exporting-plan', ElementType.LINK)
     MARKETS = Selector(By.ID, 'header-link-markets', ElementType.LINK)
     SERVICES = Selector(By.ID, 'header-link-services', ElementType.LINK)
-    USER_STAGE_AREA = Selector(By.ID, 'user-state-area', ElementType.UL)
-    NOTIFICATIONS = Selector(
-        By.ID, 'header-link-notifications', ElementType.LINK, is_authenticated=True
-    )
-    USER_PROFILE = Selector(
-        By.ID, 'header-link-user-profile', ElementType.LINK, is_authenticated=True
-    )
-    USER_PROFILE_EMAIL = Selector(
-        By.ID, 'header-link-user-profile-email-link', ElementType.LINK, is_authenticated=True
-    )
-    DASHBOARD = Selector(
-        By.ID, 'header-link-dashboard', ElementType.LINK, is_authenticated=True
-    )
-    SIGN_IN = Selector(By.ID, 'header-sign-in-link', ElementType.LINK)
-    SIGN_UP = Selector(
-        By.ID, 'header-sign-up-link', ElementType.LINK, is_authenticated=True
-    )
+    USER_STATE_AREA = Selector(By.ID, 'user-state-area', ElementType.UL)
+
+
+class HeaderSignUp(SelectorsEnum):
+    SIGN_UP = Selector(By.ID, 'header-sign-in-link', ElementType.LINK)
+
+
+class HeaderSignedIn(SelectorsEnum):
+    NOTIFICATIONS = Selector(By.ID, 'header-link-notifications', ElementType.LINK)
+    USER_PROFILE = Selector(By.ID, 'header-link-user-profile', ElementType.LINK)
+    USER_PROFILE_EMAIL = Selector(By.ID, 'header-link-user-profile-email-link', ElementType.LINK)
+    DASHBOARD = Selector(By.ID, 'header-link-dashboard', ElementType.LINK)
+
+
+class DashboardContents(SelectorsEnum):
+    HERO = Selector(By.ID, 'great-hero')
+    WELCOME = Selector(By.ID, 'great-hero-welcome')
+    LEARNING_BOX = Selector(By.ID, 'great-continue-learning-box')
+    YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
+    EXPORT_PLAN_CARD = Selector(By.ID, 'great-export-plan-card')
+    DID_YOU_KNOW_CARD = Selector(By.ID, 'did-you-know-card')
+    DISCOVER_NEW_MARKETS_CARD = Selector(By.ID, 'discover-new-markets-card')
+    EXPORT_OPPORTUNITIES_CARD = Selector(By.ID, 'export-opportunities-card')
+    EVENTS_CARD = Selector(By.ID, 'events-card')
+    TARIFFS_AND_DUTIES_CARD = Selector(By.ID, 'tariffs-and-duties-card')
 
 
 class SignUpModal(SelectorsEnum):
