@@ -3,7 +3,7 @@
 {% block content %}
     <div id="great-hero" class="p-t-l">
       <div class="container">
-        <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
+        <h2 class="h-m" id="great-hero-welcome">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
         {% if 'success' not in request.GET %}
             <h3 class="h-s p-v-s">Start learning</h3>
         {% endif %}
@@ -12,7 +12,7 @@
 
     <div class="container">
         {% if 'success' in request.GET %}
-            <div class="grid m-s">
+            <div class="grid m-s" id="great-mvp-success-car">
                 <div class="c-full">
                     <div class="bg-white p-s great-mvp-success-card">
                         <h3>Complete, discover your next step</h3>
@@ -66,8 +66,8 @@
                 </div>
             </div>
 
-            <div class="c-1-2">
-                <div class="bg-white p-xs great-dashboard-card great-export-plan-card" id="export-opportunities-card">
+            <div class="c-1-2" id="great-export-plan-card">
+                <div class="bg-white p-xs great-dashboard-card great-export-plan-card" id="your-progress-card">
                     <h3 class="m-b-0 card-heading text-16">Your export plan</h3>
                     <p class="m-v-s">Get ready to Trade Export plan</p>
                     <form class="great-mvp-small-checkbox-container">
@@ -126,7 +126,7 @@
         </div>
 
         <div class="flex-grid m-b-s">
-            <div class="c-1-2">
+            <div class="c-1-2" id="export-opportunities-card">
                 <div class="bg-white p-xs great-dashboard-card">
                     <h3 class="m-b-s card-heading text-16">Export opportunities</h3>
                     <ul class="m-v-0 c-full">
@@ -160,7 +160,7 @@
                 </div>
             </div>
 
-            <div class="c-1-2">
+            <div class="c-1-2" id="events-card">
                 <div class="bg-white p-xs great-dashboard-card">
                     <h3 class="m-b-xs card-heading text-16">Events</h3>
                     <ul class="m-v-0">
