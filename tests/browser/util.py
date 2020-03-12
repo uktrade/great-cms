@@ -94,7 +94,7 @@ def should_see_all_elements(browser, selectors_enum):
             continue
         error = f'Expected element "{selector}" is not visible'
         if not is_element_visible(browser, selector):
-            attach_jpg_screenshot(browser, str(selectors_enum))
+            attach_jpg_screenshot(browser, error)
         assert is_element_visible(browser, selector), error
 
 
@@ -105,7 +105,7 @@ def should_not_see(browser, selectors_enum):
             continue
         assertion_error = f'Unexpected element is visible "{selector}"'
         try:
-            assert is_element_visible(browser, selector), assertion_error
+            assert not is_element_visible(browser, selector), assertion_error
         except AssertionError:
             attach_jpg_screenshot(browser, assertion_error)
             raise
