@@ -1,3 +1,4 @@
+import logging
 from unittest import mock
 
 import environ
@@ -13,6 +14,13 @@ from wagtail_factories import SiteFactory, PageFactory
 from tests.unit.domestic import factories
 from tests.helpers import create_response
 from sso.models import BusinessSSOUser
+
+# This is to reduce logging verbosity of these two libraries when running pytests
+# with DEBUG=true and --log-cli-level=DEBUG
+selenium_logger = logging.getLogger('selenium')
+pil_logger = logging.getLogger('PIL')
+selenium_logger.setLevel(logging.CRITICAL)
+pil_logger.setLevel(logging.CRITICAL)
 
 
 @pytest.fixture
