@@ -139,7 +139,7 @@ class StickyHeader(SelectorsEnum):
     WHAT = Selector(By.ID, 'exportplan-country-sector-what')
     WHERE = Selector(By.ID, 'exportplan-country-sector-where')
     SHARE = Selector(By.ID, 'exportplan-collaboraton-menu-share', ElementType.LINK)
-    DOWNLOAD = Selector(By.ID, 'exportplan-collaboraton-menur-download', ElementType.LINK)
+    DOWNLOAD = Selector(By.ID, 'exportplan-collaboraton-menu-download', ElementType.LINK)
 
 
 class ExportPlanDashboard(SelectorsEnum):
