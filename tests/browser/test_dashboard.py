@@ -73,9 +73,11 @@ def submit_industries(browser, industries):
 def test_dashboard_forced_user(
     mock_create_company_profile, mock_get_company_profile, server_user_browser_dashboard
 ):
-
     def side_effect(_):
-        mock_get_company_profile.return_value = {'foo': 'bar'}
+        mock_get_company_profile.return_value = {
+            'expertise_countries': [],
+            'expertise_industries': [],
+        }
 
     mock_create_company_profile.return_value = create_response()
     mock_create_company_profile.side_effect = side_effect
