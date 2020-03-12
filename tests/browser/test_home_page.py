@@ -6,7 +6,9 @@ import pytest
 
 from sso import helpers
 from tests.browser.common_selectors import (
-    Header,
+    HeaderCommon,
+    HeaderSignedIn,
+    HeaderSignUp,
     SignUpModal,
     SignUpModalSuccess,
     SignUpModalVerificationCode,
@@ -16,6 +18,7 @@ from tests.browser.util import (
     find_element,
     find_elements,
     is_element_present,
+    should_not_see,
     should_see_all_elements,
 )
 
@@ -58,14 +61,9 @@ def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
         browser, visit_home_page
 ):
     attach_jpg_screenshot(browser, 'home page')
-    for selector in Header:
-        if not selector.is_authenticated:
-            element = find_element(browser, selector)
-            assert element.is_displayed()
-        else:
-            assert not is_element_present(browser, selector), (
-                f'Element "{selector}" should not be present on the home page'
-            )
+    should_see_all_elements(browser, HeaderCommon)
+    should_see_all_elements(browser, HeaderSignUp)
+    should_not_see(browser, HeaderSignedIn)
 
 
 def test_anonymous_user_should_see_sign_up_modal(browser, visit_home_page):
