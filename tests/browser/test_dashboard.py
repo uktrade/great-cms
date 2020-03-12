@@ -5,6 +5,8 @@ import allure
 import pytest
 from selenium.webdriver.common.keys import Keys
 
+from directory_constants import choices
+
 from core import helpers
 from tests.browser.common_selectors import DashboardModalLetsGetToKnowYou
 from tests.browser.util import (
@@ -16,37 +18,6 @@ from tests.browser.util import (
 from tests.helpers import create_response
 
 pytestmark = pytest.mark.browser
-
-industry_options = [
-    'Advanced Engineering',
-    'Aerospace',
-    'Agriculture, Horticulture and Fisheries',
-    'Airports',
-    'Automotive',
-    'Biotechnology & Pharmaceuticals',
-    'Chemicals',
-    'Construction',
-    'Consumer, Retail and Luxury',
-    'Creative and Media',
-    'Cyber Security',
-    'Defence',
-    'Education & Training',
-    'Energy',
-    'Environment',
-    'Financial & Professional Services',
-    'Food & Drink',
-    'Healthcare & Medical',
-    'Leisure & Tourism',
-    'Life Sciences',
-    'Maritme',
-    'Mining',
-    'Railways',
-    'Security',
-    'Space',
-    'Sports Economy',
-    'Technology & Smart Cities',
-    'Water',
-]
 
 
 @allure.step('Enter sectors user is interested in: {industries}')
@@ -85,7 +56,8 @@ def test_dashboard_forced_user(
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
-    industries = random.sample(industry_options, random.randint(1, 5))
+    sector_labels = [label for _, label in choices.SECTORS]
+    industries = random.sample(sector_labels, random.randint(1, 5))
     submit_industries(browser, industries)
 
     attach_jpg_screenshot(browser, 'Dashboard')
