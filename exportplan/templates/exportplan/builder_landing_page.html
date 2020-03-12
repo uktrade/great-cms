@@ -15,8 +15,8 @@
       <aside class="completion-status c-1-4">
         <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="" class="w-full">
         <h2 class="h-s">Export plan</h2>
-        <p class="text-mid-grey">20% completed</p>
-        <h2 class="h-s m-b-s">Continue learning</h2>
+        <p class="text-mid-grey" id="exportplan-completion-progress-indicator">20% completed</p>
+        <h2 class="h-s m-b-s" id="exportplan-continue-leaning-title">Continue learning</h2>
         {% card title='Calculate consumer demand' subheading='Market research' url='#' %}
       </aside>
 
@@ -24,7 +24,7 @@
         <div class="flex-grid">
           {% for section in sections %}
           <div class="c-1-3">
-            <div class="bg-white m-b-s">
+            <div class="bg-white m-b-s exportplan-section-item">
               {% if forloop.first %}
               <a class="w-full" href="{% url 'exportplan:about-your-business' %}" id="{{ section.title|slugify }}">
               {% else %}
@@ -44,4 +44,13 @@
   </div>
 </section>
 
+{% endblock %}
+
+
+{% block body_js %}
+    <script type="text/javascript">
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        ditMVP.Tour({element: element, isOpenModal: true})
+    </script>
 {% endblock %}
