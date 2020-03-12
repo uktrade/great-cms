@@ -3,7 +3,12 @@ from unittest import mock
 import pytest
 
 from core import helpers
-from tests.browser.common_selectors import ExportPlanDashboard, StickyHeader
+from tests.browser.common_selectors import (
+    ExportPlanDashboard,
+    HeaderCommon,
+    HeaderSignedIn,
+    StickyHeader,
+)
 from tests.browser.util import should_see_all_elements
 from tests.helpers import create_response
 
@@ -25,5 +30,7 @@ def test_export_plan_dashboard(
 
     browser.get(live_server.url + "/export-plan/dashboard/")
 
+    should_see_all_elements(browser, HeaderCommon)
+    should_see_all_elements(browser, HeaderSignedIn)
     should_see_all_elements(browser, StickyHeader)
     should_see_all_elements(browser, ExportPlanDashboard)
