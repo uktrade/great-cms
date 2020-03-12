@@ -112,3 +112,16 @@ def should_not_see(browser, selectors_enum):
         except StaleElementReferenceException:
             attach_jpg_screenshot(browser, 'StaleElementReferenceException')
             raise
+
+
+@allure.step('Should not see errors')
+def should_not_see_errors(browser):
+    assertion_error = ''
+    page_source = browser.page_source
+    try:
+        assertion_error = f'500 ISE on {browser.current_url}'
+        assert 'there is a problem with the service' not in page_source, assertion_error
+        assert 'Internal Server Error' not in page_source, assertion_error
+    except AssertionError:
+        attach_jpg_screenshot(browser, assertion_error)
+        raise
