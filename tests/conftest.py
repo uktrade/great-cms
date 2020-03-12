@@ -3,17 +3,17 @@ from unittest import mock
 
 import environ
 import pytest
-
 from airtable import Airtable
-from directory_api_client import api_client
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from wagtail.core.models import Page
-from wagtail_factories import SiteFactory, PageFactory
+from wagtail_factories import PageFactory, SiteFactory
 
-from tests.unit.domestic import factories
-from tests.helpers import create_response
+from core import helpers
+from directory_api_client import api_client
 from sso.models import BusinessSSOUser
+from tests.helpers import create_response
+from tests.unit.domestic import factories
 
 # This is to reduce logging verbosity of these two libraries when running pytests
 # with DEBUG=true and --log-cli-level=DEBUG
@@ -189,9 +189,19 @@ def single_opportunity():
 
 
 @pytest.fixture
-def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings):
+@mock.patch.object(helpers, 'get_dashboard_export_opportunities')
+@mock.patch.object(helpers, 'get_dashboard_events')
+def server_user_browser_dashboard(
+    mock_get_dashboard_events, mock_get_dashboard_export_opportunities,
+    mock_get_company_profile, server_user_browser, settings
+):
     live_server, user, browser = server_user_browser
-    browser.get('{}/dashboard/'.format(live_server.url))
+
+    # these mocked endpoints are occasionally called before user is even logged in
+    mock_get_dashboard_events.return_value = []
+    mock_get_dashboard_export_opportunities.return_value = []
+
+    browser.get(f'{live_server.url}/dashboard/')
 
     browser.add_cookie({
         'name': settings.SSO_SESSION_COOKIE,
