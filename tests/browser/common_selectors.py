@@ -87,7 +87,6 @@ class HeaderSignedIn(SelectorsEnum):
 class DashboardContents(SelectorsEnum):
     HERO = Selector(By.ID, 'great-hero')
     WELCOME = Selector(By.ID, 'great-hero-welcome')
-    LEARNING_BOX = Selector(By.ID, 'great-continue-learning-box')
     YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
     EXPORT_PLAN_CARD = Selector(By.ID, 'great-export-plan-card')
     DID_YOU_KNOW_CARD = Selector(By.ID, 'did-you-know-card')
@@ -95,6 +94,14 @@ class DashboardContents(SelectorsEnum):
     EXPORT_OPPORTUNITIES_CARD = Selector(By.ID, 'export-opportunities-card')
     EVENTS_CARD = Selector(By.ID, 'events-card')
     TARIFFS_AND_DUTIES_CARD = Selector(By.ID, 'tariffs-and-duties-card')
+
+
+class DashboardContentsWithoutSuccess(SelectorsEnum):
+    LEARNING_BOX = Selector(By.ID, 'great-continue-learning-box')
+
+
+class DashboardContentsOnSuccess(SelectorsEnum):
+    SUCCESS_CARD = Selector(By.ID, 'great-mvp-success-card')
 
 
 class SignUpModal(SelectorsEnum):
