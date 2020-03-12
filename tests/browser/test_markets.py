@@ -13,6 +13,7 @@ from tests.browser.common_selectors import (
 from tests.browser.util import (
     attach_jpg_screenshot,
     should_not_see,
+    should_not_see_errors,
     should_see_all_elements,
 )
 
@@ -30,6 +31,7 @@ def test_can_view_markets_as_signed_in_user(
         'expertise_countries': ['AF'], 'expertise_industries': [choices.SECTORS[0][0]]
     }
     live_server, user, browser = server_user_browser_dashboard
+    should_not_see_errors(browser)
 
     browser.get(live_server.url + "/markets/")
 

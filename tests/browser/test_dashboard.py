@@ -16,6 +16,7 @@ from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
     should_not_see,
+    should_not_see_errors,
     should_see_all_elements,
 )
 from tests.helpers import create_response
@@ -56,6 +57,7 @@ def test_dashboard_forced_user(
     mock_create_company_profile.return_value = create_response()
     mock_create_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
+    should_not_see_errors(browser)
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
