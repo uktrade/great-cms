@@ -22,8 +22,8 @@ urlpatterns = [
         name='landing-page'
     ),
     path(
-        'dashboard/',
-        login_required(core.views.DashboardView.as_view(), login_url='/'),
+        'dashboard/', login_required(
+            core.views.DashboardView.as_view(), login_url='/'),
         name='dashboard'
     ),
     path(

@@ -3,7 +3,6 @@ from difflib import SequenceMatcher
 from logging import getLogger
 import csv
 import functools
-from random import choice
 
 from directory_api_client import api_client
 import great_components.helpers
@@ -13,6 +12,8 @@ from ipware import get_client_ip
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
+
+from .serializers import parse_opportunities, parse_events
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
@@ -65,69 +66,20 @@ def create_user_profile(data, sso_session_id):
     return response
 
 
-def get_dashboard_events(company):
-    sectors = (company and company.expertise_industries_labels) or list(CompanyParser.SECTORS.values())
-    return [
-        {
-            'title': f'{choice(sectors)} taster visit to Bruges',
-            'description': 'Join the Department for international Trade (DIT) and Northern...',
-            'url': '#',
-            'location': 'London',
-            'date': '11 Feb 2020',
-        },
-        {
-            'title': f'{choice(sectors)} visit to London',
-            'description': (
-                'Join the Department for international Trade (DIT) and Northern England with the great real...'
-            ),
-            'url': '#',
-            'location': 'London',
-            'date': '11 Feb 2020',
-        },
-        {
-            'title': f'{choice(sectors)} event in Paris',
-            'description': (
-                'Join the Department for international Trade (DIT) and Northern England with the great real...'
-            ),
-            'url': '#',
-            'location': 'London',
-            'date': '11 Feb 2020',
-        }
-    ]
+def get_dashboard_events(sso_session_id):
+    results = api_client.personalisation.events_by_location_list(sso_session_id)
+    if (results.status_code == 200):
+        return parse_events(results.json()['results'])
+    return []
 
 
-def get_dashboard_export_opportunities(company):
-    countries = (company and company.expertise_countries_labels) or list(CompanyParser.COUNTRIES.values())
+def get_dashboard_export_opportunities(company, sso_session_id):
     sectors = (company and company.expertise_industries_labels) or list(CompanyParser.SECTORS.values())
-    return [
-        {
-            'title': f'{choice(sectors)} needed in {choice(countries)}',
-            'description': '',
-            'provider': 'OpenOpps',
-            'provider_image': '/path/to/shamrock',
-            'url': '#',
-            'published_data': '11 Feb 2020',
-            'closing_data': '11 March 2020',
-        },
-        {
-            'title': f'{choice(countries)} - {choice(sectors)} required',
-            'description': "A company is looking products to sell in it's branches",
-            'provider': '',
-            'provider_image': '',
-            'url': '#',
-            'published_data': '10 March 2020',
-            'closing_data': '15 December 2020',
-        },
-        {
-            'title': f'{choice(countries)} - {choice(sectors)} products',
-            'description': "A company is looking for products to sell in it's branches",
-            'provider': '',
-            'provider_image': '',
-            'url': '#',
-            'published_data': '03 January 2020',
-            'closing_data': '05 June 2020',
-        }
-    ]
+    search_term = ' '.join(sectors)
+    results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id, search_term)
+    if (results.status_code == 200):
+        return parse_opportunities(results.json()['results'])
+    return []
 
 
 def get_custom_duties_url(product_code, country):
@@ -159,8 +111,8 @@ def get_popular_export_destinations(sector_label):
 
     with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
         for row in csv.DictReader(f, delimiter=','):
-            row_sectors = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
-            if is_fuzzy_match(label_a=row_sectors, label_b=sector_label):
+            row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
+            if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
                 export_destinations.update([row['country']])
     return export_destinations.most_common(5)
 

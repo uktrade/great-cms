@@ -18,12 +18,17 @@
 - MVP-146 - Question modal
 - MVP-214 - Dummy capability article page
 - MVP-228 - add custom duties url
+- MVP-251 - Connect dashboard exops and events apis to directory-api
 - MVP-216 - Add lesson object
 - MVP-138 - add example browser and load tests
 - MVP-144 - add example BDD browser tests
 - MVP-224 - Implement design for login page
 - no ticket - move tests to dedicated folders: browser, load & unit
+- MVP-40 - Add GA360 context processor
 - MVP-256 - add data services
 - MVP-292 - Add dummy markets page
+- MVP-271 - Add tour to export-plan
 - MVP-297 - Add dummy export opportunies
 - MVP-310 - comtrade data
+- MVP-271 - Add tour to export-plan
+- MVP-297 - Add dummy export opportunies

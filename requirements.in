@@ -24,7 +24,7 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 directory-api-client==21.6.*
-great-components==1.0.*
+git+git://github.com/uktrade/great-components@1.1.0#egg=great-components
 directory-constants==20.11.*
 directory-forms-api-client==5.0.*
 directory-sso-api-client==6.2.*
@@ -35,6 +35,6 @@ psycopg2==2.8.* --no-binary psycopg2
 boto3==1.11.*
 geoip2==2.9.*
 airtable-python-wrapper==0.12.*
+markdown2==2.3.8
 iso3166==1.0.1
 freezegun==0.1.5
-

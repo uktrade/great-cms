@@ -9,7 +9,7 @@
 airtable-python-wrapper==0.12.0  # via -r requirements.in
 attrs==19.3.0             # via jsonschema
 beautifulsoup4==4.6.0     # via great-components, wagtail
-boto3==1.11.8             # via -r requirements.in, django-storages
+boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
@@ -19,7 +19,7 @@ directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
 directory-sso-api-client==6.2.0  # via -r requirements.in
 django-environ==0.4.5     # via -r requirements.in
-django-extensions==2.2.6  # via -r requirements.in
+django-extensions==2.2.8  # via -r requirements.in
 django-filter==2.2.0      # via -r requirements.in
 django-ipware==2.1.0      # via -r requirements.in
 django-modelcluster==5.0.1  # via wagtail
@@ -35,14 +35,15 @@ docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
 freezegun==0.1.5          # via -r requirements.in
 geoip2==2.9.0             # via -r requirements.in
-great-components==1.0.0   # via -r requirements.in
+git+git://github.com/uktrade/great-components@1.1.0#egg=great-components  # via -r requirements.in
 gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.0.1           # via wagtail
-idna==2.8                 # via requests
+idna==2.9                 # via requests
 importlib-metadata==1.5.0  # via jsonschema
 iso3166==1.0.1            # via -r requirements.in
 jmespath==0.9.5           # via boto3, botocore
 jsonschema==3.2.0         # via great-components
+markdown2==2.3.8          # via -r requirements.in
 maxminddb==1.5.2          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-client-core

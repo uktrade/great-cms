@@ -148,6 +148,11 @@ def test_update_company_profile(mock_profile_update):
 @pytest.mark.parametrize('company_profile,expected', [
     [{'expertise_countries': [], 'expertise_industries': []}, None],
     [
+        {'expertise_countries': ['FR'], 'expertise_industries': ['SL10001']},
+        'The Advanced Engineering market in France'
+    ],
+    [{'expertise_countries': [], 'expertise_industries': ['SL10001']}, 'The Advanced Engineering market'],
+    [
         {'expertise_countries': ['FR'], 'expertise_industries': [choices.SECTORS[1][0]]},
         'The Aerospace market in France'
     ],
@@ -162,12 +167,8 @@ def test_get_markets_page_title(company_profile, expected):
 
 @pytest.mark.parametrize('company_profile,expected', [
     [{'expertise_industries': []}, []],
-    [{'expertise_industries': [choices.SECTORS[0][0]]}, [choices.SECTORS[0][1]]],
-    [
-        {'expertise_industries': [choices.SECTORS[0][0], choices.SECTORS[1][0]]},
-        [choices.SECTORS[0][1], choices.SECTORS[1][1]]
-    ],
-
+    [{'expertise_industries': ['SL10001']}, ['Advanced Engineering']],
+    [{'expertise_industries': ['SL10001', 'SL10002']}, ['Advanced Engineering', 'Aerospace']],
 ])
-def test_company_parser_first_expertise_industies_labels_no_industries(company_profile, expected):
+def test_company_parser_expertise_industries_labels_no_industries(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_industries_labels == expected
