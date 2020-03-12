@@ -165,6 +165,29 @@ def server_user_browser(browser, live_server, user, client):
     return live_server, user, browser
 
 
+@pytest.fixture()
+def single_event():
+    return {
+        'title': 'Global Aid and Development Directory',
+        'description': 'DIT is producing a directory of companies',
+        'url': 'www.example.com',
+        'location': 'London',
+        'date': '06 Jun 2020'
+    }
+
+
+@pytest.fixture()
+def single_opportunity():
+    return {
+        'title': 'French sardines required',
+        'url': 'http://exops.trade.great:3001/export-opportunities/opportunities/french-sardines-required',
+        'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
+        'published_date': '2020-01-14T15:26:45.334Z',
+        'closing_date': '2020-06-06',
+        'source': 'post',
+    }
+
+
 @pytest.fixture
 def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings):
     live_server, user, browser = server_user_browser
