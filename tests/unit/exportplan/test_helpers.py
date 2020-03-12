@@ -122,3 +122,21 @@ def test_get_timezone():
 
 def test_get_local_time_not_found():
     assert helpers.get_timezone('XS') is None
+
+
+@mock.patch.object(api_client.dataservices, 'get_lastyearimportdata')
+def test_get_comtrade_lastyearimportdata(mock_lastyearimportdata):
+    mock_lastyearimportdata.return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
+    comtrade_data = helpers.get_comtrade_lastyearimportdata(commodity_code='220.850', country='Australia')
+    assert mock_lastyearimportdata.call_count == 1
+    assert mock_lastyearimportdata.call_args == mock.call(commodity_code='220.850', country='Australia')
+    assert comtrade_data == {'lastyear_history': 123}
+
+
+@mock.patch.object(api_client.dataservices, 'get_historicalimportdata')
+def test_get_comtrade_historicalimportdata(mock_historical_data):
+    mock_historical_data.return_value = create_response(status_code=200, json_body={'history': 123})
+    comtrade_data = helpers.get_comtrade_historicalimportdata(commodity_code='220.850', country='Australia')
+    assert mock_historical_data.call_count == 1
+    assert mock_historical_data.call_args == mock.call(commodity_code='220.850', country='Australia')
+    assert comtrade_data == {'history': 123}

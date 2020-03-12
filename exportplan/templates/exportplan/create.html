@@ -49,5 +49,45 @@
         GMT:  {{  utz_offset }}
 
     </div>
+    <div>
+        <br>
+        <br>
+        {% if lastyear_import_data %}
+            Import into: {{ lastyear_import_data.last_year_data.import_value.country_name }} <br>
+            Import Value: {{ lastyear_import_data.last_year_data.import_value.trade_value }} <br>
+            Import Value: {{ lastyear_import_data.last_year_data.import_value.year_on_year_change }} <br>
+            Source: Comtrade
+        {% endif %}
+    </div>
 
+    <div>
+        <br>
+        <br>
+        {% if historical_import_data.historical_import_data %}
+            Historical import values UK to {{ rules_regulation.Country }}
+            {% for key,value in historical_import_data.historical_import_data.historical_trade_value_partner.items %}
+                <br>
+                Year: {{ key }}
+                Value: {{ value }}
+            {% endfor %}
+            <br>
+            Source: Comtrade
+        {% endif %}
+    </div>
+
+   <div>
+        <br>
+        <br>
+        {% if historical_import_data.historical_import_data.historical_trade_value_all %}
+            Historical import values World to {{ rules_regulation.Country }}
+            {% for key,value in historical_import_data.historical_import_data.historical_trade_value_all.items %}
+                <br>
+                Year: {{ key }}
+                Value: {{ value }}
+            {% endfor %}
+            <br>
+            Source: Comtrade
+        {% endif %}
+    </div>
+<br><br><br><br>
 {% endblock tab_content %}
