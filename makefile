@@ -22,7 +22,7 @@ check_migrations:
 	yes n | ENV_FILES=$(ENV_FILES) ./manage.py migrate --plan
 
 webserver:
-	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
+	ENV_FILES='secrets-do-not-commit,dev' python manage.py collectstatic && ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
 
 LOCUST_FILE?=tests/load/mvp_home.py
 NUM_CLIENTS?=10
