@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 import ReactTour from 'reactour'
 
-// import './stylesheets/Tour.scss'
+import './stylesheets/Tour.scss'
 
 
 export default function Tour(props){

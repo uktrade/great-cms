@@ -24,4 +24,3 @@ class ExportTourToTemplateMixin:
         except ObjectDoesNotExist:
             pass
         return context
-

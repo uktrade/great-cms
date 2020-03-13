@@ -1,7 +1,9 @@
 import hashlib
 from django.db import models
 
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+from modelcluster.models import ClusterableModel, ParentalKey
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.core.models import Orderable
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
 from wagtail.snippets.models import register_snippet
 
@@ -52,14 +54,6 @@ class Rendition(AbstractRendition):
 
     class Meta:
         unique_together = (('image', 'filter_spec', 'focal_point_key'))
-
-
-from wagtail.core.models import Page, Orderable
-
-
-from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import MultiFieldPanel, PageChooserPanel
-from modelcluster.fields import ParentalKey
 
 
 @register_snippet
