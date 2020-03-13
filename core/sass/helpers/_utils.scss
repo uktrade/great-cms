@@ -5,6 +5,10 @@
   margin-right: 10px;
 }
 
+.hidden {
+  display: none;
+}
+
 $colours:
   ($black, black),
   ($grey, grey),
@@ -64,7 +68,6 @@ $colours:
   display: block;
   padding: 15px;
   padding-bottom: 14px;
-  font-size: 0;
   border-radius: $space-m-m;
 
   @include desktop {
@@ -77,34 +80,34 @@ $colours:
   }
 
   &:after {
-    height: 20px;
+    height: 18px;
     width: 2px;
     background-color: $grey;
     content: '';
     display: block;
     position: absolute;
-    top: 5px;
+    top: 6px;
     left: 14px;
 
     @include desktop {
-      top: 5px;
+      top: 6px;
       left: 14px;
     }
   }
 
   &:before {
-    width: 20px;
+    width: 18px;
     height: 2px;
     background-color: $grey;
     content: '';
     display: block;
     position: absolute;
     top: 14px;
-    left: 5px;
+    left: 6px;
 
     @include desktop {
       top: 14px;
-      left: 5px;
+      left: 6px;
     }
   }
 }

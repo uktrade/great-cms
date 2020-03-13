@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { slugify } from '../Helpers'
+
 
 export default class Sector extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      selected: false
+      selected: this.props.selected
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -19,8 +21,7 @@ export default class Sector extends React.Component {
   }
 
   handleClick(e) {
-    e.preventDefault()
-    this.setState({selected: this.props.addRemoveSector(e.target.id)})
+    this.setState({selected: this.props.addRemoveSector(e.target.innerHTML)})
   }
 
   render() {
@@ -41,5 +42,6 @@ export default class Sector extends React.Component {
 }
 
 Sector.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
 }

@@ -12,13 +12,7 @@ from exportplan import data, forms, helpers
 class BaseExportPlanView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
-        industries = [
-            {
-                'name': name.lower(),
-                'id': id
-            }
-            for id, name in INDUSTRIES
-        ]
+        industries = [name for id, name in INDUSTRIES]
 
         return super().get_context_data(
             sections=data.SECTION_TITLES,

@@ -50,12 +50,8 @@
   <section class="container">
     <div class="grid">
       <div class="c-1-4">&nbsp;</div>
-      <div class="c-3-4">
-        <h2 class="h-m">Recommended countries</h2>
-        <p>Add sectors you're interested in so we can recommend some countries.</p>
-        <div class="sector-selection" id="sector-selection">
-        </div>
-      </div>
+      <div class="c-3-4" id="recommended-countries"></div>
+      {{ sectors }}
     </div>
   </section>
 
@@ -93,7 +89,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-  var element = document.getElementById("sector-selection");
+  var element = document.getElementById("recommended-countries");
     ditMVP.SectorChooser({
       element: element,
       sectorList: {{ sectors|safe }}
