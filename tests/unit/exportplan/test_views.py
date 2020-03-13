@@ -67,24 +67,37 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
     )
 
 
-pytest.mark.django_db
+@pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
+@mock.patch.object(helpers, 'get_comtrade_historicalimportdata')
+@mock.patch.object(helpers, 'get_comtrade_lastyearimportdata')
 @mock.patch.object(helpers, 'get_exportplan_marketdata')
 @mock.patch.object(helpers, 'get_exportplan_rules_regulations')
 @mock.patch('core.helpers.store_user_location')
 def test_exportplan_view(
-    mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata, client, user
+    mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata,
+        mock_lastyear_data, mock_historical_data, client, user
 ):
     client.force_login(user)
-    mock_get_export_plan_rules_regs.return_value = {'rule1': 'r1'}
+    explan_plan_data = {'Country': 'Australia', 'Commodity code': '220.850'}
+    mock_get_export_plan_rules_regs.return_value = explan_plan_data
     mock_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', 'CPI': 10}
+    mock_lastyear_data.return_value = {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
+    mock_historical_data.return_value = {'historical_data_all': {'Year': 2019, 'value': 1234}}
 
     response = client.get(reverse('exportplan:create'))
 
     assert mock_get_export_plan_rules_regs.call_count == 1
     assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
 
-    assert response.context['rules_regulation'] == {'rule1': 'r1'}
+    assert mock_lastyear_data.call_count == 1
+    assert mock_lastyear_data.call_args == mock.call(country='Australia', commodity_code='220.850')
+    assert mock_historical_data.call_count == 1
+    assert mock_historical_data.call_args == mock.call(country='Australia', commodity_code='220.850')
+
+    assert response.context['rules_regulation'] == explan_plan_data
     assert response.context['export_marketdata'] == {'timezone': 'Asia/Shanghai', 'CPI': 10}
     assert response.context['datenow'] == datetime.now()
     assert response.context['utz_offset'] == '+0800'
+    assert response.context['lastyear_import_data'] == {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
+    assert response.context['historical_import_data'] == {'historical_data_all': {'Year': 2019, 'value': 1234}}

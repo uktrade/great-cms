@@ -45,7 +45,6 @@ def get_rules_and_regulations(country):
 
 def get_exportplan_marketdata(country_code):
     # This is a temp wrapper for MVP as we finalise the source(s) this should move to backend
-    country_code = 'CHN'
     exportplan_marketdata = {}
     exportplan_marketdata['timezone'] = get_timezone(country_code)
 
@@ -68,3 +67,15 @@ def get_timezone(country_code):
     iso3_country_code = country_code_iso3_to_iso2(country_code)
     if iso3_country_code and pytz.country_timezones(iso3_country_code):
         return pytz.country_timezones(iso3_country_code)[0]
+
+
+def get_comtrade_lastyearimportdata(commodity_code, country):
+    response = api_client.dataservices.get_lastyearimportdata(commodity_code=commodity_code, country=country)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_comtrade_historicalimportdata(commodity_code, country):
+    response = api_client.dataservices.get_historicalimportdata(commodity_code=commodity_code, country=country)
+    response.raise_for_status()
+    return response.json()
