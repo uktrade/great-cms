@@ -7,6 +7,17 @@ import ReactTour from 'reactour'
 
 
 export default function Tour(props){
+  const steps = props.steps.map(step => {
+    return {
+      ...step,
+      content: (
+        <>
+          <h2 className="h-s p-v-0">{step.title}</h2>
+          <p>{step.body}</p>
+        </>
+      )
+    }
+  })
 
   return (
       <ReactTour
@@ -22,31 +33,3 @@ export default function Tour(props){
       />
   )
 }
-
-const steps = [
-  {
-    selector: '#exportplan-country-sector-customisation-bar p',
-    content: 'Welcome to your export plan',
-    position: 'bottom',
-  },
-  {
-    selector: '#exportplan-completion-progress-indicator',
-    content: 'Track your progress',
-    position: 'top',
-  },
-  {
-    selector: '#exportplan-continue-leaning-title',
-    content: 'Learn as you go',
-    position: 'top',
-  },
-  {
-    selector: '#exportplan-collaboraton-menu',
-    content: 'Collaborate with your team',
-    position: 'bottom',
-  },
-  {
-    selector: '.exportplan-section-item img',
-    content: "let's start",
-    position: 'bottom',
-  },
-]

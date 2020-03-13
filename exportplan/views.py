@@ -7,19 +7,11 @@ from django.views.generic import TemplateView, FormView
 from exportplan import data, forms, helpers
 
 
-class ExportPlanLandingPageView(TemplateView):
-    template_name = 'exportplan/landing_page.html'
-
-
 class BaseExportPlanView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
             sections=data.SECTION_TITLES,
             *args, **kwargs)
-
-
-class ExportPlanBuilderLandingPageView(BaseExportPlanView):
-    template_name = 'exportplan/builder_landing_page.html'
 
 
 class ExportPlanBuilderSectionView(BaseExportPlanView):

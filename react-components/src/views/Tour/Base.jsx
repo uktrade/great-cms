@@ -11,15 +11,15 @@ import Modal from './Modal'
 
 
 export function Base(props){
-  const [cookies, setCookie] = useCookies(['disable_tour']); 
+  const [cookies, setCookie] = useCookies([props.disableTourCookieName]); 
 
-  const [isOpenModal, setIsOpenModal] = React.useState(cookies.disable_tour !== 'true')
+  const [isOpenModal, setIsOpenModal] = React.useState(cookies[props.disableTourCookieName] !== 'true')
   const [isOpenTour, setIsOpenTour] = React.useState()
 
   function handleSkipTour(error) {
     setIsOpenModal(false)
     setIsOpenTour(false)
-    setCookie('disable_tour', 'true');
+    setCookie(props.disableTourCookieName, 'true');
   }
 
   function handleStartTour(nextStep) {
@@ -29,7 +29,7 @@ export function Base(props){
 
   function handleTourClose() {
     setIsOpenTour(false)
-    setCookie('disable_tour', 'true');
+    setCookie(props.disableTourCookieName, 'true');
   }
 
   return (
@@ -38,10 +38,14 @@ export function Base(props){
         handleSkip={handleSkipTour}
         handleStart={handleStartTour}
         isOpen={isOpenModal}
+        buttonText={props.buttonText}
+        title={props.title}
+        body={props.body}
       />
       <Tour
         isOpen={isOpenTour}
         handleClose={handleTourClose}
+        steps={props.steps}
       />
     </CookiesProvider>
   )

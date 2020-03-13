@@ -9,10 +9,6 @@ from django.views.generic import TemplateView, FormView
 from core import forms, helpers, permissions, serializers
 
 
-class LandingPageView(TemplateView):
-    template_name = 'domestic/domestic_home_page.html'
-
-
 class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
 
