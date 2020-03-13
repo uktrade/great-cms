@@ -43,5 +43,6 @@ export default class Sector extends React.Component {
 
 Sector.propTypes = {
   name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
 }

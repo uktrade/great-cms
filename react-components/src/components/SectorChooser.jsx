@@ -15,7 +15,7 @@ class SectorChooser extends React.Component {
 
     this.state = {
       sectorList: props.sectorList,
-      selectedSectors: [],
+      selectedSectors: props.selectedSectors || [],
       showSectorList: false,
       showTooltip: false,
     }
@@ -69,7 +69,7 @@ class SectorChooser extends React.Component {
     if (this.state.showSectorList) {
 
       sectorListDisplay = (
-        <ul className='sector-list'>
+        <ul className="sector-list" id="sector-list">
         {
           this.state.sectorList.map((sector) =>
             <Sector
@@ -87,8 +87,9 @@ class SectorChooser extends React.Component {
     let sectorChooserButton;
     if (!this.state.showSectorList) {
       sectorChooserButton = (
-        <div className="sector-chooser-button" id="sector-chooser-button">
+        <div className="sector-chooser-button">
           <button
+            id="sector-chooser-button"
             type="button"
             className="plus-button"
             onClick={this.showHideSectorList}
@@ -125,7 +126,7 @@ class SectorChooser extends React.Component {
       selectedSectorsDisplay = (
         <>
           <p className="m-t-0 m-r-xs" id="sector-list-label">My sectors</p>
-          <ul className="sector-list" aria-labelledby="sector-list-label">
+          <ul className="sector-list" id="selected-sectors" aria-labelledby="sector-list-label">
             {sectors}
           </ul>
         </>
@@ -148,7 +149,8 @@ class SectorChooser extends React.Component {
 }
 
 SectorChooser.propTypes = {
-  sectorList: PropTypes.array.isRequired
+  sectorList: PropTypes.array.isRequired,
+  selectedSectors: PropTypes.array,
 }
 
 function createSectorChooser({ element, ...params }) {
