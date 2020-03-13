@@ -13,7 +13,8 @@ class WagtailAdminExclusivePageMixin:
         return super().can_create_at(parent) and not cls.objects.exists()
 
 
-class ExportTourToTemplateMixin:
+class EnableTourMixin:
+    # exposes tour snippet to the template, used by the "tour guide" React component
     def get_context(self, request):
         context = super().get_context(request)
         try:

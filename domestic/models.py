@@ -9,7 +9,7 @@ from domestic import blocks
 
 class DomesticHomePage(
     mixins.WagtailAdminExclusivePageMixin,
-    mixins.ExportTourToTemplateMixin,
+    mixins.EnableTourMixin,
     mixins.AnonymousUserRequired,
     Page,
 ):
