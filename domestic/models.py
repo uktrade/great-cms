@@ -7,7 +7,12 @@ from core import blocks as core_blocks
 from domestic import blocks
 
 
-class DomesticHomePage(mixins.WagtailAdminExclusivePageMixin, mixins.ExportTourToTemplateMixin, Page):
+class DomesticHomePage(
+    mixins.WagtailAdminExclusivePageMixin,
+    mixins.ExportTourToTemplateMixin,
+    mixins.AnonymousUserRequired,
+    Page,
+):
     parent_page_types = ['wagtailcore.Page']
 
     hero = fields.single_struct_block_stream_field_factory(

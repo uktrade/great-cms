@@ -126,18 +126,6 @@ def test_api_create_company_already_has_company(mock_get_company_profile, client
 
 
 @pytest.mark.django_db
-def test_landing_page_logged_in(client, user):
-    client.force_login(user)
-
-    url = reverse('core:landing-page')
-
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == reverse('core:dashboard')
-
-
-@pytest.mark.django_db
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
 def test_dashboard_page_logged_in(
@@ -151,15 +139,6 @@ def test_dashboard_page_logged_in(
     client.force_login(user)
 
     url = reverse('core:dashboard')
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_landing_page_not_logged_in(client, user):
-    url = reverse('core:landing-page')
 
     response = client.get(url)
 
@@ -277,13 +256,14 @@ def test_capability_article_logged_in(client, user):
 def test_capability_article_not_logged_in(client):
 
     url = reverse(
-        'core:capability-article', kwargs={'topic': 'some-topic', 'chapter': 'some-chapter', 'article': 'some-article'}
+        'core:capability-article',
+        kwargs={'topic': 'some-topic', 'chapter': 'some-chapter', 'article': 'some-article'}
     )
 
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('core:landing-page') + f'?next={url}'
+    assert response.url == f'/?next={url}'
 
 
 @pytest.mark.django_db

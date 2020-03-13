@@ -86,7 +86,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'great_components.context_processors.sso_processor',
-                # 'great_components.context_processors.ga360',
+                'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.signup_modal',

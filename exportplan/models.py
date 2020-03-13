@@ -8,6 +8,4 @@ class ExportPlanPage(mixins.WagtailAdminExclusivePageMixin, mixins.ExportTourToT
 
 
 class ExportPlanDashboardPage(mixins.WagtailAdminExclusivePageMixin, mixins.ExportTourToTemplateMixin, Page):
-    slug = 'dashboard'
-
     parent_page_types = ['exportplan.ExportPlanPage']

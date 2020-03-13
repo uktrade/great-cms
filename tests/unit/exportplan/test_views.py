@@ -9,15 +9,15 @@ from django.urls import reverse
 from exportplan import helpers
 
 
-def test_export_plan_landing_page(client):
-    url = reverse('exportplan:index')
-    response = client.get(url)
+@pytest.mark.django_db
+def test_export_plan_landing_page(client, exportplan_homepage):
+    response = client.get('/export-plan/')
     assert response.status_code == 200
 
 
-def test_export_plan_builder_landing_page(client):
-    url = reverse('exportplan:landing-page')
-    response = client.get(url)
+@pytest.mark.django_db
+def test_export_plan_builder_landing_page(client, exportplan_dashboard):
+    response = client.get('/export-plan/dashboard/')
     assert response.status_code == 200
 
 
@@ -54,7 +54,7 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
     response = client.post(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('exportplan:index')
+    assert response.url == '/export-plan/'
     assert mock_helper_get_regs.call_count == 1
     assert mock_helper_get_regs.call_args == mock.call('India')
     assert mock_helpers_create_plan.call_count == 1
@@ -73,7 +73,8 @@ pytest.mark.django_db
 @mock.patch.object(helpers, 'get_exportplan_rules_regulations')
 @mock.patch('core.helpers.store_user_location')
 def test_exportplan_view(
-    mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata, client, user
+    mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata, client, user,
+    exportplan_dashboard
 ):
     client.force_login(user)
     mock_get_export_plan_rules_regs.return_value = {'rule1': 'r1'}

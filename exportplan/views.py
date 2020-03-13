@@ -1,7 +1,6 @@
 from datetime import datetime
 import pytz
 
-from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
 from exportplan import data, forms, helpers
@@ -27,7 +26,7 @@ class ExportPlanBuilderSectionView(BaseExportPlanView):
 class ExportPlanStartView(FormView):
     template_name = 'exportplan/start.html'
     form_class = forms.ExportPlanFormStart
-    success_url = reverse_lazy('exportplan:index')
+    success_url = '/export-plan/'
 
     def get_initial(self):
         return {
