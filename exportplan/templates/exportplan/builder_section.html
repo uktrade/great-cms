@@ -51,7 +51,6 @@
     <div class="grid">
       <div class="c-1-4">&nbsp;</div>
       <div class="c-3-4" id="recommended-countries"></div>
-      {{ sectors }}
     </div>
   </section>
 
@@ -90,7 +89,7 @@
   {{ block.super }}
   <script type="text/javascript">
   var element = document.getElementById("recommended-countries");
-    ditMVP.SectorChooser({
+    ditMVP.createSectorChooser({
       element: element,
       sectorList: {{ sectors|safe }}
     })
