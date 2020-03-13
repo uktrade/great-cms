@@ -15,10 +15,29 @@ afterEach(() => {
   container = null
 })
 
+it('shows the list of sectors on click', () => {
+
+  const sectorList = ["Aerospace", "Advanced manufacturing", "Airports", "Agriculture, horticulture and fisheries"]
+
+  act(() => {
+    ReactDOM.render(<SectorChooser sectorList={sectorList} />, container)
+  })
+
+  const button = container.querySelector('button')
+
+  act(() => {
+    Simulate.click(button)
+  })
+
+  const sectors = container.querySelector('.sector-list').children
+
+  expect(sectors.length).toEqual(4)
+})
+
 it('renders the sector chooser button with tooltip', () => {
 
   act(() => {
-    ReactDOM.render(<SectorChooser />, container)
+    ReactDOM.render(<SectorChooser sectorList={[]}/>, container)
   })
 
   const button = container.querySelector('button')
