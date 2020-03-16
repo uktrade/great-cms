@@ -215,7 +215,7 @@ def single_opportunity():
 @mock.patch.object(helpers, 'get_dashboard_events')
 def server_user_browser_dashboard(
     mock_get_dashboard_events, mock_get_dashboard_export_opportunities,
-    mock_get_company_profile, server_user_browser, settings
+    mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests
 ):
     live_server, user, browser = server_user_browser
 
