@@ -13,7 +13,7 @@ boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
-directory-api-client==21.5.0  # via -r requirements.in
+directory-api-client==21.7.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
@@ -35,7 +35,7 @@ docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
 freezegun==0.1.5          # via -r requirements.in
 geoip2==2.9.0             # via -r requirements.in
-git+git://github.com/uktrade/great-components@1.1.0#egg=great-components  # via -r requirements.in
+great-components==1.1.0   # via -r requirements.in
 gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.0.1           # via wagtail
 idna==2.9                 # via requests
