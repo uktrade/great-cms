@@ -20,6 +20,10 @@ class BaseExportPlanView(TemplateView):
             *args, **kwargs)
 
 
+class ExportPlanBuilderLandingPageView(BaseExportPlanView):
+    template_name = 'exportplan/dashboard.html'
+
+
 class ExportPlanBuilderSectionView(BaseExportPlanView):
     template_name = 'exportplan/builder_section.html'
 
