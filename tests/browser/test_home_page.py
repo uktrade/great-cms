@@ -19,6 +19,7 @@ from tests.browser.util import (
     find_elements,
     is_element_present,
     should_not_see,
+    should_not_see_errors,
     should_see_all_elements,
 )
 
@@ -60,6 +61,7 @@ def should_not_see_sign_up_errors(browser):
 def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
         browser, visit_home_page
 ):
+    should_not_see_errors(browser)
     attach_jpg_screenshot(browser, 'home page')
     should_see_all_elements(browser, HeaderCommon)
     should_see_all_elements(browser, HeaderSignUp)
