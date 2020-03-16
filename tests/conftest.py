@@ -187,7 +187,7 @@ def server_user_browser(browser, live_server, user, client):
     return live_server, user, browser
 
 
-@pytest.fixture()
+@pytest.fixture
 def single_event():
     return {
         'title': 'Global Aid and Development Directory',
@@ -198,7 +198,7 @@ def single_event():
     }
 
 
-@pytest.fixture()
+@pytest.fixture
 def single_opportunity():
     return {
         'title': 'French sardines required',
