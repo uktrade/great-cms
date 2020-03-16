@@ -55,9 +55,13 @@ def domestic_site(domestic_homepage, client):
         hostname=client._base_environ()['SERVER_NAME'],
     )
 
+
 @pytest.fixture
-def domestic_site_browser_tests(domestic_homepage, client):
-    return SiteFactory(root_page=domestic_homepage)
+def domestic_site_browser_tests(domestic_homepage, exportplan_dashboard, client):
+    return SiteFactory(
+        root_page=domestic_homepage,
+        hostname='localhost',  # This allows Browser to access site via live_server.url
+    )
 
 
 @pytest.fixture(autouse=True)
