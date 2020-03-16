@@ -10,24 +10,6 @@ jobs:
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - run:
-          name: Install moxci to send CircleCI notifacations to Slack
-          when: always
-          command: |
-            sudo npm install -g moxci@0.1.3
-      - run:
-          name: Install JUnit-Merge to merge test result files
-          when: always
-          command: |
-            sudo npm install -g junit-merge@2.0.0
-      - run:
-          name: Install Allure CLI
-          when: always
-          command: |
-            wget https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -O allure.zip
-            unzip -q allure.zip
-            find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
-            rm allure.zip
-      - run:
           name: Create virtualenv and install dependencies
           command: |
             python3 -m venv venv
@@ -49,6 +31,41 @@ jobs:
             --alluredir=./allure_results/ \
             --ignore='./venv/'
             codecov
+      - store_test_results:
+          path: ./results/
+
+  test_browser:
+    docker:
+      - image: circleci/python:3.6.6-node-browsers
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - restore_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - run:
+          name: Install moxci to send CircleCI notifacations to Slack
+          when: always
+          command: |
+            sudo npm install -g moxci@0.1.3
+      - run:
+          name: Install Allure CLI
+          when: always
+          command: |
+            wget https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -O allure.zip
+            unzip -q allure.zip
+            find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
+            rm allure.zip
+      - run:
+          name: Create virtualenv and install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            make install_requirements
+      - save_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+          paths:
+            - "venv"
       - run:
           name: Run Browser tests
           command: |
@@ -61,15 +78,6 @@ jobs:
             --alluredir=./allure_results/ \
             --ignore='./venv/'
             codecov
-      - run:
-          name: Merge JUnit XML reports
-          when: always
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            cd ./results
-            junit-merge *.xml -o merged.xml
-            ls *.xml | grep -v merged.xml | xargs rm
       - store_test_results:
           path: ./results/
       - run:
@@ -164,6 +172,7 @@ workflows:
   test_and_flake8:
     jobs:
       - test
+      - test_browser
       - test_javascript
       - test_load
       - flake8
