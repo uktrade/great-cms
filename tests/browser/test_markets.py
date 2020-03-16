@@ -33,7 +33,7 @@ def test_can_view_markets_as_signed_in_user(
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 
-    browser.get(live_server.url + "/markets/")
+    browser.get(live_server.url + '/markets/')
 
     attach_jpg_screenshot(browser, 'Markets')
     should_not_see(browser, DashboardModalLetsGetToKnowYou)
