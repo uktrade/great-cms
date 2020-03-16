@@ -55,6 +55,10 @@ def domestic_site(domestic_homepage, client):
         hostname=client._base_environ()['SERVER_NAME'],
     )
 
+@pytest.fixture
+def domestic_site_browser_tests(domestic_homepage, client):
+    return SiteFactory(root_page=domestic_homepage)
+
 
 @pytest.fixture(autouse=True)
 def auth_backend():
@@ -161,7 +165,7 @@ def base_url(live_server):
 
 
 @pytest.fixture
-def visit_home_page(browser, base_url, request, domestic_site):
+def visit_home_page(browser, base_url, domestic_site_browser_tests):
     browser.get(base_url)
     return browser
 
