@@ -35,7 +35,7 @@ docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
 freezegun==0.1.5          # via -r requirements.in
 geoip2==2.9.0             # via -r requirements.in
-git+git://github.com/uktrade/great-components@1.1.0#egg=great-components  # via -r requirements.in
+great-components==1.1.0   # via -r requirements.in
 gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.0.1           # via wagtail
 idna==2.9                 # via requests

@@ -1,14 +1,9 @@
 from datetime import datetime
 import pytz
 
-from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
 from exportplan import data, forms, helpers
-
-
-class ExportPlanLandingPageView(TemplateView):
-    template_name = 'exportplan/landing_page.html'
 
 
 class BaseExportPlanView(TemplateView):
@@ -16,10 +11,6 @@ class BaseExportPlanView(TemplateView):
         return super().get_context_data(
             sections=data.SECTION_TITLES,
             *args, **kwargs)
-
-
-class ExportPlanBuilderLandingPageView(BaseExportPlanView):
-    template_name = 'exportplan/builder_landing_page.html'
 
 
 class ExportPlanBuilderSectionView(BaseExportPlanView):
@@ -35,7 +26,7 @@ class ExportPlanBuilderSectionView(BaseExportPlanView):
 class ExportPlanStartView(FormView):
     template_name = 'exportplan/start.html'
     form_class = forms.ExportPlanFormStart
-    success_url = reverse_lazy('exportplan:index')
+    success_url = '/export-plan/'
 
     def get_initial(self):
         return {

@@ -17,13 +17,7 @@ def anonymous_user_required(function):
 
 urlpatterns = [
     path(
-        '',
-        anonymous_user_required(core.views.LandingPageView.as_view()),
-        name='landing-page'
-    ),
-    path(
-        'dashboard/', login_required(
-            core.views.DashboardView.as_view(), login_url='/'),
+        'dashboard/', login_required(core.views.DashboardView.as_view(), login_url='/'),
         name='dashboard'
     ),
     path(
