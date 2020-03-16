@@ -22,13 +22,6 @@ def company_data():
     }
 
 
-@pytest.fixture(autouse=True)
-def mock_get_company_profile():
-    stub = mock.patch('sso.helpers.get_company_profile', return_value=None)
-    yield stub.start()
-    stub.stop()
-
-
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_company_profile')
 def test_api_update_company_success(mock_update_company_profile, mock_get_company_profile, client, user, company_data):
