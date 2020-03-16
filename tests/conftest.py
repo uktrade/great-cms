@@ -174,7 +174,7 @@ def visit_home_page(browser, base_url, domestic_site_browser_tests):
     return browser
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def mock_get_company_profile():
     stub = mock.patch('sso.helpers.get_company_profile', return_value=None)
     yield stub.start()
