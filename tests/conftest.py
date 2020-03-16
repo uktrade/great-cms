@@ -9,11 +9,12 @@ from selenium.webdriver.chrome.options import Options
 from wagtail.core.models import Page
 from wagtail_factories import PageFactory, SiteFactory
 
+import tests.unit.domestic.factories
+import tests.unit.exportplan.factories
 from core import helpers
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
-from tests.unit.domestic import factories
 
 # This is to reduce logging verbosity of these two libraries when running pytests
 # with DEBUG=true and --log-cli-level=DEBUG
@@ -34,12 +35,25 @@ def root_page():
 
 @pytest.fixture
 def domestic_homepage(root_page):
-    return factories.DomesticHomePageFactory.create(title='homepage', parent=root_page, live=True)
+    return tests.unit.domestic.factories.DomesticHomePageFactory.create(parent=root_page)
 
 
 @pytest.fixture
-def domestic_site(domestic_homepage):
-    return SiteFactory(root_page=domestic_homepage)
+def exportplan_homepage(domestic_homepage, domestic_site):
+    return tests.unit.exportplan.factories.ExportPlanPageFactory.create(parent=domestic_homepage)
+
+
+@pytest.fixture
+def exportplan_dashboard(exportplan_homepage):
+    return tests.unit.exportplan.factories.ExportPlanDashboardPageFactory.create(parent=exportplan_homepage)
+
+
+@pytest.fixture
+def domestic_site(domestic_homepage, client):
+    return SiteFactory(
+        root_page=domestic_homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
 
 
 @pytest.fixture(autouse=True)

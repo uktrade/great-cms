@@ -39,11 +39,11 @@ export default function Modal(props){
       contentLabel="Modal"
     >
       <div className='great-mvp-signup-wizard-step-1 p-s'>
-        <h2 className="h-m">Welcome to your export plan</h2>
-        <p>Choose the best country, decide how to price and market your product or service, plan the financing you need, and plan for customs and regulations when you export.</p>
+        <h2 className="h-m">{props.title}</h2>
+        <p>{props.body}</p>
         <input
           type="submit"
-          value="Show me around"
+          value={props.buttonText}
           className="great-mvp-tour-button p-v-xxs p-h-xs"
           onClick={event => { event.preventDefault(); props.handleStart()}}
         />
