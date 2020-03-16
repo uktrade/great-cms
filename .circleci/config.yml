@@ -104,8 +104,8 @@ jobs:
     docker:
       - image: circleci/python:3.6.6
     environment:
-      NUM_CLIENTS: 10
-      HATCH_RATE: 2
+      NUM_CLIENTS: 20
+      HATCH_RATE: 3
       RUN_TIME: 30s
     steps:
       - checkout
