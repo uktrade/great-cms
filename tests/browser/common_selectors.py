@@ -163,7 +163,7 @@ class ExportPlanDashboard(SelectorsEnum):
     ACTION_PLAN = Selector(By.ID, 'action-plan', ElementType.LINK)
 
 
-class ExportPlanAboutYourBusiness(SelectorsEnum):
+class ExportPlanTargetMarkets(SelectorsEnum):
     SIDEBAR = Selector(By.ID, 'sidebar-content')
     ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'sidebar-objectives', ElementType.LINK)
@@ -176,4 +176,4 @@ class ExportPlanAboutYourBusiness(SelectorsEnum):
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'sidebar-travel-and-business-policies', ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', ElementType.LINK)
     ACTION_PLAN = Selector(By.ID, 'sidebar-action-plan', ElementType.LINK)
-    CONTENT = Selector(By.ID, 'about-your-business-content')
+    CONTENT = Selector(By.ID, 'target-markets-content')
