@@ -169,7 +169,7 @@ DEFAULT_FILE_STORAGE = env.str(
     'storages.backends.s3boto3.S3Boto3Storage'
 )
 
-STATIC_ROOT = str(ROOT_DIR('static'))
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = str(ROOT_DIR('media'))
