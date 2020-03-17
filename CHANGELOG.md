@@ -5,6 +5,8 @@
 ### Fixed bugs
 
 ### Implemented enhancements
+- MVP-306 - Added sector chooser component
+- MVP-299 - Finalised styling for export plan sections
 - MVP-99 - Added skeleton for export plan dashboard and first page of builder
 - MVP-79 - Add react build tool
 - MVP-52 - Add login and sign up modals

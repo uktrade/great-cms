@@ -4,6 +4,9 @@
   border-bottom: 1px solid $light-grey;
   position: sticky;
   top: 0;
+  float: right;
+  z-index: 1;
+  width: calc(100% - 300px);
 
   .nav-extra-links {
     float: right;
