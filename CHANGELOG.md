@@ -32,3 +32,4 @@
 - MVP-310 - comtrade data
 - MVP-271 - Add tour to export-plan
 - MVP-297 - Add dummy export opportunies
+- MVP-720 - Add new IDs and more browser tests

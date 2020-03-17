@@ -19,7 +19,7 @@ certifi==2019.11.28       # via geventhttpclient-wheels, requests, sentry-sdk
 chardet==3.0.4            # via requests
 click==7.1.1              # via flask, pip-tools
 codecov==2.0.16           # via -r requirements_test.in
-configargparse==1.0       # via locustio
+configargparse==1.1       # via locustio
 coverage==5.0.3           # via codecov, django-coverage-plugin, pytest-cov
 decorator==4.4.2          # via ipython, traitlets
 directory-api-client==21.7.0  # via -r requirements.in
@@ -46,7 +46,7 @@ docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
 entrypoints==0.3          # via flake8
 factory-boy==2.12.0       # via wagtail-factories
-faker==4.0.1              # via factory-boy
+faker==4.0.2              # via factory-boy
 flake8-blind-except==0.1.1  # via -r requirements_test.in
 flake8-debugger==3.2.1    # via -r requirements_test.in
 flake8-polyfill==1.0.2    # via pep8-naming

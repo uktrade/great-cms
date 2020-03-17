@@ -13,15 +13,15 @@
     <ul>
       {% for section in sections %}
         {% if forloop.first %}
-        <li class="h-s"><a href="{% url 'exportplan:about-your-business' %}" class="link">{{ section }}</a></li>
+        <li class="h-s"><a href="{% url 'exportplan:about-your-business' %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
         {% else %}
-        <li class="h-s"><a href="#" class="link">{{ section }}</a></li>
+        <li class="h-s"><a href="#" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
         {% endif %}
       {% endfor %}
     </ul>
   </nav>
 
-  <div class="content-section bg-stone-50">
+  <div class="content-section bg-stone-50" id="about-your-business-content">
 
     {% include "exportplan/includes/sticky-header.html" %}
 

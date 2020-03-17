@@ -22,13 +22,6 @@ def company_data():
     }
 
 
-@pytest.fixture(autouse=True)
-def mock_get_company_profile():
-    stub = mock.patch('sso.helpers.get_company_profile', return_value=None)
-    yield stub.start()
-    stub.stop()
-
-
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_company_profile')
 def test_api_update_company_success(mock_update_company_profile, mock_get_company_profile, client, user, company_data):
@@ -59,7 +52,7 @@ def test_api_update_company_not_logged_in(client, company_data):
 
 
 @pytest.mark.django_db
-def test_api_update_company_no_company(client, user, company_data):
+def test_api_update_company_no_company(mock_get_company_profile, client, user, company_data):
     client.force_login(user)
 
     response = client.post(reverse('core:api-update-company'), company_data)
@@ -70,7 +63,9 @@ def test_api_update_company_no_company(client, user, company_data):
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'create_company_profile')
 @mock.patch.object(helpers, 'create_user_profile')
-def test_api_create_company_success(mock_create_user_profile, mock_create_company_profile, client, user, company_data):
+def test_api_create_company_success(
+        mock_create_user_profile, mock_create_company_profile, mock_get_company_profile, client, user, company_data
+):
     client.force_login(user)
 
     mock_create_user_profile.return_value = create_response()
@@ -97,7 +92,9 @@ def test_api_create_company_success(mock_create_user_profile, mock_create_compan
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'create_company_profile')
 @mock.patch.object(helpers, 'create_user_profile')
-def test_api_create_company_validation_error(mock_create_user_profile, mock_create_company_profile, client, user):
+def test_api_create_company_validation_error(
+        mock_create_user_profile, mock_create_company_profile, mock_get_company_profile, client, user
+):
     client.force_login(user)
 
     response = client.post(reverse('core:api-create-company'), {})
@@ -131,6 +128,7 @@ def test_api_create_company_already_has_company(mock_get_company_profile, client
 def test_dashboard_page_logged_in(
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
+    mock_get_company_profile,
     client,
     user
 ):
@@ -146,7 +144,7 @@ def test_dashboard_page_logged_in(
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_ok(client, user):
+def test_dashboard_apis_ok(mock_get_company_profile, client, user):
 
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
@@ -214,7 +212,7 @@ export-opportunities/opportunities/french-sardines-required',
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_fail(client, user):
+def test_dashboard_apis_fail(mock_get_company_profile, client, user):
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
     ) as events_api_results:
@@ -238,7 +236,7 @@ personalisation.export_opportunities_by_relevance_list'
 
 
 @pytest.mark.django_db
-def test_capability_article_logged_in(client, user):
+def test_capability_article_logged_in(mock_get_company_profile, client, user):
     client.force_login(user)
     url = reverse(
         'core:capability-article', kwargs={'topic': 'some topic', 'chapter': 'some chapter', 'article': 'some article'}

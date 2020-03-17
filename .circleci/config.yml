@@ -10,6 +10,40 @@ jobs:
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - run:
+          name: Create virtualenv and install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            make install_requirements
+      - save_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Run Unit tests
+          command: |
+            . venv/bin/activate
+            make pytest -- \
+            --cov=. \
+            --cov-config=.coveragerc \
+            --cov-report=html \
+            --junit-xml=./results/pytest_unit_report.xml \
+            --alluredir=./allure_results/ \
+            --ignore='./venv/'
+            codecov
+      - store_test_results:
+          path: ./results/
+
+  test_browser:
+    docker:
+      - image: circleci/python:3.6.6-node-browsers
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - restore_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - run:
           name: Install moxci to send CircleCI notifacations to Slack
           when: always
           command: |
@@ -33,14 +67,14 @@ jobs:
           paths:
             - "venv"
       - run:
-          name: Run tests
+          name: Run Browser tests
           command: |
             . venv/bin/activate
-            make pytest -- \
+            make pytest_browser -- \
             --cov=. \
             --cov-config=.coveragerc \
             --cov-report=html \
-            --junit-xml=./results/pytest_report.xml \
+            --junit-xml=./results/pytest_browser_report.xml \
             --alluredir=./allure_results/ \
             --ignore='./venv/'
             codecov
@@ -70,8 +104,8 @@ jobs:
     docker:
       - image: circleci/python:3.6.6
     environment:
-      NUM_CLIENTS: 10
-      HATCH_RATE: 2
+      NUM_CLIENTS: 20
+      HATCH_RATE: 3
       RUN_TIME: 30s
     steps:
       - checkout
@@ -138,6 +172,7 @@ workflows:
   test_and_flake8:
     jobs:
       - test
+      - test_browser
       - test_javascript
       - test_load
       - flake8

@@ -1,19 +1,27 @@
+import logging
 from unittest import mock
 
 import environ
 import pytest
-
 from airtable import Airtable
-from directory_api_client import api_client
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from wagtail.core.models import Page
-from wagtail_factories import SiteFactory, PageFactory
+from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
-from tests.helpers import create_response
+from core import helpers
+from directory_api_client import api_client
 from sso.models import BusinessSSOUser
+from tests.helpers import create_response
+
+# This is to reduce logging verbosity of these two libraries when running pytests
+# with DEBUG=true and --log-cli-level=DEBUG
+selenium_logger = logging.getLogger('selenium')
+pil_logger = logging.getLogger('PIL')
+selenium_logger.setLevel(logging.CRITICAL)
+pil_logger.setLevel(logging.CRITICAL)
 
 
 @pytest.fixture
@@ -45,6 +53,14 @@ def domestic_site(domestic_homepage, client):
     return SiteFactory(
         root_page=domestic_homepage,
         hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+
+@pytest.fixture
+def domestic_site_browser_tests(domestic_homepage, exportplan_dashboard, client):
+    return SiteFactory(
+        root_page=domestic_homepage,
+        hostname='localhost',  # This allows Browser to access site via live_server.url
     )
 
 
@@ -153,6 +169,67 @@ def base_url(live_server):
 
 
 @pytest.fixture
-def visit_home_page(browser, base_url, request, domestic_site):
+def visit_home_page(browser, base_url, domestic_site_browser_tests):
     browser.get(base_url)
     return browser
+
+
+@pytest.fixture()
+def mock_get_company_profile():
+    stub = mock.patch('sso.helpers.get_company_profile', return_value=None)
+    yield stub.start()
+    stub.stop()
+
+
+@pytest.fixture
+def server_user_browser(browser, live_server, user, client):
+    client.force_login(user)
+    return live_server, user, browser
+
+
+@pytest.fixture
+def single_event():
+    return {
+        'title': 'Global Aid and Development Directory',
+        'description': 'DIT is producing a directory of companies',
+        'url': 'www.example.com',
+        'location': 'London',
+        'date': '06 Jun 2020'
+    }
+
+
+@pytest.fixture
+def single_opportunity():
+    return {
+        'title': 'French sardines required',
+        'url': 'http://exops.trade.great:3001/export-opportunities/opportunities/french-sardines-required',
+        'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
+        'published_date': '2020-01-14T15:26:45.334Z',
+        'closing_date': '2020-06-06',
+        'source': 'post',
+    }
+
+
+@pytest.fixture
+@mock.patch.object(helpers, 'get_dashboard_export_opportunities')
+@mock.patch.object(helpers, 'get_dashboard_events')
+def server_user_browser_dashboard(
+    mock_get_dashboard_events, mock_get_dashboard_export_opportunities,
+    mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests
+):
+    live_server, user, browser = server_user_browser
+
+    # these mocked endpoints are occasionally called before user is even logged in
+    mock_get_dashboard_events.return_value = []
+    mock_get_dashboard_export_opportunities.return_value = []
+
+    browser.get(f'{live_server.url}/dashboard/')
+
+    browser.add_cookie({
+        'name': settings.SSO_SESSION_COOKIE,
+        'value': user.session_id,
+        'path': '/',
+    })
+    browser.refresh()
+
+    return live_server, user, browser

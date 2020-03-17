@@ -4,14 +4,14 @@
 {% block content %}
     <div id="great-hero" class="container p-b-s p-h-s p-t-0">
         {% breadcrumbs 'Markets' %}
-	      <a href="{% url 'core:dashboard' %}">Home</a>
+	      <a href="{% url 'core:dashboard' %}" id="breadcrumbs-home">Home</a>
 	    {% endbreadcrumbs %}
     </div>
 
-  	<div class="container">
+  	<div class="container" id="markets-container">
         <div class="grid m-b-s">
             <div class="c-full">
-                <form class="bg-white p-s great-mvp-success-card" method="post">
+                <form class="bg-white p-s great-mvp-success-card" method="post" id="markets-form">
             		{% csrf_token %}
                     <h2 class="h-l pb-xxs w-1-2">{{ page_title|default_if_none:'Markets'}}</h2>
                     {% if request.user.company.expertise_industries_label and most_popular_countries %}

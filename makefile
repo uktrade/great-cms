@@ -9,6 +9,10 @@ pytest:
 	ENV_FILES=$(ENV_FILES) \
 	pytest tests/unit $(ARGUMENTS)
 
+pytest_browser:
+	ENV_FILES=$(ENV_FILES) \
+	pytest tests/browser $(ARGUMENTS)
+
 flake8:
 	flake8 . \
 	--exclude=.venv,venv,node_modules,migrations \
