@@ -63,4 +63,5 @@ $asset-root: '/static/images/';
 @import 'dashboard';
 
 // Pages
+@import 'exportplan/dashboard';
 @import 'exportplan/builder';

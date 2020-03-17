@@ -22,8 +22,8 @@ def test_export_plan_builder_landing_page(client, exportplan_dashboard):
     assert response.context['sections'] == data.SECTION_TITLES
 
 
-def test_export_plan_about_your_business(client):
-    url = reverse('exportplan:about-your-business')
+def test_export_plan_target_markets(client):
+    url = reverse('exportplan:target-markets')
     response = client.get(url)
     assert response.status_code == 200
 
