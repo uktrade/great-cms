@@ -31,11 +31,7 @@ class SectorChooser extends React.Component {
       return true
 
     } else {
-      const updatedSelectedSectors = this.state.selectedSectors.filter(
-        function(item) {
-          return item != sector
-        }
-      )
+      const updatedSelectedSectors = this.state.selectedSectors.filter(item => item != sector)
       this.setState({selectedSectors: updatedSelectedSectors})
       return false
     }
