@@ -10,3 +10,4 @@ class DomesticHomePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = models.DomesticHomePage
+        django_get_or_create = ['slug', 'parent']
