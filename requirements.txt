@@ -33,6 +33,8 @@ django==2.2.10            # via -r requirements.in, directory-api-client, direct
 djangorestframework==3.9.4  # via -r requirements.in, sigauth, wagtail
 docutils==0.15.2          # via botocore
 draftjs-exporter==2.1.7   # via wagtail
+factory-boy==2.12.0       # via wagtail-factories
+faker==4.0.2              # via factory-boy
 freezegun==0.1.5          # via -r requirements.in
 geoip2==2.9.0             # via -r requirements.in
 great-components==1.1.0   # via -r requirements.in
@@ -51,7 +53,7 @@ oauthlib==3.1.0           # via requests-oauthlib
 pillow==6.2.2             # via wagtail
 psycopg2==2.8.4           # via -r requirements.in
 pyrsistent==0.15.7        # via jsonschema
-python-dateutil==2.8.1    # via botocore, freezegun
+python-dateutil==2.8.1    # via botocore, faker, freezegun
 pytz==2019.3              # via django, django-modelcluster, wagtail
 redis==3.4.1              # via django-redis
 requests-oauthlib==1.3.0  # via django-staff-sso-client
@@ -61,10 +63,12 @@ sentry-sdk==0.13.5        # via -r requirements.in
 sigauth==4.1.1            # via directory-client-core
 six==1.14.0               # via airtable-python-wrapper, django-extensions, django-pglocks, html5lib, jsonschema, pyrsistent, python-dateutil, w3lib, wagtail
 sqlparse==0.3.1           # via django
+text-unidecode==1.3       # via faker
 unidecode==1.1.1          # via wagtail
 urllib3==1.25.8           # via botocore, requests, sentry-sdk
 w3lib==1.21.0             # via directory-client-core
-wagtail==2.7.1            # via -r requirements.in
+wagtail-factories==2.0.0  # via -r requirements.in
+wagtail==2.7.1            # via -r requirements.in, wagtail-factories
 webencodings==0.5.1       # via html5lib
 whitenoise==4.1.4         # via -r requirements.in
 willow==1.3               # via wagtail
