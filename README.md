@@ -56,6 +56,9 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make css                      | Compile scss to css |
 | make secrets                  | Create your secret env var file |
 | make database                 | Drop and recrete the database |
+| make boostrap_great           | Create required database records so the CMS works |
+| make create_pages             | Create required Pages |
+| make create_tours             | Create required Page tours |
 
 ### Setting up the local database
 

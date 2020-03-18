@@ -1,26 +1,27 @@
 from datetime import datetime
 import pytz
+import json
 
 from django.views.generic import TemplateView, FormView
+
+from directory_constants.choices import INDUSTRIES
 
 from exportplan import data, forms, helpers
 
 
 class BaseExportPlanView(TemplateView):
+
     def get_context_data(self, *args, **kwargs):
+        industries = [name for id, name in INDUSTRIES]
+
         return super().get_context_data(
             sections=data.SECTION_TITLES,
+            sectors=json.dumps(industries),
             *args, **kwargs)
 
 
 class ExportPlanBuilderSectionView(BaseExportPlanView):
     template_name = 'exportplan/builder_section.html'
-
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            title=data.SECTION_TITLES[0],
-            *args, **kwargs
-        )
 
 
 class ExportPlanStartView(FormView):
