@@ -13,7 +13,7 @@ djangorestframework==3.9.*
 # Wagtail
 # ------------
 wagtail==2.7.*
-
+wagtail-factories==2.0.*
 
 # Prod tools
 # ------------
