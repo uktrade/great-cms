@@ -12,6 +12,8 @@ from wagtail_factories import PageFactory, SiteFactory
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from core import helpers
+from core.models import Tour, TourStep
+from core.management.commands.create_tours import defaults as TOUR_STEPS
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -140,6 +142,11 @@ def mock_user_location_create():
     stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture
+def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
+    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=TOUR_STEPS)
 
 
 @pytest.fixture(scope='session')
