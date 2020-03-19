@@ -1,4 +1,3 @@
-from django.test import TestCase
 from wagtail.tests.utils import WagtailPageTests
 
 from domestic.models import DomesticHomePage
