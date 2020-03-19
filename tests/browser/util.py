@@ -107,8 +107,23 @@ def should_see_all_elements(browser, selectors_enum):
         assert is_element_visible(browser, selector), error
 
 
+@allure.step('Should not see element: {selector}')
+def should_not_see_element(browser, selector):
+    if not selector.is_visible:
+        return
+    assertion_error = f'Unexpected element is visible "{selector}"'
+    try:
+        assert not is_element_visible(browser, selector), assertion_error
+    except AssertionError:
+        attach_jpg_screenshot(browser, assertion_error)
+        raise
+    except StaleElementReferenceException:
+        attach_jpg_screenshot(browser, 'StaleElementReferenceException')
+        raise
+
+
 @allure.step('Should not see elements from: {selectors_enum}')
-def should_not_see(browser, selectors_enum):
+def should_not_see_any_element(browser, selectors_enum):
     for selector in selectors_enum:
         if not selector.is_visible:
             continue

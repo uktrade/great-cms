@@ -18,7 +18,7 @@ from tests.browser.util import (
     find_element,
     find_elements,
     is_element_present,
-    should_not_see,
+    should_not_see_any_element,
     should_not_see_errors,
     should_see_all_elements,
 )
@@ -66,7 +66,7 @@ def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
     attach_jpg_screenshot(browser, 'home page')
     should_see_all_elements(browser, HeaderCommon)
     should_see_all_elements(browser, HeaderSignUp)
-    should_not_see(browser, HeaderSignedIn)
+    should_not_see_any_element(browser, HeaderSignedIn)
 
 
 @pytest.mark.django_db
