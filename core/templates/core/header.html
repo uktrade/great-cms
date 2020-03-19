@@ -14,8 +14,12 @@
       </ul>
       <ul class="bg-stone-50 user-state-area" id="user-state-area">
           {% if request.user.is_authenticated %}
-              <li><a id="header-link-notifications" href="#"><img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a></li>
-              <li><a id="header-link-user-profile" href="#"><img class="great-mvp-header-icon" src="{% static 'images/user-icon.png' %}" /></a></li>
+              <li><a id="header-link-notifications" href="#">
+                <img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a>
+              </li>
+              <li><a id="header-link-user-profile" href="#">
+                  <img class="great-mvp-header-icon" src="{{ request.user.profile_image }}" />
+              </a></li>
               <li class="name-greet"><a id="header-link-user-profile-email-link" href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
               <li><a id="header-link-dashboard" href="{% url 'core:dashboard' %}" class="great-mvp-header-link">Dashboard</a></li>
           {% else %}
