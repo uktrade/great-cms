@@ -48,19 +48,3 @@ class LessonPage(PersonalisablePageMixin, Page):
 
     class Meta:
         ordering = ['order']
-
-    def get_last_object(self):
-        return self.get_siblings().exclude(pk=self.pk).order_by('-order')[0]
-
-    def check_collision(self, proposed_order):
-        return self.get_siblings().filter(order=proposed_order).exists()
-
-    def save(self, *args, **kwargs):
-        if self.order is None:
-            try:
-                last_object = self.get_last_object()
-                self.order = last_object.order + 1
-            except ObjectDoesNotExist:
-                self.order = 1  # first sibling under the parent
-
-        return super().save(*args, **kwargs)
