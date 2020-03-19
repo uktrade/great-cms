@@ -19,6 +19,7 @@ class BusinessSSOUser(AbstractUser):
     has_user_profile = models.BooleanField()
     job_title = models.TextField()
     mobile_phone_number = models.TextField()
+    profile_image = models.URLField()
 
     @cached_property
     def company(self):
