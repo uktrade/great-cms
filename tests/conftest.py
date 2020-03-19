@@ -174,11 +174,19 @@ def visit_home_page(browser, base_url, domestic_site_browser_tests):
     return browser
 
 
-@pytest.fixture()
-def mock_get_company_profile():
-    stub = mock.patch('sso.helpers.get_company_profile', return_value=None)
-    yield stub.start()
-    stub.stop()
+@pytest.fixture
+def patch_get_company_profile():
+    yield mock.patch('sso.helpers.get_company_profile', return_value=None)
+
+
+@pytest.fixture(autouse=True)
+def mock_get_company_profile(patch_get_company_profile):
+    yield patch_get_company_profile.start()
+    try:
+        patch_get_company_profile.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
 
 
 @pytest.fixture
