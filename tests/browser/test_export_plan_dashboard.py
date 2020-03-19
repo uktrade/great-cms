@@ -21,16 +21,9 @@ pytestmark = pytest.mark.browser
 @mock.patch.object(helpers, 'create_company_profile')
 def test_export_plan_dashboard(
     mock_create_company_profile, mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities, mock_get_company_profile,
-    server_user_browser_dashboard
-
+    mock_get_dashboard_export_opportunities, server_user_browser_dashboard,
 ):
-
-    def side_effect(_):
-        mock_get_company_profile.return_value = {'foo': 'bar'}
-
     mock_create_company_profile.return_value = create_response()
-    mock_create_company_profile.side_effect = side_effect
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
     live_server, user, browser = server_user_browser_dashboard
