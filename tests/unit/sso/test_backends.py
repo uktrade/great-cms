@@ -30,7 +30,8 @@ def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
                 'first_name': 'Jim',
                 'last_name': 'Bloggs',
                 'job_title': 'Dev',
-                'mobile_phone_number': '555'
+                'mobile_phone_number': '555',
+                'profile_image': 'htts://image.com/image.png',
             }
         }
     )
@@ -47,3 +48,4 @@ def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
     assert user.last_name == 'Bloggs'
     assert user.job_title == 'Dev'
     assert user.mobile_phone_number == '555'
+    assert user.profile_image == 'htts://image.com/image.png'

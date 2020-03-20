@@ -17,9 +17,11 @@ from tests.browser.common_selectors import (
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
+    selenium_action,
     should_not_see,
     should_not_see_errors,
     should_see_all_elements,
+    try_alternative_click_on_exception,
 )
 from tests.helpers import create_response
 
@@ -41,8 +43,10 @@ def submit_industries(browser, industries):
         selector=DashboardModalLetsGetToKnowYou.MODAL
     )
 
-    continue_button = find_element(browser, DashboardModalLetsGetToKnowYou.SUBMIT)
-    continue_button.click()
+    with selenium_action(browser, 'Failed to submit industries'):
+        continue_button = find_element(browser, DashboardModalLetsGetToKnowYou.SUBMIT)
+        with try_alternative_click_on_exception(browser, continue_button):
+            continue_button.click()
 
 
 @pytest.mark.django_db

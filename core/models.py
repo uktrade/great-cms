@@ -1,11 +1,16 @@
 import hashlib
-from django.db import models
 
 from modelcluster.models import ClusterableModel, ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
-from wagtail.core.models import Orderable
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel
+from wagtail.core import blocks
+from wagtail.core.fields import StreamField
+from wagtail.core.models import Orderable, Page
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
+from wagtail_personalisation.blocks import PersonalisedStructBlock
+from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtail.snippets.models import register_snippet
+
+from django.db import models
 
 
 class AbstractObjectHash(models.Model):
@@ -87,4 +92,48 @@ class TourStep(Orderable):
         FieldPanel('body'),
         FieldPanel('position'),
         FieldPanel('selector'),
+    ]
+
+
+@register_snippet
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+
+@register_snippet
+class Country(models.Model):
+    name = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Countries'
+
+
+class PersonalisedPage(PersonalisablePageMixin, Page):
+
+    body = StreamField([
+        (
+            'body', PersonalisedStructBlock(
+                [('paragraph', blocks.RichTextBlock())],
+                template='core/personalised_page_struct_block.html',
+                icon='pilcrow'
+            )
+        )
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
     ]
