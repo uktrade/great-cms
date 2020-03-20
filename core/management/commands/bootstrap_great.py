@@ -18,10 +18,11 @@ class Command(BaseCommand):
 
         homepage = DomesticHomePageFactory(parent=root_page)
 
+        old_root_page = site.root_page
+
         site.root_page = homepage
         site.save()
-        # Delete welcome to wagtail page
-        Page.objects.filter(pk=2).delete()
+        old_root_page.delete()
 
         # creates a superuser for local environment
         user = User(username='test', is_staff=True, is_superuser=True, is_active=True)
