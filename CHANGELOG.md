@@ -40,3 +40,4 @@
 - No Ticket - Fix DirectoryAPI Receiving Session ID
 - MVP-297 - Add dummy export opportunies
 - MVP-259 - Content segmentation (wagxperience)
+- MVP-333 - Content segmentation on country of interest
