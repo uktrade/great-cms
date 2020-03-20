@@ -43,7 +43,7 @@ def submit_industries(browser, industries):
         selector=DashboardModalLetsGetToKnowYou.MODAL
     )
 
-    with selenium_action(browser, "Failed to submit industries"):
+    with selenium_action(browser, 'Failed to submit industries'):
         continue_button = find_element(browser, DashboardModalLetsGetToKnowYou.SUBMIT)
         with try_alternative_click_on_exception(browser, continue_button):
             continue_button.click()
