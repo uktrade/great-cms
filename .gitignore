@@ -109,3 +109,7 @@ package-lock.json
 media
 config/.env
 config/env/secrets-do-not-commit
+
+# localfiles
+.env
+domestic/migrations/__pycache__/__init__.cpython-36.pyc

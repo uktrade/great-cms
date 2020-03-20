@@ -26,6 +26,7 @@ APPEND_SLASH = True
 INSTALLED_APPS = [
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
+    'wagtail.contrib.modeladmin',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -36,6 +37,8 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
 
+    'wagtail_personalisation',
+    'wagtailfontawesome',
     'modelcluster',
     'taggit',
     'storages',

@@ -11,6 +11,7 @@ class ExportPlanPageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = models.ExportPlanPage
+        django_get_or_create = ['slug', 'parent']
 
 
 class ExportPlanDashboardPageFactory(wagtail_factories.PageFactory):
@@ -21,3 +22,4 @@ class ExportPlanDashboardPageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = models.ExportPlanDashboardPage
+        django_get_or_create = ['slug', 'parent']

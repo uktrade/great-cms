@@ -88,3 +88,30 @@ class TourStep(Orderable):
         FieldPanel('position'),
         FieldPanel('selector'),
     ]
+
+
+@register_snippet
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+
+@register_snippet
+class Country(models.Model):
+    name = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Countries'
