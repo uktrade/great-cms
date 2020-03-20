@@ -26,17 +26,15 @@ class ExportPlanSectionView(BaseExportPlanView):
     def slug(self, **kwargs):
         return self.kwargs['slug']
 
-    @property
-    def template_name(self, **kwargs):
-        return f'exportplan/sections/{self.slug}.html'
+    def get_template_names(self, **kwargs):
+        return [f'exportplan/sections/{self.slug}.html']
 
     @property
     def next_section(self):
-        index = data.SECTION_SLUGS.index(self.slug)
-
-        if index == len(data.SECTION_SLUGS) - 1:
+        if self.slug == data.SECTION_SLUGS[-1]:
             return None
 
+        index = data.SECTION_SLUGS.index(self.slug)
         return {
             'title': data.SECTION_TITLES[index + 1],
             'url': data.SECTION_URLS[index + 1],
