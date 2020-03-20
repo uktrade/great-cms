@@ -99,6 +99,8 @@ def wait_for_element_visibility(
 @allure.step('Should see all elements from: {selectors_enum}')
 def should_see_all_elements(browser, selectors_enum):
     for selector in selectors_enum:
+        if not selector.value:
+            continue
         if not selector.is_visible:
             continue
         error = f'Expected element "{selector}" is not visible'

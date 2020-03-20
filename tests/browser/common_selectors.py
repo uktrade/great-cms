@@ -167,6 +167,7 @@ class ExportPlanDashboardPageTourStep0(SelectorsEnum):
     MODAL = Selector(By.ID, 'page-tour-modal-step-1')
     NEXT = Selector(By.ID, 'page-tour-submit', ElementType.LINK)
     SKIP = Selector(By.ID, 'page-tour-skip', ElementType.LINK)
+    HIGHLIGHTED_ELEMENT = None
 
 
 class ExportPlanDashboardPageTourStep1(SelectorsEnum):
