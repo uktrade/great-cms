@@ -59,3 +59,10 @@ class MatchFirstCountryOfInterestFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = rules.MatchFirstCountryOfInterestRule
+
+
+class MatchFirstIndustryOfInterestFactory(factory.django.DjangoModelFactory):
+    segment = factory.SubFactory(SegmentFactory)
+
+    class Meta:
+        model = rules.MatchFirstIndustryOfInterestRule
