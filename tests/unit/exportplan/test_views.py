@@ -22,12 +22,6 @@ def test_export_plan_builder_landing_page(client, exportplan_dashboard):
     assert response.context['sections'] == data.SECTION_TITLES
 
 
-def test_export_plan_target_markets(client):
-    url = reverse('exportplan:target-markets')
-    response = client.get(url)
-    assert response.status_code == 200
-
-
 @pytest.mark.django_db
 def test_exportplan_form_start(client):
     response = client.get(reverse('exportplan:start'), {'country': 'China', 'commodity code': '1234'})
@@ -102,3 +96,9 @@ def test_exportplan_view(
     assert response.context['utz_offset'] == '+0800'
     assert response.context['lastyear_import_data'] == {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
     assert response.context['historical_import_data'] == {'historical_data_all': {'Year': 2019, 'value': 1234}}
+
+
+@pytest.mark.parametrize('url', data.SECTION_URLS)
+def test_exportplan_sections(url, client):
+    response = client.get(url)
+    assert response.status_code == 200
