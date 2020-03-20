@@ -53,13 +53,9 @@ class MatchCountryQuerystringFactory(factory.django.DjangoModelFactory):
         model = rules.MatchCountryQuerystring
 
 
-
 class MatchFirstCountryOfInterestFactory(factory.django.DjangoModelFactory):
     segment = factory.SubFactory(SegmentFactory)
     country = factory.SubFactory(CountryFactory)
 
     class Meta:
         model = rules.MatchFirstCountryOfInterestRule
-
-
-

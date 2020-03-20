@@ -2,8 +2,6 @@ import pytest
 
 from . import factories
 
-from tests.helpers import create_response
-
 
 @pytest.mark.django_db
 def test_match_product_in_querystring(rf):

@@ -67,9 +67,7 @@ class MatchFirstCountryOfInterestRule(AbstractBaseRule):
 
     def test_user(self, request=None):
         has_country_expertise = (
-            request.user.is_authenticated and
-            request.user.company and
-            request.user.company.expertise_countries_labels
+            request.user.is_authenticated and request.user.company and request.user.company.expertise_countries_labels
         )
         if has_country_expertise:
             return request.user.company.expertise_countries_labels[0] == self.country.name

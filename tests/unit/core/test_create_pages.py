@@ -1,6 +1,5 @@
 import pytest
 from django.core.management import call_command
-from wagtail_factories import PageFactory, SiteFactory
 
 from core.models import PersonalisedPage
 from exportplan.models import ExportPlanPage, ExportPlanDashboardPage
