@@ -16,11 +16,6 @@ SECTION_TITLES = [
     'Action plan',
 ]
 
-SECTION_SLUGS = [
-    slugify(section) for section in SECTION_TITLES
-]
+SECTION_SLUGS = [slugify(section) for section in SECTION_TITLES]
 
-SECTION_URLS = [
-    reverse_lazy('exportplan:section', kwargs={'slug': slug})
-    for slug in SECTION_SLUGS
-]
+SECTION_URLS = [reverse_lazy('exportplan:section', kwargs={'slug': slug}) for slug in SECTION_SLUGS]
