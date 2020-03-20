@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% load breadcrumbs from great_components %}
+{% load wagtailcore_tags %}
+{% block content %}
+    <div id="great-hero" class="container p-s">
+        {% breadcrumbs page.title %}
+          <a href="{% url 'core:dashboard' %}">Home</a>
+        {% endbreadcrumbs %}
+    </div>
+
+    <div class="container">
+        <div class="grid m-b-s">
+            <div class="c-full">
+                <h3 class="h-l pb-xxs w-1-2">{{ page.title }}</h3>
+                {% for block in page.body %}
+                    <p class="m-b-0 ">{% include_block block %}</p>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

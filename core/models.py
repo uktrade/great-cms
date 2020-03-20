@@ -1,11 +1,16 @@
 import hashlib
-from django.db import models
 
 from modelcluster.models import ClusterableModel, ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
-from wagtail.core.models import Orderable
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel
+from wagtail.core import blocks
+from wagtail.core.fields import StreamField
+from wagtail.core.models import Orderable, Page
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
+from wagtail_personalisation.blocks import PersonalisedStructBlock
+from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtail.snippets.models import register_snippet
+
+from django.db import models
 
 
 class AbstractObjectHash(models.Model):
@@ -115,3 +120,20 @@ class Country(models.Model):
 
     class Meta:
         verbose_name_plural = 'Countries'
+
+
+class PersonalisedPage(PersonalisablePageMixin, Page):
+
+    body = StreamField([
+        (
+            'body', PersonalisedStructBlock(
+                [('paragraph', blocks.RichTextBlock())],
+                template='core/personalised_page_struct_block.html',
+                icon='pilcrow'
+            )
+        )
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]

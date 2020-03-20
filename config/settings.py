@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.forms',
 
     'sso',
-    'core',
+    'core.apps.CoreConfig',
     'domestic',
     'exportplan',
     'users.apps.UsersConfig',
@@ -416,3 +416,9 @@ MADB_URL = env.str(
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
+
+if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
+    WAGTAIL_PERSONALISATION_IP_FUNCTION = 'config.settings.get_client_ip'
+
+    def get_client_ip(request):
+        return '51.6.68.120'

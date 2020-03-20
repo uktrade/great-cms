@@ -11,7 +11,7 @@ from django.db import models
 
 class TopicPage(Page):
     parent_page_types = ['domestic.DomesticHomePage']
-    subpages_types = ['learn.PersonalisedLessonPage']
+    subpage_types = ['learn.LessonPage']
 
     description = models.TextField()
 

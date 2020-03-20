@@ -1,6 +1,7 @@
-from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail_personalisation.rules import AbstractBaseRule
+
+from django.db import models
 
 
 class MatchProductQuerystring(AbstractBaseRule):
@@ -46,6 +47,37 @@ class MatchCountryQuerystring(AbstractBaseRule):
     def description(self):
         return {
             'title': 'Match this country in querystring',
+            'value': f'{self.country.name}',
+            'code': True
+        }
+
+
+class MatchFirstCountryOfInterestRule(AbstractBaseRule):
+    """Match with first country in user's list of selected countries of interest"""
+    icon = 'fa-user'
+
+    country = models.ForeignKey('core.Country', on_delete=models.CASCADE)
+
+    panels = [
+        FieldPanel('country'),
+    ]
+
+    class Meta:
+        verbose_name = 'Match first country of interest rule'
+
+    def test_user(self, request=None):
+        has_country_expertise = (
+            request.user.is_authenticated and
+            request.user.company and
+            request.user.company.expertise_countries_labels
+        )
+        if has_country_expertise:
+            return request.user.company.expertise_countries_labels[0] == self.country.name
+        return False
+
+    def description(self):
+        return {
+            'title': 'Match this country with chosen country of interest',
             'value': f'{self.country.name}',
             'code': True
         }
