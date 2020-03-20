@@ -16,4 +16,4 @@ class TopicPageTests(WagtailPageTests):
 class LessonPageTests(WagtailPageTests):
 
     def test_can_be_created_under_topic(self):
-        self.assertAllowedParentPageTypes(LessonPage, {TopicPage})
+        self.assertCanCreateAt(TopicPage, LessonPage)
