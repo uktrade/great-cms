@@ -20,8 +20,32 @@ class BaseExportPlanView(TemplateView):
             *args, **kwargs)
 
 
-class ExportPlanBuilderSectionView(BaseExportPlanView):
-    template_name = 'exportplan/builder_section.html'
+class ExportPlanSectionView(BaseExportPlanView):
+
+    @property
+    def slug(self, **kwargs):
+        return self.kwargs['slug']
+
+    @property
+    def template_name(self, **kwargs):
+        return f'exportplan/sections/{self.slug}.html'
+
+    @property
+    def next_section(self):
+        index = data.SECTION_SLUGS.index(self.slug)
+
+        if index == len(data.SECTION_SLUGS) - 1:
+            return None
+
+        return {
+            'title': data.SECTION_TITLES[index + 1],
+            'url': data.SECTION_URLS[index + 1],
+        }
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            next_section=self.next_section,
+            *args, **kwargs)
 
 
 class ExportPlanStartView(FormView):
