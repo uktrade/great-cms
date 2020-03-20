@@ -146,6 +146,13 @@ def mock_user_location_create():
 
 @pytest.fixture
 def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
+    """Create Export Plan Dashboard page tour steps in reversed order.
+
+    For some reason when page tour steps are created during a unit test run then
+    those steps are shown in reversed order. So in order to show them in the right
+    order they have to be reverse here.
+    """
+    TOUR_STEPS.update({'steps': list(reversed(TOUR_STEPS['steps']))})
     return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=TOUR_STEPS)
 
 
