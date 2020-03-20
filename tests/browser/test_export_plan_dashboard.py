@@ -1,3 +1,4 @@
+from time import sleep
 from unittest import mock
 
 import pytest
@@ -16,11 +17,12 @@ from tests.browser.common_selectors import (
     StickyHeader,
 )
 from tests.browser.util import (
+    attach_jpg_screenshot,
     find_element,
+    should_not_see_element,
     should_not_see_errors,
     should_see_all_elements,
     try_alternative_click_on_exception,
-    should_not_see_element
 )
 from tests.helpers import create_response
 
@@ -86,6 +88,8 @@ def test_export_plan_dashboard_with_page_tour(
     # click next for every step except the last one
     for idx, step in enumerate(steps[:-1]):
         click_next(browser, step)
+        sleep(0.5)  # wait half a second for animation to end & get better screenshot
+        attach_jpg_screenshot(browser, str(step))
         should_see_all_elements(browser, steps[idx+1])
 
     # click Start Now on the last tour step
