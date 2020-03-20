@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+    <div class="container">
+        <div id="welcome-back-hero" class="gutter-top c-full">
+            <div class="grid">
+                <div class="c-1-2">&nbsp;</div>
+                <div class="c-1-2-s">
+                    <h1 class="h-l m-t-xl">{{  self.title }}</h1>
+                </div>
+                <div class="c-1-3">
+                    {% for block in page.generic_content %}
+                        <div>{% include_block block %}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

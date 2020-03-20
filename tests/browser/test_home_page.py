@@ -2,6 +2,8 @@ from unittest import mock
 from uuid import uuid4
 
 import allure
+import shutil
+
 import pytest
 
 from sso import helpers
@@ -23,7 +25,11 @@ from tests.browser.util import (
     should_see_all_elements,
 )
 
-pytestmark = pytest.mark.browser
+pytestmark = [
+    pytest.mark.browser,
+    pytest.mark.django_db,
+    pytest.mark.skipif(shutil.which('chromedriver') is None, reason='chromedriver not in path')
+]
 
 
 @allure.step('Fill out and submit sign-up form')
@@ -58,7 +64,6 @@ def should_not_see_sign_up_errors(browser):
         raise
 
 
-@pytest.mark.django_db
 def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
         browser, visit_home_page
 ):
@@ -69,7 +74,6 @@ def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
     should_not_see_any_element(browser, HeaderSignedIn)
 
 
-@pytest.mark.django_db
 def test_anonymous_user_should_see_sign_up_modal(browser, visit_home_page):
     attach_jpg_screenshot(browser, 'home page')
     should_see_all_elements(browser, SignUpModal)
@@ -97,7 +101,6 @@ def test_anonymous_user_should_see_sign_up_modal(browser, visit_home_page):
         ])
     ]
 )
-@pytest.mark.django_db
 @mock.patch.object(helpers, 'create_user')
 def test_error_messages_for_invalid_credential(
         mock_create_user, browser, visit_home_page, email, password,
@@ -119,7 +122,6 @@ def test_error_messages_for_invalid_credential(
         assert error in error_messages, f"Can't see expected password error: '{error}'"
 
 
-@pytest.mark.django_db
 @mock.patch.object(helpers, 'send_welcome_notification')
 @mock.patch.object(helpers, 'check_verification_code')
 @mock.patch.object(helpers, 'send_verification_code_email')

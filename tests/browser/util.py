@@ -168,21 +168,19 @@ def selenium_action(driver, message, *args):
         yield
     except (WebDriverException, NoSuchElementException, TimeoutException) as e:
         attach_jpg_screenshot(driver, message)
-        browser = driver.capabilities.get("browserName", "unknown browser")
-        version = driver.capabilities.get("browserVersion", "unknown version")
-        platform = driver.capabilities.get("platformName", "unknown platform")
-        driver_version = "unknown driver version"
-        if browser == "chrome":
-            driver_version = driver.capabilities["chrome"]["chromedriverVersion"]
-        if browser == "firefox":
-            driver_version = driver.capabilities["moz:geckodriverVersion"]
+        browser = driver.capabilities.get('browserName', 'unknown browser')
+        version = driver.capabilities.get('browserVersion', 'unknown version')
+        platform = driver.capabilities.get('platformName', 'unknown platform')
+        driver_version = 'unknown driver version'
+        if browser == 'chrome':
+            driver_version = driver.capabilities['chrome']['chromedriverVersion']
+        if browser == 'firefox':
+            driver_version = driver.capabilities['moz:geckodriverVersion']
         session_id = driver.session_id
-        info = "[{} v:{} driver:{} os:{} session_id:{}]".format(
-            browser, version, driver_version, platform, session_id
-        )
+        info = f'[{browser} v:{version} driver:{driver_version} os:{platform} session_id:{session_id}]'
         if args:
             message = message % args
-        print(f"{info} - {message}")
+        print(f'{info} - {message}')  # noqa T001
         e.args += (message,)
         _, _, tb = sys.exc_info()
         traceback.print_tb(tb)
@@ -211,15 +209,15 @@ def try_alternative_click_on_exception(driver, element):
         yield
     except ElementClickInterceptedException as e:
         logging.warning(
-            f"Failed click intercepted. Will try JS workaround for: {e.msg}"
+            f'Failed click intercepted. Will try JS workaround for: {e.msg}'
         )
-        driver.execute_script("arguments[0].click();", element)
+        driver.execute_script('arguments[0].click();', element)
     except ElementNotInteractableException as e:
         logging.warning(
-            f"Failed click intercepted. Will try ActionChains workaround for: {e.msg}"
+            f'Failed click intercepted. Will try ActionChains workaround for: {e.msg}'
         )
         action_chains = ActionChains(driver)
         action_chains.move_to_element(element)
         action_chains.click()
         action_chains.perform()
-        logging.warning(f"ActionChains click workaround is done")
+        logging.warning(f'ActionChains click workaround is done')
