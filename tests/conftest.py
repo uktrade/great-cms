@@ -12,8 +12,8 @@ from wagtail_factories import PageFactory, SiteFactory
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from core import helpers
-from core.models import Tour, TourStep
-from core.management.commands.create_tours import defaults as TOUR_STEPS
+from core.models import Tour
+from core.management.commands.create_tours import defaults as tour_steps
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -152,8 +152,8 @@ def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
     those steps are shown in reversed order. So in order to show them in the right
     order they have to be reverse here.
     """
-    TOUR_STEPS.update({'steps': list(reversed(TOUR_STEPS['steps']))})
-    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=TOUR_STEPS)
+    tour_steps.update({'steps': list(reversed(tour_steps['steps']))})
+    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
 
 
 @pytest.fixture(scope='session')

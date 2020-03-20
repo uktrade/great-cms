@@ -90,7 +90,7 @@ def test_export_plan_dashboard_with_page_tour(
         click_next(browser, step)
         sleep(0.5)  # wait half a second for animation to end & get better screenshot
         attach_jpg_screenshot(browser, str(step))
-        should_see_all_elements(browser, steps[idx+1])
+        should_see_all_elements(browser, steps[idx + 1])
 
     # click Start Now on the last tour step
     click_next(browser, ExportPlanDashboardPageTourStep5)
