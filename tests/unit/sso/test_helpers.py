@@ -34,8 +34,8 @@ def test_set_cookies_from_cookie_jar():
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
-def test_send_welcome_notificaction(mock_action_class, settings):
-    helpers.send_welcome_notificaction(email='jim@example.com', form_url='foo')
+def test_send_welcome_notification(mock_action_class, settings):
+    helpers.send_welcome_notification(email='jim@example.com', form_url='foo')
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
@@ -85,7 +85,9 @@ def test_create_user_failure(mock_create_user):
 
 
 @mock.patch.object(api_client.company, 'profile_retrieve')
-def test_get_company_profile_404(mock_profile_retrieve):
+def test_get_company_profile_404(mock_profile_retrieve, patch_get_company_profile):
+    patch_get_company_profile.stop()
+
     mock_profile_retrieve.return_value = create_response(status_code=404)
 
     assert helpers.get_company_profile(123) is None
@@ -94,7 +96,9 @@ def test_get_company_profile_404(mock_profile_retrieve):
 
 
 @mock.patch.object(api_client.company, 'profile_retrieve')
-def test_get_company_profile_500(mock_profile_retrieve):
+def test_get_company_profile_500(mock_profile_retrieve, patch_get_company_profile):
+    patch_get_company_profile.stop()
+
     mock_profile_retrieve.return_value = create_response(status_code=500)
 
     with pytest.raises(HTTPError):
@@ -102,7 +106,9 @@ def test_get_company_profile_500(mock_profile_retrieve):
 
 
 @mock.patch.object(api_client.company, 'profile_retrieve')
-def test_get_company_profile_200(mock_profile_retrieve):
+def test_get_company_profile_200(mock_profile_retrieve, patch_get_company_profile):
+    patch_get_company_profile.stop()
+
     mock_profile_retrieve.return_value = create_response({'name': 'foo'})
 
     assert helpers.get_company_profile(123) == {'name': 'foo'}

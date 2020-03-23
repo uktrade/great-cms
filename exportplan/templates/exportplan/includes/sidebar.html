@@ -1,0 +1,14 @@
+<nav class="sidebar p-h-s p-b-m" id="sidebar-content">
+  <div class="sidebar-sticky">
+    <div class="centre-children width-full p-t-m">
+      <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="" class="w-1-2">
+    </div>
+    <ul>
+      {% for section in sections %}
+        <li class="h-s">
+          <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</nav>

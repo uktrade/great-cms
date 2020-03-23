@@ -74,7 +74,7 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
             email=serializer.validated_data['email'],
             code=serializer.validated_data['code'],
         )
-        helpers.send_welcome_notificaction(
+        helpers.send_welcome_notification(
             email=serializer.validated_data['email'],
             form_url=self.request.path
         )

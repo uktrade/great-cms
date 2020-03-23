@@ -9,20 +9,16 @@ from django.views.generic import TemplateView, FormView
 from core import forms, helpers, permissions, serializers
 
 
-class LandingPageView(TemplateView):
-    template_name = 'domestic/domestic_home_page.html'
-
-
 class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
 
     def get_context_data(self, **kwargs):
-        hashed_uuid = self.request.user.hashed_uuid
+        session_id = self.request.user.session_id
         return super().get_context_data(
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(hashed_uuid),
-            export_opportunities=helpers.get_dashboard_export_opportunities(self.request.user.company, hashed_uuid),
+            events=helpers.get_dashboard_events(session_id),
+            export_opportunities=helpers.get_dashboard_export_opportunities(session_id, self.request.user.company),
             **kwargs,
         )
 

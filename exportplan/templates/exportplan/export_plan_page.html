@@ -1,9 +1,11 @@
 {% extends "core/base.html" %}
 
+{% load pageurl from wagtailcore_tags %}
+
 {% block content %}
   <section>
     <div class="container">
-      Go to <a href="{% url 'exportplan:landing-page' %}">your dashboard</a>.
+      Go to <a href="/export-plan/dashboard/">your dashboard</a>.
     </div>
   </section>
 {% endblock %}

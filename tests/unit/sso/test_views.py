@@ -97,8 +97,8 @@ def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'check_verification_code')
-@mock.patch.object(helpers, 'send_welcome_notificaction')
-def test_business_sso_verify_code_valid(mock_send_welcome_notificaction, mock_check_verification_code, client):
+@mock.patch.object(helpers, 'send_welcome_notification')
+def test_business_sso_verify_code_valid(mock_send_welcome_notification, mock_check_verification_code, client):
     data = {'email': 'test@example.com', 'code': '12345'}
     url = reverse('sso:business-sso-verify-code-api')
 
@@ -107,5 +107,5 @@ def test_business_sso_verify_code_valid(mock_send_welcome_notificaction, mock_ch
     assert response.status_code == 200
     assert mock_check_verification_code.call_count == 1
     assert mock_check_verification_code.call_args == mock.call(email=data['email'], code=data['code'])
-    assert mock_send_welcome_notificaction.call_count == 1
-    assert mock_send_welcome_notificaction.call_args == mock.call(email=data['email'], form_url=url)
+    assert mock_send_welcome_notification.call_count == 1
+    assert mock_send_welcome_notification.call_args == mock.call(email=data['email'], form_url=url)

@@ -12,7 +12,9 @@ djangorestframework==3.9.*
 
 # Wagtail
 # ------------
-wagtail==2.7.*
+wagtail-factories==2.0.*
+wagtail==2.8.*
+wagtail-personalisation==0.14.0
 
 
 # Prod tools
@@ -23,8 +25,8 @@ sentry-sdk==0.13.*
 
 # DIT packages
 # ------------
-directory-api-client==21.6.*
-git+git://github.com/uktrade/great-components@1.1.0#egg=great-components
+great-components==1.1.*
+directory-api-client==21.7.*
 directory-constants==20.11.*
 directory-forms-api-client==5.0.*
 directory-sso-api-client==6.2.*

@@ -2,7 +2,7 @@
 
 {% load great_components %}
 
-{% block css_layout_class %}export-plan-builder{% endblock %}
+{% block css_layout_class %}export-plan-dashboard{% endblock %}
 
 {% block content %}
 
@@ -25,11 +25,7 @@
           {% for section in sections %}
           <div class="c-1-3">
             <div class="bg-white m-b-s exportplan-section-item">
-              {% if forloop.first %}
-              <a class="w-full" href="{% url 'exportplan:about-your-business' %}">
-              {% else %}
-              <a class="w-full" href="#">
-              {% endif %}
+              <a class="w-full" href="{% url 'exportplan:section' slug=section.title|slugify %}" id="{{ section.title|slugify }}">
                 <img class="w-full" src="https://via.placeholder.com/160x90/dfd5c5?text=Preview image" alt="">
                 <div class="p-h-s p-b-s">
                   <h3 class="h-s">{{ section }}</h3>
@@ -44,13 +40,4 @@
   </div>
 </section>
 
-{% endblock %}
-
-
-{% block body_js %}
-    <script type="text/javascript">
-        var element = document.createElement('div');
-        document.body.appendChild(element);
-        ditMVP.Tour({element: element, isOpenModal: true})
-    </script>
 {% endblock %}

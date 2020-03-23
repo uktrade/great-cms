@@ -60,7 +60,7 @@ def send_verification_code_email(email, verification_code, form_url, verificatio
     return response
 
 
-def send_welcome_notificaction(email, form_url):
+def send_welcome_notification(email, form_url):
     action = actions.GovNotifyEmailAction(
         template_id=settings.ENROLMENT_WELCOME_TEMPLATE_ID,
         email_address=email,

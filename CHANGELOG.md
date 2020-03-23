@@ -5,6 +5,9 @@
 ### Fixed bugs
 
 ### Implemented enhancements
+- MVP-317 - Add dummy pages for all export plan sections
+- MVP-306 - Added sector chooser component
+- MVP-299 - Finalised styling for export plan sections
 - MVP-99 - Added skeleton for export plan dashboard and first page of builder
 - MVP-79 - Add react build tool
 - MVP-52 - Add login and sign up modals
@@ -32,3 +35,9 @@
 - MVP-310 - comtrade data
 - MVP-271 - Add tour to export-plan
 - MVP-297 - Add dummy export opportunies
+- MVP-720 - Add new IDs and more browser tests
+- MVP-293 - Expose social profile image
+- No Ticket - Fix DirectoryAPI Receiving Session ID
+- MVP-297 - Add dummy export opportunies
+- MVP-259 - Content segmentation (wagxperience)
+- MVP-333 - Content segmentation on country of interest

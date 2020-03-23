@@ -56639,6 +56639,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./react-components/src/Helpers.js":
+/*!*****************************************!*\
+  !*** ./react-components/src/Helpers.js ***!
+  \*****************************************/
+/*! exports provided: slugify */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "slugify", function() { return slugify; });
+var slugify = function slugify(string) {
+  return string.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+};
+
+
+
+/***/ }),
+
 /***/ "./react-components/src/Services.js":
 /*!******************************************!*\
   !*** ./react-components/src/Services.js ***!
@@ -56804,10 +56822,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_QuestionModal_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/QuestionModal/Modal */ "./react-components/src/views/QuestionModal/Modal.jsx");
 /* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
 /* harmony import */ var _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/Tour/Base */ "./react-components/src/views/Tour/Base.jsx");
-/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/SectorChooser */ "./react-components/src/components/SectorChooser.jsx");
+/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -56817,13 +56837,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].setConfig,
+  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].setConfig,
   SignupModal: _src_views_SignupModal_Modal__WEBPACK_IMPORTED_MODULE_1__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_3__["default"],
   Tour: _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_4__["default"],
+  createSectorChooser: _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_5__["createSectorChooser"],
   QuestionModal: _src_views_QuestionModal_Modal__WEBPACK_IMPORTED_MODULE_2__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_5__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_5__["STEP_VERIFICATION_CODE"]
+  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__["STEP_VERIFICATION_CODE"]
 });
 
 /***/ }),
@@ -57013,6 +57034,328 @@ Field.defaultProps = {
   disabled: false,
   errors: []
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/Sector.jsx":
+/*!****************************************************!*\
+  !*** ./react-components/src/components/Sector.jsx ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sector; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Helpers */ "./react-components/src/Helpers.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var Sector = /*#__PURE__*/function (_React$Component) {
+  _inherits(Sector, _React$Component);
+
+  function Sector(props) {
+    var _this;
+
+    _classCallCheck(this, Sector);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Sector).call(this, props));
+    _this.state = {
+      selected: _this.props.selected
+    };
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Sector, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {}
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      this.setState({
+        selected: this.props.addRemoveSector(e.target.innerHTML)
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "border-thin border-mid-grey text-mid-grey text-hover-grey bg-hover-stone border-hover-stone pill ".concat(this.state.selected ? 'selected' : ''),
+        id: this.props.id,
+        onClick: this.handleClick
+      }, this.props.name));
+    }
+  }]);
+
+  return Sector;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+
+Sector.propTypes = {
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/SectorChooser.jsx":
+/*!***********************************************************!*\
+  !*** ./react-components/src/components/SectorChooser.jsx ***!
+  \***********************************************************/
+/*! exports provided: SectorChooser, createSectorChooser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SectorChooser", function() { return SectorChooser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSectorChooser", function() { return createSectorChooser; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Sector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sector */ "./react-components/src/components/Sector.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Helpers */ "./react-components/src/Helpers.js");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+var element = document.getElementById('recommended-countries');
+
+var SectorChooser = /*#__PURE__*/function (_React$Component) {
+  _inherits(SectorChooser, _React$Component);
+
+  function SectorChooser(props) {
+    var _this;
+
+    _classCallCheck(this, SectorChooser);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SectorChooser).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_this), "addRemoveSector", function (sector) {
+      if (_this.state.selectedSectors.indexOf(sector) == -1) {
+        _this.setState({
+          selectedSectors: _this.state.selectedSectors.concat([sector])
+        });
+
+        return true;
+      } else {
+        var updatedSelectedSectors = _this.state.selectedSectors.filter(function (item) {
+          return item != sector;
+        });
+
+        _this.setState({
+          selectedSectors: updatedSelectedSectors
+        });
+
+        return false;
+      }
+    });
+
+    _this.state = {
+      sectorList: props.sectorList,
+      selectedSectors: props.selectedSectors || [],
+      showSectorList: false,
+      showTooltip: false
+    };
+    _this.showHideSectorList = _this.showHideSectorList.bind(_assertThisInitialized(_this));
+    _this.handleMouseOver = _this.handleMouseOver.bind(_assertThisInitialized(_this));
+    _this.handleMouseOut = _this.handleMouseOut.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(SectorChooser, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {}
+  }, {
+    key: "showHideSectorList",
+    value: function showHideSectorList(e) {
+      if (this.state.showSectorList) {
+        this.setState({
+          showSectorList: false
+        });
+      } else {
+        this.setState({
+          showSectorList: true
+        });
+        this.setState({
+          showTooltip: false
+        });
+      }
+    }
+  }, {
+    key: "handleMouseOver",
+    value: function handleMouseOver(e) {
+      this.setState({
+        showTooltip: true
+      });
+    }
+  }, {
+    key: "handleMouseOut",
+    value: function handleMouseOut(e) {
+      this.setState({
+        showTooltip: false
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var sectorListDisplay;
+
+      if (this.state.showSectorList) {
+        sectorListDisplay = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "sector-list",
+          id: "sector-list"
+        }, this.state.sectorList.map(function (sector) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Sector__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            name: sector,
+            selected: _this2.state.selectedSectors.indexOf(sector) != -1,
+            key: sector,
+            id: Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["slugify"])(sector),
+            addRemoveSector: _this2.addRemoveSector
+          });
+        }));
+      }
+
+      var sectorChooserButton;
+
+      if (!this.state.showSectorList) {
+        sectorChooserButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "sector-chooser-button"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          id: "sector-chooser-button",
+          type: "button",
+          className: "plus-button",
+          onClick: this.showHideSectorList,
+          onMouseOver: this.handleMouseOver,
+          onMouseOut: this.handleMouseOut,
+          "aria-describedby": "sector-list-tooltip"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          "aria-hidden": !this.state.showTooltip,
+          id: "sector-list-tooltip",
+          className: "sector-list-tooltip ".concat(this.state.showTooltip ? '' : 'hidden'),
+          role: "tooltip"
+        }, "Add sectors"));
+      }
+
+      var saveButton;
+
+      if (this.state.selectedSectors.length > 0 && this.state.showSectorList) {
+        saveButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "g-button",
+          onClick: this.showHideSectorList
+        }, "Save");
+      }
+
+      var selectedSectorsDisplay;
+
+      if (this.state.selectedSectors.length > 0 && !this.state.showSectorList) {
+        var currentSelectedSectors = this.state.selectedSectors;
+        var sectors = currentSelectedSectors.map(function (sector) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Sector__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            name: sector,
+            selected: currentSelectedSectors.indexOf(sector) != -1,
+            key: sector,
+            id: Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["slugify"])(sector),
+            addRemoveSector: _this2.addRemoveSector
+          });
+        });
+        selectedSectorsDisplay = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "m-t-0 m-r-xs",
+          id: "sector-list-label"
+        }, "My sectors"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "sector-list",
+          id: "selected-sectors",
+          "aria-labelledby": "sector-list-label"
+        }, sectors));
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "h-m"
+      }, "Recommended countries"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "sector-chooser",
+        className: "sector-chooser"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "m-t-0 intro-text"
+      }, "Add sectors you're interested in so we can recommend some countries."), sectorListDisplay, saveButton, selectedSectorsDisplay, sectorChooserButton));
+    }
+  }]);
+
+  return SectorChooser;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+SectorChooser.propTypes = {
+  sectorList: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
+  selectedSectors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
+};
+
+function createSectorChooser(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SectorChooser, params), element);
+}
+
+
 
 /***/ }),
 
@@ -57831,6 +58174,7 @@ function StepSectors(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "submit",
     value: "Continue",
+    id: "dashboard-question-modal-submit",
     className: "great-mvp-wizard-step-submit g-button",
     disabled: props.disabled
   })));
@@ -58058,7 +58402,8 @@ function Wizard(props) {
   }
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-modal"
+    className: "great-mvp-modal",
+    id: "dashboard-question-modal-lets-get-to-know-you"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "great-mvp-modal-title"
   }, "Let\u2019s get to know you"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
@@ -58377,6 +58722,7 @@ function Step2(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "submit",
     value: "Submit",
+    id: "signup-modal-submit-code",
     className: "great-mvp-wizard-step-submit g-button",
     disabled: props.disabled
   })));
@@ -58417,7 +58763,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function Step3(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-signup-wizard-step-3"
+    className: "great-mvp-signup-wizard-step-3",
+    id: "signup-modal-success"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-xl"
   }, "Complete"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -58434,6 +58781,7 @@ function Step3(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "submit",
     value: "Continue",
+    id: "signup-modal-submit-success",
     className: "great-mvp-wizard-step-submit g-button",
     disabled: props.disabled
   })));
@@ -58686,12 +59034,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function Base(props) {
-  var _useCookies = Object(react_cookie__WEBPACK_IMPORTED_MODULE_3__["useCookies"])(['disable_tour']),
+  var _useCookies = Object(react_cookie__WEBPACK_IMPORTED_MODULE_3__["useCookies"])([props.disableTourCookieName]),
       _useCookies2 = _slicedToArray(_useCookies, 2),
       cookies = _useCookies2[0],
       setCookie = _useCookies2[1];
 
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(cookies.disable_tour !== 'true'),
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(cookies[props.disableTourCookieName] !== 'true'),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       isOpenModal = _React$useState2[0],
       setIsOpenModal = _React$useState2[1];
@@ -58704,7 +59052,7 @@ function Base(props) {
   function handleSkipTour(error) {
     setIsOpenModal(false);
     setIsOpenTour(false);
-    setCookie('disable_tour', 'true');
+    setCookie(props.disableTourCookieName, 'true');
   }
 
   function handleStartTour(nextStep) {
@@ -58714,16 +59062,20 @@ function Base(props) {
 
   function handleTourClose() {
     setIsOpenTour(false);
-    setCookie('disable_tour', 'true');
+    setCookie(props.disableTourCookieName, 'true');
   }
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_cookie__WEBPACK_IMPORTED_MODULE_3__["CookiesProvider"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     handleSkip: handleSkipTour,
     handleStart: handleStartTour,
-    isOpen: isOpenModal
+    isOpen: isOpenModal,
+    buttonText: props.buttonText,
+    title: props.title,
+    body: props.body
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tour__WEBPACK_IMPORTED_MODULE_5__["default"], {
     isOpen: isOpenTour,
-    handleClose: handleTourClose
+    handleClose: handleTourClose,
+    steps: props.steps
   }));
 }
 Base.propTypes = {
@@ -58796,9 +59148,9 @@ function Modal(props) {
     className: "great-mvp-signup-wizard-step-1 p-s"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m"
-  }, "Welcome to your export plan"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Choose the best country, decide how to price and market your product or service, plan the financing you need, and plan for customs and regulations when you export."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, props.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, props.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "submit",
-    value: "Show me around",
+    value: props.buttonText,
     className: "great-mvp-tour-button p-v-xxs p-h-xs",
     onClick: function onClick(event) {
       event.preventDefault();
@@ -58836,11 +59188,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var reactour__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reactour */ "./node_modules/reactour/dist/reactour.esm.js");
+/* harmony import */ var _stylesheets_Tour_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stylesheets/Tour.scss */ "./react-components/src/views/Tour/stylesheets/Tour.scss");
+/* harmony import */ var _stylesheets_Tour_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Tour_scss__WEBPACK_IMPORTED_MODULE_3__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
- // import './stylesheets/Tour.scss'
+
+
 
 function Tour(props) {
+  var steps = props.steps.map(function (step) {
+    return _objectSpread({}, step, {
+      content: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "h-s p-v-0"
+      }, step.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, step.body))
+    });
+  });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactour__WEBPACK_IMPORTED_MODULE_2__["default"], {
     steps: steps,
     isOpen: props.isOpen,
@@ -58857,27 +59224,6 @@ function Tour(props) {
     rounded: 4
   });
 }
-var steps = [{
-  selector: '#exportplan-country-sector-customisation-bar p',
-  content: 'Welcome to your export plan',
-  position: 'bottom'
-}, {
-  selector: '#exportplan-completion-progress-indicator',
-  content: 'Track your progress',
-  position: 'top'
-}, {
-  selector: '#exportplan-continue-leaning-title',
-  content: 'Learn as you go',
-  position: 'top'
-}, {
-  selector: '#exportplan-collaboraton-menu',
-  content: 'Collaborate with your team',
-  position: 'bottom'
-}, {
-  selector: '.exportplan-section-item img',
-  content: "let's start",
-  position: 'bottom'
-}];
 
 /***/ }),
 

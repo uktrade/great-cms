@@ -12,8 +12,8 @@
 ## Development
 
 ### Installing
-    $ git clone https://github.com/uktrade/directory-cms
-    $ cd directory-cms
+    $ git clone https://github.com/uktrade/great-cms
+    $ cd great-cms
     $ [create and activate virtual environment]
     $ make install_requirements
     $ make ARGUMENTS=migrate manage
@@ -56,6 +56,9 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make css                      | Compile scss to css |
 | make secrets                  | Create your secret env var file |
 | make database                 | Drop and recrete the database |
+| make boostrap_great           | Create required database records so the CMS works |
+| make create_pages             | Create required Pages |
+| make create_tours             | Create required Page tours |
 
 ### Setting up the local database
 

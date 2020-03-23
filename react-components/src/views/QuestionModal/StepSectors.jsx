@@ -25,6 +25,7 @@ export default function StepSectors(props){
         <input
           type="submit"
           value="Continue"
+          id="dashboard-question-modal-submit"
           className="great-mvp-wizard-step-submit g-button"
           disabled={props.disabled}
         />

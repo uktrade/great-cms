@@ -7,7 +7,11 @@ clean:
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
-	pytest $(ARGUMENTS)
+	pytest tests/unit --cov=. --cov-config=.coveragerc --cov-report=html $(ARGUMENTS)
+
+pytest_browser:
+	ENV_FILES=$(ENV_FILES) \
+	pytest tests/browser $(ARGUMENTS)
 
 flake8:
 	flake8 . \
@@ -52,9 +56,6 @@ requirements:
 
 install_requirements:
 	pip install -q -r requirements_test.txt
-
-css:
-	./node_modules/.bin/gulp sass
 
 secrets:
 	cp config/env/secrets-template config/env/secrets-do-not-commit; \

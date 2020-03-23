@@ -7,11 +7,10 @@ allure-pytest
 pillow
 selenium
 locustio
-pytest
+pytest==5.3.5
 pytest-cov
 pytest-django
 pytest-sugar
-wagtail-factories
 django-debug-toolbar
 requests-mock
 pip-tools

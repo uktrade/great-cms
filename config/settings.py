@@ -26,6 +26,7 @@ APPEND_SLASH = True
 INSTALLED_APPS = [
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
+    'wagtail.contrib.modeladmin',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -36,6 +37,8 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
 
+    'wagtail_personalisation',
+    'wagtailfontawesome',
     'modelcluster',
     'taggit',
     'storages',
@@ -51,7 +54,7 @@ INSTALLED_APPS = [
     'django.forms',
 
     'sso',
-    'core',
+    'core.apps.CoreConfig',
     'domestic',
     'exportplan',
     'users.apps.UsersConfig',
@@ -169,7 +172,7 @@ DEFAULT_FILE_STORAGE = env.str(
     'storages.backends.s3boto3.S3Boto3Storage'
 )
 
-STATIC_ROOT = str(ROOT_DIR('static'))
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = str(ROOT_DIR('media'))
@@ -413,3 +416,9 @@ MADB_URL = env.str(
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
+
+if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
+    WAGTAIL_PERSONALISATION_IP_FUNCTION = 'config.settings.get_client_ip'
+
+    def get_client_ip(request):
+        return '51.6.68.120'

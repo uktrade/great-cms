@@ -6,25 +6,20 @@ import pytest
 
 from django.urls import reverse
 
-from exportplan import helpers
+from exportplan import data, helpers
 
 
-def test_export_plan_landing_page(client):
-    url = reverse('exportplan:index')
-    response = client.get(url)
+@pytest.mark.django_db
+def test_export_plan_landing_page(client, exportplan_homepage):
+    response = client.get('/export-plan/')
     assert response.status_code == 200
 
 
-def test_export_plan_builder_landing_page(client):
-    url = reverse('exportplan:landing-page')
-    response = client.get(url)
+@pytest.mark.django_db
+def test_export_plan_builder_landing_page(client, exportplan_dashboard):
+    response = client.get('/export-plan/dashboard/')
     assert response.status_code == 200
-
-
-def test_export_plan_about_your_business(client):
-    url = reverse('exportplan:about-your-business')
-    response = client.get(url)
-    assert response.status_code == 200
+    assert response.context['sections'] == data.SECTION_TITLES
 
 
 @pytest.mark.django_db
@@ -54,7 +49,7 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
     response = client.post(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('exportplan:index')
+    assert response.url == '/export-plan/'
     assert mock_helper_get_regs.call_count == 1
     assert mock_helper_get_regs.call_args == mock.call('India')
     assert mock_helpers_create_plan.call_count == 1
@@ -76,7 +71,7 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
 @mock.patch('core.helpers.store_user_location')
 def test_exportplan_view(
     mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata,
-        mock_lastyear_data, mock_historical_data, client, user
+    mock_lastyear_data, mock_historical_data, client, user,
 ):
     client.force_login(user)
     explan_plan_data = {'Country': 'Australia', 'Commodity code': '220.850'}
@@ -101,3 +96,9 @@ def test_exportplan_view(
     assert response.context['utz_offset'] == '+0800'
     assert response.context['lastyear_import_data'] == {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
     assert response.context['historical_import_data'] == {'historical_data_all': {'Year': 2019, 'value': 1234}}
+
+
+@pytest.mark.parametrize('url', data.SECTION_URLS)
+def test_exportplan_sections(url, client):
+    response = client.get(url)
+    assert response.status_code == 200

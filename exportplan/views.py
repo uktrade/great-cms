@@ -1,41 +1,55 @@
 from datetime import datetime
 import pytz
+import json
 
-from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
+
+from directory_constants.choices import INDUSTRIES
 
 from exportplan import data, forms, helpers
 
 
-class ExportPlanLandingPageView(TemplateView):
-    template_name = 'exportplan/landing_page.html'
-
-
 class BaseExportPlanView(TemplateView):
+
     def get_context_data(self, *args, **kwargs):
+        industries = [name for id, name in INDUSTRIES]
+
         return super().get_context_data(
             sections=data.SECTION_TITLES,
+            sectors=json.dumps(industries),
             *args, **kwargs)
 
 
-class ExportPlanBuilderLandingPageView(BaseExportPlanView):
-    template_name = 'exportplan/builder_landing_page.html'
+class ExportPlanSectionView(BaseExportPlanView):
 
+    @property
+    def slug(self, **kwargs):
+        return self.kwargs['slug']
 
-class ExportPlanBuilderSectionView(BaseExportPlanView):
-    template_name = 'exportplan/builder_section.html'
+    def get_template_names(self, **kwargs):
+        return [f'exportplan/sections/{self.slug}.html']
+
+    @property
+    def next_section(self):
+        if self.slug == data.SECTION_SLUGS[-1]:
+            return None
+
+        index = data.SECTION_SLUGS.index(self.slug)
+        return {
+            'title': data.SECTION_TITLES[index + 1],
+            'url': data.SECTION_URLS[index + 1],
+        }
 
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            title=data.SECTION_TITLES[0],
-            *args, **kwargs
-        )
+            next_section=self.next_section,
+            *args, **kwargs)
 
 
 class ExportPlanStartView(FormView):
     template_name = 'exportplan/start.html'
     form_class = forms.ExportPlanFormStart
-    success_url = reverse_lazy('exportplan:index')
+    success_url = '/export-plan/'
 
     def get_initial(self):
         return {
