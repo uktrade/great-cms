@@ -48,3 +48,25 @@ def test_match_country_of_interest(rf, user, mock_get_company_profile):
     request = rf.get('/')
     request.user = user
     assert rule.test_user(request=request) is True
+
+
+@pytest.mark.django_db
+def test_match_industry_of_interest(rf, user):
+    rule = factories.MatchFirstIndustryOfInterestFactory(industry='SL10002')
+
+    request = rf.get('/')
+    request.user = user
+
+    assert rule.test_user(request=request) is False
+
+
+@pytest.mark.django_db
+def test_not_match_industry_of_interest(rf, user, mock_get_company_profile):
+    mock_get_company_profile.return_value = {'expertise_industries': ['SL10002']}
+
+    rule = factories.MatchFirstIndustryOfInterestFactory(industry='SL10002')
+
+    request = rf.get('/')
+    request.user = user
+
+    assert rule.test_user(request=request) is True

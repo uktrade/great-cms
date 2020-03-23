@@ -30,7 +30,7 @@ def test_export_plan_about_your_business(
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 
-    browser.get(live_server.url + '/export-plan/target-markets/')
+    browser.get(live_server.url + '/export-plan/section/target-markets/')
     should_see_all_elements(browser, HeaderCommon)
     should_see_all_elements(browser, HeaderSignedIn)
     should_see_all_elements(browser, StickyHeader)

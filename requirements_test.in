@@ -29,4 +29,4 @@ flake8-quotes
 flake8-string-format
 pep8-naming
 pylint-django
-codecov
+coveralls
