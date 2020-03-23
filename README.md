@@ -176,8 +176,8 @@ https://github.com/uktrade?q=great
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-cms/tree/develop.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/great-cms/tree/develop
 
-[coverage-image]: https://codecov.io/gh/uktrade/great-cms/branch/develop/graph/badge.svg
-[coverage]: https://codecov.io/gh/uktrade/great-cms
+[coverage-image]: https://coveralls.io/repos/github/uktrade/great-cms/badge.svg
+[coverage]: https://coveralls.io/github/uktrade/great-cms
 
 [gitflow-image]: https://img.shields.io/badge/Branching%20strategy-gitflow-5FBB1C.svg
 [gitflow]: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow

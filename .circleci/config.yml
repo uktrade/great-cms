@@ -30,7 +30,7 @@ jobs:
             --junit-xml=./results/pytest_unit_report.xml \
             --alluredir=./allure_results/ \
             --ignore='./venv/'
-            codecov
+            coveralls
       - store_test_results:
           path: ./results/
 
@@ -77,7 +77,6 @@ jobs:
             --junit-xml=./results/pytest_browser_report.xml \
             --alluredir=./allure_results/ \
             --ignore='./venv/'
-            codecov
       - store_test_results:
           path: ./results/
       - run:
