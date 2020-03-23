@@ -104,6 +104,7 @@ Temporary Items
 # JS
 node_modules/
 package-lock.json
+.vscode/
 
 # Docker
 media
