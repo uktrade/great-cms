@@ -74,7 +74,7 @@ def get_dashboard_events(sso_session_id):
 
 
 def get_dashboard_export_opportunities(sso_session_id, company):
-    sectors = company and company.expertise_industries_labels
+    sectors = company.expertise_industries_labels if company else []
     search_term = ' '.join(sectors)
     results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id, search_term)
     if (results.status_code == 200):
