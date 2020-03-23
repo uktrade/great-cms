@@ -18,7 +18,7 @@ class DashboardView(TemplateView):
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
             events=helpers.get_dashboard_events(session_id),
-            export_opportunities=helpers.get_dashboard_export_opportunities(self.request.user.company, session_id),
+            export_opportunities=helpers.get_dashboard_export_opportunities(session_id, self.request.user.company),
             **kwargs,
         )
 
