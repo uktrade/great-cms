@@ -5,11 +5,9 @@
     </div>
     <ul>
       {% for section in sections %}
-        {% if section == 'Target markets' %}
-        <li class="h-s"><a href="{% url 'exportplan:target-markets' %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
-        {% else %}
-        <li class="h-s"><a href="#" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a></li>
-        {% endif %}
+        <li class="h-s">
+          <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a>
+        </li>
       {% endfor %}
     </ul>
   </div>
