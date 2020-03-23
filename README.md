@@ -12,8 +12,8 @@
 ## Development
 
 ### Installing
-    $ git clone https://github.com/uktrade/directory-cms
-    $ cd directory-cms
+    $ git clone https://github.com/uktrade/great-cms
+    $ cd great-cms
     $ [create and activate virtual environment]
     $ make install_requirements
     $ make ARGUMENTS=migrate manage
