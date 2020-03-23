@@ -1,3 +1,6 @@
+from django.utils.text import slugify
+from django.urls import reverse_lazy
+
 
 SECTION_TITLES = [
     'About your business',
@@ -12,3 +15,7 @@ SECTION_TITLES = [
     'Business risk',
     'Action plan',
 ]
+
+SECTION_SLUGS = [slugify(section) for section in SECTION_TITLES]
+
+SECTION_URLS = [reverse_lazy('exportplan:section', kwargs={'slug': slug}) for slug in SECTION_SLUGS]
