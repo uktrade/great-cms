@@ -110,7 +110,6 @@ def test_exportplan_sections(url, client, user):
 
 @pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
-@mock.patch.object(helpers, 'get_comtrade_historicalimportdata')
 @mock.patch.object(helpers, 'get_comtrade_lastyearimportdata')
 @mock.patch.object(helpers, 'get_exportplan_marketdata')
 @mock.patch.object(helpers, 'get_exportplan_rules_regulations')
@@ -124,7 +123,6 @@ def test_exportplan_target_margets(
     mock_get_export_plan_rules_regs.return_value = explan_plan_data
     mock_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', 'CPI': 10}
     mock_lastyear_data.return_value = {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
-    mock_historical_data.return_value = {'historical_data_all': {'Year': 2019, 'value': 1234}}
 
     response = client.get(reverse('exportplan:section', kwargs={'slug': 'target-markets'}))
 
@@ -133,12 +131,9 @@ def test_exportplan_target_margets(
 
     assert mock_lastyear_data.call_count == 1
     assert mock_lastyear_data.call_args == mock.call(country='Australia', commodity_code='220.850')
-    assert mock_historical_data.call_count == 1
-    assert mock_historical_data.call_args == mock.call(country='Australia', commodity_code='220.850')
 
     assert response.context['rules_regulation'] == explan_plan_data
     assert response.context['export_marketdata'] == {'timezone': 'Asia/Shanghai', 'CPI': 10}
     assert response.context['datenow'] == datetime.now()
     assert response.context['utz_offset'] == '+0800'
     assert response.context['lastyear_import_data'] == {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
-    assert response.context['historical_import_data'] == {'historical_data_all': {'Year': 2019, 'value': 1234}}
