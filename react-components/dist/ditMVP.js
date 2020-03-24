@@ -56821,12 +56821,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_SignupModal_Modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/views/SignupModal/Modal */ "./react-components/src/views/SignupModal/Modal.jsx");
 /* harmony import */ var _src_views_QuestionModal_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/QuestionModal/Modal */ "./react-components/src/views/QuestionModal/Modal.jsx");
 /* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
-/* harmony import */ var _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/Tour/Base */ "./react-components/src/views/Tour/Base.jsx");
-/* harmony import */ var _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/SectorChooser */ "./react-components/src/components/SectorChooser.jsx");
-/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _src_components_Learn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Learn */ "./react-components/src/components/Learn.jsx");
+/* harmony import */ var _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/Tour/Base */ "./react-components/src/views/Tour/Base.jsx");
+/* harmony import */ var _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/SectorChooser */ "./react-components/src/components/SectorChooser.jsx");
+/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -56837,14 +56839,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].setConfig,
-  SignupModal: _src_views_SignupModal_Modal__WEBPACK_IMPORTED_MODULE_1__["default"],
+  createSectorChooser: _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_6__["createSectorChooser"],
+  Learn: _src_components_Learn__WEBPACK_IMPORTED_MODULE_4__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_3__["default"],
-  Tour: _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_4__["default"],
-  createSectorChooser: _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_5__["createSectorChooser"],
   QuestionModal: _src_views_QuestionModal_Modal__WEBPACK_IMPORTED_MODULE_2__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__["STEP_VERIFICATION_CODE"]
+  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_8__["default"].setConfig,
+  SignupModal: _src_views_SignupModal_Modal__WEBPACK_IMPORTED_MODULE_1__["default"],
+  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_7__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_7__["STEP_VERIFICATION_CODE"],
+  Tour: _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
 
 /***/ }),
@@ -56922,6 +56925,42 @@ AutoCompleteField.defaultProps = {
   disabled: false,
   errors: []
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/ButtonAsLink.jsx":
+/*!**********************************************************!*\
+  !*** ./react-components/src/components/ButtonAsLink.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _stylesheets_ButtonAsLink_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stylesheets/ButtonAsLink.scss */ "./react-components/src/components/stylesheets/ButtonAsLink.scss");
+/* harmony import */ var _stylesheets_ButtonAsLink_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_ButtonAsLink_scss__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+var ButtonAsLink = function ButtonAsLink(_ref) {
+  var children = _ref.children,
+      location = _ref.location;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "buttonAsLink",
+    href: location
+  }, children);
+};
+
+ButtonAsLink.propTypes = {
+  children: prop_types__WEBPACK_IMPORTED_MODULE_1__["node"].isRequired,
+  location: prop_types__WEBPACK_IMPORTED_MODULE_1__["string"].isRequired
+};
+/* harmony default export */ __webpack_exports__["default"] = (ButtonAsLink);
 
 /***/ }),
 
@@ -57034,6 +57073,45 @@ Field.defaultProps = {
   disabled: false,
   errors: []
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/Learn.jsx":
+/*!***************************************************!*\
+  !*** ./react-components/src/components/Learn.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ButtonAsLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ButtonAsLink */ "./react-components/src/components/ButtonAsLink.jsx");
+/* harmony import */ var _stylesheets_Learn_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stylesheets/Learn.scss */ "./react-components/src/components/stylesheets/Learn.scss");
+/* harmony import */ var _stylesheets_Learn_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Learn_scss__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+var Learn = function Learn() {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "learn-wrapper"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "h1"
+  }, "Start exporting today"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "paragraph"
+  }, "Start your exporting journey today, and in no time, you\u2019ll have your realistic business plan for selling overseas."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ButtonAsLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    location: "/learn/learn-to-export-step-1"
+  }, "Learn how to export"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  return react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Learn, null), document.getElementById('learn-root'));
+});
 
 /***/ }),
 
@@ -57458,6 +57536,17 @@ function StepProgressBar(props) {
 
 /***/ }),
 
+/***/ "./react-components/src/components/stylesheets/ButtonAsLink.scss":
+/*!***********************************************************************!*\
+  !*** ./react-components/src/components/stylesheets/ButtonAsLink.scss ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./react-components/src/components/stylesheets/ErrorList.scss":
 /*!********************************************************************!*\
   !*** ./react-components/src/components/stylesheets/ErrorList.scss ***!
@@ -57472,6 +57561,17 @@ function StepProgressBar(props) {
 /***/ "./react-components/src/components/stylesheets/Field.scss":
 /*!****************************************************************!*\
   !*** ./react-components/src/components/stylesheets/Field.scss ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/components/stylesheets/Learn.scss":
+/*!****************************************************************!*\
+  !*** ./react-components/src/components/stylesheets/Learn.scss ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {

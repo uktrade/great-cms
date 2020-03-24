@@ -1,9 +1,11 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-  <section>
-    <div class="container">
-      Go to <a href="{% url 'learn:index' %}">landing page</a>.
-    </div>
-  </section>
+    <section id="learn-root"></section>
+
+    {% block body_js %}
+        <script type="text/javascript">
+            ditMVP.Learn()
+        </script>
+    {% endblock %}
 {% endblock %}

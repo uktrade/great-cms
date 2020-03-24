@@ -28,6 +28,10 @@ html,body,div,span,object,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,addr
 
 .great-mvp-close{width:100%;fontSize:19px;display:inline-block;text-align:right}
 
+.buttonAsLink{background-color:#333;color:#fff;display:inline-block;font-size:16px;font-weight:bold;height:40px;padding:8px 24px;text-decoration:none;white-space:nowrap}.buttonAsLink:hover{background-color:#262626;color:#fff}
+
+.learn-root{background:#e7e7e7}.learn-wrapper{margin:0 auto;max-width:1248px;min-height:600px;min-width:320px;padding:90px 24px}.h1{color:#333;font-size:48px;font-weight:bold;line-height:50px;margin-bottom:50px}.paragraph{font-size:20px;line-height:30px;margin-bottom:50px;max-width:670px}
+
 .great-mvp-tour-button{font-size:19px;color:#fff;font-size:16px;font-weight:bold;line-height:19px;text-align:center;border-radius:4px;background-color:#606060;border:none;cursor:pointer}
 
 
