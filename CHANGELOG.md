@@ -41,3 +41,4 @@
 - MVP-297 - Add dummy export opportunies
 - MVP-259 - Content segmentation (wagxperience)
 - MVP-333 - Content segmentation on country of interest
+- MVP-356 - marketdata target-markets

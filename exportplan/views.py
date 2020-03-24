@@ -3,18 +3,45 @@ import pytz
 import json
 
 from django.views.generic import TemplateView, FormView
+from django.urls import reverse
 
 from directory_constants.choices import INDUSTRIES
 
 from exportplan import data, forms, helpers
 
 
-class BaseExportPlanView(TemplateView):
+class ExportPlanDataMixin:
+    def get_context_data(self, *args, **kwargs):
+        if self.request.path == reverse('exportplan:section', kwargs={'slug': 'target-markets'}):
+            rules_regulation = helpers.get_exportplan_rules_regulations(
+                sso_session_id=self.request.user.session_id)
+            export_marketdata = helpers.get_exportplan_marketdata(
+                rules_regulation.get('Country code'))
+            utz_offset = datetime.now(
+                pytz.timezone(export_marketdata['timezone'])).strftime('%z')
+            commodity_code = rules_regulation.get('Commodity code')
+            country = rules_regulation.get('Country')
+
+            lastyear_import_data = helpers.get_comtrade_lastyearimportdata(
+                commodity_code=commodity_code, country=country
+            )
+            return super().get_context_data(
+                rules_regulation=rules_regulation,
+                export_marketdata=export_marketdata,
+                datenow=datetime.now(),
+                utz_offset=utz_offset,
+                lastyear_import_data=lastyear_import_data,
+                *args, **kwargs)
+        return super().get_context_data(*args, **kwargs)
+
+
+class BaseExportPlanView(ExportPlanDataMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         industries = [name for id, name in INDUSTRIES]
 
         return super().get_context_data(
+            next_section=self.next_section,
             sections=data.SECTION_TITLES,
             sectors=json.dumps(industries),
             *args, **kwargs)
@@ -39,11 +66,6 @@ class ExportPlanSectionView(BaseExportPlanView):
             'title': data.SECTION_TITLES[index + 1],
             'url': data.SECTION_URLS[index + 1],
         }
-
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            next_section=self.next_section,
-            *args, **kwargs)
 
 
 class ExportPlanStartView(FormView):
