@@ -13,25 +13,24 @@ from exportplan import data, forms, helpers
 class ExportPlanDataMixin:
     def get_context_data(self, *args, **kwargs):
         if self.request.path == reverse('exportplan:section', kwargs={'slug': 'target-markets'}):
-            rules_regulation = helpers.get_exportplan_rules_regulations(
-                sso_session_id=self.request.user.session_id)
-            export_marketdata = helpers.get_exportplan_marketdata(
-                rules_regulation.get('Country code'))
-            utz_offset = datetime.now(
-                pytz.timezone(export_marketdata['timezone'])).strftime('%z')
-            commodity_code = rules_regulation.get('Commodity code')
-            country = rules_regulation.get('Country')
+            rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
+            if rules_regulation:
+                export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
+                utz_offset = datetime.now(
+                    pytz.timezone(export_marketdata['timezone'])).strftime('%z')
+                commodity_code = rules_regulation.get('commodity_code')
+                country = rules_regulation.get('country')
 
-            lastyear_import_data = helpers.get_comtrade_lastyearimportdata(
-                commodity_code=commodity_code, country=country
-            )
-            return super().get_context_data(
-                rules_regulation=rules_regulation,
-                export_marketdata=export_marketdata,
-                datenow=datetime.now(),
-                utz_offset=utz_offset,
-                lastyear_import_data=lastyear_import_data,
-                *args, **kwargs)
+                lastyear_import_data = helpers.get_comtrade_lastyearimportdata(
+                    commodity_code=commodity_code, country=country
+                )
+                return super().get_context_data(
+                    rules_regulation=rules_regulation,
+                    export_marketdata=export_marketdata,
+                    datenow=datetime.now(),
+                    utz_offset=utz_offset,
+                    lastyear_import_data=lastyear_import_data,
+                    *args, **kwargs)
         return super().get_context_data(*args, **kwargs)
 
 
@@ -76,7 +75,7 @@ class ExportPlanStartView(FormView):
     def get_initial(self):
         return {
             'country': self.request.GET.get('country'),
-            'commodity': self.request.GET.get('commodity code'),
+            'commodity': self.request.GET.get('commodity_code'),
         }
 
     def get_context_data(self, **kwargs):
@@ -95,8 +94,8 @@ class ExportPlanStartView(FormView):
 
     def serialize_exportplan_data(self, exportplan_data):
         return {
-            'export_countries': [exportplan_data['Country']],
-            'export_commodity_codes': [exportplan_data['Commodity code']],
+            'export_countries': [exportplan_data['country']],
+            'export_commodity_codes': [exportplan_data['commodity_code']],
             'rules_regulations': exportplan_data,
         }
 
@@ -107,10 +106,10 @@ class ExportPlanCreateView(TemplateView):
     def get_context_data(self, **kwargs):
 
         rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
-        export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('Country code'))
+        export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
         utz_offset = datetime.now(pytz.timezone(export_marketdata['timezone'])).strftime('%z')
-        commodity_code = rules_regulation.get('Commodity code')
-        country = rules_regulation.get('Country')
+        commodity_code = rules_regulation.get('commodity_code')
+        country = rules_regulation.get('country')
 
         lastyear_import_data = helpers.get_comtrade_lastyearimportdata(commodity_code=commodity_code, country=country)
         historical_import_data = helpers.get_comtrade_historicalimportdata(

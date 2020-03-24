@@ -31,53 +31,52 @@
 </section>
 
 <hr>
-
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-      <div class="c-3-4">
-        {% if export_marketdata %}
-          <span><h2>{{ export_marketdata.corruption_perceptions_index.country_name }}<br> <a>Remove</a></h2><br></span>
+{% if export_marketdata %}
+  {% load humanize %}
+  <section class="container">
+      <div class="c-1-1">
+          <h2>{{ export_marketdata.corruption_perceptions_index.country_name }}</h2>> <a>Remove</a>
+      </div>
+      <div class="flex-grid m-b-s">
+        <div class="c-1-4"></div>
+        <div class="c-1-4">
           Ease of doing business rank <br>
-          <b>{{ export_marketdata.easeofdoingbusiness.year_2019 }}</b><br>
-            Out of {{ export_marketdata.easeofdoingbusiness.total }} <br>
-          <div class="c-3-4">
-          Corruption Perception Index <br>
-            <b>{{ export_marketdata.corruption_perceptions_index.cpi_score_2019 }}</b> <br>
+          <b>{{ export_marketdata.easeofdoingbusiness.year_2019 }}</b>
+          Out of {{ export_marketdata.easeofdoingbusiness.total }}
         </div>
-            <div class="c-3-4">
-              Local time <br>
+        <div class="c-1-4">
+          Corruption Perception Index <br>
+          <b>{{ export_marketdata.corruption_perceptions_index.cpi_score_2019 }}</b>
+        </div>
+        <div class="c-1-4">
+          Local time
           {% load tz %}
-              <b>{{ datenow|timezone:export_marketdata.timezone|date:'H:i' }}</b> <br>
+          <b>{{ datenow|timezone:export_marketdata.timezone|date:'H:i' }}</b>
           GMT {{  utz_offset }} {{ export_marketdata.timezone }}
         </div>
-        <div class="c-3-4">
-             Duty
+     </div>
+     <div class="flex-grid m-b-s">
+       <div class="c-1-4"></div>
+        <div class="c-1-4">
+          Duty <br>
+          <b>{{ rules_regulation.export_duty }}</b>
         </div>
-          <div class="c-3-4">
-          {% if lastyear_import_data %}
-              Import Value: {{ lastyear_import_data.last_year_data.import_value.trade_value }} <br>
-              Source: Comtrade
-          {% endif %}
-        </div>
-               <div class="c-3-4">
-            {% if lastyear_import_data %}
-                Year to year change <br>
-                 <b>{{ lastyear_import_data.last_year_data.import_value.year_on_year_change }}</b> <br>
-            {% endif %}
+       <div class="c-1-4">
+         {% if lastyear_import_data %}
+             <b>{{ rules_regulation.commodity_name }}</b> Import Value in 2018 <br>
+         <b>{{ lastyear_import_data.last_year_data.import_value.trade_value|intcomma }} USD</b>
+             Source: Comtrade
          {% endif %}
-      </div>
-
-            </div>
-    <div>
-        <br>
-        <br>
-
-    </div>
-      </div>
-  </div>
-</section>
-
+       </div>
+       <div class="c-1-4">
+        {% if lastyear_import_data %}
+            Year-to-year change <br>
+            <b>{{ lastyear_import_data.last_year_data.import_value.year_on_year_change }}</b> <br>
+        {% endif %}
+       </div>
+     </div>
+  </section>
+{% endif %}
 <section class="container">
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
