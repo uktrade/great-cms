@@ -1,3 +1,5 @@
+from directory_constants import choices
+
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail_personalisation.rules import AbstractBaseRule
 
@@ -66,16 +68,41 @@ class MatchFirstCountryOfInterestRule(AbstractBaseRule):
         verbose_name = 'Match first country of interest rule'
 
     def test_user(self, request=None):
-        has_country_expertise = (
-            request.user.is_authenticated and request.user.company and request.user.company.expertise_countries_labels
-        )
-        if has_country_expertise:
-            return request.user.company.expertise_countries_labels[0] == self.country.name
+        user = request.user
+        if user.is_authenticated and user.company and user.company.expertise_countries_labels:
+            return user.company.expertise_countries_labels[0] == self.country.name
         return False
 
     def description(self):
         return {
             'title': 'Match this country with chosen country of interest',
             'value': f'{self.country.name}',
+            'code': True
+        }
+
+
+class MatchFirstIndustryOfInterestRule(AbstractBaseRule):
+    """Match with first industry in user's list of selected countries of interest"""
+    icon = 'fa-user'
+
+    industry = models.TextField(choices=choices.SECTORS)
+
+    panels = [
+        FieldPanel('industry'),
+    ]
+
+    class Meta:
+        verbose_name = 'Match first industry of interest rule'
+
+    def test_user(self, request=None):
+        user = request.user
+        if user.is_authenticated and user.company and user.company.data['expertise_industries']:
+            return user.company.data['expertise_industries'][0] == self.industry
+        return False
+
+    def description(self):
+        return {
+            'title': 'Match this country with chosen country of interest',
+            'value': f'{self.industry}',
             'code': True
         }

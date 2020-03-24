@@ -42,3 +42,4 @@
 - MVP-259 - Content segmentation (wagxperience)
 - MVP-333 - Content segmentation on country of interest
 - MVP-215 - Track lesson read progress
+- MVP-332 - Content segmentation on sector of interest
