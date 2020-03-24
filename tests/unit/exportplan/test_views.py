@@ -116,7 +116,7 @@ def test_exportplan_sections(url, client, user):
 @mock.patch('core.helpers.store_user_location')
 def test_exportplan_target_margets(
     mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata,
-    mock_lastyear_data, mock_historical_data, client, user,
+    mock_lastyear_data, client, user,
 ):
     client.force_login(user)
     explan_plan_data = {'country': 'Australia', 'commodity_code': '220.850'}

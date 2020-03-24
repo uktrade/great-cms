@@ -63,7 +63,8 @@
         </div>
        <div class="c-1-4">
          {% if lastyear_import_data %}
-             <b>{{ rules_regulation.commodity_name }}</b> Import Value in 2018 <br>
+             <b>{{ rules_regulation.commodity_name }}</b>
+             Import Value in {{ lastyear_import_data.last_year_data.import_value.year}} <br>
          <b>{{ lastyear_import_data.last_year_data.import_value.trade_value|intcomma }} USD</b>
              Source: Comtrade
          {% endif %}
