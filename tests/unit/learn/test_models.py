@@ -45,3 +45,14 @@ def test_lesson_page_can_mark_as_read(client, domestic_homepage, user, domestic_
     # and the progress is retrieved
     response = client.get(lesson.url)
     assert response.context_data['is_read'] is True
+
+
+@pytest.mark.django_db
+def test_topic_view(client, domestic_homepage, user, domestic_site):
+    # given the user has not read a lesson
+    client.force_login(user)
+    topic = factories.TopicPageFactory(parent=domestic_homepage)
+    factories.LessonPageFactory(parent=topic)
+
+    response = client.get(topic.url)
+    assert response.status_code == 200

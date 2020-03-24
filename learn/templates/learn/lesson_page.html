@@ -17,7 +17,7 @@
                     {% endfor %}
                 </div>
             </div>
-            {% if request.user.is_anonymous and not is_read %}
+            {% if not request.user.is_anonymous and not is_read %}
                 <form method="post" action="{% routablepageurl page 'mark-as-read' %}">
                     {% csrf_token %}
                     <button class="g-button">Mark as read</button>

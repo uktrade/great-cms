@@ -21,6 +21,7 @@ class LessonPageFactory(wagtail_factories.PageFactory):
     title = 'some lesson'
     live = True
     slug = 'some-lesson'
+    generic_content = factory.fuzzy.FuzzyText(length=200)
 
     class Meta:
         model = models.LessonPage
