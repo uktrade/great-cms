@@ -18,9 +18,9 @@
                 </div>
             </div>
             {% if not request.user.is_anonymous and not is_read %}
-                <form method="post" action="{% routablepageurl page 'mark-as-read' %}">
+                <form method="post" action="{% routablepageurl page 'mark-as-read' %}" id="form-mark-as-read">
                     {% csrf_token %}
-                    <button class="g-button">Mark as read</button>
+                    <button class="g-button" id="mark-as-read">Mark as read</button>
                 </form>
             {% endif %}
         </div>

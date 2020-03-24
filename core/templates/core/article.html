@@ -5,9 +5,9 @@
     <div id="great-hero" class="container p-s">
         <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
         {% breadcrumbs article_name %}
-          <a href="{% url 'core:dashboard' %}">Home</a>
-          <a href="http://www.example.com">{{ topic_name }}</a>
-          <a href="http://www.example.com">{{ chapter_name }}</a>
+          <a href="{% url 'core:dashboard' %}" id="breadcrumbs-dashboard">Home</a>
+          <a href="http://www.example.com" id="breadcrumbs-{{ topic_name|slugify }}">{{ topic_name }}</a>
+          <a href="http://www.example.com" id="breadcrumbs-{{ chapter_name|slugify }}">{{ chapter_name }}</a>
         {% endbreadcrumbs %}
     </div>
 
@@ -15,11 +15,11 @@
         <div class="grid m-b-s">
             <div class="c-full">
                 {% if not is_read %}
-                    <form class="bg-white p-s great-mvp-success-card" method="post">
+                    <form class="bg-white p-s great-mvp-success-card" method="post" id="form-mark-as-read">
                         {% csrf_token %}
                         <h3 class="h-l pb-xxs w-1-2">{{ article_name|title }}</h3>
                         <p class="m-b-0 ">{% lorem 5 p %}</p>
-                        <button class="g-button">Mark as read</button>
+                        <button class="g-button" id="mark-as-read">Mark as read</button>
                     </form>
                 {% endif %}
             </div>

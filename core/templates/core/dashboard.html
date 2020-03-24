@@ -38,9 +38,9 @@
 
                     {% for topic in topics %}
                         <div class="grid m-b-s m-v-0">
-                            <h3 class="c-5-12 h-s p-v-0"><a href="{{ topic.url }}">{{ topic.title }}</a></h3>
-                            <div class="c-5-12"><progress value="{{ topic.read_count }}" max="{{ topic.numchild }}"></progress></div>
-                            <div class="c-2-12 great-mvp-right-text">{{ topic.read_progress|default:0 }} %</div>
+                            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ topic.title|slugify }}">{{ topic.title }}</h3>
+                            <div class="c-5-12"><progress id="topics-read-count-{{ topic.title|slugify }}" value="{{ topic.read_count }}" max="{{ topic.numchild }}"></progress></div>
+                            <div class="c-2-12 great-mvp-right-text" id="topics-read-progress-{{ topic.title|slugify }}">{{ topic.read_progress|default:0 }}%</div>
                         </div>
                         <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
                     {% endfor %}
