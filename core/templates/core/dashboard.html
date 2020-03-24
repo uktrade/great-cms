@@ -36,33 +36,14 @@
                 <div class="bg-white p-xs great-dashboard-card your-progress-card" id="your-progress-card">
                     <h3 class="c-full card-heading text-16 m-b-xs">Your progress</h3>
 
-                    <div class="grid m-b-s m-v-0">
-                        <h3 class="c-5-12 h-s p-v-0">Finding export opportunities</h3>
-                        <div class="c-5-12"><progress value="30" max="100"></progress></div>
-                        <div class="c-2-12 great-mvp-right-text">30%</div>
-                    </div>
-                    <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-
-                    <div class="grid m-b-s m-v-0">
-                        <h3 class="c-5-12 h-s p-v-0">Moving goods, people or non-physical assets across borders</h3>
-                        <div class="c-5-12"><progress value="0" max="100"></progress></div>
-                        <div class="c-2-12 great-mvp-right-text">0%</div>
-                    </div>
-                    <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-
-                    <div class="grid m-b-s m-v-0">
-                        <h3 class="c-5-12 h-s p-v-0">Funding and finances</h3>
-                        <div class="c-5-12"><progress value="50" max="100"></progress></div>
-                        <div class="c-2-12 great-mvp-right-text">50%</div>
-                    </div>
-                    <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-
-                    <div class="grid m-b-s m-v-0">
-                        <h3 class="c-5-12 h-s p-v-0">Planning and winning</h3>
-                        <div class="c-5-12"><progress value="0" max="100"></progress></div>
-                        <div class="c-2-12 great-mvp-right-text">0%</div>
-                    </div>
-
+                    {% for topic in topics %}
+                        <div class="grid m-b-s m-v-0">
+                            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ topic.title|slugify }}">{{ topic.title }}</h3>
+                            <div class="c-5-12"><progress id="topics-read-count-{{ topic.title|slugify }}" value="{{ topic.read_count }}" max="{{ topic.numchild }}"></progress></div>
+                            <div class="c-2-12 great-mvp-right-text" id="topics-read-progress-{{ topic.title|slugify }}">{{ topic.read_progress|default:0 }}%</div>
+                        </div>
+                        <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
+                    {% endfor %}
                 </div>
             </div>
 
