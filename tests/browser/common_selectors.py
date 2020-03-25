@@ -163,6 +163,43 @@ class ExportPlanDashboard(SelectorsEnum):
     ACTION_PLAN = Selector(By.ID, 'action-plan', ElementType.LINK)
 
 
+class ExportPlanDashboardPageTourStep0(SelectorsEnum):
+    MODAL = Selector(By.ID, 'page-tour-modal-step-1')
+    NEXT = Selector(By.ID, 'page-tour-submit', ElementType.LINK)
+    SKIP = Selector(By.ID, 'page-tour-skip', ElementType.LINK)
+    HIGHLIGHTED_ELEMENT = None
+
+
+class ExportPlanDashboardPageTourStep1(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-where-do-you-want-to-export')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep2(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-track-your-progress')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-completion-progress-indicator')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep3(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-learn-as-you-go')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-continue-leaning-title')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep4(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-collaborate-with-your-team-and-international-trade-advisers')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-collaboraton-menu')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep5(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-lets-start')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
+    NEXT = Selector(By.ID, 'page-tour-start-now', ElementType.LINK)
+
+
 class ExportPlanTargetMarkets(SelectorsEnum):
     SIDEBAR = Selector(By.ID, 'sidebar-content')
     ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', ElementType.LINK)
