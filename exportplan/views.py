@@ -3,38 +3,13 @@ import pytz
 import json
 
 from django.views.generic import TemplateView, FormView
-from django.urls import reverse
 
 from directory_constants.choices import INDUSTRIES
 
 from exportplan import data, forms, helpers
 
 
-class ExportPlanDataMixin:
-    def get_context_data(self, *args, **kwargs):
-        if self.request.path == reverse('exportplan:section', kwargs={'slug': 'target-markets'}):
-            rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
-            if rules_regulation:
-                export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
-                utz_offset = datetime.now(
-                    pytz.timezone(export_marketdata['timezone'])).strftime('%z')
-                commodity_code = rules_regulation.get('commodity_code')
-                country = rules_regulation.get('country')
-
-                lastyear_import_data = helpers.get_comtrade_lastyearimportdata(
-                    commodity_code=commodity_code, country=country
-                )
-                return super().get_context_data(
-                    rules_regulation=rules_regulation,
-                    export_marketdata=export_marketdata,
-                    datenow=datetime.now(),
-                    utz_offset=utz_offset,
-                    lastyear_import_data=lastyear_import_data,
-                    *args, **kwargs)
-        return super().get_context_data(*args, **kwargs)
-
-
-class BaseExportPlanView(ExportPlanDataMixin, TemplateView):
+class BaseExportPlanView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         industries = [name for id, name in INDUSTRIES]
@@ -65,6 +40,40 @@ class ExportPlanSectionView(BaseExportPlanView):
             'title': data.SECTION_TITLES[index + 1],
             'url': data.SECTION_URLS[index + 1],
         }
+
+
+class ExportPlanTargetMargetsView(BaseExportPlanView):
+
+    template_name = 'exportplan/sections/target-markets.html'
+
+    @property
+    def next_section(self):
+        index = data.SECTION_SLUGS.index('target-markets')
+        return {
+            'title': data.SECTION_TITLES[index + 1],
+            'url': data.SECTION_URLS[index + 1],
+        }
+
+    def get_context_data(self, *args, **kwargs):
+        rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
+        if rules_regulation:
+            export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
+            utz_offset = datetime.now(
+                pytz.timezone(export_marketdata['timezone'])).strftime('%z')
+            commodity_code = rules_regulation.get('commodity_code')
+            country = rules_regulation.get('country')
+
+            lastyear_import_data = helpers.get_comtrade_lastyearimportdata(
+                commodity_code=commodity_code, country=country
+            )
+            return super().get_context_data(
+                rules_regulation=rules_regulation,
+                export_marketdata=export_marketdata,
+                datenow=datetime.now(),
+                utz_offset=utz_offset,
+                lastyear_import_data=lastyear_import_data,
+                *args, **kwargs)
+        return super().get_context_data(*args, **kwargs)
 
 
 class ExportPlanStartView(FormView):

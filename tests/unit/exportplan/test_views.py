@@ -124,7 +124,7 @@ def test_exportplan_target_margets(
     mock_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', 'CPI': 10}
     mock_lastyear_data.return_value = {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
 
-    response = client.get(reverse('exportplan:section', kwargs={'slug': 'target-markets'}))
+    response = client.get(reverse('exportplan:target-markets'))
 
     assert mock_get_export_plan_rules_regs.call_count == 1
     assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
