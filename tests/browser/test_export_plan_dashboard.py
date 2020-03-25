@@ -83,7 +83,7 @@ def test_export_plan_dashboard_with_page_tour(
     mock_create_company_profile.return_value = create_response()
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
-    
+
     data = [
         {
             'export_countries': ['UK'],
