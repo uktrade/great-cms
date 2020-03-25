@@ -2,6 +2,9 @@
 
 ## Pre-release
 
+## Hotfix
+- No ticket - v3 ci pipeline manifest.yml file fix
+
 ### Fixed bugs
 
 ### Implemented enhancements
