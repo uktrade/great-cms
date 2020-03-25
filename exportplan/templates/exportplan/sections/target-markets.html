@@ -1,5 +1,8 @@
 {% extends 'exportplan/section.html' %}
 
+{% load intcomma from humanize %}
+{% load timezone from tz %}
+
 {% block intro_content %}
 <h1 class="h-xl">Target markets</h1>
 <p>Identify the markets that will most likely respond to your product or service. You will learn how to research and assess potential markets from a range of different methods.</p>
@@ -32,7 +35,6 @@
 
 <hr>
 {% if export_marketdata %}
-  {% load humanize %}
   <section class="container">
 
       <div class="flex-grid m-b-s">
@@ -55,7 +57,6 @@
         </div>
         <div class="c-1-4">
           Local time
-          {% load tz %}
           <b>{{ datenow|timezone:export_marketdata.timezone|date:'H:i' }}</b>
           GMT {{  utz_offset }} {{ export_marketdata.timezone }}
         </div>

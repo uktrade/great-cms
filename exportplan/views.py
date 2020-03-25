@@ -42,7 +42,7 @@ class ExportPlanSectionView(BaseExportPlanView):
         }
 
 
-class ExportPlanTargetMargetsView(BaseExportPlanView):
+class ExportPlanTargetMargetsView(TemplateView):
 
     template_name = 'exportplan/sections/target-markets.html'
 
@@ -55,11 +55,11 @@ class ExportPlanTargetMargetsView(BaseExportPlanView):
         }
 
     def get_context_data(self, *args, **kwargs):
+        industries = [name for id, name in INDUSTRIES]
         rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
         if rules_regulation:
             export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
-            utz_offset = datetime.now(
-                pytz.timezone(export_marketdata['timezone'])).strftime('%z')
+            utz_offset = datetime.now(pytz.timezone(export_marketdata['timezone'])).strftime('%z')
             commodity_code = rules_regulation.get('commodity_code')
             country = rules_regulation.get('country')
 
@@ -72,6 +72,9 @@ class ExportPlanTargetMargetsView(BaseExportPlanView):
                 datenow=datetime.now(),
                 utz_offset=utz_offset,
                 lastyear_import_data=lastyear_import_data,
+                next_section=self.next_section,
+                sections=data.SECTION_TITLES,
+                sectors=json.dumps(industries),
                 *args, **kwargs)
         return super().get_context_data(*args, **kwargs)
 
