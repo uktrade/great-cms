@@ -59,7 +59,7 @@
        <div class="c-1-4"></div>
         <div class="c-1-4">
           Duty <br>
-          <b>{{ rules_regulation.export_duty }}</b>
+          <b>{% widthratio rules_regulation.export_duty 1 100  %} %</b>
         </div>
        <div class="c-1-4">
          {% if lastyear_import_data %}
@@ -72,7 +72,7 @@
        <div class="c-1-4">
         {% if lastyear_import_data %}
             Year-to-year change <br>
-            <b>{{ lastyear_import_data.last_year_data.import_value.year_on_year_change }}</b> <br>
+            <b>+ {% widthratio lastyear_import_data.last_year_data.import_value.year_on_year_change 1 100  %} %</b> <br>
         {% endif %}
        </div>
      </div>
