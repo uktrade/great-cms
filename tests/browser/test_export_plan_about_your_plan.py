@@ -20,7 +20,8 @@ pytestmark = pytest.mark.browser
 @mock.patch.object(helpers, 'get_dashboard_events')
 @mock.patch.object(helpers, 'create_company_profile')
 def test_export_plan_about_your_business(
-    mock_create_company_profile, mock_get_dashboard_events,
+    mock_create_company_profile,
+    mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
     server_user_browser_dashboard,
 ):
