@@ -150,7 +150,7 @@ jobs:
           python3 -m venv venv
           . venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements_test.txt
+          pip install --quiet -r requirements_test.txt
           flake8
 
 workflows:
