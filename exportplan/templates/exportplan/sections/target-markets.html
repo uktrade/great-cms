@@ -34,8 +34,13 @@
 {% if export_marketdata %}
   {% load humanize %}
   <section class="container">
-      <div class="c-1-1">
-          <h2>{{ export_marketdata.corruption_perceptions_index.country_name }}</h2>> <a>Remove</a>
+
+      <div class="flex-grid m-b-s">
+        <div class="c-1-4"></div>
+        <div class="c-1-4">
+          <h2 class="h-m m-b-s">{{ export_marketdata.corruption_perceptions_index.country_name }}  </h2><a>Remove</a>
+
+        </div>
       </div>
       <div class="flex-grid m-b-s">
         <div class="c-1-4"></div>
