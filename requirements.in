@@ -14,7 +14,8 @@ djangorestframework==3.9.*
 # ------------
 wagtail-factories==2.0.*
 wagtail==2.8.*
-wagtail-personalisation==0.14.0
+wagtail-personalisation==0.14.*
+wagtail-cache==1.0.*
 
 
 # Prod tools

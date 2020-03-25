@@ -2,6 +2,9 @@
 
 ## Pre-release
 
+## Hotfix
+- No ticket - v3 ci pipeline manifest.yml file fix
+
 ### Fixed bugs
 
 ### Implemented enhancements
@@ -43,4 +46,5 @@
 - MVP-333 - Content segmentation on country of interest
 - MVP-215 - Track lesson read progress
 - MVP-332 - Content segmentation on sector of interest
+- MVP-344 - Wagtail cache
 - MVP-356 - marketdata target-markets
