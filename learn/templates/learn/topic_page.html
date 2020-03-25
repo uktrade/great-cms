@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% load routablepageurl from wagtailroutablepage_tags %}
+
+{% block content %}
+    <div class="container">
+        <div id="welcome-back-hero" class="gutter-top c-full">
+            <div class="grid">
+                <div class="c-1-2">&nbsp;</div>
+                <div class="c-1-2-s">
+                    <h1 class="h-l m-t-xl">{{ page.title }}</h1>
+                </div>
+                <div class="c-full">
+                    <ul>
+                        {% for lesson in page.get_children %}
+                            <li>
+                                <a class="link" href="{{ lesson.get_url }}" id="lesson-{{ lesson.title|slugify }}">{{ lesson.title }} {% if lesson.pk in is_read_collection %}[is read]{% endif %}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -9,6 +9,8 @@ from django.urls import reverse
 from core import helpers
 from tests.helpers import create_response
 from directory_api_client import api_client
+from tests.unit.learn.factories import LessonPageFactory, TopicPageFactory
+from learn.models import LessonViewHit
 
 
 @pytest.fixture
@@ -141,6 +143,55 @@ def test_dashboard_page_logged_in(
     response = client.get(url)
 
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(api_client.personalisation, 'events_by_location_list')
+@mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
+def test_dashboard_page_lesson_progress(
+    mock_events_by_location_list,
+    mock_export_opportunities_by_relevance_list,
+    mock_get_company_profile,
+    client,
+    user,
+    domestic_homepage,
+    domestic_site
+):
+    mock_events_by_location_list.return_value = create_response(json_body={'results': []})
+    mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
+    client.force_login(user)
+
+    # given the user has read some lessons
+    topic_one = TopicPageFactory(parent=domestic_homepage, slug='topic-one')
+    topic_two = TopicPageFactory(parent=domestic_homepage, slug='topic-two')
+    lesson_one = LessonPageFactory(parent=topic_one, slug='lesson-one')
+    lesson_two = LessonPageFactory(parent=topic_one, slug='lesson-two')
+    LessonPageFactory(parent=topic_one, slug='lesson-three')
+    LessonPageFactory(parent=topic_one, slug='lesson-four')
+    LessonViewHit.objects.create(
+        lesson=lesson_one,
+        topic=topic_one,
+        sso_id=user.pk
+    )
+    LessonViewHit.objects.create(
+        lesson=lesson_two,
+        topic=topic_one,
+        sso_id=user.pk
+    )
+
+    # when the dashboard is visited
+    url = reverse('core:dashboard')
+    response = client.get(url)
+
+    # then the progress is exposed
+    assert response.status_code == 200
+    assert len(response.context_data['topics']) == 2
+    assert response.context_data['topics'][0] == topic_one
+    assert response.context_data['topics'][0].read_count == 2
+    assert response.context_data['topics'][0].read_progress == 50
+    assert response.context_data['topics'][1] == topic_two
+    assert response.context_data['topics'][1].read_count == 0
+    assert response.context_data['topics'][1].read_progress is None
 
 
 @pytest.mark.django_db

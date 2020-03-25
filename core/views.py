@@ -3,10 +3,12 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django.db.models import F, Count, IntegerField, ExpressionWrapper
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
 from core import forms, helpers, permissions, serializers
+from learn.models import TopicPage
 
 
 class DashboardView(TemplateView):
@@ -14,11 +16,23 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         session_id = self.request.user.session_id
+        topics = (
+            TopicPage.objects.live()
+            .annotate(read_count=Count('read_hits_topic'))
+            .annotate(read_progress=(
+                ExpressionWrapper(
+                    expression=F('read_count') * 100 / F('numchild'),
+                    output_field=IntegerField()
+                )
+            ))
+            .order_by('-read_progress')
+        )
         return super().get_context_data(
+            topics=topics,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
             events=helpers.get_dashboard_events(session_id),
-            export_opportunities=helpers.get_dashboard_export_opportunities(self.request.user.company, session_id),
+            export_opportunities=helpers.get_dashboard_export_opportunities(session_id, self.request.user.company),
             **kwargs,
         )
 

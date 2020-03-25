@@ -1,5 +1,6 @@
 import hashlib
 
+from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel
 from wagtail.core import blocks
@@ -137,3 +138,23 @@ class PersonalisedPage(PersonalisablePageMixin, Page):
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
     ]
+
+
+class TimeStampedModel(models.Model):
+    """Modified version of django_extensions.db.models.TimeStampedModel
+
+    Unfortunately, because null=True needed to be added to create and
+    modified fields, inheritance causes issues with field clash.
+
+    """
+    created = CreationDateTimeField('created', null=True)
+    modified = ModificationDateTimeField('modified', null=True)
+
+    def save(self, **kwargs):
+        self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
+        super().save(**kwargs)
+
+    class Meta:
+        get_latest_by = 'modified'
+        ordering = ('-modified', '-created',)
+        abstract = True
