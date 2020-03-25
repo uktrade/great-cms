@@ -3,6 +3,7 @@ ARGUMENTS = $(filter-out $@,$(MAKECMDGOALS)) $(filter-out --,$(MAKEFLAGS))
 clean:
 	-find . -type f -name "*.pyc" -delete
 	-find . -type d -name "__pycache__" -delete
+	-rm -fr ./allure_report/
 
 ENV_FILES?='test,dev'
 pytest:
