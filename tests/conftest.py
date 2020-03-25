@@ -22,8 +22,10 @@ from tests.helpers import create_response
 # with DEBUG=true and --log-cli-level=DEBUG
 selenium_logger = logging.getLogger('selenium')
 pil_logger = logging.getLogger('PIL')
+urllib3_logger = logging.getLogger('urllib3')
 selenium_logger.setLevel(logging.CRITICAL)
 pil_logger.setLevel(logging.CRITICAL)
+urllib3_logger.setLevel(logging.CRITICAL)
 
 
 @pytest.fixture
