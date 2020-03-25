@@ -1,4 +1,5 @@
 ---
 applications:
-  - buildpack: python_buildpack
+  - buildpacks: 
+      - python_buildpack
     timeout: 180
