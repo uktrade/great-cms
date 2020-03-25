@@ -12,6 +12,8 @@ from wagtail_factories import PageFactory, SiteFactory
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from core import helpers
+from core.models import Tour
+from core.management.commands.create_tours import defaults as tour_steps
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -140,6 +142,18 @@ def mock_user_location_create():
     stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture
+def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
+    """Create Export Plan Dashboard page tour steps in reversed order.
+
+    For some reason when page tour steps are created during a unit test run then
+    those steps are shown in reversed order. So in order to show them in the right
+    order they have to be reverse here.
+    """
+    tour_steps.update({'steps': list(reversed(tour_steps['steps']))})
+    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
 
 
 @pytest.fixture(scope='session')

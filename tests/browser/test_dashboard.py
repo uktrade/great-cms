@@ -18,7 +18,7 @@ from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
     selenium_action,
-    should_not_see,
+    should_not_see_any_element,
     should_not_see_errors,
     should_see_all_elements,
     try_alternative_click_on_exception,
@@ -82,7 +82,7 @@ def test_dashboard_with_success_query_parameter(
     submit_industries(browser, industries)
 
     attach_jpg_screenshot(browser, 'Dashboard')
-    should_not_see(browser, DashboardModalLetsGetToKnowYou)
+    should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
     should_see_all_elements(browser, HeaderSignedIn)
     should_see_all_elements(browser, DashboardContents)
     should_see_all_elements(browser, DashboardContentsOnSuccess)
@@ -123,7 +123,7 @@ def test_dashboard_without_success_query_parameter(
     attach_jpg_screenshot(browser, 'Dashboard with success query parameter')
     browser.get(f'{live_server.url}/dashboard/')
     attach_jpg_screenshot(browser, 'Dashboard without success query parameter')
-    should_not_see(browser, DashboardModalLetsGetToKnowYou)
+    should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
     should_see_all_elements(browser, HeaderSignedIn)
     should_see_all_elements(browser, DashboardContents)
     should_see_all_elements(browser, DashboardContentsWithoutSuccess)
