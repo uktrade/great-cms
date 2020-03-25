@@ -114,20 +114,20 @@ def mock_airtable_rules_regs():
             'id': '1',
             'fields':
                 {
-                    'Country': 'India',
-                    'Export Duty': 1.5,
-                    'Commodity code': '2208.50.12',
-                    'Commodity Name': 'Gin and Geneva 2l'
+                    'country': 'India',
+                    'export_duty': 1.5,
+                    'commodity_code': '2208.50.12',
+                    'commodity_name': 'Gin and Geneva 2l'
                 },
         },
         {
             'id': '2',
             'fields':
                 {
-                    'Country': 'China',
-                    'Export Duty': 1.5,
-                    'Commodity code': '2208.50.13',
-                    'Commodity Name': 'Gin and Geneva'
+                    'country': 'China',
+                    'export_duty': 1.5,
+                    'commodity_code': '2208.50.13',
+                    'commodity_name': 'Gin and Geneva'
                 },
         },
     ]
