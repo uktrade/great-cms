@@ -44,3 +44,4 @@
 - MVP-215 - Track lesson read progress
 - MVP-332 - Content segmentation on sector of interest
 - MVP-344 - Wagtail cache
+- MVP-356 - marketdata target-markets
