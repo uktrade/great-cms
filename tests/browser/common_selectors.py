@@ -88,7 +88,7 @@ class DashboardContents(SelectorsEnum):
     HERO = Selector(By.ID, 'great-hero')
     WELCOME = Selector(By.ID, 'great-hero-welcome')
     YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
-    EXPORT_PLAN_CARD = Selector(By.ID, 'great-export-plan-card')
+    EXPORT_PLAN_CARD = Selector(By.ID, 'your-export-plan-card')
     DID_YOU_KNOW_CARD = Selector(By.ID, 'did-you-know-card')
     DISCOVER_NEW_MARKETS_CARD = Selector(By.ID, 'discover-new-markets-card')
     EXPORT_OPPORTUNITIES_CARD = Selector(By.ID, 'export-opportunities-card')
@@ -102,6 +102,12 @@ class DashboardContentsWithoutSuccess(SelectorsEnum):
 
 class DashboardContentsOnSuccess(SelectorsEnum):
     SUCCESS_CARD = Selector(By.ID, 'great-mvp-success-card')
+
+
+class DashboardReadingProgress(SelectorsEnum):
+    YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
+    TOPICS_HEADERS = Selector(By.CSS_SELECTOR, 'h3[id^=topics-]')
+    TOPICS_READ_PROGRESS = Selector(By.CSS_SELECTOR, 'div[id^=topics-read-progress-]')
 
 
 class SignUpModal(SelectorsEnum):
@@ -214,3 +220,14 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', ElementType.LINK)
     ACTION_PLAN = Selector(By.ID, 'sidebar-action-plan', ElementType.LINK)
     CONTENT = Selector(By.ID, 'target-markets-content')
+
+
+class TopicLessonListing(SelectorsEnum):
+    TITLE = Selector(By.ID, 'topic-title')
+    LESSON_LIST = Selector(By.ID, 'topic-lesson-list')
+    LESSON_LINKS = Selector(By.CSS_SELECTOR, 'a[id^=lesson-]')
+
+
+class LessonPage(SelectorsEnum):
+    TITLE = Selector(By.ID, 'lesson-title')
+    MARK_AS_READ = Selector(By.ID, 'mark-as-read')
