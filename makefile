@@ -19,7 +19,7 @@ flake8:
 	--max-line-length=120
 
 manage:
-	ENV_FILES='secrets-do-not-commit,dev' ./manage.py $(ARGUMENTS)
+	ENV_FILES='secrets-do-not-commit,dev' ./manage.py --cov-report=html $(ARGUMENTS)
 
 ENV_FILES?='secrets-do-not-commit,dev'
 check_migrations:
