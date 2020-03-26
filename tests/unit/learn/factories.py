@@ -32,7 +32,6 @@ class LandingPageFactory(wagtail_factories.PageFactory):
 
     title = 'landing page'
     live = True
-    slug = ''
     generic_content = factory.fuzzy.FuzzyText(length=200)
 
     class Meta:
