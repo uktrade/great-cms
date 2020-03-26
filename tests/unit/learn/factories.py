@@ -27,6 +27,7 @@ class LessonPageFactory(wagtail_factories.PageFactory):
         model = models.LessonPage
         django_get_or_create = ['slug', 'parent']
 
+
 class LandingPageFactory(wagtail_factories.PageFactory):
 
     title = 'landing page'

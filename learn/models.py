@@ -88,5 +88,6 @@ class LessonViewHit(TimeStampedModel):
         ordering = ['lesson__pk']
         unique_together = ['lesson', 'topic', 'sso_id']
 
+
 class LandingPage(Page):
     parent_page_types = ['domestic.DomesticHomePage']
