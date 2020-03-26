@@ -26,3 +26,14 @@ class LessonPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = models.LessonPage
         django_get_or_create = ['slug', 'parent']
+
+class LandingPageFactory(wagtail_factories.PageFactory):
+
+    title = 'landing page'
+    live = True
+    slug = ''
+    generic_content = factory.fuzzy.FuzzyText(length=200)
+
+    class Meta:
+        model = models.LandingPage
+        django_get_or_create = ['slug', 'parent']

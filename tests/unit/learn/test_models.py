@@ -56,3 +56,13 @@ def test_topic_view(client, domestic_homepage, user, domestic_site):
 
     response = client.get(topic.url)
     assert response.status_code == 200
+
+@pytest.mark.django_db
+def _view(client, domestic_homepage, user, domestic_site):
+    # given the user has not read a lesson
+    client.force_login(user)
+    topic = factories.TopicPageFactory(parent=domestic_homepage)
+    factories.LessonPageFactory(parent=topic)
+
+    response = client.get(topic.url)
+    assert response.status_code == 200
