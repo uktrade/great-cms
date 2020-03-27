@@ -186,10 +186,10 @@ def mock_dashboard_profile_events_opportunities(
 @mock.patch.object(api_client.dataservices, 'get_easeofdoingbusiness')
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 def mock_export_plan_requests(
-        mock_get_export_plan,
+        mock_export_plan_list,
         mock_ease_of_doing_business,
-        mock_cpi,
-        mock_last_year_import_data,
+        mock_get_corruption_perceptions_index,
+        mock_get_last_year_import_data,
         mock_get_export_plan_market_data,
 ):
     data = [
@@ -199,16 +199,17 @@ def mock_export_plan_requests(
             'rules_regulations': {'rule1': 'AAA'}
         }
     ]
-    mock_get_export_plan.return_value = create_response(data)
+    mock_export_plan_list.return_value = create_response(data)
 
-    easeofdoingbusiness_data = {
+    ease_of_doing_business_data = {
         'country_name': 'China',
         'country_code': 'CHN',
         'cpi_score_2019': 41,
         'rank': 80,
     }
     mock_ease_of_doing_business.return_value = create_response(
-        status_code=200, json_body=easeofdoingbusiness_data
+        status_code=200,
+        json_body=ease_of_doing_business_data,
     )
 
     cpi_data = {
@@ -217,9 +218,9 @@ def mock_export_plan_requests(
         'cpi_score_2019': 41,
         'rank': 80,
     }
-    mock_cpi.return_value = create_response(status_code=200, json_body=cpi_data)
+    mock_get_corruption_perceptions_index.return_value = create_response(status_code=200, json_body=cpi_data)
 
-    mock_last_year_import_data.return_value = create_response(
+    mock_get_last_year_import_data.return_value = create_response(
         status_code=200, json_body={'lastyear_history': 123}
     )
 
