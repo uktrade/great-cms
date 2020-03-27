@@ -124,7 +124,7 @@ def test_dashboard_page_lesson_progress(
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_ok(mock_get_company_profile, client, user):
+def test_dashboard_apis_ok(client, user):
 
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
@@ -192,7 +192,7 @@ export-opportunities/opportunities/french-sardines-required',
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_fail(mock_get_company_profile, client, user):
+def test_dashboard_apis_fail(client, user):
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
     ) as events_api_results:
@@ -216,7 +216,7 @@ personalisation.export_opportunities_by_relevance_list'
 
 
 @pytest.mark.django_db
-def test_capability_article_logged_in(mock_get_company_profile, client, user):
+def test_capability_article_logged_in(client, user):
     client.force_login(user)
     url = reverse(
         'core:capability-article', kwargs={'topic': 'some topic', 'chapter': 'some chapter', 'article': 'some article'}

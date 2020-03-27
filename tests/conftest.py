@@ -12,6 +12,8 @@ from wagtail_factories import PageFactory, SiteFactory
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from core import helpers
+from core.models import Tour
+from core.management.commands.create_tours import defaults as tour_steps
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -112,20 +114,20 @@ def mock_airtable_rules_regs():
             'id': '1',
             'fields':
                 {
-                    'Country': 'India',
-                    'Export Duty': 1.5,
-                    'Commodity code': '2208.50.12',
-                    'Commodity Name': 'Gin and Geneva 2l'
+                    'country': 'India',
+                    'export_duty': 1.5,
+                    'commodity_code': '2208.50.12',
+                    'commodity_name': 'Gin and Geneva 2l'
                 },
         },
         {
             'id': '2',
             'fields':
                 {
-                    'Country': 'China',
-                    'Export Duty': 1.5,
-                    'Commodity code': '2208.50.13',
-                    'Commodity Name': 'Gin and Geneva'
+                    'country': 'China',
+                    'export_duty': 1.5,
+                    'commodity_code': '2208.50.13',
+                    'commodity_name': 'Gin and Geneva'
                 },
         },
     ]
@@ -140,6 +142,18 @@ def mock_user_location_create():
     stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture
+def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
+    """Create Export Plan Dashboard page tour steps in reversed order.
+
+    For some reason when page tour steps are created during a unit test run then
+    those steps are shown in reversed order. So in order to show them in the right
+    order they have to be reverse here.
+    """
+    tour_steps.update({'steps': list(reversed(tour_steps['steps']))})
+    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
 
 
 @pytest.fixture(scope='session')

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'wagtail.core',
     'wagtail.contrib.routable_page',
 
+    'wagtailcache',
     'wagtail_personalisation',
     'wagtailfontawesome',
     'modelcluster',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.forms',
+    'django.contrib.humanize',
 
     'sso',
     'core.apps.CoreConfig',
@@ -63,6 +65,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'wagtailcache.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,6 +77,7 @@ MIDDLEWARE = [
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'core.middleware.UserLocationStoreMiddleware',
+    'wagtailcache.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -349,7 +353,6 @@ if ENFORCE_STAFF_SSO_ENABLED:
     AUTHBROKER_URL = env.str('STAFF_SSO_AUTHBROKER_URL')
     AUTHBROKER_CLIENT_ID = env.str('AUTHBROKER_CLIENT_ID')
     AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
-    LOGIN_URL = '/admin/login/'
 else:
     LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
 

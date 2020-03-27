@@ -38,18 +38,20 @@ export default function Modal(props){
       onRequestClose={props.handleSkip}
       contentLabel="Modal"
     >
-      <div className='great-mvp-signup-wizard-step-1 p-s'>
+      <div className="great-mvp-signup-wizard-step-1 p-s" id="page-tour-modal-step-1">
         <h2 className="h-m">{props.title}</h2>
         <p>{props.body}</p>
         <input
           type="submit"
           value={props.buttonText}
           className="great-mvp-tour-button p-v-xxs p-h-xs"
+          id="page-tour-submit"
           onClick={event => { event.preventDefault(); props.handleStart()}}
         />
           <p className="m-t-xxs">
             <a
               href="#"
+              id="page-tour-skip"
               onClick={event => { event.preventDefault(); props.handleSkip()}}
             >Skip walk-through</a>
           </p>

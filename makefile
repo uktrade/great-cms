@@ -3,11 +3,12 @@ ARGUMENTS = $(filter-out $@,$(MAKECMDGOALS)) $(filter-out --,$(MAKEFLAGS))
 clean:
 	-find . -type f -name "*.pyc" -delete
 	-find . -type d -name "__pycache__" -delete
+	-rm -fr ./allure_report/
 
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
-	pytest tests/unit --cov=. --cov-config=.coveragerc --cov-report=html $(ARGUMENTS)
+	pytest tests/unit --cov=. --cov-config=.coveragerc $(ARGUMENTS)
 
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
