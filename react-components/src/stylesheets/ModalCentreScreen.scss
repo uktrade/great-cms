@@ -1,0 +1,21 @@
+.ReactModal__Content {  
+    position: absolute;
+    inset: 50% auto auto 50%;
+    border: 1px solid rgb(204, 204, 204);
+    background: white none repeat scroll 0% 0%;
+    overflow: visible;
+    border-radius: 10px;
+    outline: currentcolor none medium;
+    padding: 0px;
+    margin-right: -50%;
+    text-align: left;
+    transform: translate(-50%, -50%);
+    width: 570px;
+}
+
+.ReactModal__Overlay {
+    position: fixed;
+    inset: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}

@@ -69,34 +69,3 @@ test('createUser passes params', done => {
     done()
   })
 })
-
-test('enrolCompany passes params', done => {
-  // given the form submission will result in success.getDOMNodeful login
-  fetchMock.post(Services.config.enrolCompanyUrl, 200)
-  const data = {
-    company_name: 'a',
-    expertise_industries: 'b',
-    expertise_countries: 'c',
-    first_name: 'd',
-    last_name: 'e',
-  }
-
-  Services.enrolCompany(data)
-
-  fetchMock.flush().then(() => {
-    const calls = fetchMock.calls()
-    expect(calls.length).toEqual(1)
-    expect(calls[0][0]).toEqual(Services.config.enrolCompanyUrl)
-    expect(calls[0][1]).toEqual({
-      method: 'post',
-      headers: {
-       'Accept': 'application/json',
-       'Content-Type': 'application/json',
-       'X-CSRFToken': Services.config.csrfToken,
-       'X-Requested-With': 'XMLHttpRequest',
-      },
-      body: JSON.stringify(data)
-    })
-    done()
-  })
-})

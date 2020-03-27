@@ -12350,6 +12350,17 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/flag-icon-css/css/flag-icon.css":
+/*!******************************************************!*\
+  !*** ./node_modules/flag-icon-css/css/flag-icon.css ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./node_modules/focus-lock/dist/es2015/constants.js":
 /*!**********************************************************!*\
   !*** ./node_modules/focus-lock/dist/es2015/constants.js ***!
@@ -42972,6 +42983,1357 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-flag-icon-css/module/FlagIcon/FlagIcon.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/FlagIcon/FlagIcon.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./node_modules/react-flag-icon-css/module/functions/index.js");
+
+
+var FlagIcon = function FlagIcon(React, options, styles) {
+  return function (props) {
+    var _props$Component = props.Component,
+        Component = _props$Component === void 0 ? 'span' : _props$Component,
+        children = props.children;
+    return React.createElement(Component, {
+      className: Object(_functions__WEBPACK_IMPORTED_MODULE_0__["makeClassnames"])(props, options, styles)
+    }, children);
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (FlagIcon);
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/FlagIcon/FlagIconFactory.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/FlagIcon/FlagIconFactory.js ***!
+  \*****************************************************************************/
+/*! exports provided: default, CustomFlagIconFactory */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CustomFlagIconFactory", function() { return CustomFlagIconFactory; });
+/* harmony import */ var _FlagIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FlagIcon */ "./node_modules/react-flag-icon-css/module/FlagIcon/FlagIcon.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles */ "./node_modules/react-flag-icon-css/module/styles.js");
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions */ "./node_modules/react-flag-icon-css/module/functions/index.js");
+/* harmony import */ var _functions_props__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/props */ "./node_modules/react-flag-icon-css/module/functions/props.js");
+/* harmony import */ var _functions_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/styles */ "./node_modules/react-flag-icon-css/module/functions/styles.js");
+/* harmony import */ var _types_propTypes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../types/propTypes */ "./node_modules/react-flag-icon-css/module/types/propTypes.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+
+
+
+
+
+
+
+var FlagIconFactory = function FlagIconFactory(React, options) {
+  var computedOptions = Object(_functions__WEBPACK_IMPORTED_MODULE_2__["makeFlagIconOptions"])(options);
+  var useCssModules = computedOptions.useCssModules,
+      customCodes = computedOptions.customCodes;
+  var FlagIconComponent = null;
+
+  if (useCssModules) {
+    var computedStyles = Object(_functions__WEBPACK_IMPORTED_MODULE_2__["makeStyles"])(_styles__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+    if (true) {
+      Object(_functions_styles__WEBPACK_IMPORTED_MODULE_4__["validateStyles"])(computedStyles, computedOptions, options);
+    }
+
+    FlagIconComponent = Object(_FlagIcon__WEBPACK_IMPORTED_MODULE_0__["default"])(React, computedOptions, computedStyles);
+  } else {
+    FlagIconComponent = Object(_FlagIcon__WEBPACK_IMPORTED_MODULE_0__["default"])(React, computedOptions);
+  }
+
+  FlagIconComponent.displayName = 'FlagIcon';
+
+  if (true) {
+    var codes = Object(_functions_props__WEBPACK_IMPORTED_MODULE_3__["getCountryCodes"])();
+
+    if (customCodes) {
+      codes = [].concat(_toConsumableArray(codes), _toConsumableArray(Object.keys(customCodes)));
+    }
+
+    FlagIconComponent.propTypes = Object(_types_propTypes__WEBPACK_IMPORTED_MODULE_5__["MakeFlagIconPropsType"])(codes);
+  }
+
+  return FlagIconComponent;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (FlagIconFactory);
+
+var CustomFlagIconFactory = function CustomFlagIconFactory(React, options) {
+  return FlagIconFactory(React, options);
+};
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/classNameToStyleName.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/classNameToStyleName.js ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (className, styles) {
+  if (!styles[className]) {
+    throw new Error("Could not resolve the styleName ".concat(className));
+  }
+
+  return styles[className];
+});
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/classnames.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/classnames.js ***!
+  \*************************************************************************/
+/*! exports provided: makeClassesObject, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeClassesObject", function() { return makeClassesObject; });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _classNameToStyleName__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./classNameToStyleName */ "./node_modules/react-flag-icon-css/module/functions/classNameToStyleName.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./node_modules/react-flag-icon-css/module/functions/constants.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var makeClassesObject = function makeClassesObject(props, options) {
+  var _ref;
+
+  var code = props.code,
+      _props$flip = props.flip,
+      flip = _props$flip === void 0 ? '' : _props$flip,
+      _props$size = props.size,
+      size = _props$size === void 0 ? '' : _props$size,
+      _props$squared = props.squared,
+      squared = _props$squared === void 0 ? false : _props$squared,
+      rotate = props.rotate,
+      className = props.className,
+      styleName = props.styleName;
+  var themeStyles = options.themeStyles,
+      useCssModules = options.useCssModules;
+  return _ref = {}, _defineProperty(_ref, _constants__WEBPACK_IMPORTED_MODULE_2__["flagIconClassesPrefixName"], true), _defineProperty(_ref, "".concat(_constants__WEBPACK_IMPORTED_MODULE_2__["flagIconClassesPrefix"], "squared"), squared), _defineProperty(_ref, "".concat(_constants__WEBPACK_IMPORTED_MODULE_2__["flagIconClassesPrefix"]).concat(size), size), _defineProperty(_ref, "".concat(_constants__WEBPACK_IMPORTED_MODULE_2__["flagIconClassesPrefix"]).concat(code), code), _defineProperty(_ref, "".concat(_constants__WEBPACK_IMPORTED_MODULE_2__["flagIconClassesPrefix"], "flip-").concat(flip), flip), _defineProperty(_ref, "".concat(_constants__WEBPACK_IMPORTED_MODULE_2__["flagIconClassesPrefix"], "rotate-").concat(rotate || ''), rotate), _defineProperty(_ref, _constants__WEBPACK_IMPORTED_MODULE_2__["baseThemeStyleName"], useCssModules && themeStyles && themeStyles[_constants__WEBPACK_IMPORTED_MODULE_2__["baseThemeStyleName"]]), _defineProperty(_ref, styleName || '', useCssModules && themeStyles && styleName && themeStyles[styleName]), _defineProperty(_ref, className || '', className), _ref;
+};
+/* harmony default export */ __webpack_exports__["default"] = (function (props, options, styles) {
+  var useCssModules = options.useCssModules;
+  var classesObject = makeClassesObject(props, options);
+  var strClasses = classnames__WEBPACK_IMPORTED_MODULE_0___default()(classesObject);
+
+  if (useCssModules) {
+    var className = props.className;
+    var aClasses = strClasses.split(' ');
+    var nClasses = aClasses.length;
+    strClasses = aClasses.map(function (c, i) {
+      if (className && i === nClasses - 1) return c;
+      return Object(_classNameToStyleName__WEBPACK_IMPORTED_MODULE_1__["default"])(c, styles || {});
+    }).join(' ');
+  }
+
+  return strClasses;
+});
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/constants.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/constants.js ***!
+  \************************************************************************/
+/*! exports provided: baseThemeStyleName, flagIconClassesPrefixName, flagIconClassesPrefix, flagIconModulePath */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "baseThemeStyleName", function() { return baseThemeStyleName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flagIconClassesPrefixName", function() { return flagIconClassesPrefixName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flagIconClassesPrefix", function() { return flagIconClassesPrefix; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flagIconModulePath", function() { return flagIconModulePath; });
+var baseThemeStyleName = 'theme-base';
+var flagIconClassesPrefixName = 'flag-icon';
+var flagIconClassesPrefix = "".concat(flagIconClassesPrefixName, "-");
+var flagIconModulePath = 'node_modules/flag-icon-css';
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/countries.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/countries.js ***!
+  \************************************************************************/
+/*! exports provided: getCountries, getCountryCodes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _props__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./props */ "./node_modules/react-flag-icon-css/module/functions/props.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCountries", function() { return _props__WEBPACK_IMPORTED_MODULE_0__["getCountries"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCountryCodes", function() { return _props__WEBPACK_IMPORTED_MODULE_0__["getCountryCodes"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/index.js ***!
+  \********************************************************************/
+/*! exports provided: makeClassnames, makeClassesObject, makeFlagIconOptions, makeStyles, countries, constants */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./classnames */ "./node_modules/react-flag-icon-css/module/functions/classnames.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeClassnames", function() { return _classnames__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeClassesObject", function() { return _classnames__WEBPACK_IMPORTED_MODULE_0__["makeClassesObject"]; });
+
+/* harmony import */ var _options__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./options */ "./node_modules/react-flag-icon-css/module/functions/options.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeFlagIconOptions", function() { return _options__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styles */ "./node_modules/react-flag-icon-css/module/functions/styles.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeStyles", function() { return _styles__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _countries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./countries */ "./node_modules/react-flag-icon-css/module/functions/countries.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "countries", function() { return _countries__WEBPACK_IMPORTED_MODULE_3__; });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./constants */ "./node_modules/react-flag-icon-css/module/functions/constants.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "constants", function() { return _constants__WEBPACK_IMPORTED_MODULE_4__; });
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/options.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/options.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _types_propTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/propTypes */ "./node_modules/react-flag-icon-css/module/types/propTypes.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var defaultOptions = {
+  useCssModules: true
+};
+/* harmony default export */ __webpack_exports__["default"] = (function (options) {
+  var computedOptions = _objectSpread({}, defaultOptions, options);
+
+  prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.checkPropTypes(Object(_types_propTypes__WEBPACK_IMPORTED_MODULE_1__["MakeFlagIconOptionsPropType"])(), computedOptions, 'key', 'FlagIconFactory options');
+  return computedOptions;
+});
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/propTypes.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/propTypes.js ***!
+  \************************************************************************/
+/*! exports provided: AddThemeStylesValidator, AddNoExtraPropsValidator */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddThemeStylesValidator", function() { return AddThemeStylesValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddNoExtraPropsValidator", function() { return AddNoExtraPropsValidator; });
+var _this = undefined;
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var fnThemeStylesValidator = function fnThemeStylesValidator(propsObject, propsValues, propName, componentName) {
+  var useCssModules = propsValues.useCssModules,
+      customCodes = propsValues.customCodes;
+  if (!useCssModules) return;
+
+  if (customCodes) {
+    var themeStyles = propsValues.themeStyles;
+
+    if (themeStyles) {
+      var themeStylesClassNames = Object.keys(themeStyles);
+      var result = Object.keys(customCodes).filter(function (customCode) {
+        return !themeStylesClassNames.includes("flag-icon-".concat(customCode));
+      });
+
+      if (result.length > 0) {
+        return new Error("Invalid prop(s) `themeStyles` supplied to `".concat(componentName, "`, expected `.flag-icon-[").concat(result.join('/'), "]`."));
+      }
+    } else {
+      return new Error("Missing required prop(s) `themeStyles` supplied to `".concat(componentName, "`."));
+    }
+  }
+};
+
+var AddThemeStylesValidator = function AddThemeStylesValidator(obj) {
+  var validatorKeyName = '__themeStyles__';
+
+  if (Object.prototype.hasOwnProperty.call(obj, validatorKeyName)) {
+    return obj;
+  }
+
+  return _objectSpread({}, obj, _defineProperty({}, validatorKeyName, fnThemeStylesValidator.bind(_this, obj)));
+};
+
+var fnNoExtraPropsValidator = function fnNoExtraPropsValidator(propsObject, propsValues, propName, componentName) {
+  var passedPropNames = Object.keys(propsValues);
+  var extra = passedPropNames.filter(function (prop) {
+    return !Object.prototype.hasOwnProperty.call(propsObject, prop);
+  });
+
+  if (extra.length > 0) {
+    return new Error("Invalid prop(s) ".concat(JSON.stringify(extra), " supplied to `").concat(componentName, "`, expected one of [").concat(passedPropNames.join(','), "]."));
+  }
+};
+
+var AddNoExtraPropsValidator = function AddNoExtraPropsValidator(obj) {
+  var validatorKeyName = '__no__extra__props__validator___';
+
+  if (Object.prototype.hasOwnProperty.call(obj, validatorKeyName)) {
+    return obj;
+  }
+
+  return _objectSpread({}, obj, _defineProperty({}, validatorKeyName, fnNoExtraPropsValidator.bind(_this, obj)));
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/props.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/props.js ***!
+  \********************************************************************/
+/*! exports provided: getCountries, getCountryCodes, getFlips, getRotates, getSizes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountries", function() { return getCountries; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountryCodes", function() { return getCountryCodes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFlips", function() { return getFlips; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRotates", function() { return getRotates; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSizes", function() { return getSizes; });
+/* harmony import */ var _static_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../static/enums */ "./node_modules/react-flag-icon-css/module/static/enums.js");
+
+var getCountries = function getCountries() {
+  return _static_enums__WEBPACK_IMPORTED_MODULE_0__["countries"];
+};
+var getCountryCodes = function getCountryCodes() {
+  return _static_enums__WEBPACK_IMPORTED_MODULE_0__["countries"].map(function (country) {
+    return country.code;
+  });
+};
+var getFlips = function getFlips() {
+  return _static_enums__WEBPACK_IMPORTED_MODULE_0__["flips"];
+};
+var getRotates = function getRotates() {
+  return _static_enums__WEBPACK_IMPORTED_MODULE_0__["rotates"];
+};
+var getSizes = function getSizes() {
+  return _static_enums__WEBPACK_IMPORTED_MODULE_0__["sizes"];
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/functions/styles.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/functions/styles.js ***!
+  \*********************************************************************/
+/*! exports provided: validateStyles, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validateStyles", function() { return validateStyles; });
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var validateStyles = function validateStyles(styles, computedOptions, options) {
+  if (true) {
+    if (!computedOptions) throw Error('Passing `computedOptions` is required.');
+
+    if (!computedOptions.useCssModules) {
+      throw Error('Cannot validate global CSS.');
+    }
+
+    var userSetUseCssModules = options ? options.useCssModules : false;
+
+    if (!Object.prototype.hasOwnProperty.call(styles, 'flag-icon')) {
+      var readme = 'https://github.com/matteocng/react-flag-icon-css/blob/master/README.md';
+      var readmeModules = 'https://github.com/gajus/react-css-modules#usage';
+      console.error("Warning: Detected configuration mismatch/error: [react-flag-icon-css] FlagIconFactory tried to build FlagIcon with the option 'useCssModules' set to true (".concat(userSetUseCssModules ? 'by you' : 'default', "), but it seems that your environment is not loading the stylesheets in the appropriate way. Two possibilities: \n\n 1. Your project is not using CSS Modules / you don't want to use them. Try building FlagIcon like this: \n\n\timport * as React from 'react' \n\n\tconst FlagIcon = FlagIconFactory(React, { useCssModules: false }) \n\n\tSee the README for more info: ").concat(readme, " \n\n 2. You are using CSS Modules but your module bundler e.g Webpack is not correctly set up for CSS modules. If you are using Webpack, the key modules to set up are 'style-loader', 'css-loader' and 'extract-text-webpack-plugin' ('sass-loader' also comes into play if you are using SASS). The link below may help you:\n\n\t").concat(readmeModules));
+    }
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (function (styles, options) {
+  return options && options.themeStyles ? _objectSpread({}, styles, options.themeStyles) : styles;
+});
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/index.js ***!
+  \**********************************************************/
+/*! exports provided: default, CustomFlagIconFactory, types, functions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FlagIcon_FlagIconFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FlagIcon/FlagIconFactory */ "./node_modules/react-flag-icon-css/module/FlagIcon/FlagIconFactory.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _FlagIcon_FlagIconFactory__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CustomFlagIconFactory", function() { return _FlagIcon_FlagIconFactory__WEBPACK_IMPORTED_MODULE_0__["CustomFlagIconFactory"]; });
+
+/* harmony import */ var _types_flow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/flow */ "./node_modules/react-flag-icon-css/module/types/flow/index.js");
+/* harmony import */ var _types_flow__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_types_flow__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "types", function() { return _types_flow__WEBPACK_IMPORTED_MODULE_1__; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./functions */ "./node_modules/react-flag-icon-css/module/functions/index.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "functions", function() { return _functions__WEBPACK_IMPORTED_MODULE_2__; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/static/enums.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/static/enums.js ***!
+  \*****************************************************************/
+/*! exports provided: sizes, rotates, flips, countries */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sizes", function() { return sizes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotates", function() { return rotates; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flips", function() { return flips; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "countries", function() { return countries; });
+var sizes = ['lg', '2x', '3x', '4x', '5x'];
+var rotates = [30, 60, 90, 180, 270];
+var flips = ['horizontal', 'vertical'];
+var countries = [{
+  name: 'Afghanistan',
+  code: 'af'
+}, {
+  name: 'Åland Islands',
+  code: 'ax'
+}, {
+  name: 'Albania',
+  code: 'al'
+}, {
+  name: 'Algeria',
+  code: 'dz'
+}, {
+  name: 'American Samoa',
+  code: 'as'
+}, {
+  name: 'Andorra',
+  code: 'ad'
+}, {
+  name: 'Angola',
+  code: 'ao'
+}, {
+  name: 'Anguilla',
+  code: 'ai'
+}, {
+  name: 'Antarctica',
+  code: 'aq'
+}, {
+  name: 'Antigua and Barbuda',
+  code: 'ag'
+}, {
+  name: 'Argentina',
+  code: 'ar'
+}, {
+  name: 'Armenia',
+  code: 'am'
+}, {
+  name: 'Aruba',
+  code: 'aw'
+}, {
+  name: 'Australia',
+  code: 'au'
+}, {
+  name: 'Austria',
+  code: 'at'
+}, {
+  name: 'Azerbaijan',
+  code: 'az'
+}, {
+  name: 'Bahamas',
+  code: 'bs'
+}, {
+  name: 'Bahrain',
+  code: 'bh'
+}, {
+  name: 'Bangladesh',
+  code: 'bd'
+}, {
+  name: 'Barbados',
+  code: 'bb'
+}, {
+  name: 'Belarus',
+  code: 'by'
+}, {
+  name: 'Belgium',
+  code: 'be'
+}, {
+  name: 'Belize',
+  code: 'bz'
+}, {
+  name: 'Benin',
+  code: 'bj'
+}, {
+  name: 'Bermuda',
+  code: 'bm'
+}, {
+  name: 'Bhutan',
+  code: 'bt'
+}, {
+  name: 'Bolivia, Plurinational State of',
+  code: 'bo'
+}, {
+  name: 'Bonaire, Sint Eustatius and Saba',
+  code: 'bq'
+}, {
+  name: 'Bosnia and Herzegovina',
+  code: 'ba'
+}, {
+  name: 'Botswana',
+  code: 'bw'
+}, {
+  name: 'Bouvet Island',
+  code: 'bv'
+}, {
+  name: 'Brazil',
+  code: 'br'
+}, {
+  name: 'British Indian Ocean Territory',
+  code: 'io'
+}, {
+  name: 'Brunei Darussalam',
+  code: 'bn'
+}, {
+  name: 'Bulgaria',
+  code: 'bg'
+}, {
+  name: 'Burkina Faso',
+  code: 'bf'
+}, {
+  name: 'Burundi',
+  code: 'bi'
+}, {
+  name: 'Cambodia',
+  code: 'kh'
+}, {
+  name: 'Cameroon',
+  code: 'cm'
+}, {
+  name: 'Canada',
+  code: 'ca'
+}, {
+  name: 'Cape Verde',
+  code: 'cv'
+}, {
+  name: 'Catalonia',
+  code: 'es-ct'
+}, {
+  name: 'Cayman Islands',
+  code: 'ky'
+}, {
+  name: 'Central African Republic',
+  code: 'cf'
+}, {
+  name: 'Chad',
+  code: 'td'
+}, {
+  name: 'Chile',
+  code: 'cl'
+}, {
+  name: 'China',
+  code: 'cn'
+}, {
+  name: 'Christmas Island',
+  code: 'cx'
+}, {
+  name: 'Cocos (Keeling) Islands',
+  code: 'cc'
+}, {
+  name: 'Colombia',
+  code: 'co'
+}, {
+  name: 'Comoros',
+  code: 'km'
+}, {
+  name: 'Congo',
+  code: 'cg'
+}, {
+  name: 'Congo, the Democratic Republic of the',
+  code: 'cd'
+}, {
+  name: 'Cook Islands',
+  code: 'ck'
+}, {
+  name: 'Costa Rica',
+  code: 'cr'
+}, {
+  name: "Côte d'Ivoire",
+  code: 'ci'
+}, {
+  name: 'Croatia',
+  code: 'hr'
+}, {
+  name: 'Cuba',
+  code: 'cu'
+}, {
+  name: 'Curaçao',
+  code: 'cw'
+}, {
+  name: 'Cyprus',
+  code: 'cy'
+}, {
+  name: 'Czech Republic',
+  code: 'cz'
+}, {
+  name: 'Denmark',
+  code: 'dk'
+}, {
+  name: 'Djibouti',
+  code: 'dj'
+}, {
+  name: 'Dominica',
+  code: 'dm'
+}, {
+  name: 'Dominican Republic',
+  code: 'do'
+}, {
+  name: 'Ecuador',
+  code: 'ec'
+}, {
+  name: 'Egypt',
+  code: 'eg'
+}, {
+  name: 'El Salvador',
+  code: 'sv'
+}, {
+  name: 'Equatorial Guinea',
+  code: 'gq'
+}, {
+  name: 'Eritrea',
+  code: 'er'
+}, {
+  name: 'Estonia',
+  code: 'ee'
+}, {
+  name: 'Ethiopia',
+  code: 'et'
+}, {
+  name: 'European Union',
+  code: 'eu'
+}, {
+  name: 'Falkland Islands (Malvinas)',
+  code: 'fk'
+}, {
+  name: 'Faroe Islands',
+  code: 'fo'
+}, {
+  name: 'Fiji',
+  code: 'fj'
+}, {
+  name: 'Finland',
+  code: 'fi'
+}, {
+  name: 'France',
+  code: 'fr'
+}, {
+  name: 'French Guiana',
+  code: 'gf'
+}, {
+  name: 'French Polynesia',
+  code: 'pf'
+}, {
+  name: 'French Southern Territories',
+  code: 'tf'
+}, {
+  name: 'Gabon',
+  code: 'ga'
+}, {
+  name: 'Gambia',
+  code: 'gm'
+}, {
+  name: 'Georgia',
+  code: 'ge'
+}, {
+  name: 'Germany',
+  code: 'de'
+}, {
+  name: 'Ghana',
+  code: 'gh'
+}, {
+  name: 'Gibraltar',
+  code: 'gi'
+}, {
+  name: 'Greece',
+  code: 'gr'
+}, {
+  name: 'Greenland',
+  code: 'gl'
+}, {
+  name: 'Grenada',
+  code: 'gd'
+}, {
+  name: 'Guadeloupe',
+  code: 'gp'
+}, {
+  name: 'Guam',
+  code: 'gu'
+}, {
+  name: 'Guatemala',
+  code: 'gt'
+}, {
+  name: 'Guernsey',
+  code: 'gg'
+}, {
+  name: 'Guinea',
+  code: 'gn'
+}, {
+  name: 'Guinea-Bissau',
+  code: 'gw'
+}, {
+  name: 'Guyana',
+  code: 'gy'
+}, {
+  name: 'Haiti',
+  code: 'ht'
+}, {
+  name: 'Heard Island and McDonald Islands',
+  code: 'hm'
+}, {
+  name: 'Holy See (Vatican City State)',
+  code: 'va'
+}, {
+  name: 'Honduras',
+  code: 'hn'
+}, {
+  name: 'Hong Kong',
+  code: 'hk'
+}, {
+  name: 'Hungary',
+  code: 'hu'
+}, {
+  name: 'Iceland',
+  code: 'is'
+}, {
+  name: 'India',
+  code: 'in'
+}, {
+  name: 'Indonesia',
+  code: 'id'
+}, {
+  name: 'Iran, Islamic Republic of',
+  code: 'ir'
+}, {
+  name: 'Iraq',
+  code: 'iq'
+}, {
+  name: 'Ireland',
+  code: 'ie'
+}, {
+  name: 'Isle of Man',
+  code: 'im'
+}, {
+  name: 'Israel',
+  code: 'il'
+}, {
+  name: 'Italy',
+  code: 'it'
+}, {
+  name: 'Jamaica',
+  code: 'jm'
+}, {
+  name: 'Japan',
+  code: 'jp'
+}, {
+  name: 'Jersey',
+  code: 'je'
+}, {
+  name: 'Jordan',
+  code: 'jo'
+}, {
+  name: 'Kazakhstan',
+  code: 'kz'
+}, {
+  name: 'Kenya',
+  code: 'ke'
+}, {
+  name: 'Kiribati',
+  code: 'ki'
+}, {
+  name: "Korea, Democratic People's Republic of",
+  code: 'kp'
+}, {
+  name: 'Korea, Republic of',
+  code: 'kr'
+}, {
+  name: 'Kuwait',
+  code: 'kw'
+}, {
+  name: 'Kyrgyzstan',
+  code: 'kg'
+}, {
+  name: "Lao People's Democratic Republic",
+  code: 'la'
+}, {
+  name: 'Latvia',
+  code: 'lv'
+}, {
+  name: 'Lebanon',
+  code: 'lb'
+}, {
+  name: 'Lesotho',
+  code: 'ls'
+}, {
+  name: 'Liberia',
+  code: 'lr'
+}, {
+  name: 'Libya',
+  code: 'ly'
+}, {
+  name: 'Liechtenstein',
+  code: 'li'
+}, {
+  name: 'Lithuania',
+  code: 'lt'
+}, {
+  name: 'Luxembourg',
+  code: 'lu'
+}, {
+  name: 'Macao',
+  code: 'mo'
+}, {
+  name: 'Macedonia, the Former Yugoslav Republic of',
+  code: 'mk'
+}, {
+  name: 'Madagascar',
+  code: 'mg'
+}, {
+  name: 'Malawi',
+  code: 'mw'
+}, {
+  name: 'Malaysia',
+  code: 'my'
+}, {
+  name: 'Maldives',
+  code: 'mv'
+}, {
+  name: 'Mali',
+  code: 'ml'
+}, {
+  name: 'Malta',
+  code: 'mt'
+}, {
+  name: 'Marshall Islands',
+  code: 'mh'
+}, {
+  name: 'Martinique',
+  code: 'mq'
+}, {
+  name: 'Mauritania',
+  code: 'mr'
+}, {
+  name: 'Mauritius',
+  code: 'mu'
+}, {
+  name: 'Mayotte',
+  code: 'yt'
+}, {
+  name: 'Mexico',
+  code: 'mx'
+}, {
+  name: 'Micronesia, Federated States of',
+  code: 'fm'
+}, {
+  name: 'Moldova, Republic of',
+  code: 'md'
+}, {
+  name: 'Monaco',
+  code: 'mc'
+}, {
+  name: 'Mongolia',
+  code: 'mn'
+}, {
+  name: 'Montenegro',
+  code: 'me'
+}, {
+  name: 'Montserrat',
+  code: 'ms'
+}, {
+  name: 'Morocco',
+  code: 'ma'
+}, {
+  name: 'Mozambique',
+  code: 'mz'
+}, {
+  name: 'Myanmar',
+  code: 'mm'
+}, {
+  name: 'Namibia',
+  code: 'na'
+}, {
+  name: 'Nauru',
+  code: 'nr'
+}, {
+  name: 'Nepal',
+  code: 'np'
+}, {
+  name: 'Netherlands',
+  code: 'nl'
+}, {
+  name: 'New Caledonia',
+  code: 'nc'
+}, {
+  name: 'New Zealand',
+  code: 'nz'
+}, {
+  name: 'Nicaragua',
+  code: 'ni'
+}, {
+  name: 'Niger',
+  code: 'ne'
+}, {
+  name: 'Nigeria',
+  code: 'ng'
+}, {
+  name: 'Niue',
+  code: 'nu'
+}, {
+  name: 'Norfolk Island',
+  code: 'nf'
+}, {
+  name: 'Northern Mariana Islands',
+  code: 'mp'
+}, {
+  name: 'Norway',
+  code: 'no'
+}, {
+  name: 'Oman',
+  code: 'om'
+}, {
+  name: 'Pakistan',
+  code: 'pk'
+}, {
+  name: 'Palau',
+  code: 'pw'
+}, {
+  name: 'Palestine, State of',
+  code: 'ps'
+}, {
+  name: 'Panama',
+  code: 'pa'
+}, {
+  name: 'Papua New Guinea',
+  code: 'pg'
+}, {
+  name: 'Paraguay',
+  code: 'py'
+}, {
+  name: 'Peru',
+  code: 'pe'
+}, {
+  name: 'Philippines',
+  code: 'ph'
+}, {
+  name: 'Pitcairn',
+  code: 'pn'
+}, {
+  name: 'Poland',
+  code: 'pl'
+}, {
+  name: 'Portugal',
+  code: 'pt'
+}, {
+  name: 'Puerto Rico',
+  code: 'pr'
+}, {
+  name: 'Qatar',
+  code: 'qa'
+}, {
+  name: 'Réunion',
+  code: 're'
+}, {
+  name: 'Romania',
+  code: 'ro'
+}, {
+  name: 'Russian Federation',
+  code: 'ru'
+}, {
+  name: 'Rwanda',
+  code: 'rw'
+}, {
+  name: 'Saint Barthélemy',
+  code: 'bl'
+}, {
+  name: 'Saint Helena, Ascension and Tristan da Cunha',
+  code: 'sh'
+}, {
+  name: 'Saint Kitts and Nevis',
+  code: 'kn'
+}, {
+  name: 'Saint Lucia',
+  code: 'lc'
+}, {
+  name: 'Saint Martin (French part)',
+  code: 'mf'
+}, {
+  name: 'Saint Pierre and Miquelon',
+  code: 'pm'
+}, {
+  name: 'Saint Vincent and the Grenadines',
+  code: 'vc'
+}, {
+  name: 'Samoa',
+  code: 'ws'
+}, {
+  name: 'San Marino',
+  code: 'sm'
+}, {
+  name: 'Sao Tome and Principe',
+  code: 'st'
+}, {
+  name: 'Saudi Arabia',
+  code: 'sa'
+}, {
+  name: 'Senegal',
+  code: 'sn'
+}, {
+  name: 'Serbia',
+  code: 'rs'
+}, {
+  name: 'Seychelles',
+  code: 'sc'
+}, {
+  name: 'Sierra Leone',
+  code: 'sl'
+}, {
+  name: 'Singapore',
+  code: 'sg'
+}, {
+  name: 'Sint Maarten (Dutch part)',
+  code: 'sx'
+}, {
+  name: 'Slovakia',
+  code: 'sk'
+}, {
+  name: 'Slovenia',
+  code: 'si'
+}, {
+  name: 'Solomon Islands',
+  code: 'sb'
+}, {
+  name: 'Somalia',
+  code: 'so'
+}, {
+  name: 'South Africa',
+  code: 'za'
+}, {
+  name: 'South Georgia and the South Sandwich Islands',
+  code: 'gs'
+}, {
+  name: 'South Sudan',
+  code: 'ss'
+}, {
+  name: 'Spain',
+  code: 'es'
+}, {
+  name: 'Sri Lanka',
+  code: 'lk'
+}, {
+  name: 'Sudan',
+  code: 'sd'
+}, {
+  name: 'Suriname',
+  code: 'sr'
+}, {
+  name: 'Svalbard and Jan Mayen',
+  code: 'sj'
+}, {
+  name: 'Swaziland',
+  code: 'sz'
+}, {
+  name: 'Sweden',
+  code: 'se'
+}, {
+  name: 'Switzerland',
+  code: 'ch'
+}, {
+  name: 'Syrian Arab Republic',
+  code: 'sy'
+}, {
+  name: 'Taiwan, Province of China',
+  code: 'tw'
+}, {
+  name: 'Tajikistan',
+  code: 'tj'
+}, {
+  name: 'Tanzania, United Republic of',
+  code: 'tz'
+}, {
+  name: 'Thailand',
+  code: 'th'
+}, {
+  name: 'Timor-Leste',
+  code: 'tl'
+}, {
+  name: 'Togo',
+  code: 'tg'
+}, {
+  name: 'Tokelau',
+  code: 'tk'
+}, {
+  name: 'Tonga',
+  code: 'to'
+}, {
+  name: 'Trinidad and Tobago',
+  code: 'tt'
+}, {
+  name: 'Tunisia',
+  code: 'tn'
+}, {
+  name: 'Turkey',
+  code: 'tr'
+}, {
+  name: 'Turkmenistan',
+  code: 'tm'
+}, {
+  name: 'Turks and Caicos Islands',
+  code: 'tc'
+}, {
+  name: 'Tuvalu',
+  code: 'tv'
+}, {
+  name: 'Uganda',
+  code: 'ug'
+}, {
+  name: 'Ukraine',
+  code: 'ua'
+}, {
+  name: 'United Arab Emirates',
+  code: 'ae'
+}, {
+  name: 'United Kingdom',
+  code: 'gb'
+}, {
+  name: 'England',
+  code: 'gb-eng'
+}, {
+  name: 'Northern Ireland',
+  code: 'gb-nir'
+}, {
+  name: 'Scotland',
+  code: 'gb-sct'
+}, {
+  name: 'Wales',
+  code: 'gb-wls'
+}, {
+  name: 'United Nations',
+  code: 'un'
+}, {
+  name: 'United States',
+  code: 'us'
+}, {
+  name: 'United States Minor Outlying Islands',
+  code: 'um'
+}, {
+  name: 'Uruguay',
+  code: 'uy'
+}, {
+  name: 'Uzbekistan',
+  code: 'uz'
+}, {
+  name: 'Vanuatu',
+  code: 'vu'
+}, {
+  name: 'Venezuela, Bolivarian Republic of',
+  code: 've'
+}, {
+  name: 'Viet Nam',
+  code: 'vn'
+}, {
+  name: 'Virgin Islands, British',
+  code: 'vg'
+}, {
+  name: 'Virgin Islands, U.S.',
+  code: 'vi'
+}, {
+  name: 'Wallis and Futuna',
+  code: 'wf'
+}, {
+  name: 'Western Sahara',
+  code: 'eh'
+}, {
+  name: 'Yemen',
+  code: 'ye'
+}, {
+  name: 'Zambia',
+  code: 'zm'
+}, {
+  name: 'Zimbabwe',
+  code: 'zw'
+}];
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/styles.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/styles.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var flag_icon_css_css_flag_icon_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flag-icon-css/css/flag-icon.css */ "./node_modules/flag-icon-css/css/flag-icon.css");
+/* harmony import */ var flag_icon_css_css_flag_icon_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flag_icon_css_css_flag_icon_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _styles_main_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/main.css */ "./node_modules/react-flag-icon-css/module/styles/main.css");
+/* harmony import */ var _styles_main_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_styles_main_css__WEBPACK_IMPORTED_MODULE_1__);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var finalStyles = _objectSpread({}, flag_icon_css_css_flag_icon_css__WEBPACK_IMPORTED_MODULE_0___default.a, _styles_main_css__WEBPACK_IMPORTED_MODULE_1___default.a);
+
+/* harmony default export */ __webpack_exports__["default"] = (finalStyles);
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/styles/main.css":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/styles/main.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/types/flow/index.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/types/flow/index.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-flag-icon-css/module/types/propTypes.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/react-flag-icon-css/module/types/propTypes.js ***!
+  \********************************************************************/
+/*! exports provided: MakeFlagIconPropsType, MakeFlagIconOptionsPropType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MakeFlagIconPropsType", function() { return MakeFlagIconPropsType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MakeFlagIconOptionsPropType", function() { return MakeFlagIconOptionsPropType; });
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _functions_props__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions/props */ "./node_modules/react-flag-icon-css/module/functions/props.js");
+/* harmony import */ var _functions_propTypes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/propTypes */ "./node_modules/react-flag-icon-css/module/functions/propTypes.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var FlagIconSizeType = prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf(Object(_functions_props__WEBPACK_IMPORTED_MODULE_1__["getSizes"])());
+var FlagIconRotateType = prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf(Object(_functions_props__WEBPACK_IMPORTED_MODULE_1__["getRotates"])());
+var FlagIconFlipType = prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf(Object(_functions_props__WEBPACK_IMPORTED_MODULE_1__["getFlips"])());
+
+var makeFlagIconCodeType = function makeFlagIconCodeType(codes) {
+  return prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf(codes);
+};
+
+var makeFlagIconClassesObject = function makeFlagIconClassesObject(codes) {
+  return {
+    code: makeFlagIconCodeType(codes).isRequired,
+    size: FlagIconSizeType,
+    squared: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+    rotate: FlagIconRotateType,
+    flip: FlagIconFlipType,
+    className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+    styleName: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+  };
+};
+
+var makeFlagIconPropsTypeObject = function makeFlagIconPropsTypeObject(codes) {
+  return _objectSpread({}, makeFlagIconClassesObject(codes), {
+    children: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
+    Component: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+  });
+};
+
+var MakeFlagIconPropsType = function MakeFlagIconPropsType(codes) {
+  return Object(_functions_propTypes__WEBPACK_IMPORTED_MODULE_2__["AddNoExtraPropsValidator"])(makeFlagIconPropsTypeObject(codes));
+};
+var flagIconOptionsType = {
+  customCodes: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+  themeStyles: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+  useCssModules: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
+};
+var MakeFlagIconOptionsPropType = function MakeFlagIconOptionsPropType() {
+  return Object(_functions_propTypes__WEBPACK_IMPORTED_MODULE_2__["AddNoExtraPropsValidator"])(Object(_functions_propTypes__WEBPACK_IMPORTED_MODULE_2__["AddThemeStylesValidator"])(flagIconOptionsType));
+};
+
+/***/ }),
+
 /***/ "./node_modules/react-focus-lock/dist/es2015/AutoFocusInside.js":
 /*!**********************************************************************!*\
   !*** ./node_modules/react-focus-lock/dist/es2015/AutoFocusInside.js ***!
@@ -59879,28 +61241,12 @@ var checkCredentials = function checkCredentials(_ref3) {
   }).then(responseHandler);
 };
 
-var enrolCompany = function enrolCompany(_ref4) {
+var updateCompany = function updateCompany(_ref4) {
   var company_name = _ref4.company_name,
       expertise_industries = _ref4.expertise_industries,
       expertise_countries = _ref4.expertise_countries,
       first_name = _ref4.first_name,
       last_name = _ref4.last_name;
-  var data = {
-    company_name: company_name,
-    expertise_industries: expertise_industries,
-    expertise_countries: expertise_countries,
-    first_name: first_name,
-    last_name: last_name
-  };
-  return post(config.enrolCompanyUrl, data).then(responseHandler);
-};
-
-var updateCompany = function updateCompany(_ref5) {
-  var company_name = _ref5.company_name,
-      expertise_industries = _ref5.expertise_industries,
-      expertise_countries = _ref5.expertise_countries,
-      first_name = _ref5.first_name,
-      last_name = _ref5.last_name;
   var data = {
     company_name: company_name,
     expertise_industries: expertise_industries,
@@ -59926,28 +61272,28 @@ var responseHandler = function responseHandler(response) {
 
 var config = {};
 
-var setConfig = function setConfig(_ref6) {
-  var apiLoginUrl = _ref6.apiLoginUrl,
-      apiSignupUrl = _ref6.apiSignupUrl,
-      apiUpdateCompanyUrl = _ref6.apiUpdateCompanyUrl,
-      countryOptions = _ref6.countryOptions,
-      csrfToken = _ref6.csrfToken,
-      dashboardUrl = _ref6.dashboardUrl,
-      enrolCompanyUrl = _ref6.enrolCompanyUrl,
-      googleUrl = _ref6.googleUrl,
-      industryOptions = _ref6.industryOptions,
-      linkedInUrl = _ref6.linkedInUrl,
-      loginUrl = _ref6.loginUrl,
-      passwordResetUrl = _ref6.passwordResetUrl,
-      termsUrl = _ref6.termsUrl,
-      verifyCodeUrl = _ref6.verifyCodeUrl;
+var setConfig = function setConfig(_ref5) {
+  var apiLoginUrl = _ref5.apiLoginUrl,
+      apiSignupUrl = _ref5.apiSignupUrl,
+      apiUpdateCompanyUrl = _ref5.apiUpdateCompanyUrl,
+      countryOptions = _ref5.countryOptions,
+      csrfToken = _ref5.csrfToken,
+      dashboardUrl = _ref5.dashboardUrl,
+      googleUrl = _ref5.googleUrl,
+      industryOptions = _ref5.industryOptions,
+      linkedInUrl = _ref5.linkedInUrl,
+      loginUrl = _ref5.loginUrl,
+      passwordResetUrl = _ref5.passwordResetUrl,
+      termsUrl = _ref5.termsUrl,
+      userCountries = _ref5.userCountries,
+      userIndustries = _ref5.userIndustries,
+      verifyCodeUrl = _ref5.verifyCodeUrl;
   config.apiLoginUrl = apiLoginUrl;
   config.apiSignupUrl = apiSignupUrl;
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl;
   config.countryOptions = countryOptions;
   config.csrfToken = csrfToken;
   config.dashboardUrl = dashboardUrl;
-  config.enrolCompanyUrl = enrolCompanyUrl;
   config.googleUrl = googleUrl;
   config.industryOptions = industryOptions;
   config.linkedInUrl = linkedInUrl;
@@ -59955,13 +61301,14 @@ var setConfig = function setConfig(_ref6) {
   config.passwordResetUrl = passwordResetUrl;
   config.termsUrl = termsUrl;
   config.verifyCodeUrl = verifyCodeUrl;
+  config.userCountries = userCountries;
+  config.userIndustries = userIndustries;
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   createUser: createUser,
   checkCredentials: checkCredentials,
   checkVerificationCode: checkVerificationCode,
-  enrolCompany: enrolCompany,
   updateCompany: updateCompany,
   setConfig: setConfig,
   config: config,
@@ -59985,14 +61332,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_sass_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/sass/main.scss */ "./core/sass/main.scss");
 /* harmony import */ var _core_sass_main_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_sass_main_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_views_SignupModal_Modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/views/SignupModal/Modal */ "./react-components/src/views/SignupModal/Modal.jsx");
-/* harmony import */ var _src_views_QuestionModal_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/QuestionModal/Modal */ "./react-components/src/views/QuestionModal/Modal.jsx");
-/* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
-/* harmony import */ var _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/Tour/Base */ "./react-components/src/views/Tour/Base.jsx");
-/* harmony import */ var _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/SectorChooser */ "./react-components/src/components/SectorChooser.jsx");
-/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _src_views_IndustriesModal_Base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/IndustriesModal/Base */ "./react-components/src/views/IndustriesModal/Base.jsx");
+/* harmony import */ var _src_views_CountriesModal_Base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/CountriesModal/Base */ "./react-components/src/views/CountriesModal/Base.jsx");
+/* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
+/* harmony import */ var _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/Tour/Base */ "./react-components/src/views/Tour/Base.jsx");
+/* harmony import */ var _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/SectorChooser */ "./react-components/src/components/SectorChooser.jsx");
+/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -60003,14 +61352,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].setConfig,
+  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_8__["default"].setConfig,
   SignupModal: _src_views_SignupModal_Modal__WEBPACK_IMPORTED_MODULE_1__["default"],
-  LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_3__["default"],
-  Tour: _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_4__["default"],
-  createSectorChooser: _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_5__["createSectorChooser"],
-  QuestionModal: _src_views_QuestionModal_Modal__WEBPACK_IMPORTED_MODULE_2__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_6__["STEP_VERIFICATION_CODE"]
+  LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_4__["default"],
+  Tour: _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_5__["default"],
+  createSectorChooser: _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_6__["createSectorChooser"],
+  IndustriesModal: _src_views_IndustriesModal_Base__WEBPACK_IMPORTED_MODULE_2__["default"],
+  CountriesModal: _src_views_CountriesModal_Base__WEBPACK_IMPORTED_MODULE_3__["default"],
+  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_7__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_7__["STEP_VERIFICATION_CODE"]
 });
 
 /***/ }),
@@ -60033,6 +61383,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
 /* harmony import */ var _stylesheets_AutoCompleteField_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/AutoCompleteField.scss */ "./react-components/src/components/stylesheets/AutoCompleteField.scss");
 /* harmony import */ var _stylesheets_AutoCompleteField_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_AutoCompleteField_scss__WEBPACK_IMPORTED_MODULE_4__);
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 
 
 
@@ -60056,35 +61412,31 @@ function AutoCompleteField(props) {
     }
   }
 
+  var errors = props.errors,
+      otherProps = _objectWithoutProperties(props, ["errors"]);
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, getLabel(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ErrorList__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    errors: props.errors || []
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    id: id_for_label,
-    options: props.choices,
-    isMulti: true,
-    isClearable: true,
-    name: props.name,
-    onChange: handleChange,
-    value: props.value,
-    autoFocus: props.autofocus,
+    errors: errors || []
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({
     className: "great-mvp-autocomplete-field",
     classNamePrefix: "great-mvp-autocomplete-field",
-    disabled: props.disabled,
-    placeholder: props.placeholder
-  }));
+    id: id_for_label,
+    isClearable: true,
+    isMulti: true,
+    onChange: handleChange
+  }, otherProps)));
 }
 AutoCompleteField.propTypes = {
-  type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
   disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  autofocus: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  autoFocus: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
 };
 AutoCompleteField.defaultProps = {
-  autofocus: false,
+  autoFocus: false,
   disabled: false,
   errors: []
 };
@@ -60200,6 +61552,113 @@ Field.defaultProps = {
   disabled: false,
   errors: []
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/FlagIcon.jsx":
+/*!******************************************************!*\
+  !*** ./react-components/src/components/FlagIcon.jsx ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_flag_icon_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-flag-icon-css */ "./node_modules/react-flag-icon-css/module/index.js");
+
+ // Please only use `FlagIconFactory` one time in your application, there is no
+// need to use it multiple times (it would slow down your app). You may place the
+// line below in a `FlagIcon.js` file in your 'components' directory, then
+// write `export default FlagIcon` as shown below and import it elsewhere in your app.
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_flag_icon_css__WEBPACK_IMPORTED_MODULE_1__["default"])(react__WEBPACK_IMPORTED_MODULE_0__, {
+  useCssModules: false
+}));
+
+/***/ }),
+
+/***/ "./react-components/src/components/Modal.jsx":
+/*!***************************************************!*\
+  !*** ./react-components/src/components/Modal.jsx ***!
+  \***************************************************/
+/*! exports provided: Modal, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Modal", function() { return Modal; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+function Modal(props) {
+  var _useCookies = Object(react_cookie__WEBPACK_IMPORTED_MODULE_3__["useCookies"])([props.skipFeatureCookieName]),
+      _useCookies2 = _slicedToArray(_useCookies, 2),
+      cookies = _useCookies2[0],
+      setCookie = _useCookies2[1];
+
+  var SkipFeature = cookies[props.skipFeatureCookieName] == 'true';
+
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(!SkipFeature && props.isOpen),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      isOpen = _React$useState2[0],
+      setIsOpen = _React$useState2[1];
+
+  function handleClose(event) {
+    event.preventDefault();
+    setIsOpen(false);
+  }
+
+  function handleRequestSkipFeature() {
+    setCookie(props.skipFeatureCookieName, 'true');
+    setIsOpen(false);
+  }
+
+  function getSkipFeature() {
+    var SkipFeature = props.skipFeatureComponent;
+
+    if (SkipFeature) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SkipFeature, {
+        onClick: handleRequestSkipFeature
+      });
+    }
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+    isOpen: isOpen,
+    onRequestClose: handleClose,
+    className: "ReactModal__Content",
+    overlayClassName: "ReactModal__Overlay",
+    contentLabel: "Modal"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-s"
+  }, props.children, getSkipFeature()));
+}
+Modal.propTypes = {
+  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  skipFeatureCookieName: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+};
+Modal.defaultProps = {
+  isOpen: false
+};
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_cookie__WEBPACK_IMPORTED_MODULE_3__["withCookies"])(Modal));
 
 /***/ }),
 
@@ -60574,49 +62033,6 @@ function SocialLoginButtons(props) {
 
 /***/ }),
 
-/***/ "./react-components/src/components/StepProgressBar.jsx":
-/*!*************************************************************!*\
-  !*** ./react-components/src/components/StepProgressBar.jsx ***!
-  \*************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StepProgressBar; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _assets_google_icon_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @assets/google-icon.png */ "./react-components/assets/google-icon.png");
-/* harmony import */ var _assets_linkedin_icon_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @assets/linkedin-icon.png */ "./react-components/assets/linkedin-icon.png");
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Services */ "./react-components/src/Services.js");
-/* harmony import */ var _stylesheets_StepProgressBar_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./stylesheets/StepProgressBar.scss */ "./react-components/src/components/stylesheets/StepProgressBar.scss");
-/* harmony import */ var _stylesheets_StepProgressBar_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_StepProgressBar_scss__WEBPACK_IMPORTED_MODULE_5__);
-
-
-
-
-
-
-function StepProgressBar(props) {
-  var scale = 1 + 1 / props.steps.length;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-step-progress-bar"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    style: {
-      scale: "".concat(scale)
-    }
-  }, props.steps.map(function (step, i) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      key: i,
-      className: step == props.currentStep && "active"
-    });
-  })));
-}
-
-/***/ }),
-
 /***/ "./react-components/src/components/stylesheets/AutoCompleteField.scss":
 /*!****************************************************************************!*\
   !*** ./react-components/src/components/stylesheets/AutoCompleteField.scss ***!
@@ -60661,14 +62077,568 @@ function StepProgressBar(props) {
 
 /***/ }),
 
-/***/ "./react-components/src/components/stylesheets/StepProgressBar.scss":
-/*!**************************************************************************!*\
-  !*** ./react-components/src/components/stylesheets/StepProgressBar.scss ***!
-  \**************************************************************************/
+/***/ "./react-components/src/stylesheets/ModalCentreScreen.scss":
+/*!*****************************************************************!*\
+  !*** ./react-components/src/stylesheets/ModalCentreScreen.scss ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/stylesheets/_WizardStep.scss":
+/*!***********************************************************!*\
+  !*** ./react-components/src/stylesheets/_WizardStep.scss ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/views/CountriesModal/Base.jsx":
+/*!************************************************************!*\
+  !*** ./react-components/src/views/CountriesModal/Base.jsx ***!
+  \************************************************************/
+/*! exports provided: STEP_COUNTRIES, STEP_SUCCESS, SkipShowGenericContent, Base, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_COUNTRIES", function() { return STEP_COUNTRIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SUCCESS", function() { return STEP_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SkipShowGenericContent", function() { return SkipShowGenericContent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createModal; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _src_components_Modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Modal */ "./react-components/src/components/Modal.jsx");
+/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/stylesheets/ModalCentreScreen.scss */ "./react-components/src/stylesheets/ModalCentreScreen.scss");
+/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _StepCountries__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./StepCountries */ "./react-components/src/views/CountriesModal/StepCountries.jsx");
+/* harmony import */ var _StepSuccess__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./StepSuccess */ "./react-components/src/views/CountriesModal/StepSuccess.jsx");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+var STEP_COUNTRIES = 'country';
+var STEP_SUCCESS = 'success';
+function SkipShowGenericContent(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "#",
+    className: "great-mvp-wizard-step-link",
+    onClick: function onClick(event) {
+      event.preventDefault();
+      props.onClick();
+    }
+  }, "No thanks, I would like generic content");
+}
+function Base(props) {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      errors = _React$useState2[0],
+      setErrors = _React$useState2[1];
+
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      isInProgress = _React$useState4[0],
+      setIsInProgress = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(_src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.userCountries),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      countries = _React$useState6[0],
+      setCountries = _React$useState6[1];
+
+  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      currentStep = _React$useState8[0],
+      setCurrentStep = _React$useState8[1];
+
+  function handleUpdateCompanies() {
+    var data = {
+      expertise_countries: (countries || []).map(function (item) {
+        return item.value;
+      })
+    };
+    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateCompany(data).then(handeleApiUpdateSuccess)["catch"](handeleApiUpdateError);
+  }
+
+  function handeleApiUpdateError(errors) {
+    setErrors(errors);
+    setCurrentStep(STEP_COUNTRIES);
+  }
+
+  function handeleApiUpdateSuccess() {
+    setIsInProgress(false);
+    setErrors({});
+    setCurrentStep(STEP_SUCCESS);
+  }
+
+  function getStep() {
+    if (currentStep == STEP_COUNTRIES) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCountries__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        errors: errors,
+        disabled: isInProgress,
+        handleSubmit: handleUpdateCompanies,
+        handleChange: setCountries,
+        value: countries || []
+      });
+    } else if (currentStep == STEP_SUCCESS) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepSuccess__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        successUrl: "".concat(window.location, "?success"),
+        handleChangeAnswers: function handleChangeAnswers() {
+          return setCurrentStep(STEP_COUNTRIES);
+        },
+        countries: countries,
+        industries: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.userIndustries
+      });
+    }
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    isOpen: props.isOpen,
+    skipFeatureCookieName: "skip-industries-of-interest",
+    skipFeatureComponent: currentStep == STEP_COUNTRIES ? SkipShowGenericContent : null,
+    id: "dashboard-question-modal-lets-get-to-know-you"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    errors: errors.__all__ || [],
+    className: "m-t-s"
+  }), getStep());
+}
+Base.propTypes = {
+  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  industries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
+  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+};
+Base.defaultProps = {
+  isOpen: false,
+  errors: {},
+  isInProgress: false,
+  industries: [],
+  currentStep: STEP_COUNTRIES
+};
+function createModal(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Base, params), element);
+}
+
+/***/ }),
+
+/***/ "./react-components/src/views/CountriesModal/StepCountries.jsx":
+/*!*********************************************************************!*\
+  !*** ./react-components/src/views/CountriesModal/StepCountries.jsx ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StepCountries; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/AutoCompleteField */ "./react-components/src/components/AutoCompleteField.jsx");
+/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/Step.scss */ "./react-components/src/views/CountriesModal/stylesheets/Step.scss");
+/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _src_assets_google_icon_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/../assets/google-icon.png */ "./react-components/assets/google-icon.png");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
+/* harmony import */ var _src_components_FlagIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/components/FlagIcon */ "./react-components/src/components/FlagIcon.jsx");
+
+
+
+
+
+
+
+
+
+function OptionWithFlag(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_6__["components"].Option, props, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FlagIcon__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    code: props.data.value.toLowerCase()
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    style: {
+      paddingLeft: 10
+    }
+  }, props.data.label, " (", props.data.value, ")"));
+}
+
+function StepCountries(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-b-m"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "h-m"
+  }, "Where do you want to export?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: function onSubmit(event) {
+      event.preventDefault();
+      props.handleSubmit();
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    autoFocus: true,
+    options: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.countryOptions,
+    disabled: props.disabled,
+    errors: props.errors.expertise_countries || [],
+    handleChange: props.handleChange,
+    name: "expertise_countries",
+    value: props.value,
+    components: {
+      Option: OptionWithFlag
+    },
+    placeholder: "Start typing and select a country"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "submit",
+    value: "Continue",
+    className: "great-mvp-wizard-step-button m-t-l",
+    disabled: props.disabled,
+    style: {
+      'visibility': props.value.length > 0 ? 'visible' : 'hidden'
+    }
+  })));
+}
+StepCountries.propTypes = {
+  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
+  onSkipButtonClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
+StepCountries.defaultProps = {
+  disabled: false,
+  errors: {},
+  password: '',
+  value: []
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/CountriesModal/StepSuccess.jsx":
+/*!*******************************************************************!*\
+  !*** ./react-components/src/views/CountriesModal/StepSuccess.jsx ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StepSuccess; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/AutoCompleteField */ "./react-components/src/components/AutoCompleteField.jsx");
+/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/Step.scss */ "./react-components/src/views/CountriesModal/stylesheets/Step.scss");
+/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
+/* harmony import */ var _src_components_FlagIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/FlagIcon */ "./react-components/src/components/FlagIcon.jsx");
+
+
+
+
+
+
+
+function StepSuccess(props) {
+  var countries = props.countries.map(function (item) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "great-mvp-pill-button"
+    }, item.label);
+  });
+  var industries = props.industries.map(function (item) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "great-mvp-pill-button"
+    }, item.label);
+  });
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "great-mvp-wizard-step"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid-flex"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-3"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/static/images/book-chap.png",
+    width: "150"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-2-3 m-b-s"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "h-m p-t-0"
+  }, "Complete"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Your relevant opportunities and events in ", industries, " and ", countries, " are ready."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "great-mvp-wizard-step-button m-t-l",
+    href: props.successUrl
+  }, "Let's go"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-t-s"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "#",
+    className: "great-mvp-wizard-step-link",
+    onClick: function onClick(event) {
+      event.preventDefault();
+      props.handleChangeAnswers();
+    }
+  }, "Change answers")))));
+}
+StepSuccess.propTypes = {
+  countries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
+  industries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/CountriesModal/stylesheets/Step.scss":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/views/CountriesModal/stylesheets/Step.scss ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/views/IndustriesModal/Base.jsx":
+/*!*************************************************************!*\
+  !*** ./react-components/src/views/IndustriesModal/Base.jsx ***!
+  \*************************************************************/
+/*! exports provided: SkipShowGenericContent, Base, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SkipShowGenericContent", function() { return SkipShowGenericContent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createModal; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
+/* harmony import */ var _src_components_Modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Modal */ "./react-components/src/components/Modal.jsx");
+/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/stylesheets/ModalCentreScreen.scss */ "./react-components/src/stylesheets/ModalCentreScreen.scss");
+/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Form */ "./react-components/src/views/IndustriesModal/Form.jsx");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+function SkipShowGenericContent(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-3"
+  }, "\xA0"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-2-3"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "#",
+    className: "great-mvp-wizard-step-link",
+    onClick: function onClick(event) {
+      event.preventDefault();
+      props.onClick();
+    }
+  }, "No thanks, I would like generic content")));
+}
+function Base(props) {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      errors = _React$useState2[0],
+      setErrors = _React$useState2[1];
+
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      isInProgress = _React$useState4[0],
+      setIsInProgress = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.industries),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      industries = _React$useState6[0],
+      setIndustries = _React$useState6[1];
+
+  function handleIndustriesSubmit() {
+    _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].updateCompany({
+      expertise_industries: (industries || []).map(function (item) {
+        return item.value;
+      })
+    }).then(handleIndustriesSubmitSuccess)["catch"](handleIndustriesSubmitError);
+  }
+
+  function handleIndustriesSubmitSuccess(nextStep) {
+    setIsInProgress(false);
+    setErrors({});
+    window.location.assign("".concat(window.location, "?success"));
+  }
+
+  function handleIndustriesSubmitError(errors) {
+    setErrors(errors.message || errors);
+    setIsInProgress(false);
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Modal__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    isOpen: props.isOpen,
+    skipFeatureCookieName: "skip-industries-of-interest",
+    skipFeatureComponent: SkipShowGenericContent,
+    id: "dashboard-question-modal-lets-get-to-know-you"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    errors: errors.__all__ || [],
+    className: "m-t-s"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    errors: errors,
+    disabled: isInProgress,
+    handleSubmit: handleIndustriesSubmit,
+    handleChange: setIndustries,
+    value: industries,
+    onSkipButtonClick: props.handleRequestSkipFeature
+  }));
+}
+Base.propTypes = {
+  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  industries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
+};
+Base.defaultProps = {
+  isOpen: false,
+  errors: {},
+  isInProgress: false,
+  industries: []
+};
+function createModal(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Base, params), element);
+}
+
+/***/ }),
+
+/***/ "./react-components/src/views/IndustriesModal/Form.jsx":
+/*!*************************************************************!*\
+  !*** ./react-components/src/views/IndustriesModal/Form.jsx ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Form; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/AutoCompleteField */ "./react-components/src/components/AutoCompleteField.jsx");
+/* harmony import */ var _src_stylesheets_WizardStep_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/stylesheets/_WizardStep.scss */ "./react-components/src/stylesheets/_WizardStep.scss");
+/* harmony import */ var _src_stylesheets_WizardStep_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_src_stylesheets_WizardStep_scss__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+function Form(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid-flex"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-3"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/static/images/book-chap.png",
+    width: "150"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-2-3"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "h-m"
+  }, "What sectors are you interested in?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: function onSubmit(event) {
+      event.preventDefault();
+      props.handleSubmit();
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    placeholder: "Start typing and select an industry",
+    options: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.industryOptions,
+    name: "expertise_industries",
+    disabled: props.disabled,
+    value: props.value,
+    handleChange: props.handleChange,
+    autoFocus: true,
+    errors: props.errors.expertise_industries || []
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "submit",
+    value: "Save",
+    id: "dashboard-question-modal-submit",
+    className: "great-mvp-wizard-step-button m-v-s",
+    disabled: props.disabled
+  }))));
+}
+Form.propTypes = {
+  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
+};
+Form.defaultProps = {
+  disabled: false,
+  errors: {},
+  password: '',
+  value: []
+};
 
 /***/ }),
 
@@ -60729,7 +62699,7 @@ var modalStyles = {
     textAlign: 'center',
     top: '50%',
     transform: 'translate(20%, 0)'
-  }, _defineProperty(_content, "top", 75), _defineProperty(_content, "width", 430), _content),
+  }, _defineProperty(_content, "top", 75), _defineProperty(_content, "width", 430), _defineProperty(_content, "overflow", 'visible'), _content),
   overlay: {
     zIndex: 1000,
     backgroundColor: 'transparent'
@@ -60744,6 +62714,11 @@ function Modal(props) {
   function handleOpen(event) {
     event.preventDefault();
     setIsOpen(true);
+  }
+
+  function handleRequestSkipFeature() {
+    setCookie(props.skipFeatureCookieName, 'true');
+    setIsOpen(false);
   }
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -60984,639 +62959,6 @@ Wizard.defaultProps = {
 /*!**********************************************************************!*\
   !*** ./react-components/src/views/LoginModal/stylesheets/Step1.scss ***!
   \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/Modal.jsx":
-/*!************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/Modal.jsx ***!
-  \************************************************************/
-/*! exports provided: Modal, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Modal", function() { return Modal; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createModal; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _Wizard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Wizard */ "./react-components/src/views/QuestionModal/Wizard.jsx");
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-var modalStyles = {
-  content: {
-    background: '#f5f2ed',
-    bottom: 'auto',
-    left: '50%',
-    marginRight: '-50%',
-    right: 'auto',
-    textAlign: 'left',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: 10,
-    padding: 0,
-    width: 570
-  },
-  overlay: {
-    zIndex: 1000,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-  }
-};
-function Modal(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isOpen),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      isOpen = _React$useState2[0],
-      setIsOpen = _React$useState2[1];
-
-  function handleOpen(event) {
-    event.preventDefault();
-    setIsOpen(true);
-  }
-
-  function handleClose(event) {
-    event.preventDefault();
-    setIsOpen(false);
-  }
-
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "question-modal"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_3___default.a, {
-    isOpen: isOpen,
-    onRequestClose: handleClose,
-    style: modalStyles,
-    contentLabel: "Modal"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wizard__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    currentStep: props.currentStep,
-    username: props.username,
-    handleClose: handleClose
-  })));
-}
-Modal.propTypes = {
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number
-};
-Modal.defaultProps = {
-  isOpen: false
-};
-function createModal(_ref) {
-  var element = _ref.element,
-      params = _objectWithoutProperties(_ref, ["element"]);
-
-  react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Modal, params), element);
-}
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/Step1.jsx":
-/*!************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/Step1.jsx ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Step1; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Field */ "./react-components/src/components/Field.jsx");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/Step.scss */ "./react-components/src/views/QuestionModal/stylesheets/Step.scss");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-function Step1(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-wizard-step"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "h-xl p-b-s m-t-s"
-  }, "Business details"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: function onSubmit(event) {
-      event.preventDefault();
-      props.handleSubmit();
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    type: "text",
-    label: "Company name",
-    name: "company_name",
-    disabled: props.disabled,
-    value: props.value,
-    handleChange: props.handleChange,
-    autofocus: true,
-    errors: props.errors.company_name || []
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "submit",
-    value: "Continue",
-    className: "g-button",
-    disabled: props.disabled
-  })));
-}
-Step1.propTypes = {
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
-  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-};
-Step1.defaultProps = {
-  disabled: false,
-  errors: [],
-  password: '',
-  value: ''
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/Step4.jsx":
-/*!************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/Step4.jsx ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Step4; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Field */ "./react-components/src/components/Field.jsx");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/Step.scss */ "./react-components/src/views/QuestionModal/stylesheets/Step.scss");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-function Step4(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-wizard-step"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "great-mvp-wizard-step-heading"
-  }, "Personal details"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: function onSubmit(event) {
-      event.preventDefault();
-      props.handleSubmit();
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    type: "text",
-    label: "First name",
-    name: "first_name",
-    disabled: props.disabled,
-    value: props.firstNameValue,
-    handleChange: props.handleFirstNameChange,
-    autofocus: true,
-    errors: props.errors.first_name || []
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    type: "text",
-    label: "Last name",
-    name: "last_name",
-    disabled: props.disabled,
-    value: props.lastNameValue,
-    handleChange: props.handleLastNameChange,
-    errors: props.errors.last_name || []
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "submit",
-    value: "Continue",
-    className: "great-mvp-wizard-step-submit g-button",
-    disabled: props.disabled
-  })));
-}
-Step4.propTypes = {
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
-  handleFirstNameChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  handleLastNameChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  firstNameValuet: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  lastNameValuet: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-};
-Step4.defaultProps = {
-  disabled: false,
-  errors: [],
-  password: '',
-  firstNameValue: '',
-  lastNameValue: ''
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/StepCountry.jsx":
-/*!******************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/StepCountry.jsx ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StepCountry; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/AutoCompleteField */ "./react-components/src/components/AutoCompleteField.jsx");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/Step.scss */ "./react-components/src/views/QuestionModal/stylesheets/Step.scss");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-function StepCountry(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-wizard-step"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "great-mvp-wizard-step-heading"
-  }, "Business details"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: function onSubmit(event) {
-      event.preventDefault();
-      props.handleSubmit();
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    label: "What country would you like to export to?",
-    choices: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.countryOptions,
-    name: "expertise_countries",
-    disabled: props.disabled,
-    value: props.value,
-    handleChange: props.handleChange,
-    autofocus: true,
-    errors: props.errors.expertise_countries || []
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "submit",
-    value: "Continue",
-    className: "great-mvp-wizard-step-submit g-button",
-    disabled: props.disabled
-  })));
-}
-StepCountry.propTypes = {
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
-  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-};
-StepCountry.defaultProps = {
-  disabled: false,
-  errors: [],
-  password: '',
-  value: ''
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/StepSectors.jsx":
-/*!******************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/StepSectors.jsx ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StepSectors; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/AutoCompleteField */ "./react-components/src/components/AutoCompleteField.jsx");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/Step.scss */ "./react-components/src/views/QuestionModal/stylesheets/Step.scss");
-/* harmony import */ var _stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Step_scss__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-function StepSectors(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-wizard-step"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "great-mvp-wizard-step-heading"
-  }, "Business details"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: function onSubmit(event) {
-      event.preventDefault();
-      props.handleSubmit();
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    label: "What sectors are you interested in?",
-    choices: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.industryOptions,
-    name: "expertise_industries",
-    disabled: props.disabled,
-    value: props.value,
-    handleChange: props.handleChange,
-    autofocus: true,
-    errors: props.errors.expertise_industries || []
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "submit",
-    value: "Continue",
-    id: "dashboard-question-modal-submit",
-    className: "great-mvp-wizard-step-submit g-button",
-    disabled: props.disabled
-  })));
-}
-StepSectors.propTypes = {
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
-  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-};
-StepSectors.defaultProps = {
-  disabled: false,
-  errors: [],
-  password: '',
-  value: ''
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/Wizard.jsx":
-/*!*************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/Wizard.jsx ***!
-  \*************************************************************/
-/*! exports provided: STEP_COMPANY_NAME, STEP_SECTORS, STEP_COUNTRIES, STEP_PERSONAL_DETAILS, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_COMPANY_NAME", function() { return STEP_COMPANY_NAME; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SECTORS", function() { return STEP_SECTORS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_COUNTRIES", function() { return STEP_COUNTRIES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_PERSONAL_DETAILS", function() { return STEP_PERSONAL_DETAILS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Wizard; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_StepProgressBar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/StepProgressBar */ "./react-components/src/components/StepProgressBar.jsx");
-/* harmony import */ var _Step1__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Step1 */ "./react-components/src/views/QuestionModal/Step1.jsx");
-/* harmony import */ var _StepSectors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./StepSectors */ "./react-components/src/views/QuestionModal/StepSectors.jsx");
-/* harmony import */ var _StepCountry__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./StepCountry */ "./react-components/src/views/QuestionModal/StepCountry.jsx");
-/* harmony import */ var _Step4__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Step4 */ "./react-components/src/views/QuestionModal/Step4.jsx");
-/* harmony import */ var _stylesheets_Wizard_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./stylesheets/Wizard.scss */ "./react-components/src/views/QuestionModal/stylesheets/Wizard.scss");
-/* harmony import */ var _stylesheets_Wizard_scss__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Wizard_scss__WEBPACK_IMPORTED_MODULE_11__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-var STEP_COMPANY_NAME = 'company-name';
-var STEP_SECTORS = 'sectors';
-var STEP_COUNTRIES = 'country';
-var STEP_PERSONAL_DETAILS = 'personal-details';
-var PROGRESS_BAR_STEPS = [STEP_COMPANY_NAME, STEP_SECTORS, STEP_COUNTRIES, STEP_PERSONAL_DETAILS];
-var FIELD_STEP_MAPPING = [['company_name', STEP_COMPANY_NAME], ['expertise_industries', STEP_SECTORS], ['expertise_countries', STEP_COUNTRIES], ['first_name', STEP_PERSONAL_DETAILS], ['last_name', STEP_PERSONAL_DETAILS]];
-function Wizard(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      errors = _React$useState2[0],
-      setErrors = _React$useState2[1];
-
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      isInProgress = _React$useState4[0],
-      setIsInProgress = _React$useState4[1];
-
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      currentStep = _React$useState6[0],
-      setCurrentStep = _React$useState6[1];
-
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.companyName),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      companyName = _React$useState8[0],
-      setCompanyName = _React$useState8[1];
-
-  var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.industries),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      industries = _React$useState10[0],
-      setIndustries = _React$useState10[1];
-
-  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.countries),
-      _React$useState12 = _slicedToArray(_React$useState11, 2),
-      countries = _React$useState12[0],
-      setCountries = _React$useState12[1];
-
-  var _React$useState13 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.firstName),
-      _React$useState14 = _slicedToArray(_React$useState13, 2),
-      firstName = _React$useState14[0],
-      setFirstName = _React$useState14[1];
-
-  var _React$useState15 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.lastName),
-      _React$useState16 = _slicedToArray(_React$useState15, 2),
-      lastName = _React$useState16[0],
-      setLastName = _React$useState16[1];
-
-  function handleError(error) {
-    setErrors(error.message || error);
-    setIsInProgress(false);
-  }
-
-  function handleSuccess(nextStep) {
-    setIsInProgress(false);
-    setErrors({});
-    setCurrentStep(nextStep);
-  }
-
-  function handeleApiUpdateError(errors) {
-    setErrors(errors);
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = FIELD_STEP_MAPPING[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var _step$value = _slicedToArray(_step.value, 2),
-            fieldName = _step$value[0],
-            stepName = _step$value[1];
-
-        if (errors[fieldName]) {
-          setCurrentStep(stepName);
-        }
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-          _iterator["return"]();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-  }
-
-  function handeleApiUpdateSuccess() {
-    window.location.assign("".concat(window.location, "?success"));
-  }
-
-  function handleIndustriesSubmit() {
-    _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].enrolCompany({
-      expertise_industries: industries.map(function (item) {
-        return item.value;
-      })
-    }).then(handeleApiUpdateSuccess)["catch"](handeleApiUpdateError);
-  }
-
-  function handleUpdateCompany() {
-    var data = {
-      company_name: companyName,
-      expertise_industries: industries.map(function (item) {
-        return item.value;
-      }),
-      expertise_countries: countries.map(function (item) {
-        return item.value;
-      }),
-      first_name: firstName,
-      last_name: lastName
-    };
-    _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].updateCompany(data).then(handeleApiUpdateSuccess)["catch"](handeleApiUpdateError);
-  }
-
-  function getStep() {
-    if (currentStep == STEP_COMPANY_NAME) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Step1__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        errors: errors,
-        disabled: isInProgress,
-        handleSubmit: handleUpdateCompany,
-        handleChange: setCompanyName,
-        value: companyName
-      });
-    } else if (currentStep == STEP_SECTORS) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepSectors__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        errors: errors,
-        disabled: isInProgress,
-        handleSubmit: handleIndustriesSubmit,
-        handleChange: setIndustries,
-        value: industries
-      });
-    } else if (currentStep == STEP_COUNTRIES) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCountry__WEBPACK_IMPORTED_MODULE_9__["default"], {
-        errors: errors,
-        disabled: isInProgress,
-        handleSubmit: handleUpdateCompany,
-        handleChange: setCountries,
-        value: countries
-      });
-    } else if (currentStep == STEP_PERSONAL_DETAILS) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Step4__WEBPACK_IMPORTED_MODULE_10__["default"], {
-        errors: errors,
-        disabled: isInProgress,
-        handleSubmit: handleUpdateCompany,
-        handleFirstNameChange: setFirstName,
-        handleLastNameChange: setLastName,
-        firstNameValue: firstName,
-        lastNameValue: lastName
-      });
-    }
-  }
-
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "great-mvp-modal",
-    id: "dashboard-question-modal-lets-get-to-know-you"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "great-mvp-modal-title"
-  }, "Let\u2019s get to know you"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-    className: "great-mvp-modal-title-line"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    errors: errors.__all__ || [],
-    className: "m-t-s"
-  }), getStep());
-}
-Wizard.propTypes = {
-  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-  isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
-  username: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  password: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  industries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
-  countries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
-};
-Wizard.defaultProps = {
-  errors: {},
-  isInProgress: false,
-  currentStep: STEP_SECTORS,
-  industries: [],
-  countries: []
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/stylesheets/Step.scss":
-/*!************************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/stylesheets/Step.scss ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./react-components/src/views/QuestionModal/stylesheets/Wizard.scss":
-/*!**************************************************************************!*\
-  !*** ./react-components/src/views/QuestionModal/stylesheets/Wizard.scss ***!
-  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

@@ -133,6 +133,22 @@ class CompanyParser(great_components.helpers.CompanyParser):
             return values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
         return []
 
+    @property
+    def expertise_countries_value_label_pairs(self):
+        if self.data['expertise_countries']:
+            return values_to_value_label_pairs(values=self.data['expertise_countries'], choices=self.COUNTRIES)
+        return []
+
+    @property
+    def expertise_industries_value_label_pairs(self):
+        if self.data['expertise_industries']:
+            return values_to_value_label_pairs(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
+        return []
+
 
 def values_to_labels(values, choices):
     return [choices.get(item) for item in values if item in choices]
+
+
+def values_to_value_label_pairs(values, choices):
+    return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
