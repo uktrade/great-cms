@@ -67,13 +67,12 @@ def domestic_site(domestic_homepage, client):
 @pytest.fixture
 def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashboard, client):
     """Will server domestic site on the same port as liver_server.
-    live_server.url looks like this: http://localhost:48049
-    
     Note:
+        live_server.url looks like this: http://localhost:48049
         The value of live_server.url can be also set via --liveserver parameter:
         make ARGUMENTS="--liveserver=localhost:48049'" pytest_browser
     """
-    live_server_port = int(live_server.url.split(":")[-1])
+    live_server_port = int(live_server.url.split(':')[-1])
     return SiteFactory(
         root_page=domestic_homepage,
         hostname='localhost',  # This allows Browser to access site via live_server.url
