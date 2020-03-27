@@ -1,9 +1,8 @@
+import shutil
 from unittest import mock
 from uuid import uuid4
 
 import allure
-import shutil
-
 import pytest
 
 from sso import helpers

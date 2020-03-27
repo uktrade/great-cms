@@ -4,14 +4,14 @@ import pytest
 
 from tests.browser.common_selectors import (
     DashboardReadingProgress,
+    LessonPage,
     TopicLessonListing,
-    LessonPage
 )
 from tests.browser.util import (
     attach_jpg_screenshot,
-    should_see_all_elements,
+    selenium_action,
     should_not_see_errors,
-    selenium_action
+    should_see_all_elements,
 )
 
 pytestmark = [
