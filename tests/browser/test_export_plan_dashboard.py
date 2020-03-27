@@ -28,7 +28,11 @@ from tests.browser.util import (
 )
 from tests.helpers import create_response
 
-pytestmark = pytest.mark.browser
+pytestmark = [
+    pytest.mark.browser,
+    pytest.mark.export,
+    pytest.mark.export_plan_dashboard,
+]
 
 
 def click_next(browser, step):

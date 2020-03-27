@@ -15,7 +15,8 @@ from tests.browser.util import (
 )
 
 pytestmark = [
-    pytest.mark.browser, pytest.mark.lesson
+    pytest.mark.browser,
+    pytest.mark.lesson,
 ]
 
 
