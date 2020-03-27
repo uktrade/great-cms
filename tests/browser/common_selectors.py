@@ -222,6 +222,28 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     CONTENT = Selector(By.ID, 'target-markets-content')
 
 
+class ExportPlanTargetMarketsRecommendedCountriesFolded(SelectorsEnum):
+    RECOMMENDED_COUNTRIES = Selector(By.ID, 'recommended-countries')
+    SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
+
+
+class ExportPlanTargetMarketsRecommendedCountriesUnfolded(SelectorsEnum):
+    SECTOR_LIST = Selector(By.ID, 'sector-list')
+
+
+class ExportPlanTargetMarketsData(SelectorsEnum):
+    MARKET_DATA = Selector(By.ID, 'export-market-data')
+    REMOVE_COUNTR = Selector(By.ID, 'remove-country')
+    EASE_OF_DOING_BUSINESS = Selector(By.ID, 'export-market-data-ease-of-doing-business-rank')
+    CPI = Selector(By.ID, 'export-market-data-corruption-perception-index')
+    LOCAL_TIME = Selector(By.ID, 'export-market-data-local-time')
+    DUTY = Selector(By.ID, 'export-market-data-duty')
+    IMPORT_VALUE = Selector(By.ID, 'export-market-data-import-value')
+    YEAR_TO_YEAR_CHANGE = Selector(By.ID, 'export-market-data-year-to-year-change')
+    ADD_COUNTRY = Selector(By.ID, 'add-country')
+    YOUR_ACTIONS = Selector(By.ID, 'your-actions')
+
+
 class TopicLessonListing(SelectorsEnum):
     TITLE = Selector(By.ID, 'topic-title')
     LESSON_LIST = Selector(By.ID, 'topic-lesson-list')
