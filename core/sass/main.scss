@@ -57,6 +57,10 @@ $asset-root: '/static/images/';
 @import 'helpers/utils';
 
 @import 'components/header';
+@import 'components/buttons';
+@import 'components/statistics';
+
+@import 'typography/text';
 
 @import 'base';
 @import 'overrides';

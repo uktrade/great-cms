@@ -34,7 +34,7 @@ button {
   }
 
   .multiple-choice [type="checkbox"] + label::before,
-  .multiple-choice input, {
+  .multiple-choice input {
     height: 28px;
     width: 28px;
     box-sizing: border-box;
@@ -48,6 +48,9 @@ button {
   }
 }
 
+.section--with-sidebar {
+  padding-left: 300px;
+}
 
 body {
   background-color: $stone-30;
