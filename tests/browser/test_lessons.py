@@ -29,8 +29,8 @@ def test_can_view_lessons_from_different_topics(
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 
-    topic_a, lessons_a = topics_with_lessons[0]
-    topic_b, lessons_b = topics_with_lessons[1]
+    topic_a, topic_a_lessons = topics_with_lessons[0]
+    topic_b, topic_b_lessons = topics_with_lessons[1]
 
     browser.get(f'{live_server.url}/dashboard/')
     attach_jpg_screenshot(browser, 'dashboard with lessons')
@@ -39,20 +39,20 @@ def test_can_view_lessons_from_different_topics(
     browser.get(f'{live_server.url}/{topic_a.slug}/')
     attach_jpg_screenshot(browser, 'topic_a')
     should_see_all_elements(browser, TopicLessonListing)
-    browser.get(f'{live_server.url}/{topic_a.slug}/{lessons_a[0].slug}/')
+    browser.get(f'{live_server.url}/{topic_a.slug}/{topic_a_lessons[0].slug}/')
     attach_jpg_screenshot(browser, 'lesson_a1')
     should_see_all_elements(browser, LessonPage)
-    browser.get(f'{live_server.url}/{topic_a.slug}/{lessons_a[1].slug}/')
+    browser.get(f'{live_server.url}/{topic_a.slug}/{topic_a_lessons[1].slug}/')
     attach_jpg_screenshot(browser, 'lesson_a2')
     should_see_all_elements(browser, LessonPage)
 
     browser.get(f'{live_server.url}/{topic_b.slug}/')
     attach_jpg_screenshot(browser, 'topic_b')
     should_see_all_elements(browser, TopicLessonListing)
-    browser.get(f'{live_server.url}/{topic_b.slug}/{lessons_b[0].slug}/')
+    browser.get(f'{live_server.url}/{topic_b.slug}/{topic_b_lessons[0].slug}/')
     attach_jpg_screenshot(browser, 'lesson_b1')
     should_see_all_elements(browser, LessonPage)
-    browser.get(f'{live_server.url}/{topic_b.slug}/{lessons_b[1].slug}/')
+    browser.get(f'{live_server.url}/{topic_b.slug}/{topic_b_lessons[1].slug}/')
     attach_jpg_screenshot(browser, 'lesson_b2')
     should_see_all_elements(browser, LessonPage)
 
@@ -66,7 +66,7 @@ def test_can_navigate_from_topic_to_lesson(
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 
-    topic_a, lessons_a = topics_with_lessons[0]
+    topic_a, topic_a_lessons = topics_with_lessons[0]
 
     browser.get(f'{live_server.url}/{topic_a.slug}/')
     attach_jpg_screenshot(browser, 'topic_a')
@@ -93,9 +93,9 @@ def test_can_mark_lesson_as_read(
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 
-    topic_a, lessons_a = topics_with_lessons[0]
+    topic_a, topic_a_lessons = topics_with_lessons[0]
 
-    browser.get(f'{live_server.url}/{topic_a.slug}/{lessons_a[0].slug}/')
+    browser.get(f'{live_server.url}/{topic_a.slug}/{topic_a_lessons[0].slug}/')
     attach_jpg_screenshot(browser, 'lesson_a1')
     should_see_all_elements(browser, LessonPage)
 
@@ -110,6 +110,6 @@ def test_can_mark_lesson_as_read(
     attach_jpg_screenshot(browser, 'topic listing with read lesson')
     should_see_all_elements(browser, TopicLessonListing)
 
-    lesson_link = browser.find_element_by_id(f'lesson-{lessons_a[0].slug}')
-    error = f'Expected lesson: "{lessons_a[0].title}" is not marked as read!'
+    lesson_link = browser.find_element_by_id(f'lesson-{topic_a_lessons[0].slug}')
+    error = f'Expected lesson: "{topic_a_lessons[0].title}" is not marked as read!'
     assert ' [is read]' in lesson_link.text, error
