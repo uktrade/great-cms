@@ -84,7 +84,7 @@ def test_can_navigate_from_topic_to_lesson(
     should_see_all_elements(browser, LessonPage)
 
 
-def test_can_mark_lesson_as_read(
+def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
     topics_with_lessons,
@@ -113,3 +113,13 @@ def test_can_mark_lesson_as_read(
     lesson_link = browser.find_element_by_id(f'lesson-{topic_a_lessons[0].slug}')
     error = f'Expected lesson: "{topic_a_lessons[0].title}" is not marked as read!'
     assert ' [is read]' in lesson_link.text, error
+
+    browser.get(f'{live_server.url}/dashboard/')
+    attach_jpg_screenshot(browser, 'dashboard with read lesson')
+    should_see_all_elements(browser, DashboardReadingProgress)
+
+    topic_read_count = browser.find_element_by_id(f'topics-read-count-lesson-{topic_a.slug}')
+    no_of_lessons = topic_read_count.get_property('max')
+    no_of_read_lessons = topic_read_count.get_property('value')
+    assert no_of_lessons == len(topic_a_lessons)
+    assert no_of_read_lessons == 1
