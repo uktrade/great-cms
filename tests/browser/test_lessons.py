@@ -57,10 +57,10 @@ def test_can_view_lessons_from_different_topics(
 
 
 def test_can_navigate_from_topic_to_lesson(
-        mock_dashboard_profile_events_opportunities,
-        mock_export_plan_requests,
-        topics_with_lessons,
-        server_user_browser_dashboard,
+    mock_dashboard_profile_events_opportunities,
+    mock_export_plan_requests,
+    topics_with_lessons,
+    server_user_browser_dashboard,
 ):
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
@@ -84,10 +84,10 @@ def test_can_navigate_from_topic_to_lesson(
 
 
 def test_can_mark_lesson_as_read(
-        mock_dashboard_profile_events_opportunities,
-        mock_export_plan_requests,
-        topics_with_lessons,
-        server_user_browser_dashboard,
+    mock_dashboard_profile_events_opportunities,
+    mock_export_plan_requests,
+    topics_with_lessons,
+    server_user_browser_dashboard,
 ):
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
@@ -107,4 +107,8 @@ def test_can_mark_lesson_as_read(
         mark_as_read_link.click()
 
     attach_jpg_screenshot(browser, 'topic listing with read lesson')
-    should_see_all_elements(browser, LessonPage)
+    should_see_all_elements(browser, TopicLessonListing)
+
+    lesson_link = browser.find_element_by_id(f'lesson-{lessons_a[0].slug}')
+    error = f'Expected lesson: "{lessons_a[0].title}" is not marked as read!'
+    assert ' [is read]' in lesson_link.text, error
