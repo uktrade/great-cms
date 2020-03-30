@@ -31,11 +31,11 @@ pytestmark = [
 @mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
 @mock.patch.object(core_helpers, 'get_dashboard_export_opportunities')
 @mock.patch.object(core_helpers, 'get_dashboard_events')
-@mock.patch.object(core_helpers, 'create_company_profile')
+@mock.patch.object(core_helpers, 'update_company_profile')
 @mock.patch('core.helpers.store_user_location')
 def test_can_see_target_markets_data(
     mock_user_location_create,
-    mock_create_company_profile,
+    mock_update_company_profile,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
     mock_get_export_plan_market_data,
@@ -44,7 +44,7 @@ def test_can_see_target_markets_data(
     server_user_browser_dashboard,
     mock_export_plan_dashboard_page_tours,
 ):
-    mock_create_company_profile.return_value = create_response()
+    mock_update_company_profile.return_value = create_response()
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
 

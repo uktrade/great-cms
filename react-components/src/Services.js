@@ -31,12 +31,6 @@ const checkCredentials = function({ email, password }) {
 }
 
 
-const enrolCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
-  const data = { company_name, expertise_industries, expertise_countries, first_name, last_name }
-  return post(config.enrolCompanyUrl, data).then(responseHandler)
-}
-
-
 const updateCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
   const data = { company_name, expertise_industries, expertise_countries, first_name, last_name }
   return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
@@ -61,13 +55,14 @@ const setConfig = function({
   countryOptions,
   csrfToken,
   dashboardUrl,
-  enrolCompanyUrl,
   googleUrl,
   industryOptions,
   linkedInUrl,
   loginUrl,
   passwordResetUrl,
   termsUrl,
+  userCountries,
+  userIndustries,
   verifyCodeUrl,
 }) {
   config.apiLoginUrl = apiLoginUrl
@@ -76,7 +71,6 @@ const setConfig = function({
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
   config.dashboardUrl = dashboardUrl
-  config.enrolCompanyUrl = enrolCompanyUrl
   config.googleUrl = googleUrl
   config.industryOptions = industryOptions
   config.linkedInUrl = linkedInUrl
@@ -84,13 +78,14 @@ const setConfig = function({
   config.passwordResetUrl = passwordResetUrl
   config.termsUrl = termsUrl
   config.verifyCodeUrl = verifyCodeUrl
+  config.userCountries = userCountries
+  config.userIndustries = userIndustries
 }
 
 export default {
   createUser,
   checkCredentials,
   checkVerificationCode,
-  enrolCompany,
   updateCompany,
   setConfig,
   config,
