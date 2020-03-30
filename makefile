@@ -4,6 +4,7 @@ clean:
 	-find . -type f -name "*.pyc" -delete
 	-find . -type d -name "__pycache__" -delete
 	-rm -fr ./allure_report/
+	-rm -fr ./allure_results/
 
 ENV_FILES?='test,dev'
 pytest:
@@ -12,7 +13,7 @@ pytest:
 
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
-	pytest tests/browser $(ARGUMENTS)
+	pytest --alluredir=./allure_results/ tests/browser $(ARGUMENTS)
 
 flake8:
 	flake8 . \

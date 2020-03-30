@@ -22,6 +22,7 @@ const modalStyles = {
     transform: 'translate(20%, 0)',
     top: 75,
     width: 430,
+    overflow: 'visible',
   },
   overlay: {
     zIndex: 1000,
@@ -35,6 +36,11 @@ export function Modal(props){
   function handleOpen(event) {
     event.preventDefault()
     setIsOpen(true)
+  }
+
+  function handleRequestSkipFeature() {
+    setCookie(props.skipFeatureCookieName, 'true');
+    setIsOpen(false)
   }
 
   return (

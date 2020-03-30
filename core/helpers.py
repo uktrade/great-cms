@@ -48,12 +48,6 @@ def store_user_location(request):
             logger.error(USER_LOCATION_CREATE_ERROR)
 
 
-def create_company_profile(data):
-    response = api_client.enrolment.send_form(data)
-    response.raise_for_status()
-    return response
-
-
 def update_company_profile(data, sso_session_id):
     response = api_client.company.profile_update(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()
@@ -133,6 +127,22 @@ class CompanyParser(great_components.helpers.CompanyParser):
             return values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
         return []
 
+    @property
+    def expertise_countries_value_label_pairs(self):
+        if self.data['expertise_countries']:
+            return values_to_value_label_pairs(values=self.data['expertise_countries'], choices=self.COUNTRIES)
+        return []
+
+    @property
+    def expertise_industries_value_label_pairs(self):
+        if self.data['expertise_industries']:
+            return values_to_value_label_pairs(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
+        return []
+
 
 def values_to_labels(values, choices):
     return [choices.get(item) for item in values if item in choices]
+
+
+def values_to_value_label_pairs(values, choices):
+    return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]

@@ -3,8 +3,8 @@ from unittest import mock
 import pytest
 
 from core import helpers as core_helpers
-from exportplan import helpers as exportplan_helpers
 from directory_api_client import api_client
+from exportplan import helpers as exportplan_helpers
 from tests.browser.common_selectors import (
     ExportPlanTargetMarkets,
     HeaderCommon,
@@ -14,7 +14,11 @@ from tests.browser.common_selectors import (
 from tests.browser.util import should_not_see_errors, should_see_all_elements
 from tests.helpers import create_response
 
-pytestmark = pytest.mark.browser
+pytestmark = [
+    pytest.mark.browser,
+    pytest.mark.export_plan,
+    pytest.mark.export_plan_about_your_plan,
+]
 
 
 @pytest.mark.django_db
@@ -25,9 +29,9 @@ pytestmark = pytest.mark.browser
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 @mock.patch.object(core_helpers, 'get_dashboard_export_opportunities')
 @mock.patch.object(core_helpers, 'get_dashboard_events')
-@mock.patch.object(core_helpers, 'create_company_profile')
+@mock.patch.object(core_helpers, 'update_company_profile')
 def test_export_plan_about_your_business(
-    mock_create_company_profile,
+    mock_update_company_profile,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
     mock_get_exportplan,
@@ -37,7 +41,7 @@ def test_export_plan_about_your_business(
     mock_get_exportplan_marketdata,
     server_user_browser_dashboard,
 ):
-    mock_create_company_profile.return_value = create_response()
+    mock_update_company_profile.return_value = create_response()
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
 
