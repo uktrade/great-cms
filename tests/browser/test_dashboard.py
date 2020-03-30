@@ -52,16 +52,16 @@ def submit_industries(browser, industries):
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_dashboard_export_opportunities')
 @mock.patch.object(helpers, 'get_dashboard_events')
-@mock.patch.object(helpers, 'create_company_profile')
+@mock.patch.object(helpers, 'update_company_profile')
 def test_dashboard_with_success_query_parameter(
-    mock_create_company_profile, mock_get_dashboard_events,
+    mock_update_company_profile, mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities, mock_get_company_profile,
     server_user_browser_dashboard, single_event, single_opportunity
 ):
-    def side_effect(_):
+    def side_effect(data, sso_session_id):
         mock_get_company_profile.return_value = {
             'expertise_countries': [],
-            'expertise_industries': [],
+            'expertise_industries': ['SL10001'],
         }
 
     mock_get_dashboard_events.return_value = create_response()
@@ -70,10 +70,11 @@ def test_dashboard_with_success_query_parameter(
     mock_get_dashboard_export_opportunities.side_effect = [
         [], [single_opportunity], [single_opportunity]
     ]
-    mock_create_company_profile.return_value = create_response()
-    mock_create_company_profile.side_effect = side_effect
+    mock_update_company_profile.return_value = create_response()
+    mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
+
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
     sector_labels = [label for _, label in choices.SECTORS]
@@ -90,13 +91,13 @@ def test_dashboard_with_success_query_parameter(
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_dashboard_export_opportunities')
 @mock.patch.object(helpers, 'get_dashboard_events')
-@mock.patch.object(helpers, 'create_company_profile')
+@mock.patch.object(helpers, 'update_company_profile')
 def test_dashboard_without_success_query_parameter(
-        mock_create_company_profile, mock_get_dashboard_events,
+        mock_update_company_profile, mock_get_dashboard_events,
         mock_get_dashboard_export_opportunities, mock_get_company_profile,
         server_user_browser_dashboard, single_event, single_opportunity
 ):
-    def side_effect(_):
+    def side_effect(data, sso_session_id):
         mock_get_company_profile.return_value = {
             'expertise_countries': [],
             'expertise_industries': ['SL10001', 'SL10002'],
@@ -108,8 +109,8 @@ def test_dashboard_without_success_query_parameter(
     mock_get_dashboard_export_opportunities.side_effect = [
         [], [single_opportunity], [single_opportunity]
     ]
-    mock_create_company_profile.return_value = create_response()
-    mock_create_company_profile.side_effect = side_effect
+    mock_update_company_profile.return_value = create_response()
+    mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 

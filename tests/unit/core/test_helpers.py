@@ -124,16 +124,6 @@ def test_get_custom_duties_url():
     assert url == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=CN&pc=8424.10'
 
 
-@mock.patch.object(api_client.enrolment, 'send_form')
-def test_create_company_profile(mock_send_form):
-    data = {'foo': 'bar'}
-
-    helpers.create_company_profile(data)
-
-    assert mock_send_form.call_count == 1
-    assert mock_send_form.call_args == mock.call(data)
-
-
 @mock.patch.object(api_client.company, 'profile_update')
 def test_update_company_profile(mock_profile_update):
     data = {'foo': 'bar'}

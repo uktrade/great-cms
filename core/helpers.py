@@ -48,12 +48,6 @@ def store_user_location(request):
             logger.error(USER_LOCATION_CREATE_ERROR)
 
 
-def create_company_profile(data):
-    response = api_client.enrolment.send_form(data)
-    response.raise_for_status()
-    return response
-
-
 def update_company_profile(data, sso_session_id):
     response = api_client.company.profile_update(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()

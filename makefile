@@ -8,7 +8,7 @@ clean:
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
-	pytest --cov=. --cov-config=.coveragerc $(ARGUMENTS)
+	pytest tests/unit --cov=. --cov-config=.coveragerc $(ARGUMENTS)
 
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
