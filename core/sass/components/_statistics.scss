@@ -1,0 +1,36 @@
+.statistic {
+    display: block;
+    margin-bottom: 15px;
+
+    @include tablet {
+        margin-bottom: 30px;
+    }
+}
+
+.statistic__details {
+    font-size: $font-size-small-mobile;
+    display: block;
+
+    @include tablet {
+        font-size: $font-size-small-desktop;
+    }
+}
+
+
+.statistic__caption {
+    font-size: $font-size-small-mobile;
+    margin: 0;
+
+    @include tablet {
+        font-size: $font-size-small-desktop;
+    }
+}
+
+.statistic__figure {
+    font-size: $font-size-xlarge-mobile;
+    margin: 0;
+
+    @include tablet {
+        font-size: $font-size-xlarge-desktop;
+    }
+}

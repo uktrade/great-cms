@@ -82,8 +82,8 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "setupFiles": [
-        "<rootDir>/react-components/setupEnzyme.js",
-        "<rootDir>/react-components/setupJest.js"
+      "<rootDir>/react-components/setupEnzyme.js",
+      "<rootDir>/react-components/setupJest.js"
     ]
   }
 }

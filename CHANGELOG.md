@@ -51,3 +51,4 @@
 - MVP-329 - Country modal iteration
 - MVP-344 - Wagtail cache
 - MVP-356 - marketdata target-markets
+- MVP-362 - styling and correct HTML for country statistics view
