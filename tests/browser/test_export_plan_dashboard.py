@@ -4,8 +4,8 @@ from unittest import mock
 import pytest
 
 from core import helpers as core_helpers
-from exportplan import helpers as exportplan_helpers
 from directory_api_client import api_client
+from exportplan import helpers as exportplan_helpers
 from tests.browser.common_selectors import (
     ExportPlanDashboard,
     ExportPlanDashboardPageTourStep0,
@@ -28,7 +28,11 @@ from tests.browser.util import (
 )
 from tests.helpers import create_response
 
-pytestmark = pytest.mark.browser
+pytestmark = [
+    pytest.mark.browser,
+    pytest.mark.export,
+    pytest.mark.export_plan_dashboard,
+]
 
 
 def click_next(browser, step):

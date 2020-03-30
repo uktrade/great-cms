@@ -9,10 +9,10 @@
             <div class="grid">
                 <div class="c-1-2">&nbsp;</div>
                 <div class="c-1-2-s">
-                    <h1 class="h-l m-t-xl">{{ page.title }}</h1>
+                    <h1 class="h-l m-t-xl" id="topic-title">{{ page.title }}</h1>
                 </div>
                 <div class="c-full">
-                    <ul>
+                    <ul id="topic-lesson-list">
                         {% for lesson in page.get_children %}
                             <li>
                                 <a class="link" href="{{ lesson.get_url }}" id="lesson-{{ lesson.title|slugify }}">{{ lesson.title }} {% if lesson.pk in is_read_collection %}[is read]{% endif %}</a>

@@ -25,7 +25,10 @@ from tests.browser.util import (
 )
 from tests.helpers import create_response
 
-pytestmark = pytest.mark.browser
+pytestmark = [
+    pytest.mark.browser,
+    pytest.mark.dashboard,
+]
 
 
 @allure.step('Enter sectors user is interested in: {industries}')

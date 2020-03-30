@@ -17,7 +17,10 @@ from tests.browser.util import (
     should_see_all_elements,
 )
 
-pytestmark = pytest.mark.browser
+pytestmark = [
+    pytest.mark.browser,
+    pytest.mark.markets,
+]
 
 
 @pytest.mark.django_db
