@@ -195,7 +195,9 @@ def test_dashboard_page_lesson_progress(
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_ok(client, user):
+def test_dashboard_apis_ok(client, user, patch_get_dashboard_events, patch_get_dashboard_export_opportunities):
+    patch_get_dashboard_events.stop()
+    patch_get_dashboard_export_opportunities.stop()
 
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
@@ -263,7 +265,9 @@ export-opportunities/opportunities/french-sardines-required',
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_fail(client, user):
+def test_dashboard_apis_fail(client, user, patch_get_dashboard_events, patch_get_dashboard_export_opportunities):
+    patch_get_dashboard_events.stop()
+    patch_get_dashboard_export_opportunities.stop()
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
     ) as events_api_results:

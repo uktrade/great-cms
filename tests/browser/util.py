@@ -23,6 +23,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.browser.common_selectors import Selector, SelectorsEnum
 
+logger = logging.getLogger(__name__)
+
 
 def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
     raw_image = Image.open(BytesIO(screenshot_png))
@@ -107,6 +109,7 @@ def should_see_all_elements(browser, selectors_enum):
         if not is_element_visible(browser, selector):
             attach_jpg_screenshot(browser, error)
         assert is_element_visible(browser, selector), error
+    logger.info(f'All elements from {selectors_enum} are visible on {browser.current_url}')
 
 
 @allure.step('Should not see element: {selector}')
