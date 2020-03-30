@@ -12,9 +12,16 @@ import sso.urls
 import core.urls
 import exportplan.urls
 
+urlpatterns = []
 
-urlpatterns = [
+if settings.ENFORCE_STAFF_SSO_ENABLED:
+    urlpatterns += [
+        path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
+        path('auth/', include('authbroker_client.urls')),
+    ]
 
+
+urlpatterns += [
     path('django-admin/', admin.site.urls),
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
@@ -27,13 +34,6 @@ urlpatterns = [
     # the list:
     path('', include(wagtail_urls)),
 ]
-
-
-if settings.ENFORCE_STAFF_SSO_ENABLED:
-    urlpatterns += [
-        path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
-        path('auth/', include('authbroker_client.urls')),
-    ]
 
 
 if settings.DEBUG:
