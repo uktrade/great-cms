@@ -5,7 +5,7 @@ from domestic import models
 
 class DomesticHomePageFactory(wagtail_factories.PageFactory):
 
-    title = 'domestic_homepage'
+    title = 'homepage'
     live = True
     slug = 'homepage'
 
