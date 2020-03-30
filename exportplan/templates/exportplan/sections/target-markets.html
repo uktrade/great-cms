@@ -47,6 +47,20 @@
       <div class="flex-grid m-b-s">
         <div class="c-1-4"></div>
         <div class="c-1-4">
+
+<div class="educational-moment educational-moment--tooltip"
+  data-tooltip-id="ease-of-doing-business"
+  data-tooltip-heading-priority="3"
+  data-tooltip-heading="What is Ease of Doing Business Rank?"
+  data-tooltip-body="Ease of doing business ranks economies from 1 to 190, with first place being the best. A high ranking (a low numerical rank) means that the regulatory environment is conducive to business operation">
+
+  <div class="js-hidden educational-moment__tooltip" id="ease-of-doing-business">
+    <h3 class="h-m">What is Ease of Doing Business Rank?</h3>
+    <p>Ease of doing business ranks economies from 1 to 190, with first place being the best. A high ranking (a low numerical rank) means that the regulatory environment is conducive to business operation</p>
+  </div>
+</div>
+
+
           Ease of doing business rank <br>
           <b>{{ export_marketdata.easeofdoingbusiness.year_2019 }}</b>
           Out of {{ export_marketdata.easeofdoingbusiness.total }}
@@ -129,7 +143,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-  var element = document.getElementById("recommended-countries");
+    var element = document.getElementById("recommended-countries");
     ditMVP.createSectorChooser({
       element: element,
       sectorList: {{ sectors|safe }}

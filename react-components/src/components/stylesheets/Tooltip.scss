@@ -1,0 +1,29 @@
+@import 'helpers/colours';
+
+.tooltip {
+    border-radius: 0.3em;
+    background: $white;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    padding: 20px;
+    max-width: 50%;
+    min-width: 150px;
+    position: absolute;
+    z-index: 2;
+
+    background-image: url('/static/img/placeholder.png');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: 30%;
+}
+
+.tooltip__heading {
+    padding-top: 0;
+}
+
+.tooltip__paragraph {
+    padding-right: 30%;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
