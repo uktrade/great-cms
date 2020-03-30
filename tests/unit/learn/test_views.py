@@ -1,8 +1,9 @@
 import pytest
-from django.urls import reverse
+from tests.unit.learn.factories import LearnPageFactory
 
 
 @pytest.mark.django_db
-def test_learn_landing_page(client):
-    response = client.get(reverse('learn:index'))
+def test_learn_page(client, domestic_site):
+    page = LearnPageFactory(parent=domestic_site, slug='learn')
+    response = client.get(page.url)
     assert response.status_code == 200

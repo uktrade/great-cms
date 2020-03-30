@@ -2,7 +2,7 @@ import pytest
 from wagtail.tests.utils import WagtailPageTests
 
 from domestic.models import DomesticHomePage
-from learn.models import LandingPage, LessonPage, TopicPage
+from learn.models import LearnPage, LessonPage, TopicPage
 from tests.unit.learn import factories
 
 
@@ -21,10 +21,10 @@ class LessonPageTests(WagtailPageTests):
         self.assertCanCreateAt(TopicPage, LessonPage)
 
 
-class LandingPageTests():
+class LearnPageTests():
 
     def test_can_be_created_under_root(self):
-        self.assertAllowedParentPageTypes(DomesticHomePage, LandingPage)
+        self.assertAllowedParentPageTypes(DomesticHomePage, LearnPage)
 
 
 @pytest.mark.django_db
@@ -65,11 +65,8 @@ def test_topic_view(client, domestic_homepage, user, domestic_site):
 
 
 @pytest.mark.django_db
-def test_learn_landing_page_view(client, domestic_homepage, user, domestic_site):
-    # given the user has not read a lesson
-    client.force_login(user)
-    topic = factories.TopicPageFactory(parent=domestic_homepage)
-    factories.LessonPageFactory(parent=topic)
+def test_learn_page_view(client, domestic_homepage, user, domestic_site):
+    page = factories.LearnPageFactory(parent=domestic_homepage)
 
-    response = client.get(topic.url)
+    response = client.get(page.url)
     assert response.status_code == 200
