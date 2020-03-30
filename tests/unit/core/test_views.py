@@ -16,11 +16,8 @@ from learn.models import LessonViewHit
 @pytest.fixture
 def company_data():
     return {
-        'company_name': 'Example corp',
         'expertise_industries': json.dumps(['Science']),
         'expertise_countries': json.dumps(['USA']),
-        'first_name': 'foo',
-        'last_name': 'bar',
     }
 
 
@@ -36,11 +33,29 @@ def test_api_update_company_success(mock_update_company_profile, mock_get_compan
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         data={
-            'company_name': 'Example corp',
             'expertise_industries': ['Science'],
             'expertise_countries': ['USA'],
-            'first_name': 'foo',
-            'last_name': 'bar'
+        },
+        sso_session_id=user.session_id,
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_company_profile')
+def test_api_update_company_no_name(mock_update_company_profile, mock_get_company_profile, client, user, company_data):
+    mock_update_company_profile.return_value = create_response()
+    mock_get_company_profile.return_value = {}
+    client.force_login(user)
+
+    response = client.post(reverse('core:api-update-company'), company_data)
+
+    assert response.status_code == 200
+    assert mock_update_company_profile.call_count == 1
+    assert mock_update_company_profile.call_args == mock.call(
+        data={
+            'name': 'unnamed sso-1 company',
+            'expertise_industries': ['Science'],
+            'expertise_countries': ['USA'],
         },
         sso_session_id=user.session_id,
     )

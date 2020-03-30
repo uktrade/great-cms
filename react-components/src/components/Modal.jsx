@@ -31,8 +31,8 @@ export function Modal(props){
     <ReactModal
       isOpen={isOpen}
       onRequestClose={handleClose}
-      className='ReactModal__Content'
-      overlayClassName='ReactModal__Overlay'
+      className='ReactModal__Content ReactModalCentreScreen'
+      overlayClassName='ReactModal__Overlay ReactModalCentreScreen'
       contentLabel='Modal'
       id={props.id}
     >

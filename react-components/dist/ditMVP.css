@@ -16,7 +16,7 @@ html,body,div,span,object,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,addr
 
 .great-mvp-close{width:100%;font-size:19px;display:inline-block;text-align:right}
 
-.ReactModal__Content{position:absolute;inset:50% auto auto 50%;border:1px solid #ccc;background:white none repeat scroll 0% 0%;overflow:visible;border-radius:10px;outline:currentcolor none medium;padding:0px;margin-right:-50%;text-align:left;transform:translate(-50%, -50%);width:570px}.ReactModal__Overlay{position:fixed;inset:0px;background-color:rgba(0,0,0,0.5);z-index:1000}
+.ReactModal__Content.ReactModalCentreScreen{background:white none repeat scroll 0% 0%;border-radius:10px;border:1px solid #ccc;bottom:auto;inset:50% auto auto 50%;left:50%;margin-right:-50%;outline:currentcolor none medium;overflow:visible;padding:0px;position:absolute;right:auto;text-align:left;top:50%;transform:translate(-50%, -50%);width:570px}.ReactModal__Overlay.ReactModalCentreScreen{background-color:rgba(0,0,0,0.5);bottom:0px;inset:0px;left:0px;position:fixed;right:0px;top:0px;z-index:1000}
 
 .great-mvp-field-input{width:371px;padding:10px;border-color:#333;height:51px;background-color:#fff}.great-mvp-field-input[disabled]{background-color:#d8d8d8}.great-mvp-field-label{height:29px;width:510px;color:#333;font-size:19px;line-height:29px}body .great-mvp-autocomplete-field__multi-value__remove{color:#fff}body .great-mvp-autocomplete-field__multi-value{background:#666}body .great-mvp-autocomplete-field__multi-value__label{padding-top:5px;padding-left:10px;padding-bottom:5px;font-size:16px;color:#fff;font-weight:bold}
 

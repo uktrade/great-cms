@@ -172,3 +172,25 @@ def test_get_markets_page_title(company_profile, expected):
 ])
 def test_company_parser_expertise_industries_labels_no_industries(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_industries_labels == expected
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_industries': []}, []],
+    [{'expertise_industries': ['SL10001']}, [{'label': 'Advanced Engineering', 'value': 'SL10001'}]],
+    [{'expertise_industries': ['SL10001', 'SL10002']}, [
+        {'label': 'Advanced Engineering', 'value': 'SL10001'}, {'label': 'Aerospace', 'value': 'SL10002'}
+    ]],
+])
+def test_company_parser_expertise_industries_value_label_pairs(company_profile, expected):
+    assert helpers.CompanyParser(company_profile).expertise_industries_value_label_pairs == expected
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_countries': []}, []],
+    [{'expertise_countries': ['FR']}, [{'label': 'France', 'value': 'FR'}]],
+    [{'expertise_countries': ['FR', 'AU']}, [
+        {'label': 'France', 'value': 'FR'}, {'label': 'Australia', 'value': 'AU'}
+    ]],
+])
+def test_company_parser_expertise_countries_value_label_pairs(company_profile, expected):
+    assert helpers.CompanyParser(company_profile).expertise_countries_value_label_pairs == expected

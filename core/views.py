@@ -57,10 +57,6 @@ class ArticleView(FormView):
     success_url = reverse_lazy('core:dashboard')
     form_class = forms.ArticleForm
 
-    def form_valid(self, form):
-        # TODO: store the fact the article was viewed
-        return super().form_valid(form)
-
     def get_context_data(self):
         return super().get_context_data(
             topic_name=self.kwargs['topic'],

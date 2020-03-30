@@ -61,7 +61,7 @@ def test_dashboard_with_success_query_parameter(
     def side_effect(_):
         mock_get_company_profile.return_value = {
             'expertise_countries': [],
-            'expertise_industries': ['SL10001', 'SL10002'],
+            'expertise_industries': [],
         }
 
     mock_get_dashboard_events.return_value = create_response()
@@ -74,7 +74,6 @@ def test_dashboard_with_success_query_parameter(
     mock_create_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
-
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
     sector_labels = [label for _, label in choices.SECTORS]
