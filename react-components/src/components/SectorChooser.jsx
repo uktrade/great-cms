@@ -87,7 +87,7 @@ class SectorChooser extends React.Component {
           <button
             id="sector-chooser-button"
             type="button"
-            className="plus-button"
+            className="button--plus"
             onClick={this.showHideSectorList}
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}

@@ -1,0 +1,83 @@
+{% load intcomma from humanize %}
+{% load timezone from tz %}
+
+<section class="container section--with-sidebar" id="export-market-data">
+    <h2 class="h-l p-b-0">{{ export_marketdata.corruption_perceptions_index.country_name }}  </h2>
+    <a id="remove-country" class="m-b-s inline-block" href="#">Remove <span class="visually-hidden">{{ export_marketdata.corruption_perceptions_index.country_name }}</span></a>
+
+    <div class="flex-grid">
+        <div class="c-1-3" id="export-market-data-ease-of-doing-business-rank">
+            <figure class="statistic">
+                <figcaption>
+                    <p class="statistic__caption">Ease of doing business rank</p>
+                </figcaption>
+                <p class="statistic__figure">
+                    {{ export_marketdata.easeofdoingbusiness.year_2019 }} 
+                    <span class="statistic__details">out of {{ export_marketdata.easeofdoingbusiness.total }}</span>
+                </p>
+            </figure>
+        </div>
+        <div class="c-1-3" id="export-market-data-corruption-perception-index">
+            <figure class="statistic">
+                <figcaption>
+                    <p class="statistic__caption">Corruption Perception Index</p>
+                </figcaption>
+                <p class="statistic__figure">{{ export_marketdata.corruption_perceptions_index.rank }}</p>
+            </figure>
+        </div>
+        <div class="c-1-3" id="export-market-data-local-time">
+            <figure class="statistic">
+                <figcaption>
+                    <p class="statistic__caption">Local time</p>
+                </figcaption>
+                <p class="statistic__figure">
+                
+                    <time>{{ datenow|timezone:export_marketdata.timezone|date:'H:i' }}</time>
+                    <span class="statistic__details">GMT {{  utz_offset }} {{ export_marketdata.timezone }}</span>
+                </p>
+            </figure>
+        </div>
+    </div>
+    <div class="flex-grid">
+        <div class="c-1-3" id="export-market-data-duty">
+            <figure class="statistic">
+                <figcaption>
+                    <p class="statistic__caption">Duty</p>
+                </figcaption>
+                <p class="statistic__figure">
+                    {% widthratio rules_regulation.export_duty 1 100  %}%
+                </p>
+            </figure>
+        </div>
+        <div class="c-1-3" id="export-market-data-import-value">
+            {% if lastyear_import_data %}
+                <figure class="statistic">
+                    <figcaption>
+                        <p class="statistic__caption">
+                            <span class="text-flag-red">{{ rules_regulation.commodity_name }}</span>
+                            import value in {{ lastyear_import_data.last_year_data.import_value.year}}
+                        </p>
+                    </figcaption>
+                    <p class="statistic__figure">
+                        {{ lastyear_import_data.last_year_data.import_value.trade_value|intcomma }} USD
+                        <span class="statistic__details">Source: Comtrade</span>
+                    </p>
+                </figure>
+            {% endif %}
+        </div>
+        <div class="c-1-3" id="export-market-data-year-to-year-change">
+        {% if lastyear_import_data %}
+            <figure class="statistic">
+                <figcaption>
+                    <p class="statistic__caption">Year-to-year change</p>
+                </figcaption>
+                <p class="statistic__figure">
+                    +{% widthratio lastyear_import_data.last_year_data.import_value.year_on_year_change 1 100  %}%
+                </p>
+            </figure>
+        {% endif %}
+        </div>
+    </div>
+
+    <button id="show-more-stats" type="button" class="button--ghost">Show more stats</button>
+</section>

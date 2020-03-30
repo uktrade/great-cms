@@ -34,15 +34,15 @@
         document.body.appendChild(element);
         ditMVP.setConfig({
             csrfToken: '{{ csrf_token }}',
-            enrolCompanyUrl: '{% url "core:api-create-company" %}',
             countryOptions: {{ country_choices|safe }},
-            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}'
+            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+            userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
+            userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }},            
         });
         var isOpen = {% if request.user.company.expertise_countries_label %}false{%else %}true{% endif %};
-        ditMVP.QuestionModal({
+        ditMVP.CountriesModal({
             element: element,
             isOpen: isOpen,
-            currentStep: 'country'
         });
     </script>
 {% endblock %}

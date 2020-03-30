@@ -1,8 +1,5 @@
 {% extends 'exportplan/section.html' %}
 
-{% load intcomma from humanize %}
-{% load timezone from tz %}
-
 {% block intro_content %}
 <h1 class="h-xl">Target markets</h1>
 <p>Identify the markets that will most likely respond to your product or service. You will learn how to research and assess potential markets from a range of different methods.</p>
@@ -35,81 +32,23 @@
 
 <hr>
 {% if export_marketdata %}
-  <section class="container">
-
-      <div class="flex-grid m-b-s">
-        <div class="c-1-4"></div>
-        <div class="c-1-4">
-          <h2 class="h-m m-b-s">{{ export_marketdata.corruption_perceptions_index.country_name }}  </h2><a>Remove</a>
-
-        </div>
-      </div>
-      <div class="flex-grid m-b-s">
-        <div class="c-1-4"></div>
-        <div class="c-1-4">
-
-<div class="educational-moment educational-moment--tooltip"
-  data-tooltip-id="ease-of-doing-business"
-  data-tooltip-heading-priority="3"
-  data-tooltip-heading="What is Ease of Doing Business Rank?"
-  data-tooltip-body="Ease of doing business ranks economies from 1 to 190, with first place being the best. A high ranking (a low numerical rank) means that the regulatory environment is conducive to business operation">
-
-  <div class="js-hidden educational-moment__tooltip" id="ease-of-doing-business">
-    <h3 class="h-m">What is Ease of Doing Business Rank?</h3>
-    <p>Ease of doing business ranks economies from 1 to 190, with first place being the best. A high ranking (a low numerical rank) means that the regulatory environment is conducive to business operation</p>
-  </div>
-</div>
-
-
-          Ease of doing business rank <br>
-          <b>{{ export_marketdata.easeofdoingbusiness.year_2019 }}</b>
-          Out of {{ export_marketdata.easeofdoingbusiness.total }}
-        </div>
-        <div class="c-1-4">
-          Corruption Perception Index <br>
-          <b>{{ export_marketdata.corruption_perceptions_index.rank }}</b>
-        </div>
-        <div class="c-1-4">
-          Local time
-          <b>{{ datenow|timezone:export_marketdata.timezone|date:'H:i' }}</b>
-          GMT {{  utz_offset }} {{ export_marketdata.timezone }}
-        </div>
-     </div>
-     <div class="flex-grid m-b-s">
-       <div class="c-1-4"></div>
-        <div class="c-1-4">
-          Duty <br>
-          <b>{% widthratio rules_regulation.export_duty 1 100  %} %</b>
-        </div>
-       <div class="c-1-4">
-         {% if lastyear_import_data %}
-             <b>{{ rules_regulation.commodity_name }}</b>
-             Import Value in {{ lastyear_import_data.last_year_data.import_value.year}} <br>
-         <b>{{ lastyear_import_data.last_year_data.import_value.trade_value|intcomma }} USD</b>
-             Source: Comtrade
-         {% endif %}
-       </div>
-       <div class="c-1-4">
-        {% if lastyear_import_data %}
-            Year-to-year change <br>
-            <b>+ {% widthratio lastyear_import_data.last_year_data.import_value.year_on_year_change 1 100  %} %</b> <br>
-        {% endif %}
-       </div>
-     </div>
-  </section>
+  {% include 'exportplan/partials/_country-stats.html' %}
 {% endif %}
+
+<hr>
+
 <section class="container">
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
       <div class="c-3-4">
-      <button type="button" class="g-button bg-white text-grey pill">Add country</button>
+      <button type="button" class="g-button bg-white text-grey pill" id="add-country">Add country</button>
     </div>
   </div>
 </section>
 
 <hr class="m-b-0">
 
-<section class="bg-white">
+<section class="bg-white" id="your-actions">
   <div class="container">
     <div class="grid p-v-s">
       <div class="c-1-4">&nbsp;</div>

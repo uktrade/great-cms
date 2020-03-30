@@ -1,6 +1,5 @@
-
 .pill {
-  border-radius: 1em;
+  border-radius: 1.2em;
   padding: 5px 15px;
   margin-right: 10px;
 }
@@ -59,61 +58,6 @@ $colours:
 @each $colour, $name in $colours {
   .border-hover-#{$name}:hover {
     border-color: $colour;
-  }
-}
-
-.plus-button {
-  @extend .pill;
-  @extend .bg-white;
-  @extend .border-grey;
-  @extend .border-thin;
-  @extend .bg-hover-grey;
-  @extend .text-hover-white;
-  position: relative;
-  display: block;
-  padding: 15px;
-  padding-bottom: 14px;
-  border-radius: $space-m-m;
-
-  @include desktop {
-    border-radius: $space-m;
-  }
-
-  &:hover:after,
-  &:hover:before {
-    background-color: $white;
-  }
-
-  &:after {
-    height: 18px;
-    width: 2px;
-    background-color: $grey;
-    content: '';
-    display: block;
-    position: absolute;
-    top: 6px;
-    left: 14px;
-
-    @include desktop {
-      top: 6px;
-      left: 14px;
-    }
-  }
-
-  &:before {
-    width: 18px;
-    height: 2px;
-    background-color: $grey;
-    content: '';
-    display: block;
-    position: absolute;
-    top: 14px;
-    left: 6px;
-
-    @include desktop {
-      top: 14px;
-      left: 6px;
-    }
   }
 }
 

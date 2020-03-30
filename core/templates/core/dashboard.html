@@ -38,7 +38,7 @@
 
                     {% for topic in topics %}
                         <div class="grid m-b-s m-v-0">
-                            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ topic.title|slugify }}">{{ topic.title }}</h3>
+                            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ topic.title|slugify }}"><a href="{{ topic.url }}">{{ topic.title }}</a></h3>
                             <div class="c-5-12"><progress id="topics-read-count-{{ topic.title|slugify }}" value="{{ topic.read_count }}" max="{{ topic.numchild }}"></progress></div>
                             <div class="c-2-12 great-mvp-right-text" id="topics-read-progress-{{ topic.title|slugify }}">{{ topic.read_progress|default:0 }}%</div>
                         </div>
@@ -48,7 +48,7 @@
             </div>
 
             <div class="c-1-2" id="great-export-plan-card">
-                <div class="bg-white p-xs great-dashboard-card great-export-plan-card" id="your-progress-card">
+                <div class="bg-white p-xs great-dashboard-card great-export-plan-card" id="your-export-plan-card">
                     <h3 class="m-b-0 card-heading text-16">Your export plan</h3>
                     <p class="m-v-s">Get ready to Trade Export plan</p>
                     <form class="great-mvp-small-checkbox-container">
@@ -204,14 +204,13 @@
         document.body.appendChild(element);
         ditMVP.setConfig({
             csrfToken: '{{ csrf_token }}',
-            enrolCompanyUrl: '{% url "core:api-create-company" %}',
+            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
             industryOptions: {{ industry_options|safe }}
         });
         var isOpen = {% if request.user.company.expertise_industries_labels %}false{%else %}true{% endif %};
-        ditMVP.QuestionModal({
+        ditMVP.IndustriesModal({
             element: element,
             isOpen: isOpen,
-            currentStep: 'sectors'
         });
     </script>
 {% endblock %}

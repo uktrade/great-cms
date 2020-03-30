@@ -7,7 +7,7 @@ from django.db.models import F, Count, IntegerField, ExpressionWrapper
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
-from core import forms, helpers, permissions, serializers
+from core import forms, helpers, serializers
 from learn.models import TopicPage
 
 
@@ -37,44 +37,18 @@ class DashboardView(TemplateView):
         )
 
 
-class EnrolCompanyAPIView(generics.GenericAPIView):
-
-    serializer_class = serializers.CompanySerializer
-    permission_classes = [IsAuthenticated, permissions.HasNoCompany]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        company_data = {
-            'sso_id': self.request.user.id,
-            'company_email': self.request.user.email,
-            'contact_email_address': self.request.user.email,
-            'company_name': self.request.data.get('company_name', '<unknown>'),
-            'expertise_industries': self.request.data['expertise_industries'],
-            'expertise_countries': self.request.data.get('expertise_countries', {}),
-        }
-        helpers.create_company_profile(company_data)
-        if 'first_name' in self.request.data:
-            user_data = {
-                'first_name': self.request.data['first_name'],
-                'last_name': self.request.data['last_name'],
-            }
-            helpers.create_user_profile(data=user_data, sso_session_id=self.request.user.session_id)
-        return Response(status=200)
-
-
 class UpdateCompanyAPIView(generics.GenericAPIView):
 
     serializer_class = serializers.CompanySerializer
-    permission_classes = [IsAuthenticated, permissions.HasCompany]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        helpers.update_company_profile(
-            sso_session_id=self.request.user.session_id,
-            data={key: value for key, value in serializer.data.items() if value}
-        )
+        data = {key: value for key, value in serializer.data.items() if value}
+        if not self.request.user.company:
+            data['name'] = f'unnamed sso-{self.request.user.id} company'
+        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=data)
         return Response(status=200)
 
 
@@ -82,10 +56,6 @@ class ArticleView(FormView):
     template_name = 'core/article.html'
     success_url = reverse_lazy('core:dashboard')
     form_class = forms.ArticleForm
-
-    def form_valid(self, form):
-        # TODO: store the fact the article was viewed
-        return super().form_valid(form)
 
     def get_context_data(self):
         return super().get_context_data(
