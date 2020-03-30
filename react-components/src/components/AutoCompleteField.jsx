@@ -22,24 +22,20 @@ export default function AutoCompleteField(props){
       )
     }
   }
+  const { errors, ...otherProps} = props;
 
   return (
     <div>
       {getLabel()}
-      <ErrorList errors={props.errors || []} />
+      <ErrorList errors={errors || []} />
       <Select
-        id={id_for_label}
-        options={props.choices}
-        isMulti={true}
-        isClearable={true}
-        name={props.name}
-        onChange={handleChange}
-        value={props.value}
-        autoFocus={props.autofocus}
         className='great-mvp-autocomplete-field'
         classNamePrefix='great-mvp-autocomplete-field'
-        disabled={props.disabled}
-        placeholder={props.placeholder}
+        id={id_for_label}
+        isClearable={true}
+        isMulti={true}
+        onChange={handleChange}
+        {...otherProps}
       />
     </div>
   )
@@ -47,18 +43,17 @@ export default function AutoCompleteField(props){
   
 
 AutoCompleteField.propTypes = {
-  type: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.array.isRequired,
   disabled: PropTypes.bool,
-  autofocus: PropTypes.bool,
+  autoFocus: PropTypes.bool,
   errors: PropTypes.array,
 }
 
 AutoCompleteField.defaultProps = {
-  autofocus: false,
+  autoFocus: false,
   disabled: false,
   errors: [],
 }

@@ -1,9 +1,8 @@
+import shutil
 from unittest import mock
 from uuid import uuid4
 
 import allure
-import shutil
-
 import pytest
 
 from sso import helpers
@@ -20,13 +19,14 @@ from tests.browser.util import (
     find_element,
     find_elements,
     is_element_present,
-    should_not_see,
+    should_not_see_any_element,
     should_not_see_errors,
     should_see_all_elements,
 )
 
 pytestmark = [
     pytest.mark.browser,
+    pytest.mark.home_page,
     pytest.mark.django_db,
     pytest.mark.skipif(shutil.which('chromedriver') is None, reason='chromedriver not in path')
 ]
@@ -71,7 +71,7 @@ def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
     attach_jpg_screenshot(browser, 'home page')
     should_see_all_elements(browser, HeaderCommon)
     should_see_all_elements(browser, HeaderSignUp)
-    should_not_see(browser, HeaderSignedIn)
+    should_not_see_any_element(browser, HeaderSignedIn)
 
 
 def test_anonymous_user_should_see_sign_up_modal(browser, visit_home_page):

@@ -18,14 +18,17 @@ from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
     selenium_action,
-    should_not_see,
+    should_not_see_any_element,
     should_not_see_errors,
     should_see_all_elements,
     try_alternative_click_on_exception,
 )
 from tests.helpers import create_response
 
-pytestmark = pytest.mark.browser
+pytestmark = [
+    pytest.mark.browser,
+    pytest.mark.dashboard,
+]
 
 
 @allure.step('Enter sectors user is interested in: {industries}')
@@ -52,16 +55,16 @@ def submit_industries(browser, industries):
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_dashboard_export_opportunities')
 @mock.patch.object(helpers, 'get_dashboard_events')
-@mock.patch.object(helpers, 'create_company_profile')
+@mock.patch.object(helpers, 'update_company_profile')
 def test_dashboard_with_success_query_parameter(
-    mock_create_company_profile, mock_get_dashboard_events,
+    mock_update_company_profile, mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities, mock_get_company_profile,
     server_user_browser_dashboard, single_event, single_opportunity
 ):
-    def side_effect(_):
+    def side_effect(data, sso_session_id):
         mock_get_company_profile.return_value = {
             'expertise_countries': [],
-            'expertise_industries': ['SL10001', 'SL10002'],
+            'expertise_industries': ['SL10001'],
         }
 
     mock_get_dashboard_events.return_value = create_response()
@@ -70,8 +73,8 @@ def test_dashboard_with_success_query_parameter(
     mock_get_dashboard_export_opportunities.side_effect = [
         [], [single_opportunity], [single_opportunity]
     ]
-    mock_create_company_profile.return_value = create_response()
-    mock_create_company_profile.side_effect = side_effect
+    mock_update_company_profile.return_value = create_response()
+    mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 
@@ -82,7 +85,7 @@ def test_dashboard_with_success_query_parameter(
     submit_industries(browser, industries)
 
     attach_jpg_screenshot(browser, 'Dashboard')
-    should_not_see(browser, DashboardModalLetsGetToKnowYou)
+    should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
     should_see_all_elements(browser, HeaderSignedIn)
     should_see_all_elements(browser, DashboardContents)
     should_see_all_elements(browser, DashboardContentsOnSuccess)
@@ -91,13 +94,13 @@ def test_dashboard_with_success_query_parameter(
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_dashboard_export_opportunities')
 @mock.patch.object(helpers, 'get_dashboard_events')
-@mock.patch.object(helpers, 'create_company_profile')
+@mock.patch.object(helpers, 'update_company_profile')
 def test_dashboard_without_success_query_parameter(
-        mock_create_company_profile, mock_get_dashboard_events,
+        mock_update_company_profile, mock_get_dashboard_events,
         mock_get_dashboard_export_opportunities, mock_get_company_profile,
         server_user_browser_dashboard, single_event, single_opportunity
 ):
-    def side_effect(_):
+    def side_effect(data, sso_session_id):
         mock_get_company_profile.return_value = {
             'expertise_countries': [],
             'expertise_industries': ['SL10001', 'SL10002'],
@@ -109,8 +112,8 @@ def test_dashboard_without_success_query_parameter(
     mock_get_dashboard_export_opportunities.side_effect = [
         [], [single_opportunity], [single_opportunity]
     ]
-    mock_create_company_profile.return_value = create_response()
-    mock_create_company_profile.side_effect = side_effect
+    mock_update_company_profile.return_value = create_response()
+    mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
 
@@ -123,7 +126,7 @@ def test_dashboard_without_success_query_parameter(
     attach_jpg_screenshot(browser, 'Dashboard with success query parameter')
     browser.get(f'{live_server.url}/dashboard/')
     attach_jpg_screenshot(browser, 'Dashboard without success query parameter')
-    should_not_see(browser, DashboardModalLetsGetToKnowYou)
+    should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
     should_see_all_elements(browser, HeaderSignedIn)
     should_see_all_elements(browser, DashboardContents)
     should_see_all_elements(browser, DashboardContentsWithoutSuccess)

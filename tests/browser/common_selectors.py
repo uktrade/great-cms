@@ -88,7 +88,7 @@ class DashboardContents(SelectorsEnum):
     HERO = Selector(By.ID, 'great-hero')
     WELCOME = Selector(By.ID, 'great-hero-welcome')
     YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
-    EXPORT_PLAN_CARD = Selector(By.ID, 'great-export-plan-card')
+    EXPORT_PLAN_CARD = Selector(By.ID, 'your-export-plan-card')
     DID_YOU_KNOW_CARD = Selector(By.ID, 'did-you-know-card')
     DISCOVER_NEW_MARKETS_CARD = Selector(By.ID, 'discover-new-markets-card')
     EXPORT_OPPORTUNITIES_CARD = Selector(By.ID, 'export-opportunities-card')
@@ -102,6 +102,12 @@ class DashboardContentsWithoutSuccess(SelectorsEnum):
 
 class DashboardContentsOnSuccess(SelectorsEnum):
     SUCCESS_CARD = Selector(By.ID, 'great-mvp-success-card')
+
+
+class DashboardReadingProgress(SelectorsEnum):
+    YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
+    TOPICS_HEADERS = Selector(By.CSS_SELECTOR, 'h3[id^=topics-]')
+    TOPICS_READ_PROGRESS = Selector(By.CSS_SELECTOR, 'div[id^=topics-read-progress-]')
 
 
 class SignUpModal(SelectorsEnum):
@@ -163,6 +169,43 @@ class ExportPlanDashboard(SelectorsEnum):
     ACTION_PLAN = Selector(By.ID, 'action-plan', ElementType.LINK)
 
 
+class ExportPlanDashboardPageTourStep0(SelectorsEnum):
+    MODAL = Selector(By.ID, 'page-tour-modal-step-1')
+    NEXT = Selector(By.ID, 'page-tour-submit', ElementType.LINK)
+    SKIP = Selector(By.ID, 'page-tour-skip', ElementType.LINK)
+    HIGHLIGHTED_ELEMENT = None
+
+
+class ExportPlanDashboardPageTourStep1(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-where-do-you-want-to-export')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep2(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-track-your-progress')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-completion-progress-indicator')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep3(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-learn-as-you-go')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-continue-leaning-title')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep4(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-collaborate-with-your-team-and-international-trade-advisers')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-collaboraton-menu')
+    NEXT = Selector(By.ID, 'page-tour-next-step')
+
+
+class ExportPlanDashboardPageTourStep5(SelectorsEnum):
+    STEP = Selector(By.ID, 'page-tour-step-lets-start')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
+    NEXT = Selector(By.ID, 'page-tour-start-now', ElementType.LINK)
+
+
 class ExportPlanTargetMarkets(SelectorsEnum):
     SIDEBAR = Selector(By.ID, 'sidebar-content')
     ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', ElementType.LINK)
@@ -177,3 +220,36 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', ElementType.LINK)
     ACTION_PLAN = Selector(By.ID, 'sidebar-action-plan', ElementType.LINK)
     CONTENT = Selector(By.ID, 'target-markets-content')
+
+
+class ExportPlanTargetMarketsRecommendedCountriesFolded(SelectorsEnum):
+    RECOMMENDED_COUNTRIES = Selector(By.ID, 'recommended-countries')
+    SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
+
+
+class ExportPlanTargetMarketsRecommendedCountriesUnfolded(SelectorsEnum):
+    SECTOR_LIST = Selector(By.ID, 'sector-list')
+
+
+class ExportPlanTargetMarketsData(SelectorsEnum):
+    MARKET_DATA = Selector(By.ID, 'export-market-data')
+    REMOVE_COUNTR = Selector(By.ID, 'remove-country')
+    EASE_OF_DOING_BUSINESS = Selector(By.ID, 'export-market-data-ease-of-doing-business-rank')
+    CPI = Selector(By.ID, 'export-market-data-corruption-perception-index')
+    LOCAL_TIME = Selector(By.ID, 'export-market-data-local-time')
+    DUTY = Selector(By.ID, 'export-market-data-duty')
+    IMPORT_VALUE = Selector(By.ID, 'export-market-data-import-value')
+    YEAR_TO_YEAR_CHANGE = Selector(By.ID, 'export-market-data-year-to-year-change')
+    ADD_COUNTRY = Selector(By.ID, 'add-country')
+    YOUR_ACTIONS = Selector(By.ID, 'your-actions')
+
+
+class TopicLessonListing(SelectorsEnum):
+    TITLE = Selector(By.ID, 'topic-title')
+    LESSON_LIST = Selector(By.ID, 'topic-lesson-list')
+    LESSON_LINKS = Selector(By.CSS_SELECTOR, 'a[id^=lesson-]')
+
+
+class LessonPage(SelectorsEnum):
+    TITLE = Selector(By.ID, 'lesson-title')
+    MARK_AS_READ = Selector(By.ID, 'mark-as-read')

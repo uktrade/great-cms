@@ -124,16 +124,6 @@ def test_get_custom_duties_url():
     assert url == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=CN&pc=8424.10'
 
 
-@mock.patch.object(api_client.enrolment, 'send_form')
-def test_create_company_profile(mock_send_form):
-    data = {'foo': 'bar'}
-
-    helpers.create_company_profile(data)
-
-    assert mock_send_form.call_count == 1
-    assert mock_send_form.call_args == mock.call(data)
-
-
 @mock.patch.object(api_client.company, 'profile_update')
 def test_update_company_profile(mock_profile_update):
     data = {'foo': 'bar'}
@@ -172,3 +162,25 @@ def test_get_markets_page_title(company_profile, expected):
 ])
 def test_company_parser_expertise_industries_labels_no_industries(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_industries_labels == expected
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_industries': []}, []],
+    [{'expertise_industries': ['SL10001']}, [{'label': 'Advanced Engineering', 'value': 'SL10001'}]],
+    [{'expertise_industries': ['SL10001', 'SL10002']}, [
+        {'label': 'Advanced Engineering', 'value': 'SL10001'}, {'label': 'Aerospace', 'value': 'SL10002'}
+    ]],
+])
+def test_company_parser_expertise_industries_value_label_pairs(company_profile, expected):
+    assert helpers.CompanyParser(company_profile).expertise_industries_value_label_pairs == expected
+
+
+@pytest.mark.parametrize('company_profile,expected', [
+    [{'expertise_countries': []}, []],
+    [{'expertise_countries': ['FR']}, [{'label': 'France', 'value': 'FR'}]],
+    [{'expertise_countries': ['FR', 'AU']}, [
+        {'label': 'France', 'value': 'FR'}, {'label': 'Australia', 'value': 'AU'}
+    ]],
+])
+def test_company_parser_expertise_countries_value_label_pairs(company_profile, expected):
+    assert helpers.CompanyParser(company_profile).expertise_countries_value_label_pairs == expected

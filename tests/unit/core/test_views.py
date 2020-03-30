@@ -16,11 +16,8 @@ from learn.models import LessonViewHit
 @pytest.fixture
 def company_data():
     return {
-        'company_name': 'Example corp',
         'expertise_industries': json.dumps(['Science']),
         'expertise_countries': json.dumps(['USA']),
-        'first_name': 'foo',
-        'last_name': 'bar',
     }
 
 
@@ -36,11 +33,29 @@ def test_api_update_company_success(mock_update_company_profile, mock_get_compan
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         data={
-            'company_name': 'Example corp',
             'expertise_industries': ['Science'],
             'expertise_countries': ['USA'],
-            'first_name': 'foo',
-            'last_name': 'bar'
+        },
+        sso_session_id=user.session_id,
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_company_profile')
+def test_api_update_company_no_name(mock_update_company_profile, mock_get_company_profile, client, user, company_data):
+    mock_update_company_profile.return_value = create_response()
+    mock_get_company_profile.return_value = {}
+    client.force_login(user)
+
+    response = client.post(reverse('core:api-update-company'), company_data)
+
+    assert response.status_code == 200
+    assert mock_update_company_profile.call_count == 1
+    assert mock_update_company_profile.call_args == mock.call(
+        data={
+            'name': 'unnamed sso-1 company',
+            'expertise_industries': ['Science'],
+            'expertise_countries': ['USA'],
         },
         sso_session_id=user.session_id,
     )
@@ -49,77 +64,6 @@ def test_api_update_company_success(mock_update_company_profile, mock_get_compan
 @pytest.mark.django_db
 def test_api_update_company_not_logged_in(client, company_data):
     response = client.post(reverse('core:api-update-company'), company_data)
-
-    assert response.status_code == 403
-
-
-@pytest.mark.django_db
-def test_api_update_company_no_company(mock_get_company_profile, client, user, company_data):
-    client.force_login(user)
-
-    response = client.post(reverse('core:api-update-company'), company_data)
-
-    assert response.status_code == 403
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'create_company_profile')
-@mock.patch.object(helpers, 'create_user_profile')
-def test_api_create_company_success(
-        mock_create_user_profile, mock_create_company_profile, mock_get_company_profile, client, user, company_data
-):
-    client.force_login(user)
-
-    mock_create_user_profile.return_value = create_response()
-    mock_create_company_profile.return_value = create_response()
-
-    response = client.post(reverse('core:api-create-company'), company_data)
-    assert response.status_code == 200
-    assert mock_create_user_profile.call_count == 1
-    assert mock_create_user_profile.call_args == mock.call(
-        data={'first_name': 'foo', 'last_name': 'bar'},
-        sso_session_id=user.session_id,
-    )
-    assert mock_create_company_profile.call_count == 1
-    assert mock_create_company_profile.call_args == mock.call({
-        'sso_id': user.id,
-        'company_name': company_data['company_name'],
-        'expertise_industries': company_data['expertise_industries'],
-        'expertise_countries': company_data['expertise_countries'],
-        'company_email': user.email,
-        'contact_email_address': user.email,
-    })
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'create_company_profile')
-@mock.patch.object(helpers, 'create_user_profile')
-def test_api_create_company_validation_error(
-        mock_create_user_profile, mock_create_company_profile, mock_get_company_profile, client, user
-):
-    client.force_login(user)
-
-    response = client.post(reverse('core:api-create-company'), {})
-
-    assert response.status_code == 400
-    assert mock_create_user_profile.call_count == 0
-    assert mock_create_company_profile.call_count == 0
-
-
-@pytest.mark.django_db
-def test_api_create_company_not_logged_in(client, company_data):
-    response = client.post(reverse('core:api-create-company'), company_data)
-
-    assert response.status_code == 403
-
-
-@pytest.mark.django_db
-def test_api_create_company_already_has_company(mock_get_company_profile, client, user, company_data):
-    mock_get_company_profile.return_value = {'foo': 'bar'}
-
-    client.force_login(user)
-
-    response = client.post(reverse('core:api-create-company'), company_data)
 
     assert response.status_code == 403
 
@@ -195,7 +139,9 @@ def test_dashboard_page_lesson_progress(
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_ok(mock_get_company_profile, client, user):
+def test_dashboard_apis_ok(client, user, patch_get_dashboard_events, patch_get_dashboard_export_opportunities):
+    patch_get_dashboard_events.stop()
+    patch_get_dashboard_export_opportunities.stop()
 
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
@@ -263,7 +209,9 @@ export-opportunities/opportunities/french-sardines-required',
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_fail(mock_get_company_profile, client, user):
+def test_dashboard_apis_fail(client, user, patch_get_dashboard_events, patch_get_dashboard_export_opportunities):
+    patch_get_dashboard_events.stop()
+    patch_get_dashboard_export_opportunities.stop()
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
     ) as events_api_results:
@@ -287,7 +235,7 @@ personalisation.export_opportunities_by_relevance_list'
 
 
 @pytest.mark.django_db
-def test_capability_article_logged_in(mock_get_company_profile, client, user):
+def test_capability_article_logged_in(client, user):
     client.force_login(user)
     url = reverse(
         'core:capability-article', kwargs={'topic': 'some topic', 'chapter': 'some chapter', 'article': 'some article'}

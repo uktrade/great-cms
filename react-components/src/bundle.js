@@ -1,7 +1,8 @@
 import '../../core/sass/main.scss'
 
 import SignupModal from '@src/views/SignupModal/Modal'
-import QuestionModal from '@src/views/QuestionModal/Modal'
+import IndustriesModal from '@src/views/IndustriesModal/Base'
+import CountriesModal from '@src/views/CountriesModal/Base'
 import LoginModal from '@src/views/LoginModal/Modal'
 import Tour from '@src/views/Tour/Base'
 import { createSectorChooser } from '@src/components/SectorChooser'
@@ -10,9 +11,10 @@ import Services from '@src/Services'
 import '@babel/polyfill'
 
 export default {
+  CountriesModal,
   createSectorChooser,
+  IndustriesModal,
   LoginModal,
-  QuestionModal,
   setConfig: Services.setConfig,
   SignupModal,
   STEP_CREDENTIALS,

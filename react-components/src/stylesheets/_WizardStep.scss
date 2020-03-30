@@ -1,13 +1,27 @@
 
 @import 'helpers/colours';
 
-.great-mvp-wizard-step-heading {
-    margin-top: 20px;
-    padding-bottom: 30px;
+.great-mvp-wizard-step-button {
+    &, &:visited, &:hover { 
+        color: $white;
+    }
+    border-radius: 5px;
+    background-color: $mid-grey;
+    font-size: 19px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 10px;
+    width: auto;
+    padding: 10px 50px;
+    text-decoration: none;
+    cursor: pointer;
+    color: $white;
 }
 
-.great-mvp-wizard-step-button {
-    background: $grey;
-    color: $white;
-    width: 300px;
+.great-mvp-wizard-step-link {
+    &, &:visited { 
+        color: $grey;
+    }
+    font-size: 16px;
+    text-decoration: none;
 }
