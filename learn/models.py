@@ -4,13 +4,13 @@ from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
-
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from django.shortcuts import redirect
 from django.db import models
 
 from core.models import TimeStampedModel
+from core import mixins
 
 
 class TopicPage(Page):
@@ -87,3 +87,7 @@ class LessonViewHit(TimeStampedModel):
     class Meta:
         ordering = ['lesson__pk']
         unique_together = ['lesson', 'topic', 'sso_id']
+
+
+class LearnPage(mixins.WagtailAdminExclusivePageMixin, mixins.EnableTourMixin, Page):
+    parent_page_types = ['domestic.DomesticHomePage']

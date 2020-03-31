@@ -1,4 +1,5 @@
 {% load static %}
+{% load wagtailcore_tags %}
 
 <header class="great-mvp-header" id="header" dir="ltr" data-ga-section="header">
   <nav>
@@ -7,7 +8,7 @@
     </a>
     <div class="great-mvp-header-links">
       <ul id="services-area" class="services-area">
-          <li><a id="header-link-learning" href="#">Learning</a></li>
+          <li><a id="header-link-learning" href="{% slugurl 'learn' %}">Learning</a></li>
           <li><a id="header-link-exporting-plan" href="/export-plan/">Export plan</a></li>
           <li><a id="header-link-markets" href="{% url 'core:markets' %}">Markets</a></li>
           <li><a id="header-link-services" href="#">Services</a></li>

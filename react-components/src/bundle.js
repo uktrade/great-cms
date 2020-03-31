@@ -11,13 +11,13 @@ import Services from '@src/Services'
 import '@babel/polyfill'
 
 export default {
-  setConfig: Services.setConfig,
-  SignupModal,
-  LoginModal,
-  Tour,
+  CountriesModal,
   createSectorChooser,
   IndustriesModal,
-  CountriesModal,
+  LoginModal,
+  setConfig: Services.setConfig,
+  SignupModal,
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
+  Tour,
 };

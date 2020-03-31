@@ -161,6 +161,9 @@ You can control the execution with env vars:
 LOCUST_FILE=tests/load/mvp_home.py NUM_CLIENTS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
 ```
 
+## Known issues
+* Local development environment: If you try to get to a URL (i.e. /markets/) and you get an error similar to "AttributeError
+AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, you need to go to /django-admin/ and logout from the top right hand side. This is a temporary workaround to resolve an incompatibility between great-cms and directory-sso.
 
 ## Helpful links
 * [Developers Onboarding Checklist](https://uktrade.atlassian.net/wiki/spaces/ED/pages/32243946/Developers+onboarding+checklist)

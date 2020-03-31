@@ -1,10 +1,10 @@
 import factory.fuzzy
-import wagtail_factories
+from wagtail_factories import PageFactory
 
 from learn import models
 
 
-class TopicPageFactory(wagtail_factories.PageFactory):
+class TopicPageFactory(PageFactory):
 
     title = 'some topic'
     live = True
@@ -16,7 +16,7 @@ class TopicPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
-class LessonPageFactory(wagtail_factories.PageFactory):
+class LessonPageFactory(PageFactory):
 
     title = 'some lesson'
     live = True
@@ -25,4 +25,13 @@ class LessonPageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = models.LessonPage
+        django_get_or_create = ['slug', 'parent']
+
+
+class LearnPageFactory(PageFactory):
+    title = 'learn page'
+    live = True
+
+    class Meta:
+        model = models.LearnPage
         django_get_or_create = ['slug', 'parent']

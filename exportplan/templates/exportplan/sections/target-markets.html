@@ -1,8 +1,5 @@
 {% extends 'exportplan/section.html' %}
 
-{% load intcomma from humanize %}
-{% load timezone from tz %}
-
 {% block intro_content %}
 <h1 class="h-xl">Target markets</h1>
 <p>Identify the markets that will most likely respond to your product or service. You will learn how to research and assess potential markets from a range of different methods.</p>
@@ -35,55 +32,11 @@
 
 <hr>
 {% if export_marketdata %}
-  <section class="container" id="export-market-data">
-
-      <div class="flex-grid m-b-s">
-        <div class="c-1-4"></div>
-        <div class="c-1-4">
-          <h2 class="h-m m-b-s">{{ export_marketdata.corruption_perceptions_index.country_name }}  </h2><a id="remove-country">Remove</a>
-
-        </div>
-      </div>
-      <div class="flex-grid m-b-s">
-        <div class="c-1-4"></div>
-        <div class="c-1-4" id="export-market-data-ease-of-doing-business-rank">
-          Ease of doing business rank <br>
-          <b>{{ export_marketdata.easeofdoingbusiness.year_2019 }}</b>
-          Out of {{ export_marketdata.easeofdoingbusiness.total }}
-        </div>
-        <div class="c-1-4" id="export-market-data-corruption-perception-index">
-          Corruption Perception Index <br>
-          <b>{{ export_marketdata.corruption_perceptions_index.rank }}</b>
-        </div>
-        <div class="c-1-4" id="export-market-data-local-time">
-          Local time
-          <b>{{ datenow|timezone:export_marketdata.timezone|date:'H:i' }}</b>
-          GMT {{  utz_offset }} {{ export_marketdata.timezone }}
-        </div>
-     </div>
-     <div class="flex-grid m-b-s">
-       <div class="c-1-4"></div>
-        <div class="c-1-4" id="export-market-data-duty">
-          Duty <br>
-          <b>{% widthratio rules_regulation.export_duty 1 100  %} %</b>
-        </div>
-       <div class="c-1-4" id="export-market-data-import-value">
-         {% if lastyear_import_data %}
-             <b>{{ rules_regulation.commodity_name }}</b>
-             Import Value in {{ lastyear_import_data.last_year_data.import_value.year}} <br>
-         <b>{{ lastyear_import_data.last_year_data.import_value.trade_value|intcomma }} USD</b>
-             Source: Comtrade
-         {% endif %}
-       </div>
-       <div class="c-1-4" id="export-market-data-year-to-year-change">
-        {% if lastyear_import_data %}
-            Year-to-year change <br>
-            <b>+ {% widthratio lastyear_import_data.last_year_data.import_value.year_on_year_change 1 100  %} %</b> <br>
-        {% endif %}
-       </div>
-     </div>
-  </section>
+  {% include 'exportplan/partials/_country-stats.html' %}
 {% endif %}
+
+<hr>
+
 <section class="container">
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
