@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './stylesheets/Success.scss'
+import './stylesheets/StepSuccess.scss'
 
 
-export default function Step3(props){
+export default function StepSuccess(props){
   return (
-    <div className='great-mvp-signup-wizard-step-3' id="signup-modal-success">
+    <div className='great-mvp-signup-wizard-step-success p-h-xs' id="signup-modal-success">
       <h2 className="h-xl">Complete</h2>
       <p className='great-mvp-subtitle'>Your account has been created.</p>
-      <div className="body-text great-mvp-synopsis">
+      <div className="body-text great-mvp-synopsis m-t-0">
         <span>You can now:</span>
         <ul className="list list-bullet">
           <li>Start using your Great.gov.uk Dashboard</li>
@@ -22,7 +22,7 @@ export default function Step3(props){
           type="submit"
           value="Continue"
           id="signup-modal-submit-success"
-          className="great-mvp-wizard-step-submit g-button"
+          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
           disabled={props.disabled}
         />
       </form>
@@ -31,6 +31,6 @@ export default function Step3(props){
 }
 
 
-Step3.PropTypes = {
+StepSuccess.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 }

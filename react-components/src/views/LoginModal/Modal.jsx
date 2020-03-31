@@ -17,12 +17,12 @@ const modalStyles = {
     marginRight: '-50%',
     padding: 30,
     right: 'auto',
-    textAlign: 'center',
     top: '50%',
     transform: 'translate(20%, 0)',
     top: 75,
     width: 430,
     overflow: 'visible',
+    height: '100%',
   },
   overlay: {
     zIndex: 1000,

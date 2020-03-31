@@ -50,3 +50,4 @@
 - MVP-329 - Country modal iteration
 - MVP-344 - Wagtail cache
 - MVP-356 - marketdata target-markets
+- MVP-357 - Implement new signup modal design

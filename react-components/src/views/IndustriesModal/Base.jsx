@@ -54,6 +54,7 @@ export function Base(props){
       skipFeatureCookieName='skip-industries-of-interest'
       skipFeatureComponent={SkipShowGenericContent}
       id='dashboard-question-modal-lets-get-to-know-you'
+      className='p-s'
     >
       <ErrorList errors={errors.__all__ || []} className='m-t-s' />
       <Form
@@ -62,7 +63,6 @@ export function Base(props){
         handleSubmit={handleIndustriesSubmit}
         handleChange={setIndustries}
         value={industries}
-        onSkipButtonClick={props.handleRequestSkipFeature}
       />
     </Modal>
   )
