@@ -7,9 +7,9 @@ import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import Wizard, {STEP_CREDENTIALS, STEP_VERIFICATION_CODE, STEP_COMPLETE} from '@src/views/SignupModal/Wizard'
-import Step1 from '@src/views/SignupModal/Step1'
-import Step2 from '@src/views/SignupModal/Step2'
-import Success from '@src/views/SignupModal/Success'
+import StepCredentials from '@src/views/SignupModal/StepCredentials'
+import StepCode from '@src/views/SignupModal/StepCode'
+import StepSuccess from '@src/views/SignupModal/StepSuccess'
 import Services from '@src/Services'
 
 
@@ -65,14 +65,14 @@ describe('SignupWizard', () => {
     const component = mount(<Wizard {...defaultProps} />)
 
     act(() => {
-      component.find(Step1).prop('handleSubmit')()
+      component.find(StepCredentials).prop('handleSubmit')()
     })
 
     // then an error message is displayed
     setImmediate(() => {
       component.update()
       expect(component.containsMatchingElement(
-        <Step1
+        <StepCredentials
           disabled={false}
           email='email'
           password='password'
@@ -90,13 +90,13 @@ describe('SignupWizard', () => {
     const component = mount(<Wizard {...defaultProps} />)
 
     act(() => {
-      component.find(Step1).prop('handleSubmit')()
+      component.find(StepCredentials).prop('handleSubmit')()
     })
 
     setImmediate(() => {
       component.update()
       expect(component.containsMatchingElement(
-        <Step2
+        <StepCode
           errors={{}}
           disabled={false}
         />
@@ -113,17 +113,17 @@ describe('SignupWizard', () => {
     const props = {...defaultProps, currentStep: STEP_VERIFICATION_CODE}
     const component = mount(<Wizard {...props} />)
 
-    expect(component.exists(Step2)).toEqual(true)
+    expect(component.exists(StepCode)).toEqual(true)
 
     act(() => {
-      component.find(Step2).prop('handleCodeChange')('123456')
-      component.find(Step2).prop('handleSubmit')()
+      component.find(StepCode).prop('handleCodeChange')('123456')
+      component.find(StepCode).prop('handleSubmit')()
     })
 
     // then an error message is displayed
     setImmediate(() => {
       component.update()
-      expect(component.find(Step2).prop('errors')).toMatchObject(errors)
+      expect(component.find(StepCode).prop('errors')).toMatchObject(errors)
       done()
     })
   })
@@ -134,16 +134,16 @@ describe('SignupWizard', () => {
     const props = {...defaultProps, currentStep: STEP_VERIFICATION_CODE}
     const component = mount(<Wizard {...props} />)
 
-    expect(component.exists(Step2)).toEqual(true)
+    expect(component.exists(StepCode)).toEqual(true)
 
     act(() => {
-      component.find(Step2).prop('handleCodeChange')('123456')
-      component.find(Step2).prop('handleSubmit')()
+      component.find(StepCode).prop('handleCodeChange')('123456')
+      component.find(StepCode).prop('handleSubmit')()
     })
 
     setImmediate(() => {
       component.update()
-      expect(component.containsMatchingElement(<Success />)).toEqual(true)
+      expect(component.containsMatchingElement(<StepSuccess />)).toEqual(true)
       done()
     })
 
@@ -155,7 +155,7 @@ describe('SignupWizard', () => {
     const component = mount(<Wizard {...props} />)
 
     act(() => {
-      component.find(Success).prop('handleSubmit')()
+      component.find(StepSuccess).prop('handleSubmit')()
     })
 
     expect(location.assign).toHaveBeenCalled()

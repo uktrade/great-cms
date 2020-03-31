@@ -5,17 +5,35 @@ import Services from '@src/Services'
 import Field from '@src/components/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
-import './stylesheets/Step1.scss'
+import './stylesheets/StepCredentials.scss'
 
 
-export default function Step1(props){
+export default function StepCredentials(props){
+
+  function getLede() {
+    if (props.showLede) {
+      return (
+        <>
+          <h2 className="h-xl">Sign up</h2>
+          <p className="body-text">
+            <span>It's easier to sign up now and save your progress, already have an account? </span>
+            <a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
+          </p>
+        </>
+      )
+    } else {
+      return (
+        <p className="body-text m-t-0">
+          <span>Already have an account? </span>
+          <a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
+        </p>
+      )
+    }
+  }
+
   return (
-    <div className='great-mvp-signup-wizard-step-1'>
-      <h2 className="h-xl">Sign up</h2>
-      <p className="body-text great-mvp-synopsis">
-        <span>It's easier to sign up now and save your progress, already have an account? </span>
-        <a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
-      </p>
+    <div className='great-mvp-signup-wizard-step-credentials'>
+      {getLede()}
       <SocialLoginButtons />
       <div className='great-mvp-vertical-separator'>
         <hr/>
@@ -47,7 +65,7 @@ export default function Step1(props){
           type="submit"
           value="Sign up"
           id="signup-modal-submit"
-          className="great-mvp-wizard-step-submit g-button"
+          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button m-t-m"
           disabled={props.disabled}
         />
       </form>
@@ -55,9 +73,9 @@ export default function Step1(props){
   )
 }
 
-Step1.propTypes = {
+StepCredentials.propTypes = {
   disabled: PropTypes.bool,
-  errors: PropTypes.array,
+  errors: PropTypes.object,
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleEmailChange: PropTypes.func.isRequired,
@@ -65,9 +83,9 @@ Step1.propTypes = {
   email: PropTypes.string,
 }
 
-Step1.defaultProps = {
+StepCredentials.defaultProps = {
   disabled: false,
-  errors: [],
+  errors: {},
   password: '',
   email: '',
 }

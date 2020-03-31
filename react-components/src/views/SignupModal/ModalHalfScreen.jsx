@@ -16,11 +16,11 @@ const modalStyles = {
     marginRight: '-50%',
     padding: 30,
     right: 'auto',
-    textAlign: 'center',
     top: '50%',
     top: 75,
     width: 430,
     inset: '75px auto auto 17%',
+    height: '100%',
   },
   overlay: {
     zIndex: 1000,
@@ -28,7 +28,8 @@ const modalStyles = {
   },
 }
 
-export function Modal(props){
+
+export default function Modal(props){
   const [isOpen, setIsOpen] = React.useState(props.isOpen)
 
   function handleOpen(event) {
@@ -76,6 +77,7 @@ export function Modal(props){
           username={props.username}
           handleClose={handleClose}
           nextUrl={props.nextUrl}
+          showCredentialsLede={true}
         />
       </ReactModal>
     </div>
@@ -94,9 +96,4 @@ Modal.defaultProps = {
   isOpen: false,
   username: '',
   preventClose: false,
-}
-
-export default function createModal({ element, ...params }) {
-  ReactModal.setAppElement(element)
-  ReactDOM.render(<Modal {...params} />, element)
 }

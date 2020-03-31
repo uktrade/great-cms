@@ -79,6 +79,7 @@ export function Base(props){
       skipFeatureCookieName='skip-industries-of-interest'
       skipFeatureComponent={currentStep == STEP_COUNTRIES ? SkipShowGenericContent : null}
       id='dashboard-question-modal-lets-get-to-know-you'
+      className='p-s'
     >
       <ErrorList errors={errors.__all__ || []} className='m-t-s' />
       {getStep()}

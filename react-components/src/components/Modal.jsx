@@ -31,12 +31,12 @@ export function Modal(props){
     <ReactModal
       isOpen={isOpen}
       onRequestClose={handleClose}
-      className='ReactModal__Content ReactModalCentreScreen'
+      className={'ReactModal__Content ReactModalCentreScreen ' + props.className}
       overlayClassName='ReactModal__Overlay ReactModalCentreScreen'
       contentLabel='Modal'
       id={props.id}
     >
-     <div className='m-s'>
+     <div>
         {props.children}
         {getSkipFeature()}
       </div>
