@@ -57,7 +57,8 @@ def test_exportplan_create(mock_helpers_create_plan, mock_helper_get_regs, mock_
     assert mock_helpers_create_plan.call_args == mock.call(
         exportplan_data={
             'export_countries': ['r1'], 'export_commodity_codes': ['1'],
-            'rules_regulations': {'country': 'r1', 'commodity_code': '1'}
+            'rules_regulations': {'country': 'r1', 'commodity_code': '1'},
+            'target_markets': [{'country': 'r1'}],
         },
         sso_session_id='123'
     )
@@ -110,30 +111,21 @@ def test_exportplan_sections(url, client, user):
 
 @pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
-@mock.patch.object(helpers, 'get_comtrade_lastyearimportdata')
-@mock.patch.object(helpers, 'get_exportplan_marketdata')
-@mock.patch.object(helpers, 'get_exportplan_rules_regulations')
+@mock.patch.object(helpers, 'get_exportplan')
 @mock.patch('core.helpers.store_user_location')
-def test_exportplan_target_margets(
-    mock_user_location_create, mock_get_export_plan_rules_regs, mock_exportplan_marketdata,
-    mock_lastyear_data, client, user,
-):
+def test_exportplan_target_markets(mock_user_location_create, mock_get_export_plan, client, user):
     client.force_login(user)
-    explan_plan_data = {'country': 'Australia', 'commodity_code': '220.850'}
-    mock_get_export_plan_rules_regs.return_value = explan_plan_data
-    mock_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', 'CPI': 10}
-    mock_lastyear_data.return_value = {'last_year_data_partner': {'Year': 2019, 'value': 10000}}
-
+    explan_plan_data = {
+        'country': 'Australia', 'commodity_code': '220.850',
+        'target_markets': [{'country': 'China'}], 'rules_regulations': {'country_code': 'CHN'},
+    }
+    mock_get_export_plan.return_value = explan_plan_data
     response = client.get(reverse('exportplan:target-markets'))
 
-    assert mock_get_export_plan_rules_regs.call_count == 1
-    assert mock_get_export_plan_rules_regs.call_args == mock.call(sso_session_id=user.session_id,)
+    assert mock_get_export_plan.call_count == 1
+    assert mock_get_export_plan.call_args == mock.call(sso_session_id=user.session_id,)
 
-    assert mock_lastyear_data.call_count == 1
-    assert mock_lastyear_data.call_args == mock.call(country='Australia', commodity_code='220.850')
-
-    assert response.context['rules_regulation'] == explan_plan_data
-    assert response.context['export_marketdata'] == {'timezone': 'Asia/Shanghai', 'CPI': 10}
+    assert response.context['target_markets'] == explan_plan_data['target_markets']
+    assert response.context['timezone'] == 'Asia/Shanghai'
     assert response.context['datenow'] == datetime.now()
     assert response.context['utz_offset'] == '+0800'
-    assert response.context['lastyear_import_data'] == {'last_year_data_partner': {'Year': 2019, 'value': 10000}}

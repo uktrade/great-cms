@@ -18,6 +18,13 @@ def get_exportplan_rules_regulations(sso_session_id):
         return response.json()[0]['rules_regulations']
 
 
+def get_exportplan(sso_session_id):
+    response = api_client.exportplan.exportplan_list(sso_session_id)
+    response.raise_for_status()
+    if response.json():
+        return response.json()[0]
+
+
 def get_madb_country_list():
     airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
     airtable_data = airtable.get_all(view='Grid view')
