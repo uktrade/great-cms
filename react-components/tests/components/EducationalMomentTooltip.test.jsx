@@ -3,8 +3,6 @@ import { shallow } from 'enzyme';
 import EducationalMomentTooltip from '@src/components/EducationalMomentTooltip';
 import Tooltip from '@src/components/Tooltip/Tooltip';
 import EducationalMomentIcon from '@src/components/EducationalMomentIcon/EducationalMomentIcon';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 
 let wrapper;
 let fixture = ` <div class="js-hidden educational-moment__tooltip" id="tooltip-id">
@@ -24,8 +22,6 @@ const props = {
 };
 
 describe('EducationalMomentTooltip component', () => {
-    Enzyme.configure({ adapter: new Adapter() });
-
     beforeEach(() => {
         wrapper = shallow(<EducationalMomentTooltip {...props} />);
     });

@@ -53,3 +53,4 @@
 - MVP-356 - marketdata target-markets
 - MVP-357 - Implement new signup modal design
 - MVP-362 - styling and correct HTML for country statistics view
+- MVP-365 - tooltip functionality and dynamic component rendering

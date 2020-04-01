@@ -1,6 +1,6 @@
 import React from 'react';
 import './EducationalMomentIcon.scss';
-import OpenBookIcon from './open-book-icon.png';
+import OpenBookIcon from '../../../assets/open-book-icon.png';
 
 export default class EducationalMomentIcon extends React.Component {
 
