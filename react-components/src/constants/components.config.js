@@ -1,8 +1,8 @@
 export const COMPONENTS_CONFIG = [
     {
-        name: "EducationalMoment",
+        name: "EducationalMomentTooltip",
         props: {
             selector: ".educational-moment--tooltip"
         }
     }
-]
+];

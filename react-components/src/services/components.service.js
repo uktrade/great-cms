@@ -1,8 +1,15 @@
 let initialisedComponents = {};
 
-export class ComponentService {
+export default class ComponentService {
     static addInitialisedComponent(component, element) {
+        if (!initialisedComponents[component]) {
+            initialisedComponents[component] = [];
+        }
         initialisedComponents[component].push(element)
+    }
+
+    static getInitialisedComponents() {
+        return initialisedComponents;
     }
 
     static getInitialisedComponent(component) {
@@ -11,5 +18,9 @@ export class ComponentService {
 
     static removeInitialisedComponents(component) {
         initialisedComponents[component] = [];
+    }
+
+    static removeAllInitialisedComponents() {
+        initialisedComponents = {};
     }
 }
