@@ -46,8 +46,10 @@
 - MVP-333 - Content segmentation on country of interest
 - MVP-215 - Track lesson read progress
 - MVP-332 - Content segmentation on sector of interest
+- MVP-349 - Adds capabilities landing page under /learn
 - MVP-328 - Sector modal iteration
 - MVP-329 - Country modal iteration
 - MVP-344 - Wagtail cache
 - MVP-356 - marketdata target-markets
+- MVP-357 - Implement new signup modal design
 - MVP-362 - styling and correct HTML for country statistics view

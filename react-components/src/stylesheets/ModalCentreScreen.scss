@@ -1,3 +1,5 @@
+@import 'helpers/colours';
+
 .ReactModal__Content.ReactModalCentreScreen {  
     background: white none repeat scroll 0% 0%;
     border-radius: 10px;
@@ -8,13 +10,43 @@
     margin-right: -50%;
     outline: currentcolor none medium;
     overflow: visible;
-    padding: 0px;
     position: absolute;
     right: auto;
     text-align: left;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 570px;
+    &.ReactModal__Content--Signup {
+        width: 840px;
+        background: linear-gradient(90deg, $light-grey 50%, $white 50%);
+
+        .great-mvp-terms {
+            font-size: 16px;
+        }
+
+        .great-mvp-wizard-step-link {
+          display: inline-block;
+          text-align: center;
+          width: 100%;
+          text-decoration: underline;
+        }
+
+
+        .great-mvp-image-tourists {
+          width: 50%;
+          position: absolute;
+          bottom: -2px;
+          left: 20px;
+        }
+
+        aside {
+          
+          h2 {
+            line-height: 1em;
+          }
+
+        }
+    }
 }
 
 .ReactModal__Overlay.ReactModalCentreScreen {
@@ -27,3 +59,4 @@
     top: 0px;
     z-index: 1000;
 }
+

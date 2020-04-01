@@ -1,15 +1,19 @@
 @import 'helpers/colours';
 
 .great-mvp-social-login-buttons {
-    img {
-      display: inline;
-      vertical-align: middle;
-    }
+    a {
+        width: 100%;
 
-    span {
-        vertical-align: middle;
-        margin-left: 10px;
-        display: inline-block;
+        img {
+          display: inline;
+          vertical-align: middle;
+        }
+
+        span {
+            vertical-align: middle;
+            margin-left: 10px;
+            display: inline-block;
+        }
     }
 
 }

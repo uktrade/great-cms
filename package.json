@@ -43,6 +43,7 @@
     "node-fetch": "^2.6.0",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
+    "prop-types": "^15.7.2",
     "react-flag-icon-css": "^1.0.25",
     "react-test-renderer": "^16.12.0",
     "reactour": "^1.16.2",
@@ -62,6 +63,7 @@
     "react-dom": "^16.12.0",
     "react-modal": "^3.11.1",
     "react-select": "^3.0.8",
+    "remove-files-webpack-plugin": "^1.4.0",
     "styled-components": "^5.0.1"
   },
   "jest": {
@@ -82,7 +84,8 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "setupFiles": [
-      "./react-components/setupJest.js"
+      "<rootDir>/react-components/setupEnzyme.js",
+      "<rootDir>/react-components/setupJest.js"
     ]
   }
 }

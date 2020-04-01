@@ -55,7 +55,6 @@ StepCountries.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   value: PropTypes.array,
-  onSkipButtonClick: PropTypes.func.isRequired,
 }
 
 StepCountries.defaultProps = {

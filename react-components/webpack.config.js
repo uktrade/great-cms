@@ -1,7 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const RemovePlugin = require('remove-files-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -67,10 +67,16 @@ module.exports = {
         test: /\.(jpg|png|gif|jpeg|woff|woff2|eot|ttf|svg)$/,
         loader: 'url-loader?limit=10000&name=/static/img/[name].[ext]'
       }
-    ]
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new CopyWebpackPlugin([{ from: './node_modules/great-styles/src/images', to: 'images' }]),
+    new CopyWebpackPlugin([
+      { from: './node_modules/great-styles/src/images', to: 'images' },
+      // copies the images to core/static only if not present. This avoids
+      // the svg files showing up in diff every time a new build occurs
+      { from: 'react-components/dist/img/', to: '../../core/static/img/' }
+    ]),
+    new RemovePlugin({ after: { include: ['./react-components/dist/img/'] } }),
   ],
 };

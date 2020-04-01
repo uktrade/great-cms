@@ -104,11 +104,16 @@ Temporary Items
 # JS
 node_modules/
 package-lock.json
+.vscode/
 
 # Docker
 media
 config/.env
 config/env/secrets-do-not-commit
+
+# Python, we should fix these by not creating them with 'make secrets'
+dev
+config/env/secrets-do-not-commit-e
 
 # localfiles
 .env

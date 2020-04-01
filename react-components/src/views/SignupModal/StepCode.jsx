@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 
 import Field from '@src/components/Field'
 
-import './stylesheets/Step2.scss'
+import './stylesheets/StepCode.scss'
 
 
-export default function Step2(props){
+export default function StepCode(props){
   return (
-    <div className='great-mvp-signup-wizard-step-2'>
+    <div className='great-mvp-signup-wizard-step-code p-h-xs'>
       <h2 className="h-xl">Confirmation code</h2>
-      <p className="body-text great-mvp-synopsis">
+      <p className="body-text great-mvp-synopsis m-t-0">
         <span>we've emailed you a five-digit confirmation code.</span>
       </p>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
@@ -28,7 +28,7 @@ export default function Step2(props){
           type="submit"
           value="Submit"
           id="signup-modal-submit-code"
-          className="great-mvp-wizard-step-submit g-button"
+          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
           disabled={props.disabled}
         />
       </form>
@@ -36,16 +36,16 @@ export default function Step2(props){
   )
 }
 
-Step2.propTypes = {
+StepCode.propTypes = {
   code: PropTypes.string,
   disabled: PropTypes.bool,
-  errors: PropTypes.array,
+  errors: PropTypes.object,
   handleCodeChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 }
 
-Step2.defaultProps = {
+StepCode.defaultProps = {
   code: '',
   disabled: false,
-  errors: [],
+  errors: {},
 }
