@@ -21,8 +21,9 @@ def get_exportplan_rules_regulations(sso_session_id):
 def get_exportplan(sso_session_id):
     response = api_client.exportplan.exportplan_list(sso_session_id)
     response.raise_for_status()
-    if response.json():
-        return response.json()[0]
+    parsed = response.json()
+    if parsed:
+        return parsed[0]
 
 
 def get_madb_country_list():

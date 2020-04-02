@@ -25,6 +25,7 @@ pytestmark = [
     pytest.mark.export_plan_dashboard,
 ]
 
+
 @mock.patch.object(exportplan_helpers, 'get_exportplan')
 @mock.patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata')
 @mock.patch.object(exportplan_helpers, 'get_exportplan_rules_regulations')
@@ -68,7 +69,6 @@ def test_can_see_target_markets_data(
         'country': 'Australia', 'commodity_code': '220.850',
         'target_markets': [{'country': 'China'}], 'rules_regulations': {'country_code': 'CHN'},
     }
-
 
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
