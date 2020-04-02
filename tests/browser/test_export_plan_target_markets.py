@@ -25,7 +25,7 @@ pytestmark = [
     pytest.mark.export_plan_dashboard,
 ]
 
-
+@mock.patch.object(exportplan_helpers, 'get_exportplan')
 @mock.patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata')
 @mock.patch.object(exportplan_helpers, 'get_exportplan_rules_regulations')
 @mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
@@ -41,6 +41,7 @@ def test_can_see_target_markets_data(
     mock_get_export_plan_market_data,
     mock_get_export_plan_rules_regulations,
     mock_get_comtrade_last_year_import_data,
+    mock_get_exportplan,
     server_user_browser_dashboard,
     mock_export_plan_dashboard_page_tours,
 ):
@@ -62,6 +63,12 @@ def test_can_see_target_markets_data(
             'value': 10000,
         }
     }
+
+    mock_get_exportplan.return_value = {
+        'country': 'Australia', 'commodity_code': '220.850',
+        'target_markets': [{'country': 'China'}], 'rules_regulations': {'country_code': 'CHN'},
+    }
+
 
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)
