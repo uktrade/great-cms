@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import ErrorList from './ErrorList'
 import Select from 'react-select'
+import AsyncSelect from 'react-select/async';
 
 import './stylesheets/AutoCompleteField.scss'
 
@@ -12,7 +13,7 @@ export default function AutoCompleteField(props){
   const id_for_label = `id_${props.name}`
 
   function handleChange(values, { action, removedValue }) {
-    props.handleChange(values)
+    props.handleChange(values || [])
   }
 
   function getLabel() {
@@ -24,19 +25,21 @@ export default function AutoCompleteField(props){
   }
   const { errors, ...otherProps} = props;
 
+  const selectProps = {
+    'className': 'great-mvp-autocomplete-field',
+    'classNamePrefix': 'great-mvp-autocomplete-field',
+    'id': id_for_label,
+    'isClearable': true,
+    'isMulti': true,
+    'onChange': handleChange,
+    ...otherProps,
+  }
+
   return (
     <div>
       {getLabel()}
       <ErrorList errors={errors || []} />
-      <Select
-        className='great-mvp-autocomplete-field'
-        classNamePrefix='great-mvp-autocomplete-field'
-        id={id_for_label}
-        isClearable={true}
-        isMulti={true}
-        onChange={handleChange}
-        {...otherProps}
-      />
+      {selectProps.loadOptions ? <AsyncSelect {...selectProps} /> : <Select {...selectProps} />}
     </div>
   )
 }

@@ -184,3 +184,22 @@ def test_company_parser_expertise_industries_value_label_pairs(company_profile, 
 ])
 def test_company_parser_expertise_countries_value_label_pairs(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_countries_value_label_pairs == expected
+
+
+def test_search_commodity_by_term(requests_mock):
+    requests_mock.get(
+        helpers.COMMODITY_SEARCH_URL,
+        json={
+            'results': [
+                {'commodity_code': '123323', 'description': 'some description'},
+                {'commodity_code': '223323', 'description': 'some other description'},
+            ]
+        }
+    )
+
+    actual = helpers.search_commodity_by_term('word')
+
+    assert actual == [
+        {'value': '123323', 'label': 'some description'},
+        {'value': '223323', 'label': 'some other description'},
+    ]

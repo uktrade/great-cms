@@ -31,9 +31,11 @@ export function SkipShowGenericContent(props) {
 
 
 export default function ModalCentreScreen(props){
+  const products = props.companySettings.expertise_products_services.other;
+  const {isOpen, ...otherProps} = props;
   return (
     <Modal
-      isOpen={props.isOpen}
+      isOpen={isOpen}
       id='dashboard-question-modal-signup'
       skipFeatureCookieName='skip-signup'
       skipFeatureComponent={SkipShowGenericContent}
@@ -42,14 +44,10 @@ export default function ModalCentreScreen(props){
       <div className="grid">
         <aside className="c-1-2">
           <h2 className="h-l">Sign up so we can save your settings</h2>
+          { products && <p className="p-xxs m-r-m">{products.map((item, i) => <span key={i}>{item.label}</span>)}</p> }
         </aside>
         <div className="c-1-2">
-          <Wizard
-            currentStep={props.currentStep}
-            username={props.username}
-            nextUrl={props.nextUrl}
-            showCredentialsLede={false}
-          />
+          <Wizard showCredentialsLede={false} {...otherProps} />
         </div>
       </div>
     </Modal>
@@ -66,5 +64,6 @@ ModalCentreScreen.propTypes = {
 ModalCentreScreen.defaultProps = {
   isOpen: false,
   isInProgress: false,
-  errors: {}
+  errors: {},
+  companySettings: {}
 }
