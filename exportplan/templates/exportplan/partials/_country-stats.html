@@ -2,7 +2,7 @@
 {% load timezone from tz %}
 
 {% for target_market in target_markets %}
-    <section class="container section--with-sidebar" id="export-market-data-{{ target_market.country }}">
+    <section class="container section--with-sidebar" id="export-market-data-{{ target_market.country|slugify }}">
         <h2 class="h-l p-b-0">{{ target_market.country }}  </h2>
         <a id="remove-country" class="m-b-s inline-block" href="#">Remove <span class="visually-hidden">{{ target_market.country }}</span></a>
 
