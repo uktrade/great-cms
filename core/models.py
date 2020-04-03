@@ -1,5 +1,6 @@
 import hashlib
 
+from core import PageContextProviderRegistry
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
@@ -239,6 +240,9 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
+        provider = PageContextProviderRegistry.get_for_page(self)
+        if provider:
+            context.update(provider.get_context_data(request=request, page=self))
         return context
 
 
