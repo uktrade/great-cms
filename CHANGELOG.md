@@ -54,3 +54,4 @@
 - MVP-357 - Implement new signup modal design
 - MVP-362 - styling and correct HTML for country statistics view
 - MVP-289 - add products modal to export plan
+- MVP-360 - muliple markets

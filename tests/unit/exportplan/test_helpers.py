@@ -140,3 +140,14 @@ def test_get_comtrade_historicalimportdata(mock_historical_data):
     assert mock_historical_data.call_count == 1
     assert mock_historical_data.call_args == mock.call(commodity_code='220.850', country='Australia')
     assert comtrade_data == {'history': 123}
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_list')
+def test_get_export_plan_empty(mock_get_exportplan):
+    mock_get_exportplan.return_value = create_response(None)
+
+    rules = helpers.get_exportplan(sso_session_id=123)
+
+    assert mock_get_exportplan.call_count == 1
+    assert mock_get_exportplan.call_args == mock.call(123)
+    assert rules is None
