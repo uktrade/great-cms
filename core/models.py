@@ -2,11 +2,13 @@ import hashlib
 
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
+    ObjectList, TabbedInterface
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
+from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtail.snippets.models import register_snippet
@@ -158,3 +160,101 @@ class TimeStampedModel(models.Model):
         get_latest_by = 'modified'
         ordering = ('-modified', '-created',)
         abstract = True
+
+
+# Content models
+
+class CMSGenericPage(PersonalisablePageMixin, Page):
+    """
+    Generic page, freely inspired by Coderead codebase
+    """
+
+    class Meta:
+        abstract = True
+
+    # Do not allow this page type to be created in wagtail admin
+    is_creatable = False
+
+    template_choices = []
+
+    ################
+    # Content fields
+    ################
+
+    body = StreamField([
+        (
+            'body', PersonalisedStructBlock(
+                [('paragraph', blocks.RichTextBlock())],
+                template='core/personalised_page_struct_block.html',
+                icon='pilcrow'
+            )
+        )
+    ])
+
+    ###############
+    # Layout fields
+    ###############
+
+    custom_template = models.CharField(
+        blank=True,
+        max_length=255,
+        choices=None,
+        verbose_name=_('Template')
+    )
+
+    #########
+    # Panels
+    #########
+
+    content_panels = Page.content_panels + [StreamFieldPanel('body')]
+
+    layout_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('custom_template')
+            ],
+            heading=_('Visual Design')
+        ),
+    ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._meta.get_field('custom_template').choices = self.template_choices
+
+    @cached_classmethod
+    def get_edit_handler(cls):
+        panels = [
+            ObjectList(cls.content_panels, heading='Content'),
+            ObjectList(cls.layout_panels, heading='Layout'),
+            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+        ]
+
+        return TabbedInterface(panels).bind_to(model=cls)
+
+    def get_template(self, request, *args, **kwargs):
+        if self.custom_template:
+            return self.custom_template
+
+        return super().get_template(request, args, kwargs)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        return context
+
+
+class ListPage(CMSGenericPage):
+    parent_page_types = ['domestic.DomesticHomePage']
+    subpage_types = ['core.DetailPage']
+
+    template_choices = (
+        ('export_plan/listing.html', 'Export plan'),
+        ('learn/listing.html', 'Learn')
+    )
+
+
+class DetailPage(PersonalisablePageMixin, Page):
+    parent_page_types = ['core.ListPage']
+    template_choices = (
+        ('export_plan/detail.html', 'Export plan'),
+        ('learn/detail.html', 'Learn')
+    )

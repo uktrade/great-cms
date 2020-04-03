@@ -17,6 +17,7 @@ class TopicPage(Page):
     parent_page_types = ['domestic.DomesticHomePage']
     subpage_types = ['learn.LessonPage']
 
+
     description = models.TextField()
 
     content_panels = Page.content_panels + [
