@@ -126,23 +126,6 @@ class Country(models.Model):
         verbose_name_plural = 'Countries'
 
 
-class PersonalisedPage(PersonalisablePageMixin, Page):
-
-    body = StreamField([
-        (
-            'body', PersonalisedStructBlock(
-                [('paragraph', blocks.RichTextBlock())],
-                template='core/personalised_page_struct_block.html',
-                icon='pilcrow'
-            )
-        )
-    ])
-
-    content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
-    ]
-
-
 class TimeStampedModel(models.Model):
     """Modified version of django_extensions.db.models.TimeStampedModel
 

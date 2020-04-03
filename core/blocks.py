@@ -19,3 +19,5 @@ class LinkWithSourceBlock(LinkBlock):
 class LinkWithImageAndContentBlock(LinkWithSourceBlock):
     content = blocks.RichTextBlock()
     image = ImageChooserBlock()
+
+
