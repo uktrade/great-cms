@@ -11,19 +11,10 @@ import './stylesheets/AutoCompleteField.scss'
 export default function AutoCompleteField(props){
 
   const id_for_label = `id_${props.name}`
-
-  function handleChange(values, { action, removedValue }) {
-    props.handleChange(values || [])
-  }
-
-  function getLabel() {
-    if (props.label) {
-      return (
-        <label htmlFor={id_for_label} className='great-mvp-field-label'>{props.label}</label>
-      )
-    }
-  }
   const { errors, ...otherProps} = props;
+
+  const handleChange = (values, { action, removedValue }) => props.handleChange(values || [])
+  const getLabel = () => <label htmlFor={id_for_label} className='great-mvp-field-label'>{props.label}</label>
 
   const selectProps = {
     'className': 'great-mvp-autocomplete-field',
@@ -37,7 +28,7 @@ export default function AutoCompleteField(props){
 
   return (
     <div>
-      {getLabel()}
+      {props.label && getLabel()}
       <ErrorList errors={errors || []} />
       {selectProps.loadOptions ? <AsyncSelect {...selectProps} /> : <Select {...selectProps} />}
     </div>

@@ -25,7 +25,6 @@ const get = function(url, params) {
     method: 'get',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
       'X-CSRFToken': config.csrfToken,
       'X-Requested-With': 'XMLHttpRequest',
     },
