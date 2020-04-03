@@ -233,7 +233,7 @@ class ExportPlanTargetMarketsRecommendedCountriesUnfolded(SelectorsEnum):
 
 class ExportPlanTargetMarketsData(SelectorsEnum):
     MARKET_DATA = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data]')
-    REMOVE_COUNTR = Selector(By.ID, 'remove-country')
+    REMOVE_COUNTRY = Selector(By.ID, 'remove-country')
     EASE_OF_DOING_BUSINESS = Selector(By.ID, 'export-market-data-ease-of-doing-business-rank')
     CPI = Selector(By.ID, 'export-market-data-corruption-perception-index')
     LOCAL_TIME = Selector(By.ID, 'export-market-data-local-time')
