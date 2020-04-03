@@ -167,7 +167,7 @@ class TimeStampedModel(models.Model):
 
 class CMSGenericPage(PersonalisablePageMixin, Page):
     """
-    Generic page, freely inspired by Coderead codebase
+    Generic page, freely inspired by Codered page
     """
 
     class Meta:
@@ -200,7 +200,7 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
         blank=True,
         max_length=255,
         choices=None,
-        verbose_name=_('Template')
+        verbose_name='Template'
     )
 
     #########
@@ -209,14 +209,7 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
 
     content_panels = Page.content_panels + [StreamFieldPanel('body')]
 
-    layout_panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel('custom_template')
-            ],
-            heading=_('Visual Design')
-        ),
-    ]
+    layout_panels = [FieldPanel('custom_template')]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
