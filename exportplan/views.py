@@ -13,11 +13,13 @@ class BaseExportPlanView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         industries = [name for id, name in INDUSTRIES]
+        country_choices = [{'value': key, 'label': label} for key, label in helpers.get_madb_country_list()]
 
         return super().get_context_data(
             next_section=self.next_section,
             sections=data.SECTION_TITLES,
             sectors=json.dumps(industries),
+            country_choices=json.dumps(country_choices),
             *args, **kwargs)
 
 
@@ -42,21 +44,14 @@ class ExportPlanSectionView(BaseExportPlanView):
         }
 
 
-class ExportPlanTargetMargetsView(TemplateView):
-
+class ExportPlanTargetMargetsView(ExportPlanSectionView):
+    slug = 'target-markets'
     template_name = 'exportplan/sections/target-markets.html'
 
-    @property
-    def next_section(self):
-        index = data.SECTION_SLUGS.index('target-markets')
-        return {
-            'title': data.SECTION_TITLES[index + 1],
-            'url': data.SECTION_URLS[index + 1],
-        }
-
     def get_context_data(self, *args, **kwargs):
-        industries = [name for id, name in INDUSTRIES]
+
         rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
+
         if rules_regulation:
             export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
             utz_offset = datetime.now(pytz.timezone(export_marketdata['timezone'])).strftime('%z')
@@ -72,11 +67,9 @@ class ExportPlanTargetMargetsView(TemplateView):
                 datenow=datetime.now(),
                 utz_offset=utz_offset,
                 lastyear_import_data=lastyear_import_data,
-                next_section=self.next_section,
-                sections=data.SECTION_TITLES,
-                sectors=json.dumps(industries),
                 *args, **kwargs)
-        return super().get_context_data(*args, **kwargs)
+
+        return super().get_context_data(*args, *kwargs)
 
 
 class ExportPlanStartView(FormView):

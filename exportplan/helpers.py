@@ -22,7 +22,7 @@ def get_madb_country_list():
     airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
     airtable_data = airtable.get_all(view='Grid view')
     country_list = [c['country'] for c in [f['fields'] for f in airtable_data]]
-    return list(zip(country_list, country_list))
+    return sorted(list(zip(country_list, country_list)))
 
 
 def get_madb_commodity_list():
@@ -39,8 +39,9 @@ def get_madb_commodity_list():
 def get_rules_and_regulations(country):
     airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
     rules = airtable.search('country', country)
-    if rules:
-        return rules[0]['fields']
+    if not rules:
+        raise ValueError('No data found for country')
+    return rules[0]['fields']
 
 
 def get_exportplan_marketdata(country_code):

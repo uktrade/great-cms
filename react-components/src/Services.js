@@ -1,5 +1,8 @@
-const MESSAGE_UNEXPECTED_ERROR = {'__all__': ['Unexpected Error']}
+const MESSAGE_UNEXPECTED_ERROR = {'__all__': ['Unexpected error']}
 const MESSAGE_PERMISSION_DENIED = {'__all__': ['You do not have permission to perform this action']}
+const MESSAGE_NOT_FOUND_ERROR = {'__all__': ['Not found']}
+const MESSAGE_TIMEOUT_ERROR = {'__all__': ['Request timed out']}
+const MESSAGE_BAD_REQUEST_ERROR = {'__all__': ['Bad request']}
 
 
 const post = function(url, data) {
@@ -15,6 +18,20 @@ const post = function(url, data) {
   })
 }
 
+const get = function(url) {
+  return fetch(url, {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    }
+  })
+}
+
+const getCountryData = function(country) {
+  return get(`${config.countryDataUrl}?country=${encodeURIComponent(country)}`).then(responseHandler)
+}
 
 const createUser = function({email, password}) {
   return post(config.apiSignupUrl, {email, password}).then(responseHandler)
@@ -41,14 +58,23 @@ const responseHandler = function(response) {
     return response.json().then(error => { throw error })
   } else if (response.status == 403) {
     throw MESSAGE_PERMISSION_DENIED
+  } else if (response.status == 404) {
+    throw MESSAGE_NOT_FOUND_ERROR
+  } else if (response.status == 504) {
+    throw MESSAGE_TIMEOUT_ERROR
+  } else if (response.status == 400) {
+    throw MESSAGE_BAD_REQUEST_ERROR
   } else if (response.status != 200) {
     throw MESSAGE_UNEXPECTED_ERROR
+  } else if (response.status == 200) {
+    return response.json()
   }
 }
 
 // static values that will not change during execution of the code
 let config = {}
 const setConfig = function({
+  countryDataUrl,
   apiLoginUrl,
   apiSignupUrl,
   apiUpdateCompanyUrl,
@@ -65,6 +91,7 @@ const setConfig = function({
   userIndustries,
   verifyCodeUrl,
 }) {
+  config.countryDataUrl = countryDataUrl
   config.apiLoginUrl = apiLoginUrl
   config.apiSignupUrl = apiSignupUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
@@ -87,10 +114,13 @@ export default {
   checkCredentials,
   checkVerificationCode,
   updateCompany,
+  getCountryData,
   setConfig,
   config,
   messages: {
     MESSAGE_UNEXPECTED_ERROR,
     MESSAGE_PERMISSION_DENIED,
+    MESSAGE_NOT_FOUND_ERROR,
+    MESSAGE_TIMEOUT_ERROR,
   }
 }
