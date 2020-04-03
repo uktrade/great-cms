@@ -1,6 +1,6 @@
 import '../../core/sass/main.scss'
 
-import SignupModal from '@src/views/SignupModal/Modal'
+import SignupModal from '@src/views/SignupModal/Base'
 import IndustriesModal from '@src/views/IndustriesModal/Base'
 import CountriesModal from '@src/views/CountriesModal/Base'
 import LoginModal from '@src/views/LoginModal/Modal'

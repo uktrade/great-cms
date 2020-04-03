@@ -12,8 +12,8 @@ import FlagIcon from '@src/components/FlagIcon'
 
 
 export default function StepSuccess(props){
-  const countries = props.countries.map(item => <span className='great-mvp-pill-button'>{item.label}</span>)
-  const industries = props.industries.map(item => <span className='great-mvp-pill-button'>{item.label}</span>)
+  const countries = props.countries.map((item, i) => <span key={i} className='great-mvp-pill-button'>{item.label}</span>)
+  const industries = props.industries.map((item, i) => <span key={i} className='great-mvp-pill-button'>{item.label}</span>)
   return (
     <div className='great-mvp-wizard-step'>
       <div className='grid-flex'>

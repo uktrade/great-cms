@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
 
 import Services from '@src/Services'
-import Step1 from './Step1'
-import Step2 from './Step2'
-import Success from './Success'
+import StepCredentials from './StepCredentials'
+import StepCode from './StepCode'
+import StepSuccess from './StepSuccess'
 
 
 export const STEP_CREDENTIALS = 0
@@ -32,7 +32,7 @@ export default function Wizard(props){
     setCurrentStep(nextStep)
   }
 
-  function handleStep1Submit() {
+  function handleStepCredentialsSubmit() {
     setErrors({})
     setIsInProgress(true)
     Services.createUser({email, password})
@@ -40,7 +40,7 @@ export default function Wizard(props){
       .catch(handleError)
   }
 
-  function handleStep2Submit(){
+  function handleStepCodeSubmit(){
     setErrors({})
     setIsInProgress(true)
     Services.checkVerificationCode({email, code})
@@ -48,27 +48,28 @@ export default function Wizard(props){
       .catch(handleError)
   }
 
-  function handleStep3Submit() {
+  function handleStepSuccessSubmit() {
     location.assign(props.nextUrl)
   }
 
   if (currentStep == STEP_CREDENTIALS) {
     return (
-      <Step1
+      <StepCredentials
         errors={errors}
         disabled={isInProgress}
-        handleSubmit={handleStep1Submit}
+        handleSubmit={handleStepCredentialsSubmit}
         handleEmailChange={setEmail}
         handlePasswordChange={setPassword}
         email={email}
         password={password}
+        showLede={props.showCredentialsLede}
       />
     )
   } else if (currentStep == STEP_VERIFICATION_CODE) {
     return (
-      <Step2
+      <StepCode
         errors={errors}
-        handleSubmit={handleStep2Submit}
+        handleSubmit={handleStepCodeSubmit}
         disabled={isInProgress}
         handleCodeChange={setCode}
         code={code}
@@ -76,7 +77,7 @@ export default function Wizard(props){
     )
   } else if (currentStep == STEP_COMPLETE) {
     return (
-      <Success handleSubmit={handleStep3Submit} />
+      <StepSuccess handleSubmit={handleStepSuccessSubmit} />
     )
   }
 }
