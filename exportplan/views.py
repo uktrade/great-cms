@@ -50,18 +50,6 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
 
     def get_context_data(self, *args, **kwargs):
 
-        rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
-
-        if rules_regulation:
-            export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
-            utz_offset = datetime.now(pytz.timezone(export_marketdata['timezone'])).strftime('%z')
-            commodity_code = rules_regulation.get('commodity_code')
-            country = rules_regulation.get('country')
-
-            lastyear_import_data = helpers.get_comtrade_lastyearimportdata(
-                commodity_code=commodity_code, country=country
-            )
-
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
 
         if export_plan:
@@ -73,7 +61,6 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
                 timezone=timezone,
                 datenow=datetime.now(),
                 utz_offset=utz_offset,
-                lastyear_import_data=lastyear_import_data,
                 *args, **kwargs)
 
         return super().get_context_data(*args, *kwargs)
