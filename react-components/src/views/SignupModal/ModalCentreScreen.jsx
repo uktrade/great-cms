@@ -8,7 +8,6 @@ import Services from '@src/Services'
 import Wizard from './Wizard'
 
 import './stylesheets/Modal.scss'
-import '@src/stylesheets/ModalCentreScreen.scss'
 
 
 export function SkipShowGenericContent(props) {

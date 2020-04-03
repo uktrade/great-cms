@@ -32,8 +32,8 @@ export default function Wizard(props){
     props.setCurrentStep(STEP_SUCCESS)
   }
 
-  function handleComplete() {
-    props.onComplete(products)
+  function handleComplete(userHasSignupIntent) {
+    props.onComplete(userHasSignupIntent, products)
   }
 
   if (props.currentStep == STEP_CATEGORY) {
@@ -59,7 +59,7 @@ export default function Wizard(props){
   } else if (props.currentStep == STEP_SUCCESS) {
     return (
       <StepSuccess
-        handleSubmit={handleComplete}
+        handleComplete={handleComplete}
         products={products}
       />
     )

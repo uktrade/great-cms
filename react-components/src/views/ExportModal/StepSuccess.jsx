@@ -12,20 +12,25 @@ export default function StepSuccess(props){
       <p className='great-mvp-subtitle'>
         Your guidance on exporting {props.products.map((item, i) => <span key={i} className="great-mvp-pill-button">{item.label}</span>)} is ready
       </p>
-      <form className="m-t-s" onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
-        <input
-          type="submit"
-          value={Services.config.userIsAuthenticated ? 'Save your answers': "Sign up to save your answers" }
-          id="signup-modal-submit-success"
-          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
-          disabled={props.disabled}
-        />
-      </form>
+      <a
+        id="signup-modal-submit-success"
+        className="great-mvp-wizard-step-submit great-mvp-wizard-step-button m-t-s"
+        onClick={event => {event.preventDefault(); props.handleComplete(!Services.config.userIsAuthenticated) }}
+      >
+        {Services.config.userIsAuthenticated ? 'Save your answers': "Sign up to save your answers" }
+      </a>
+      <div>
+      <a
+        href='#'
+        className='great-mvp-wizard-step-link m-t-s'
+        onClick={event => {event.preventDefault(); props.handleComplete(false) }}
+      >Continue without signing in</a>
+      </div>
     </div>
   )
 }
 
 StepSuccess.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  handleComplete: PropTypes.func.isRequired,
   products: PropTypes.array.isRequired,
 }

@@ -5,8 +5,6 @@ import Services from '@src/Services'
 import Field from '@src/components/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
-// import './stylesheets/StepCategory.scss'
-
 
 export default function StepCategory(props){
 

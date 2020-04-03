@@ -53,45 +53,31 @@
                 userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }}
             });
 
-            function getNextUrl(products) {
-                var nextUrl = '{{ request.path }}?'
-                products.forEach(function(product) {
-                    nextUrl += ('products=' + product.value + '&products_label=' + product.label + '&')
-                })
-                return nextUrl
+            function onComplete(userHasSignupIntent, nextUrl, products) {
+                if (userHasSignupIntent) {
+                    var element = document.createElement('div');
+                    document.body.appendChild(element);
+                    ditMVP.SignupModal({ 
+                        element: element,
+                        isOpen: true,
+                        companySettings: {
+                            expertise_products_services: {
+                                'other': products
+                            },
+                        },
+                        mode: 'centre',
+                        nextUrl: nextUrl
+                    });
+                } else {
+                    window.location.assign(nextUrl)
+                }
             }
 
-        {% if request.user.is_anonymous %}
-            function showSignup(products) {
-                var element = document.createElement('div');
-                document.body.appendChild(element);
-                ditMVP.SignupModal({ 
-                    element: element,
-                    isOpen: true,
-                    companySettings: {
-                        expertise_products_services: {
-                            'other': products
-                        },
-                    },
-                    mode: 'centre',
-                    nextUrl: getNextUrl(products)
-                });
-            }
             ditMVP.ExportModal({
                 element: element,
                 isOpen: true,
-                onComplete: showSignup
+                onComplete: onComplete
             });
-        {% else %}
-            function reloadPage(products) {
-                window.location.assign(getNextUrl(products))
-            }
-            ditMVP.ExportModal({
-                element: element,
-                isOpen: true,
-                onComplete: reloadPage
-            });
-        {% endif %}
         </script>
     {% endif %}
 {% endblock %}

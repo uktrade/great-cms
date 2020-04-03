@@ -16,76 +16,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     width: 570px;
-    &.ReactModal__Content--Export {
-      width: 720px;
 
-      aside {
-        .book-chap-image {
-          width: 180px;
-        }
-      }
-      .multiple-choice {
-        min-height: 20px;
-        padding: 0 0 0 20px;
-
-        [type="radio"] + label::before {
-          width: 20px;
-          height: 20px;
-        }
-
-        [type="radio"] + label::after {
-          top: 6px;
-          left: 6px;
-          border: 6px solid;
-        }
-
-        label {
-          line-height: 20px;
-        }
-
-        input {
-          width: 20px;
-          height: 20px;
-        }
-      }
-      
-
-    }
-    &.ReactModal__Content--Signup {
-        width: 840px;
-        background: linear-gradient(90deg, $light-grey 50%, $white 50%);
-
-        .great-mvp-terms {
-            font-size: 16px;
-        }
-
-        .great-mvp-wizard-step-link {
-          display: inline-block;
-          text-align: center;
-          width: 100%;
-          text-decoration: underline;
-        }
-
-
-        .great-mvp-image-tourists {
-          width: 50%;
-          position: absolute;
-          bottom: -2px;
-          left: 20px;
-        }
-
-        aside {
-          
-          h2 {
-            line-height: 1em;
-          }
-
-          p {
-            border-radius: 8px;
-            background: $white;
-          }
-        }
-    }
 }
 
 .ReactModal__Overlay.ReactModalCentreScreen {

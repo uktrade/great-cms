@@ -8,12 +8,7 @@ import Services from '@src/Services'
 import Wizard, { STEP_CATEGORY, STEP_SUCCESS } from './Wizard'
 
 import './stylesheets/Modal.scss'
-//import '@src/stylesheets/Base.scss'
 
-
-
-const LABEL_NO_SIGN_IN = 'Continue without signing in'
-const LABEL_GENRIC_CONTENT =  'No thanks I would like generic content'
 
 export function Base(props){
 
@@ -21,20 +16,32 @@ export function Base(props){
   const [currentStep, setCurrentStep] = React.useState(props.currentStep)
   const isLastStep = currentStep == STEP_SUCCESS
 
-  function onComplete(products) {
+  function onComplete(userHasSignupIntent, products) {
     setModalIsOpen(false)
-    props.onComplete(products)
+    let nextUrl = `${location.pathname}?`
+    products.forEach(function(product) {
+      nextUrl += ('products=' + product.value + '&products_label=' + product.label + '&')
+    })
+    props.onComplete(userHasSignupIntent, nextUrl, products)
   }
 
   function SkipShowGenericContent(props) {
     const children = []
-    if (!Services.config.userIsAuthenticated) {
+    if (Services.config.userIsAuthenticated) {
       children.push(
         <a
           href='#'
           className='great-mvp-wizard-step-link'
           onClick={event => { event.preventDefault(); props.onClick() }}
-        >{isLastStep ? LABEL_NO_SIGN_IN : LABEL_GENRIC_CONTENT}</a>
+        >No thanks I would like generic content</a>
+      ) 
+    } else if (!isLastStep) {
+      children.push(
+        <a
+          href='#'
+          className='great-mvp-wizard-step-link'
+          onClick={event => { event.preventDefault(); props.onClick() }}
+        >No thanks I would like generic content</a>
       )
     }
     if (isLastStep) {
@@ -48,7 +55,7 @@ export function Base(props){
     }
     if (children.length > 0) {
       return (
-        <div className="grid p-t-s">
+        <div className="grid">
           <div className="c-1-3">&nbsp;</div>
           <div className="c-2-3">{children}</div>
         </div>
