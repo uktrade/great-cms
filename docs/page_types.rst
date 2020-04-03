@@ -26,9 +26,14 @@ Page types and templates
 
 Usually a developer needs to add a new page type if a new level is added to the hierarchy.
 All page types inherit from `CMSGenericPage` class:
-.. autoclass:: CMSGenericPage
 
-   .. automethod:: template_choices
+
+.. automodule:: core.models
+
+.. class:: CMSGenericPage
+
+   .. attribute:: template_choices
+
 
 Custom context for layout type
 ------------------------------
