@@ -44,7 +44,7 @@ class ExportPlanSectionView(BaseExportPlanView):
         }
 
 
-class ExportPlanTargetMargetsView(ExportPlanSectionView):
+class ExportPlanTargetMarketsView(ExportPlanSectionView):
     slug = 'target-markets'
     template_name = 'exportplan/sections/target-markets.html'
 
