@@ -18,17 +18,6 @@ const post = function(url, data) {
   })
 }
 
-const get = function(url) {
-  return fetch(url, {
-    method: 'get',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest',
-    }
-  })
-}
-
 const getCountryData = function(country) {
   return get(`${config.countryDataUrl}?country=${encodeURIComponent(country)}`).then(responseHandler)
 }
