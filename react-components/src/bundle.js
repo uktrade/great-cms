@@ -1,5 +1,6 @@
 import '../../core/sass/main.scss'
 
+import ExportModal from '@src/views/ExportModal/Base'
 import SignupModal from '@src/views/SignupModal/Base'
 import IndustriesModal from '@src/views/IndustriesModal/Base'
 import CountriesModal from '@src/views/CountriesModal/Base'
@@ -19,6 +20,7 @@ export default {
   LoginModal,
   setConfig: Services.setConfig,
   SignupModal,
+  ExportModal,
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
   Tour,

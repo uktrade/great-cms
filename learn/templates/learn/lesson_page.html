@@ -9,7 +9,13 @@
             <div class="grid">
                 <div class="c-1-2">&nbsp;</div>
                 <div class="c-1-2-s">
-                    <h1 class="h-l m-t-xl" id="lesson-title">{{  self.title }}</h1>
+                    <h1 class="h-l m-t-xl" id="lesson-title">{{  self.title }}
+                        {% if request.GET.products_label %} for
+                            {% for name, values in request.GET.lists %}
+                                {% if name == 'products_label' %} {{values|join:", "}} {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </h1>
                 </div>
                 <div class="c-full">
                     {% for block in page.generic_content %}
@@ -25,4 +31,53 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+
+{% block body_js %} 
+    {% if not request.GET.products %}
+        <script type="text/javascript">
+            var element = document.createElement('div');
+            document.body.appendChild(element);
+            ditMVP.setConfig({
+                apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+                apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+                apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+                csrfToken: '{{ csrf_token }}',
+                dashboardUrl: '{% url "core:dashboard" %}',
+                googleUrl: '{{ signup_modal.google_url }}',
+                linkedInUrl: '{{ signup_modal.linkedin_url }}',
+                loginUrl: '{% url "core:login" %}',
+                termsUrl: '{{ signup_modal.terms_url }}',
+                verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+                userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }}
+            });
+
+            function onComplete(userHasSignupIntent, nextUrl, products) {
+                if (userHasSignupIntent) {
+                    var element = document.createElement('div');
+                    document.body.appendChild(element);
+                    ditMVP.SignupModal({ 
+                        element: element,
+                        isOpen: true,
+                        companySettings: {
+                            expertise_products_services: {
+                                'other': products
+                            },
+                        },
+                        mode: 'centre',
+                        nextUrl: nextUrl
+                    });
+                } else {
+                    window.location.assign(nextUrl)
+                }
+            }
+
+            ditMVP.ExportModal({
+                element: element,
+                isOpen: true,
+                onComplete: onComplete
+            });
+        </script>
+    {% endif %}
 {% endblock %}

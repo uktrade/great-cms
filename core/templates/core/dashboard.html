@@ -199,20 +199,21 @@
 
 {% block body_js %}
     {{ block.super }}
-    <script type="text/javascript">
-        var element = document.createElement('div');
-        document.body.appendChild(element);
-        ditMVP.setConfig({
-            csrfToken: '{{ csrf_token }}',
-            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-            industryOptions: {{ industry_options|safe }}
-        });
-        var isOpen = {% if request.user.company.expertise_industries_labels %}false{%else %}true{% endif %};
-        ditMVP.IndustriesModal({
-            element: element,
-            isOpen: isOpen,
-        });
-    </script>
+    {% if not request.user.company.expertise_industries_labels %}
+        <script type="text/javascript">
+            var element = document.createElement('div');
+            document.body.appendChild(element);
+            ditMVP.setConfig({
+                csrfToken: '{{ csrf_token }}',
+                apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+                industryOptions: {{ industry_options|safe }}
+            });
+            ditMVP.IndustriesModal({
+                element: element,
+                isOpen: true,
+            });
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block feedback_reporter %}{% endblock %}

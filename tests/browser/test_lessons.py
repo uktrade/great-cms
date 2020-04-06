@@ -20,6 +20,11 @@ pytestmark = [
 ]
 
 
+def close_modal(browser):
+    overlay = browser.find_element_by_css_selector('.ReactModal__Overlay')
+    browser.execute_script('arguments[0].click();', overlay)
+
+
 def test_can_view_lessons_from_different_topics(
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
@@ -98,6 +103,8 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     browser.get(f'{live_server.url}/{topic_a.slug}/{topic_a_lessons[0].slug}/')
     attach_jpg_screenshot(browser, 'lesson_a1')
     should_see_all_elements(browser, LessonPage)
+
+    close_modal(browser)
 
     mark_as_read_link = browser.find_element(
         by=LessonPage.MARK_AS_READ.by,
