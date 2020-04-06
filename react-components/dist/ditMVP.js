@@ -60272,70 +60272,15 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (data) {
         return _this2.setState({
-          recommendedCountries: data
+          recommendedCountries: data,
+          isLoading: false
         });
       })["catch"](function (error) {
         return _this2.setState({
-          fetchError: error //isLoading: false
-
+          fetchError: error,
+          isLoading: false
         });
       });
-
-      if (this.state.recommendedCountries) {
-        setTimeout(function () {
-          _this2.setState({
-            recommendedCountries: [{
-              name: "jQWER",
-              image: "/static/images/ozzy.png",
-              id: "australia",
-              selected: false
-            }, {
-              name: "ZXCVB",
-              image: "/static/images/germany.png",
-              id: "germany",
-              selected: false
-            }, {
-              name: "jJHGFD",
-              image: "/static/images/usa.png",
-              id: "usa",
-              selected: false
-            }],
-            isLoading: false
-          });
-        }, 3000);
-      } else {
-        setTimeout(function () {
-          _this2.setState({
-            recommendedCountries: [{
-              name: "Australia",
-              image: "/static/images/ozzy.png",
-              id: "australia",
-              selected: false
-            }, {
-              name: "Germany",
-              image: "/static/images/germany.png",
-              id: "germany",
-              selected: false
-            }, {
-              name: "United States",
-              image: "/static/images/usa.png",
-              id: "usa",
-              selected: false
-            }, {
-              name: "Australia",
-              image: "/static/images/ozzy.png",
-              id: "australia",
-              selected: false
-            }, {
-              name: "Germany",
-              image: "/static/images/germany.png",
-              id: "germany",
-              selected: false
-            }],
-            isLoading: false
-          });
-        }, 3000);
-      }
     }
   }, {
     key: "showHideSectorList",
