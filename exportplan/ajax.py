@@ -37,7 +37,7 @@ class ExportPlanCountryDataView(views.APIView):
 
             if lastyear_import_data['last_year_data']:
                 lastyear_trade_value = intcomma(
-                    lastyear_import_data['last_year_data']['import_value']['trade_value'])
+                    lastyear_import_data['last_year_data']['trade_value'])
 
             historical_import_data = helpers.get_comtrade_historicalimportdata(
                 commodity_code=commodity_code, country=country

@@ -121,7 +121,7 @@ export default class CountryData extends React.Component {
                     <figure className="statistic">
                       <figcaption>
                           <p className="statistic__caption">
-                              <span className="text-flag-red">{ rules_regulations.commodity_name }</span> import value in { lastyear_import_data.import_value.year }
+                              <span className="text-flag-red">{ rules_regulations.commodity_name }</span> import value in { lastyear_import_data.year }
                           </p>
                       </figcaption>
                       <p className="statistic__figure">
@@ -140,7 +140,7 @@ export default class CountryData extends React.Component {
                             <p className="statistic__caption">Year-to-year change</p>
                         </figcaption>
                         <p className="statistic__figure">
-                            +{ lastyear_import_data.import_value.year_on_year_change }%
+                            +{ lastyear_import_data.year_on_year_change }%
                         </p>
                     </figure>
                   ) : null
