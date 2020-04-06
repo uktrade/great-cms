@@ -34,7 +34,7 @@ const get = function(url, params) {
 }
 
 const getCountryData = function(country) {
-  return get(config.countryDataUrl, {'country': country}).then(responseHandler)
+  return get(config.countryDataUrl, {'country': country}).then(response => responseHandler(response).json())
 }
 
 const lookupProduct = function({q}) {
@@ -75,8 +75,6 @@ const responseHandler = function(response) {
     throw MESSAGE_BAD_REQUEST_ERROR
   } else if (response.status != 200) {
     throw MESSAGE_UNEXPECTED_ERROR
-  } else if (response.status == 200) {
-    return response.json()
   } else {
     return response
   }
