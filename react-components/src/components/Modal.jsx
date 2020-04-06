@@ -8,16 +8,15 @@ import { withCookies, useCookies } from 'react-cookie';
 export function Modal(props){
   const [cookies, setCookie] = useCookies([props.skipFeatureCookieName])
   const SkipFeature = cookies[props.skipFeatureCookieName] == 'true'
-  const [isOpen, setIsOpen] = React.useState(!SkipFeature && props.isOpen)
 
   function handleClose(event){
     event.preventDefault()
-    setIsOpen(false)
+    props.setIsOpen(false)
   }
 
   function handleRequestSkipFeature() {
     setCookie(props.skipFeatureCookieName, 'true');
-    setIsOpen(false)
+    props.setIsOpen(false)
   }
 
   function getSkipFeature() {
@@ -29,7 +28,7 @@ export function Modal(props){
 
   return (
     <ReactModal
-      isOpen={isOpen}
+      isOpen={!SkipFeature && props.isOpen}
       onRequestClose={handleClose}
       className={'ReactModal__Content ReactModalCentreScreen ' + props.className}
       overlayClassName='ReactModal__Overlay ReactModalCentreScreen'

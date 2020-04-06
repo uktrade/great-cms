@@ -305,3 +305,19 @@ def test_markets_not_logged_in(mock_get_company_profile, client):
     assert response.status_code == 200
     assert response.context_data['page_title'] is None
     assert response.context_data['most_popular_countries'] is None
+
+
+@mock.patch.object(helpers, 'search_commodity_by_term')
+def test_search_commodity_by_term(mock_search_commodity_by_term, client):
+    mock_search_commodity_by_term.return_value = data = [
+        {'value': '123323', 'label': 'some description'},
+        {'value': '223323', 'label': 'some other description'},
+    ]
+    term = 'some term'
+
+    response = client.get(reverse('core:api-lookup-product'), {'q': term})
+
+    assert response.status_code == 200
+    assert response.json() == data
+    assert mock_search_commodity_by_term.call_count == 1
+    assert mock_search_commodity_by_term.call_args == mock.call(term=term)

@@ -16,6 +16,26 @@ const post = function(url, data) {
 }
 
 
+const get = function(url, params) {
+  const parsedUrl = new URL(`${location.origin}${url}`)
+  const parsedParams = new URLSearchParams(params).toString();
+  parsedUrl.search = parsedParams
+
+  return fetch(parsedUrl, {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'X-CSRFToken': config.csrfToken,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+  })
+}
+
+const lookupProduct = function({q}) {
+  return get(config.apiLookupProductUrl, {q}).then(response => responseHandler(response).json())
+}
+
+
 const createUser = function({email, password}) {
   return post(config.apiSignupUrl, {email, password}).then(responseHandler)
 }
@@ -31,8 +51,8 @@ const checkCredentials = function({ email, password }) {
 }
 
 
-const updateCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
-  const data = { company_name, expertise_industries, expertise_countries, first_name, last_name }
+const updateCompany = function({ expertise_industries, expertise_countries, expertise_products_services }) {
+  const data = { expertise_industries, expertise_countries, expertise_products_services }
   return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
 }
 
@@ -43,6 +63,8 @@ const responseHandler = function(response) {
     throw MESSAGE_PERMISSION_DENIED
   } else if (response.status != 200) {
     throw MESSAGE_UNEXPECTED_ERROR
+  } else {
+    return response
   }
 }
 
@@ -51,6 +73,7 @@ let config = {}
 const setConfig = function({
   apiLoginUrl,
   apiSignupUrl,
+  apiLookupProductUrl,
   apiUpdateCompanyUrl,
   countryOptions,
   csrfToken,
@@ -64,9 +87,11 @@ const setConfig = function({
   userCountries,
   userIndustries,
   verifyCodeUrl,
+  userIsAuthenticated,
 }) {
   config.apiLoginUrl = apiLoginUrl
   config.apiSignupUrl = apiSignupUrl
+  config.apiLookupProductUrl = apiLookupProductUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
@@ -80,6 +105,7 @@ const setConfig = function({
   config.verifyCodeUrl = verifyCodeUrl
   config.userCountries = userCountries
   config.userIndustries = userIndustries
+  config.userIsAuthenticated = userIsAuthenticated
 }
 
 export default {
@@ -87,6 +113,7 @@ export default {
   checkCredentials,
   checkVerificationCode,
   updateCompany,
+  lookupProduct,
   setConfig,
   config,
   messages: {

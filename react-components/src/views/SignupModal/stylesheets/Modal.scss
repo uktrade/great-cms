@@ -1,5 +1,5 @@
-.great-mvp-modal {
-}
+@import '@src/stylesheets/ModalCentreScreen';
+
 
 // the close button opens inside the modal. in the DOM the modal is not a child element of the react component
 .great-mvp-close {
@@ -7,4 +7,40 @@
     font-size: 19px;
     display: inline-block;
     text-align: right;
+}
+
+.ReactModal__Content.ReactModalCentreScreen.ReactModal__Content--Signup {
+    width: 840px;
+    background: linear-gradient(90deg, $light-grey 50%, $white 50%);
+
+    .great-mvp-terms {
+        font-size: 16px;
+    }
+
+    .great-mvp-wizard-step-link {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      text-decoration: underline;
+    }
+
+
+    .great-mvp-image-tourists {
+      width: 50%;
+      position: absolute;
+      bottom: -2px;
+      left: 20px;
+    }
+
+    aside {
+      
+      h2 {
+        line-height: 1em;
+      }
+
+      p {
+        border-radius: 8px;
+        background: $white;
+      }
+    }
 }

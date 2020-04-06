@@ -1,0 +1,36 @@
+
+.ReactModal__Content.ReactModalCentreScreen.ReactModal__Content--Export {
+  width: 720px;
+
+  aside {
+    .book-chap-image {
+      width: 180px;
+    }
+  }
+  
+  .multiple-choice {
+    min-height: 20px;
+    padding: 0 0 0 20px;
+
+    [type="radio"] + label::before {
+      width: 20px;
+      height: 20px;
+    }
+
+    [type="radio"] + label::after {
+      top: 6px;
+      left: 6px;
+      border: 6px solid;
+    }
+
+    label {
+      line-height: 20px;
+    }
+
+    input {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+  
