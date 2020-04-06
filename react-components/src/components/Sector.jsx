@@ -21,7 +21,9 @@ export default class Sector extends React.Component {
   }
 
   handleClick(e) {
-    this.setState({selected: this.props.addRemoveSector(e.target.innerHTML)})
+    this.setState({ selected: !this.state.selected });
+
+    this.props.handleSectorButtonClick(this.props.id);
   }
 
   render() {

@@ -34,5 +34,11 @@ html,body,div,span,object,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,addr
 
 .great-mvp-tour-button{font-size:19px;color:#fff;font-size:16px;font-weight:bold;line-height:19px;text-align:center;border-radius:4px;background-color:#606060;border:none;cursor:pointer}
 
+.recommended-country__text{max-width:150px;margin:0;border-radius:1.2em;background-color:#006ccc;color:#fff;text-align:center;margin:10px auto;text-decoration:underline;padding:5px 15px}.recommended-country__text:hover{background-color:#00549f}.recommended-country--selected{opacity:0.7}.recommended-country{margin:0 0 10px}.recommended-country:hover .figure,.recommended-country:hover .recommended-country__text{box-shadow:0 0 3px rgba(0,0,0,0.5)}
+
+.figure{border-radius:0.2em;background:#fff}.figure__caption{padding:10px 0}.figure__image-wrapper{overflow:hidden;height:175px}.figure__image{width:100%;height:auto}
+
+.spinner{width:1.5rem;height:1.5rem;border-top-color:#444;border-left-color:#444;animation:spinner 1s linear infinite;border-bottom-color:transparent;border-right-color:transparent;border-style:solid;border-width:2px;border-radius:50%;box-sizing:border-box;display:inline-block;vertical-align:middle}@keyframes spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
 
 /*# sourceMappingURL=ditMVP.css.map*/
