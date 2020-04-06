@@ -18,10 +18,6 @@ const post = function(url, data) {
   })
 }
 
-const getCountryData = function(country) {
-  return get(`${config.countryDataUrl}?country=${encodeURIComponent(country)}`).then(responseHandler)
-}
-
 const get = function(url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
   const parsedParams = new URLSearchParams(params).toString();
@@ -35,6 +31,10 @@ const get = function(url, params) {
       'X-Requested-With': 'XMLHttpRequest',
     },
   })
+}
+
+const getCountryData = function(country) {
+  return get(config.countryDataUrl, {'country': country}).then(responseHandler)
 }
 
 const lookupProduct = function({q}) {
