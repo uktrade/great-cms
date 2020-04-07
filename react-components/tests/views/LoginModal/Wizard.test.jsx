@@ -1,8 +1,6 @@
 import React from 'react'
-import Modal from 'react-modal'
-
 import { act } from 'react-dom/test-utils'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -10,13 +8,9 @@ import Wizard from '@src/views/LoginModal/Wizard'
 import Step1 from '@src/views/LoginModal/Step1'
 import Services from '@src/Services'
 
-
 Enzyme.configure({ adapter: new Adapter() })
 
-jest.mock('@src/Services');
-
-const createEvent = () => ({ preventDefault: jest.fn() })
-
+jest.mock('@src/Services')
 
 beforeEach(() => {
   jest.useFakeTimers()
@@ -42,7 +36,6 @@ const defaultProps = {
 }
 
 describe('LoginModal', () => {
-
   const { assign } = window.location
 
   beforeEach(() => {
@@ -54,9 +47,9 @@ describe('LoginModal', () => {
     window.location.assign = assign
   })
 
-  test('bad credentials results in errors passed down', done => {
+  test('bad credentials results in errors passed down', (done) => {
     // given the credentials are incorrect
-    const errors = {'email': ['This field is required']}
+    const errors = { email: ['This field is required'] }
     Services.checkCredentials.mockImplementation(() => Promise.reject(errors))
 
     const component = mount(<Wizard {...defaultProps} />)
@@ -69,20 +62,15 @@ describe('LoginModal', () => {
     // then an error message is displayed
     setImmediate(() => {
       component.update()
-      expect(component.containsMatchingElement(
-        <Step1
-          disabled={false}
-          email='email'
-          password='password'
-          errors={errors}
-        />
-      )).toEqual(true)
+      expect(
+        component.containsMatchingElement(<Step1 disabled={false} email="email" password="password" errors={errors} />)
+      ).toEqual(true)
 
       done()
     })
   })
 
-  test('good credentials results in next url', done => {
+  test('good credentials results in next url', (done) => {
     // given the credentials are correct
     Services.checkCredentials.mockImplementation(() => Promise.resolve())
     const component = mount(<Wizard {...defaultProps} />)
@@ -96,5 +84,4 @@ describe('LoginModal', () => {
       done()
     })
   })
-
 })

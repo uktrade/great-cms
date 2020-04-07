@@ -16,8 +16,7 @@ afterEach(() => {
 })
 
 it('shows the list of sectors and hides button on click', () => {
-
-  const sectorList = ["Aerospace", "Advanced manufacturing", "Airports", "Agriculture, horticulture and fisheries"]
+  const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
 
   act(() => {
     ReactDOM.render(<SectorChooser sectorList={sectorList} />, container)
@@ -34,12 +33,10 @@ it('shows the list of sectors and hides button on click', () => {
   const sectors = container.querySelector('#sector-list').children
 
   expect(sectors.length).toEqual(4)
-
 })
 
 it('shows selected sectors in sector list and shows save button', () => {
-
-  const sectorList = ["Aerospace", "Advanced manufacturing", "Airports", "Agriculture, horticulture and fisheries"]
+  const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
 
   act(() => {
     ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} />, container)
@@ -66,13 +63,11 @@ it('shows selected sectors in sector list and shows save button', () => {
   expect(selected.length).toEqual(2)
 
   expect(container.querySelector('#sector-chooser .g-button')).toBeTruthy()
-
 })
 
 it('can remove selected sectors in sector list and hide save button', () => {
-
-  const sectorList = ["Aerospace", "Advanced manufacturing", "Airports", "Agriculture, horticulture and fisheries"]
-  const selectedSectors = ["Aerospace"]
+  const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
+  const selectedSectors = ['Aerospace']
 
   act(() => {
     ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
@@ -97,13 +92,11 @@ it('can remove selected sectors in sector list and hide save button', () => {
   expect(selected.length).toEqual(0)
 
   expect(container.querySelector('#sector-chooser .g-button')).toBeFalsy()
-
 })
 
 it('renders the sector chooser button with tooltip', () => {
-
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={[]}/>, container)
+    ReactDOM.render(<SectorChooser sectorList={[]} />, container)
   })
 
   const button = container.querySelector('button')
@@ -122,9 +115,8 @@ it('renders the sector chooser button with tooltip', () => {
 })
 
 it('shows selected sectors', () => {
-
-  const sectorList = ["Aerospace", "Advanced manufacturing", "Airports", "Agriculture, horticulture and fisheries"]
-  const selectedSectors = ["Aerospace", "Advanced manufacturing"]
+  const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
+  const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
   act(() => {
     ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
@@ -135,13 +127,11 @@ it('shows selected sectors', () => {
   expect(selectedButtons.length).toEqual(2)
   expect(selectedButtons[0].id).toEqual('aerospace')
   expect(selectedButtons[1].id).toEqual('advanced-manufacturing')
-
 })
 
 it('removes sector on click', () => {
-
-  const sectorList = ["Aerospace", "Advanced manufacturing", "Airports", "Agriculture, horticulture and fisheries"]
-  const selectedSectors = ["Aerospace", "Advanced manufacturing"]
+  const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
+  const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
   act(() => {
     ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
@@ -158,5 +148,4 @@ it('removes sector on click', () => {
   })
 
   expect(selectedButtons.length).toEqual(1)
-
 })

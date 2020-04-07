@@ -1,13 +1,9 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Services from '@src/Services'
 import AutoCompleteField from '@src/components/AutoCompleteField'
-
 import './stylesheets/Step.scss'
-import imageSrc from '@src/../assets/google-icon.png'
-
-import Select, { components } from 'react-select'
 import FlagIcon from '@src/components/FlagIcon'
 
 

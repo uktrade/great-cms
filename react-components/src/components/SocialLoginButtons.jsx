@@ -1,5 +1,5 @@
+/* eslint-disable */
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import googleIcon from '@assets/google-icon.png'
 import linkedinIcon from '@assets/linkedin-icon.png'
