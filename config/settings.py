@@ -426,3 +426,6 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
 
     def get_client_ip(request):
         return '51.6.68.120'
+
+# dit_helpdesk
+DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')

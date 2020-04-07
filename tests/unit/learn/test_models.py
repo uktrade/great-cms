@@ -28,32 +28,6 @@ class LearnPageTests():
 
 
 @pytest.mark.django_db
-def test_lesson_page_can_mark_as_read(client, domestic_homepage, user, domestic_site):
-    # given the user has not read a lesson
-    client.force_login(user)
-    topic = factories.TopicPageFactory(parent=domestic_homepage)
-    lesson = factories.LessonPageFactory(parent=topic)
-
-    response = client.get(lesson.url)
-    assert response.context_data['is_read'] is False
-
-    # when the user marks the lesson as read
-    response = client.post(lesson.url + lesson.reverse_subpage('mark-as-read'))
-
-    assert response.status_code == 302
-    assert response.url == topic.get_url()
-
-    # then the progress is saved
-    read_hit = lesson.read_hits.get()
-    assert read_hit.sso_id == str(user.pk)
-    assert read_hit.topic == topic
-
-    # and the progress is retrieved
-    response = client.get(lesson.url)
-    assert response.context_data['is_read'] is True
-
-
-@pytest.mark.django_db
 def test_topic_view(client, domestic_homepage, user, domestic_site):
     # given the user has not read a lesson
     client.force_login(user)
@@ -70,3 +44,81 @@ def test_learn_page_view(client, domestic_homepage, user, domestic_site):
 
     response = client.get(page.url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_lesson_page_can_mark_as_read(client, domestic_homepage, user, domestic_site):
+    # given the user has not read a lesson
+    client.force_login(user)
+    topic = factories.TopicPageFactory(parent=domestic_homepage)
+    lesson = factories.LessonPageFactory(parent=topic)
+
+    client.get(lesson.url)
+
+    # then the progress is saved
+    read_hit = lesson.read_hits.get()
+    assert read_hit.sso_id == str(user.pk)
+    assert read_hit.topic == topic
+
+
+@pytest.mark.django_db
+def test_lesson_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site):
+    # given the user has not read a lesson
+    topic = factories.TopicPageFactory(parent=domestic_homepage)
+    lesson = factories.LessonPageFactory(
+        parent=topic,
+        generic_content='some content',
+    )
+
+    client.get(lesson.url)
+
+    # then the progress is unaffected
+    assert lesson.read_hits.count() == 0
+
+
+@pytest.mark.django_db
+def test_lesson_page_products(client, domestic_homepage, domestic_site):
+    # given the user has not read a lesson
+    topic = factories.TopicPageFactory(parent=domestic_homepage)
+    lesson = factories.LessonPageFactory(parent=topic)
+
+    response = client.get(lesson.url, {'products_label': 'some_product'})
+
+    # then the progress is unaffected
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_lesson_page_user_has_expertise(client, domestic_homepage, user, domestic_site, mock_get_company_profile):
+    mock_get_company_profile.return_value = {
+        'expertise_countries': ['cz'],
+        'expertise_industries': [],
+    }
+
+    # given the user has not read a lesson
+    client.force_login(user)
+    topic = factories.TopicPageFactory(parent=domestic_homepage)
+    lesson = factories.LessonPageFactory(parent=topic)
+
+    client.get(lesson.url)
+
+
+@pytest.mark.django_db
+def test_lesson_page_has_next(client, domestic_homepage, domestic_site):
+    # given the user has not read a lesson
+    topic = factories.TopicPageFactory(parent=domestic_homepage)
+    lesson = factories.LessonPageFactory(
+        parent=topic,
+        generic_content='some content',
+        slug='some-lesson'
+    )
+    factories.LessonPageFactory(
+        parent=topic,
+        generic_content='some other content',
+        slug='some-other-lesson'
+    )
+
+    client.get(lesson.url)
+
+    # then the progress is unaffected
+    assert lesson.read_hits.count() == 0

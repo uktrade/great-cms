@@ -45,7 +45,7 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        data = {key: value for key, value in serializer.data.items() if value}
+        data = {key: value for key, value in serializer.validated_data.items() if value}
         if not self.request.user.company:
             data['name'] = f'unnamed sso-{self.request.user.id} company'
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=data)
@@ -87,3 +87,14 @@ class MarketsView(TemplateView):
             most_popular_countries=self.get_most_popular_countries(),
             **kwargs
         )
+
+
+class ProductLookupView(generics.GenericAPIView):
+    serializer_class = serializers.ProductLookupSerializer
+    permission_classes = []
+
+    def get(self, request):
+        serializer = self.get_serializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
+        data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
+        return Response(data)
