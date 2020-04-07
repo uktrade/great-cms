@@ -6,6 +6,8 @@ import AutoCompleteField from '@src/components/AutoCompleteField'
 import './stylesheets/Step.scss'
 import FlagIcon from '@src/components/FlagIcon'
 
+import { components } from 'react-select'
+
 
 function OptionWithFlag(props) {
   return (
