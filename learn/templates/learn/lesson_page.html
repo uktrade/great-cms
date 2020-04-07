@@ -8,7 +8,7 @@
     <div class="container" id="lesson-page">
         <div class="grid">
             <aside class="c-1-6 p-t-xxs p-h-xs">
-                <a href="#">Back</a>
+                <a href="{% url 'core:dashboard' %}">Back</a>
                 <ul class="m-v-0">
                     {% for topic in topics %}
                         <li><h3 class="h-s {% if topic.pk == page.get_parent.pk %} bold{% endif %}"><a href="{{ topic.get_children.first.get_url }}?{{ request.GET.urlencode }}" class="topic-link">{{ topic.title }}</a></h3></li>
@@ -69,7 +69,7 @@
 
                     </div>
                     <div class="c-1-3">
-                        <h4 class="h-s">Continue planning</h4>
+                        <h4 class="h-s">&nbsp;</h4>
                     </div>
                 </div>
             </div>

@@ -28,32 +28,6 @@ class LearnPageTests():
 
 
 @pytest.mark.django_db
-def test_lesson_page_can_mark_as_read(client, domestic_homepage, user, domestic_site):
-    # given the user has not read a lesson
-    client.force_login(user)
-    topic = factories.TopicPageFactory(parent=domestic_homepage)
-    lesson = factories.LessonPageFactory(parent=topic)
-
-    response = client.get(lesson.url)
-    assert response.context_data['is_read'] is False
-
-    # when the user marks the lesson as read
-    response = client.post(lesson.url + lesson.reverse_subpage('mark-as-read'))
-
-    assert response.status_code == 302
-    assert response.url == topic.get_url()
-
-    # then the progress is saved
-    read_hit = lesson.read_hits.get()
-    assert read_hit.sso_id == str(user.pk)
-    assert read_hit.topic == topic
-
-    # and the progress is retrieved
-    response = client.get(lesson.url)
-    assert response.context_data['is_read'] is True
-
-
-@pytest.mark.django_db
 def test_topic_view(client, domestic_homepage, user, domestic_site):
     # given the user has not read a lesson
     client.force_login(user)

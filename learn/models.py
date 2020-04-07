@@ -5,7 +5,6 @@ from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
-from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from django.shortcuts import redirect
 from django.db import models
@@ -31,7 +30,7 @@ class TopicPage(Page):
         return context
 
 
-class LessonPage(RoutablePageMixin, PersonalisablePageMixin, Page):
+class LessonPage(PersonalisablePageMixin, Page):
     parent_page_types = ['learn.TopicPage']
 
     generic_content = StreamField([

@@ -144,7 +144,6 @@ class CompanyParser(great_components.helpers.CompanyParser):
         return []
 
 
-
 def values_to_labels(values, choices):
     return [choices.get(item) for item in values if item in choices]
 
