@@ -1,24 +1,17 @@
 import React from 'react'
-import Modal from 'react-modal'
-
 import { act } from 'react-dom/test-utils'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-
-import Wizard, {STEP_CREDENTIALS, STEP_VERIFICATION_CODE, STEP_COMPLETE} from '@src/views/SignupModal/Wizard'
+import Wizard, { STEP_CREDENTIALS, STEP_VERIFICATION_CODE, STEP_COMPLETE } from '@src/views/SignupModal/Wizard'
 import StepCredentials from '@src/views/SignupModal/StepCredentials'
 import StepCode from '@src/views/SignupModal/StepCode'
 import StepSuccess from '@src/views/SignupModal/StepSuccess'
 import Services from '@src/Services'
 
-
 Enzyme.configure({ adapter: new Adapter() })
 
-jest.mock('@src/Services');
-
-const createEvent = () => ({ preventDefault: jest.fn() })
-
+jest.mock('@src/Services')
 
 beforeEach(() => {
   jest.useFakeTimers()
@@ -41,11 +34,10 @@ const defaultProps = {
   password: 'password',
   handleClose: function () {},
   handleLoginOpen: function () {},
-  currentStep: STEP_CREDENTIALS
+  currentStep: STEP_CREDENTIALS,
 }
 
 describe('SignupWizard', () => {
-
   const { assign } = window.location
 
   beforeEach(() => {
@@ -57,9 +49,9 @@ describe('SignupWizard', () => {
     window.location.assign = assign
   })
 
-  test('bad credentials results in errors passed down', done => {
+  test('bad credentials results in errors passed down', (done) => {
     // given the credentials are incorrect
-    const errors = {'email': ['An error occured']}
+    const errors = { email: ['An error occured'] }
     Services.createUser.mockImplementation(() => Promise.reject(errors))
 
     const component = mount(<Wizard {...defaultProps} />)
@@ -71,20 +63,17 @@ describe('SignupWizard', () => {
     // then an error message is displayed
     setImmediate(() => {
       component.update()
-      expect(component.containsMatchingElement(
-        <StepCredentials
-          disabled={false}
-          email='email'
-          password='password'
-          errors={errors}
-        />
-      )).toEqual(true)
+      expect(
+        component.containsMatchingElement(
+          <StepCredentials disabled={false} email="email" password="password" errors={errors} />
+        )
+      ).toEqual(true)
 
       done()
     })
   })
 
-  test('good credentials results in rendering step 2', done => {
+  test('good credentials results in rendering step 2', (done) => {
     // given the credentials are correct
     Services.createUser.mockImplementation(() => Promise.resolve())
     const component = mount(<Wizard {...defaultProps} />)
@@ -95,22 +84,16 @@ describe('SignupWizard', () => {
 
     setImmediate(() => {
       component.update()
-      expect(component.containsMatchingElement(
-        <StepCode
-          errors={{}}
-          disabled={false}
-        />
-      )).toEqual(true)
+      expect(component.containsMatchingElement(<StepCode errors={{}} disabled={false} />)).toEqual(true)
       done()
     })
-
   })
 
-  test('incorrect verification code results in errors passed down', done => {
+  test('incorrect verification code results in errors passed down', (done) => {
     // given the credentials are incorrect
-    const errors = {'email': ['An error occured']}
+    const errors = { email: ['An error occured'] }
     Services.checkVerificationCode.mockImplementation(() => Promise.reject(errors))
-    const props = {...defaultProps, currentStep: STEP_VERIFICATION_CODE}
+    const props = { ...defaultProps, currentStep: STEP_VERIFICATION_CODE }
     const component = mount(<Wizard {...props} />)
 
     expect(component.exists(StepCode)).toEqual(true)
@@ -128,10 +111,10 @@ describe('SignupWizard', () => {
     })
   })
 
-  test('correct verification code results in rendering step 3', done => {
+  test('correct verification code results in rendering step 3', (done) => {
     // given the credentials are correct
     Services.checkVerificationCode.mockImplementation(() => Promise.resolve())
-    const props = {...defaultProps, currentStep: STEP_VERIFICATION_CODE}
+    const props = { ...defaultProps, currentStep: STEP_VERIFICATION_CODE }
     const component = mount(<Wizard {...props} />)
 
     expect(component.exists(StepCode)).toEqual(true)
@@ -146,12 +129,11 @@ describe('SignupWizard', () => {
       expect(component.containsMatchingElement(<StepSuccess />)).toEqual(true)
       done()
     })
-
   })
 
   test('submitting final step results in page assign', () => {
     // given the credentials are correct
-    const props = {...defaultProps, currentStep: STEP_COMPLETE}
+    const props = { ...defaultProps, currentStep: STEP_COMPLETE }
     const component = mount(<Wizard {...props} />)
 
     act(() => {
@@ -159,7 +141,5 @@ describe('SignupWizard', () => {
     })
 
     expect(location.assign).toHaveBeenCalled()
-
   })
-
 })

@@ -1,12 +1,8 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
-import ReactModal from 'react-modal'
-
 import Modal from '@src/components/Modal'
-import Services from '@src/Services'
 import Wizard from './Wizard'
-
 import './stylesheets/Modal.scss'
 
 

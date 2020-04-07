@@ -252,4 +252,3 @@ class TopicLessonListing(SelectorsEnum):
 
 class LessonPage(SelectorsEnum):
     TITLE = Selector(By.ID, 'lesson-title')
-    MARK_AS_READ = Selector(By.ID, 'mark-as-read')

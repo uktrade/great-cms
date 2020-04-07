@@ -104,23 +104,6 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     attach_jpg_screenshot(browser, 'lesson_a1')
     should_see_all_elements(browser, LessonPage)
 
-    close_modal(browser)
-
-    mark_as_read_link = browser.find_element(
-        by=LessonPage.MARK_AS_READ.by,
-        value=LessonPage.MARK_AS_READ.selector,
-    )
-
-    with selenium_action(browser, f'Failed to mark lesson as read'):
-        mark_as_read_link.click()
-
-    attach_jpg_screenshot(browser, 'topic listing with read lesson')
-    should_see_all_elements(browser, TopicLessonListing)
-
-    lesson_link = browser.find_element_by_id(f'lesson-{topic_a_lessons[0].slug}')
-    error = f'Expected lesson: "{topic_a_lessons[0].title}" is not marked as read!'
-    assert ' [is read]' in lesson_link.text, error
-
     browser.get(f'{live_server.url}/dashboard/')
     attach_jpg_screenshot(browser, 'dashboard with read lesson')
     should_see_all_elements(browser, DashboardReadingProgress)
