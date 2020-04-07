@@ -95,6 +95,67 @@ $desktop: 1024px;
     }
 }
 
+
+#lesson-page {
+    nav {
+        background: $white;
+        display: flex;
+
+        .great-mvp-pill-button {
+            margin-left: 5px;
+        }
+    }
+    aside {
+        background: $white;
+        border-right: 1px solid $light-grey;
+        height: 100%;
+        position: sticky;
+        top: 0;
+
+        h3 {
+          padding-top: 20;
+          padding-bottom: 0;
+
+          a.topic-link {
+            text-decoration: none;
+          }
+        }
+
+        a {
+          color: $grey;
+          font-size: 16px;
+        }
+    }
+    .lesson-next-area {
+        display: inline-block;
+
+        h5 {
+          color: #919191;
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        .lesson-next-link {
+          color: #3C3C3C;
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .lesson-back-to-learning {
+          color: #3C3C3C;
+          font-size: 19px;
+          font-weight: bold;
+          display: block;
+        }
+    }
+
+    .set-product-button,
+    .set-country-button {
+        cursor: pointer;
+    }
+
+}
+
 @media (min-width: $desktop) {
     .learn__carousel {
         padding: 0 30%;

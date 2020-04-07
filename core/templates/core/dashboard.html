@@ -38,7 +38,7 @@
 
                     {% for topic in topics %}
                         <div class="grid m-b-s m-v-0">
-                            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ topic.title|slugify }}"><a href="{{ topic.url }}">{{ topic.title }}</a></h3>
+                            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ topic.title|slugify }}"><a href="{{ topic.get_children.first.get_url }}">{{ topic.title }}</a></h3>
                             <div class="c-5-12"><progress id="topics-read-count-{{ topic.title|slugify }}" value="{{ topic.read_count }}" max="{{ topic.numchild }}"></progress></div>
                             <div class="c-2-12 great-mvp-right-text" id="topics-read-progress-{{ topic.title|slugify }}">{{ topic.read_progress|default:0 }}%</div>
                         </div>
@@ -210,7 +210,7 @@
             });
             ditMVP.IndustriesModal({
                 element: element,
-                isOpen: true,
+                isOpen: true
             });
         </script>
     {% endif %}
