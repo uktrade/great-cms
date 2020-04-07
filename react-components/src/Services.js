@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const MESSAGE_UNEXPECTED_ERROR = {'__all__': ['Unexpected Error']}
 const MESSAGE_PERMISSION_DENIED = {'__all__': ['You do not have permission to perform this action']}
 

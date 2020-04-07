@@ -1,15 +1,13 @@
-import React from 'react'
+import React from "react"
 
-import { shallow } from 'enzyme'
-import Enzyme from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { shallow } from "enzyme"
+import Enzyme from "enzyme"
+import Adapter from "enzyme-adapter-react-16"
 
-import Field from '@src/components/Field'
-import ErrorList from '@src/components/ErrorList'
-
+import Field from "@src/components/Field"
+import ErrorList from "@src/components/ErrorList"
 
 Enzyme.configure({ adapter: new Adapter() })
-
 
 beforeEach(() => {
   jest.useFakeTimers()
@@ -19,15 +17,14 @@ afterEach(() => {
   jest.useRealTimers()
 })
 
-
-test('Field should use props', () => {
-  const errors = ['some error']
+test("Field should use props", () => {
+  const errors = ["some error"]
   const component = shallow(
     <Field
-      type='text'
-      placeholder='some placeholder'
-      name='some-name'
-      value='some value'
+      type="text"
+      placeholder="some placeholder"
+      name="some-name"
+      value="some value"
       handleChange={() => {}}
       disabled={true}
       autofocus={true}
@@ -35,48 +32,51 @@ test('Field should use props', () => {
     />
   )
 
-  expect(component.matchesElement(
-    <div>
-      <ErrorList errors={errors} />
-      <input
-        type="text"
-        placeholder="some placeholder"
-        name="some-name"
-        className="great-mvp-field-input form-control"
-        value="some value"
-        disabled={true}
-        autoFocus={true}
-      />
-    </div>
-  )).toEqual(true)
+  expect(
+    component.matchesElement(
+      <div>
+        <ErrorList errors={errors} />
+        <input
+          type="text"
+          placeholder="some placeholder"
+          name="some-name"
+          className="great-mvp-field-input form-control"
+          value="some value"
+          disabled={true}
+          autoFocus={true}
+        />
+      </div>
+    )
+  ).toEqual(true)
 })
 
-
-test('Field should handle default props', () => {
+test("Field should handle default props", () => {
   const errors = []
   const component = shallow(
     <Field
-      type='text'
-      placeholder='some placeholder'
-      name='some-name'
-      value='some value'
+      type="text"
+      placeholder="some placeholder"
+      name="some-name"
+      value="some value"
       handleChange={() => {}}
       errors={errors}
     />
   )
 
-  expect(component.containsMatchingElement(
-    <div>
-      <ErrorList errors={errors} />
-      <input
-        type="text"
-        placeholder="some placeholder"
-        name="some-name"
-        className="great-mvp-field-input form-control"
-        value="some value"
-        disabled={false}
-        autoFocus={false}
-      />
-    </div>
-  )).toEqual(true)
+  expect(
+    component.containsMatchingElement(
+      <div>
+        <ErrorList errors={errors} />
+        <input
+          type="text"
+          placeholder="some placeholder"
+          name="some-name"
+          className="great-mvp-field-input form-control"
+          value="some value"
+          disabled={false}
+          autoFocus={false}
+        />
+      </div>
+    )
+  ).toEqual(true)
 })
