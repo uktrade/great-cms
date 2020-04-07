@@ -1,16 +1,16 @@
-import React from "react"
+import React from 'react'
 
-import { shallow } from "enzyme"
-import Enzyme from "enzyme"
-import Adapter from "enzyme-adapter-react-16"
+import { shallow } from 'enzyme'
+import Enzyme from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
-import SocialLoginButtons from "@src/components/SocialLoginButtons"
-import Services from "@src/Services"
+import SocialLoginButtons from '@src/components/SocialLoginButtons'
+import Services from '@src/Services'
 
 Enzyme.configure({ adapter: new Adapter() })
 
-const linkedInUrl = "http://www.example.com/linkedInUrl/"
-const googleUrl = "http://www.example.com/google/"
+const linkedInUrl = 'http://www.example.com/linkedInUrl/'
+const googleUrl = 'http://www.example.com/google/'
 
 beforeEach(() => {
   Services.setConfig({ linkedInUrl, googleUrl })
@@ -22,7 +22,7 @@ afterEach(() => {
   jest.useRealTimers()
 })
 
-test("SocialLoginButtons should render", () => {
+test('SocialLoginButtons should render', () => {
   const component = shallow(
     <SocialLoginButtons
       type="text"

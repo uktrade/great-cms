@@ -17,7 +17,8 @@
   "parser": "babel-eslint",
   "rules": {
     "no-console": "warn",
-    "import/no-unresolved": "off"
+    "import/no-unresolved": "off",
+    "quotes": "error"
   },
   "overrides": [
     {

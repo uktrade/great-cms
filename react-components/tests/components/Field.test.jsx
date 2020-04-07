@@ -1,14 +1,9 @@
-import React from "react"
-
-import { qwe, shallow } from "enzyme"
-import Enzyme from "enzyme"
-import Adapter from "enzyme-adapter-react-16"
-
-import Field, { TextInput, RadioInput } from "@src/components/Field"
-import ErrorList from "@src/components/ErrorList"
-
-import Field from "@src/components/Field"
-import ErrorList from "@src/components/ErrorList"
+import React from 'react'
+import { shallow } from 'enzyme'
+import Enzyme from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import Field, { TextInput, RadioInput } from '@src/components/Field'
+import ErrorList from '@src/components/ErrorList'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -20,8 +15,8 @@ afterEach(() => {
   jest.useRealTimers()
 })
 
-test("Field should use props", () => {
-  const errors = ["some error"]
+test('Field should use props', () => {
+  const errors = ['some error']
   const component = shallow(
     <Field
       type="text"
@@ -53,11 +48,11 @@ test("Field should use props", () => {
   ).toEqual(true)
 })
 
-test("Field should render radio", () => {
+test('Field should render radio', () => {
   const errors = []
   const options = [
-    { value: "foo", label: "Foo", disabled: true },
-    { value: "bar", label: "Bar", disabled: false },
+    { value: 'foo', label: 'Foo', disabled: true },
+    { value: 'bar', label: 'Bar', disabled: false },
   ]
   const component = shallow(
     <Field
@@ -87,7 +82,7 @@ test("Field should render radio", () => {
   ).toEqual(true)
 })
 
-test("Field should handle default props", () => {
+test('Field should handle default props', () => {
   const errors = []
   const component = shallow(
     <Field
