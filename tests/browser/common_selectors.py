@@ -240,7 +240,7 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
     DUTY = Selector(By.ID, 'export-market-data-duty')
     IMPORT_VALUE = Selector(By.ID, 'export-market-data-import-value')
     YEAR_TO_YEAR_CHANGE = Selector(By.ID, 'export-market-data-year-to-year-change')
-    ADD_COUNTRY = Selector(By.ID, 'add-country')
+    ADD_COUNTRY = Selector(By.ID, 'country-chooser-button')
     YOUR_ACTIONS = Selector(By.ID, 'your-actions')
 
 

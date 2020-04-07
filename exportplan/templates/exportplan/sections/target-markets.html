@@ -29,7 +29,9 @@
     <div class="c-3-4 recommended-countries" id="recommended-countries"></div>
   </div>
 </section>
-
+{% if target_markets %}
+  {% include 'exportplan/partials/_country-stats.html' %}
+{% endif %}
 <hr>
 
 <section class="container">
