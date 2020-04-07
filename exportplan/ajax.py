@@ -36,7 +36,7 @@ class ExportPlanCountryDataView(views.APIView):
         data = {
             'target_markets': export_plan['target_markets'],
             'timezone': timezone,
-            'datenow': datetime.now(tz=pytz.timezone(timezone).strftime('%H:%M')),
+            'datenow': datetime.now(),
             'utz_offset': utz_offset,
         }
 

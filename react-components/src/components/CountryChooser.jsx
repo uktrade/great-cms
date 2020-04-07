@@ -51,7 +51,7 @@ class CountryChooser extends React.Component {
     this.setState({
       errors: {},
       loading: false,
-      selectedCountries: this.state.selectedCountries.concat([data])
+      selectedCountries: this.state.selectedCountries.concat(data.target_markets)
     })
   }
 
@@ -121,7 +121,7 @@ class CountryChooser extends React.Component {
         this.state.selectedCountries.map(country =>
           <CountryData
             data={country}
-            key={country.name}
+            key={slugify(country.country)}
             removeCountry={this.removeCountry} />
         )
       }
