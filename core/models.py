@@ -1,6 +1,6 @@
 import hashlib
 
-from core import PageContextProviderRegistry
+from core.context import PageContextProviderRegistry
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
@@ -179,11 +179,9 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
     # Layout fields
     ###############
 
-    custom_template = models.CharField(
-        blank=True,
+    template = models.CharField(
         max_length=255,
         choices=None,
-        verbose_name='Template'
     )
 
     #########
@@ -192,14 +190,14 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
 
     content_panels = Page.content_panels + [StreamFieldPanel('body')]
 
-    layout_panels = [FieldPanel('custom_template')]
+    layout_panels = [FieldPanel('template')]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._meta.get_field('custom_template').choices = self.template_choices
+        self._meta.get_field('template').choices = self.template_choices
 
     @cached_classmethod
-    def get_edit_handler(cls):
+    def get_edit_handler(cls):  # NOQA N805
         panels = [
             ObjectList(cls.content_panels, heading='Content'),
             ObjectList(cls.layout_panels, heading='Layout'),
@@ -209,10 +207,7 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
         return TabbedInterface(panels).bind_to(model=cls)
 
     def get_template(self, request, *args, **kwargs):
-        if self.custom_template:
-            return self.custom_template
-
-        return super().get_template(request, args, kwargs)
+        return self.template
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
