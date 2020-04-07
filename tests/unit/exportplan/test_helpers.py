@@ -152,3 +152,16 @@ def test_get_export_plan_empty(mock_get_exportplan):
     assert mock_get_exportplan.call_count == 1
     assert mock_get_exportplan.call_args == mock.call(123)
     assert rules is None
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_update')
+def test_update_export_plan(mock_exportplan_update):
+    export_plan_data = {'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}
+    mock_exportplan_update.return_value = create_response(status_code=200, json_body=export_plan_data)
+    helpers.update_exportplan(sso_session_id=123, id=1, data=export_plan_data)
+
+    assert mock_exportplan_update.call_count == 1
+    assert mock_exportplan_update.call_args == mock.call(
+        data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}},
+        id=1, sso_session_id=123
+    )

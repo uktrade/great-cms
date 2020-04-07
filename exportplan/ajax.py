@@ -2,8 +2,7 @@ from requests.exceptions import ReadTimeout
 from datetime import datetime
 import pytz
 
-from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
-from django.contrib.humanize.templatetags.humanize import intcomma
+from django.http import JsonResponse, HttpResponse
 
 from rest_framework import views
 from rest_framework.permissions import IsAuthenticated
@@ -24,8 +23,14 @@ class ExportPlanCountryDataView(views.APIView):
         country = self.request.GET.get('country')
 
         try:
-            # To do update export plan Target Markets rather then a get
+            # To make more efficient by removing get
             export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+            data = {'target_markets': export_plan['target_markets'] + [{'country': country}]}
+            export_plan = helpers.update_exportplan(
+                sso_session_id=self.request.user.session_id,
+                id=export_plan['pk'],
+                data=data
+            )
             if export_plan:
                 timezone = helpers.get_timezone(export_plan['rules_regulations']['country_code'])
                 utz_offset = datetime.now(pytz.timezone(timezone)).strftime('%z')
