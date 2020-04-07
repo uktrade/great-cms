@@ -15,7 +15,6 @@ django-debug-toolbar
 requests-mock
 pip-tools
 ipdb
-django-coverage-plugin
 beautifulsoup4
 
 # Code quality
