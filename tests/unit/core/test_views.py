@@ -105,11 +105,11 @@ def test_dashboard_page_lesson_progress(
     client.force_login(user)
 
     # given the user has read some lessons
-    topic_one = TopicPageFactory(parent=domestic_homepage, slug='topic-one')
-    topic_two = TopicPageFactory(parent=domestic_homepage, slug='topic-two')
+    topic_one = TopicPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
+    topic_two = TopicPageFactory(parent=domestic_homepage, slug='topic-two', record_read_progress=True)
     lesson_one = LessonPageFactory(parent=topic_one, slug='lesson-one')
     lesson_two = LessonPageFactory(parent=topic_one, slug='lesson-two')
-    LessonPageFactory(parent=topic_one, slug='lesson-three')
+    LessonPageFactory(parent=topic_one, slug='lesson-three',)
     LessonPageFactory(parent=topic_one, slug='lesson-four')
     models.PageView.objects.create(
         page=lesson_one,
@@ -128,13 +128,13 @@ def test_dashboard_page_lesson_progress(
 
     # then the progress is exposed
     assert response.status_code == 200
-    assert len(response.context_data['topics']) == 2
-    assert response.context_data['topics'][0] == topic_one
-    assert response.context_data['topics'][0].read_count == 2
-    assert response.context_data['topics'][0].read_progress == 50
-    assert response.context_data['topics'][1] == topic_two
-    assert response.context_data['topics'][1].read_count == 0
-    assert response.context_data['topics'][1].read_progress is None
+    assert len(response.context_data['list_pages']) == 2
+    assert response.context_data['list_pages'][0] == topic_one
+    assert response.context_data['list_pages'][0].read_count == 2
+    assert response.context_data['list_pages'][0].read_progress == 50
+    assert response.context_data['list_pages'][1] == topic_two
+    assert response.context_data['list_pages'][1].read_count == 0
+    assert response.context_data['list_pages'][1].read_progress is None
 
 
 @pytest.mark.django_db

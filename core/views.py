@@ -16,7 +16,7 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         session_id = self.request.user.session_id
         list_pages = (
-            models.ListPage.objects.live().filter(track_user_page_view=True)
+            models.ListPage.objects.live().filter(record_read_progress=True)
             .annotate(read_count=Count('page_views_list'))
             .annotate(read_progress=(
                 ExpressionWrapper(
