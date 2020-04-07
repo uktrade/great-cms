@@ -1,12 +1,11 @@
 import abc
 
 
-class PageContextProviderRegistry:
-    def get_for_page(self, page):
-        template_name = page.get_template()
-        for item in AbstractPageContextProvider.__subclasses__():
-            if item.template_name == template_name:
-                return item
+def get_context_provider(request, page):
+    template_name = page.get_template(request)
+    for item in AbstractPageContextProvider.__subclasses__():
+        if item.template_name == template_name:
+            return item
 
 
 class AbstractPageContextProvider(abc.ABC):

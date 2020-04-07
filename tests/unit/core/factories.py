@@ -19,16 +19,6 @@ class CountryFactory(factory.django.DjangoModelFactory):
         model = models.Country
 
 
-class PersonalisedPageFactory(wagtail_factories.PageFactory):
-
-    title = 'personalised page'
-    live = True
-
-    class Meta:
-        model = models.PersonalisedPage
-        django_get_or_create = ['slug', 'parent']
-
-
 class SegmentFactory(factory.DjangoModelFactory):
     name = factory.Faker('word')
     status = wagtail_personalisation.models.Segment.STATUS_ENABLED
@@ -66,3 +56,23 @@ class MatchFirstIndustryOfInterestFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = rules.MatchFirstIndustryOfInterestRule
+
+
+class DetailPageFactory(wagtail_factories.PageFactory):
+    title = 'detail page'
+    live = True
+    template = 'learn/lesson_page.html'
+
+    class Meta:
+        model = models.DetailPage
+        django_get_or_create = ['slug', 'parent']
+
+
+class ListPageFactory(wagtail_factories.PageFactory):
+    title = 'list page'
+    live = True
+    template = 'export_plan/listing.html'
+
+    class Meta:
+        model = models.ListPage
+        django_get_or_create = ['slug', 'parent']
