@@ -1,6 +1,6 @@
 import hashlib
 
-from core.context import PageContextProviderRegistry
+from core.context import get_context_provider
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
@@ -176,6 +176,15 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
     ])
 
     ###############
+    # Settings fields
+    ###############
+
+    track_user_page_view = models.BooleanField(
+        default=False,
+        help_text='Should we record when a user views a page?',
+    )
+
+    ###############
     # Layout fields
     ###############
 
@@ -188,13 +197,15 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
     # Panels
     #########
 
+    settings_panels = Page.settings_panels + ['track_user_page_view']
     content_panels = Page.content_panels + [StreamFieldPanel('body')]
-
     layout_panels = [FieldPanel('template')]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._meta.get_field('template').choices = self.template_choices
+        field = self._meta.get_field('template')
+        field.choices = self.template_choices
+        field.required = True
 
     @cached_classmethod
     def get_edit_handler(cls):  # NOQA N805
@@ -211,10 +222,24 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
-        provider = PageContextProviderRegistry.get_for_page(self)
+
+        if self.track_user_page_view and request.user.is_authenticated:
+            queryset = PageView.objects.filter(page=self, sso_id=request.user.pk)
+            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
+
+        provider = get_context_provider(request=request, page=self)
         if provider:
             context.update(provider.get_context_data(request=request, page=self))
         return context
+
+    def serve(self, request, *args, **kwargs):
+        if self.track_user_page_view and request.user.is_authenticated:
+            PageView.objects.get_or_create(
+                page=self,
+                list_page=self.get_parent().specific,
+                sso_id=request.user.pk,
+            )
+        return super().serve(request, **kwargs)
 
 
 class ListPage(CMSGenericPage):
@@ -227,9 +252,19 @@ class ListPage(CMSGenericPage):
     )
 
 
-class DetailPage(PersonalisablePageMixin, Page):
+class DetailPage(CMSGenericPage):
     parent_page_types = ['core.ListPage']
     template_choices = (
         ('export_plan/detail.html', 'Export plan'),
-        ('learn/detail.html', 'Learn')
+        ('learn/lesson_page.html', 'Lesson')
     )
+
+
+class PageView(TimeStampedModel):
+    page = models.ForeignKey(DetailPage, on_delete=models.CASCADE, related_name='page_views')
+    list_page = models.ForeignKey(ListPage, on_delete=models.CASCADE, related_name='page_views_list')
+    sso_id = models.TextField()
+
+    class Meta:
+        ordering = ['lesson__pk']
+        unique_together = ['page', 'sso_id', 'sso_id']

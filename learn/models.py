@@ -8,7 +8,6 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 
 from django.db import models
 
-from core.models import TimeStampedModel
 from core import mixins
 
 
@@ -21,12 +20,6 @@ class TopicPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('description'),
     ]
-
-    def get_context(self, request):
-        context = super().get_context(request)
-        queryset = LessonViewHit.objects.filter(topic=self, sso_id=request.user.pk)
-        context['is_read_collection'] = queryset.values_list('lesson__pk', flat=True)
-        return context
 
 
 class LessonPage(PersonalisablePageMixin, Page):
@@ -63,30 +56,11 @@ class LessonPage(PersonalisablePageMixin, Page):
     class Meta:
         ordering = ['order']
 
-    def serve(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            LessonViewHit.objects.get_or_create(
-                lesson=self,
-                topic=self.get_parent().specific,
-                sso_id=request.user.pk,
-            )
-        return super().serve(request, **kwargs)
-
     def get_context(self, request):
         context = super().get_context(request)
         context['topics'] = TopicPage.objects.live()
         context['country_choices'] = [{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES]
         return context
-
-
-class LessonViewHit(TimeStampedModel):
-    lesson = models.ForeignKey(LessonPage, on_delete=models.CASCADE, related_name='read_hits')
-    topic = models.ForeignKey(TopicPage, on_delete=models.CASCADE, related_name='read_hits_topic')
-    sso_id = models.TextField()
-
-    class Meta:
-        ordering = ['lesson__pk']
-        unique_together = ['lesson', 'topic', 'sso_id']
 
 
 class LearnPage(mixins.WagtailAdminExclusivePageMixin, mixins.EnableTourMixin, Page):

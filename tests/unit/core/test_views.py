@@ -6,11 +6,10 @@ import pytest
 
 from django.urls import reverse
 
-from core import helpers
+from core import helpers, models
 from tests.helpers import create_response
 from directory_api_client import api_client
 from tests.unit.learn.factories import LessonPageFactory, TopicPageFactory
-from learn.models import LessonViewHit
 
 
 @pytest.fixture
@@ -112,14 +111,14 @@ def test_dashboard_page_lesson_progress(
     lesson_two = LessonPageFactory(parent=topic_one, slug='lesson-two')
     LessonPageFactory(parent=topic_one, slug='lesson-three')
     LessonPageFactory(parent=topic_one, slug='lesson-four')
-    LessonViewHit.objects.create(
-        lesson=lesson_one,
-        topic=topic_one,
+    models.PageView.objects.create(
+        page=lesson_one,
+        list_page=topic_one,
         sso_id=user.pk
     )
-    LessonViewHit.objects.create(
-        lesson=lesson_two,
-        topic=topic_one,
+    models.PageView.objects.create(
+        page=lesson_two,
+        list_page=topic_one,
         sso_id=user.pk
     )
 
