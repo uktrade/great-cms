@@ -176,15 +176,6 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
     ])
 
     ###############
-    # Settings fields
-    ###############
-
-    track_user_page_view = models.BooleanField(
-        default=False,
-        help_text='Should we record when a user views a page?',
-    )
-
-    ###############
     # Layout fields
     ###############
 
@@ -197,7 +188,6 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
     # Panels
     #########
 
-    settings_panels = Page.settings_panels + ['track_user_page_view']
     content_panels = Page.content_panels + [StreamFieldPanel('body')]
     layout_panels = [FieldPanel('template')]
 
@@ -222,21 +212,17 @@ class CMSGenericPage(PersonalisablePageMixin, Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
-
-        if self.track_user_page_view and request.user.is_authenticated:
-            queryset = PageView.objects.filter(page=self, sso_id=request.user.pk)
-            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
-
         provider = get_context_provider(request=request, page=self)
         if provider:
             context.update(provider.get_context_data(request=request, page=self))
         return context
 
     def serve(self, request, *args, **kwargs):
-        if self.track_user_page_view and request.user.is_authenticated:
+        parent = self.get_parent().specific
+        if getattr(parent, 'record_read_progress', False) and request.user.is_authenticated:
             PageView.objects.get_or_create(
                 page=self,
-                list_page=self.get_parent().specific,
+                list_page=parent,
                 sso_id=request.user.pk,
             )
         return super().serve(request, **kwargs)
@@ -247,15 +233,29 @@ class ListPage(CMSGenericPage):
     subpage_types = ['core.DetailPage']
 
     template_choices = (
-        ('export_plan/listing.html', 'Export plan'),
-        ('learn/listing.html', 'Learn')
+        ('exportplan/export_plan_page.html', 'Export plan'),
+        ('learn/topic_page.html', 'Learn')
     )
+
+    record_read_progress = models.BooleanField(
+        default=False,
+        help_text='Should we record when a user views a page in this collection?',
+    )
+
+    settings_panels = Page.settings_panels + ['record_read_progress']
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        if self.record_read_progress and request.user.is_authenticated:
+            queryset = self.page_views_list.filter(sso_id=request.user.pk)
+            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
+        return context
 
 
 class DetailPage(CMSGenericPage):
     parent_page_types = ['core.ListPage']
     template_choices = (
-        ('export_plan/detail.html', 'Export plan'),
+        ('exportplan/export_plan_dashboard_page.html', 'Export plan'),
         ('learn/lesson_page.html', 'Lesson')
     )
 

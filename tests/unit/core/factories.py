@@ -71,7 +71,7 @@ class DetailPageFactory(wagtail_factories.PageFactory):
 class ListPageFactory(wagtail_factories.PageFactory):
     title = 'list page'
     live = True
-    template = 'export_plan/listing.html'
+    template = 'exportplan/export_plan_page.html'
 
     class Meta:
         model = models.ListPage
