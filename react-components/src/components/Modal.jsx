@@ -16,7 +16,7 @@ export function Modal(props){
   }
 
   function handleRequestSkipFeature() {
-    setCookie(props.skipFeatureCookieName, 'true');
+    setCookie(props.skipFeatureCookieName, 'true', {path: '/'})
     props.setIsOpen(false)
   }
 
