@@ -40,4 +40,9 @@ urlpatterns = [
         core.views.UpdateCompanyAPIView.as_view(),
         name='api-update-company'
     ),
+    path(
+        'api/lookup-product/',
+        core.views.ProductLookupView.as_view(),
+        name='api-lookup-product'
+    ),
 ]
