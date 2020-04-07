@@ -1,10 +1,15 @@
 @import 'helpers/colours';
 
-.learn-root {
+// Breakpoints
+$mobile: 640px;
+$tablet: 768px;
+$desktop: 1024px;
+
+#learn-root {
     background: #e7e7e7;
 }
 
-.learn-wrapper {
+.learn__wrapper {
     margin: 0 auto;
     max-width: 1248px;
     min-height: 600px;
@@ -18,29 +23,75 @@
         line-height: 50px;
         margin-bottom: 50px;
     }
+
+    .button {
+        background-color: $grey;
+        color: $white;  
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+        height: 40px;
+        padding: 8px 24px;
+        text-decoration: none;
+        white-space: nowrap;
     
-    .paragraph {
-        font-size: 20px;
-        line-height: 30px;
-        margin-bottom: 50px;
-        max-width: 670px;
+        &:hover {
+            background-color: darken($grey, 5);
+            color: $white;
+        }
     }
 }
 
-.button {
-    background-color: $grey;
-    color: $white;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    height: 40px;
-    padding: 8px 24px;
-    text-decoration: none;
-    white-space: nowrap;
+.learn__wrapper--paragraph {
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 50px;
+    max-width: 670px;
+}
 
-    &:hover {
-        background-color: darken($grey, 5);
-        color: $white;
+.learn__carousel-nav {
+    text-align: center;
+}
+
+.learn__carousel-ul {
+    margin-bottom: 60px;
+}
+
+.learn__nav-circle {
+    display: inline-block;
+    margin-right: 24px;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    a {
+        background: $mid-grey;
+        border-radius: 50%;
+        display: block;
+        font-size: 0;
+        height: 16px;
+        width: 16px;
+    }
+}
+
+.learn__nav-circle--active a {
+    background: $grey;
+}
+
+.learn__carousel--paragraph {
+    font-size: 48px;
+    line-height: 58px;
+    margin-bottom: 120px
+}
+
+@media (min-width: $tablet) {
+    .learn__carousel {
+        padding: 0 20%;
+    }
+
+    .learn__carousel-nav {
+        padding-right: 48px;
     }
 }
 
@@ -103,4 +154,10 @@
         cursor: pointer;
     }
 
+}
+
+@media (min-width: $desktop) {
+    .learn__carousel {
+        padding: 0 30%;
+    }
 }
