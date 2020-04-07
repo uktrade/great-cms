@@ -1,83 +1,164 @@
 {% extends 'core/base.html' %}
 {% load wagtailimages_tags %}
-{% load wagtailcore_tags %}
+{% load include_block from wagtailcore_tags %}
 {% load routablepageurl from wagtailroutablepage_tags %}
+{% load add_anchors_to_all_headings add_export_elements_classes from great_components %}
 
 {% block content %}
-    <div class="container">
-        <div id="welcome-back-hero" class="gutter-top c-full">
-            <div class="grid">
-                <div class="c-1-2">&nbsp;</div>
-                <div class="c-1-2-s">
-                    <h1 class="h-l m-t-xl" id="lesson-title">{{  self.title }}
-                        {% if request.GET.products_label %} for
-                            {% for name, values in request.GET.lists %}
-                                {% if name == 'products_label' %} {{values|join:", "}} {% endif %}
-                            {% endfor %}
+    <div class="container" id="lesson-page">
+        <div class="grid">
+            <aside class="c-1-6 p-t-xxs p-h-xs">
+                <a href="#">Back</a>
+                <ul class="m-v-0">
+                    {% for topic in topics %}
+                        <li><h3 class="h-s {% if topic.pk == page.get_parent.pk %} bold{% endif %}"><a href="{{ topic.get_children.first.get_url }}?{{ request.GET.urlencode }}" class="topic-link">{{ topic.title }}</a></h3></li>
+                        {% if topic.pk == page.get_parent.pk %}
+                            <ul class="m-v-0">
+                                {% for sibling in page.get_siblings %}
+                                    <li><a class="link {% if sibling.pk == page.pk %} bold{% endif %}" href="{{ sibling.get_url }}?{{ request.GET.urlencode }}">{{ sibling.title }}</a></li>
+                                {% endfor %}
+                            </ul>
                         {% endif %}
-                    </h1>
-                </div>
-                <div class="c-full">
-                    {% for block in page.generic_content %}
-                        <div>{% include_block block %}</div>
                     {% endfor %}
+
+                </ul>
+            </aside>
+            <div class="c-5-6">
+                <nav class="p-t-xs p-h-xs">Exporting 
+                    {% if request.GET.products_label %} for
+                        {% for name, values in request.GET.lists %}
+                            {% if name == 'products_label' %}
+                                {% for label in values %}
+                                    <span class="great-mvp-pill-button set-product-button">{{ label }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    to
+                    {% if request.user.company.expertise_countries_labels %}
+                        {% for label in request.user.company.expertise_countries_labels %}
+                            <span class="great-mvp-pill-button set-country-button">{{ label }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="great-mvp-pill-button set-country-button">add country</span>
+                    {% endif %}
+                </nav>
+
+                <div class="flex-grid p-t-xxl p-f-xxl">
+                    <div class="c-2-3">
+                        <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
+                        {% for block in page.generic_content %}
+                            <div>
+                            {% filter add_anchors_to_all_headings %}
+                                {% filter add_export_elements_classes %}
+                                    {% include_block block %}
+                                {% endfilter %}
+                            {% endfilter %}
+                            </div>
+                        {% endfor %}
+
+                        {% with page.get_next_siblings.live.first as next_page %}
+                            {% if next_page %}
+                                <div class="lesson-next-area p-t-xxl p-b-s">
+                                    <h5>Next</h5>
+                                    <a class="lesson-next-link" href="{{ next_page.get_url }}?{{ request.GET.urlencode }}">{{ next_page.title }}</a>
+                                    <a class="lesson-back-to-learning m-t-l" href="{{ next_page.get_parent.get_url }}">Back to learning</a>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+
+                    </div>
+                    <div class="c-1-3">
+                        <h4 class="h-s">Continue planning</h4>
+                    </div>
                 </div>
             </div>
-            {% if not request.user.is_anonymous and not is_read %}
-                <form method="post" action="{% routablepageurl page 'mark-as-read' %}" id="form-mark-as-read">
-                    {% csrf_token %}
-                    <button class="g-button" id="mark-as-read">Mark as read</button>
-                </form>
-            {% endif %}
         </div>
     </div>
 {% endblock %}
 
 
 {% block body_js %} 
-    {% if not request.GET.products %}
-        <script type="text/javascript">
-            var element = document.createElement('div');
-            document.body.appendChild(element);
-            ditMVP.setConfig({
-                apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
-                apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
-                apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-                csrfToken: '{{ csrf_token }}',
-                dashboardUrl: '{% url "core:dashboard" %}',
-                googleUrl: '{{ signup_modal.google_url }}',
-                linkedInUrl: '{{ signup_modal.linkedin_url }}',
-                loginUrl: '{% url "core:login" %}',
-                termsUrl: '{{ signup_modal.terms_url }}',
-                verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-                userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }}
-            });
+    <script type="text/javascript">
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        ditMVP.setConfig({
+            apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+            apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+            csrfToken: '{{ csrf_token }}',
+            dashboardUrl: '{% url "core:dashboard" %}',
+            googleUrl: '{{ signup_modal.google_url }}',
+            linkedInUrl: '{{ signup_modal.linkedin_url }}',
+            loginUrl: '{% url "core:login" %}',
+            termsUrl: '{{ signup_modal.terms_url }}',
+            verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+            userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }}
+        });
 
-            function onComplete(userHasSignupIntent, nextUrl, products) {
-                if (userHasSignupIntent) {
-                    var element = document.createElement('div');
-                    document.body.appendChild(element);
-                    ditMVP.SignupModal({ 
-                        element: element,
-                        isOpen: true,
-                        companySettings: {
-                            expertise_products_services: {
-                                'other': products
-                            },
+        function onComplete(userHasSignupIntent, nextUrl, products) {
+            if (userHasSignupIntent) {
+                var element = document.createElement('div');
+                document.body.appendChild(element);
+                ditMVP.SignupModal({ 
+                    element: element,
+                    isOpen: true,
+                    companySettings: {
+                        expertise_products_services: {
+                            'other': products
                         },
-                        mode: 'centre',
-                        nextUrl: nextUrl
-                    });
-                } else {
-                    window.location.assign(nextUrl)
-                }
+                    },
+                    mode: 'centre',
+                    nextUrl: nextUrl
+                });
+            } else {
+                window.location.assign(nextUrl)
             }
+        }
 
+        {% if not request.GET.products %}
             ditMVP.ExportModal({
                 element: element,
                 isOpen: true,
                 onComplete: onComplete
             });
-        </script>
+         {% else %}
+            var element = document.createElement('div');
+            document.body.appendChild(element);
+            var buttons = document.getElementsByClassName('set-product-button')
+            for (var i = 0; i < buttons.length; i++) {
+                var button = buttons.item(i)
+                button.addEventListener('click', function() {
+                    ditMVP.ExportModal({
+                        element: element,
+                        isOpen: true,
+                        onComplete: onComplete
+                    });
+                })
+            }
+
     {% endif %}
+    </script>
+    <script type="text/javascript">
+        var buttons = document.getElementsByClassName('set-country-button')
+
+        for (var i = 0; i < buttons.length; i++) {
+            var button = buttons.item(i)
+            button.addEventListener('click', function() {
+                var element = document.createElement('div');
+                document.body.appendChild(element);
+                ditMVP.setConfig({
+                    csrfToken: '{{ csrf_token }}',
+                    countryOptions: {{ country_choices|safe }},
+                    apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+                    userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
+                    userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }}
+                });
+                ditMVP.CountriesModal({
+                    element: element,
+                    isOpen: true,
+                });
+            })
+        }
+    </script>
 {% endblock %}

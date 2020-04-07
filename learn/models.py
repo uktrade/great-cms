@@ -1,3 +1,4 @@
+from directory_constants import choices
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
@@ -64,18 +65,20 @@ class LessonPage(RoutablePageMixin, PersonalisablePageMixin, Page):
     class Meta:
         ordering = ['order']
 
-    @route(r'^mark-as-read/$', name='mark-as-read')
-    def mark_as_read(self, request):
-        LessonViewHit.objects.create(
-            lesson=self,
-            topic=self.get_parent().specific,
-            sso_id=request.user.pk,
-        )
-        return redirect(self.get_parent().get_url())
+    def serve(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            LessonViewHit.objects.get_or_create(
+                lesson=self,
+                topic=self.get_parent().specific,
+                sso_id=request.user.pk,
+            )
+        return super().serve(request, **kwargs)
 
     def get_context(self, request):
         context = super().get_context(request)
         context['is_read'] = self.read_hits.filter(sso_id=request.user.pk).exists()
+        context['topics'] = TopicPage.objects.live()
+        context['country_choices'] = [{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES]
         return context
 
 
