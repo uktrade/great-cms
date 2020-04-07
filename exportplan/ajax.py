@@ -16,44 +16,28 @@ class ExportPlanCountryDataView(views.APIView):
 
     def get(self, request):
 
+        timezone = None
+        utz_offset = None
+
         if not self.request.GET.get('country'):
             return HttpResponse(status=400)
-
-        lastyear_trade_value = None
         country = self.request.GET.get('country')
 
         try:
-            rules_regulations = helpers.get_rules_and_regulations(country)
-        except ValueError:
-            return HttpResponseNotFound()
+            # To do update export plan Target Markets rather then a get
+            export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+            if export_plan:
+                timezone = helpers.get_timezone(export_plan['rules_regulations']['country_code'])
+                utz_offset = datetime.now(pytz.timezone(timezone)).strftime('%z')
 
-        try:
-            export_marketdata = helpers.get_exportplan_marketdata(rules_regulations.get('country_code'))
-            utz_offset = datetime.now(pytz.timezone(export_marketdata['timezone'])).strftime('%z')
-            commodity_code = rules_regulations.get('commodity_code')
-            country = rules_regulations.get('country')
-            lastyear_import_data = helpers.get_comtrade_lastyearimportdata(
-                commodity_code=commodity_code, country=country)
-
-            if lastyear_import_data['last_year_data']:
-                lastyear_trade_value = intcomma(
-                    lastyear_import_data['last_year_data']['trade_value'])
-
-            historical_import_data = helpers.get_comtrade_historicalimportdata(
-                commodity_code=commodity_code, country=country
-            )
         except ReadTimeout:
             return HttpResponse(status=504)
 
         data = {
-            'name': country,
-            'rules_regulations': rules_regulations,
-            'export_marketdata': export_marketdata,
-            'datenow': datetime.now(tz=pytz.timezone(export_marketdata['timezone'])).strftime('%H:%M'),
+            'target_markets': export_plan['target_markets'],
+            'timezone': timezone,
+            'datenow': datetime.now(tz=pytz.timezone(timezone).strftime('%H:%M')),
             'utz_offset': utz_offset,
-            'lastyear_import_data': lastyear_import_data,
-            'lastyear_trade_value': lastyear_trade_value,
-            'historical_import_data': historical_import_data,
         }
 
         return JsonResponse(data)
