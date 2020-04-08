@@ -1,18 +1,17 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import RecommendedCountries from './RecommendedCountries'
-import Sector from './Sector'
+import Services from '@src/Services'
 import { slugify } from '../Helpers'
 import Spinner from './Spinner/Spinner'
-import Services from '@src/Services'
+import Sector from './Sector'
+import RecommendedCountries from './RecommendedCountries'
 
 class SectorChooser extends React.Component {
   constructor(props) {
     super(props)
     const { selectedSectors, sectorList } = props
-
+    console.log(selectedSectors, sectorList)
     this.state = {
       sectorList,
       selectedSectors,
@@ -31,7 +30,7 @@ class SectorChooser extends React.Component {
   }
 
   handleSectorButtonClick = (sector) => {
-    const { selectedSectors: selectedSectors } = this.state
+    const { selectedSectors } = this.state
     if (selectedSectors.indexOf(sector) > -1) {
       this.removeSector(sector)
     } else {
@@ -40,14 +39,14 @@ class SectorChooser extends React.Component {
   }
 
   addSector(sector) {
-    const { selectedSectors: selectedSectors } = this.state
+    const { selectedSectors } = this.state
     this.setState({
       selectedSectors: selectedSectors.concat([sector]),
     })
   }
 
   removeSector(sector) {
-    const { selectedSectors: selectedSectors } = this.state
+    const { selectedSectors } = this.state
     const updatedSelectedSectors = selectedSectors.filter((id) => id !== sector)
     this.setState({ selectedSectors: updatedSelectedSectors })
 
@@ -55,18 +54,15 @@ class SectorChooser extends React.Component {
   }
 
   fetchRecommendedCountries() {
-    const { selectedSectors: selectedSectors } = this.state
+    const { selectedSectors } = this.state
     this.setState({
       savedSelectedSectors: selectedSectors,
       isLoading: true,
     })
 
-    Services.get(
-      '/export-plan/ajax/recommended-countries',
-      { sectors: selectedSectors },
-      this.recommendedCountriesFetchSuccess.bind(this),
-      this.recommendedCountriesFetchError.bind(this)
-    )
+    Services.get('/export-plan/ajax/recommended-countries', { sectors: selectedSectors })
+      .then(() => this.recommendedCountriesFetchSuccess.bind(this))
+      .catch(() => this.recommendedCountriesFetchError.bind(this))
   }
 
   recommendedCountriesFetchSuccess(data) {
@@ -84,11 +80,7 @@ class SectorChooser extends React.Component {
   }
 
   showHideSectorList() {
-    const {
-      showSectorList: showSectorList,
-      selectedSectors: selectedSectors,
-      savedSelectedSectors: savedSelectedSectors,
-    } = this.state
+    const { showSectorList, selectedSectors, savedSelectedSectors } = this.state
     if (showSectorList) {
       this.setState({ showSectorList: false })
       const isEqual = selectedSectors.every((e) => savedSelectedSectors.includes(e))
@@ -101,22 +93,23 @@ class SectorChooser extends React.Component {
     }
   }
 
-  handleMouseOver(e) {
+  handleMouseOver() {
     this.setState({ showTooltip: true })
   }
 
-  handleMouseOut(e) {
+  handleMouseOut() {
     this.setState({ showTooltip: false })
   }
 
   render() {
     const {
-      showSectorList: showSectorList,
-      selectedSectors: selectedSectors,
-      sectorList: sectorList,
-      showTooltip: showTooltip,
-      recommendedCountries: recommendedCountries,
-      isLoading: isLoading,
+      showSectorList,
+      selectedSectors,
+      sectorList,
+      showTooltip,
+      recommendedCountries,
+      isLoading,
+      fetchError,
     } = this.state
 
     let sectorListDisplay
@@ -146,9 +139,11 @@ class SectorChooser extends React.Component {
             className="button--plus"
             onClick={this.showHideSectorList}
             onMouseOver={this.handleMouseOver}
+            onFocus={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
-            aria-describedby="sector-list-tooltip"
-          ></button>
+            onBlur={this.handleMouseOut}
+            aria-labelledby="sector-list-tooltip"
+          />
           <div
             aria-hidden={!showTooltip}
             id="sector-list-tooltip"
@@ -164,7 +159,7 @@ class SectorChooser extends React.Component {
     let saveButton
     if (selectedSectors.length > 0 && showSectorList) {
       saveButton = (
-        <button className="g-button" onClick={this.showHideSectorList}>
+        <button type="button" className="g-button" onClick={this.showHideSectorList}>
           Save
         </button>
       )
@@ -176,7 +171,7 @@ class SectorChooser extends React.Component {
       const sectors = currentSelectedSectors.map((sector) => (
         <Sector
           name={sector}
-          selected={currentSelectedSectors.indexOf(sector) != -1}
+          selected={currentSelectedSectors.indexOf(sector) !== -1}
           key={sector}
           id={slugify(sector)}
           handleSectorButtonClick={this.handleSectorButtonClick}
@@ -194,33 +189,35 @@ class SectorChooser extends React.Component {
       )
     }
 
+    let recommendedCountriesView
+    if (isLoading) {
+      recommendedCountriesView = <Spinner />
+    } else if (recommendedCountries && !fetchError) {
+      recommendedCountriesView = <RecommendedCountries countries={recommendedCountries} />
+    } else {
+      recommendedCountriesView = 'Error fetching data.'
+    }
+
     return (
       <>
         <h2 className="h-m">Recommended countries</h2>
         <div id="sector-chooser" className="sector-chooser">
-          <p className="m-t-0 intro-text">Add sectors you're interested in so we can recommend some countries.</p>
+          <p className="m-t-0 intro-text">Add sectors you&apos;re interested in so we can recommend some countries.</p>
           {sectorListDisplay}
           {saveButton}
           {selectedSectorsDisplay}
           {sectorChooserButton}
         </div>
 
-        {isLoading ? (
-          <Spinner />
-        ) : recommendedCountries ? (
-          <RecommendedCountries countries={recommendedCountries} />
-        ) : (
-          ''
-        )}
+        {recommendedCountriesView}
       </>
     )
   }
 }
 
 SectorChooser.propTypes = {
-  sectorList: PropTypes.array.isRequired,
-  selectedSectors: PropTypes.array,
-  savedSelectedSectors: PropTypes.array,
+  sectorList: PropTypes.arrayOf().isRequired,
+  selectedSectors: PropTypes.arrayOf().isRequired,
 }
 
 function createSectorChooser({ element, ...params }) {

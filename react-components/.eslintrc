@@ -41,6 +41,12 @@
         "no-underscore-dangle": "off",
         "react/jsx-props-no-spreading": "off"
       }
+    },
+    {
+      "files": ["./src/components/SectorChooser.jsx"],
+      "rules": {
+        "react/jsx-props-no-spreading": "off"
+      }
     }
   ]
 }
