@@ -119,17 +119,27 @@ def test_exportplan_target_markets(
 ):
     client.force_login(user)
     explan_plan_data = {
-        'country': 'Australia', 'commodity_code': '220.850',
-        'target_markets': [{'country': 'China'}], 'rules_regulations': {'country_code': 'CHN'},
+        'country': 'Australia',
+        'commodity_code': '220.850',
+        'target_markets': [
+            {'country': 'China'},
+        ],
+        'rules_regulations': {
+            'country_code': 'CHN',
+        },
     }
     mock_get_export_plan.return_value = explan_plan_data
-    mock_get_country_list.return_value = [('Australia', 'Australia'), ('China', 'China'), ('India', 'India')]
+    mock_get_country_list.return_value = [
+        ('Australia', 'Australia'),
+        ('China', 'China'),
+        ('India', 'India'),
+    ]
     response = client.get(reverse('exportplan:target-markets'))
 
     assert mock_get_export_plan.call_count == 1
     assert mock_get_export_plan.call_args == mock.call(sso_session_id=user.session_id,)
 
     assert response.context['target_markets'] == explan_plan_data['target_markets']
-    assert response.context['timezone'] == 'Asia/Shanghai'
     assert response.context['datenow'] == datetime.now()
+    assert response.context['timezone'] == 'Asia/Shanghai'
     assert response.context['utz_offset'] == '+0800'
