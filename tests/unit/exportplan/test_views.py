@@ -130,6 +130,4 @@ def test_exportplan_target_markets(
     assert mock_get_export_plan.call_args == mock.call(sso_session_id=user.session_id,)
 
     assert response.context['target_markets'] == explan_plan_data['target_markets']
-    assert response.context['timezone'] == 'Asia/Shanghai'
     assert response.context['datenow'] == datetime.now()
-    assert response.context['utz_offset'] == '+0800'
