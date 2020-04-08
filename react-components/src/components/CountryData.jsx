@@ -43,6 +43,7 @@ export default class CountryData extends React.Component {
       data: {
         utz_offset: utzOffset,
         timezone,
+        commodity_name: commodityName,
         export_duty: exportDuty,
         country,
         last_year_data: lastYearData,
@@ -53,8 +54,6 @@ export default class CountryData extends React.Component {
 
     const { time } = this.state
     const sectionID = `export-market-data--${slugify(country)}`
-    const commodityName = 'Gin' // this.props.data.rules_regulations
-
     const countryData = (
       <>
         <section id={sectionID}>
@@ -159,6 +158,7 @@ CountryData.propTypes = {
   data: PropTypes.shape({
     export_duty: PropTypes.number,
     country: PropTypes.string,
+    commodity_name: PropTypes.string,
     utz_offset: PropTypes.string,
     timezone: PropTypes.string,
     last_year_data: PropTypes.shape({
