@@ -13,7 +13,6 @@ class ExportPlanCountryDataView(views.APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-
         if not self.request.GET.get('country'):
             return HttpResponse(status=400)
         country = self.request.GET.get('country')
@@ -27,7 +26,6 @@ class ExportPlanCountryDataView(views.APIView):
                 id=export_plan['pk'],
                 data=data
             )
-
         except ReadTimeout:
             return HttpResponse(status=504)
 

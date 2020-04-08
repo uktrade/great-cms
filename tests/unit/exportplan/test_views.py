@@ -141,5 +141,3 @@ def test_exportplan_target_markets(
 
     assert response.context['target_markets'] == explan_plan_data['target_markets']
     assert response.context['datenow'] == datetime.now()
-    assert response.context['timezone'] == 'Asia/Shanghai'
-    assert response.context['utz_offset'] == '+0800'
