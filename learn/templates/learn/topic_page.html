@@ -15,7 +15,7 @@
                     <ul id="topic-lesson-list">
                         {% for lesson in page.get_children %}
                             <li>
-                                <a class="link" href="{{ lesson.get_url }}" id="lesson-{{ lesson.title|slugify }}">{{ lesson.title }} {% if lesson.pk in is_read_collection %}[is read]{% endif %}</a>
+                                <a class="link" href="{{ lesson.get_url }}" id="lesson-{{ lesson.title|slugify }}">{{ lesson.title }}</a>
                             </li>
                         {% endfor %}
                     </ul>
