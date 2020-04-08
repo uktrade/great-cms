@@ -2,26 +2,21 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-
-import { slugify } from '../Helpers'
-import Services from '../Services'
 import ErrorList from '@src/components/ErrorList'
 import CountryData from '@src/components/CountryData'
-
+import Services from '../Services'
+import { slugify } from '../Helpers'
 import './stylesheets/CountryChooser.scss'
 
-const element = document.getElementById('country-chooser-section')
-
 class CountryChooser extends React.Component {
-
   constructor(props) {
     super(props)
+
     this.state = {
       open: false,
       loading: false,
       selectedCountries: [],
       selectedCountry: null,
-      data: null,
       errors: {},
     }
     this.showCountrySelect = this.showCountrySelect.bind(this)
@@ -30,118 +25,129 @@ class CountryChooser extends React.Component {
     this.handleGetCountryDataError = this.handleGetCountryDataError.bind(this)
   }
 
+  removeCountry = (country) => {
+    const { selectedCountries } = this.state
+    const updatedSelectedCountries = selectedCountries.filter((item) => item !== country)
+    this.setState({ selectedCountries: updatedSelectedCountries })
+    return false
+  }
+
+  changeCountry = (country) => {
+    this.setState({ selectedCountry: country })
+  }
+
   addCountry() {
+    const { selectedCountry } = this.state
     this.setState({
       loading: true,
       errors: {},
     })
 
-    Services.getCountryData(this.state.selectedCountry.label)
-    .then(this.handleGetCountryDataSuccess)
-    .catch(this.handleGetCountryDataError)
-  }
-
-  removeCountry = country => {
-    const updatedSelectedCountries = this.state.selectedCountries.filter(item => item != country)
-    this.setState({selectedCountries: updatedSelectedCountries})
-    return false
+    Services.getCountryData(selectedCountry.label)
+      .then(this.handleGetCountryDataSuccess)
+      .catch(this.handleGetCountryDataError)
   }
 
   handleGetCountryDataSuccess(data) {
+    const { selectedCountries } = this.state
     this.setState({
       errors: {},
       loading: false,
-      selectedCountries: this.state.selectedCountries.concat(data.target_markets)
+      selectedCountries: selectedCountries.concat(data.target_markets),
     })
   }
 
   handleGetCountryDataError(errors) {
     this.setState({
       errors: errors.message || errors,
-      loading: false
+      loading: false,
     })
   }
 
   showCountrySelect() {
-    this.state.open ? this.setState({open: false}) : this.setState({open: true})
-  }
-
-  changeCountry = country => {
-    this.setState({selectedCountry: country})
+    const { open } = this.state
+    this.setState({ open: !open })
   }
 
   render() {
+    const { selectedCountry, loading, open, selectedCountries, errors } = this.state
+    const { countryList } = this.props
     let saveButton
-    if (this.state.selectedCountry) {
+    if (selectedCountry) {
       saveButton = (
         <button
-          className='country-chooser-save-button'
-          id='country-chooser-save-button'
+          type="button"
+          className="country-chooser-save-button"
+          id="country-chooser-save-button"
           onClick={this.addCountry}
-          disabled={this.state.loading}
-          >Add</button>
+          disabled={loading}
+        >
+          Add
+        </button>
       )
     }
 
     let countryInput
-    if (this.state.open) {
+    if (open) {
       countryInput = (
         <>
-          <div className='country-autocomplete-container m-t-s'>
+          <div className="country-autocomplete-container m-t-s">
             <Select
-              id='country-autocomplete'
-              options={this.props.countryList}
+              id="country-autocomplete"
+              options={countryList}
               isMulti={false}
-              isClearable={true}
-              disabled={this.state.loading}
-              name='country'
-              value={this.state.selectedCountry}
+              isClearable
+              disabled={loading}
+              name="country"
+              value={selectedCountry}
               onChange={this.changeCountry}
-              autoFocus={true}
-              className='country-autocomplete'
-              classNamePrefix='country-autocomplete'
-              placeholder='Start typing a country name'
+              autoFocus
+              className="country-autocomplete"
+              classNamePrefix="country-autocomplete"
+              placeholder="Start typing a country name"
             />
-          {saveButton}
-        </div>
-      </>
+            {saveButton}
+          </div>
+        </>
       )
     }
 
     let loadingMessage
-    if (this.state.loading) {
+    if (loading) {
       loadingMessage = (
-        <p className='loading-message'>Fetching country data<span>.</span><span>.</span><span>.</span></p>
+        <p className="loading-message">
+          Fetching country data
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </p>
       )
     }
 
     return (
       <>
-      {
-        this.state.selectedCountries.map(country =>
-          <CountryData
-            data={country}
-            key={slugify(country.country)}
-            removeCountry={this.removeCountry} />
-        )
-      }
-      {loadingMessage}
-      <div>
-        <ErrorList errors={this.state.errors.__all__ || []} className='m-v-s' />
-      </div>
-      <div className={`country-chooser ${this.state.open ? 'open' : ''}`}>
-        <span className='button--plus'></span>
-        <button
-          className='country-chooser-button text-grey bg-stone-90 font-brand bg-hover-stone border-hover-stone pill'
-          id='country-chooser-button' onClick={this.showCountrySelect}>
-          Add a country
-        </button>
-        {countryInput}
-      </div>
+        {selectedCountries.map((country) => (
+          <CountryData data={country} key={slugify(country.country)} removeCountry={this.removeCountry} />
+        ))}
+        {loadingMessage}
+        <div>
+          <ErrorList errors={errors.__all__ || []} className="m-v-s" />
+        </div>
+        <div className={`country-chooser ${open ? 'open' : ''}`}>
+          <span className="button--plus" />
+          <button
+            type="button"
+            className="country-chooser-button text-grey bg-stone-90 font-brand bg-hover-stone border-hover-stone pill"
+            id="country-chooser-button"
+            onClick={this.showCountrySelect}
+          >
+            Add a country
+          </button>
+          {countryInput}
+        </div>
       </>
     )
   }
-
 }
 
 function createCountryChooser({ element, ...params }) {
@@ -149,14 +155,30 @@ function createCountryChooser({ element, ...params }) {
 }
 
 CountryChooser.propTypes = {
-  countryList: PropTypes.array.isRequired
+  countryList: PropTypes.arrayOf(
+    PropTypes.shape({
+      export_duty: PropTypes.number.isRequired,
+      country: PropTypes.string.isRequired,
+      last_year_data: PropTypes.shape({
+        year: PropTypes.string.isRequired,
+        trade_value: PropTypes.string.isRequired,
+        country_name: PropTypes.string.isRequired,
+        year_on_year_change: PropTypes.string.isRequired,
+      }),
+      corruption_perceptions_index: PropTypes.shape({
+        rank: PropTypes.number,
+        country_code: PropTypes.string.isRequired,
+        country_name: PropTypes.string.isRequired,
+        cpi_score_2019: PropTypes.number.isRequired,
+      }).isRequired,
+      easeofdoingbusiness: PropTypes.shape({
+        total: PropTypes.number.isRequired,
+        year_2019: PropTypes.number,
+        country_code: PropTypes.string.isRequired,
+        country_name: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired
+  ).isRequired,
 }
 
-CountryChooser.defaultProps = {
-  countryList: [],
-}
-
-export {
-  CountryChooser,
-  createCountryChooser,
-}
+export { CountryChooser, createCountryChooser }
