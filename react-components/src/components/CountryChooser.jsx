@@ -62,8 +62,9 @@ class CountryChooser extends React.Component {
   }
 
   handleGetCountryDataSuccess(data) {
-    const { selectedCountries } = this.state
-    const updatedSelectedCountries = selectedCountries.concat(data.target_markets)
+    // data should return only a single country - currently it returns the whole array
+    // const updatedSelectedCountries = selectedCountries.concat(data.target_markets)
+    const updatedSelectedCountries = data.target_markets
     const updatedCountryList = this.updatedCountryList(updatedSelectedCountries)
 
     this.setState({
