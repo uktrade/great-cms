@@ -13,7 +13,6 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtail.snippets.models import register_snippet
-
 from django.db import models
 
 
@@ -242,7 +241,7 @@ class ListPage(CMSGenericPage):
         help_text='Should we record when a user views a page in this collection?',
     )
 
-    settings_panels = Page.settings_panels + ['record_read_progress']
+    settings_panels = Page.settings_panels + [FieldPanel('record_read_progress')]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
