@@ -12,13 +12,18 @@ class CountryChooser extends React.Component {
   constructor(props) {
     super(props)
 
+    const { selectedCountries } = this.props
+    const updatedCountryList = this.updatedCountryList(selectedCountries)
+
     this.state = {
       open: false,
       loading: false,
-      selectedCountries: [],
+      selectedCountries,
       selectedCountry: null,
+      countryList: updatedCountryList,
       errors: {},
     }
+
     this.showCountrySelect = this.showCountrySelect.bind(this)
     this.addCountry = this.addCountry.bind(this)
     this.handleGetCountryDataSuccess = this.handleGetCountryDataSuccess.bind(this)
@@ -28,12 +33,20 @@ class CountryChooser extends React.Component {
   removeCountry = (country) => {
     const { selectedCountries } = this.state
     const updatedSelectedCountries = selectedCountries.filter((item) => item !== country)
-    this.setState({ selectedCountries: updatedSelectedCountries })
+    const updatedCountryList = this.updatedCountryList(updatedSelectedCountries)
+    this.setState({ selectedCountries: updatedSelectedCountries, countryList: updatedCountryList })
     return false
   }
 
   changeCountry = (country) => {
     this.setState({ selectedCountry: country })
+  }
+
+  updatedCountryList = (selectedCountries) => {
+    const { countryList } = this.props
+    return countryList.filter(
+      (country) => selectedCountries.filter((selectedCountry) => selectedCountry.country === country.value).length === 0
+    )
   }
 
   addCountry() {
@@ -50,10 +63,14 @@ class CountryChooser extends React.Component {
 
   handleGetCountryDataSuccess(data) {
     const { selectedCountries } = this.state
+    const updatedSelectedCountries = selectedCountries.concat(data.target_markets)
+    const updatedCountryList = this.updatedCountryList(updatedSelectedCountries)
+
     this.setState({
       errors: {},
       loading: false,
-      selectedCountries: selectedCountries.concat(data.target_markets),
+      selectedCountries: updatedSelectedCountries,
+      countryList: updatedCountryList,
     })
   }
 
@@ -71,7 +88,7 @@ class CountryChooser extends React.Component {
 
   render() {
     const { selectedCountry, loading, open, selectedCountries, errors } = this.state
-    const { countryList } = this.props
+    const { countryList } = this.state
     let saveButton
     if (selectedCountry) {
       saveButton = (
@@ -155,7 +172,7 @@ function createCountryChooser({ element, ...params }) {
 }
 
 CountryChooser.propTypes = {
-  countryList: PropTypes.arrayOf(
+  selectedCountries: PropTypes.arrayOf(
     PropTypes.shape({
       export_duty: PropTypes.number.isRequired,
       country: PropTypes.string.isRequired,
@@ -178,6 +195,12 @@ CountryChooser.propTypes = {
         country_name: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired
+  ).isRequired,
+  countryList: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
   ).isRequired,
 }
 
