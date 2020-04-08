@@ -188,6 +188,7 @@ CountryChooser.propTypes = {
     PropTypes.shape({
       export_duty: PropTypes.number,
       country: PropTypes.string,
+      commodity_name: PropTypes.string,
       utz_offset: PropTypes.string,
       timezone: PropTypes.string,
       last_year_data: PropTypes.shape({
