@@ -33,6 +33,12 @@ const get = function (url, params) {
   })
 }
 
+const getCountriesDataBySectors = function (sectors) {
+  return get(config.countriesBySectorsDataUrl, { sectors: sectors }).then((response) =>
+    responseHandler(response).json()
+  )
+}
+
 const getCountryData = function (country) {
   return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
@@ -88,6 +94,7 @@ const responseHandler = function (response) {
 let config = {}
 const setConfig = function ({
   countryDataUrl,
+  countriesBySectorsDataUrl,
   apiLoginUrl,
   apiSignupUrl,
   apiLookupProductUrl,
@@ -107,6 +114,7 @@ const setConfig = function ({
   userIsAuthenticated,
 }) {
   config.countryDataUrl = countryDataUrl
+  config.countriesBySectorsDataUrl = countriesBySectorsDataUrl
   config.apiLoginUrl = apiLoginUrl
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
@@ -133,6 +141,7 @@ export default {
   get,
   updateCompany,
   getCountryData,
+  getCountriesDataBySectors,
   lookupProduct,
   setConfig,
   config,

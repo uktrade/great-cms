@@ -11,7 +11,7 @@ class SectorChooser extends React.Component {
   constructor(props) {
     super(props)
     const { selectedSectors, sectorList } = props
-    console.log(selectedSectors, sectorList)
+
     this.state = {
       sectorList,
       selectedSectors,
@@ -27,6 +27,8 @@ class SectorChooser extends React.Component {
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.fetchRecommendedCountries = this.fetchRecommendedCountries.bind(this)
+    this.recommendedCountriesFetchSuccess = this.recommendedCountriesFetchSuccess.bind(this)
+    this.recommendedCountriesFetchError = this.recommendedCountriesFetchError.bind(this)
   }
 
   handleSectorButtonClick = (sector) => {
@@ -60,14 +62,14 @@ class SectorChooser extends React.Component {
       isLoading: true,
     })
 
-    Services.get('/export-plan/ajax/recommended-countries', { sectors: selectedSectors })
-      .then(() => this.recommendedCountriesFetchSuccess.bind(this))
-      .catch(() => this.recommendedCountriesFetchError.bind(this))
+    Services.getCountriesDataBySectors(selectedSectors)
+      .then(this.recommendedCountriesFetchSuccess)
+      .catch(this.recommendedCountriesFetchError)
   }
 
   recommendedCountriesFetchSuccess(data) {
     this.setState({
-      recommendedCountries: data.data.countries,
+      recommendedCountries: data.countries,
       isLoading: false,
     })
   }
@@ -157,7 +159,7 @@ class SectorChooser extends React.Component {
     }
 
     let saveButton
-    if (selectedSectors.length > 0 && showSectorList) {
+    if (selectedSectors && selectedSectors.length > 0 && showSectorList) {
       saveButton = (
         <button type="button" className="g-button" onClick={this.showHideSectorList}>
           Save
@@ -166,7 +168,7 @@ class SectorChooser extends React.Component {
     }
 
     let selectedSectorsDisplay
-    if (selectedSectors.length > 0 && !showSectorList) {
+    if (selectedSectors && selectedSectors.length > 0 && !showSectorList) {
       const currentSelectedSectors = selectedSectors
       const sectors = currentSelectedSectors.map((sector) => (
         <Sector
@@ -194,8 +196,10 @@ class SectorChooser extends React.Component {
       recommendedCountriesView = <Spinner />
     } else if (recommendedCountries && !fetchError) {
       recommendedCountriesView = <RecommendedCountries countries={recommendedCountries} />
-    } else {
+    } else if (fetchError) {
       recommendedCountriesView = 'Error fetching data.'
+    } else {
+      recommendedCountriesView = ''
     }
 
     return (
@@ -216,8 +220,8 @@ class SectorChooser extends React.Component {
 }
 
 SectorChooser.propTypes = {
-  sectorList: PropTypes.arrayOf().isRequired,
-  selectedSectors: PropTypes.arrayOf().isRequired,
+  sectorList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedSectors: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 function createSectorChooser({ element, ...params }) {

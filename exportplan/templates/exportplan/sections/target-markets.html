@@ -74,11 +74,13 @@
   <script type="text/javascript">
     ditMVP.setConfig({
       countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
+      countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
     })
     var sectorElement = document.getElementById('recommended-countries');
     ditMVP.createSectorChooser({
       element: sectorElement,
-      sectorList: {{ sectors|safe }}
+      sectorList: {{ sectors|safe }},
+      selectedSectors: [] // replace with data from BE
     })
 
     var countryElement = document.getElementById('country-chooser-section');

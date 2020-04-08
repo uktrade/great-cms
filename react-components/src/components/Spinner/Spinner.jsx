@@ -1,26 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './Spinner.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+import './Spinner.scss'
 
 export default class Spinner extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props)
+    const { text } = props
 
-        this.state = {
-            text: this.props.text || 'Loading'
-        }
+    this.state = {
+      text,
     }
+  }
 
-    render() {
-        return (
-            <div aria-live="polite" role="status">
-                {this.state.text} <div className="spinner"></div>
-            </div>
-        )
-    }
-
+  render() {
+    const { text } = this.state
+    return (
+      <div aria-live="polite" role="status">
+        {text} <div className="spinner" />
+      </div>
+    )
+  }
 }
 
 Spinner.propTypes = {
-    text: PropTypes.string
+  text: PropTypes.string,
+}
+
+Spinner.defaultProps = {
+  text: 'Loading',
 }

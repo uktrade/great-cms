@@ -16,10 +16,10 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
 
     def get(self, request):
 
-        if not self.request.GET.get('sectors[]'):
+        if not self.request.GET.get('sectors'):
             return HttpResponse(status=400)
 
-        sectors = self.request.GET.get('sectors[]')
+        sectors = self.request.GET.get('sectors')
 
         try:
             print(sectors)
@@ -29,11 +29,11 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
 
         data = {
             "countries": [
-                { "name": "Australia", "image": "/static/images/ozzy.png", "id": "australia", "selected": False },
-                { "name": "Germany", "image": "/static/images/germany.png", "id": "germany", "selected": False },
-                { "name": "United States", "image": "/static/images/usa.png", "id": "usa", "selected": False },
-                { "name": "Australia", "image": "/static/images/ozzy.png", "id": "australia", "selected": False },
-                { "name": "Germany", "image": "/static/images/germany.png", "id": "germany", "selected": False }
+                { "country": "Australia", "image": "/static/images/ozzy.png", "selected": False },
+                { "country": "Germany", "image": "/static/images/germany.png", "selected": False },
+                { "country": "United States", "image": "/static/images/usa.png", "selected": False },
+                { "country": "Russia", "image": "/static/images/ozzy.png", "selected": False },
+                { "country": "Brazil", "image": "/static/images/germany.png", "selected": False }
             ],
         }
 

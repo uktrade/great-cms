@@ -1,51 +1,58 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './RecommendedCountry.scss';
-import Figure from '../Figure/Figure';
+import React from 'react'
+import PropTypes from 'prop-types'
+import './RecommendedCountry.scss'
+import { slugify } from '../../Helpers'
+import Figure from '../Figure/Figure'
 
 export default class RecommendedCountry extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props)
 
-        this.state = {
-            selected: this.props.country.selected
-        };
+    const { countryData } = this.props
 
-        this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      selected: countryData.selected,
     }
 
-    componentDidMount() {
-    }
+    this.handleClick = this.handleClick.bind(this)
+  }
 
-    handleClick(e) {
-        this.setState({ selected: !this.state.selected });
+  handleClick() {
+    const { selected } = this.state
+    this.setState({ selected: !selected })
 
-        /* 
+    /* 
         axios.get(`/load-country?country=${this.props.country.id}`)
             .then(data => { })
             .catch(error => { });
         */
 
-        //dispatch event with country name to be fetch by Country stat section component?
-    }
+    // dispatch event with country name to be fetch by Country stat section component?
+  }
 
-    render() {
-        return (
-            <button className={`recommended-country ${this.state.selected ? 'recommended-country--selected' : ''}`}
-                role="button"
-                aria-pressed={this.state.selected}
-                id={this.props.country.id}
-                onClick={this.handleClick}>
+  render() {
+    const { countryData } = this.props
+    const { selected } = this.state
+    return (
+      <button
+        type="button"
+        className={`recommended-country ${selected ? 'recommended-country--selected' : ''}`}
+        aria-pressed={selected}
+        id={slugify(countryData.country)}
+        onClick={this.handleClick}
+      >
+        <Figure image={countryData.image} caption={countryData.country} />
 
-                <Figure image={this.props.country.image} caption={this.props.country.name} />
-
-                <div className="recommended-country__text">{this.state.selected ? 'Selected' : 'Select'}</div>
-            </button>
-        )
-    }
-
+        <div className="recommended-country__text">{selected ? 'Selected' : 'Select'}</div>
+      </button>
+    )
+  }
 }
 
 RecommendedCountry.propTypes = {
-    country: PropTypes.object.isRequired
+  countryData: PropTypes.shape({
+    country: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    selected: PropTypes.bool.isRequired,
+  }).isRequired,
 }
