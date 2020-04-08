@@ -1,6 +1,5 @@
 from requests.exceptions import ReadTimeout
 from datetime import datetime
-import pytz
 
 from django.http import JsonResponse, HttpResponse
 
