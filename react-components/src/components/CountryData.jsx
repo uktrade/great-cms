@@ -44,7 +44,7 @@ export default class CountryData extends React.Component {
     } = this.props
 
     const { time } = this.state
-    const sectionID = `export-market-data-${slugify(country)}`
+    const sectionID = `export-market-data--${slugify(country)}`
 
     const utzOffset = '+1030' // Fix me
     const timezone = 'Australia/Lord_Howe' // Fix me
@@ -52,13 +52,13 @@ export default class CountryData extends React.Component {
 
     const countryData = (
       <>
-        <section id={sectionID}>
+        <section id={sectionID} className="export-market-data">
           <h2 className="h-l p-b-0 inline-block">{country}</h2>
-          <button type="button" onClick={this.handleClick} id="remove-country" className="remove-country-button">
+          <button type="button" onClick={this.handleClick} className="remove-country-button">
             Remove <span className="visually-hidden">{country}</span>
           </button>
           <div className="flex-grid">
-            <div className="c-1-3" id="export-market-data-ease-of-doing-business-rank">
+            <div className="c-1-3 export-market-data__ease-of-doing-business-rank">
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Ease of doing business rank</p>
@@ -75,7 +75,7 @@ export default class CountryData extends React.Component {
                 </p>
               </figure>
             </div>
-            <div className="c-1-3" id="export-market-data-corruption-perception-index">
+            <div className="c-1-3 export-market-data__corruption-perception-index">
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Corruption Perception Index</p>
@@ -85,7 +85,7 @@ export default class CountryData extends React.Component {
                 </p>
               </figure>
             </div>
-            <div className="c-1-3" id="export-market-data-local-time">
+            <div className="c-1-3 export-market-data__local-time">
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Local time</p>
@@ -100,7 +100,7 @@ export default class CountryData extends React.Component {
             </div>
           </div>
           <div className="flex-grid">
-            <div className="c-1-3" id="export-market-data-duty">
+            <div className="c-1-3 export-market-data__duty">
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Duty</p>
@@ -108,7 +108,7 @@ export default class CountryData extends React.Component {
                 <p className="statistic__figure">{exportDuty > 0 ? `${exportDuty}%` : 'No duty'}</p>
               </figure>
             </div>
-            <div className="c-1-3" id="export-market-data-import-value">
+            <div className="c-1-3 export-market-data__import-value">
               {lastYearData ? (
                 <figure className="statistic">
                   <figcaption>
@@ -122,7 +122,7 @@ export default class CountryData extends React.Component {
                 </figure>
               ) : null}
             </div>
-            <div className="c-1-3" id="export-market-data-year-to-year-change">
+            <div className="c-1-3 export-market-data__year-to-year-change">
               {lastYearData ? (
                 <figure className="statistic">
                   <figcaption>
@@ -134,6 +134,10 @@ export default class CountryData extends React.Component {
             </div>
           </div>
         </section>
+
+        <button type="button" className="button--ghost">
+          Show more stats
+        </button>
         <hr />
       </>
     )
