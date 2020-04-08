@@ -19,6 +19,29 @@ class CountryFactory(factory.django.DjangoModelFactory):
         model = models.Country
 
 
+class ListPageFactory(wagtail_factories.PageFactory):
+    title = 'List page'
+    live = True
+    body = factory.fuzzy.FuzzyText(length=200)
+    template = factory.fuzzy.FuzzyChoice(models.ListPage.template_choices, getter=lambda choice: choice[0])
+
+    class Meta:
+        model = models.ListPage
+        django_get_or_create = ['slug', 'parent']
+
+
+class DetailPageFactory(wagtail_factories.PageFactory):
+    title = 'Detail page'
+    live = True
+    body = factory.fuzzy.FuzzyText(length=200)
+    template = factory.fuzzy.FuzzyChoice(models.DetailPage.template_choices, getter=lambda choice: choice[0])
+    parent = factory.SubFactory(ListPageFactory)
+
+    class Meta:
+        model = models.DetailPage
+        django_get_or_create = ['slug', 'parent']
+
+
 class SegmentFactory(factory.DjangoModelFactory):
     name = factory.Faker('word')
     status = wagtail_personalisation.models.Segment.STATUS_ENABLED
@@ -56,23 +79,3 @@ class MatchFirstIndustryOfInterestFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = rules.MatchFirstIndustryOfInterestRule
-
-
-class DetailPageFactory(wagtail_factories.PageFactory):
-    title = 'detail page'
-    live = True
-    template = 'learn/lesson_page.html'
-
-    class Meta:
-        model = models.DetailPage
-        django_get_or_create = ['slug', 'parent']
-
-
-class ListPageFactory(wagtail_factories.PageFactory):
-    title = 'list page'
-    live = True
-    template = 'exportplan/export_plan_page.html'
-
-    class Meta:
-        model = models.ListPage
-        django_get_or_create = ['slug', 'parent']
