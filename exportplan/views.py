@@ -53,14 +53,9 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
 
         if export_plan:
-            timezone = helpers.get_timezone(export_plan['rules_regulations']['country_code'])
-            utz_offset = datetime.now(pytz.timezone(timezone)).strftime('%z')
-
             return super().get_context_data(
                 target_markets=export_plan['target_markets'],
-                timezone=timezone,
                 datenow=datetime.now(),
-                utz_offset=utz_offset,
                 *args, **kwargs)
 
         return super().get_context_data(*args, *kwargs)

@@ -31,18 +31,13 @@ class ExportPlanCountryDataView(views.APIView):
                 id=export_plan['pk'],
                 data=data
             )
-            if export_plan:
-                timezone = helpers.get_timezone(export_plan['rules_regulations']['country_code'])
-                utz_offset = datetime.now(pytz.timezone(timezone)).strftime('%z')
 
         except ReadTimeout:
             return HttpResponse(status=504)
 
         data = {
             'target_markets': export_plan['target_markets'],
-            'timezone': timezone,
             'datenow': datetime.now(),
-            'utz_offset': utz_offset,
         }
 
         return JsonResponse(data)
