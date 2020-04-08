@@ -1,15 +1,7 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import Services from '@src/Services'
-import AutoCompleteField from '@src/components/AutoCompleteField'
-
 import './stylesheets/Step.scss'
-
-import Select, { components } from 'react-select'
-import FlagIcon from '@src/components/FlagIcon'
-
-
 
 export default function StepSuccess(props){
   const countries = props.countries.map((item, i) => <span key={i} className='great-mvp-pill-button'>{item.label}</span>)

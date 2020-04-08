@@ -1,4 +1,3 @@
-import fetchMock from 'fetch-mock';
-
+import fetchMock from 'fetch-mock'
 
 global.fetch = fetchMock

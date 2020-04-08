@@ -8,7 +8,6 @@ import ErrorList from '@src/components/ErrorList'
 
 Enzyme.configure({ adapter: new Adapter() })
 
-
 beforeEach(() => {
   jest.useFakeTimers()
 })
@@ -26,25 +25,33 @@ test('ErrorList handles no errors', () => {
 
 test('ErrorList handles one error', () => {
   const errors = ['something went wrong']
-  const component = shallow(<ErrorList errors={errors} className='edie' />)
+  const component = shallow(<ErrorList errors={errors} className="edie" />)
 
-  expect(component.matchesElement(
-    <ul className="great-mvp-error-list errorlist edie">
-      <li key={0} className="error-message">something went wrong</li>
-    </ul>
-  )).toEqual(true)
+  expect(
+    component.matchesElement(
+      <ul className="great-mvp-error-list errorlist edie">
+        <li key={0} className="error-message">
+          something went wrong
+        </li>
+      </ul>
+    )
+  ).toEqual(true)
 })
 
 test('ErrorList handles multiple errors', () => {
   const errors = ['something went wrong', 'something else went wrong']
-  const component = shallow(<ErrorList errors={errors} className='edie' />)
+  const component = shallow(<ErrorList errors={errors} className="edie" />)
 
-  expect(component.containsMatchingElement(
-    <ul className="great-mvp-error-list errorlist edie">
-      <li key={0} className="error-message">something went wrong</li>
-      <li key={1} className="error-message">something else went wrong</li>
-    </ul>
-  )).toEqual(true)
+  expect(
+    component.containsMatchingElement(
+      <ul className="great-mvp-error-list errorlist edie">
+        <li key={0} className="error-message">
+          something went wrong
+        </li>
+        <li key={1} className="error-message">
+          something else went wrong
+        </li>
+      </ul>
+    )
+  ).toEqual(true)
 })
-
-  

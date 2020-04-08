@@ -6,12 +6,14 @@ from django.utils.text import Truncator
 from rest_framework import serializers
 
 
+class ProductLookupSerializer(serializers.Serializer):
+    q = serializers.CharField(required=False)
+
+
 class CompanySerializer(serializers.Serializer):
-    company_name = serializers.CharField(required=False)
     expertise_industries = serializers.JSONField(required=False)
     expertise_countries = serializers.JSONField(required=False)
-    first_name = serializers.CharField(required=False)
-    last_name = serializers.CharField(required=False)
+    expertise_products_services = serializers.JSONField(required=False)
 
 
 def _date_format(string):

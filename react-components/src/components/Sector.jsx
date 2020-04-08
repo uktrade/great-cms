@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -12,12 +13,6 @@ export default class Sector extends React.Component {
       selected: this.props.selected
     }
     this.handleClick = this.handleClick.bind(this)
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
   }
 
   handleClick(e) {

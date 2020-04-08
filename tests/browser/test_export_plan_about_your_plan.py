@@ -49,7 +49,8 @@ def test_export_plan_about_your_business(
         {
             'export_countries': ['UK'],
             'export_commodity_codes': [100],
-            'rules_regulations': {'rule1': 'AAA'}
+            'target_markets': [{'country': 'China'}],
+            'rules_regulations': {'country_code': 'CHN'},
         }
     ]
     mock_get_exportplan.return_value = create_response(data)

@@ -5,4 +5,4 @@ import FlagIconFactory from 'react-flag-icon-css'
 // need to use it multiple times (it would slow down your app). You may place the
 // line below in a `FlagIcon.js` file in your 'components' directory, then
 // write `export default FlagIcon` as shown below and import it elsewhere in your app.
-export default FlagIconFactory(React, {useCssModules: false})
+export default FlagIconFactory(React, { useCssModules: false })
