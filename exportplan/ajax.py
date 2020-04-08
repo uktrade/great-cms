@@ -15,9 +15,6 @@ class ExportPlanCountryDataView(views.APIView):
 
     def get(self, request):
 
-        timezone = None
-        utz_offset = None
-
         if not self.request.GET.get('country'):
             return HttpResponse(status=400)
         country = self.request.GET.get('country')

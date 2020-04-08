@@ -177,6 +177,8 @@ CountryChooser.propTypes = {
     PropTypes.shape({
       export_duty: PropTypes.number.isRequired,
       country: PropTypes.string.isRequired,
+      utz_offset: PropTypes.string.isRequired,
+      timezone: PropTypes.string.isRequired,
       last_year_data: PropTypes.shape({
         year: PropTypes.string.isRequired,
         trade_value: PropTypes.string.isRequired,
