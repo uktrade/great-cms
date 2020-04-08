@@ -266,4 +266,4 @@ class PageView(TimeStampedModel):
 
     class Meta:
         ordering = ['lesson__pk']
-        unique_together = ['page', 'sso_id', 'sso_id']
+        unique_together = ['page', 'sso_id']

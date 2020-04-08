@@ -2,29 +2,7 @@ import pytest
 from wagtail.tests.utils import WagtailPageTests
 
 from domestic.models import DomesticHomePage
-from learn.models import LearnPage, LessonPage, TopicPage
 from tests.unit.learn import factories
-
-
-class TopicPageTests(WagtailPageTests):
-
-    def test_can_be_created_under_root(self):
-        self.assertAllowedParentPageTypes(TopicPage, {DomesticHomePage})
-
-    def test_can_create_child_lesson(self):
-        self.assertAllowedSubpageTypes(TopicPage, {LessonPage})
-
-
-class LessonPageTests(WagtailPageTests):
-
-    def test_can_be_created_under_topic(self):
-        self.assertCanCreateAt(TopicPage, LessonPage)
-
-
-class LearnPageTests():
-
-    def test_can_be_created_under_root(self):
-        self.assertAllowedParentPageTypes(DomesticHomePage, LearnPage)
 
 
 @pytest.mark.django_db

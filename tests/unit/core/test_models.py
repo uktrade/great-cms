@@ -29,7 +29,7 @@ def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_
 
 
 @pytest.mark.django_db
-def test_detal_page_cannot_mark_as_read(client, domestic_homepage, user, domestic_site):
+def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domestic_site):
     # given the user has not read a lesson
     client.force_login(user)
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)

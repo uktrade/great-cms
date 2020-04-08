@@ -1,7 +1,6 @@
 from django.core.management import BaseCommand
 
-from core.models import Tour, TourStep
-from exportplan.models import ExportPlanDashboardPage
+from core import models
 
 
 defaults = dict(
@@ -12,7 +11,7 @@ defaults = dict(
         'financing you need, and plan for customs and regulations when you export.'
     ),
     steps=[
-        TourStep(
+        models.TourStep(
             title='Let’s start',
             body=(
                 'Start your planning from any section you want - we’ll provide you with clear guidance, '
@@ -21,13 +20,13 @@ defaults = dict(
             position='bottom',
             selector='.exportplan-section-item img',
         ),
-        TourStep(
+        models.TourStep(
             title='Collaborate with your team and International Trade Advisers',
             body='If you like, you can share your draft plan with colleagues for them to contribute too.',
             position='bottom',
             selector='#exportplan-collaboraton-menu',
         ),
-        TourStep(
+        models.TourStep(
             title='Learn as you go',
             body=(
                 'You can also go back to your learning, or choose any guidance we linked to your export '
@@ -36,13 +35,13 @@ defaults = dict(
             position='top',
             selector='#exportplan-continue-leaning-title',
         ),
-        TourStep(
+        models.TourStep(
             title='Track your progress',
             body='Complete the actions for each section of your plan and become export ready.',
             position='top',
             selector='#exportplan-completion-progress-indicator',
         ),
-        TourStep(
+        models.TourStep(
             title='Where do you want to export?',
             body=(
                 'Add your product and destination country and we will populate your export plan with '
@@ -58,6 +57,6 @@ defaults = dict(
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        export_plan_dashboard = ExportPlanDashboardPage.objects.first()
+        export_plan_dashboard = models.DetailPage.objects.filter().get(template='exportplan/export_plan_dashboard_page.html')
         if export_plan_dashboard:
-            Tour.objects.get_or_create(page=export_plan_dashboard, defaults=defaults)
+            models.Tour.objects.get_or_create(page=export_plan_dashboard, defaults=defaults)
