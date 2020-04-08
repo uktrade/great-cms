@@ -50,6 +50,15 @@ def test_can_see_target_markets_data(
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
 
+# Data example for country:
+#          {
+#            "country": "Australia", 
+#            "export_duty": 0.05, 
+#            "easeofdoingbusiness": {"total": 264, "country_name": "Australia", "country_code": "AUS", "year_2019": 14}, 
+#            "corruption_perceptions_index": {"country_name": "Australia", "country_code": "AUS", "cpi_score_2019": 77, "rank": 12}, 
+#            "last_year_data": {"year": "2018", "trade_value": "33097917", "country_name": "Australia", "year_on_year_change": "0.662"}
+#           }
+
     mock_get_export_plan_rules_regulations.return_value = {
         'country': 'Australia',
         'commodity_code': '220.850',

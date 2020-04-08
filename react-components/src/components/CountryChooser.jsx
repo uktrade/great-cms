@@ -13,12 +13,14 @@ class CountryChooser extends React.Component {
     super(props)
 
     const { selectedCountries } = this.props
-    const updatedCountryList = this.updatedCountryList(selectedCountries)
+
+    const updatedSelectedCountryList = this.sanitizeSelectedCountries(selectedCountries)
+    const updatedCountryList = this.updatedCountryList(updatedSelectedCountryList)
 
     this.state = {
       open: false,
       loading: false,
-      selectedCountries,
+      selectedCountries: updatedSelectedCountryList,
       selectedCountry: null,
       countryList: updatedCountryList,
       errors: {},
@@ -42,6 +44,10 @@ class CountryChooser extends React.Component {
     this.setState({ selectedCountry: country })
   }
 
+  sanitizeSelectedCountries = (array) => {
+    return array.filter((country) => country.export_duty !== undefined)
+  }
+
   updatedCountryList = (selectedCountries) => {
     const { countryList } = this.props
     return countryList.filter(
@@ -50,27 +56,32 @@ class CountryChooser extends React.Component {
   }
 
   addCountry() {
-    const { selectedCountry } = this.state
-    this.setState({
-      loading: true,
-      errors: {},
-    })
+    const { selectedCountry, selectedCountries } = this.state
+    const isExisting = selectedCountries.filter((country) => country.country === selectedCountry.value).length > 0
 
-    Services.getCountryData(selectedCountry.label)
-      .then(this.handleGetCountryDataSuccess)
-      .catch(this.handleGetCountryDataError)
+    if (!isExisting) {
+      this.setState({
+        loading: true,
+        errors: {},
+      })
+
+      Services.getCountryData(selectedCountry.label)
+        .then(this.handleGetCountryDataSuccess)
+        .catch(this.handleGetCountryDataError)
+    }
   }
 
   handleGetCountryDataSuccess(data) {
-    // data should return only a single country - currently it returns the whole array
-    // const updatedSelectedCountries = selectedCountries.concat(data.target_markets)
-    const updatedSelectedCountries = data.target_markets
-    const updatedCountryList = this.updatedCountryList(updatedSelectedCountries)
+    // data should return only a single country
+    // currently it returns the whole array of selected countries
+    // TODO needs BE work
+    const updatedSelectedCountryList = this.sanitizeSelectedCountries(data.target_markets)
+    const updatedCountryList = this.updatedCountryList(updatedSelectedCountryList)
 
     this.setState({
       errors: {},
       loading: false,
-      selectedCountries: updatedSelectedCountries,
+      selectedCountries: updatedSelectedCountryList,
       countryList: updatedCountryList,
     })
   }
@@ -175,28 +186,28 @@ function createCountryChooser({ element, ...params }) {
 CountryChooser.propTypes = {
   selectedCountries: PropTypes.arrayOf(
     PropTypes.shape({
-      export_duty: PropTypes.number.isRequired,
-      country: PropTypes.string.isRequired,
-      utz_offset: PropTypes.string.isRequired,
-      timezone: PropTypes.string.isRequired,
+      export_duty: PropTypes.number,
+      country: PropTypes.string,
+      utz_offset: PropTypes.string,
+      timezone: PropTypes.string,
       last_year_data: PropTypes.shape({
-        year: PropTypes.string.isRequired,
-        trade_value: PropTypes.string.isRequired,
-        country_name: PropTypes.string.isRequired,
-        year_on_year_change: PropTypes.string.isRequired,
+        year: PropTypes.string,
+        trade_value: PropTypes.string,
+        country_name: PropTypes.string,
+        year_on_year_change: PropTypes.string,
       }),
       corruption_perceptions_index: PropTypes.shape({
         rank: PropTypes.number,
-        country_code: PropTypes.string.isRequired,
-        country_name: PropTypes.string.isRequired,
-        cpi_score_2019: PropTypes.number.isRequired,
-      }).isRequired,
+        country_code: PropTypes.string,
+        country_name: PropTypes.string,
+        cpi_score_2019: PropTypes.number,
+      }),
       easeofdoingbusiness: PropTypes.shape({
-        total: PropTypes.number.isRequired,
+        total: PropTypes.number,
         year_2019: PropTypes.number,
-        country_code: PropTypes.string.isRequired,
-        country_name: PropTypes.string.isRequired,
-      }).isRequired,
+        country_code: PropTypes.string,
+        country_name: PropTypes.string,
+      }),
     }).isRequired
   ).isRequired,
   countryList: PropTypes.arrayOf(
