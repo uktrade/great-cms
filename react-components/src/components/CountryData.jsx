@@ -5,8 +5,9 @@ import { slugify } from '../Helpers'
 export default class CountryData extends React.Component {
   constructor(props) {
     super(props)
+    const { data:{timezone} } = this.props
     this.state = {
-      time: new Date().toLocaleTimeString('en-GB', { timeZone: 'Australia/Lord_Howe' }), // has to come from data TODO
+      time: new Date().toLocaleTimeString('en-GB', { timeZone: timezone }), // has to come from data TODO
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -22,8 +23,9 @@ export default class CountryData extends React.Component {
   }
 
   tick() {
+    const { data:{timezone} } = this.props
     this.setState({
-      time: new Date().toLocaleTimeString('en-GB', { timeZone: 'Australia/Lord_Howe' }), // has to come from data TODO
+      time: new Date().toLocaleTimeString('en-GB', { timeZone: timezone }),
     })
   }
 
@@ -35,6 +37,8 @@ export default class CountryData extends React.Component {
   render() {
     const {
       data: {
+        utz_offset: utzOffset,
+        timezone,
         export_duty: exportDuty,
         country,
         last_year_data: lastYearData,
@@ -45,9 +49,6 @@ export default class CountryData extends React.Component {
 
     const { time } = this.state
     const sectionID = `export-market-data-${slugify(country)}`
-
-    const utzOffset = '+1030' // Fix me
-    const timezone = 'Australia/Lord_Howe' // Fix me
     const commodityName = 'Gin' // this.props.data.rules_regulations
 
     const countryData = (
@@ -146,6 +147,8 @@ CountryData.propTypes = {
   data: PropTypes.shape({
     export_duty: PropTypes.number.isRequired,
     country: PropTypes.string.isRequired,
+    utz_offset: PropTypes.string.isRequired,
+    timezone: PropTypes.string.isRequired,
     last_year_data: PropTypes.shape({
       year: PropTypes.string.isRequired,
       trade_value: PropTypes.string.isRequired,
