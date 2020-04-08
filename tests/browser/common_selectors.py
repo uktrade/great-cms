@@ -232,14 +232,14 @@ class ExportPlanTargetMarketsRecommendedCountriesUnfolded(SelectorsEnum):
 
 
 class ExportPlanTargetMarketsData(SelectorsEnum):
-    MARKET_DATA = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data]')
-    REMOVE_COUNTR = Selector(By.ID, 'remove-country')
-    EASE_OF_DOING_BUSINESS = Selector(By.ID, 'export-market-data-ease-of-doing-business-rank')
-    CPI = Selector(By.ID, 'export-market-data-corruption-perception-index')
-    LOCAL_TIME = Selector(By.ID, 'export-market-data-local-time')
-    DUTY = Selector(By.ID, 'export-market-data-duty')
-    IMPORT_VALUE = Selector(By.ID, 'export-market-data-import-value')
-    YEAR_TO_YEAR_CHANGE = Selector(By.ID, 'export-market-data-year-to-year-change')
+    MARKET_DATA = Selector(By.CSS_SELECTOR, 'section.export-market-data')
+    REMOVE_COUNTR = Selector(By.CLASS_NAME, 'remove-country-button')
+    EASE_OF_DOING_BUSINESS = Selector(By.CLASS_NAME, 'export-market-data__ease-of-doing-business-rank')
+    CPI = Selector(By.CLASS_NAME, 'export-market-data__corruption-perception-index')
+    LOCAL_TIME = Selector(By.CLASS_NAME, 'export-market-data__local-time')
+    DUTY = Selector(By.CLASS_NAME, 'export-market-data__duty')
+    IMPORT_VALUE = Selector(By.CLASS_NAME, 'export-market-data__import-valuexxx')
+    YEAR_TO_YEAR_CHANGE = Selector(By.CLASS_NAME, 'export-market-data__year-to-year-change')
     ADD_COUNTRY = Selector(By.ID, 'country-chooser-button')
     YOUR_ACTIONS = Selector(By.ID, 'your-actions')
 
