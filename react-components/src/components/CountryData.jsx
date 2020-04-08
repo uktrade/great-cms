@@ -57,13 +57,13 @@ export default class CountryData extends React.Component {
 
     const countryData = (
       <>
-        <section id={sectionID} className="export-market-data">
+        <section id={sectionID}>
           <h2 className="h-l p-b-0 inline-block">{country}</h2>
           <button type="button" onClick={this.handleClick} className="remove-country-button">
             Remove <span className="visually-hidden">{country}</span>
           </button>
           <div className="flex-grid">
-            <div className="c-1-3 export-market-data__ease-of-doing-business-rank">
+            <div className="c-1-3" id={`ease-of-doing-business-rank-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Ease of doing business rank</p>
@@ -80,7 +80,7 @@ export default class CountryData extends React.Component {
                 </p>
               </figure>
             </div>
-            <div className="c-1-3 export-market-data__corruption-perception-index">
+            <div className="c-1-3" id={`corruption-perception-index-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Corruption Perception Index</p>
@@ -94,7 +94,7 @@ export default class CountryData extends React.Component {
                 </p>
               </figure>
             </div>
-            <div className="c-1-3 export-market-data__local-time">
+            <div className="c-1-3" id={`local-time-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Local time</p>
@@ -109,7 +109,7 @@ export default class CountryData extends React.Component {
             </div>
           </div>
           <div className="flex-grid">
-            <div className="c-1-3 export-market-data__duty">
+            <div className="c-1-3" id={`duty-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption">Duty</p>
@@ -117,7 +117,7 @@ export default class CountryData extends React.Component {
                 <p className="statistic__figure">{exportDuty > 0 ? `${exportDuty}%` : 'No duty'}</p>
               </figure>
             </div>
-            <div className="c-1-3 export-market-data__import-value">
+            <div className="c-1-3" id={`import-value-${slugify(country)}`}>
               {lastYearData ? (
                 <figure className="statistic">
                   <figcaption>
@@ -131,7 +131,7 @@ export default class CountryData extends React.Component {
                 </figure>
               ) : null}
             </div>
-            <div className="c-1-3 export-market-data__year-to-year-change">
+            <div className="c-1-3" id={`year-to-year-change-${slugify(country)}`}>
               {lastYearData ? (
                 <figure className="statistic">
                   <figcaption>
@@ -144,7 +144,7 @@ export default class CountryData extends React.Component {
           </div>
         </section>
 
-        <button type="button" className="button--ghost">
+        <button type="button" className="button--ghost" id={`show-more-stats-${slugify(country)}`}>
           Show more stats
         </button>
         <hr />
