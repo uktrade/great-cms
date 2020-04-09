@@ -22,7 +22,14 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
         sectors = self.request.GET.get('sectors')
 
         try:
-            print(sectors)
+            # To make more efficient by removing get
+            export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+            data = {'sectors': sectors.split(',')}
+            export_plan = helpers.update_exportplan(
+                sso_session_id=self.request.user.session_id,
+                id=export_plan['pk'],
+                data=data
+            )
             
         except ReadTimeout:
             return HttpResponse(status=504)

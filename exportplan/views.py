@@ -55,6 +55,7 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
         if export_plan:
             return super().get_context_data(
                 target_markets=export_plan['target_markets'],
+                selected_sectors=export_plan['sectors'],
                 datenow=datetime.now(),
                 *args, **kwargs)
 
