@@ -1,6 +1,4 @@
-import Enzyme from 'enzyme'
 import fetchMock from 'fetch-mock'
-
 import Services from '@src/Services'
 
 describe('Services', () => {
@@ -24,11 +22,11 @@ describe('Services', () => {
     Services.setConfig({})
   })
 
-  test('checkCredentials passes params', done => {
+  test('checkCredentials passes params', (done) => {
     // given the form submission will result in success.getDOMNodeful login
     fetchMock.post(Services.config.apiLoginUrl, 200)
 
-    Services.checkCredentials({email: 'example', password: 'password'})
+    Services.checkCredentials({ email: 'example', password: 'password' })
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
@@ -37,10 +35,10 @@ describe('Services', () => {
       expect(calls[0][1]).toEqual({
         method: 'post',
         headers: {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json',
-         'X-CSRFToken': Services.config.csrfToken,
-         'X-Requested-With': 'XMLHttpRequest',
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': Services.config.csrfToken,
+          'X-Requested-With': 'XMLHttpRequest',
         },
         body: '{"email":"example","password":"password"}',
       })
@@ -48,11 +46,11 @@ describe('Services', () => {
     })
   })
 
-  test('createUser passes params', done => {
+  test('createUser passes params', (done) => {
     // given the form submission will result in success.getDOMNodeful login
     fetchMock.post(Services.config.apiSignupUrl, 200)
 
-    Services.createUser({email: 'example', password: 'password'})
+    Services.createUser({ email: 'example', password: 'password' })
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
@@ -61,23 +59,22 @@ describe('Services', () => {
       expect(calls[0][1]).toEqual({
         method: 'post',
         headers: {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json',
-         'X-CSRFToken': Services.config.csrfToken,
-         'X-Requested-With': 'XMLHttpRequest',
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': Services.config.csrfToken,
+          'X-Requested-With': 'XMLHttpRequest',
         },
         body: '{"email":"example","password":"password"}',
       })
       done()
     })
-
   })
 
-  test('lookupProduct passes params', done => {
+  test('lookupProduct passes params', (done) => {
     // given the form submission will result in success.getDOMNodeful login
     fetchMock.get('http://localhost/lookup/?q=foo', 200)
 
-    Services.lookupProduct({q: 'foo'})
+    Services.lookupProduct({ q: 'foo' })
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
@@ -85,13 +82,12 @@ describe('Services', () => {
       expect(calls[0][1]).toEqual({
         method: 'get',
         headers: {
-         'Accept': 'application/json',
-         'X-CSRFToken': Services.config.csrfToken,
-         'X-Requested-With': 'XMLHttpRequest',
+          Accept: 'application/json',
+          'X-CSRFToken': Services.config.csrfToken,
+          'X-Requested-With': 'XMLHttpRequest',
         },
       })
       done()
     })
   })
-
 })

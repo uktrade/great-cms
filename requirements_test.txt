@@ -6,10 +6,11 @@
 #
 --no-binary psycopg2
 
-airtable-python-wrapper==0.12.0  # via -r requirements.in
+airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.11     # via -r requirements_test.in
 allure-python-commons==2.8.11  # via allure-pytest
+appnope==0.1.0            # via ipython
 astroid==2.3.3            # via pylint
 attrs==19.3.0             # via allure-python-commons, jsonschema, pytest
 babel==2.8.0              # via sphinx
@@ -127,7 +128,7 @@ s3transfer==0.3.3         # via boto3
 selenium==3.141.0         # via -r requirements_test.in
 sentry-sdk==0.13.5        # via -r requirements.in
 sigauth==4.1.1            # via directory-client-core
-six==1.14.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, django-coverage-plugin, django-extensions, django-pglocks, flake8-print, geventhttpclient-wheels, html5lib, jsonschema, l18n, packaging, pip-tools, pyrsistent, python-dateutil, requests-mock, sphinx, traitlets, w3lib
+six==1.14.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, django-extensions, django-pglocks, flake8-print, geventhttpclient-wheels, html5lib, jsonschema, l18n, packaging, pip-tools, pyrsistent, python-dateutil, requests-mock, sphinx, traitlets, w3lib
 snowballstemmer==2.0.0    # via sphinx
 sphinx==1.8.5             # via -r requirements.in
 sphinxcontrib-websupport==1.2.1  # via sphinx

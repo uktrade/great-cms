@@ -128,6 +128,14 @@ export default {
 3. Run `npm run build`
 4. The new component is now available on window.ditMVP.myFile
 
+### Node version
+Make sure to use NodeJS 12.16.1 or greater
+
+### Code formatting
+We are using eslint with recommended settings and prettier
+
+Are you using Visual Studio Code? Install Prettier plugin for auto formatting of your code:
+https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
 
 ## Staff SSO
 

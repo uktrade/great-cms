@@ -16,13 +16,12 @@ afterEach(() => {
 })
 
 it('callback alters selected state on click', () => {
-
   const callback = () => {
     return true
   }
 
   act(() => {
-    ReactDOM.render(<Sector id='sector' name='Sector' selected={false} addRemoveSector={callback} />, container)
+    ReactDOM.render(<Sector id="sector" name="Sector" selected={false} addRemoveSector={callback} />, container)
   })
 
   const button = container.querySelector('button')
