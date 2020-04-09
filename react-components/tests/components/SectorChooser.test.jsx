@@ -39,7 +39,7 @@ it('shows selected sectors in sector list and shows save button', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={[]} />, container)
   })
 
   const sectorButton = container.querySelector('#sector-chooser-button')
@@ -70,7 +70,7 @@ it('can remove selected sectors in sector list and hide save button', () => {
   const selectedSectors = ['Aerospace']
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={selectedSectors} />, container)
   })
 
   const sectorButton = container.querySelector('#sector-chooser-button')
@@ -119,7 +119,7 @@ it('shows selected sectors', () => {
   const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={selectedSectors} />, container)
   })
 
   const selectedButtons = container.querySelector('#selected-sectors').getElementsByClassName('selected')
@@ -134,7 +134,7 @@ it('removes sector on click', () => {
   const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={selectedSectors} />, container)
   })
 
   const selectedButtons = container.getElementsByClassName('selected')
