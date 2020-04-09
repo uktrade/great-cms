@@ -24,7 +24,8 @@
                 </ul>
             </aside>
             <div class="c-5-6">
-                <nav class="p-t-xs p-h-xs">Exporting 
+                <nav class="p-t-xs p-h-xs great-mvp-full-width-background">
+                    <span class="m-f-xs">Exporting </span>
                     {% if request.GET.products_label %} for
                         {% for name, values in request.GET.lists %}
                             {% if name == 'products_label' %}
@@ -44,7 +45,7 @@
                     {% endif %}
                 </nav>
 
-                <div class="flex-grid p-t-xxl p-f-xxl">
+                <div class="grid p-t-l p-f-l">
                     <div class="c-2-3">
                         <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
                         {% for block in page.generic_content %}
@@ -56,6 +57,8 @@
                             {% endfilter %}
                             </div>
                         {% endfor %}
+
+                        <div id="countries-chooser" class="great-mvp-full-width-background"></div>
 
                         {% with page.get_next_siblings.live.first as next_page %}
                             {% if next_page %}
@@ -151,8 +154,13 @@
                     csrfToken: '{{ csrf_token }}',
                     countryOptions: {{ country_choices|safe }},
                     apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+                    {% if user.company %}
                     userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
                     userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }}
+                    {% else %}
+                    userCountries: [],
+                    userIndustries: [],
+                    {% endif %}
                 });
                 ditMVP.CountriesModal({
                     element: element,
@@ -160,5 +168,24 @@
                 });
             })
         }
+    </script>
+    <script type="text/javascript">
+       ditMVP.setConfig({
+            csrfToken: '{{ csrf_token }}',
+            countryOptions: {{ country_choices|safe }},
+            {% if user.company %}
+            userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
+            userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }},
+            {% else %}
+            userCountries: [],
+            userIndustries: [],
+            {% endif %}
+            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}'
+        });
+        var element = document.getElementById('countries-chooser')
+        ditMVP.Countries({
+            element: element,
+            suggestedCountries: [{value: 'AU', label: 'Australia'}]
+        })
     </script>
 {% endblock %}

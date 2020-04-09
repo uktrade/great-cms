@@ -4,6 +4,7 @@ import ExportModal from '@src/views/ExportModal/Base'
 import SignupModal from '@src/views/SignupModal/Base'
 import IndustriesModal from '@src/views/IndustriesModal/Base'
 import CountriesModal from '@src/views/CountriesModal/Base'
+import Countries from '@src/views/Countries/Base'
 import LoginModal from '@src/views/LoginModal/Modal'
 import Tour from '@src/views/Tour/Base'
 import { createSectorChooser } from '@src/components/SectorChooser'
@@ -13,6 +14,7 @@ import '@babel/polyfill'
 
 export default {
   CountriesModal,
+  Countries,
   createSectorChooser,
   IndustriesModal,
   LoginModal,

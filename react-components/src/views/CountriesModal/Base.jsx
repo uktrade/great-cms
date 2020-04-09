@@ -32,6 +32,7 @@ export function Base(props){
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
   const [countries, setCountries] = React.useState(Services.config.userCountries || [])
   const [currentStep, setCurrentStep] = React.useState(props.currentStep)
+  const [modalIsOpen, setModalIsOpen] = React.useState(props.isOpen)
 
   function handleUpdateCompanies() {    
     const data = {expertise_countries: (countries || []).map(item => item.value)}
@@ -76,11 +77,12 @@ export function Base(props){
 
   return (
     <Modal
-      isOpen={props.isOpen}
+      isOpen={modalIsOpen}
       skipFeatureCookieName='skip-industries-of-interest'
       skipFeatureComponent={currentStep == STEP_COUNTRIES ? SkipShowGenericContent : null}
       id='dashboard-question-modal-lets-get-to-know-you'
       className='p-s'
+      setIsOpen={setModalIsOpen}
     >
       <ErrorList errors={errors.__all__ || []} className='m-t-s' />
       {getStep()}

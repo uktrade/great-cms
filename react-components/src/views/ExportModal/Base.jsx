@@ -28,24 +28,25 @@ export function Base(props){
 
   function SkipShowGenericContent(props) {
     const children = []
-    if (Services.config.userIsAuthenticated) {
-      children.push(
-        <a
-          href='#'
-          className='great-mvp-wizard-step-link'
-          onClick={event => { event.preventDefault(); props.onClick() }}
-        >No thanks I would like generic content</a>
-      ) 
-    } else if (!isLastStep) {
-      children.push(
-        <a
-          href='#'
-          className='great-mvp-wizard-step-link'
-          onClick={event => { event.preventDefault(); props.onClick() }}
-        >No thanks I would like generic content</a>
-      )
-    }
-    if (isLastStep) {
+    if (!isLastStep) {
+      if (Services.config.userIsAuthenticated) {
+        children.push(
+          <a
+            href='#'
+            className='great-mvp-wizard-step-link'
+            onClick={event => { event.preventDefault(); props.onClick() }}
+          >No thanks I would like generic content</a>
+        ) 
+      } else {
+        children.push(
+          <a
+            href='#'
+            className='great-mvp-wizard-step-link'
+            onClick={event => { event.preventDefault(); props.onClick() }}
+          >No thanks I would like generic content</a>
+        )
+      }
+    } else {
       children.push(
         <p className="m-t-xxs"><a
           href='#'
