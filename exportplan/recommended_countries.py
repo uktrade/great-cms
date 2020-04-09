@@ -34,15 +34,8 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
             )
             print(sectors)
             recommended_countries = helpers.get_recommended_countries(sso_session_id=self.request.user.session_id, sectors=sectors)
-            print(recommended_countries)
 
         except ReadTimeout:
             return HttpResponse(status=504)
-
-        for recommended_country in recommended_countries:
-            country = recommended_country['country'].title()
-            recommended_country['country'] = country
-            recommended_country['image'] = f'/static/images/{country}.png'
-
         data = {"countries": recommended_countries,}
         return JsonResponse(data)
