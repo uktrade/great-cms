@@ -36,15 +36,9 @@
       }
     },
     {
-      "files": ["./src/components/CountryChooser.jsx"],
-      "rules": {
-        "no-underscore-dangle": "off",
-        "react/jsx-props-no-spreading": "off"
-      }
-    },
-    {
       "files": ["./src/components/SectorChooser.jsx", "./src/components/TargetMarketCountries.jsx"],
       "rules": {
+        "no-underscore-dangle": "off",
         "react/jsx-props-no-spreading": "off"
       }
     }

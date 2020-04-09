@@ -9,29 +9,24 @@ export default class RecommendedCountries extends React.Component {
     this.countryRef = React.createRef()
   }
 
-  componentDidMount() {
-    this.focusFirstCountry()
-  }
+  isSelectedAlready(countryName) {
+    const { selectedCountries } = this.props
 
-  componentDidUpdate(prevProps) {
-    const { countries } = this.props
-    if (prevProps.countries !== countries) {
-      this.focusFirstCountry()
-    }
-  }
-
-  focusFirstCountry() {
-    this.countryRef.current.querySelectorAll('.recommended-country')[0].focus()
+    return selectedCountries.filter((country) => country.country === countryName).length > 0
   }
 
   render() {
-    const { countries } = this.props
+    const { countries, addCountry } = this.props
 
     return (
       <ul className="grid" id="recommended-countries-list" ref={this.countryRef}>
         {countries.map((countryData) => (
           <li className="c-1-3" key={slugify(countryData.country)}>
-            <RecommendedCountry countryData={countryData} />
+            <RecommendedCountry
+              selected={this.isSelectedAlready(countryData.country)}
+              addCountry={addCountry}
+              countryData={countryData}
+            />
           </li>
         ))}
       </ul>
@@ -46,5 +41,11 @@ RecommendedCountries.propTypes = {
       image: PropTypes.string.isRequired,
       selected: PropTypes.bool.isRequired,
     })
+  ).isRequired,
+  addCountry: PropTypes.func.isRequired,
+  selectedCountries: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string,
+    }).isRequired
   ).isRequired,
 }

@@ -30,6 +30,13 @@ export default class SectorChooser extends React.Component {
     this.recommendedCountriesFetchError = this.recommendedCountriesFetchError.bind(this)
   }
 
+  componentDidMount() {
+    const { selectedSectors } = this.state
+    if (selectedSectors && selectedSectors.length > 0) {
+      this.fetchRecommendedCountries()
+    }
+  }
+
   handleSectorButtonClick = (sector) => {
     const { selectedSectors } = this.state
     if (selectedSectors.indexOf(sector) > -1) {
@@ -51,7 +58,13 @@ export default class SectorChooser extends React.Component {
     const updatedSelectedSectors = selectedSectors.filter((id) => id !== sector)
     this.setState({ selectedSectors: updatedSelectedSectors })
 
-    this.fetchRecommendedCountries()
+    if (updatedSelectedSectors && updatedSelectedSectors.length > 0) {
+      this.fetchRecommendedCountries()
+    } else {
+      this.setState({
+        recommendedCountries: null,
+      })
+    }
   }
 
   fetchRecommendedCountries() {
@@ -113,6 +126,8 @@ export default class SectorChooser extends React.Component {
       fetchError,
     } = this.state
 
+    const { addCountry, selectedCountries } = this.props
+
     let sectorListDisplay
     if (showSectorList) {
       sectorListDisplay = (
@@ -120,7 +135,7 @@ export default class SectorChooser extends React.Component {
           {sectorList.map((sector) => (
             <Sector
               name={sector}
-              selected={selectedSectors.indexOf(sector) > -1}
+              selected={selectedSectors.indexOf(slugify(sector)) > -1}
               key={sector}
               id={slugify(sector)}
               handleSectorButtonClick={this.handleSectorButtonClick}
@@ -172,7 +187,7 @@ export default class SectorChooser extends React.Component {
       const sectors = currentSelectedSectors.map((sector) => (
         <Sector
           name={sector}
-          selected={currentSelectedSectors.indexOf(sector) !== -1}
+          selected={currentSelectedSectors.indexOf(slugify(sector)) !== -1}
           key={sector}
           id={slugify(sector)}
           handleSectorButtonClick={this.handleSectorButtonClick}
@@ -194,7 +209,9 @@ export default class SectorChooser extends React.Component {
     if (isLoading) {
       recommendedCountriesView = <Spinner />
     } else if (recommendedCountries && !fetchError) {
-      recommendedCountriesView = <RecommendedCountries countries={recommendedCountries} />
+      recommendedCountriesView = (
+        <RecommendedCountries selectedCountries={selectedCountries} addCountry={addCountry} countries={recommendedCountries} />
+      )
     } else if (fetchError) {
       recommendedCountriesView = 'Error fetching data.'
     } else {
@@ -221,4 +238,10 @@ export default class SectorChooser extends React.Component {
 SectorChooser.propTypes = {
   sectorList: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedSectors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  addCountry: PropTypes.func.isRequired,
+  selectedCountries: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string,
+    }).isRequired
+  ).isRequired,
 }

@@ -8,26 +8,21 @@ export default class RecommendedCountry extends React.Component {
   constructor(props) {
     super(props)
 
-    const { countryData } = this.props
+    const { selected } = this.props
 
     this.state = {
-      selected: countryData.selected,
+      selected,
     }
 
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
+  handleClick(selectedCountry) {
     const { selected } = this.state
+    const { addCountry } = this.props
     this.setState({ selected: !selected })
 
-    /* 
-        axios.get(`/load-country?country=${this.props.country.id}`)
-            .then(data => { })
-            .catch(error => { });
-        */
-
-    // dispatch event with country name to be fetch by Country stat section component?
+    addCountry(selectedCountry)
   }
 
   render() {
@@ -39,7 +34,7 @@ export default class RecommendedCountry extends React.Component {
         className={`recommended-country ${selected ? 'recommended-country--selected' : ''}`}
         aria-pressed={selected}
         id={slugify(countryData.country)}
-        onClick={this.handleClick}
+        onClick={() => this.handleClick({ value: countryData.country, label: countryData.country })}
       >
         <Figure image={countryData.image} caption={countryData.country} />
 
@@ -55,4 +50,6 @@ RecommendedCountry.propTypes = {
     image: PropTypes.string.isRequired,
     selected: PropTypes.bool.isRequired,
   }).isRequired,
+  addCountry: PropTypes.func.isRequired,
+  selected: PropTypes.bool.isRequired,
 }

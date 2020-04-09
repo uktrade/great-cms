@@ -44,18 +44,5 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
             recommended_country['select'] = False
             recommended_country['image'] = f'/static/images/{country}.png'
 
-
-        data = {
-            "countries": recommended_countries,
-        }
-        #data = {
-        #    "countries": [
-        #        { "country": "Australia", "image": "/static/images/ozzy.png", "selected": False },
-        #        { "country": "Germany", "image": "/static/images/germany.png", "selected": False },
-        ##        { "country": "United States", "image": "/static/images/usa.png", "selected": False },
-        #        { "country": "Russia", "image": "/static/images/ozzy.png", "selected": False },
-        #        { "country": "Brazil", "image": "/static/images/germany.png", "selected": False }
-        #    ],
-        #}
-
+        data = {"countries": recommended_countries,}
         return JsonResponse(data)
