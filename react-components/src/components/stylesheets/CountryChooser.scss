@@ -1,29 +1,34 @@
-
 @import 'helpers/colours';
 @import 'helpers/vars';
 @import 'helpers/mixins';
 @import 'helpers/typography-mixins';
 @import 'elements/spacing';
 
-
 @keyframes bounce {
-  0% { bottom: 0 }
-  20% { bottom: 5px }
-  40% { bottom: 0 }
-  100% { bottom: 0 }
+  0% {
+    bottom: 0;
+  }
+  20% {
+    bottom: 5px;
+  }
+  40% {
+    bottom: 0;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
+.remove-country-button {
+  color: $active-blue;
+  text-decoration: underline;
+
+  &:hover {
+    color: $aqua;
+  }
 }
 
 .country-chooser-section {
-
-  .remove-country-button {
-    color: $active-blue;
-    text-decoration: underline;
-
-    &:hover {
-      color: $aqua;
-    }
-  }
-
   .loading-message {
     position: relative;
 
@@ -114,7 +119,5 @@
         background-color: $grey;
       }
     }
-
   }
-
 }

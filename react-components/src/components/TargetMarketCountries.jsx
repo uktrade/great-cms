@@ -1,23 +1,126 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import CountryData from '@src/components/CountryData'
+import ErrorList from '@src/components/ErrorList'
 import SectorChooser from './SectorChooser'
 import CountryChooser from './CountryChooser'
+import { slugify } from '../Helpers'
+import Services from '../Services'
 
 class TargetMarketCountries extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {}
+    const { selectedCountries } = this.props
+    const updatedSelectedCountryList = this.sanitizeSelectedCountries(selectedCountries)
+    const updatedCountryList = this.updatedCountryList(updatedSelectedCountryList)
+
+    this.state = {
+      countryList: updatedCountryList,
+      selectedCountries: updatedSelectedCountryList,
+      errors: {},
+      loading: false,
+    }
+
+    this.addCountry = this.addCountry.bind(this)
+    this.handleGetCountryDataSuccess = this.handleGetCountryDataSuccess.bind(this)
+    this.handleGetCountryDataError = this.handleGetCountryDataError.bind(this)
+  }
+
+  /**
+   * Ensures the list for country chooser does not have countries that are already selected
+   */
+  updatedCountryList = (selectedCountries) => {
+    const { countryList } = this.props
+    return countryList.filter((country) =>
+      selectedCountries.filter((selectedCountry) => selectedCountry.country === country.value)
+    )
+  }
+
+  // This fucntion should be removed when BE fixes returning multiple duplicate countries without data
+  sanitizeSelectedCountries = (array) => {
+    return array.filter((country) => country.export_duty !== undefined)
+  }
+
+  removeCountry = (country) => {
+    const { selectedCountries } = this.state
+    const updatedSelectedCountries = selectedCountries.filter((item) => item !== country)
+    const updatedCountryList = this.updatedCountryList(updatedSelectedCountries)
+    this.setState({ selectedCountries: updatedSelectedCountries, countryList: updatedCountryList })
+  }
+
+  addCountry(selectedCountry) {
+    const { selectedCountries } = this.state
+    const isExisting = selectedCountries.filter((country) => country.country === selectedCountry.value).length > 0
+
+    if (!isExisting) {
+      this.setState({
+        loading: true,
+        errors: {},
+      })
+
+      Services.getCountryData(selectedCountry.label)
+        .then(this.handleGetCountryDataSuccess)
+        .catch(this.handleGetCountryDataError)
+    }
+  }
+
+  handleGetCountryDataSuccess(data) {
+    // data should return only a single country
+    // currently it returns the whole array of selected countries
+    // TODO needs BE work
+    const updatedSelectedCountryList = this.sanitizeSelectedCountries(data.target_markets)
+    const updatedCountryList = this.updatedCountryList(updatedSelectedCountryList)
+
+    this.setState({
+      errors: {},
+      loading: false,
+      selectedCountries: updatedSelectedCountryList,
+      countryList: updatedCountryList,
+    })
+  }
+
+  handleGetCountryDataError(errors) {
+    this.setState({
+      errors: errors.message || errors,
+      loading: false,
+    })
   }
 
   render() {
-    const { selectedSectors, sectorList, selectedCountries, countryList } = this.props
+    const { selectedSectors, sectorList } = this.props
+    const { countryList, selectedCountries, errors, loading } = this.state
+
+    let loadingMessage
+    if (loading) {
+      loadingMessage = (
+        <p className="loading-message">
+          Fetching country data
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </p>
+      )
+    }
+
     return (
       <>
-        <SectorChooser selectedSectors={selectedSectors} sectorList={sectorList} />
+        <SectorChooser
+          selectedCountries={selectedCountries}
+          addCountry={this.addCountry}
+          selectedSectors={selectedSectors}
+          sectorList={sectorList}
+        />
         <hr />
-        <CountryChooser selectedCountries={selectedCountries} countryList={countryList} />
+        {selectedCountries.map((country) => (
+          <CountryData data={country} key={slugify(country.country)} removeCountry={this.removeCountry} />
+        ))}
+        {loadingMessage}
+        <div>
+          <ErrorList errors={errors.__all__ || []} className="m-v-s" />
+        </div>
+        <CountryChooser countryList={countryList} addCountry={this.addCountry} />
       </>
     )
   }

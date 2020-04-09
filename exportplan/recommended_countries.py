@@ -36,11 +36,11 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
 
         data = {
             "countries": [
-                { "country": "Australia", "image": "/static/images/ozzy.png", "selected": False },
-                { "country": "Germany", "image": "/static/images/germany.png", "selected": False },
-                { "country": "United States", "image": "/static/images/usa.png", "selected": False },
-                { "country": "Russia", "image": "/static/images/ozzy.png", "selected": False },
-                { "country": "Brazil", "image": "/static/images/germany.png", "selected": False }
+                { "country": "Australia", "image": "/static/images/ozzy.png" },
+                { "country": "Germany", "image": "/static/images/germany.png" },
+                { "country": "United States", "image": "/static/images/usa.png" },
+                { "country": "Russia", "image": "/static/images/ozzy.png" },
+                { "country": "Brazil", "image": "/static/images/germany.png" }
             ],
         }
 
