@@ -38,4 +38,31 @@ All page types inherit from `CMSGenericPage` class:
 Custom context for layout type
 ------------------------------
 
+If a Page's template requires some custom context data then use use the a "context data provider":
 
+.. code-block:: python
+   :linenos:
+    from core.context import AbstractPageContextProvider
+
+    # example/context.py
+    class ExampleContextProvider(AbstractPageContextProvider):
+        template_name = 'example/example_pae.html'
+
+        @staticmethod
+        def get_context_data(request, page):
+            return {'foo': 'bar'}
+
+.. code-block:: python
+   :linenos:
+    # example/apps.py
+    from django.apps import AppConfig
+
+
+    class ExampleConfig(AppConfig):
+        name = 'example'
+
+        def ready(self):
+            from learn import context  # noqa F401
+ 
+
+Behind the scenes core.models.CMSGenericPage.get_context  will call example.ExampleContextProvider.get_context_data for any Page that uses example/example_pae.html
