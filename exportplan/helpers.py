@@ -94,3 +94,8 @@ def get_comtrade_historicalimportdata(commodity_code, country):
     response = api_client.dataservices.get_historicalimportdata(commodity_code=commodity_code, country=country)
     response.raise_for_status()
     return response.json()
+
+def get_recommended_countries(sso_session_id, sectors):
+    response = api_client.personalisation.recommended_countries_by_sector(sso_session_id=sso_session_id, sector=sectors)
+    response.raise_for_status()
+    return response.json()

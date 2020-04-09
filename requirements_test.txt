@@ -9,6 +9,7 @@
 airtable-python-wrapper==0.12.0  # via -r requirements.in
 allure-pytest==2.8.11     # via -r requirements_test.in
 allure-python-commons==2.8.11  # via allure-pytest
+appnope==0.1.0            # via ipython
 astroid==2.3.3            # via pylint
 attrs==19.3.0             # via allure-python-commons, jsonschema, pytest
 backcall==0.1.0           # via ipython
@@ -22,7 +23,7 @@ configargparse==1.1       # via locustio
 coverage==5.0.3           # via coveralls, pytest-cov
 coveralls==1.11.1         # via -r requirements_test.in
 decorator==4.4.2          # via ipython, traitlets
-directory-api-client==21.7.0  # via -r requirements.in
+directory-api-client==21.8.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in

@@ -20,6 +20,8 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
             return HttpResponse(status=400)
 
         sectors = self.request.GET.get('sectors')
+        # TODO remove hard coding
+        sectors = 'automotive'
 
         try:
             # To make more efficient by removing get
@@ -30,18 +32,30 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
                 id=export_plan['pk'],
                 data=data
             )
-            
+            print(sectors)
+            recommended_countries = helpers.get_recommended_countries(sso_session_id=self.request.user.session_id, sectors=sectors)
+            print(recommended_countries)
+
         except ReadTimeout:
             return HttpResponse(status=504)
 
+        for recommended_country in recommended_countries:
+            country = recommended_country['country']
+            recommended_country['select'] = False
+            recommended_country['image'] = f'/static/images/{country}.png'
+
+
         data = {
-            "countries": [
-                { "country": "Australia", "image": "/static/images/ozzy.png", "selected": False },
-                { "country": "Germany", "image": "/static/images/germany.png", "selected": False },
-                { "country": "United States", "image": "/static/images/usa.png", "selected": False },
-                { "country": "Russia", "image": "/static/images/ozzy.png", "selected": False },
-                { "country": "Brazil", "image": "/static/images/germany.png", "selected": False }
-            ],
+            "countries": recommended_countries,
         }
+        #data = {
+        #    "countries": [
+        #        { "country": "Australia", "image": "/static/images/ozzy.png", "selected": False },
+        #        { "country": "Germany", "image": "/static/images/germany.png", "selected": False },
+        ##        { "country": "United States", "image": "/static/images/usa.png", "selected": False },
+        #        { "country": "Russia", "image": "/static/images/ozzy.png", "selected": False },
+        #        { "country": "Brazil", "image": "/static/images/germany.png", "selected": False }
+        #    ],
+        #}
 
         return JsonResponse(data)
