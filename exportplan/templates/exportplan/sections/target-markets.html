@@ -23,18 +23,8 @@
 {% block user_input %}
 <hr>
 
-<section class="container section--with-sidebar">
-  <div id="recommended-countries" class="recommended-countries"></div>
-</section>
 
-<hr>
-
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-3-4 country-chooser-section" id="country-chooser-section"></div>
-  </div>
-</section>
+<section class="container section--with-sidebar" id="target-market-countries-component"></section>
 
 <hr class="m-b-0">
 
@@ -76,16 +66,11 @@
       countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
       countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
     })
-    var sectorElement = document.getElementById('recommended-countries');
-    ditMVP.createSectorChooser({
-      element: sectorElement,
+    var element = document.getElementById('target-market-countries-component');
+    ditMVP.createTargetMarketCountries({
+      element: element,
       sectorList: {{ sectors|safe }},
-      selectedSectors: [] // replace with data from BE
-    })
-
-    var countryElement = document.getElementById('country-chooser-section');
-    ditMVP.createCountryChooser({
-      element: countryElement,
+      selectedSectors: [], // replace with data from BE
       countryList: {{ country_choices|safe }},
       selectedCountries: {{ target_markets|safe }}
     })

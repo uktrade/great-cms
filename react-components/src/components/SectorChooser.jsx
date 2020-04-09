@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import Services from '@src/Services'
 import { slugify } from '../Helpers'
 import Spinner from './Spinner/Spinner'
 import Sector from './Sector'
 import RecommendedCountries from './RecommendedCountries'
 
-class SectorChooser extends React.Component {
+export default class SectorChooser extends React.Component {
   constructor(props) {
     super(props)
     const { selectedSectors, sectorList } = props
@@ -203,7 +202,7 @@ class SectorChooser extends React.Component {
     }
 
     return (
-      <>
+      <div id="recommended-countries" className="recommended-countries">
         <h2 className="h-m">Recommended countries</h2>
         <div id="sector-chooser" className="sector-chooser">
           <p className="m-t-0 intro-text">Add sectors you&apos;re interested in so we can recommend some countries.</p>
@@ -214,7 +213,7 @@ class SectorChooser extends React.Component {
         </div>
 
         {recommendedCountriesView}
-      </>
+      </div>
     )
   }
 }
@@ -223,9 +222,3 @@ SectorChooser.propTypes = {
   sectorList: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedSectors: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
-
-function createSectorChooser({ element, ...params }) {
-  ReactDOM.render(<SectorChooser {...params} />, element)
-}
-
-export { SectorChooser, createSectorChooser }

@@ -43,7 +43,7 @@
       }
     },
     {
-      "files": ["./src/components/SectorChooser.jsx"],
+      "files": ["./src/components/SectorChooser.jsx", "./src/components/TargetMarketCountries.jsx"],
       "rules": {
         "react/jsx-props-no-spreading": "off"
       }

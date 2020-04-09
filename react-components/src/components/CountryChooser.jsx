@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import ErrorList from '@src/components/ErrorList'
@@ -8,7 +7,7 @@ import Services from '../Services'
 import { slugify } from '../Helpers'
 import './stylesheets/CountryChooser.scss'
 
-class CountryChooser extends React.Component {
+export default class CountryChooser extends React.Component {
   constructor(props) {
     super(props)
 
@@ -154,7 +153,7 @@ class CountryChooser extends React.Component {
     }
 
     return (
-      <>
+      <div className="country-chooser-section" id="country-chooser-section">
         {selectedCountries.map((country) => (
           <CountryData data={country} key={slugify(country.country)} removeCountry={this.removeCountry} />
         ))}
@@ -174,13 +173,9 @@ class CountryChooser extends React.Component {
           </button>
           {countryInput}
         </div>
-      </>
+      </div>
     )
   }
-}
-
-function createCountryChooser({ element, ...params }) {
-  ReactDOM.render(<CountryChooser {...params} />, element)
 }
 
 CountryChooser.propTypes = {
@@ -218,5 +213,3 @@ CountryChooser.propTypes = {
     })
   ).isRequired,
 }
-
-export { CountryChooser, createCountryChooser }
