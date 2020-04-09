@@ -9,21 +9,6 @@ export default class RecommendedCountries extends React.Component {
     this.countryRef = React.createRef()
   }
 
-  componentDidMount() {
-    this.focusFirstCountry()
-  }
-
-  componentDidUpdate(prevProps) {
-    const { countries } = this.props
-    if (prevProps.countries !== countries) {
-      this.focusFirstCountry()
-    }
-  }
-
-  focusFirstCountry() {
-    this.countryRef.current.querySelectorAll('.recommended-country')[0].focus()
-  }
-
   render() {
     const { countries } = this.props
 

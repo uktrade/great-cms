@@ -30,6 +30,13 @@ export default class SectorChooser extends React.Component {
     this.recommendedCountriesFetchError = this.recommendedCountriesFetchError.bind(this)
   }
 
+  componentDidMount() {
+    const { selectedSectors } = this.state
+    if (selectedSectors && selectedSectors.length > 0) {
+      this.fetchRecommendedCountries()
+    }
+  }
+
   handleSectorButtonClick = (sector) => {
     const { selectedSectors } = this.state
     if (selectedSectors.indexOf(sector) > -1) {
@@ -51,7 +58,13 @@ export default class SectorChooser extends React.Component {
     const updatedSelectedSectors = selectedSectors.filter((id) => id !== sector)
     this.setState({ selectedSectors: updatedSelectedSectors })
 
-    this.fetchRecommendedCountries()
+    if (updatedSelectedSectors && updatedSelectedSectors.length > 0) {
+      this.fetchRecommendedCountries()
+    } else {
+      this.setState({
+        recommendedCountries: null,
+      })
+    }
   }
 
   fetchRecommendedCountries() {
@@ -120,7 +133,7 @@ export default class SectorChooser extends React.Component {
           {sectorList.map((sector) => (
             <Sector
               name={sector}
-              selected={selectedSectors.indexOf(sector) > -1}
+              selected={selectedSectors.indexOf(slugify(sector)) > -1}
               key={sector}
               id={slugify(sector)}
               handleSectorButtonClick={this.handleSectorButtonClick}
@@ -172,7 +185,7 @@ export default class SectorChooser extends React.Component {
       const sectors = currentSelectedSectors.map((sector) => (
         <Sector
           name={sector}
-          selected={currentSelectedSectors.indexOf(sector) !== -1}
+          selected={currentSelectedSectors.indexOf(slugify(sector)) !== -1}
           key={sector}
           id={slugify(sector)}
           handleSectorButtonClick={this.handleSectorButtonClick}
@@ -211,6 +224,8 @@ export default class SectorChooser extends React.Component {
           {selectedSectorsDisplay}
           {sectorChooserButton}
         </div>
+
+        <hr />
 
         {recommendedCountriesView}
       </div>

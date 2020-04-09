@@ -16,6 +16,7 @@ class TargetMarketCountries extends React.Component {
     return (
       <>
         <SectorChooser selectedSectors={selectedSectors} sectorList={sectorList} />
+        <hr />
         <CountryChooser selectedCountries={selectedCountries} countryList={countryList} />
       </>
     )
