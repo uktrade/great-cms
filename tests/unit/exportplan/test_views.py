@@ -112,20 +112,32 @@ def test_exportplan_sections(url, client, user):
 @pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
 @mock.patch.object(helpers, 'get_exportplan')
+@mock.patch.object(helpers, 'get_madb_country_list')
 @mock.patch('core.helpers.store_user_location')
-def test_exportplan_target_markets(mock_user_location_create, mock_get_export_plan, client, user):
+def test_exportplan_target_markets(
+    mock_user_location_create, mock_get_country_list, mock_get_export_plan, client, user
+):
     client.force_login(user)
     explan_plan_data = {
-        'country': 'Australia', 'commodity_code': '220.850',
-        'target_markets': [{'country': 'China'}], 'rules_regulations': {'country_code': 'CHN'},
+        'country': 'Australia',
+        'commodity_code': '220.850',
+        'target_markets': [
+            {'country': 'China'},
+        ],
+        'rules_regulations': {
+            'country_code': 'CHN',
+        },
     }
     mock_get_export_plan.return_value = explan_plan_data
+    mock_get_country_list.return_value = [
+        ('Australia', 'Australia'),
+        ('China', 'China'),
+        ('India', 'India'),
+    ]
     response = client.get(reverse('exportplan:target-markets'))
 
     assert mock_get_export_plan.call_count == 1
     assert mock_get_export_plan.call_args == mock.call(sso_session_id=user.session_id,)
 
     assert response.context['target_markets'] == explan_plan_data['target_markets']
-    assert response.context['timezone'] == 'Asia/Shanghai'
     assert response.context['datenow'] == datetime.now()
-    assert response.context['utz_offset'] == '+0800'
