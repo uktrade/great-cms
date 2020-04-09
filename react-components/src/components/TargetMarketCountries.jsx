@@ -24,6 +24,7 @@ class TargetMarketCountries extends React.Component {
     }
 
     this.addCountry = this.addCountry.bind(this)
+    this.removeCountry = this.removeCountry.bind(this)
     this.handleGetCountryDataSuccess = this.handleGetCountryDataSuccess.bind(this)
     this.handleGetCountryDataError = this.handleGetCountryDataError.bind(this)
   }
@@ -33,8 +34,8 @@ class TargetMarketCountries extends React.Component {
    */
   updatedCountryList = (selectedCountries) => {
     const { countryList } = this.props
-    return countryList.filter((country) =>
-      selectedCountries.filter((selectedCountry) => selectedCountry.country === country.value)
+    return countryList.filter(
+      (country) => selectedCountries.filter((selectedCountry) => selectedCountry.country === country.value).length === 0
     )
   }
 
@@ -43,9 +44,9 @@ class TargetMarketCountries extends React.Component {
     return array.filter((country) => country.export_duty !== undefined)
   }
 
-  removeCountry = (country) => {
+  removeCountry(data) {
     const { selectedCountries } = this.state
-    const updatedSelectedCountries = selectedCountries.filter((item) => item !== country)
+    const updatedSelectedCountries = selectedCountries.filter((item) => item.country !== data.country)
     const updatedCountryList = this.updatedCountryList(updatedSelectedCountries)
     this.setState({ selectedCountries: updatedSelectedCountries, countryList: updatedCountryList })
   }
@@ -109,6 +110,7 @@ class TargetMarketCountries extends React.Component {
         <SectorChooser
           selectedCountries={selectedCountries}
           addCountry={this.addCountry}
+          removeCountry={this.removeCountry}
           selectedSectors={selectedSectors}
           sectorList={sectorList}
         />

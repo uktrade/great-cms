@@ -8,37 +8,68 @@ export default class RecommendedCountry extends React.Component {
   constructor(props) {
     super(props)
 
-    const { selected } = this.props
-
     this.state = {
-      selected,
+      isFetching: false,
     }
 
-    this.handleClick = this.handleClick.bind(this)
+    this.handleClick.bind(this)
+  }
+
+  componentDidUpdate(props) {
+    const { selected } = this.props
+
+    if (selected !== props.selected) {
+      this.removeFetching()
+    }
+  }
+
+  removeFetching() {
+    this.setState({
+      isFetching: false,
+    })
   }
 
   handleClick(selectedCountry) {
-    const { selected } = this.state
-    const { addCountry } = this.props
-    this.setState({ selected: !selected })
+    const { addCountry, removeCountry, selected } = this.props
+    this.setState({
+      isFetching: true,
+    })
 
-    addCountry(selectedCountry)
+    if (selected) {
+      removeCountry({ country: selectedCountry.value })
+    } else {
+      addCountry(selectedCountry)
+    }
   }
 
   render() {
-    const { countryData } = this.props
-    const { selected } = this.state
+    const { isFetching } = this.state
+    const { countryData, selected } = this.props
+    const id = slugify(countryData.country)
+    const imgUrl = `/static/images/country/${id}.png` // ideally this should be comming from personalisation API
+
+    let countryText
+    if (isFetching && !selected) {
+      countryText = 'Selecting'
+    } else if (isFetching && selected) {
+      countryText = 'Unselecting'
+    } else if (selected) {
+      countryText = 'Selected'
+    } else {
+      countryText = 'Select'
+    }
+
     return (
       <button
         type="button"
         className={`recommended-country ${selected ? 'recommended-country--selected' : ''}`}
         aria-pressed={selected}
-        id={slugify(countryData.country)}
+        id={id}
         onClick={() => this.handleClick({ value: countryData.country, label: countryData.country })}
       >
-        <Figure image={countryData.image} caption={countryData.country} />
+        <Figure image={imgUrl} caption={countryData.country} />
 
-        <div className="recommended-country__text">{selected ? 'Selected' : 'Select'}</div>
+        <div className="recommended-country__text">{countryText}</div>
       </button>
     )
   }
@@ -47,9 +78,8 @@ export default class RecommendedCountry extends React.Component {
 RecommendedCountry.propTypes = {
   countryData: PropTypes.shape({
     country: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    selected: PropTypes.bool.isRequired,
   }).isRequired,
   addCountry: PropTypes.func.isRequired,
+  removeCountry: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
 }

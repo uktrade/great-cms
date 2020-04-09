@@ -16,7 +16,7 @@ export default class RecommendedCountries extends React.Component {
   }
 
   render() {
-    const { countries, addCountry } = this.props
+    const { countries, addCountry, removeCountry } = this.props
 
     return (
       <ul className="grid" id="recommended-countries-list" ref={this.countryRef}>
@@ -25,6 +25,7 @@ export default class RecommendedCountries extends React.Component {
             <RecommendedCountry
               selected={this.isSelectedAlready(countryData.country)}
               addCountry={addCountry}
+              removeCountry={removeCountry}
               countryData={countryData}
             />
           </li>
@@ -38,11 +39,10 @@ RecommendedCountries.propTypes = {
   countries: PropTypes.arrayOf(
     PropTypes.shape({
       country: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      selected: PropTypes.bool.isRequired,
     })
   ).isRequired,
   addCountry: PropTypes.func.isRequired,
+  removeCountry: PropTypes.func.isRequired,
   selectedCountries: PropTypes.arrayOf(
     PropTypes.shape({
       country: PropTypes.string,

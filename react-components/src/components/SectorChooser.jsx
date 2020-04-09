@@ -126,7 +126,7 @@ export default class SectorChooser extends React.Component {
       fetchError,
     } = this.state
 
-    const { addCountry, selectedCountries } = this.props
+    const { addCountry, removeCountry, selectedCountries } = this.props
 
     let sectorListDisplay
     if (showSectorList) {
@@ -210,7 +210,12 @@ export default class SectorChooser extends React.Component {
       recommendedCountriesView = <Spinner />
     } else if (recommendedCountries && !fetchError) {
       recommendedCountriesView = (
-        <RecommendedCountries selectedCountries={selectedCountries} addCountry={addCountry} countries={recommendedCountries} />
+        <RecommendedCountries
+          selectedCountries={selectedCountries}
+          removeCountry={removeCountry}
+          addCountry={addCountry}
+          countries={recommendedCountries}
+        />
       )
     } else if (fetchError) {
       recommendedCountriesView = 'Error fetching data.'
@@ -239,6 +244,7 @@ SectorChooser.propTypes = {
   sectorList: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedSectors: PropTypes.arrayOf(PropTypes.string).isRequired,
   addCountry: PropTypes.func.isRequired,
+  removeCountry: PropTypes.func.isRequired,
   selectedCountries: PropTypes.arrayOf(
     PropTypes.shape({
       country: PropTypes.string,
