@@ -26,23 +26,16 @@
 <section class="container">
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
-    <div class="c-3-4" id="recommended-countries"></div>
+    <div class="c-3-4 recommended-countries" id="recommended-countries"></div>
   </div>
 </section>
-
-<hr>
-{% if target_markets %}
-  {% include 'exportplan/partials/_country-stats.html' %}
-{% endif %}
 
 <hr>
 
 <section class="container">
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
-      <div class="c-3-4">
-      <button type="button" class="g-button bg-white text-grey pill" id="add-country">Add country</button>
-    </div>
+    <div class="c-3-4 country-chooser-section" id="country-chooser-section"></div>
   </div>
 </section>
 
@@ -82,10 +75,20 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-  var element = document.getElementById("recommended-countries");
+    ditMVP.setConfig({
+      countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
+    })
+    var sectorElement = document.getElementById('recommended-countries');
     ditMVP.createSectorChooser({
-      element: element,
+      element: sectorElement,
       sectorList: {{ sectors|safe }}
+    })
+
+    var countryElement = document.getElementById('country-chooser-section');
+    ditMVP.createCountryChooser({
+      element: countryElement,
+      countryList: {{ country_choices|safe }},
+      selectedCountries: {{ target_markets|safe }}
     })
   </script>
 {% endblock %}
