@@ -40,8 +40,8 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
             return HttpResponse(status=504)
 
         for recommended_country in recommended_countries:
-            country = recommended_country['country']
-            recommended_country['select'] = False
+            country = recommended_country['country'].capitalize()
+            recommended_country['country'] = country
             recommended_country['image'] = f'/static/images/{country}.png'
 
         data = {"countries": recommended_countries,}
