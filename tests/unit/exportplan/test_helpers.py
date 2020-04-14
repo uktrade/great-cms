@@ -165,3 +165,22 @@ def test_update_export_plan(mock_exportplan_update):
         data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}},
         id=1, sso_session_id=123
     )
+
+
+@mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
+def test_get_recommended_countries(mock_recommended_countries):
+    recommended_countries = [{'country': 'japan'}, {'country': 'south korea'}]
+    mock_recommended_countries.return_value = create_response(status_code=200, json_body=recommended_countries)
+    countries = helpers.get_recommended_countries(sso_session_id=123, sectors=['Automotive'])
+
+    assert mock_recommended_countries.call_count == 1
+    assert mock_recommended_countries.call_args == mock.call(sector=['Automotive'], sso_session_id=123)
+    assert countries == [{'country': 'Japan'}, {'country': 'South Korea'}]
+
+
+@mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
+def test_get_recommended_countries_no_return(mock_recommended_countries):
+    mock_recommended_countries.return_value = create_response(status_code=200, json_body=None)
+    countries = helpers.get_recommended_countries(sso_session_id=123, sectors=['Automotive'])
+
+    assert countries == []

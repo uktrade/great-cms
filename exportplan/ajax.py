@@ -46,13 +46,12 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
         sectors = self.request.GET.get('sectors')
 
         try:
-            # To make more efficient by removing get
+            # To make more efficient by removing get export plan
             export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
-            data = {'sectors': sectors.split(',')}
-            export_plan = helpers.update_exportplan(
+            helpers.update_exportplan(
                 sso_session_id=self.request.user.session_id,
                 id=export_plan['pk'],
-                data=data
+                data={'sectors': sectors.split(',')}
             )
             recommended_countries = helpers.get_recommended_countries(
                 sso_session_id=self.request.user.session_id,
