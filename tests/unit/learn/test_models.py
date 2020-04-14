@@ -1,7 +1,5 @@
 import pytest
-from wagtail.tests.utils import WagtailPageTests
 
-from domestic.models import DomesticHomePage
 from tests.unit.learn import factories
 
 

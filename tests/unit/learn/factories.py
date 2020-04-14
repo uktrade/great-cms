@@ -1,14 +1,9 @@
-import factory.fuzzy
-from wagtail_factories import PageFactory
-
 from core import models
+from tests.unit.core.factories import ListPageFactory, DetailPageFactory
 
 
-class TopicPageFactory(PageFactory):
+class TopicPageFactory(ListPageFactory):
 
-    title = 'some topic'
-    live = True
-    slug = 'some-topic'
     template = 'learn/topic_page.html'
 
     class Meta:
@@ -16,11 +11,7 @@ class TopicPageFactory(PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
-class LessonPageFactory(PageFactory):
-
-    title = 'some lesson'
-    live = True
-    slug = 'some-lesson'
+class LessonPageFactoru(DetailPageFactory):
     template = 'learn/lesson_page.html'
 
     class Meta:

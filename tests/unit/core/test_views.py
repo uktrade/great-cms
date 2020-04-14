@@ -320,3 +320,11 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     assert response.json() == data
     assert mock_search_commodity_by_term.call_count == 1
     assert mock_search_commodity_by_term.call_args == mock.call(term=term)
+
+
+@pytest.mark.django_db
+def test_list_page_uses_right_template(client):
+    page = LessonPageFactory()
+    response = client.get(page)
+    import ipdb; ipdb.set_trace()
+    response.templates

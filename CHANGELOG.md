@@ -57,3 +57,4 @@
 - MVP-360 - muliple markets
 - MVP-382 - add product modal to lesson page
 - MVP-350 - Capabilities learn how to export carousel
+- MVP-385 - Consolidate page models

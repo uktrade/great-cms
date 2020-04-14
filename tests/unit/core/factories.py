@@ -1,4 +1,5 @@
 import factory
+import factory.fuzzy
 import wagtail_factories
 import wagtail_personalisation.models
 

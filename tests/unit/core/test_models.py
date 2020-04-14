@@ -1,8 +1,10 @@
 from unittest import mock
 
 import pytest
+from wagtail.tests.utils import WagtailPageTests
 
-from core.models import AbstractObjectHash
+from core.models import AbstractObjectHash, ListPage, DetailPage
+from domestic.models import DomesticHomePage
 from tests.unit.core import factories
 
 
@@ -51,3 +53,18 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
 
     # then the progress is unaffected
     assert detail_page.page_views.count() == 0
+
+
+class ListPageTests(WagtailPageTests):
+
+    def test_can_be_created_under_homepage(self):
+        self.assertAllowedParentPageTypes(ListPage, {DomesticHomePage})
+
+    def test_allowed_subtypes(self):
+        self.assertAllowedSubpageTypes(ListPage, {DetailPage})
+
+
+class DetailPageTests(WagtailPageTests):
+
+    def test_can_be_created_under_list_page(self):
+        self.assertAllowedParentPageTypes(DetailPage, {ListPage})
