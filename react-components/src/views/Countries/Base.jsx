@@ -45,13 +45,17 @@ export function Base(props){
             handleChange={setCountries}
             value={countries}
             isInProgress={isInProgress}
+            errors={errors}
           />
-          <SuggestedCountries
-            suggestedCountries={props.suggestedCountries}
-            industries={Services.config.userIndustries}
-            handleClick={setCountries}
-            disabled={isInProgress}
-          />
+          {
+            props.suggestedCountries.length > 0 && <SuggestedCountries
+              suggestedCountries={props.suggestedCountries}
+              countries={countries}
+              industries={Services.config.userIndustries}
+              handleClick={setCountries}
+              disabled={isInProgress}
+            />
+          }
         </div>
       </div>
     </div>

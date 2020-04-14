@@ -10,7 +10,11 @@ export default function SuggestedCountries(props){
   function handleClick(event) {
     const value = event.target.value
     const label = event.target.innerHTML
-    props.handleClick([{value, label}])
+    // only allow selection if not already selected
+    if (!props.countries.some(item => item.value == value)) {
+      const combined = props.countries.concat([{value, label}])
+      props.handleClick(combined)
+    }
   }
 
   const industries = props.industries.map((item, i) => <b key={i}>{item.label}</b>)
