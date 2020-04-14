@@ -27,13 +27,15 @@ export function SkipShowGenericContent(props) {
 
 export default function ModalCentreScreen(props){
   const products = props.companySettings.expertise_products_services.other;
-  const {isOpen, ...otherProps} = props;
+  const {isOpen, setIsOpen, ...otherProps} = props;
   return (
     <Modal
       isOpen={isOpen}
+      setIsOpen={setIsOpen}
       id='dashboard-question-modal-signup'
       skipFeatureCookieName='skip-signup'
       skipFeatureComponent={SkipShowGenericContent}
+      performSkipFeatureCookieCheck={props.performSkipFeatureCookieCheck}
       className='ReactModal__Content--Signup p-l'
     >
       <div className="grid">
@@ -51,14 +53,17 @@ export default function ModalCentreScreen(props){
 
 ModalCentreScreen.propTypes = {
   isOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func,
   isInProgress: PropTypes.bool,
   errors: PropTypes.object,
   currentStep: PropTypes.string,
+  performSkipFeatureCookieCheck: PropTypes.bool,
 }
 
 ModalCentreScreen.defaultProps = {
   isOpen: false,
   isInProgress: false,
   errors: {},
-  companySettings: {}
+  companySettings: {},
+  performSkipFeatureCookieCheck: true,
 }
