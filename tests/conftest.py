@@ -12,6 +12,7 @@ from wagtail_factories import PageFactory, SiteFactory
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from core import helpers as core_helpers
+from tests.unit.core.factories import PersonalisedPageFactory
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from directory_api_client import api_client
@@ -61,6 +62,23 @@ def domestic_site(domestic_homepage, client):
     return SiteFactory(
         root_page=domestic_homepage,
         hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+
+@pytest.fixture
+def learn_page(domestic_homepage):
+    return learn_factories.LearnPageFactory(
+        parent=domestic_homepage,
+        slug='learn'
+    )
+
+
+@pytest.fixture
+def first_step_page(learn_page):
+    return PersonalisedPageFactory(
+        parent=learn_page,
+        slug='how-to-export-first-step',
+        title='First step page',
     )
 
 
