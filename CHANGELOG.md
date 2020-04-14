@@ -57,6 +57,7 @@
 - MVP-360 - muliple markets
 - MVP-382 - add product modal to lesson page
 - MVP-350 - Capabilities learn how to export carousel
+- MVP-335 - Add market capture component
 - no ticket - rm redundant CircleCI step setup_remote_docker
 - MVP-388 - add commdity name
 - MVP-390 - add tests for learn how to export pages
