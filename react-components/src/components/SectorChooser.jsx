@@ -15,8 +15,7 @@ class SectorChooser extends React.Component {
     super(props)
 
     this.state = {
-      sectorList: props.sectorList,
-      selectedSectors: props.selectedSectors || [],
+      selectedSectors: props.initialSelectedSectors || [],
       showSectorList: false,
       showTooltip: false,
     }
@@ -36,12 +35,6 @@ class SectorChooser extends React.Component {
       this.setState({selectedSectors: updatedSelectedSectors})
       return false
     }
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
   }
 
   showHideSectorList(e) {
@@ -68,7 +61,7 @@ class SectorChooser extends React.Component {
       sectorListDisplay = (
         <ul className="sector-list" id="sector-list">
         {
-          this.state.sectorList.map((sector) =>
+          this.props.sectorList.map((sector) =>
             <Sector
               name={sector}
               selected={this.state.selectedSectors.indexOf(sector) != -1}
@@ -147,7 +140,7 @@ class SectorChooser extends React.Component {
 
 SectorChooser.propTypes = {
   sectorList: PropTypes.array.isRequired,
-  selectedSectors: PropTypes.array,
+  initialSelectedSectors: PropTypes.array,
 }
 
 function createSectorChooser({ element, ...params }) {

@@ -15,12 +15,6 @@ export default class Sector extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
   handleClick(e) {
     this.setState({selected: this.props.addRemoveSector(e.target.innerHTML)})
   }

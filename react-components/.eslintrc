@@ -5,7 +5,7 @@
     "node": true,
     "browser": true
   },
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 6,
@@ -33,6 +33,13 @@
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
         "jest/valid-expect": "error"
+      }
+    },
+    {
+      "files": ["./src/components/CountryChooser.jsx"],
+      "rules": {
+        "no-underscore-dangle": "off",
+        "react/jsx-props-no-spreading": "off"
       }
     }
   ]
