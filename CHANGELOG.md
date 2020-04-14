@@ -59,4 +59,4 @@
 - MVP-350 - Capabilities learn how to export carousel
 - no ticket - rm redundant CircleCI step setup_remote_docker
 - MVP-388 - add commdity name
-
+- MVP-390 - add tests for learn how to export pages
