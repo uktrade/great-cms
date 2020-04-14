@@ -1,5 +1,3 @@
-import shutil
-
 import pytest
 
 from tests.browser.common_selectors import (
