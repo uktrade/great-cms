@@ -57,6 +57,7 @@ def test_can_see_target_markets_data(
     mock_get_export_plan_market_data.return_value = {
         'timezone': 'Australia/Sydney',
         'CPI': 10,
+        'sectors': ['Automotive']
     }
     mock_get_comtrade_last_year_import_data.return_value = {
         'last_year_data_partner': {
@@ -90,6 +91,7 @@ def test_can_see_target_markets_data(
                 },
             }
         ],
+        'sectors': ['Automotive']
     }
     mock_get_exportplan.return_value = data
 
