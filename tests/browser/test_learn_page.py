@@ -20,7 +20,6 @@ pytestmark = [
     pytest.mark.browser,
     pytest.mark.learn_page,
     pytest.mark.django_db,
-    pytest.mark.skipif(shutil.which('chromedriver') is None, reason='chromedriver not in path')
 ]
 
 
