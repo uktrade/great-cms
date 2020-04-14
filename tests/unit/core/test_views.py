@@ -323,8 +323,8 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-def test_list_page_uses_right_template(client):
-    page = LessonPageFactory()
-    response = client.get(page)
-    import ipdb; ipdb.set_trace()
-    response.templates
+def test_list_page_uses_right_template(domestic_homepage, rf):
+    topic_page = TopicPageFactory(parent=domestic_homepage)
+    lesson_page = LessonPageFactory(parent=topic_page)
+    response = lesson_page.serve(rf)
+    assert response.template_name == 'learn/lesson_page.html'

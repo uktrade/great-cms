@@ -4,6 +4,7 @@ import wagtail_factories
 import wagtail_personalisation.models
 
 from core import models, rules
+from tests.unit.domestic.factories import DomesticHomePageFactory
 
 
 class ProductFactory(factory.django.DjangoModelFactory):
@@ -25,6 +26,7 @@ class ListPageFactory(wagtail_factories.PageFactory):
     live = True
     body = factory.fuzzy.FuzzyText(length=200)
     template = factory.fuzzy.FuzzyChoice(models.ListPage.template_choices, getter=lambda choice: choice[0])
+    parent = factory.SubFactory(DomesticHomePageFactory)
 
     class Meta:
         model = models.ListPage

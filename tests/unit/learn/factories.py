@@ -11,7 +11,7 @@ class TopicPageFactory(ListPageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
-class LessonPageFactoru(DetailPageFactory):
+class LessonPageFactory(DetailPageFactory):
     template = 'learn/lesson_page.html'
 
     class Meta:
