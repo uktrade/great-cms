@@ -121,6 +121,7 @@ def test_exportplan_target_markets(
     explan_plan_data = {
         'country': 'Australia',
         'commodity_code': '220.850',
+        'sectors': ['Automotive'],
         'target_markets': [
             {'country': 'China'},
         ],
