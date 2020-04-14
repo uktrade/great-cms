@@ -253,3 +253,15 @@ class TopicLessonListing(SelectorsEnum):
 
 class LessonPage(SelectorsEnum):
     TITLE = Selector(By.ID, 'lesson-title')
+
+
+class LearnHowToExportPage(SelectorsEnum):
+    TITLE = Selector(By.CSS_SELECTOR, '#learn-root h1')
+    LEARN_HOW_TO_EXPORT = Selector(By.CSS_SELECTOR, '#learn-root a.button', ElementType.LINK)
+
+
+class LearnHowToExportFirstStepPage(SelectorsEnum):
+    BREADCRUMBS = Selector(By.CSS_SELECTOR, '#great-hero > nav')
+    BREADCRUMBS_HOME = Selector(By.ID, 'breadcrumbs-home', ElementType.LINK)
+    BREADCRUMBS_MARKETS = Selector(By.CSS_SELECTOR, '#great-hero nav li span')
+    TITLE = Selector(By.CSS_SELECTOR, '.container h3')
