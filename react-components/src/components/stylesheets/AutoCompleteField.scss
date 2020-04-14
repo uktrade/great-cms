@@ -22,8 +22,11 @@
     line-height: 29px;
 }
 
-body .great-mvp-autocomplete-field__multi-value__remove {
+body .great-mvp-autocomplete-field__multi-value__remove,
+body .great-mvp-autocomplete-field__multi-value__remove:hover {
     color: $white;
+    background: $mid-grey;
+    cursor: pointer;
 }
 
 body .great-mvp-autocomplete-field__multi-value {

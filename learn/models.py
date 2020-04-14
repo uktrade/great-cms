@@ -11,6 +11,8 @@ from django.db import models
 from core.models import TimeStampedModel
 from core import mixins
 
+from learn import helpers
+
 
 class TopicPage(Page):
     parent_page_types = ['domestic.DomesticHomePage']
@@ -76,7 +78,17 @@ class LessonPage(PersonalisablePageMixin, Page):
         context = super().get_context(request)
         context['topics'] = TopicPage.objects.live()
         context['country_choices'] = [{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES]
+        context['suggested_countries'] = self.get_suggested_countries(request)
         return context
+
+    @staticmethod
+    def get_suggested_countries(request):
+        if request.user.is_authenticated:
+            company = request.user.company
+            if company and company.expertise_industries_labels:
+                sector_label = company.expertise_industries_labels[0]
+                return helpers.get_suggested_countries(sector_label)
+        return []
 
 
 class LessonViewHit(TimeStampedModel):
