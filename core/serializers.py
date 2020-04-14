@@ -11,9 +11,16 @@ class ProductLookupSerializer(serializers.Serializer):
 
 
 class CompanySerializer(serializers.Serializer):
+    MESSAGE_TOO_MANY_COUNTRIES = 'You can select a maximum of three countries.'
+
     expertise_industries = serializers.JSONField(required=False)
     expertise_countries = serializers.JSONField(required=False)
     expertise_products_services = serializers.JSONField(required=False)
+
+    def validate_expertise_countries(self, value):
+        if len(value) > 3:
+            raise serializers.ValidationError(self.MESSAGE_TOO_MANY_COUNTRIES)
+        return value
 
 
 def _date_format(string):

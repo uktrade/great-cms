@@ -3,10 +3,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ErrorList from './ErrorList'
-import Select from 'react-select'
+import FlagIcon from './FlagIcon'
+
+import Select, { components } from 'react-select'
 import AsyncSelect from 'react-select/async';
 
 import './stylesheets/AutoCompleteField.scss'
+
+
+export function OptionWithFlag(props) {
+  return (
+    <components.Option {...props}>
+      <FlagIcon code={props.data.value.toLowerCase()} />
+      <span style={{paddingLeft: 10}}>{props.data.label} ({props.data.value})</span>
+    </components.Option>
+  )
+}
 
 
 export default function AutoCompleteField(props){
