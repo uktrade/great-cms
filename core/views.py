@@ -17,7 +17,7 @@ class DashboardView(TemplateView):
         user = self.request.user
         list_pages = (
             models.ListPage.objects.live().filter(record_read_progress=True)
-            .annotate(read_count=Count('read_hits_topic', filter=Q(read_hits_topic__sso_id=user.id)))
+            .annotate(read_count=Count('page_views_list', filter=Q(page_views_list__sso_id=user.id)))
             .annotate(read_progress=(
                 ExpressionWrapper(
                     expression=F('read_count') * 100 / F('numchild'),

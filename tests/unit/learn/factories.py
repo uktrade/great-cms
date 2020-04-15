@@ -5,6 +5,7 @@ from tests.unit.core.factories import ListPageFactory, DetailPageFactory
 class TopicPageFactory(ListPageFactory):
 
     template = 'learn/topic_page.html'
+    record_read_progress = True
 
     class Meta:
         model = models.ListPage

@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='lessonviewhit',
             name='topic',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='read_hits_topic', to='learn.TopicPage'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='page_views_list', to='learn.TopicPage'),
         ),
         migrations.AlterUniqueTogether(
             name='lessonviewhit',

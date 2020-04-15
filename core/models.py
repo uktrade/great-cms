@@ -233,7 +233,7 @@ class ListPage(CMSGenericPage):
 
     template_choices = (
         ('exportplan/export_plan_page.html', 'Export plan'),
-        ('learn/topic_page.html', 'Learn')
+        ('learn/topic_page.html', 'Lesson topic')
     )
 
     record_read_progress = models.BooleanField(
