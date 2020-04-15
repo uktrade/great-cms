@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from django.db.models import F, Count, IntegerField, ExpressionWrapper
+from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
@@ -14,10 +14,10 @@ class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
 
     def get_context_data(self, **kwargs):
-        session_id = self.request.user.session_id
+        user = self.request.user
         list_pages = (
             models.ListPage.objects.live().filter(record_read_progress=True)
-            .annotate(read_count=Count('page_views_list'))
+            .annotate(read_count=Count('read_hits_topic', filter=Q(read_hits_topic__sso_id=user.id)))
             .annotate(read_progress=(
                 ExpressionWrapper(
                     expression=F('read_count') * 100 / F('numchild'),
@@ -30,8 +30,8 @@ class DashboardView(TemplateView):
             list_pages=list_pages,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(session_id),
-            export_opportunities=helpers.get_dashboard_export_opportunities(session_id, self.request.user.company),
+            events=helpers.get_dashboard_events(user.session_id),
+            export_opportunities=helpers.get_dashboard_export_opportunities(user.session_id, user.company),
             **kwargs,
         )
 

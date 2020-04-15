@@ -3,12 +3,12 @@ from unittest.mock import patch, Mock
 import json
 
 import pytest
+from directory_api_client import api_client
 
 from django.urls import reverse
 
-from core import helpers, models
+from core import helpers, models, serializers
 from tests.helpers import create_response
-from directory_api_client import api_client
 from tests.unit.learn.factories import LessonPageFactory, TopicPageFactory
 
 
@@ -37,6 +37,22 @@ def test_api_update_company_success(mock_update_company_profile, mock_get_compan
         },
         sso_session_id=user.session_id,
     )
+
+
+@pytest.mark.django_db
+def test_api_update_company_too_many_companies(client, user):
+    company_data = {
+        'expertise_countries': json.dumps(['USA', 'China', 'Australia', 'New Zealand']),
+    }
+
+    client.force_login(user)
+
+    response = client.post(reverse('core:api-update-company'), company_data)
+
+    assert response.status_code == 400
+    assert response.json() == {
+        'expertise_countries': [serializers.CompanySerializer.MESSAGE_TOO_MANY_COUNTRIES],
+    }
 
 
 @pytest.mark.django_db
