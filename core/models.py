@@ -1,6 +1,5 @@
 import hashlib
 
-from core.context import get_context_provider
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
@@ -13,7 +12,11 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtail.snippets.models import register_snippet
+
 from django.db import models
+
+from core.context import get_context_provider
+from core import mixins
 
 
 class AbstractObjectHash(models.Model):
@@ -147,7 +150,7 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
-class CMSGenericPage(PersonalisablePageMixin, Page):
+class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
     """
     Generic page, freely inspired by Codered page
     """
