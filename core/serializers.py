@@ -6,12 +6,21 @@ from django.utils.text import Truncator
 from rest_framework import serializers
 
 
+class ProductLookupSerializer(serializers.Serializer):
+    q = serializers.CharField(required=False)
+
+
 class CompanySerializer(serializers.Serializer):
-    company_name = serializers.CharField(required=False)
+    MESSAGE_TOO_MANY_COUNTRIES = 'You can select a maximum of three countries.'
+
     expertise_industries = serializers.JSONField(required=False)
     expertise_countries = serializers.JSONField(required=False)
-    first_name = serializers.CharField(required=False)
-    last_name = serializers.CharField(required=False)
+    expertise_products_services = serializers.JSONField(required=False)
+
+    def validate_expertise_countries(self, value):
+        if len(value) > 3:
+            raise serializers.ValidationError(self.MESSAGE_TOO_MANY_COUNTRIES)
+        return value
 
 
 def _date_format(string):

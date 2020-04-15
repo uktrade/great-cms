@@ -2,6 +2,7 @@
 
 [![circle-ci-image]][circle-ci]
 [![coverage-image]][coverage]
+[![docs-image]][docs]
 [![gitflow-image]][gitflow]
 [![calver-image]][calver]
 
@@ -127,6 +128,14 @@ export default {
 3. Run `npm run build`
 4. The new component is now available on window.ditMVP.myFile
 
+### Node version
+Make sure to use NodeJS 12.16.1 or greater
+
+### Code formatting
+We are using eslint with recommended settings and prettier
+
+Are you using Visual Studio Code? Install Prettier plugin for auto formatting of your code:
+https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
 
 ## Staff SSO
 
@@ -181,6 +190,9 @@ https://github.com/uktrade?q=great
 
 [coverage-image]: https://coveralls.io/repos/github/uktrade/great-cms/badge.svg
 [coverage]: https://coveralls.io/github/uktrade/great-cms
+
+[docs-image]: https://readthedocs.org/projects/great-cms/badge/?version=latest
+[docs]: https://great-cms.readthedocs.io/en/latest/?badge=latest
 
 [gitflow-image]: https://img.shields.io/badge/Branching%20strategy-gitflow-5FBB1C.svg
 [gitflow]: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow

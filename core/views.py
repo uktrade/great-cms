@@ -3,22 +3,21 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from django.db.models import F, Count, IntegerField, ExpressionWrapper
+from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
-from core import forms, helpers, serializers
-from learn.models import TopicPage
+from core import forms, helpers, models, serializers
 
 
 class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
 
     def get_context_data(self, **kwargs):
-        session_id = self.request.user.session_id
-        topics = (
-            TopicPage.objects.live()
-            .annotate(read_count=Count('read_hits_topic'))
+        user = self.request.user
+        list_pages = (
+            models.ListPage.objects.live().filter(record_read_progress=True)
+            .annotate(read_count=Count('page_views_list', filter=Q(page_views_list__sso_id=user.id)))
             .annotate(read_progress=(
                 ExpressionWrapper(
                     expression=F('read_count') * 100 / F('numchild'),
@@ -28,11 +27,11 @@ class DashboardView(TemplateView):
             .order_by('-read_progress')
         )
         return super().get_context_data(
-            topics=topics,
+            list_pages=list_pages,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(session_id),
-            export_opportunities=helpers.get_dashboard_export_opportunities(session_id, self.request.user.company),
+            events=helpers.get_dashboard_events(user.session_id),
+            export_opportunities=helpers.get_dashboard_export_opportunities(user.session_id, user.company),
             **kwargs,
         )
 
@@ -45,7 +44,7 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        data = {key: value for key, value in serializer.data.items() if value}
+        data = {key: value for key, value in serializer.validated_data.items() if value}
         if not self.request.user.company:
             data['name'] = f'unnamed sso-{self.request.user.id} company'
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=data)
@@ -87,3 +86,14 @@ class MarketsView(TemplateView):
             most_popular_countries=self.get_most_popular_countries(),
             **kwargs
         )
+
+
+class ProductLookupView(generics.GenericAPIView):
+    serializer_class = serializers.ProductLookupSerializer
+    permission_classes = []
+
+    def get(self, request):
+        serializer = self.get_serializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
+        data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
+        return Response(data)

@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'sso',
     'core.apps.CoreConfig',
     'domestic',
-    'exportplan',
+    'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig'
 ]
@@ -426,3 +426,6 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
 
     def get_client_ip(request):
         return '51.6.68.120'
+
+# dit_helpdesk
+DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')

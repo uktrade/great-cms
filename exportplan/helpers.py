@@ -29,8 +29,14 @@ def get_exportplan(sso_session_id):
 def get_madb_country_list():
     airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
     airtable_data = airtable.get_all(view='Grid view')
-    country_list = [c['country'] for c in [f['fields'] for f in airtable_data]]
-    return list(zip(country_list, country_list))
+    country_list = [c['country'].strip() for c in [f['fields'] for f in airtable_data]]
+    return sorted(list(zip(country_list, country_list)))
+
+
+def update_exportplan(sso_session_id, id, data):
+    response = api_client.exportplan.exportplan_update(sso_session_id=sso_session_id, id=id, data=data)
+    response.raise_for_status()
+    return response.json()
 
 
 def get_madb_commodity_list():
@@ -47,8 +53,9 @@ def get_madb_commodity_list():
 def get_rules_and_regulations(country):
     airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
     rules = airtable.search('country', country)
-    if rules:
-        return rules[0]['fields']
+    if not rules:
+        raise ValueError('No data found for country')
+    return rules[0]['fields']
 
 
 def get_exportplan_marketdata(country_code):

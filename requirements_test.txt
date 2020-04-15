@@ -6,12 +6,14 @@
 #
 --no-binary psycopg2
 
-airtable-python-wrapper==0.12.0  # via -r requirements.in
+airtable-python-wrapper==0.13.0  # via -r requirements.in
+alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.11     # via -r requirements_test.in
 allure-python-commons==2.8.11  # via allure-pytest
 appnope==0.1.0            # via ipython
 astroid==2.3.3            # via pylint
 attrs==19.3.0             # via allure-python-commons, jsonschema, pytest
+babel==2.8.0              # via sphinx
 backcall==0.1.0           # via ipython
 beautifulsoup4==4.6.0     # via -r requirements_test.in, great-components, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
@@ -20,7 +22,7 @@ certifi==2019.11.28       # via geventhttpclient-wheels, requests, sentry-sdk
 chardet==3.0.4            # via requests
 click==7.1.1              # via flask, pip-tools
 configargparse==1.1       # via locustio
-coverage==5.0.3           # via coveralls, django-coverage-plugin, pytest-cov
+coverage==5.0.3           # via coveralls, pytest-cov
 coveralls==1.11.1         # via -r requirements_test.in
 decorator==4.4.2          # via ipython, traitlets
 directory-api-client==21.7.0  # via -r requirements.in
@@ -28,7 +30,6 @@ directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-cl
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
 directory-sso-api-client==6.2.0  # via -r requirements.in
-django-coverage-plugin==1.8.0  # via -r requirements_test.in
 django-debug-toolbar==2.2  # via -r requirements_test.in
 django-environ==0.4.5     # via -r requirements.in
 django-extensions==2.2.8  # via -r requirements.in
@@ -44,7 +45,7 @@ django-treebeard==4.3.1   # via wagtail
 django==2.2.10            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, django-debug-toolbar, django-filter, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, great-components, sigauth, wagtail, wagtailfontawesome
 djangorestframework==3.9.4  # via -r requirements.in, sigauth, wagtail
 docopt==0.6.2             # via coveralls
-docutils==0.15.2          # via botocore
+docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
 entrypoints==0.3          # via flake8
 factory-boy==2.12.0       # via wagtail-factories
@@ -66,6 +67,7 @@ greenlet==0.4.15          # via gevent
 gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.0.1           # via wagtail
 idna==2.9                 # via requests
+imagesize==1.2.0          # via sphinx
 importlib-metadata==1.5.0  # via jsonschema, pluggy, pytest
 ipdb==0.13.2              # via -r requirements_test.in
 ipython-genutils==0.2.0   # via traitlets
@@ -74,7 +76,7 @@ iso3166==1.0.1            # via -r requirements.in
 isort==4.3.21             # via pylint
 itsdangerous==1.1.0       # via flask
 jedi==0.16.0              # via ipython
-jinja2==2.11.1            # via flask
+jinja2==2.11.1            # via flask, sphinx
 jmespath==0.9.5           # via boto3, botocore
 jsonschema==3.2.0         # via great-components
 l18n==2018.5              # via wagtail
@@ -89,7 +91,7 @@ monotonic==1.5            # via directory-client-core
 more-itertools==8.2.0     # via pytest
 msgpack==1.0.0            # via locustio
 oauthlib==3.1.0           # via requests-oauthlib
-packaging==20.3           # via pytest, pytest-sugar
+packaging==20.3           # via pytest, pytest-sugar, sphinx
 parso==0.6.2              # via jedi
 pep8-naming==0.9.1        # via -r requirements_test.in
 pexpect==4.8.0            # via ipython
@@ -105,7 +107,7 @@ py==1.8.1                 # via pytest
 pycodestyle==2.5.0        # via flake8, flake8-debugger, flake8-print
 pycountry==19.8.18        # via wagtail-personalisation
 pyflakes==2.1.1           # via flake8
-pygments==2.6.1           # via ipython
+pygments==2.6.1           # via ipython, sphinx
 pylint-django==2.0.14     # via -r requirements_test.in
 pylint-plugin-utils==0.6  # via pylint-django
 pylint==2.4.4             # via pylint-django, pylint-plugin-utils
@@ -116,17 +118,20 @@ pytest-django==3.8.0      # via -r requirements_test.in
 pytest-sugar==0.9.2       # via -r requirements_test.in
 pytest==5.3.5             # via -r requirements_test.in, allure-pytest, pytest-cov, pytest-django, pytest-sugar
 python-dateutil==2.8.1    # via botocore, faker, freezegun
-pytz==2019.3              # via django, django-modelcluster, l18n
+pytz==2019.3              # via babel, django, django-modelcluster, l18n
 pyzmq==19.0.0             # via locustio
 redis==3.4.1              # via django-redis
 requests-mock==1.7.0      # via -r requirements_test.in
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.23.0          # via airtable-python-wrapper, coveralls, directory-api-client, directory-client-core, geoip2, locustio, requests-mock, requests-oauthlib, wagtail
+requests==2.23.0          # via airtable-python-wrapper, coveralls, directory-api-client, directory-client-core, geoip2, locustio, requests-mock, requests-oauthlib, sphinx, wagtail
 s3transfer==0.3.3         # via boto3
 selenium==3.141.0         # via -r requirements_test.in
 sentry-sdk==0.13.5        # via -r requirements.in
 sigauth==4.1.1            # via directory-client-core
-six==1.14.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, django-coverage-plugin, django-extensions, django-pglocks, flake8-print, geventhttpclient-wheels, html5lib, jsonschema, l18n, packaging, pip-tools, pyrsistent, python-dateutil, requests-mock, traitlets, w3lib
+six==1.14.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, django-extensions, django-pglocks, flake8-print, geventhttpclient-wheels, html5lib, jsonschema, l18n, packaging, pip-tools, pyrsistent, python-dateutil, requests-mock, sphinx, traitlets, w3lib
+snowballstemmer==2.0.0    # via sphinx
+sphinx==1.8.5             # via -r requirements.in
+sphinxcontrib-websupport==1.2.1  # via sphinx
 sqlparse==0.3.1           # via django, django-debug-toolbar
 termcolor==1.1.0          # via pytest-sugar
 text-unidecode==1.3       # via faker
