@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'sso',
     'core.apps.CoreConfig',
     'domestic',
-    'exportplan',
+    'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig'
 ]

@@ -7,8 +7,7 @@ from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
-from core import forms, helpers, serializers
-from learn.models import TopicPage
+from core import forms, helpers, models, serializers
 
 
 class DashboardView(TemplateView):
@@ -16,9 +15,9 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        topics = (
-            TopicPage.objects.live()
-            .annotate(read_count=Count('read_hits_topic', filter=Q(read_hits_topic__sso_id=user.id)))
+        list_pages = (
+            models.ListPage.objects.live().filter(record_read_progress=True)
+            .annotate(read_count=Count('page_views_list', filter=Q(page_views_list__sso_id=user.id)))
             .annotate(read_progress=(
                 ExpressionWrapper(
                     expression=F('read_count') * 100 / F('numchild'),
@@ -28,7 +27,7 @@ class DashboardView(TemplateView):
             .order_by('-read_progress')
         )
         return super().get_context_data(
-            topics=topics,
+            list_pages=list_pages,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
             events=helpers.get_dashboard_events(user.session_id),

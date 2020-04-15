@@ -1,18 +1,23 @@
 from django.core.management import BaseCommand
 from wagtail.core.models import Site
 
-import tests.unit.exportplan.factories
-import tests.unit.core.factories
-import tests.unit.learn.factories
+from tests.unit.core import factories
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
         site = Site.objects.first()
-        export_plan = tests.unit.exportplan.factories.ExportPlanPageFactory(parent=site.root_page)
-        tests.unit.exportplan.factories.ExportPlanDashboardPageFactory(parent=export_plan)
-        tests.unit.core.factories.PersonalisedPageFactory(parent=site.root_page, slug='country', title='Country')
-        tests.unit.learn.factories.LearnPageFactory(parent=site.root_page, slug='learn')
-
+        export_plan = factories.ListPageFactory(
+            parent=site.root_page,
+            title='export plan',
+            slug='export-plan',
+            template='exportplan/export_plan_page.html',
+        )
+        factories.DetailPageFactory(
+            parent=export_plan,
+            title='export plan dashboard',
+            slug='dashboard',
+            template='exportplan/export_plan_dashboard_page.html',
+        )
         self.stdout.write(self.style.SUCCESS('Pages created'))
