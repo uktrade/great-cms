@@ -1,20 +1,21 @@
 import directory_sso_api_client.backends
+import authbroker_client.backends
 
 from django.templatetags.static import static
 
-from sso.models import BusinessSSOUser
+from sso import helpers, models
 
 
 class BusinessSSOUserBackend(directory_sso_api_client.backends.SSOUserBackend):
 
     def authenticate(self, request):
-        if not request.path.startswith('/admin/'):
+        if not helpers.is_admin_url(request.path):
             return super().authenticate(request)
 
     def build_user(self, session_id, response):
         parsed = response.json()
         user_kwargs = self.user_kwargs(session_id=session_id, parsed=parsed)
-        return BusinessSSOUser(**user_kwargs)
+        return models.BusinessSSOUser(**user_kwargs)
 
     def user_kwargs(self, session_id, parsed):
         kwargs = super().user_kwargs(session_id=session_id, parsed=parsed)
@@ -24,3 +25,9 @@ class BusinessSSOUserBackend(directory_sso_api_client.backends.SSOUserBackend):
             static('images/user-icon.png')
         )
         return kwargs
+
+
+class StaffSSOUserBackend(authbroker_client.backends.AuthbrokerBackend):
+    def authenticate(self, request):
+        if helpers.is_admin_url(request.path):
+            return super().authenticate(request.path)
