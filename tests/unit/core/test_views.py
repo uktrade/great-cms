@@ -5,6 +5,7 @@ import json
 import pytest
 from directory_api_client import api_client
 
+from django.db.utils import DataError
 from django.urls import reverse
 
 from core import helpers, models, serializers
@@ -153,6 +154,30 @@ def test_dashboard_page_lesson_progress(
     assert response.context_data['list_pages'][1] == topic_two
     assert response.context_data['list_pages'][1].read_count == 0
     assert response.context_data['list_pages'][1].read_progress == 0
+
+
+@pytest.mark.django_db
+@mock.patch.object(api_client.personalisation, 'events_by_location_list')
+@mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
+def test_dashboard_page_lesson_division_by_zero(
+        mock_events_by_location_list,
+        mock_export_opportunities_by_relevance_list,
+        mock_get_company_profile,
+        client,
+        user,
+        domestic_homepage,
+        domestic_site
+):
+    mock_events_by_location_list.return_value = create_response(json_body={'results': []})
+    mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
+    client.force_login(user)
+
+    # given a lesson listing page without any lesson in it
+    ListPageFactory(parent=domestic_homepage, slug='test-topic-one', record_read_progress=True)
+
+    # when the dashboard is visited a division by zero should be raised
+    with pytest.raises(DataError, match='division by zero'):
+        client.get(reverse('core:dashboard'))
 
 
 @pytest.mark.django_db
