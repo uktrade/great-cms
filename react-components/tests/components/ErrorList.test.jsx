@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -18,14 +17,14 @@ afterEach(() => {
 
 test('ErrorList handles no errors', () => {
   const errors = []
-  const component = shallow(<ErrorList errors={errors} />)
+  const component = Enzyme.shallow(<ErrorList errors={errors} />)
 
   expect(component).toEqual({})
 })
 
 test('ErrorList handles one error', () => {
   const errors = ['something went wrong']
-  const component = shallow(<ErrorList errors={errors} className="edie" />)
+  const component = Enzyme.shallow(<ErrorList errors={errors} className="edie" />)
 
   expect(
     component.matchesElement(
@@ -40,7 +39,7 @@ test('ErrorList handles one error', () => {
 
 test('ErrorList handles multiple errors', () => {
   const errors = ['something went wrong', 'something else went wrong']
-  const component = shallow(<ErrorList errors={errors} className="edie" />)
+  const component = Enzyme.shallow(<ErrorList errors={errors} className="edie" />)
 
   expect(
     component.containsMatchingElement(
