@@ -9,6 +9,7 @@ from django.urls import reverse
 
 from core import helpers, models, serializers
 from tests.helpers import create_response
+from tests.unit.core.factories import ListPageFactory, DetailPageFactory
 from tests.unit.learn.factories import LessonPageFactory, TopicPageFactory
 
 
@@ -121,12 +122,13 @@ def test_dashboard_page_lesson_progress(
     client.force_login(user)
 
     # given the user has read some lessons
-    topic_one = TopicPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
-    topic_two = TopicPageFactory(parent=domestic_homepage, slug='topic-two', record_read_progress=True)
-    lesson_one = LessonPageFactory(parent=topic_one, slug='lesson-one')
-    lesson_two = LessonPageFactory(parent=topic_one, slug='lesson-two')
-    LessonPageFactory(parent=topic_one, slug='lesson-three',)
-    LessonPageFactory(parent=topic_one, slug='lesson-four')
+    topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
+    topic_two = ListPageFactory(parent=domestic_homepage, slug='topic-two', record_read_progress=True)
+    lesson_one = DetailPageFactory(parent=topic_one, slug='lesson-one')
+    lesson_two = DetailPageFactory(parent=topic_one, slug='lesson-two')
+    DetailPageFactory(parent=topic_one, slug='lesson-three',)
+    DetailPageFactory(parent=topic_one, slug='lesson-four')
+    DetailPageFactory(parent=topic_two, slug='lesson-one-topic-two')
     models.PageView.objects.create(
         page=lesson_one,
         list_page=topic_one,
@@ -150,7 +152,7 @@ def test_dashboard_page_lesson_progress(
     assert response.context_data['list_pages'][0].read_progress == 50
     assert response.context_data['list_pages'][1] == topic_two
     assert response.context_data['list_pages'][1].read_count == 0
-    assert response.context_data['list_pages'][1].read_progress is None
+    assert response.context_data['list_pages'][1].read_progress == 0
 
 
 @pytest.mark.django_db
