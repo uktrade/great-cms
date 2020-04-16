@@ -5,13 +5,13 @@ version: 2
 ###########
 
 python: &python
-  - image: circleci/python:3.6.6
+  image: circleci/python:3.6.6
 
 python_node_browsers: &python_node_browsers
-  - image: circleci/python:3.6.6-node-browsers
+  image: circleci/python:3.6.6-node-browsers
 
 node: &node
-  - image: circleci/node:8.5.0
+  image: circleci/node:8.5.0
 
 postgres: &postgres
   - image: circleci/postgres:9.6.16-alpine-ram
@@ -64,8 +64,8 @@ jobs:
 
   test:
     docker:
-      <<: *python_node_browsers
-      <<: *postgres
+      - <<: *python_node_browsers
+      - <<: *postgres
     environment:
       *postgres_url
     steps:
@@ -96,10 +96,10 @@ jobs:
 
   test_browser:
     docker:
-      <<: *python_node_browsers
-      <<: *postgres
+      - <<: *python_node_browsers
+      - <<: *postgres
     environment:
-      <<: *postgres_url
+      *postgres_url
     steps:
       - checkout
       - *install_postgresql_client
@@ -146,8 +146,8 @@ jobs:
   test_load:
     working_directory: ~/greatcms
     docker:
-      <<: *python
-      <<: *postgres
+      - <<: *python
+      - <<: *postgres
     environment:
       NUM_CLIENTS: 20
       HATCH_RATE: 3
@@ -170,7 +170,7 @@ jobs:
 
   test_javascript:
     docker:
-      <<: *node
+      - *node
     steps:
       - checkout
       - restore_cache:
@@ -188,7 +188,7 @@ jobs:
 
   flake8:
     docker:
-      <<: *python
+      - <<: *python
     steps:
     - checkout
     - run:
