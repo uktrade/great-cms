@@ -3,8 +3,17 @@ jobs:
   test:
     docker:
       - image: circleci/python:3.6.6-node-browsers
+      - image: circleci/postgres:9.6.16-alpine-ram
+        environment:
+          POSTGRES_USER: debug
+          POSTGRES_PASSWORD: debug
+          POSTGRES_DB: greatcms
+    environment:
+      DATABASE_URL: postgresql://debug:debug@localhost/greatcms
     steps:
       - checkout
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client-9.6
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - run:
@@ -13,6 +22,13 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             make install_requirements
+      - run:
+          name: Database Setup
+          command: |
+            . venv/bin/activate
+            make secrets
+            make database
+            make ARGUMENTS=migrate manage
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
@@ -35,8 +51,17 @@ jobs:
   test_browser:
     docker:
       - image: circleci/python:3.6.6-node-browsers
+      - image: circleci/postgres:9.6.16-alpine-ram
+        environment:
+          POSTGRES_USER: debug
+          POSTGRES_PASSWORD: debug
+          POSTGRES_DB: greatcms
+    environment:
+      DATABASE_URL: postgresql://debug:debug@localhost/greatcms
     steps:
       - checkout
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client-9.6
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - run:
@@ -53,6 +78,13 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             make install_requirements
+      - run:
+          name: Database Setup
+          command: |
+            . venv/bin/activate
+            make secrets
+            make database
+            make ARGUMENTS=migrate manage
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
