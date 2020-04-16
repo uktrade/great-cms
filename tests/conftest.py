@@ -261,7 +261,7 @@ def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
     those steps are shown in reversed order. So in order to show them in the right
     order they have to be reverse here.
     """
-    tour_steps.update({'steps': list(reversed(tour_steps['steps']))})
+    tour_steps.update({'steps': tour_steps['steps']})
     return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
 
 
