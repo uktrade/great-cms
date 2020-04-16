@@ -1,8 +1,8 @@
 version: 2
 
-###########
+###############################################################################
 # Variables
-###########
+###############################################################################
 
 python: &python
   image: circleci/python:3.6.6
@@ -24,9 +24,9 @@ postgres_url: &postgres_url
   DATABASE_URL: postgresql://debug:debug@localhost/greatcms
 
 
-########
+###############################################################################
 # Steps
-########
+###############################################################################
 
 install_postgresql_client: &install_postgresql_client
   run:
@@ -41,6 +41,7 @@ create_virtualenv_and_install_dependencies: &create_virtualenv_and_install_depen
     command: |
       python3 -m venv venv
       . venv/bin/activate
+      pip install --upgrade pip
       make install_requirements
 
 setup_db: &setup_db
@@ -56,9 +57,9 @@ setup_db: &setup_db
       make ARGUMENTS=create_tours manage
 
 
-########
-# job
-########
+###############################################################################
+# Jobs
+###############################################################################
 
 jobs:
 
