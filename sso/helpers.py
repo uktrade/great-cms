@@ -1,3 +1,5 @@
+import re
+
 from directory_api_client import api_client
 from directory_forms_api_client import actions
 from directory_sso_api_client import sso_api_client
@@ -8,6 +10,9 @@ from rest_framework.exceptions import APIException
 from django.conf import settings
 from django.utils import formats
 from django.utils.dateparse import parse_datetime
+
+
+ADMIN_URL_PATTERN = re.compile(r'^\/(django\-)?admin\/.*')
 
 
 class InvalidVerificationCode(APIException):
@@ -93,3 +98,7 @@ def get_company_profile(sso_session_id):
         return None
     response.raise_for_status()
     return response.json()
+
+
+def is_admin_url(url):
+    return ADMIN_URL_PATTERN.match(url)
