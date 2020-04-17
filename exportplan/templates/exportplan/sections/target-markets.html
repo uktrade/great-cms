@@ -88,7 +88,7 @@
     ditMVP.createCountryChooser({
       element: countryElement,
       countryList: {{ country_choices|safe }},
-      selectedCountries: {{ target_markets|safe }}
+      selectedCountries: {{ target_markets|safe|default:"[]" }}
     })
   </script>
 {% endblock %}
