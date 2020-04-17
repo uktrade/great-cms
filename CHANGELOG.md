@@ -61,4 +61,5 @@
 - MVP-335 - Add market capture component
 - no ticket - rm redundant CircleCI step setup_remote_docker
 - MVP-388 - add commdity name
+- MVP-404 - make all tests use PostgreSQL
 

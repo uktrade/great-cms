@@ -1,18 +1,81 @@
 version: 2
+
+###############################################################################
+# Variables
+###############################################################################
+
+python: &python
+  image: circleci/python:3.6.6
+
+python_node_browsers: &python_node_browsers
+  image: circleci/python:3.6.6-node-browsers
+
+node: &node
+  image: circleci/node:8.5.0
+
+postgres: &postgres
+  - image: circleci/postgres:9.6.16-alpine-ram
+    environment:
+      POSTGRES_USER: debug
+      POSTGRES_PASSWORD: debug
+      POSTGRES_DB: greatcms
+
+postgres_url: &postgres_url
+  DATABASE_URL: postgresql://debug:debug@localhost/greatcms
+
+
+###############################################################################
+# Steps
+###############################################################################
+
+install_postgresql_client: &install_postgresql_client
+  run:
+    name: Install PostgreSQL Client
+    command: |
+      sudo apt-get update
+      sudo apt-get install postgresql-client-9.6
+
+create_virtualenv_and_install_dependencies: &create_virtualenv_and_install_dependencies
+  run:
+    name: Create virtualenv and install dependencies
+    command: |
+      python3 -m venv venv
+      . venv/bin/activate
+      pip install --upgrade pip
+      make install_requirements
+
+setup_db: &setup_db
+  run:
+    name: Database Setup
+    command: |
+      . venv/bin/activate
+      make secrets
+      make database
+      make ARGUMENTS=migrate manage
+      make ARGUMENTS=bootstrap_great manage
+      make ARGUMENTS=create_pages manage
+      make ARGUMENTS=create_tours manage
+
+
+###############################################################################
+# Jobs
+###############################################################################
+
 jobs:
+
   test:
     docker:
-      - image: circleci/python:3.6.6-node-browsers
+      - <<: *python_node_browsers
+      - <<: *postgres
+    environment:
+      *postgres_url
     steps:
       - checkout
+      - *install_postgresql_client
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
-      - run:
-          name: Create virtualenv and install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            make install_requirements
+      - *create_virtualenv_and_install_dependencies
+      - *setup_db
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
@@ -34,9 +97,13 @@ jobs:
 
   test_browser:
     docker:
-      - image: circleci/python:3.6.6-node-browsers
+      - <<: *python_node_browsers
+      - <<: *postgres
+    environment:
+      *postgres_url
     steps:
       - checkout
+      - *install_postgresql_client
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - run:
@@ -47,12 +114,8 @@ jobs:
             unzip -q allure.zip
             find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
             rm allure.zip
-      - run:
-          name: Create virtualenv and install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            make install_requirements
+      - *create_virtualenv_and_install_dependencies
+      - *setup_db
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
@@ -84,27 +147,18 @@ jobs:
   test_load:
     working_directory: ~/greatcms
     docker:
-      - image: circleci/python:3.6.6
+      - <<: *python
+      - <<: *postgres
     environment:
       NUM_CLIENTS: 20
       HATCH_RATE: 3
       RUN_TIME: 30s
+      <<: *postgres_url
     steps:
       - checkout
-      - run:
-          name: Create virtualenv and install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            make install_requirements
-      - run:
-          name: Database and UI Setup
-          command: |
-            . venv/bin/activate
-            make secrets
-            ENV_FILES='test,dev' ./manage.py migrate
-            ENV_FILES='test,dev' ./manage.py bootstrap_great
+      - *install_postgresql_client
+      - *create_virtualenv_and_install_dependencies
+      - *setup_db
       - run:
           name: Run tests
           command: |
@@ -117,7 +171,7 @@ jobs:
 
   test_javascript:
     docker:
-      - image: circleci/node:8.5.0
+      - *node
     steps:
       - checkout
       - restore_cache:
@@ -135,7 +189,7 @@ jobs:
 
   flake8:
     docker:
-    - image: circleci/python:3.6.6
+      - <<: *python
     steps:
     - checkout
     - run:
