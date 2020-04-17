@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -23,15 +22,15 @@ afterEach(() => {
 })
 
 test('SocialLoginButtons should render', () => {
-  const component = shallow(
+  const component = Enzyme.shallow(
     <SocialLoginButtons
       type="text"
       placeholder="some placeholder"
       name="some-name"
       value="some value"
       handleChange={() => {}}
-      disabled={true}
-      autofocus={true}
+      disabled
+      autofocus
     />
   )
 

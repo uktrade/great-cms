@@ -36,7 +36,7 @@
       }
     },
     {
-      "files": ["./src/components/CountryChooser.jsx"],
+      "files": ["./src/components/SectorChooser.jsx", "./src/components/TargetMarketCountries.jsx"],
       "rules": {
         "no-underscore-dangle": "off",
         "react/jsx-props-no-spreading": "off"

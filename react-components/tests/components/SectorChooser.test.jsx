@@ -1,13 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { act, Simulate } from 'react-dom/test-utils'
-import { SectorChooser } from '@src/components/SectorChooser'
+import SectorChooser from '@src/components/SectorChooser'
+import Services from '@src/Services'
+import fetchMock from 'fetch-mock'
 
 let container
 
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)
+  fetchMock.reset()
 })
 
 afterEach(() => {
@@ -19,7 +22,7 @@ it('shows the list of sectors and hides button on click', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} />, container)
   })
 
   const button = container.querySelector('#sector-chooser-button')
@@ -32,14 +35,14 @@ it('shows the list of sectors and hides button on click', () => {
 
   const sectors = container.querySelector('#sector-list').children
 
-  expect(sectors.length).toEqual(4)
+  expect(sectors).toHaveLength(4)
 })
 
 it('shows selected sectors in sector list and shows save button', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={[]} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} />, container)
   })
 
   const sectorButton = container.querySelector('#sector-chooser-button')
@@ -60,7 +63,7 @@ it('shows selected sectors in sector list and shows save button', () => {
 
   const selected = container.querySelector('#sector-list').getElementsByClassName('selected')
 
-  expect(selected.length).toEqual(2)
+  expect(selected).toHaveLength(2)
 
   expect(container.querySelector('#sector-chooser .g-button')).toBeTruthy()
 })
@@ -69,8 +72,10 @@ it('can remove selected sectors in sector list and hide save button', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
   const selectedSectors = ['Aerospace']
 
+  fetchMock.get(Services.config.countriesBySectorsDataUrl, 200)
+
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
   })
 
   const sectorButton = container.querySelector('#sector-chooser-button')
@@ -81,7 +86,7 @@ it('can remove selected sectors in sector list and hide save button', () => {
 
   const selected = container.querySelector('#sector-list').getElementsByClassName('selected')
 
-  expect(selected.length).toEqual(1)
+  expect(selected).toHaveLength(1)
   expect(selected[0].id).toEqual('aerospace')
   expect(container.querySelector('#sector-chooser .g-button')).toBeTruthy()
 
@@ -89,7 +94,7 @@ it('can remove selected sectors in sector list and hide save button', () => {
     Simulate.click(selected[0])
   })
 
-  expect(selected.length).toEqual(0)
+  expect(selected).toHaveLength(0)
 
   expect(container.querySelector('#sector-chooser .g-button')).toBeFalsy()
 })
@@ -118,13 +123,15 @@ it('shows selected sectors', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
   const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
+  fetchMock.get(Services.config.countriesBySectorsDataUrl, 200)
+
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
   })
 
   const selectedButtons = container.querySelector('#selected-sectors').getElementsByClassName('selected')
 
-  expect(selectedButtons.length).toEqual(2)
+  expect(selectedButtons).toHaveLength(2)
   expect(selectedButtons[0].id).toEqual('aerospace')
   expect(selectedButtons[1].id).toEqual('advanced-manufacturing')
 })
@@ -133,13 +140,15 @@ it('removes sector on click', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
   const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
+  fetchMock.get(Services.config.countriesBySectorsDataUrl, 200)
+
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} initialSelectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
   })
 
   const selectedButtons = container.getElementsByClassName('selected')
 
-  expect(selectedButtons.length).toEqual(2)
+  expect(selectedButtons).toHaveLength(2)
 
   const aerospace = container.querySelector('#aerospace')
 
@@ -147,5 +156,5 @@ it('removes sector on click', () => {
     Simulate.click(aerospace)
   })
 
-  expect(selectedButtons.length).toEqual(1)
+  expect(selectedButtons).toHaveLength(1)
 })

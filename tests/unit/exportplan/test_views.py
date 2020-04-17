@@ -1,5 +1,6 @@
 from datetime import datetime
 from unittest import mock
+import json
 
 from freezegun import freeze_time
 import pytest
@@ -121,6 +122,7 @@ def test_exportplan_target_markets(
     explan_plan_data = {
         'country': 'Australia',
         'commodity_code': '220.850',
+        'sectors': ['Automotive'],
         'target_markets': [
             {'country': 'China'},
         ],
@@ -139,5 +141,5 @@ def test_exportplan_target_markets(
     assert mock_get_export_plan.call_count == 1
     assert mock_get_export_plan.call_args == mock.call(sso_session_id=user.session_id,)
 
-    assert response.context['target_markets'] == explan_plan_data['target_markets']
+    assert response.context['target_markets'] == json.dumps(explan_plan_data['target_markets'])
     assert response.context['datenow'] == datetime.now()

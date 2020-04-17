@@ -21,7 +21,7 @@ it('callback alters selected state on click', () => {
   }
 
   act(() => {
-    ReactDOM.render(<Sector id="sector" name="Sector" selected={false} addRemoveSector={callback} />, container)
+    ReactDOM.render(<Sector id="sector" name="Sector" selected={false} handleSectorButtonClick={callback} />, container)
   })
 
   const button = container.querySelector('button')
