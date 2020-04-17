@@ -52,6 +52,11 @@
                 <div class="grid p-t-l p-f-l">
                     <div class="c-2-3">
                         <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
+                        {% for block in page.body %}
+                            <div>
+                                {% include_block block %}
+                            </div>
+                        {% endfor %}
                         {% for block in page.generic_content %}
                             <div>
                             {% filter add_anchors_to_all_headings %}
@@ -85,7 +90,7 @@
 {% endblock %}
 
 
-{% block body_js %} 
+{% block body_js %}
     <script type="text/javascript">
         {% if request.GET.products_label %}
         var isProductModalOpen = false;
@@ -96,7 +101,7 @@
         var marketSelectElement = document.getElementById('market-select-navbar');
         var countriesChooserElement = document.getElementById('countries-chooser');
 
-        ditMVP.setConfig({ 
+        ditMVP.setConfig({
             {% if user.company %}
             userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
             userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }},
