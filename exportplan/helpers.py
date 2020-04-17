@@ -101,8 +101,8 @@ def get_recommended_countries(sso_session_id, sectors):
     response.raise_for_status()
     parsed = response.json()
     if parsed:
-        for recommended_country in parsed:
-            country = recommended_country['country'].title()
-            recommended_country['country'] = country
+        for item in parsed:
+            country = item['country'].title()
+            item['country'] = country
         return parsed
     return []
