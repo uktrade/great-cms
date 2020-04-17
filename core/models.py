@@ -2,16 +2,21 @@ import hashlib
 
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
+    ObjectList, TabbedInterface
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
+from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtail.snippets.models import register_snippet
 
 from django.db import models
+
+from core.context import get_context_provider
+from core import mixins
 
 
 class AbstractObjectHash(models.Model):
@@ -123,23 +128,6 @@ class Country(models.Model):
         verbose_name_plural = 'Countries'
 
 
-class PersonalisedPage(PersonalisablePageMixin, Page):
-
-    body = StreamField([
-        (
-            'body', PersonalisedStructBlock(
-                [('paragraph', blocks.RichTextBlock())],
-                template='core/personalised_page_struct_block.html',
-                icon='pilcrow'
-            )
-        )
-    ])
-
-    content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
-    ]
-
-
 class TimeStampedModel(models.Model):
     """Modified version of django_extensions.db.models.TimeStampedModel
 
@@ -158,3 +146,127 @@ class TimeStampedModel(models.Model):
         get_latest_by = 'modified'
         ordering = ('-modified', '-created',)
         abstract = True
+
+
+# Content models
+
+class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
+    """
+    Generic page, freely inspired by Codered page
+    """
+
+    class Meta:
+        abstract = True
+
+    # Do not allow this page type to be created in wagtail admin
+    is_creatable = False
+
+    template_choices = []
+
+    ################
+    # Content fields
+    ################
+
+    body = StreamField([
+        (
+            'body', PersonalisedStructBlock(
+                [('paragraph', blocks.RichTextBlock())],
+                template='core/personalised_page_struct_block.html',
+                icon='pilcrow'
+            )
+        )
+    ])
+
+    ###############
+    # Layout fields
+    ###############
+
+    template = models.CharField(
+        max_length=255,
+        choices=None,
+    )
+
+    #########
+    # Panels
+    #########
+
+    content_panels = Page.content_panels + [StreamFieldPanel('body')]
+    layout_panels = [FieldPanel('template')]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        field = self._meta.get_field('template')
+        field.choices = self.template_choices
+        field.required = True
+
+    @cached_classmethod
+    def get_edit_handler(cls):  # NOQA N805
+        panels = [
+            ObjectList(cls.content_panels, heading='Content'),
+            ObjectList(cls.layout_panels, heading='Layout'),
+            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+        ]
+
+        return TabbedInterface(panels).bind_to(model=cls)
+
+    def get_template(self, request, *args, **kwargs):
+        return self.template
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        provider = get_context_provider(request=request, page=self)
+        if provider:
+            context.update(provider.get_context_data(request=request, page=self))
+        return context
+
+    def serve(self, request, *args, **kwargs):
+        parent = self.get_parent().specific
+        if getattr(parent, 'record_read_progress', False) and request.user.is_authenticated:
+            PageView.objects.get_or_create(
+                page=self,
+                list_page=parent,
+                sso_id=request.user.pk,
+            )
+        return super().serve(request, **kwargs)
+
+
+class ListPage(CMSGenericPage):
+    parent_page_types = ['domestic.DomesticHomePage']
+    subpage_types = ['core.DetailPage']
+
+    template_choices = (
+        ('exportplan/export_plan_page.html', 'Export plan'),
+        ('learn/topic_page.html', 'Lesson topic')
+    )
+
+    record_read_progress = models.BooleanField(
+        default=False,
+        help_text='Should we record when a user views a page in this collection?',
+    )
+
+    settings_panels = Page.settings_panels + [FieldPanel('record_read_progress')]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        if self.record_read_progress and request.user.is_authenticated:
+            queryset = self.page_views_list.filter(sso_id=request.user.pk)
+            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
+        return context
+
+
+class DetailPage(CMSGenericPage):
+    parent_page_types = ['core.ListPage']
+    template_choices = (
+        ('exportplan/export_plan_dashboard_page.html', 'Export plan'),
+        ('learn/lesson_page.html', 'Lesson')
+    )
+
+
+class PageView(TimeStampedModel):
+    page = models.ForeignKey(DetailPage, on_delete=models.CASCADE, related_name='page_views')
+    list_page = models.ForeignKey(ListPage, on_delete=models.CASCADE, related_name='page_views_list')
+    sso_id = models.TextField()
+
+    class Meta:
+        ordering = ['lesson__pk']
+        unique_together = ['page', 'sso_id']

@@ -1,37 +1,20 @@
-import factory.fuzzy
-from wagtail_factories import PageFactory
-
-from learn import models
+from core import models
+from tests.unit.core.factories import ListPageFactory, DetailPageFactory
 
 
-class TopicPageFactory(PageFactory):
+class TopicPageFactory(ListPageFactory):
 
-    title = 'some topic'
-    live = True
-    slug = 'some-topic'
-    description = factory.fuzzy.FuzzyText(length=200)
+    template = 'learn/topic_page.html'
+    record_read_progress = True
 
     class Meta:
-        model = models.TopicPage
+        model = models.ListPage
         django_get_or_create = ['slug', 'parent']
 
 
-class LessonPageFactory(PageFactory):
-
-    title = 'some lesson'
-    live = True
-    slug = 'some-lesson'
-    generic_content = factory.fuzzy.FuzzyText(length=200)
+class LessonPageFactory(DetailPageFactory):
+    template = 'learn/lesson_page.html'
 
     class Meta:
-        model = models.LessonPage
-        django_get_or_create = ['slug', 'parent']
-
-
-class LearnPageFactory(PageFactory):
-    title = 'learn page'
-    live = True
-
-    class Meta:
-        model = models.LearnPage
+        model = models.DetailPage
         django_get_or_create = ['slug', 'parent']

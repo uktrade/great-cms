@@ -15,10 +15,10 @@ export default class Sector extends React.Component {
 
   handleClick() {
     const { selected } = this.state
-    const { id, handleSectorButtonClick } = this.props
+    const { name, handleSectorButtonClick } = this.props
     this.setState({ selected: !selected })
 
-    handleSectorButtonClick(id)
+    handleSectorButtonClick(name)
   }
 
   render() {

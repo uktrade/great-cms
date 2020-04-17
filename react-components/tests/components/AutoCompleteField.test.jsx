@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { act } from 'react-dom/test-utils'
-import { shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import Select from 'react-select'
@@ -23,9 +22,9 @@ afterEach(() => {
 describe('AutoCompleteField', () => {
   test('should show errors', () => {
     const errors = ['some error']
-    const component = shallow(
+    const component = Enzyme.shallow(
       <AutoCompleteField
-        autoFocus={true}
+        autoFocus
         disabled={false}
         errors={errors}
         handleChange={() => {}}
@@ -41,9 +40,9 @@ describe('AutoCompleteField', () => {
   test('should handle async lookup', () => {
     const loadOptions = () => Promise.resolve([])
 
-    const component = shallow(
+    const component = Enzyme.shallow(
       <AutoCompleteField
-        autoFocus={true}
+        autoFocus
         disabled={false}
         errors={[]}
         handleChange={() => {}}
@@ -57,13 +56,13 @@ describe('AutoCompleteField', () => {
     expect(
       component.containsMatchingElement(
         <AsyncSelect
-          autoFocus={true}
+          autoFocus
           className="great-mvp-autocomplete-field"
           classNamePrefix="great-mvp-autocomplete-field"
           disabled={false}
           id="id_example"
-          isClearable={true}
-          isMulti={true}
+          isClearable
+          isMulti
           loadOptions={loadOptions}
           name="example"
           placeholder="Some placeholder"
@@ -78,9 +77,9 @@ describe('AutoCompleteField', () => {
       { value: 'foo', label: 'Foo' },
       { value: 'bar', label: 'Bar' },
     ]
-    const component = shallow(
+    const component = Enzyme.shallow(
       <AutoCompleteField
-        autoFocus={true}
+        autoFocus
         disabled={false}
         errors={[]}
         handleChange={() => {}}
@@ -94,13 +93,13 @@ describe('AutoCompleteField', () => {
     expect(
       component.containsMatchingElement(
         <Select
-          autoFocus={true}
+          autoFocus
           className="great-mvp-autocomplete-field"
           classNamePrefix="great-mvp-autocomplete-field"
           disabled={false}
           id="id_example"
-          isClearable={true}
-          isMulti={true}
+          isClearable
+          isMulti
           options={options}
           name="example"
           placeholder="Some placeholder"
@@ -111,9 +110,9 @@ describe('AutoCompleteField', () => {
   })
 
   test('should handle no label', () => {
-    const component = shallow(
+    const component = Enzyme.shallow(
       <AutoCompleteField
-        autoFocus={true}
+        autoFocus
         disabled={false}
         errors={[]}
         handleChange={() => {}}
@@ -136,9 +135,9 @@ describe('AutoCompleteField', () => {
 
   test('should handle clearing value', () => {
     const handleChange = jest.fn()
-    const component = shallow(
+    const component = Enzyme.shallow(
       <AutoCompleteField
-        autoFocus={true}
+        autoFocus
         disabled={false}
         errors={[]}
         handleChange={handleChange}
@@ -164,9 +163,9 @@ describe('AutoCompleteField', () => {
     ]
     const handleChange = jest.fn()
 
-    const component = shallow(
+    const component = Enzyme.shallow(
       <AutoCompleteField
-        autoFocus={true}
+        autoFocus
         disabled={false}
         errors={[]}
         handleChange={handleChange}

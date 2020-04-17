@@ -135,7 +135,7 @@ export default class SectorChooser extends React.Component {
           {sectorList.map((sector) => (
             <Sector
               name={sector}
-              selected={selectedSectors.indexOf(slugify(sector)) > -1}
+              selected={selectedSectors.indexOf(sector) > -1}
               key={sector}
               id={slugify(sector)}
               handleSectorButtonClick={this.handleSectorButtonClick}
@@ -187,7 +187,7 @@ export default class SectorChooser extends React.Component {
       const sectors = currentSelectedSectors.map((sector) => (
         <Sector
           name={sector}
-          selected={currentSelectedSectors.indexOf(slugify(sector)) !== -1}
+          selected={currentSelectedSectors.indexOf(sector) !== -1}
           key={sector}
           id={slugify(sector)}
           handleSectorButtonClick={this.handleSectorButtonClick}

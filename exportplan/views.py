@@ -52,10 +52,13 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
 
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
 
+        target_markets = export_plan.get('target_markets', [])
+        selected_sectors = export_plan.get('sectors', [])
+
         if export_plan:
             return super().get_context_data(
-                target_markets=export_plan['target_markets'],
-                selected_sectors=export_plan['sectors'],
+                selected_sectors=json.dumps(selected_sectors),
+                target_markets=json.dumps(target_markets),
                 datenow=datetime.now(),
                 *args, **kwargs)
 
