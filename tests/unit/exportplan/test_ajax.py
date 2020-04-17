@@ -100,18 +100,6 @@ def test_recommended_countries(
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_exportplan')
-def test_recommended_countries_time_out(mock_get_exportplan, client, user):
-    client.force_login(user)
-    url = reverse('exportplan:ajax-recommended-countries-data')
-
-    mock_get_exportplan.side_effect = ReadTimeout
-    response = client.get(url, {'sectors': 'Automotive,Electrical'})
-
-    assert response.status_code == 504
-
-
-@pytest.mark.django_db
 def test_recommended_countries_no_country(client, user):
     client.force_login(user)
     url = reverse('exportplan:ajax-recommended-countries-data')

@@ -1,10 +1,11 @@
 from requests.exceptions import ReadTimeout
 from datetime import datetime
 from django.http import JsonResponse, HttpResponse
-from rest_framework import views
+from rest_framework import views, response
 from rest_framework.permissions import IsAuthenticated
 
 from . import helpers
+from exportplan import serializers
 
 
 class ExportPlanCountryDataView(views.APIView):
@@ -37,27 +38,24 @@ class ExportPlanCountryDataView(views.APIView):
 
 class ExportPlanRecommendedCountriesDataView(views.APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.ExportPlanRecommendedCountriesSerializer
 
     def get(self, request):
+        serializer = self.serializer_class(data=self.request.GET)
+        serializer.is_valid(raise_exception=True)
+        sectors = serializer.validated_data['sectors']
 
-        if not self.request.GET.get('sectors'):
-            return HttpResponse(status=400)
+        # To make more efficient by removing get export plan
+        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=export_plan['pk'],
+            data={'sectors': sectors}
+        )
+        recommended_countries = helpers.get_recommended_countries(
+            sso_session_id=self.request.user.session_id,
+            sectors=','.join(sectors)
+        )
 
-        sectors = self.request.GET.get('sectors')
-
-        try:
-            # To make more efficient by removing get export plan
-            export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
-            helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id,
-                id=export_plan['pk'],
-                data={'sectors': sectors.split(',')}
-            )
-            recommended_countries = helpers.get_recommended_countries(
-                sso_session_id=self.request.user.session_id,
-                sectors=sectors
-            )
-        except ReadTimeout:
-            return HttpResponse(status=504)
         data = {'countries': recommended_countries, }
-        return JsonResponse(data)
+        return response.Response(data)
