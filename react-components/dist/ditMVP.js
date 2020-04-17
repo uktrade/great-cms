@@ -57680,26 +57680,26 @@ var slugify = function slugify(string) {
 __webpack_require__.r(__webpack_exports__);
 /* eslint-disable */
 var MESSAGE_UNEXPECTED_ERROR = {
-  '__all__': ['Unexpected Error']
+  __all__: ['Unexpected Error']
 };
 var MESSAGE_PERMISSION_DENIED = {
-  '__all__': ['You do not have permission to perform this action']
+  __all__: ['You do not have permission to perform this action']
 };
 var MESSAGE_NOT_FOUND_ERROR = {
-  '__all__': ['Not found']
+  __all__: ['Not found']
 };
 var MESSAGE_TIMEOUT_ERROR = {
-  '__all__': ['Request timed out']
+  __all__: ['Request timed out']
 };
 var MESSAGE_BAD_REQUEST_ERROR = {
-  '__all__': ['Bad request']
+  __all__: ['Bad request']
 };
 
 var post = function post(url, data) {
   return fetch(url, {
     method: 'post',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRFToken': config.csrfToken,
       'X-Requested-With': 'XMLHttpRequest'
@@ -57715,16 +57715,24 @@ var get = function get(url, params) {
   return fetch(parsedUrl, {
     method: 'get',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'X-CSRFToken': config.csrfToken,
       'X-Requested-With': 'XMLHttpRequest'
     }
   });
 };
 
+var getCountriesDataBySectors = function getCountriesDataBySectors(sectors) {
+  return get(config.countriesBySectorsDataUrl, {
+    sectors: sectors
+  }).then(function (response) {
+    return responseHandler(response).json();
+  });
+};
+
 var getCountryData = function getCountryData(country) {
   return get(config.countryDataUrl, {
-    'country': country
+    country: country
   }).then(function (response) {
     return responseHandler(response).json();
   });
@@ -57767,13 +57775,17 @@ var checkCredentials = function checkCredentials(_ref4) {
 };
 
 var updateCompany = function updateCompany(_ref5) {
-  var expertise_industries = _ref5.expertise_industries,
+  var company_name = _ref5.company_name,
+      expertise_industries = _ref5.expertise_industries,
       expertise_countries = _ref5.expertise_countries,
-      expertise_products_services = _ref5.expertise_products_services;
+      first_name = _ref5.first_name,
+      last_name = _ref5.last_name;
   var data = {
+    company_name: company_name,
     expertise_industries: expertise_industries,
     expertise_countries: expertise_countries,
-    expertise_products_services: expertise_products_services
+    first_name: first_name,
+    last_name: last_name
   };
   return post(config.apiUpdateCompanyUrl, data).then(responseHandler);
 };
@@ -57803,6 +57815,7 @@ var config = {};
 
 var setConfig = function setConfig(_ref6) {
   var countryDataUrl = _ref6.countryDataUrl,
+      countriesBySectorsDataUrl = _ref6.countriesBySectorsDataUrl,
       apiLoginUrl = _ref6.apiLoginUrl,
       apiSignupUrl = _ref6.apiSignupUrl,
       apiLookupProductUrl = _ref6.apiLookupProductUrl,
@@ -57821,6 +57834,7 @@ var setConfig = function setConfig(_ref6) {
       verifyCodeUrl = _ref6.verifyCodeUrl,
       userIsAuthenticated = _ref6.userIsAuthenticated;
   config.countryDataUrl = countryDataUrl;
+  config.countriesBySectorsDataUrl = countriesBySectorsDataUrl;
   config.apiLoginUrl = apiLoginUrl;
   config.apiSignupUrl = apiSignupUrl;
   config.apiLookupProductUrl = apiLookupProductUrl;
@@ -57844,8 +57858,10 @@ var setConfig = function setConfig(_ref6) {
   createUser: createUser,
   checkCredentials: checkCredentials,
   checkVerificationCode: checkVerificationCode,
+  get: get,
   updateCompany: updateCompany,
   getCountryData: getCountryData,
+  getCountriesDataBySectors: getCountriesDataBySectors,
   lookupProduct: lookupProduct,
   setConfig: setConfig,
   config: config,
@@ -57878,13 +57894,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
 /* harmony import */ var _src_views_MarketSelectNavbar_Base__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Base */ "./react-components/src/views/MarketSelectNavbar/Base.jsx");
 /* harmony import */ var _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/views/Tour/Base */ "./react-components/src/views/Tour/Base.jsx");
-/* harmony import */ var _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/components/SectorChooser */ "./react-components/src/components/SectorChooser.jsx");
-/* harmony import */ var _src_components_CountryChooser__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/components/CountryChooser */ "./react-components/src/components/CountryChooser.jsx");
-/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_13__);
-
+/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
+/* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_12__);
 
 
 
@@ -57900,17 +57914,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   CountriesModal: _src_views_CountriesModal_Base__WEBPACK_IMPORTED_MODULE_4__["default"],
+  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_9__["createTargetMarketCountries"],
   MarketSelectNavbar: _src_views_MarketSelectNavbar_Base__WEBPACK_IMPORTED_MODULE_7__["default"],
   Countries: _src_views_Countries_Base__WEBPACK_IMPORTED_MODULE_5__["default"],
-  createSectorChooser: _src_components_SectorChooser__WEBPACK_IMPORTED_MODULE_9__["createSectorChooser"],
-  createCountryChooser: _src_components_CountryChooser__WEBPACK_IMPORTED_MODULE_10__["createCountryChooser"],
   IndustriesModal: _src_views_IndustriesModal_Base__WEBPACK_IMPORTED_MODULE_3__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_6__["default"],
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_12__["default"].setConfig,
+  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_11__["default"].setConfig,
   SignupModal: _src_views_SignupModal_Base__WEBPACK_IMPORTED_MODULE_2__["default"],
   ProductsModal: _src_views_ProductsModal_Base__WEBPACK_IMPORTED_MODULE_1__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_11__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_11__["STEP_VERIFICATION_CODE"],
+  STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_10__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_10__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_8__["default"]
 });
 
@@ -58020,30 +58033,19 @@ AutoCompleteField.defaultProps = {
 /*!************************************************************!*\
   !*** ./react-components/src/components/CountryChooser.jsx ***!
   \************************************************************/
-/*! exports provided: CountryChooser, createCountryChooser */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CountryChooser", function() { return CountryChooser; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCountryChooser", function() { return createCountryChooser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CountryChooser; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
-/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _src_components_CountryData__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/CountryData */ "./react-components/src/components/CountryData.jsx");
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Services */ "./react-components/src/Services.js");
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _stylesheets_CountryChooser_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./stylesheets/CountryChooser.scss */ "./react-components/src/components/stylesheets/CountryChooser.scss");
-/* harmony import */ var _stylesheets_CountryChooser_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_CountryChooser_scss__WEBPACK_IMPORTED_MODULE_8__);
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
+/* harmony import */ var _stylesheets_CountryChooser_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stylesheets/CountryChooser.scss */ "./react-components/src/components/stylesheets/CountryChooser.scss");
+/* harmony import */ var _stylesheets_CountryChooser_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_CountryChooser_scss__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58073,11 +58075,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-
-
-
-
 var CountryChooser = /*#__PURE__*/function (_React$Component) {
   _inherits(CountryChooser, _React$Component);
 
@@ -58090,103 +58087,37 @@ var CountryChooser = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "removeCountry", function (country) {
-      var selectedCountries = _this.state.selectedCountries;
-      var updatedSelectedCountries = selectedCountries.filter(function (item) {
-        return item !== country;
-      });
-
-      var updatedCountryList = _this.updatedCountryList(updatedSelectedCountries);
-
-      _this.setState({
-        selectedCountries: updatedSelectedCountries,
-        countryList: updatedCountryList
-      });
-
-      return false;
-    });
-
     _defineProperty(_assertThisInitialized(_this), "changeCountry", function (country) {
       _this.setState({
         selectedCountry: country
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "sanitizeSelectedCountries", function (array) {
-      return array.filter(function (country) {
-        return country.export_duty !== undefined;
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "updatedCountryList", function (selectedCountries) {
-      var countryList = _this.props.countryList;
-      return countryList.filter(function (country) {
-        return selectedCountries.filter(function (selectedCountry) {
-          return selectedCountry.country === country.value;
-        }).length === 0;
-      });
-    });
-
-    var _selectedCountries = _this.props.selectedCountries;
-
-    var updatedSelectedCountryList = _this.sanitizeSelectedCountries(_selectedCountries);
-
-    var _updatedCountryList = _this.updatedCountryList(updatedSelectedCountryList);
-
+    var countryList = _this.props.countryList;
     _this.state = {
       open: false,
-      loading: false,
-      selectedCountries: updatedSelectedCountryList,
       selectedCountry: null,
-      countryList: _updatedCountryList,
-      errors: {}
+      countryList: countryList
     };
     _this.showCountrySelect = _this.showCountrySelect.bind(_assertThisInitialized(_this));
-    _this.addCountry = _this.addCountry.bind(_assertThisInitialized(_this));
-    _this.handleGetCountryDataSuccess = _this.handleGetCountryDataSuccess.bind(_assertThisInitialized(_this));
-    _this.handleGetCountryDataError = _this.handleGetCountryDataError.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(CountryChooser, [{
-    key: "addCountry",
-    value: function addCountry() {
-      var _this$state = this.state,
-          selectedCountry = _this$state.selectedCountry,
-          selectedCountries = _this$state.selectedCountries;
-      var isExisting = selectedCountries.filter(function (country) {
-        return country.country === selectedCountry.value;
-      }).length > 0;
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(newProps) {
+      var countryList = this.state.countryList;
 
-      if (!isExisting) {
-        this.setState({
-          loading: true,
-          errors: {}
-        });
-        _Services__WEBPACK_IMPORTED_MODULE_6__["default"].getCountryData(selectedCountry.label).then(this.handleGetCountryDataSuccess)["catch"](this.handleGetCountryDataError);
+      if (newProps.countryList !== countryList) {
+        this.updateCountryList(newProps.countryList);
+        this.changeCountry(null);
       }
     }
   }, {
-    key: "handleGetCountryDataSuccess",
-    value: function handleGetCountryDataSuccess(data) {
-      // data should return only a single country
-      // currently it returns the whole array of selected countries
-      // TODO needs BE work
-      var updatedSelectedCountryList = this.sanitizeSelectedCountries(data.target_markets);
-      var updatedCountryList = this.updatedCountryList(updatedSelectedCountryList);
+    key: "updateCountryList",
+    value: function updateCountryList(list) {
       this.setState({
-        errors: {},
-        loading: false,
-        selectedCountries: updatedSelectedCountryList,
-        countryList: updatedCountryList
-      });
-    }
-  }, {
-    key: "handleGetCountryDataError",
-    value: function handleGetCountryDataError(errors) {
-      this.setState({
-        errors: errors.message || errors,
-        loading: false
+        countryList: list
       });
     }
   }, {
@@ -58200,15 +58131,12 @@ var CountryChooser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      var _this$state2 = this.state,
-          selectedCountry = _this$state2.selectedCountry,
-          loading = _this$state2.loading,
-          open = _this$state2.open,
-          selectedCountries = _this$state2.selectedCountries,
-          errors = _this$state2.errors;
-      var countryList = this.state.countryList;
+      var _this$state = this.state,
+          selectedCountry = _this$state.selectedCountry,
+          loading = _this$state.loading,
+          open = _this$state.open,
+          countryList = _this$state.countryList;
+      var addCountry = this.props.addCountry;
       var saveButton;
 
       if (selectedCountry) {
@@ -58216,7 +58144,9 @@ var CountryChooser = /*#__PURE__*/function (_React$Component) {
           type: "button",
           className: "country-chooser-save-button",
           id: "country-chooser-save-button",
-          onClick: this.addCountry,
+          onClick: function onClick() {
+            return addCountry(selectedCountry);
+          },
           disabled: loading
         }, "Add");
       }
@@ -58226,7 +58156,7 @@ var CountryChooser = /*#__PURE__*/function (_React$Component) {
       if (open) {
         countryInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "country-autocomplete-container m-t-s"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
           id: "country-autocomplete",
           options: countryList,
           isMulti: false,
@@ -58242,25 +58172,10 @@ var CountryChooser = /*#__PURE__*/function (_React$Component) {
         }), saveButton));
       }
 
-      var loadingMessage;
-
-      if (loading) {
-        loadingMessage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "loading-message"
-        }, "Fetching country data", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "."));
-      }
-
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, selectedCountries.map(function (country) {
-          return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_CountryData__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              data: country,
-              key: Object(_Helpers__WEBPACK_IMPORTED_MODULE_7__["slugify"])(country.country),
-              removeCountry: _this2.removeCountry
-            })
-          );
-        }), loadingMessage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          errors: errors.__all__ || [],
-          className: "m-v-s"
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "country-chooser-section",
+          id: "country-chooser-section"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "country-chooser ".concat(open ? 'open' : '')
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           className: "button--plus"
@@ -58277,45 +58192,14 @@ var CountryChooser = /*#__PURE__*/function (_React$Component) {
   return CountryChooser;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-function createCountryChooser(_ref) {
-  var element = _ref.element,
-      params = _objectWithoutProperties(_ref, ["element"]);
-
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CountryChooser, params), element);
-}
 
 CountryChooser.propTypes = {
-  selectedCountries: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-    export_duty: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
-    country: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    commodity_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    utz_offset: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    timezone: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    last_year_data: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-      year: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-      trade_value: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-      country_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-      year_on_year_change: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
-    }),
-    corruption_perceptions_index: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-      rank: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
-      country_code: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-      country_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-      cpi_score_2019: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number
-    }),
-    easeofdoingbusiness: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-      total: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
-      year_2019: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
-      country_code: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-      country_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
-    })
-  }).isRequired).isRequired,
-  countryList: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-    value: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
-    label: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired
-  })).isRequired
+  countryList: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  })).isRequired,
+  addCountry: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
-
 
 /***/ }),
 
@@ -58720,6 +58604,59 @@ Field.defaultProps = {
 
 /***/ }),
 
+/***/ "./react-components/src/components/Figure/Figure.jsx":
+/*!***********************************************************!*\
+  !*** ./react-components/src/components/Figure/Figure.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Figure; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Figure_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Figure.scss */ "./react-components/src/components/Figure/Figure.scss");
+/* harmony import */ var _Figure_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_Figure_scss__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function Figure(props) {
+  var image = props.image,
+      caption = props.caption;
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+      className: "figure"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "figure__image-wrapper"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      className: "figure__image",
+      src: image,
+      alt: ""
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", {
+      className: "figure__caption"
+    }, caption))
+  );
+}
+Figure.propTypes = {
+  image: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  caption: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/Figure/Figure.scss":
+/*!************************************************************!*\
+  !*** ./react-components/src/components/Figure/Figure.scss ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./react-components/src/components/FlagIcon.jsx":
 /*!******************************************************!*\
   !*** ./react-components/src/components/FlagIcon.jsx ***!
@@ -58842,21 +58779,22 @@ Modal.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/Sector.jsx":
-/*!****************************************************!*\
-  !*** ./react-components/src/components/Sector.jsx ***!
-  \****************************************************/
+/***/ "./react-components/src/components/RecommendedCountries.jsx":
+/*!******************************************************************!*\
+  !*** ./react-components/src/components/RecommendedCountries.jsx ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sector; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RecommendedCountries; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _RecommendedCountry_RecommendedCountry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RecommendedCountry/RecommendedCountry */ "./react-components/src/components/RecommendedCountry/RecommendedCountry.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58879,7 +58817,287 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-/* eslint-disable */
+
+
+
+
+
+var RecommendedCountries = /*#__PURE__*/function (_React$Component) {
+  _inherits(RecommendedCountries, _React$Component);
+
+  var _super = _createSuper(RecommendedCountries);
+
+  function RecommendedCountries(props) {
+    var _this;
+
+    _classCallCheck(this, RecommendedCountries);
+
+    _this = _super.call(this, props);
+    _this.countryRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    return _this;
+  }
+
+  _createClass(RecommendedCountries, [{
+    key: "isSelectedAlready",
+    value: function isSelectedAlready(countryName) {
+      var selectedCountries = this.props.selectedCountries;
+      return selectedCountries.filter(function (country) {
+        return country.country === countryName;
+      }).length > 0;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          countries = _this$props.countries,
+          addCountry = _this$props.addCountry,
+          removeCountry = _this$props.removeCountry;
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "grid",
+          id: "recommended-countries-list",
+          ref: this.countryRef
+        }, countries.map(function (countryData) {
+          return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+              className: "c-1-3",
+              key: Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["slugify"])(countryData.country)
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RecommendedCountry_RecommendedCountry__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              selected: _this2.isSelectedAlready(countryData.country),
+              addCountry: addCountry,
+              removeCountry: removeCountry,
+              countryData: countryData
+            }))
+          );
+        }))
+      );
+    }
+  }]);
+
+  return RecommendedCountries;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+
+RecommendedCountries.propTypes = {
+  countries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  })).isRequired,
+  addCountry: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  removeCountry: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  selectedCountries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired).isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/RecommendedCountry/RecommendedCountry.jsx":
+/*!***********************************************************************************!*\
+  !*** ./react-components/src/components/RecommendedCountry/RecommendedCountry.jsx ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RecommendedCountry; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _RecommendedCountry_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RecommendedCountry.scss */ "./react-components/src/components/RecommendedCountry/RecommendedCountry.scss");
+/* harmony import */ var _RecommendedCountry_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_RecommendedCountry_scss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _Figure_Figure__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Figure/Figure */ "./react-components/src/components/Figure/Figure.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+var RecommendedCountry = /*#__PURE__*/function (_React$Component) {
+  _inherits(RecommendedCountry, _React$Component);
+
+  var _super = _createSuper(RecommendedCountry);
+
+  function RecommendedCountry(props) {
+    var _this;
+
+    _classCallCheck(this, RecommendedCountry);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      isFetching: false
+    };
+
+    _this.handleClick.bind(_assertThisInitialized(_this));
+
+    return _this;
+  }
+
+  _createClass(RecommendedCountry, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(props) {
+      var selected = this.props.selected;
+
+      if (selected !== props.selected) {
+        this.removeFetching();
+      }
+    }
+  }, {
+    key: "removeFetching",
+    value: function removeFetching() {
+      this.setState({
+        isFetching: false
+      });
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(selectedCountry) {
+      var _this$props = this.props,
+          addCountry = _this$props.addCountry,
+          removeCountry = _this$props.removeCountry,
+          selected = _this$props.selected;
+      this.setState({
+        isFetching: true
+      });
+
+      if (selected) {
+        removeCountry({
+          country: selectedCountry.value
+        });
+      } else {
+        addCountry(selectedCountry);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var isFetching = this.state.isFetching;
+      var _this$props2 = this.props,
+          countryData = _this$props2.countryData,
+          selected = _this$props2.selected;
+      var id = Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["slugify"])(countryData.country);
+      var imgUrl = "/static/images/country/".concat(id, ".png"); // ideally this should be comming from personalisation API
+
+      var countryText;
+
+      if (isFetching && !selected) {
+        countryText = 'Selecting';
+      } else if (isFetching && selected) {
+        countryText = 'Unselecting';
+      } else if (selected) {
+        countryText = 'Selected';
+      } else {
+        countryText = 'Select';
+      }
+
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          type: "button",
+          className: "recommended-country ".concat(selected ? 'recommended-country--selected' : ''),
+          "aria-pressed": selected,
+          id: id,
+          onClick: function onClick() {
+            return _this2.handleClick({
+              value: countryData.country,
+              label: countryData.country
+            });
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Figure_Figure__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          image: imgUrl,
+          caption: countryData.country
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "recommended-country__text"
+        }, countryText))
+      );
+    }
+  }]);
+
+  return RecommendedCountry;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+
+RecommendedCountry.propTypes = {
+  countryData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  }).isRequired,
+  addCountry: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  removeCountry: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/RecommendedCountry/RecommendedCountry.scss":
+/*!************************************************************************************!*\
+  !*** ./react-components/src/components/RecommendedCountry/RecommendedCountry.scss ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/components/Sector.jsx":
+/*!****************************************************!*\
+  !*** ./react-components/src/components/Sector.jsx ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sector; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
@@ -58895,8 +59113,9 @@ var Sector = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, Sector);
 
     _this = _super.call(this, props);
+    var selected = props.selected;
     _this.state = {
-      selected: _this.props.selected
+      selected: selected
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
@@ -58904,19 +59123,29 @@ var Sector = /*#__PURE__*/function (_React$Component) {
 
   _createClass(Sector, [{
     key: "handleClick",
-    value: function handleClick(e) {
+    value: function handleClick() {
+      var selected = this.state.selected;
+      var _this$props = this.props,
+          name = _this$props.name,
+          handleSectorButtonClick = _this$props.handleSectorButtonClick;
       this.setState({
-        selected: this.props.addRemoveSector(e.target.innerHTML)
+        selected: !selected
       });
+      handleSectorButtonClick(name);
     }
   }, {
     key: "render",
     value: function render() {
+      var selected = this.state.selected;
+      var _this$props2 = this.props,
+          id = _this$props2.id,
+          name = _this$props2.name;
       return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "border-thin border-mid-grey text-mid-grey text-hover-grey bg-hover-stone border-hover-stone pill ".concat(this.state.selected ? 'selected' : ''),
-          id: this.props.id,
+          type: "button",
+          className: "border-thin border-mid-grey text-mid-grey text-hover-grey bg-hover-stone border-hover-stone pill ".concat(selected ? 'selected' : ''),
+          id: id,
           onClick: this.handleClick
-        }, this.props.name))
+        }, name))
       );
     }
   }]);
@@ -58928,7 +59157,8 @@ var Sector = /*#__PURE__*/function (_React$Component) {
 Sector.propTypes = {
   name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired
+  selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired,
+  handleSectorButtonClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
 
 /***/ }),
@@ -58937,25 +59167,21 @@ Sector.propTypes = {
 /*!***********************************************************!*\
   !*** ./react-components/src/components/SectorChooser.jsx ***!
   \***********************************************************/
-/*! exports provided: SectorChooser, createSectorChooser */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SectorChooser", function() { return SectorChooser; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSectorChooser", function() { return createSectorChooser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SectorChooser; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Sector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sector */ "./react-components/src/components/Sector.jsx");
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Helpers */ "./react-components/src/Helpers.js");
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
+/* harmony import */ var _Sector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Sector */ "./react-components/src/components/Sector.jsx");
+/* harmony import */ var _RecommendedCountries__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./RecommendedCountries */ "./react-components/src/components/RecommendedCountries.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58980,13 +59206,13 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* eslint-disable */
 
 
 
 
 
-var element = document.getElementById('recommended-countries');
+
+
 
 var SectorChooser = /*#__PURE__*/function (_React$Component) {
   _inherits(SectorChooser, _React$Component);
@@ -59000,44 +59226,118 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "addRemoveSector", function (sector) {
-      if (_this.state.selectedSectors.indexOf(sector) == -1) {
-        _this.setState({
-          selectedSectors: _this.state.selectedSectors.concat([sector])
-        });
+    _defineProperty(_assertThisInitialized(_this), "handleSectorButtonClick", function (sector) {
+      var selectedSectors = _this.state.selectedSectors;
 
-        return true;
+      if (selectedSectors.indexOf(sector) > -1) {
+        _this.removeSector(sector);
       } else {
-        var updatedSelectedSectors = _this.state.selectedSectors.filter(function (item) {
-          return item != sector;
-        });
-
-        _this.setState({
-          selectedSectors: updatedSelectedSectors
-        });
-
-        return false;
+        _this.addSector(sector);
       }
     });
 
+    var _selectedSectors = props.selectedSectors,
+        sectorList = props.sectorList;
     _this.state = {
-      selectedSectors: props.initialSelectedSectors || [],
+      sectorList: sectorList,
+      selectedSectors: _selectedSectors,
+      savedSelectedSectors: _selectedSectors,
       showSectorList: false,
-      showTooltip: false
+      showTooltip: false,
+      recommendedCountries: null,
+      fetchError: null,
+      isLoading: false
     };
     _this.showHideSectorList = _this.showHideSectorList.bind(_assertThisInitialized(_this));
     _this.handleMouseOver = _this.handleMouseOver.bind(_assertThisInitialized(_this));
     _this.handleMouseOut = _this.handleMouseOut.bind(_assertThisInitialized(_this));
+    _this.fetchRecommendedCountries = _this.fetchRecommendedCountries.bind(_assertThisInitialized(_this));
+    _this.recommendedCountriesFetchSuccess = _this.recommendedCountriesFetchSuccess.bind(_assertThisInitialized(_this));
+    _this.recommendedCountriesFetchError = _this.recommendedCountriesFetchError.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(SectorChooser, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var selectedSectors = this.state.selectedSectors;
+
+      if (selectedSectors && selectedSectors.length > 0) {
+        this.fetchRecommendedCountries();
+      }
+    }
+  }, {
+    key: "addSector",
+    value: function addSector(sector) {
+      var selectedSectors = this.state.selectedSectors;
+      this.setState({
+        selectedSectors: selectedSectors.concat([sector])
+      });
+    }
+  }, {
+    key: "removeSector",
+    value: function removeSector(sector) {
+      var selectedSectors = this.state.selectedSectors;
+      var updatedSelectedSectors = selectedSectors.filter(function (id) {
+        return id !== sector;
+      });
+      this.setState({
+        selectedSectors: updatedSelectedSectors
+      });
+
+      if (updatedSelectedSectors && updatedSelectedSectors.length > 0) {
+        this.fetchRecommendedCountries();
+      } else {
+        this.setState({
+          recommendedCountries: null
+        });
+      }
+    }
+  }, {
+    key: "fetchRecommendedCountries",
+    value: function fetchRecommendedCountries() {
+      var selectedSectors = this.state.selectedSectors;
+      this.setState({
+        savedSelectedSectors: selectedSectors,
+        isLoading: true
+      });
+      _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].getCountriesDataBySectors(selectedSectors).then(this.recommendedCountriesFetchSuccess)["catch"](this.recommendedCountriesFetchError);
+    }
+  }, {
+    key: "recommendedCountriesFetchSuccess",
+    value: function recommendedCountriesFetchSuccess(data) {
+      this.setState({
+        recommendedCountries: data.countries,
+        isLoading: false
+      });
+    }
+  }, {
+    key: "recommendedCountriesFetchError",
+    value: function recommendedCountriesFetchError(err) {
+      this.setState({
+        fetchError: err,
+        isLoading: false
+      });
+    }
+  }, {
     key: "showHideSectorList",
-    value: function showHideSectorList(e) {
-      if (this.state.showSectorList) {
+    value: function showHideSectorList() {
+      var _this$state = this.state,
+          showSectorList = _this$state.showSectorList,
+          selectedSectors = _this$state.selectedSectors,
+          savedSelectedSectors = _this$state.savedSelectedSectors;
+
+      if (showSectorList) {
         this.setState({
           showSectorList: false
         });
+        var isEqual = selectedSectors.every(function (e) {
+          return savedSelectedSectors.includes(e);
+        });
+
+        if (!isEqual) {
+          this.fetchRecommendedCountries();
+        }
       } else {
         this.setState({
           showSectorList: true
@@ -59049,14 +59349,14 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleMouseOver",
-    value: function handleMouseOver(e) {
+    value: function handleMouseOver() {
       this.setState({
         showTooltip: true
       });
     }
   }, {
     key: "handleMouseOut",
-    value: function handleMouseOut(e) {
+    value: function handleMouseOut() {
       this.setState({
         showTooltip: false
       });
@@ -59066,19 +59366,31 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var _this$state2 = this.state,
+          showSectorList = _this$state2.showSectorList,
+          selectedSectors = _this$state2.selectedSectors,
+          sectorList = _this$state2.sectorList,
+          showTooltip = _this$state2.showTooltip,
+          recommendedCountries = _this$state2.recommendedCountries,
+          isLoading = _this$state2.isLoading,
+          fetchError = _this$state2.fetchError;
+      var _this$props = this.props,
+          addCountry = _this$props.addCountry,
+          removeCountry = _this$props.removeCountry,
+          selectedCountries = _this$props.selectedCountries;
       var sectorListDisplay;
 
-      if (this.state.showSectorList) {
+      if (showSectorList) {
         sectorListDisplay = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "sector-list",
           id: "sector-list"
-        }, this.props.sectorList.map(function (sector) {
-          return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Sector__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }, sectorList.map(function (sector) {
+          return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Sector__WEBPACK_IMPORTED_MODULE_5__["default"], {
               name: sector,
-              selected: _this2.state.selectedSectors.indexOf(sector) != -1,
+              selected: selectedSectors.indexOf(sector) > -1,
               key: sector,
-              id: Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["slugify"])(sector),
-              addRemoveSector: _this2.addRemoveSector
+              id: Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["slugify"])(sector),
+              handleSectorButtonClick: _this2.handleSectorButtonClick
             })
           );
         }));
@@ -59086,7 +59398,7 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
 
       var sectorChooserButton;
 
-      if (!this.state.showSectorList) {
+      if (!showSectorList) {
         sectorChooserButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "sector-chooser-button"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -59095,20 +59407,23 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
           className: "button--plus",
           onClick: this.showHideSectorList,
           onMouseOver: this.handleMouseOver,
+          onFocus: this.handleMouseOver,
           onMouseOut: this.handleMouseOut,
-          "aria-describedby": "sector-list-tooltip"
+          onBlur: this.handleMouseOut,
+          "aria-labelledby": "sector-list-tooltip"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          "aria-hidden": !this.state.showTooltip,
+          "aria-hidden": !showTooltip,
           id: "sector-list-tooltip",
-          className: "sector-list-tooltip ".concat(this.state.showTooltip ? '' : 'hidden'),
+          className: "sector-list-tooltip ".concat(showTooltip ? '' : 'hidden'),
           role: "tooltip"
         }, "Add sectors"));
       }
 
       var saveButton;
 
-      if (this.state.selectedSectors.length > 0 && this.state.showSectorList) {
+      if (selectedSectors && selectedSectors.length > 0 && showSectorList) {
         saveButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          type: "button",
           className: "g-button",
           onClick: this.showHideSectorList
         }, "Save");
@@ -59116,15 +59431,15 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
 
       var selectedSectorsDisplay;
 
-      if (this.state.selectedSectors.length > 0 && !this.state.showSectorList) {
-        var currentSelectedSectors = this.state.selectedSectors;
+      if (selectedSectors && selectedSectors.length > 0 && !showSectorList) {
+        var currentSelectedSectors = selectedSectors;
         var sectors = currentSelectedSectors.map(function (sector) {
-          return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Sector__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Sector__WEBPACK_IMPORTED_MODULE_5__["default"], {
               name: sector,
-              selected: currentSelectedSectors.indexOf(sector) != -1,
+              selected: currentSelectedSectors.indexOf(sector) !== -1,
               key: sector,
-              id: Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["slugify"])(sector),
-              addRemoveSector: _this2.addRemoveSector
+              id: Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["slugify"])(sector),
+              handleSectorButtonClick: _this2.handleSectorButtonClick
             })
           );
         });
@@ -59138,14 +59453,34 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
         }, sectors));
       }
 
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      var recommendedCountriesView;
+
+      if (isLoading) {
+        recommendedCountriesView = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_4__["default"], null);
+      } else if (recommendedCountries && !fetchError) {
+        recommendedCountriesView = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RecommendedCountries__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          selectedCountries: selectedCountries,
+          removeCountry: removeCountry,
+          addCountry: addCountry,
+          countries: recommendedCountries
+        });
+      } else if (fetchError) {
+        recommendedCountriesView = 'Error fetching data.';
+      } else {
+        recommendedCountriesView = '';
+      }
+
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "recommended-countries",
+          className: "recommended-countries"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
           className: "h-m"
         }, "Recommended countries"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "sector-chooser",
           className: "sector-chooser"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "m-t-0 intro-text"
-        }, "Add sectors you're interested in so we can recommend some countries."), sectorListDisplay, saveButton, selectedSectorsDisplay, sectorChooserButton))
+        }, "Add sectors you're interested in so we can recommend some countries."), sectorListDisplay, saveButton, selectedSectorsDisplay, sectorChooserButton), recommendedCountriesView)
       );
     }
   }]);
@@ -59153,19 +59488,16 @@ var SectorChooser = /*#__PURE__*/function (_React$Component) {
   return SectorChooser;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
+
 SectorChooser.propTypes = {
-  sectorList: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
-  initialSelectedSectors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
+  sectorList: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired,
+  selectedSectors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired,
+  addCountry: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  removeCountry: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  selectedCountries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired).isRequired
 };
-
-function createSectorChooser(_ref) {
-  var element = _ref.element,
-      params = _objectWithoutProperties(_ref, ["element"]);
-
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SectorChooser, params), element);
-}
-
-
 
 /***/ }),
 
@@ -59210,6 +59542,359 @@ function SocialLoginButtons(props) {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Continue with Google")))
   );
 }
+
+/***/ }),
+
+/***/ "./react-components/src/components/Spinner/Spinner.jsx":
+/*!*************************************************************!*\
+  !*** ./react-components/src/components/Spinner/Spinner.jsx ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Spinner; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Spinner_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Spinner.scss */ "./react-components/src/components/Spinner/Spinner.scss");
+/* harmony import */ var _Spinner_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_Spinner_scss__WEBPACK_IMPORTED_MODULE_2__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var Spinner = /*#__PURE__*/function (_React$Component) {
+  _inherits(Spinner, _React$Component);
+
+  var _super = _createSuper(Spinner);
+
+  function Spinner(props) {
+    var _this;
+
+    _classCallCheck(this, Spinner);
+
+    _this = _super.call(this, props);
+    var text = props.text;
+    _this.state = {
+      text: text
+    };
+    return _this;
+  }
+
+  _createClass(Spinner, [{
+    key: "render",
+    value: function render() {
+      var text = this.state.text;
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          "aria-live": "polite",
+          role: "status"
+        }, text, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "spinner"
+        }))
+      );
+    }
+  }]);
+
+  return Spinner;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+
+Spinner.propTypes = {
+  text: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+};
+Spinner.defaultProps = {
+  text: 'Loading'
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/Spinner/Spinner.scss":
+/*!**************************************************************!*\
+  !*** ./react-components/src/components/Spinner/Spinner.scss ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/components/TargetMarketCountries.jsx":
+/*!*******************************************************************!*\
+  !*** ./react-components/src/components/TargetMarketCountries.jsx ***!
+  \*******************************************************************/
+/*! exports provided: TargetMarketCountries, createTargetMarketCountries */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TargetMarketCountries", function() { return TargetMarketCountries; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTargetMarketCountries", function() { return createTargetMarketCountries; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_components_CountryData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/CountryData */ "./react-components/src/components/CountryData.jsx");
+/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _SectorChooser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SectorChooser */ "./react-components/src/components/SectorChooser.jsx");
+/* harmony import */ var _CountryChooser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CountryChooser */ "./react-components/src/components/CountryChooser.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Services */ "./react-components/src/Services.js");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+
+
+var TargetMarketCountries = /*#__PURE__*/function (_React$Component) {
+  _inherits(TargetMarketCountries, _React$Component);
+
+  var _super = _createSuper(TargetMarketCountries);
+
+  function TargetMarketCountries(props) {
+    var _this;
+
+    _classCallCheck(this, TargetMarketCountries);
+
+    _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "updatedCountryList", function (selectedCountries) {
+      var countryList = _this.props.countryList;
+      return countryList.filter(function (country) {
+        return selectedCountries.filter(function (selectedCountry) {
+          return selectedCountry.country === country.value;
+        }).length === 0;
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "sanitizeSelectedCountries", function (array) {
+      return array.filter(function (country) {
+        return country.export_duty !== undefined;
+      });
+    });
+
+    var _selectedCountries = _this.props.selectedCountries;
+
+    var updatedSelectedCountryList = _this.sanitizeSelectedCountries(_selectedCountries);
+
+    var updatedCountryList = _this.updatedCountryList(updatedSelectedCountryList);
+
+    _this.state = {
+      countryList: updatedCountryList,
+      selectedCountries: updatedSelectedCountryList,
+      errors: {},
+      loading: false
+    };
+    _this.addCountry = _this.addCountry.bind(_assertThisInitialized(_this));
+    _this.removeCountry = _this.removeCountry.bind(_assertThisInitialized(_this));
+    _this.handleGetCountryDataSuccess = _this.handleGetCountryDataSuccess.bind(_assertThisInitialized(_this));
+    _this.handleGetCountryDataError = _this.handleGetCountryDataError.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+  /**
+   * Ensures the list for country chooser does not have countries that are already selected
+   */
+
+
+  _createClass(TargetMarketCountries, [{
+    key: "removeCountry",
+    value: function removeCountry(data) {
+      var selectedCountries = this.state.selectedCountries;
+      var updatedSelectedCountries = selectedCountries.filter(function (item) {
+        return item.country !== data.country;
+      });
+      var updatedCountryList = this.updatedCountryList(updatedSelectedCountries);
+      this.setState({
+        selectedCountries: updatedSelectedCountries,
+        countryList: updatedCountryList
+      });
+    }
+  }, {
+    key: "addCountry",
+    value: function addCountry(selectedCountry) {
+      var selectedCountries = this.state.selectedCountries;
+      var isExisting = selectedCountries.filter(function (country) {
+        return country.country === selectedCountry.value;
+      }).length > 0;
+
+      if (!isExisting) {
+        this.setState({
+          loading: true,
+          errors: {}
+        });
+        _Services__WEBPACK_IMPORTED_MODULE_8__["default"].getCountryData(selectedCountry.label).then(this.handleGetCountryDataSuccess)["catch"](this.handleGetCountryDataError);
+      }
+    }
+  }, {
+    key: "handleGetCountryDataSuccess",
+    value: function handleGetCountryDataSuccess(data) {
+      // data should return only a single country
+      // currently it returns the whole array of selected countries
+      // TODO needs BE work
+      var updatedSelectedCountryList = this.sanitizeSelectedCountries(data.target_markets);
+      var updatedCountryList = this.updatedCountryList(updatedSelectedCountryList);
+      this.setState({
+        errors: {},
+        loading: false,
+        selectedCountries: updatedSelectedCountryList,
+        countryList: updatedCountryList
+      });
+    }
+  }, {
+    key: "handleGetCountryDataError",
+    value: function handleGetCountryDataError(errors) {
+      this.setState({
+        errors: errors.message || errors,
+        loading: false
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          selectedSectors = _this$props.selectedSectors,
+          sectorList = _this$props.sectorList;
+      var _this$state = this.state,
+          countryList = _this$state.countryList,
+          selectedCountries = _this$state.selectedCountries,
+          errors = _this$state.errors,
+          loading = _this$state.loading;
+      var loadingMessage;
+
+      if (loading) {
+        loadingMessage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "loading-message"
+        }, "Fetching country data", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "."));
+      }
+
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SectorChooser__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          selectedCountries: selectedCountries,
+          addCountry: this.addCountry,
+          removeCountry: this.removeCountry,
+          selectedSectors: selectedSectors,
+          sectorList: sectorList
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), selectedCountries.map(function (country) {
+          return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_CountryData__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              data: country,
+              key: Object(_Helpers__WEBPACK_IMPORTED_MODULE_7__["slugify"])(country.country),
+              removeCountry: _this2.removeCountry
+            })
+          );
+        }), loadingMessage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          errors: errors.__all__ || [],
+          className: "m-v-s"
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CountryChooser__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          countryList: countryList,
+          addCountry: this.addCountry
+        }))
+      );
+    }
+  }]);
+
+  return TargetMarketCountries;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+function createTargetMarketCountries(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TargetMarketCountries, params), element);
+}
+
+TargetMarketCountries.propTypes = {
+  selectedCountries: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+    export_duty: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
+    country: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+    commodity_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+    utz_offset: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+    timezone: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+    last_year_data: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+      year: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+      trade_value: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+      country_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+      year_on_year_change: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
+    }),
+    corruption_perceptions_index: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+      rank: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
+      country_code: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+      country_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+      cpi_score_2019: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number
+    }),
+    easeofdoingbusiness: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+      total: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
+      year_2019: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
+      country_code: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+      country_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
+    })
+  }).isRequired).isRequired,
+  countryList: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+    value: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired
+  })).isRequired,
+  sectorList: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string).isRequired,
+  selectedSectors: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string).isRequired
+};
+
 
 /***/ }),
 

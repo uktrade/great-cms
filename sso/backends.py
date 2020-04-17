@@ -30,4 +30,4 @@ class BusinessSSOUserBackend(directory_sso_api_client.backends.SSOUserBackend):
 class StaffSSOUserBackend(authbroker_client.backends.AuthbrokerBackend):
     def authenticate(self, request):
         if helpers.is_admin_url(request.path):
-            return super().authenticate(request.path)
+            return super().authenticate(request)

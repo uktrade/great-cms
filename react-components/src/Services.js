@@ -1,16 +1,15 @@
 /* eslint-disable */
-const MESSAGE_UNEXPECTED_ERROR = {'__all__': ['Unexpected Error']}
-const MESSAGE_PERMISSION_DENIED = {'__all__': ['You do not have permission to perform this action']}
-const MESSAGE_NOT_FOUND_ERROR = {'__all__': ['Not found']}
-const MESSAGE_TIMEOUT_ERROR = {'__all__': ['Request timed out']}
-const MESSAGE_BAD_REQUEST_ERROR = {'__all__': ['Bad request']}
+const MESSAGE_UNEXPECTED_ERROR = { __all__: ['Unexpected Error'] }
+const MESSAGE_PERMISSION_DENIED = { __all__: ['You do not have permission to perform this action'] }
+const MESSAGE_NOT_FOUND_ERROR = { __all__: ['Not found'] }
+const MESSAGE_TIMEOUT_ERROR = { __all__: ['Request timed out'] }
+const MESSAGE_BAD_REQUEST_ERROR = { __all__: ['Bad request'] }
 
-
-const post = function(url, data) {
+const post = function (url, data) {
   return fetch(url, {
     method: 'post',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRFToken': config.csrfToken,
       'X-Requested-With': 'XMLHttpRequest',
@@ -19,53 +18,63 @@ const post = function(url, data) {
   })
 }
 
-const get = function(url, params) {
+const get = function (url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
-  const parsedParams = new URLSearchParams(params).toString();
+  const parsedParams = new URLSearchParams(params).toString()
   parsedUrl.search = parsedParams
 
   return fetch(parsedUrl, {
     method: 'get',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'X-CSRFToken': config.csrfToken,
       'X-Requested-With': 'XMLHttpRequest',
     },
   })
 }
 
-const getCountryData = function(country) {
-  return get(config.countryDataUrl, {'country': country}).then(response => responseHandler(response).json())
+const getCountriesDataBySectors = function (sectors) {
+  return get(config.countriesBySectorsDataUrl, { sectors: sectors }).then((response) =>
+    responseHandler(response).json()
+  )
 }
 
-const lookupProduct = function({q}) {
-  return get(config.apiLookupProductUrl, {q}).then(response => responseHandler(response).json())
+const getCountryData = function (country) {
+  return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
-
-const createUser = function({email, password}) {
-  return post(config.apiSignupUrl, {email, password}).then(responseHandler)
+const lookupProduct = function ({ q }) {
+  return get(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
 }
 
-
-const checkVerificationCode = function({ email, code}) {
-  return post(config.verifyCodeUrl, {email, code}).then(responseHandler)
+const createUser = function ({ email, password }) {
+  return post(config.apiSignupUrl, { email, password }).then(responseHandler)
 }
 
-
-const checkCredentials = function({ email, password }) {
-  return post(config.apiLoginUrl, {email, password}).then(responseHandler)
+const checkVerificationCode = function ({ email, code }) {
+  return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
 
+const checkCredentials = function ({ email, password }) {
+  return post(config.apiLoginUrl, { email, password }).then(responseHandler)
+}
 
-const updateCompany = function({ expertise_industries, expertise_countries, expertise_products_services }) {
-  const data = { expertise_industries, expertise_countries, expertise_products_services }
+const updateCompany = function ({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
+  const data = {
+    company_name,
+    expertise_industries,
+    expertise_countries,
+    first_name,
+    last_name,
+  }
   return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
 }
 
-const responseHandler = function(response) {
+const responseHandler = function (response) {
   if (response.status == 400) {
-    return response.json().then(error => { throw error })
+    return response.json().then((error) => {
+      throw error
+    })
   } else if (response.status == 403) {
     throw MESSAGE_PERMISSION_DENIED
   } else if (response.status == 404) {
@@ -83,8 +92,9 @@ const responseHandler = function(response) {
 
 // static values that will not change during execution of the code
 let config = {}
-const setConfig = function({
+const setConfig = function ({
   countryDataUrl,
+  countriesBySectorsDataUrl,
   apiLoginUrl,
   apiSignupUrl,
   apiLookupProductUrl,
@@ -104,6 +114,7 @@ const setConfig = function({
   userIsAuthenticated,
 }) {
   config.countryDataUrl = countryDataUrl
+  config.countriesBySectorsDataUrl = countriesBySectorsDataUrl
   config.apiLoginUrl = apiLoginUrl
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
@@ -127,8 +138,10 @@ export default {
   createUser,
   checkCredentials,
   checkVerificationCode,
+  get,
   updateCompany,
   getCountryData,
+  getCountriesDataBySectors,
   lookupProduct,
   setConfig,
   config,
@@ -137,5 +150,5 @@ export default {
     MESSAGE_PERMISSION_DENIED,
     MESSAGE_NOT_FOUND_ERROR,
     MESSAGE_TIMEOUT_ERROR,
-  }
+  },
 }

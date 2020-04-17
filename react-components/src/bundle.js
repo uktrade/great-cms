@@ -8,18 +8,16 @@ import Countries from '@src/views/Countries/Base'
 import LoginModal from '@src/views/LoginModal/Modal'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Base'
 import Tour from '@src/views/Tour/Base'
-import { createSectorChooser } from '@src/components/SectorChooser'
-import { createCountryChooser } from '@src/components/CountryChooser'
+import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Wizard/'
 import Services from '@src/Services'
 import '@babel/polyfill'
 
 export default {
   CountriesModal,
+  createTargetMarketCountries,
   MarketSelectNavbar,
   Countries,
-  createSectorChooser,
-  createCountryChooser,
   IndustriesModal,
   LoginModal,
   setConfig: Services.setConfig,
