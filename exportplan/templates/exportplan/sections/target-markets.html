@@ -23,21 +23,8 @@
 {% block user_input %}
 <hr>
 
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-3-4 recommended-countries" id="recommended-countries"></div>
-  </div>
-</section>
 
-<hr>
-
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-3-4 country-chooser-section" id="country-chooser-section"></div>
-  </div>
-</section>
+<section class="container section--with-sidebar" id="target-market-countries-component"></section>
 
 <hr class="m-b-0">
 
@@ -77,16 +64,13 @@
   <script type="text/javascript">
     ditMVP.setConfig({
       countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
+      countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
     })
-    var sectorElement = document.getElementById('recommended-countries');
-    ditMVP.createSectorChooser({
-      element: sectorElement,
-      sectorList: {{ sectors|safe }}
-    })
-
-    var countryElement = document.getElementById('country-chooser-section');
-    ditMVP.createCountryChooser({
-      element: countryElement,
+    var element = document.getElementById('target-market-countries-component');
+    ditMVP.createTargetMarketCountries({
+      element: element,
+      sectorList: {{ sectors|safe }},
+      selectedSectors: {{ selected_sectors|safe }},
       countryList: {{ country_choices|safe }},
       selectedCountries: {{ target_markets|safe|default:"[]" }}
     })

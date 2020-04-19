@@ -1,0 +1,18 @@
+.figure {
+    border-radius: 0.2em;
+    background: #fff;
+}
+
+.figure__caption {
+    padding: 10px 0;
+}
+
+.figure__image-wrapper {
+    overflow: hidden;
+    height: 175px;
+}
+
+.figure__image {
+    width: 100%;
+    height: auto;
+}

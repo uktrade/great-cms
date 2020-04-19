@@ -14,7 +14,7 @@ $desktop: 1024px;
     max-width: 1248px;
     min-height: 600px;
     min-width: 320px;
-    padding: 90px 24px;
+    padding: 90px 25px;
 
     .h1 {
         color: $grey;
@@ -31,7 +31,7 @@ $desktop: 1024px;
         font-size: 16px;
         font-weight: bold;
         height: 40px;
-        padding: 8px 24px;
+        padding: 8px 25px;
         text-decoration: none;
         white-space: nowrap;
     
@@ -45,8 +45,7 @@ $desktop: 1024px;
 .learn__wrapper--paragraph {
     font-size: 20px;
     line-height: 30px;
-    margin-bottom: 50px;
-    max-width: 670px;
+    margin-bottom: 60px;
 }
 
 .learn__carousel-nav {
@@ -59,7 +58,7 @@ $desktop: 1024px;
 
 .learn__nav-circle {
     display: inline-block;
-    margin-right: 24px;
+    margin-right: 25px;
 
     &:last-child {
         margin-right: 0;
@@ -81,17 +80,30 @@ $desktop: 1024px;
 
 .learn__carousel--paragraph {
     font-size: 48px;
+    font-weight: bold;
     line-height: 58px;
     margin-bottom: 120px
 }
 
+.learn__carousel {
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
 @media (min-width: $tablet) {
     .learn__carousel {
-        padding: 0 20%;
+        max-width: $tablet - 45px;
+        padding: 0;
     }
 
     .learn__carousel-nav {
-        padding-right: 48px;
+        padding-right: 45px;
+    }
+}
+
+@media (min-width: $desktop) {
+    .learn__carousel {
+        max-width: $desktop - 45px;
     }
 }
 
@@ -153,10 +165,4 @@ $desktop: 1024px;
         cursor: pointer;
     }
 
-}
-
-@media (min-width: $desktop) {
-    .learn__carousel {
-        padding: 0 30%;
-    }
 }
