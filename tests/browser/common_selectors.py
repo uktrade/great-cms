@@ -245,6 +245,13 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
     YOUR_ACTIONS = Selector(By.ID, 'your-actions')
 
 
+class TargetMarketsCountryChooser(SelectorsEnum):
+    COUNTRY_AUTOCOMPLETE = Selector(By.ID, 'country-autocomplete')
+    COUNTRY_AUTOCOMPLETE_MENU = Selector(By.CSS_SELECTOR, 'div.country-autocomplete__placeholder')
+    AUTOCOMPLETE_COUNTRIES = Selector(By.CSS_SELECTOR, 'div[id^=react-select-2-option-]')
+    SAVE_COUNTRY = Selector(By.ID, 'country-chooser-save-button')
+
+
 class TopicLessonListing(SelectorsEnum):
     TITLE = Selector(By.ID, 'topic-title')
     LESSON_LIST = Selector(By.ID, 'topic-lesson-list')
