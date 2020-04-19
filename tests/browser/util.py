@@ -153,6 +153,8 @@ def should_not_see_errors(browser):
         assert 'Internal Server Error' not in page_source, assertion_error
         assertion_error = f'404 Not Found on {browser.current_url}'
         assert 'This page cannot be found' not in page_source, assertion_error
+        assertion_error = f'Unexpected Error on {browser.current_url}'
+        assert 'Unexpected Error' not in page_source, assertion_error
     except AssertionError:
         attach_jpg_screenshot(browser, assertion_error)
         raise
