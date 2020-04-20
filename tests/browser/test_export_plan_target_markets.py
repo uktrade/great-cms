@@ -1,18 +1,21 @@
 import logging
 import random
+from typing import List
 from unittest import mock
 from urllib.parse import urljoin
 
 import allure
 import pytest
 from django.urls import reverse
+from pytest_django.live_server_helper import LiveServer
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from exportplan import helpers as exportplan_helpers
 from tests.browser.common_selectors import (
     ExportPlanTargetMarketsData,
-    TargetMarketsRecommendedCountriesFolded,
     TargetMarketsCountryChooser,
     TargetMarketsRecommendedCountries,
+    TargetMarketsRecommendedCountriesFolded,
     TargetMarketsSectorSelectorUnfolded,
     TargetMarketsSectorsSelected,
     TargetMarketsSelectedSectors,
@@ -25,7 +28,6 @@ from tests.browser.util import (
     should_see_all_elements,
 )
 
-
 logger = logging.getLogger(__name__)
 pytestmark = [
     pytest.mark.browser,
@@ -35,7 +37,7 @@ pytestmark = [
 
 
 @allure.step('Visit Target Markets page')
-def visit_target_markets_page(live_server, browser):
+def visit_target_markets_page(live_server: LiveServer, browser: WebDriver):
     target_markets_url = urljoin(live_server.url, reverse('exportplan:target-markets'))
     browser.get(target_markets_url)
     should_not_see_errors(browser)
@@ -46,7 +48,7 @@ def visit_target_markets_page(live_server, browser):
 
 
 @allure.step('Add sectors')
-def add_sectors(browser):
+def add_sectors(browser: WebDriver) -> List[str]:
     add_sectors_button = browser.find_element_by_id(
         TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_BUTTON.selector
     )
@@ -78,7 +80,7 @@ def add_sectors(browser):
 
 
 @allure.step('Should see selected sectors: {selected_sectors}')
-def should_see_selected_sectors(browser, selected_sectors):
+def should_see_selected_sectors(browser: WebDriver, selected_sectors: List[str]):
     should_see_all_elements(browser, TargetMarketsSelectedSectors)
     visible_selected_sectors = browser.find_elements_by_css_selector(
         TargetMarketsSelectedSectors.SECTORS.selector
@@ -100,7 +102,7 @@ def should_see_selected_sectors(browser, selected_sectors):
 
 
 @allure.step('Should see recommended countries')
-def should_see_recommended_countries(browser):
+def should_see_recommended_countries(browser: WebDriver):
     attach_jpg_screenshot(
         browser,
         'Recommended countries section',
@@ -110,7 +112,7 @@ def should_see_recommended_countries(browser):
 
 
 @allure.step('Should see target market data for following countries: {country_names}')
-def should_see_target_market_data_for(browser, country_names: list):
+def should_see_target_market_data_for(browser: WebDriver, country_names: List[str]):
     visible_markets = browser.find_elements_by_css_selector(
         ExportPlanTargetMarketsData.MARKET_DATA.selector
     )
@@ -125,7 +127,7 @@ def should_see_target_market_data_for(browser, country_names: list):
 
 
 @allure.step('Add {country} to the export plan')
-def add_country_to_export_plan(browser, country):
+def add_country_to_export_plan(browser: WebDriver, country: str):
     add_country_button = browser.find_element_by_id(
         ExportPlanTargetMarketsData.ADD_COUNTRY.selector
     )
