@@ -178,24 +178,7 @@ def get_export_plan_or_create_existing(mock_get_exportplan, user):
     assert export_plan == {'export_plan'}
 
 
-@mock.patch.object(helpers, 'get_exportplan')
-@mock.patch.object(helpers, 'get_rules_and_regulations')
-@mock.patch.object(helpers, 'create_export_plan')
-def get_export_plan_or_create_created(
-        mock_get_exportplan, mock_get_rules_and_regulations, mock_create_export_plan, user
-):
-    mock_get_exportplan.return_value = None
-    mock_get_rules_and_regulations.return_value = {
-        'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
-    }
-    mock_create_export_plan.return_value = {'export_plan_created'}
 
-    export_plan = helpers.get_export_plan_or_create(user)
-
-    assert mock_get_exportplan.call_count == 1
-    assert mock_get_exportplan.call_args == mock.call(sso_session_id=123)
-
-    assert export_plan == {'export_plan_created'}
 
 
 @mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
@@ -249,3 +232,32 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
         'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
         'target_markets': [{'country': 'UK'}, {'country': 'China'}]
     }
+
+
+@mock.patch.object(helpers, 'get_exportplan')
+@mock.patch.object(helpers, 'get_rules_and_regulations')
+@mock.patch.object(helpers, 'create_export_plan')
+def test_get_export_plan_or_create_created(
+        mock_create_export_plan, mock_get_rules_and_regulations, mock_get_exportplan, user
+):
+    mock_get_exportplan.return_value = None
+    mock_get_rules_and_regulations.return_value = {
+        'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
+    }
+    mock_create_export_plan.return_value = {'export_plan_created'}
+
+    export_plan = helpers.get_export_plan_or_create(user)
+
+    assert mock_get_exportplan.call_count == 1
+    assert mock_get_exportplan.call_args == mock.call('123')
+
+    assert mock_create_export_plan.call_count == 1
+    assert mock_create_export_plan.call_args == mock.call(
+        exportplan_data={
+            'export_countries': ['UK'], 'export_commodity_codes': ['123'], 'rules_regulations':
+                {'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
+                 }, 'target_markets': [{'country': 'UK'}]},
+        sso_session_id='123'
+    )
+
+    assert export_plan == {'export_plan_created'}
