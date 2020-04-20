@@ -160,6 +160,8 @@ def should_not_see_errors(browser):
         assert 'This page cannot be found' not in page_source, assertion_error
         assertion_error = f'Unexpected Error on {browser.current_url}'
         assert 'Unexpected Error' not in page_source, assertion_error
+        assertion_error = f'Error fetching data on {browser.current_url}'
+        assert 'Error fetching data' not in page_source, assertion_error
     except AssertionError:
         attach_jpg_screenshot(browser, assertion_error)
         raise
