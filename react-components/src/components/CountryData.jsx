@@ -137,7 +137,7 @@ export default class CountryData extends React.Component {
                     </p>
                   </figcaption>
                   <p className="statistic__figure">
-                    {lastYearData.trade_value} USD <span className="statistic__details">Source: Comtrade</span>
+                    {parseInt(lastYearData.trade_value).toLocaleString()} USD <span className="statistic__details">Source: Comtrade</span>
                   </p>
                 </figure>
               ) : null}
