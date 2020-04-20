@@ -35,11 +35,16 @@ def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
 
 
 def attach_jpg_screenshot(
-        browser: WebDriver, page_name: str, *,
-        selector: Union[Selector, SelectorsEnum] = None
+    browser: WebDriver,
+    page_name: str,
+    *,
+    selector: Union[Selector, SelectorsEnum] = None,
+    element: WebElement = None,
 ):
     if selector:
         element = find_element(browser, selector)
+        screenshot_png = element.screenshot_as_png
+    elif element:
         screenshot_png = element.screenshot_as_png
     else:
         screenshot_png = browser.get_screenshot_as_png()
