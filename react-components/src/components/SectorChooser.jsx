@@ -175,7 +175,7 @@ export default class SectorChooser extends React.Component {
     let saveButton
     if (selectedSectors && selectedSectors.length > 0 && showSectorList) {
       saveButton = (
-        <button type="button" className="g-button" onClick={this.showHideSectorList}>
+        <button type="button" className="g-button" id="sector-list-save" onClick={this.showHideSectorList}>
           Save
         </button>
       )
