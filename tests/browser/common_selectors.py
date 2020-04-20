@@ -224,11 +224,27 @@ class ExportPlanTargetMarkets(SelectorsEnum):
 
 class ExportPlanTargetMarketsRecommendedCountriesFolded(SelectorsEnum):
     RECOMMENDED_COUNTRIES = Selector(By.ID, 'recommended-countries')
+    SECTOR_CHOOSER_SECTION = Selector(By.ID, 'sector-chooser')
     SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
 
 
 class TargetMarketsSectorSelectorUnfolded(SelectorsEnum):
     SECTOR_LIST = Selector(By.ID, 'sector-list')
+    SECTOR_BUTTONS = Selector(By.CSS_SELECTOR, '#sector-list button', ElementType.BUTTON)
+
+
+class TargetMarketsSectorsSelected(SelectorsEnum):
+    SAVE = Selector(By.ID, 'sector-list-save', ElementType.BUTTON)
+
+
+class TargetMarketsSelectedSectors(SelectorsEnum):
+    SECTORS = Selector(By.CSS_SELECTOR, '#selected-sectors li button')
+
+
+class TargetMarketsRecommendedCountries(SelectorsEnum):
+    SECTION = Selector(By.ID, 'recommended-countries')
+    COUNTRY_LIST = Selector(By.ID, 'recommended-countries-list')
+    COUNTRY_BUTTONS = Selector(By.CSS_SELECTOR, '#recommended-countries-list button')
 
 
 class ExportPlanTargetMarketsData(SelectorsEnum):
