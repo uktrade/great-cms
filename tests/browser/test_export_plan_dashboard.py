@@ -29,7 +29,7 @@ from tests.helpers import create_response
 
 pytestmark = [
     pytest.mark.browser,
-    pytest.mark.export,
+    pytest.mark.export_plan,
     pytest.mark.export_plan_dashboard,
 ]
 
