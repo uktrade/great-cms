@@ -20,4 +20,28 @@ class Command(BaseCommand):
             slug='dashboard',
             template='exportplan/export_plan_dashboard_page.html',
         )
+        learn_page = factories.ListPageFactory(
+            parent=site.root_page,
+            title='learn page',
+            slug='learn',
+            template='learn/learn_page.html',
+        )
+        factories.DetailPageFactory(
+            parent=learn_page,
+            title='How to export first step',
+            slug='how-to-export-first-step',
+            template='learn/how_to_export_first_step.html',
+        )
+        factories.DetailPageFactory(
+            parent=learn_page,
+            title='How to export second step',
+            slug='how-to-export-second-step',
+            template='learn/how_to_export_second_step.html',
+        )
+        factories.DetailPageFactory(
+            parent=learn_page,
+            title='How to export third step',
+            slug='how-to-export-third-step',
+            template='learn/how_to_export_third_step.html',
+        )
         self.stdout.write(self.style.SUCCESS('Pages created'))
