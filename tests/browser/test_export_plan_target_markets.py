@@ -29,8 +29,8 @@ from tests.browser.util import (
 logger = logging.getLogger(__name__)
 pytestmark = [
     pytest.mark.browser,
-    pytest.mark.export,
-    pytest.mark.export_plan_dashboard,
+    pytest.mark.export_plan,
+    pytest.mark.target_markets,
 ]
 
 
@@ -129,9 +129,13 @@ def add_country_to_export_plan(browser, country):
     add_country_button = browser.find_element_by_id(
         ExportPlanTargetMarketsData.ADD_COUNTRY.selector
     )
-    attach_jpg_screenshot(browser, 'after clicking on add country button')
     with selenium_action(browser, f'Failed to click on add country'):
         add_country_button.click()
+    attach_jpg_screenshot(
+        browser,
+        'Recommended Countries section - after clicking on add country button',
+        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+    )
 
     country_input = browser.find_element_by_css_selector(
         TargetMarketsCountryChooser.COUNTRY_AUTOCOMPLETE_MENU.selector
@@ -158,7 +162,11 @@ def add_country_to_export_plan(browser, country):
     )
     with selenium_action(browser, f'Failed to click on save country'):
         save_country.click()
-    attach_jpg_screenshot(browser, f'After saving country selection')
+    attach_jpg_screenshot(
+        browser,
+        'Recommended Countries section - After saving country selection',
+        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+    )
     should_not_see_errors(browser)
 
 
