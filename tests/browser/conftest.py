@@ -187,7 +187,7 @@ def mock_get_exportplan():
 
 @pytest.fixture
 def mock_get_recommended_countries():
-    return_value = [{'country': 'china'}, {'country': 'india'}]
+    return_value = [{'country': 'China'}, {'country': 'india'}]
     with patch.object(exportplan_helpers, 'get_recommended_countries', return_value=return_value) as patched:
         yield patched
 
