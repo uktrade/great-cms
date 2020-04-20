@@ -22,7 +22,6 @@ from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
     should_not_see_element,
-    should_not_see_errors,
     should_see_all_elements,
     try_alternative_click_on_exception,
 )

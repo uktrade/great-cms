@@ -10,7 +10,6 @@ from tests.browser.common_selectors import (
 from tests.browser.util import (
     attach_jpg_screenshot,
     selenium_action,
-    should_not_see_errors,
     should_see_all_elements,
 )
 

@@ -19,7 +19,6 @@ from tests.browser.util import (
     find_element,
     selenium_action,
     should_not_see_any_element,
-    should_not_see_errors,
     should_see_all_elements,
     try_alternative_click_on_exception,
 )
