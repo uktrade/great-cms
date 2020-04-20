@@ -132,7 +132,7 @@ def add_recommended_countries_to_export_plan(browser: WebDriver, countries: List
     recommended_countries = find_elements(
         browser, TargetMarketsRecommendedCountries.COUNTRY_BUTTONS
     )
-    assert recommended_countries, "No recommended countries found!"
+    assert recommended_countries, 'No recommended countries found!'
 
     matching_country_buttons = []
     for button in recommended_countries:
