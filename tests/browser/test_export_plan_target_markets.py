@@ -10,7 +10,7 @@ from django.urls import reverse
 from exportplan import helpers as exportplan_helpers
 from tests.browser.common_selectors import (
     ExportPlanTargetMarketsData,
-    ExportPlanTargetMarketsRecommendedCountriesFolded,
+    TargetMarketsRecommendedCountriesFolded,
     TargetMarketsCountryChooser,
     TargetMarketsRecommendedCountries,
     TargetMarketsSectorSelectorUnfolded,
@@ -42,13 +42,13 @@ def visit_target_markets_page(live_server, browser):
 
     attach_jpg_screenshot(browser, 'market data with folded countries chooser')
     should_see_all_elements(browser, ExportPlanTargetMarketsData)
-    should_see_all_elements(browser, ExportPlanTargetMarketsRecommendedCountriesFolded)
+    should_see_all_elements(browser, TargetMarketsRecommendedCountriesFolded)
 
 
 @allure.step('Add sectors')
 def add_sectors(browser):
     add_sectors_button = browser.find_element_by_id(
-        ExportPlanTargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_BUTTON.selector
+        TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_BUTTON.selector
     )
     with selenium_action(browser, f'Failed to click on sector chooser button'):
         add_sectors_button.click()
@@ -90,7 +90,7 @@ def should_see_selected_sectors(browser, selected_sectors):
     attach_jpg_screenshot(
         browser,
         f'Selected sectors',
-        selector=ExportPlanTargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_SECTION
+        selector=TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_SECTION
     )
     error = (
         f'Expected to see following sectors to be selected: {selected_sectors}, but '

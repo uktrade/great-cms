@@ -222,8 +222,9 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     CONTENT = Selector(By.ID, 'target-markets-content')
 
 
-class ExportPlanTargetMarketsRecommendedCountriesFolded(SelectorsEnum):
-    RECOMMENDED_COUNTRIES = Selector(By.ID, 'recommended-countries')
+class TargetMarketsRecommendedCountriesFolded(SelectorsEnum):
+    RECOMMENDED_COUNTRIES_COMPONENT = Selector(By.ID, 'target-market-countries-component')
+    RECOMMENDED_COUNTRIES_SECTION = Selector(By.ID, 'recommended-countries')
     SECTOR_CHOOSER_SECTION = Selector(By.ID, 'sector-chooser')
     SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
 
