@@ -8,11 +8,13 @@ import allure
 import pytest
 from django.urls import reverse
 from pytest_django.live_server_helper import LiveServer
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from exportplan import helpers as exportplan_helpers
 from tests.browser.common_selectors import (
     ExportPlanTargetMarketsData,
+    Selector,
     TargetMarketsCountryChooser,
     TargetMarketsRecommendedCountries,
     TargetMarketsRecommendedCountriesFolded,
@@ -20,12 +22,14 @@ from tests.browser.common_selectors import (
     TargetMarketsSectorsSelected,
     TargetMarketsSelectedSectors,
 )
-from tests.browser.conftest import CHINA, JAPAN
+from tests.browser.conftest import CHINA, INDIA, JAPAN
 from tests.browser.util import (
     attach_jpg_screenshot,
+    find_elements,
     selenium_action,
     should_not_see_errors,
     should_see_all_elements,
+    wait_for_text_in_element,
 )
 
 logger = logging.getLogger(__name__)
@@ -123,8 +127,34 @@ def should_see_recommended_countries(browser: WebDriver):
     should_see_all_elements(browser, TargetMarketsRecommendedCountries)
 
 
+@allure.step('Add recommended {countries} to export plan')
+def add_recommended_countries_to_export_plan(browser: WebDriver, countries: List[str]):
+    recommended_countries = find_elements(
+        browser, TargetMarketsRecommendedCountries.COUNTRY_BUTTONS
+    )
+    assert recommended_countries, "No recommended countries found!"
+
+    matching_country_buttons = []
+    for button in recommended_countries:
+        name = button.find_element_by_tag_name('figcaption').text
+        if name in countries:
+            matching_country_buttons.append((name, button))
+
+    for name, button in matching_country_buttons:
+        button_id = button.get_property('id')
+        button_caption = Selector(By.CSS_SELECTOR, f'#{button_id} div.recommended-country__text')
+        with wait_for_text_in_element(browser, button_caption, 'Selected'):
+            button.click()
+    should_see_recommended_countries(browser)
+
+
 @allure.step('Should see target market data for following countries: {country_names}')
 def should_see_target_market_data_for(browser: WebDriver, country_names: List[str]):
+    attach_jpg_screenshot(
+        browser,
+        'Recommended Countries component',
+        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+    )
     visible_markets = browser.find_elements_by_css_selector(
         ExportPlanTargetMarketsData.MARKET_DATA.selector
     )
@@ -203,6 +233,45 @@ def test_should_see_recommended_countries_for_selected_sectors(
 
     should_see_selected_sectors(browser, selected_sectors)
     should_see_recommended_countries(browser)
+
+
+@mock.patch.object(exportplan_helpers, 'update_exportplan')
+def test_can_add_multiple_recommended_countries(
+    mock_update_exportplan,
+    mock_all_dashboard_and_export_plan_requests_and_responses,
+    server_user_browser_dashboard,
+):
+    get_export_plan_data_1 = {
+        'pk': 1,
+        'target_markets': [JAPAN],
+    }
+    get_export_plan_data_2 = {
+        'pk': 1,
+        'sectors': ['electrical'],
+        'target_markets': [JAPAN, CHINA],
+    }
+    get_export_plan_data_3 = {
+        'pk': 1,
+        'sectors': ['electrical'],
+        'target_markets': [JAPAN, CHINA, INDIA],
+    }
+    mock_update_exportplan.side_effect = [
+        get_export_plan_data_1,
+        get_export_plan_data_2,
+        get_export_plan_data_3,
+    ]
+    live_server, user, browser = server_user_browser_dashboard
+
+    visit_target_markets_page(live_server, browser)
+
+    selected_sectors = add_sectors(browser)
+
+    should_see_selected_sectors(browser, selected_sectors)
+    should_see_recommended_countries(browser)
+
+    add_recommended_countries_to_export_plan(browser, ['China', 'india'])
+
+    should_see_target_market_data_for(browser, ['Japan', 'China', 'india'])
 
 
 @mock.patch.object(exportplan_helpers, 'update_exportplan')
