@@ -177,7 +177,7 @@ def add_country_to_export_plan(browser: WebDriver, country: str):
         add_country_button.click()
     attach_jpg_screenshot(
         browser,
-        'Recommended Countries section - after clicking on add country button',
+        'Recommended Countries component - after clicking on add country button',
         selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
     )
 
@@ -208,7 +208,7 @@ def add_country_to_export_plan(browser: WebDriver, country: str):
         save_country.click()
     attach_jpg_screenshot(
         browser,
-        'Recommended Countries section - After saving country selection',
+        'Recommended Countries component - After saving country selection',
         selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
     )
     should_not_see_errors(browser)
