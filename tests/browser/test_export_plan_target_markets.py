@@ -247,7 +247,6 @@ def test_can_see_target_markets_data(
     mock_get_exportplan.return_value = data
 
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     target_markets_url = urljoin(live_server.url, reverse('exportplan:target-markets'))
     browser.get(target_markets_url)

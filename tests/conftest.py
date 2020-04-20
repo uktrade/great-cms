@@ -19,6 +19,7 @@ from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
+from tests.browser.util import should_not_see_errors
 from tests.helpers import create_response
 from tests.unit.learn import factories as learn_factories
 
@@ -386,4 +387,5 @@ def server_user_browser_dashboard(
     })
     browser.refresh()
 
+    should_not_see_errors(browser)
     return live_server, user, browser

@@ -32,7 +32,6 @@ def test_can_view_lessons_from_different_topics(
     server_user_browser_dashboard,
 ):
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     topic_a, topic_a_lessons = topics_with_lessons[0]
     topic_b, topic_b_lessons = topics_with_lessons[1]
@@ -69,7 +68,6 @@ def test_can_navigate_from_topic_to_lesson(
     server_user_browser_dashboard,
 ):
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     topic_a, topic_a_lessons = topics_with_lessons[0]
 
@@ -96,7 +94,6 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     server_user_browser_dashboard,
 ):
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     topic_a, topic_a_lessons = topics_with_lessons[0]
 

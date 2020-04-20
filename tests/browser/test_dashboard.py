@@ -76,7 +76,6 @@ def test_dashboard_with_success_query_parameter(
     mock_update_company_profile.return_value = create_response()
     mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
@@ -115,7 +114,6 @@ def test_dashboard_without_success_query_parameter(
     mock_update_company_profile.return_value = create_response()
     mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
