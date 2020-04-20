@@ -1,8 +1,9 @@
 import logging
-import random
 from unittest import mock
+from unittest.mock import patch
 from urllib.parse import urljoin
 
+import allure
 import pytest
 from django.urls import reverse
 
@@ -142,7 +143,115 @@ JAPAN = {
 }
 
 
-def select_country(browser, country=None):
+@pytest.fixture
+def mock_user_location_create():
+    with patch('core.helpers.store_user_location'):
+        yield
+
+
+@pytest.fixture
+def mock_update_company_profile():
+    with patch.object(core_helpers, 'update_company_profile', return_value=create_response()) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_dashboard_events():
+    with patch.object(core_helpers, 'get_dashboard_events', return_value=[]) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_dashboard_export_opportunities():
+    with patch.object(core_helpers, 'get_dashboard_export_opportunities', return_value=[]) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_export_plan_market_data():
+    return_value = {
+        'timezone': 'Asia/Tokyo',
+        'CPI': 73,
+    }
+    with patch.object(exportplan_helpers, 'get_exportplan_marketdata', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_export_plan_rules_regulations():
+    return_value = {
+        'country': 'Japan',
+        'commodity_code': '2208.50',
+    }
+    with patch.object(exportplan_helpers, 'get_exportplan_rules_regulations', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_comtrade_last_year_import_data():
+    return_value = {
+        'last_year_data_partner': {
+            'Year': 2019,
+            'value': 16249072,
+        }
+    }
+    with patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_exportplan():
+    return_value = {
+        'pk': 1,
+        'target_markets': [JAPAN],
+    }
+    with patch.object(exportplan_helpers, 'get_exportplan', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_all_dashboard_and_export_plan_requests_and_responses(
+        mock_user_location_create,
+        mock_update_company_profile,
+        mock_get_dashboard_events,
+        mock_get_dashboard_export_opportunities,
+        mock_get_export_plan_market_data,
+        mock_get_export_plan_rules_regulations,
+        mock_get_comtrade_last_year_import_data,
+        mock_get_exportplan,
+        mock_export_plan_dashboard_page_tours,
+):
+    yield
+
+
+@allure.step('Visit Target Markets page')
+def visit_target_markets_page(live_server, browser):
+    target_markets_url = urljoin(live_server.url, reverse('exportplan:target-markets'))
+    browser.get(target_markets_url)
+    should_not_see_errors(browser)
+
+    attach_jpg_screenshot(browser, 'market data with folded countries chooser')
+    should_see_all_elements(browser, ExportPlanTargetMarketsData)
+    should_see_all_elements(browser, ExportPlanTargetMarketsRecommendedCountriesFolded)
+
+
+@allure.step('Should see target market data for following countries: {country_names}')
+def should_see_target_market_data_for(browser, country_names: list):
+    visible_markets = browser.find_elements_by_css_selector(
+        ExportPlanTargetMarketsData.MARKET_DATA.selector
+    )
+    visible_country_names = [
+        market_data.find_element_by_tag_name('h2').text
+        for market_data in visible_markets
+    ]
+    for market_data in visible_markets:
+        country = market_data.find_element_by_tag_name('h2').text
+        attach_jpg_screenshot(browser, f'Market data for {country}', element=market_data)
+    assert visible_country_names == country_names
+
+
+@allure.step('Add {country} to the export plan')
+def add_country_to_export_plan(browser, country):
     add_country_button = browser.find_element_by_id(
         ExportPlanTargetMarketsData.ADD_COUNTRY.selector
     )
@@ -156,13 +265,15 @@ def select_country(browser, country=None):
     with selenium_action(browser, f'Failed to click on add country'):
         country_input.click()
 
-    countries = browser.find_elements_by_css_selector(
+    country_elements = browser.find_elements_by_css_selector(
         TargetMarketsCountryChooser.AUTOCOMPLETE_COUNTRIES.selector
     )
-    if country:
-        country_option = [c for c in countries if c.text == country][0]
-    else:
-        country_option = random.choice(countries)
+    country_options = [
+        element
+        for element in country_elements
+        if element.text == country
+    ]
+    country_option = country_options[0]
 
     logger.info(f'Will select: {country_option}')
     with selenium_action(browser, f'Failed to select country'):
@@ -266,52 +377,11 @@ def test_can_see_target_markets_data(
 
 
 @mock.patch.object(exportplan_helpers, 'update_exportplan')
-@mock.patch.object(exportplan_helpers, 'get_exportplan')
-@mock.patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata')
-@mock.patch.object(exportplan_helpers, 'get_exportplan_rules_regulations')
-@mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
-@mock.patch.object(core_helpers, 'get_dashboard_export_opportunities')
-@mock.patch.object(core_helpers, 'get_dashboard_events')
-@mock.patch.object(core_helpers, 'update_company_profile')
-@mock.patch('core.helpers.store_user_location')
 def test_can_add_multiple_countries_on_target_markets_page(
-    mock_user_location_create,
-    mock_update_company_profile,
-    mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities,
-    mock_get_export_plan_market_data,
-    mock_get_export_plan_rules_regulations,
-    mock_get_comtrade_last_year_import_data,
-    mock_get_exportplan,
     mock_update_exportplan,
+    mock_all_dashboard_and_export_plan_requests_and_responses,
     server_user_browser_dashboard,
-    mock_export_plan_dashboard_page_tours,
 ):
-    mock_update_company_profile.return_value = create_response()
-    mock_get_dashboard_events.return_value = []
-    mock_get_dashboard_export_opportunities.return_value = []
-
-    mock_get_export_plan_rules_regulations.return_value = {
-        'country': 'Japan',
-        'commodity_code': '2208.50',
-    }
-    mock_get_export_plan_market_data.return_value = {
-        'timezone': 'Asia/Tokyo',
-        'CPI': 73,
-    }
-    mock_get_comtrade_last_year_import_data.return_value = {
-        'last_year_data_partner': {
-            'Year': 2019,
-            'value': 16249072,
-        }
-    }
-
-    export_plan_data = {
-        'pk': 1,
-        'target_markets': [JAPAN],
-    }
-    mock_get_exportplan.return_value = export_plan_data
-
     updated_export_plan_data = {
         'pk': 1,
         'target_markets': [JAPAN, CHINA],
@@ -319,31 +389,10 @@ def test_can_add_multiple_countries_on_target_markets_page(
     mock_update_exportplan.return_value = updated_export_plan_data
 
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
-    target_markets_url = urljoin(live_server.url, reverse('exportplan:target-markets'))
-    browser.get(target_markets_url)
-    should_not_see_errors(browser)
+    visit_target_markets_page(live_server, browser)
+    should_see_target_market_data_for(browser, ['Japan'])
 
-    attach_jpg_screenshot(browser, 'market data with folded countries chooser')
-    should_see_all_elements(browser, ExportPlanTargetMarketsData)
-    should_see_all_elements(browser, ExportPlanTargetMarketsRecommendedCountriesFolded)
+    add_country_to_export_plan(browser, 'China')
 
-    visible_markets = browser.find_elements_by_css_selector(ExportPlanTargetMarketsData.MARKET_DATA.selector)
-    error = f'Expected to see only 1 country market data but saw: {len(visible_markets)}'
-    assert len(visible_markets) == 1, error
-
-    # main action
-    select_country(browser, 'China')
-
-    visible_markets = browser.find_elements_by_css_selector(ExportPlanTargetMarketsData.MARKET_DATA.selector)
-    error = f'Expected to see only 2 country market data but saw: {len(visible_markets)}'
-    assert len(visible_markets) == 2, error
-
-    visible_country_names = [
-        country.text
-        for country in
-        browser.find_elements_by_css_selector(ExportPlanTargetMarketsData.COUNTRY_NAME.selector)
-    ]
-    assert visible_country_names[0] == 'Japan'
-    assert visible_country_names[1] == 'China'
+    should_see_target_market_data_for(browser, ['Japan', 'China'])
