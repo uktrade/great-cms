@@ -54,7 +54,11 @@ def add_sectors(browser: WebDriver) -> List[str]:
     )
     with selenium_action(browser, f'Failed to click on sector chooser button'):
         add_sectors_button.click()
-    attach_jpg_screenshot(browser, 'Unfolded sector chooser')
+    attach_jpg_screenshot(
+        browser,
+        'Recommended Countries component - Unfolded sector chooser',
+        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+    )
     should_see_all_elements(browser, TargetMarketsSectorSelectorUnfolded)
 
     sector_buttons = browser.find_elements_by_css_selector(
@@ -66,14 +70,22 @@ def add_sectors(browser: WebDriver) -> List[str]:
     for sector_button in random_sector_buttons:
         with selenium_action(browser, f'Failed to click on sector chooser button'):
             sector_button.click()
-    attach_jpg_screenshot(browser, 'With selected sectors')
+    attach_jpg_screenshot(
+        browser,
+        'Recommended Countries component - With selected sectors',
+        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+    )
 
     save_sectors_button = browser.find_element_by_id(
         TargetMarketsSectorsSelected.SAVE.selector
     )
     with selenium_action(browser, f'Failed to click on save sectors button'):
         save_sectors_button.click()
-    attach_jpg_screenshot(browser, 'After saving selected sectors')
+    attach_jpg_screenshot(
+        browser,
+        'Recommended Countries component - After saving selected sectors',
+        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+    )
     should_not_see_errors(browser)
 
     return random_sector_names
