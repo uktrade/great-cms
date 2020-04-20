@@ -19,6 +19,10 @@ button {
   text-align: right;
 }
 
+.multiple-choice input {
+  z-index: 0;
+}
+
 .great-mvp-small-checkbox-container {
   .form-group {
     margin-bottom: 10px;
@@ -65,4 +69,10 @@ body {
     }
   }
 
+}
+
+.great-mvp-full-width-background {
+    background: $white;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
 }

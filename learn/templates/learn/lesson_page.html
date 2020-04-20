@@ -1,28 +1,136 @@
 {% extends 'core/base.html' %}
 {% load wagtailimages_tags %}
-{% load wagtailcore_tags %}
+{% load include_block from wagtailcore_tags %}
 {% load routablepageurl from wagtailroutablepage_tags %}
+{% load add_anchors_to_all_headings add_export_elements_classes from great_components %}
 
 {% block content %}
-    <div class="container">
-        <div id="welcome-back-hero" class="gutter-top c-full">
-            <div class="grid">
-                <div class="c-1-2">&nbsp;</div>
-                <div class="c-1-2-s">
-                    <h1 class="h-l m-t-xl" id="lesson-title">{{  self.title }}</h1>
-                </div>
-                <div class="c-full">
-                    {% for block in page.generic_content %}
-                        <div>{% include_block block %}</div>
+    <div class="container" id="lesson-page">
+        <div class="grid">
+            <aside class="c-1-6 p-t-xxs p-h-xs">
+                <a href="{% url 'core:dashboard' %}">Back</a>
+                <ul class="m-v-0">
+                    {% for topic in topics %}
+                        <li><h3 class="h-s {% if topic.pk == page.get_parent.pk %} bold{% endif %}"><a href="{{ topic.get_children.first.get_url }}?{{ request.GET.urlencode }}" class="topic-link">{{ topic.title }}</a></h3></li>
+                        {% if topic.pk == page.get_parent.pk %}
+                            <ul class="m-v-0">
+                                {% for sibling in page.get_siblings %}
+                                    <li><a class="link {% if sibling.pk == page.pk %} bold{% endif %}" href="{{ sibling.get_url }}?{{ request.GET.urlencode }}">{{ sibling.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     {% endfor %}
+
+                </ul>
+            </aside>
+            <div class="c-5-6">
+                <nav class="p-t-xs p-h-xs great-mvp-full-width-background" id="market-select-navbar">
+                    <span class="m-f-xs">Exporting </span>
+                    <span id="set-product-button">
+                        {% if request.GET.products_label %} for
+                            {% for name, values in request.GET.lists %}
+                                {% if name == 'products_label' %}
+                                    {% for label in values %}
+                                        <span class="great-mvp-pill-button">{{ label }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </span>
+                    to
+                    <span id="set-country-button">
+                        {% if request.user.company.expertise_countries_labels %}
+                            {% for label in request.user.company.expertise_countries_labels %}
+                                <span class="great-mvp-pill-button">{{ label }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="great-mvp-pill-button">add country</span>
+                        {% endif %}
+                    </span>
+                </nav>
+
+                <div class="grid p-t-l p-f-l">
+                    <div class="c-2-3">
+                        <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
+                        {% for block in page.generic_content %}
+                            <div>
+                            {% filter add_anchors_to_all_headings %}
+                                {% filter add_export_elements_classes %}
+                                    {% include_block block %}
+                                {% endfilter %}
+                            {% endfilter %}
+                            </div>
+                        {% endfor %}
+
+                        <div id="countries-chooser" class="great-mvp-full-width-background"></div>
+
+                        {% with page.get_next_siblings.live.first as next_page %}
+                            {% if next_page %}
+                                <div class="lesson-next-area p-t-xxl p-b-s">
+                                    <h5>Next</h5>
+                                    <a class="lesson-next-link" href="{{ next_page.get_url }}?{{ request.GET.urlencode }}">{{ next_page.title }}</a>
+                                    <a class="lesson-back-to-learning m-t-l" href="{{ next_page.get_parent.get_url }}">Back to learning</a>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+
+                    </div>
+                    <div class="c-1-3">
+                        <h4 class="h-s">&nbsp;</h4>
+                    </div>
                 </div>
             </div>
-            {% if not request.user.is_anonymous and not is_read %}
-                <form method="post" action="{% routablepageurl page 'mark-as-read' %}" id="form-mark-as-read">
-                    {% csrf_token %}
-                    <button class="g-button" id="mark-as-read">Mark as read</button>
-                </form>
-            {% endif %}
         </div>
     </div>
+{% endblock %}
+
+
+{% block body_js %} 
+    <script type="text/javascript">
+        {% if request.GET.products_label %}
+        var isProductModalOpen = false;
+        {% else %}
+        var isProductModalOpen = true;
+        {% endif %}
+
+        var marketSelectElement = document.getElementById('market-select-navbar');
+        var countriesChooserElement = document.getElementById('countries-chooser');
+
+        ditMVP.setConfig({ 
+            {% if user.company %}
+            userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
+            userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }},
+            {% else %}
+            userCountries: [],
+            userIndustries: [],
+            {% endif %}
+
+            apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+            apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+            countryOptions: {{ country_choices|safe }},
+            csrfToken: '{{ csrf_token }}',
+            dashboardUrl: '{% url "core:dashboard" %}',
+            googleUrl: '{{ signup_modal.google_url }}',
+            linkedInUrl: '{{ signup_modal.linkedin_url }}',
+            loginUrl: '{% url "core:login" %}',
+            termsUrl: '{{ signup_modal.terms_url }}',
+            userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+            verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+        });
+
+        ditMVP.MarketSelectNavbar({
+            element: marketSelectElement,
+            isProductModalOpen: isProductModalOpen,
+            productElement: document.getElementById('set-product-button'),
+            countryElement: document.getElementById('set-country-button')
+        })
+
+        ditMVP.Countries({
+            element: countriesChooserElement,
+            suggestedCountries: {{ suggested_countries|safe }}
+        })
+
+    </script>
+
 {% endblock %}

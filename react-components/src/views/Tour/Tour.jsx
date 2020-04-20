@@ -1,6 +1,5 @@
+/* eslint-disable */
 import React from 'react'
-import ReactDOM from 'react-dom'
-
 import ReactTour from 'reactour'
 
 import './stylesheets/Tour.scss'

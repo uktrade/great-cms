@@ -1,14 +1,9 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
-import ReactModal from 'react-modal'
-
 import Modal from '@src/components/Modal'
-import Services from '@src/Services'
 import Wizard from './Wizard'
-
 import './stylesheets/Modal.scss'
-import '@src/stylesheets/ModalCentreScreen.scss'
 
 
 export function SkipShowGenericContent(props) {
@@ -31,25 +26,25 @@ export function SkipShowGenericContent(props) {
 
 
 export default function ModalCentreScreen(props){
+  const products = props.companySettings.expertise_products_services.other;
+  const {isOpen, setIsOpen, ...otherProps} = props;
   return (
     <Modal
-      isOpen={props.isOpen}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       id='dashboard-question-modal-signup'
       skipFeatureCookieName='skip-signup'
       skipFeatureComponent={SkipShowGenericContent}
+      performSkipFeatureCookieCheck={props.performSkipFeatureCookieCheck}
       className='ReactModal__Content--Signup p-l'
     >
       <div className="grid">
         <aside className="c-1-2">
           <h2 className="h-l">Sign up so we can save your settings</h2>
+          { products && <p className="p-xxs m-r-m">{products.map((item, i) => <span key={i}>{item.label}</span>)}</p> }
         </aside>
         <div className="c-1-2">
-          <Wizard
-            currentStep={props.currentStep}
-            username={props.username}
-            nextUrl={props.nextUrl}
-            showCredentialsLede={false}
-          />
+          <Wizard showCredentialsLede={false} {...otherProps} />
         </div>
       </div>
     </Modal>
@@ -58,13 +53,17 @@ export default function ModalCentreScreen(props){
 
 ModalCentreScreen.propTypes = {
   isOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func,
   isInProgress: PropTypes.bool,
   errors: PropTypes.object,
   currentStep: PropTypes.string,
+  performSkipFeatureCookieCheck: PropTypes.bool,
 }
 
 ModalCentreScreen.defaultProps = {
   isOpen: false,
   isInProgress: false,
-  errors: {}
+  errors: {},
+  companySettings: {},
+  performSkipFeatureCookieCheck: true,
 }

@@ -1,4 +1,4 @@
-DATABASE_URL=sqlite:///cms-test-db.db
+DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
 DEFAULT_FILE_STORAGE=core.storage_backends.FileSystemStorage
 API_CACHE_DISABLED=true
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
@@ -19,3 +19,4 @@ DIRECTORY_FORMS_API_API_KEY=debug
 DIRECTORY_FORMS_API_SENDER_ID=debug
 API_CLIENT_BASE_URL=http://api.trade.great:8000
 AIRTABLE_API_KEY=debug
+DIT_HELPDESK_URL=http://www.debug.com

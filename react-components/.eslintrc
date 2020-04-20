@@ -1,0 +1,46 @@
+{
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "browser": true
+  },
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "no-console": "warn",
+    "import/no-unresolved": "off",
+    "quotes": "error"
+  },
+  "overrides": [
+    {
+      "files": ["./tests/**/*.test.jsx"],
+      "env": {
+        "jest": true
+      },
+      "plugins": ["jest"],
+      "rules": {
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error"
+      }
+    },
+    {
+      "files": ["./src/components/SectorChooser.jsx", "./src/components/TargetMarketCountries.jsx"],
+      "rules": {
+        "no-underscore-dangle": "off",
+        "react/jsx-props-no-spreading": "off"
+      }
+    }
+  ]
+}

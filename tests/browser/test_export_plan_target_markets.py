@@ -26,6 +26,7 @@ pytestmark = [
 ]
 
 
+@mock.patch.object(exportplan_helpers, 'get_exportplan')
 @mock.patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata')
 @mock.patch.object(exportplan_helpers, 'get_exportplan_rules_regulations')
 @mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
@@ -41,6 +42,7 @@ def test_can_see_target_markets_data(
     mock_get_export_plan_market_data,
     mock_get_export_plan_rules_regulations,
     mock_get_comtrade_last_year_import_data,
+    mock_get_exportplan,
     server_user_browser_dashboard,
     mock_export_plan_dashboard_page_tours,
 ):
@@ -53,8 +55,9 @@ def test_can_see_target_markets_data(
         'commodity_code': '220.850',
     }
     mock_get_export_plan_market_data.return_value = {
-        'timezone': 'Asia/Shanghai',
+        'timezone': 'Australia/Sydney',
         'CPI': 10,
+        'sectors': ['Automotive']
     }
     mock_get_comtrade_last_year_import_data.return_value = {
         'last_year_data_partner': {
@@ -62,6 +65,35 @@ def test_can_see_target_markets_data(
             'value': 10000,
         }
     }
+
+    data = {
+        'target_markets': [
+            {
+                'country': 'Australia',
+                'export_duty': 0.05,
+                'easeofdoingbusiness': {
+                    'total': 264,
+                    'country_name': 'Australia',
+                    'country_code': 'AUS',
+                    'year_2019': 14
+                },
+                'corruption_perceptions_index': {
+                    'country_name': 'Australia',
+                    'country_code': 'AUS',
+                    'cpi_score_2019': 77,
+                    'rank': 12
+                },
+                'last_year_data': {
+                    'year': 2019,
+                    'trade_value': '33097917',
+                    'country_name': 'Australia',
+                    'year_on_year_change': '0.662'
+                },
+            }
+        ],
+        'sectors': ['Automotive']
+    }
+    mock_get_exportplan.return_value = data
 
     live_server, user, browser = server_user_browser_dashboard
     should_not_see_errors(browser)

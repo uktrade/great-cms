@@ -1,0 +1,123 @@
+@import 'helpers/colours';
+@import 'helpers/vars';
+@import 'helpers/mixins';
+@import 'helpers/typography-mixins';
+@import 'elements/spacing';
+
+@keyframes bounce {
+  0% {
+    bottom: 0;
+  }
+  20% {
+    bottom: 5px;
+  }
+  40% {
+    bottom: 0;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
+.remove-country-button {
+  color: $active-blue;
+  text-decoration: underline;
+
+  &:hover {
+    color: $aqua;
+  }
+}
+
+.country-chooser-section {
+  .loading-message {
+    position: relative;
+
+    span {
+      position: absolute;
+    }
+
+    span:first-child {
+      margin-left: 3px;
+      animation: bounce 1s infinite;
+    }
+
+    span:nth-child(2) {
+      margin-left: 9px;
+      animation: bounce 1s 0.1s infinite;
+    }
+
+    span:nth-child(3) {
+      margin-left: 15px;
+      animation: bounce 1s 0.2s infinite;
+    }
+  }
+
+  .country-chooser-button {
+    padding: $space-xs-m;
+    padding-left: 60px;
+    padding-right: 25px;
+    border-radius: $space-m-m;
+
+    @include desktop {
+      border-radius: $space-m;
+      padding: $space-xs;
+      padding-left: 60px;
+      padding-right: 25px;
+    }
+  }
+
+  .country-autocomplete-container,
+  .country-autocomplete,
+  .country-chooser-save-button {
+    display: flex;
+  }
+
+  .country-autocomplete {
+    @extend .p-r-xs;
+  }
+
+  .country-autocomplete-container,
+  .country-autocomplete,
+  .country-autocomplete .country-autocomplete__control {
+    flex-grow: 1;
+  }
+
+  .country-chooser-save-button {
+    @extend .p-v-xxs;
+    @extend .p-h-s;
+    @include brand-small;
+    border-radius: 5px;
+    background-color: $active-blue;
+    color: $white;
+
+    &:disabled {
+      background-color: $mid-grey;
+      cursor: not-allowed;
+    }
+  }
+
+  .country-chooser {
+    position: relative;
+
+    &.open span {
+      transform: rotate(135deg);
+      transition: all 0.2s ease;
+    }
+
+    span {
+      transition: all 0.2s ease;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+
+      &:hover {
+        background-color: $white;
+      }
+
+      &:hover:after,
+      &:hover:before {
+        background-color: $grey;
+      }
+    }
+  }
+}

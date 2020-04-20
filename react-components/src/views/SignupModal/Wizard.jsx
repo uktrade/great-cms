@@ -1,7 +1,6 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
-import Modal from 'react-modal'
 
 import Services from '@src/Services'
 import StepCredentials from './StepCredentials'
@@ -44,8 +43,26 @@ export default function Wizard(props){
     setErrors({})
     setIsInProgress(true)
     Services.checkVerificationCode({email, code})
-      .then(() => handleSuccess(STEP_COMPLETE))
+      .then(onCodeSubmitSuccess)
       .catch(handleError)
+  }
+
+  function onCodeSubmitSuccess() {
+    // company data may have been passed in at the start. Now the user has the 
+    // login cookies the company can be created
+    if (props.companySettings) {
+      const data = {
+        expertise_products_services: {
+          // convert Array[{value: str, label: str}] to Array[str]
+          other: props.companySettings.expertise_products_services.other.map(item => item.value),
+        }
+      }
+      Services.updateCompany(data)
+        .then(() => handleSuccess(STEP_COMPLETE))
+        .catch(handleError)
+    } else {
+      handleSuccess(STEP_COMPLETE)
+    }
   }
 
   function handleStepSuccessSubmit() {
@@ -89,7 +106,7 @@ Wizard.propTypes = {
   errors: PropTypes.object,
   email: PropTypes.string,
   password: PropTypes.string,
-  nextUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
 }
 
 Wizard.defaultProps = {
@@ -97,5 +114,6 @@ Wizard.defaultProps = {
   isInProgress: false,
   currentStep: STEP_CREDENTIALS,
   email: '',
-  password: ''
+  password: '',
+  nextUrl: /dashboard/,
 }

@@ -1,15 +1,20 @@
 @import 'helpers/colours';
 
-.learn-root {
+// Breakpoints
+$mobile: 640px;
+$tablet: 768px;
+$desktop: 1024px;
+
+#learn-root {
     background: #e7e7e7;
 }
 
-.learn-wrapper {
+.learn__wrapper {
     margin: 0 auto;
     max-width: 1248px;
     min-height: 600px;
     min-width: 320px;
-    padding: 90px 24px;
+    padding: 90px 25px;
 
     .h1 {
         color: $grey;
@@ -18,29 +23,146 @@
         line-height: 50px;
         margin-bottom: 50px;
     }
+
+    .button {
+        background-color: $grey;
+        color: $white;  
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+        height: 40px;
+        padding: 8px 25px;
+        text-decoration: none;
+        white-space: nowrap;
     
-    .paragraph {
-        font-size: 20px;
-        line-height: 30px;
-        margin-bottom: 50px;
-        max-width: 670px;
+        &:hover {
+            background-color: darken($grey, 5);
+            color: $white;
+        }
     }
 }
 
-.button {
-    background-color: $grey;
-    color: $white;
+.learn__wrapper--paragraph {
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 60px;
+}
+
+.learn__carousel-nav {
+    text-align: center;
+}
+
+.learn__carousel-ul {
+    margin-bottom: 60px;
+}
+
+.learn__nav-circle {
     display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    height: 40px;
-    padding: 8px 24px;
-    text-decoration: none;
-    white-space: nowrap;
+    margin-right: 25px;
 
-    &:hover {
-        background-color: darken($grey, 5);
-        color: $white;
+    &:last-child {
+        margin-right: 0;
+    }
+
+    a {
+        background: $mid-grey;
+        border-radius: 50%;
+        display: block;
+        font-size: 0;
+        height: 16px;
+        width: 16px;
     }
 }
 
+.learn__nav-circle--active a {
+    background: $grey;
+}
+
+.learn__carousel--paragraph {
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 58px;
+    margin-bottom: 120px
+}
+
+.learn__carousel {
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+@media (min-width: $tablet) {
+    .learn__carousel {
+        max-width: $tablet - 45px;
+        padding: 0;
+    }
+
+    .learn__carousel-nav {
+        padding-right: 45px;
+    }
+}
+
+@media (min-width: $desktop) {
+    .learn__carousel {
+        max-width: $desktop - 45px;
+    }
+}
+
+
+#lesson-page {
+    nav {
+        background: $white;
+
+        .great-mvp-pill-button {
+            margin-left: 5px;
+        }
+    }
+    aside {
+        background: $white;
+        border-right: 1px solid $light-grey;
+        height: 100%;
+        position: sticky;
+        top: 0;
+
+        h3 {
+          padding-top: 20;
+          padding-bottom: 0;
+
+          a.topic-link {
+            text-decoration: none;
+          }
+        }
+
+        a {
+          color: $grey;
+          font-size: 16px;
+        }
+    }
+    .lesson-next-area {
+        display: inline-block;
+
+        h5 {
+          color: #919191;
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        .lesson-next-link {
+          color: #3C3C3C;
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .lesson-back-to-learning {
+          color: #3C3C3C;
+          font-size: 19px;
+          font-weight: bold;
+          display: block;
+        }
+    }
+
+    .set-product-button,
+    .set-country-button {
+        cursor: pointer;
+    }
+
+}

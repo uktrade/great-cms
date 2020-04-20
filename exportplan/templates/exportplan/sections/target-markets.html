@@ -23,28 +23,8 @@
 {% block user_input %}
 <hr>
 
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-    <div class="c-3-4" id="recommended-countries"></div>
-  </div>
-</section>
 
-<hr>
-{% if export_marketdata %}
-  {% include 'exportplan/partials/_country-stats.html' %}
-{% endif %}
-
-<hr>
-
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4">&nbsp;</div>
-      <div class="c-3-4">
-      <button type="button" class="g-button bg-white text-grey pill" id="add-country">Add country</button>
-    </div>
-  </div>
-</section>
+<section class="container section--with-sidebar" id="target-market-countries-component"></section>
 
 <hr class="m-b-0">
 
@@ -82,10 +62,17 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById("recommended-countries");
-    ditMVP.createSectorChooser({
+    ditMVP.setConfig({
+      countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
+      countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
+    })
+    var element = document.getElementById('target-market-countries-component');
+    ditMVP.createTargetMarketCountries({
       element: element,
-      sectorList: {{ sectors|safe }}
+      sectorList: {{ sectors|safe }},
+      selectedSectors: {{ selected_sectors|safe }},
+      countryList: {{ country_choices|safe }},
+      selectedCountries: {{ target_markets|safe|default:"[]" }}
     })
   </script>
 {% endblock %}

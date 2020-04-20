@@ -3,20 +3,24 @@ from difflib import SequenceMatcher
 from logging import getLogger
 import csv
 import functools
+from urllib.parse import urljoin
 
 from directory_api_client import api_client
 import great_components.helpers
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
+import requests
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
 
-from .serializers import parse_opportunities, parse_events
+from core.serializers import parse_opportunities, parse_events
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
+COMMODITY_SEARCH_URL = urljoin(settings.DIT_HELPDESK_URL, '/search/api/commodity-term/')
+
 
 logger = getLogger(__name__)
 
@@ -146,3 +150,13 @@ def values_to_labels(values, choices):
 
 def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
+
+
+def search_commodity_by_term(term, page=1):
+    response = requests.get(COMMODITY_SEARCH_URL, {'q': term, 'page': page})
+    response.raise_for_status()
+    parsed = response.json()
+    return [
+        {'value': item['commodity_code'], 'label': item['description']}
+        for item in parsed['results']
+    ]

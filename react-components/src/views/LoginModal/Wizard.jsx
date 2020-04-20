@@ -1,8 +1,6 @@
+/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
-import Modal from 'react-modal'
-
 import Services from '@src/Services'
 import Step1 from './Step1'
 
