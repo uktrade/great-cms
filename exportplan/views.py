@@ -1,15 +1,15 @@
 from datetime import datetime
-import pytz
 import json
 
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView
 
 from directory_constants.choices import INDUSTRIES
 
-from exportplan import data, forms, helpers
+from exportplan import data, helpers
 
 
 class BaseExportPlanView(TemplateView):
+    export_plan = {}
 
     def get_context_data(self, *args, **kwargs):
         industries = [name for id, name in INDUSTRIES]
@@ -21,6 +21,10 @@ class BaseExportPlanView(TemplateView):
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
             *args, **kwargs)
+
+    def dispatch(self, *args, **kwargs):
+        self.export_plan = helpers.get_export_plan_or_create(self.request.user)
+        return super().dispatch(*args, **kwargs)
 
 
 class ExportPlanSectionView(BaseExportPlanView):
@@ -50,12 +54,10 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
 
     def get_context_data(self, *args, **kwargs):
 
-        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        target_markets = self.export_plan.get('target_markets', [])
+        selected_sectors = self.export_plan.get('sectors', [])
 
-        target_markets = export_plan.get('target_markets', [])
-        selected_sectors = export_plan.get('sectors', [])
-
-        if export_plan:
+        if self.export_plan:
             return super().get_context_data(
                 selected_sectors=json.dumps(selected_sectors),
                 target_markets=json.dumps(target_markets),
@@ -63,64 +65,3 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
                 *args, **kwargs)
 
         return super().get_context_data(*args, *kwargs)
-
-
-class ExportPlanStartView(FormView):
-    template_name = 'exportplan/start.html'
-    form_class = forms.ExportPlanFormStart
-    success_url = '/export-plan/'
-
-    def get_initial(self):
-        return {
-            'country': self.request.GET.get('country'),
-            'commodity': self.request.GET.get('commodity_code'),
-        }
-
-    def get_context_data(self, **kwargs):
-        rules_regulation = None
-        if self.request.GET.get('country'):
-            rules_regulation = helpers.get_rules_and_regulations(self.request.GET['country'])
-        return super().get_context_data(rules_regulation=rules_regulation, **kwargs)
-
-    def form_valid(self, form):
-        rules_regulation = helpers.get_rules_and_regulations(self.request.GET.get('country'))
-        helpers.create_export_plan(
-            sso_session_id=self.request.user.session_id,
-            exportplan_data=self.serialize_exportplan_data(rules_regulation)
-        )
-        return super().form_valid(form)
-
-    def serialize_exportplan_data(self, exportplan_data):
-        return {
-            'export_countries': [exportplan_data['country']],
-            'export_commodity_codes': [exportplan_data['commodity_code']],
-            'rules_regulations': exportplan_data,
-            'target_markets': [{'country': exportplan_data['country']}]
-        }
-
-
-class ExportPlanCreateView(TemplateView):
-    template_name = 'exportplan/create.html'
-
-    def get_context_data(self, **kwargs):
-
-        rules_regulation = helpers.get_exportplan_rules_regulations(sso_session_id=self.request.user.session_id)
-        export_marketdata = helpers.get_exportplan_marketdata(rules_regulation.get('country_code'))
-        utz_offset = datetime.now(pytz.timezone(export_marketdata['timezone'])).strftime('%z')
-        commodity_code = rules_regulation.get('commodity_code')
-        country = rules_regulation.get('country')
-
-        lastyear_import_data = helpers.get_comtrade_lastyearimportdata(commodity_code=commodity_code, country=country)
-        historical_import_data = helpers.get_comtrade_historicalimportdata(
-            commodity_code=commodity_code, country=country
-        )
-
-        return super().get_context_data(
-            rules_regulation=rules_regulation,
-            export_marketdata=export_marketdata,
-            datenow=datetime.now(),
-            utz_offset=utz_offset,
-            lastyear_import_data=lastyear_import_data,
-            historical_import_data=historical_import_data,
-            **kwargs
-        )

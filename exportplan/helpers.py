@@ -106,3 +106,27 @@ def get_recommended_countries(sso_session_id, sectors):
             item['country'] = country
         return parsed
     return []
+
+
+def serialize_exportplan_data(rules_regulations, user):
+    target_markets = [{'country': rules_regulations['country']}]
+    if user.company and user.company.expertise_countries_labels:
+        target_markets = target_markets + [{'country': c} for c in user.company.expertise_countries_labels]
+    return {
+        'export_countries': [rules_regulations['country']],
+        'export_commodity_codes': [rules_regulations['commodity_code']],
+        'rules_regulations': rules_regulations,
+        'target_markets': target_markets,
+    }
+
+
+def get_export_plan_or_create(user):
+    # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
+    export_plan = get_exportplan(user.session_id)
+    if not export_plan:
+        rules = get_rules_and_regulations('Australia')
+        export_plan = create_export_plan(
+            sso_session_id=user.session_id,
+            exportplan_data=serialize_exportplan_data(rules_regulations=rules, user=user)
+        )
+    return export_plan
