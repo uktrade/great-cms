@@ -103,6 +103,26 @@ def wait_for_element_visibility(
     )
 
 
+@contextmanager
+def wait_for_text_in_element(
+    driver: WebDriver, selector: Selector, text: str, *, time_to_wait: int = 3
+):
+    """Perform an action and wait until text is visible in specific element.
+
+    Example:
+        - click on a button and wait for its label's text to contain word 'Selected'
+
+        label = Selector(By.ID, 'button_label')
+        with wait_for_text_in_element(browser, label, 'Selected'):
+            button.click()
+    """
+    yield
+    locator = (selector.by, selector.selector)
+    WebDriverWait(driver, time_to_wait).until(
+        expected_conditions.text_to_be_present_in_element(locator, text)
+    )
+
+
 @allure.step('Should see all elements from: {selectors_enum}')
 def should_see_all_elements(browser, selectors_enum):
     for selector in selectors_enum:
