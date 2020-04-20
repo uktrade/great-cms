@@ -167,6 +167,17 @@ def test_update_export_plan(mock_exportplan_update):
     )
 
 
+@mock.patch.object(helpers, 'get_exportplan')
+def test_get_or_create_export_plan_existing(mock_get_exportplan, user):
+    mock_get_exportplan.return_value = create_response(status_code=200, json_body={'export_plan'})
+
+    export_plan = helpers.get_or_create_export_plan(user)
+
+    assert mock_get_exportplan.call_count == 1
+    assert mock_get_exportplan.call_args == mock.call('123')
+    assert export_plan.json() == {'export_plan'}
+
+
 @mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
 def test_get_recommended_countries(mock_recommended_countries):
     recommended_countries = [{'country': 'japan'}, {'country': 'south korea'}]
@@ -184,3 +195,66 @@ def test_get_recommended_countries_no_return(mock_recommended_countries):
     countries = helpers.get_recommended_countries(sso_session_id=123, sectors=['Automotive'])
 
     assert countries == []
+
+
+def test_serialize_exportplan_data(user):
+    rules_regulations_data = {
+        'country': 'UK', 'commodity_code': '123'
+    }
+
+    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
+
+    assert exportplan_data == {
+        'export_countries': ['UK'],
+        'export_commodity_codes': ['123'],
+        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
+        'target_markets': [{'country': 'UK'}]
+    }
+
+
+def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company_profile):
+    mock_get_company_profile.return_value = {
+        'expertise_countries': ['CN']
+    }
+
+    rules_regulations_data = {
+        'country': 'UK', 'commodity_code': '123'
+    }
+
+    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
+
+    assert exportplan_data == {
+        'export_countries': ['UK'],
+        'export_commodity_codes': ['123'],
+        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
+        'target_markets': [{'country': 'UK'}, {'country': 'China'}]
+    }
+
+
+@mock.patch.object(helpers, 'get_exportplan')
+@mock.patch.object(helpers, 'get_rules_and_regulations')
+@mock.patch.object(helpers, 'create_export_plan')
+def test_get_or_create_export_plan_created(
+        mock_create_export_plan, mock_get_rules_and_regulations, mock_get_exportplan, user
+):
+    mock_get_exportplan.return_value = None
+    mock_get_rules_and_regulations.return_value = {
+        'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
+    }
+    mock_create_export_plan.return_value = {'export_plan_created'}
+
+    export_plan = helpers.get_or_create_export_plan(user)
+
+    assert mock_get_exportplan.call_count == 1
+    assert mock_get_exportplan.call_args == mock.call('123')
+
+    assert mock_create_export_plan.call_count == 1
+    assert mock_create_export_plan.call_args == mock.call(
+        exportplan_data={
+            'export_countries': ['UK'], 'export_commodity_codes': ['123'], 'rules_regulations':
+                {'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
+                 }, 'target_markets': [{'country': 'UK'}]},
+        sso_session_id='123'
+    )
+
+    assert export_plan == {'export_plan_created'}

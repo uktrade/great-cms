@@ -228,6 +228,29 @@ def mock_export_plan_requests(
     mock_get_export_plan_market_data.return_value = {'timezone': 'Asia/Shanghai', }
 
 
+@pytest.fixture
+@pytest.mark.django_db(transaction=True)
+@mock.patch.object(exportplan_helpers, 'get_or_create_export_plan')
+def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
+
+    explan_plan_data = {
+        'country': 'Australia',
+        'commodity_code': '220.850',
+        'sectors': ['Automotive'],
+        'target_markets': [
+            {'country': 'China'},
+        ],
+        'rules_regulations': {
+            'country_code': 'CHN',
+        },
+    }
+    mock_get_or_create_export_plan.return_value = create_response(
+        status_code=200, json_body=explan_plan_data
+    )
+
+    mock_get_or_create_export_plan.return_value = {'timezone': 'Asia/Shanghai', }
+
+
 @pytest.mark.django_db(transaction=True)
 @pytest.fixture
 def topics_with_lessons(domestic_site_browser_tests):
