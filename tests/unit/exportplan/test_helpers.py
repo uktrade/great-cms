@@ -230,3 +230,22 @@ def test_serialize_exportplan_data(user):
         'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
         'target_markets': [{'country': 'UK'}]
     }
+
+
+def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company_profile):
+    mock_get_company_profile.return_value = {
+        'expertise_countries': ['CN']
+    }
+
+    rules_regulations_data = {
+        'country': 'UK', 'commodity_code': '123'
+    }
+
+    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
+
+    assert exportplan_data == {
+        'export_countries': ['UK'],
+        'export_commodity_codes': ['123'],
+        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
+        'target_markets': [{'country': 'UK'}, {'country': 'China'}]
+    }
