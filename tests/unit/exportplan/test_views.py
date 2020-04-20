@@ -23,6 +23,16 @@ def test_export_plan_builder_landing_page(client, exportplan_dashboard):
     assert response.context['sections'] == data.SECTION_TITLES
 
 
+@mock.patch.object(helpers, 'get_export_plan_or_create')
+@pytest.mark.parametrize('url', data.SECTION_URLS)
+def test_exportplan_sections(mock_get_export_plan_or_create, url, client, user):
+    if url == reverse('exportplan:section', kwargs={'slug': 'target-markets'}):
+        return True
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
 @pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
 @mock.patch.object(helpers, 'get_export_plan_or_create')

@@ -178,9 +178,6 @@ def get_export_plan_or_create_existing(mock_get_exportplan, user):
     assert export_plan == {'export_plan'}
 
 
-
-
-
 @mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
 def test_get_recommended_countries(mock_recommended_countries):
     recommended_countries = [{'country': 'japan'}, {'country': 'south korea'}]
