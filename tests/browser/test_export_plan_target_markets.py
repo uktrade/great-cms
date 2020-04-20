@@ -12,8 +12,8 @@ from exportplan import helpers as exportplan_helpers
 from tests.browser.common_selectors import (
     ExportPlanTargetMarketsData,
     ExportPlanTargetMarketsRecommendedCountriesFolded,
-    ExportPlanTargetMarketsRecommendedCountriesUnfolded,
     TargetMarketsCountryChooser,
+    TargetMarketsSectorSelectorUnfolded,
 )
 from tests.browser.util import (
     attach_jpg_screenshot,
@@ -373,7 +373,6 @@ def test_can_see_target_markets_data(
     with selenium_action(browser, f'Failed to click on sector chooser button'):
         sector_chooser_button.click()
     attach_jpg_screenshot(browser, 'market data with unfolded countries chooser')
-    should_see_all_elements(browser, ExportPlanTargetMarketsRecommendedCountriesUnfolded)
 
 
 @mock.patch.object(exportplan_helpers, 'update_exportplan')

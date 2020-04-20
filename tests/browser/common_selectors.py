@@ -227,7 +227,7 @@ class ExportPlanTargetMarketsRecommendedCountriesFolded(SelectorsEnum):
     SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
 
 
-class ExportPlanTargetMarketsRecommendedCountriesUnfolded(SelectorsEnum):
+class TargetMarketsSectorSelectorUnfolded(SelectorsEnum):
     SECTOR_LIST = Selector(By.ID, 'sector-list')
 
 
