@@ -168,14 +168,14 @@ def test_update_export_plan(mock_exportplan_update):
 
 
 @mock.patch.object(helpers, 'get_exportplan')
-def get_export_plan_or_create_existing(mock_get_exportplan, user):
+def test_get_or_create_export_plan_existing(mock_get_exportplan, user):
     mock_get_exportplan.return_value = create_response(status_code=200, json_body={'export_plan'})
 
-    export_plan = helpers.get_export_plan_or_create(user)
+    export_plan = helpers.get_or_create_export_plan(user)
 
     assert mock_get_exportplan.call_count == 1
-    assert mock_get_exportplan.call_args == mock.call(sso_session_id=123)
-    assert export_plan == {'export_plan'}
+    assert mock_get_exportplan.call_args == mock.call('123')
+    assert export_plan.json() == {'export_plan'}
 
 
 @mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
@@ -234,7 +234,7 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
 @mock.patch.object(helpers, 'get_exportplan')
 @mock.patch.object(helpers, 'get_rules_and_regulations')
 @mock.patch.object(helpers, 'create_export_plan')
-def test_get_export_plan_or_create_created(
+def test_get_or_create_export_plan_created(
         mock_create_export_plan, mock_get_rules_and_regulations, mock_get_exportplan, user
 ):
     mock_get_exportplan.return_value = None
@@ -243,7 +243,7 @@ def test_get_export_plan_or_create_created(
     }
     mock_create_export_plan.return_value = {'export_plan_created'}
 
-    export_plan = helpers.get_export_plan_or_create(user)
+    export_plan = helpers.get_or_create_export_plan(user)
 
     assert mock_get_exportplan.call_count == 1
     assert mock_get_exportplan.call_args == mock.call('123')
