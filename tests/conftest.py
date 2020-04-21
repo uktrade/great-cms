@@ -10,11 +10,8 @@ import environ
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from airtable import Airtable
-from core import helpers as core_helpers
 from directory_api_client import api_client
-from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
-from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
 from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
@@ -153,27 +150,6 @@ def mock_user_location_create():
     stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
     yield stub.start()
     stub.stop()
-
-
-@pytest.fixture
-@pytest.mark.django_db(transaction=True)
-@mock.patch.object(core_helpers, 'get_dashboard_export_opportunities')
-@mock.patch.object(core_helpers, 'get_dashboard_events')
-@mock.patch.object(sso_helpers, 'get_company_profile')
-@mock.patch.object(core_helpers, 'get_markets_page_title')
-def mock_dashboard_profile_events_opportunities(
-    mock_get_markets_page_title,
-    mock_get_company_profile,
-    mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities,
-):
-    mock_get_markets_page_title.return_value = 'Some page title'
-    mock_get_company_profile.return_value = {
-        'expertise_countries': ['AF'],
-        'expertise_industries': [choices.SECTORS[0][0]],
-    }
-    mock_get_dashboard_events.return_value = []
-    mock_get_dashboard_export_opportunities.return_value = []
 
 
 @pytest.fixture

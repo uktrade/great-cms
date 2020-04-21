@@ -7,7 +7,9 @@ from core import helpers as core_helpers
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from directory_api_client import api_client
+from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
+from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
 CHINA = {
@@ -210,6 +212,33 @@ def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
     """
     tour_steps.update({'steps': tour_steps['steps']})
     return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
+
+
+@pytest.fixture
+def mock_get_company_profile():
+    return_value = {
+        'expertise_countries': ['AF'],
+        'expertise_industries': [choices.SECTORS[0][0]],
+    }
+    with patch.object(sso_helpers, 'get_company_profile', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_markets_page_title():
+    with patch.object(core_helpers, 'get_markets_page_title', return_value='Some page title') as patched:
+        yield patched
+
+
+@pytest.fixture
+@pytest.mark.django_db(transaction=True)
+def mock_dashboard_profile_events_opportunities(
+    mock_get_markets_page_title,
+    mock_get_company_profile,
+    mock_get_dashboard_events,
+    mock_get_dashboard_export_opportunities,
+):
+    yield
 
 
 @pytest.fixture
