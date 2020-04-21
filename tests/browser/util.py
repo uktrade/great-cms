@@ -107,7 +107,7 @@ def wait_for_text_in_element(driver: WebDriver, selector: Selector, text: str, *
 
 
 @contextmanager
-def selenium_action(driver, message, *args):
+def selenium_action(driver: WebDriver, message: str, *args: str):
     """This will:
         * print the custom assertion message
         * print the traceback (stack trace)
