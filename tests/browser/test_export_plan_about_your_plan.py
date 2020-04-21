@@ -17,18 +17,8 @@ pytestmark = [
 
 
 @pytest.mark.django_db
-def test_export_plan_about_your_business(
-    server_user_browser_dashboard,
-    mock_update_company_profile,
-    mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities,
-    mock_get_export_plan_list,
-    mock_get_corruption_perceptions_index,
-    mock_get_ease_of_doing_business,
-    mock_get_last_year_import_data,
-    mock_get_export_plan_market_data,
-    mock_get_recommended_countries,
-    mock_update_export_plan,
+def test_export_plan_about_your_business_page(
+    server_user_browser_dashboard, mock_all_dashboard_and_export_plan_requests_and_responses
 ):
     live_server, _, browser = server_user_browser_dashboard
 
