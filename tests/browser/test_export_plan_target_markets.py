@@ -3,10 +3,8 @@ import logging
 import random
 from typing import List
 from unittest import mock
-from urllib.parse import urljoin
 
 import pytest
-from django.urls import reverse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -24,7 +22,12 @@ from tests.browser.common_selectors import (
     TargetMarketsSelectedSectors,
 )
 from tests.browser.conftest import CHINA, INDIA, JAPAN
-from tests.browser.steps import should_not_see_errors, should_see_all_elements
+from tests.browser.steps import (
+    should_not_see_errors,
+    should_see_all_elements,
+    should_see_all_expected_page_sections,
+    visit_page,
+)
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_elements,
@@ -42,13 +45,10 @@ pytestmark = [
 
 @allure.step('Visit Target Markets page')
 def visit_target_markets_page(live_server: LiveServer, browser: WebDriver):
-    target_markets_url = urljoin(live_server.url, reverse('exportplan:target-markets'))
-    browser.get(target_markets_url)
-    should_not_see_errors(browser)
-
-    attach_jpg_screenshot(browser, 'market data with folded countries chooser')
-    should_see_all_elements(browser, ExportPlanTargetMarketsData)
-    should_see_all_elements(browser, TargetMarketsRecommendedCountriesFolded)
+    visit_page(live_server, browser, 'exportplan:target-markets', 'Target Markets')
+    should_see_all_expected_page_sections(
+        browser, [ExportPlanTargetMarketsData, TargetMarketsRecommendedCountriesFolded]
+    )
 
 
 @allure.step('Add sectors')
