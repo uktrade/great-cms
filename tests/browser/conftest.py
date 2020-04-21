@@ -119,7 +119,7 @@ def mock_get_comtrade_last_year_import_data():
 
 
 @pytest.fixture
-def mock_get_exportplan():
+def mock_get_export_plan():
     return_value = {
         'pk': 1,
         'target_markets': [JAPAN],
@@ -194,7 +194,7 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_get_export_plan_list,
     mock_get_export_plan_market_data,
     mock_get_export_plan_rules_regulations,
-    mock_get_exportplan,
+    mock_get_export_plan,
     mock_get_last_year_import_data,
     mock_get_recommended_countries,
     mock_update_company_profile,
