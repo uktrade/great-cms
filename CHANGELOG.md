@@ -6,6 +6,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 
 ### Fixed bugs
+- MVP-402 - Fix Localisation
 
 ### Implemented enhancements
 - MVP-317 - Add dummy pages for all export plan sections
