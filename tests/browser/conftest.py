@@ -4,6 +4,8 @@ from unittest.mock import patch
 import pytest
 
 from core import helpers as core_helpers
+from core.management.commands.create_tours import defaults as tour_steps
+from core.models import Tour
 from directory_api_client import api_client
 from exportplan import helpers as exportplan_helpers
 from tests.helpers import create_response
@@ -196,6 +198,18 @@ def mock_update_export_plan():
     return_value = {}
     with patch.object(exportplan_helpers, 'update_exportplan', return_value=return_value) as patched:
         yield patched
+
+
+@pytest.fixture
+def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
+    """Create Export Plan Dashboard page tour steps in reversed order.
+
+    For some reason when page tour steps are created during a unit test run then
+    those steps are shown in reversed order. So in order to show them in the right
+    order they have to be reverse here.
+    """
+    tour_steps.update({'steps': tour_steps['steps']})
+    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
 
 
 @pytest.fixture

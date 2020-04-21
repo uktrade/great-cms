@@ -11,8 +11,6 @@ import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from airtable import Airtable
 from core import helpers as core_helpers
-from core.management.commands.create_tours import defaults as tour_steps
-from core.models import Tour
 from directory_api_client import api_client
 from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
@@ -249,18 +247,6 @@ def topics_with_lessons(domestic_site_browser_tests):
     lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
     lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
     return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
-
-
-@pytest.fixture
-def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
-    """Create Export Plan Dashboard page tour steps in reversed order.
-
-    For some reason when page tour steps are created during a unit test run then
-    those steps are shown in reversed order. So in order to show them in the right
-    order they have to be reverse here.
-    """
-    tour_steps.update({'steps': tour_steps['steps']})
-    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
 
 
 @pytest.fixture(scope='session')
