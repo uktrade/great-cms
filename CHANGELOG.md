@@ -66,4 +66,5 @@
 - MVP-380 - add UI test to add multiple countries on target markets page
 - MVP-405 - create initial export plan
 - no-ticket - update export-plan link
+- MVP-406 - hook up remove country
 

@@ -36,6 +36,34 @@ class ExportPlanCountryDataView(views.APIView):
         return JsonResponse(data)
 
 
+class ExportPlanRemoveCountryDataView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if not self.request.GET.get('country'):
+            return HttpResponse(status=400)
+        country = self.request.GET.get('country')
+        try:
+            # To make more efficient by removing get
+            export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+            target_markets_filtered = filter(lambda i: i['country'] != country, export_plan['target_markets'])
+            data = list(target_markets_filtered)
+            export_plan = helpers.update_exportplan(
+                sso_session_id=self.request.user.session_id,
+                id=export_plan['pk'],
+                data={'target_markets': data}
+            )
+        except ReadTimeout:
+            return HttpResponse(status=504)
+
+        data = {
+            'target_markets': export_plan['target_markets'],
+            'datenow': datetime.now(),
+        }
+
+        return JsonResponse(data)
+
+
 class ExportPlanRecommendedCountriesDataView(views.APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.ExportPlanRecommendedCountriesSerializer

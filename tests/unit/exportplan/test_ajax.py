@@ -62,6 +62,46 @@ def test_ajax_country_data_no_country(client, user):
 
 @pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
+@mock.patch.object(helpers, 'update_exportplan')
+@mock.patch.object(helpers, 'get_exportplan')
+def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, client, user):
+    client.force_login(user)
+    url = reverse('exportplan:ajax-remove-country-data')
+
+    export_plan_data = {'pk': 1, 'target_markets': [{'country': 'UK'}, {'country': 'China', 'SomeData': 'xyz'}, ]}
+    update_return_data = {'target_markets': [{'country': 'UK'}]}
+
+    mock_get_export_plan.return_value = export_plan_data
+    mock_update_exportplan.return_value = update_return_data
+
+    response = client.get(url, {'country': 'China', })
+
+    assert mock_get_export_plan.call_count == 1
+    assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
+    assert response.status_code == 200
+
+    assert mock_update_exportplan.call_count == 1
+    assert mock_update_exportplan.call_args == mock.call(
+        data={'target_markets': [{'country': 'UK'}]},
+        id=1,
+        sso_session_id='123'
+    )
+    assert response.json() == {
+        'datenow': '2016-11-23T11:21:10.977Z',
+        'target_markets': update_return_data['target_markets']
+    }
+
+
+def test_ajax_country_data_remove_no_country(client, user):
+    client.force_login(user)
+    url = reverse('exportplan:ajax-remove-country-data')
+    response = client.get(url)
+
+    assert response.status_code == 400
+
+
+@pytest.mark.django_db
+@freeze_time('2016-11-23T11:21:10.977518Z')
 @mock.patch.object(helpers, 'get_recommended_countries')
 @mock.patch.object(helpers, 'update_exportplan')
 @mock.patch.object(helpers, 'get_exportplan')
