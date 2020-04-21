@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import logging
 import sys
 import traceback
@@ -5,8 +6,6 @@ from contextlib import contextmanager
 from io import BytesIO
 from typing import List, Union
 
-import allure
-from PIL import Image
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
     ElementNotInteractableException,
@@ -21,6 +20,8 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+import allure
+from PIL import Image
 from tests.browser.common_selectors import Selector, SelectorsEnum
 
 logger = logging.getLogger(__name__)
@@ -53,7 +54,7 @@ def attach_jpg_screenshot(
         screenshot_jpg,
         name=page_name,
         attachment_type=allure.attachment_type.JPG,
-        extension='jpg'
+        extension='jpg',
     )
 
 
@@ -94,7 +95,7 @@ def find_elements(browser: WebDriver, selector: Selector) -> List[WebElement]:
 
 
 def wait_for_element_visibility(
-        driver: WebDriver, selector: Selector, *, time_to_wait: int = 3
+    driver: WebDriver, selector: Selector, *, time_to_wait: int = 3
 ):
     """Wait until element is visible."""
     locator = (selector.by, selector.selector)
@@ -124,17 +125,23 @@ def wait_for_text_in_element(
 
 
 @allure.step('Should see all elements from: {selectors_enum}')
-def should_see_all_elements(browser, selectors_enum):
+def should_see_all_elements(browser: WebDriver, selectors_enum: SelectorsEnum):
     for selector in selectors_enum:
         if not selector.value:
             continue
         if not selector.is_visible:
             continue
+        if selector.name == 'CONTAINER':
+            attach_jpg_screenshot(
+                browser, f'{selectors_enum.__name__} container', selector=selector
+            )
         error = f'Expected element "{selector}" is not visible'
         if not is_element_visible(browser, selector):
             attach_jpg_screenshot(browser, error)
         assert is_element_visible(browser, selector), error
-    logger.info(f'All elements from {selectors_enum} are visible on {browser.current_url}')
+    logger.info(
+        f'All elements from {selectors_enum} are visible on {browser.current_url}'
+    )
 
 
 @allure.step('Should not see element: {selector}')
