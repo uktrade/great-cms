@@ -69,7 +69,7 @@ class HeaderSignUp(SelectorsEnum):
 
 
 class HeaderSignedIn(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'user-state-area', ElementType.HEADER)
+    CONTAINER = Selector(By.ID, 'user-state-area', ElementType.HEADER, is_visible=False)
     NOTIFICATIONS = Selector(By.ID, 'header-link-notifications', ElementType.LINK)
     USER_PROFILE = Selector(By.ID, 'header-link-user-profile', ElementType.LINK)
     USER_PROFILE_EMAIL = Selector(By.ID, 'header-link-user-profile-email-link', ElementType.LINK)
