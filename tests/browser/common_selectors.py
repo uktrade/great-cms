@@ -132,7 +132,7 @@ class DashboardModalLetsGetToKnowYou(SelectorsEnum):
 
 
 class MarketsContainer(SelectorsEnum):
-    BREADCRUMBS = Selector(By.ID, 'great-hero')
+    CONTAINER = Selector(By.ID, 'great-hero')
     BREADCRUMBS_HOME = Selector(By.ID, 'breadcrumbs-home', ElementType.LINK)
     BREADCRUMBS_MARKETS = Selector(By.CSS_SELECTOR, '#great-hero nav li span')
     CONTENT_CONTAINER = Selector(By.ID, 'markets-container')
