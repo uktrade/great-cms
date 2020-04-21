@@ -3,19 +3,14 @@ import logging
 from unittest import mock
 
 import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
-import environ
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from airtable import Airtable
 from directory_api_client import api_client
 from exportplan import helpers as exportplan_helpers
 from sso.models import BusinessSSOUser
-from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
-from tests.unit.learn import factories as learn_factories
 from wagtail.core.models import Page
 from wagtail_factories import PageFactory, SiteFactory
 
@@ -56,22 +51,6 @@ def exportplan_dashboard(exportplan_homepage):
 @pytest.fixture
 def domestic_site(domestic_homepage, client):
     return SiteFactory(root_page=domestic_homepage, hostname=client._base_environ()['SERVER_NAME'],)
-
-
-@pytest.fixture
-def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashboard, client):
-    """Will server domestic site on the same port as liver_server.
-    Note:
-        live_server.url looks like this: http://localhost:48049
-        The value of live_server.url can be also set via --liveserver parameter:
-        make ARGUMENTS="--liveserver=localhost:48049'" pytest_browser
-    """
-    live_server_port = int(live_server.url.split(':')[-1])
-    return SiteFactory(
-        root_page=domestic_homepage,
-        hostname='localhost',  # This allows Browser to access site via live_server.url
-        port=live_server_port,  # This forces Site to be server on the same port as live_server
-    )
 
 
 @pytest.fixture(autouse=True)
@@ -211,52 +190,6 @@ def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
     }
 
 
-@pytest.mark.django_db(transaction=True)
-@pytest.fixture
-def topics_with_lessons(domestic_site_browser_tests):
-    domestic_homepage = domestic_site_browser_tests.root_page
-    topic_a = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic A', slug='topic-a',)
-    lesson_a1 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A1', slug='lesson-a1',)
-    lesson_a2 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A2', slug='lesson-a2',)
-
-    topic_b = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic B', slug='topic-b',)
-    lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
-    lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
-    return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
-
-
-@pytest.fixture(scope='session')
-def browser():
-    options = Options()
-    env = environ.Env()
-    headless = env.bool('HEADLESS', True)
-    if headless:
-        options.add_argument('--headless')
-        options.add_argument('--window-size=1600x2200')
-        options.add_argument('--disable-gpu')
-    options.add_argument('--start-maximized')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--no-sandbox')
-    browser = webdriver.Chrome(options=options)
-    yield browser
-    browser.quit()
-
-
-@pytest.fixture(autouse=True)
-def base_url(live_server):
-    """Get the base url for a live Django server running in a background thread.
-
-    See: https://pytest-django.readthedocs.io/en/latest/helpers.html#live-server
-    """
-    return live_server.url
-
-
-@pytest.fixture
-def visit_home_page(browser, base_url, domestic_site_browser_tests):
-    browser.get(base_url)
-    return browser
-
-
 @pytest.fixture
 def patch_get_company_profile():
     yield mock.patch('sso.helpers.get_company_profile', return_value=None)
@@ -300,22 +233,3 @@ def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
-
-
-@pytest.fixture
-def server_user_browser(browser, live_server, user, client):
-    client.force_login(user)
-    return live_server, user, browser
-
-
-@pytest.fixture
-def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
-    live_server, user, browser = server_user_browser
-
-    browser.get(f'{live_server.url}/dashboard/')
-
-    browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
-    browser.refresh()
-
-    should_not_see_errors(browser)
-    return live_server, user, browser
