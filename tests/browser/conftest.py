@@ -81,13 +81,28 @@ def mock_update_company_profile():
 
 @pytest.fixture
 def mock_get_dashboard_events():
-    with patch.object(core_helpers, 'get_dashboard_events', return_value=[]) as patched:
+    single_event = {
+        'title': 'Global Aid and Development Directory',
+        'description': 'DIT is producing a directory of companies',
+        'url': 'www.example.com',
+        'location': 'London',
+        'date': '06 Jun 2020',
+    }
+    with patch.object(core_helpers, 'get_dashboard_events', return_value=[single_event]) as patched:
         yield patched
 
 
 @pytest.fixture
 def mock_get_dashboard_export_opportunities():
-    with patch.object(core_helpers, 'get_dashboard_export_opportunities', return_value=[]) as patched:
+    single_opportunity = {
+        'title': 'French sardines required',
+        'url': 'http://exops.trade.great:3001/export-opportunities/opportunities/french-sardines-required',
+        'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
+        'published_date': '2020-01-14T15:26:45.334Z',
+        'closing_date': '2020-06-06',
+        'source': 'post',
+    }
+    with patch.object(core_helpers, 'get_dashboard_export_opportunities', return_value=[single_opportunity]) as patched:
         yield patched
 
 
