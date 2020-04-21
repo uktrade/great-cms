@@ -64,5 +64,5 @@
 - MVP-350, MVP-351, MVP 352 - add how to export carousel
 - MVP-404 - make all tests use PostgreSQL
 - MVP-405 - create initial export plan
-
+- no-ticket - update export-plan link
 
