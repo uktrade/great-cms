@@ -40,7 +40,7 @@ def should_see_all_elements(browser: WebDriver, selectors_enum: EnumMeta):
             continue
         if not selector.is_visible:
             continue
-        if selector.name == 'CONTAINER':
+        if selector.name in ['CONTAINER', 'MODAL']:
             attach_jpg_screenshot(browser, f'{selectors_enum.__name__} container', selector=selector)
         error = f'Expected element "{selector}" is not visible'
         if not is_element_visible(browser, selector):
