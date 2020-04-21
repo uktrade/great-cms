@@ -17,10 +17,19 @@ logger = logging.getLogger(__name__)
 
 @allure.step('Visit {page_name} page')
 def visit_page(
-    live_server: LiveServer, browser: WebDriver, view_name: str, page_name: str, check_for_errors: bool = True,
+    live_server: LiveServer,
+    browser: WebDriver,
+    view_name: str,
+    page_name: str,
+    check_for_errors: bool = True,
+    *,
+    endpoint: str = None,
 ):
-    target_markets_url = urljoin(live_server.url, reverse(view_name))
-    browser.get(target_markets_url)
+    if view_name and not endpoint:
+        url = urljoin(live_server.url, reverse(view_name))
+    else:
+        url = urljoin(live_server.url, endpoint)
+    browser.get(url)
     attach_jpg_screenshot(browser, f'Visited {page_name}')
     if check_for_errors:
         should_not_see_errors(browser)
