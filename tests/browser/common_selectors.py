@@ -47,9 +47,7 @@ class ElementType(Enum):
         return self.value
 
 
-Selector = namedtuple(
-    'Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated'],
-)
+Selector = namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated'],)
 # define default values for Selector named tuple
 Selector.__new__.__defaults__ = (None, None, None, True, False)
 
@@ -74,9 +72,7 @@ class HeaderSignedIn(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'user-state-area', ElementType.HEADER)
     NOTIFICATIONS = Selector(By.ID, 'header-link-notifications', ElementType.LINK)
     USER_PROFILE = Selector(By.ID, 'header-link-user-profile', ElementType.LINK)
-    USER_PROFILE_EMAIL = Selector(
-        By.ID, 'header-link-user-profile-email-link', ElementType.LINK
-    )
+    USER_PROFILE_EMAIL = Selector(By.ID, 'header-link-user-profile-email-link', ElementType.LINK)
     DASHBOARD = Selector(By.ID, 'header-link-dashboard', ElementType.LINK)
 
 
@@ -148,25 +144,19 @@ class StickyHeader(SelectorsEnum):
     WHAT = Selector(By.ID, 'exportplan-country-sector-what')
     WHERE = Selector(By.ID, 'exportplan-country-sector-where')
     SHARE = Selector(By.ID, 'exportplan-collaboraton-menu-share', ElementType.LINK)
-    DOWNLOAD = Selector(
-        By.ID, 'exportplan-collaboraton-menu-download', ElementType.LINK
-    )
+    DOWNLOAD = Selector(By.ID, 'exportplan-collaboraton-menu-download', ElementType.LINK)
 
 
 class ExportPlanDashboard(SelectorsEnum):
     ABOUT_YOUR_BUSINESS = Selector(By.ID, 'about-your-business', ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'objectives', ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'target-markets', ElementType.LINK)
-    ADAPTATION = Selector(
-        By.ID, 'adaptation-for-international-markets', ElementType.LINK
-    )
+    ADAPTATION = Selector(By.ID, 'adaptation-for-international-markets', ElementType.LINK)
     MARKETING_APPROACH = Selector(By.ID, 'marketing-approach', ElementType.LINK)
     FINANCE = Selector(By.ID, 'finance', ElementType.LINK)
     COSTS_AND_PRICING = Selector(By.ID, 'costs-and-pricing', ElementType.LINK)
     PAYMENT_METHODS = Selector(By.ID, 'payment-methods', ElementType.LINK)
-    TRAVEL_AND_BUSINESS_POLICIES = Selector(
-        By.ID, 'travel-and-business-policies', ElementType.LINK
-    )
+    TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'travel-and-business-policies', ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'business-risk', ElementType.LINK)
     ACTION_PLAN = Selector(By.ID, 'action-plan', ElementType.LINK)
 
@@ -197,10 +187,7 @@ class ExportPlanDashboardPageTourStep3(SelectorsEnum):
 
 
 class ExportPlanDashboardPageTourStep4(SelectorsEnum):
-    STEP = Selector(
-        By.ID,
-        'page-tour-step-collaborate-with-your-team-and-international-trade-advisers',
-    )
+    STEP = Selector(By.ID, 'page-tour-step-collaborate-with-your-team-and-international-trade-advisers',)
     HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-collaboraton-menu')
     NEXT = Selector(By.ID, 'page-tour-next-step')
 
@@ -213,40 +200,31 @@ class ExportPlanDashboardPageTourStep5(SelectorsEnum):
 
 class ExportPlanTargetMarkets(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'sidebar-content')
-    ABOUT_YOUR_BUSINESS = Selector(
-        By.ID, 'sidebar-about-your-business', ElementType.LINK
-    )
+    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'sidebar-objectives', ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'sidebar-target-markets', ElementType.LINK)
-    ADAPTATION = Selector(
-        By.ID, 'sidebar-adaptation-for-international-markets', ElementType.LINK
-    )
+    ADAPTATION = Selector(By.ID, 'sidebar-adaptation-for-international-markets', ElementType.LINK)
     MARKETING_APPROACH = Selector(By.ID, 'sidebar-marketing-approach', ElementType.LINK)
     FINANCE = Selector(By.ID, 'sidebar-finance', ElementType.LINK)
     COSTS_AND_PRICING = Selector(By.ID, 'sidebar-costs-and-pricing', ElementType.LINK)
     PAYMENT_METHODS = Selector(By.ID, 'sidebar-payment-methods', ElementType.LINK)
-    TRAVEL_AND_BUSINESS_POLICIES = Selector(
-        By.ID, 'sidebar-travel-and-business-policies', ElementType.LINK
-    )
+    TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'sidebar-travel-and-business-policies', ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', ElementType.LINK)
     ACTION_PLAN = Selector(By.ID, 'sidebar-action-plan', ElementType.LINK)
     CONTENT = Selector(By.ID, 'target-markets-content')
 
 
 class TargetMarketsRecommendedCountriesFolded(SelectorsEnum):
-    RECOMMENDED_COUNTRIES_COMPONENT = Selector(
-        By.ID, 'target-market-countries-component'
-    )
+    CONTAINER = Selector(By.ID, 'target-market-countries-component')
     RECOMMENDED_COUNTRIES_SECTION = Selector(By.ID, 'recommended-countries')
     SECTOR_CHOOSER_SECTION = Selector(By.ID, 'sector-chooser')
     SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
 
 
 class TargetMarketsSectorSelectorUnfolded(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'sector-chooser')
     SECTOR_LIST = Selector(By.ID, 'sector-list')
-    SECTOR_BUTTONS = Selector(
-        By.CSS_SELECTOR, '#sector-list button', ElementType.BUTTON
-    )
+    SECTOR_BUTTONS = Selector(By.CSS_SELECTOR, '#sector-list button', ElementType.BUTTON)
 
 
 class TargetMarketsSectorsSelected(SelectorsEnum):
@@ -254,22 +232,22 @@ class TargetMarketsSectorsSelected(SelectorsEnum):
 
 
 class TargetMarketsSelectedSectors(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'sector-chooser')
     SECTORS = Selector(By.CSS_SELECTOR, '#selected-sectors li button')
 
 
 class TargetMarketsRecommendedCountries(SelectorsEnum):
-    SECTION = Selector(By.ID, 'recommended-countries')
+    CONTAINER = Selector(By.ID, 'recommended-countries')
     COUNTRY_LIST = Selector(By.ID, 'recommended-countries-list')
     COUNTRY_BUTTONS = Selector(By.CSS_SELECTOR, '#recommended-countries-list button')
 
 
 class ExportPlanTargetMarketsData(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'target-market-countries-component')
     MARKET_DATA = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--]')
     COUNTRY_NAME = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--] h2')
     REMOVE_COUNTRY = Selector(By.CLASS_NAME, 'remove-country-button')
-    EASE_OF_DOING_BUSINESS = Selector(
-        By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank]'
-    )
+    EASE_OF_DOING_BUSINESS = Selector(By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank]')
     CPI = Selector(By.CSS_SELECTOR, 'div[id^=corruption-perception-index]')
     LOCAL_TIME = Selector(By.CSS_SELECTOR, 'div[id^=local-time-]')
     DUTY = Selector(By.CSS_SELECTOR, 'div[id^=duty-]')
@@ -282,12 +260,8 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
 
 class TargetMarketsCountryChooser(SelectorsEnum):
     COUNTRY_AUTOCOMPLETE = Selector(By.ID, 'country-autocomplete')
-    COUNTRY_AUTOCOMPLETE_MENU = Selector(
-        By.CSS_SELECTOR, 'div.country-autocomplete__placeholder'
-    )
-    AUTOCOMPLETE_COUNTRIES = Selector(
-        By.CSS_SELECTOR, 'div[id^=react-select-2-option-]'
-    )
+    COUNTRY_AUTOCOMPLETE_MENU = Selector(By.CSS_SELECTOR, 'div.country-autocomplete__placeholder')
+    AUTOCOMPLETE_COUNTRIES = Selector(By.CSS_SELECTOR, 'div[id^=react-select-2-option-]')
     SAVE_COUNTRY = Selector(By.ID, 'country-chooser-save-button')
 
 
