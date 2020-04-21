@@ -65,5 +65,5 @@
 - MVP-404 - make all tests use PostgreSQL
 - MVP-380 - add UI test to add multiple countries on target markets page
 - MVP-405 - create initial export plan
-
+- no-ticket - update export-plan link
 
