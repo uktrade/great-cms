@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import shutil
+from typing import List
 from unittest import mock
 from uuid import uuid4
 
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 import allure
 from sso import helpers
@@ -19,6 +20,7 @@ from tests.browser.steps import (
     should_not_see_any_element,
     should_not_see_errors,
     should_see_all_elements,
+    should_see_all_expected_page_sections,
 )
 from tests.browser.util import (
     attach_jpg_screenshot,
@@ -31,12 +33,11 @@ pytestmark = [
     pytest.mark.browser,
     pytest.mark.home_page,
     pytest.mark.django_db,
-    pytest.mark.skipif(shutil.which('chromedriver') is None, reason='chromedriver not in path'),
 ]
 
 
 @allure.step('Fill out and submit sign-up form')
-def submit_sign_up_form(browser, email, password):
+def submit_sign_up_form(browser: WebDriver, email: str, password: str):
     email_input = find_element(browser, SignUpModal.EMAIL)
     password_input = find_element(browser, SignUpModal.PASSWORD)
     submit_button = find_element(browser, SignUpModal.SUBMIT)
@@ -47,7 +48,7 @@ def submit_sign_up_form(browser, email, password):
 
 
 @allure.step('Submit verification code')
-def submit_verification_code(browser, code):
+def submit_verification_code(browser: WebDriver, code: str):
     code_input = find_element(browser, SignUpModalVerificationCode.VERIFICATION_CODE)
     code_input.send_keys(code)
 
@@ -56,7 +57,7 @@ def submit_verification_code(browser, code):
 
 
 @allure.step('Should not see errors during sign-up process')
-def should_not_see_sign_up_errors(browser):
+def should_not_see_sign_up_errors(browser: WebDriver):
     error = 'Expected not to see sign-up errors'
     try:
         assert not is_element_present(browser, SignUpModal.ERROR_MESSAGES), error
@@ -65,17 +66,23 @@ def should_not_see_sign_up_errors(browser):
         raise
 
 
+@allure.step('Should see errors')
+def should_see_expected_error_messages(
+    browser: WebDriver, expected_email_errors: List[str], expected_password_errors: List[str]
+):
+    attach_jpg_screenshot(browser, 'Sign-up modal with errors', selector=SignUpModal.MODAL)
+    error_elements = find_elements(browser, SignUpModal.ERROR_MESSAGES)
+    error_messages = [error.text for error in error_elements]
+    for error in expected_email_errors:
+        assert error in error_messages, f"Can't see expected email error: '{error}'"
+    for error in expected_password_errors:
+        assert error in error_messages, f"Can't see expected password error: '{error}'"
+
+
 def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(browser, visit_home_page):
     should_not_see_errors(browser)
-    attach_jpg_screenshot(browser, 'home page')
-    should_see_all_elements(browser, HeaderCommon)
-    should_see_all_elements(browser, HeaderSignUp)
+    should_see_all_expected_page_sections(browser, [HeaderCommon, HeaderSignUp, SignUpModal])
     should_not_see_any_element(browser, HeaderSignedIn)
-
-
-def test_anonymous_user_should_see_sign_up_modal(browser, visit_home_page):
-    attach_jpg_screenshot(browser, 'home page')
-    should_see_all_elements(browser, SignUpModal)
 
 
 @pytest.mark.parametrize(
@@ -117,21 +124,15 @@ def test_error_messages_for_invalid_credential(
     )
 
     submit_sign_up_form(browser, email, password)
-    attach_jpg_screenshot(browser, f'Sign-up modal', selector=SignUpModal.MODAL)
 
-    error_elements = find_elements(browser, SignUpModal.ERROR_MESSAGES)
-    error_messages = [error.text for error in error_elements]
-    for error in expected_email_errors:
-        assert error in error_messages, f"Can't see expected email error: '{error}'"
-    for error in expected_password_errors:
-        assert error in error_messages, f"Can't see expected password error: '{error}'"
+    should_see_expected_error_messages(browser, expected_email_errors, expected_password_errors)
 
 
 @mock.patch.object(helpers, 'send_welcome_notification')
 @mock.patch.object(helpers, 'check_verification_code')
 @mock.patch.object(helpers, 'send_verification_code_email')
 @mock.patch.object(helpers, 'create_user')
-def test_sign_up(
+def test_users_should_be_able_to_sign_up(
     mock_create_user,
     mock_send_code,
     mock_verification,
@@ -146,10 +147,10 @@ def test_sign_up(
     mock_create_user.return_value = {'verification_code': code}
 
     submit_sign_up_form(browser, email, password)
-    attach_jpg_screenshot(browser, 'After submitting creds', selector=SignUpModal.MODAL)
+    attach_jpg_screenshot(browser, 'After submitting valid credentials', selector=SignUpModal.MODAL)
 
     submit_verification_code(browser, code)
+
     should_not_see_sign_up_errors(browser)
     attach_jpg_screenshot(browser, 'After submitting code', selector=SignUpModal.MODAL)
-
     should_see_all_elements(browser, SignUpModalSuccess)
