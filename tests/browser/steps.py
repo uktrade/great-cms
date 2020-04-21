@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+from enum import EnumMeta
 from typing import List
 from urllib.parse import urljoin
 
@@ -9,7 +10,6 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 import allure
 from pytest_django.live_server_helper import LiveServer
-from tests.browser.common_selectors import SelectorsEnum
 from tests.browser.util import attach_jpg_screenshot, is_element_visible
 
 logger = logging.getLogger(__name__)
@@ -27,13 +27,14 @@ def visit_page(
 
 
 @allure.step('Should see all expected page sections')
-def should_see_all_expected_page_sections(browser: WebDriver, selector_enums: List[SelectorsEnum]):
+def should_see_all_expected_page_sections(browser: WebDriver, selector_enums: List[EnumMeta]):
+    attach_jpg_screenshot(browser, f'View of the whole page: {browser.current_url}')
     for selector_enum in selector_enums:
         should_see_all_elements(browser, selector_enum)
 
 
 @allure.step('Should see all elements from: {selectors_enum}')
-def should_see_all_elements(browser: WebDriver, selectors_enum: SelectorsEnum):
+def should_see_all_elements(browser: WebDriver, selectors_enum: EnumMeta):
     for selector in selectors_enum:
         if not selector.value:
             continue
