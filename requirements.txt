@@ -15,7 +15,7 @@ boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
 certifi==2019.11.28       # via requests, sentry-sdk
 chardet==3.0.4            # via requests
-directory-api-client==21.7.0  # via -r requirements.in
+directory-api-client==21.8.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
@@ -85,7 +85,7 @@ w3lib==1.21.0             # via directory-client-core
 wagtail-cache==1.0.0      # via -r requirements.in
 wagtail-factories==2.0.0  # via -r requirements.in
 wagtail-personalisation==0.14.0  # via -r requirements.in
-wagtail==2.8              # via -r requirements.in, wagtail-cache, wagtail-factories, wagtail-personalisation, wagtailfontawesome
+wagtail==2.8.1            # via -r requirements.in, wagtail-cache, wagtail-factories, wagtail-personalisation, wagtailfontawesome
 wagtailfontawesome==1.2.1  # via wagtail-personalisation
 webencodings==0.5.1       # via html5lib
 whitenoise==4.1.4         # via -r requirements.in

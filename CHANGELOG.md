@@ -62,4 +62,9 @@
 - MVP-335 - Add market capture component
 - no ticket - rm redundant CircleCI step setup_remote_docker
 - MVP-388 - add commdity name
+- MVP-350, MVP-351, MVP 352 - add how to export carousel
+- MVP-404 - make all tests use PostgreSQL
+- MVP-380 - add UI test to add multiple countries on target markets page
+- MVP-405 - create initial export plan
+- no-ticket - update export-plan link
 

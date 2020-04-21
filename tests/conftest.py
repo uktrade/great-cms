@@ -19,6 +19,7 @@ from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
+from tests.browser.util import should_not_see_errors
 from tests.helpers import create_response
 from tests.unit.learn import factories as learn_factories
 
@@ -227,6 +228,29 @@ def mock_export_plan_requests(
     mock_get_export_plan_market_data.return_value = {'timezone': 'Asia/Shanghai', }
 
 
+@pytest.fixture
+@pytest.mark.django_db(transaction=True)
+@mock.patch.object(exportplan_helpers, 'get_or_create_export_plan')
+def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
+
+    explan_plan_data = {
+        'country': 'Australia',
+        'commodity_code': '220.850',
+        'sectors': ['Automotive'],
+        'target_markets': [
+            {'country': 'China'},
+        ],
+        'rules_regulations': {
+            'country_code': 'CHN',
+        },
+    }
+    mock_get_or_create_export_plan.return_value = create_response(
+        status_code=200, json_body=explan_plan_data
+    )
+
+    mock_get_or_create_export_plan.return_value = {'timezone': 'Asia/Shanghai', }
+
+
 @pytest.mark.django_db(transaction=True)
 @pytest.fixture
 def topics_with_lessons(domestic_site_browser_tests):
@@ -261,7 +285,7 @@ def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
     those steps are shown in reversed order. So in order to show them in the right
     order they have to be reverse here.
     """
-    tour_steps.update({'steps': list(reversed(tour_steps['steps']))})
+    tour_steps.update({'steps': tour_steps['steps']})
     return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
 
 
@@ -386,4 +410,5 @@ def server_user_browser_dashboard(
     })
     browser.refresh()
 
+    should_not_see_errors(browser)
     return live_server, user, browser

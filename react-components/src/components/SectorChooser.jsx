@@ -1,81 +1,152 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
-
-import Sector from './Sector'
+import Services from '@src/Services'
 import { slugify } from '../Helpers'
+import Spinner from './Spinner/Spinner'
+import Sector from './Sector'
+import RecommendedCountries from './RecommendedCountries'
 
-const element = document.getElementById('recommended-countries')
-
-
-class SectorChooser extends React.Component {
+export default class SectorChooser extends React.Component {
   constructor(props) {
-
     super(props)
+    const { selectedSectors, sectorList } = props
 
     this.state = {
-      selectedSectors: props.initialSelectedSectors || [],
+      sectorList,
+      selectedSectors,
+      savedSelectedSectors: selectedSectors,
       showSectorList: false,
       showTooltip: false,
+      recommendedCountries: null,
+      fetchError: null,
+      isLoading: false,
     }
 
     this.showHideSectorList = this.showHideSectorList.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
+    this.fetchRecommendedCountries = this.fetchRecommendedCountries.bind(this)
+    this.recommendedCountriesFetchSuccess = this.recommendedCountriesFetchSuccess.bind(this)
+    this.recommendedCountriesFetchError = this.recommendedCountriesFetchError.bind(this)
   }
 
-  addRemoveSector = (sector) => {
-    if (this.state.selectedSectors.indexOf(sector) == -1) {
-      this.setState({selectedSectors: this.state.selectedSectors.concat([sector])})
-      return true
-
-    } else {
-      const updatedSelectedSectors = this.state.selectedSectors.filter(item => item != sector)
-      this.setState({selectedSectors: updatedSelectedSectors})
-      return false
+  componentDidMount() {
+    const { selectedSectors } = this.state
+    if (selectedSectors && selectedSectors.length > 0) {
+      this.fetchRecommendedCountries()
     }
   }
 
-  showHideSectorList(e) {
-    if (this.state.showSectorList) {
-      this.setState({showSectorList: false})
+  handleSectorButtonClick = (sector) => {
+    const { selectedSectors } = this.state
+    if (selectedSectors.indexOf(sector) > -1) {
+      this.removeSector(sector)
     } else {
-      this.setState({showSectorList: true})
-      this.setState({showTooltip: false})
+      this.addSector(sector)
     }
   }
 
-  handleMouseOver(e) {
-    this.setState({showTooltip: true})
+  addSector(sector) {
+    const { selectedSectors } = this.state
+    this.setState({
+      selectedSectors: selectedSectors.concat([sector]),
+    })
   }
 
-  handleMouseOut(e) {
-    this.setState({showTooltip: false})
+  removeSector(sector) {
+    const { selectedSectors } = this.state
+    const updatedSelectedSectors = selectedSectors.filter((id) => id !== sector)
+    this.setState({ selectedSectors: updatedSelectedSectors })
+
+    if (updatedSelectedSectors && updatedSelectedSectors.length > 0) {
+      this.fetchRecommendedCountries()
+    } else {
+      this.setState({
+        recommendedCountries: null,
+      })
+    }
+  }
+
+  fetchRecommendedCountries() {
+    const { selectedSectors } = this.state
+    this.setState({
+      savedSelectedSectors: selectedSectors,
+      isLoading: true,
+    })
+
+    Services.getCountriesDataBySectors(selectedSectors)
+      .then(this.recommendedCountriesFetchSuccess)
+      .catch(this.recommendedCountriesFetchError)
+  }
+
+  recommendedCountriesFetchSuccess(data) {
+    this.setState({
+      recommendedCountries: data.countries,
+      isLoading: false,
+    })
+  }
+
+  recommendedCountriesFetchError(err) {
+    this.setState({
+      fetchError: err,
+      isLoading: false,
+    })
+  }
+
+  showHideSectorList() {
+    const { showSectorList, selectedSectors, savedSelectedSectors } = this.state
+    if (showSectorList) {
+      this.setState({ showSectorList: false })
+      const isEqual = selectedSectors.every((e) => savedSelectedSectors.includes(e))
+      if (!isEqual) {
+        this.fetchRecommendedCountries()
+      }
+    } else {
+      this.setState({ showSectorList: true })
+      this.setState({ showTooltip: false })
+    }
+  }
+
+  handleMouseOver() {
+    this.setState({ showTooltip: true })
+  }
+
+  handleMouseOut() {
+    this.setState({ showTooltip: false })
   }
 
   render() {
-    let sectorListDisplay;
-    if (this.state.showSectorList) {
+    const {
+      showSectorList,
+      selectedSectors,
+      sectorList,
+      showTooltip,
+      recommendedCountries,
+      isLoading,
+      fetchError,
+    } = this.state
 
+    const { addCountry, removeCountry, selectedCountries } = this.props
+
+    let sectorListDisplay
+    if (showSectorList) {
       sectorListDisplay = (
         <ul className="sector-list" id="sector-list">
-        {
-          this.props.sectorList.map((sector) =>
+          {sectorList.map((sector) => (
             <Sector
               name={sector}
-              selected={this.state.selectedSectors.indexOf(sector) != -1}
+              selected={selectedSectors.indexOf(sector) > -1}
               key={sector}
               id={slugify(sector)}
-              addRemoveSector={this.addRemoveSector} />
-          )
-        }
+              handleSectorButtonClick={this.handleSectorButtonClick}
+            />
+          ))}
         </ul>
       )
     }
 
-    let sectorChooserButton;
-    if (!this.state.showSectorList) {
+    let sectorChooserButton
+    if (!showSectorList) {
       sectorChooserButton = (
         <div className="sector-chooser-button">
           <button
@@ -84,38 +155,49 @@ class SectorChooser extends React.Component {
             className="button--plus"
             onClick={this.showHideSectorList}
             onMouseOver={this.handleMouseOver}
+            onFocus={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
-            aria-describedby="sector-list-tooltip"></button>
+            onBlur={this.handleMouseOut}
+            aria-labelledby="sector-list-tooltip"
+          />
           <div
-            aria-hidden={!this.state.showTooltip}
+            aria-hidden={!showTooltip}
             id="sector-list-tooltip"
-            className={`sector-list-tooltip ${this.state.showTooltip ? '' : 'hidden'}`}
-            role="tooltip">Add sectors</div>
+            className={`sector-list-tooltip ${showTooltip ? '' : 'hidden'}`}
+            role="tooltip"
+          >
+            Add sectors
+          </div>
         </div>
       )
     }
 
-    let saveButton;
-    if (this.state.selectedSectors.length > 0 && this.state.showSectorList) {
+    let saveButton
+    if (selectedSectors && selectedSectors.length > 0 && showSectorList) {
       saveButton = (
-        <button className="g-button" onClick={this.showHideSectorList}>Save</button>
+        <button type="button" className="g-button" id="sector-list-save" onClick={this.showHideSectorList}>
+          Save
+        </button>
       )
     }
 
-    let selectedSectorsDisplay;
-    if (this.state.selectedSectors.length > 0 && !this.state.showSectorList) {
-      const currentSelectedSectors = this.state.selectedSectors
-      const sectors = currentSelectedSectors.map((sector) =>
+    let selectedSectorsDisplay
+    if (selectedSectors && selectedSectors.length > 0 && !showSectorList) {
+      const currentSelectedSectors = selectedSectors
+      const sectors = currentSelectedSectors.map((sector) => (
         <Sector
           name={sector}
-          selected={currentSelectedSectors.indexOf(sector) != -1}
+          selected={currentSelectedSectors.indexOf(sector) !== -1}
           key={sector}
           id={slugify(sector)}
-          addRemoveSector={this.addRemoveSector} />
-      )
+          handleSectorButtonClick={this.handleSectorButtonClick}
+        />
+      ))
       selectedSectorsDisplay = (
         <>
-          <p className="m-t-0 m-r-xs" id="sector-list-label">My sectors</p>
+          <p className="m-t-0 m-r-xs" id="sector-list-label">
+            My sectors
+          </p>
           <ul className="sector-list" id="selected-sectors" aria-labelledby="sector-list-label">
             {sectors}
           </ul>
@@ -123,31 +205,49 @@ class SectorChooser extends React.Component {
       )
     }
 
+    let recommendedCountriesView
+    if (isLoading) {
+      recommendedCountriesView = <Spinner />
+    } else if (recommendedCountries && !fetchError) {
+      recommendedCountriesView = (
+        <RecommendedCountries
+          selectedCountries={selectedCountries}
+          removeCountry={removeCountry}
+          addCountry={addCountry}
+          countries={recommendedCountries}
+        />
+      )
+    } else if (fetchError) {
+      recommendedCountriesView = 'Error fetching data.'
+    } else {
+      recommendedCountriesView = ''
+    }
+
     return (
-      <>
+      <div id="recommended-countries" className="recommended-countries">
         <h2 className="h-m">Recommended countries</h2>
         <div id="sector-chooser" className="sector-chooser">
-          <p className="m-t-0 intro-text">Add sectors you're interested in so we can recommend some countries.</p>
+          <p className="m-t-0 intro-text">Add sectors you&apos;re interested in so we can recommend some countries.</p>
           {sectorListDisplay}
           {saveButton}
           {selectedSectorsDisplay}
           {sectorChooserButton}
         </div>
-      </>
+
+        {recommendedCountriesView}
+      </div>
     )
   }
 }
 
 SectorChooser.propTypes = {
-  sectorList: PropTypes.array.isRequired,
-  initialSelectedSectors: PropTypes.array,
-}
-
-function createSectorChooser({ element, ...params }) {
-  ReactDOM.render(<SectorChooser {...params} />, element)
-}
-
-export {
-  SectorChooser,
-  createSectorChooser,
+  sectorList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedSectors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  addCountry: PropTypes.func.isRequired,
+  removeCountry: PropTypes.func.isRequired,
+  selectedCountries: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string,
+    }).isRequired
+  ).isRequired,
 }

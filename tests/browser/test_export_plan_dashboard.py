@@ -22,7 +22,6 @@ from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
     should_not_see_element,
-    should_not_see_errors,
     should_see_all_elements,
     try_alternative_click_on_exception,
 )
@@ -30,7 +29,7 @@ from tests.helpers import create_response
 
 pytestmark = [
     pytest.mark.browser,
-    pytest.mark.export,
+    pytest.mark.export_plan,
     pytest.mark.export_plan_dashboard,
 ]
 
@@ -53,7 +52,6 @@ def test_export_plan_dashboard_without_page_tour(
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     browser.get(live_server.url + '/export-plan/dashboard/')
 
@@ -121,7 +119,6 @@ def test_export_plan_dashboard_with_page_tour(
 
     mock_get_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', }
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     browser.get(live_server.url + '/export-plan/dashboard/')
 

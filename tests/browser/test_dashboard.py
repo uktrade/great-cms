@@ -19,7 +19,6 @@ from tests.browser.util import (
     find_element,
     selenium_action,
     should_not_see_any_element,
-    should_not_see_errors,
     should_see_all_elements,
     try_alternative_click_on_exception,
 )
@@ -76,7 +75,6 @@ def test_dashboard_with_success_query_parameter(
     mock_update_company_profile.return_value = create_response()
     mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 
@@ -115,7 +113,6 @@ def test_dashboard_without_success_query_parameter(
     mock_update_company_profile.return_value = create_response()
     mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
 

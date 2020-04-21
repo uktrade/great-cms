@@ -1,5 +1,4 @@
 import React from 'react'
-import { shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import Field, { TextInput, RadioInput } from '@src/components/Field'
@@ -17,15 +16,15 @@ afterEach(() => {
 
 test('Field should use props', () => {
   const errors = ['some error']
-  const component = shallow(
+  const component = Enzyme.shallow(
     <Field
       type="text"
       placeholder="some placeholder"
       name="some-name"
       value="some value"
       handleChange={() => {}}
-      disabled={true}
-      autofocus={true}
+      disabled
+      autofocus
       errors={errors}
     />
   )
@@ -40,8 +39,8 @@ test('Field should use props', () => {
           name="some-name"
           placeholder="some placeholder"
           type="text"
-          autofocus={true}
-          disabled={true}
+          autofocus
+          disabled
         />
       </div>
     )
@@ -54,7 +53,7 @@ test('Field should render radio', () => {
     { value: 'foo', label: 'Foo', disabled: true },
     { value: 'bar', label: 'Bar', disabled: false },
   ]
-  const component = shallow(
+  const component = Enzyme.shallow(
     <Field
       type="radio"
       placeholder="some placeholder"
@@ -84,7 +83,7 @@ test('Field should render radio', () => {
 
 test('Field should handle default props', () => {
   const errors = []
-  const component = shallow(
+  const component = Enzyme.shallow(
     <Field
       type="text"
       placeholder="some placeholder"

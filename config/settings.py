@@ -344,15 +344,16 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 ENFORCE_STAFF_SSO_ENABLED = env.bool('ENFORCE_STAFF_SSO_ENABLED', False)
 
+# authbroker config
+AUTHBROKER_URL = env.str('STAFF_SSO_AUTHBROKER_URL')
+AUTHBROKER_CLIENT_ID = env.str('AUTHBROKER_CLIENT_ID')
+AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
+
 if ENFORCE_STAFF_SSO_ENABLED:
-    AUTHENTICATION_BACKENDS.append('authbroker_client.backends.AuthbrokerBackend')
+    AUTHENTICATION_BACKENDS.append('sso.backends.StaffSSOUserBackend')
     LOGIN_URL = reverse_lazy('authbroker_client:login')
     LOGIN_REDIRECT_URL = reverse_lazy('wagtailadmin_home')
 
-    # authbroker config
-    AUTHBROKER_URL = env.str('STAFF_SSO_AUTHBROKER_URL')
-    AUTHBROKER_CLIENT_ID = env.str('AUTHBROKER_CLIENT_ID')
-    AUTHBROKER_CLIENT_SECRET = env.str('AUTHBROKER_CLIENT_SECRET')
 else:
     LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
 
