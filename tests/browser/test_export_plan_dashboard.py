@@ -19,7 +19,12 @@ from tests.browser.common_selectors import (
     HeaderSignedIn,
     StickyHeader,
 )
-from tests.browser.steps import should_not_see_element, should_see_all_elements
+from tests.browser.steps import (
+    should_not_see_element,
+    should_see_all_elements,
+    should_see_all_expected_page_sections,
+    visit_page,
+)
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
@@ -41,26 +46,17 @@ def click_next(browser, step):
 
 
 @pytest.mark.django_db
-@mock.patch.object(core_helpers, 'get_dashboard_export_opportunities')
-@mock.patch.object(core_helpers, 'get_dashboard_events')
-@mock.patch.object(core_helpers, 'update_company_profile')
 def test_export_plan_dashboard_without_page_tour(
+    server_user_browser_dashboard,
     mock_update_company_profile,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
-    server_user_browser_dashboard,
 ):
-    mock_update_company_profile.return_value = create_response()
-    mock_get_dashboard_events.return_value = []
-    mock_get_dashboard_export_opportunities.return_value = []
     live_server, user, browser = server_user_browser_dashboard
 
-    browser.get(live_server.url + '/export-plan/dashboard/')
+    visit_page(live_server, browser, '', 'Dashboard', endpoint='/export-plan/dashboard/')
 
-    should_see_all_elements(browser, HeaderCommon)
-    should_see_all_elements(browser, HeaderSignedIn)
-    should_see_all_elements(browser, StickyHeader)
-    should_see_all_elements(browser, ExportPlanDashboard)
+    should_see_all_expected_page_sections(browser, [HeaderCommon, HeaderSignedIn, StickyHeader, ExportPlanDashboard])
 
 
 @pytest.mark.django_db
