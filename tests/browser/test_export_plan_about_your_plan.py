@@ -11,7 +11,7 @@ from tests.browser.common_selectors import (
     HeaderSignedIn,
     StickyHeader,
 )
-from tests.browser.util import should_not_see_errors, should_see_all_elements
+from tests.browser.util import should_see_all_elements
 from tests.helpers import create_response
 
 pytestmark = [
@@ -88,7 +88,6 @@ def test_export_plan_about_your_business(
     mock_get_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', }
 
     live_server, user, browser = server_user_browser_dashboard
-    should_not_see_errors(browser)
 
     browser.get(live_server.url + '/export-plan/section/target-markets/')
     should_see_all_elements(browser, HeaderCommon)

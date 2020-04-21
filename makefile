@@ -13,7 +13,7 @@ pytest:
 
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
-	pytest --alluredir=./allure_results/ tests/browser $(ARGUMENTS)
+	pytest --alluredir=./allure_results/ --color=no tests/browser $(ARGUMENTS)
 
 flake8:
 	flake8 . \
