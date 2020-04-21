@@ -77,6 +77,97 @@ JAPAN = {
 }
 
 
+##########################################################
+# Browser fixtures
+##########################################################
+
+
+@pytest.fixture(scope='session')
+def browser():
+    options = Options()
+    env = environ.Env()
+    headless = env.bool('HEADLESS', True)
+    if headless:
+        options.add_argument('--headless')
+        options.add_argument('--window-size=1600x2200')
+        options.add_argument('--disable-gpu')
+    options.add_argument('--start-maximized')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--no-sandbox')
+    browser = webdriver.Chrome(options=options)
+    yield browser
+    browser.quit()
+
+
+@pytest.fixture
+def server_user_browser(live_server, browser, user, client):
+    client.force_login(user)
+    return live_server, user, browser
+
+
+@pytest.fixture
+def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashboard, client):
+    """Will server domestic site on the same port as liver_server.
+    Note:
+        live_server.url looks like this: http://localhost:48049
+        The value of live_server.url can be also set via --liveserver parameter:
+        make ARGUMENTS="--liveserver=localhost:48049'" pytest_browser
+    """
+    live_server_port = int(live_server.url.split(':')[-1])
+    return SiteFactory(
+        root_page=domestic_homepage,
+        hostname='localhost',  # This allows Browser to access site via live_server.url
+        port=live_server_port,  # This forces Site to be server on the same port as live_server
+    )
+
+
+@pytest.fixture
+def visit_home_page(live_server, browser, domestic_site_browser_tests):
+    """Get the base url for a live Django server running in a background thread.
+
+    See: https://pytest-django.readthedocs.io/en/latest/helpers.html#live-server
+    """
+    browser.get(live_server.url)
+    return browser
+
+
+@pytest.fixture
+def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
+    live_server, user, browser = server_user_browser
+
+    browser.get(f'{live_server.url}/dashboard/')
+
+    browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
+    browser.refresh()
+
+    should_not_see_errors(browser)
+    return live_server, user, browser
+
+
+##########################################################
+# Page fixtures
+##########################################################
+
+
+@pytest.mark.django_db(transaction=True)
+@pytest.fixture
+def topics_with_lessons(domestic_site_browser_tests):
+    domestic_homepage = domestic_site_browser_tests.root_page
+    topic_a = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic A', slug='topic-a',)
+    lesson_a1 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A1', slug='lesson-a1',)
+    lesson_a2 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A2', slug='lesson-a2',)
+
+    topic_b = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic B', slug='topic-b',)
+    lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
+    lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
+    return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
+
+
+##########################################################
+# Mocks
+##########################################################
+
+
 @pytest.fixture
 def mock_user_location_create():
     with patch('core.helpers.store_user_location'):
@@ -236,6 +327,11 @@ def mock_get_markets_page_title():
         yield patched
 
 
+##########################################################
+# Composite fixtures
+##########################################################
+
+
 @pytest.fixture
 @pytest.mark.django_db(transaction=True)
 def mock_dashboard_profile_events_opportunities(
@@ -266,79 +362,3 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_user_location_create,
 ):
     yield
-
-
-@pytest.fixture
-def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashboard, client):
-    """Will server domestic site on the same port as liver_server.
-    Note:
-        live_server.url looks like this: http://localhost:48049
-        The value of live_server.url can be also set via --liveserver parameter:
-        make ARGUMENTS="--liveserver=localhost:48049'" pytest_browser
-    """
-    live_server_port = int(live_server.url.split(':')[-1])
-    return SiteFactory(
-        root_page=domestic_homepage,
-        hostname='localhost',  # This allows Browser to access site via live_server.url
-        port=live_server_port,  # This forces Site to be server on the same port as live_server
-    )
-
-
-@pytest.mark.django_db(transaction=True)
-@pytest.fixture
-def topics_with_lessons(domestic_site_browser_tests):
-    domestic_homepage = domestic_site_browser_tests.root_page
-    topic_a = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic A', slug='topic-a',)
-    lesson_a1 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A1', slug='lesson-a1',)
-    lesson_a2 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A2', slug='lesson-a2',)
-
-    topic_b = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic B', slug='topic-b',)
-    lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
-    lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
-    return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
-
-
-@pytest.fixture(scope='session')
-def browser():
-    options = Options()
-    env = environ.Env()
-    headless = env.bool('HEADLESS', True)
-    if headless:
-        options.add_argument('--headless')
-        options.add_argument('--window-size=1600x2200')
-        options.add_argument('--disable-gpu')
-    options.add_argument('--start-maximized')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--no-sandbox')
-    browser = webdriver.Chrome(options=options)
-    yield browser
-    browser.quit()
-
-
-@pytest.fixture
-def visit_home_page(live_server, browser, domestic_site_browser_tests):
-    """Get the base url for a live Django server running in a background thread.
-
-    See: https://pytest-django.readthedocs.io/en/latest/helpers.html#live-server
-    """
-    browser.get(live_server.url)
-    return browser
-
-
-@pytest.fixture
-def server_user_browser(live_server, browser, user, client):
-    client.force_login(user)
-    return live_server, user, browser
-
-
-@pytest.fixture
-def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
-    live_server, user, browser = server_user_browser
-
-    browser.get(f'{live_server.url}/dashboard/')
-
-    browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
-    browser.refresh()
-
-    should_not_see_errors(browser)
-    return live_server, user, browser
