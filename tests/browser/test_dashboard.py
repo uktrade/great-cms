@@ -6,6 +6,7 @@ from unittest import mock
 
 import pytest
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webdriver import WebDriver
 
 import allure
 from core import helpers
@@ -66,6 +67,16 @@ def enter_and_submit_industries(browser, industries):
     attach_jpg_screenshot(browser, 'Dashboard with success query parameter')
 
 
+@allure.step('Should see "Lets get to know you modal"')
+def should_see_lets_get_to_know_you_modal(browser: WebDriver):
+    should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
+
+
+@allure.step('Should NOT see "Lets get to know you modal"')
+def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
+    should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
+
+
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_company_profile')
 def test_dashboard_with_success_query_parameter(
@@ -85,12 +96,12 @@ def test_dashboard_with_success_query_parameter(
     mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
 
-    should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
+    should_see_lets_get_to_know_you_modal(browser)
     industries = select_random_sample_sectors()
 
     enter_and_submit_industries(browser, industries)
 
-    should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
+    should_not_see_lets_get_to_know_you_modal(browser)
     should_see_all_expected_page_sections(browser, [HeaderSignedIn, DashboardContents, DashboardContentsOnSuccess])
 
 
@@ -113,11 +124,13 @@ def test_dashboard_without_success_query_parameter(
     mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
 
-    should_see_all_elements(browser, DashboardModalLetsGetToKnowYou)
+    should_see_lets_get_to_know_you_modal(browser)
     industries = select_random_sample_sectors()
 
     enter_and_submit_industries(browser, industries)
-    visit_page(live_server, browser, 'core:dashboard', 'Dashboard without success query parameter')
+    should_not_see_lets_get_to_know_you_modal(browser)
+    should_see_all_expected_page_sections(browser, [HeaderSignedIn, DashboardContents, DashboardContentsOnSuccess])
 
-    should_not_see_any_element(browser, DashboardModalLetsGetToKnowYou)
+    visit_page(live_server, browser, 'core:dashboard', 'Dashboard without success query parameter')
+    should_not_see_lets_get_to_know_you_modal(browser)
     should_see_all_expected_page_sections(browser, [HeaderSignedIn, DashboardContents, DashboardContentsWithoutSuccess])
