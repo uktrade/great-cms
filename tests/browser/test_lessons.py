@@ -17,11 +17,6 @@ pytestmark = [
 ]
 
 
-def close_modal(browser):
-    overlay = browser.find_element_by_css_selector('.ReactModal__Overlay')
-    browser.execute_script('arguments[0].click();', overlay)
-
-
 def test_can_view_lessons_from_different_topics(
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
