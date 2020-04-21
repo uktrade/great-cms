@@ -35,11 +35,16 @@ def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
 
 
 def attach_jpg_screenshot(
-        browser: WebDriver, page_name: str, *,
-        selector: Union[Selector, SelectorsEnum] = None
+    browser: WebDriver,
+    page_name: str,
+    *,
+    selector: Union[Selector, SelectorsEnum] = None,
+    element: WebElement = None,
 ):
     if selector:
         element = find_element(browser, selector)
+        screenshot_png = element.screenshot_as_png
+    elif element:
         screenshot_png = element.screenshot_as_png
     else:
         screenshot_png = browser.get_screenshot_as_png()
@@ -98,6 +103,26 @@ def wait_for_element_visibility(
     )
 
 
+@contextmanager
+def wait_for_text_in_element(
+    driver: WebDriver, selector: Selector, text: str, *, time_to_wait: int = 3
+):
+    """Perform an action and wait until text is visible in specific element.
+
+    Example:
+        - click on a button and wait for its label's text to contain word 'Selected'
+
+        label = Selector(By.ID, 'button_label')
+        with wait_for_text_in_element(browser, label, 'Selected'):
+            button.click()
+    """
+    yield
+    locator = (selector.by, selector.selector)
+    WebDriverWait(driver, time_to_wait).until(
+        expected_conditions.text_to_be_present_in_element(locator, text)
+    )
+
+
 @allure.step('Should see all elements from: {selectors_enum}')
 def should_see_all_elements(browser, selectors_enum):
     for selector in selectors_enum:
@@ -153,6 +178,10 @@ def should_not_see_errors(browser):
         assert 'Internal Server Error' not in page_source, assertion_error
         assertion_error = f'404 Not Found on {browser.current_url}'
         assert 'This page cannot be found' not in page_source, assertion_error
+        assertion_error = f'Unexpected Error on {browser.current_url}'
+        assert 'Unexpected Error' not in page_source, assertion_error
+        assertion_error = f'Error fetching data on {browser.current_url}'
+        assert 'Error fetching data' not in page_source, assertion_error
     except AssertionError:
         attach_jpg_screenshot(browser, assertion_error)
         raise

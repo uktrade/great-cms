@@ -222,17 +222,35 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     CONTENT = Selector(By.ID, 'target-markets-content')
 
 
-class ExportPlanTargetMarketsRecommendedCountriesFolded(SelectorsEnum):
-    RECOMMENDED_COUNTRIES = Selector(By.ID, 'recommended-countries')
+class TargetMarketsRecommendedCountriesFolded(SelectorsEnum):
+    RECOMMENDED_COUNTRIES_COMPONENT = Selector(By.ID, 'target-market-countries-component')
+    RECOMMENDED_COUNTRIES_SECTION = Selector(By.ID, 'recommended-countries')
+    SECTOR_CHOOSER_SECTION = Selector(By.ID, 'sector-chooser')
     SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
 
 
-class ExportPlanTargetMarketsRecommendedCountriesUnfolded(SelectorsEnum):
+class TargetMarketsSectorSelectorUnfolded(SelectorsEnum):
     SECTOR_LIST = Selector(By.ID, 'sector-list')
+    SECTOR_BUTTONS = Selector(By.CSS_SELECTOR, '#sector-list button', ElementType.BUTTON)
+
+
+class TargetMarketsSectorsSelected(SelectorsEnum):
+    SAVE = Selector(By.ID, 'sector-list-save', ElementType.BUTTON)
+
+
+class TargetMarketsSelectedSectors(SelectorsEnum):
+    SECTORS = Selector(By.CSS_SELECTOR, '#selected-sectors li button')
+
+
+class TargetMarketsRecommendedCountries(SelectorsEnum):
+    SECTION = Selector(By.ID, 'recommended-countries')
+    COUNTRY_LIST = Selector(By.ID, 'recommended-countries-list')
+    COUNTRY_BUTTONS = Selector(By.CSS_SELECTOR, '#recommended-countries-list button')
 
 
 class ExportPlanTargetMarketsData(SelectorsEnum):
     MARKET_DATA = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--]')
+    COUNTRY_NAME = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--] h2')
     REMOVE_COUNTRY = Selector(By.CLASS_NAME, 'remove-country-button')
     EASE_OF_DOING_BUSINESS = Selector(By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank]')
     CPI = Selector(By.CSS_SELECTOR, 'div[id^=corruption-perception-index]')
@@ -243,6 +261,13 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
     SHOW_MORE_STATS = Selector(By.CSS_SELECTOR, 'button[id^=show-more-stats-]')
     ADD_COUNTRY = Selector(By.ID, 'country-chooser-button')
     YOUR_ACTIONS = Selector(By.ID, 'your-actions')
+
+
+class TargetMarketsCountryChooser(SelectorsEnum):
+    COUNTRY_AUTOCOMPLETE = Selector(By.ID, 'country-autocomplete')
+    COUNTRY_AUTOCOMPLETE_MENU = Selector(By.CSS_SELECTOR, 'div.country-autocomplete__placeholder')
+    AUTOCOMPLETE_COUNTRIES = Selector(By.CSS_SELECTOR, 'div[id^=react-select-2-option-]')
+    SAVE_COUNTRY = Selector(By.ID, 'country-chooser-save-button')
 
 
 class TopicLessonListing(SelectorsEnum):
