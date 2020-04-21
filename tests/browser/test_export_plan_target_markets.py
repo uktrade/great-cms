@@ -24,12 +24,11 @@ from tests.browser.common_selectors import (
     TargetMarketsSelectedSectors,
 )
 from tests.browser.conftest import CHINA, INDIA, JAPAN
+from tests.browser.steps import should_not_see_errors, should_see_all_elements
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_elements,
     selenium_action,
-    should_not_see_errors,
-    should_see_all_elements,
     wait_for_text_in_element,
 )
 

@@ -1,16 +1,15 @@
+# -*- coding: utf-8 -*-
 import logging
 from unittest import mock
 
-import environ
 import pytest
-from airtable import Airtable
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from wagtail.core.models import Page
-from wagtail_factories import PageFactory, SiteFactory
 
+import environ
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
+from airtable import Airtable
 from core import helpers as core_helpers
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
@@ -19,9 +18,11 @@ from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
-from tests.browser.util import should_not_see_errors
+from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
 from tests.unit.learn import factories as learn_factories
+from wagtail.core.models import Page
+from wagtail_factories import PageFactory, SiteFactory
 
 # This is to reduce logging verbosity of these two libraries when running pytests
 # with DEBUG=true and --log-cli-level=DEBUG
@@ -59,10 +60,7 @@ def exportplan_dashboard(exportplan_homepage):
 
 @pytest.fixture
 def domestic_site(domestic_homepage, client):
-    return SiteFactory(
-        root_page=domestic_homepage,
-        hostname=client._base_environ()['SERVER_NAME'],
-    )
+    return SiteFactory(root_page=domestic_homepage, hostname=client._base_environ()['SERVER_NAME'],)
 
 
 @pytest.fixture
@@ -77,15 +75,14 @@ def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashb
     return SiteFactory(
         root_page=domestic_homepage,
         hostname='localhost',  # This allows Browser to access site via live_server.url
-        port=live_server_port  # This forces Site to be server on the same port as live_server
+        port=live_server_port,  # This forces Site to be server on the same port as live_server
     )
 
 
 @pytest.fixture(autouse=True)
 def auth_backend():
     patch = mock.patch(
-        'directory_sso_api_client.sso_api_client.user.get_session_user',
-        return_value=create_response(status_code=404)
+        'directory_sso_api_client.sso_api_client.user.get_session_user', return_value=create_response(status_code=404)
     )
     yield patch.start()
     patch.stop()
@@ -108,16 +105,19 @@ def user():
 def client(client, auth_backend, settings):
     def force_login(user):
         client.cookies[settings.SSO_SESSION_COOKIE] = '123'
-        auth_backend.return_value = create_response({
-            'id': user.id,
-            'email': user.email,
-            'hashed_uuid': user.hashed_uuid,
-            'user_profile': {
-                'mobile_phone_number': user.mobile_phone_number,
-                'first_name': user.first_name,
-                'last_name': user.last_name
+        auth_backend.return_value = create_response(
+            {
+                'id': user.id,
+                'email': user.email,
+                'hashed_uuid': user.hashed_uuid,
+                'user_profile': {
+                    'mobile_phone_number': user.mobile_phone_number,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                },
             }
-        })
+        )
+
     client.force_login = force_login
     return client
 
@@ -127,23 +127,21 @@ def mock_airtable_rules_regs():
     airtable_data = [
         {
             'id': '1',
-            'fields':
-                {
-                    'country': 'India',
-                    'export_duty': 1.5,
-                    'commodity_code': '2208.50.12',
-                    'commodity_name': 'Gin and Geneva 2l'
-                },
+            'fields': {
+                'country': 'India',
+                'export_duty': 1.5,
+                'commodity_code': '2208.50.12',
+                'commodity_name': 'Gin and Geneva 2l',
+            },
         },
         {
             'id': '2',
-            'fields':
-                {
-                    'country': 'China',
-                    'export_duty': 1.5,
-                    'commodity_code': '2208.50.13',
-                    'commodity_name': 'Gin and Geneva'
-                },
+            'fields': {
+                'country': 'China',
+                'export_duty': 1.5,
+                'commodity_code': '2208.50.13',
+                'commodity_name': 'Gin and Geneva',
+            },
         },
     ]
     patch = mock.patch.object(Airtable, 'get_all', return_value=airtable_data)
@@ -166,14 +164,15 @@ def mock_user_location_create():
 @mock.patch.object(sso_helpers, 'get_company_profile')
 @mock.patch.object(core_helpers, 'get_markets_page_title')
 def mock_dashboard_profile_events_opportunities(
-        mock_get_markets_page_title,
-        mock_get_company_profile,
-        mock_get_dashboard_events,
-        mock_get_dashboard_export_opportunities,
+    mock_get_markets_page_title,
+    mock_get_company_profile,
+    mock_get_dashboard_events,
+    mock_get_dashboard_export_opportunities,
 ):
     mock_get_markets_page_title.return_value = 'Some page title'
     mock_get_company_profile.return_value = {
-        'expertise_countries': ['AF'], 'expertise_industries': [choices.SECTORS[0][0]]
+        'expertise_countries': ['AF'],
+        'expertise_industries': [choices.SECTORS[0][0]],
     }
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
@@ -187,19 +186,13 @@ def mock_dashboard_profile_events_opportunities(
 @mock.patch.object(api_client.dataservices, 'get_easeofdoingbusiness')
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 def mock_export_plan_requests(
-        mock_export_plan_list,
-        mock_ease_of_doing_business,
-        mock_get_corruption_perceptions_index,
-        mock_get_last_year_import_data,
-        mock_get_export_plan_market_data,
+    mock_export_plan_list,
+    mock_ease_of_doing_business,
+    mock_get_corruption_perceptions_index,
+    mock_get_last_year_import_data,
+    mock_get_export_plan_market_data,
 ):
-    data = [
-        {
-            'export_countries': ['UK'],
-            'export_commodity_codes': [100],
-            'rules_regulations': {'rule1': 'AAA'}
-        }
-    ]
+    data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
     mock_export_plan_list.return_value = create_response(data)
 
     ease_of_doing_business_data = {
@@ -208,10 +201,7 @@ def mock_export_plan_requests(
         'cpi_score_2019': 41,
         'rank': 80,
     }
-    mock_ease_of_doing_business.return_value = create_response(
-        status_code=200,
-        json_body=ease_of_doing_business_data,
-    )
+    mock_ease_of_doing_business.return_value = create_response(status_code=200, json_body=ease_of_doing_business_data,)
 
     cpi_data = {
         'country_name': 'China',
@@ -221,11 +211,11 @@ def mock_export_plan_requests(
     }
     mock_get_corruption_perceptions_index.return_value = create_response(status_code=200, json_body=cpi_data)
 
-    mock_get_last_year_import_data.return_value = create_response(
-        status_code=200, json_body={'lastyear_history': 123}
-    )
+    mock_get_last_year_import_data.return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
 
-    mock_get_export_plan_market_data.return_value = {'timezone': 'Asia/Shanghai', }
+    mock_get_export_plan_market_data.return_value = {
+        'timezone': 'Asia/Shanghai',
+    }
 
 
 @pytest.fixture
@@ -237,43 +227,27 @@ def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
         'country': 'Australia',
         'commodity_code': '220.850',
         'sectors': ['Automotive'],
-        'target_markets': [
-            {'country': 'China'},
-        ],
-        'rules_regulations': {
-            'country_code': 'CHN',
-        },
+        'target_markets': [{'country': 'China'}],
+        'rules_regulations': {'country_code': 'CHN'},
     }
-    mock_get_or_create_export_plan.return_value = create_response(
-        status_code=200, json_body=explan_plan_data
-    )
+    mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)
 
-    mock_get_or_create_export_plan.return_value = {'timezone': 'Asia/Shanghai', }
+    mock_get_or_create_export_plan.return_value = {
+        'timezone': 'Asia/Shanghai',
+    }
 
 
 @pytest.mark.django_db(transaction=True)
 @pytest.fixture
 def topics_with_lessons(domestic_site_browser_tests):
     domestic_homepage = domestic_site_browser_tests.root_page
-    topic_a = learn_factories.TopicPageFactory(
-        parent=domestic_homepage, title='Lesson topic A', slug='topic-a',
-    )
-    lesson_a1 = learn_factories.LessonPageFactory(
-        parent=topic_a, title='Lesson A1', slug='lesson-a1',
-    )
-    lesson_a2 = learn_factories.LessonPageFactory(
-        parent=topic_a, title='Lesson A2', slug='lesson-a2',
-    )
+    topic_a = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic A', slug='topic-a',)
+    lesson_a1 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A1', slug='lesson-a1',)
+    lesson_a2 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A2', slug='lesson-a2',)
 
-    topic_b = learn_factories.TopicPageFactory(
-        parent=domestic_homepage, title='Lesson topic B', slug='topic-b',
-    )
-    lesson_b1 = learn_factories.LessonPageFactory(
-        parent=topic_b, title='Lesson B1', slug='lesson-b1',
-    )
-    lesson_b2 = learn_factories.LessonPageFactory(
-        parent=topic_b, title='Lesson B2', slug='lesson-b2',
-    )
+    topic_b = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic B', slug='topic-b',)
+    lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
+    lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
     return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
 
 
@@ -379,7 +353,7 @@ def single_event():
         'description': 'DIT is producing a directory of companies',
         'url': 'www.example.com',
         'location': 'London',
-        'date': '06 Jun 2020'
+        'date': '06 Jun 2020',
     }
 
 
@@ -396,18 +370,12 @@ def single_opportunity():
 
 
 @pytest.fixture
-def server_user_browser_dashboard(
-    mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests
-):
+def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
     live_server, user, browser = server_user_browser
 
     browser.get(f'{live_server.url}/dashboard/')
 
-    browser.add_cookie({
-        'name': settings.SSO_SESSION_COOKIE,
-        'value': user.session_id,
-        'path': '/',
-    })
+    browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
     browser.refresh()
 
     should_not_see_errors(browser)

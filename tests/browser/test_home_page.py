@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 import shutil
 from unittest import mock
 from uuid import uuid4
 
-import allure
 import pytest
 
+import allure
 from sso import helpers
 from tests.browser.common_selectors import (
     HeaderCommon,
@@ -14,21 +15,23 @@ from tests.browser.common_selectors import (
     SignUpModalSuccess,
     SignUpModalVerificationCode,
 )
+from tests.browser.steps import (
+    should_not_see_any_element,
+    should_not_see_errors,
+    should_see_all_elements,
+)
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
     find_elements,
     is_element_present,
-    should_not_see_any_element,
-    should_not_see_errors,
-    should_see_all_elements,
 )
 
 pytestmark = [
     pytest.mark.browser,
     pytest.mark.home_page,
     pytest.mark.django_db,
-    pytest.mark.skipif(shutil.which('chromedriver') is None, reason='chromedriver not in path')
+    pytest.mark.skipif(shutil.which('chromedriver') is None, reason='chromedriver not in path'),
 ]
 
 
@@ -58,15 +61,11 @@ def should_not_see_sign_up_errors(browser):
     try:
         assert not is_element_present(browser, SignUpModal.ERROR_MESSAGES), error
     except AssertionError:
-        attach_jpg_screenshot(
-            browser, 'Unexpected error(s) during sign-up', selector=SignUpModal.MODAL
-        )
+        attach_jpg_screenshot(browser, 'Unexpected error(s) during sign-up', selector=SignUpModal.MODAL)
         raise
 
 
-def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(
-        browser, visit_home_page
-):
+def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(browser, visit_home_page):
     should_not_see_errors(browser)
     attach_jpg_screenshot(browser, 'home page')
     should_see_all_elements(browser, HeaderCommon)
@@ -85,30 +84,36 @@ def test_anonymous_user_should_see_sign_up_modal(browser, visit_home_page):
         ('a@b.c', 'valid password', ['Enter a valid email address.'], []),
         (' ', 'valid password', ['This field may not be blank.'], []),
         ('a@b.cd', ' ', [], ['This field may not be blank.']),
-        ('a@b.cd', 'tooshort', [], [
-            'This password is too short. It must contain at least 10 characters.',
-            'This password contains letters only.',
-        ]),
+        (
+            'a@b.cd',
+            'tooshort',
+            [],
+            [
+                'This password is too short. It must contain at least 10 characters.',
+                'This password contains letters only.',
+            ],
+        ),
         ('a@b.cd', 'onlyletters', [], ['This password contains letters only.']),
-        ('a@b.cd', 'password', [], [
-            'This password is too short. It must contain at least 10 characters.',
-            'This password is too common.',
-            'This password contains letters only.',
-            "This password contains the word 'password'",
-        ]),
-        ('a@b.cd', '1234567890', [], [
-            'This password is too common.', 'This password is entirely numeric.',
-        ])
-    ]
+        (
+            'a@b.cd',
+            'password',
+            [],
+            [
+                'This password is too short. It must contain at least 10 characters.',
+                'This password is too common.',
+                'This password contains letters only.',
+                "This password contains the word 'password'",
+            ],
+        ),
+        ('a@b.cd', '1234567890', [], ['This password is too common.', 'This password is entirely numeric.']),
+    ],
 )
 @mock.patch.object(helpers, 'create_user')
 def test_error_messages_for_invalid_credential(
-        mock_create_user, browser, visit_home_page, email, password,
-        expected_email_errors, expected_password_errors,
+    mock_create_user, browser, visit_home_page, email, password, expected_email_errors, expected_password_errors,
 ):
     mock_create_user.side_effect = helpers.CreateUserException(
-        detail={'email': expected_email_errors, 'password': expected_password_errors},
-        code=400
+        detail={'email': expected_email_errors, 'password': expected_password_errors}, code=400
     )
 
     submit_sign_up_form(browser, email, password)
@@ -127,8 +132,13 @@ def test_error_messages_for_invalid_credential(
 @mock.patch.object(helpers, 'send_verification_code_email')
 @mock.patch.object(helpers, 'create_user')
 def test_sign_up(
-    mock_create_user, mock_send_code, mock_verification, mock_notification,
-    mock_user_location_create, browser, visit_home_page,
+    mock_create_user,
+    mock_send_code,
+    mock_verification,
+    mock_notification,
+    mock_user_location_create,
+    browser,
+    visit_home_page,
 ):
     code = '12345'
     email = f'test+{uuid4()}@example.com'

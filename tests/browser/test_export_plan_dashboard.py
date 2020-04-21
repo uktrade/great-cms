@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from time import sleep
 from unittest import mock
 
@@ -18,11 +19,10 @@ from tests.browser.common_selectors import (
     HeaderSignedIn,
     StickyHeader,
 )
+from tests.browser.steps import should_not_see_element, should_see_all_elements
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
-    should_not_see_element,
-    should_see_all_elements,
     try_alternative_click_on_exception,
 )
 from tests.helpers import create_response
@@ -45,8 +45,10 @@ def click_next(browser, step):
 @mock.patch.object(core_helpers, 'get_dashboard_events')
 @mock.patch.object(core_helpers, 'update_company_profile')
 def test_export_plan_dashboard_without_page_tour(
-    mock_update_company_profile, mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities, server_user_browser_dashboard,
+    mock_update_company_profile,
+    mock_get_dashboard_events,
+    mock_get_dashboard_export_opportunities,
+    server_user_browser_dashboard,
 ):
     mock_update_company_profile.return_value = create_response()
     mock_get_dashboard_events.return_value = []
@@ -86,13 +88,7 @@ def test_export_plan_dashboard_with_page_tour(
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []
 
-    data = [
-        {
-            'export_countries': ['UK'],
-            'export_commodity_codes': [100],
-            'rules_regulations': {'rule1': 'AAA'}
-        }
-    ]
+    data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
     mock_get_exportplan.return_value = create_response(data)
 
     easeofdoingbusiness_data = {
@@ -101,9 +97,7 @@ def test_export_plan_dashboard_with_page_tour(
         'cpi_score_2019': 41,
         'rank': 80,
     }
-    mock_easeofdoingbusiness.return_value = create_response(
-        status_code=200, json_body=easeofdoingbusiness_data
-    )
+    mock_easeofdoingbusiness.return_value = create_response(status_code=200, json_body=easeofdoingbusiness_data)
 
     cpi_data = {
         'country_name': 'China',
@@ -113,11 +107,11 @@ def test_export_plan_dashboard_with_page_tour(
     }
     mock_cpi.return_value = create_response(status_code=200, json_body=cpi_data)
 
-    mock_lastyearimportdata.return_value = create_response(
-        status_code=200, json_body={'lastyear_history': 123}
-    )
+    mock_lastyearimportdata.return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
 
-    mock_get_exportplan_marketdata.return_value = {'timezone': 'Asia/Shanghai', }
+    mock_get_exportplan_marketdata.return_value = {
+        'timezone': 'Asia/Shanghai',
+    }
     live_server, user, browser = server_user_browser_dashboard
 
     browser.get(live_server.url + '/export-plan/dashboard/')

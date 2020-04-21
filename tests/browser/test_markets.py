@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from unittest import mock
 
 import pytest
@@ -10,11 +11,8 @@ from tests.browser.common_selectors import (
     HeaderSignedIn,
     MarketsContainer,
 )
-from tests.browser.util import (
-    attach_jpg_screenshot,
-    should_not_see_any_element,
-    should_see_all_elements,
-)
+from tests.browser.steps import should_not_see_any_element, should_see_all_elements
+from tests.browser.util import attach_jpg_screenshot
 
 pytestmark = [
     pytest.mark.browser,
@@ -28,12 +26,16 @@ pytestmark = [
 @mock.patch.object(sso_helpers, 'get_company_profile')
 @mock.patch.object(core_helpers, 'get_markets_page_title')
 def test_can_view_markets_as_signed_in_user(
-    mock_get_markets_page_title, mock_get_company_profile, mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities, server_user_browser_dashboard
+    mock_get_markets_page_title,
+    mock_get_company_profile,
+    mock_get_dashboard_events,
+    mock_get_dashboard_export_opportunities,
+    server_user_browser_dashboard,
 ):
     mock_get_markets_page_title.return_value = 'Some page title'
     mock_get_company_profile.return_value = {
-        'expertise_countries': ['AF'], 'expertise_industries': [choices.SECTORS[0][0]]
+        'expertise_countries': ['AF'],
+        'expertise_industries': [choices.SECTORS[0][0]],
     }
     mock_get_dashboard_events.return_value = []
     mock_get_dashboard_export_opportunities.return_value = []

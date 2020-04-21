@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from random import choice
 
 import pytest
@@ -7,11 +8,8 @@ from tests.browser.common_selectors import (
     LessonPage,
     TopicLessonListing,
 )
-from tests.browser.util import (
-    attach_jpg_screenshot,
-    selenium_action,
-    should_see_all_elements,
-)
+from tests.browser.steps import should_see_all_elements
+from tests.browser.util import attach_jpg_screenshot, selenium_action
 
 pytestmark = [
     pytest.mark.browser,
@@ -74,8 +72,7 @@ def test_can_navigate_from_topic_to_lesson(
     attach_jpg_screenshot(browser, 'topic_a')
 
     lesson_links = browser.find_elements(
-        by=TopicLessonListing.LESSON_LINKS.by,
-        value=TopicLessonListing.LESSON_LINKS.selector,
+        by=TopicLessonListing.LESSON_LINKS.by, value=TopicLessonListing.LESSON_LINKS.selector,
     )
     lesson_link = choice(lesson_links)
 
