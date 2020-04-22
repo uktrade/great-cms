@@ -71,3 +71,4 @@
 - no-ticket - update export-plan link
 - MVP-406 - hook up remove country
 
+- MVP-381 - Wagtail media and video block

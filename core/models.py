@@ -17,6 +17,7 @@ from django.db import models
 
 from core.context import get_context_provider
 from core import mixins
+from core import blocks as core_blocks
 
 
 class AbstractObjectHash(models.Model):
@@ -169,10 +170,16 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
     body = StreamField([
         (
-            'body', PersonalisedStructBlock(
+            'paragraph', PersonalisedStructBlock(
                 [('paragraph', blocks.RichTextBlock())],
                 template='core/personalised_page_struct_block.html',
                 icon='pilcrow'
+            )
+        ),
+        (
+            'video', PersonalisedStructBlock(
+                [('video', core_blocks.VideoBlock())],
+                icon='media'
             )
         )
     ])
