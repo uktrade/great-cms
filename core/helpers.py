@@ -38,6 +38,7 @@ def get_location(request):
                 'region': city['region'],
                 'latitude': city['latitude'],
                 'longitude': city['longitude'],
+                'city': city['city'],
             }
 
 
