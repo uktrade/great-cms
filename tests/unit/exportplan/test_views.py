@@ -24,6 +24,7 @@ def test_export_plan_builder_landing_page(client, exportplan_dashboard):
 
 
 @mock.patch.object(helpers, 'get_or_create_export_plan')
+@pytest.mark.django_db
 @pytest.mark.parametrize('url', data.SECTION_URLS)
 def test_exportplan_sections(mock_get_export_plan_or_create, url, client, user):
     if url == reverse('exportplan:section', kwargs={'slug': 'target-markets'}):

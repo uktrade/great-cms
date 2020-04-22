@@ -24,6 +24,7 @@ pil_logger.setLevel(logging.CRITICAL)
 urllib3_logger.setLevel(logging.CRITICAL)
 
 
+@pytest.mark.django_db
 @pytest.fixture
 def root_page():
     """
