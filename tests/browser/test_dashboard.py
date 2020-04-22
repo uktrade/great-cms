@@ -2,14 +2,12 @@
 import logging
 import random
 from typing import List
-from unittest import mock
 
 import pytest
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 
 import allure
-from core import helpers
 from directory_constants import choices
 from tests.browser.common_selectors import (
     DashboardContents,
@@ -31,7 +29,6 @@ from tests.browser.util import (
     selenium_action,
     try_alternative_click_on_exception,
 )
-from tests.helpers import create_response
 
 pytestmark = [
     pytest.mark.browser,
@@ -78,22 +75,9 @@ def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'update_company_profile')
 def test_dashboard_with_success_query_parameter(
-    mock_update_company_profile,
-    server_user_browser_dashboard,
-    mock_get_company_profile,
-    mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities,
+    server_user_browser_dashboard, mock_update_company_profile, mock_dashboard_profile_events_opportunities,
 ):
-    def side_effect(data, sso_session_id):
-        mock_get_company_profile.return_value = {
-            'expertise_countries': [],
-            'expertise_industries': ['SL10001'],
-        }
-
-    mock_update_company_profile.return_value = create_response()
-    mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
 
     should_see_lets_get_to_know_you_modal(browser)
@@ -106,22 +90,9 @@ def test_dashboard_with_success_query_parameter(
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'update_company_profile')
 def test_dashboard_without_success_query_parameter(
-    mock_update_company_profile,
-    server_user_browser_dashboard,
-    mock_get_company_profile,
-    mock_get_dashboard_events,
-    mock_get_dashboard_export_opportunities,
+    server_user_browser_dashboard, mock_update_company_profile, mock_dashboard_profile_events_opportunities,
 ):
-    def side_effect(data, sso_session_id):
-        mock_get_company_profile.return_value = {
-            'expertise_countries': [],
-            'expertise_industries': ['SL10001', 'SL10002'],
-        }
-
-    mock_update_company_profile.return_value = create_response()
-    mock_update_company_profile.side_effect = side_effect
     live_server, user, browser = server_user_browser_dashboard
 
     should_see_lets_get_to_know_you_modal(browser)
