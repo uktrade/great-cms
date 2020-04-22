@@ -76,7 +76,7 @@ secrets:
 	sed -i -e 's/#DO NOT ADD SECRETS TO THIS FILE//g' config/env/secrets-do-not-commit
 
 database:
-	PGPASSWORD=debug dropdb -h localhost -U debug greatcms
+	PGPASSWORD=debug dropdb --if-exists -h localhost -U debug greatcms
 	PGPASSWORD=debug createdb -h localhost -U debug greatcms
 
 
