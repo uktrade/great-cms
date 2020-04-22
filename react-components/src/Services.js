@@ -44,7 +44,6 @@ const getCountryData = function (country) {
 }
 
 const removeCountryData = function (country) {
-  console.log('config.removeCountryDataUrl')
   return get(config.removeCountryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 

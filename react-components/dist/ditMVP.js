@@ -57739,7 +57739,6 @@ var getCountryData = function getCountryData(country) {
 };
 
 var removeCountryData = function removeCountryData(country) {
-  console.log('config.removeCountryDataUrl');
   return get(config.removeCountryDataUrl, {
     country: country
   }).then(function (response) {

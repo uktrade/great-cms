@@ -1,6 +1,5 @@
-from requests.exceptions import ReadTimeout
 from datetime import datetime
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from rest_framework import views, response
 from rest_framework.permissions import IsAuthenticated
 
@@ -10,24 +9,21 @@ from exportplan import serializers
 
 class ExportPlanCountryDataView(views.APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.ExportPlanCountrySerializer
 
     def get(self, request):
-        if not self.request.GET.get('country'):
-            return HttpResponse(status=400)
-        country = self.request.GET.get('country')
+        serializer = self.serializer_class(data=self.request.GET)
+        serializer.is_valid(raise_exception=True)
+        country = serializer.validated_data['country']
 
-        try:
-            # To make more efficient by removing get
-            export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
-            data = {'target_markets': export_plan['target_markets'] + [{'country': country}]}
-            export_plan = helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id,
-                id=export_plan['pk'],
-                data=data
-            )
-        except ReadTimeout:
-            return HttpResponse(status=504)
-
+        # To make more efficient by removing get
+        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        data = {'target_markets': export_plan['target_markets'] + [{'country': country}]}
+        export_plan = helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=export_plan['pk'],
+            data=data
+        )
         data = {
             'target_markets': export_plan['target_markets'],
             'datenow': datetime.now(),
@@ -38,24 +34,22 @@ class ExportPlanCountryDataView(views.APIView):
 
 class ExportPlanRemoveCountryDataView(views.APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.ExportPlanCountrySerializer
 
     def get(self, request):
-        if not self.request.GET.get('country'):
-            return HttpResponse(status=400)
-        country = self.request.GET.get('country')
-        try:
-            # To make more efficient by removing get
-            export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
-            target_markets_filtered = filter(lambda i: i['country'] != country, export_plan['target_markets'])
-            data = list(target_markets_filtered)
-            export_plan = helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id,
-                id=export_plan['pk'],
-                data={'target_markets': data}
-            )
-        except ReadTimeout:
-            return HttpResponse(status=504)
-
+        serializer = self.serializer_class(data=self.request.GET)
+        serializer.is_valid(raise_exception=True)
+        country = serializer.validated_data['country']
+        # To make more efficient by removing get
+        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        target_markets_filtered = filter(lambda i: i['country'] != country, export_plan['target_markets'])
+        data = list(target_markets_filtered)
+        data = [item for item in export_plan['target_markets'] if item['country'] != country]
+        export_plan = helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=export_plan['pk'],
+            data={'target_markets': data}
+        )
         data = {
             'target_markets': export_plan['target_markets'],
             'datenow': datetime.now(),

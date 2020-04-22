@@ -3,7 +3,6 @@ from unittest import mock
 from freezegun import freeze_time
 
 from django.urls import reverse
-from requests.exceptions import ReadTimeout
 
 from exportplan import helpers
 
@@ -37,18 +36,6 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
         'datenow': '2016-11-23T11:21:10.977Z',
         'target_markets': update_return_data['target_markets']
     }
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'get_exportplan')
-def test_ajax_country_data_time_out(mock_get_exportplan, client, user):
-    client.force_login(user)
-    url = reverse('exportplan:ajax-country-data')
-
-    mock_get_exportplan.side_effect = ReadTimeout
-    response = client.get(url, {'country': 'China', })
-
-    assert response.status_code == 504
 
 
 @pytest.mark.django_db
