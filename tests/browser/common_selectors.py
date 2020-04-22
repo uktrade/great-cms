@@ -253,7 +253,6 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
     DUTY = Selector(By.CSS_SELECTOR, 'div[id^=duty-]')
     IMPORT_VALUE = Selector(By.CSS_SELECTOR, 'div[id^=import-value-]')
     YEAR_TO_YEAR_CHANGE = Selector(By.CSS_SELECTOR, 'div[id^=year-to-year-change-]')
-    SHOW_MORE_STATS = Selector(By.CSS_SELECTOR, 'button[id^=show-more-stats-]')
     ADD_COUNTRY = Selector(By.ID, 'country-chooser-button')
     YOUR_ACTIONS = Selector(By.ID, 'your-actions')
 
