@@ -58396,11 +58396,7 @@ var CountryData = /*#__PURE__*/function (_React$Component) {
         className: "statistic__caption"
       }, "Year-to-year change")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "statistic__figure"
-      }, "+", lastYearData.year_on_year_change, "%")) : null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "button",
-        className: "button--ghost",
-        id: "show-more-stats-".concat(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["slugify"])(country))
-      }, "Show more stats"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null));
+      }, "+", lastYearData.year_on_year_change, "%")) : null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null));
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, countryData);
     }
   }]);
