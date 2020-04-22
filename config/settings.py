@@ -97,7 +97,7 @@ TEMPLATES = [
                 'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
-                'core.context_processors.signup_modal',
+                'core.context_processors.javascript_components',
             ],
         },
     },

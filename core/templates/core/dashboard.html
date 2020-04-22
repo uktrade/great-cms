@@ -203,11 +203,6 @@
         <script type="text/javascript">
             var element = document.createElement('div');
             document.body.appendChild(element);
-            ditMVP.setConfig({
-                csrfToken: '{{ csrf_token }}',
-                apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-                industryOptions: {{ industry_options|safe }}
-            });
             ditMVP.IndustriesModal({
                 element: element,
                 isOpen: true

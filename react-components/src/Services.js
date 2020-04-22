@@ -1,9 +1,23 @@
 /* eslint-disable */
+import { createStore } from 'redux'
+
+import reducers from '@src/reducers'
+import actions from '@src/actions'
+
+
 const MESSAGE_UNEXPECTED_ERROR = { __all__: ['Unexpected Error'] }
 const MESSAGE_PERMISSION_DENIED = { __all__: ['You do not have permission to perform this action'] }
 const MESSAGE_NOT_FOUND_ERROR = { __all__: ['Not found'] }
 const MESSAGE_TIMEOUT_ERROR = { __all__: ['Request timed out'] }
 const MESSAGE_BAD_REQUEST_ERROR = { __all__: ['Bad request'] }
+
+export const store = createStore(reducers)
+
+
+const setInitialState = function(state) {
+  store.dispatch(actions.setInitialState(state))
+}
+
 
 const post = function (url, data) {
   return fetch(url, {
@@ -90,6 +104,8 @@ const responseHandler = function (response) {
   }
 }
 
+
+
 // static values that will not change during execution of the code
 let config = {}
 const setConfig = function ({
@@ -108,8 +124,6 @@ const setConfig = function ({
   loginUrl,
   passwordResetUrl,
   termsUrl,
-  userCountries,
-  userIndustries,
   verifyCodeUrl,
   userIsAuthenticated,
 }) {
@@ -129,8 +143,6 @@ const setConfig = function ({
   config.passwordResetUrl = passwordResetUrl
   config.termsUrl = termsUrl
   config.verifyCodeUrl = verifyCodeUrl
-  config.userCountries = userCountries
-  config.userIndustries = userIndustries
   config.userIsAuthenticated = userIsAuthenticated
 }
 
@@ -139,12 +151,14 @@ export default {
   checkCredentials,
   checkVerificationCode,
   get,
+  store: store,
   updateCompany,
   getCountryData,
   getCountriesDataBySectors,
   lookupProduct,
   setConfig,
   config,
+  setInitialState,
   messages: {
     MESSAGE_UNEXPECTED_ERROR,
     MESSAGE_PERMISSION_DENIED,

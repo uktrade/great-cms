@@ -15,20 +15,11 @@
     <script type="text/javascript">
         var element = document.getElementById("header-sign-up-link")
         if (element) {
-            ditMVP.setConfig({
-                apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
-                csrfToken: '{{ csrf_token }}',
-                linkedInUrl: '{{ signup_modal.linkedin_url }}',
-                googleUrl: '{{ signup_modal.google_url }}',
-                dashboardUrl: '{% url "core:dashboard" %}',
-                passwordResetUrl: '{{ signup_modal.password_reset_url }}'
-            })
-
-            ditMVP.LoginModal({
-                element: element.parentElement,
-                isOpen: true,
-                nextUrl: '{% url "core:dashboard" %}'
-            })
+          ditMVP.LoginModal({
+            element: element.parentElement,
+            isOpen: true,
+            nextUrl: '{% url "core:dashboard" %}'
+          })
         }
     </script>
     {% endif %}

@@ -22,17 +22,6 @@
     <script type="text/javascript">
         var element = document.getElementById("header-sign-up-link")
         if (element) {
-            ditMVP.setConfig({
-                apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
-                verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-                csrfToken: '{{ csrf_token }}',
-                linkedInUrl: '{{ signup_modal.linkedin_url }}',
-                googleUrl: '{{ signup_modal.google_url }}',
-                termsUrl: '{{ signup_modal.terms_url }}',
-                loginUrl: '{% url "core:login" %}',
-                dashboardUrl: '{% url "core:dashboard" %}'
-            })
-
             {% if 'verify' in request.GET %}
                 var step = ditMVP.STEP_VERIFICATION_CODE;
                 var username = request.GET.verify;

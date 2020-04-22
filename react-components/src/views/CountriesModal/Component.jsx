@@ -28,47 +28,25 @@ export function SkipShowGenericContent(props) {
 
 
 export default function Wizard(props){
-  const [errors, setErrors] = React.useState(props.errors)
-  const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-  const [countries, setCountries] = React.useState(Services.config.userCountries || [])
-  const [currentStep, setCurrentStep] = React.useState(props.currentStep)
-
-  function handleUpdateCompanies() {    
-    const data = {expertise_countries: (countries || []).map(item => item.value)}
-    Services.updateCompany(data)
-      .then(handeleApiUpdateSuccess)
-      .catch(handeleApiUpdateError)
-  }
-
-  function handeleApiUpdateError(errors) {
-    setErrors(errors)
-    setCurrentStep(STEP_COUNTRIES)
-  }
-
-  function handeleApiUpdateSuccess() {
-    setIsInProgress(false)
-    setErrors({})
-    setCurrentStep(STEP_SUCCESS)
-  }
-
   function getStep() {
-    if (currentStep == STEP_COUNTRIES) {
+    if (props.currentStep == STEP_COUNTRIES) {
       return (
         <StepCountries
-          errors={errors}
-          disabled={isInProgress}
-          handleSubmit={handleUpdateCompanies}
-          handleChange={setCountries}
-          value={countries || []}
+          errors={props.errors}
+          disabled={props.isInProgress}
+          handleSubmit={props.handleSubmit}
+          handleChange={props.setCountries}
+          value={props.countries || []}
         />
       )
-    } else if (currentStep == STEP_SUCCESS) {
+    } else if (props.currentStep == STEP_SUCCESS) {
       return (
         <StepSuccess
           successUrl={`${window.location}?success`}
-          handleChangeAnswers={() => setCurrentStep(STEP_COUNTRIES)}
-          countries={countries}
+          handleChangeAnswers={props.handleChangeAnswers}
+          countries={props.countries}
           industries={Services.config.userIndustries || []}
+          handleComplete={props.handleComplete}
         />
       )
     }
@@ -79,13 +57,13 @@ export default function Wizard(props){
       isOpen={props.isOpen}
       setIsOpen={props.setIsOpen}
       skipFeatureCookieName='skip-industries-of-interest'
-      skipFeatureComponent={currentStep == STEP_COUNTRIES ? SkipShowGenericContent : null}
+      skipFeatureComponent={props.currentStep == STEP_COUNTRIES ? SkipShowGenericContent : null}
       performSkipFeatureCookieCheck={props.performSkipFeatureCookieCheck}
       id='dashboard-question-modal-lets-get-to-know-you'
       className='p-s'
       setIsOpen={props.setIsOpen}
     >
-      <ErrorList errors={errors.__all__ || []} className='m-t-s' />
+      <ErrorList errors={props.errors.__all__ || []} className='m-t-s' />
       {getStep()}
     </Modal>
   )
