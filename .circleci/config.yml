@@ -84,13 +84,7 @@ jobs:
           name: Run Unit tests
           command: |
             . venv/bin/activate
-            make pytest -- \
-            --cov=. \
-            --cov-config=.coveragerc \
-            --cov-report=html \
-            --junit-xml=./results/pytest_unit_report.xml \
-            --alluredir=./allure_results/ \
-            --ignore='./venv/'
+            make pytest
             coveralls
       - store_test_results:
           path: ./results/
@@ -124,13 +118,7 @@ jobs:
           name: Run Browser tests
           command: |
             . venv/bin/activate
-            make pytest_browser -- \
-            --cov=. \
-            --cov-config=.coveragerc \
-            --cov-report=html \
-            --junit-xml=./results/pytest_browser_report.xml \
-            --alluredir=./allure_results/ \
-            --ignore='./venv/'
+            make pytest_browser
       - store_test_results:
           path: ./results/
       - run:

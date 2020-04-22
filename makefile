@@ -9,11 +9,23 @@ clean:
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
-	pytest tests/unit --cov=. --cov-config=.coveragerc $(ARGUMENTS)
+	pytest \
+		tests/unit \
+		--junit-xml=./results/pytest_unit_report.xml \
+		--cov-config=.coveragerc \
+		--cov-report=html \
+		--cov=. \
+		$(ARGUMENTS)
 
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
-	pytest --alluredir=./allure_results/ --color=no tests/browser $(ARGUMENTS)
+	pytest \
+		tests/browser \
+		--junit-xml=./results/pytest_browser_report.xml \
+		--alluredir=./allure_results/ \
+		--ignore='./venv/' \
+		--color=no \
+		$(ARGUMENTS)
 
 flake8:
 	flake8 . \
