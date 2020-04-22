@@ -152,6 +152,7 @@ jobs:
       - checkout
       - *install_postgresql_client
       - *create_virtualenv_and_install_dependencies
+      - *setup_secrets
       - *setup_db
       - run:
           name: Run tests
