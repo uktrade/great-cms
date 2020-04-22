@@ -3,6 +3,7 @@ import logging
 import sys
 import traceback
 from contextlib import contextmanager
+from enum import EnumMeta
 from io import BytesIO
 from typing import List, Union
 
@@ -76,7 +77,7 @@ def is_element_visible(browser: WebDriver, selector: Selector) -> bool:
     return is_visible
 
 
-def find_element(browser: WebDriver, selector: Selector) -> WebElement:
+def find_element(browser: WebDriver, selector: Union[Selector, EnumMeta]) -> WebElement:
     return browser.find_element(selector.by, selector.selector)
 
 
