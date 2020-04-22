@@ -142,10 +142,6 @@ export default class CountryData extends React.Component {
             </div>
           </div>
         </section>
-
-        <button type="button" className="button--ghost" id={`show-more-stats-${slugify(country)}`}>
-          Show more stats
-        </button>
         <hr />
       </>
     )

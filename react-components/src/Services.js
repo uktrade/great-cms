@@ -43,6 +43,10 @@ const getCountryData = function (country) {
   return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
+const removeCountryData = function (country) {
+  return get(config.removeCountryDataUrl, { country: country }).then((response) => responseHandler(response).json())
+}
+
 const lookupProduct = function ({ q }) {
   return get(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
 }
@@ -94,6 +98,7 @@ const responseHandler = function (response) {
 let config = {}
 const setConfig = function ({
   countryDataUrl,
+  removeCountryDataUrl,
   countriesBySectorsDataUrl,
   apiLoginUrl,
   apiSignupUrl,
@@ -114,6 +119,7 @@ const setConfig = function ({
   userIsAuthenticated,
 }) {
   config.countryDataUrl = countryDataUrl
+  config.removeCountryDataUrl = removeCountryDataUrl
   config.countriesBySectorsDataUrl = countriesBySectorsDataUrl
   config.apiLoginUrl = apiLoginUrl
   config.apiSignupUrl = apiSignupUrl
@@ -141,6 +147,7 @@ export default {
   get,
   updateCompany,
   getCountryData,
+  removeCountryData,
   getCountriesDataBySectors,
   lookupProduct,
   setConfig,

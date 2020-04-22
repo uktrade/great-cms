@@ -9,3 +9,7 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
             return value[0].split(',')
         else:
             raise serializers.ValidationError('sectors is a required field')
+
+
+class ExportPlanCountrySerializer(serializers.Serializer):
+    country = serializers.CharField()

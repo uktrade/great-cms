@@ -49,6 +49,9 @@ class TargetMarketCountries extends React.Component {
     const updatedSelectedCountries = selectedCountries.filter((item) => item.country !== data.country)
     const updatedCountryList = this.updatedCountryList(updatedSelectedCountries)
     this.setState({ selectedCountries: updatedSelectedCountries, countryList: updatedCountryList })
+    Services.removeCountryData(data.country)
+       .then(this.handleGetCountryDataSuccess)
+       .catch(this.handleGetCountryDataError)
   }
 
   addCountry(selectedCountry) {
