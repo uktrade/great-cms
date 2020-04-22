@@ -312,7 +312,7 @@ def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
 
 
 @pytest.fixture
-def mock_get_company_profile():
+def mock_get_company_profile_with_expertise():
     return_value = {
         'expertise_countries': ['AF'],
         'expertise_industries': [choices.SECTORS[0][0]],
@@ -336,7 +336,7 @@ def mock_get_markets_page_title():
 @pytest.mark.django_db(transaction=True)
 def mock_dashboard_profile_events_opportunities(
     mock_get_markets_page_title,
-    mock_get_company_profile,
+    mock_get_company_profile_with_expertise,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
 ):
