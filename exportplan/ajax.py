@@ -42,8 +42,6 @@ class ExportPlanRemoveCountryDataView(views.APIView):
         country = serializer.validated_data['country']
         # To make more efficient by removing get
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
-        target_markets_filtered = filter(lambda i: i['country'] != country, export_plan['target_markets'])
-        data = list(target_markets_filtered)
         data = [item for item in export_plan['target_markets'] if item['country'] != country]
         export_plan = helpers.update_exportplan(
             sso_session_id=self.request.user.session_id,
