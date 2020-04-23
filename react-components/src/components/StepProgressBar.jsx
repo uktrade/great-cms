@@ -1,9 +1,8 @@
-/* eslint-disable */
 import React from 'react'
 import './stylesheets/StepProgressBar.scss'
 
 
-export default function StepProgressBar(props){
+export default function StepProgressBar(props) {
   const scale = 1 + (1 / props.steps.length)
   return (
     <div className="great-mvp-step-progress-bar">
