@@ -1,5 +1,3 @@
-from django.forms.utils import flatatt
-from django.utils.html import format_html, format_html_join
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
@@ -26,27 +24,11 @@ class LinkWithImageAndContentBlock(LinkWithSourceBlock):
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
-        if not value:
-            return ''
-        return value.file.url
+        """Render implemented in the VideoBlock, this block shouldn't be used in its own."""
+        pass
 
 
 class VideoBlock(blocks.StructBlock):
     width = blocks.IntegerBlock()
     height = blocks.IntegerBlock()
     video = MediaChooserBlock()
-
-    def render(self, value, context=None):
-        if not value:
-            return ''
-        sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in value['video'].sources])
-        return format_html(
-            f"""
-                    <div>
-                        <video width="{value['width']}" height="{value['height']}" controls>
-                            {sources}
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    """
-        )

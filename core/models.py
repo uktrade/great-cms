@@ -172,13 +172,14 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
         (
             'paragraph', PersonalisedStructBlock(
                 [('paragraph', blocks.RichTextBlock())],
-                template='core/personalised_page_struct_block.html',
+                template='core/personalised_page_struct_paragraph_block.html',
                 icon='pilcrow'
             )
         ),
         (
             'video', PersonalisedStructBlock(
                 [('video', core_blocks.VideoBlock())],
+                template='core/personalised_page_struct_video_block.html',
                 icon='media'
             )
         )
