@@ -199,6 +199,7 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
     content_panels = Page.content_panels + [StreamFieldPanel('body')]
     layout_panels = [FieldPanel('template')]
+    settings_panels = [FieldPanel('slug')] + Page.settings_panels
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -252,7 +253,7 @@ class ListPage(CMSGenericPage):
         help_text='Should we record when a user views a page in this collection?',
     )
 
-    settings_panels = Page.settings_panels + [FieldPanel('record_read_progress')]
+    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
