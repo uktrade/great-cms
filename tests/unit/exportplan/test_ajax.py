@@ -79,6 +79,7 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
     }
 
 
+@pytest.mark.django_db
 def test_ajax_country_data_remove_no_country(client, user):
     client.force_login(user)
     url = reverse('exportplan:ajax-remove-country-data')

@@ -44,12 +44,18 @@ create_virtualenv_and_install_dependencies: &create_virtualenv_and_install_depen
       pip install --upgrade pip
       make install_requirements
 
+setup_secrets: &setup_secrets
+  run:
+    name: Setup Secrets
+    command: |
+      . venv/bin/activate
+      make secrets
+
 setup_db: &setup_db
   run:
     name: Database Setup
     command: |
       . venv/bin/activate
-      make secrets
       make database
       make ARGUMENTS=migrate manage
       make ARGUMENTS=bootstrap_great manage
@@ -75,7 +81,7 @@ jobs:
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
       - *create_virtualenv_and_install_dependencies
-      - *setup_db
+      - *setup_secrets
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
@@ -84,13 +90,7 @@ jobs:
           name: Run Unit tests
           command: |
             . venv/bin/activate
-            make pytest -- \
-            --cov=. \
-            --cov-config=.coveragerc \
-            --cov-report=html \
-            --junit-xml=./results/pytest_unit_report.xml \
-            --alluredir=./allure_results/ \
-            --ignore='./venv/'
+            make pytest
             coveralls
       - store_test_results:
           path: ./results/
@@ -115,7 +115,7 @@ jobs:
             find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
             rm allure.zip
       - *create_virtualenv_and_install_dependencies
-      - *setup_db
+      - *setup_secrets
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
@@ -124,13 +124,7 @@ jobs:
           name: Run Browser tests
           command: |
             . venv/bin/activate
-            make pytest_browser -- \
-            --cov=. \
-            --cov-config=.coveragerc \
-            --cov-report=html \
-            --junit-xml=./results/pytest_browser_report.xml \
-            --alluredir=./allure_results/ \
-            --ignore='./venv/'
+            make pytest_browser
       - store_test_results:
           path: ./results/
       - run:
@@ -158,6 +152,7 @@ jobs:
       - checkout
       - *install_postgresql_client
       - *create_virtualenv_and_install_dependencies
+      - *setup_secrets
       - *setup_db
       - run:
           name: Run tests
