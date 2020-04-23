@@ -54,6 +54,7 @@
 - MVP-356 - marketdata target-markets
 - MVP-357 - Implement new signup modal design
 - MVP-362 - styling and correct HTML for country statistics view
+- MVP-365 - tooltip functionality and dynamic component rendering
 - MVP-289 - add products modal to export plan
 - MVP-360 - muliple markets
 - MVP-382 - add product modal to lesson page
