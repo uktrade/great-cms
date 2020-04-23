@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import EducationalMomentTooltip from '@src/components/EducationalMomentTooltip';
-import Tooltip from '@src/components/Tooltip/Tooltip';
 import EducationalMomentIcon from '@src/components/EducationalMomentIcon/EducationalMomentIcon';
 
 let wrapper;
@@ -34,8 +33,8 @@ describe('EducationalMomentTooltip component', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('component contains Tooltip', () => {
-        expect(wrapper.find(<Tooltip />).exists).toBeTruthy();
+    test('component contains tooltip', () => {
+        expect(wrapper.find('.tooltip').exists).toBeTruthy();
     });
 
     test('component contains EducationalMomentIcon', () => {

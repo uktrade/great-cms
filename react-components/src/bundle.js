@@ -13,10 +13,6 @@ import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal
 import Services from '@src/Services'
 import '@babel/polyfill'
 
-//initialise common components automatically based on selectors
-import ComponentInitialiser from './initialisers/common.initialiser'
-new ComponentInitialiser();
-
 export default {
   CountriesModal,
   createTargetMarketCountries,

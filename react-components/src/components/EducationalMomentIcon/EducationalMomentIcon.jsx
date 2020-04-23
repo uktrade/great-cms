@@ -1,20 +1,21 @@
-import React from 'react';
-import './EducationalMomentIcon.scss';
-import OpenBookIcon from '../../../assets/open-book-icon.png';
+import React from 'react'
+import PropTypes from 'prop-types'
+import './EducationalMomentIcon.scss'
+import OpenBookIcon from '@assets/open-book-icon.png'
 
-export default class EducationalMomentIcon extends React.Component {
+export default function EducationalMomentIcon(props) {
+  const { ariaDescribedBy, hiddenText } = props
 
-    constructor(props) {
-        super(props);
-    }
+  return (
+      <button type="button" className="educational-moment__button" aria-describedby={ariaDescribedBy}>
+          <span className="visually-hidden">{hiddenText}</span>
+          <img className="educational-moment__button-image" src={OpenBookIcon} alt="" />
+      </button>
+  )
 
-    render() {
-        return (
-            <button type="button" className="educational-moment__button" aria-describedby={this.props.ariaDescribedBy}>
-                <span className="visually-hidden">{this.props.hiddenText}</span>
-                <img className="educational-moment__button-image" src={OpenBookIcon} alt="" />
-            </button>
-        )
-    }
+}
 
+EducationalMomentIcon.propTypes = {
+  ariaDescribedBy: PropTypes.string.isRequired,
+  hiddenText: PropTypes.string.isRequired,
 }
