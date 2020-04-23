@@ -1,4 +1,5 @@
-from django.utils.html import format_html
+from django.forms.utils import flatatt
+from django.utils.html import format_html, format_html_join
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
@@ -38,11 +39,12 @@ class VideoBlock(blocks.StructBlock):
     def render(self, value, context=None):
         if not value:
             return ''
+        sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in value['video'].sources])
         return format_html(
             f"""
                     <div>
-                        <video width="{self.width}" height="{self.height}" controls>
-                            {source}
+                        <video width="{value['width']}" height="{value['height']}" controls>
+                            {sources}
                             Your browser does not support the video tag.
                         </video>
                     </div>
