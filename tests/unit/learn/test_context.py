@@ -1,7 +1,10 @@
+import pytest
+
 from tests.unit.learn import factories
 from core.context import get_context_provider
 
 
+@pytest.mark.django_db
 def test_lesson_page_context_provider(rf, domestic_homepage, user):
     request = rf.get('/')
     request.user = user

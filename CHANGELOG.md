@@ -6,6 +6,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 
 ### Fixed bugs
+- MVP-402 - Fix Localisation
 
 ### Implemented enhancements
 - MVP-317 - Add dummy pages for all export plan sections
@@ -64,4 +65,9 @@
 - MVP-388 - add commdity name
 - MVP-350, MVP-351, MVP 352 - add how to export carousel
 - MVP-404 - make all tests use PostgreSQL
+- MVP-380 - add UI test to add multiple countries on target markets page
+- MVP-405 - create initial export plan
+- MVP-407 - refactor Browser tests
+- no-ticket - update export-plan link
+- MVP-406 - hook up remove country
 

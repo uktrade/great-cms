@@ -1,17 +1,16 @@
+# -*- coding: utf-8 -*-
 import logging
 import sys
 import traceback
 from contextlib import contextmanager
+from enum import EnumMeta
 from io import BytesIO
 from typing import List, Union
 
-import allure
-from PIL import Image
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
     ElementNotInteractableException,
     NoSuchElementException,
-    StaleElementReferenceException,
     TimeoutException,
     WebDriverException,
 )
@@ -21,6 +20,8 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+import allure
+from PIL import Image
 from tests.browser.common_selectors import Selector, SelectorsEnum
 
 logger = logging.getLogger(__name__)
@@ -35,20 +36,18 @@ def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
 
 
 def attach_jpg_screenshot(
-        browser: WebDriver, page_name: str, *,
-        selector: Union[Selector, SelectorsEnum] = None
+    browser: WebDriver, page_name: str, *, selector: Union[Selector, SelectorsEnum] = None, element: WebElement = None,
 ):
     if selector:
         element = find_element(browser, selector)
+        screenshot_png = element.screenshot_as_png
+    elif element:
         screenshot_png = element.screenshot_as_png
     else:
         screenshot_png = browser.get_screenshot_as_png()
     screenshot_jpg = convert_png_to_jpg(screenshot_png)
     allure.attach(
-        screenshot_jpg,
-        name=page_name,
-        attachment_type=allure.attachment_type.JPG,
-        extension='jpg'
+        screenshot_jpg, name=page_name, attachment_type=allure.attachment_type.JPG, extension='jpg',
     )
 
 
@@ -72,15 +71,13 @@ def is_element_visible(browser: WebDriver, selector: Selector) -> bool:
     If element is not present it will also return False.
     """
     try:
-        is_visible = browser.find_element(
-            by=selector.by, value=selector.selector
-        ).is_displayed()
+        is_visible = browser.find_element(by=selector.by, value=selector.selector).is_displayed()
     except NoSuchElementException:
         is_visible = False
     return is_visible
 
 
-def find_element(browser: WebDriver, selector: Selector) -> WebElement:
+def find_element(browser: WebDriver, selector: Union[Selector, EnumMeta]) -> WebElement:
     return browser.find_element(selector.by, selector.selector)
 
 
@@ -88,78 +85,30 @@ def find_elements(browser: WebDriver, selector: Selector) -> List[WebElement]:
     return browser.find_elements(selector.by, selector.selector)
 
 
-def wait_for_element_visibility(
-        driver: WebDriver, selector: Selector, *, time_to_wait: int = 3
-):
+def wait_for_element_visibility(driver: WebDriver, selector: Selector, *, time_to_wait: int = 3):
     """Wait until element is visible."""
     locator = (selector.by, selector.selector)
-    WebDriverWait(driver, time_to_wait).until(
-        expected_conditions.visibility_of_element_located(locator)
-    )
-
-
-@allure.step('Should see all elements from: {selectors_enum}')
-def should_see_all_elements(browser, selectors_enum):
-    for selector in selectors_enum:
-        if not selector.value:
-            continue
-        if not selector.is_visible:
-            continue
-        error = f'Expected element "{selector}" is not visible'
-        if not is_element_visible(browser, selector):
-            attach_jpg_screenshot(browser, error)
-        assert is_element_visible(browser, selector), error
-    logger.info(f'All elements from {selectors_enum} are visible on {browser.current_url}')
-
-
-@allure.step('Should not see element: {selector}')
-def should_not_see_element(browser, selector):
-    if not selector.is_visible:
-        return
-    assertion_error = f'Unexpected element is visible "{selector}"'
-    try:
-        assert not is_element_visible(browser, selector), assertion_error
-    except AssertionError:
-        attach_jpg_screenshot(browser, assertion_error)
-        raise
-    except StaleElementReferenceException:
-        attach_jpg_screenshot(browser, 'StaleElementReferenceException')
-        raise
-
-
-@allure.step('Should not see elements from: {selectors_enum}')
-def should_not_see_any_element(browser, selectors_enum):
-    for selector in selectors_enum:
-        if not selector.is_visible:
-            continue
-        assertion_error = f'Unexpected element is visible "{selector}"'
-        try:
-            assert not is_element_visible(browser, selector), assertion_error
-        except AssertionError:
-            attach_jpg_screenshot(browser, assertion_error)
-            raise
-        except StaleElementReferenceException:
-            attach_jpg_screenshot(browser, 'StaleElementReferenceException')
-            raise
-
-
-@allure.step('Should not see errors')
-def should_not_see_errors(browser):
-    assertion_error = ''
-    page_source = browser.page_source
-    try:
-        assertion_error = f'500 ISE on {browser.current_url}'
-        assert 'there is a problem with the service' not in page_source, assertion_error
-        assert 'Internal Server Error' not in page_source, assertion_error
-        assertion_error = f'404 Not Found on {browser.current_url}'
-        assert 'This page cannot be found' not in page_source, assertion_error
-    except AssertionError:
-        attach_jpg_screenshot(browser, assertion_error)
-        raise
+    WebDriverWait(driver, time_to_wait).until(expected_conditions.visibility_of_element_located(locator))
 
 
 @contextmanager
-def selenium_action(driver, message, *args):
+def wait_for_text_in_element(driver: WebDriver, selector: Selector, text: str, *, time_to_wait: int = 3):
+    """Perform an action and wait until text is visible in specific element.
+
+    Example:
+        - click on a button and wait for its label's text to contain word 'Selected'
+
+        label = Selector(By.ID, 'button_label')
+        with wait_for_text_in_element(browser, label, 'Selected'):
+            button.click()
+    """
+    yield
+    locator = (selector.by, selector.selector)
+    WebDriverWait(driver, time_to_wait).until(expected_conditions.text_to_be_present_in_element(locator, text))
+
+
+@contextmanager
+def selenium_action(driver: WebDriver, message: str, *args: str):
     """This will:
         * print the custom assertion message
         * print the traceback (stack trace)
@@ -211,14 +160,10 @@ def try_alternative_click_on_exception(driver, element):
     try:
         yield
     except ElementClickInterceptedException as e:
-        logging.warning(
-            f'Failed click intercepted. Will try JS workaround for: {e.msg}'
-        )
+        logging.warning(f'Failed click intercepted. Will try JS workaround for: {e.msg}')
         driver.execute_script('arguments[0].click();', element)
     except ElementNotInteractableException as e:
-        logging.warning(
-            f'Failed click intercepted. Will try ActionChains workaround for: {e.msg}'
-        )
+        logging.warning(f'Failed click intercepted. Will try ActionChains workaround for: {e.msg}')
         action_chains = ActionChains(driver)
         action_chains.move_to_element(element)
         action_chains.click()

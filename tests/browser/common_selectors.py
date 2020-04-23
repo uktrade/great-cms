@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from collections import namedtuple
 from enum import Enum
 
@@ -5,7 +6,6 @@ from selenium.webdriver.common.by import By
 
 
 class SelectorsEnum(Enum):
-
     @property
     def by(self):
         return self.value.by
@@ -47,22 +47,13 @@ class ElementType(Enum):
         return self.value
 
 
-Selector = namedtuple(
-    'Selector',
-    [
-        'by',
-        'selector',
-        'type',
-        'is_visible',
-        'is_authenticated',
-    ],
-)
+Selector = namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated'],)
 # define default values for Selector named tuple
 Selector.__new__.__defaults__ = (None, None, None, True, False)
 
 
 class HeaderCommon(SelectorsEnum):
-    HEADER_SECTION = Selector(By.ID, 'header', ElementType.HEADER)
+    CONTAINER = Selector(By.ID, 'header', ElementType.HEADER)
     LOGO_LINK = Selector(By.ID, 'header-logo-link', ElementType.LINK)
     LOGO = Selector(By.ID, 'header-logo-exporting-is-great', ElementType.IMAGE)
     SERVICES_AREA = Selector(By.ID, 'services-area', ElementType.UL)
@@ -78,6 +69,7 @@ class HeaderSignUp(SelectorsEnum):
 
 
 class HeaderSignedIn(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'user-state-area', ElementType.HEADER, is_visible=False)
     NOTIFICATIONS = Selector(By.ID, 'header-link-notifications', ElementType.LINK)
     USER_PROFILE = Selector(By.ID, 'header-link-user-profile', ElementType.LINK)
     USER_PROFILE_EMAIL = Selector(By.ID, 'header-link-user-profile-email-link', ElementType.LINK)
@@ -140,7 +132,7 @@ class DashboardModalLetsGetToKnowYou(SelectorsEnum):
 
 
 class MarketsContainer(SelectorsEnum):
-    BREADCRUMBS = Selector(By.ID, 'great-hero')
+    CONTAINER = Selector(By.ID, 'great-hero')
     BREADCRUMBS_HOME = Selector(By.ID, 'breadcrumbs-home', ElementType.LINK)
     BREADCRUMBS_MARKETS = Selector(By.CSS_SELECTOR, '#great-hero nav li span')
     CONTENT_CONTAINER = Selector(By.ID, 'markets-container')
@@ -148,7 +140,7 @@ class MarketsContainer(SelectorsEnum):
 
 
 class StickyHeader(SelectorsEnum):
-    STICKY_HEADER = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
+    CONTAINER = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
     WHAT = Selector(By.ID, 'exportplan-country-sector-what')
     WHERE = Selector(By.ID, 'exportplan-country-sector-where')
     SHARE = Selector(By.ID, 'exportplan-collaboraton-menu-share', ElementType.LINK)
@@ -195,7 +187,7 @@ class ExportPlanDashboardPageTourStep3(SelectorsEnum):
 
 
 class ExportPlanDashboardPageTourStep4(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-collaborate-with-your-team-and-international-trade-advisers')
+    STEP = Selector(By.ID, 'page-tour-step-collaborate-with-your-team-and-international-trade-advisers',)
     HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-collaboraton-menu')
     NEXT = Selector(By.ID, 'page-tour-next-step')
 
@@ -207,7 +199,7 @@ class ExportPlanDashboardPageTourStep5(SelectorsEnum):
 
 
 class ExportPlanTargetMarkets(SelectorsEnum):
-    SIDEBAR = Selector(By.ID, 'sidebar-content')
+    CONTAINER = Selector(By.ID, 'sidebar-content')
     ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'sidebar-objectives', ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'sidebar-target-markets', ElementType.LINK)
@@ -222,17 +214,38 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     CONTENT = Selector(By.ID, 'target-markets-content')
 
 
-class ExportPlanTargetMarketsRecommendedCountriesFolded(SelectorsEnum):
-    RECOMMENDED_COUNTRIES = Selector(By.ID, 'recommended-countries')
+class TargetMarketsRecommendedCountriesFolded(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'target-market-countries-component')
+    RECOMMENDED_COUNTRIES_SECTION = Selector(By.ID, 'recommended-countries')
+    SECTOR_CHOOSER_SECTION = Selector(By.ID, 'sector-chooser')
     SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', ElementType.BUTTON)
 
 
-class ExportPlanTargetMarketsRecommendedCountriesUnfolded(SelectorsEnum):
+class TargetMarketsSectorSelectorUnfolded(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'sector-chooser')
     SECTOR_LIST = Selector(By.ID, 'sector-list')
+    SECTOR_BUTTONS = Selector(By.CSS_SELECTOR, '#sector-list button', ElementType.BUTTON)
+
+
+class TargetMarketsSectorsSelected(SelectorsEnum):
+    SAVE = Selector(By.ID, 'sector-list-save', ElementType.BUTTON)
+
+
+class TargetMarketsSelectedSectors(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'sector-chooser')
+    SECTORS = Selector(By.CSS_SELECTOR, '#selected-sectors li button')
+
+
+class TargetMarketsRecommendedCountries(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'recommended-countries')
+    COUNTRY_LIST = Selector(By.ID, 'recommended-countries-list')
+    COUNTRY_BUTTONS = Selector(By.CSS_SELECTOR, '#recommended-countries-list button')
 
 
 class ExportPlanTargetMarketsData(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'target-market-countries-component')
     MARKET_DATA = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--]')
+    COUNTRY_NAME = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--] h2')
     REMOVE_COUNTRY = Selector(By.CLASS_NAME, 'remove-country-button')
     EASE_OF_DOING_BUSINESS = Selector(By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank]')
     CPI = Selector(By.CSS_SELECTOR, 'div[id^=corruption-perception-index]')
@@ -242,6 +255,13 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
     YEAR_TO_YEAR_CHANGE = Selector(By.CSS_SELECTOR, 'div[id^=year-to-year-change-]')
     ADD_COUNTRY = Selector(By.ID, 'country-chooser-button')
     YOUR_ACTIONS = Selector(By.ID, 'your-actions')
+
+
+class TargetMarketsCountryChooser(SelectorsEnum):
+    COUNTRY_AUTOCOMPLETE = Selector(By.ID, 'country-autocomplete')
+    COUNTRY_AUTOCOMPLETE_MENU = Selector(By.CSS_SELECTOR, 'div.country-autocomplete__placeholder')
+    AUTOCOMPLETE_COUNTRIES = Selector(By.CSS_SELECTOR, 'div[id^=react-select-2-option-]')
+    SAVE_COUNTRY = Selector(By.ID, 'country-chooser-save-button')
 
 
 class TopicLessonListing(SelectorsEnum):
