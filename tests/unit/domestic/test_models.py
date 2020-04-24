@@ -1,9 +1,7 @@
 from wagtail.core.models import Page
 from wagtail.tests.utils import WagtailPageTests
-from core import blocks as core_blocks
 from core import mixins
 from domestic.models import DomesticHomePage
-from domestic import blocks as domestic_blocks
 
 
 class DomesticHomePageTests(WagtailPageTests):
