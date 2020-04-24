@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest --silent react-components/tests/",
+    "test": "jest  react-components/tests/",
     "test:dev": "jest --watch react-components/tests/",
     "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
     "build-dev": "webpack --config react-components/webpack.config.js --mode development",

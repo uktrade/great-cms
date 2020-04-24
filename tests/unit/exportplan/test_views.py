@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from datetime import datetime
 from unittest import mock
 import json
@@ -68,3 +69,26 @@ def test_exportplan_target_markets(
     assert response.context['target_markets'] == json.dumps(explan_plan_data['target_markets'])
     assert response.context['selected_sectors'] == json.dumps(explan_plan_data['sectors'])
     assert response.context['datenow'] == datetime.now()
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_exportplan')
+@mock.patch.object(helpers, 'get_exportplan')
+def test_update_export_plan_api_view(mock_get_export_plan, mock_update_exportplan, client, user):
+    client.force_login(user)
+    mock_get_export_plan.return_value = {'pk': 1, 'target_markets': []}
+    mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
+
+    url = reverse('exportplan:api-update-export-plan')
+    response = client.post(url, {'target_markets': ['China', 'India']})
+
+    assert mock_get_export_plan.call_count == 1
+    assert mock_get_export_plan.call_args == mock.call('123')
+    assert response.status_code == 200
+
+    assert mock_update_exportplan.call_count == 1
+    assert mock_update_exportplan.call_args == mock.call(
+        data=OrderedDict([('target_markets', [{'country': 'China'}, {'country': 'India'}])]),
+        id=1,
+        sso_session_id='123'
+    )

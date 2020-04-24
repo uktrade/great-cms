@@ -43,25 +43,26 @@
       {% endif %}
       // static values that will not be updated by user interacting with react components
       ditMVP.setConfig({ 
-          apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
-          countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
-          countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
+          apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-          industryOptions: {{ javascript_components.industry_options|safe }},
+          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
+          countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
-          passwordResetUrl: '{{ javascript_components.password_reset_url }}',
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url "core:dashboard" %}',
+          exportPlanTargetMarketsUrl: '{% url "exportplan:target-markets" %}',
           googleUrl: '{{ javascript_components.google_url }}',
+          industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
           loginUrl: '{% url "core:login" %}',
+          passwordResetUrl: '{{ javascript_components.password_reset_url }}',
+          removeCountryDataUrl: '{% url "exportplan:ajax-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
           userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
-          exportPlanTargetMarketsUrl: '{% url "exportplan:target-markets" %}'
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}'
       });
 
       // dynamic value that can be updated by user interacting with react components
