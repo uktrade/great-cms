@@ -274,3 +274,7 @@ class PageView(TimeStampedModel):
     class Meta:
         ordering = ['lesson__pk']
         unique_together = ['page', 'sso_id']
+
+
+class HomePage(mixins.WagtailAdminExclusivePageMixin, ListPage):
+    parent_page_types = ['wagtailcore.Page']

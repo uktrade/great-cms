@@ -5,8 +5,7 @@ import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
 import { connect, Provider } from 'react-redux'
 
-import ModalCentreScreen from './ModalCentreScreen'
-import ModalHalfScreen from './ModalHalfScreen'
+import Component from './Component'
 import Services from '@src/Services'
 import actions from '@src/actions'
 import { getCountriesExpertise, getModalIsOpen, getPerformFeatureSKipCookieCheck, getProductsExpertise } from '@src/reducers'
@@ -69,8 +68,6 @@ export function Container(props){
   function handleStepSuccessSubmit() {
     location.assign(props.nextUrl)
   }
-
-  const Component = props.mode == 'half' ? ModalHalfScreen : ModalCentreScreen
 
   return (
     <Component
