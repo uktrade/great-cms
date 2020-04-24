@@ -53,6 +53,7 @@ def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
     assert user.profile_image == 'htts://image.com/image.png'
 
 
+@pytest.mark.django_db
 @mock.patch('authbroker_client.backends.AuthbrokerBackend.authenticate')
 @mock.patch('directory_sso_api_client.backends.SSOUserBackend.authenticate')
 @pytest.mark.parametrize('url,expected_staff_call_count,expected_business_call_count', (

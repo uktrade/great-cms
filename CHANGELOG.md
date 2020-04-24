@@ -6,6 +6,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 
 ### Fixed bugs
+- MVP-402 - Fix Localisation
 
 ### Implemented enhancements
 - MVP-317 - Add dummy pages for all export plan sections
@@ -53,6 +54,7 @@
 - MVP-356 - marketdata target-markets
 - MVP-357 - Implement new signup modal design
 - MVP-362 - styling and correct HTML for country statistics view
+- MVP-365 - tooltip functionality and dynamic component rendering
 - MVP-289 - add products modal to export plan
 - MVP-360 - muliple markets
 - MVP-382 - add product modal to lesson page
@@ -65,5 +67,7 @@
 - MVP-404 - make all tests use PostgreSQL
 - MVP-380 - add UI test to add multiple countries on target markets page
 - MVP-405 - create initial export plan
-
+- MVP-407 - refactor Browser tests
+- no-ticket - update export-plan link
+- MVP-406 - hook up remove country
 

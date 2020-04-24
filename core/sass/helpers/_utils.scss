@@ -8,6 +8,11 @@
   display: none;
 }
 
+/* Use this when the content should be hidden only on JS enabled site */
+.js-enabled .js-hidden {
+  display: none;
+}
+
 $colours:
   ($black, black),
   ($grey, grey),

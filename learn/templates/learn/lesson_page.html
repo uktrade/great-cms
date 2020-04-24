@@ -1,8 +1,6 @@
 {% extends 'core/base.html' %}
 {% load wagtailimages_tags %}
-{% load include_block from wagtailcore_tags %}
 {% load routablepageurl from wagtailroutablepage_tags %}
-{% load add_anchors_to_all_headings add_export_elements_classes from great_components %}
 
 {% block content %}
     <div class="container" id="lesson-page">
@@ -54,18 +52,8 @@
                 <div class="grid p-t-l p-f-l">
                     <div class="c-2-3">
                         <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
-                        {% for block in page.generic_content %}
-                            <div>
-                            {% filter add_anchors_to_all_headings %}
-                                {% filter add_export_elements_classes %}
-                                    {% include_block block %}
-                                {% endfilter %}
-                            {% endfilter %}
-                            </div>
-                        {% endfor %}
-
+                        {% include 'core/personalised_body.html' %}
                         <div id="countries-chooser" class="great-mvp-full-width-background"></div>
-
                         {% with page.get_next_siblings.live.first as next_page %}
                             {% if next_page %}
                                 <div class="lesson-next-area p-t-xxl p-b-s">

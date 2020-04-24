@@ -16,3 +16,7 @@ class ExportPlanSerializer(serializers.Serializer):
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
+
+
+class ExportPlanCountrySerializer(serializers.Serializer):
+    country = serializers.CharField()

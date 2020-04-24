@@ -61,6 +61,7 @@ def test_get_location_success(mock_get_client_ip, mock_city, rf):
         'region': 'CA',
         'latitude': 37.419200897216797,
         'longitude': -122.05740356445312,
+        'city': 'Mountain View'
     }
     assert mock_city.call_count == 1
     assert mock_city.call_args == mock.call('127.0.0.1')

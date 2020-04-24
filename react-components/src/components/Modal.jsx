@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
@@ -8,7 +7,7 @@ import { withCookies, useCookies } from 'react-cookie';
 
 export function Modal(props){
   const [cookies, setCookie] = useCookies([props.skipFeatureCookieName])
-  
+
   function isOpen() {
     // some modals are opened on user click. Those should be able to skip the
     // "do not open if user previosuly asked not to see the modal again"
@@ -67,4 +66,3 @@ Modal.defaultProps = {
 }
 
 export default withCookies(Modal)
-

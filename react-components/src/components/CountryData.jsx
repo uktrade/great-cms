@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { slugify } from '../Helpers'
+import EducationalMomentTooltip from './EducationalMomentTooltip'
 
 export default class CountryData extends React.Component {
   constructor(props) {
@@ -65,7 +66,12 @@ export default class CountryData extends React.Component {
             <div className="c-1-3" id={`ease-of-doing-business-rank-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
-                  <p className="statistic__caption">Ease of doing business rank</p>
+                  <p className="statistic__caption educational-moment__paragraph">Ease of doing business rank</p>
+                  <EducationalMomentTooltip
+                    id="ease-of-doing-business-tooltip"
+                    heading="What is Ease of Doing Business Rank?"
+                    description="Ease of doing business ranks economies from 1 to 190, with first place being the best. A high ranking (a low numerical rank) means that the regulatory environment is conducive to business operation"
+                    />
                 </figcaption>
                 <p className="statistic__figure">
                   {easeofdoingbusiness && easeofdoingbusiness.year_2019 ? (
@@ -82,7 +88,12 @@ export default class CountryData extends React.Component {
             <div className="c-1-3" id={`corruption-perception-index-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
-                  <p className="statistic__caption">Corruption Perception Index</p>
+                  <p className="statistic__caption educational-moment__paragraph">Corruption Perception Index</p>
+                    <EducationalMomentTooltip
+                      id="corruption-perception-index-tooltip"
+                      heading="What is the Corruption Perception Index?"
+                      description='The Corruption Perception Index (CPI) is an index published annually by Transparency International since 1995 which ranks countries "by their perceived levels of public sector corruption, as determined by expert assessments and options surveys."'
+                      />
                 </figcaption>
                 <p className="statistic__figure">
                   {corruptionPerceptionsIndex && corruptionPerceptionsIndex.rank ? (
@@ -125,7 +136,7 @@ export default class CountryData extends React.Component {
                     </p>
                   </figcaption>
                   <p className="statistic__figure">
-                    {lastYearData.trade_value} USD <span className="statistic__details">Source: Comtrade</span>
+                    {parseInt(lastYearData.trade_value).toLocaleString()} USD <span className="statistic__details">Source: Comtrade</span>
                   </p>
                 </figure>
               ) : null}
@@ -142,10 +153,6 @@ export default class CountryData extends React.Component {
             </div>
           </div>
         </section>
-
-        <button type="button" className="button--ghost" id={`show-more-stats-${slugify(country)}`}>
-          Show more stats
-        </button>
         <hr />
       </>
     )
