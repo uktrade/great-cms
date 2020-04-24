@@ -9,3 +9,10 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
             return value[0].split(',')
         else:
             raise serializers.ValidationError('sectors is a required field')
+
+
+class ExportPlanSerializer(serializers.Serializer):
+    target_markets = serializers.ListField(child=serializers.CharField())
+
+    def validate_target_markets(self, values):
+        return [{'country': c} for c in values]

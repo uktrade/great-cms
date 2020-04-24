@@ -12,5 +12,6 @@ urlpatterns = [
         ajax.ExportPlanRecommendedCountriesDataView.as_view(),
         name='ajax-recommended-countries-data'
     ),
-    path('api/country-data/', ajax.ExportPlanCountryDataView.as_view(), name='ajax-country-data')
+    path('api/export-plan/', views.UpdateExportPlanAPIView.as_view(), name='api-update-export-plan'),
+    path('api/country-data/', ajax.ExportPlanCountryDataView.as_view(), name='ajax-country-data'),
 ]

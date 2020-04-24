@@ -59,7 +59,9 @@
           loginUrl: '{% url "core:login" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
           userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}'
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          exportPlanTargetMarketsUrl: '{% url "exportplan:target-markets" %}'
       });
 
       // dynamic value that can be updated by user interacting with react components
@@ -78,7 +80,7 @@
             countries: userCountries,
             industries: userIndustries,
             products: [],
-          }
+          },
         },
       })
 

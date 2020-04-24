@@ -70,8 +70,8 @@ export function Container(props){
     location.assign(props.nextUrl)
   }
 
-
   const Component = props.mode == 'half' ? ModalHalfScreen : ModalCentreScreen
+
   return (
     <Component
       {...props}

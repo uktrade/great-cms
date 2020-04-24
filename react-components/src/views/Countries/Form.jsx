@@ -21,7 +21,7 @@ export default function Form(props){
             name='expertise_countries'
             value={props.value}
             components={{Option: OptionWithFlag}}
-            placeholder='Start typing or select recommented markets'
+            placeholder={props.suggestedCountries ? 'Start typing or select recommented markets' : 'Start typing and select a market'}
             isDisabled={props.isInProgress}
             isLoading={props.isInProgress}
           />

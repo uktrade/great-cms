@@ -30,6 +30,12 @@
                 var username = ''
             {% endif %}
 
+            ditMVP.setInitialState({
+                modalIsOpen: {
+                  signup: true
+                }
+            })
+
             ditMVP.SignupModal({
                 mode: 'half',
                 element: element.parentElement,

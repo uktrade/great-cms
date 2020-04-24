@@ -5,16 +5,17 @@ from django.views.generic import TemplateView
 
 from directory_constants.choices import INDUSTRIES
 
-from exportplan import data, helpers
+from exportplan import data, helpers, serializers
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 
 class BaseExportPlanView(TemplateView):
-    export_plan = {}
 
     def get_context_data(self, *args, **kwargs):
         industries = [name for id, name in INDUSTRIES]
         country_choices = [{'value': key, 'label': label} for key, label in helpers.get_madb_country_list()]
-        self.export_plan = helpers.get_or_create_export_plan(self.request.user)
 
         return super().get_context_data(
             next_section=self.next_section,
@@ -49,11 +50,26 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
     slug = 'target-markets'
     template_name = 'exportplan/sections/target-markets.html'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, *kwargs)
-        context.update(
-            selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
-            target_markets=json.dumps(self.export_plan.get('target_markets', [])),
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            selected_sectors=json.dumps(self.request.user.export_plan.get('sectors', [])),
+            target_markets=json.dumps(self.request.user.export_plan.get('target_markets', [])),
             datenow=datetime.now(),
         )
-        return context
+
+
+class UpdateExportPlanAPIView(generics.GenericAPIView):
+
+    serializer_class = serializers.ExportPlanSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=self.request.user.export_plan['pk'],
+            data=serializer.validated_data
+        )
+        return Response({})

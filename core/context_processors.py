@@ -12,6 +12,6 @@ def javascript_components(request):
         'terms_url': urls.domestic.TERMS_AND_CONDITIONS,
         'password_reset_url': urls.domestic.SINGLE_SIGN_ON / 'accounts/password/reset/',
         'industry_options': [{'value': key, 'label': label} for key, label in choices.SECTORS],
-		'country_choices': [{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES], 
+        'country_choices': [{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES],
     }
     return {'javascript_components': data}

@@ -4,26 +4,43 @@ import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { connect, Provider } from 'react-redux'
 
-import Component from './Component'
+import Component, { STEP_COUNTRIES, STEP_START, STEP_SUCCESS } from './Component'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { getModalIsOpen, getCountriesExpertise } from '@src/reducers'
+import { getModalIsOpen, getIndustriesExpertise } from '@src/reducers'
 
 
 export function Container(props){
 
-  const [errors, setErrors] = React.useState(props.errors)
-  const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
+  const [errors, setErrors] = React.useState({})
+  const [isInProgress, setIsInProgress] = React.useState(false)
+  const [countries, setCountries] = React.useState([])
+  const [currentStep, setCurrentStep] = React.useState(STEP_START)
 
-  function handleUpdateCompany() {
+  const handleGotoCountries = function () {
+    setCurrentStep(STEP_COUNTRIES)
+  }
+
+  const handleSubmit = function() {
+    if (Services.config.userIsAuthenticated) {
+      handleUpdateExportPlan()
+    } else {
+      // todo: persis the user's answers after they sign up
+      props.setIsSignupModalOpen(true)
+    }
+  }
+
+  function handleUpdateExportPlan() {
     setIsInProgress(true)
     setErrors({})
-    Services.updateCompany({expertise_countries: props.countries.map(item => item.value)})
+    Services.updateExportPlan({target_markets: countries.map(item => item.label)})
       .then(handleSubmitSuccess)
       .catch(handleSubmitError)
   }
+
   function handleSubmitSuccess(nextStep) {
-    location.reload()
+    setCurrentStep(STEP_SUCCESS)
+    setIsInProgress(false)
   }
 
   function handleSubmitError(errors) {
@@ -31,19 +48,15 @@ export function Container(props){
     setIsInProgress(false)
   }
 
-  const handleSubmit = function() {
-  	if (Services.config.userIsAuthenticated) {
-  	  handleUpdateCompany()
-  	} else {
-  		props.setIsSignupModalOpen(true)
-  	}
-  }
-
   return (
     <Component
+      handleGotoCountries={handleGotoCountries}
       handleSubmit={handleSubmit}
       isInProgress={isInProgress}
+      setCountries={setCountries}
+      countries={countries}
       errors={errors}
+      currentStep={currentStep}
       {...props}
     />
   )
@@ -53,7 +66,7 @@ export function Container(props){
 const mapStateToProps = state => {
   return {
     isOpen: getModalIsOpen(state, 'countries'),
-    countries: getCountriesExpertise(state),
+    industries: getIndustriesExpertise(state)
   }
 }
 
@@ -61,7 +74,6 @@ const mapDispatchToProps = dispatch => {
   return {
     setIsOpen: isOpen => { dispatch(actions.toggleModalIsOpen('countries', isOpen))},
     setIsSignupModalOpen: isOpen => { dispatch(actions.toggleModalIsOpen('signup', isOpen))},
-    setCountries: countries => { dispatch(actions.setCountriesExpertise(countries)) },
   }
 }
 

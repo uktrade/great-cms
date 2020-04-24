@@ -90,38 +90,40 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-        var showProductsModal = {{ request.GET.products|yesno:'false,true' }}
+      var showProductsModal = {{ request.GET.products|yesno:'false,true' }}
+
+      ditMVP.setInitialState({
+        modalIsOpen: {
+          products: showProductsModal
+        }
+      })
+
+      ditMVP.MarketSelectNavbar({
+        element: document.getElementById('market-select-navbar'),
+        productElement: document.getElementById('set-product-button'),
+        countryElement: document.getElementById('set-country-button')
+      })
+
+      var productsModalElement = document.createElement('div');
+      document.body.appendChild(productsModalElement);
+      ditMVP.ProductsModal({element: productsModalElement})
+
+      var signupModalElement = document.createElement('div');
+      document.body.appendChild(signupModalElement);        
+      ditMVP.SignupModal({element: signupModalElement})
+
+      var countriesModalElement = document.createElement('div');
+      document.body.appendChild(countriesModalElement);        
+      ditMVP.CountriesModal({element: countriesModalElement})
+
+
+      {% if request.user.is_authenticated and not request.user.export_plan.target_markets %}
         var suggestedCountries = {{ suggested_countries|safe }}
-
-        ditMVP.setInitialState({
-          modalIsOpen: {
-            products: showProductsModal
-          }
-        })
-
-        ditMVP.MarketSelectNavbar({
-          element: document.getElementById('market-select-navbar'),
-          productElement: document.getElementById('set-product-button'),
-          countryElement: document.getElementById('set-country-button')
-        })
-
-        var productsModalElement = document.createElement('div');
-        document.body.appendChild(productsModalElement);
-        ditMVP.ProductsModal({element: productsModalElement})
-
-        var signupModalElement = document.createElement('div');
-        document.body.appendChild(signupModalElement);        
-        ditMVP.SignupModal({element: signupModalElement})
-
-        var countriesModalElement = document.createElement('div');
-        document.body.appendChild(countriesModalElement);        
-        ditMVP.CountriesModal({element: countriesModalElement})
-
         ditMVP.Countries({
           element: document.getElementById('countries-chooser'),
-          suggestedCountries: suggestedCountries
+          suggestedCountries: suggestedCountries,
         })
-
+      {% endif %}
     </script>
 
 {% endblock %}

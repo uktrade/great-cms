@@ -18,8 +18,8 @@ const initialState = {
   },
   user: {
     expertise: {
-      countries: [],//userCountries
-      industries: [],// userIndustries
+      countries: [],
+      industries: [],
       products: [],
     }
   },
@@ -89,4 +89,5 @@ export default function rootReducer(state = initialState, action) {
 export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
 export const getCountriesExpertise = state => state.user.expertise.countries
 export const getProductsExpertise = state => state.user.expertise.products
+export const getIndustriesExpertise = state => state.user.expertise.industries
 export const getPerformFeatureSKipCookieCheck = state => state.performSkipFeatureCookieCheck
