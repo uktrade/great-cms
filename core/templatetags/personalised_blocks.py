@@ -6,14 +6,14 @@ register = template.Library()
 
 
 @register.simple_tag
-def render_video_block(value):
-    if not value:
+def render_video_block(block):
+    if not block:
         return ''
-    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in value['video'].sources])
+    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in block['video'].sources])
     return format_html(
         f"""
                 <div>
-                    <video width="{value['width']}" height="{value['height']}" controls>
+                    <video width="{block['width']}" height="{block['height']}" controls>
                         {sources}
                         Your browser does not support the video tag.
                     </video>
