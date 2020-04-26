@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'wagtail.core',
     'wagtail.contrib.routable_page',
 
+    'wagtailmedia',
     'wagtailcache',
     'wagtail_personalisation',
     'wagtailfontawesome',

@@ -1,5 +1,6 @@
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
+from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 
 class LinkBlock(blocks.StructBlock):
@@ -19,3 +20,15 @@ class LinkWithSourceBlock(LinkBlock):
 class LinkWithImageAndContentBlock(LinkWithSourceBlock):
     content = blocks.RichTextBlock()
     image = ImageChooserBlock()
+
+
+class MediaChooserBlock(AbstractMediaChooserBlock):
+    def render_basic(self, value, context=None):
+        """Render implemented in the VideoBlock, this block shouldn't be used in its own."""
+        pass
+
+
+class VideoBlock(blocks.StructBlock):
+    width = blocks.IntegerBlock()
+    height = blocks.IntegerBlock()
+    video = MediaChooserBlock()
