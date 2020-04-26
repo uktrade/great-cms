@@ -62,11 +62,6 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    ditMVP.setConfig({
-      countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
-      removeCountryDataUrl: '{% url "exportplan:ajax-remove-country-data" %}',
-      countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
-    })
     var element = document.getElementById('target-market-countries-component');
     ditMVP.createTargetMarketCountries({
       element: element,

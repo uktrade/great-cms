@@ -98,7 +98,7 @@ TEMPLATES = [
                 'great_components.context_processors.ga360',
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
-                'core.context_processors.signup_modal',
+                'core.context_processors.javascript_components',
             ],
         },
     },
@@ -188,6 +188,7 @@ MEDIA_URL = '/media/'
 # Wagtail set
 
 WAGTAIL_SITE_NAME = 'Great CMS MVP'
+WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
@@ -431,3 +432,5 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
 
 # dit_helpdesk
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
+
+FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE', False)

@@ -6,6 +6,7 @@ from django.utils.functional import cached_property
 from core.helpers import CompanyParser
 
 from sso import helpers
+from exportplan.helpers import get_or_create_export_plan
 
 
 class BusinessSSOUser(AbstractUser):
@@ -34,3 +35,7 @@ class BusinessSSOUser(AbstractUser):
         # django.contrib.auth.login fires a signal that results in django
         # trying to save last_logged_in, so don't raise NotImplementedError
         pass
+
+    @cached_property
+    def export_plan(self):
+        return get_or_create_export_plan(self)

@@ -28,6 +28,8 @@ const modalStyles = {
   overlay: {
     zIndex: 1000,
     backgroundColor: 'transparent',
+    width: 430,
+    height: '100%',
   },
 }
 
@@ -46,12 +48,6 @@ export function Modal(props){
 
   return (
     <div className='great-mvp-signup-modal'>
-      <a
-        id='header-sign-in-link'
-        onClick={handleOpen}
-        className='account-link signin'
-        href={Services.config.dashboardUrl}
-      >Sign up</a>
       <ReactModal
         isOpen={isOpen}
         style={modalStyles}

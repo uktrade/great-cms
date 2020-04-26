@@ -123,7 +123,6 @@ def serialize_exportplan_data(rules_regulations, user):
 def get_or_create_export_plan(user):
     # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
     export_plan = get_exportplan(user.session_id)
-
     if not export_plan:
         rules = get_rules_and_regulations('Australia')
         export_plan = create_export_plan(
