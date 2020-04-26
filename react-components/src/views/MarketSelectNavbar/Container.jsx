@@ -5,7 +5,7 @@ import ReactModal from 'react-modal'
 import { connect, Provider } from 'react-redux'
 
 import ProductsModal from '@src/views/ProductsModal/Component'
-import SignupModal from '@src/views/SignupModal/ModalCentreScreen'
+import SignupModal from '@src/views/SignupModal/Component'
 import CountriesModal from '@src/views/CountriesModal/Component'
 import Services from '@src/Services'
 import actions from '@src/actions'

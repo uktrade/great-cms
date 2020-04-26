@@ -137,6 +137,7 @@ const setConfig = function ({
   userIsAuthenticated,
   apiUpdateExportPlanUrl,
   exportPlanTargetMarketsUrl,
+  signupUrl,
 }) {
   config.countryDataUrl = countryDataUrl
   config.removeCountryDataUrl = removeCountryDataUrl
@@ -158,6 +159,7 @@ const setConfig = function ({
   config.verifyCodeUrl = verifyCodeUrl
   config.userIsAuthenticated = userIsAuthenticated
   config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl
+  config.signupUrl = signupUrl
 }
 
 export default {

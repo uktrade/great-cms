@@ -26,24 +26,26 @@ export function SkipShowGenericContent(props) {
 
 
 export default function ModalCentreScreen(props){
-  const products = props.companySettings.expertise_products_services.other;
-  const countries = props.companySettings.expertise_countries
-  const {isOpen, setIsOpen, ...otherProps} = props;
+  const products = props.productsExpertise;
+  const countries = props.countriesExpertise
+  const asideTitle = (products.length > 0 || countries.length > 0) ? 'Sign up so we can save your settings' : ''
+  const {isOpen, setIsOpen, preventClose, ...otherProps} = props;
   return (
     <Modal
       isOpen={isOpen}
       setIsOpen={setIsOpen}
-      id='dashboard-question-modal-signup'
+      id='signup-modal'
       skipFeatureCookieName='skip-signup'
       skipFeatureComponent={SkipShowGenericContent}
       performSkipFeatureCookieCheck={props.performSkipFeatureCookieCheck}
       className='ReactModal__Content--Signup p-l'
+      preventClose={preventClose}
     >
       <div className="grid">
         <aside className="c-1-2">
-          <h2 className="h-l">Sign up so we can save your settings</h2>
-          { products.length > 0 && <p className="p-xxs m-r-m">{products.map((item, i) => <span key={i}>{item.label}</span>)}</p> }
-          { countries.length > 0 && <p className="p-xxs m-r-m">{countries.map((item, i) => <span key={i}>{item.label}</span>)}</p> }
+          <h2 className="h-l">{ asideTitle }</h2>
+          { products.length > 0 && <p className="p-xxs m-r-m">{products.map((item, i) => <span key={i}>{item.label}</span>) }</p> }
+          { countries.length > 0 && <p className="p-xxs m-r-m">{countries.map((item, i) => <span key={i}>{item.label}</span>) }</p> }
         </aside>
         <div className="c-1-2">
           <Wizard showCredentialsLede={false} {...otherProps} />
@@ -60,6 +62,7 @@ ModalCentreScreen.propTypes = {
   errors: PropTypes.object,
   currentStep: PropTypes.string,
   performSkipFeatureCookieCheck: PropTypes.bool,
+  preventClose: PropTypes.bool,
 }
 
 ModalCentreScreen.defaultProps = {
@@ -68,4 +71,5 @@ ModalCentreScreen.defaultProps = {
   errors: {},
   companySettings: {},
   performSkipFeatureCookieCheck: true,
+  preventClose: false,
 }

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { connect, Provider } from 'react-redux'
 
 import Component from './Component'
+import { STEP_COMPLETE, STEP_VERIFICATION_CODE } from './Wizard'
 import Services from '@src/Services'
 import actions from '@src/actions'
 import { getCountriesExpertise, getModalIsOpen, getPerformFeatureSKipCookieCheck, getProductsExpertise } from '@src/reducers'
@@ -50,12 +51,11 @@ export function Container(props){
   function onCodeSubmitSuccess() {
     // company data may have been passed in at the start. Now the user has the 
     // login cookies the company can be created
-    if (props.companySettings) {
+    
+    if (props.productsExpertise.length > 0 || props.countriesExpertise.length > 0) {
       const data = {
-        expertise_products_services: {
-          // convert Array[{value: str, label: str}] to Array[str]
-          other: props.companySettings.expertise_products_services.other.map(item => item.value),
-        }
+          expertise_products_services: {other: props.productsExpertise.map(item => item.value)},
+          expertise_countries: props.countriesExpertise,
       }
       Services.updateCompany(data)
         .then(() => handleSuccess(STEP_COMPLETE))
@@ -82,6 +82,8 @@ export function Container(props){
       code={code}
       setCode={setCode}
       handleStepSuccessSubmit={handleStepSuccessSubmit}
+      handleStepCredentialsSubmit={handleStepCredentialsSubmit}
+      handleStepCodeSubmit={handleStepCodeSubmit}
     />
   )
 }
@@ -90,10 +92,8 @@ export function Container(props){
 const mapStateToProps = state => {
   return {
     isOpen: getModalIsOpen(state, 'signup'),
-    companySettings: {
-        expertise_products_services: {other: getProductsExpertise(state)},
-        expertise_countries: getCountriesExpertise(state),
-    },
+    productsExpertise: getProductsExpertise(state),
+    countriesExpertise: getCountriesExpertise(state),
     performSkipFeatureCookieCheck: getPerformFeatureSKipCookieCheck(state),
   }
 }

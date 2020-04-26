@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load breadcrumbs from great_components %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+
+      ditMVP.setInitialState({
+        // prevents modals from opening on page load if user dismissed the modal already
+        performSkipFeatureCookieCheck: false,
+        modalIsOpen: {
+          signup: true,
+        },
+      })
+
+      var element = document.createElement('div');
+      document.body.appendChild(element);
+      ditMVP.SignupModal({
+        element: element,
+        nextUrl: '{% url "core:dashboard" %}',
+        preventClose: true,
+      })
+    </script>
+{% endblock %}

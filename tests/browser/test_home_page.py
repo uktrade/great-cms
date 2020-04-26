@@ -81,7 +81,7 @@ def should_see_expected_error_messages(
 
 def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(browser, visit_home_page):
     should_not_see_errors(browser)
-    should_see_all_expected_page_sections(browser, [HeaderCommon, HeaderSignUp, SignUpModal])
+    should_see_all_expected_page_sections(browser, [HeaderCommon, HeaderSignUp])
     should_not_see_any_element(browser, HeaderSignedIn)
 
 
@@ -117,7 +117,7 @@ def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(b
 )
 @mock.patch.object(helpers, 'create_user')
 def test_error_messages_for_invalid_credential(
-    mock_create_user, browser, visit_home_page, email, password, expected_email_errors, expected_password_errors,
+    mock_create_user, browser, visit_signup_page, email, password, expected_email_errors, expected_password_errors,
 ):
     mock_create_user.side_effect = helpers.CreateUserException(
         detail={'email': expected_email_errors, 'password': expected_password_errors}, code=400
@@ -139,7 +139,7 @@ def test_users_should_be_able_to_sign_up(
     mock_notification,
     mock_user_location_create,
     browser,
-    visit_home_page,
+    visit_signup_page,
 ):
     code = '12345'
     email = f'test+{uuid4()}@example.com'
@@ -150,7 +150,6 @@ def test_users_should_be_able_to_sign_up(
     attach_jpg_screenshot(browser, 'After submitting valid credentials', selector=SignUpModal.MODAL)
 
     submit_verification_code(browser, code)
-
     should_not_see_sign_up_errors(browser)
     attach_jpg_screenshot(browser, 'After submitting code', selector=SignUpModal.MODAL)
     should_see_all_elements(browser, SignUpModalSuccess)

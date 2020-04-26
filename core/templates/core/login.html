@@ -1,26 +1,17 @@
 {% extends 'core/base.html' %}
 {% load breadcrumbs from great_components %}
 
-{% block content %}
-    <div class="container">
-        <div id="welcome-back-hero" class="gutter-top c-full">
-            <h2 class="h-l w-1-2 m-t-xl">Welcome back</h2>
-            <p class="w-1-2">{% lorem 20 w %}</p>
-        </div>
-    </div>
-{% endblock %}
-
 {% block body_js %}
-    {% if not request.user.is_authenticated %}
+    {{ block.super }}
     <script type="text/javascript">
-        var element = document.getElementById("header-sign-up-link")
+        var element = document.createElement('div');
+        document.body.appendChild(element);
         if (element) {
           ditMVP.LoginModal({
-            element: element.parentElement,
+            element: element,
             isOpen: true,
             nextUrl: '{% url "core:dashboard" %}'
           })
         }
     </script>
-    {% endif %}
 {% endblock %}

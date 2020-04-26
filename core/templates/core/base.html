@@ -58,6 +58,7 @@
           industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
           loginUrl: '{% url "core:login" %}',
+          signupUrl: '{% url "core:signup" %}',
           passwordResetUrl: '{{ javascript_components.password_reset_url }}',
           removeCountryDataUrl: '{% url "exportplan:ajax-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
