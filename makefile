@@ -79,5 +79,11 @@ database:
 	PGPASSWORD=debug dropdb --if-exists -h localhost -U debug greatcms
 	PGPASSWORD=debug createdb -h localhost -U debug greatcms
 
+recreate:
+	$(MAKE) database
+	$(MAKE) ARGUMENTS=migrate manage
+	$(MAKE) ARGUMENTS=bootstrap_great manage
+	$(MAKE) ARGUMENTS=create_pages manage
+	$(MAKE) ARGUMENTS=create_tours manage
 
-.PHONY: clean pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database
+.PHONY: clean pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database recreate
