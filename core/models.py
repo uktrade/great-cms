@@ -246,7 +246,7 @@ class ListPage(CMSGenericPage):
     template_choices = (
         ('exportplan/export_plan_page.html', 'Export plan'),
         ('learn/topic_page.html', 'Lesson topic'),
-        ('learn/homepage.html', 'Learn homepage'),
+        ('learn/learn_page.html', 'Learn homepage'),
         ('learn/landing_page.html', 'Learn landing page'),
     )
 

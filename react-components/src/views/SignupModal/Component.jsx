@@ -2,8 +2,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from '@src/components/Modal'
-import Wizard from './Wizard'
+
+import Services from '@src/Services'
+import StepCredentials from './StepCredentials'
+import StepCode from './StepCode'
+import StepSuccess from './StepSuccess'
 import './stylesheets/Modal.scss'
+
+
+export const STEP_CREDENTIALS = 'credentials'
+export const STEP_VERIFICATION_CODE = 'verification-code'
+export const STEP_COMPLETE = 'complete'
 
 
 export function SkipShowGenericContent(props) {
@@ -24,22 +33,53 @@ export function SkipShowGenericContent(props) {
   )
 }
 
-
-export default function ModalCentreScreen(props){
+export default function Component(props){
   const products = props.productsExpertise;
   const countries = props.countriesExpertise
   const asideTitle = (products.length > 0 || countries.length > 0) ? 'Sign up so we can save your settings' : ''
-  const {isOpen, setIsOpen, preventClose, ...otherProps} = props;
+
+  function getStep() {
+    if (props.currentStep == STEP_CREDENTIALS) {
+      return (
+        <StepCredentials
+          errors={props.errors}
+          disabled={props.isInProgress}
+          handleSubmit={props.handleStepCredentialsSubmit}
+          handleEmailChange={props.setEmail}
+          handlePasswordChange={props.setPassword}
+          email={props.email}
+          password={props.password}
+          linkedinLoginUrl={props.linkedinLoginUrl}
+          googleLoginUrl={props.googleLoginUrl}
+        />
+      )
+    } else if (props.currentStep == STEP_VERIFICATION_CODE) {
+      return (
+        <StepCode
+          errors={props.errors}
+          handleSubmit={props.handleStepCodeSubmit}
+          disabled={props.isInProgress}
+          handleCodeChange={props.setCode}
+          code={props.code}
+        />
+      )
+    } else if (props.currentStep == STEP_COMPLETE) {
+      return (
+        <StepSuccess handleSubmit={props.handleStepSuccessSubmit} />
+      )
+    }
+  }
+
   return (
     <Modal
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      isOpen={props.isOpen}
+      setIsOpen={props.setIsOpen}
       id='signup-modal'
       skipFeatureCookieName='skip-signup'
       skipFeatureComponent={SkipShowGenericContent}
       performSkipFeatureCookieCheck={props.performSkipFeatureCookieCheck}
       className='ReactModal__Content--Signup p-l'
-      preventClose={preventClose}
+      preventClose={props.preventClose}
     >
       <div className="grid">
         <aside className="c-1-2">
@@ -48,14 +88,14 @@ export default function ModalCentreScreen(props){
           { countries.length > 0 && <p className="p-xxs m-r-m">{countries.map((item, i) => <span key={i}>{item.label}</span>) }</p> }
         </aside>
         <div className="c-1-2">
-          <Wizard showCredentialsLede={false} {...otherProps} />
+          {getStep()}
         </div>
       </div>
     </Modal>
   )
 }
 
-ModalCentreScreen.propTypes = {
+Component.propTypes = {
   isOpen: PropTypes.bool,
   setIsOpen: PropTypes.func,
   isInProgress: PropTypes.bool,
@@ -65,7 +105,7 @@ ModalCentreScreen.propTypes = {
   preventClose: PropTypes.bool,
 }
 
-ModalCentreScreen.defaultProps = {
+Component.defaultProps = {
   isOpen: false,
   isInProgress: false,
   errors: {},

@@ -8,11 +8,7 @@ import Services from '@src/Services'
 
 Enzyme.configure({ adapter: new Adapter() })
 
-const linkedInUrl = 'http://www.example.com/linkedInUrl/'
-const googleUrl = 'http://www.example.com/google/'
-
 beforeEach(() => {
-  Services.setConfig({ linkedInUrl, googleUrl })
   jest.useFakeTimers()
 })
 
@@ -22,6 +18,9 @@ afterEach(() => {
 })
 
 test('SocialLoginButtons should render', () => {
+  const linkedinUrl = 'http://www.example.com/linkedInUrl/'
+  const googleUrl = 'http://www.example.com/google/'
+
   const component = Enzyme.shallow(
     <SocialLoginButtons
       type="text"
@@ -29,6 +28,8 @@ test('SocialLoginButtons should render', () => {
       name="some-name"
       value="some value"
       handleChange={() => {}}
+      linkedinUrl={linkedinUrl}
+      googleUrl={googleUrl}
       disabled
       autofocus
     />
@@ -37,7 +38,7 @@ test('SocialLoginButtons should render', () => {
   expect(
     component.matchesElement(
       <div>
-        <a href={linkedInUrl} className="great-mvp-wizard-step-button m-t-0 m-b-xs">
+        <a href={linkedinUrl} className="great-mvp-wizard-step-button m-t-0 m-b-xs">
           <img />
           <span>Continue with LinkedIn</span>
         </a>
