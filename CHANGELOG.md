@@ -54,6 +54,7 @@
 - MVP-356 - marketdata target-markets
 - MVP-357 - Implement new signup modal design
 - MVP-362 - styling and correct HTML for country statistics view
+- MVP-365 - tooltip functionality and dynamic component rendering
 - MVP-289 - add products modal to export plan
 - MVP-360 - muliple markets
 - MVP-382 - add product modal to lesson page
@@ -66,7 +67,9 @@
 - MVP-404 - make all tests use PostgreSQL
 - MVP-380 - add UI test to add multiple countries on target markets page
 - MVP-405 - create initial export plan
+- MVP-407 - refactor Browser tests
 - no-ticket - update export-plan link
 - MVP-406 - hook up remove country
 - MVP-392 - hook up selected industries to be deleted
 - no-ticket make-food-default-when-creating-export-plan
+- MVP-381 - Wagtail media and video block

@@ -5,6 +5,8 @@ import core.views
 
 app_name = 'core'
 
+LOGIN_URL = reverse_lazy('core:login')
+
 
 def anonymous_user_required(function):
     inner = user_passes_test(
@@ -17,7 +19,8 @@ def anonymous_user_required(function):
 
 urlpatterns = [
     path(
-        'dashboard/', login_required(core.views.DashboardView.as_view(), login_url='/'),
+        'dashboard/',
+        login_required(core.views.DashboardView.as_view(), login_url=LOGIN_URL),
         name='dashboard'
     ),
     path(
@@ -27,13 +30,18 @@ urlpatterns = [
     ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
-        login_required(core.views.ArticleView.as_view(), login_url='/'),
+        login_required(core.views.ArticleView.as_view(), login_url=LOGIN_URL),
         name='capability-article'
     ),
     path(
         'login/',
         anonymous_user_required(core.views.LoginView.as_view()),
         name='login'
+    ),
+    path(
+        'signup/',
+        anonymous_user_required(core.views.SignupView.as_view()),
+        name='signup'
     ),
     path(
         'api/update-company/',

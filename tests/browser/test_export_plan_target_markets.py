@@ -1,17 +1,16 @@
+# -*- coding: utf-8 -*-
 import logging
 import random
 from typing import List
 from unittest import mock
-from urllib.parse import urljoin
 
-import allure
 import pytest
-from django.urls import reverse
-from pytest_django.live_server_helper import LiveServer
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+import allure
 from exportplan import helpers as exportplan_helpers
+from pytest_django.live_server_helper import LiveServer
 from tests.browser.common_selectors import (
     ExportPlanTargetMarketsData,
     Selector,
@@ -23,12 +22,16 @@ from tests.browser.common_selectors import (
     TargetMarketsSelectedSectors,
 )
 from tests.browser.conftest import CHINA, INDIA, JAPAN
+from tests.browser.steps import (
+    should_not_see_errors,
+    should_see_all_elements,
+    should_see_all_expected_page_sections,
+    visit_page,
+)
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_elements,
     selenium_action,
-    should_not_see_errors,
-    should_see_all_elements,
     wait_for_text_in_element,
 )
 
@@ -42,13 +45,10 @@ pytestmark = [
 
 @allure.step('Visit Target Markets page')
 def visit_target_markets_page(live_server: LiveServer, browser: WebDriver):
-    target_markets_url = urljoin(live_server.url, reverse('exportplan:target-markets'))
-    browser.get(target_markets_url)
-    should_not_see_errors(browser)
-
-    attach_jpg_screenshot(browser, 'market data with folded countries chooser')
-    should_see_all_elements(browser, ExportPlanTargetMarketsData)
-    should_see_all_elements(browser, TargetMarketsRecommendedCountriesFolded)
+    visit_page(live_server, browser, 'exportplan:target-markets', 'Target Markets')
+    should_see_all_expected_page_sections(
+        browser, [ExportPlanTargetMarketsData, TargetMarketsRecommendedCountriesFolded]
+    )
 
 
 @allure.step('Add sectors')
@@ -61,13 +61,11 @@ def add_sectors(browser: WebDriver) -> List[str]:
     attach_jpg_screenshot(
         browser,
         'Recommended Countries component - Unfolded sector chooser',
-        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+        selector=TargetMarketsRecommendedCountriesFolded.CONTAINER,
     )
     should_see_all_elements(browser, TargetMarketsSectorSelectorUnfolded)
 
-    sector_buttons = browser.find_elements_by_css_selector(
-        TargetMarketsSectorSelectorUnfolded.SECTOR_BUTTONS.selector
-    )
+    sector_buttons = browser.find_elements_by_css_selector(TargetMarketsSectorSelectorUnfolded.SECTOR_BUTTONS.selector)
     random_sector_buttons = random.sample(sector_buttons, random.randint(1, 3))
     random_sector_names = [button.text for button in random_sector_buttons]
 
@@ -77,18 +75,16 @@ def add_sectors(browser: WebDriver) -> List[str]:
     attach_jpg_screenshot(
         browser,
         'Recommended Countries component - With selected sectors',
-        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+        selector=TargetMarketsRecommendedCountriesFolded.CONTAINER,
     )
 
-    save_sectors_button = browser.find_element_by_id(
-        TargetMarketsSectorsSelected.SAVE.selector
-    )
+    save_sectors_button = browser.find_element_by_id(TargetMarketsSectorsSelected.SAVE.selector)
     with selenium_action(browser, f'Failed to click on save sectors button'):
         save_sectors_button.click()
     attach_jpg_screenshot(
         browser,
         'Recommended Countries component - After saving selected sectors',
-        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+        selector=TargetMarketsRecommendedCountriesFolded.CONTAINER,
     )
     should_not_see_errors(browser)
 
@@ -98,17 +94,10 @@ def add_sectors(browser: WebDriver) -> List[str]:
 @allure.step('Should see selected sectors: {selected_sectors}')
 def should_see_selected_sectors(browser: WebDriver, selected_sectors: List[str]):
     should_see_all_elements(browser, TargetMarketsSelectedSectors)
-    visible_selected_sectors = browser.find_elements_by_css_selector(
-        TargetMarketsSelectedSectors.SECTORS.selector
-    )
-    visible_sector_names = [
-        sector_button.text
-        for sector_button in visible_selected_sectors
-    ]
+    visible_selected_sectors = browser.find_elements_by_css_selector(TargetMarketsSelectedSectors.SECTORS.selector)
+    visible_sector_names = [sector_button.text for sector_button in visible_selected_sectors]
     attach_jpg_screenshot(
-        browser,
-        f'Selected sectors',
-        selector=TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_SECTION
+        browser, f'Selected sectors', selector=TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_SECTION
     )
     error = (
         f'Expected to see following sectors to be selected: {selected_sectors}, but '
@@ -120,18 +109,14 @@ def should_see_selected_sectors(browser: WebDriver, selected_sectors: List[str])
 @allure.step('Should see recommended countries')
 def should_see_recommended_countries(browser: WebDriver):
     attach_jpg_screenshot(
-        browser,
-        'Recommended countries section',
-        selector=TargetMarketsRecommendedCountries.SECTION
+        browser, 'Recommended countries section', selector=TargetMarketsRecommendedCountries.CONTAINER
     )
     should_see_all_elements(browser, TargetMarketsRecommendedCountries)
 
 
 @allure.step('Add recommended {countries} to export plan')
 def add_recommended_countries_to_export_plan(browser: WebDriver, countries: List[str]):
-    recommended_countries = find_elements(
-        browser, TargetMarketsRecommendedCountries.COUNTRY_BUTTONS
-    )
+    recommended_countries = find_elements(browser, TargetMarketsRecommendedCountries.COUNTRY_BUTTONS)
     assert recommended_countries, 'No recommended countries found!'
 
     matching_country_buttons = []
@@ -151,17 +136,10 @@ def add_recommended_countries_to_export_plan(browser: WebDriver, countries: List
 @allure.step('Should see target market data for following countries: {country_names}')
 def should_see_target_market_data_for(browser: WebDriver, country_names: List[str]):
     attach_jpg_screenshot(
-        browser,
-        'Recommended Countries component',
-        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+        browser, 'Recommended Countries component', selector=TargetMarketsRecommendedCountriesFolded.CONTAINER
     )
-    visible_markets = browser.find_elements_by_css_selector(
-        ExportPlanTargetMarketsData.MARKET_DATA.selector
-    )
-    visible_country_names = [
-        market_data.find_element_by_tag_name('h2').text
-        for market_data in visible_markets
-    ]
+    visible_markets = browser.find_elements_by_css_selector(ExportPlanTargetMarketsData.MARKET_DATA.selector)
+    visible_country_names = [market_data.find_element_by_tag_name('h2').text for market_data in visible_markets]
     for market_data in visible_markets:
         country = market_data.find_element_by_tag_name('h2').text
         attach_jpg_screenshot(browser, f'Market data for {country}', element=market_data)
@@ -170,55 +148,43 @@ def should_see_target_market_data_for(browser: WebDriver, country_names: List[st
 
 @allure.step('Add {country} to the export plan')
 def add_country_to_export_plan(browser: WebDriver, country: str):
-    add_country_button = browser.find_element_by_id(
-        ExportPlanTargetMarketsData.ADD_COUNTRY.selector
-    )
+    add_country_button = browser.find_element_by_id(ExportPlanTargetMarketsData.ADD_COUNTRY.selector)
     with selenium_action(browser, f'Failed to click on add country'):
         add_country_button.click()
     attach_jpg_screenshot(
         browser,
         'Recommended Countries component - after clicking on add country button',
-        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+        selector=TargetMarketsRecommendedCountriesFolded.CONTAINER,
     )
 
-    country_input = browser.find_element_by_css_selector(
-        TargetMarketsCountryChooser.COUNTRY_AUTOCOMPLETE_MENU.selector
-    )
+    country_input = browser.find_element_by_css_selector(TargetMarketsCountryChooser.COUNTRY_AUTOCOMPLETE_MENU.selector)
     with selenium_action(browser, f'Failed to click on add country'):
         country_input.click()
 
     country_elements = browser.find_elements_by_css_selector(
         TargetMarketsCountryChooser.AUTOCOMPLETE_COUNTRIES.selector
     )
-    country_options = [
-        element
-        for element in country_elements
-        if element.text == country
-    ]
+    country_options = [element for element in country_elements if element.text == country]
     country_option = country_options[0]
 
     logger.info(f'Will select: {country_option}')
     with selenium_action(browser, f'Failed to select country'):
         country_option.click()
 
-    save_country = browser.find_element_by_id(
-        TargetMarketsCountryChooser.SAVE_COUNTRY.selector
-    )
+    save_country = browser.find_element_by_id(TargetMarketsCountryChooser.SAVE_COUNTRY.selector)
     with selenium_action(browser, f'Failed to click on save country'):
         save_country.click()
     attach_jpg_screenshot(
         browser,
         'Recommended Countries component - After saving country selection',
-        selector=TargetMarketsRecommendedCountriesFolded.RECOMMENDED_COUNTRIES_COMPONENT
+        selector=TargetMarketsRecommendedCountriesFolded.CONTAINER,
     )
     should_not_see_errors(browser)
 
 
 @mock.patch.object(exportplan_helpers, 'update_exportplan')
 def test_should_see_recommended_countries_for_selected_sectors(
-    mock_update_exportplan,
-    mock_all_dashboard_and_export_plan_requests_and_responses,
-    server_user_browser_dashboard,
+    mock_update_exportplan, mock_all_dashboard_and_export_plan_requests_and_responses, server_user_browser_dashboard,
 ):
     updated_export_plan_data = {
         'pk': 1,
@@ -237,9 +203,7 @@ def test_should_see_recommended_countries_for_selected_sectors(
 
 @mock.patch.object(exportplan_helpers, 'update_exportplan')
 def test_can_add_multiple_recommended_countries(
-    mock_update_exportplan,
-    mock_all_dashboard_and_export_plan_requests_and_responses,
-    server_user_browser_dashboard,
+    mock_update_exportplan, mock_all_dashboard_and_export_plan_requests_and_responses, server_user_browser_dashboard,
 ):
     get_export_plan_data_1 = {
         'pk': 1,
@@ -276,9 +240,7 @@ def test_can_add_multiple_recommended_countries(
 
 @mock.patch.object(exportplan_helpers, 'update_exportplan')
 def test_can_add_multiple_countries_on_target_markets_page(
-    mock_update_exportplan,
-    mock_all_dashboard_and_export_plan_requests_and_responses,
-    server_user_browser_dashboard,
+    mock_update_exportplan, mock_all_dashboard_and_export_plan_requests_and_responses, server_user_browser_dashboard,
 ):
     updated_export_plan_data = {
         'pk': 1,

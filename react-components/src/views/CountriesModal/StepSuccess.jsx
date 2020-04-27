@@ -15,9 +15,17 @@ export default function StepSuccess(props){
         <div className='c-2-3 m-b-s'>
           <h2 className='h-m p-t-0'>Complete</h2>
           <p>Your relevant opportunities and events in {industries} and {countries} are ready.</p>
-          <a className='great-mvp-wizard-step-button m-t-l' href={props.successUrl}>Let's go</a>
+          <a
+            className='great-mvp-wizard-step-button m-t-l'
+            href='#'
+            onClick={event => {event.preventDefault(); props.handleComplete()}}
+          >Let's go</a>
           <div className='m-t-s'>
-            <a href='#' className='great-mvp-wizard-step-link' onClick={event => {event.preventDefault(); props.handleChangeAnswers()} }>Change answers</a>
+            <a
+              href='#'
+              className='great-mvp-wizard-step-link'
+              onClick={event => {event.preventDefault(); props.handleChangeAnswers()} }
+            >Change answers</a>
           </div>
         </div>
       </div>

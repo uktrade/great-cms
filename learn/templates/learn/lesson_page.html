@@ -1,8 +1,6 @@
 {% extends 'core/base.html' %}
 {% load wagtailimages_tags %}
-{% load include_block from wagtailcore_tags %}
 {% load routablepageurl from wagtailroutablepage_tags %}
-{% load add_anchors_to_all_headings add_export_elements_classes from great_components %}
 
 {% block content %}
     <div class="container" id="lesson-page">
@@ -35,6 +33,8 @@
                                     {% endfor %}
                                 {% endif %}
                             {% endfor %}
+                        {% else %}
+                            <span class="great-mvp-pill-button">add products</span>
                         {% endif %}
                     </span>
                     to
@@ -44,7 +44,7 @@
                                 <span class="great-mvp-pill-button">{{ label }}</span>
                             {% endfor %}
                         {% else %}
-                            <span class="great-mvp-pill-button">add country</span>
+                            <span class="great-mvp-pill-button">add countries</span>
                         {% endif %}
                     </span>
                 </nav>
@@ -52,18 +52,8 @@
                 <div class="grid p-t-l p-f-l">
                     <div class="c-2-3">
                         <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
-                        {% for block in page.generic_content %}
-                            <div>
-                            {% filter add_anchors_to_all_headings %}
-                                {% filter add_export_elements_classes %}
-                                    {% include_block block %}
-                                {% endfilter %}
-                            {% endfilter %}
-                            </div>
-                        {% endfor %}
-
+                        {% include 'core/personalised_body.html' %}
                         <div id="countries-chooser" class="great-mvp-full-width-background"></div>
-
                         {% with page.get_next_siblings.live.first as next_page %}
                             {% if next_page %}
                                 <div class="lesson-next-area p-t-xxl p-b-s">
@@ -85,52 +75,43 @@
 {% endblock %}
 
 
-{% block body_js %} 
+{% block body_js %}
+    {{ block.super }}
     <script type="text/javascript">
-        {% if request.GET.products_label %}
-        var isProductModalOpen = false;
-        {% else %}
-        var isProductModalOpen = true;
-        {% endif %}
+      var showProductsModal = {{ request.GET.products|yesno:'false,true' }}
 
-        var marketSelectElement = document.getElementById('market-select-navbar');
-        var countriesChooserElement = document.getElementById('countries-chooser');
+      ditMVP.setInitialState({
+        modalIsOpen: {
+          products: showProductsModal
+        }
+      })
 
-        ditMVP.setConfig({ 
-            {% if user.company %}
-            userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
-            userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }},
-            {% else %}
-            userCountries: [],
-            userIndustries: [],
-            {% endif %}
+      ditMVP.MarketSelectNavbar({
+        element: document.getElementById('market-select-navbar'),
+        productElement: document.getElementById('set-product-button'),
+        countryElement: document.getElementById('set-country-button')
+      })
 
-            apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
-            apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
-            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-            countryOptions: {{ country_choices|safe }},
-            csrfToken: '{{ csrf_token }}',
-            dashboardUrl: '{% url "core:dashboard" %}',
-            googleUrl: '{{ signup_modal.google_url }}',
-            linkedInUrl: '{{ signup_modal.linkedin_url }}',
-            loginUrl: '{% url "core:login" %}',
-            termsUrl: '{{ signup_modal.terms_url }}',
-            userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-            verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-        });
+      var productsModalElement = document.createElement('div');
+      document.body.appendChild(productsModalElement);
+      ditMVP.ProductsModal({element: productsModalElement})
 
-        ditMVP.MarketSelectNavbar({
-            element: marketSelectElement,
-            isProductModalOpen: isProductModalOpen,
-            productElement: document.getElementById('set-product-button'),
-            countryElement: document.getElementById('set-country-button')
-        })
+      var signupModalElement = document.createElement('div');
+      document.body.appendChild(signupModalElement);        
+      ditMVP.SignupModal({element: signupModalElement})
 
+      var countriesModalElement = document.createElement('div');
+      document.body.appendChild(countriesModalElement);        
+      ditMVP.CountriesModal({element: countriesModalElement})
+
+
+      {% if request.user.is_authenticated and not request.user.export_plan.target_markets %}
+        var suggestedCountries = {{ suggested_countries|safe }}
         ditMVP.Countries({
-            element: countriesChooserElement,
-            suggestedCountries: {{ suggested_countries|safe }}
+          element: document.getElementById('countries-chooser'),
+          suggestedCountries: suggestedCountries,
         })
-
+      {% endif %}
     </script>
 
 {% endblock %}

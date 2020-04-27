@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -16,7 +15,7 @@ export default function ErrorList(props){
     </ul>
   )
 }
-  
+
 
 ErrorList.propTypes = {
   errors: PropTypes.array.isRequired,

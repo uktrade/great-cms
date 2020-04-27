@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse_lazy
 
@@ -27,11 +26,6 @@ class EnableTourMixin:
         except ObjectDoesNotExist:
             pass
         return context
-
-
-class LoginRequired:
-    # used by core.wagtail_hooks.login_required
-    login_required_redirect_url = settings.LOGIN_URL
 
 
 class AnonymousUserRequired:

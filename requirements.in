@@ -16,6 +16,7 @@ wagtail-factories==2.0.*
 wagtail==2.8.1
 wagtail-personalisation==0.14.*
 wagtail-cache==1.0.*
+wagtailmedia==0.5.0
 
 
 # Prod tools

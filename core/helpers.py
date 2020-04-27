@@ -120,6 +120,11 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
 
+    def __init__(self, data):
+        if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
+            data = {**data, 'expertise_industries': ['SL10017']}  # food and drink
+        super().__init__(data=data)
+
     @property
     def expertise_industries_labels(self):
         if self.data['expertise_industries']:

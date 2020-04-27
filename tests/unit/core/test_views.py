@@ -302,7 +302,7 @@ def test_capability_article_not_logged_in(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == f'/?next={url}'
+    assert response.url == f'/login/?next={url}'
 
 
 @pytest.mark.django_db
@@ -325,6 +325,7 @@ def test_login_page_logged_in(client, user):
     assert response.url == reverse('core:dashboard')
 
 
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'get_markets_page_title')
 def test_markets_logged_in(mock_get_markets_page_title, mock_get_company_profile, user, client):
     mock_get_markets_page_title.return_value = 'Some page title'
@@ -339,6 +340,7 @@ def test_markets_logged_in(mock_get_markets_page_title, mock_get_company_profile
     assert len(response.context_data['most_popular_countries']) == 5
 
 
+@pytest.mark.django_db
 def test_markets_not_logged_in(mock_get_company_profile, client):
     url = reverse('core:markets')
 
@@ -349,6 +351,7 @@ def test_markets_not_logged_in(mock_get_company_profile, client):
     assert response.context_data['most_popular_countries'] is None
 
 
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'search_commodity_by_term')
 def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     mock_search_commodity_by_term.return_value = data = [
