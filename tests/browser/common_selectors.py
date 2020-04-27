@@ -26,6 +26,12 @@ class SelectorsEnum(Enum):
     def is_authenticated(self):
         return self.value.is_authenticated
 
+    def __str__(self) -> str:
+        return self.value.name if self.value.name else self.name
+
+    def __repr__(self) -> str:
+        return self.value.name if self.value.name else self.name
+
 
 class ElementType(Enum):
     BUTTON = 'button'
@@ -43,13 +49,32 @@ class ElementType(Enum):
     TEXTAREA = 'textarea'
     UL = 'ul'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.value
 
 
-Selector = namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated'],)
-# define default values for Selector named tuple
-Selector.__new__.__defaults__ = (None, None, None, True, False)
+class Selector(namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated', 'name'])):
+    __slots__ = ()
+
+    def __new__(
+        cls,
+        by: By,
+        selector: str,
+        *,
+        type: ElementType = None,
+        is_visible: bool = True,
+        is_authenticated: bool = False,
+        name: str = None,
+    ):
+        return super(Selector, cls).__new__(
+            cls, by, selector=selector, type=type, is_visible=is_visible, is_authenticated=is_authenticated, name=name,
+        )
+
+    def __str__(self) -> str:
+        return str(self.name) if self.name else str(self.__class__.__name__)
+
+    def __repr__(self) -> str:
+        return str(self.name) if self.name else str(self.__class__.__name__)
 
 
 class HeaderCommon(SelectorsEnum):
