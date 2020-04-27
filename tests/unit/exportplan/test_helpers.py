@@ -1,5 +1,6 @@
 from unittest import mock
 
+from config import settings
 from directory_api_client import api_client
 import pytest
 
@@ -208,7 +209,24 @@ def test_serialize_exportplan_data(user):
         'export_countries': ['UK'],
         'export_commodity_codes': ['123'],
         'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
-        'target_markets': [{'country': 'UK'}]
+        'target_markets': [{'country': 'UK'}],
+    }
+
+
+def test_serialize_exportplan_data_hardcoded_industries(user):
+    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
+    rules_regulations_data = {
+        'country': 'UK', 'commodity_code': '123'
+    }
+
+    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
+    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = False
+    assert exportplan_data == {
+        'export_countries': ['UK'],
+        'export_commodity_codes': ['123'],
+        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
+        'target_markets': [{'country': 'UK'}],
+        'sectors': ['food and drink'],
     }
 
 
@@ -227,7 +245,7 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
         'export_countries': ['UK'],
         'export_commodity_codes': ['123'],
         'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
-        'target_markets': [{'country': 'UK'}, {'country': 'China'}]
+        'target_markets': [{'country': 'UK'}, {'country': 'China'}],
     }
 
 
