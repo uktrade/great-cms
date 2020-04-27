@@ -248,6 +248,10 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
     COUNTRY_NAME = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--] h2')
     REMOVE_COUNTRY = Selector(By.CLASS_NAME, 'remove-country-button')
     EASE_OF_DOING_BUSINESS = Selector(By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank]')
+    EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON = Selector(
+        By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank] div.educational-moment--tooltip-container'
+    )
+    EASE_OF_DOING_BUSINESS_TOOLTIP = Selector(By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-tooltip-]')
     CPI = Selector(By.CSS_SELECTOR, 'div[id^=corruption-perception-index]')
     LOCAL_TIME = Selector(By.CSS_SELECTOR, 'div[id^=local-time-]')
     DUTY = Selector(By.CSS_SELECTOR, 'div[id^=duty-]')
