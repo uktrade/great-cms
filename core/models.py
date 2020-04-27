@@ -246,7 +246,8 @@ class ListPage(CMSGenericPage):
     template_choices = (
         ('exportplan/export_plan_page.html', 'Export plan'),
         ('learn/topic_page.html', 'Lesson topic'),
-        ('learn/learn_page.html', 'Learn page'),
+        ('learn/learn_page.html', 'Learn homepage'),
+        ('learn/landing_page.html', 'Learn landing page'),
     )
 
     record_read_progress = models.BooleanField(
@@ -272,6 +273,7 @@ class DetailPage(CMSGenericPage):
         ('learn/how_to_export_first_step.html', 'How to export first step'),
         ('learn/how_to_export_second_step.html', 'How to export second step'),
         ('learn/how_to_export_third_step.html', 'How to export third step'),
+        ('learn/category.html', 'Learn category'),
     )
 
 

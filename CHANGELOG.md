@@ -75,4 +75,5 @@
 - MVP-392 - hook up selected industries to be deleted
 - no-ticket make food default when creating export plan
 - MVP-381 - Wagtail media and video block
+- MVP-490 - Add learn how to export landing page
 - MVP-427 - Persist products upon signup

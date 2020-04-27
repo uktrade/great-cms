@@ -1,20 +1,17 @@
 @import 'helpers/colours';
+@import 'helpers/vars';
 
 // Breakpoints
 $mobile: 640px;
 $tablet: 768px;
 $desktop: 1024px;
 
-#learn-root {
-    background: #e7e7e7;
+.breadcrumb {
+    font-size: 12px;
 }
 
-.learn__wrapper {
-    margin: 0 auto;
-    max-width: 1248px;
-    min-height: 600px;
-    min-width: 320px;
-    padding: 90px 25px;
+#learn-root {
+    font-family: $brand-font-body;
 
     .h1 {
         color: $grey;
@@ -26,15 +23,17 @@ $desktop: 1024px;
 
     .button {
         background-color: $grey;
-        color: $white;  
+        border-radius: 4px;
+        color: $white;
         display: inline-block;
-        font-size: 16px;
+        font-size: 19px;
         font-weight: bold;
-        height: 40px;
-        padding: 8px 25px;
+        height: 50px;
+        line-height: 34px;
+        padding: 8px 40px;
         text-decoration: none;
         white-space: nowrap;
-    
+
         &:hover {
             background-color: darken($grey, 5);
             color: $white;
@@ -42,10 +41,19 @@ $desktop: 1024px;
     }
 }
 
+.learn__wrapper {
+    margin: 0 auto;
+    max-width: 1220px;
+    min-height: 600px;
+    min-width: 320px;
+    padding: 90px 25px;
+}
+
 .learn__wrapper--paragraph {
+    color: $grey;
     font-size: 20px;
     line-height: 30px;
-    margin-bottom: 60px;
+    margin: 0 0 40px 0;
 }
 
 .learn__carousel-nav {
@@ -82,12 +90,79 @@ $desktop: 1024px;
     font-size: 48px;
     font-weight: bold;
     line-height: 58px;
-    margin-bottom: 120px
+    margin-bottom: 120px;
 }
 
 .learn__carousel {
     margin: 0 auto;
     padding: 0 25px;
+}
+
+.learn__introduction {
+    margin: 0 percentage(1 / 4) 60px;
+}
+
+.learn__category-header {
+    padding-top: 80px;
+    margin-bottom: 80px;
+}
+
+.learn__step-block {
+    background: url("/static/img/circle-check-icon.png") no-repeat calc(50% + 15px) 0;
+    padding-top: 88px;
+    text-align: center;
+}
+
+.learn__step-title {
+    color: $grey;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 28px;
+    margin-bottom: 20px;
+}
+
+.learn__category {
+    background-color: $white;
+    height: 360px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.learn__category-content {
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.learn__category-title {
+    color: $grey;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 44px;
+    margin-bottom: 10px;
+}
+
+.learn__category-details {
+    margin: 0 0 60px;
+}
+
+.learn__category-entities {
+    background-color: $light-grey;
+    border-radius: 15px;
+    color: $grey;
+    display: inline-block;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    white-space: nowrap;
+}
+
+.learn__category-image {
+    bottom: 0;
+    display: none;
+    position: absolute;
+    right: 20px;
 }
 
 @media (min-width: $tablet) {
@@ -98,6 +173,10 @@ $desktop: 1024px;
 
     .learn__carousel-nav {
         padding-right: 45px;
+    }
+
+    .learn__category-image {
+        display: block;
     }
 }
 
@@ -126,7 +205,6 @@ $desktop: 1024px;
         h3 {
           padding-top: 20;
           padding-bottom: 0;
-
           a.topic-link {
             text-decoration: none;
           }

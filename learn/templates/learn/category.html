@@ -1,0 +1,165 @@
+{% extends "core/base.html" %}
+{% load breadcrumbs from great_components %}
+
+{% block content %}
+    <div class="container">
+        {% breadcrumbs 'Market research' %}
+	      <a href="{% url 'core:dashboard' %}" id="breadcrumbs-home">Home</a>
+	    {% endbreadcrumbs %}
+    </div>
+    <div id="learn-root">
+        <section class="learn__category-intro">
+            <div class="learn__category-content"> 
+                <h1>Market research</h1>
+                <div class="learn__category-details">
+                    <span class="learn__category-topics">6 topics, <span>
+                    <span class="learn__category-lessons">34 lessons</span>
+                </div>
+                <p class="learn__category-details">Gain knowledge by researching and understanding your target market and potential customers.</p>
+            </div>
+            <img alt="Market research image" class="learn__category-image" src="market-research-category.png">
+        </section>
+        <section role="main">
+            <ol class="learn__topics-list">
+                <li class="learn__topic-item">
+                    <h2>Types of market research</h2>
+                    <time datatime="5M">5 mins</time>
+                    <ul class="learn__lessons-list">
+                        <li class="learn__lesson-item">
+                            <a href="#">Online research</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Paid-for research</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">In-market research</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="learn__topic-item">
+                    <h2>Choosing a market</h2>
+                    <time datatime="10M 30S">10:30 mins</time>
+                    <ul class="learn__lessons-list">
+                        <li class="learn__lesson-item">
+                            <a href="#">Ease of entry</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Market potential</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">What's unique about your product</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Market barriers</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Selecting a market</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="learn__topic-item">
+                    <h2>Working out how much you'll sell</h2>
+                    <time datatime="7M 10S">7:10 mins</time>
+                    <ul class="learn__lessons-list">
+                        <li class="learn__lesson-item">
+                            <a href="#">Customer size and segments</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Market trends</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Culture of customers</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Customer review sites</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Customer challenges and issues</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Unmet customer needs</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="learn__topic-item">
+                    <h2>Competitor analysis</h2>
+                    <time datatime="5M 30S">5:30 mins</time>
+                    <ul class="learn__lessons-list">
+                        <li class="learn__lesson-item">
+                            <a href="#">Your competitors</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Competitor market share</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Competitor costs and pricing</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="learn__topic-item">
+                    <h2>Routes to market</h2>
+                    <time datatime="3M 55S">3:55 mins</time>
+                    <ul class="learn__lessons-list">
+                        <li class="learn__lesson-item">
+                            <a href="#">How do I choose a route to market ?</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Direct sales</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">International e-commerce</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Agent, distributor or fulfillment house</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Licensing or franchising</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Joint ventures</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Set up a business abroad</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="learn__topic-item">
+                    <h2>Market barriers</h2>
+                    <time datatime="3M 55S">3:55 mins</time>
+                    <ul class="learn__lessons-list">
+                        <li class="learn__lesson-item">
+                            <a href="#">Tariffs</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Payment risk</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Labelling and packaging</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Duties, quotas and licences</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Subsidies</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Dealing in foreign currency</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Intellectual property</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Ease of doing business</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Local infrastucture</a>
+                        </li>
+                        <li class="learn__lesson-item">
+                            <a href="#">Language and culture</a>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+    </div>
+{% endblock %}
