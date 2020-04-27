@@ -62,7 +62,7 @@ export default class CountryData extends React.Component {
           <button type="button" onClick={this.handleClick} className="remove-country-button">
             Remove <span className="visually-hidden">{country}</span>
           </button>
-          <div className="flex-grid">
+          <div className="grid">
             <div className="c-1-3" id={`ease-of-doing-business-rank-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
@@ -118,7 +118,7 @@ export default class CountryData extends React.Component {
               </figure>
             </div>
           </div>
-          <div className="flex-grid">
+          <div className="grid">
             <div className="c-1-3" id={`duty-${slugify(country)}`}>
               <figure className="statistic">
                 <figcaption>
