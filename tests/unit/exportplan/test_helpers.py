@@ -209,6 +209,22 @@ def test_serialize_exportplan_data(user):
         'export_commodity_codes': ['123'],
         'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
         'target_markets': [{'country': 'UK'}],
+    }
+
+
+def test_serialize_exportplan_data_hardcoded_industries(user, settings):
+    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
+    rules_regulations_data = {
+        'country': 'UK', 'commodity_code': '123'
+    }
+
+    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
+
+    assert exportplan_data == {
+        'export_countries': ['UK'],
+        'export_commodity_codes': ['123'],
+        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
+        'target_markets': [{'country': 'UK'}],
         'sectors': ['food and drink'],
     }
 
@@ -229,7 +245,6 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
         'export_commodity_codes': ['123'],
         'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
         'target_markets': [{'country': 'UK'}, {'country': 'China'}],
-        'sectors': ['food and drink'],
     }
 
 
@@ -255,7 +270,7 @@ def test_get_or_create_export_plan_created(
         exportplan_data={
             'export_countries': ['UK'], 'export_commodity_codes': ['123'], 'rules_regulations':
                 {'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
-                 }, 'target_markets': [{'country': 'UK'}], 'sectors': ['food and drink']},
+                 }, 'target_markets': [{'country': 'UK'}]},
         sso_session_id='123'
     )
 
