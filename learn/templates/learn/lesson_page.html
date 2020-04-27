@@ -25,7 +25,7 @@
                 <nav class="p-t-xs p-h-xs great-mvp-full-width-background" id="market-select-navbar">
                     <span class="m-f-xs">Exporting </span>
                     <span id="set-product-button">
-                        {% if request.GET.products_label %} for
+                        {% if request.GET.product %} for
                             {% for name, values in request.GET.lists %}
                                 {% if name == 'products_label' %}
                                     {% for label in values %}
@@ -78,7 +78,7 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-      var showProductsModal = {{ request.GET.products|yesno:'false,true' }}
+      var showProductsModal = {{ request.GET.product|yesno:'false,true' }}
 
       ditMVP.setInitialState({
         modalIsOpen: {
