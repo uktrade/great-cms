@@ -39,7 +39,7 @@ export function Container(props){
   }
 
   function handleComplete() {
-    const reducer = (accumulator, product) => `${accumulator}products=${product.value}&products_label=${product.label}&`
+    const reducer = (accumulator, product) => `${accumulator}product_code=${product.value}&product=${product.label}&`
     const url = props.products.reduce(reducer, location.pathname + '?')
     window.location.assign(url)
   }
