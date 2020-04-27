@@ -57686,12 +57686,19 @@ var slugify = function slugify(string) {
 /*!******************************************!*\
   !*** ./react-components/src/Services.js ***!
   \******************************************/
-/*! exports provided: default */
+/*! exports provided: store, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
 /* eslint-disable */
+
+
+
 var MESSAGE_UNEXPECTED_ERROR = {
   __all__: ['Unexpected Error']
 };
@@ -57706,6 +57713,11 @@ var MESSAGE_TIMEOUT_ERROR = {
 };
 var MESSAGE_BAD_REQUEST_ERROR = {
   __all__: ['Bad request']
+};
+var store = !(function webpackMissingModule() { var e = new Error("Cannot find module 'redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(_src_reducers__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+var setInitialState = function setInitialState(state) {
+  store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_2__["default"].setInitialState(state));
 };
 
 var post = function post(url, data) {
@@ -57775,6 +57787,10 @@ var createUser = function createUser(_ref2) {
     email: email,
     password: password
   }).then(responseHandler);
+};
+
+var updateExportPlan = function updateExportPlan(data) {
+  return post(config.apiUpdateExportPlanUrl, data).then(responseHandler);
 };
 
 var checkVerificationCode = function checkVerificationCode(_ref3) {
@@ -57851,10 +57867,11 @@ var setConfig = function setConfig(_ref6) {
       loginUrl = _ref6.loginUrl,
       passwordResetUrl = _ref6.passwordResetUrl,
       termsUrl = _ref6.termsUrl,
-      userCountries = _ref6.userCountries,
-      userIndustries = _ref6.userIndustries,
       verifyCodeUrl = _ref6.verifyCodeUrl,
-      userIsAuthenticated = _ref6.userIsAuthenticated;
+      userIsAuthenticated = _ref6.userIsAuthenticated,
+      apiUpdateExportPlanUrl = _ref6.apiUpdateExportPlanUrl,
+      exportPlanTargetMarketsUrl = _ref6.exportPlanTargetMarketsUrl,
+      signupUrl = _ref6.signupUrl;
   config.countryDataUrl = countryDataUrl;
   config.removeCountryDataUrl = removeCountryDataUrl;
   config.countriesBySectorsDataUrl = countriesBySectorsDataUrl;
@@ -57862,6 +57879,7 @@ var setConfig = function setConfig(_ref6) {
   config.apiSignupUrl = apiSignupUrl;
   config.apiLookupProductUrl = apiLookupProductUrl;
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl;
+  config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl;
   config.countryOptions = countryOptions;
   config.csrfToken = csrfToken;
   config.dashboardUrl = dashboardUrl;
@@ -57872,9 +57890,9 @@ var setConfig = function setConfig(_ref6) {
   config.passwordResetUrl = passwordResetUrl;
   config.termsUrl = termsUrl;
   config.verifyCodeUrl = verifyCodeUrl;
-  config.userCountries = userCountries;
-  config.userIndustries = userIndustries;
   config.userIsAuthenticated = userIsAuthenticated;
+  config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl;
+  config.signupUrl = signupUrl;
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -57882,19 +57900,91 @@ var setConfig = function setConfig(_ref6) {
   checkCredentials: checkCredentials,
   checkVerificationCode: checkVerificationCode,
   get: get,
+  store: store,
   updateCompany: updateCompany,
   getCountryData: getCountryData,
   removeCountryData: removeCountryData,
   getCountriesDataBySectors: getCountriesDataBySectors,
+  updateExportPlan: updateExportPlan,
   lookupProduct: lookupProduct,
   setConfig: setConfig,
   config: config,
+  setInitialState: setInitialState,
   messages: {
     MESSAGE_UNEXPECTED_ERROR: MESSAGE_UNEXPECTED_ERROR,
     MESSAGE_PERMISSION_DENIED: MESSAGE_PERMISSION_DENIED,
     MESSAGE_NOT_FOUND_ERROR: MESSAGE_NOT_FOUND_ERROR,
     MESSAGE_TIMEOUT_ERROR: MESSAGE_TIMEOUT_ERROR
   }
+});
+
+/***/ }),
+
+/***/ "./react-components/src/actions.js":
+/*!*****************************************!*\
+  !*** ./react-components/src/actions.js ***!
+  \*****************************************/
+/*! exports provided: SET_MODAL_IS_OPEN, SET_INITIAL_STATE, SET_PRODUCTS_EXPERTISE, SET_COUNTRIES_EXPERTISE, SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MODAL_IS_OPEN", function() { return SET_MODAL_IS_OPEN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_INITIAL_STATE", function() { return SET_INITIAL_STATE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PRODUCTS_EXPERTISE", function() { return SET_PRODUCTS_EXPERTISE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_COUNTRIES_EXPERTISE", function() { return SET_COUNTRIES_EXPERTISE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK", function() { return SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK; });
+// action types
+var SET_MODAL_IS_OPEN = 'SET_MODAL_IS_OPEN';
+var SET_INITIAL_STATE = 'SET_INITIAL_STATE';
+var SET_PRODUCTS_EXPERTISE = 'SET_PRODUCTS_EXPERTISE';
+var SET_COUNTRIES_EXPERTISE = 'SET_COUNTRIES_EXPERTISE';
+var SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK = 'SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK'; // action creators
+
+var setProductsExpertise = function setProductsExpertise(payload) {
+  return {
+    type: SET_PRODUCTS_EXPERTISE,
+    payload: payload
+  };
+};
+
+var setCountriesExpertise = function setCountriesExpertise(payload) {
+  return {
+    type: SET_COUNTRIES_EXPERTISE,
+    payload: payload
+  };
+};
+
+var setInitialState = function setInitialState(payload) {
+  return {
+    type: SET_INITIAL_STATE,
+    payload: payload
+  };
+};
+
+var toggleModalIsOpen = function toggleModalIsOpen(modalID, isOpen) {
+  return {
+    type: SET_MODAL_IS_OPEN,
+    payload: {
+      modalID: modalID,
+      isOpen: isOpen
+    }
+  };
+};
+
+var skipFeatureCookieCheck = function skipFeatureCookieCheck() {
+  return {
+    type: SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
+    payload: false
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setInitialState: setInitialState,
+  toggleModalIsOpen: toggleModalIsOpen,
+  setProductsExpertise: setProductsExpertise,
+  setCountriesExpertise: setCountriesExpertise,
+  skipFeatureCookieCheck: skipFeatureCookieCheck
 });
 
 /***/ }),
@@ -57910,13 +58000,13 @@ var setConfig = function setConfig(_ref6) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_sass_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/sass/main.scss */ "./core/sass/main.scss");
 /* harmony import */ var _core_sass_main_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_sass_main_scss__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_views_ProductsModal_Base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/views/ProductsModal/Base */ "./react-components/src/views/ProductsModal/Base.jsx");
-/* harmony import */ var _src_views_SignupModal_Base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/SignupModal/Base */ "./react-components/src/views/SignupModal/Base.jsx");
-/* harmony import */ var _src_views_IndustriesModal_Base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/IndustriesModal/Base */ "./react-components/src/views/IndustriesModal/Base.jsx");
-/* harmony import */ var _src_views_CountriesModal_Base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/CountriesModal/Base */ "./react-components/src/views/CountriesModal/Base.jsx");
-/* harmony import */ var _src_views_Countries_Base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/Countries/Base */ "./react-components/src/views/Countries/Base.jsx");
+/* harmony import */ var _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/views/SignupModal/Container */ "./react-components/src/views/SignupModal/Container.jsx");
+/* harmony import */ var _src_views_ProductsModal_Container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/ProductsModal/Container */ "./react-components/src/views/ProductsModal/Container.jsx");
+/* harmony import */ var _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/CountriesModal/Container */ "./react-components/src/views/CountriesModal/Container.jsx");
+/* harmony import */ var _src_views_IndustriesModal_Base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/IndustriesModal/Base */ "./react-components/src/views/IndustriesModal/Base.jsx");
+/* harmony import */ var _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/Countries/Container */ "./react-components/src/views/Countries/Container.jsx");
 /* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
-/* harmony import */ var _src_views_MarketSelectNavbar_Base__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Base */ "./react-components/src/views/MarketSelectNavbar/Base.jsx");
+/* harmony import */ var _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Container */ "./react-components/src/views/MarketSelectNavbar/Container.jsx");
 /* harmony import */ var _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/views/Tour/Base */ "./react-components/src/views/Tour/Base.jsx");
 /* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
 /* harmony import */ var _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/SignupModal/Wizard/ */ "./react-components/src/views/SignupModal/Wizard.jsx");
@@ -57937,15 +58027,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  CountriesModal: _src_views_CountriesModal_Base__WEBPACK_IMPORTED_MODULE_4__["default"],
+  CountriesModal: _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
   createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_9__["createTargetMarketCountries"],
-  MarketSelectNavbar: _src_views_MarketSelectNavbar_Base__WEBPACK_IMPORTED_MODULE_7__["default"],
-  Countries: _src_views_Countries_Base__WEBPACK_IMPORTED_MODULE_5__["default"],
-  IndustriesModal: _src_views_IndustriesModal_Base__WEBPACK_IMPORTED_MODULE_3__["default"],
+  MarketSelectNavbar: _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_7__["default"],
+  ProductsModal: _src_views_ProductsModal_Container__WEBPACK_IMPORTED_MODULE_2__["default"],
+  Countries: _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_5__["default"],
+  IndustriesModal: _src_views_IndustriesModal_Base__WEBPACK_IMPORTED_MODULE_4__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_6__["default"],
   setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_11__["default"].setConfig,
-  SignupModal: _src_views_SignupModal_Base__WEBPACK_IMPORTED_MODULE_2__["default"],
-  ProductsModal: _src_views_ProductsModal_Base__WEBPACK_IMPORTED_MODULE_1__["default"],
+  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_11__["default"].setInitialState,
+  SignupModal: _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_1__["default"],
   STEP_CREDENTIALS: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_10__["STEP_CREDENTIALS"],
   STEP_VERIFICATION_CODE: _src_views_SignupModal_Wizard___WEBPACK_IMPORTED_MODULE_10__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Base__WEBPACK_IMPORTED_MODULE_8__["default"]
@@ -59006,10 +59097,18 @@ function Modal(props) {
     props.setIsOpen(false);
   }
 
+  function onRequestClose(event) {
+    event.preventDefault();
+
+    if (!props.preventClose) {
+      props.setIsOpen(false);
+    }
+  }
+
   function getSkipFeature() {
     var SkipFeature = props.skipFeatureComponent;
 
-    if (SkipFeature) {
+    if (SkipFeature && !props.preventClose) {
       return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SkipFeature, {
           onClick: handleRequestSkipFeature
         })
@@ -59019,7 +59118,7 @@ function Modal(props) {
 
   return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
       isOpen: isOpen(),
-      onRequestClose: handleClose,
+      onRequestClose: onRequestClose,
       className: 'ReactModal__Content ReactModalCentreScreen ' + props.className,
       overlayClassName: "ReactModal__Overlay ReactModalCentreScreen",
       contentLabel: "Modal",
@@ -59031,11 +59130,13 @@ Modal.propTypes = {
   isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   skipFeatureCookieName: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  preventClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
 };
 Modal.defaultProps = {
   isOpen: false,
-  performSkipFeatureCookieCheck: true
+  performSkipFeatureCookieCheck: true,
+  preventClose: false
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_cookie__WEBPACK_IMPORTED_MODULE_3__["withCookies"])(Modal));
 
@@ -60228,6 +60329,129 @@ TargetMarketCountries.propTypes = {
 
 /***/ }),
 
+/***/ "./react-components/src/reducers.js":
+/*!******************************************!*\
+  !*** ./react-components/src/reducers.js ***!
+  \******************************************/
+/*! exports provided: default, getModalIsOpen, getCountriesExpertise, getProductsExpertise, getIndustriesExpertise, getPerformFeatureSKipCookieCheck */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rootReducer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getModalIsOpen", function() { return getModalIsOpen; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesExpertise", function() { return getCountriesExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProductsExpertise", function() { return getProductsExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getIndustriesExpertise", function() { return getIndustriesExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPerformFeatureSKipCookieCheck", function() { return getPerformFeatureSKipCookieCheck; });
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+
+var initialState = {
+  // prevents modals from opening on page load if user dismissed the modal already
+  performSkipFeatureCookieCheck: true,
+  modalIsOpen: {
+    products: false,
+    countries: false,
+    industries: false,
+    login: false,
+    signup: false
+  },
+  user: {
+    expertise: {
+      countries: [],
+      industries: [],
+      products: []
+    }
+  }
+}; // todo: replace with ImmutableJS
+
+var cloneState = function cloneState(state) {
+  return JSON.parse(JSON.stringify(state));
+};
+
+function setModalIsOpen(state, payload) {
+  var newState = cloneState(state); // should have only one modal open at a time
+
+  newState.modalIsOpen = {
+    products: false,
+    countries: false,
+    industries: false,
+    login: false,
+    signup: false
+  };
+  newState.modalIsOpen[payload.modalID] = payload.isOpen;
+  return newState;
+}
+
+function setProductsExpertise(state, payload) {
+  var newState = cloneState(state);
+  newState.user.expertise.products = payload;
+  return newState;
+}
+
+function setCountriesExpertise(state, payload) {
+  var newState = cloneState(state);
+  newState.user.expertise.countries = payload;
+  return newState;
+}
+
+function setInitialState(state, _ref) {
+  var modalIsOpen = _ref.modalIsOpen,
+      user = _ref.user;
+  var newState = cloneState(state);
+  Object.assign(newState.modalIsOpen, modalIsOpen);
+  Object.assign(newState.user, user);
+  return newState;
+}
+
+function setPerformFeatureSKipCookieCheck(state, payload) {
+  var newState = cloneState(state);
+  newState.performSkipFeatureCookieCheck = payload;
+  return newState;
+}
+
+function rootReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_INITIAL_STATE"]:
+      return setInitialState(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_MODAL_IS_OPEN"]:
+      return setModalIsOpen(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_PRODUCTS_EXPERTISE"]:
+      return setProductsExpertise(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_COUNTRIES_EXPERTISE"]:
+      return setCountriesExpertise(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK"]:
+      return setPerformFeatureSKipCookieCheck(state, action.payload);
+
+    default:
+      return state;
+  }
+}
+var getModalIsOpen = function getModalIsOpen(state, name) {
+  return state.modalIsOpen[name];
+};
+var getCountriesExpertise = function getCountriesExpertise(state) {
+  return state.user.expertise.countries;
+};
+var getProductsExpertise = function getProductsExpertise(state) {
+  return state.user.expertise.products;
+};
+var getIndustriesExpertise = function getIndustriesExpertise(state) {
+  return state.user.expertise.industries;
+};
+var getPerformFeatureSKipCookieCheck = function getPerformFeatureSKipCookieCheck(state) {
+  return state.performSkipFeatureCookieCheck;
+};
+
+/***/ }),
+
 /***/ "./react-components/src/stylesheets/ModalCentreScreen.scss":
 /*!*****************************************************************!*\
   !*** ./react-components/src/stylesheets/ModalCentreScreen.scss ***!
@@ -60250,16 +60474,19 @@ TargetMarketCountries.propTypes = {
 
 /***/ }),
 
-/***/ "./react-components/src/views/Countries/Base.jsx":
-/*!*******************************************************!*\
-  !*** ./react-components/src/views/Countries/Base.jsx ***!
-  \*******************************************************/
-/*! exports provided: Base, default */
+/***/ "./react-components/src/views/Countries/Component.jsx":
+/*!************************************************************!*\
+  !*** ./react-components/src/views/Countries/Component.jsx ***!
+  \************************************************************/
+/*! exports provided: STEP_COUNTRIES, STEP_SUCCESS, STEP_START, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_COUNTRIES", function() { return STEP_COUNTRIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SUCCESS", function() { return STEP_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_START", function() { return STEP_START; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Components; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -60267,14 +60494,112 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _SuggestedCountries__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SuggestedCountries */ "./react-components/src/views/Countries/SuggestedCountries.jsx");
-/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _Start__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Start */ "./react-components/src/views/Countries/Start.jsx");
+/* harmony import */ var _Success__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Success */ "./react-components/src/views/Countries/Success.jsx");
 /* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Form */ "./react-components/src/views/Countries/Form.jsx");
-/* harmony import */ var _stylesheets_Base_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stylesheets/Base.scss */ "./react-components/src/views/Countries/stylesheets/Base.scss");
-/* harmony import */ var _stylesheets_Base_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Base_scss__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _SuggestedCountries__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SuggestedCountries */ "./react-components/src/views/Countries/SuggestedCountries.jsx");
+/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _stylesheets_Component_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./stylesheets/Component.scss */ "./react-components/src/views/Countries/stylesheets/Component.scss");
+/* harmony import */ var _stylesheets_Component_scss__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Component_scss__WEBPACK_IMPORTED_MODULE_9__);
+
+
+
+
+
+
+
+
+
+
+var STEP_COUNTRIES = 'countries';
+var STEP_SUCCESS = 'success';
+var STEP_START = 'start';
+function Components(props) {
+  function getStep() {
+    if (props.currentStep == STEP_START) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Start__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          handleClick: props.handleGotoCountries
+        })
+      );
+    } else if (props.currentStep == STEP_COUNTRIES) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          options: _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.countryOptions,
+          handleSubmit: props.handleSubmit,
+          handleChange: props.setCountries,
+          value: props.countries,
+          isInProgress: props.isInProgress,
+          errors: props.errors
+        }), props.suggestedCountries.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SuggestedCountries__WEBPACK_IMPORTED_MODULE_7__["default"], {
+          suggestedCountries: props.suggestedCountries,
+          countries: props.countries,
+          industries: props.industries,
+          handleClick: props.setCountries,
+          disabled: props.isInProgress
+        }))
+      );
+    } else if (props.currentStep == STEP_SUCCESS) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Success__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          countries: props.countries,
+          handleChangeAnswers: props.handleGotoCountries
+        })
+      );
+    }
+  }
+
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "great-mvp-countries container p-v-m"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "grid"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-1-5"
+    }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-2-3 p-f-0"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      errors: props.errors.__all__ || [],
+      className: "m-t-s"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "great-mvp-section-title m-b-s m-t-0"
+    }, "Export plan"), getStep())))
+  );
+}
+Components.propTypes = {
+  suggestedCountries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
+  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object
+};
+Components.defaultProps = {
+  errors: {}
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/Countries/Container.jsx":
+/*!************************************************************!*\
+  !*** ./react-components/src/views/Countries/Container.jsx ***!
+  \************************************************************/
+/*! exports provided: Container, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Component */ "./react-components/src/views/Countries/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -60296,34 +60621,54 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Base(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(_src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.userCountries || []),
+
+function Container(props) {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState({}),
       _React$useState2 = _slicedToArray(_React$useState, 2),
-      countries = _React$useState2[0],
-      setCountries = _React$useState2[1];
+      errors = _React$useState2[0],
+      setErrors = _React$useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
-      errors = _React$useState4[0],
-      setErrors = _React$useState4[1];
+      isInProgress = _React$useState4[0],
+      setIsInProgress = _React$useState4[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState([]),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
-      isInProgress = _React$useState6[0],
-      setIsInProgress = _React$useState6[1];
+      countries = _React$useState6[0],
+      setCountries = _React$useState6[1];
 
-  function handleSubmit() {
+  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_START"]),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      currentStep = _React$useState8[0],
+      setCurrentStep = _React$useState8[1];
+
+  var handleGotoCountries = function handleGotoCountries() {
+    setCurrentStep(_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_COUNTRIES"]);
+  };
+
+  var handleSubmit = function handleSubmit() {
+    if (_src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.userIsAuthenticated) {
+      handleUpdateExportPlan();
+    } else {
+      // todo: persis the user's answers after they sign up
+      props.setIsSignupModalOpen(true);
+    }
+  };
+
+  function handleUpdateExportPlan() {
     setIsInProgress(true);
     setErrors({});
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateCompany({
-      expertise_countries: countries.map(function (item) {
-        return item.value;
+    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateExportPlan({
+      target_markets: countries.map(function (item) {
+        return item.label;
       })
     }).then(handleSubmitSuccess)["catch"](handleSubmitError);
   }
 
   function handleSubmitSuccess(nextStep) {
-    location.reload();
+    setCurrentStep(_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_SUCCESS"]);
+    setIsInProgress(false);
   }
 
   function handleSubmitError(errors) {
@@ -60331,45 +60676,45 @@ function Base(props) {
     setIsInProgress(false);
   }
 
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "great-mvp-countries container p-v-m"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "grid"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-5"
-    }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-2-3 p-f-0"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      errors: errors.__all__ || [],
-      className: "m-t-s"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      options: _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.countryOptions,
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Component__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({
+      handleGotoCountries: handleGotoCountries,
       handleSubmit: handleSubmit,
-      handleChange: setCountries,
-      value: countries,
       isInProgress: isInProgress,
-      errors: errors
-    }), props.suggestedCountries.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SuggestedCountries__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      suggestedCountries: props.suggestedCountries,
+      setCountries: setCountries,
       countries: countries,
-      industries: _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.userIndustries,
-      handleClick: setCountries,
-      disabled: isInProgress
-    }))))
+      errors: errors,
+      currentStep: currentStep
+    }, props))
   );
 }
-Base.propTypes = {
-  suggestedCountries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    isOpen: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getModalIsOpen"])(state, 'countries'),
+    industries: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getIndustriesExpertise"])(state)
+  };
 };
-Base.defaultProps = {
-  errors: {}
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setIsOpen: function setIsOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].toggleModalIsOpen('countries', isOpen));
+    },
+    setIsSignupModalOpen: function setIsSignupModalOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].toggleModalIsOpen('signup', isOpen));
+    }
+  };
 };
+
+var ConnectedContainer = !(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(mapStateToProps, mapDispatchToProps)(Container);
 /* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Base, params), element);
+  react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].store
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, params)), element);
 });
 
 /***/ }),
@@ -60416,7 +60761,7 @@ function Form(props) {
       components: {
         Option: _src_components_AutoCompleteField__WEBPACK_IMPORTED_MODULE_2__["OptionWithFlag"]
       },
-      placeholder: "Start typing or select recommented markets",
+      placeholder: props.suggestedCountries ? 'Start typing or select recommented markets' : 'Start typing and select a market',
       isDisabled: props.isInProgress,
       isLoading: props.isInProgress
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -60443,6 +60788,110 @@ Form.defaultProps = {
   isInProgress: false,
   errors: {},
   value: []
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/Countries/Start.jsx":
+/*!********************************************************!*\
+  !*** ./react-components/src/views/Countries/Start.jsx ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Start; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function Start(props) {
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "great-mvp-countries-Start m-t-xxs"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "w-1-2"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      className: "h-m p-t-0"
+    }, "Would you like to add export markets to your export plan?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "You can keep learning, and every now and then we will ask you a few questions. Your answers will be added to your export plan, moving you closer to sending your first order overseas."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "#\"",
+      className: "great-mvp-wizard-step-button",
+      onClick: function onClick(event) {
+        event.preventDefault();
+        props.handleClick();
+      }
+    }, "Add target markets")))
+  );
+}
+Start.propTypes = {
+  handleClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/Countries/Success.jsx":
+/*!**********************************************************!*\
+  !*** ./react-components/src/views/Countries/Success.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Success; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _stylesheets_Success_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stylesheets/Success.scss */ "./react-components/src/views/Countries/stylesheets/Success.scss");
+/* harmony import */ var _stylesheets_Success_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Success_scss__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+function Success(props) {
+  var countries = props.countries.map(function (item, i) {
+    return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", {
+        key: i
+      }, item.label)
+    );
+  });
+  var maybePlural = props.countries.length == 1 ? 'has' : 'have';
+  var exportPlanUrl = "".concat(_src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.exportPlanTargetMarketsUrl, "#sector-chooser");
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "great-mvp-countries-success m-t-xxs"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      className: "h-m p-t-0"
+    }, "Which markets do you have in mind?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "grid-flex"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-1-2"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "great-mvp-flex"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "great-mvp-icon-container p-t-s p-r-xs p-f-xs"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/static/images/book.svg"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "p-xs great-mvp-text-container"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-b-xs m-t-0"
+    }, countries, " ", maybePlural, " been added as target markets to your export plan."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "great-mvp-wizard-step-link m-r-s",
+      href: exportPlanUrl
+    }, "View export plan"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      href: "#",
+      className: "great-mvp-wizard-step-link",
+      onClick: props.handleChangeAnswers
+    }, "Change countries"))))))
+  );
+}
+Success.propTypes = {
+  countries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
+  handleChangeAnswers: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
 
 /***/ }),
@@ -60511,10 +60960,10 @@ SuggestedCountries.propTypes = {
 
 /***/ }),
 
-/***/ "./react-components/src/views/Countries/stylesheets/Base.scss":
-/*!********************************************************************!*\
-  !*** ./react-components/src/views/Countries/stylesheets/Base.scss ***!
-  \********************************************************************/
+/***/ "./react-components/src/views/Countries/stylesheets/Component.scss":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/views/Countries/stylesheets/Component.scss ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -60522,27 +60971,155 @@ SuggestedCountries.propTypes = {
 
 /***/ }),
 
-/***/ "./react-components/src/views/CountriesModal/Base.jsx":
-/*!************************************************************!*\
-  !*** ./react-components/src/views/CountriesModal/Base.jsx ***!
-  \************************************************************/
-/*! exports provided: Base, default */
+/***/ "./react-components/src/views/Countries/stylesheets/Success.scss":
+/*!***********************************************************************!*\
+  !*** ./react-components/src/views/Countries/stylesheets/Success.scss ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/views/CountriesModal/Component.jsx":
+/*!*****************************************************************!*\
+  !*** ./react-components/src/views/CountriesModal/Component.jsx ***!
+  \*****************************************************************/
+/*! exports provided: STEP_COUNTRIES, STEP_SUCCESS, SkipShowGenericContent, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createModal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_COUNTRIES", function() { return STEP_COUNTRIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SUCCESS", function() { return STEP_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SkipShowGenericContent", function() { return SkipShowGenericContent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Wizard; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Wizard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Wizard */ "./react-components/src/views/CountriesModal/Wizard.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _src_components_Modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Modal */ "./react-components/src/components/Modal.jsx");
+/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/stylesheets/ModalCentreScreen.scss */ "./react-components/src/stylesheets/ModalCentreScreen.scss");
+/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _StepCountries__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./StepCountries */ "./react-components/src/views/CountriesModal/StepCountries.jsx");
+/* harmony import */ var _StepSuccess__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./StepSuccess */ "./react-components/src/views/CountriesModal/StepSuccess.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* eslint-disable */
+
+
+
+
+
+
+
+
+
+
+var STEP_COUNTRIES = 'country';
+var STEP_SUCCESS = 'success';
+function SkipShowGenericContent(props) {
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "#",
+      className: "great-mvp-wizard-step-link",
+      onClick: function onClick(event) {
+        event.preventDefault();
+        props.onClick();
+      }
+    }, "No thanks, I would like generic content")
+  );
+}
+function Wizard(props) {
+  function getStep() {
+    if (props.currentStep == STEP_COUNTRIES) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCountries__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          errors: props.errors,
+          disabled: props.isInProgress,
+          handleSubmit: props.handleSubmit,
+          handleChange: props.setCountries,
+          value: props.countries || []
+        })
+      );
+    } else if (props.currentStep == STEP_SUCCESS) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepSuccess__WEBPACK_IMPORTED_MODULE_9__["default"], {
+          successUrl: "".concat(window.location, "?success"),
+          handleChangeAnswers: props.handleChangeAnswers,
+          countries: props.countries,
+          industries: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.userIndustries || [],
+          handleComplete: props.handleComplete
+        })
+      );
+    }
+  }
+
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Modal__WEBPACK_IMPORTED_MODULE_4__["default"], _defineProperty({
+      isOpen: props.isOpen,
+      setIsOpen: props.setIsOpen,
+      skipFeatureCookieName: "skip-industries-of-interest",
+      skipFeatureComponent: props.currentStep == STEP_COUNTRIES ? SkipShowGenericContent : null,
+      performSkipFeatureCookieCheck: props.performSkipFeatureCookieCheck,
+      id: "dashboard-question-modal-lets-get-to-know-you",
+      className: "p-s"
+    }, "setIsOpen", props.setIsOpen), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      errors: props.errors.__all__ || [],
+      className: "m-t-s"
+    }), getStep())
+  );
+}
+Wizard.propTypes = {
+  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  industries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
+  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+};
+Wizard.defaultProps = {
+  isOpen: false,
+  errors: {},
+  isInProgress: false,
+  industries: [],
+  currentStep: STEP_COUNTRIES,
+  performSkipFeatureCookieCheck: true
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/CountriesModal/Container.jsx":
+/*!*****************************************************************!*\
+  !*** ./react-components/src/views/CountriesModal/Container.jsx ***!
+  \*****************************************************************/
+/*! exports provided: Container, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Component */ "./react-components/src/views/CountriesModal/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -60560,25 +61137,106 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Base(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isOpen),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      isOpen = _React$useState2[0],
-      setIsOpen = _React$useState2[1];
 
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wizard__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      isOpen: isOpen,
-      setIsOpen: setIsOpen
-    })
+
+
+
+
+function Container(props) {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      errors = _React$useState2[0],
+      setErrors = _React$useState2[1];
+
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      isInProgress = _React$useState4[0],
+      setIsInProgress = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      currentStep = _React$useState6[0],
+      setCurrentStep = _React$useState6[1];
+
+  function handleUpdateCompany() {
+    var data = {
+      expertise_countries: (props.countries || []).map(function (item) {
+        return item.value;
+      })
+    };
+    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateCompany(data).then(handeleApiUpdateSuccess)["catch"](handeleApiUpdateError);
+  }
+
+  function handeleApiUpdateError(apiErrors) {
+    setErrors(apiErrors);
+    gotoCountries();
+  }
+
+  function handeleApiUpdateSuccess() {
+    setIsInProgress(false);
+    setErrors({});
+    setCurrentStep(_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_SUCCESS"]);
+  }
+
+  function gotoCountries() {
+    setCurrentStep(_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_COUNTRIES"]);
+  }
+
+  function handleComplete() {
+    window.location.reload();
+  }
+
+  var handleSubmit = function handleSubmit() {
+    if (_src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.userIsAuthenticated) {
+      handleUpdateCompany();
+    } else {
+      props.setIsSignupModalOpen(true);
+    }
+  };
+
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Component__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({
+      handleSubmit: handleSubmit,
+      errors: errors,
+      isInProgress: isInProgress,
+      currentStep: currentStep,
+      handleChangeAnswers: gotoCountries,
+      handleComplete: handleComplete
+    }, props))
   );
 }
-function createModal(_ref) {
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    isOpen: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getModalIsOpen"])(state, 'countries'),
+    countries: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getCountriesExpertise"])(state),
+    performSkipFeatureCookieCheck: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getPerformFeatureSKipCookieCheck"])(state)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setIsOpen: function setIsOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].toggleModalIsOpen('countries', isOpen));
+    },
+    setIsSignupModalOpen: function setIsSignupModalOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].toggleModalIsOpen('signup', isOpen));
+    },
+    setCountries: function setCountries(countries) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].setCountriesExpertise(countries));
+    }
+  };
+};
+
+var ConnectedContainer = !(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(mapStateToProps, mapDispatchToProps)(Container);
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
-  react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(element);
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wizard__WEBPACK_IMPORTED_MODULE_3__["default"], params), element);
-}
+  react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].store
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, params)), element);
+});
 
 /***/ }),
 
@@ -60720,7 +61378,11 @@ function StepSuccess(props) {
       className: "h-m p-t-0"
     }, "Complete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Your relevant opportunities and events in ", industries, " and ", countries, " are ready."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       className: "great-mvp-wizard-step-button m-t-l",
-      href: props.successUrl
+      href: "#",
+      onClick: function onClick(event) {
+        event.preventDefault();
+        props.handleComplete();
+      }
     }, "Let's go"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "m-t-s"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -60736,169 +61398,6 @@ function StepSuccess(props) {
 StepSuccess.propTypes = {
   countries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
   industries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/CountriesModal/Wizard.jsx":
-/*!**************************************************************!*\
-  !*** ./react-components/src/views/CountriesModal/Wizard.jsx ***!
-  \**************************************************************/
-/*! exports provided: STEP_COUNTRIES, STEP_SUCCESS, SkipShowGenericContent, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_COUNTRIES", function() { return STEP_COUNTRIES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SUCCESS", function() { return STEP_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SkipShowGenericContent", function() { return SkipShowGenericContent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Wizard; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _src_components_Modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Modal */ "./react-components/src/components/Modal.jsx");
-/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/stylesheets/ModalCentreScreen.scss */ "./react-components/src/stylesheets/ModalCentreScreen.scss");
-/* harmony import */ var _src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_src_stylesheets_ModalCentreScreen_scss__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _StepCountries__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./StepCountries */ "./react-components/src/views/CountriesModal/StepCountries.jsx");
-/* harmony import */ var _StepSuccess__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./StepSuccess */ "./react-components/src/views/CountriesModal/StepSuccess.jsx");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-/* eslint-disable */
-
-
-
-
-
-
-
-
-
-
-var STEP_COUNTRIES = 'country';
-var STEP_SUCCESS = 'success';
-function SkipShowGenericContent(props) {
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "#",
-      className: "great-mvp-wizard-step-link",
-      onClick: function onClick(event) {
-        event.preventDefault();
-        props.onClick();
-      }
-    }, "No thanks, I would like generic content")
-  );
-}
-function Wizard(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      errors = _React$useState2[0],
-      setErrors = _React$useState2[1];
-
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      isInProgress = _React$useState4[0],
-      setIsInProgress = _React$useState4[1];
-
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(_src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.userCountries || []),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      countries = _React$useState6[0],
-      setCountries = _React$useState6[1];
-
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      currentStep = _React$useState8[0],
-      setCurrentStep = _React$useState8[1];
-
-  function handleUpdateCompanies() {
-    var data = {
-      expertise_countries: (countries || []).map(function (item) {
-        return item.value;
-      })
-    };
-    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateCompany(data).then(handeleApiUpdateSuccess)["catch"](handeleApiUpdateError);
-  }
-
-  function handeleApiUpdateError(errors) {
-    setErrors(errors);
-    setCurrentStep(STEP_COUNTRIES);
-  }
-
-  function handeleApiUpdateSuccess() {
-    setIsInProgress(false);
-    setErrors({});
-    setCurrentStep(STEP_SUCCESS);
-  }
-
-  function getStep() {
-    if (currentStep == STEP_COUNTRIES) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCountries__WEBPACK_IMPORTED_MODULE_8__["default"], {
-          errors: errors,
-          disabled: isInProgress,
-          handleSubmit: handleUpdateCompanies,
-          handleChange: setCountries,
-          value: countries || []
-        })
-      );
-    } else if (currentStep == STEP_SUCCESS) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepSuccess__WEBPACK_IMPORTED_MODULE_9__["default"], {
-          successUrl: "".concat(window.location, "?success"),
-          handleChangeAnswers: function handleChangeAnswers() {
-            return setCurrentStep(STEP_COUNTRIES);
-          },
-          countries: countries,
-          industries: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.userIndustries || []
-        })
-      );
-    }
-  }
-
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Modal__WEBPACK_IMPORTED_MODULE_4__["default"], _defineProperty({
-      isOpen: props.isOpen,
-      setIsOpen: props.setIsOpen,
-      skipFeatureCookieName: "skip-industries-of-interest",
-      skipFeatureComponent: currentStep == STEP_COUNTRIES ? SkipShowGenericContent : null,
-      performSkipFeatureCookieCheck: props.performSkipFeatureCookieCheck,
-      id: "dashboard-question-modal-lets-get-to-know-you",
-      className: "p-s"
-    }, "setIsOpen", props.setIsOpen), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      errors: errors.__all__ || [],
-      className: "m-t-s"
-    }), getStep())
-  );
-}
-Wizard.propTypes = {
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
-  industries: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
-  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
-};
-Wizard.defaultProps = {
-  isOpen: false,
-  errors: {},
-  isInProgress: false,
-  industries: [],
-  currentStep: STEP_COUNTRIES,
-  performSkipFeatureCookieCheck: true
 };
 
 /***/ }),
@@ -61199,7 +61698,9 @@ var modalStyles = {
   }, _defineProperty(_content, "top", 75), _defineProperty(_content, "width", 430), _defineProperty(_content, "overflow", 'visible'), _defineProperty(_content, "height", '100%'), _content),
   overlay: {
     zIndex: 1000,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    width: 430,
+    height: '100%'
   }
 };
 function Modal(props) {
@@ -61220,12 +61721,7 @@ function Modal(props) {
 
   return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "great-mvp-signup-modal"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      id: "header-sign-in-link",
-      onClick: handleOpen,
-      className: "account-link signin",
-      href: _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].config.dashboardUrl
-    }, "Sign up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_3___default.a, {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_3___default.a, {
       isOpen: isOpen,
       style: modalStyles,
       contentLabel: "Modal"
@@ -61312,14 +61808,14 @@ function Step1(props) {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "submit",
       value: "Log in",
-      className: "great-mvp-wizard-step-submit",
+      className: "great-mvp-wizard-step-submit great-mvp-wizard-step-button",
       disabled: props.disabled
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       href: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.passwordResetUrl
     }, "Forgotten password?"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "great-mvp-vertical-separator"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "or"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_SocialLoginButtons__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Do not have an account? ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.dashboardUrl
+      href: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.signupUrl
     }, "Sign up")))
   );
 }
@@ -61466,16 +61962,16 @@ Wizard.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/views/MarketSelectNavbar/Base.jsx":
-/*!****************************************************************!*\
-  !*** ./react-components/src/views/MarketSelectNavbar/Base.jsx ***!
-  \****************************************************************/
-/*! exports provided: Base, default */
+/***/ "./react-components/src/views/MarketSelectNavbar/Container.jsx":
+/*!*********************************************************************!*\
+  !*** ./react-components/src/views/MarketSelectNavbar/Container.jsx ***!
+  \*********************************************************************/
+/*! exports provided: Container, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -61484,24 +61980,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _src_views_ProductsModal_Wizard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/ProductsModal/Wizard */ "./react-components/src/views/ProductsModal/Wizard.jsx");
-/* harmony import */ var _src_views_SignupModal_ModalCentreScreen__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/SignupModal/ModalCentreScreen */ "./react-components/src/views/SignupModal/ModalCentreScreen.jsx");
-/* harmony import */ var _src_views_CountriesModal_Wizard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/views/CountriesModal/Wizard */ "./react-components/src/views/CountriesModal/Wizard.jsx");
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _src_views_ProductsModal_Component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/ProductsModal/Component */ "./react-components/src/views/ProductsModal/Component.jsx");
+/* harmony import */ var _src_views_SignupModal_Component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/views/SignupModal/Component */ "./react-components/src/views/SignupModal/Component.jsx");
+/* harmony import */ var _src_views_CountriesModal_Component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/views/CountriesModal/Component */ "./react-components/src/views/CountriesModal/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -61510,146 +61999,95 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Base(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isProductModalOpen),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      isProductModalOpen = _React$useState2[0],
-      setIsProductModalOpen = _React$useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      isSignupModalOpen = _React$useState4[0],
-      setIsSignupModalOpen = _React$useState4[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      isCountriesModalOpen = _React$useState6[0],
-      setIsCountriesModalOpen = _React$useState6[1];
 
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(true),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      performSkipFeatureCookieCheck = _React$useState8[0],
-      setPerformSkipFeatureCookieCheck = _React$useState8[1];
-
-  var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(''),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      nextUrl = _React$useState10[0],
-      setNextUrl = _React$useState10[1];
-
-  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState({
-    expertise_products_services: {
-      other: []
-    }
-  }),
-      _React$useState12 = _slicedToArray(_React$useState11, 2),
-      companySettings = _React$useState12[0],
-      setCompanySettings = _React$useState12[1];
-
+function Container(props) {
   props.productElement.onclick = function () {
     // user is explicitly sking to see the modal, so don't prevent it opening via cookie check
-    setIsCountriesModalOpen(false);
-    setIsProductModalOpen(true);
-    setPerformSkipFeatureCookieCheck(false);
+    props.setIsProductModalOpen(true);
+    props.skipFeatureCookieCheck();
   };
 
   props.countryElement.onclick = function () {
     // user is explicitly sking to see the modal, so don't prevent it opening via cookie check
-    setIsProductModalOpen(false);
-    setIsCountriesModalOpen(true);
-    setPerformSkipFeatureCookieCheck(false);
+    props.setIsCountriesModalOpen(true);
+    props.skipFeatureCookieCheck();
   };
 
-  function buildNextUrl(userHasSignupIntent, products) {
-    var url = "".concat(location.pathname, "?");
-    products.forEach(function (product) {
-      url += 'products=' + product.value + '&products_label=' + product.label + '&';
-    });
-    return url;
-  }
-
-  function onSelectProuctComplete(userHasSignupIntent, products) {
-    setIsProductModalOpen(false);
-
-    if (userHasSignupIntent) {
-      setCompanySettings({
-        expertise_products_services: {
-          other: products
-        }
-      });
-      setIsSignupModalOpen(true);
-    } else {
-      var url = buildNextUrl(userHasSignupIntent, products);
-      window.location.assign(url);
-    }
-  }
-
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_ProductsModal_Wizard__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      isOpen: isProductModalOpen,
-      setIsOpen: setIsProductModalOpen,
-      onComplete: onSelectProuctComplete,
-      performSkipFeatureCookieCheck: performSkipFeatureCookieCheck
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_SignupModal_ModalCentreScreen__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      isOpen: isSignupModalOpen,
-      setIsOpen: setIsSignupModalOpen,
-      companySettings: companySettings,
-      nextUrl: nextUrl,
-      performSkipFeatureCookieCheck: performSkipFeatureCookieCheck
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_CountriesModal_Wizard__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      isOpen: isCountriesModalOpen,
-      setIsOpen: setIsCountriesModalOpen,
-      performSkipFeatureCookieCheck: performSkipFeatureCookieCheck
-    }))
-  );
+  return null;
 }
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    isProductModalOpen: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_10__["getModalIsOpen"])(state, 'products'),
+    isSignupModalOpen: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_10__["getModalIsOpen"])(state, 'signup'),
+    isCountriesModalOpen: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_10__["getModalIsOpen"])(state, 'countries'),
+    productsExpertise: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_10__["getProductsExpertise"])(state)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setIsProductModalOpen: function setIsProductModalOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_9__["default"].toggleModalIsOpen('products', isOpen));
+    },
+    setIsSignupModalOpen: function setIsSignupModalOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_9__["default"].toggleModalIsOpen('signup', isOpen));
+    },
+    setIsCountriesModalOpen: function setIsCountriesModalOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_9__["default"].toggleModalIsOpen('countries', isOpen));
+    },
+    setProductsExpertise: function setProductsExpertise(products) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_9__["default"].setProductsExpertise(products));
+    },
+    skipFeatureCookieCheck: function skipFeatureCookieCheck() {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_9__["default"].skipFeatureCookieCheck());
+    }
+  };
+};
+
+var ConnectedContainer = !(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(mapStateToProps, mapDispatchToProps)(Container);
 /* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
-  react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
   var mainElement = document.createElement('span');
   element.appendChild(mainElement);
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Base, params), mainElement);
+  react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_8__["default"].store
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, params)), mainElement);
 });
 
 /***/ }),
 
-/***/ "./react-components/src/views/ProductsModal/Base.jsx":
-/*!***********************************************************!*\
-  !*** ./react-components/src/views/ProductsModal/Base.jsx ***!
-  \***********************************************************/
-/*! exports provided: Base, default */
+/***/ "./react-components/src/views/ProductsModal/Component.jsx":
+/*!****************************************************************!*\
+  !*** ./react-components/src/views/ProductsModal/Component.jsx ***!
+  \****************************************************************/
+/*! exports provided: STEP_CATEGORY, STEP_PRODUCTS, STEP_SUCCESS, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createModal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_CATEGORY", function() { return STEP_CATEGORY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_PRODUCTS", function() { return STEP_PRODUCTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SUCCESS", function() { return STEP_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Wizard; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _src_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Modal */ "./react-components/src/components/Modal.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _Wizard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Wizard */ "./react-components/src/views/ProductsModal/Wizard.jsx");
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+/* harmony import */ var _StepCategory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./StepCategory */ "./react-components/src/views/ProductsModal/StepCategory.jsx");
+/* harmony import */ var _StepProducts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./StepProducts */ "./react-components/src/views/ProductsModal/StepProducts.jsx");
+/* harmony import */ var _StepSuccess__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./StepSuccess */ "./react-components/src/views/ProductsModal/StepSuccess.jsx");
+/* harmony import */ var _stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./stylesheets/Modal.scss */ "./react-components/src/views/ProductsModal/stylesheets/Modal.scss");
+/* harmony import */ var _stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_8__);
 /* eslint-disable */
 
 
@@ -61657,26 +62095,274 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Base(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isOpen),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      isOpen = _React$useState2[0],
-      setIsOpen = _React$useState2[1];
 
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wizard__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      isOpen: isOpen,
-      setIsOpen: setIsOpen,
-      onComplete: props.onComplete
-    })
+
+
+var STEP_CATEGORY = 'category';
+var STEP_PRODUCTS = 'products';
+var STEP_SUCCESS = 'success';
+function Wizard(props) {
+  var isLastStep = props.currentStep == STEP_SUCCESS;
+
+  function getStep() {
+    if (props.currentStep == STEP_CATEGORY) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCategory__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          errors: props.errors,
+          disabled: props.isInProgress,
+          handleChange: props.handleCategoryChange,
+          value: props.category
+        })
+      );
+    } else if (props.currentStep == STEP_PRODUCTS) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepProducts__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          errors: props.errors,
+          disabled: props.isInProgress,
+          handleChange: props.setProducts,
+          handleSubmit: props.handleProductsSubmit,
+          value: props.products
+        })
+      );
+    } else if (props.currentStep == STEP_SUCCESS) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepSuccess__WEBPACK_IMPORTED_MODULE_7__["default"], {
+          handleComplete: props.handleComplete,
+          handleSignup: props.handleSignup,
+          products: props.products
+        })
+      );
+    }
+  }
+
+  function SkipShowGenericContent(innerProps) {
+    var children = [];
+
+    if (isLastStep) {
+      children.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        key: "change-answers",
+        href: "#",
+        className: "great-mvp-wizard-step-link",
+        onClick: function onClick(event) {
+          event.preventDefault();
+          props.handleChangeAnswers();
+        }
+      }, "Change answers"));
+    } else if (!_src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].config.userIsAuthenticated) {
+      children.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        key: "show-generic-content",
+        href: "#",
+        className: "great-mvp-wizard-step-link",
+        onClick: function onClick(event) {
+          event.preventDefault();
+          innerProps.onClick();
+        }
+      }, "No thanks I would like generic content"));
+    }
+
+    if (children.length > 0) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "grid"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "c-1-3"
+        }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "c-2-3"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "m-t-xxs"
+        }, children)))
+      );
+    }
+
+    return null;
+  }
+
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      isOpen: props.isOpen,
+      setIsOpen: props.setIsOpen,
+      id: "dashboard-question-modal-export",
+      skipFeatureCookieName: "skip-export",
+      skipFeatureComponent: SkipShowGenericContent,
+      performSkipFeatureCookieCheck: props.performSkipFeatureCookieCheck,
+      className: "ReactModal__Content--Export p-v-s p-r-s"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "grid"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+      className: "c-1-3"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/static/images/book-chap.png",
+      className: "book-chap-image"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-2-3"
+    }, getStep())))
   );
 }
-function createModal(_ref) {
+Wizard.propTypes = {
+  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  setIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  onComplete: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
+  isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  category: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+};
+Wizard.defaultProps = {
+  errors: {},
+  isInProgress: false,
+  category: '',
+  onComplete: function onComplete() {},
+  currentStep: STEP_CATEGORY,
+  performSkipFeatureCookieCheck: true
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/ProductsModal/Container.jsx":
+/*!****************************************************************!*\
+  !*** ./react-components/src/views/ProductsModal/Container.jsx ***!
+  \****************************************************************/
+/*! exports provided: Container, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_3__);
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _src_views_ProductsModal_Component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/views/ProductsModal/Component */ "./react-components/src/views/ProductsModal/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+function Container(props) {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      errors = _React$useState2[0],
+      setErrors = _React$useState2[1];
+
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.category),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      category = _React$useState4[0],
+      setCategory = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      isInProgress = _React$useState6[0],
+      setIsInProgress = _React$useState6[1];
+
+  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      currentStep = _React$useState8[0],
+      setCurrentStep = _React$useState8[1];
+
+  function handleCategoryChange(value) {
+    setCategory(value);
+    setIsInProgress(false);
+    setErrors({});
+    setCurrentStep(_src_views_ProductsModal_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_PRODUCTS"]);
+  }
+
+  function handleProductsSubmit() {
+    setIsInProgress(false);
+    setErrors({});
+    setCategory(''); // so if the user goes back to step 1 they have to click again
+
+    setCurrentStep(_src_views_ProductsModal_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_SUCCESS"]);
+  }
+
+  function handleChangeAnswers() {
+    setCurrentStep(_src_views_ProductsModal_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_CATEGORY"]);
+  }
+
+  function handleSignup() {
+    props.setIsSignupModalOpen(true);
+  }
+
+  function handleComplete() {
+    var reducer = function reducer(accumulator, product) {
+      return "".concat(accumulator, "product_code=").concat(product.value, "&product=").concat(product.label, "&");
+    };
+
+    var url = props.products.reduce(reducer, location.pathname + '?');
+    window.location.assign(url);
+  }
+
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_ProductsModal_Component__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({
+      errors: errors,
+      category: category,
+      isInProgress: isInProgress,
+      currentStep: currentStep,
+      handleSignup: handleSignup,
+      handleComplete: handleComplete,
+      handleCategoryChange: handleCategoryChange,
+      handleProductsSubmit: handleProductsSubmit,
+      handleChangeAnswers: handleChangeAnswers
+    }, props))
+  );
+}
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    isOpen: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getModalIsOpen"])(state, 'products'),
+    products: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getProductsExpertise"])(state),
+    performSkipFeatureCookieCheck: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getPerformFeatureSKipCookieCheck"])(state)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setIsOpen: function setIsOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].toggleModalIsOpen('products', isOpen));
+    },
+    setIsSignupModalOpen: function setIsSignupModalOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].toggleModalIsOpen('signup', isOpen));
+    },
+    setProducts: function setProducts(products) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].setProductsExpertise(products));
+    }
+  };
+};
+
+var ConnectedContainer = !(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(mapStateToProps, mapDispatchToProps)(Container);
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
   react_modal__WEBPACK_IMPORTED_MODULE_3___default.a.setAppElement(element);
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Base, params), element);
-}
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].store
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, params)), element);
+});
 
 /***/ }),
 
@@ -61704,11 +62390,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function StepCategory(props) {
-  function handleChange(value) {
-    props.handleChange(value);
-    props.handleSubmit();
-  }
-
   return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "great-mvp-export-wizard-step-category"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
@@ -61718,7 +62399,7 @@ function StepCategory(props) {
       name: "category",
       disabled: props.disabled,
       value: props.value,
-      handleChange: handleChange,
+      handleChange: props.handleChange,
       autofocus: true,
       errors: props.errors.category || [],
       options: [{
@@ -61741,7 +62422,6 @@ StepCategory.propTypes = {
   disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
   handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 StepCategory.defaultProps = {
@@ -61876,14 +62556,14 @@ function StepSuccess(props) {
       className: "great-mvp-wizard-step-submit great-mvp-wizard-step-button m-t-s",
       onClick: function onClick(event) {
         event.preventDefault();
-        props.handleComplete(!_src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.userIsAuthenticated);
+        _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.userIsAuthenticated ? props.handleComplete() : props.handleSignup();
       }
-    }, _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.userIsAuthenticated ? 'Save your answers' : "Sign up to save your answers"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    }, _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.userIsAuthenticated ? 'Save your answers' : "Sign up to save your answers"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, !_src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].config.userIsAuthenticated && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       href: "#",
       className: "great-mvp-wizard-step-link m-t-s",
       onClick: function onClick(event) {
         event.preventDefault();
-        props.handleComplete(false);
+        props.handleComplete();
       }
     }, "Continue without signing in")))
   );
@@ -61891,213 +62571,6 @@ function StepSuccess(props) {
 StepSuccess.propTypes = {
   handleComplete: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   products: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/ProductsModal/Wizard.jsx":
-/*!*************************************************************!*\
-  !*** ./react-components/src/views/ProductsModal/Wizard.jsx ***!
-  \*************************************************************/
-/*! exports provided: STEP_CATEGORY, STEP_PRODUCTS, STEP_SUCCESS, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_CATEGORY", function() { return STEP_CATEGORY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_PRODUCTS", function() { return STEP_PRODUCTS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SUCCESS", function() { return STEP_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Wizard; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _src_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Modal */ "./react-components/src/components/Modal.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _StepCategory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./StepCategory */ "./react-components/src/views/ProductsModal/StepCategory.jsx");
-/* harmony import */ var _StepProducts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./StepProducts */ "./react-components/src/views/ProductsModal/StepProducts.jsx");
-/* harmony import */ var _StepSuccess__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./StepSuccess */ "./react-components/src/views/ProductsModal/StepSuccess.jsx");
-/* harmony import */ var _stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./stylesheets/Modal.scss */ "./react-components/src/views/ProductsModal/stylesheets/Modal.scss");
-/* harmony import */ var _stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_8__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-/* eslint-disable */
-
-
-
-
-
-
-
-
-
-var STEP_CATEGORY = 'category';
-var STEP_PRODUCTS = 'products';
-var STEP_SUCCESS = 'success';
-function Wizard(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      errors = _React$useState2[0],
-      setErrors = _React$useState2[1];
-
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.category),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      category = _React$useState4[0],
-      setCategory = _React$useState4[1];
-
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.products),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      products = _React$useState6[0],
-      setProducts = _React$useState6[1];
-
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      isInProgress = _React$useState8[0],
-      setIsInProgress = _React$useState8[1];
-
-  var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      currentStep = _React$useState10[0],
-      setCurrentStep = _React$useState10[1];
-
-  var isLastStep = currentStep == STEP_SUCCESS;
-
-  function handleCategorySubmit(value) {
-    setIsInProgress(false);
-    setErrors({});
-    setCurrentStep(STEP_PRODUCTS);
-  }
-
-  function handleProductsSubmit() {
-    setIsInProgress(false);
-    setErrors({});
-    setCategory(''); // so if the user goes back to step 1 they have to click again
-
-    setCurrentStep(STEP_SUCCESS);
-  }
-
-  function handleComplete(userHasSignupIntent) {
-    props.onComplete(userHasSignupIntent, products);
-  }
-
-  function getStep() {
-    if (currentStep == STEP_CATEGORY) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCategory__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          errors: errors,
-          disabled: isInProgress,
-          handleChange: setCategory,
-          handleSubmit: handleCategorySubmit,
-          value: category
-        })
-      );
-    } else if (currentStep == STEP_PRODUCTS) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepProducts__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          errors: errors,
-          disabled: isInProgress,
-          handleChange: setProducts,
-          handleSubmit: handleProductsSubmit,
-          value: products
-        })
-      );
-    } else if (currentStep == STEP_SUCCESS) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepSuccess__WEBPACK_IMPORTED_MODULE_7__["default"], {
-          handleComplete: handleComplete,
-          products: products
-        })
-      );
-    }
-  }
-
-  function SkipShowGenericContent(props) {
-    var children = [];
-
-    if (isLastStep) {
-      children.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        key: "change-answers",
-        href: "#",
-        className: "great-mvp-wizard-step-link",
-        onClick: function onClick(event) {
-          event.preventDefault();
-          setCurrentStep(STEP_CATEGORY);
-        }
-      }, "Change answers"));
-    } else {
-      children.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        key: "show-generic-content",
-        href: "#",
-        className: "great-mvp-wizard-step-link",
-        onClick: function onClick(event) {
-          event.preventDefault();
-          props.onClick();
-        }
-      }, "No thanks I would like generic content"));
-    }
-
-    if (children.length > 0) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "grid"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "c-1-3"
-        }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "c-2-3"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "m-t-xxs"
-        }, children)))
-      );
-    }
-
-    return null;
-  }
-
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      isOpen: props.isOpen,
-      setIsOpen: props.setIsOpen,
-      id: "dashboard-question-modal-export",
-      skipFeatureCookieName: "skip-export",
-      skipFeatureComponent: SkipShowGenericContent,
-      performSkipFeatureCookieCheck: props.performSkipFeatureCookieCheck,
-      className: "ReactModal__Content--Export p-v-s p-r-s"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "grid"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
-      className: "c-1-3"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-      src: "/static/images/book-chap.png",
-      className: "book-chap-image"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-2-3"
-    }, getStep())))
-  );
-}
-Wizard.propTypes = {
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  setIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  onComplete: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
-  isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
-  category: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
-};
-Wizard.defaultProps = {
-  errors: {},
-  isInProgress: false,
-  category: '',
-  onComplete: function onComplete() {},
-  currentStep: STEP_CATEGORY,
-  performSkipFeatureCookieCheck: true
 };
 
 /***/ }),
@@ -62124,64 +62597,10 @@ Wizard.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/views/SignupModal/Base.jsx":
-/*!*********************************************************!*\
-  !*** ./react-components/src/views/SignupModal/Base.jsx ***!
-  \*********************************************************/
-/*! exports provided: Base, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createModal; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _ModalCentreScreen__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ModalCentreScreen */ "./react-components/src/views/SignupModal/ModalCentreScreen.jsx");
-/* harmony import */ var _ModalHalfScreen__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ModalHalfScreen */ "./react-components/src/views/SignupModal/ModalHalfScreen.jsx");
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-/* eslint-disable */
-
-
-
-
-
-
-function Base(props) {
-  if (props.mode === 'half') {
-    return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalHalfScreen__WEBPACK_IMPORTED_MODULE_5__["default"], props)
-    );
-  } else if (props.mode === 'centre') {
-    return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalCentreScreen__WEBPACK_IMPORTED_MODULE_4__["default"], props)
-    );
-  }
-}
-function createModal(_ref) {
-  var element = _ref.element,
-      params = _objectWithoutProperties(_ref, ["element"]);
-
-  react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(element);
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Base, params), element);
-}
-Base.propTypes = {
-  mode: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string.isRequired
-};
-
-/***/ }),
-
-/***/ "./react-components/src/views/SignupModal/ModalCentreScreen.jsx":
-/*!**********************************************************************!*\
-  !*** ./react-components/src/views/SignupModal/ModalCentreScreen.jsx ***!
-  \**********************************************************************/
+/***/ "./react-components/src/views/SignupModal/Component.jsx":
+/*!**************************************************************!*\
+  !*** ./react-components/src/views/SignupModal/Component.jsx ***!
+  \**************************************************************/
 /*! exports provided: SkipShowGenericContent, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -62230,29 +62649,40 @@ function SkipShowGenericContent(props) {
   );
 }
 function ModalCentreScreen(props) {
-  var products = props.companySettings.expertise_products_services.other;
+  var products = props.productsExpertise;
+  var countries = props.countriesExpertise;
+  var asideTitle = products.length > 0 || countries.length > 0 ? 'Sign up so we can save your settings' : '';
 
   var isOpen = props.isOpen,
       setIsOpen = props.setIsOpen,
-      otherProps = _objectWithoutProperties(props, ["isOpen", "setIsOpen"]);
+      preventClose = props.preventClose,
+      otherProps = _objectWithoutProperties(props, ["isOpen", "setIsOpen", "preventClose"]);
 
   return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
       isOpen: isOpen,
       setIsOpen: setIsOpen,
-      id: "dashboard-question-modal-signup",
+      id: "signup-modal",
       skipFeatureCookieName: "skip-signup",
       skipFeatureComponent: SkipShowGenericContent,
       performSkipFeatureCookieCheck: props.performSkipFeatureCookieCheck,
-      className: "ReactModal__Content--Signup p-l"
+      className: "ReactModal__Content--Signup p-l",
+      preventClose: preventClose
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "grid"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
       className: "c-1-2"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
       className: "h-l"
-    }, "Sign up so we can save your settings"), products && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    }, asideTitle), products.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "p-xxs m-r-m"
     }, products.map(function (item, i) {
+      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          key: i
+        }, item.label)
+      );
+    })), countries.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "p-xxs m-r-m"
+    }, countries.map(function (item, i) {
       return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           key: i
         }, item.label)
@@ -62270,38 +62700,49 @@ ModalCentreScreen.propTypes = {
   isInProgress: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   errors: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
   currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+  performSkipFeatureCookieCheck: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  preventClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
 };
 ModalCentreScreen.defaultProps = {
   isOpen: false,
   isInProgress: false,
   errors: {},
   companySettings: {},
-  performSkipFeatureCookieCheck: true
+  performSkipFeatureCookieCheck: true,
+  preventClose: false
 };
 
 /***/ }),
 
-/***/ "./react-components/src/views/SignupModal/ModalHalfScreen.jsx":
-/*!********************************************************************!*\
-  !*** ./react-components/src/views/SignupModal/ModalHalfScreen.jsx ***!
-  \********************************************************************/
-/*! exports provided: default */
+/***/ "./react-components/src/views/SignupModal/Container.jsx":
+/*!**************************************************************!*\
+  !*** ./react-components/src/views/SignupModal/Container.jsx ***!
+  \**************************************************************/
+/*! exports provided: Container, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Modal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Wizard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Wizard */ "./react-components/src/views/SignupModal/Wizard.jsx");
-/* harmony import */ var _stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stylesheets/Modal.scss */ "./react-components/src/views/SignupModal/stylesheets/Modal.scss");
-/* harmony import */ var _stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Modal_scss__WEBPACK_IMPORTED_MODULE_4__);
-var _content;
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Component */ "./react-components/src/views/SignupModal/Component.jsx");
+/* harmony import */ var _Wizard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Wizard */ "./react-components/src/views/SignupModal/Wizard.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -62315,95 +62756,147 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /* eslint-disable */
 
 
 
 
 
-var modalStyles = {
-  content: (_content = {
-    background: '#f5f2ed',
-    bottom: 'auto',
-    left: '50%',
-    marginRight: '-50%',
-    padding: 30,
-    right: 'auto',
-    top: '50%'
-  }, _defineProperty(_content, "top", 75), _defineProperty(_content, "width", 430), _defineProperty(_content, "inset", '75px auto auto 17%'), _defineProperty(_content, "height", '100%'), _content),
-  overlay: {
-    zIndex: 1000,
-    backgroundColor: 'transparent'
-  }
-};
-function Modal(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isOpen),
+
+
+
+
+
+function Container(props) {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
       _React$useState2 = _slicedToArray(_React$useState, 2),
-      isOpen = _React$useState2[0],
-      setIsOpen = _React$useState2[1];
+      errors = _React$useState2[0],
+      setErrors = _React$useState2[1];
 
-  function handleOpen(event) {
-    event.preventDefault();
-    setIsOpen(true);
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      isInProgress = _React$useState4[0],
+      setIsInProgress = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      currentStep = _React$useState6[0],
+      setCurrentStep = _React$useState6[1];
+
+  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.email),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      email = _React$useState8[0],
+      setEmail = _React$useState8[1];
+
+  var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.password),
+      _React$useState10 = _slicedToArray(_React$useState9, 2),
+      password = _React$useState10[0],
+      setPassword = _React$useState10[1];
+
+  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(''),
+      _React$useState12 = _slicedToArray(_React$useState11, 2),
+      code = _React$useState12[0],
+      setCode = _React$useState12[1];
+
+  function handleError(error) {
+    setErrors(error.message || error);
+    setIsInProgress(false);
   }
 
-  function handleClose(event) {
-    event.preventDefault();
-    setIsOpen(false);
+  function handleSuccess(nextStep) {
+    setIsInProgress(false);
+    setErrors({});
+    setCurrentStep(nextStep);
   }
 
-  function getCloseButton() {
-    if (props.preventClose) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "m-t-l"
-        }, "\xA0")
-      );
+  function handleStepCredentialsSubmit() {
+    setErrors({});
+    setIsInProgress(true);
+    _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].createUser({
+      email: email,
+      password: password
+    }).then(function () {
+      return handleSuccess(_Wizard__WEBPACK_IMPORTED_MODULE_6__["STEP_VERIFICATION_CODE"]);
+    })["catch"](handleError);
+  }
+
+  function handleStepCodeSubmit() {
+    setErrors({});
+    setIsInProgress(true);
+    _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].checkVerificationCode({
+      email: email,
+      code: code
+    }).then(onCodeSubmitSuccess)["catch"](handleError);
+  }
+
+  function onCodeSubmitSuccess() {
+    // company data may have been passed in at the start. Now the user has the 
+    // login cookies the company can be created
+    if (props.productsExpertise.length > 0 || props.countriesExpertise.length > 0) {
+      var data = {
+        expertise_products_services: {
+          other: props.productsExpertise.map(function (item) {
+            return item.value;
+          })
+        },
+        expertise_countries: props.countriesExpertise
+      };
+      _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].updateCompany(data).then(function () {
+        return handleSuccess(_Wizard__WEBPACK_IMPORTED_MODULE_6__["STEP_COMPLETE"]);
+      })["catch"](handleError);
     } else {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "#",
-          className: "link great-mvp-close",
-          onClick: handleClose
-        }, "Close")
-      );
+      handleSuccess(_Wizard__WEBPACK_IMPORTED_MODULE_6__["STEP_COMPLETE"]);
     }
   }
 
-  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "great-mvp-signup-modal"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      id: "header-sign-in-link",
-      onClick: handleOpen,
-      className: "account-link signin",
-      href: "#"
-    }, "Sign up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
-      isOpen: isOpen,
-      onRequestClose: !props.preventClose && handleClose,
-      style: modalStyles,
-      contentLabel: "Modal",
-      id: "signup-modal"
-    }, getCloseButton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wizard__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      currentStep: props.currentStep,
-      username: props.username,
-      handleClose: handleClose,
-      nextUrl: props.nextUrl,
-      showCredentialsLede: true
-    })))
+  function handleStepSuccessSubmit() {
+    location.assign(props.nextUrl);
+  }
+
+  return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Component__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, props, {
+      errors: errors,
+      isInProgress: isInProgress,
+      currentStep: currentStep,
+      email: email,
+      setEmail: setEmail,
+      password: password,
+      setPassword: setPassword,
+      code: code,
+      setCode: setCode,
+      handleStepSuccessSubmit: handleStepSuccessSubmit,
+      handleStepCredentialsSubmit: handleStepCredentialsSubmit,
+      handleStepCodeSubmit: handleStepCodeSubmit
+    }))
   );
 }
-Modal.propTypes = {
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  currentStep: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-  username: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  nextUrl: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  preventClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    isOpen: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_9__["getModalIsOpen"])(state, 'signup'),
+    productsExpertise: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_9__["getProductsExpertise"])(state),
+    countriesExpertise: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_9__["getCountriesExpertise"])(state),
+    performSkipFeatureCookieCheck: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_9__["getPerformFeatureSKipCookieCheck"])(state)
+  };
 };
-Modal.defaultProps = {
-  isOpen: false,
-  username: '',
-  preventClose: false
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setIsOpen: function setIsOpen(isOpen) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_8__["default"].toggleModalIsOpen('signup', isOpen));
+    }
+  };
 };
+
+var ConnectedContainer = !(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(mapStateToProps, mapDispatchToProps)(Container);
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module 'react-redux'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].store
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, params)), element);
+});
 
 /***/ }),
 
@@ -62596,9 +63089,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _stylesheets_StepSuccess_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stylesheets/StepSuccess.scss */ "./react-components/src/views/SignupModal/stylesheets/StepSuccess.scss");
-/* harmony import */ var _stylesheets_StepSuccess_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_StepSuccess_scss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _stylesheets_StepSuccess_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stylesheets/StepSuccess.scss */ "./react-components/src/views/SignupModal/stylesheets/StepSuccess.scss");
+/* harmony import */ var _stylesheets_StepSuccess_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_StepSuccess_scss__WEBPACK_IMPORTED_MODULE_3__);
 /* eslint-disable */
+
 
 
 
@@ -62614,7 +63109,11 @@ function StepSuccess(props) {
       className: "body-text great-mvp-synopsis m-t-0"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "You can now:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "list list-bullet"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Start using your Great.gov.uk Dashboard"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Create an export plan"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Save your progress in learning"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Start using your Great.gov.uk ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.dashboardUrl
+    }, "Dashboard")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Create an  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "/export-plan"
+    }, "export plan")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Save your progress in learning"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
       onSubmit: function onSubmit(event) {
         event.preventDefault();
         props.handleSubmit();
@@ -62655,18 +63154,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _StepCredentials__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./StepCredentials */ "./react-components/src/views/SignupModal/StepCredentials.jsx");
 /* harmony import */ var _StepCode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./StepCode */ "./react-components/src/views/SignupModal/StepCode.jsx");
 /* harmony import */ var _StepSuccess__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./StepSuccess */ "./react-components/src/views/SignupModal/StepSuccess.jsx");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 /* eslint-disable */
 
 
@@ -62678,115 +63165,30 @@ var STEP_CREDENTIALS = 0;
 var STEP_VERIFICATION_CODE = 1;
 var STEP_COMPLETE = 2;
 function Wizard(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.errors),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      errors = _React$useState2[0],
-      setErrors = _React$useState2[1];
-
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.isInProgress),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      isInProgress = _React$useState4[0],
-      setIsInProgress = _React$useState4[1];
-
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      currentStep = _React$useState6[0],
-      setCurrentStep = _React$useState6[1];
-
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.email),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      email = _React$useState8[0],
-      setEmail = _React$useState8[1];
-
-  var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.password),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      password = _React$useState10[0],
-      setPassword = _React$useState10[1];
-
-  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(''),
-      _React$useState12 = _slicedToArray(_React$useState11, 2),
-      code = _React$useState12[0],
-      setCode = _React$useState12[1];
-
-  function handleError(error) {
-    setErrors(error.message || error);
-    setIsInProgress(false);
-  }
-
-  function handleSuccess(nextStep) {
-    setIsInProgress(false);
-    setErrors({});
-    setCurrentStep(nextStep);
-  }
-
-  function handleStepCredentialsSubmit() {
-    setErrors({});
-    setIsInProgress(true);
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].createUser({
-      email: email,
-      password: password
-    }).then(function () {
-      return handleSuccess(STEP_VERIFICATION_CODE);
-    })["catch"](handleError);
-  }
-
-  function handleStepCodeSubmit() {
-    setErrors({});
-    setIsInProgress(true);
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].checkVerificationCode({
-      email: email,
-      code: code
-    }).then(onCodeSubmitSuccess)["catch"](handleError);
-  }
-
-  function onCodeSubmitSuccess() {
-    // company data may have been passed in at the start. Now the user has the 
-    // login cookies the company can be created
-    if (props.companySettings) {
-      var data = {
-        expertise_products_services: {
-          // convert Array[{value: str, label: str}] to Array[str]
-          other: props.companySettings.expertise_products_services.other.map(function (item) {
-            return item.value;
-          })
-        }
-      };
-      _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateCompany(data).then(function () {
-        return handleSuccess(STEP_COMPLETE);
-      })["catch"](handleError);
-    } else {
-      handleSuccess(STEP_COMPLETE);
-    }
-  }
-
-  function handleStepSuccessSubmit() {
-    location.assign(props.nextUrl);
-  }
-
-  if (currentStep == STEP_CREDENTIALS) {
+  if (props.currentStep == STEP_CREDENTIALS) {
     return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCredentials__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        errors: errors,
-        disabled: isInProgress,
-        handleSubmit: handleStepCredentialsSubmit,
-        handleEmailChange: setEmail,
-        handlePasswordChange: setPassword,
-        email: email,
-        password: password,
+        errors: props.errors,
+        disabled: props.isInProgress,
+        handleSubmit: props.handleStepCredentialsSubmit,
+        handleEmailChange: props.setEmail,
+        handlePasswordChange: props.setPassword,
+        email: props.email,
+        password: props.password,
         showLede: props.showCredentialsLede
       })
     );
-  } else if (currentStep == STEP_VERIFICATION_CODE) {
+  } else if (props.currentStep == STEP_VERIFICATION_CODE) {
     return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepCode__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        errors: errors,
-        handleSubmit: handleStepCodeSubmit,
-        disabled: isInProgress,
-        handleCodeChange: setCode,
-        code: code
+        errors: props.errors,
+        handleSubmit: props.handleStepCodeSubmit,
+        disabled: props.isInProgress,
+        handleCodeChange: props.setCode,
+        code: props.code
       })
     );
-  } else if (currentStep == STEP_COMPLETE) {
+  } else if (props.currentStep == STEP_COMPLETE) {
     return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StepSuccess__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        handleSubmit: handleStepSuccessSubmit
+        handleSubmit: props.handleStepSuccessSubmit
       })
     );
   }

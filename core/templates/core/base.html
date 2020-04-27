@@ -34,18 +34,70 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-        {% if tour %}
-            var element = document.createElement('div');
-            document.body.appendChild(element);
-            ditMVP.Tour({
-                element: element,
-                isOpenModal: true,
-                steps: {{ tour.steps|safe }},
-                title: '{{ tour.title }}',
-                body: '{{ tour.body }}',
-                buttonText: '{{ tour.button_text }}',
-                disableTourCookieName: 'disable-tour-{{ page.content_type }}'
-            })
-        {% endif %}
-    </script>
+      {% if user.company %}
+      var userCountries ={{ user.company.expertise_countries_value_label_pairs|safe }};
+      var userIndustries = {{ user.company.expertise_industries_value_label_pairs|safe }};
+      {% else %}
+      var userCountries = [];
+      var userIndustries = [];
+      {% endif %}
+      // static values that will not be updated by user interacting with react components
+      ditMVP.setConfig({ 
+          apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
+          apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+          apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+          apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
+          countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
+          countryOptions: {{ javascript_components.country_choices|safe }},
+          csrfToken: '{{ csrf_token }}',
+          dashboardUrl: '{% url "core:dashboard" %}',
+          exportPlanTargetMarketsUrl: '{% url "exportplan:target-markets" %}',
+          googleUrl: '{{ javascript_components.google_url }}',
+          industryOptions: {{ javascript_components.industry_options|safe }},
+          linkedInUrl: '{{ javascript_components.linkedin_url }}',
+          loginUrl: '{% url "core:login" %}',
+          signupUrl: '{% url "core:signup" %}',
+          passwordResetUrl: '{{ javascript_components.password_reset_url }}',
+          removeCountryDataUrl: '{% url "exportplan:ajax-remove-country-data" %}',
+          termsUrl: '{{ javascript_components.terms_url }}',
+          userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}'
+      });
+
+      // dynamic value that can be updated by user interacting with react components
+      ditMVP.setInitialState({
+        // prevents modals from opening on page load if user dismissed the modal already
+        performSkipFeatureCookieCheck: true,
+        modalIsOpen: {
+          products: false,
+          countries: false,
+          industries: false,
+          login: false,
+          signup: false,
+        },
+        user: {
+          expertise: {
+            countries: userCountries,
+            industries: userIndustries,
+            products: [],
+          },
+        },
+      })
+
+      {% if tour %}
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        ditMVP.Tour({
+          element: element,
+          isOpenModal: true,
+          steps: {{ tour.steps|safe }},
+          title: '{{ tour.title }}',
+          body: '{{ tour.body }}',
+          buttonText: '{{ tour.button_text }}',
+          disableTourCookieName: 'disable-tour-{{ page.content_type }}'
+        })
+    {% endif %}
+  </script>
 {% endblock %}

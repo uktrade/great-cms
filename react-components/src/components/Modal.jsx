@@ -29,9 +29,16 @@ export function Modal(props){
     props.setIsOpen(false)
   }
 
+  function onRequestClose(event) {
+    event.preventDefault()
+    if (!props.preventClose) {
+      props.setIsOpen(false)
+    }
+  }
+
   function getSkipFeature() {
     const SkipFeature = props.skipFeatureComponent
-    if (SkipFeature) {
+    if (SkipFeature && !props.preventClose) {
       return <SkipFeature onClick={handleRequestSkipFeature} />
     }
   }
@@ -39,7 +46,7 @@ export function Modal(props){
   return (
     <ReactModal
       isOpen={isOpen()}
-      onRequestClose={handleClose}
+      onRequestClose={onRequestClose}
       className={'ReactModal__Content ReactModalCentreScreen ' + props.className}
       overlayClassName='ReactModal__Overlay ReactModalCentreScreen'
       contentLabel='Modal'
@@ -58,11 +65,13 @@ Modal.propTypes = {
   skipFeatureCookieName: PropTypes.string,
   id: PropTypes.string,
   performSkipFeatureCookieCheck: PropTypes.bool,
+  preventClose: PropTypes.bool,
 }
 
 Modal.defaultProps = {
   isOpen: false,
   performSkipFeatureCookieCheck: true,
+  preventClose: false,
 }
 
 export default withCookies(Modal)

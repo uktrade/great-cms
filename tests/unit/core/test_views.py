@@ -302,7 +302,7 @@ def test_capability_article_not_logged_in(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == f'/?next={url}'
+    assert response.url == f'/login/?next={url}'
 
 
 @pytest.mark.django_db

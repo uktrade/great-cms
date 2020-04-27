@@ -17,62 +17,40 @@ export const STEP_SUCCESS = 'success'
 
 
 export default function Wizard(props){
-  const [errors, setErrors] = React.useState(props.errors)
-  const [category, setCategory] = React.useState(props.category)
-  const [products, setProducts] = React.useState(props.products)
-  const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-  const [currentStep, setCurrentStep] = React.useState(props.currentStep)
-  const isLastStep = currentStep == STEP_SUCCESS
-
-  function handleCategorySubmit(value) {
-    setIsInProgress(false)
-    setErrors({})
-    setCurrentStep(STEP_PRODUCTS)
-  }
-
-  function handleProductsSubmit() {
-    setIsInProgress(false)
-    setErrors({})
-    setCategory('')  // so if the user goes back to step 1 they have to click again
-    setCurrentStep(STEP_SUCCESS)
-  }
-
-  function handleComplete(userHasSignupIntent) {
-    props.onComplete(userHasSignupIntent, products)
-  }
+  const isLastStep = props.currentStep == STEP_SUCCESS
 
   function getStep() {
-    if (currentStep == STEP_CATEGORY) {
+    if (props.currentStep == STEP_CATEGORY) {
       return (
         <StepCategory
-          errors={errors}
-          disabled={isInProgress}
-          handleChange={setCategory}
-          handleSubmit={handleCategorySubmit}
-          value={category}
+          errors={props.errors}
+          disabled={props.isInProgress}
+          handleChange={props.handleCategoryChange}
+          value={props.category}
         />
       )
-    } else if (currentStep == STEP_PRODUCTS) {
+    } else if (props.currentStep == STEP_PRODUCTS) {
       return (
         <StepProducts
-          errors={errors}
-          disabled={isInProgress}
-          handleChange={setProducts}
-          handleSubmit={handleProductsSubmit}
-          value={products}
+          errors={props.errors}
+          disabled={props.isInProgress}
+          handleChange={props.setProducts}
+          handleSubmit={props.handleProductsSubmit}
+          value={props.products}
         />
       )
-    } else if (currentStep == STEP_SUCCESS) {
+    } else if (props.currentStep == STEP_SUCCESS) {
       return (
         <StepSuccess
-          handleComplete={handleComplete}
-          products={products}
+          handleComplete={props.handleComplete}
+          handleSignup={props.handleSignup}
+          products={props.products}
         />
       )
     }
   }
 
-  function SkipShowGenericContent(props) {
+  function SkipShowGenericContent(innerProps) {
     const children = []
     if (isLastStep) {
       children.push(
@@ -80,16 +58,16 @@ export default function Wizard(props){
           key='change-answers'
           href='#'
           className='great-mvp-wizard-step-link'
-          onClick={event => { event.preventDefault(); setCurrentStep(STEP_CATEGORY) }}
+          onClick={event => { event.preventDefault(); props.handleChangeAnswers() }}
         >Change answers</a>
       )
-    } else {
+    } else if (!Services.config.userIsAuthenticated) {
       children.push(
         <a
           key='show-generic-content'
           href='#'
           className='great-mvp-wizard-step-link'
-          onClick={event => { event.preventDefault(); props.onClick() }}
+          onClick={event => { event.preventDefault(); innerProps.onClick() }}
         >No thanks I would like generic content</a>
       )
     }

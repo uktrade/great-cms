@@ -25,7 +25,7 @@
                 <nav class="p-t-xs p-h-xs great-mvp-full-width-background" id="market-select-navbar">
                     <span class="m-f-xs">Exporting </span>
                     <span id="set-product-button">
-                        {% if request.GET.products_label %} for
+                        {% if request.GET.product %} for
                             {% for name, values in request.GET.lists %}
                                 {% if name == 'products_label' %}
                                     {% for label in values %}
@@ -33,6 +33,8 @@
                                     {% endfor %}
                                 {% endif %}
                             {% endfor %}
+                        {% else %}
+                            <span class="great-mvp-pill-button">add products</span>
                         {% endif %}
                     </span>
                     to
@@ -42,7 +44,7 @@
                                 <span class="great-mvp-pill-button">{{ label }}</span>
                             {% endfor %}
                         {% else %}
-                            <span class="great-mvp-pill-button">add country</span>
+                            <span class="great-mvp-pill-button">add countries</span>
                         {% endif %}
                     </span>
                 </nav>
@@ -73,52 +75,43 @@
 {% endblock %}
 
 
-{% block body_js %} 
+{% block body_js %}
+    {{ block.super }}
     <script type="text/javascript">
-        {% if request.GET.products_label %}
-        var isProductModalOpen = false;
-        {% else %}
-        var isProductModalOpen = true;
-        {% endif %}
+      var showProductsModal = {{ request.GET.product|yesno:'false,true' }}
 
-        var marketSelectElement = document.getElementById('market-select-navbar');
-        var countriesChooserElement = document.getElementById('countries-chooser');
+      ditMVP.setInitialState({
+        modalIsOpen: {
+          products: showProductsModal
+        }
+      })
 
-        ditMVP.setConfig({ 
-            {% if user.company %}
-            userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
-            userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }},
-            {% else %}
-            userCountries: [],
-            userIndustries: [],
-            {% endif %}
+      ditMVP.MarketSelectNavbar({
+        element: document.getElementById('market-select-navbar'),
+        productElement: document.getElementById('set-product-button'),
+        countryElement: document.getElementById('set-country-button')
+      })
 
-            apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
-            apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
-            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-            countryOptions: {{ country_choices|safe }},
-            csrfToken: '{{ csrf_token }}',
-            dashboardUrl: '{% url "core:dashboard" %}',
-            googleUrl: '{{ signup_modal.google_url }}',
-            linkedInUrl: '{{ signup_modal.linkedin_url }}',
-            loginUrl: '{% url "core:login" %}',
-            termsUrl: '{{ signup_modal.terms_url }}',
-            userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-            verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-        });
+      var productsModalElement = document.createElement('div');
+      document.body.appendChild(productsModalElement);
+      ditMVP.ProductsModal({element: productsModalElement})
 
-        ditMVP.MarketSelectNavbar({
-            element: marketSelectElement,
-            isProductModalOpen: isProductModalOpen,
-            productElement: document.getElementById('set-product-button'),
-            countryElement: document.getElementById('set-country-button')
-        })
+      var signupModalElement = document.createElement('div');
+      document.body.appendChild(signupModalElement);        
+      ditMVP.SignupModal({element: signupModalElement})
 
+      var countriesModalElement = document.createElement('div');
+      document.body.appendChild(countriesModalElement);        
+      ditMVP.CountriesModal({element: countriesModalElement})
+
+
+      {% if request.user.is_authenticated and not request.user.export_plan.target_markets %}
+        var suggestedCountries = {{ suggested_countries|safe }}
         ditMVP.Countries({
-            element: countriesChooserElement,
-            suggestedCountries: {{ suggested_countries|safe }}
+          element: document.getElementById('countries-chooser'),
+          suggestedCountries: suggestedCountries,
         })
-
+      {% endif %}
     </script>
 
 {% endblock %}

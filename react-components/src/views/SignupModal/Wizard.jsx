@@ -13,88 +13,32 @@ export const STEP_VERIFICATION_CODE = 1
 export const STEP_COMPLETE = 2
 
 export default function Wizard(props){
-  const [errors, setErrors] = React.useState(props.errors)
-  const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-  const [currentStep, setCurrentStep] = React.useState(props.currentStep)
-  const [email, setEmail] = React.useState(props.email)
-  const [password, setPassword] = React.useState(props.password)
-  const [code, setCode] = React.useState('')
-
-  function handleError(error) {
-    setErrors(error.message || error)
-    setIsInProgress(false)
-  }
-
-  function handleSuccess(nextStep) {
-    setIsInProgress(false)
-    setErrors({})
-    setCurrentStep(nextStep)
-  }
-
-  function handleStepCredentialsSubmit() {
-    setErrors({})
-    setIsInProgress(true)
-    Services.createUser({email, password})
-      .then(() => handleSuccess(STEP_VERIFICATION_CODE))
-      .catch(handleError)
-  }
-
-  function handleStepCodeSubmit(){
-    setErrors({})
-    setIsInProgress(true)
-    Services.checkVerificationCode({email, code})
-      .then(onCodeSubmitSuccess)
-      .catch(handleError)
-  }
-
-  function onCodeSubmitSuccess() {
-    // company data may have been passed in at the start. Now the user has the 
-    // login cookies the company can be created
-    if (props.companySettings) {
-      const data = {
-        expertise_products_services: {
-          // convert Array[{value: str, label: str}] to Array[str]
-          other: props.companySettings.expertise_products_services.other.map(item => item.value),
-        }
-      }
-      Services.updateCompany(data)
-        .then(() => handleSuccess(STEP_COMPLETE))
-        .catch(handleError)
-    } else {
-      handleSuccess(STEP_COMPLETE)
-    }
-  }
-
-  function handleStepSuccessSubmit() {
-    location.assign(props.nextUrl)
-  }
-
-  if (currentStep == STEP_CREDENTIALS) {
+  if (props.currentStep == STEP_CREDENTIALS) {
     return (
       <StepCredentials
-        errors={errors}
-        disabled={isInProgress}
-        handleSubmit={handleStepCredentialsSubmit}
-        handleEmailChange={setEmail}
-        handlePasswordChange={setPassword}
-        email={email}
-        password={password}
+        errors={props.errors}
+        disabled={props.isInProgress}
+        handleSubmit={props.handleStepCredentialsSubmit}
+        handleEmailChange={props.setEmail}
+        handlePasswordChange={props.setPassword}
+        email={props.email}
+        password={props.password}
         showLede={props.showCredentialsLede}
       />
     )
-  } else if (currentStep == STEP_VERIFICATION_CODE) {
+  } else if (props.currentStep == STEP_VERIFICATION_CODE) {
     return (
       <StepCode
-        errors={errors}
-        handleSubmit={handleStepCodeSubmit}
-        disabled={isInProgress}
-        handleCodeChange={setCode}
-        code={code}
+        errors={props.errors}
+        handleSubmit={props.handleStepCodeSubmit}
+        disabled={props.isInProgress}
+        handleCodeChange={props.setCode}
+        code={props.code}
       />
     )
-  } else if (currentStep == STEP_COMPLETE) {
+  } else if (props.currentStep == STEP_COMPLETE) {
     return (
-      <StepSuccess handleSubmit={handleStepSuccessSubmit} />
+      <StepSuccess handleSubmit={props.handleStepSuccessSubmit} />
     )
   }
 }

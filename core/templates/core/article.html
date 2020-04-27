@@ -32,13 +32,7 @@
     <script type="text/javascript">
         var element = document.createElement('div');
         document.body.appendChild(element);
-        ditMVP.setConfig({
-            csrfToken: '{{ csrf_token }}',
-            countryOptions: {{ country_choices|safe }},
-            apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-            userCountries: {{ user.company.expertise_countries_value_label_pairs|safe }},
-            userIndustries: {{ user.company.expertise_industries_value_label_pairs|safe }}      
-        });
+
         var isOpen = {% if request.user.company.expertise_countries_label %}false{%else %}true{% endif %};
         ditMVP.CountriesModal({
             element: element,

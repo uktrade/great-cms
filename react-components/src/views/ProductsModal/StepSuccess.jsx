@@ -16,16 +16,16 @@ export default function StepSuccess(props){
       <a
         id="signup-modal-submit-success"
         className="great-mvp-wizard-step-submit great-mvp-wizard-step-button m-t-s"
-        onClick={event => {event.preventDefault(); props.handleComplete(!Services.config.userIsAuthenticated) }}
+        onClick={event => {event.preventDefault(); Services.config.userIsAuthenticated ? props.handleComplete() : props.handleSignup() }}
       >
         {Services.config.userIsAuthenticated ? 'Save your answers': "Sign up to save your answers" }
       </a>
       <div>
-      <a
+      {!Services.config.userIsAuthenticated && <a
         href='#'
         className='great-mvp-wizard-step-link m-t-s'
-        onClick={event => {event.preventDefault(); props.handleComplete(false) }}
-      >Continue without signing in</a>
+        onClick={event => {event.preventDefault(); props.handleComplete() }}
+      >Continue without signing in</a>}
       </div>
     </div>
   )
