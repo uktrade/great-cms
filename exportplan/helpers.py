@@ -1,5 +1,7 @@
 import pytz
 
+from config import settings
+
 from airtable import Airtable
 from directory_api_client import api_client
 from iso3166 import countries_by_alpha3
@@ -112,12 +114,17 @@ def serialize_exportplan_data(rules_regulations, user):
     target_markets = [{'country': rules_regulations['country']}]
     if user.company and user.company.expertise_countries_labels:
         target_markets = target_markets + [{'country': c} for c in user.company.expertise_countries_labels]
-    return {
+    exportplan_data = {
         'export_countries': [rules_regulations['country']],
         'export_commodity_codes': [rules_regulations['commodity_code']],
         'rules_regulations': rules_regulations,
         'target_markets': target_markets,
+
+
     }
+    if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
+        exportplan_data['sectors'] = ['food and drink']
+    return exportplan_data
 
 
 def get_or_create_export_plan(user):

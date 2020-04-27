@@ -71,4 +71,6 @@
 - MVP-407 - refactor Browser tests
 - no-ticket - update export-plan link
 - MVP-406 - hook up remove country
+- MVP-392 - hook up selected industries to be deleted
+- no-ticket make food default when creating export plan
 - MVP-381 - Wagtail media and video block
