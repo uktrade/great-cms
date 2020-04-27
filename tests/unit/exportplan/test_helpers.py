@@ -220,6 +220,7 @@ def test_serialize_exportplan_data_hardcoded_industries(user):
     }
 
     exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
+    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = False
     assert exportplan_data == {
         'export_countries': ['UK'],
         'export_commodity_codes': ['123'],
