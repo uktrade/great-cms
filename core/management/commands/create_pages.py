@@ -44,12 +44,6 @@ class Command(BaseCommand):
             slug='how-to-export-third-step',
             template='learn/how_to_export_third_step.html',
         )
-        factories.DetailPageFactory(
-            parent=learn_homepage,
-            title='Learn how to export',
-            slug='learn-how-to-export',
-            template='learn/landing_page.html',
-        )
         learn_categories = factories.ListPageFactory(
             parent=learn_homepage,
             title='Learn how to export',
