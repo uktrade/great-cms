@@ -6,6 +6,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 
 ### Fixed bugs
+- MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 
 ### Implemented enhancements
