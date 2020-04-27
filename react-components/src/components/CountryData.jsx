@@ -90,7 +90,7 @@ export default class CountryData extends React.Component {
                 <figcaption>
                   <p className="statistic__caption educational-moment__paragraph">Corruption Perception Index</p>
                     <EducationalMomentTooltip
-                      id="corruption-perception-index-tooltip"
+                      id={`corruption-perception-index-tooltip-${slugify(country)}`}
                       heading="What is the Corruption Perception Index?"
                       description='The Corruption Perception Index (CPI) is an index published annually by Transparency International since 1995 which ranks countries "by their perceived levels of public sector corruption, as determined by expert assessments and options surveys."'
                       />
