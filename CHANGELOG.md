@@ -6,6 +6,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 
 ### Fixed bugs
+- MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 - MVP-429 - Add missing country thumbnails for food and drink sector
 
@@ -74,3 +75,4 @@
 - MVP-392 - hook up selected industries to be deleted
 - no-ticket make food default when creating export plan
 - MVP-381 - Wagtail media and video block
+- MVP-427 - Persist products upon signup
