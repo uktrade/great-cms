@@ -117,7 +117,7 @@ def serialize_exportplan_data(rules_regulations, user):
         'export_commodity_codes': [rules_regulations['commodity_code']],
         'rules_regulations': rules_regulations,
         'target_markets': target_markets,
-        # TODO Remove default sectors post MVP demo
+        # TODO Remove hard codded default sectors post MVP demo
         'sectors': ['food and drink'],
     }
 

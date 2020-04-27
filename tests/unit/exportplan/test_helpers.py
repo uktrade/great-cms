@@ -228,7 +228,7 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
         'export_countries': ['UK'],
         'export_commodity_codes': ['123'],
         'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
-        'target_markets': [{'country': 'UK'}, {'country': 'China'}, ],
+        'target_markets': [{'country': 'UK'}, {'country': 'China'}],
         'sectors': ['food and drink'],
     }
 
