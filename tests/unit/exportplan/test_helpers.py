@@ -1,5 +1,6 @@
 from unittest import mock
 
+from config import settings
 from directory_api_client import api_client
 import pytest
 
@@ -212,14 +213,13 @@ def test_serialize_exportplan_data(user):
     }
 
 
-def test_serialize_exportplan_data_hardcoded_industries(user, settings):
+def test_serialize_exportplan_data_hardcoded_industries(user):
     settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
     rules_regulations_data = {
         'country': 'UK', 'commodity_code': '123'
     }
 
     exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
-
     assert exportplan_data == {
         'export_countries': ['UK'],
         'export_commodity_codes': ['123'],

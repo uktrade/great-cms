@@ -126,6 +126,7 @@ def serialize_exportplan_data(rules_regulations, user):
         exportplan_data['sectors'] = ['food and drink']
     return exportplan_data
 
+
 def get_or_create_export_plan(user):
     # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
     export_plan = get_exportplan(user.session_id)
