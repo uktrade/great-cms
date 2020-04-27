@@ -1,9 +1,23 @@
 /* eslint-disable */
+import { createStore } from 'redux'
+
+import reducers from '@src/reducers'
+import actions from '@src/actions'
+
+
 const MESSAGE_UNEXPECTED_ERROR = { __all__: ['Unexpected Error'] }
 const MESSAGE_PERMISSION_DENIED = { __all__: ['You do not have permission to perform this action'] }
 const MESSAGE_NOT_FOUND_ERROR = { __all__: ['Not found'] }
 const MESSAGE_TIMEOUT_ERROR = { __all__: ['Request timed out'] }
 const MESSAGE_BAD_REQUEST_ERROR = { __all__: ['Bad request'] }
+
+export const store = createStore(reducers)
+
+
+const setInitialState = function(state) {
+  store.dispatch(actions.setInitialState(state))
+}
+
 
 const post = function (url, data) {
   return fetch(url, {
@@ -55,6 +69,10 @@ const createUser = function ({ email, password }) {
   return post(config.apiSignupUrl, { email, password }).then(responseHandler)
 }
 
+const updateExportPlan = function (data) {
+  return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
+}
+
 const checkVerificationCode = function ({ email, code }) {
   return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
@@ -94,6 +112,8 @@ const responseHandler = function (response) {
   }
 }
 
+
+
 // static values that will not change during execution of the code
 let config = {}
 const setConfig = function ({
@@ -113,10 +133,11 @@ const setConfig = function ({
   loginUrl,
   passwordResetUrl,
   termsUrl,
-  userCountries,
-  userIndustries,
   verifyCodeUrl,
   userIsAuthenticated,
+  apiUpdateExportPlanUrl,
+  exportPlanTargetMarketsUrl,
+  signupUrl,
 }) {
   config.countryDataUrl = countryDataUrl
   config.removeCountryDataUrl = removeCountryDataUrl
@@ -125,6 +146,7 @@ const setConfig = function ({
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
+  config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
   config.dashboardUrl = dashboardUrl
@@ -135,9 +157,9 @@ const setConfig = function ({
   config.passwordResetUrl = passwordResetUrl
   config.termsUrl = termsUrl
   config.verifyCodeUrl = verifyCodeUrl
-  config.userCountries = userCountries
-  config.userIndustries = userIndustries
   config.userIsAuthenticated = userIsAuthenticated
+  config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl
+  config.signupUrl = signupUrl
 }
 
 export default {
@@ -145,13 +167,16 @@ export default {
   checkCredentials,
   checkVerificationCode,
   get,
+  store: store,
   updateCompany,
   getCountryData,
   removeCountryData,
   getCountriesDataBySectors,
+  updateExportPlan,
   lookupProduct,
   setConfig,
   config,
+  setInitialState,
   messages: {
     MESSAGE_UNEXPECTED_ERROR,
     MESSAGE_PERMISSION_DENIED,

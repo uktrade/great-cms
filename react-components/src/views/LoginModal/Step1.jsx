@@ -38,7 +38,7 @@ export default function Step1(props){
         <input
           type="submit"
           value="Log in"
-          className="great-mvp-wizard-step-submit"
+          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
           disabled={props.disabled}
         />
         <p><a href={Services.config.passwordResetUrl}>Forgotten password?</a></p>
@@ -50,8 +50,11 @@ export default function Step1(props){
         <hr/>
       </div>
 
-      <SocialLoginButtons />
-      <p>Do not have an account? <a href={Services.config.dashboardUrl}>Sign up</a></p>
+      <SocialLoginButtons
+        linkedinUrl={props.linkedinLoginUrl}
+        googleUrl={props.googleLoginUrl}
+      />
+      <p>Do not have an account? <a href={Services.config.signupUrl}>Sign up</a></p>
     </div>
   )
 }

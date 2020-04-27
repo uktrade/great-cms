@@ -69,6 +69,10 @@ class LoginView(TemplateView):
     template_name = 'core/login.html'
 
 
+class SignupView(TemplateView):
+    template_name = 'core/signup.html'
+
+
 class MarketsView(TemplateView):
     template_name = 'core/markets.html'
 

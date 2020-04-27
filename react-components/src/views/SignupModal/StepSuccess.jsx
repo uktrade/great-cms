@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Services from '@src/Services'
 import './stylesheets/StepSuccess.scss'
 
 
@@ -13,8 +14,8 @@ export default function StepSuccess(props){
       <div className="body-text great-mvp-synopsis m-t-0">
         <span>You can now:</span>
         <ul className="list list-bullet">
-          <li>Start using your Great.gov.uk Dashboard</li>
-          <li>Create an export plan</li>
+          <li>Start using your Great.gov.uk <a href={Services.config.dashboardUrl}>Dashboard</a></li>
+          <li>Create an  <a href="/export-plan">export plan</a></li>
           <li>Save your progress in learning</li>
         </ul>
       </div>

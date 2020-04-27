@@ -17,6 +17,7 @@ from django.db import models
 
 from core.context import get_context_provider
 from core import mixins
+from core import blocks as core_blocks
 
 
 class AbstractObjectHash(models.Model):
@@ -169,10 +170,17 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
     body = StreamField([
         (
-            'body', PersonalisedStructBlock(
+            'paragraph', PersonalisedStructBlock(
                 [('paragraph', blocks.RichTextBlock())],
-                template='core/personalised_page_struct_block.html',
+                template='core/personalised_page_struct_paragraph_block.html',
                 icon='pilcrow'
+            )
+        ),
+        (
+            'video', PersonalisedStructBlock(
+                [('video', core_blocks.VideoBlock())],
+                template='core/personalised_page_struct_video_block.html',
+                icon='media'
             )
         )
     ])
@@ -192,6 +200,7 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
     content_panels = Page.content_panels + [StreamFieldPanel('body')]
     layout_panels = [FieldPanel('template')]
+    settings_panels = [FieldPanel('slug')] + Page.settings_panels
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -245,7 +254,7 @@ class ListPage(CMSGenericPage):
         help_text='Should we record when a user views a page in this collection?',
     )
 
-    settings_panels = Page.settings_panels + [FieldPanel('record_read_progress')]
+    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
@@ -274,3 +283,7 @@ class PageView(TimeStampedModel):
     class Meta:
         ordering = ['lesson__pk']
         unique_together = ['page', 'sso_id']
+
+
+class HomePage(mixins.WagtailAdminExclusivePageMixin, ListPage):
+    parent_page_types = ['wagtailcore.Page']

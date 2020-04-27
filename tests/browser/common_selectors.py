@@ -65,7 +65,7 @@ class HeaderCommon(SelectorsEnum):
 
 
 class HeaderSignUp(SelectorsEnum):
-    SIGN_UP = Selector(By.ID, 'header-sign-in-link', ElementType.LINK)
+    SIGN_UP = Selector(By.ID, 'header-sign-up-link', ElementType.LINK)
 
 
 class HeaderSignedIn(SelectorsEnum):

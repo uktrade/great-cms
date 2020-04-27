@@ -132,6 +132,16 @@ def visit_home_page(live_server, browser, domestic_site_browser_tests):
 
 
 @pytest.fixture
+def visit_signup_page(live_server, browser, domestic_site_browser_tests):
+    """Get the base url for a live Django server running in a background thread.
+
+    See: https://pytest-django.readthedocs.io/en/latest/helpers.html#live-server
+    """
+    browser.get(f'{live_server.url}/signup/')
+    return browser
+
+
+@pytest.fixture
 def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
     live_server, user, browser = server_user_browser
 
