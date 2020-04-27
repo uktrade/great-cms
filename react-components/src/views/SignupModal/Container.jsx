@@ -5,18 +5,17 @@ import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
 import { connect, Provider } from 'react-redux'
 
-import Component from './Component'
-import { STEP_COMPLETE, STEP_VERIFICATION_CODE } from './Wizard'
+import Component, { STEP_COMPLETE, STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from './Component'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { getCountriesExpertise, getModalIsOpen, getPerformFeatureSKipCookieCheck, getProductsExpertise } from '@src/reducers'
+import { getCountriesExpertise, getModalIsOpen, getPerformFeatureSKipCookieCheck, getProductsExpertise, getNextUrl } from '@src/reducers'
 
 
 export function Container(props){
 
   const [errors, setErrors] = React.useState(props.errors)
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-  const [currentStep, setCurrentStep] = React.useState(props.currentStep)
+  const [currentStep, setCurrentStep] = React.useState(STEP_CREDENTIALS)
   const [email, setEmail] = React.useState(props.email)
   const [password, setPassword] = React.useState(props.password)
   const [code, setCode] = React.useState('')
@@ -69,6 +68,10 @@ export function Container(props){
     location.assign(props.nextUrl)
   }
 
+  const next = encodeURIComponent(`${location.origin}${props.nextUrl}`);
+  const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
+  const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
+
   return (
     <Component
       {...props}
@@ -84,6 +87,8 @@ export function Container(props){
       handleStepSuccessSubmit={handleStepSuccessSubmit}
       handleStepCredentialsSubmit={handleStepCredentialsSubmit}
       handleStepCodeSubmit={handleStepCodeSubmit}
+      linkedinLoginUrl={linkedinLoginUrl}
+      googleLoginUrl={googleLoginUrl}
     />
   )
 }
@@ -95,6 +100,7 @@ const mapStateToProps = state => {
     productsExpertise: getProductsExpertise(state),
     countriesExpertise: getCountriesExpertise(state),
     performSkipFeatureCookieCheck: getPerformFeatureSKipCookieCheck(state),
+    nextUrl: getNextUrl(state),
   }
 }
 

@@ -10,7 +10,7 @@ import LoginModal from '@src/views/LoginModal/Modal'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Base'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
-import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Wizard/'
+import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
 import '@babel/polyfill'
 

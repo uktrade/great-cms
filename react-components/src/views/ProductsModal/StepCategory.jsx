@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
 import Field from '@src/components/Field'
-import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
 
 export default function StepCategory(props){

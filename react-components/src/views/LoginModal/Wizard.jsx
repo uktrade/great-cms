@@ -30,6 +30,10 @@ export default function Wizard(props){
       .catch(handleError)
   }
 
+  const next = encodeURIComponent(`${location.origin}${props.nextUrl}`);
+  const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
+  const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
+
   return (
     <Step1
       disabled={isInProgress}
@@ -39,6 +43,8 @@ export default function Wizard(props){
       handleEmailChange={setEmail}
       password={password}
       email={email}
+      linkedinLoginUrl={linkedinLoginUrl}
+      googleLoginUrl={googleLoginUrl}
     />
   )
  
