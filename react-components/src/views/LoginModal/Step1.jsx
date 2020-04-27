@@ -50,7 +50,10 @@ export default function Step1(props){
         <hr/>
       </div>
 
-      <SocialLoginButtons />
+      <SocialLoginButtons
+        linkedinUrl={props.linkedinLoginUrl}
+        googleUrl={props.googleLoginUrl}
+      />
       <p>Do not have an account? <a href={Services.config.signupUrl}>Sign up</a></p>
     </div>
   )

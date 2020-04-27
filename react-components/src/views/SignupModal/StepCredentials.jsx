@@ -10,32 +10,15 @@ import './stylesheets/StepCredentials.scss'
 
 
 export default function StepCredentials(props){
-
-  function getLede() {
-    if (props.showLede) {
-      return (
-        <>
-          <h2 className="h-xl">Sign up</h2>
-          <p className="body-text">
-            <span>It's easier to sign up now and save your progress, already have an account? </span>
-            <a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
-          </p>
-        </>
-      )
-    } else {
-      return (
-        <p className="body-text m-t-0">
-          <span>Already have an account? </span>
-          <a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
-        </p>
-      )
-    }
-  }
-
   return (
     <div className='great-mvp-signup-wizard-step-credentials'>
-      {getLede()}
-      <SocialLoginButtons />
+      <p className="body-text m-t-0">
+         <span>Already have an account? </span><a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
+      </p>
+      <SocialLoginButtons
+        linkedinUrl={props.linkedinLoginUrl}
+        googleUrl={props.googleLoginUrl}
+      />
       <div className='great-mvp-vertical-separator'>
         <hr/>
         <span>or</span>
@@ -82,6 +65,8 @@ StepCredentials.propTypes = {
   handleEmailChange: PropTypes.func.isRequired,
   password: PropTypes.string,
   email: PropTypes.string,
+  googleUrl: PropTypes.string,
+  linkedinUrl: PropTypes.string,
 }
 
 StepCredentials.defaultProps = {

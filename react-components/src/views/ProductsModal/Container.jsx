@@ -34,14 +34,18 @@ export function Container(props){
     setCurrentStep(STEP_CATEGORY)
   }
 
+  function buildNextUrl() {
+    const reducer = (accumulator, product) => `${accumulator}product_code=${product.value}&product=${product.label}&`
+    return props.products.reduce(reducer, location.pathname + '?')
+  }
+
   function handleSignup() {
+    props.setNextUrl(buildNextUrl())
     props.setIsSignupModalOpen(true) 
   }
 
   function handleComplete() {
-    const reducer = (accumulator, product) => `${accumulator}product_code=${product.value}&product=${product.label}&`
-    const url = props.products.reduce(reducer, location.pathname + '?')
-    window.location.assign(url)
+    window.location.assign(buildNextUrl())
   }
 
   return (
@@ -74,6 +78,7 @@ const mapDispatchToProps = dispatch => {
     setIsOpen: isOpen => { dispatch(actions.toggleModalIsOpen('products', isOpen))},
     setIsSignupModalOpen: isOpen => { dispatch(actions.toggleModalIsOpen('signup', isOpen))},
     setProducts: products => { dispatch(actions.setProductsExpertise(products)) },
+    setNextUrl: nextUrl => { dispatch(actions.setNextUrl(nextUrl) )},
   }
 }
 

@@ -4,11 +4,14 @@ import {
   SET_PRODUCTS_EXPERTISE,
   SET_COUNTRIES_EXPERTISE,
   SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
+  SET_NEXT_URL,
 } from '@src/actions'
 
 const initialState = {
   // prevents modals from opening on page load if user dismissed the modal already
   performSkipFeatureCookieCheck: true,
+  // place to send user on successful completion of certain forms
+  nextUrl: undefined,
   modalIsOpen: {
     products: false,
     countries: false,
@@ -68,6 +71,13 @@ function setPerformFeatureSKipCookieCheck(state, payload) {
   return newState
 }
 
+function setNextUrl(state, payload) {
+  let newState = cloneState(state)
+  newState.nextUrl = payload
+  return newState
+}
+
+
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case SET_INITIAL_STATE:
@@ -80,6 +90,8 @@ export default function rootReducer(state = initialState, action) {
       return setCountriesExpertise(state, action.payload)
     case SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK:
       return setPerformFeatureSKipCookieCheck(state, action.payload)
+    case SET_NEXT_URL:
+      return setNextUrl(state, action.payload)
     default:
       return state
   }
@@ -91,3 +103,4 @@ export const getCountriesExpertise = state => state.user.expertise.countries
 export const getProductsExpertise = state => state.user.expertise.products
 export const getIndustriesExpertise = state => state.user.expertise.industries
 export const getPerformFeatureSKipCookieCheck = state => state.performSkipFeatureCookieCheck
+export const getNextUrl = state => state.nextUrl
