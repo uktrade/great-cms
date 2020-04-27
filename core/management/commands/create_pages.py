@@ -24,7 +24,7 @@ class Command(BaseCommand):
             parent=site.root_page,
             title='Learn',
             slug='learn',
-            template='learn/homepage.html',
+            template='learn/learn_page.html',
         )
         factories.DetailPageFactory(
             parent=learn_homepage,
