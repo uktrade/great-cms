@@ -13,7 +13,7 @@ import { createTargetMarketCountries } from '@src/components/TargetMarketCountri
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
 import '@babel/polyfill'
-import 'details-polyfill'
+
 
 export default {
   CountriesModal,

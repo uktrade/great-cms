@@ -10,7 +10,7 @@ $desktop: 1024px;
     font-size: 12px;
 }
 
-#learn-root {
+.learn__page {
     font-family: $brand-font-body;
 
     .h1 {
@@ -123,8 +123,8 @@ $desktop: 1024px;
 
 .learn__category {
     background-color: $white;
-    height: 360px;
     margin-bottom: 20px;
+    min-height: 360px;
     position: relative;
 }
 
@@ -165,6 +165,64 @@ $desktop: 1024px;
     right: 20px;
 }
 
+.learn__single-category-header-wrapper {
+    padding-top: 40px;
+}
+
+.learn__single-category-title.h1 {
+    margin-bottom: 10px;
+}
+
+.learn__single-category-header {
+    background-color: $white;
+}
+
+.learn__topic-item-title,
+.learn__topic-item {
+    color: $grey;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+.learn__topic-item-title {
+    border-bottom: 4px solid $white;
+    margin-right: 20px;
+    padding-bottom: 20px;
+}
+
+.learn__topic-item {
+    list-style-type: decimal;
+    margin: 0 0 60px 34px;
+    padding-left: 4px;
+}
+
+.learn__topic-duration {
+    color: $grey;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.learn__lessons-list {
+    margin: 0;
+}
+
+.learn__lesson-item {
+    background-color: $white;
+    margin-bottom: 6px;
+
+}
+
+.learn__lesson-item-link {
+    background: url("/static/img/caret-circle-right.png") no-repeat 98% center;
+    color: $grey;
+    display: block;
+    font-size: 19px;
+    line-height: 34px;
+    padding: 18px 50px 18px 20px;
+    text-decoration: none;
+}
+
 @media (min-width: $tablet) {
     .learn__carousel {
         max-width: $tablet - 45px;
@@ -197,6 +255,11 @@ $desktop: 1024px;
                 display: inline;
             }
         }
+    }
+    li.great-mvp-list-arrow {
+        list-style-type: disclosure-closed;
+        margin-left: 20px;
+        padding-left: 5px;
     }
     nav {
         background: $white;

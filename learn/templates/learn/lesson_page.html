@@ -10,24 +10,22 @@
                 <ul class="m-v-0">
                     {% for topic in topics %}
                         {% if topic.pk != page.get_parent.pk %}
-                        <li>
-                            <details>
-                                <summary>
-                                    <h3><a href="{{ topic.get_children.first.get_url }}?{{ request.GET.urlencode }}" class="topic-link">{{ topic.title }}</a></h3>
-                                </summary>
-                            </details>
+                        <li class="great-mvp-list-arrow">
+                            <h3><a href="{{ topic.get_children.first.get_url }}?{{ request.GET.urlencode }}" class="topic-link">{{ topic.title }}</a></h3>
                         </li>
                         {% else %}
-                            <details>
-                                <summary>
-                                    <h3 class="h-s">{{ topic.title }}</h3>
-                                </summary>
-                                <ul class="m-v-0">
-                                    {% for sibling in page.get_siblings %}
-                                        <li><a class="link {% if sibling.pk == page.pk %} bold{% endif %}" href="{{ sibling.get_url }}?{{ request.GET.urlencode }}">{{ sibling.title }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </details>
+                            <li>
+                                <details>
+                                    <summary>
+                                        <h3 class="h-s">{{ topic.title }}</h3>
+                                    </summary>
+                                    <ul class="m-v-0">
+                                        {% for sibling in page.get_siblings %}
+                                            <li><a class="link {% if sibling.pk == page.pk %} bold{% endif %}" href="{{ sibling.get_url }}?{{ request.GET.urlencode }}">{{ sibling.title }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </details>
+                            </li>
                         {% endif %}
                     {% endfor %}
 
