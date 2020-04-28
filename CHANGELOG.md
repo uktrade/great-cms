@@ -79,3 +79,4 @@
 - MVP-427 - Persist products upon signup
 - MVP-408 - Add Market research landing (category) page
 - MVP-425 - Updates to Learn homepage
+- MVP-526 - Add Learn introduction page with slider
