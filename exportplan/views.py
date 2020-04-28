@@ -67,6 +67,7 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         helpers.update_exportplan(
             sso_session_id=self.request.user.session_id,
             id=self.request.user.export_plan['pk'],
