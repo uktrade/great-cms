@@ -37,7 +37,7 @@ def test_exportplan_sections(mock_get_export_plan_or_create, url, client, user):
 
 @pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
-@mock.patch('sso.models.get_exportplan')
+@mock.patch('exportplan.helpers.get_exportplan')
 @mock.patch.object(helpers, 'get_madb_country_list')
 @mock.patch('core.helpers.store_user_location')
 def test_exportplan_target_markets(
