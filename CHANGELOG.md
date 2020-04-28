@@ -58,7 +58,7 @@
 - MVP-362 - styling and correct HTML for country statistics view
 - MVP-365 - tooltip functionality and dynamic component rendering
 - MVP-289 - add products modal to export plan
-- MVP-360 - muliple markets
+- MVP-360 - multiple markets
 - MVP-382 - add product modal to lesson page
 - MVP-350 - Capabilities learn how to export carousel
 - MVP-385 - Consolidate page models
@@ -77,3 +77,4 @@
 - MVP-381 - Wagtail media and video block
 - MVP-490 - Add learn how to export landing page
 - MVP-427 - Persist products upon signup
+- MVP-408 - Add Market research landing (category) page
