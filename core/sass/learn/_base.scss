@@ -57,46 +57,20 @@ $desktop: 1024px;
     margin: 0 0 40px 0;
 }
 
-.learn__carousel-nav {
+.learn__carousel {
+    margin: 0 25%;
     text-align: center;
 }
 
-.learn__carousel-ul {
-    margin-bottom: 60px;
-}
-
-.learn__nav-circle {
-    display: inline-block;
-    margin-right: 25px;
-
-    &:last-child {
-        margin-right: 0;
-    }
-
-    a {
-        background: $mid-grey;
-        border-radius: 50%;
-        display: block;
-        font-size: 0;
-        height: 16px;
-        width: 16px;
-    }
-}
-
-.learn__nav-circle--active a {
-    background: $grey;
+.learn__introduction-page {
+    margin-bottom: 120px;
+    padding-top: 80px;
 }
 
 .learn__carousel--paragraph {
-    font-size: 48px;
-    font-weight: bold;
-    line-height: 58px;
-    margin-bottom: 120px;
-}
-
-.learn__carousel {
-    margin: 0 auto;
-    padding: 0 25px;
+    font-size: 19px;
+    font-weight: normal;
+    line-height: 29px;
 }
 
 .learn__introduction {
@@ -222,27 +196,6 @@ $desktop: 1024px;
     line-height: 34px;
     padding: 18px 50px 18px 20px;
     text-decoration: none;
-}
-
-@media (min-width: $tablet) {
-    .learn__carousel {
-        max-width: $tablet - 45px;
-        padding: 0;
-    }
-
-    .learn__carousel-nav {
-        padding-right: 45px;
-    }
-
-    .learn__category-image {
-        display: block;
-    }
-}
-
-@media (min-width: $desktop) {
-    .learn__carousel {
-        max-width: $desktop - 45px;
-    }
 }
 
 
