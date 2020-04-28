@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 
 from django.views.generic import TemplateView
+from django.utils.functional import cached_property
 
 from directory_constants.choices import INDUSTRIES
 
@@ -12,6 +13,10 @@ from rest_framework.response import Response
 
 
 class BaseExportPlanView(TemplateView):
+
+    @cached_property
+    def export_plan(self):
+        return helpers.get_or_create_export_plan(self.request.user)
 
     def get_context_data(self, *args, **kwargs):
         industries = [name for id, name in INDUSTRIES]
@@ -53,8 +58,8 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            selected_sectors=json.dumps(self.request.user.export_plan.get('sectors', [])),
-            target_markets=json.dumps(self.request.user.export_plan.get('target_markets', [])),
+            selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
+            target_markets=json.dumps(self.export_plan.get('target_markets', [])),
             datenow=datetime.now(),
         )
 
@@ -67,9 +72,10 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+        export_plan = helpers.get_or_create_export_plan(self.request.user)
         helpers.update_exportplan(
             sso_session_id=self.request.user.session_id,
-            id=self.request.user.export_plan['pk'],
+            id=export_plan['pk'],
             data=serializer.validated_data
         )
         return Response({})
