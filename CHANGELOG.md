@@ -79,4 +79,5 @@
 - MVP-427 - Persist products upon signup
 - MVP-430 - Expand/collapse lesosns on
 - MVP-408 - Add Market research landing (category) page
+- No-Ticket - Change behaviour of users context export plan to 'GET
 - MVP-425 - Updates to Learn homepage
