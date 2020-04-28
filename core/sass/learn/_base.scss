@@ -41,12 +41,13 @@ $desktop: 1024px;
     }
 }
 
-.learn__wrapper {
-    margin: 0 auto;
-    max-width: 1220px;
-    min-height: 600px;
-    min-width: 320px;
-    padding: 90px 25px;
+.learn__home-page {
+    padding-top: 120px;
+    margin-bottom: 120px;
+
+    .learn__wrapper--paragraph {
+        margin-bottom: 110px
+    }
 }
 
 .learn__wrapper--paragraph {
@@ -246,6 +247,21 @@ $desktop: 1024px;
 
 
 #lesson-page {
+    details {
+        summary {
+            font-weight: bold;
+            color: #333;
+
+            h3 {
+                display: inline;
+            }
+        }
+    }
+    li.great-mvp-list-arrow {
+        list-style-type: disclosure-closed;
+        margin-left: 20px;
+        padding-left: 5px;
+    }
     nav {
         background: $white;
 
