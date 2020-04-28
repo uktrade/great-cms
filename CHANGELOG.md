@@ -82,3 +82,4 @@
 - MVP-408 - Add Market research landing (category) page
 - No-Ticket - Change behaviour of users context export plan to 'GET
 - MVP-425 - Updates to Learn homepage
+- MVP-433 - Fix last step of signin 404
