@@ -123,8 +123,8 @@ $desktop: 1024px;
 
 .learn__category {
     background-color: $white;
-    height: 360px;
     margin-bottom: 20px;
+    min-height: 360px;
     position: relative;
 }
 
