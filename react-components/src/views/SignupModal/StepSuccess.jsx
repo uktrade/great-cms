@@ -19,20 +19,16 @@ export default function StepSuccess(props){
           <li>Save your progress in learning</li>
         </ul>
       </div>
-      <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
-        <input
-          type="submit"
-          value="Continue"
-          id="signup-modal-submit-success"
-          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
-          disabled={props.disabled}
-        />
-      </form>
+      <a
+        id="signup-modal-submit-success"
+        className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
+        href={props.nextUrl}
+      >Continue</a>
     </div>
   )
 }
 
 
 StepSuccess.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  nextUrl: PropTypes.string.isRequired,
 }
