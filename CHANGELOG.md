@@ -6,6 +6,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 
 ### Fixed bugs
+- MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 - MVP-429 - Add missing country thumbnails for food and drink sector
@@ -58,7 +59,7 @@
 - MVP-362 - styling and correct HTML for country statistics view
 - MVP-365 - tooltip functionality and dynamic component rendering
 - MVP-289 - add products modal to export plan
-- MVP-360 - muliple markets
+- MVP-360 - multiple markets
 - MVP-382 - add product modal to lesson page
 - MVP-350 - Capabilities learn how to export carousel
 - MVP-385 - Consolidate page models
@@ -75,4 +76,9 @@
 - MVP-392 - hook up selected industries to be deleted
 - no-ticket make food default when creating export plan
 - MVP-381 - Wagtail media and video block
+- MVP-490 - Add learn how to export landing page
 - MVP-427 - Persist products upon signup
+- MVP-430 - Expand/collapse lesosns on
+- MVP-408 - Add Market research landing (category) page
+- No-Ticket - Change behaviour of users context export plan to 'GET
+- MVP-425 - Updates to Learn homepage

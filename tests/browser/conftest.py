@@ -12,7 +12,7 @@ from core.models import Tour
 from directory_api_client import api_client
 from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
-from sso import helpers as sso_helpers
+from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
 from tests.unit.learn import factories as learn_factories
@@ -255,6 +255,16 @@ def mock_get_export_plan():
 
 
 @pytest.fixture
+def mock_get_user_context_export_plan():
+    return_value = {
+        'pk': 1,
+        'target_markets': [JAPAN],
+    }
+    with patch.object(models, 'get_exportplan', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
 def mock_get_recommended_countries():
     return_value = [{'country': 'China'}, {'country': 'india'}]
     with patch.object(exportplan_helpers, 'get_recommended_countries', return_value=return_value) as patched:
@@ -365,6 +375,7 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_get_export_plan_market_data,
     mock_get_export_plan_rules_regulations,
     mock_get_export_plan,
+    mock_get_user_context_export_plan,
     mock_get_last_year_import_data,
     mock_get_recommended_countries,
     mock_update_company_profile,

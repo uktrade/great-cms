@@ -1,0 +1,98 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load breadcrumbs from great_components %}
+
+{% block content %}
+    <div class="container">
+        {% breadcrumbs 'Learn how to export' %}
+            <a href="{% url 'core:dashboard' %}" id="breadcrumbs-home">Home</a>
+        {% endbreadcrumbs %}
+    </div>
+    <div id="learn-root" class="learn__page learn__categories-page container">
+        <section class="learn__category-header">
+            <div class="grid">
+                <div class="learn__introduction w-full-m c-1-2-l">
+                    <h1 class="h1">Learn how to export</h1>
+                    <p class="learn__wrapper--paragraph">Exporting is good for business. But it can seem scary. We’re here to help you get to grips with it, so you can make the right choices and grow overseas.</p>
+                    <p class="learn__wrapper--paragraph">Get to know about everything from choosing a market to mastering rules and regulations. All tailored to your product, and your market, so you learn quicker.</p>
+                    <p class="learn__wrapper--paragraph">With your new skills you’ll be able to put together a well thought out export plan and get cracking.</p>
+                </div>
+            </div>
+            <div class="learn__introduction-steps grid">
+                <article class="learn__step-block w-full-m c-1-3-l">
+                    <span aria-hidden="true" class="circle-check--icon"></span>
+                    <h3 class="learn__step-title">Choose a lesson</h3>
+                    <p class="learn__wrapper--paragraph">Go through each lesson in order or pick and choose what you want to learn.</p>
+                </article>
+                <article class="learn__step-block w-full-m c-1-3-l">
+                    <span aria-hidden="true" class="circle-check--icon"></span>
+                    <h3 class="learn__step-title">Go at your own pace</h3>
+                    <p class="learn__wrapper--paragraph">There’s no deadline. Take all the time you need to fit it in your day.</p>
+                </article>
+                <article class="learn__step-block w-full-m c-1-3-l">
+                    <span aria-hidden="true" class="circle-check--icon"></span>
+                    <h3 class="learn__step-title">Get ready to trade</h3>
+                    <p class="learn__wrapper--paragraph">Put your new knowledge and confidence to work and make a success of exporting.</p>
+                </article>
+            </div>
+        </section>
+        <section class="learn__categories-content container">
+            <article class="learn__category grid">
+                <div class="learn__category-content c-1-2-l"> 
+                    <h2 class="learn__category-title">Identify opportunities and research your market</h2>
+                    <div class="learn__category-entities">
+                        <span class="learn__category-topics">6 topics, <span>
+                        <span class="learn__category-lessons">34 lessons</span>
+                    </div>
+                    <p class="learn__category-details">Get to know your markets and customers through research.</p>
+                    <a class="button" href="/learn/categories/market-research">Start learning</a>
+                </div>
+                <img alt="Market research image" class="learn__category-image c-1-2-l" src="{% static 'images/market-research-category.png' %}"/>
+            </article>
+            <article class="learn__category grid">
+                <div class="learn__category-content c-1-2-l"> 
+                    <h2 class="learn__category-title">Preparing to sell into a new country</h2>
+                    <div class="learn__category-entities">
+                        <span class="learn__category-topics">6 topics<span>
+                    </div>
+                    <p class="learn__category-details">Learn about getting goods across borders and selling services overseas.</p>
+                    <a class="button" href="/learn/categories/market-research">Start learning</a>
+                </div>
+                <img alt="Moving goods and selling services image" class="learn__category-image c-1-2-l" src="{% static 'images/moving-goods-and-selling-services-category.png' %}"/>
+            </article>
+            <article class="learn__category grid">
+                <div class="learn__category-content c-1-2-l"> 
+                    <h2 class="learn__category-title">Funding, financing and getting paid</h2>
+                    <div class="learn__category-entities">
+                        <span class="learn__category-topics">6 topics<span>
+                    </div>
+                    <p class="learn__category-details">Find out how to get the cash to export.</p>
+                    <a class="button" href="/learn/categories/market-research">Start learning</a>
+                </div>
+                <img alt="Funding and finance image" class="learn__category-image c-1-2-l" src="{% static 'images/funding-and-finance-category.png' %}"/>
+            </article>
+            <article class="learn__category grid">
+                <div class="learn__category-content c-1-2-l"> 
+                    <h2 class="learn__category-title">Selling across borders: product and services regulations, licensing and logistics</h2>
+                    <div class="learn__category-entities">
+                        <span class="learn__category-topics">6 topics<span>
+                    </div>
+                    <p class="learn__category-details">Get familiar with the detail to make things smoother.</p>
+                    <a class="button" href="/learn/categories/market-research">Start learning</a>
+                </div>
+                <img alt="Rules and regulations image" class="learn__category-image c-1-2-l" src="{% static 'images/rules-and-regulations-category.png' %}"/>
+            </article>
+            <article class="learn__category grid">
+                <div class="learn__category-content c-1-2-l"> 
+                    <h2 class="learn__category-title">Creating export plan</h2>
+                    <div class="learn__category-entities">
+                        <span class="learn__category-topics">6 topics<span>
+                    </div>
+                    <p class="learn__category-details">Learn how to make a realistic and confident plan.</p>
+                    <a class="button" href="/learn/categories/market-research">Start learning</a>
+                </div>
+                <img alt="Creating export plan image" class="learn__category-image c-1-2-l" src="{% static 'images/creating-export-plan-category.png' %}"/>
+            </article>
+        </div>
+    </div>
+{% endblock %}
