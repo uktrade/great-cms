@@ -77,5 +77,6 @@
 - MVP-381 - Wagtail media and video block
 - MVP-490 - Add learn how to export landing page
 - MVP-427 - Persist products upon signup
+- MVP-430 - Expand/collapse lesosns on
 - MVP-408 - Add Market research landing (category) page
 - MVP-425 - Updates to Learn homepage
