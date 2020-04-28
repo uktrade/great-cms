@@ -78,3 +78,4 @@
 - MVP-490 - Add learn how to export landing page
 - MVP-427 - Persist products upon signup
 - MVP-408 - Add Market research landing (category) page
+- MVP-425 - Updates to Learn homepage
