@@ -188,6 +188,16 @@ $desktop: 1024px;
 
 
 #lesson-page {
+    details {
+        summary {
+            font-weight: bold;
+            color: #333;
+
+            h3 {
+                display: inline;
+            }
+        }
+    }
     nav {
         background: $white;
 

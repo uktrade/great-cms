@@ -9,13 +9,25 @@
                 <a href="{% url 'core:dashboard' %}">Back</a>
                 <ul class="m-v-0">
                     {% for topic in topics %}
-                        <li><h3 class="h-s {% if topic.pk == page.get_parent.pk %} bold{% endif %}"><a href="{{ topic.get_children.first.get_url }}?{{ request.GET.urlencode }}" class="topic-link">{{ topic.title }}</a></h3></li>
-                        {% if topic.pk == page.get_parent.pk %}
-                            <ul class="m-v-0">
-                                {% for sibling in page.get_siblings %}
-                                    <li><a class="link {% if sibling.pk == page.pk %} bold{% endif %}" href="{{ sibling.get_url }}?{{ request.GET.urlencode }}">{{ sibling.title }}</a></li>
-                                {% endfor %}
-                            </ul>
+                        {% if topic.pk != page.get_parent.pk %}
+                        <li>
+                            <details>
+                                <summary>
+                                    <h3><a href="{{ topic.get_children.first.get_url }}?{{ request.GET.urlencode }}" class="topic-link">{{ topic.title }}</a></h3>
+                                </summary>
+                            </details>
+                        </li>
+                        {% else %}
+                            <details>
+                                <summary>
+                                    <h3 class="h-s">{{ topic.title }}</h3>
+                                </summary>
+                                <ul class="m-v-0">
+                                    {% for sibling in page.get_siblings %}
+                                        <li><a class="link {% if sibling.pk == page.pk %} bold{% endif %}" href="{{ sibling.get_url }}?{{ request.GET.urlencode }}">{{ sibling.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </details>
                         {% endif %}
                     {% endfor %}
 

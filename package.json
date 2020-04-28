@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "7.8.7",
+    "details-polyfill": "^1.1.0",
     "great-styles": "uktrade/great-styles#v0.1.0",
     "prop-types": "15.7.2",
     "react": "16.13.1",
