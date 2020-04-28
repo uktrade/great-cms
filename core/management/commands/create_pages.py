@@ -28,21 +28,9 @@ class Command(BaseCommand):
         )
         factories.DetailPageFactory(
             parent=learn_homepage,
-            title='How to export first step',
-            slug='how-to-export-first-step',
-            template='learn/how_to_export_first_step.html',
-        )
-        factories.DetailPageFactory(
-            parent=learn_homepage,
-            title='How to export second step',
-            slug='how-to-export-second-step',
-            template='learn/how_to_export_second_step.html',
-        )
-        factories.DetailPageFactory(
-            parent=learn_homepage,
-            title='How to export third step',
-            slug='how-to-export-third-step',
-            template='learn/how_to_export_third_step.html',
+            title='How to export introduction',
+            slug='introduction',
+            template='learn/learn_introduction.html',
         )
         learn_categories = factories.ListPageFactory(
             parent=learn_homepage,

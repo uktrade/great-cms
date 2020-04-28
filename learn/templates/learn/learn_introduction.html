@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="learn__page learn__introduction-page container" id="learn-root">
+        <div class="grid">
+            <div class="learn__carousel w-full-m c-1-2-l" id="learn-introduction-carousel">
+                <div class="learn__carousel-slide">
+                    <img
+                        alt="Abstract illustration"
+                        class="learn__carousel-image c-full-l"
+                        src="{% static 'images/learn-introduction-slide-1.png' %}"
+                    />
+                    <p class="learn__carousel--paragraph">
+                        We’ve created simple, bite sized lessons to make it easier for you to learn about the world of exporting.
+                    </p>
+                </div>
+                <div class="learn__carousel-slide">
+                    <img
+                        alt="Abstract illustration"
+                        class="learn__carousel-image c-full-l"
+                        src="{% static 'images/learn-introduction-slide-2.png' %}"
+                    />
+                    <p class="learn__carousel--paragraph">
+                        Develop your skills in exporting with our interactive online training, that helps you create your export plan, as you learn.
+                    </p>
+                </div>
+                <div class="learn__carousel-slide">
+                    <img
+                        alt="Abstract illustration"
+                        class="learn__carousel-image c-full-l"
+                        src="{% static 'images/learn-introduction-slide-3.png' %}"
+                    />
+                    <p class="learn__carousel--paragraph">
+                        Key topics include how to conduct market research, define your risks, how to get paid, find contacts, partners and deals, which currency to trade in and delivering your goods or services.
+                    </p>
+                </div>
+                <a class="button" href="/learn/categories">Continue</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script>
+
+      ditMVP.LearnIntroduction({
+        element: document.querySelector("#learn-introduction-carousel")
+      })
+    </script>
+
+{% endblock %}

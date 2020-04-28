@@ -74,6 +74,7 @@
     "react-modal": "3.11.2",
     "react-redux": "^7.2.0",
     "react-select": "3.1.0",
+    "react-slick": "^0.25.2",
     "reactour": "1.16.3",
     "redux": "^4.0.5",
     "remove-files-webpack-plugin": "1.4.0",
