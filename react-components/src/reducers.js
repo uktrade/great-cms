@@ -58,10 +58,17 @@ function setCountriesExpertise(state, payload) {
   return newState
 }
 
-function setInitialState(state, {modalIsOpen, user}) {
+function setInitialState(state, {modalIsOpen, user, nextUrl}) {
   let newState = cloneState(state)
-  Object.assign(newState.modalIsOpen, modalIsOpen)
-  Object.assign(newState.user, user)
+  if (modalIsOpen) {
+    Object.assign(newState.modalIsOpen, modalIsOpen)
+  }
+  if (user) {
+    Object.assign(newState.user, user)
+  }
+  if (nextUrl) {
+    newState.nextUrl = nextUrl
+  }
   return newState
 }
 
