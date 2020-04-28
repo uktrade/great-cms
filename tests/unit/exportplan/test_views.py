@@ -74,17 +74,17 @@ def test_exportplan_target_markets(
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch('sso.models.get_exportplan')
-def test_update_export_plan_api_view(mock_get_export_plan, mock_update_exportplan, client, user):
+@mock.patch.object(helpers, 'get_or_create_export_plan')
+def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
     client.force_login(user)
-    mock_get_export_plan.return_value = {'pk': 1, 'target_markets': []}
+    mock_get_or_create_export_plan.return_value = {'pk': 1, 'target_markets': []}
     mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
 
     url = reverse('exportplan:api-update-export-plan')
 
     response = client.post(url, {'target_markets': ['China', 'India']})
-    assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call('123')
+    assert mock_get_or_create_export_plan.call_count == 1
+    assert mock_get_or_create_export_plan.call_args == mock.call(user)
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
