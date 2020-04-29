@@ -6,7 +6,7 @@ import './stylesheets/Success.scss'
 
 
 export default function Success(props){
-  const countries = props.countries.map((item, i) => <b key={i}>{item.label}</b>)
+  const countries = props.countries.map((item, i) => <span key={i}>{i > 0 && ", "}<b>{item.label}</b></span>)
   const maybePlural = props.countries.length == 1 ? 'has' : 'have'
   const exportPlanUrl = `${Services.config.exportPlanTargetMarketsUrl}#sector-chooser`
 

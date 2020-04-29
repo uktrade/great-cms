@@ -10,6 +10,7 @@
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 - MVP-429 - Add missing country thumbnails for food and drink sector
+- MVP-437 - Show product in lesson page nav bar
 
 ### Implemented enhancements
 - MVP-317 - Add dummy pages for all export plan sections

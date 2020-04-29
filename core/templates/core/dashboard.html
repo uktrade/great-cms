@@ -201,12 +201,15 @@
     {{ block.super }}
     {% if not request.user.company.expertise_industries_labels %}
         <script type="text/javascript">
+            ditMVP.setInitialState({
+                // prevents modals from opening on page load if user dismissed the modal already
+                modalIsOpen: {
+                  industries: true,
+                }
+            })
             var element = document.createElement('div');
             document.body.appendChild(element);
-            ditMVP.IndustriesModal({
-                element: element,
-                isOpen: true
-            });
+            ditMVP.IndustriesModal({element: element});
         </script>
     {% endif %}
 {% endblock %}

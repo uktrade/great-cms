@@ -37,7 +37,7 @@
                     <span id="set-product-button">
                         {% if request.GET.product %} for
                             {% for name, values in request.GET.lists %}
-                                {% if name == 'products_label' %}
+                                {% if name == 'product' %}
                                     {% for label in values %}
                                         <span class="great-mvp-pill-button">{{ label }}</span>
                                     {% endfor %}
