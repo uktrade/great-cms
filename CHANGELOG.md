@@ -2,14 +2,13 @@
 
 ## Pre-release
 
-## Hotfix
-- No ticket - v3 ci pipeline manifest.yml file fix
-
 ### Fixed bugs
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 - MVP-429 - Add missing country thumbnails for food and drink sector
+- No ticket - v3 ci pipeline manifest.yml file fix
+- MVP-443 - Use non-GREAT stlye 404 and 500 pages
 
 ### Implemented enhancements
 - MVP-317 - Add dummy pages for all export plan sections
