@@ -270,9 +270,7 @@ class DetailPage(CMSGenericPage):
     template_choices = (
         ('exportplan/export_plan_dashboard_page.html', 'Export plan'),
         ('learn/lesson_page.html', 'Lesson'),
-        ('learn/how_to_export_first_step.html', 'How to export first step'),
-        ('learn/how_to_export_second_step.html', 'How to export second step'),
-        ('learn/how_to_export_third_step.html', 'How to export third step'),
+        ('learn/learn_introduction.html', 'Learn introduction'),
         ('learn/category.html', 'Learn category'),
     )
 

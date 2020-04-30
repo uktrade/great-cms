@@ -6,6 +6,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 
 ### Fixed bugs
+- MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 - MVP-429 - Add missing country thumbnails for food and drink sector
@@ -77,4 +78,10 @@
 - MVP-381 - Wagtail media and video block
 - MVP-490 - Add learn how to export landing page
 - MVP-427 - Persist products upon signup
+- MVP-430 - Expand/collapse lesosns on
 - MVP-408 - Add Market research landing (category) page
+- No-Ticket - Change behaviour of users context export plan to 'GET
+- MVP-425 - Updates to Learn homepage
+- MVP-526 - Add Learn introduction page with slider
+- MVP-433 - Fix last step of signin 404
+- no-ticket - Fix images on /learn/categories being hidden

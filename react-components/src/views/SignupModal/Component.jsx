@@ -65,7 +65,7 @@ export default function Component(props){
       )
     } else if (props.currentStep == STEP_COMPLETE) {
       return (
-        <StepSuccess handleSubmit={props.handleStepSuccessSubmit} />
+        <StepSuccess nextUrl={props.nextUrl} />
       )
     }
   }

@@ -273,7 +273,6 @@ def test_can_add_multiple_countries_on_target_markets_page(
     mock_update_exportplan.return_value = updated_export_plan_data
 
     live_server, user, browser = server_user_browser_dashboard
-
     visit_target_markets_page(live_server, browser)
     should_see_target_market_data_for(browser, ['Japan'])
 

@@ -124,7 +124,7 @@ export default class CountryData extends React.Component {
                 <figcaption>
                   <p className="statistic__caption">Duty</p>
                 </figcaption>
-                <p className="statistic__figure">{exportDuty > 0 ? `${exportDuty}%` : 'No duty'}</p>
+                <p className="statistic__figure">{exportDuty > 0 ? `${exportDuty * 100}%` : 'No duty'}</p>
               </figure>
             </div>
             <div className="c-1-3" id={`import-value-${slugify(country)}`}>
@@ -147,7 +147,7 @@ export default class CountryData extends React.Component {
                   <figcaption>
                     <p className="statistic__caption">Year-to-year change</p>
                   </figcaption>
-                  <p className="statistic__figure">+{lastYearData.year_on_year_change}%</p>
+                  <p className="statistic__figure">+{lastYearData.year_on_year_change * 100}%</p>
                 </figure>
               ) : null}
             </div>

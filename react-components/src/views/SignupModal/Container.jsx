@@ -54,7 +54,7 @@ export function Container(props){
     if (props.productsExpertise.length > 0 || props.countriesExpertise.length > 0) {
       const data = {
           expertise_products_services: {other: props.productsExpertise.map(item => item.value)},
-          expertise_countries: props.countriesExpertise,
+          expertise_countries: props.countriesExpertise.map(item => item.value),
       }
       Services.updateCompany(data)
         .then(() => handleSuccess(STEP_COMPLETE))
@@ -62,10 +62,6 @@ export function Container(props){
     } else {
       handleSuccess(STEP_COMPLETE)
     }
-  }
-
-  function handleStepSuccessSubmit() {
-    location.assign(props.nextUrl)
   }
 
   const next = encodeURIComponent(`${location.origin}${props.nextUrl}`);
@@ -84,7 +80,7 @@ export function Container(props){
       setPassword={setPassword}
       code={code}
       setCode={setCode}
-      handleStepSuccessSubmit={handleStepSuccessSubmit}
+      nextUrl={props.nextUrl}
       handleStepCredentialsSubmit={handleStepCredentialsSubmit}
       handleStepCodeSubmit={handleStepCodeSubmit}
       linkedinLoginUrl={linkedinLoginUrl}
