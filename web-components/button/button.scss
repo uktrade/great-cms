@@ -1,0 +1,59 @@
+@import '../_variables.scss';
+
+.great-button {
+    background: #e95051;
+    align-items: center;
+    border-radius: 20px;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    outline: none;
+    padding: 8px 20px;
+    user-select: none;
+}
+
+.great-button svg {
+    height: 25px;
+    width: 25px;
+    margin-left: 50px;
+    fill: #ffffff;
+}
+
+.great-button .great-button__content {
+    font-family: 'Roboto', -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1.08px;
+    line-height: 22px;
+}
+
+.great-button.great-button--with-icon {
+}
+
+.great-button:active {
+    background-color: #f19293;
+}
+
+.great-button:active:not(:disabled) {
+}
+
+.great-button:active:not(:disabled).great-button--with-icon {
+}
+
+.great-button:hover {
+    background-color: #e41f13;
+}
+
+.great-button:hover:active {
+}
+
+.great-button:disabled {
+    cursor: not-allowed;
+    background-color: #e0e0e0;
+}
+
+.great-button:disabled svg {
+}
