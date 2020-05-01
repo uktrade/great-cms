@@ -65,8 +65,8 @@ test_load:
 	-$(kill_webserver)
 
 requirements:
-	pip-compile -r --annotate requirements.in
-	pip-compile -r --annotate requirements_test.in
+	pip-compile --upgrade -r --annotate requirements.in
+	pip-compile --upgrade -r --annotate requirements_test.in
 
 install_requirements:
 	pip install -q -r requirements_test.txt
