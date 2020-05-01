@@ -26,6 +26,10 @@ class SelectorsEnum(Enum):
     def is_authenticated(self):
         return self.value.is_authenticated
 
+    @property
+    def selector_template(self):
+        return self.value.selector_template
+
     def __str__(self) -> str:
         return self.value.name if self.value.name else self.name
 
@@ -53,7 +57,9 @@ class ElementType(Enum):
         return self.value
 
 
-class Selector(namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated', 'name'])):
+class Selector(
+    namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated', 'name', 'selector_template'])
+):
     __slots__ = ()
 
     def __new__(
@@ -65,9 +71,17 @@ class Selector(namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', '
         is_visible: bool = True,
         is_authenticated: bool = False,
         name: str = None,
+        selector_template: str = None,
     ):
         return super(Selector, cls).__new__(
-            cls, by, selector=selector, type=type, is_visible=is_visible, is_authenticated=is_authenticated, name=name,
+            cls,
+            by,
+            selector=selector,
+            type=type,
+            is_visible=is_visible,
+            is_authenticated=is_authenticated,
+            name=name,
+            selector_template=selector_template,
         )
 
     def __str__(self) -> str:
