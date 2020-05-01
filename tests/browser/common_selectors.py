@@ -31,10 +31,10 @@ class SelectorsEnum(Enum):
         return self.value.selector_template
 
     def __str__(self) -> str:
-        return self.value.name if self.value.name else self.name
+        return self.value.name if (hasattr(self.value, 'name') and self.value.name) else self.__class__.__name__
 
     def __repr__(self) -> str:
-        return self.value.name if self.value.name else self.name
+        return self.value.name if (hasattr(self.value, 'name') and self.value.name) else self.__class__.__name__
 
 
 class ElementType(Enum):
