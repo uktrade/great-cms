@@ -228,7 +228,7 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
             context.update(provider.get_context_data(request=request, page=self))
         return context
 
-    def serve(self, request, *args, **kwargs):
+    def handle_page_view(self, request):
         parent = self.get_parent().specific
         if getattr(parent, 'record_read_progress', False) and request.user.is_authenticated:
             PageView.objects.get_or_create(
@@ -236,6 +236,9 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
                 list_page=parent,
                 sso_id=request.user.pk,
             )
+
+    def serve(self, request, *args, **kwargs):
+        self.handle_page_view(request)
         return super().serve(request, **kwargs)
 
 
