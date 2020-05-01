@@ -4,16 +4,19 @@ export class Button extends HTMLElement {
   constructor() {
     super();
 
-    const stylsheet = document.createElement('style');
-    stylsheet.innerHTML = styles.toString();
+    const stylesheet = document.createElement('style');
+    stylesheet.innerHTML = styles;
+
+    const theme = this.getAttribute('theme');
+    const isLoading = this.hasAttribute('loading');
 
     const contents =
-      `<button class="great-button ${this.icon !== '' ? 'great-button--with-icon' : ''}" ${this.hasAttribute('disabled') ? 'disabled' : ''}>
-          <div class="great-button__content">${this.textContent}</div>
+      `<button class="${theme} ${this.icon !== '' ? 'with-icon' : ''}" ${this.hasAttribute('disabled') ? 'disabled' : ''}>
+          <span class="content">${isLoading ? '<span>Loading </span>' : '' }${this.textContent}</span>
         </button>`;
 
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = contents;
-    shadowRoot.appendChild(stylsheet);
+    shadowRoot.appendChild(stylesheet);
   }
 }

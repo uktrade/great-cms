@@ -1,11 +1,9 @@
-@import '../_variables.scss';
+@import "../_style-params.scss";
 
-.great-button {
-    background: #e95051;
+button {
     align-items: center;
     border-radius: 20px;
     border: none;
-    color: #ffffff;
     cursor: pointer;
     display: flex;
     height: 40px;
@@ -13,47 +11,96 @@
     outline: none;
     padding: 8px 20px;
     user-select: none;
+
+    &:active:not(:disabled) {
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    :disabled svg {
+    }
+
+    &:hover:active {
+    }
+
+    &:active:not(:disabled).with-icon {
+    }
+
 }
 
-.great-button svg {
+.primary {
+    background-color: $colour-red-80;
+    color: $colour-white-100;
+
+    &:hover {
+        background-color: $colour-red-100;
+    }
+
+    &:active {
+        background-color: $colour-red-50;
+    }
+
+    &:disabled {
+        background-color: #e0e0e0;
+    }
+}
+
+.secondary {
+    background-color: $colour-blue-deep-80;
+    color: $colour-white-100;
+
+    &:hover {
+        background-color: $colour-blue-deep-100;
+    }
+
+    &:active {
+        background-color: $colour-blue-deep-50;
+    }
+
+    &:disabled {
+        background-color: #e0e0e0;
+    }
+}
+
+.tertiary {
+    background-color: $colour-white-100;;
+    border: 2px solid $colour-blue-deep-80;
+    color: $colour-blue-deep-80;
+
+    &:hover {
+        border-color: $colour-blue-deep-100;
+        color: $colour-blue-deep-100;
+    }
+
+    &:active {
+        border-color: $colour-blue-deep-50;
+        color: $colour-blue-deep-50;
+    }
+
+    &:disabled {
+        border-color: #e0e0e0;
+        color: #e0e0e0;
+    }
+}
+
+svg {
     height: 25px;
     width: 25px;
     margin-left: 50px;
     fill: #ffffff;
 }
 
-.great-button .great-button__content {
+.content {
     font-family: 'Roboto', -apple-system, sans-serif;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: normal;
     letter-spacing: 1.08px;
     line-height: 22px;
 }
 
-.great-button.great-button--with-icon {
+.with-icon {
 }
 
-.great-button:active {
-    background-color: #f19293;
-}
 
-.great-button:active:not(:disabled) {
-}
-
-.great-button:active:not(:disabled).great-button--with-icon {
-}
-
-.great-button:hover {
-    background-color: #e41f13;
-}
-
-.great-button:hover:active {
-}
-
-.great-button:disabled {
-    cursor: not-allowed;
-    background-color: #e0e0e0;
-}
-
-.great-button:disabled svg {
-}

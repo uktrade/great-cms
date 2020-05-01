@@ -8,7 +8,7 @@ customElements.define('great-button', Button);
 const decoratedAction = decorate([() => ['Click']]);
 
 export default {
-  title: 'Great Button',
+  title: 'Button',
   parameters: {
     decorators: [withKnobs],
     // Module-Level 'in-dsm' configuration (Will apply to all stories inside the module)
@@ -21,20 +21,28 @@ const availableIcons = {
   'chevron-right': 'chevron-right'
 };
 
-export const primary  = () => {
+const availableThemes = {
+    primary: 'primary',
+    secondary: 'secondary',
+    tertiary: 'tertiary',
+}
+
+export const Default = () => {
   const icon = select('icon', availableIcons, availableIcons.none);
   const disabled = boolean('disabled', false);
+  const loading = boolean('loading', false);
+  const theme = select('theme', availableThemes, availableThemes.primary);
   const children = text('text', 'Simple Button');
   return decoratedAction.withActions({ 'click dsm-button': 'Native button clicked!' })(
     () =>
     `<div class="gds-container">
-        <great-button icon="${icon}" ${disabled ? 'disabled' : ''}>${children}</great-button>
+        <great-button ${disabled ? 'disabled' : ''} ${loading ? 'loading' : ''} icon="${icon}" theme="${theme}">${children}</great-button>
      </div>
       `
   );
 };
 
-primary.story = {
+Default.story = {
   parameters: {
     // Story-Level 'in-dsm' configuration (Will apply only to the story that is being configured)
     // Story-Level configuration will override Module-Level 'in-dsm' configuration for the specific story
@@ -45,3 +53,4 @@ primary.story = {
     docs: { page: buttonDocs }
   }
 };
+ 
