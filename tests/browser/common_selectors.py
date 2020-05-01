@@ -298,15 +298,29 @@ class ExportPlanTargetMarketsData(SelectorsEnum):
 
 class ExportPlanTargetMarketsDataTooltip(SelectorsEnum):
     EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON = Selector(
-        By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank] button', name='Ease of Doing Business tooltip button'
+        By.CSS_SELECTOR,
+        'div[id^=ease-of-doing-business-rank] button',
+        name='Ease of Doing Business tooltip button',
+        selector_template='div[id^=ease-of-doing-business-rank-{country}] button',
     )
     EASE_OF_DOING_BUSINESS_TOOLTIP = Selector(
-        By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-tooltip]', name='Ease of Doing Business tooltip'
+        By.CSS_SELECTOR,
+        'div[id^=ease-of-doing-business-tooltip]',
+        name='Ease of Doing Business tooltip',
+        selector_template='div[id^=ease-of-doing-business-tooltip-{country}]',
     )
     CPI_TOOLTIP_BUTTON = Selector(
-        By.CSS_SELECTOR, 'div[id^=corruption-perception-index] button', name='CPI tooltip button'
+        By.CSS_SELECTOR,
+        'div[id^=corruption-perception-index] button',
+        name='CPI tooltip button',
+        selector_template='div[id^=corruption-perception-index-{country}] button',
     )
-    CPI_TOOLTIP = Selector(By.CSS_SELECTOR, 'div[id^=corruption-perception-index-tooltip]', name='CPI tooltip')
+    CPI_TOOLTIP = Selector(
+        By.CSS_SELECTOR,
+        'div[id^=corruption-perception-index-tooltip]',
+        name='CPI tooltip',
+        selector_template='div[id^=corruption-perception-index-tooltip-{country}]',
+    )
 
 
 class TargetMarketsCountryChooser(SelectorsEnum):
