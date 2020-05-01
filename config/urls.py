@@ -36,6 +36,10 @@ urlpatterns += [
 ]
 
 
+handler404 = 'core.views.handler404'
+
+handler500 = 'core.views.handler500'
+
 if settings.DEBUG:
     import debug_toolbar
     from django.conf.urls.static import static
