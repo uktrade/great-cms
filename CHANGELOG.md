@@ -7,6 +7,7 @@
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 - MVP-429 - Add missing country thumbnails for food and drink sector
+- MVP-437 - Show product in lesson page nav bar
 - No ticket - v3 ci pipeline manifest.yml file fix
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 

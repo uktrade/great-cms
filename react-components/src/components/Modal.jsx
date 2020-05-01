@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
 import { withCookies, useCookies } from 'react-cookie';
+import './stylesheets/Modal.scss'
 
 
 export function Modal(props){
