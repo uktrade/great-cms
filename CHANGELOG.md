@@ -85,3 +85,4 @@
 - MVP-526 - Add Learn introduction page with slider
 - MVP-433 - Fix last step of signin 404
 - no-ticket - Fix images on /learn/categories being hidden
+- MVP-420 - test tooltips for multiple countries on target markets data page
