@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import logging
 import random
-from typing import List, Union
+from typing import List
 from unittest import mock
 
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 
 import allure
 from exportplan import helpers as exportplan_helpers
@@ -35,6 +36,7 @@ from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
     find_elements,
+    scroll_to,
     selenium_action,
     wait_for_text_in_element,
 )
@@ -186,21 +188,33 @@ def add_country_to_export_plan(browser: WebDriver, country: str):
     should_not_see_errors(browser)
 
 
-@allure.step('Show {tooltip_button} tooltip using mouse')
-def show_tooltip_using_mouse(browser: WebDriver, tooltip_button: Union[Selector, SelectorsEnum]):
-    button = find_element(browser, tooltip_button)
+def get_country_element(browser: WebDriver, tooltip_button: SelectorsEnum, country: str) -> WebElement:
+    assert hasattr(tooltip_button, 'selector_template')
+    selector_from_template = tooltip_button.selector_template.format(country=country.lower())
+    new_selector = Selector(tooltip_button.by, selector_from_template)
+    logger.info(
+        f'Default selector "{tooltip_button.selector}" was replaced with country specific "{selector_from_template}"'
+    )
+    return find_element(browser, new_selector)
+
+
+@allure.step('Show {tooltip_button} tooltip for {country} using mouse')
+def show_tooltip_using_mouse(browser: WebDriver, tooltip_button: SelectorsEnum, country: str):
+    button = get_country_element(browser, tooltip_button, country)
+    scroll_to(browser, button)
     button.click()
 
 
-@allure.step('Show {tooltip_button} tooltip using keyboard')
-def show_tooltip_using_keyboard(browser: WebDriver, tooltip_button: Union[Selector, SelectorsEnum]):
-    button = find_element(browser, tooltip_button)
+@allure.step('Show {tooltip_button} tooltip for {country} using keyboard')
+def show_tooltip_using_keyboard(browser: WebDriver, tooltip_button: SelectorsEnum, country: str):
+    button = get_country_element(browser, tooltip_button, country)
+    scroll_to(browser, button)
     button.send_keys(Keys.ENTER)
 
 
-@allure.step('Should see {tooltip_selector}')
-def should_see_ease_of_doing_business_tooltip(browser: WebDriver, tooltip_selector: Union[Selector, SelectorsEnum]):
-    tooltip = find_element(browser, tooltip_selector)
+@allure.step('Should see {tooltip_selector} for {country}')
+def should_see_ease_of_doing_business_tooltip(browser: WebDriver, tooltip_selector: SelectorsEnum, country: str):
+    tooltip = get_country_element(browser, tooltip_selector, country)
     attach_jpg_screenshot(browser, 'tooltip')
     assert tooltip.is_displayed()
     assert tooltip.get_attribute('class').strip() != 'tooltip hidden'
@@ -287,13 +301,13 @@ def test_should_see_tooltips_triggered_with_mouse(
     live_server, user, browser = server_user_browser_dashboard
     visit_target_markets_page(live_server, browser)
 
-    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON)
+    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON, 'Japan')
     should_see_ease_of_doing_business_tooltip(
-        browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP
+        browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP, 'Japan'
     )
 
-    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP_BUTTON)
-    should_see_ease_of_doing_business_tooltip(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP)
+    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP_BUTTON, 'Japan')
+    should_see_ease_of_doing_business_tooltip(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP, 'Japan')
 
 
 def test_should_see_tooltips_triggered_with_keyboard(
@@ -302,10 +316,45 @@ def test_should_see_tooltips_triggered_with_keyboard(
     live_server, user, browser = server_user_browser_dashboard
     visit_target_markets_page(live_server, browser)
 
-    show_tooltip_using_keyboard(browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON)
+    show_tooltip_using_keyboard(
+        browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON, 'Japan'
+    )
     should_see_ease_of_doing_business_tooltip(
-        browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP
+        browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP, 'Japan'
     )
 
-    show_tooltip_using_keyboard(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP_BUTTON)
-    should_see_ease_of_doing_business_tooltip(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP)
+    show_tooltip_using_keyboard(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP_BUTTON, 'Japan')
+    should_see_ease_of_doing_business_tooltip(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP, 'Japan')
+
+
+@mock.patch.object(exportplan_helpers, 'update_exportplan')
+def test_should_see_tooltips_triggered_with_mouse_for_multiple_countries_on_target_markets_page(
+    mock_update_exportplan, mock_all_dashboard_and_export_plan_requests_and_responses, server_user_browser_dashboard,
+):
+    updated_export_plan_data = {
+        'pk': 1,
+        'target_markets': [JAPAN, CHINA],
+    }
+    mock_update_exportplan.return_value = updated_export_plan_data
+
+    live_server, user, browser = server_user_browser_dashboard
+    visit_target_markets_page(live_server, browser)
+    should_see_target_market_data_for(browser, ['Japan'])
+
+    add_country_to_export_plan(browser, 'China')
+
+    should_see_target_market_data_for(browser, ['Japan', 'China'])
+
+    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON, 'Japan')
+    should_see_ease_of_doing_business_tooltip(
+        browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP, 'Japan'
+    )
+    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP_BUTTON, 'Japan')
+    should_see_ease_of_doing_business_tooltip(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP, 'Japan')
+
+    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON, 'China')
+    should_see_ease_of_doing_business_tooltip(
+        browser, ExportPlanTargetMarketsDataTooltip.EASE_OF_DOING_BUSINESS_TOOLTIP, 'China'
+    )
+    show_tooltip_using_mouse(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP_BUTTON, 'China')
+    should_see_ease_of_doing_business_tooltip(browser, ExportPlanTargetMarketsDataTooltip.CPI_TOOLTIP, 'China')
