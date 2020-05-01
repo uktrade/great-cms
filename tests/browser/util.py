@@ -169,3 +169,10 @@ def try_alternative_click_on_exception(driver, element):
         action_chains.click()
         action_chains.perform()
         logging.warning(f'ActionChains click workaround is done')
+
+
+def scroll_to(driver: WebDriver, element: WebElement):
+    logging.info(f'Scrolling to {element}')
+    action_chains = ActionChains(driver)
+    action_chains.move_to_element(element)
+    action_chains.perform()
