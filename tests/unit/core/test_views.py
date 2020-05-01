@@ -376,3 +376,11 @@ def test_list_page_uses_right_template(domestic_homepage, rf, user):
     lesson_page = LessonPageFactory(parent=topic_page)
     response = lesson_page.serve(request)
     assert response.template_name == 'learn/lesson_page.html'
+
+
+@pytest.mark.django_db
+def test_handler404(client, settings):
+    response = client.get('/hey-kid-do-a-kickflip/')
+
+    assert response.template_name == 'core/404.html'
+    assert response.status_code == 404

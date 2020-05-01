@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
+from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
@@ -15,7 +16,9 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        list_pages = (
+        # coerce to list to make the db read happen here rather than in the template, thus making a
+        # traceback more debuggable
+        list_pages = list(
             models.ListPage.objects.live().filter(record_read_progress=True)
             .annotate(read_count=Count('page_views_list', filter=Q(page_views_list__sso_id=user.id)))
             .annotate(read_progress=(
@@ -101,3 +104,21 @@ class ProductLookupView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
         return Response(data)
+
+
+def handler404(request, *args, **kwargs):
+    return TemplateResponse(
+        request=request,
+        template='core/404.html',
+        context={},
+        status=404
+    )
+
+
+def handler500(request, *args, **kwargs):
+    return TemplateResponse(
+        request=request,
+        template='core/500.html',
+        context={},
+        status=500
+    )
