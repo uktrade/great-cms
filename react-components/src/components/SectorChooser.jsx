@@ -27,13 +27,13 @@ export default class SectorChooser extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.fetchRecommendedCountries = this.fetchRecommendedCountries.bind(this)
     this.recommendedCountriesFetchSuccess = this.recommendedCountriesFetchSuccess.bind(this)
-    this.recommendedCountriesFetchError = this.recommendedCountriesFetchError.bind(this)
+    this.fetchError = this.fetchError.bind(this)
   }
 
   componentDidMount() {
     const { selectedSectors } = this.state
     if (selectedSectors && selectedSectors.length > 0) {
-      this.fetchRecommendedCountries()
+      this.fetchRecommendedCountries(selectedSectors)
     }
   }
 
@@ -55,28 +55,35 @@ export default class SectorChooser extends React.Component {
 
   removeSector(sector) {
     const { selectedSectors } = this.state
-    const updatedSelectedSectors = selectedSectors.filter((id) => id !== sector)
-    this.setState({ selectedSectors: updatedSelectedSectors })
+    const sectors = selectedSectors.filter((item) => item !== sector)
+    this.setState({ selectedSectors: sectors })
 
-    if (updatedSelectedSectors && updatedSelectedSectors.length > 0) {
-      this.fetchRecommendedCountries()
+    if (sectors.length == 0) {
+      this.fetchRemoveSector()
     } else {
-      this.setState({
-        recommendedCountries: null,
-      })
+      this.fetchRecommendedCountries(sectors)
     }
   }
 
-  fetchRecommendedCountries() {
-    const { selectedSectors } = this.state
-    this.setState({
-      savedSelectedSectors: selectedSectors,
-      isLoading: true,
-    })
+  fetchRecommendedCountries(sectors) {
+    this.setState({ isLoading: true })
 
-    Services.getCountriesDataBySectors(selectedSectors)
+    Services.getCountriesDataBySectors(sectors)
       .then(this.recommendedCountriesFetchSuccess)
-      .catch(this.recommendedCountriesFetchError)
+      .catch(this.fetchError)
+
+    this.setState({ savedSelectedSectors: sectors })
+
+  }
+
+  fetchRemoveSector() {
+    this.setState({ isLoading: true })
+
+    Services.removeSector()
+      .then(this.recommendedCountriesFetchSuccess)
+      .catch(this.fetchError)
+
+    this.setState({ savedSelectedSectors: null })
   }
 
   recommendedCountriesFetchSuccess(data) {
@@ -86,7 +93,15 @@ export default class SectorChooser extends React.Component {
     })
   }
 
-  recommendedCountriesFetchError(err) {
+  removeSectorFetchSuccess(data) {
+    this.setState({
+      savedSelectedSectors: null,
+      recommendedCountries: null,
+      isLoading: false,
+    })
+  }
+
+  fetchError(err) {
     this.setState({
       fetchError: err,
       isLoading: false,
@@ -97,13 +112,17 @@ export default class SectorChooser extends React.Component {
     const { showSectorList, selectedSectors, savedSelectedSectors } = this.state
     if (showSectorList) {
       this.setState({ showSectorList: false })
-      const isEqual = selectedSectors.every((e) => savedSelectedSectors.includes(e))
-      if (!isEqual) {
-        this.fetchRecommendedCountries()
+
+      if (!savedSelectedSectors) {
+        this.fetchRecommendedCountries(selectedSectors)
+      } else {
+        const isEqual = selectedSectors.every((item) => savedSelectedSectors.includes(item))
+        if (!isEqual) {
+          this.fetchRecommendedCountries(selectedSectors)
+        }
       }
     } else {
-      this.setState({ showSectorList: true })
-      this.setState({ showTooltip: false })
+      this.setState({ showSectorList: true, showTooltip: false })
     }
   }
 

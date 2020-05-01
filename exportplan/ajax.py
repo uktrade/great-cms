@@ -1,13 +1,13 @@
 from datetime import datetime
-from django.http import JsonResponse
-from rest_framework import views, response
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from . import helpers
 from exportplan import serializers
 
 
-class ExportPlanCountryDataView(views.APIView):
+class ExportPlanCountryDataView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.ExportPlanCountrySerializer
 
@@ -29,10 +29,10 @@ class ExportPlanCountryDataView(views.APIView):
             'datenow': datetime.now(),
         }
 
-        return JsonResponse(data)
+        return Response(data)
 
 
-class ExportPlanRemoveCountryDataView(views.APIView):
+class ExportPlanRemoveCountryDataView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.ExportPlanCountrySerializer
 
@@ -53,10 +53,24 @@ class ExportPlanRemoveCountryDataView(views.APIView):
             'datenow': datetime.now(),
         }
 
-        return JsonResponse(data)
+        return Response(data)
 
 
-class ExportPlanRecommendedCountriesDataView(views.APIView):
+class ExportPlanRemoveSectorView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        updated_export_plan = helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=export_plan['pk'],
+            data={'sectors': []}
+        )
+        data = {'sectors': updated_export_plan['sectors']}
+        return Response(data)
+
+
+class ExportPlanRecommendedCountriesDataView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.ExportPlanRecommendedCountriesSerializer
 
@@ -78,4 +92,4 @@ class ExportPlanRecommendedCountriesDataView(views.APIView):
         )
 
         data = {'countries': recommended_countries, }
-        return response.Response(data)
+        return Response(data)

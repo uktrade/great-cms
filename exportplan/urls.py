@@ -13,6 +13,7 @@ urlpatterns = [
         name='ajax-recommended-countries-data'
     ),
     path('api/export-plan/', views.UpdateExportPlanAPIView.as_view(), name='api-update-export-plan'),
-    path('api/remove-country-data/', ajax.ExportPlanRemoveCountryDataView.as_view(), name='ajax-remove-country-data'),
-    path('api/country-data/', ajax.ExportPlanCountryDataView.as_view(), name='ajax-country-data'),
+    path('api/remove-country-data/', ajax.ExportPlanRemoveCountryDataView.as_view(), name='api-remove-country-data'),
+    path('api/remove-sector/', ajax.ExportPlanRemoveSectorView.as_view(), name='api-remove-sector'),
+    path('api/country-data/', ajax.ExportPlanCountryDataView.as_view(), name='api-country-data'),
 ]
