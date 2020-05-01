@@ -1,8 +1,7 @@
-import { decorate } from '@storybook/addon-actions';
+import { action, decorate } from '@storybook/addon-actions';
 import { withKnobs, select, text, boolean } from '@storybook/addon-knobs';
 import buttonDocs from './button.mdx';
 import { Button } from './button';
-
 
 customElements.define('great-button', Button);
 const decoratedAction = decorate([() => ['Click']]);
@@ -32,11 +31,11 @@ export const Default = () => {
   const disabled = boolean('disabled', false);
   const loading = boolean('loading', false);
   const theme = select('theme', availableThemes, availableThemes.primary);
-  const children = text('text', 'Simple Button');
+  const children = text('text', 'Great Button');
   return decoratedAction.withActions({ 'click dsm-button': 'Native button clicked!' })(
     () =>
     `<div class="gds-container">
-        <great-button ${disabled ? 'disabled' : ''} ${loading ? 'loading' : ''} icon="${icon}" theme="${theme}">${children}</great-button>
+        <great-button onClick="${action('button-click')}" ${disabled ? 'disabled' : ''} ${loading ? 'loading' : ''} icon="${icon}" theme="${theme}">${children}</great-button>
      </div>
       `
   );
@@ -50,6 +49,7 @@ Default.story = {
       docFilePath: './button.docs.json',
       containerClass: 'container'
     },
+    info: { inline: true },
     docs: { page: buttonDocs }
   }
 };
