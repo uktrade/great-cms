@@ -10,16 +10,22 @@ import { initDsm } from '@invisionapp/dsm-storybook';
  * theming: https://github.com/storybooks/storybook/blob/master/docs/src/pages/configurations/theming/index.md
  * Example code below
  **/
-// import { themes } from '@storybook/theming';
-//
-// function setCustomOptions() {
-//   addParameters({
-//     options: { theme: { ...themes.dark, brandTitle: 'Custom Title!' } }
-//   });
-// }
+import { themes } from '@storybook/theming';
+
+function setCustomOptions() {
+  addParameters({
+    options: { theme: { ...themes.light, brandTitle: 'GREAT Design System' } }
+  });
+}
 
 addParameters({
-  backgrounds: [{ name: 'DSM background', value: '#f8f8fa', default: true }, { name: 'dark', value: '#333' }]
+  backgrounds: [
+      { name: 'Light', value: '#f8f8fa', default: true },
+      { name: 'Dark', value: '#333333' },
+      { name: 'Pure Black', value: '#000000' },
+      { name: 'Pure White', value: '#ffffff' },
+      { name: 'Neutral', value: '#888' },
+    ]
 });
 
 addParameters({ docs: { page: null } });
@@ -32,7 +38,7 @@ initDsm({
   addParameters,
   callback: () => {
     // apply the custom options
-    // setCustomOptions();
-    configure(require.context('../web-components/', true, /\.stories\.js$/), module);
+    setCustomOptions();
+    configure(require.context('../design-system/components', true, /\.stories\.js$/), module);
   }
 });

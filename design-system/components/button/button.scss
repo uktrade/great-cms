@@ -1,4 +1,4 @@
-@import "../_style-params.scss";
+@import "../../index.scss";
 
 button {
     align-items: center;
@@ -86,15 +86,16 @@ button {
 }
 
 svg {
-    height: 25px;
-    width: 25px;
-    margin-left: 50px;
     fill: #ffffff;
+    height: 25px;
+    margin-left: 50px;
+    width: 25px;
 }
 
 .content {
-    font-family: 'Roboto', -apple-system, sans-serif;
+    font-family: 'FSLucas', 'Open Sans Condensed', 'Georgia', -apple-system, sans-serif;
     font-size: 16px;
+    font-style: normal;
     font-weight: normal;
     letter-spacing: 1.08px;
     line-height: 22px;
