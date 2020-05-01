@@ -20,3 +20,5 @@ export class Button extends HTMLElement {
     shadowRoot.appendChild(stylesheet);
   }
 }
+
+customElements.define('great-button', Button);
