@@ -81,7 +81,7 @@ def find_element(browser: WebDriver, selector: Union[Selector, EnumMeta]) -> Web
     return browser.find_element(selector.by, selector.selector)
 
 
-def find_elements(browser: WebDriver, selector: Selector) -> List[WebElement]:
+def find_elements(browser: WebDriver, selector: SelectorsEnum) -> List[WebElement]:
     return browser.find_elements(selector.by, selector.selector)
 
 
