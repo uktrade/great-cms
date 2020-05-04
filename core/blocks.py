@@ -32,3 +32,42 @@ class VideoBlock(blocks.StructBlock):
     width = blocks.IntegerBlock()
     height = blocks.IntegerBlock()
     video = MediaChooserBlock()
+
+
+class CuratedTopicBlock(blocks.StructBlock):
+    title = blocks.RichTextBlock()
+    page = blocks.PageChooserBlock(target_model='core.DetailPage')
+
+
+class LinkStructValue(blocks.StructValue):
+    """
+    Generates a URL for blocks with multiple link choices.
+    """
+    @property
+    def url(self):
+        page = self.get('page_link')
+        ext = self.get('other_link')
+        if page:
+            return page.url
+        else:
+            return ext
+
+
+class LinkBlock(blocks.StructBlock):
+    internal_link = blocks.PageChooserBlock(
+        required=False,
+        label='Internal link',
+    )
+    external_link = blocks.CharBlock(
+        required=False,
+        max_length=255,
+        label='External link',
+    )
+
+    class Meta:
+        value_class = LinkStructValue
+
+
+class ButtonBlock(blocks.StructBlock):
+    text = blocks.CharBlock(max_length=255)
+    link = LinkBlock()

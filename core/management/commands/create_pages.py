@@ -12,31 +12,31 @@ class Command(BaseCommand):
             parent=site.root_page,
             title='export plan',
             slug='export-plan',
-            template='exportplan/export_plan_page.html',
+            template='exportplan/automated_list_page.html',
         )
         factories.DetailPageFactory(
             parent=export_plan,
             title='export plan dashboard',
             slug='dashboard',
-            template='exportplan/export_plan_dashboard_page.html',
+            template='exportplan/dashboard_page.html',
         )
         learn_homepage = factories.ListPageFactory(
             parent=site.root_page,
             title='Learn',
             slug='learn',
-            template='learn/learn_page.html',
+            template='learn/landing_page.html',
         )
         factories.DetailPageFactory(
             parent=learn_homepage,
             title='How to export introduction',
             slug='introduction',
-            template='learn/learn_introduction.html',
+            template='learn/interstitial.html',
         )
         learn_categories = factories.ListPageFactory(
             parent=learn_homepage,
             title='Learn how to export',
             slug='categories',
-            template='learn/landing_page.html',
+            template='learn/automated_list_page.html',
         )
         factories.DetailPageFactory(
             parent=learn_categories,
