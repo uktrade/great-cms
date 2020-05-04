@@ -68,7 +68,7 @@ export default class CountryData extends React.Component {
                 <figcaption>
                   <p className="statistic__caption educational-moment__paragraph">Ease of doing business rank</p>
                   <EducationalMomentTooltip
-                    id="ease-of-doing-business-tooltip"
+                    id={`ease-of-doing-business-tooltip-${slugify(country)}`}
                     heading="What is Ease of Doing Business Rank?"
                     description="Ease of doing business ranks economies from 1 to 190, with first place being the best. A high ranking (a low numerical rank) means that the regulatory environment is conducive to business operation"
                     />
@@ -90,7 +90,7 @@ export default class CountryData extends React.Component {
                 <figcaption>
                   <p className="statistic__caption educational-moment__paragraph">Corruption Perception Index</p>
                     <EducationalMomentTooltip
-                      id="corruption-perception-index-tooltip"
+                      id={`corruption-perception-index-tooltip-${slugify(country)}`}
                       heading="What is the Corruption Perception Index?"
                       description='The Corruption Perception Index (CPI) is an index published annually by Transparency International since 1995 which ranks countries "by their perceived levels of public sector corruption, as determined by expert assessments and options surveys."'
                       />

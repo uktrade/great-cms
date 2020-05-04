@@ -60,6 +60,7 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make boostrap_great           | Create required database records so the CMS works |
 | make create_pages             | Create required Pages |
 | make create_tours             | Create required Page tours |
+| make recreate                 | Runs: database, boostrap_great, create_pages, create_tours in one go |
 
 ### Setting up the local database
 
@@ -87,9 +88,9 @@ HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
 
 
 ### Getting started
-    
+
     $ make ARGUMENTS=bootstrap_great manage
-    
+
  It creates the Great domestic empty homepage and assigns it to the site root.
  It also creates a superuser `test` with password `password`, for local development.
 
@@ -115,7 +116,7 @@ Signed cookies are used as the session backend to avoid using a database. We the
 To add new react components:
 
 1. Add the file to javascript/src/ e.g. javascript/src/myFile.js
-2. Update javascript/src/bundle.js  e.g, 
+2. Update javascript/src/bundle.js  e.g,
 ```
 import myFile from './myFile';
 
@@ -153,7 +154,7 @@ Speak to webops or a team mate for the above values.
 
 ## Load tests
 
-We're using [locust](https://locust.io/) to run load tests against local instance of 
+We're using [locust](https://locust.io/) to run load tests against local instance of
 the service and in-memory SQLite.  
 See Django [database documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases) for more details.
 
@@ -161,7 +162,7 @@ To run them with default settings use:
 ```bash
 make test_load
 ```
-This target, will spawn a local instance of the service and tear it down after tests 
+This target, will spawn a local instance of the service and tear it down after tests
 are finished.
 
 
