@@ -35,8 +35,8 @@ export function Container(props){
   }
 
   function buildNextUrl() {
-    const reducer = (accumulator, product) => `${accumulator}product_code=${product.value}&product=${product.label}&`
-    return props.products.reduce(reducer, location.pathname + '?store=true&')
+    const reducer = (accumulator, product) => `${accumulator}&product=${product.label}&`
+    return props.products.reduce(reducer, location.pathname + '?remember-expertise-products-services=true&')
   }
 
   function handleSignup() {

@@ -86,3 +86,4 @@
 - MVP-433 - Fix last step of signin 404
 - no-ticket - Fix images on /learn/categories being hidden
 - MVP-438 - Only view learn interstitials once 
+- MVP-464 - Store selected product as expertise

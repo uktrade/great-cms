@@ -37,9 +37,11 @@
       {% if user.company %}
       var userCountries ={{ user.company.expertise_countries_value_label_pairs|safe }};
       var userIndustries = {{ user.company.expertise_industries_value_label_pairs|safe }};
+      var userProducts = {{ user.company.expertise_products_value_label_pairs|safe }};
       {% else %}
       var userCountries = [];
       var userIndustries = [];
+      var userProducts = [];
       {% endif %}
       // static values that will not be updated by user interacting with react components
       ditMVP.setConfig({ 
@@ -82,7 +84,7 @@
           expertise: {
             countries: userCountries,
             industries: userIndustries,
-            products: [],
+            products: userProducts,
           },
         },
       })

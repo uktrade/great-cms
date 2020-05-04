@@ -79,6 +79,7 @@ MIDDLEWARE = [
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.UserLocationStoreMiddleware',
+    'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
 ]
 
