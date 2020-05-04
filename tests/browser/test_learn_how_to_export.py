@@ -28,7 +28,7 @@ pytestmark = [
 @allure.step('Dismiss the "Lets Get To Know You" modal')
 def dismiss_modal(browser: WebDriver):
     generic_content = find_element(browser, DashboardModalLetsGetToKnowYou.GENERIC_CONTENT)
-    with selenium_action(browser, f"Failed to dismiss the modal"):
+    with selenium_action(browser, 'Failed to dismiss the modal'):
         generic_content.click()
     should_not_see_lets_get_to_know_you_modal(browser)
 
