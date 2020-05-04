@@ -15,6 +15,7 @@ from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
+from tests.unit.core import factories as core_factories
 from tests.unit.learn import factories as learn_factories
 from wagtail_factories import SiteFactory
 
@@ -142,7 +143,13 @@ def visit_signup_page(live_server, browser, domestic_site_browser_tests):
 
 
 @pytest.fixture
-def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
+def server_user_browser_dashboard(
+    mock_get_company_profile,
+    server_user_browser,
+    settings,
+    domestic_site_browser_tests,
+    how_to_export_introduction_pages,
+):
     live_server, user, browser = server_user_browser
 
     browser.get(f'{live_server.url}/dashboard/')
@@ -171,6 +178,23 @@ def topics_with_lessons(domestic_site_browser_tests):
     lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
     lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
     return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
+
+
+@pytest.mark.django_db(transaction=True)
+@pytest.fixture
+def how_to_export_introduction_pages(domestic_site):
+    learn_homepage = core_factories.ListPageFactory(
+        parent=domestic_site.root_page, title='Learn', slug='learn', template='learn/learn_page.html',
+    )
+    core_factories.DetailPageFactory(
+        parent=learn_homepage,
+        title='How to export introduction',
+        slug='introduction',
+        template='learn/learn_introduction.html',
+    )
+    return core_factories.ListPageFactory(
+        parent=learn_homepage, title='Learn how to export', slug='categories', template='learn/landing_page.html',
+    )
 
 
 ##########################################################
