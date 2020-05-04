@@ -45,7 +45,7 @@ export const Default = () => {
             >
                 ${children}
             </great-button>
-            <br>
+            &nbsp;
             <great-button
                 ${disabled ? 'disabled' : ''}
                 ${loading ? 'loading' : ''}
@@ -54,7 +54,7 @@ export const Default = () => {
             >
                 ${children}
             </great-button>
-            <br>
+            &nbsp;
             <great-button
                 ${disabled ? 'disabled' : ''}
                 ${loading ? 'loading' : ''}

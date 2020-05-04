@@ -6,15 +6,19 @@
 
 button {
     align-items: center;
-    border-radius: 20px;
+    border-radius: 4px;
     border: none;
     cursor: pointer;
     display: flex;
-    height: 40px;
+    font-family: 'FSLucas', 'Open Sans Condensed', 'Georgia', -apple-system, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    height: 28px;
     justify-content: center;
+    line-height: 22px;
     outline: none;
-    padding: 8px 20px;
-    user-select: none;
+    padding: 2px 10px;
 
     &:active:not(:disabled) {
     }
@@ -67,45 +71,3 @@ button {
         background-color: #e0e0e0;
     }
 }
-
-.tertiary {
-    background-color: $colour-white-100;;
-    border: 2px solid $colour-blue-deep-80;
-    color: $colour-blue-deep-80;
-
-    &:hover {
-        border-color: $colour-blue-deep-100;
-        color: $colour-blue-deep-100;
-    }
-
-    &:active {
-        border-color: $colour-blue-deep-50;
-        color: $colour-blue-deep-50;
-    }
-
-    &:disabled {
-        border-color: #e0e0e0;
-        color: #e0e0e0;
-    }
-}
-
-svg {
-    fill: #ffffff;
-    height: 25px;
-    margin-left: 50px;
-    width: 25px;
-}
-
-.content {
-    font-family: 'FSLucas', 'Open Sans Condensed', 'Georgia', -apple-system, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: 1.08px;
-    line-height: 22px;
-}
-
-.with-icon {
-}
-
-
