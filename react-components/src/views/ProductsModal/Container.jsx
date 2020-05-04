@@ -36,7 +36,7 @@ export function Container(props){
 
   function buildNextUrl() {
     const reducer = (accumulator, product) => `${accumulator}product_code=${product.value}&product=${product.label}&`
-    return props.products.reduce(reducer, location.pathname + '?')
+    return props.products.reduce(reducer, location.pathname + '?store=true&')
   }
 
   function handleSignup() {
