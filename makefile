@@ -40,7 +40,7 @@ check_migrations:
 	yes n | ENV_FILES=$(ENV_FILES) ./manage.py migrate --plan
 
 webserver:
-	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 --ipdb $(ARGUMENTS)
+	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
 
 LOCUST_FILE?=tests/load/mvp_home.py
 NUM_CLIENTS?=10
@@ -65,8 +65,8 @@ test_load:
 	-$(kill_webserver)
 
 requirements:
-	pip-compile -r --annotate requirements.in
-	pip-compile -r --annotate requirements_test.in
+	pip-compile --upgrade -r --annotate requirements.in
+	pip-compile --upgrade -r --annotate requirements_test.in
 
 install_requirements:
 	pip install -q -r requirements_test.txt
