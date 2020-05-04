@@ -2,6 +2,7 @@
 
 :host {
     display: inline-block;
+    position: relative;
 }
 
 button {
@@ -103,9 +104,17 @@ svg {
     font-weight: normal;
     letter-spacing: 1.08px;
     line-height: 22px;
+
+    &.loading {
+        visibility: hidden;
+    }
+}
+
+great-spinner {
+    left: calc(50% - 10px);
+    position: absolute;
+    top: calc(50% - 12px);
 }
 
 .with-icon {
 }
-
-

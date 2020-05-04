@@ -38,7 +38,13 @@ customElements.define(
       Object.entries(rest).forEach(([key, value]) => button.setAttribute(key, value))
 
       const content = shadowRoot.querySelector('.content')
-      content.innerHTML = loading || loading === '' ? '<great-spinner size="sm" theme="dark"></great-spinner>' : this.textContent
+      content.innerHTML = this.textContent
+
+      if (loading || loading === '') {
+        const spinner = `<great-spinner size="sm" theme="${theme === 'tertiary' ? 'dark' : 'light'}"></great-spinner>`
+        content.classList.add('loading')
+        button.innerHTML += spinner
+      }
     }
   }
 )
