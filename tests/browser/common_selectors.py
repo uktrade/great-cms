@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from collections import namedtuple
 from enum import Enum
+from typing import NamedTuple
 
 from selenium.webdriver.common.by import By
 
@@ -31,10 +31,9 @@ class SelectorsEnum(Enum):
         return self.value.selector_template
 
     def __str__(self) -> str:
-        return self.value.name if (hasattr(self.value, 'name') and self.value.name) else self.__class__.__name__
+        return getattr(self.value, 'name', None) or self.__class__.__name__
 
-    def __repr__(self) -> str:
-        return self.value.name if (hasattr(self.value, 'name') and self.value.name) else self.__class__.__name__
+    __repr__ = __str__
 
 
 class ElementType(Enum):
@@ -57,38 +56,19 @@ class ElementType(Enum):
         return self.value
 
 
-class Selector(
-    namedtuple('Selector', ['by', 'selector', 'type', 'is_visible', 'is_authenticated', 'name', 'selector_template'])
-):
-    __slots__ = ()
-
-    def __new__(
-        cls,
-        by: By,
-        selector: str,
-        *,
-        type: ElementType = None,
-        is_visible: bool = True,
-        is_authenticated: bool = False,
-        name: str = None,
-        selector_template: str = None,
-    ):
-        return super(Selector, cls).__new__(
-            cls,
-            by,
-            selector=selector,
-            type=type,
-            is_visible=is_visible,
-            is_authenticated=is_authenticated,
-            name=name,
-            selector_template=selector_template,
-        )
+class Selector(NamedTuple):
+    by: By
+    selector: str
+    type: ElementType = None
+    is_visible: bool = True
+    is_authenticated: bool = False
+    name: str = None
+    selector_template: str = None
 
     def __str__(self) -> str:
-        return str(self.name) if self.name else str(self.__class__.__name__)
+        return self.name or self.__class__.__name__
 
-    def __repr__(self) -> str:
-        return str(self.name) if self.name else str(self.__class__.__name__)
+    __repr__ = __str__
 
 
 class HeaderCommon(SelectorsEnum):
