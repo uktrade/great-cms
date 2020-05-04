@@ -95,6 +95,12 @@ class HeaderSignedIn(SelectorsEnum):
     DASHBOARD = Selector(By.ID, 'header-link-dashboard', type=ElementType.LINK)
 
 
+class Breadcrumbs(SelectorsEnum):
+    CONTAINER = Selector(By.CSS_SELECTOR, '#content nav[aria-label="Breadcrumb"]')
+    HOME = Selector(By.ID, 'breadcrumbs-home', type=ElementType.LINK)
+    CURRENT_PAGE = Selector(By.CSS_SELECTOR, '#content nav[aria-label="Breadcrumb"] li[aria-current="page"]')
+
+
 class DashboardContents(SelectorsEnum):
     HERO = Selector(By.ID, 'great-hero')
     WELCOME = Selector(By.ID, 'great-hero-welcome')
@@ -146,6 +152,9 @@ class SignUpModalSuccess(SelectorsEnum):
 class DashboardModalLetsGetToKnowYou(SelectorsEnum):
     MODAL = Selector(By.ID, 'dashboard-question-modal-lets-get-to-know-you')
     INDUSTRIES_INPUT = Selector(By.ID, 'react-select-2-input', type=ElementType.INPUT)
+    GENERIC_CONTENT = Selector(
+        By.CSS_SELECTOR, '#dashboard-question-modal-lets-get-to-know-you a', type=ElementType.LINK
+    )
     SUBMIT = Selector(By.ID, 'dashboard-question-modal-submit', type=ElementType.BUTTON)
     ERROR_MESSAGES = Selector(By.CSS_SELECTOR, 'li.error-message', is_visible=False)
 
@@ -318,3 +327,23 @@ class TopicLessonListing(SelectorsEnum):
 
 class LessonPage(SelectorsEnum):
     TITLE = Selector(By.ID, 'lesson-title')
+
+
+class LearnHowToExportLanding(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'learn-root')
+    HEADING = Selector(By.CSS_SELECTOR, '#learn-root h1')
+    CONTENT = Selector(By.CSS_SELECTOR, '#learn-root p')
+    LEARN_HOW_TO_EXPORT = Selector(By.CSS_SELECTOR, '#learn-root a', type=ElementType.BUTTON)
+
+
+class LearnHowToExportIntroduction(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'learn-root')
+    CAROUSEL = Selector(By.ID, 'learn-introduction-carousel')
+    SLIDE_1 = Selector(By.CSS_SELECTOR, '#learn-introduction-carousel ul li:nth-child(1) a', type=ElementType.BUTTON)
+    SLIDE_2 = Selector(By.CSS_SELECTOR, '#learn-introduction-carousel ul li:nth-child(2) a', type=ElementType.BUTTON)
+    SLIDE_3 = Selector(By.CSS_SELECTOR, '#learn-introduction-carousel ul li:nth-child(3) a', type=ElementType.BUTTON)
+    CONTINUE = Selector(By.CSS_SELECTOR, '#learn-introduction-carousel button', type=ElementType.BUTTON)
+
+
+class LearnHowToExportCategories(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'learn-root')
