@@ -27,7 +27,6 @@ module.exports = {
         options: {
             name: '[name].[ext]',
             outputPath: 'fonts',
-            context: path.resolve(__dirname, 'design-system'),
         },
       },
       { test: /\.(jpg|png|gif)$/i, use: 'url-loader?limit=5000' },

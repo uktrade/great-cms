@@ -1,5 +1,6 @@
-$small-spinner: 4px * 5;
-$large-spinner: 4px * 12;
+@import "../../index.scss";
+$small-spinner: 26px;
+$large-spinner: 48px;
 
 .spinner {
   animation: rotation 3s ease-in-out infinite;
@@ -36,20 +37,20 @@ $large-spinner: 4px * 12;
 
   &.dark {
     div {
-      border-color: #53565a transparent transparent;
+      border-color: $colour-black-70 transparent transparent;
 
       &:nth-child(1) {
-        border-color: rgba(#000, .12);
+        border-color: $colour-black-10;
       }
     }
   }
 
   &.light {
     div {
-      border-color: #fff transparent transparent;
+      border-color: $colour-white-100 transparent transparent;
 
       &:nth-child(1) {
-        border-color: rgba(#fff, .2);
+        border-color: rgba($colour-white-100, .2);
       }
     }
   }
@@ -58,10 +59,10 @@ $large-spinner: 4px * 12;
     display: inline-block;
     height: $small-spinner;
     width: $small-spinner;
-    top: 2px;
+    top: -1px;
 
     div {
-      border-width: .09em;
+      border-width: .15em;
     }
   }
 

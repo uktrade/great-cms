@@ -56,10 +56,5 @@ Light.story = {
         { name: 'Light', value: '#f8f8fa'},
         { name: 'Dark', value: '#333333', default: true },
     ],
-    'in-dsm': {
-      docFilePath: './spinner.docs.json',
-      containerClass: 'sample-code',
-      id: '5cf926dec0f0050ea6ca4a8a',
-    },
   },
 }
