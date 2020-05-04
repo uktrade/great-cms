@@ -18,15 +18,15 @@ export default {
 }
 
 const availableThemes = {
-    light: 'light',
-    dark: 'dark',
+  light: 'light',
+  dark: 'dark',
 }
 const availableSizes = {
-    sm: 'sm',
-    lg: 'lg',
+  sm: 'sm',
+  lg: 'lg',
 }
 
-export const Default = () => {
+export const Dark = () => {
   const theme = select('theme', availableThemes, availableThemes.dark)
   const size = select('size', availableSizes, availableSizes.lg)
 
@@ -36,4 +36,30 @@ export const Default = () => {
             <great-spinner size="${size}" theme="${theme}"></great-spinner>
         </div>`
   )
+}
+
+export const Light = () => {
+  const theme = select('theme', availableThemes, availableThemes.light)
+  const size = select('size', availableSizes, availableSizes.lg)
+
+  return decoratedAction.withActions({ 'click great-spinner': 'Great spinner clicked' })(
+    () =>
+      ` <div class="sample-code">
+              <great-spinner size="${size}" theme="${theme}"></great-spinner>
+          </div>`
+  )
+}
+
+Light.story = {
+  parameters: {
+    backgrounds: [
+        { name: 'Light', value: '#f8f8fa'},
+        { name: 'Dark', value: '#333333', default: true },
+    ],
+    'in-dsm': {
+      docFilePath: './spinner.docs.json',
+      containerClass: 'sample-code',
+      id: '5cf926dec0f0050ea6ca4a8a',
+    },
+  },
 }
