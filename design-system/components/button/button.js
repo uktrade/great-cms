@@ -1,5 +1,5 @@
 import template from './button.html'
-import styles from './button.scss'
+import styles from './button.css'
 import '../spinner/spinner.js'
 
 customElements.define(

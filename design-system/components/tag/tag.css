@@ -1,4 +1,4 @@
-@import "../../index.scss";
+@import "../../index.css";
 
 :host {
     display: inline-block;
@@ -39,35 +39,35 @@ button {
 }
 
 .primary {
-    background-color: $colour-red-80;
-    color: $colour-white-100;
+    background-color: var(--colour-red-80);
+    color: var(--colour-white-100);
 
     &:hover {
-        background-color: $colour-red-100;
+        background-color: var(--colour-red-100);
     }
 
     &:active {
-        background-color: $colour-red-50;
+        background-color: var(--colour-red-50);
     }
 
     &:disabled {
-        background-color: $colour-black-10;
+        background-color: var(--colour-black-10);
     }
 }
 
 .secondary {
-    background-color: $colour-blue-deep-80;
-    color: $colour-white-100;
+    background-color: var(--colour-blue-deep-80);
+    color: var(--colour-white-100);
 
     &:hover {
-        background-color: $colour-blue-deep-100;
+        background-color: var(--colour-blue-deep-100);
     }
 
     &:active {
-        background-color: $colour-blue-deep-50;
+        background-color: var(--colour-blue-deep-50);
     }
 
     &:disabled {
-        background-color: $colour-black-10;
+        background-color: var(--colour-black-10);
     }
 }

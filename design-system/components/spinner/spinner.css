@@ -1,6 +1,9 @@
-@import "../../index.scss";
-$small-spinner: 26px;
-$large-spinner: 48px;
+@import "../../index.css";
+
+:root {
+    --small-spinner: 26px;
+    --large-spinner: 48px;
+}
 
 .spinner {
   animation: rotation 3s ease-in-out infinite;
@@ -37,28 +40,28 @@ $large-spinner: 48px;
 
   &.dark {
     div {
-      border-color: $colour-black-70 transparent transparent;
+      border-color: var(--colour-black-70) transparent transparent;
 
       &:nth-child(1) {
-        border-color: $colour-black-10;
+        border-color: var(--colour-black-10);
       }
     }
   }
 
   &.light {
     div {
-      border-color: $colour-white-100 transparent transparent;
+      border-color: var(--colour-white-100) transparent transparent;
 
       &:nth-child(1) {
-        border-color: rgba($colour-white-100, .2);
+        border-color: rgba(var(--colour-white-100), .2);
       }
     }
   }
 
   &.sm {
     display: inline-block;
-    height: $small-spinner;
-    width: $small-spinner;
+    height: var(--small-spinner);
+    width: var(--small-spinner);
     top: -1px;
 
     div {
@@ -67,8 +70,8 @@ $large-spinner: 48px;
   }
 
   &.lg {
-    height: $large-spinner;
-    width: $large-spinner;
+    height: var(--large-spinner);
+    width: var(--large-spinner);
   }
 
 }

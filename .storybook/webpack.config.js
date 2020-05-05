@@ -1,10 +1,11 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   module: {
     rules: [
       {
         test: /\.svg$/i,
+        exclude: /node_modules/,
         loader: 'svg-inline-loader',
         options: {
           removeTags: true,
@@ -15,18 +16,31 @@ module.exports = {
       },
       {
         test: /\.scss$/i,
+        exclude: /node_modules/,
         use: ['css-loader', 'resolve-url-loader', 'sass-loader'],
       },
       {
         test: /\.css$/i,
-        use: ['css-loader'],
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
       },
       {
         test: /\.(ttf|woff|woff2)$/i,
+        exclude: /node_modules/,
         loader: 'file-loader',
         options: {
-            name: '[name].[ext]',
-            outputPath: 'fonts',
+          name: '[name].[ext]',
+          outputPath: 'fonts',
         },
       },
       { test: /\.(jpg|png|gif)$/i, use: 'url-loader?limit=5000' },

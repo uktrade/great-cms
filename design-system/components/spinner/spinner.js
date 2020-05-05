@@ -1,5 +1,5 @@
 import template from './spinner.html'
-import styles from './spinner.scss'
+import styles from './spinner.css'
 
 customElements.define(
     'great-spinner',

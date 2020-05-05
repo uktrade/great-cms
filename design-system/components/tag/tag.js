@@ -1,5 +1,5 @@
 import template from './tag.html'
-import styles from './tag.scss'
+import styles from './tag.css'
 
 customElements.define(
   'great-tag',
