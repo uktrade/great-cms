@@ -51,7 +51,7 @@ export const WithImage = () => {
 }
 
 export const EmptyState = () => {
-    const image = select('image', availableImages, availableImages.female)
+    const image = select('image', availableImages, availableImages.none)
   
     return decoratedAction.withActions({ 'click great-avatar': 'Great button clicked' })(
       () =>

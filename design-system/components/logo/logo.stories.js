@@ -1,5 +1,5 @@
 import { decorate } from '@storybook/addon-actions'
-import { withKnobs } from '@storybook/addon-knobs'
+import { withKnobs, select } from '@storybook/addon-knobs'
 import logoDocs from './logo.mdx'
 import './logo.js'
 
@@ -18,11 +18,27 @@ export default {
   },
 }
 
+const availableSizes = {
+  sm: 'sm',
+  lg: 'lg',
+}
+
 export const Small = () => {
+  const size = select('size', availableSizes, availableSizes.sm)
   return decoratedAction.withActions({ 'click great-logo': 'Great logo clicked' })(
     () =>
       `<div class="sample-code">
-            <great-logo size="sm"></great-logo>
+            <great-logo size="${size}"></great-logo>
         </div>`
   )
 }
+
+export const Large = () => {
+    const size = select('size', availableSizes, availableSizes.lg)
+    return decoratedAction.withActions({ 'click great-logo': 'Great logo clicked' })(
+      () =>
+        `<div class="sample-code">
+              <great-logo size="${size}"></great-logo>
+          </div>`
+    )
+  }

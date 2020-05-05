@@ -17,7 +17,7 @@ customElements.define(
 
       const wrapper = shadowRoot.querySelector('span')
       const size = this.getAttribute('size')
-      const sizes = ['sm']
+      const sizes = ['sm', 'lg']
       if (sizes.includes(size)) wrapper.classList.add(size)
     }
   }
