@@ -2,9 +2,12 @@
 from time import sleep
 
 import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
 
 import allure
+import environ
 from tests.browser.common_selectors import (
     Breadcrumbs,
     DashboardModalLetsGetToKnowYou,
@@ -25,6 +28,46 @@ pytestmark = [
     pytest.mark.browser,
     pytest.mark.learn,
 ]
+
+
+@pytest.fixture(scope='function')
+def single_browser_session():
+    options = Options()
+    env = environ.Env()
+    headless = env.bool('HEADLESS', True)
+    if headless:
+        options.add_argument('--headless')
+        options.add_argument('--window-size=1600x2200')
+        options.add_argument('--disable-gpu')
+    options.add_argument('--start-maximized')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--no-sandbox')
+    browser = webdriver.Chrome(options=options)
+    yield browser
+    browser.quit()
+
+
+@pytest.fixture(scope='function')
+def server_logged_in_user_single_browser_session(
+    settings,
+    live_server,
+    single_browser_session,
+    user,
+    client,
+    mock_get_company_profile,
+    domestic_site_browser_tests,
+    how_to_export_introduction_pages,
+):
+    client.force_login(user)
+    browser = single_browser_session
+
+    browser.get(f'{live_server.url}/dashboard/')
+
+    browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
+    browser.refresh()
+    should_not_see_errors(browser)
+
+    return live_server, user, browser
 
 
 @allure.step('Dismiss the "Lets Get To Know You" modal')
