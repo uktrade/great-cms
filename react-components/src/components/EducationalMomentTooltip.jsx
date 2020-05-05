@@ -82,7 +82,7 @@ export default class EducationalMomentTooltip extends React.Component {
               className={`tooltip ${!this.state.displayed ? 'hidden' : ''} ${(type === this.TOOLTIP_TYPE.Right) ? 'tooltip--right-side' : ''}`}
               id={id}>
                 <div className="educational-moment educational-moment--tooltip">
-                    <div className="educational-moment__tooltip" id="ease-of-doing-business-tooltip">
+                    <div className="educational-moment__tooltip">
                         <h3 className="tooltip__heading h-m">{heading}</h3>
                         <p className="tooltip__paragraph">{description}</p>
                     </div>
