@@ -17,7 +17,17 @@ div.dataset.tooltipType = 'LEFT';
 div.innerHTML = fixture;
 
 const props = {
-    htmlFixture: div
+    id: 'ID',
+    heading: 'Heading',
+    description: 'Description',
+    htmlFixture: div,
+    ariaDescribedBy: '',
+    hiddenText: ''
+};
+
+const iconProps = {
+    ariaDescribedBy: '',
+    hiddenText: ''
 };
 
 describe('EducationalMomentTooltip component', () => {
@@ -38,7 +48,7 @@ describe('EducationalMomentTooltip component', () => {
     });
 
     test('component contains EducationalMomentIcon', () => {
-        expect(wrapper.find(<EducationalMomentIcon />).exists).toBeTruthy();
+        expect(wrapper.find(<EducationalMomentIcon {...iconProps}/>).exists).toBeTruthy();
     });
 
     test('mouseenter changes displayed state to true', () => {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { slugify } from '../Helpers'
 import Spinner from './Spinner/Spinner'
+import ErrorList from './ErrorList'
 import Sector from './Sector'
 import RecommendedCountries from './RecommendedCountries'
 
@@ -14,30 +15,32 @@ export default class SectorChooser extends React.Component {
     this.state = {
       sectorList,
       selectedSectors,
-      savedSelectedSectors: selectedSectors,
       showSectorList: false,
       showTooltip: false,
-      recommendedCountries: null,
-      fetchError: null,
+      recommendedCountries: [],
+      errors: [],
       isLoading: false,
     }
 
-    this.showHideSectorList = this.showHideSectorList.bind(this)
+    this.hideSectorList = this.hideSectorList.bind(this)
+    this.showSectorList = this.showSectorList.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.fetchRecommendedCountries = this.fetchRecommendedCountries.bind(this)
     this.recommendedCountriesFetchSuccess = this.recommendedCountriesFetchSuccess.bind(this)
+    this.removeSectorFetchSuccess = this.removeSectorFetchSuccess.bind(this)
     this.fetchError = this.fetchError.bind(this)
+    this.retryRequest = this.retryRequest.bind(this)
   }
 
   componentDidMount() {
     const { selectedSectors } = this.state
-    if (selectedSectors && selectedSectors.length > 0) {
+    if (selectedSectors && selectedSectors.length) {
       this.fetchRecommendedCountries(selectedSectors)
     }
   }
 
-  handleSectorButtonClick = (sector) => {
+  addRemoveSector = (sector) => {
     const { selectedSectors } = this.state
     if (selectedSectors.indexOf(sector) > -1) {
       this.removeSector(sector)
@@ -55,13 +58,22 @@ export default class SectorChooser extends React.Component {
 
   removeSector(sector) {
     const { selectedSectors } = this.state
-    const sectors = selectedSectors.filter((item) => item !== sector)
-    this.setState({ selectedSectors: sectors })
+    const updatedSectors = selectedSectors.filter((item) => item !== sector)
 
-    if (sectors.length == 0) {
+    if (updatedSectors.length === 0) {
       this.fetchRemoveSector()
     } else {
-      this.fetchRecommendedCountries(sectors)
+      this.fetchRecommendedCountries(updatedSectors)
+    }
+  }
+
+  retryRequest() {
+    const { selectedSectors } = this.state
+
+    if (selectedSectors && selectedSectors.length) {
+      this.fetchRecommendedCountries(selectedSectors)
+    } else {
+      this.fetchRemoveSector()
     }
   }
 
@@ -72,58 +84,49 @@ export default class SectorChooser extends React.Component {
       .then(this.recommendedCountriesFetchSuccess)
       .catch(this.fetchError)
 
-    this.setState({ savedSelectedSectors: sectors })
-
+    this.setState({ selectedSectors: sectors })
   }
 
   fetchRemoveSector() {
     this.setState({ isLoading: true })
 
     Services.removeSector()
-      .then(this.recommendedCountriesFetchSuccess)
+      .then(this.removeSectorFetchSuccess)
       .catch(this.fetchError)
-
-    this.setState({ savedSelectedSectors: null })
   }
 
   recommendedCountriesFetchSuccess(data) {
     this.setState({
       recommendedCountries: data.countries,
       isLoading: false,
+      errors: [],
     })
   }
 
-  removeSectorFetchSuccess(data) {
+  removeSectorFetchSuccess() {
     this.setState({
-      savedSelectedSectors: null,
-      recommendedCountries: null,
+      selectedSectors: [],
+      recommendedCountries: [],
       isLoading: false,
+      errors: [],
     })
   }
 
   fetchError(err) {
     this.setState({
-      fetchError: err,
+      errors: err.__all__,
       isLoading: false,
     })
   }
 
-  showHideSectorList() {
-    const { showSectorList, selectedSectors, savedSelectedSectors } = this.state
-    if (showSectorList) {
-      this.setState({ showSectorList: false })
+  showSectorList() {
+    this.setState({ showSectorList: true })
+  }
 
-      if (!savedSelectedSectors) {
-        this.fetchRecommendedCountries(selectedSectors)
-      } else {
-        const isEqual = selectedSectors.every((item) => savedSelectedSectors.includes(item))
-        if (!isEqual) {
-          this.fetchRecommendedCountries(selectedSectors)
-        }
-      }
-    } else {
-      this.setState({ showSectorList: true, showTooltip: false })
-    }
+  hideSectorList() {
+    const { selectedSectors } = this.state
+    this.setState({ showSectorList: false, showTooltip: false })
+    this.fetchRecommendedCountries(selectedSectors)
   }
 
   handleMouseOver() {
@@ -142,7 +145,7 @@ export default class SectorChooser extends React.Component {
       showTooltip,
       recommendedCountries,
       isLoading,
-      fetchError,
+      errors,
     } = this.state
 
     const { addCountry, removeCountry, selectedCountries } = this.props
@@ -157,7 +160,7 @@ export default class SectorChooser extends React.Component {
               selected={selectedSectors.indexOf(sector) > -1}
               key={sector}
               id={slugify(sector)}
-              handleSectorButtonClick={this.handleSectorButtonClick}
+              handleSectorButtonClick={this.addRemoveSector}
             />
           ))}
         </ul>
@@ -172,7 +175,7 @@ export default class SectorChooser extends React.Component {
             id="sector-chooser-button"
             type="button"
             className="button--plus"
-            onClick={this.showHideSectorList}
+            onClick={this.showSectorList}
             onMouseOver={this.handleMouseOver}
             onFocus={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
@@ -192,33 +195,34 @@ export default class SectorChooser extends React.Component {
     }
 
     let saveButton
-    if (selectedSectors && selectedSectors.length > 0 && showSectorList) {
+    if (selectedSectors && selectedSectors.length && showSectorList) {
       saveButton = (
-        <button type="button" className="g-button" id="sector-list-save" onClick={this.showHideSectorList}>
+        <button type="button" className="g-button m-t-0" id="sector-list-save" onClick={this.hideSectorList}>
           Save
         </button>
       )
     }
 
     let selectedSectorsDisplay
-    if (selectedSectors && selectedSectors.length > 0 && !showSectorList) {
-      const currentSelectedSectors = selectedSectors
-      const sectors = currentSelectedSectors.map((sector) => (
-        <Sector
-          name={sector}
-          selected={currentSelectedSectors.indexOf(sector) !== -1}
-          key={sector}
-          id={slugify(sector)}
-          handleSectorButtonClick={this.handleSectorButtonClick}
-        />
-      ))
+    if (selectedSectors && selectedSectors.length && !showSectorList) {
+
       selectedSectorsDisplay = (
         <>
           <p className="m-t-0 m-r-xs" id="sector-list-label">
             My sectors
           </p>
           <ul className="sector-list" id="selected-sectors" aria-labelledby="sector-list-label">
-            {sectors}
+            {
+              selectedSectors.map((sector) => (
+                <Sector
+                  name={sector}
+                  selected={selectedSectors.indexOf(sector) !== -1}
+                  key={sector}
+                  id={slugify(sector)}
+                  handleSectorButtonClick={this.addRemoveSector}
+                />
+              ))
+            }
           </ul>
         </>
       )
@@ -227,7 +231,7 @@ export default class SectorChooser extends React.Component {
     let recommendedCountriesView
     if (isLoading) {
       recommendedCountriesView = <Spinner />
-    } else if (recommendedCountries && !fetchError) {
+    } else if (recommendedCountries) {
       recommendedCountriesView = (
         <RecommendedCountries
           selectedCountries={selectedCountries}
@@ -236,10 +240,20 @@ export default class SectorChooser extends React.Component {
           countries={recommendedCountries}
         />
       )
-    } else if (fetchError) {
-      recommendedCountriesView = 'Error fetching data.'
     } else {
       recommendedCountriesView = ''
+    }
+
+    let errorList
+    if (errors && errors.length) {
+      errorList = (
+        <>
+        <ErrorList errors={errors} />
+        <button type="button" className="g-button" id="recommended-countries-retry" onClick={this.retryRequest}>
+          Retry
+        </button>
+        </>
+      )
     }
 
     return (
@@ -252,7 +266,7 @@ export default class SectorChooser extends React.Component {
           {selectedSectorsDisplay}
           {sectorChooserButton}
         </div>
-
+        {errorList}
         {recommendedCountriesView}
       </div>
     )

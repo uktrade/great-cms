@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import EducationalMomentIcon from './EducationalMomentIcon/EducationalMomentIcon'
 import './stylesheets/EducationalMomentTooltip.scss'
@@ -9,7 +8,7 @@ export default class EducationalMomentTooltip extends React.Component {
     constructor(props) {
         super(props)
 
-        //tooltip type constants
+        // tooltip type constants
         this.TOOLTIP_TYPE = { Left: 'LEFT', Right: 'RIGHT' }
 
         this.state = {
@@ -19,6 +18,10 @@ export default class EducationalMomentTooltip extends React.Component {
         this.bindEvents()
     }
 
+    componentDidMount() {
+        this.addEvents()
+    }
+
     bindEvents() {
         this.handleHover = this.handleHover.bind(this)
         this.handleFocus = this.handleFocus.bind(this)
@@ -26,18 +29,16 @@ export default class EducationalMomentTooltip extends React.Component {
         this.handleKeyDown = this.handleKeyDown.bind(this)
     }
 
-    componentDidMount() {
-        this.addEvents()
-    }
 
     addEvents() {
         document.addEventListener('keydown', this.handleKeyDown, false)
     }
 
     handleKeyDown(e) {
+      const { displayed } = this.state
       // if ESC button is pressed down make sure tooltip is closed
       // helpful for Zoomtext and other magnifiers
-      if (e.keyCode === 27 && this.state.displayed) {
+      if (e.keyCode === 27 && displayed) {
         this.hideTooltip()
       }
     }
@@ -50,11 +51,11 @@ export default class EducationalMomentTooltip extends React.Component {
       }
     }
 
-    handleFocus(e) {
+    handleFocus() {
       this.showTooltip()
     }
 
-    handleBlur(e) {
+    handleBlur() {
       this.hideTooltip()
     }
 
@@ -68,6 +69,7 @@ export default class EducationalMomentTooltip extends React.Component {
 
     render() {
       const { heading, description, id, type } = this.props
+      const { displayed } = this.state
 
       return (
         <div
@@ -79,7 +81,7 @@ export default class EducationalMomentTooltip extends React.Component {
           <EducationalMomentIcon hiddenText="Additional information" ariaDescribedBy={id} />
             <div
               role="tooltip"
-              className={`tooltip ${!this.state.displayed ? 'hidden' : ''} ${(type === this.TOOLTIP_TYPE.Right) ? 'tooltip--right-side' : ''}`}
+              className={`tooltip ${!displayed ? 'hidden' : ''} ${(type === this.TOOLTIP_TYPE.Right) ? 'tooltip--right-side' : ''}`}
               id={id}>
                 <div className="educational-moment educational-moment--tooltip">
                     <div className="educational-moment__tooltip">
@@ -94,8 +96,12 @@ export default class EducationalMomentTooltip extends React.Component {
 }
 
 EducationalMomentTooltip.propTypes = {
-  id: PropTypes.string,
-  heading: PropTypes.string,
-  description: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  heading: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   type: PropTypes.string
+}
+
+EducationalMomentTooltip.defaultProps = {
+  type: 'RIGHT',
 }

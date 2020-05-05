@@ -6,23 +6,34 @@ import Services from '@src/Services'
 import fetchMock from 'fetch-mock'
 
 let container
+const props = {
+  addCountry: function() {},
+  removeCountry: function() {}
+}
 
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)
+
+  Services.setConfig({
+    countriesBySectorsDataUrl: '/get-countries',
+    removeSectorUrl: '/remove-sector',
+  })
+
   fetchMock.reset()
 })
 
 afterEach(() => {
   document.body.removeChild(container)
   container = null
+  Services.setConfig({})
 })
 
 it('shows the list of sectors and hides button on click', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} selectedCountries={[]} {...props} removeCountry={function(){}}/>, container)
   })
 
   const button = container.querySelector('#sector-chooser-button')
@@ -41,8 +52,12 @@ it('shows the list of sectors and hides button on click', () => {
 it('shows selected sectors in sector list and shows save button', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
 
+  fetchMock
+    .get('http://localhost/get-countries?sectors=Aerospace', 200)
+    .get('http://localhost/remove-sector', 200)
+
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={[]} selectedCountries={[]} {...props} />, container)
   })
 
   const sectorButton = container.querySelector('#sector-chooser-button')
@@ -68,14 +83,16 @@ it('shows selected sectors in sector list and shows save button', () => {
   expect(container.querySelector('#sector-chooser .g-button')).toBeTruthy()
 })
 
-it('can remove selected sectors in sector list and hide save button', () => {
+it('can remove selected sectors in sector list and shows loading spinner', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
   const selectedSectors = ['Aerospace']
 
-  fetchMock.get(Services.config.countriesBySectorsDataUrl, 200)
+  fetchMock
+    .get('http://localhost/get-countries?sectors=Aerospace', 200)
+    .get('http://localhost/remove-sector', 200)
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} selectedCountries={[]} {...props} />, container)
   })
 
   const sectorButton = container.querySelector('#sector-chooser-button')
@@ -96,12 +113,13 @@ it('can remove selected sectors in sector list and hide save button', () => {
 
   expect(selected).toHaveLength(0)
 
-  expect(container.querySelector('#sector-chooser .g-button')).toBeFalsy()
+  expect(container.querySelector('.spinner')).toBeTruthy()
 })
 
 it('renders the sector chooser button with tooltip', () => {
+
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={[]} />, container)
+    ReactDOM.render(<SectorChooser selectedSectors={[]} sectorList={[]} selectedCountries={[]} {...props} />, container)
   })
 
   const button = container.querySelector('button')
@@ -123,10 +141,11 @@ it('shows selected sectors', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
   const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
-  fetchMock.get(Services.config.countriesBySectorsDataUrl, 200)
+  fetchMock
+    .get('http://localhost/get-countries?sectors=Aerospace%2CAdvanced+manufacturing', 200)
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} selectedCountries={[]} {...props} />, container)
   })
 
   const selectedButtons = container.querySelector('#selected-sectors').getElementsByClassName('selected')
@@ -140,10 +159,13 @@ it('removes sector on click', () => {
   const sectorList = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
   const selectedSectors = ['Aerospace', 'Advanced manufacturing']
 
-  fetchMock.get(Services.config.countriesBySectorsDataUrl, 200)
+  fetchMock
+    .get('http://localhost/get-countries?sectors=Aerospace%2CAdvanced+manufacturing', 200)
+    .get('http://localhost/get-countries?sectors=Advanced+manufacturing', 200)
+    .get(Services.config.removeSectorUrl, 200)
 
   act(() => {
-    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} />, container)
+    ReactDOM.render(<SectorChooser sectorList={sectorList} selectedSectors={selectedSectors} selectedCountries={[]} {...props} />, container)
   })
 
   const selectedButtons = container.getElementsByClassName('selected')
