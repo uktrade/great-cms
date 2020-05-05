@@ -1,0 +1,15 @@
+@import "../../index.css";
+
+:root {
+    /* --size-sm-height: 55px; */
+    --size-sm-width: 112px;
+}
+
+:host {
+    display: inline-block;
+}
+
+.sm svg {
+    /* height: var(--size-sm-height); */
+    width: var(--size-sm-width);
+}

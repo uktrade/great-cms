@@ -1,5 +1,5 @@
 import { decorate } from '@storybook/addon-actions'
-import { withKnobs, select, text, boolean } from '@storybook/addon-knobs'
+import { withKnobs, select } from '@storybook/addon-knobs'
 import avatarDocs from './avatar.mdx'
 import femaleImage from './images/female.png'
 import maleImage from './images/male.png'
@@ -27,13 +27,13 @@ const availableImages = {
   }
 
 export const Showcase = () => {
-  return decoratedAction.withActions({ 'click great-avatar': 'Great button clicked' })(
+  return decoratedAction.withActions({ 'click great-avatar': 'Great avatar clicked' })(
     () =>
       `<div class="sample-code">
             <great-avatar src="${availableImages.female}"></great-avatar>
-            &nbsp;
+            &emsp;&emsp;&emsp;
             <great-avatar src="${availableImages.male}"></great-avatar>
-            &nbsp;
+            &emsp;&emsp;&emsp;
             <great-avatar></great-avatar>
         </div>`
   )
@@ -45,7 +45,7 @@ export const WithImage = () => {
     return decoratedAction.withActions({ 'click great-avatar': 'Great button clicked' })(
       () =>
         `<div class="sample-code">
-              <great-avatar src="${image}" />
+              <great-avatar src="${image}"></great-avatar>
           </div>`
     )
 }
@@ -56,7 +56,7 @@ export const EmptyState = () => {
     return decoratedAction.withActions({ 'click great-avatar': 'Great button clicked' })(
       () =>
         `<div class="sample-code">
-              <great-avatar src="${image}" />
+              <great-avatar src="${image}"></great-avatar>
           </div>`
     )
 }

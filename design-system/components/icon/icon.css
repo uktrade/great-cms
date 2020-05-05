@@ -1,0 +1,33 @@
+@import "../../index.css";
+
+:root {
+    --size-sm: 20px;
+    --size-lg: 40px;
+    --size-xl: 80px;
+    --size-xxl: 120px;
+}
+
+:host {
+    display: inline-block;
+}
+
+.sm svg{
+    height: var(--size-sm);
+    width: var(--size-sm);
+}
+
+.lg svg{
+    height: var(--size-lg);
+    width: var(--size-lg);
+}
+
+.xl svg{
+    height: var(--size-xl);
+    width: var(--size-xl);
+}
+
+.xxl svg{
+    height: var(--size-xxl);
+    width: var(--size-xxl);
+}
+
