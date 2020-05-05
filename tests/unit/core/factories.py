@@ -53,12 +53,12 @@ class SegmentFactory(factory.DjangoModelFactory):
         model = wagtail_personalisation.models.Segment
 
 
-class MatchProductQuerystringFactory(factory.django.DjangoModelFactory):
+class MatchProductExpertiseFactory(factory.django.DjangoModelFactory):
     segment = factory.SubFactory(SegmentFactory)
     product = factory.SubFactory(ProductFactory)
 
     class Meta:
-        model = rules.MatchProductQuerystring
+        model = rules.MatchProductExpertise
 
 
 class MatchCountryQuerystringFactory(factory.django.DjangoModelFactory):

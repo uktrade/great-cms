@@ -26,3 +26,18 @@ class UserSpecificRedirectMiddleware(MiddlewareMixin):
             return redirect('/learn/categories/')
         elif request.path == '/learn/introduction/':
             request.session[self.SESSION_KEY_LEARN] = True
+
+
+class StoreUserExpertiseMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        if request.user.is_anonymous or 'remember-expertise-products-services' not in request.GET:
+            return
+
+        products = request.GET.getlist('product')
+
+        if request.user.company and products and products != request.user.company.expertise_products_services:
+            helpers.update_company_profile(
+                sso_session_id=request.user.session_id,
+                data={'expertise_products_services': {'other': products}}
+            )
+            request.user.company.data['expertise_products_services']['other'] = products

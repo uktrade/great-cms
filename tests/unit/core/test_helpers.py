@@ -126,7 +126,9 @@ def test_get_custom_duties_url():
 
 
 @mock.patch.object(api_client.company, 'profile_update')
-def test_update_company_profile(mock_profile_update):
+def test_update_company_profile(mock_profile_update, patch_update_company_profile):
+    patch_update_company_profile.stop()
+
     data = {'foo': 'bar'}
     sso_session_id = 123
 

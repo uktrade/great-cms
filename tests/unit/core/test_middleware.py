@@ -8,6 +8,16 @@ from core import helpers, middleware
 from tests.unit.core import factories
 
 
+@pytest.fixture(autouse=True)
+def mock_company_profile(mock_get_company_profile):
+    mock_get_company_profile.return_value = {
+        'expertise_products_services': {'other': ['Vodka']},
+        'expertise_countries': [],
+        'expertise_industries': [],
+    }
+    return mock_get_company_profile
+
+
 @mock.patch.object(helpers, 'store_user_location')
 def test_stores_user_location(mock_store_user_location, rf, user):
     request = rf.get('/')
@@ -46,3 +56,82 @@ def test_user_specific_redirect_middleware(domestic_site, client):
         # Then they should be redirected to /learn/categories/
         assert response.status_code == 302
         assert response.url == categories_page.url
+
+
+@pytest.mark.django_db
+def test_user_product_expertise_middleware(domestic_site, client, mock_update_company_profile, user):
+    client.force_login(user)
+
+    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=topic_page)
+
+    response = client.get(
+        lesson_page.url,
+        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
+    )
+    assert response.status_code == 200
+    assert mock_update_company_profile.call_count == 1
+    assert mock_update_company_profile.call_args == mock.call(
+        sso_session_id=user.session_id,
+        data={'expertise_products_services': {'other': ['Vodka', 'Potassium']}}
+    )
+
+
+@pytest.mark.django_db
+def test_user_product_expertise_middleware_no_company(
+    domestic_site, client, mock_update_company_profile, user, mock_get_company_profile
+):
+    mock_get_company_profile.return_value = None
+    client.force_login(user)
+
+    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=topic_page)
+
+    response = client.get(
+        lesson_page.url,
+        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
+    )
+    assert response.status_code == 200
+    assert mock_update_company_profile.call_count == 0
+
+
+@pytest.mark.django_db
+def test_user_product_expertise_middleware_not_logged_in(domestic_site, client, mock_update_company_profile):
+    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=topic_page)
+
+    response = client.get(
+        lesson_page.url,
+        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
+    )
+    assert response.status_code == 200
+    assert mock_update_company_profile.call_count == 0
+
+
+@pytest.mark.django_db
+def test_user_product_expertise_middleware_not_store(domestic_site, client, mock_update_company_profile, user):
+    client.force_login(user)
+
+    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=topic_page)
+
+    response = client.get(
+        lesson_page.url,
+        {'product': ['Vodka', 'Potassium']}
+    )
+    assert response.status_code == 200
+    assert mock_update_company_profile.call_count == 0
+
+
+@pytest.mark.django_db
+def test_user_product_expertise_middleware_not_store_idempotent(domestic_site, client, mock_update_company_profile):
+
+    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=topic_page)
+
+    response = client.get(
+        lesson_page.url,
+        {'product': ['Vodka'], 'remember-expertise-products-services': True}
+    )
+    assert response.status_code == 200
+    assert mock_update_company_profile.call_count == 0
