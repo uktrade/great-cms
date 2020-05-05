@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from time import sleep
+
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -60,6 +62,7 @@ def click_through_carousel(browser: WebDriver):
         with selenium_action(browser, 'Failed to click on "Continue" button'):
             continue_button.click()
         attach_jpg_screenshot(browser, f'Carousel step - {step}', element=carousel)
+        sleep(1)
 
     with selenium_action(browser, 'Failed to click on "Continue" button'):
         continue_button.click()
