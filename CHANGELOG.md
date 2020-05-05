@@ -12,6 +12,7 @@
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 
 ### Implemented enhancements
+- MVP-392 - Add remove sector functionality
 - MVP-317 - Add dummy pages for all export plan sections
 - MVP-306 - Added sector chooser component
 - MVP-299 - Finalised styling for export plan sections
