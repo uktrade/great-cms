@@ -116,20 +116,10 @@ def should_be_on_learn_how_to_export_categories_page(browser: WebDriver):
     should_see_all_expected_page_sections(browser, [Breadcrumbs, LearnHowToExportCategories])
 
 
-def test_first_time_visitor_should_be_able_to_get_to_learn_how_to_export_landing_page(
-    server_user_browser_dashboard, mock_dashboard_profile_events_opportunities,
-):
-    live_server, user, browser = server_user_browser_dashboard
-    dismiss_modal(browser)
-
-    click_on_learning_link(browser)
-    should_see_all_elements(browser, LearnHowToExportLanding)
-
-
 def test_first_time_visitor_should_get_to_learn_how_to_export_page_via_introduction_carousel(
-    server_user_browser_dashboard, mock_dashboard_profile_events_opportunities,
+    server_logged_in_user_single_browser_session, mock_dashboard_profile_events_opportunities,
 ):
-    live_server, user, browser = server_user_browser_dashboard
+    live_server, user, browser = server_logged_in_user_single_browser_session
     dismiss_modal(browser)
 
     click_on_learning_link(browser)
@@ -143,9 +133,9 @@ def test_first_time_visitor_should_get_to_learn_how_to_export_page_via_introduct
 
 
 def test_second_time_visitor_should_be_redirected_to_learn_how_to_export_categories_page(
-    server_user_browser_dashboard, mock_dashboard_profile_events_opportunities,
+    server_logged_in_user_single_browser_session, mock_dashboard_profile_events_opportunities,
 ):
-    live_server, user, browser = server_user_browser_dashboard
+    live_server, user, browser = server_logged_in_user_single_browser_session
     dismiss_modal(browser)
 
     click_on_learning_link(browser)
