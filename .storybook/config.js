@@ -28,7 +28,6 @@ addParameters({
       { name: 'Neutral', value: '#888' },
     ]
 });
-
 addParameters({ docs: { page: null } });
 addDecorator(withA11y);
 addDecorator(centered);

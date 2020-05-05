@@ -16,12 +16,12 @@ export default {
     'in-dsm': {
       docFilePath: './tag.docs.json',
       containerClass: 'sample-code',
-      id: '5cf926dec0f0050ea6ca4a8a',
+      id: '5ea9a3800c1c097d75eed596',
     },
   },
 }
 
-export const Default = () => {
+export const Showcase = () => {
   return decoratedAction.withActions({ 'click great-tag': 'Great tag clicked' })(
     () =>
       `<div class="sample-code"  style="font-family: 'FSLucas'; font-size: 16px;">

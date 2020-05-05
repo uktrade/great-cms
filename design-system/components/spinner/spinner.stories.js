@@ -7,12 +7,11 @@ const decoratedAction = decorate([() => ['Click']])
 export default {
   title: 'Spinner',
   parameters: {
-    // docs: { page: buttonDocs },
     decorators: [withKnobs],
     'in-dsm': {
       docFilePath: './spinner.docs.json',
       containerClass: 'sample-code',
-      id: '5cf926dec0f0050ea6ca4a8a',
+      id: '<DSM component container ID>',
     },
   },
 }

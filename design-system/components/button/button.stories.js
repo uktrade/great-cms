@@ -23,12 +23,12 @@ export default {
     'in-dsm': {
       docFilePath: './button.docs.json',
       containerClass: 'sample-code',
-      id: '5cf926dec0f0050ea6ca4a8a',
+      id: '5ea99ed92fe48e14809d1eec',
     },
   },
 }
 
-export const Default = () => {
+export const Showcase = () => {
   const icon = select('icon', availableIcons, availableIcons.none)
   const disabled = boolean('disabled', false)
   const loading = boolean('loading', false)
