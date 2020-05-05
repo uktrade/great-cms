@@ -329,7 +329,11 @@ def test_login_page_logged_in(client, user):
 @mock.patch.object(helpers, 'get_markets_page_title')
 def test_markets_logged_in(mock_get_markets_page_title, mock_get_company_profile, user, client):
     mock_get_markets_page_title.return_value = 'Some page title'
-    mock_get_company_profile.return_value = {'expertise_countries': ['AF'], 'expertise_industries': ['SL10001']}
+    mock_get_company_profile.return_value = {
+        'expertise_countries': ['AF'],
+        'expertise_industries': ['SL10001'],
+        'expertise_products_services': {},
+    }
     client.force_login(user)
     url = reverse('core:markets')
 

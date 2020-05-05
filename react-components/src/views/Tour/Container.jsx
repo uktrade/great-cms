@@ -3,17 +3,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 
-import { CookiesProvider } from 'react-cookie';
 import { useCookies } from 'react-cookie';
 import ReactModal from 'react-modal'
 
-import Tour from './Tour'
-import Modal from './Modal'
+import Component from './Component'
 
 
-export function Base(props){
+export function Container(props){
   const [cookies, setCookie] = useCookies([props.disableTourCookieName]); 
-
   const [isOpenModal, setIsOpenModal] = React.useState(cookies[props.disableTourCookieName] !== 'true')
   const [isOpenTour, setIsOpenTour] = React.useState()
 
@@ -34,35 +31,30 @@ export function Base(props){
   }
 
   return (
-    <CookiesProvider>
-      <Modal
-        handleSkip={handleSkipTour}
-        handleStart={handleStartTour}
-        isOpen={isOpenModal}
-        buttonText={props.buttonText}
-        title={props.title}
-        body={props.body}
-      />
-      <Tour
-        isOpen={isOpenTour}
-        handleClose={handleTourClose}
-        steps={props.steps}
-      />
-    </CookiesProvider>
+    <Component
+      handleSkip={handleSkipTour}
+      handleStart={handleStartTour}
+      isOpenModal={isOpenModal}
+      buttonText={props.buttonText}
+      title={props.title}
+      body={props.body}
+      isOpenTour={isOpenTour}
+      handleTourClose={handleTourClose}
+      steps={props.steps}
+    />
   )
 }
 
-Base.propTypes = {
+Container.propTypes = {
   isOpen: PropTypes.bool,
 }
 
-Base.defaultProps = {
+Container.defaultProps = {
   isOpenTour: false,
   isOpenModal: false,
-
 }
 
 export default function createModal({ element, ...params }) {
   ReactModal.setAppElement(element)
-  ReactDOM.render(<Base {...params} />, element)
+  ReactDOM.render(<Container {...params} />, element)
 }

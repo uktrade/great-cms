@@ -121,8 +121,10 @@ class CompanyParser(great_components.helpers.CompanyParser):
     INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
 
     def __init__(self, data):
+        data = {**data}
+        data.setdefault('expertise_products_services', {})
         if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
-            data = {**data, 'expertise_industries': ['SL10017']}  # food and drink
+            data['expertise_industries'] = ['SL10017']  # food and drink
         super().__init__(data=data)
 
     @property
@@ -148,6 +150,14 @@ class CompanyParser(great_components.helpers.CompanyParser):
         if self.data['expertise_industries']:
             return values_to_value_label_pairs(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
         return []
+
+    @property
+    def expertise_products_services(self):
+        return self.data['expertise_products_services'].get('other', [])
+
+    @property
+    def expertise_products_value_label_pairs(self):
+        return [{'value': item, 'label': item} for item in self.expertise_products_services]
 
 
 def values_to_labels(values, choices):

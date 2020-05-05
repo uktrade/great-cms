@@ -57,8 +57,5 @@ defaults = dict(
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        export_plan_dashboard = models.DetailPage.objects.filter().get(
-            template='exportplan/export_plan_dashboard_page.html'
-        )
-        if export_plan_dashboard:
-            models.Tour.objects.get_or_create(page=export_plan_dashboard, defaults=defaults)
+        for page in models.DetailPage.objects.filter(template='exportplan/export_plan_dashboard_page.html'):
+            models.Tour.objects.get_or_create(page=page, defaults=defaults)

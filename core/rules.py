@@ -6,8 +6,8 @@ from wagtail_personalisation.rules import AbstractBaseRule
 from django.db import models
 
 
-class MatchProductQuerystring(AbstractBaseRule):
-    """Match product in the querystring"""
+class MatchProductExpertise(AbstractBaseRule):
+    """Match product in the user's expertise"""
     icon = 'fa-user'
 
     product = models.ForeignKey('core.Product', on_delete=models.CASCADE)
@@ -20,11 +20,15 @@ class MatchProductQuerystring(AbstractBaseRule):
         verbose_name = 'Match product rule'
 
     def test_user(self, request=None):
-        return request.GET.get('product') == self.product.name
+        if request:
+            if request.GET.getlist('product'):
+                return self.product.name in request.GET.getlist('product')
+            elif request.user.is_authenticated:
+                return self.product.name in request.user.company.expertise_products_services
 
     def description(self):
         return {
-            'title': 'Match this product in querystring:',
+            'title': 'Match this product against user expertise:',
             'value': f'{self.product.name}',
             'code': True
         }

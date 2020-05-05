@@ -21,6 +21,8 @@ export default function Tour(props){
 
   return (
       <ReactTour
+        onAfterOpen={() => { document.body.style.overflowY = 'hidden' }}
+        onBeforeOpen={() => { document.body.style.overflowY = 'auto' }}
         steps={steps}
         isOpen={props.isOpen}
         onRequestClose={props.handleClose}
