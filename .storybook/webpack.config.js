@@ -43,7 +43,15 @@ module.exports = {
           outputPath: 'fonts',
         },
       },
-      { test: /\.(jpg|png|gif)$/i, use: 'url-loader?limit=5000' },
+      {
+        test: /\.(jpg|png|gif)$/i,
+        exclude: /node_modules/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'images',
+        },
+      },
     ],
   },
 }

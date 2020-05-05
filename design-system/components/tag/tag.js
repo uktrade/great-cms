@@ -1,3 +1,4 @@
+import convertAttributesToObject from '../../utils/convertAttributesToObject'
 import template from './tag.html'
 import styles from './tag.css'
 
@@ -10,12 +11,7 @@ customElements.define(
       const stylesheet = document.createElement('style')
       stylesheet.innerHTML = styles
 
-      const attributes = this.getAttributeNames().reduce((accumulator, attribute) => {
-        accumulator[attribute] = this.getAttribute(attribute)
-        return accumulator
-      }, {})
-
-      const { class: className, disabled, icon, loading, style, theme, ...rest } = attributes
+      const { class: className, disabled, icon, loading, style, theme, ...rest } = convertAttributesToObject({ self: this })
 
       const shadowRoot = this.attachShadow({ mode: 'open' })
       shadowRoot.innerHTML = template
