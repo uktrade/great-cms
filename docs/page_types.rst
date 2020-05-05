@@ -8,6 +8,7 @@ Great use a parent child relationship.
 The number of page types has been kept to the lowest possible. More control is given on the page layout with the selection of a custom template from the template tab in the page edit interface.
 
 .. note::
+
     Generic hierarchy of Great website:
 
         Home Page -> Listing Page -> Detail Page
@@ -41,7 +42,8 @@ Custom context for layout type
 If a Page's template requires some custom context data then use use the a "context data provider":
 
 .. code-block:: python
-   :linenos:
+    :linenos:
+
     from core.context import AbstractPageContextProvider
 
     # example/context.py
@@ -52,8 +54,10 @@ If a Page's template requires some custom context data then use use the a "conte
         def get_context_data(request, page):
             return {'foo': 'bar'}
 
+
 .. code-block:: python
-   :linenos:
+    :linenos:
+
     # example/apps.py
     from django.apps import AppConfig
 
@@ -63,6 +67,7 @@ If a Page's template requires some custom context data then use use the a "conte
 
         def ready(self):
             from learn import context  # noqa F401
- 
 
-Behind the scenes core.models.CMSGenericPage.get_context  will call example.ExampleContextProvider.get_context_data for any Page that uses example/example_pae.html
+
+Behind the scenes ``core.models.CMSGenericPage.get_context``  will call ``example.ExampleContextProvider.get_context_data``
+for any Page that uses ``example/example_pae.html``.
