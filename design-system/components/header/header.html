@@ -1,0 +1,30 @@
+<template>
+    <header>
+        <great-link href="/">
+            <great-logo size="sm"></great-logo>
+        </great-link>
+        <nav>
+            <ul>
+                <slot name="menu">
+                    <li>
+                        <great-link href="/">Learn how to export</great-link>
+                    </li>
+                    <li>
+                        <great-link href="/">Export plan</great-link>
+                    </li>
+                    <li>
+                        <great-link href="/">Markets</great-link>
+                    </li>
+                    <li>
+                        <great-link href="/">Services</great-link>
+                    </li>
+                </slot>
+            </ul>
+        </nav>
+        <div class="logged-in-wrapper">
+            <slot name="avatar"><great-avatar></great-avatar></slot>
+            <p><slot name="greeting">Hello</slot></p>
+            <great-link href="/" size="sm" theme="secondary">Dashboard</great-link>
+        </div>
+    </header>
+</template>

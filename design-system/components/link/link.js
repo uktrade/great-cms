@@ -11,7 +11,7 @@ customElements.define(
       const stylesheet = document.createElement('style')
       stylesheet.innerHTML = styles
 
-      const { class: className, style, href, ...rest } = convertAttributesToObject({ self: this })
+      const { class: className, href, size, style, theme, ...rest } = convertAttributesToObject({ self: this })
 
       const shadowRoot = this.attachShadow({ mode: 'open' })
       shadowRoot.innerHTML = template
@@ -19,8 +19,13 @@ customElements.define(
 
       const link = shadowRoot.querySelector('a')
       if (href || href === '') link.setAttribute('href', href)
-      link.innerHTML = this.textContent
+      link.innerHTML = this.innerHTML
       Object.entries(rest).forEach(([key, value]) => link.setAttribute(key, value))
+
+      const themes = ['primary', 'secondary']
+      if (themes.includes(theme)) link.classList.add(theme)
+      const sizes = ['sm', 'lg']
+      if (sizes.includes(size)) link.classList.add(size)
     }
   }
 )

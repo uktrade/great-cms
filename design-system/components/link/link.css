@@ -1,20 +1,40 @@
 @import "../../index.css";
 
 a {
-    color: #4b426d;
     font-family: 'FS Lucas', sans-serif;
-    font-size: 20px;
-    line-height: 25px;
+    
     text-decoration: none;
 
     &:hover {
         text-decoration: underline;
     }
 
+    &:hover:active {
+    }
+}
+
+.lg {
+    font-size: 20px;
+    line-height: 25px;
+}
+
+.sm {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.primary {
+    color: var(--colour-blue-deep-70);
+
     &:visited {
         color: var(--colour-black-100);
     }
+}
 
-    &:hover:active {
+.secondary {
+    color: var(--colour-red-70);
+
+    &:visited {
+        color: var(--colour-red-100);
     }
 }

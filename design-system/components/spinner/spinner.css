@@ -43,7 +43,7 @@
       border-color: var(--colour-black-70) transparent transparent;
 
       &:nth-child(1) {
-        border-color: var(--colour-black-10);
+        border-color: color(var(--colour-black-100) alpha(-90%));
       }
     }
   }
@@ -53,7 +53,7 @@
       border-color: var(--colour-white-100) transparent transparent;
 
       &:nth-child(1) {
-        border-color: rgba(var(--colour-white-100), .2);
+        border-color: color(var(--colour-white-100) alpha(-90%));
       }
     }
   }

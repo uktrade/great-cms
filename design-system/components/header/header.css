@@ -1,0 +1,67 @@
+@import "../../index.css";
+
+:host {
+    display: block;
+}
+
+header {
+    background-color: var(--colour-white-100);
+    display: flex;
+    flex-wrap: nowrap;
+    height: 80px;
+    position: relative;
+
+    & > great-link {
+        margin: 12px 0 12px 20px;
+    }
+}
+
+nav {
+    flex-grow: 2;
+    padding-left: 32px; 
+    display: none;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    white-space: nowrap;
+}
+
+li {
+    display: inline-block;
+    margin: 32px 32px 32px 0;
+}
+
+.logged-in-wrapper {
+    align-items: center;
+    background-color: var(--colour-blue-deep-70);
+    display: flex;
+    flex-grow: 2;
+    flex-wrap: nowrap;
+    margin-left: 24px;
+    padding: 0 24px;
+
+    p {
+        color: var(--colour-white-100);
+        font-family: 'FS Lucas', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: normal;
+        padding: 0 24px 0 12px;
+    }
+}
+
+
+@media (min-width: 800px) { 
+    nav {
+        display: block;
+    }
+
+    .logged-in-wrapper {
+        flex-grow: 1;
+        margin-left: 0px;
+    }
+}
