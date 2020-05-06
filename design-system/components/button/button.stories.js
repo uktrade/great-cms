@@ -6,7 +6,10 @@ import './button.js'
 const decoratedAction = decorate([() => ['Click']])
 const availableIcons = {
   none: '',
-  'chevron-right': 'chevron-right',
+  play: 'play',
+  plus: 'plus',
+  menu: 'menu',
+  dots: 'dots',
 }
 
 const availableThemes = {
@@ -29,10 +32,11 @@ export default {
 }
 
 export const Showcase = () => {
+  const buttonText = ['We produce', 'Great', 'Buttons']
+  const children = text('text', '')
   const icon = select('icon', availableIcons, availableIcons.none)
-  const disabled = boolean('disabled', false)
   const loading = boolean('loading', false)
-  const children = text('text', 'Great Button')
+  const disabled = boolean('disabled', false)
 
   return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
     () =>
@@ -43,7 +47,7 @@ export const Showcase = () => {
                 icon="${icon}"
                 theme="primary"
             >
-                ${children}
+                ${children || buttonText[0]}
             </great-button>
             &nbsp;
             <great-button
@@ -52,7 +56,7 @@ export const Showcase = () => {
                 icon="${icon}"
                 theme="secondary"
             >
-                ${children}
+                ${children || buttonText[1]}
             </great-button>
             &nbsp;
             <great-button
@@ -61,18 +65,18 @@ export const Showcase = () => {
                 icon="${icon}"
                 theme="tertiary"
             >
-                ${children}
+                ${children || buttonText[2]}
             </great-button>
         </div>`
   )
 }
 
 export const Primary = () => {
-  const icon = select('icon', availableIcons, availableIcons.none)
-  const disabled = boolean('disabled', false)
-  const loading = boolean('loading', false)
-  const theme = select('theme', availableThemes, availableThemes.primary)
   const children = text('text', 'Primary Button')
+  const theme = select('theme', availableThemes, availableThemes.primary)
+  const icon = select('icon', availableIcons, availableIcons.none)
+  const loading = boolean('loading', false)
+  const disabled = boolean('disabled', false)
 
   return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
     () =>
@@ -93,11 +97,11 @@ export const Primary = () => {
 }
 
 export const Secondary = () => {
-  const icon = select('icon', availableIcons, availableIcons.none)
-  const disabled = boolean('disabled', false)
-  const loading = boolean('loading', false)
-  const theme = select('theme', availableThemes, availableThemes.secondary)
   const children = text('text', 'Secondary Button')
+  const theme = select('theme', availableThemes, availableThemes.secondary)
+  const icon = select('icon', availableIcons, availableIcons.none)
+  const loading = boolean('loading', false)
+  const disabled = boolean('disabled', false)
 
   return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
     () =>
@@ -115,11 +119,11 @@ export const Secondary = () => {
 }
 
 export const Tertiary = () => {
-  const icon = select('icon', availableIcons, availableIcons.none)
-  const disabled = boolean('disabled', false)
-  const loading = boolean('loading', false)
-  const theme = select('theme', availableThemes, availableThemes.tertiary)
   const children = text('text', 'Tertiary Button')
+  const theme = select('theme', availableThemes, availableThemes.tertiary)
+  const icon = select('icon', availableIcons, availableIcons.none)
+  const loading = boolean('loading', false)
+  const disabled = boolean('disabled', false)
 
   return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
     () =>
@@ -137,11 +141,33 @@ export const Tertiary = () => {
 }
 
 export const Disabled = () => {
-    const icon = select('icon', availableIcons, availableIcons.none)
-    const disabled = boolean('disabled', true)
-    const loading = boolean('loading', false)
+  const children = text('text', 'Disabled Button')
+  const theme = select('theme', availableThemes, availableThemes.primary)
+  const icon = select('icon', availableIcons, availableIcons.none)
+  const loading = boolean('loading', false)
+  const disabled = boolean('disabled', true)
+
+  return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
+    () =>
+      `<div class="sample-code">
+            <great-button
+                ${disabled ? 'disabled' : ''}
+                ${loading ? 'loading' : ''}
+                icon="${icon}"
+                theme="${theme}"
+            >
+            ${children}
+            </great-button>
+       </div>`
+  )
+}
+
+export const WithIcon = () => {
+    const children = text('text', 'Iconic Button')
     const theme = select('theme', availableThemes, availableThemes.primary)
-    const children = text('text', 'Disabled Button')
+    const icon = select('icon', availableIcons, availableIcons.play)
+    const loading = boolean('loading', false)
+    const disabled = boolean('disabled', false)
   
     return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
       () =>
@@ -152,8 +178,8 @@ export const Disabled = () => {
                   icon="${icon}"
                   theme="${theme}"
               >
-                  ${children}
+              ${children}
               </great-button>
-          </div>`
+         </div>`
     )
-  }
+}

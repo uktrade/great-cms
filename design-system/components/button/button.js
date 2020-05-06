@@ -1,4 +1,5 @@
 import '../spinner/spinner.js'
+import '../icon/icon.js'
 import convertAttributesToObject from '../../utils/convertAttributesToObject'
 import template from './button.html'
 import styles from './button.css'
@@ -26,18 +27,22 @@ customElements.define(
       // Select the button element that came from our template and manipulate its attributes
       const button = shadowRoot.querySelector('button')
       button.classList.add(theme);
-      if (icon) button.classList.add('with-icon')
 
       if (disabled || disabled === '') button.setAttribute('disabled', '')
       // Passes down all attributes from to the parent component like type="submit", aria-hidden="true", data-test="great-button"
       Object.entries(rest).forEach(([key, value]) => button.setAttribute(key, value))
 
       const content = shadowRoot.querySelector('.content')
-      content.innerHTML = this.textContent
+      content.innerHTML += this.textContent
+
+      if (icon && icon !== '') {
+          const greatIcon = `<great-icon ${disabled === '' && 'disabled'} name="${icon}" theme="${theme}" size="sm" ></great-icon>`
+          content.innerHTML = greatIcon + content.innerHTML
+      }
 
       if (loading || loading === '') {
         const spinner = `<great-spinner size="sm" theme="${theme === 'tertiary' ? 'dark' : 'light'}"></great-spinner>`
-        content.classList.add('loading')
+        button.classList.add('loading')
         button.innerHTML += spinner
       }
     }

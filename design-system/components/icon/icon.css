@@ -1,7 +1,7 @@
 @import "../../index.css";
 
 :root {
-    --size-sm: 20px;
+    --size-sm: 16px;
     --size-lg: 40px;
     --size-xl: 80px;
     --size-xxl: 120px;
@@ -31,3 +31,24 @@
     width: var(--size-xxl);
 }
 
+.primary svg {
+    fill: var(--colour-white-100);
+}
+
+.secondary svg {
+    fill: var(--colour-white-100);
+}
+
+.tertiary {
+    svg {
+        fill: var(--colour-blue-deep-80);
+    }
+
+    &:not(.disabled) svg:hover {
+        fill: var(--colour-blue-deep-100);
+    }
+
+    &.disabled svg {
+        fill: var(--colour-black-20);
+    }
+}

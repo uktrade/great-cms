@@ -1,4 +1,3 @@
-import convertAttributesToObject from '../../utils/convertAttributesToObject'
 import template from './logo.html'
 import styles from './logo.css'
 
