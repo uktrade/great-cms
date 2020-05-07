@@ -158,9 +158,15 @@
                                 <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
                             </li>
                         {% endfor %}
-                        <li class="text-center p-v-xxs">
-                            <a class="g-link m-b-xs bold" href="#">View more events</a>
-                        </li>
+                        {% if events %}
+                            <li class="text-center p-v-xxs">
+                                <a class="g-link m-b-xs bold" href="#">View more events</a>
+                            </li>
+                        {% else %}
+                            <li class="text-center p-v-xxs">
+                                <p>No relevant events found</p>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

@@ -27,6 +27,7 @@ export default function Component(props){
   return (
     <Modal
       isOpen={props.isOpen}
+      setIsOpen={props.setIsOpen}
       skipFeatureCookieName='skip-industries-of-interest'
       skipFeatureComponent={SkipShowGenericContent}
       id='dashboard-question-modal-lets-get-to-know-you'
