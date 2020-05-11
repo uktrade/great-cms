@@ -13,6 +13,14 @@ import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
  **/
 import { themes } from '@storybook/theming';
 
+export const backgrounds = [
+    { name: 'Light', value: '#f8f8fa' },
+    { name: 'Dark', value: '#333333' },
+    { name: 'Pure Black', value: '#000000' },
+    { name: 'Pure White', value: '#ffffff' },
+    { name: 'Neutral', value: '#888888' },
+]
+
 function setCustomOptions() {
   addParameters({
     options: { theme: { ...themes.light, brandTitle: 'GREAT Design System' } }
@@ -20,13 +28,10 @@ function setCustomOptions() {
 }
 
 addParameters({
-  backgrounds: [
-      { name: 'Light', value: '#f8f8fa', default: true },
-      { name: 'Dark', value: '#333333' },
-      { name: 'Pure Black', value: '#000000' },
-      { name: 'Pure White', value: '#ffffff' },
-      { name: 'Neutral', value: '#888' },
-    ]
+    backgrounds: [
+        ...backgrounds.slice(1), 
+        { name: 'Light', value: '#f8f8fa', default: true },
+    ],
 });
 addParameters({ docs: { page: null } });
 addDecorator(withA11y);

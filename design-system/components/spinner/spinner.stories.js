@@ -1,5 +1,6 @@
 import { decorate } from '@storybook/addon-actions'
-import { withKnobs, select, text, boolean } from '@storybook/addon-knobs'
+import { withKnobs, select } from '@storybook/addon-knobs'
+import { backgrounds } from '.storybook/config.js'
 import './spinner.js'
 
 const decoratedAction = decorate([() => ['Click']])
@@ -50,10 +51,10 @@ export const Light = () => {
 }
 
 Light.story = {
-  parameters: {
-    backgrounds: [
-        { name: 'Light', value: '#f8f8fa'},
-        { name: 'Dark', value: '#333333', default: true },
-    ],
-  },
+    parameters: {
+        backgrounds: [
+            ...backgrounds,
+            { name: 'Light Gray', value: '#555555', default: true },
+        ]
+    }
 }

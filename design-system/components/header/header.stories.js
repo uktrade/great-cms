@@ -1,7 +1,8 @@
 import { decorate } from '@storybook/addon-actions'
 import { withKnobs } from '@storybook/addon-knobs'
-import buttonDocs from './header.mdx'
+import headerDocs from './header.mdx'
 import femaleImage from '../avatar/images/female.png'
+import { backgrounds } from '.storybook/config.js'
 import './header.js'
 
 const decoratedAction = decorate([() => ['Click']])
@@ -9,7 +10,12 @@ const decoratedAction = decorate([() => ['Click']])
 export default {
   title: 'Header',
   parameters: {
-    docs: { page: buttonDocs },
+    backgrounds: [
+        { name: 'Light Gray', value: '#555555', default: true },
+        ...backgrounds, 
+    ],
+    centered: { disable: true },
+    docs: { page: headerDocs },
     decorators: [withKnobs],
     'in-dsm': {
       docFilePath: './header.docs.json',
@@ -30,9 +36,3 @@ export const Showcase = () => {
         </div>`
   )
 }
-
-Showcase.story = {
-    parameters: {
-        centered: { disable: true },
-    }
-  };

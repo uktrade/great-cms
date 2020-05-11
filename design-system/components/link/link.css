@@ -24,17 +24,13 @@ a {
 }
 
 .primary {
-    color: var(--colour-blue-deep-70);
+    color: var(--colour-blue-deep-80);
 
-    &:visited {
-        color: var(--colour-black-100);
+    &.active {
+        color: var(--colour-red-80);
     }
 }
 
 .secondary {
-    color: var(--colour-red-70);
-
-    &:visited {
-        color: var(--colour-red-100);
-    }
+    color: var(--colour-red-80);
 }

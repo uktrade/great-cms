@@ -37,7 +37,7 @@ li {
 
 .logged-in-wrapper {
     align-items: center;
-    background-color: var(--colour-blue-deep-70);
+    background-color: var(--colour-blue-deep-80);
     display: flex;
     flex-grow: 2;
     flex-wrap: nowrap;
