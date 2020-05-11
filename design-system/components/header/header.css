@@ -1,5 +1,11 @@
 @import "../../index.css";
 
+/* 
+--mobile: 640px;
+--tablet: 768px;
+--desktop: 1024px;
+*/
+
 :host {
     display: block;
 }
@@ -9,15 +15,17 @@ header {
     display: flex;
     flex-wrap: nowrap;
     height: 80px;
+    justify-content: space-between;
     position: relative;
 
     & > great-link {
+        flex-grow: 0;
         margin: 12px 0 12px 20px;
     }
 }
 
 nav {
-    flex-grow: 2;
+    flex-grow: 1;
     padding-left: 32px; 
     display: none;
 }
@@ -30,38 +38,64 @@ ul {
     white-space: nowrap;
 }
 
-li {
+::slotted(li), li {
     display: inline-block;
     margin: 32px 32px 32px 0;
 }
 
 .logged-in-wrapper {
     align-items: center;
-    background-color: var(--colour-blue-deep-80);
     display: flex;
-    flex-grow: 2;
+    flex-grow: 0;
     flex-wrap: nowrap;
     margin-left: 24px;
     padding: 0 24px;
 
     p {
         color: var(--colour-white-100);
+        display: none;
         font-family: 'FS Lucas', sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: normal;
         padding: 0 24px 0 12px;
     }
+
+    great-link {
+        display: none;
+    }
+
+    great-icon {
+        display: block;
+        margin-left: 24px;
+        cursor: pointer;
+    }
 }
 
+@media (width > 768px) { 
+    header {
+        justify-content: flex-start;
+    }
 
-@media (min-width: 800px) { 
     nav {
         display: block;
     }
 
+
     .logged-in-wrapper {
-        flex-grow: 1;
+        background-color: #4b426d; /* TODO: change to var colour */
         margin-left: 0px;
+
+        p {
+            display: block;
+        }
+
+        great-link {
+           display: block;
+        }
+
+        great-icon {
+            display: none;
+        }
     }
 }

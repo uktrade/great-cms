@@ -2,9 +2,9 @@
 
 :root {
     --size-sm: 16px;
-    --size-lg: 40px;
-    --size-xl: 80px;
-    --size-xxl: 120px;
+    --size-lg: 32px;
+    --size-xl: 64px;
+    --size-xxl: 128px;
 }
 
 :host {
@@ -32,7 +32,7 @@
 }
 
 .primary svg {
-    fill: var(--colour-white-100);
+    fill: #4b426d;
 }
 
 .secondary svg {

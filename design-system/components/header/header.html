@@ -5,26 +5,21 @@
         </great-link>
         <nav>
             <ul>
-                <slot name="menu">
+                <slot name="navigation">
                     <li>
-                        <great-link href="/">Learn how to export</great-link>
+                        <great-link href="/">Menu item 1</great-link>
                     </li>
                     <li>
-                        <great-link href="/">Export plan</great-link>
-                    </li>
-                    <li>
-                        <great-link href="/">Markets</great-link>
-                    </li>
-                    <li>
-                        <great-link href="/">Services</great-link>
+                        <great-link href="/">Menu item 2</great-link>
                     </li>
                 </slot>
             </ul>
         </nav>
         <div class="logged-in-wrapper">
             <slot name="avatar"><great-avatar></great-avatar></slot>
-            <p><slot name="greeting">Hello</slot></p>
+            <p>Hello <slot name="name">Unknown Name</slot></p>
             <great-link href="/" size="sm" theme="secondary">Dashboard</great-link>
+            <great-icon name="menu" size="lg"></great-icon>
         </div>
     </header>
 </template>

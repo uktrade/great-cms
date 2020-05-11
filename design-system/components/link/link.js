@@ -23,7 +23,8 @@ customElements.define(
       Object.entries(rest).forEach(([key, value]) => link.setAttribute(key, value))
 
       const themes = ['primary', 'secondary']
-      if (themes.includes(theme)) link.classList.add(theme)
+      link.classList.add(themes.includes(theme) ? theme : 'primary') 
+
       const sizes = ['sm', 'lg']
       if (sizes.includes(size)) link.classList.add(size)
     }

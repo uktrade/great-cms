@@ -22,8 +22,8 @@ customElements.define(
       const icon = shadowRoot.querySelector('span')
       const sizes = ['sm', 'lg', 'xl', 'xxl']
       if (name && name !== '') icon.innerHTML = icons[name]
-      if (sizes.includes(size)) icon.classList.add(size)
-      if (theme && theme !== '') icon.classList.add(theme)
+      icon.classList.add((sizes.includes(size)) ? size : 'lg')
+      icon.classList.add(theme && theme !== '' ? theme : 'primary')
       if (disabled || disabled === '') icon.classList.add('disabled')
     }
   }

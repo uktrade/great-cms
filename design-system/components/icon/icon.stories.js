@@ -30,6 +30,10 @@ const availableSizes = {
   xl: 'xl',
   xxl: 'xxl',
 }
+const availableThemes = {
+  primary: 'primary',
+  secondary: 'secondary',
+}
 
 export const All = () => {
   const size = select('size', availableSizes, availableSizes.lg)
@@ -44,12 +48,13 @@ export const All = () => {
 }
 
 export const Single = () => {
-  const name = select('name', availableIcons, availableIcons.dots)
+  const name = select('name', availableIcons, availableIcons.play)
   const size = select('size', availableSizes, availableSizes.lg)
+  const theme = select('theme', availableThemes, availableThemes.primary)
   return decoratedAction.withActions({ 'click great-icon': 'Great icon clicked' })(
     () =>
       `<div class="sample-code">
-          <great-icon name="${name}" size="${size}"></great-icon>
+          <great-icon name="${name}" size="${size}" theme="${theme}"></great-icon>
       </div>`
   )
 }
