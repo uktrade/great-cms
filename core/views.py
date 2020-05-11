@@ -29,6 +29,7 @@ class DashboardView(TemplateView):
             ))
             .order_by('-read_progress')
         )
+
         return super().get_context_data(
             list_pages=list_pages,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
