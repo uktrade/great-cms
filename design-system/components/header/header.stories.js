@@ -11,7 +11,7 @@ const decoratedAction = decorate([() => ['Click']])
 export default {
   title: 'Header',
   parameters: {
-    backgrounds: [{ name: 'Light Gray', value: '#555555', default: true }, ...backgrounds],
+    backgrounds: [{ name: 'Light', value: '#ccc', default: true }, ...backgrounds],
     centered: { disable: true },
     docs: { page: headerDocs },
     decorators: [withKnobs],
@@ -34,13 +34,13 @@ export const Showcase = () => {
     <great-link href="/learn" theme="secondary">Learn</great-link>
 </li>
 <li slot="navigation">
-    <great-link href="/export-plan">Export plan</great-link>
+    <great-link href="/export-plan" theme="primary">Export plan</great-link>
 </li>
 <li slot="navigation">
-    <great-link href="/markets">Markets</great-link>
+    <great-link href="/markets" theme="primary">Markets</great-link>
 </li>
 <li slot="navigation">
-    <great-link href="/services">Services</great-link>
+    <great-link href="/services" theme="primary">Services</great-link>
 </li>`
   const navigation = text('navigation', defaultNavigation)
   const parsedNavigation = new DOMParser().parseFromString(navigation, 'text/html').documentElement.textContent

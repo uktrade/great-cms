@@ -4,7 +4,7 @@
             <great-logo size="sm"></great-logo>
         </great-link>
         <nav>
-            <ul>
+            <ul class="menu">
                 <slot name="navigation">
                     <li>
                         <great-link href="/">Menu item 1</great-link>
@@ -19,7 +19,15 @@
             <slot name="avatar"><great-avatar></great-avatar></slot>
             <p>Hello <slot name="name">Unknown Name</slot></p>
             <great-link href="/" size="sm" theme="secondary">Dashboard</great-link>
-            <great-icon name="menu" size="lg"></great-icon>
+            <great-icon name="menu" size="lg" theme="primary"></great-icon>
+        </div>
+        <div class="mobile-menu-wrapper" tabindex="-1">
+            <div class="details">
+                <great-icon name="plus" size="lg" theme="primary"></great-icon>
+            </div>
+            <ul class="mobile-menu">
+                <li><great-link href="/" size="sm" theme="primary">Dashboard</great-link></li>
+            </ul>
         </div>
     </header>
 </template>

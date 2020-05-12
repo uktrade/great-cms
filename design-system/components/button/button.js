@@ -36,7 +36,8 @@ customElements.define(
       content.innerHTML += this.textContent
 
       if (icon && icon !== '') {
-          const greatIcon = `<great-icon ${disabled === '' && 'disabled'} name="${icon}" theme="${theme}" size="sm" ></great-icon>`
+          const iconTheme = ['primary', 'secondary'].includes(theme) ? 'secondary' : 'primary'
+          const greatIcon = `<great-icon ${disabled === '' && 'disabled'} name="${icon}" theme="${iconTheme}" size="sm" ></great-icon>`
           content.innerHTML = greatIcon + content.innerHTML
       }
 

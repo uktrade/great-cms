@@ -2,6 +2,7 @@
 
 a {
     font-family: 'FS Lucas', sans-serif;
+    font-weight: bold;
     text-decoration: none;
 
     &:hover {
@@ -24,12 +25,8 @@ a {
 
 .primary {
     color: var(--colour-blue-deep-80);
-
-    &.active {
-        color: var(--colour-red-80);
-    }
 }
 
 .secondary {
-    color: var(--colour-red-80);
+    color: var(--colour-red-100);
 }
