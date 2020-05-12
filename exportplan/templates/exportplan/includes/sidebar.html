@@ -1,7 +1,11 @@
 <nav class="sidebar p-h-s p-b-m" id="sidebar-content">
   <div class="sidebar-sticky">
     <div class="centre-children width-full p-t-m">
-      <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="" class="w-1-2">
+     {% if not company.logo %}
+          <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="Add a business logo" class="w-1-2">
+        {% else %}
+          <img alt="{{ company.name }}" src="{{ company.logo }}"  class="w-full"/>
+        {% endif %}
     </div>
     <ul>
       {% for section in sections %}
