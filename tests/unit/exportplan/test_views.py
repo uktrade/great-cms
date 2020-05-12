@@ -47,6 +47,18 @@ def test_export_plan_builder_landing_page(client, exportplan_dashboard):
 
 
 @pytest.mark.django_db
+def test_export_plan_builder_landing_page_company_with_user(
+        client, exportplan_dashboard, user, mock_get_company_profile):
+    mock_get_company_profile.return_value = {
+        'company_name': 'test', 'expertise_countries': 'China', 'expertise_industries': 'HR'
+    }
+    client.force_login(user)
+    response = client.get('/export-plan/dashboard/')
+    assert response.status_code == 200
+    assert response.context['company'] is not None
+
+
+@pytest.mark.django_db
 @pytest.mark.parametrize('url', data.SECTION_URLS)
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_sections(mock_get_export_plan_or_create, url, client, user):
