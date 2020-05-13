@@ -31,7 +31,6 @@ class BaseExportPlanView(TemplateView):
             sections=data.SECTION_TITLES,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
-            company=self.request.user.company,
             *args, **kwargs)
 
 

@@ -13,7 +13,7 @@
     <div class="grid">
 
       <aside class="completion-status c-1-4">
-       {% if not company.logo %}
+       {% if not request.user.company.logo %}
             <a id="add-image" href="{% url 'exportplan:add-logo' %}" class="link">
               <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="Add a business logo" class="w-full">
             </a>
