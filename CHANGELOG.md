@@ -89,3 +89,4 @@
 - MVP-464 - Store selected product as expertise
 - MVP-420 - test tooltips for multiple countries on target markets data page
 - MVP-438 - Only view learn interstitials once 
+- MVP-450 - update add company logo
