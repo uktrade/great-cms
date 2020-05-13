@@ -66,7 +66,7 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
         email=data['email'],
         verification_code='12345',
         form_url=url,
-        verification_link=f'http://testserver/?verify=test@example.com'
+        verification_link='http://testserver/?verify=test@example.com'
     )
 
 
