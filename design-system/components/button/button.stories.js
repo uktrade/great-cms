@@ -6,10 +6,18 @@ import './button.js'
 const decoratedAction = decorate([() => ['Click']])
 const availableIcons = {
   none: '',
+  arrowDown: 'arrowDown',
+  arrowLeft: 'arrowLeft',
+  arrowRight: 'arrowRight',
+  arrowUp: 'arrowUp',
+  close: 'close',
+  dots: 'dots',
+  heart: 'heart',
+  magGlass: 'magGlass',
+  menu: 'menu',
   play: 'play',
   plus: 'plus',
-  menu: 'menu',
-  dots: 'dots',
+  tick: 'tick',
 }
 
 const availableThemes = {
@@ -49,7 +57,7 @@ export const Showcase = () => {
             >
                 ${children || buttonText[0]}
             </great-button>
-            &nbsp;
+            &emsp;
             <great-button
                 ${disabled ? 'disabled' : ''}
                 ${loading ? 'loading' : ''}
@@ -58,7 +66,7 @@ export const Showcase = () => {
             >
                 ${children || buttonText[1]}
             </great-button>
-            &nbsp;
+            &emsp;
             <great-button
                 ${disabled ? 'disabled' : ''}
                 ${loading ? 'loading' : ''}

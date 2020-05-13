@@ -31,24 +31,20 @@
     width: var(--size-xxl);
 }
 
-.primary svg {
-    fill: #4b426d;
-}
-
-.secondary svg {
-    fill: var(--colour-white-100);
-}
-
-.tertiary {
+.primary {
     svg {
-        fill: var(--colour-blue-deep-80);
-    }
-
-    &:not(.disabled) svg:hover {
-        fill: var(--colour-blue-deep-100);
+        fill: #4b426d;
     }
 
     &.disabled svg {
         fill: var(--colour-black-20);
     }
+
+    &:not(.disabled) svg:hover {
+        fill: var(--colour-blue-deep-100);
+    }
+}
+
+.secondary svg {
+    fill: var(--colour-white-100);
 }

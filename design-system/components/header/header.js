@@ -29,7 +29,7 @@ customElements.define(
       const mobileMenuIcon = shadowRoot.querySelector('great-icon[name="menu"')
       const mobileMenuWrapper = shadowRoot.querySelector('.mobile-menu-wrapper')
       const menuDetails = shadowRoot.querySelector('.details')
-      const mobileCloseIcon = shadowRoot.querySelector('great-icon[name="plus"')
+      const mobileCloseIcon = shadowRoot.querySelector('great-icon[name="close"')
       const greeting = document.createElement('p')
       greeting.textContent = 'Hello '
       greeting.appendChild(name.cloneNode(true))

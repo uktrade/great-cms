@@ -81,10 +81,10 @@ nav {
     display: flex;
     flex-direction: column;
     margin: 0;
-    min-width: 300px;
+    min-width: 250px;
     padding: 0;
     position: fixed;
-    right: -300px;
+    right: -250px;
     top: 0;
     transition: all 0.3s;
 
@@ -96,7 +96,7 @@ nav {
     }
 
     li {
-        border-top: 1px solid var(--colour-black-30);
+        border-top: 1px solid var(--colour-black-10);
         padding: 32px;
     }
 
@@ -104,7 +104,7 @@ nav {
         align-items: flex-start;
         box-sizing: border-box;
         display: flex;
-        padding: 32px 32px 16px;
+        padding: 32px 32px 16px 24px;
         width: 100%;
     }
 
@@ -114,7 +114,9 @@ nav {
         font-size: 16px;
         font-style: normal;
         font-weight: normal;
-        line-height: 10px;
+        line-height: 16px;
+        max-width: 140px;
+        overflow: hidden;
         padding: 0 0 0 12px;
     }
 
@@ -122,10 +124,10 @@ nav {
         flex-grow: 0;
     }
 
-    great-icon[name="plus"] {
+    great-icon[name="close"] {
         flex-grow: 0;
         cursor: pointer;
-        transform: rotate(45deg);
+        margin: 32px 32px 0;
     }
 }
 

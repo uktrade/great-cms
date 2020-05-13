@@ -21,32 +21,37 @@ customElements.define(
       this.root = this.attachShadow({ mode: 'open' })
       this.root.innerHTML = template
       this.root.appendChild(stylesheet)
+      this.icon = this.root.querySelector('span')
+
+      if (disabled || disabled === '') {
+        console.log('before this.icon', this.icon)
+        this.icon.classList.add('disabled')
+        console.log('after this.icon', this.icon)
+      }
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-      const icon = this.root.querySelector('span')
-
       if (name === 'size') {
         const sizes = ['sm', 'lg', 'xl', 'xxl']
-        sizes.filter((size) => size === newValue).forEach((size) => icon.classList.remove(size))
-        icon.classList.add(sizes.includes(newValue) ? newValue : 'sm')
+        sizes.filter((size) => size === newValue).forEach((size) => this.icon.classList.remove(size))
+        this.icon.classList.add(sizes.includes(newValue) ? newValue : 'sm')
       }
 
       if (name === 'theme') {
         const themes = ['primary', 'secondary']
-        themes.filter((theme) => theme === newValue).forEach((theme) => icon.classList.remove(theme))
-        icon.classList.add(themes.includes(newValue) ? newValue : 'primary')
+        themes.filter((theme) => theme === newValue).forEach((theme) => this.icon.classList.remove(theme))
+        this.icon.classList.add(themes.includes(newValue) ? newValue : 'primary')
       }
 
       if (name === 'name' && newValue && newValue !== '') {
-        icon.innerHTML = icons[newValue]
+        this.icon.innerHTML = icons[newValue]
       }
 
-      if (name === 'disabled' && newValue || newValue === '') {
-        icon.classList.add('disabled')
-      } else {
-        icon.classList.remove('disabled')
-      }
+    //   if (name === 'disabled' && newValue === '') {
+    //     this.icon.classList.add('disable')
+    //   } else {
+    //     this.icon.classList.remove('disable')
+    //   }
     }
   }
 )

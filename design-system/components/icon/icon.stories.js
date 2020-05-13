@@ -19,10 +19,18 @@ export default {
 }
 
 const availableIcons = {
+  arrowDown: 'arrowDown',
+  arrowLeft: 'arrowLeft',
+  arrowRight: 'arrowRight',
+  arrowUp: 'arrowUp',
+  close: 'close',
   dots: 'dots',
+  heart: 'heart',
+  magGlass: 'magGlass',
   menu: 'menu',
   play: 'play',
   plus: 'plus',
+  tick: 'tick',
 }
 const availableSizes = {
   sm: 'sm',
@@ -41,7 +49,7 @@ export const All = () => {
     () =>
       `<div class="sample-code" size="lg">
         ${Object.values(availableIcons)
-          .map((name) => `<great-icon name="${name}" size="${size}"></great-icon>`)
+          .map((name) => `<great-icon name="${name}" size="${size}" theme="primary"></great-icon>`)
           .join('&emsp;&emsp;&emsp;')}
       </div>`
   )
