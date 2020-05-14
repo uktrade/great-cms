@@ -59,6 +59,10 @@ button {
 body {
   background-color: $stone-30;
 
+  &.body-background-white {
+    background-color: $white;
+  }
+
   #great-hero {
     background-color: $stone;
     padding-bottom: 75px;

@@ -62,7 +62,7 @@ def add_sectors(browser: WebDriver) -> List[str]:
     add_sectors_button = browser.find_element_by_id(
         TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_BUTTON.selector
     )
-    with selenium_action(browser, f'Failed to click on sector chooser button'):
+    with selenium_action(browser, 'Failed to click on sector chooser button'):
         add_sectors_button.click()
     attach_jpg_screenshot(
         browser,
@@ -76,7 +76,7 @@ def add_sectors(browser: WebDriver) -> List[str]:
     random_sector_names = [button.text for button in random_sector_buttons]
 
     for sector_button in random_sector_buttons:
-        with selenium_action(browser, f'Failed to click on sector chooser button'):
+        with selenium_action(browser, 'Failed to click on sector chooser button'):
             sector_button.click()
     attach_jpg_screenshot(
         browser,
@@ -85,7 +85,7 @@ def add_sectors(browser: WebDriver) -> List[str]:
     )
 
     save_sectors_button = browser.find_element_by_id(TargetMarketsSectorsSelected.SAVE.selector)
-    with selenium_action(browser, f'Failed to click on save sectors button'):
+    with selenium_action(browser, 'Failed to click on save sectors button'):
         save_sectors_button.click()
     attach_jpg_screenshot(
         browser,
@@ -103,7 +103,7 @@ def should_see_selected_sectors(browser: WebDriver, selected_sectors: List[str])
     visible_selected_sectors = browser.find_elements_by_css_selector(TargetMarketsSelectedSectors.SECTORS.selector)
     visible_sector_names = [sector_button.text for sector_button in visible_selected_sectors]
     attach_jpg_screenshot(
-        browser, f'Selected sectors', selector=TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_SECTION
+        browser, 'Selected sectors', selector=TargetMarketsRecommendedCountriesFolded.SECTOR_CHOOSER_SECTION
     )
     error = (
         f'Expected to see following sectors to be selected: {selected_sectors}, but '
@@ -155,7 +155,7 @@ def should_see_target_market_data_for(browser: WebDriver, country_names: List[st
 @allure.step('Add {country} to the export plan')
 def add_country_to_export_plan(browser: WebDriver, country: str):
     add_country_button = browser.find_element_by_id(ExportPlanTargetMarketsData.ADD_COUNTRY.selector)
-    with selenium_action(browser, f'Failed to click on add country'):
+    with selenium_action(browser, 'Failed to click on add country'):
         add_country_button.click()
     attach_jpg_screenshot(
         browser,
@@ -164,7 +164,7 @@ def add_country_to_export_plan(browser: WebDriver, country: str):
     )
 
     country_input = browser.find_element_by_css_selector(TargetMarketsCountryChooser.COUNTRY_AUTOCOMPLETE_MENU.selector)
-    with selenium_action(browser, f'Failed to click on add country'):
+    with selenium_action(browser, 'Failed to click on add country'):
         country_input.click()
 
     country_elements = browser.find_elements_by_css_selector(
@@ -174,11 +174,11 @@ def add_country_to_export_plan(browser: WebDriver, country: str):
     country_option = country_options[0]
 
     logger.info(f'Will select: {country_option}')
-    with selenium_action(browser, f'Failed to select country'):
+    with selenium_action(browser, 'Failed to select country'):
         country_option.click()
 
     save_country = browser.find_element_by_id(TargetMarketsCountryChooser.SAVE_COUNTRY.selector)
-    with selenium_action(browser, f'Failed to click on save country'):
+    with selenium_action(browser, 'Failed to click on save country'):
         save_country.click()
     attach_jpg_screenshot(
         browser,

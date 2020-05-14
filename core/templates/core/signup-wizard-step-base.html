@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block body_attributes %}class="body-background-white"{% endblock %}
+
+{% block content %}
+    <section class="container">
+        {% block breadcrumbs %}{% endblock %}
+
+        <div class="grid-row m-t-l">
+            <div class="c-full m-b-l">
+                <progress class="visually-hidden" max="{{ wizard.steps.count }}" value="{{ wizard.steps.step1 }}">You are on step {{ steps.step1 }} of {{ steps.count }} in this process</progress>
+                <ul class="progress-indicator">
+                    {% for step_label in step_labels %}
+                        <li {% if wizard.steps.step1 > forloop.counter %}class="completed"{% endif %} {% if wizard.steps.step1 == forloop.counter %}class="active" aria-current="step"{% endif %}>
+                            <span class="bubble"></span>
+                            <span>{{ step_label }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="grid-row m-t-l">
+            <div class="c-1-2 p-r-xs">
+                <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+                    {% block back_button %}
+                        {% if wizard.steps.prev %}
+                            <button name="wizard_goto_step" class="great-mvp-wizard-back-button" type="submit" value="{{ wizard.steps.prev }}">Back</button>
+                        {% endif %}
+                    {% endblock %}
+                    {% csrf_token %}
+                    {% block above_form %}
+                    {% endblock %}
+                    <div class="w-2-3" id="form-container">
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                            {{ wizard.form.management_form }}
+                            {% for form in wizard.form.forms %}
+                                 {{ form }}
+                            {% endfor %}
+                        {% else %}
+                            {{ form }}
+                        {% endif %}
+                        {% block below_form %}{% endblock %}
+                        {% block submit_button %}
+                            {% if wizard.steps.step1 != wizard.steps.count %}
+                                <button type="submit" class="great-mvp-wizard-step-button">{% block button_submit_label %}Save and continue{% endblock %}</button>
+                            {% else %}
+                                <button class="button next" type="great-mvp-wizard-step-button">{% block button_next_label %}Save and continue{% endblock %}</button>
+                            {% endif %}
+                        {% endblock %}
+                        {% block below_submit_button %}{% endblock %}
+                    </div>
+                </form>
+            </div>
+
+            <div className='c-1-2'>
+                <img src="{% static 'images/book-chap.png' %}" />
+            </div>
+
+    </section>
+{% endblock %}
+
+{% block body_footer %}{% endblock %}

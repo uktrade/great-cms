@@ -8,12 +8,9 @@
     text-align: right;
 }
 
-.ReactModal__Content.ReactModalCentreScreen.ReactModal__Content--two-columns {
-    background: linear-gradient(90deg, $light-grey 50%, $white 50%);
-    width: 840px;
-}
-
 .ReactModal__Content.ReactModalCentreScreen.ReactModal__Content--Signup {
+    width: 840px;
+    background: linear-gradient(90deg, $light-grey 50%, $white 50%);
 
     .great-mvp-terms {
         font-size: 16px;
