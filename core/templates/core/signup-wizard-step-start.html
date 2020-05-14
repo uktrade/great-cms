@@ -1,0 +1,14 @@
+{% extends 'core/signup-wizard-step-base.html' %}
+
+{% block above_form %}
+    <h2 class="h-l">Get content tailored to your business</h2>
+    <p>Tell us what you’re selling and sign up to great.gov.uk.</p>
+{% endblock %}
+
+{% block button_submit_label %}
+	{% block button_next_label %}I'd like tailored content{% endblock %}
+{% endblock %}
+
+{% block below_submit_button %}
+    <p class="m-t-xxl m-b-0"><a class="link" href="#">I already have a great.gov.uk account</a></p>
+{% endblock %}

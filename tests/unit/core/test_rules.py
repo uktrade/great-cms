@@ -53,6 +53,15 @@ def test_match_product_in_querystring_takes_precedence_over_user_expertise(rf, m
 
 
 @pytest.mark.django_db
+def test_match_product_no_company(rf, user):
+    rule = factories.MatchProductExpertiseFactory()
+    request = rf.get(f'/?product={rule.product.name}')
+    request.user = user
+
+    assert rule.test_user(request=request) is True
+
+
+@pytest.mark.django_db
 def test_match_country_in_querystring(rf):
     rule = factories.MatchCountryQuerystringFactory()
     request = rf.get(f'/?country={rule.country.name}')

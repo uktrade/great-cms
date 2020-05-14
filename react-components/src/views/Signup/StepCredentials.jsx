@@ -12,18 +12,10 @@ import './stylesheets/StepCredentials.scss'
 export default function StepCredentials(props){
   return (
     <div className='great-mvp-signup-wizard-step-credentials'>
-      <p className="body-text m-t-0">
-         <span>Already have an account? </span><a href={Services.config.loginUrl} id="signup-modal-log-in">Log in</a>
+      { props.showTitle && <h2 className="h-xl">Sign up</h2> }
+      <p className="body-text m-t-0 m-b-m">
+         <a href={Services.config.loginUrl} id="signup-modal-log-in">I already have a great.gov.uk account</a>
       </p>
-      <SocialLoginButtons
-        linkedinUrl={props.linkedinLoginUrl}
-        googleUrl={props.googleLoginUrl}
-      />
-      <div className='great-mvp-vertical-separator'>
-        <hr/>
-        <span>or</span>
-        <hr/>
-      </div>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <Field
           type="text"
@@ -44,7 +36,7 @@ export default function StepCredentials(props){
           handleChange={props.handlePasswordChange}
           errors={props.errors.password || []}
         />
-        <p className='great-mvp-terms m-0'>By clicking Sign up, you accept the <a href={Services.config.termsUrl} target="_blank" id="signup-modal-t-and-c">terms and conditions</a> of the great.gov.uk service.</p>
+        <p className='great-mvp-terms m-0'>By signing up, you agree to our <a href={Services.config.termsUrl} target="_blank" id="signup-modal-t-and-c">user agreement and privacy notice</a>.</p>
         <input
           type="submit"
           value="Sign up"
@@ -53,6 +45,15 @@ export default function StepCredentials(props){
           disabled={props.disabled}
         />
       </form>
+      <div className='great-mvp-vertical-separator'>
+        <hr/>
+        <span>or</span>
+        <hr/>
+      </div>
+      <SocialLoginButtons
+        linkedinUrl={props.linkedinLoginUrl}
+        googleUrl={props.googleLoginUrl}
+      />
     </div>
   )
 }
@@ -67,9 +68,11 @@ StepCredentials.propTypes = {
   email: PropTypes.string,
   googleUrl: PropTypes.string,
   linkedinUrl: PropTypes.string,
+  showTitle: PropTypes.bool,
 }
 
 StepCredentials.defaultProps = {
+  showTitle: true,
   disabled: false,
   errors: {},
   password: '',

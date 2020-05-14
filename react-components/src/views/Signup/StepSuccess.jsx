@@ -8,8 +8,8 @@ import './stylesheets/StepSuccess.scss'
 
 export default function StepSuccess(props){
   return (
-    <div className='great-mvp-signup-wizard-step-success p-h-xs' id="signup-modal-success">
-      <h2 className="h-xl">Complete</h2>
+    <div className='great-mvp-signup-wizard-step-success' id="signup-modal-success">
+      {props.showTitle && <h2 className="h-xl">Complete</h2>}
       <p className='great-mvp-subtitle'>Your account has been created.</p>
       <div className="body-text great-mvp-synopsis m-t-0">
         <span>You can now:</span>
@@ -31,4 +31,9 @@ export default function StepSuccess(props){
 
 StepSuccess.propTypes = {
   nextUrl: PropTypes.string.isRequired,
+  showTitle: PropTypes.bool,
+}
+
+StepSuccess.defaultProps = {
+  showTitle: true,
 }
