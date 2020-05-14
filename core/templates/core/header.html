@@ -24,7 +24,7 @@
               <li class="name-greet"><a id="header-link-user-profile-email-link" href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
               <li><a id="header-link-dashboard" href="{% url 'core:dashboard' %}" class="great-mvp-header-link">Dashboard</a></li>
           {% else %}
-              <li><a id="header-sign-up-link" href="{% url 'core:signup' %}">Sign up</a></li>
+              <li><a id="header-sign-up-link" href="#" class="great-mvp-link-disabled">Sign up</a></li>
           {% endif %}
       </ul>
     </div>

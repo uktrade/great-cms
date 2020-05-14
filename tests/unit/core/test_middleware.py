@@ -92,7 +92,11 @@ def test_user_product_expertise_middleware_no_company(
         {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
     )
     assert response.status_code == 200
-    assert mock_update_company_profile.call_count == 0
+    assert mock_update_company_profile.call_count == 1
+    assert mock_update_company_profile.call_args == mock.call(
+        sso_session_id=user.session_id,
+        data={'expertise_products_services': {'other': ['Vodka', 'Potassium']}}
+    )
 
 
 @pytest.mark.django_db
@@ -124,7 +128,10 @@ def test_user_product_expertise_middleware_not_store(domestic_site, client, mock
 
 
 @pytest.mark.django_db
-def test_user_product_expertise_middleware_not_store_idempotent(domestic_site, client, mock_update_company_profile):
+def test_user_product_expertise_middleware_not_store_idempotent(
+    domestic_site, client, mock_update_company_profile, user
+):
+    client.force_login(user)
 
     topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
     lesson_page = factories.DetailPageFactory(parent=topic_page)

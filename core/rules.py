@@ -23,7 +23,7 @@ class MatchProductExpertise(AbstractBaseRule):
         if request:
             if request.GET.getlist('product'):
                 return self.product.name in request.GET.getlist('product')
-            elif request.user.is_authenticated:
+            elif request.user.is_authenticated and request.user.company:
                 return self.product.name in request.user.company.expertise_products_services
 
     def description(self):
