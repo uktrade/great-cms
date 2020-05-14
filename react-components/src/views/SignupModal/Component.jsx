@@ -29,7 +29,7 @@ export default function Component(props){
   const { isOpen, setIsOpen, preventClose, performSkipFeatureCookieCheck, ...otherProps } = props
   
   function getClassName() {
-    const className = 'ReactModal__Content--Signup p-l'
+    let className = 'ReactModal__Content--Signup p-l'
     if (props.products.length > 0 || props.countries.length) {
       className += ' ReactModal__Content--two-columns '
     }
