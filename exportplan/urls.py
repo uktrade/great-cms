@@ -7,6 +7,7 @@ app_name = 'exportplan'
 urlpatterns = [
     path('section/target-markets/', views.ExportPlanTargetMarketsView.as_view(), name='target-markets'),
     path('section/<slug:slug>/', views.ExportPlanSectionView.as_view(), name='section'),
+    path('logo', views.LogoFormView.as_view(), name='add-logo'),
     path(
         'api/recommended-countries/',
         ajax.ExportPlanRecommendedCountriesDataView.as_view(),
