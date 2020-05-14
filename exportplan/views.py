@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import sentry_sdk
 
+from django.http import Http404
 from django.views.generic import TemplateView, FormView
 from django.utils.functional import cached_property
 from django.shortcuts import redirect
@@ -14,10 +15,15 @@ from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES
 from directory_api_client.client import api_client
+
 from exportplan import data, helpers, serializers, forms
 
 
 class BaseExportPlanView(TemplateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.slug not in data.SECTION_SLUGS:
+            raise Http404()
 
     @cached_property
     def export_plan(self):
@@ -56,7 +62,6 @@ class ExportPlanSectionView(BaseExportPlanView):
 
 
 class ExportPlanTargetMarketsView(ExportPlanSectionView):
-    slug = 'target-markets'
     template_name = 'exportplan/sections/target-markets.html'
 
     def get_context_data(self, **kwargs):
@@ -65,6 +70,15 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
             selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
             target_markets=json.dumps(self.export_plan.get('target_markets', [])),
             datenow=datetime.now(),
+        )
+
+
+class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
+    form_class = forms.ExportPlanBrandAndProductForm
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
         )
 
 

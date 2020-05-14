@@ -5,7 +5,18 @@ from exportplan import views, ajax
 app_name = 'exportplan'
 
 urlpatterns = [
-    path('section/target-markets/', views.ExportPlanTargetMarketsView.as_view(), name='target-markets'),
+    path(
+        'section/target-markets/',
+        views.ExportPlanTargetMarketsView.as_view(),
+        {'slug': 'target-markets'},
+        name='target-markets'
+    ),
+    path(
+        'section/brand-and-product/',
+        views.ExportPlanBrandAndProductView.as_view(),
+        {'slug': 'brand-and-product'},
+        name='brand-and-product'
+    ),
     path('section/<slug:slug>/', views.ExportPlanSectionView.as_view(), name='section'),
     path('logo', views.LogoFormView.as_view(), name='add-logo'),
     path(
