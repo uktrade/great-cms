@@ -6,6 +6,7 @@ from django.http import Http404
 from django.views.generic import TemplateView, FormView
 from django.utils.functional import cached_property
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -24,6 +25,7 @@ class BaseExportPlanView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         if self.slug not in data.SECTION_SLUGS:
             raise Http404()
+        return super().dispatch(request, *args, **kwargs)
 
     @cached_property
     def export_plan(self):
@@ -35,6 +37,7 @@ class BaseExportPlanView(TemplateView):
         return super().get_context_data(
             next_section=self.next_section,
             sections=data.SECTION_TITLES,
+            export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
             *args, **kwargs)
@@ -75,11 +78,23 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
 
 class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanBrandAndProductForm
+    success_url = reverse_lazy('exportplan:brand-and-product')
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
+    def form_valid(self, form):
+        helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=self.export_plan['pk'],
+            data={'brand_product_details': form.cleaned_data}
         )
+        return super().form_valid(form)
+
+    def get_form_initial(self):
+        return self.export_plan['brand_product_details']
+
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        form_kwargs['initial'] = self.get_form_initial()
+        return form_kwargs
 
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):

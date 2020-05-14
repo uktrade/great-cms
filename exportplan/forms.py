@@ -20,6 +20,7 @@ class LogoForm(forms.Form):
 class ExportPlanBrandAndProductForm(forms.Form):
     story = forms.CharField(
         label='Story behind brand',
+        required=False,
         widget=Textarea(
             attrs={
                 'placeholder':
@@ -30,6 +31,7 @@ class ExportPlanBrandAndProductForm(forms.Form):
     )
     location = forms.CharField(
         label='Location',
+        required=False,
         widget=Textarea(
             attrs={
                 'placeholder': 'Add some text, for example: Distilled 1,200ft above sea level in ancient spring in the '
@@ -39,6 +41,7 @@ class ExportPlanBrandAndProductForm(forms.Form):
     )
     processes = forms.CharField(
         label='Manufacturing processes',
+        required=False,
         widget=Textarea(
             attrs={
                 'placeholder': 'Add some text, for example: The ingredients are ground by hand before being distilled '
@@ -49,6 +52,7 @@ class ExportPlanBrandAndProductForm(forms.Form):
     )
     packaging = forms.CharField(
         label='Packaging',
+        required=False,
         widget=Textarea(
             attrs={
                 'placeholder': 'Add some text, for example: hand made ceramic bottle hand sealed with wax'
