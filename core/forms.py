@@ -50,7 +50,3 @@ class WhatAreYouSellingForm(forms.Form):
 
 class ProductSearchForm(forms.Form):
     products = forms.CharField()
-
-
-class SignupForm(forms.Form):
-    pass

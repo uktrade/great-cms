@@ -10,6 +10,7 @@ airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.13     # via -r requirements_test.in
 allure-python-commons==2.8.13  # via allure-pytest
+appnope==0.1.0            # via ipython
 astroid==2.4.1            # via pylint
 attrs==19.3.0             # via allure-python-commons, jsonschema, pytest
 babel==2.8.0              # via sphinx
@@ -29,6 +30,7 @@ directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-cl
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
 directory-sso-api-client==6.2.0  # via -r requirements.in
+directory-validators==6.0.2  # via -r requirements.in
 django-debug-toolbar==2.2  # via -r requirements_test.in
 django-environ==0.4.5     # via -r requirements.in
 django-extensions==2.2.9  # via -r requirements.in
@@ -42,7 +44,7 @@ django-staff-sso-client==1.0.1  # via -r requirements.in
 django-storages[boto3]==1.8  # via -r requirements.in
 django-taggit==1.2.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
-django==2.2.10            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, django-debug-toolbar, django-filter, django-formtools, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, great-components, sigauth, wagtail, wagtailfontawesome
+django==2.2.10            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-debug-toolbar, django-filter, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, great-components, sigauth, wagtail, wagtailfontawesome
 djangorestframework==3.9.4  # via -r requirements.in, sigauth, wagtail
 docopt==0.6.2             # via coveralls
 docutils==0.15.2          # via botocore, sphinx
@@ -90,12 +92,13 @@ monotonic==1.5            # via directory-client-core
 more-itertools==8.2.0     # via pytest
 msgpack==1.0.0            # via locustio
 oauthlib==3.1.0           # via requests-oauthlib
+olefile==0.46             # via directory-validators
 packaging==20.3           # via pytest, pytest-sugar, sphinx
 parso==0.7.0              # via jedi
 pep8-naming==0.10.0       # via -r requirements_test.in
 pexpect==4.8.0            # via ipython
 pickleshare==0.7.5        # via ipython
-pillow==6.2.2             # via -r requirements_test.in, wagtail
+pillow==6.2.2             # via -r requirements_test.in, directory-validators, wagtail
 pip-tools==5.1.2          # via -r requirements_test.in
 pluggy==0.13.1            # via allure-python-commons, pytest
 prompt-toolkit==3.0.5     # via ipython
@@ -117,7 +120,7 @@ pytest-django==3.9.0      # via -r requirements_test.in
 pytest-sugar==0.9.3       # via -r requirements_test.in
 pytest==5.3.5             # via -r requirements_test.in, allure-pytest, pytest-cov, pytest-django, pytest-sugar
 python-dateutil==2.8.1    # via botocore, faker, freezegun
-pytz==2020.1              # via babel, django, django-modelcluster, l18n
+pytz==2019.3              # via babel, directory-validators, django, django-modelcluster, l18n
 pyzmq==19.0.1             # via locustio
 redis==3.5.1              # via django-redis
 requests-mock==1.8.0      # via -r requirements_test.in
@@ -139,7 +142,7 @@ traitlets==4.3.3          # via ipython
 typed-ast==1.4.1          # via astroid
 ua-parser==0.10.0         # via user-agents
 unidecode==1.1.1          # via wagtail
-urllib3==1.25.9           # via botocore, requests, selenium, sentry-sdk
+urllib3==1.25.9           # via botocore, directory-validators, requests, selenium, sentry-sdk
 user-agents==2.1          # via wagtail-personalisation
 w3lib==1.21.0             # via directory-client-core
 wagtail-cache==1.0.0      # via -r requirements.in
