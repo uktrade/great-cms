@@ -44,6 +44,11 @@ urlpatterns = [
         name='signup'
     ),
     path(
+        'signup/<str:step>/',
+        anonymous_user_required(core.views.SignupWizardView.as_view(url_name='core:signup-wizard')),
+        name='signup-wizard'
+    ),
+    path(
         'api/update-company/',
         core.views.UpdateCompanyAPIView.as_view(),
         name='api-update-company'

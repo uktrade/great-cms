@@ -432,6 +432,11 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
     def get_client_ip(request):
         return '51.6.68.120'
 
+# directory validators
+VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int(
+    'VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024
+)
+
 # dit_helpdesk
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
 
