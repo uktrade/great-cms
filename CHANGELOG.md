@@ -91,3 +91,4 @@
 - MVP-438 - Only view learn interstitials once 
 - MVP-458 - Implement signup wizard
 - MVP-450 - update add company logo
+- MVP-512 - Handle user requesting generic content
