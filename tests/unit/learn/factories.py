@@ -13,7 +13,7 @@ class TopicPageFactory(ListPageFactory):
 
 
 class LessonPageFactory(DetailPageFactory):
-    template = 'learn/lesson_page.html'
+    template = 'learn/detail_page.html'
 
     class Meta:
         model = models.DetailPage

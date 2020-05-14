@@ -6,8 +6,9 @@ from modelcluster.models import ClusterableModel, ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
     ObjectList, TabbedInterface
 from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import StreamField, RichTextField
 from wagtail.core.models import Orderable, Page
+from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
 from wagtail.utils.decorators import cached_classmethod
@@ -225,11 +226,13 @@ class LandingPage(CMSGenericPage):
     ################
     # Content fields
     ################
-    description = models.TextField()
-    button = StreamField(core_blocks.ButtonBlock)
+    description = RichTextField()
+    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
     image = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.CASCADE,
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
         related_name='+'
     )
 
@@ -252,7 +255,7 @@ class InterstitialPage(CMSGenericPage):
     ################
     # Content fields
     ################
-    button = StreamField(core_blocks.ButtonBlock)
+    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
 
     #########
     # Panels
@@ -278,8 +281,35 @@ class ListPage(CMSGenericPage):
     ################
     # Content fields
     ################
-    description = models.TextField()
-    button = StreamField(core_blocks.ButtonBlock)
+    description = RichTextField()
+    button_label = models.CharField(max_length=100)
+
+    #########
+    # Panels
+    #########
+
+    content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
+
+
+class CuratedListPage(CMSGenericPage):
+    parent_page_types = ['core.ListPage']
+    subpage_types = ['core.DetailPage']
+    template_choices = (
+        ('learn/curated_list_page.html', 'Learn'),
+    )
+
+    ################
+    # Content fields
+    ################
+    heading = RichTextField()
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    topics = StreamField([('topic', core_blocks.CuratedTopicBlock(icon='plus'))], null=True, blank=True)
 
     record_read_progress = models.BooleanField(
         default=False,
@@ -288,40 +318,11 @@ class ListPage(CMSGenericPage):
 
     #########
     # Panels
-    #########
-    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
-    content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), StreamFieldPanel('button')]
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request)
-        if self.record_read_progress and request.user.is_authenticated:
-            queryset = self.page_views_list.filter(sso_id=request.user.pk)
-            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
-        return context
-
-
-class CuratedListPage(CMSGenericPage):
-    parent_page_types = ['core.CuratedListPage']
-    subpage_types = ['core.DetailPage']
-    template_choices = (
-        ('learn/lesson_page.html', 'Lesson'),
-    )
-
-    ################
-    # Content fields
-    ################
-    heading = models.TextField()
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.CASCADE,
-        related_name='+'
-    )
-    topics = StreamField(core_blocks.CuratedTopicBlock)
-
-    #########
-    # Panels
     ##########
+    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
     content_panels = CMSGenericPage.content_panels + [
+        FieldPanel('heading'),
+        ImageChooserPanel('image'),
         StreamFieldPanel('topics')
     ]
 
@@ -331,14 +332,21 @@ class CuratedListPage(CMSGenericPage):
 
     @cached_property
     def count_detail_pages(self):
-        return sum(self.topics)
+        return sum((len(topic.value['pages']) for topic in self.topics))
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        if self.record_read_progress and request.user.is_authenticated:
+            queryset = self.page_views_list.filter(sso_id=request.user.pk)
+            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
+        return context
 
 
 class DetailPage(CMSGenericPage):
     parent_page_types = ['core.CuratedListPage']
     template_choices = (
         ('exportplan/dashboard_page.html', 'Export plan dashboard'),
-        ('learn/lesson_page.html', 'Learn lesson'),
+        ('learn/detail_page.html', 'Learn'),
     )
 
     class Meta:
@@ -373,7 +381,7 @@ class DetailPage(CMSGenericPage):
 
 class PageView(TimeStampedModel):
     page = models.ForeignKey(DetailPage, on_delete=models.CASCADE, related_name='page_views')
-    list_page = models.ForeignKey(ListPage, on_delete=models.CASCADE, related_name='page_views_list')
+    list_page = models.ForeignKey(CuratedListPage, on_delete=models.CASCADE, related_name='page_views_list')
     sso_id = models.TextField()
 
     class Meta:

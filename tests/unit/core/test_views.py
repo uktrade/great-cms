@@ -375,4 +375,4 @@ def test_list_page_uses_right_template(domestic_homepage, rf, user):
     topic_page = TopicPageFactory(parent=domestic_homepage)
     lesson_page = LessonPageFactory(parent=topic_page)
     response = lesson_page.serve(request)
-    assert response.template_name == 'learn/lesson_page.html'
+    assert response.template_name == 'learn/detail_page.html'

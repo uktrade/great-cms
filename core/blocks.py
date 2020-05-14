@@ -35,8 +35,11 @@ class VideoBlock(blocks.StructBlock):
 
 
 class CuratedTopicBlock(blocks.StructBlock):
-    title = blocks.RichTextBlock()
-    page = blocks.PageChooserBlock(target_model='core.DetailPage')
+    title = blocks.CharBlock(max_length=255)
+    pages = blocks.ListBlock(blocks.PageChooserBlock(label='Detail page'))
+
+    class Meta:
+        template = 'core/curated_topic.html'
 
 
 class LinkStructValue(blocks.StructValue):
@@ -45,8 +48,8 @@ class LinkStructValue(blocks.StructValue):
     """
     @property
     def url(self):
-        page = self.get('page_link')
-        ext = self.get('other_link')
+        page = self.get('internal_link')
+        ext = self.get('external_link')
         if page:
             return page.url
         else:
@@ -69,5 +72,8 @@ class LinkBlock(blocks.StructBlock):
 
 
 class ButtonBlock(blocks.StructBlock):
-    text = blocks.CharBlock(max_length=255)
-    link = LinkBlock()
+    label = blocks.CharBlock(max_length=255)
+    link = LinkBlock(required=False)
+
+    class Meta:
+        template = 'core/button.html'
