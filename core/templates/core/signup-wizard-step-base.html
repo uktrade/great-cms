@@ -46,12 +46,17 @@
                         {% block below_form %}{% endblock %}
                         {% block submit_button %}
                             {% if wizard.steps.step1 != wizard.steps.count %}
-                                <button type="submit" class="great-mvp-wizard-step-button">{% block button_submit_label %}Save and continue{% endblock %}</button>
+                                <button type="submit" class="great-mvp-wizard-step-button m-b-s">{% block button_submit_label %}Save and continue{% endblock %}</button>
                             {% else %}
-                                <button class="button next" type="great-mvp-wizard-step-button">{% block button_next_label %}Save and continue{% endblock %}</button>
+                                <button class="button next" type="great-mvp-wizard-step-button m-b-s">{% block button_next_label %}Save and continue{% endblock %}</button>
                             {% endif %}
                         {% endblock %}
                         {% block below_submit_button %}{% endblock %}
+                        {% block generic_content_button %}
+                            {% if request.GET.next %}
+                                <p class="m-b-0 m-t-0"><a class="link great-mvp-grey-link" href="{{ request.GET.next}}{% if '?' in request.GET.next %}&{%else%}?{% endif %}show-generic-content=true">I do not want tailored content, thanks</a></p>
+                            {% endif %}
+                        {% endblock %}
                     </div>
                 </form>
             </div>

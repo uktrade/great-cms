@@ -1,3 +1,4 @@
+@import 'elements/colours';
 
 button {
   @include button-reset;
@@ -5,6 +6,11 @@ button {
 
 .text-center {
   text-align: center;
+}
+
+.great-mvp-grey-link {
+  color: $grey;
+  font-size: 16px;
 }
 
 .text-12 {
