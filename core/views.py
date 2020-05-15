@@ -1,9 +1,11 @@
 from directory_constants import choices
+from formtools.wizard.views import NamedUrlSessionWizardView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
+from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
@@ -15,7 +17,9 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        list_pages = (
+        # coerce to list to make the db read happen here rather than in the template, thus making a
+        # traceback more debuggable
+        list_pages = list(
             models.ListPage.objects.live().filter(record_read_progress=True)
             .annotate(read_count=Count('page_views_list', filter=Q(page_views_list__sso_id=user.id)))
             .annotate(read_progress=(
@@ -26,6 +30,7 @@ class DashboardView(TemplateView):
             ))
             .order_by('-read_progress')
         )
+
         return super().get_context_data(
             list_pages=list_pages,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
@@ -101,3 +106,74 @@ class ProductLookupView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
         return Response(data)
+
+
+def handler404(request, *args, **kwargs):
+    return TemplateResponse(
+        request=request,
+        template='core/404.html',
+        context={},
+        status=404
+    )
+
+
+def handler500(request, *args, **kwargs):
+    return TemplateResponse(
+        request=request,
+        template='core/500.html',
+        context={},
+        status=500
+    )
+
+
+class SignupWizardView(NamedUrlSessionWizardView):
+
+    STEP_START = 'get-tailored-content'
+    STEP_WHAT_SELLING = 'what-are-you-selling'
+    STEP_PRODUCT_SEARCH = 'product-search'
+    STEP_SIGN_UP = 'sign-up'
+
+    form_list = (
+        (STEP_START, forms.NoOperationForm),
+        (STEP_WHAT_SELLING, forms.WhatAreYouSellingForm),
+        (STEP_PRODUCT_SEARCH, forms.ProductSearchForm),
+        (STEP_SIGN_UP, forms.NoOperationForm),
+    )
+
+    templates = {
+        STEP_START: 'core/signup-wizard-step-start.html',
+        STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
+        STEP_PRODUCT_SEARCH: 'core/signup-wizard-step-product-search.html',
+        STEP_SIGN_UP: 'core/signup-wizard-step-sign-up.html',
+    }
+
+    step_labels = (
+        'Get tailored content',
+        'What are you selling?',
+        'Find your product',
+        'Sign up'
+    )
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        # react component handles the signing up, this wizard is just for data collection that is fed into
+        # the react component on the final step, so this step should not be submitted to
+        raise NotImplementedError
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(step_labels=self.step_labels, **kwargs)
+        if self.steps.current == self.STEP_SIGN_UP:
+            context['product_search_data'] = self.get_cleaned_data_for_step(self.STEP_PRODUCT_SEARCH)
+        return context
+
+    def get_step_url(self, step):
+        # we want to maintain the querystring params. e.g, next tells the final
+        # step where to send the user
+        url = super().get_step_url(step)
+        if self.request.GET.get('next'):
+            querystring = self.request.META['QUERY_STRING']
+            if querystring:
+                url = f'{url}?{querystring}'
+        return url

@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import Modal from '@src/components/Modal'
 import Services from '@src/Services'
 import StepCategory from './StepCategory'
-import StepProducts from './StepProducts'
+import StepProducts from '@src/components/ProductLookup'
 import StepSuccess from './StepSuccess'
 
 import './stylesheets/Modal.scss'

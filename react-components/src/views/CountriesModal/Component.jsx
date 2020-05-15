@@ -7,7 +7,6 @@ import ReactModal from 'react-modal'
 import Modal from '@src/components/Modal'
 import ErrorList from '@src/components/ErrorList'
 import Services from '@src/Services'
-import '@src/stylesheets/ModalCentreScreen.scss'
 
 import StepCountries from './StepCountries'
 import StepSuccess from './StepSuccess'

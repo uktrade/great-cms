@@ -1,0 +1,36 @@
+{% extends 'core/signup-wizard-step-base.html' %}
+{% load breadcrumbs from great_components %}
+
+
+{% block above_form %}
+    <h2 class="h-l p-b-xs">Sign up to great.gov.uk</h2>
+    <div class="grid">
+        <div class="c-2-3">
+            <div id="signup-app-root">
+                <a href="{% url 'core:login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">I already have a great.gov.uk account<a/>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block button_submit_label %}
+    {% block button_next_label %}I'd like tailored content{% endblock %}
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        ditMVP.setInitialState({
+            nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url "core:dashboard" %}{% endif %}?product={{ product_search_data.products }}&remember-expertise-products-services=true'
+        })
+        ditMVP.Signup({
+            element: document.getElementById('signup-app-root'),
+            name: 'product-search-products',
+            showTitle: false
+        })
+    </script>
+{% endblock %}
+
+{% block submit_button %}{% endblock %}
+{% block generic_content_button %}{% endblock %}

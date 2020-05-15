@@ -37,7 +37,7 @@ class DetailPageFactory(wagtail_factories.PageFactory):
     title = 'Detail page'
     live = True
     body = factory.fuzzy.FuzzyText(length=200)
-    template = factory.fuzzy.FuzzyChoice(models.DetailPage.template_choices, getter=lambda choice: choice[0])
+    template = models.DetailPage.template_choices[0][0]
     parent = factory.SubFactory(ListPageFactory)
 
     class Meta:
@@ -53,12 +53,12 @@ class SegmentFactory(factory.DjangoModelFactory):
         model = wagtail_personalisation.models.Segment
 
 
-class MatchProductQuerystringFactory(factory.django.DjangoModelFactory):
+class MatchProductExpertiseFactory(factory.django.DjangoModelFactory):
     segment = factory.SubFactory(SegmentFactory)
     product = factory.SubFactory(ProductFactory)
 
     class Meta:
-        model = rules.MatchProductQuerystring
+        model = rules.MatchProductExpertise
 
 
 class MatchCountryQuerystringFactory(factory.django.DjangoModelFactory):

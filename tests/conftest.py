@@ -207,6 +207,21 @@ def mock_get_company_profile(patch_get_company_profile):
 
 
 @pytest.fixture
+def patch_update_company_profile():
+    yield mock.patch('core.helpers.update_company_profile', return_value=None)
+
+
+@pytest.fixture(autouse=True)
+def mock_update_company_profile(patch_update_company_profile):
+    yield patch_update_company_profile.start()
+    try:
+        patch_update_company_profile.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
 def patch_get_dashboard_events():
     yield mock.patch('core.helpers.get_dashboard_events', return_value=None)
 

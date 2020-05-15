@@ -1,0 +1,127 @@
+/* Copyright 2013-2015 etc Chris Tabor. See https://github.com/christabor/css-progress-wizard/blob/master/LICENSE for details. */
+
+// Colors
+$pw-incomplete: #C0C0C0 !default;
+$pw-complete: #404040 !default;
+$pw-active: #404040 !default;
+
+// Sizing
+$pw-bubble-size: 20px !default;
+$pw-bubble-line-thickness: 3px !default;
+$pw-border-thickness: 1px !default;
+$pw-darken-amount: 30% !default;
+
+
+.flexer {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+.no-flexer {
+    display: block;
+}
+.no-flexer-element {
+    -ms-flex: 0;
+    -webkit-flex: 0;
+    -moz-flex: 0;
+    flex: 0;
+}
+.flexer-element {
+    -ms-flex: 1;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    flex: 1;
+}
+.progress-indicator {
+    @extend .flexer;
+    margin: 0;
+    padding: 0;
+    font-size: 80%;
+    margin-bottom: 1em;
+    > li {
+        @extend .flexer-element;
+        list-style: none;
+        text-align: center;
+        width: auto;
+        padding: 0;
+        margin: 0;
+        position: relative;
+        text-overflow: ellipsis;
+        color: $pw-incomplete;
+        display: block;
+    }
+    > li .bubble {
+        border-radius: 1000px;
+        width: $pw-bubble-size;
+        height: $pw-bubble-size;
+        background-color: $pw-incomplete;
+        display: block;
+        margin: 0 auto 0.5em auto;
+        border-bottom: $pw-border-thickness solid darken($pw-incomplete, 20%);
+        box-shadow: 0 0 0 3pt $white;
+    }
+
+    // line connectors
+
+    > li .bubble:after {
+        display: block;
+        position: absolute;
+        top: $pw-bubble-size / 2 - $pw-border-thickness;
+        width: 100%;
+        height: $pw-bubble-line-thickness;
+        content: '';
+        background-color: $pw-incomplete;
+        z-index: -1;
+    }
+
+    > li:first-child .bubble:after {
+        width: 100%;
+    }
+
+    > li:last-child .bubble:after {
+        background-color: transparent;
+    }
+
+
+    // completed state
+
+    > li.completed {
+        color: $pw-complete;
+        .bubble {
+            background-color: $pw-complete;
+            color: $pw-complete;
+            border-color: darken($pw-complete, $pw-darken-amount);
+            &:after {
+                background-color: $pw-complete;
+                border-color: darken($pw-complete, $pw-darken-amount);
+            }
+        }
+    }
+
+    // current state
+
+    > li.active {
+        color: $pw-active;
+        .bubble {
+            background-color: $pw-active;
+            color: $pw-active;
+            border-color: darken($pw-active, $pw-darken-amount);
+            &:after {
+                background-color: none;
+                border-color: none;
+                margin-left: 20px;
+            }
+
+        }
+    }
+
+}
+
+.great-mvp-wizard-back-button {
+    color: #404040;
+    font-size: 16px;
+    text-decoration: underline;
+    padding-left: 0;
+}

@@ -1,5 +1,4 @@
-@import '@src/stylesheets/ModalCentreScreen';
-
+@import 'helpers/colours';
 
 // the close button opens inside the modal. in the DOM the modal is not a child element of the react component
 .great-mvp-close {
@@ -9,9 +8,12 @@
     text-align: right;
 }
 
-.ReactModal__Content.ReactModalCentreScreen.ReactModal__Content--Signup {
-    width: 840px;
+.ReactModal__Content.ReactModalCentreScreen.ReactModal__Content--two-columns {
     background: linear-gradient(90deg, $light-grey 50%, $white 50%);
+    width: 840px;
+}
+
+.ReactModal__Content.ReactModalCentreScreen.ReactModal__Content--Signup {
 
     .great-mvp-terms {
         font-size: 16px;
