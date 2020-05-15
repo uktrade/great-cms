@@ -2,10 +2,10 @@
     "description": "\nIcons description",
     "displayName": "Icon",
     "props": [
-      {
-        "value": "name",
-        "description": "Name of the icon",
-        "required": true
-      }
+        {
+            "value": "name",
+            "description": "Name of the icon",
+            "required": true
+        }
     ]
-  }
+}

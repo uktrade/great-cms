@@ -1,4 +1,4 @@
-@import "../../index.css";
+@import '../../index.css';
 
 :host {
     display: inline-block;
@@ -35,7 +35,6 @@ button {
 
     &:active:not(:disabled).with-icon {
     }
-
 }
 
 .primary {

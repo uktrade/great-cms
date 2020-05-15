@@ -1,30 +1,41 @@
-import convertAttributesToObject from '../../utils/convertAttributesToObject'
 import template from './avatar.html'
 import styles from './avatar.css'
 
 customElements.define(
-  'great-avatar',
-  class extends HTMLElement {
-    constructor() {
-      super()
+    'great-avatar',
+    class extends HTMLElement {
+        static get observedAttributes() {
+            return ['src']
+        }
 
-      const stylesheet = document.createElement('style')
-      stylesheet.innerHTML = styles
+        constructor() {
+            super()
 
-      const { class: className, style, src } = convertAttributesToObject({ self: this })
+            this.shadow = this.attachShadow({ mode: 'open' })
+            const { content } = new DOMParser().parseFromString(template, 'text/html').querySelector('template')
+            this.shadow.appendChild(content.cloneNode(true))
 
-      const shadowRoot = this.attachShadow({ mode: 'open' })
-      shadowRoot.innerHTML = template
-      shadowRoot.appendChild(stylesheet)
+            const stylesheet = document.createElement('style')
+            stylesheet.innerHTML = styles
+            this.shadow.appendChild(stylesheet)
 
-      const img = shadowRoot.querySelector('.avatar')
-      const emptyAvatar = shadowRoot.querySelector('.empty-avatar')
-      if (src) {
-          img.src = src
-          emptyAvatar.style.display = 'none'
-      } else {
-          img.style.display = 'none'
-      }
+            this.img = this.shadow.querySelector('.avatar')
+            this.emptyAvatar = this.shadow.querySelector('.empty-avatar')
+        }
+
+        attributeChangedCallback(name, _oldValue, newValue) {
+            if (name === 'src' && newValue) {
+                this.img.src = newValue
+                this.emptyAvatar.style.display = 'none'
+            }
+        }
+
+        connectedCallback() {
+            const src = this.getAttribute('src')
+
+            if (!src) {
+                this.img.style.display = 'none'
+            }
+        }
     }
-  }
 )

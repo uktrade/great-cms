@@ -1,0 +1,20 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true,
+        "browser": true
+    },
+    "extends": ["airbnb", "plugin:prettier/recommended", "plugin:wc/best-practice"],
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 11
+    },
+    "parser": "babel-eslint",
+    "rules": {
+        "no-console": "warn",
+        "quotes": "error",
+        "import/no-extraneous-dependencies": "off",
+        "import/no-unresolved": [2, { "ignore": [".(png|jpg|jpeg|gif|svg|css|scss|ttf|woff|woff2)$"] }]
+    }
+}

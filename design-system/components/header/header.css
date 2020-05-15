@@ -1,4 +1,4 @@
-@import "../../index.css";
+@import '../../index.css';
 
 /* 
 --mobile: 640px;
@@ -26,7 +26,7 @@ header {
 
 nav {
     flex-grow: 1;
-    padding-left: 32px; 
+    padding-left: 32px;
     display: none;
 }
 
@@ -37,7 +37,8 @@ nav {
     text-align: right;
     white-space: nowrap;
 
-    ::slotted(li), li {
+    ::slotted(li),
+    li {
         display: inline-block;
         margin: 32px 32px 32px 0;
     }
@@ -65,7 +66,7 @@ nav {
         display: none;
     }
 
-    great-icon[name="menu"] {
+    great-icon[name='menu'] {
         display: block;
         margin-left: 24px;
         cursor: pointer;
@@ -124,14 +125,14 @@ nav {
         flex-grow: 0;
     }
 
-    great-icon[name="close"] {
+    great-icon[name='close'] {
         flex-grow: 0;
         cursor: pointer;
         margin: 32px 32px 0;
     }
 }
 
-@media (width > 768px) { 
+@media (width > 768px) {
     header {
         justify-content: flex-start;
     }
@@ -149,10 +150,10 @@ nav {
         }
 
         great-link {
-           display: block;
+            display: block;
         }
 
-        great-icon[name="menu"] {
+        great-icon[name='menu'] {
             display: none;
         }
     }

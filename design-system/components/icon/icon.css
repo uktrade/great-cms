@@ -1,4 +1,4 @@
-@import "../../index.css";
+@import '../../index.css';
 
 :root {
     --size-sm: 16px;
@@ -11,22 +11,22 @@
     display: inline-block;
 }
 
-.sm svg{
+.sm svg {
     height: var(--size-sm);
     width: var(--size-sm);
 }
 
-.lg svg{
+.lg svg {
     height: var(--size-lg);
     width: var(--size-lg);
 }
 
-.xl svg{
+.xl svg {
     height: var(--size-xl);
     width: var(--size-xl);
 }
 
-.xxl svg{
+.xxl svg {
     height: var(--size-xxl);
     width: var(--size-xxl);
 }

@@ -2,10 +2,10 @@
     "description": "",
     "displayName": "Header",
     "props": [
-      {
-        "value": "create-button",
-        "description": "Base class to define a button",
-        "required": true
-      }
+        {
+            "value": "create-button",
+            "description": "Base class to define a button",
+            "required": true
+        }
     ]
-  }
+}

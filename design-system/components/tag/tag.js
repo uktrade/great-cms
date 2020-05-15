@@ -3,27 +3,29 @@ import template from './tag.html'
 import styles from './tag.css'
 
 customElements.define(
-  'great-tag',
-  class extends HTMLElement {
-    constructor() {
-      super()
-        
-      const stylesheet = document.createElement('style')
-      stylesheet.innerHTML = styles
+    'great-tag',
+    class extends HTMLElement {
+        constructor() {
+            super()
 
-      const { class: className, disabled, icon, loading, style, theme, ...rest } = convertAttributesToObject({ self: this })
+            const stylesheet = document.createElement('style')
+            stylesheet.innerHTML = styles
 
-      const shadowRoot = this.attachShadow({ mode: 'open' })
-      shadowRoot.innerHTML = template
-      shadowRoot.appendChild(stylesheet)
+            const { class: className, disabled, icon, loading, style, theme, ...rest } = convertAttributesToObject({
+                self: this,
+            })
 
-      const tag = shadowRoot.querySelector('button')
-      tag.classList.add(theme);
+            const shadowRoot = this.attachShadow({ mode: 'open' })
+            shadowRoot.innerHTML = template
+            shadowRoot.appendChild(stylesheet)
 
-      if (disabled || disabled === '') tag.setAttribute('disabled', '')
-      Object.entries(rest).forEach(([key, value]) => tag.setAttribute(key, value))
+            const tag = shadowRoot.querySelector('button')
+            tag.classList.add(theme)
 
-      tag.textContent = this.textContent
+            if (disabled || disabled === '') tag.setAttribute('disabled', '')
+            Object.entries(rest).forEach(([key, value]) => tag.setAttribute(key, value))
+
+            tag.textContent = this.textContent
+        }
     }
-  }
 )

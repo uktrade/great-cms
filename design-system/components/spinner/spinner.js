@@ -4,19 +4,34 @@ import styles from './spinner.css'
 customElements.define(
     'great-spinner',
     class extends HTMLElement {
+        static get observedAttributes() {
+            return ['size', 'theme']
+        }
+
         constructor() {
             super()
 
             const stylesheet = document.createElement('style')
             stylesheet.innerHTML = styles
 
-            const shadowRoot = this.attachShadow({ mode: 'open' })
-            shadowRoot.innerHTML = template
-            shadowRoot.appendChild(stylesheet)
+            this.shadow = this.attachShadow({ mode: 'open' })
+            this.shadow.innerHTML = template
+            this.shadow.appendChild(stylesheet)
+            this.span = this.shadow.querySelector('.spinner')
+        }
 
-            const wrapper = shadowRoot.querySelector('.spinner')
-            if (this.hasAttribute('size')) wrapper.classList.add(this.getAttribute('size'))
-            if (this.hasAttribute('theme')) wrapper.classList.add(this.getAttribute('theme'))
+        attributeChangedCallback(name, oldValue, newValue) {
+            switch (name) {
+                case 'size':
+                    if (oldValue) this.span.classList.remove(oldValue)
+                    if (['sm', 'lg'].includes(newValue)) this.span.classList.add(newValue)
+                    break
+                case 'theme':
+                    if (oldValue) this.span.classList.remove(oldValue)
+                    if (['dark', 'light'].includes(newValue)) this.span.classList.add(newValue)
+                    break
+                default:
+            }
         }
     }
 )

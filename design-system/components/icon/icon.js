@@ -4,54 +4,54 @@ import template from './icon.html'
 import styles from './icon.css'
 
 customElements.define(
-  'great-icon',
-  class extends HTMLElement {
-    static get observedAttributes() {
-      return ['disabled', 'name', 'theme', 'size']
+    'great-icon',
+    class extends HTMLElement {
+        static get observedAttributes() {
+            return ['disabled', 'name', 'theme', 'size']
+        }
+
+        constructor() {
+            super()
+
+            const stylesheet = document.createElement('style')
+            stylesheet.innerHTML = styles
+
+            this.root = this.attachShadow({ mode: 'open' })
+            this.root.innerHTML = template
+            this.root.appendChild(stylesheet)
+            this.icon = this.root.querySelector('span')
+        }
+
+        attributeChangedCallback(name, oldValue, newValue) {
+            switch (name) {
+                case 'size':
+                    if (oldValue) this.icon.classList.remove(oldValue)
+                    if (['sm', 'lg', 'xl', 'xxl'].includes(newValue)) this.icon.classList.add(newValue)
+                    break
+                case 'theme':
+                    if (oldValue) this.icon.classList.remove(oldValue)
+                    if (['primary', 'secondary'].includes(newValue)) this.icon.classList.add(newValue)
+                    break
+                case 'name':
+                    if (newValue !== '') this.icon.innerHTML = icons[newValue]
+                    break
+                case 'disabled':
+                    if (newValue !== undefined) {
+                        this.icon.classList.add('disabled')
+                    } else {
+                        this.icon.classList.remove('disabled')
+                    }
+                    break
+                default:
+            }
+        }
+
+        connectedCallback() {
+            const { size, theme } = convertAttributesToObject({ self: this })
+
+            // Sets default attributes
+            if (!size) this.setAttribute('size', 'lg')
+            if (!theme) this.setAttribute('theme', 'primary')
+        }
     }
-
-    constructor() {
-      super()
-
-      const stylesheet = document.createElement('style')
-      stylesheet.innerHTML = styles
-
-      const { disabled, name, size, theme } = convertAttributesToObject({ self: this })
-
-      this.root = this.attachShadow({ mode: 'open' })
-      this.root.innerHTML = template
-      this.root.appendChild(stylesheet)
-      this.icon = this.root.querySelector('span')
-
-      if (disabled || disabled === '') {
-        console.log('before this.icon', this.icon)
-        this.icon.classList.add('disabled')
-        console.log('after this.icon', this.icon)
-      }
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (name === 'size') {
-        const sizes = ['sm', 'lg', 'xl', 'xxl']
-        sizes.filter((size) => size === newValue).forEach((size) => this.icon.classList.remove(size))
-        this.icon.classList.add(sizes.includes(newValue) ? newValue : 'sm')
-      }
-
-      if (name === 'theme') {
-        const themes = ['primary', 'secondary']
-        themes.filter((theme) => theme === newValue).forEach((theme) => this.icon.classList.remove(theme))
-        this.icon.classList.add(themes.includes(newValue) ? newValue : 'primary')
-      }
-
-      if (name === 'name' && newValue && newValue !== '') {
-        this.icon.innerHTML = icons[newValue]
-      }
-
-    //   if (name === 'disabled' && newValue === '') {
-    //     this.icon.classList.add('disable')
-    //   } else {
-    //     this.icon.classList.remove('disable')
-    //   }
-    }
-  }
 )
