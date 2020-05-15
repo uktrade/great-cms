@@ -1,3 +1,5 @@
+import abc
+
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
 from rest_framework import generics
@@ -10,6 +12,13 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
 from core import forms, helpers, models, serializers
+
+
+STEP_START = 'start'
+STEP_WHAT_SELLING = 'what-are-you-selling'
+STEP_PRODUCT_SEARCH = 'product-search'
+STEP_SIGN_UP = 'sign-up'
+STEP_COMPANY_NAME = 'company-name'
 
 
 class DashboardView(TemplateView):
@@ -59,7 +68,7 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
 class ArticleView(FormView):
     template_name = 'core/article.html'
     success_url = reverse_lazy('core:dashboard')
-    form_class = forms.ArticleForm
+    form_class = forms.NoOperationForm
 
     def get_context_data(self):
         return super().get_context_data(
@@ -126,33 +135,25 @@ def handler500(request, *args, **kwargs):
     )
 
 
-class SignupWizardView(NamedUrlSessionWizardView):
-
-    STEP_START = 'get-tailored-content'
-    STEP_WHAT_SELLING = 'what-are-you-selling'
-    STEP_PRODUCT_SEARCH = 'product-search'
-    STEP_SIGN_UP = 'sign-up'
-
-    form_list = (
-        (STEP_START, forms.NoOperationForm),
-        (STEP_WHAT_SELLING, forms.WhatAreYouSellingForm),
-        (STEP_PRODUCT_SEARCH, forms.ProductSearchForm),
-        (STEP_SIGN_UP, forms.NoOperationForm),
-    )
-
-    templates = {
-        STEP_START: 'core/signup-wizard-step-start.html',
-        STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
-        STEP_PRODUCT_SEARCH: 'core/signup-wizard-step-product-search.html',
-        STEP_SIGN_UP: 'core/signup-wizard-step-sign-up.html',
-    }
+class AbstractSignupWizardView(abc.ABC):
 
     step_labels = (
         'Get tailored content',
         'What are you selling?',
         'Find your product',
-        'Sign up'
+        'Sign up',
     )
+
+    @property
+    @abc.abstractmethod
+    def templates(self):
+        return {}
+
+    @property
+    @abc.abstractmethod
+    def form_list(self):
+        return []
+
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
@@ -164,8 +165,8 @@ class SignupWizardView(NamedUrlSessionWizardView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(step_labels=self.step_labels, **kwargs)
-        if self.steps.current == self.STEP_SIGN_UP:
-            context['product_search_data'] = self.get_cleaned_data_for_step(self.STEP_PRODUCT_SEARCH)
+        if self.steps.current == STEP_SIGN_UP:
+            context['product_search_data'] = self.get_cleaned_data_for_step(STEP_PRODUCT_SEARCH)
         return context
 
     def get_step_url(self, step):
@@ -177,3 +178,37 @@ class SignupWizardView(NamedUrlSessionWizardView):
             if querystring:
                 url = f'{url}?{querystring}'
         return url
+
+
+class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+    templates = {
+        STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
+        STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
+        STEP_PRODUCT_SEARCH: 'core/signup-wizard-step-product-search.html',
+        STEP_SIGN_UP: 'core/signup-wizard-step-sign-up.html',
+    }
+
+    form_list = (
+        (STEP_START, forms.NoOperationForm),
+        (STEP_WHAT_SELLING, forms.WhatAreYouSellingForm),
+        (STEP_PRODUCT_SEARCH, forms.ProductSearchForm),
+        (STEP_SIGN_UP, forms.NoOperationForm),
+    )
+
+
+class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+    templates = {
+        STEP_START: 'core/signup-wizard-step-start-export-plan.html',
+        STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
+        STEP_PRODUCT_SEARCH: 'core/signup-wizard-step-product-search.html',
+        STEP_SIGN_UP: 'core/signup-wizard-step-sign-up.html',
+        STEP_COMPANY_NAME: 'core/signup-wizard-step-company-name.html',
+    }
+
+    form_list = (
+        (STEP_START, forms.NoOperationForm),
+        (STEP_WHAT_SELLING, forms.WhatAreYouSellingForm),
+        (STEP_PRODUCT_SEARCH, forms.ProductSearchForm),
+        (STEP_SIGN_UP, forms.NoOperationForm),
+        (STEP_COMPANY_NAME, forms.CompanyNameForm),
+    )
