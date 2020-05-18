@@ -4,7 +4,7 @@
      {% if not request.user.company.logo %}
           <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="Add a business logo" class="w-1-2">
         {% else %}
-          <img alt="{{ company.name }}" src="{{ company.logo }}"  class="w-full"/>
+          <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}"  class="w-full"/>
         {% endif %}
     </div>
     <ul>
