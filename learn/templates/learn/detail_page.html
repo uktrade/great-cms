@@ -84,7 +84,11 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-      var showProductsModal = {{ request.user.company.expertise_products_services|yesno:'false,true' }}
+      {% if request.session.LESSON_PAGE_SHOW_GENERIC_CONTENT %}
+        var showProductsModal = false
+      {% else %}
+          var showProductsModal = {{ request.user.company.expertise_products_services|yesno:'false,true' }}
+      {% endif %}
 
       ditMVP.setInitialState({
         modalIsOpen: {

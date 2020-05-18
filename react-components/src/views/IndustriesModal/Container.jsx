@@ -7,7 +7,8 @@ import { connect, Provider } from 'react-redux'
 
 import Services from '@src/Services'
 import Component from './Component'
-import { getModalIsOpen } from '@src/reducers'
+import { getModalIsOpen, getIndustriesExpertise } from '@src/reducers'
+import actions from '@src/actions'
 
 
 export function Container(props){
@@ -24,7 +25,7 @@ export function Container(props){
   function handleIndustriesSubmitSuccess(nextStep) {
     setIsInProgress(false)
     setErrors({})
-    window.location.assign(`${window.location}?success`)
+    window.location.reload()
   }
 
   function handleIndustriesSubmitError(errors) {
@@ -63,6 +64,7 @@ Container.defaultProps = {
 const mapStateToProps = state => {
   return {
     isOpen: getModalIsOpen(state, 'industries'),
+    industries: getIndustriesExpertise(state),
   }
 }
 

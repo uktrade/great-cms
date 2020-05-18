@@ -92,3 +92,4 @@
 - MVP-458 - Implement signup wizard
 - MVP-450 - update add company logo
 - MVP-460 - Create page types
+- MVP-512 - Handle user requesting generic content
