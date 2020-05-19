@@ -22,6 +22,20 @@ export function TextInput(props) {
   )
 }
 
+export function TextArea(props) {
+  return (
+    <textarea
+      disabled={props.disabled}
+      id={props.id}
+      name={props.name}
+      onChange={() => props.handleChange(event)}
+      placeholder={props.placeholder}
+      type={props.type}
+      value={props.value}
+    />
+  )
+}
+
 export function RadioInput(props) {
 
   const children = props.options.map(({label, value, disabled}, i) => {
@@ -61,6 +75,9 @@ export default function Field(props){
     if (props.type === 'radio') {
       return <RadioInput id={id_for_label} {...props} />
     }
+    if (props.type === 'textarea') {
+      return <TextArea id={id_for_label} {...props} />
+    }
     return <TextInput id={id_for_label} {...props} />
   }
 
@@ -77,6 +94,7 @@ export default function Field(props){
 Field.propTypes = {
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
+  label: PropTypes.string,
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
@@ -90,4 +108,5 @@ Field.defaultProps = {
   disabled: false,
   errors: [],
   placeholder: '',
+  label: ''
 }
