@@ -20,14 +20,14 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
             'password': serializer.validated_data['password'],
             'login': serializer.validated_data['email'],
         }
-        sso_response = requests.post(url=settings.SSO_PROXY_LOGIN_URL, data=data, allow_redirects=False)
-        if sso_response.status_code == 302:
+        upstream_response = requests.post(url=settings.SSO_PROXY_LOGIN_URL, data=data, allow_redirects=False)
+        if upstream_response.status_code == 302:
             # redirect from sso indicates the credentials were correct
-            return helpers.response_factory(cookie_jar=sso_response.cookies)
-        elif sso_response.status_code == 200:
+            return helpers.response_factory(upstream_response=upstream_response)
+        elif upstream_response.status_code == 200:
             # 200 from sso indicate the credentials were not correct
             return Response(data={'__all__': [self.MESSAGE_INVALID_CREDENTIALS]}, status=400)
-        sso_response.raise_for_status()
+        upstream_response.raise_for_status()
 
 
 class SSOBusinessUserCreateView(generics.GenericAPIView):
@@ -78,4 +78,5 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
             email=serializer.validated_data['email'],
             form_url=self.request.path
         )
-        return helpers.response_factory(cookie_jar=upstream_response.cookies)
+
+        return helpers.response_factory(upstream_response=upstream_response)

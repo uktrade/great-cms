@@ -1,9 +1,11 @@
+from http import cookiejar
 import re
 
 from directory_api_client import api_client
 from directory_forms_api_client import actions
 from directory_sso_api_client import sso_api_client
 
+import requests
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
@@ -37,7 +39,14 @@ def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
             )
 
 
-def response_factory(cookie_jar):
+def response_factory(upstream_response):
+    cookie_jar = requests.cookies.RequestsCookieJar(policy=LiberalCookiePolicy())
+    requests.cookies.extract_cookies_to_jar(
+        jar=cookie_jar,
+        request=upstream_response.request,
+        response=upstream_response.raw
+    )
+
     response = Response(status=200)
     set_cookies_from_cookie_jar(
         cookie_jar=cookie_jar,
@@ -102,3 +111,12 @@ def get_company_profile(sso_session_id):
 
 def is_admin_url(url):
     return ADMIN_URL_PATTERN.match(url)
+
+
+class LiberalCookiePolicy(cookiejar.DefaultCookiePolicy):
+    def set_ok(self, *args, **kwargs):
+        # Allow all to avoid problem that default cookie policy checks if the request and the cookie domain is the
+        # same. They are not because the request is for .internal API domain while the cookie is being set for the UI
+        # domain. This "allow all" is ok because the cookies will be passed back to the browser, and it decide what
+        # cookies it wants to keep.
+        return True
