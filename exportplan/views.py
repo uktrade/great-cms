@@ -96,6 +96,14 @@ class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
         form_kwargs['initial'] = self.get_form_initial()
         return form_kwargs
 
+    def get_context_data(self, *args, **kwargs):
+        form_initial = self.get_form_kwargs()['initial']
+        field_names = [key for key, _ in self.get_form_kwargs()['initial'].items()]
+        return super().get_context_data(
+            field_names=json.dumps(field_names),
+            form_initial=json.dumps(form_initial),
+            *args, **kwargs)
+
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):
 
