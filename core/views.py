@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.template.response import TemplateResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
 
 from core import forms, helpers, models, serializers
@@ -18,7 +18,6 @@ STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
 STEP_PRODUCT_SEARCH = 'product-search'
 STEP_SIGN_UP = 'sign-up'
-STEP_COMPANY_NAME = 'company-name'
 
 
 class DashboardView(TemplateView):
@@ -147,13 +146,12 @@ class AbstractSignupWizardView(abc.ABC):
     @property
     @abc.abstractmethod
     def templates(self):
-        return {}
+        raise NotImplementedError
 
     @property
     @abc.abstractmethod
     def form_list(self):
-        return []
-
+        raise NotImplementedError
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
@@ -181,6 +179,7 @@ class AbstractSignupWizardView(abc.ABC):
 
 
 class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+    extra_context = {'allow_skip_signup': True}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
         STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
@@ -197,12 +196,12 @@ class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessi
 
 
 class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+    extra_context = {'allow_skip_signup': False}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-export-plan.html',
         STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
         STEP_PRODUCT_SEARCH: 'core/signup-wizard-step-product-search.html',
         STEP_SIGN_UP: 'core/signup-wizard-step-sign-up.html',
-        STEP_COMPANY_NAME: 'core/signup-wizard-step-company-name.html',
     }
 
     form_list = (
@@ -210,5 +209,16 @@ class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWiz
         (STEP_WHAT_SELLING, forms.WhatAreYouSellingForm),
         (STEP_PRODUCT_SEARCH, forms.ProductSearchForm),
         (STEP_SIGN_UP, forms.NoOperationForm),
-        (STEP_COMPANY_NAME, forms.CompanyNameForm),
     )
+
+
+class CompanyNameFormView(FormView):
+    template_name = 'core/company-name-form.html'
+    form_class = forms.CompanyNameForm
+
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse('core:dashboard'))
+
+    def form_valid(self, form):
+        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
+        return super().form_valid(form)

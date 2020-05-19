@@ -6,7 +6,10 @@ from core import models
 
 
 @pytest.mark.django_db
-def test_create_tours(client, domestic_homepage, exportplan_dashboard, domestic_site):
+def test_create_tours(
+    client, domestic_homepage, exportplan_dashboard, domestic_site, user, mock_get_company_profile
+):
+    mock_get_company_profile.return_value = {'name': 'Example company'}
 
     call_command('create_tours', stdout=StringIO())
 
@@ -18,5 +21,8 @@ def test_create_tours(client, domestic_homepage, exportplan_dashboard, domestic_
     assert exportplan_dashboard.get_url() == '/export-plan/dashboard/'
 
     assert client.get(domestic_homepage.get_url()).status_code == 200
+
+    client.force_login(user)
+
     assert client.get(exportplan.get_url()).status_code == 200
     assert client.get(exportplan_dashboard.get_url()).status_code == 200

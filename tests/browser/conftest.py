@@ -336,6 +336,7 @@ def mock_get_company_profile_with_expertise():
     return_value = {
         'expertise_countries': ['AF'],
         'expertise_industries': [choices.SECTORS[0][0]],
+        'name': 'Example company',
     }
     with patch.object(sso_helpers, 'get_company_profile', return_value=return_value) as patched:
         yield patched

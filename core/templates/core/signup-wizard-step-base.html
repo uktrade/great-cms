@@ -14,7 +14,7 @@
                 <ul class="progress-indicator">
                     {% for step_label in step_labels %}
                         <li {% if wizard.steps.step1 > forloop.counter %}class="completed"{% endif %} {% if wizard.steps.step1 == forloop.counter %}class="active" aria-current="step"{% endif %}>
-                            <span class="bubble"></span>
+                            <span class="bubble">{% if forloop.counter < wizard.steps.step1 %}✓{% endif %}</span>
                             <span>{{ step_label }}</span>
                         </li>
                     {% endfor %}
@@ -53,7 +53,7 @@
                         {% endblock %}
                         {% block below_submit_button %}{% endblock %}
                         {% block generic_content_button %}
-                            {% if request.GET.next %}
+                            {% if allow_skip_signup and request.GET.next %}
                                 <p class="m-b-0 m-t-0"><a class="link great-mvp-grey-link" href="{{ request.GET.next}}{% if '?' in request.GET.next %}&{%else%}?{% endif %}show-generic-content=true">I do not want tailored content, thanks</a></p>
                             {% endif %}
                         {% endblock %}
