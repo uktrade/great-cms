@@ -1,0 +1,16 @@
+{% extends 'core/signup-wizard-step-base.html' %}
+
+{% block above_form %}
+    <h2 class="h-l">Get export plan tailored to your business</h2>
+    <p>Tell us what you’re selling and sign up to great.gov.uk to kick start your export plan.</p>
+{% endblock %}
+
+{% block button_submit_label %}
+    {% block button_next_label %}Get started{% endblock %}
+{% endblock %}
+
+{% block below_submit_button %}
+    <p class="m-t-xl m-b-xxs great-mvp-grey-link"><a class="link" href="{% url 'core:login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">I already have a great.gov.uk account</a></p>
+{% endblock %}
+
+{% block generic_content_button %}{% endblock %}

@@ -5,6 +5,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 
 from core import wagtail_hooks
 from tests.unit.learn.factories import LessonPageFactory
+from tests.unit.exportplan.factories import ExportPlanPageFactory, ExportPlanDashboardPageFactory
 
 
 @pytest.mark.django_db
@@ -91,7 +92,7 @@ def test_login_required_signup_wizard_handles_anonymous_users(rf, domestic_homep
     )
 
     assert response.status_code == 302
-    assert response.url == '/signup/get-tailored-content/?next=/foo/bar/'
+    assert response.url == '/signup/tailored-content/start/?next=/foo/bar/'
 
 
 @pytest.mark.django_db
@@ -142,3 +143,45 @@ def test_login_required_signup_wizard_handles_authenticated_users(rf, user, dome
     )
 
     assert response is None
+
+
+@pytest.mark.django_db
+def test_login_required_signup_wizard_exportplan(domestic_site, client, user, rf):
+
+    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
+    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
+
+    for page in [exportplan_page, exportplan_dashboard_page]:
+        request = rf.get(page.url)
+        request.user = AnonymousUser()
+
+        response = wagtail_hooks.login_required_signup_wizard(
+            page=page,
+            request=request,
+            serve_args=[],
+            serve_kwargs={},
+        )
+
+        assert response.status_code == 302
+        assert response.url == f'/signup/export-plan/start/?next={page.url}'
+
+
+@pytest.mark.django_db
+def test_login_required_signup_wizard_exportplan_logged_in(domestic_site, user, rf):
+
+    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
+    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
+
+    for page in [exportplan_page, exportplan_dashboard_page]:
+
+        request = rf.get(page.url)
+        request.user = user
+
+        response = wagtail_hooks.login_required_signup_wizard(
+            page=page,
+            request=request,
+            serve_args=[],
+            serve_kwargs={},
+        )
+
+        assert response is None
