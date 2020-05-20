@@ -6,6 +6,7 @@ from directory_constants import choices
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from wagtail_factories import SiteFactory
+
 import environ
 import pytest
 
@@ -170,9 +171,31 @@ def topics_with_lessons(domestic_site_browser_tests):
     lesson_a1 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A1', slug='lesson-a1',)
     lesson_a2 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A2', slug='lesson-a2',)
 
+    topic_a.topics.is_lazy = True
+    topic_a.topics.stream_data = [
+        {
+            'type': 'topic',
+            'value': {'title': 'Some title', 'pages': [lesson_a1.pk, lesson_a2.pk]},
+            'id': '495856f0-37ae-496b-a7c4-cd010a6e7011',
+        }
+    ]
+    topic_a.save()
+
     topic_b = CuratedListPageFactory(parent=list_page, title='Lesson topic B', slug='topic-b',)
     lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
     lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
+
+    topic_b.topics.is_lazy = True
+    topic_b.topics.stream_data = [
+        {
+            'type': 'topic',
+            'value': {'title': 'Some title', 'pages': [lesson_b1.pk, lesson_b2.pk]},
+            'id': '395856f0-37ae-496b-a7c4-cd010a6e7011'
+        }
+    ]
+
+    topic_b.save()
+
     return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
 
 

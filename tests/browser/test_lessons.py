@@ -89,7 +89,8 @@ def test_can_navigate_from_topic_to_lesson(
 ):
     live_server, user, browser = server_user_browser_dashboard
     topic_a, topic_a_lessons = topics_with_lessons[0]
-    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.slug)
+
+    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
 
     open_random_lesson(browser)
 
