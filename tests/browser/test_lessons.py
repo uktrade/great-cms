@@ -72,13 +72,13 @@ def test_can_view_lessons_from_different_topics(
     visit_page(live_server, browser, 'core:dashboard', 'Dashboard')
     should_see_all_elements(browser, DashboardReadingProgress)
 
-    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.slug)
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', f'/{topic_a.slug}/{topic_a_lessons[0].slug}/')
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A2', f'/{topic_a.slug}/{topic_a_lessons[1].slug}/')
+    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
+    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', topic_a_lessons[0].url)
+    visit_lesson_page(live_server, browser, 'Topic A - Lesson A2', topic_a_lessons[1].url)
 
-    visit_lesson_listing_page(live_server, browser, 'Topic B', topic_b.slug)
-    visit_lesson_page(live_server, browser, 'Topic B - Lesson B1', f'/{topic_b.slug}/{topic_b_lessons[0].slug}/')
-    visit_lesson_page(live_server, browser, 'Topic B - Lesson B2', f'/{topic_b.slug}/{topic_b_lessons[1].slug}/')
+    visit_lesson_listing_page(live_server, browser, 'Topic B', topic_b.url)
+    visit_lesson_page(live_server, browser, 'Topic B - Lesson B1', topic_b_lessons[0].url)
+    visit_lesson_page(live_server, browser, 'Topic B - Lesson B2', topic_b_lessons[1].url)
 
 
 def test_can_navigate_from_topic_to_lesson(
