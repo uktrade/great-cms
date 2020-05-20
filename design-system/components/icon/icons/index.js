@@ -1,12 +1,25 @@
-export { default as arrowDown } from './arrow-down.svg'
-export { default as arrowLeft } from './arrow-left.svg'
-export { default as arrowRight } from './arrow-right.svg'
-export { default as arrowUp } from './arrow-up.svg'
-export { default as close } from './close.svg'
-export { default as dots } from './dots.svg'
-export { default as heart } from './heart.svg'
-export { default as magGlass } from './mag-glass.svg'
-export { default as menu } from './menu.svg'
-export { default as play } from './play.svg'
-export { default as plus } from './plus.svg'
-export { default as tick } from './tick.svg'
+// Using webpack's require.context to import all SVGs within /icons folder recursively
+// and normalise their names to be exported in ES6
+
+const context = require.context('.', true, /\.svg$/)
+// matches word(s) delimited by optional dashes
+const regex = /^.\/((?:\w+-?)+)\.svg$/i
+const iconNames = context.keys().map((key) =>
+    // converts all words to camel case names
+    key.replace(regex, (_, p1) =>
+        p1
+            .split('-')
+            .reduce(
+                (name, word, i) =>
+                    i === 0 ? word.toLowerCase() : `${name}${word[0].toUpperCase()}${word.substr(1).toLowerCase()}`,
+                ''
+            )
+    )
+)
+const icons = context.keys().reduce((images, path, index) => {
+    images[iconNames[index]] = context(path) // eslint-disable-line no-param-reassign
+    return images
+}, {})
+
+export { iconNames }
+export default icons

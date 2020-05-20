@@ -1,5 +1,5 @@
 import convertAttributesToObject from '../../utils/convertAttributesToObject'
-import * as icons from './icons'
+import icons, { iconNames } from './icons'
 import template from './icon.html'
 import styles from './icon.css'
 
@@ -33,7 +33,7 @@ customElements.define(
                     if (['primary', 'secondary'].includes(newValue)) this.icon.classList.add(newValue)
                     break
                 case 'name':
-                    if (newValue !== '') this.icon.innerHTML = icons[newValue]
+                    if (iconNames.includes(newValue)) this.icon.innerHTML = icons[newValue]
                     break
                 case 'disabled':
                     if (newValue !== undefined) {

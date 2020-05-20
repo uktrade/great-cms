@@ -1,25 +1,10 @@
 import { decorate } from '@storybook/addon-actions'
 import { withKnobs, select, text, boolean } from '@storybook/addon-knobs'
+import availableIcons from '../../utils/availableIcons'
 import buttonDocs from './button.mdx'
 import './button'
 
 const decoratedAction = decorate([() => ['Click']])
-const availableIcons = {
-    none: '',
-    arrowDown: 'arrowDown',
-    arrowLeft: 'arrowLeft',
-    arrowRight: 'arrowRight',
-    arrowUp: 'arrowUp',
-    close: 'close',
-    dots: 'dots',
-    heart: 'heart',
-    magGlass: 'magGlass',
-    menu: 'menu',
-    play: 'play',
-    plus: 'plus',
-    tick: 'tick',
-}
-
 const availableThemes = {
     primary: 'primary',
     secondary: 'secondary',

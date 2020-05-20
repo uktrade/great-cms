@@ -1,5 +1,6 @@
 import { decorate } from '@storybook/addon-actions'
 import { withKnobs, select } from '@storybook/addon-knobs'
+import availableIcons from '../../utils/availableIcons'
 import iconDocs from './icon.mdx'
 import './icon'
 
@@ -18,20 +19,6 @@ export default {
     },
 }
 
-const availableIcons = {
-    arrowDown: 'arrowDown',
-    arrowLeft: 'arrowLeft',
-    arrowRight: 'arrowRight',
-    arrowUp: 'arrowUp',
-    close: 'close',
-    dots: 'dots',
-    heart: 'heart',
-    magGlass: 'magGlass',
-    menu: 'menu',
-    play: 'play',
-    plus: 'plus',
-    tick: 'tick',
-}
 const availableSizes = {
     sm: 'sm',
     lg: 'lg',
@@ -47,10 +34,20 @@ export const All = () => {
     const size = select('size', availableSizes, availableSizes.lg)
     return decoratedAction.withActions({ 'click great-icon': 'Great icon clicked' })(
         () =>
-            `<div class="sample-code" size="lg">
+            `<style>
+                .sample-code {display: flex; flex-wrap: wrap; padding: 60px}
+                p {font-family: Arial, san-serif;}
+                article {text-align: center; padding: 20px; min-width: 160px}
+            </style>
+            <div class="sample-code">
         ${Object.values(availableIcons)
-            .map((name) => `<great-icon name="${name}" size="${size}" theme="primary"></great-icon>`)
-            .join('&emsp;&emsp;&emsp;')}
+            .map(
+                (name) => `<article>
+                <great-icon name="${name}" size="${size}" theme="primary"></great-icon>
+                <p>${name}</p>
+            </article>`
+            )
+            .join('')}
       </div>`
     )
 }

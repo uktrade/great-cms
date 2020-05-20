@@ -11,7 +11,7 @@
     "ds-tokens": ". ./fetch-design-tokens.sh",
     "ds-lint": "eslint --config design-system/.eslintrc.json design-system",
     "ds-prettier": "prettier --settings .prettierrc -c 'design-system' --write",
-    "storybook": "npm run ds-tokens && dsm-storybook preview",
+    "storybook": "dsm-storybook preview",
     "storybook-publish": "npm run ds-tokens && dsm-storybook publish",
     "storybook-build": "npm run dm-tokens && build-storybook"
   },

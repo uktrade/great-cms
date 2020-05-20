@@ -451,6 +451,7 @@
 --font-body-6-blue-80-1-left-font-size: 20px;
 --font-body-6-blue-80-1-left-line-height: 30px;
 --font-body-6-blue-80-1-left-text-align: left;
+--font-body-6-blue-80-1-left-color: #4b426d;
 --font-body-6-blue-80-1-left-font-style: normal;
 --font-body-6-blue-80-1-left-font-weight: 400;
 --font-body-6-blue-80-1-left-font-family: FS Lucas;
@@ -459,6 +460,7 @@
   font-size: var(--font-body-6-blue-80-1-left-font-size);
   line-height: var(--font-body-6-blue-80-1-left-line-height);
   text-align: var(--font-body-6-blue-80-1-left-text-align);
+  color: var(--font-body-6-blue-80-1-left-color);
   font-style: var(--font-body-6-blue-80-1-left-font-style);
   font-weight: var(--font-body-6-blue-80-1-left-font-weight);
   font-family: var(--font-body-6-blue-80-1-left-font-family);
@@ -3840,6 +3842,7 @@
 --font-body-bold-6-blue-80-1-left-font-size: 20px;
 --font-body-bold-6-blue-80-1-left-line-height: 25px;
 --font-body-bold-6-blue-80-1-left-text-align: left;
+--font-body-bold-6-blue-80-1-left-color: #4b426d;
 --font-body-bold-6-blue-80-1-left-font-style: normal;
 --font-body-bold-6-blue-80-1-left-font-weight: 600;
 --font-body-bold-6-blue-80-1-left-font-family: FS Lucas;
@@ -3848,6 +3851,7 @@
   font-size: var(--font-body-bold-6-blue-80-1-left-font-size);
   line-height: var(--font-body-bold-6-blue-80-1-left-line-height);
   text-align: var(--font-body-bold-6-blue-80-1-left-text-align);
+  color: var(--font-body-bold-6-blue-80-1-left-color);
   font-style: var(--font-body-bold-6-blue-80-1-left-font-style);
   font-weight: var(--font-body-bold-6-blue-80-1-left-font-weight);
   font-family: var(--font-body-bold-6-blue-80-1-left-font-family);
@@ -4041,6 +4045,101 @@
   font-style: var(--font-body-bold-1-black-1-left-font-style);
   font-weight: var(--font-body-bold-1-black-1-left-font-weight);
   font-family: var(--font-body-bold-1-black-1-left-font-family);
+};
+
+/* caption-bold/3-light-grey/2-center font style */
+--font-caption-bold-3-light-grey-2-center-font-size: 12px;
+--font-caption-bold-3-light-grey-2-center-line-height: 16px;
+--font-caption-bold-3-light-grey-2-center-text-align: center;
+--font-caption-bold-3-light-grey-2-center-color: #c0c0c0;
+--font-caption-bold-3-light-grey-2-center-font-style: normal;
+--font-caption-bold-3-light-grey-2-center-font-weight: 600;
+--font-caption-bold-3-light-grey-2-center-font-family: FS Lucas;
+
+--font-caption-bold-3-light-grey-2-center: {
+  font-size: var(--font-caption-bold-3-light-grey-2-center-font-size);
+  line-height: var(--font-caption-bold-3-light-grey-2-center-line-height);
+  text-align: var(--font-caption-bold-3-light-grey-2-center-text-align);
+  color: var(--font-caption-bold-3-light-grey-2-center-color);
+  font-style: var(--font-caption-bold-3-light-grey-2-center-font-style);
+  font-weight: var(--font-caption-bold-3-light-grey-2-center-font-weight);
+  font-family: var(--font-caption-bold-3-light-grey-2-center-font-family);
+};
+
+/* caption-bold/6-blue-80/2-center font style */
+--font-caption-bold-6-blue-80-2-center-font-size: 12px;
+--font-caption-bold-6-blue-80-2-center-line-height: 16px;
+--font-caption-bold-6-blue-80-2-center-text-align: center;
+--font-caption-bold-6-blue-80-2-center-color: #4b426d;
+--font-caption-bold-6-blue-80-2-center-font-style: normal;
+--font-caption-bold-6-blue-80-2-center-font-weight: 600;
+--font-caption-bold-6-blue-80-2-center-font-family: FS Lucas;
+
+--font-caption-bold-6-blue-80-2-center: {
+  font-size: var(--font-caption-bold-6-blue-80-2-center-font-size);
+  line-height: var(--font-caption-bold-6-blue-80-2-center-line-height);
+  text-align: var(--font-caption-bold-6-blue-80-2-center-text-align);
+  color: var(--font-caption-bold-6-blue-80-2-center-color);
+  font-style: var(--font-caption-bold-6-blue-80-2-center-font-style);
+  font-weight: var(--font-caption-bold-6-blue-80-2-center-font-weight);
+  font-family: var(--font-caption-bold-6-blue-80-2-center-font-family);
+};
+
+/* caption-bold/2-grey/2-center font style */
+--font-caption-bold-2-grey-2-center-font-size: 12px;
+--font-caption-bold-2-grey-2-center-line-height: 16px;
+--font-caption-bold-2-grey-2-center-text-align: center;
+--font-caption-bold-2-grey-2-center-color: #888888;
+--font-caption-bold-2-grey-2-center-font-style: normal;
+--font-caption-bold-2-grey-2-center-font-weight: 600;
+--font-caption-bold-2-grey-2-center-font-family: FS Lucas;
+
+--font-caption-bold-2-grey-2-center: {
+  font-size: var(--font-caption-bold-2-grey-2-center-font-size);
+  line-height: var(--font-caption-bold-2-grey-2-center-line-height);
+  text-align: var(--font-caption-bold-2-grey-2-center-text-align);
+  color: var(--font-caption-bold-2-grey-2-center-color);
+  font-style: var(--font-caption-bold-2-grey-2-center-font-style);
+  font-weight: var(--font-caption-bold-2-grey-2-center-font-weight);
+  font-family: var(--font-caption-bold-2-grey-2-center-font-family);
+};
+
+/* caption-bold/1-black/2-center font style */
+--font-caption-bold-1-black-2-center-font-size: 12px;
+--font-caption-bold-1-black-2-center-line-height: 16px;
+--font-caption-bold-1-black-2-center-text-align: center;
+--font-caption-bold-1-black-2-center-color: #000000;
+--font-caption-bold-1-black-2-center-font-style: normal;
+--font-caption-bold-1-black-2-center-font-weight: 600;
+--font-caption-bold-1-black-2-center-font-family: FS Lucas;
+
+--font-caption-bold-1-black-2-center: {
+  font-size: var(--font-caption-bold-1-black-2-center-font-size);
+  line-height: var(--font-caption-bold-1-black-2-center-line-height);
+  text-align: var(--font-caption-bold-1-black-2-center-text-align);
+  color: var(--font-caption-bold-1-black-2-center-color);
+  font-style: var(--font-caption-bold-1-black-2-center-font-style);
+  font-weight: var(--font-caption-bold-1-black-2-center-font-weight);
+  font-family: var(--font-caption-bold-1-black-2-center-font-family);
+};
+
+/* caption-bold/4-white/2-center font style */
+--font-caption-bold-4-white-2-center-font-size: 12px;
+--font-caption-bold-4-white-2-center-line-height: 16px;
+--font-caption-bold-4-white-2-center-text-align: center;
+--font-caption-bold-4-white-2-center-color: #ffffff;
+--font-caption-bold-4-white-2-center-font-style: normal;
+--font-caption-bold-4-white-2-center-font-weight: 600;
+--font-caption-bold-4-white-2-center-font-family: FS Lucas;
+
+--font-caption-bold-4-white-2-center: {
+  font-size: var(--font-caption-bold-4-white-2-center-font-size);
+  line-height: var(--font-caption-bold-4-white-2-center-line-height);
+  text-align: var(--font-caption-bold-4-white-2-center-text-align);
+  color: var(--font-caption-bold-4-white-2-center-color);
+  font-style: var(--font-caption-bold-4-white-2-center-font-style);
+  font-weight: var(--font-caption-bold-4-white-2-center-font-weight);
+  font-family: var(--font-caption-bold-4-white-2-center-font-family);
 };
 
 }
