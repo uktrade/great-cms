@@ -56,6 +56,7 @@ $pw-darken-amount: 30% !default;
         border-radius: 1000px;
         width: $pw-bubble-size;
         height: $pw-bubble-size;
+        line-height: $pw-bubble-size;
         background-color: $pw-incomplete;
         display: block;
         margin: 0 auto 0.5em auto;
@@ -91,7 +92,7 @@ $pw-darken-amount: 30% !default;
         color: $pw-complete;
         .bubble {
             background-color: $pw-complete;
-            color: $pw-complete;
+            color: white;
             border-color: darken($pw-complete, $pw-darken-amount);
             &:after {
                 background-color: $pw-complete;

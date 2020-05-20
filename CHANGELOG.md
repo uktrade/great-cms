@@ -92,3 +92,6 @@
 - MVP-458 - Implement signup wizard
 - MVP-450 - update add company logo
 - MVP-512 - Handle user requesting generic content
+- MVP-496 - Handle signup from export plan
+- no ticket - Handle dit-cf-security munging cookies
+- no ticket - fix logo
