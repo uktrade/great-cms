@@ -37,7 +37,7 @@ class DetailPageFactory(wagtail_factories.PageFactory):
     title = 'Detail page'
     live = True
     body = factory.fuzzy.FuzzyText(length=200)
-    template = models.DetailPage.template_choices[0][0]
+    template = 'learn/category.html'
     parent = factory.SubFactory(ListPageFactory)
 
     class Meta:

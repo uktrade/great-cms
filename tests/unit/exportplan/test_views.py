@@ -52,13 +52,21 @@ def mock_update_company():
 
 
 @pytest.mark.django_db
-def test_export_plan_landing_page(client, exportplan_homepage):
+def test_export_plan_landing_page(client, exportplan_homepage, user, mock_get_company_profile, company_profile_data):
+    mock_get_company_profile.return_value = company_profile_data
+    client.force_login(user)
+
     response = client.get('/export-plan/')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_export_plan_builder_landing_page(client, exportplan_dashboard):
+def test_export_plan_builder_landing_page(
+    client, exportplan_dashboard, user, mock_get_company_profile, company_profile_data
+):
+    mock_get_company_profile.return_value = company_profile_data
+    client.force_login(user)
+
     response = client.get('/export-plan/dashboard/')
     assert response.status_code == 200
     assert response.context['sections'] == data.SECTION_TITLES

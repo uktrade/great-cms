@@ -24,10 +24,6 @@ class ExportPlanForm(forms.Form):
     step_k = build_checkbox('Action plan')
 
 
-class ArticleForm(forms.Form):
-    pass
-
-
 class NoOperationForm(forms.Form):
     pass
 
@@ -50,3 +46,7 @@ class WhatAreYouSellingForm(forms.Form):
 
 class ProductSearchForm(forms.Form):
     products = forms.CharField()
+
+
+class CompanyNameForm(forms.Form):
+    name = forms.CharField()
