@@ -123,9 +123,14 @@ class CompanyParser(great_components.helpers.CompanyParser):
     def __init__(self, data):
         data = {**data}
         data.setdefault('expertise_products_services', {})
+        data.setdefault('expertise_countries', [])
+        data.setdefault('expertise_industries', [])
         if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
             data['expertise_industries'] = ['SL10017']  # food and drink
         super().__init__(data=data)
+
+    def __getattr__(self, name):
+        return self.data.get(name)
 
     @property
     def expertise_industries_labels(self):
@@ -158,10 +163,6 @@ class CompanyParser(great_components.helpers.CompanyParser):
     @property
     def expertise_products_value_label_pairs(self):
         return [{'value': item, 'label': item} for item in self.expertise_products_services]
-
-    @property
-    def logo(self):
-        return self.data.get('logo')
 
 
 def values_to_labels(values, choices):
