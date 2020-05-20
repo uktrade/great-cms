@@ -18,7 +18,7 @@
               <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="Add a business logo" class="w-full">
             </a>
         {% else %}
-            <img alt="{{ company.name }}" src="{{ company.logo }}" class="w-full"/>
+            <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full"/>
             <a id="edit-image"  href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
         {% endif %}
         <h2 class="h-s">Export plan</h2>

@@ -8,6 +8,7 @@ from core import mixins, views
 
 
 SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT = 'LESSON_PAGE_SHOW_GENERIC_CONTENT'
+exportplan_templates = ['exportplan/export_plan_dashboard_page.html', 'exportplan/export_plan_page.html']
 
 
 @hooks.register('before_serve_page')
@@ -26,6 +27,11 @@ def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
             request.session[SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT] = True
 
         if not request.session.get(SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT):
-            signup_url = reverse('core:signup-wizard', kwargs={'step': views.SignupWizardView.STEP_START})
+            signup_url = reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START})
             url = add_next(destination_url=signup_url, current_url=request.get_full_path())
             return redirect(url)
+
+    elif page.template in exportplan_templates and request.user.is_anonymous:
+        signup_url = reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_START})
+        url = add_next(destination_url=signup_url, current_url=request.get_full_path())
+        return redirect(url)
