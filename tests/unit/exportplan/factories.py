@@ -9,6 +9,8 @@ class ExportPlanPageFactory(wagtail_factories.PageFactory):
     live = True
     slug = 'export-plan'
     template = 'exportplan/automated_list_page.html'
+    description = 'some description'
+    button_label = 'some button label'
 
     class Meta:
         model = models.ListPage

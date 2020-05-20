@@ -39,6 +39,7 @@ class ListPageFactory(wagtail_factories.PageFactory):
     button_label = factory.fuzzy.FuzzyText(length=10)
     template = factory.fuzzy.FuzzyChoice(models.ListPage.template_choices, getter=lambda choice: choice[0])
     parent = factory.SubFactory(LandingPageFactory)
+    record_read_progress = False
 
     class Meta:
         model = models.ListPage

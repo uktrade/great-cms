@@ -205,19 +205,6 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
             context.update(provider.get_context_data(request=request, page=self))
         return context
 
-    def handle_page_view(self, request):
-        parent = self.get_parent().specific
-        if getattr(parent, 'record_read_progress', False) and request.user.is_authenticated:
-            PageView.objects.get_or_create(
-                page=self,
-                list_page=parent,
-                sso_id=request.user.pk,
-            )
-
-    def serve(self, request, *args, **kwargs):
-        self.handle_page_view(request)
-        return super().serve(request, **kwargs)
-
 
 class LandingPage(CMSGenericPage):
     parent_page_types = ['domestic.DomesticHomePage']
@@ -281,6 +268,11 @@ class ListPage(CMSGenericPage):
         verbose_name = 'Automated list page'
         verbose_name_plural = 'Automated list pages'
 
+    record_read_progress = models.BooleanField(
+        default=False,
+        help_text='Should we record when a user views a page in this collection?',
+    )
+
     ################
     # Content fields
     ################
@@ -290,7 +282,7 @@ class ListPage(CMSGenericPage):
     #########
     # Panels
     #########
-
+    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
     content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
 
 
@@ -314,15 +306,9 @@ class CuratedListPage(CMSGenericPage):
     )
     topics = StreamField([('topic', core_blocks.CuratedTopicBlock(icon='plus'))], null=True, blank=True)
 
-    record_read_progress = models.BooleanField(
-        default=False,
-        help_text='Should we record when a user views a page in this collection?',
-    )
-
     #########
     # Panels
     ##########
-    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('heading'),
         ImageChooserPanel('image'),
@@ -336,13 +322,6 @@ class CuratedListPage(CMSGenericPage):
     @cached_property
     def count_detail_pages(self):
         return sum((len(topic.value['pages']) for topic in self.topics))
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request)
-        if self.record_read_progress and request.user.is_authenticated:
-            queryset = self.page_views_list.filter(sso_id=request.user.pk)
-            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
-        return context
 
 
 class DetailPage(CMSGenericPage):
@@ -381,12 +360,34 @@ class DetailPage(CMSGenericPage):
     ##########
     content_panels = Page.content_panels + [StreamFieldPanel('body')]
 
+    def handle_page_view(self, request):
+        if request.user.is_authenticated:
+            # checking if the page should record read progress
+            # checking if the page is alreayd marked as read
+            list_page = (
+                ListPage.objects
+                .ancestor_of(self)
+                .filter(record_read_progress=True)
+                .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
+                .first()
+            )
+            if list_page:
+                PageView.objects.get_or_create(
+                    page=self,
+                    list_page=list_page,
+                    sso_id=request.user.pk,
+                )
+
+    def serve(self, request, *args, **kwargs):
+        self.handle_page_view(request)
+        return super().serve(request, **kwargs)
+
 
 class PageView(TimeStampedModel):
     page = models.ForeignKey(DetailPage, on_delete=models.CASCADE, related_name='page_views')
-    list_page = models.ForeignKey(CuratedListPage, on_delete=models.CASCADE, related_name='page_views_list')
+    list_page = models.ForeignKey(ListPage, on_delete=models.CASCADE, related_name='page_views_list')
     sso_id = models.TextField()
 
     class Meta:
-        ordering = ['lesson__pk']
+        ordering = ['page__pk']
         unique_together = ['page', 'sso_id']

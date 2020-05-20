@@ -99,7 +99,7 @@ def test_user_product_expertise_middleware_no_company(
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.skip(reason='All DetailPage templates require login. Reinstate for template that allows anon user')
 def test_user_product_expertise_middleware_not_logged_in(domestic_site, client, mock_update_company_profile):
     topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
     lesson_page = factories.DetailPageFactory(parent=topic_page)

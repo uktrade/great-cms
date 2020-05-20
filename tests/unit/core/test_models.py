@@ -19,8 +19,10 @@ def test_object_hash():
 def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_site):
     # given the user has not read a lesson
     client.force_login(user)
-    list_page = factories.CuratedListPageFactory(parent=domestic_homepage, record_read_progress=True)
-    detail_page = factories.DetailPageFactory(parent=list_page,)
+
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    detail_page = factories.DetailPageFactory(parent=curated_list_page)
 
     client.get(detail_page.url)
 
@@ -34,8 +36,9 @@ def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_
 def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domestic_site):
     # given the user has not read a lesson
     client.force_login(user)
-    list_page = factories.CuratedListPageFactory(parent=domestic_homepage, record_read_progress=False)
-    detail_page = factories.DetailPageFactory(parent=list_page)
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    detail_page = factories.DetailPageFactory(parent=curated_list_page)
 
     client.get(detail_page.url)
 
