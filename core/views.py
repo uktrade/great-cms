@@ -108,6 +108,20 @@ class ProductLookupView(generics.GenericAPIView):
         return Response(data)
 
 
+class CountryLookupView(TemplateView):
+    template_name = 'core/country_lookup.html'
+    permission_classes = []
+
+    def get_context_data(self, **kwargs):
+        country = helpers.country_by_iso_code(self.request.GET['country'])
+        countries = helpers.countries_by_iso_code()
+        return super().get_context_data(
+            countries=countries,
+            country=country,
+            **kwargs
+        )
+
+
 def handler404(request, *args, **kwargs):
     return TemplateResponse(
         request=request,

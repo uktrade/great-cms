@@ -1,0 +1,29 @@
+<h3><b>{{ country.name }}</b></h3>
+
+<p>
+	<b>{{ country.name }}</b> is classified as a <b>{{ country.development_level }}</b> country and is in the <b>{{ country.region }}</b> region. It's capital city is <b>{{ country.capital }}</b>.	
+</p>
+
+<p>
+	<b>{{ country.name }}</b>'s main currency is <b>{{ country.currency_name }}</b> and it has a general purchasing power of <b>{{ country.purchasing_power_parity }}</b>. The higher this number the more your consumers will have to pay to buy your products or services in their currency.
+</p>
+
+<p>
+	As of <b>{{ country.imports.year_of_latest_data }}</b> the general cost to import for both border compliance and documentary compliance was <b>{{ country.imports.cost_to_import }}</b>. The higher this number the more it generally costs to get your products into the country.
+</p>
+
+<p>
+	As of <b>{{ country.imports.year_of_latest_data }}</b> the general Lead time to import was <b>{{ country.imports.lead_time_to_import }}</b>. The higher this number the longer it normally takes for your goods to arrive to your consumer in the country.
+</p>
+
+<br>
+<h5>
+	Other countries available, by iso_code:
+</h5>
+{% for iso_code, c in countries.items %}
+	<li>
+		<a href="{% url 'core:api-lookup-country' %}?country={{ iso_code }}">
+			{{ iso_code }}
+		</a>
+	</li>
+{% endfor %}

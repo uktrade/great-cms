@@ -10,6 +10,10 @@ class ProductLookupSerializer(serializers.Serializer):
     q = serializers.CharField(required=False)
 
 
+class CountryLookupSerializer(serializers.Serializer):
+    country = serializers.CharField(required=False)
+
+
 class CompanySerializer(serializers.Serializer):
     MESSAGE_TOO_MANY_COUNTRIES = 'You can select a maximum of three countries.'
 

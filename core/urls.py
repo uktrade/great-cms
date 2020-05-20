@@ -58,4 +58,9 @@ urlpatterns = [
         core.views.ProductLookupView.as_view(),
         name='api-lookup-product'
     ),
+    path(
+        'api/lookup-country/',
+        core.views.CountryLookupView.as_view(),
+        name='api-lookup-country'
+    ),
 ]

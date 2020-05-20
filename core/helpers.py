@@ -180,3 +180,93 @@ def search_commodity_by_term(term, page=1):
         {'value': item['commodity_code'], 'label': item['description']}
         for item in parsed['results']
     ]
+
+
+def country_by_iso_code(term):
+    country_data = all_country_data()[term]
+
+    wb_request = requests.get(
+        'http://api.worldbank.org/v2/country/' + term + '?format=json'
+    )
+    wb_request.raise_for_status()
+    wb_data = wb_request.json()
+
+    if wb_request.status_code == 200 and 'total' in wb_data[0]:
+        country_data['name'] = wb_data[1][0]['name']
+        country_data['region'] = wb_data[1][0]['region']['value']
+        country_data['development_level'] = wb_data[1][0]['incomeLevel']['value']
+        country_data['capital'] = wb_data[1][0]['capitalCity']
+
+    return country_data
+
+
+def countries_by_iso_code():
+    return all_country_data()
+
+
+def all_country_data():
+    return {
+        'AUS': {
+            'currency_name': 'the Australian Dollar',
+            'purchasing_power_parity': '1.43',
+            'imports': {
+                'year_of_latest_data': '2019',
+                'cost_to_import': 'USD $639',
+                'lead_time_to_import': '5 days',
+            }
+        },
+        'BR': {
+            'currency_name': 'the Real',
+            'purchasing_power_parity': '2.03',
+            'imports': {
+                'year_of_latest_data': '2019',
+                'cost_to_import': 'USD $481',
+                'lead_time_to_import': '8 days',
+            }
+        },
+        'CN': {
+            'currency_name': 'the Yuan',
+            'purchasing_power_parity': '3.56',
+            'imports': {
+                'year_of_latest_data': '2019',
+                'cost_to_import': 'USD $318',
+                'lead_time_to_import': '6 days',
+            }
+        },
+        'FR': {
+            'currency_name': 'the Euro',
+            'purchasing_power_parity': '0.77',
+            'imports': {
+                'year_of_latest_data': '2019',
+                'cost_to_import': 'USD $0',
+                'lead_time_to_import': '2 days',
+            }
+        },
+        'DE': {
+            'currency_name': 'the Euro',
+            'purchasing_power_parity': '0.76',
+            'imports': {
+                'year_of_latest_data': '2019',
+                'cost_to_import': 'USD $0',
+                'lead_time_to_import': '2 days',
+            }
+        },
+        'IND': {
+            'currency_name': 'the Indian Rupee',
+            'purchasing_power_parity': '18.13',
+            'imports': {
+                'year_of_latest_data': '2019',
+                'cost_to_import': 'USD $366',
+                'lead_time_to_import': '4 days',
+            }
+        },
+        'US': {
+            'currency_name': 'the Dollar',
+            'purchasing_power_parity': '1',
+            'imports': {
+                'year_of_latest_data': '2019',
+                'cost_to_import': 'USD $275',
+                'lead_time_to_import': '5 days',
+            }
+        }
+    }
