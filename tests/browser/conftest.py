@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import patch
 
-import pytest
+from directory_api_client import api_client
+from directory_constants import choices
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
+from wagtail_factories import SiteFactory
 import environ
+import pytest
+
 from core import helpers as core_helpers
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
-from directory_api_client import api_client
-from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
+from tests.unit.core.factories import CuratedListPageFactory, ListPageFactory
 from tests.unit.learn import factories as learn_factories
-from wagtail_factories import SiteFactory
+
 
 CHINA = {
     'country': 'China',
@@ -163,11 +165,12 @@ def server_user_browser_dashboard(mock_get_company_profile, server_user_browser,
 @pytest.fixture
 def topics_with_lessons(domestic_site_browser_tests):
     domestic_homepage = domestic_site_browser_tests.root_page
-    topic_a = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic A', slug='topic-a',)
+    list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
+    topic_a = CuratedListPageFactory(parent=list_page, title='Lesson topic A', slug='topic-a',)
     lesson_a1 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A1', slug='lesson-a1',)
     lesson_a2 = learn_factories.LessonPageFactory(parent=topic_a, title='Lesson A2', slug='lesson-a2',)
 
-    topic_b = learn_factories.TopicPageFactory(parent=domestic_homepage, title='Lesson topic B', slug='topic-b',)
+    topic_b = CuratedListPageFactory(parent=list_page, title='Lesson topic B', slug='topic-b',)
     lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
     lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
     return [(topic_a, [lesson_a1, lesson_a2]), (topic_b, [lesson_b1, lesson_b2])]
