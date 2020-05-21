@@ -12,8 +12,8 @@ from django.urls import reverse
 
 from core import forms, helpers, models, serializers, views
 from tests.helpers import create_response
-from tests.unit.core.factories import ListPageFactory, DetailPageFactory
-from tests.unit.learn.factories import LessonPageFactory, TopicPageFactory
+from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
+from tests.unit.learn.factories import LessonPageFactory
 
 
 def submit_step_factory(client, url_name, view_class):
@@ -413,10 +413,10 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
 def test_list_page_uses_right_template(domestic_homepage, rf, user):
     request = rf.get('/')
     request.user = user
-    topic_page = TopicPageFactory(parent=domestic_homepage)
+    topic_page = CuratedListPageFactory(parent=domestic_homepage)
     lesson_page = LessonPageFactory(parent=topic_page)
     response = lesson_page.serve(request)
-    assert response.template_name == 'learn/lesson_page.html'
+    assert response.template_name == 'learn/detail_page.html'
 
 
 @pytest.mark.django_db

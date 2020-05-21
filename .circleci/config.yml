@@ -59,8 +59,6 @@ setup_db: &setup_db
       make database
       make ARGUMENTS=migrate manage
       make ARGUMENTS=bootstrap_great manage
-      make ARGUMENTS=create_pages manage
-      make ARGUMENTS=create_tours manage
 
 
 ###############################################################################
