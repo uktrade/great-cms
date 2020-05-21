@@ -12,8 +12,8 @@
     "ds-lint": "eslint --config design-system/.eslintrc.json design-system",
     "ds-prettier": "prettier --settings .prettierrc -c 'design-system' --write",
     "storybook": "dsm-storybook preview",
-    "storybook-publish": "npm run ds-tokens && dsm-storybook publish",
-    "storybook-build": "npm run dm-tokens && build-storybook"
+    "storybook-publish": "dsm-storybook publish",
+    "storybook-build": "build-storybook"
   },
   "engines": {
     "node": ">=12.16.1"

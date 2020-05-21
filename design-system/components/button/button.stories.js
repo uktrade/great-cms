@@ -10,6 +10,7 @@ const availableThemes = {
     secondary: 'secondary',
     tertiary: 'tertiary',
 }
+const icons = { none: '', ...availableIcons }
 
 export default {
     title: 'Button',
@@ -27,9 +28,14 @@ export default {
 export const Showcase = () => {
     const buttonText = ['We produce', 'Great', 'Buttons']
     const children = text('text', '')
-    const icon = select('icon', availableIcons, availableIcons.none)
+    const icon = select('icon', icons, icons.none)
     const loading = boolean('loading', false)
     const disabled = boolean('disabled', false)
+
+    setTimeout(() => {
+        const btn = document.getElementById('prime-button')
+        btn.addEventListener('click', (event) => btn.click(event))
+    }, 0)
 
     return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
         () =>
@@ -39,6 +45,7 @@ export const Showcase = () => {
                 ${loading ? 'loading' : ''}
                 icon="${icon}"
                 theme="primary"
+                id="prime-button"
             >
                 ${children || buttonText[0]}
             </great-button>

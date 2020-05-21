@@ -23,6 +23,8 @@ customElements.define(
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
+            if (oldValue === newValue) return
+
             switch (name) {
                 case 'size':
                     if (oldValue) this.icon.classList.remove(oldValue)
@@ -43,6 +45,7 @@ customElements.define(
                     }
                     break
                 default:
+                    this.tag.setAttribute(name, newValue)
             }
         }
 

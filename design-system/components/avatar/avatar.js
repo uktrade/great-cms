@@ -5,7 +5,7 @@ customElements.define(
     'great-avatar',
     class extends HTMLElement {
         static get observedAttributes() {
-            return ['src']
+            return ['onblur', 'onclick', 'onfocus', 'onmouseover', 'src']
         }
 
         constructor() {
@@ -23,10 +23,22 @@ customElements.define(
             this.emptyAvatar = this.shadow.querySelector('.empty-avatar')
         }
 
-        attributeChangedCallback(name, _oldValue, newValue) {
-            if (name === 'src' && newValue) {
-                this.img.src = newValue
-                this.emptyAvatar.style.display = 'none'
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (oldValue === newValue) return
+
+            switch (name) {
+                case 'src':
+                    if (newValue) {
+                        this.img.src = newValue
+                        this.emptyAvatar.style.display = 'none'
+                    } else {
+                        this.emptyAvatar.style.display = 'block'
+                        this.img.style.display = 'none'
+                    }
+                    break
+                default:
+                    this.emptyAvatar.setAttribute(name, newValue)
+                    this.img.setAttribute(name, newValue)
             }
         }
 

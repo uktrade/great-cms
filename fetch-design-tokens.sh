@@ -1,11 +1,13 @@
 #!/bin/sh
 DSM_URL="https://trade.invisionapp.com/dsm-export/department-for-international-trade/great"
 
-# Fetching _styles-params.css 
+# Fetching CSS variables
+echo Fetching "$DSM_URL/_style-params.css?key=******"
 curl "$DSM_URL/_style-params.css?key=$DSM_TOKENS_KEY" -o design-system/_style-params.css
-echo 'CSS variables in design-system/_style-params.css has been updated' >&2
+echo 'CSS variables in design-system/_style-params.css has been updated\r\n\r\n'
 
-# Fetching icons
+# Fetching Icons
+echo Fetching "$DSM_URL/icons.zip?key=******"
 curl "$DSM_URL/icons.zip?key=$DSM_TOKENS_KEY" -o design-system/components/icon/icons/icons.zip
 cd design-system/components/icon/icons
 unzip -o -j icons.zip

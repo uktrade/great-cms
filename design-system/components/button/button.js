@@ -1,6 +1,7 @@
 import '../spinner/spinner'
 import '../icon/icon'
 import convertAttributesToObject from '../../utils/convertAttributesToObject'
+import { iconNames } from '../icon/icons'
 import template from './button.html'
 import styles from './button.css'
 
@@ -9,7 +10,26 @@ customElements.define(
     class extends HTMLElement {
         // Attributes that when changed will trigger 'attributeChangedCallback' method
         static get observedAttributes() {
-            return ['disabled', 'icon', 'loading', 'theme']
+            return [
+                'autofocus',
+                'disabled',
+                'form',
+                'formaction',
+                'formenctype',
+                'formmethod',
+                'formnovalidate',
+                'formtarget',
+                'icon',
+                'onblur',
+                'onclick',
+                'onfocus',
+                'onmouseover',
+                'loading',
+                'name',
+                'theme',
+                'type',
+                'value',
+            ]
         }
 
         constructor() {
@@ -41,12 +61,14 @@ customElements.define(
         // If we are to set these in the constructor any attr that changes past component initialisation won't trigger this code
         // attributes on the host element e.g. <great-button> are not guarantied to be present in the constructor
         attributeChangedCallback(name, oldValue, newValue) {
+            if (oldValue === newValue) return
+
             const { disabled, theme } = convertAttributesToObject({ self: this })
             const availableThemes = ['primary', 'secondary', 'tertiary']
 
             switch (name) {
                 case 'icon':
-                    if (newValue !== undefined) {
+                    if (iconNames.includes(newValue)) {
                         const iconTheme = ['primary', 'secondary'].includes(theme) ? 'secondary' : 'primary'
                         const greatIcon = document.createElement('great-icon')
                         if (disabled !== undefined) greatIcon.setAttribute('disabled', disabled)
@@ -72,6 +94,8 @@ customElements.define(
                     }
                     break
                 default:
+                    // any other attribute that is in observedAttributes will trigger the default behaviour
+                    this.tag.setAttribute(name, newValue)
             }
         }
 
@@ -86,6 +110,16 @@ customElements.define(
             Object.entries(rest).forEach(([key, value]) => this.button.setAttribute(key, value))
 
             this.buttonContent.innerHTML = this.textContent
+        }
+
+        // Pass external clicks to the internal button
+        click(event) {
+            this.button.click(event)
+        }
+
+        // Pass external focuses to the internal button
+        focus(event) {
+            this.button.focus(event)
         }
     }
 )

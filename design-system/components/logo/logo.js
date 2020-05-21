@@ -4,6 +4,10 @@ import styles from './logo.css'
 customElements.define(
     'great-logo',
     class extends HTMLElement {
+        static get observedAttributes() {
+            return ['size']
+        }
+
         constructor() {
             super()
 
@@ -14,10 +18,16 @@ customElements.define(
             shadowRoot.innerHTML = template
             shadowRoot.appendChild(stylesheet)
 
-            const wrapper = shadowRoot.querySelector('span')
-            const size = this.getAttribute('size')
-            const sizes = ['sm', 'lg']
-            if (sizes.includes(size)) wrapper.classList.add(size)
+            this.wrapper = shadowRoot.querySelector('span')
+        }
+
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (oldValue === newValue) return
+
+            if (name === 'size' && ['sm', 'lg'].includes(newValue)) {
+                if (oldValue) this.wrapper.classList.remove(oldValue)
+                this.wrapper.classList.add(newValue)
+            }
         }
     }
 )

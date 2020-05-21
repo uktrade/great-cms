@@ -25,15 +25,9 @@ export const Showcase = () => {
     return decoratedAction.withActions({ 'click great-tag': 'Great tag clicked' })(
         () =>
             `<div class="sample-code"  style="font-family: 'FSLucas'; font-size: 16px;">
-            <great-tag theme="primary"
-            >
-                Gin
-            </great-tag>
+            <great-tag theme="primary">Gin</great-tag>
             and
-            <great-tag theme="primary"
-            >
-                Geneva
-            </great-tag>
+            <great-tag theme="secondary">Geneva</great-tag>
         </div>`
     )
 }

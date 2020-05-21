@@ -21,6 +21,8 @@ customElements.define(
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
+            if (oldValue === newValue) return
+
             switch (name) {
                 case 'size':
                     if (oldValue) this.span.classList.remove(oldValue)
