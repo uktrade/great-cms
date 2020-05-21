@@ -7,84 +7,97 @@ import './stylesheets/Field.scss'
 
 
 export function TextInput(props) {
+
+  const { disabled, id, name, handleChange, placeholder, type, value, autofocus } = props
+
   return (
     <input
-      autoFocus={props.autofocus}
+      autoFocus={autofocus}
       className='great-mvp-field-input form-control'
-      disabled={props.disabled}
-      id={props.id}
-      name={props.name}
-      onChange={() => props.handleChange(event.target.value)}
-      placeholder={props.placeholder}
-      type={props.type}
-      value={props.value}
+      disabled={disabled}
+      id={id}
+      name={name}
+      onChange={() => handleChange(event.target.value)}
+      placeholder={placeholder}
+      type={type}
+      value={value}
     />
   )
 }
 
 export function TextArea(props) {
+
+  const { disabled, id, name, handleChange, placeholder, type, value } = props
+
   return (
     <textarea
-      disabled={props.disabled}
-      id={props.id}
-      name={props.name}
-      onChange={() => props.handleChange(event)}
-      placeholder={props.placeholder}
-      type={props.type}
-      value={props.value}
+      className="form-control"
+      disabled={disabled}
+      id={id}
+      name={name}
+      onChange={(e) => handleChange(e)}
+      placeholder={placeholder}
+      type={type}
+      value={value}
     />
   )
 }
 
 export function RadioInput(props) {
 
-  const children = props.options.map(({label, value, disabled}, i) => {
-    const id = `${props.id}_${value}`
+  const { options, name, value, handleChange, id } = props
+
+  const children = options.map(({label, optionValue, disabled}) => {
+    const fieldId = `${id}_${optionValue}`
     return (
-      <li key={i} className='multiple-choice'>
+      <li key={label} className='multiple-choice'>
         <input
           type='radio'
-          name={props.name}
-          value={value}
-          id={id}
+          name={name}
+          value={optionValue}
+          id={fieldId}
           disabled={disabled}
-          checked={value === props.value}
-          onChange={() => props.handleChange(event.target.value)}
+          checked={optionValue === value}
+          onChange={() => handleChange(event.target.value)}
         />
-        <label id={`{$id}_label`} htmlFor={id} className='form-label'>{label}</label>
+      <label id={`${fieldId}_label`} htmlFor={fieldId} className='form-label'>{label}</label>
       </li>
     )
   })
 
-  return <ul id={props.id} className='g-select-multiple '>{children}</ul>
+  return <ul id={id} className='g-select-multiple '>{children}</ul>
 }
 
 export default function Field(props){
 
-  const id_for_label = `id_${props.name}`
+  const { type, errors, name, label } = props
+
+  const idForLabel = `id_${name}`
 
   function getLabel() {
-    if (props.label) {
+    if (label) {
       return (
-        <label htmlFor={id_for_label} className='great-mvp-field-label'>{props.label}</label>
+        <label htmlFor={idForLabel} className='great-mvp-field-label'>{label}</label>
       )
     }
+    return ''
   }
 
   function getInput() {
-    if (props.type === 'radio') {
-      return <RadioInput id={id_for_label} {...props} />
+
+    if (type === 'radio') {
+      return <RadioInput id={idForLabel} {...props} />
     }
-    if (props.type === 'textarea') {
-      return <TextArea id={id_for_label} {...props} />
+    if (type === 'textarea') {
+      return <TextArea id={idForLabel} {...props} />
     }
-    return <TextInput id={id_for_label} {...props} />
+    return <TextInput id={idForLabel} {...props} />
   }
 
   return (
     <div>
       {getLabel()}
-      <ErrorList errors={props.errors || []} />
+      <ErrorList errors={errors || []} />
       {getInput()}
     </div>
   )
@@ -97,10 +110,11 @@ Field.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   disabled: PropTypes.bool,
   autofocus: PropTypes.bool,
-  errors: PropTypes.array,
+  errors: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.arrayOf(PropTypes.string),
 }
 
 Field.defaultProps = {
@@ -108,5 +122,7 @@ Field.defaultProps = {
   disabled: false,
   errors: [],
   placeholder: '',
-  label: ''
+  label: '',
+  options: [],
+  value: ''
 }

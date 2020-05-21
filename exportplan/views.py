@@ -17,7 +17,7 @@ from requests.exceptions import RequestException
 from directory_constants.choices import INDUSTRIES
 from directory_api_client.client import api_client
 
-from exportplan import data, helpers, serializers, forms
+from exportplan import data, helpers, forms
 
 
 class BaseExportPlanView(TemplateView):
@@ -98,10 +98,21 @@ class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
 
     def get_context_data(self, *args, **kwargs):
         form_initial = self.get_form_kwargs()['initial']
-        field_names = [key for key, _ in self.get_form_kwargs()['initial'].items()]
+
+        field_names = [field[0] for field in self.form_class.base_fields.items()]
+
+        field_labels = [field[1].label for field in self.form_class.base_fields.items()]
+
+        field_placeholders = [field[1].widget.attrs['placeholder'] for field in self.form_class.base_fields.items()]
+
+        form_fields = [
+            {'name': name, 'label': label, 'placeholder': placeholder}
+            for name, label, placeholder in zip(field_names, field_labels, field_placeholders)
+        ]
+
         return super().get_context_data(
-            field_names=json.dumps(field_names),
             form_initial=json.dumps(form_initial),
+            form_fields=json.dumps(form_fields),
             *args, **kwargs)
 
 

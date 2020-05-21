@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
 import { Subject } from 'rxjs'
-import { debounceTime, tap, mapTo, of } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators';
 
+import ErrorList from '@src/components/ErrorList'
 import Field from './Field'
 import Services from '../Services'
 import Spinner from './Spinner/Spinner'
@@ -16,21 +17,28 @@ class BrandAndProductForm extends React.Component {
     super(props)
 
     this.state = {
-      fetchError: '',
+      errors: {},
       isLoading: false,
+      showSavedMessage: false,
       formData: props.formData
     }
 
     this.inputToSave = new Subject()
 
-    const result = this.inputToSave.pipe(debounceTime(1000 * 2)) // wait 2 secs after user finishes typing to save changes
+    const saveInput = this.inputToSave.pipe(debounceTime(1000 * 2))
 
-    result.subscribe(data => {
+    saveInput.subscribe(data => {
       this.setState({ isLoading: true }, () => {
         Services.updateExportPlan({ brand_product_details: data })
           .then(this.handleUpdateSuccess)
           .catch(this.handleUpdateError)
       })
+    })
+
+    const afterSave = saveInput.pipe(delay(2000))
+
+    afterSave.subscribe(() => {
+      this.setState({ showSavedMessage: false })
     })
 
     this.bindEvents()
@@ -45,20 +53,22 @@ class BrandAndProductForm extends React.Component {
   handleUpdateSuccess() {
     this.setState({
       isLoading: false,
+      showSavedMessage: true,
+      errors: {}
     })
   }
 
   handleUpdateError(err) {
     this.setState({
-      fetchError: err,
+      errors: err.message || err,
       isLoading: false,
     })
   }
 
   handleChange(e) {
-    const prevData = this.state.formData
+    const { formData } = this.state
     const data = {
-      ...prevData,
+      ...formData,
       [e.target.name]: e.target.value
     }
     this.setState({ formData: data }, () => {
@@ -67,42 +77,49 @@ class BrandAndProductForm extends React.Component {
   }
 
   render() {
-    const { fieldNames } = this.props
-    const { formData, isLoading } = this.state
+    const { formFields } = this.props
+    const { formData, isLoading, showSavedMessage, errors } = this.state
 
-    let saveMessage
+    let saveIndicator;
     if (isLoading) {
-      saveMessage = <Spinner text="Saving..."/>
+      saveIndicator = <Spinner text="Saving..."/>
+    } else if (showSavedMessage) {
+      saveIndicator = 'Changes saved.'
     } else {
-      saveMessage = ''
+      saveIndicator = ''
     }
 
     return (
     <>
       {
-        fieldNames.map(name => (
+        formFields.map(field => (
           <Field
             type="textarea"
-            placeholder=""
-            key={name}
-            label={name}
-            name={name}
+            placeholder={field.placeholder}
+            key={field.name}
+            label={field.label}
+            name={field.name}
             disabled={false}
-            value={formData[name]}
+            value={formData[field.name]}
             handleChange={this.handleChange}
             autofocus
             errors={[]}
           />
         ))
       }
-      {saveMessage}
+      {saveIndicator}
+      <ErrorList errors={errors.__all__ || []} className="m-0" />
     </>
     )
   }
 }
 
 BrandAndProductForm.propTypes = {
-  fieldNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  formFields: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+  })).isRequired,
   formData: PropTypes.objectOf(PropTypes.string).isRequired,
 }
 
