@@ -142,7 +142,7 @@ jobs:
       - <<: *python
       - <<: *postgres
     environment:
-      NUM_CLIENTS: 20
+      NUM_USERS: 20
       HATCH_RATE: 3
       RUN_TIME: 30s
       <<: *postgres_url

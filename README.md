@@ -167,7 +167,7 @@ are finished.
 
 You can control the execution with env vars:
 ```bash
-LOCUST_FILE=tests/load/mvp_home.py NUM_CLIENTS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
+LOCUST_FILE=tests/load/mvp_home.py NUM_USERS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
 ```
 
 ## Known issues

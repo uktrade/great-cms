@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from locust import HttpLocust, TaskSet, between, task
+from locust import HttpUser, TaskSet, between, task
 
 
 class MVPTasks(TaskSet):
-
     @task
     def home_page(self):
         self.client.get('/')
 
 
-class MVP(HttpLocust):
+class MVP(HttpUser):
     host = 'http://localhost:8020'
-    task_set = MVPTasks
+    tasks = [MVPTasks]
     wait_time = between(1, 2)
