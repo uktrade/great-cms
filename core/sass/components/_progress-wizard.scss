@@ -91,7 +91,7 @@ $pw-darken-amount: 30% !default;
     > li.completed {
         color: $pw-complete;
         .bubble {
-            background-color: $pw-complete;
+            background-color: white;
             color: white;
             border-color: darken($pw-complete, $pw-darken-amount);
             &:after {

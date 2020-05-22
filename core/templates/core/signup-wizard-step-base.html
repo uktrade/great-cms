@@ -14,7 +14,11 @@
                 <ul class="progress-indicator">
                     {% for step_label in step_labels %}
                         <li {% if wizard.steps.step1 > forloop.counter %}class="completed"{% endif %} {% if wizard.steps.step1 == forloop.counter %}class="active" aria-current="step"{% endif %}>
-                            <span class="bubble">{% if forloop.counter < wizard.steps.step1 %}✓{% endif %}</span>
+                            <span class="bubble">
+                                {% if forloop.counter < wizard.steps.step1 %}
+                                <img src="{% static 'images/icon_tick-in-circle-dark.svg' %}" width="20" />
+                                {% endif %}
+                            </span>
                             <span>{{ step_label }}</span>
                         </li>
                     {% endfor %}
