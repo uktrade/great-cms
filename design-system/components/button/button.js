@@ -52,9 +52,6 @@ customElements.define(
             this.button = this.shadow.querySelector('button')
 
             this.buttonContent = this.shadow.querySelector('.content')
-
-            // Gets the text passed to the host component and renders it into our content span
-            // e.g. <great-button>Render this text</great-button> will render "Render this text"
         }
 
         // Use 'attributeChangedCallback' lifecycle method to allow this component react on attr changes in a dynamic way
@@ -95,7 +92,7 @@ customElements.define(
                     break
                 default:
                     // any other attribute that is in observedAttributes will trigger the default behaviour
-                    this.tag.setAttribute(name, newValue)
+                    this.button.setAttribute(name, newValue)
             }
         }
 

@@ -32,11 +32,6 @@ export const Showcase = () => {
     const loading = boolean('loading', false)
     const disabled = boolean('disabled', false)
 
-    setTimeout(() => {
-        const btn = document.getElementById('prime-button')
-        btn.addEventListener('click', (event) => btn.click(event))
-    }, 0)
-
     return decoratedAction.withActions({ 'click great-button': 'Great button clicked' })(
         () =>
             `<div class="sample-code">
@@ -74,7 +69,7 @@ export const Showcase = () => {
 export const Primary = () => {
     const children = text('text', 'Primary Button')
     const theme = select('theme', availableThemes, availableThemes.primary)
-    const icon = select('icon', availableIcons, availableIcons.none)
+    const icon = select('icon', icons, icons.none)
     const loading = boolean('loading', false)
     const disabled = boolean('disabled', false)
 
@@ -99,7 +94,7 @@ export const Primary = () => {
 export const Secondary = () => {
     const children = text('text', 'Secondary Button')
     const theme = select('theme', availableThemes, availableThemes.secondary)
-    const icon = select('icon', availableIcons, availableIcons.none)
+    const icon = select('icon', icons, icons.none)
     const loading = boolean('loading', false)
     const disabled = boolean('disabled', false)
 
@@ -121,7 +116,7 @@ export const Secondary = () => {
 export const Tertiary = () => {
     const children = text('text', 'Tertiary Button')
     const theme = select('theme', availableThemes, availableThemes.tertiary)
-    const icon = select('icon', availableIcons, availableIcons.none)
+    const icon = select('icon', icons, icons.none)
     const loading = boolean('loading', false)
     const disabled = boolean('disabled', false)
 
@@ -143,7 +138,7 @@ export const Tertiary = () => {
 export const Disabled = () => {
     const children = text('text', 'Disabled Button')
     const theme = select('theme', availableThemes, availableThemes.primary)
-    const icon = select('icon', availableIcons, availableIcons.none)
+    const icon = select('icon', icons, icons.none)
     const loading = boolean('loading', false)
     const disabled = boolean('disabled', true)
 
@@ -165,7 +160,7 @@ export const Disabled = () => {
 export const WithIcon = () => {
     const children = text('text', 'Iconic Button')
     const theme = select('theme', availableThemes, availableThemes.primary)
-    const icon = select('icon', availableIcons, availableIcons.play)
+    const icon = select('icon', icons, icons.play)
     const loading = boolean('loading', false)
     const disabled = boolean('disabled', false)
 

@@ -1,0 +1,48 @@
+@import '../../index.css';
+
+:host {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+input {
+    border-radius: 0;
+    border: 2px solid var(--colour-black-20);
+    color: var(--colour-blue-deep-60);
+    font-family: 'FS Lucas', sans-serif;
+    font-size: 20px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    height: 50px;
+    line-height: 26px;
+    min-width: 260px;
+    padding: 0 10px 0 20px;
+    display: inline-block;
+}
+
+label,
+::slotted(label) {
+    color: var(--colour-blue-deep-60);
+    display: inline-block;
+    font-family: 'FS Lucas', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 26px;
+    margin-bottom: 14px;
+    width: 100%
+}
+
+input + ::slotted(button) {
+    border-right: none;
+}
+
+::slotted(button) {
+    background-color: var(--colour-blue-deep-60);
+    border: none;
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+}
