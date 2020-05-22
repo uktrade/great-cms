@@ -40,7 +40,7 @@ psycopg2==2.8.* --no-binary psycopg2
 boto3==1.11.*
 geoip2==2.9.*
 airtable-python-wrapper==0.13.*
-markdown2==2.3.8
+markdown2==2.3.9
 iso3166==1.0.1
 freezegun==0.1.5
 sphinx==1.8.*
