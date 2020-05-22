@@ -51,7 +51,7 @@ jinja2==2.11.2            # via sphinx
 jmespath==0.10.0          # via boto3, botocore
 jsonschema==3.2.0         # via great-components
 l18n==2018.5              # via wagtail
-markdown2==2.3.8          # via -r requirements.in
+markdown2==2.3.9          # via -r requirements.in
 markupsafe==1.1.1         # via jinja2
 maxminddb==1.5.4          # via geoip2
 mohawk==0.3.4             # via sigauth
