@@ -82,7 +82,7 @@ jsonschema==3.2.0         # via great-components
 l18n==2018.5              # via wagtail
 lazy-object-proxy==1.4.3  # via astroid
 locustio==0.14.6          # via -r requirements_test.in
-markdown2==2.3.8          # via -r requirements.in
+markdown2==2.3.9          # via -r requirements.in
 markupsafe==1.1.1         # via jinja2
 maxminddb==1.5.4          # via geoip2
 mccabe==0.6.1             # via flake8, pylint
