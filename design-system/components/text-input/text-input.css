@@ -35,10 +35,6 @@ label,
     width: 100%
 }
 
-input + ::slotted(button) {
-    border-right: none;
-}
-
 ::slotted(button) {
     background-color: var(--colour-blue-deep-60);
     border: none;
