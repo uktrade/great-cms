@@ -43,16 +43,16 @@ webserver:
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
 
 LOCUST_FILE?=tests/load/mvp_home.py
-NUM_CLIENTS?=10
+NUM_USERS?=10
 HATCH_RATE?=2
 RUN_TIME?=30s
 LOCUST := \
 	locust \
 		--locustfile $(LOCUST_FILE) \
-		--clients=$(NUM_CLIENTS) \
+		--users=$(NUM_USERS) \
 		--hatch-rate=$(HATCH_RATE) \
 		--run-time=$(RUN_TIME) \
-		--no-web \
+		--headless \
 		--csv=./results/results
 
 kill_webserver := \
