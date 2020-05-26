@@ -36,17 +36,17 @@ def root_page():
 
 @pytest.fixture
 def domestic_homepage(root_page):
-    return tests.unit.domestic.factories.DomesticHomePageFactory.create(parent=root_page)
+    return tests.unit.domestic.factories.DomesticHomePageFactory(parent=root_page)
 
 
 @pytest.fixture
 def exportplan_homepage(domestic_homepage, domestic_site):
-    return tests.unit.exportplan.factories.ExportPlanPageFactory.create(parent=domestic_homepage)
+    return tests.unit.exportplan.factories.ExportPlanPageFactory(parent=domestic_homepage)
 
 
 @pytest.fixture
 def exportplan_dashboard(exportplan_homepage):
-    return tests.unit.exportplan.factories.ExportPlanDashboardPageFactory.create(parent=exportplan_homepage)
+    return tests.unit.exportplan.factories.ExportPlanDashboardPageFactory(parent=exportplan_homepage)
 
 
 @pytest.fixture

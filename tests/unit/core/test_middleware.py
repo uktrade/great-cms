@@ -41,16 +41,19 @@ def test_stores_user_location_anon_user(mock_store_user_location, rf):
 
 
 @pytest.mark.django_db
-def test_user_specific_redirect_learn_middleware(domestic_site, client):
-    learn_page = factories.ListPageFactory(parent=domestic_site.root_page, slug='learn')
-    introduction_page = factories.DetailPageFactory(parent=learn_page, slug='introduction')
-    categories_page = factories.DetailPageFactory(parent=learn_page, slug='categories')
+def test_user_specific_redirect_middleware(domestic_site, client):
+    learn_page = factories.LandingPageFactory(parent=domestic_site.root_page, slug='learn')
+    introduction_page = factories.ListPageFactory(
+        parent=learn_page, slug='introduction', template='learn/automated_list_page.html'
+    )
+    categories_page = factories.CuratedListPageFactory(parent=learn_page, slug='categories')
 
-    # Given the user has gone to /learn/inroduction/
+    # Given the user has gone to /learn/introduction/
     response = client.get(introduction_page.url)
+
     assert response.status_code == 200
 
-    # When the user next goes to /learn/ or /learn/inroduction/
+    # When the user next goes to /learn/ or /learn/introduction/
     for page in [learn_page, introduction_page]:
         response = client.get(page.url)
 
@@ -161,7 +164,7 @@ def test_user_product_expertise_middleware_no_company(
     )
 
 
-@pytest.mark.django_db
+@pytest.mark.skip(reason='All DetailPage templates require login. Reinstate for template that allows anon user')
 def test_user_product_expertise_middleware_not_logged_in(domestic_site, client, mock_update_company_profile):
     topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
     lesson_page = factories.DetailPageFactory(parent=topic_page)

@@ -85,13 +85,15 @@
 - MVP-526 - Add Learn introduction page with slider
 - MVP-433 - Fix last step of signin 404
 - no-ticket - Fix images on /learn/categories being hidden
-- MVP-438 - Only view learn interstitials once 
+- MVP-438 - Only view learn interstitials once
 - MVP-464 - Store selected product as expertise
 - MVP-420 - test tooltips for multiple countries on target markets data page
-- MVP-438 - Only view learn interstitials once 
+- MVP-438 - Only view learn interstitials once
 - MVP-458 - Implement signup wizard
 - MVP-450 - update add company logo
+- MVP-460 - Create page types
 - MVP-512 - Handle user requesting generic content
 - MVP-496 - Handle signup from export plan
 - no ticket - Handle dit-cf-security munging cookies
 - no ticket - fix logo
+- no ticket - fix locust's breaking changes

@@ -1,5 +1,6 @@
 {% extends "core/base.html" %}
 {% load static %}
+{% load wagtailcore_tags %}
 
 {% block content %}
     <section class="learn__page learn__introduction-page container" id="learn-root">
@@ -35,7 +36,8 @@
                         Key topics include how to conduct market research, define your risks, how to get paid, find contacts, partners and deals, which currency to trade in and delivering your goods or services.
                     </p>
                 </div>
-                <a class="button" href="/learn/categories">Continue</a>
+
+                {% include_block page.button %}
             </div>
         </div>
     </section>

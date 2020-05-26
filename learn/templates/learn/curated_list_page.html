@@ -1,0 +1,35 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% load breadcrumbs from great_components %}
+
+{% block content %}
+    <div id="learn-root" class="learn__page learn__category-page">
+        <section class="learn__single-category-header">
+            <div class="container">
+                {% breadcrumbs 'Identify opportunities and research your market' %}
+                <a href="{% url 'core:dashboard' %}" id="breadcrumbs-home">Home</a>
+                {% endbreadcrumbs %}
+            </div>
+            <div class="learn__single-category-header-wrapper container">
+                <div class="grid">
+                    <div class="learn__single-category-header-content c-1-2-l">
+                        <h1 class="learn__single-category-title h1" id="topic-title">{{ page.title }}</h1>
+                        <span class="learn__category-topics">{{ page.count_topics }} topics, <div>
+                            <span class="learn__category-lessons">{{ page.count_detail_pages }} lessons</span>
+                        <p class="learn__single-category-header-details">{{ page.heading|richtext }}</p>
+                        </div>
+                    {% image child.image width-600 class="learn__single-category-header c-1-2-l" %}
+                </div>
+            </div>
+        </section>
+        <section class="learn__category-lists container" id="topic-lesson-list">
+            {% for topic in page.topics %}
+                <div id="lesson-{{ topic.slug }}">
+                    {% include_block topic %}
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+{% endblock %}

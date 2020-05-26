@@ -58,7 +58,6 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make secrets                  | Create your secret env var file |
 | make database                 | Drop and recrete the database |
 | make boostrap_great           | Create required database records so the CMS works |
-| make create_pages             | Create required Pages |
 | make create_tours             | Create required Page tours |
 | make recreate                 | Runs: database, boostrap_great, create_pages, create_tours in one go |
 
@@ -168,7 +167,7 @@ are finished.
 
 You can control the execution with env vars:
 ```bash
-LOCUST_FILE=tests/load/mvp_home.py NUM_CLIENTS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
+LOCUST_FILE=tests/load/mvp_home.py NUM_USERS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
 ```
 
 ## Known issues

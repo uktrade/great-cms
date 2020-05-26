@@ -8,7 +8,7 @@ from core import mixins, views
 
 
 SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT = 'LESSON_PAGE_SHOW_GENERIC_CONTENT'
-exportplan_templates = ['exportplan/export_plan_dashboard_page.html', 'exportplan/export_plan_page.html']
+exportplan_templates = ['exportplan/automated_list_page.html', 'exportplan/dashboard_page.html']
 
 
 @hooks.register('before_serve_page')
@@ -20,7 +20,7 @@ def anonymous_user_required(page, request, serve_args, serve_kwargs):
 
 @hooks.register('before_serve_page')
 def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
-    if page.template == 'learn/lesson_page.html' and request.user.is_anonymous:
+    if page.template == 'learn/detail_page.html' and request.user.is_anonymous:
 
         # opting out of personalised content "forever" - not just this request.
         if 'show-generic-content' in request.GET:

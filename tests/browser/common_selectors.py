@@ -313,7 +313,7 @@ class TargetMarketsCountryChooser(SelectorsEnum):
 class TopicLessonListing(SelectorsEnum):
     TITLE = Selector(By.ID, 'topic-title')
     LESSON_LIST = Selector(By.ID, 'topic-lesson-list')
-    LESSON_LINKS = Selector(By.CSS_SELECTOR, 'a[id^=lesson-]')
+    LESSON_LINKS = Selector(By.CSS_SELECTOR, 'div[id^=lesson-]')
 
 
 class LessonPage(SelectorsEnum):
