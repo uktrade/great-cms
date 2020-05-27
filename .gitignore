@@ -121,3 +121,4 @@ domestic/migrations/__pycache__/__init__.cpython-36.pyc
 
 # InVision Design system manager, ignores logs files 
 .dsm
+storybook-static/

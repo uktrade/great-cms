@@ -40,7 +40,6 @@ export const Showcase = () => {
                 ${loading ? 'loading' : ''}
                 icon="${icon}"
                 theme="primary"
-                id="prime-button"
             >
                 ${children || buttonText[0]}
             </great-button>
@@ -79,11 +78,8 @@ export const Primary = () => {
             <great-button
                 ${disabled ? 'disabled' : ''}
                 ${loading ? 'loading' : ''}
-                aria-hidden="true"
-                data-test="great-button-primary-button"
                 icon="${icon}"
                 theme="${theme}"
-                type="submit"
             >
                 ${children}
             </great-button>
