@@ -36,17 +36,17 @@ def root_page():
 
 @pytest.fixture
 def domestic_homepage(root_page):
-    return tests.unit.domestic.factories.DomesticHomePageFactory.create(parent=root_page)
+    return tests.unit.domestic.factories.DomesticHomePageFactory(parent=root_page)
 
 
 @pytest.fixture
 def exportplan_homepage(domestic_homepage, domestic_site):
-    return tests.unit.exportplan.factories.ExportPlanPageFactory.create(parent=domestic_homepage)
+    return tests.unit.exportplan.factories.ExportPlanPageFactory(parent=domestic_homepage)
 
 
 @pytest.fixture
 def exportplan_dashboard(exportplan_homepage):
-    return tests.unit.exportplan.factories.ExportPlanDashboardPageFactory.create(parent=exportplan_homepage)
+    return tests.unit.exportplan.factories.ExportPlanDashboardPageFactory(parent=exportplan_homepage)
 
 
 @pytest.fixture
@@ -201,6 +201,21 @@ def mock_get_company_profile(patch_get_company_profile):
     yield patch_get_company_profile.start()
     try:
         patch_get_company_profile.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_update_company_profile():
+    yield mock.patch('core.helpers.update_company_profile', return_value=None)
+
+
+@pytest.fixture(autouse=True)
+def mock_update_company_profile(patch_update_company_profile):
+    yield patch_update_company_profile.start()
+    try:
+        patch_update_company_profile.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass

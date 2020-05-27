@@ -9,8 +9,8 @@ import './stylesheets/StepCode.scss'
 
 export default function StepCode(props){
   return (
-    <div className='great-mvp-signup-wizard-step-code p-h-xs'>
-      <h2 className="h-xl">Confirmation code</h2>
+    <div className='great-mvp-signup-wizard-step-code'>
+      { props.showTitle && <h2 className="h-xl">Confirmation code</h2> }
       <p className="body-text great-mvp-synopsis m-t-0">
         <span>we've emailed you a five-digit confirmation code.</span>
       </p>
@@ -43,10 +43,12 @@ StepCode.propTypes = {
   errors: PropTypes.object,
   handleCodeChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  showTitle: PropTypes.bool,
 }
 
 StepCode.defaultProps = {
   code: '',
   disabled: false,
   errors: {},
+  showTitle: true,
 }

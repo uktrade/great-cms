@@ -22,6 +22,7 @@ from tests.browser.steps import (
     should_see_all_elements,
     should_see_all_expected_page_sections,
 )
+from tests.helpers import create_response
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,
@@ -141,6 +142,8 @@ def test_users_should_be_able_to_sign_up(
     browser,
     visit_signup_page,
 ):
+    mock_verification.return_value = create_response()
+
     code = '12345'
     email = f'test+{uuid4()}@example.com'
     password = str(uuid4()).replace('-', '')

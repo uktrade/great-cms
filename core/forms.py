@@ -24,5 +24,29 @@ class ExportPlanForm(forms.Form):
     step_k = build_checkbox('Action plan')
 
 
-class ArticleForm(forms.Form):
+class NoOperationForm(forms.Form):
     pass
+
+
+class WhatAreYouSellingForm(forms.Form):
+    PRODUCTS = 'PRODUCTS'
+    SERVICES = 'SERVICES'
+    PRODUCTS_AND_SERVICES = 'PRODUCTS_AND_SERVICES'
+    CHOICES = (
+        (PRODUCTS, 'Products'),
+        (SERVICES, 'Services'),
+        (PRODUCTS_AND_SERVICES, 'Products and Services'),
+    )
+    choice = forms.ChoiceField(
+        label='',
+        widget=forms.RadioSelect(),
+        choices=CHOICES,
+    )
+
+
+class ProductSearchForm(forms.Form):
+    products = forms.CharField()
+
+
+class CompanyNameForm(forms.Form):
+    name = forms.CharField()

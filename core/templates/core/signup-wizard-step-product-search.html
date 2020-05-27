@@ -1,0 +1,19 @@
+{% extends 'core/signup-wizard-step-base.html' %}
+
+{% block above_form %}
+    <h2 class="h-l">Find your product</h2>
+    <p>Start typing and choose the product that matches best</p>
+{% endblock %}
+
+{% block button_next_label %}Confirm{% endblock %}
+{% block button_submit_label %}Confirm{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+		ditMVP.ProductLookup({
+			element: document.getElementById('id_product-search-products-container'),
+			name: 'product-search-products'
+		})
+	</script>
+{% endblock %}

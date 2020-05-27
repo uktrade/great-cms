@@ -19,7 +19,7 @@ function FormattedOption(props) {
 
 const loadOptions = (inputValue, callback) => Services.lookupProduct({q: inputValue}).then(callback)
 
-export default function StepProducts(props){
+export default function ProductLookup(props){
   return (
     <div className='m-b-m'>
       <h2 className='h-m'>What is your product?</h2>
@@ -48,7 +48,7 @@ export default function StepProducts(props){
   )
 }
 
-StepProducts.propTypes = {
+ProductLookup.propTypes = {
   disabled: PropTypes.bool,
   errors: PropTypes.object,
   handleChange: PropTypes.func.isRequired,
@@ -56,7 +56,7 @@ StepProducts.propTypes = {
   value: PropTypes.array,
 }
 
-StepProducts.defaultProps = {
+ProductLookup.defaultProps = {
   disabled: false,
   errors: {},
   value: [],

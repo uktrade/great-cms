@@ -37,9 +37,11 @@
       {% if user.company %}
       var userCountries ={{ user.company.expertise_countries_value_label_pairs|safe }};
       var userIndustries = {{ user.company.expertise_industries_value_label_pairs|safe }};
+      var userProducts = {{ user.company.expertise_products_value_label_pairs|safe }};
       {% else %}
       var userCountries = [];
       var userIndustries = [];
+      var userProducts = [];
       {% endif %}
       // static values that will not be updated by user interacting with react components
       ditMVP.setConfig({ 
@@ -57,7 +59,7 @@
           googleUrl: '{{ javascript_components.google_url }}',
           industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
-          loginUrl: '{% url "core:login" %}',
+          loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
           signupUrl: '{% url "core:signup" %}',
           passwordResetUrl: '{{ javascript_components.password_reset_url }}',
           removeCountryDataUrl: '{% url "exportplan:ajax-remove-country-data" %}',
@@ -70,7 +72,7 @@
       ditMVP.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
         performSkipFeatureCookieCheck: true,
-        nextUrl: '{% url "core:dashboard" %}',
+        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url "core:dashboard" %}{% endif %}',
         modalIsOpen: {
           products: false,
           countries: false,
@@ -82,7 +84,7 @@
           expertise: {
             countries: userCountries,
             industries: userIndustries,
-            products: [],
+            products: userProducts,
           },
         },
       })

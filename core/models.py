@@ -1,12 +1,15 @@
 import hashlib
 
+from django.utils.functional import cached_property
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
     ObjectList, TabbedInterface
 from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import StreamField, RichTextField
 from wagtail.core.models import Orderable, Page
+from wagtail.images import get_image_model_string
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
 from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
@@ -155,40 +158,16 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
     """
     Generic page, freely inspired by Codered page
     """
-
     class Meta:
         abstract = True
 
     # Do not allow this page type to be created in wagtail admin
     is_creatable = False
-
     template_choices = []
-
-    ################
-    # Content fields
-    ################
-
-    body = StreamField([
-        (
-            'paragraph', PersonalisedStructBlock(
-                [('paragraph', blocks.RichTextBlock())],
-                template='core/personalised_page_struct_paragraph_block.html',
-                icon='pilcrow'
-            )
-        ),
-        (
-            'video', PersonalisedStructBlock(
-                [('video', core_blocks.VideoBlock())],
-                template='core/personalised_page_struct_video_block.html',
-                icon='media'
-            )
-        )
-    ])
 
     ###############
     # Layout fields
     ###############
-
     template = models.CharField(
         max_length=255,
         choices=None,
@@ -196,9 +175,7 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
     #########
     # Panels
-    #########
-
-    content_panels = Page.content_panels + [StreamFieldPanel('body')]
+    ##########
     layout_panels = [FieldPanel('template')]
     settings_panels = [FieldPanel('slug')] + Page.settings_panels
 
@@ -228,51 +205,182 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
             context.update(provider.get_context_data(request=request, page=self))
         return context
 
-    def serve(self, request, *args, **kwargs):
-        parent = self.get_parent().specific
-        if getattr(parent, 'record_read_progress', False) and request.user.is_authenticated:
-            PageView.objects.get_or_create(
-                page=self,
-                list_page=parent,
-                sso_id=request.user.pk,
-            )
-        return super().serve(request, **kwargs)
+
+class LandingPage(CMSGenericPage):
+    parent_page_types = ['domestic.DomesticHomePage']
+    subpage_types = ['core.ListPage', 'core.InterstitialPage']
+    template_choices = (
+        ('learn/landing_page.html', 'Learn'),
+    )
+
+    ################
+    # Content fields
+    ################
+    description = RichTextField()
+    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    #########
+    # Panels
+    #########
+    content_panels = CMSGenericPage.content_panels + [
+        FieldPanel('description'),
+        StreamFieldPanel('button'),
+        ImageChooserPanel('image')
+    ]
+
+
+class InterstitialPage(CMSGenericPage):
+    parent_page_types = ['core.LandingPage']
+    template_choices = (
+        ('learn/interstitial.html', 'Learn'),
+    )
+
+    ################
+    # Content fields
+    ################
+    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
+
+    #########
+    # Panels
+    #########
+    content_panels = CMSGenericPage.content_panels + [
+        StreamFieldPanel('button'),
+    ]
 
 
 class ListPage(CMSGenericPage):
-    parent_page_types = ['domestic.DomesticHomePage']
-    subpage_types = ['core.DetailPage']
+    parent_page_types = ['core.LandingPage']
+    subpage_types = ['core.CuratedListPage']
 
     template_choices = (
-        ('exportplan/export_plan_page.html', 'Export plan'),
-        ('learn/topic_page.html', 'Lesson topic'),
-        ('learn/learn_page.html', 'Learn homepage'),
-        ('learn/landing_page.html', 'Learn landing page'),
+        ('exportplan/automated_list_page.html', 'Export plan'),
+        ('learn/automated_list_page.html', 'Learn'),
     )
+
+    class Meta:
+        verbose_name = 'Automated list page'
+        verbose_name_plural = 'Automated list pages'
 
     record_read_progress = models.BooleanField(
         default=False,
         help_text='Should we record when a user views a page in this collection?',
     )
 
-    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
+    ################
+    # Content fields
+    ################
+    description = RichTextField()
+    button_label = models.CharField(max_length=100)
 
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request)
-        if self.record_read_progress and request.user.is_authenticated:
-            queryset = self.page_views_list.filter(sso_id=request.user.pk)
-            context['is_read_collection'] = queryset.values_list('page__pk', flat=True)
-        return context
+    #########
+    # Panels
+    #########
+    settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
+    content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
+
+
+class CuratedListPage(CMSGenericPage):
+    parent_page_types = ['core.ListPage']
+    subpage_types = ['core.DetailPage']
+    template_choices = (
+        ('learn/curated_list_page.html', 'Learn'),
+    )
+
+    ################
+    # Content fields
+    ################
+    heading = RichTextField()
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    topics = StreamField([('topic', core_blocks.CuratedTopicBlock(icon='plus'))], null=True, blank=True)
+
+    #########
+    # Panels
+    ##########
+    content_panels = CMSGenericPage.content_panels + [
+        FieldPanel('heading'),
+        ImageChooserPanel('image'),
+        StreamFieldPanel('topics')
+    ]
+
+    @cached_property
+    def count_topics(self):
+        return len(self.topics)
+
+    @cached_property
+    def count_detail_pages(self):
+        return sum((len(topic.value['pages']) for topic in self.topics))
 
 
 class DetailPage(CMSGenericPage):
-    parent_page_types = ['core.ListPage']
+    parent_page_types = ['core.CuratedListPage']
     template_choices = (
-        ('exportplan/export_plan_dashboard_page.html', 'Export plan'),
-        ('learn/lesson_page.html', 'Lesson'),
-        ('learn/learn_introduction.html', 'Learn introduction'),
-        ('learn/category.html', 'Learn category'),
+        ('exportplan/dashboard_page.html', 'Export plan dashboard'),
+        ('learn/detail_page.html', 'Learn'),
     )
+
+    class Meta:
+        verbose_name = 'Personalisable detail page'
+        verbose_name_plural = 'Personalisable detail pages'
+
+    ################
+    # Content fields
+    ################
+    body = StreamField([
+        (
+            'paragraph', PersonalisedStructBlock(
+                [('paragraph', blocks.RichTextBlock())],
+                template='core/personalised_page_struct_paragraph_block.html',
+                icon='pilcrow'
+            )
+        ),
+        (
+            'video', PersonalisedStructBlock(
+                [('video', core_blocks.VideoBlock())],
+                template='core/personalised_page_struct_video_block.html',
+                icon='media'
+            )
+        )
+    ])
+
+    #########
+    # Panels
+    ##########
+    content_panels = Page.content_panels + [StreamFieldPanel('body')]
+
+    def handle_page_view(self, request):
+        if request.user.is_authenticated:
+            # checking if the page should record read progress
+            # checking if the page is alreayd marked as read
+            list_page = (
+                ListPage.objects
+                .ancestor_of(self)
+                .filter(record_read_progress=True)
+                .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
+                .first()
+            )
+            if list_page:
+                PageView.objects.get_or_create(
+                    page=self,
+                    list_page=list_page,
+                    sso_id=request.user.pk,
+                )
+
+    def serve(self, request, *args, **kwargs):
+        self.handle_page_view(request)
+        return super().serve(request, **kwargs)
 
 
 class PageView(TimeStampedModel):
@@ -281,9 +389,5 @@ class PageView(TimeStampedModel):
     sso_id = models.TextField()
 
     class Meta:
-        ordering = ['lesson__pk']
+        ordering = ['page__pk']
         unique_together = ['page', 'sso_id']
-
-
-class HomePage(mixins.WagtailAdminExclusivePageMixin, ListPage):
-    parent_page_types = ['wagtailcore.Page']

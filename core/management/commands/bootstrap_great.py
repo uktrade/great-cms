@@ -11,8 +11,7 @@ User = get_user_model()
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        # On start Wagtail provides one page with ID=1 and it's called 'Root page'
-        root_page = Page.objects.get(pk=1)
+        root_page = Page.objects.get(slug='root')
         # On start Wagtail provides one site with ID=1
         site = Site.objects.get(pk=1)
 

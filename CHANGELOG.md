@@ -2,14 +2,14 @@
 
 ## Pre-release
 
-## Hotfix
-- No ticket - v3 ci pipeline manifest.yml file fix
-
 ### Fixed bugs
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
 - MVP-429 - Add missing country thumbnails for food and drink sector
+- MVP-437 - Show product in lesson page nav bar
+- No ticket - v3 ci pipeline manifest.yml file fix
+- MVP-443 - Use non-GREAT stlye 404 and 500 pages
 
 ### Implemented enhancements
 - MVP-317 - Add dummy pages for all export plan sections
@@ -86,3 +86,15 @@
 - MVP-433 - Fix last step of signin 404
 - no-ticket - Fix images on /learn/categories being hidden
 - GDS-1, GDS-2, GDS-4, GDS-12 - Creates the foundation for Great Design System, Storybook and Web Components
+- MVP-438 - Only view learn interstitials once
+- MVP-464 - Store selected product as expertise
+- MVP-420 - test tooltips for multiple countries on target markets data page
+- MVP-438 - Only view learn interstitials once
+- MVP-458 - Implement signup wizard
+- MVP-450 - update add company logo
+- MVP-460 - Create page types
+- MVP-512 - Handle user requesting generic content
+- MVP-496 - Handle signup from export plan
+- no ticket - Handle dit-cf-security munging cookies
+- no ticket - fix logo
+- no ticket - fix locust's breaking changes
