@@ -97,3 +97,4 @@
 - no ticket - Handle dit-cf-security munging cookies
 - no ticket - fix logo
 - no ticket - fix locust's breaking changes
+- MVP-563 - Add time to read
