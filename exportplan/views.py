@@ -17,7 +17,7 @@ from requests.exceptions import RequestException
 from directory_constants.choices import INDUSTRIES
 from directory_api_client.client import api_client
 
-from exportplan import data, helpers, forms
+from exportplan import data, serializers, helpers, forms
 
 
 class BaseExportPlanView(TemplateView):
@@ -118,14 +118,17 @@ class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):
 
+    serializer_class = serializers.ExportPlanSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
         export_plan = helpers.get_or_create_export_plan(self.request.user)
         helpers.update_exportplan(
             sso_session_id=self.request.user.session_id,
             id=export_plan['pk'],
-            data=request.data
+            data=serializer.validated_data
         )
         return Response({})
 

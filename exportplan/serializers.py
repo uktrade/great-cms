@@ -12,7 +12,7 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
 
 
 class ExportPlanSerializer(serializers.Serializer):
-    target_markets = serializers.ListField(child=serializers.CharField())
+    target_markets = serializers.ListField(child=serializers.CharField(), required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
