@@ -6,7 +6,6 @@ from core import mixins
 class ExportPlanDashboardPage(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
-    mixins.AnonymousUserRequired,
     Page,
 ):
 
