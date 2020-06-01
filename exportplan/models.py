@@ -9,4 +9,4 @@ class ExportPlanDashboardPage(
     Page,
 ):
 
-    template = 'exportplan/dashboard_page.html'
+    template_name = 'exportplan/dashboard_page.html'
