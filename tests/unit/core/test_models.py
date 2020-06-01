@@ -4,6 +4,7 @@ import pytest
 from wagtail.tests.utils import WagtailPageTests
 
 from core.models import AbstractObjectHash, LandingPage, ListPage, CuratedListPage, InterstitialPage, DetailPage
+from exportplan.models import ExportPlanDashboardPage
 from domestic.models import DomesticHomePage
 from tests.unit.core import factories
 
@@ -64,7 +65,7 @@ class LandingPageTests(WagtailPageTests):
         self.assertAllowedParentPageTypes(LandingPage, {DomesticHomePage})
 
     def test_can_be_created_under_landing_page(self):
-        self.assertAllowedSubpageTypes(LandingPage, {ListPage, InterstitialPage})
+        self.assertAllowedSubpageTypes(LandingPage, {ListPage, InterstitialPage, ExportPlanDashboardPage})
 
 
 class ListPageTests(WagtailPageTests):

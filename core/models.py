@@ -208,7 +208,7 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
 class LandingPage(CMSGenericPage):
     parent_page_types = ['domestic.DomesticHomePage']
-    subpage_types = ['core.ListPage', 'core.InterstitialPage']
+    subpage_types = ['core.ListPage', 'core.InterstitialPage', 'exportplan.ExportPlanDashboardPage']
     template_choices = (
         ('learn/landing_page.html', 'Learn'),
     )

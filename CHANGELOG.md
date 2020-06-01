@@ -10,6 +10,7 @@
 - MVP-437 - Show product in lesson page nav bar
 - No ticket - v3 ci pipeline manifest.yml file fix
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
+- MVP-579 - create export plan cms page
 
 ### Implemented enhancements
 - MVP-317 - Add dummy pages for all export plan sections
