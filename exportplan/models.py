@@ -1,6 +1,7 @@
 from wagtail.core.models import Page
 
 from core import mixins
+from exportplan import data
 
 
 class ExportPlanDashboardPage(
@@ -9,4 +10,9 @@ class ExportPlanDashboardPage(
     Page,
 ):
 
-    template_name = 'exportplan/dashboard_page.html'
+    template = 'exportplan/dashboard_page.html'
+
+    def get_context(self, request):
+        return {
+            'sections': data.SECTION_TITLES,
+        }
