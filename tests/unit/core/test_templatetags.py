@@ -11,8 +11,9 @@ from tests.unit.core.factories import DetailPageFactory
     (2, '4 mins'),
     (10, '19 mins'),
     (20, '37 mins'),
-    (35, '1 hour'),
-    (50, '2 hours'),
+    (35, '1 hour 4 mins'),
+    (50, '1 hour 31 mins'),
+    (90, '2 hours 44 mins'),
 ))
 def test_read_time(page_count, expected, user, rf, domestic_site):
     request = rf.get('/')

@@ -12,21 +12,19 @@ register = template.Library()
 class Result(readtime.result.Result):
 
     @property
-    def hours(self):
-        hours = int(round(self.minutes / 60))
-        if hours < 1:
-            hours = 1
-        return hours
+    def minutes_suffix(self):
+        return ngettext(singular='min', plural='mins', number=self.minutes)
 
     @property
     def text(self):
         if self.minutes < 60:
-            suffix = ngettext(singular='min', plural='mins', number=self.minutes)
-            number = self.minutes
+            return f'{self.minutes} {self.minutes_suffix}'
         else:
-            suffix = ngettext(singular='hour', plural='hours', number=self.hours)
-            number = self.hours
-        return f'{number} {suffix}'
+            hours, minutes = divmod(self.minutes, 60)
+            suffix = ngettext(singular='hour', plural='hours', number=hours)
+            if minutes:
+                return f'{hours} {suffix} {minutes} {self.minutes_suffix}'
+            return f'{hours} {suffix}'
 
 
 @register.simple_tag(takes_context=True)
