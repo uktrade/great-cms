@@ -23,11 +23,11 @@ class BrandAndProductForm extends React.Component {
       formData: props.formData
     }
 
-    this.inputToSave = new Subject()
+    this.inputToSave$ = new Subject()
 
-    const saveInput = this.inputToSave.pipe(debounceTime(1000 * 2))
+    const saveInput$ = this.inputToSave$.pipe(debounceTime(1000 * 2))
 
-    saveInput.subscribe(data => {
+    saveInput$.subscribe(data => {
       this.setState({ isLoading: true }, () => {
         Services.updateExportPlan({ brand_product_details: data })
           .then(this.handleUpdateSuccess)
@@ -35,9 +35,9 @@ class BrandAndProductForm extends React.Component {
       })
     })
 
-    const afterSave = saveInput.pipe(delay(2000))
+    const afterSave$ = saveInput$.pipe(delay(1000 * 2))
 
-    afterSave.subscribe(() => {
+    afterSave$.subscribe(() => {
       this.setState({ showSavedMessage: false })
     })
 
@@ -72,7 +72,7 @@ class BrandAndProductForm extends React.Component {
       [e.target.name]: e.target.value
     }
     this.setState({ formData: data }, () => {
-      this.inputToSave.next(data)
+      this.inputToSave$.next(data)
     })
   }
 
