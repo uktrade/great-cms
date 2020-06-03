@@ -1,27 +1,38 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 from exportplan import views, ajax
+
+LOGIN_URL = reverse_lazy('core:login')
 
 app_name = 'exportplan'
 
 urlpatterns = [
     path(
         'section/target-markets/',
-        views.ExportPlanTargetMarketsView.as_view(),
+        login_required(views.ExportPlanTargetMarketsView.as_view(), login_url=LOGIN_URL),
         {'slug': 'target-markets'},
         name='target-markets'
     ),
     path(
         'section/brand-and-product/',
-        views.ExportPlanBrandAndProductView.as_view(),
+        login_required(views.ExportPlanBrandAndProductView.as_view(), login_url=LOGIN_URL),
         {'slug': 'brand-and-product'},
         name='brand-and-product'
     ),
-    path('section/<slug:slug>/', views.ExportPlanSectionView.as_view(), name='section'),
-    path('logo', views.LogoFormView.as_view(), name='add-logo'),
+    path(
+        'section/<slug:slug>/',
+        login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
+        name='section'
+    ),
+    path(
+        'logo',
+        login_required(views.LogoFormView.as_view(), login_url=LOGIN_URL),
+        name='add-logo'
+    ),
     path(
         'api/recommended-countries/',
-        ajax.ExportPlanRecommendedCountriesDataView.as_view(),
+        login_required(ajax.ExportPlanRecommendedCountriesDataView.as_view(), login_url=LOGIN_URL),
         name='ajax-recommended-countries-data'
     ),
     path('api/export-plan/', views.UpdateExportPlanAPIView.as_view(), name='api-update-export-plan'),
