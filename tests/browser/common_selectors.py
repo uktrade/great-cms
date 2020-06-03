@@ -177,7 +177,6 @@ class ExportPlanDashboard(SelectorsEnum):
     PAYMENT_METHODS = Selector(By.ID, 'payment-methods', type=ElementType.LINK)
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'travel-and-business-policies', type=ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'business-risk', type=ElementType.LINK)
-    ACTION_PLAN = Selector(By.ID, 'action-plan', type=ElementType.LINK)
 
 
 class ExportPlanDashboardPageTourStep0(SelectorsEnum):
@@ -213,7 +212,7 @@ class ExportPlanDashboardPageTourStep4(SelectorsEnum):
 
 class ExportPlanDashboardPageTourStep5(SelectorsEnum):
     STEP = Selector(By.ID, 'page-tour-step-lets-start')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'brand-and-product')
     NEXT = Selector(By.ID, 'page-tour-start-now', type=ElementType.LINK)
 
 
