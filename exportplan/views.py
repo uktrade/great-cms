@@ -91,29 +91,24 @@ class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
     def get_form_initial(self):
         return self.export_plan['brand_product_details']
 
-    def get_form_kwargs(self):
-        form_kwargs = super().get_form_kwargs()
-        form_kwargs['initial'] = self.get_form_initial()
-        return form_kwargs
-
     def get_context_data(self, *args, **kwargs):
-        form_initial = self.get_form_kwargs()['initial']
+        context = super().get_context_data(*args, **kwargs)
 
-        field_names = [field[0] for field in self.form_class.base_fields.items()]
+        field_names = list(self.form_class.base_fields.keys())
 
-        field_labels = [field[1].label for field in self.form_class.base_fields.items()]
+        field_labels = [field.label for field in self.form_class.base_fields.values()]
 
-        field_placeholders = [field[1].widget.attrs['placeholder'] for field in self.form_class.base_fields.items()]
+        field_placeholders = [field.widget.attrs['placeholder'] for field in self.form_class.base_fields.values()]
 
         form_fields = [
             {'name': name, 'label': label, 'placeholder': placeholder}
             for name, label, placeholder in zip(field_names, field_labels, field_placeholders)
         ]
 
-        return super().get_context_data(
-            form_initial=json.dumps(form_initial),
-            form_fields=json.dumps(form_fields),
-            *args, **kwargs)
+        context['form_initial'] = json.dumps(context['form'].initial)
+        context['form_fields'] = json.dumps(form_fields)
+
+        return context
 
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):
