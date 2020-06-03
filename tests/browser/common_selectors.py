@@ -229,7 +229,6 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     PAYMENT_METHODS = Selector(By.ID, 'sidebar-payment-methods', type=ElementType.LINK)
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'sidebar-travel-and-business-policies', type=ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', type=ElementType.LINK)
-    ACTION_PLAN = Selector(By.ID, 'sidebar-action-plan', type=ElementType.LINK)
     CONTENT = Selector(By.ID, 'target-markets-content')
 
 
