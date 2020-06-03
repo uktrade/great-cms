@@ -167,7 +167,7 @@ class StickyHeader(SelectorsEnum):
 
 
 class ExportPlanDashboard(SelectorsEnum):
-    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'about-your-business', type=ElementType.LINK)
+    BRAND_AND_PRODUCT = Selector(By.ID, 'brand-and-product', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'objectives', type=ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'target-markets', type=ElementType.LINK)
     ADAPTATION = Selector(By.ID, 'adaptation-for-international-markets', type=ElementType.LINK)
@@ -219,7 +219,7 @@ class ExportPlanDashboardPageTourStep5(SelectorsEnum):
 
 class ExportPlanTargetMarkets(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'sidebar-content')
-    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', type=ElementType.LINK)
+    BRAND_AND_PRODUCT = Selector(By.ID, 'sidebar-brand-and-product', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'sidebar-objectives', type=ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'sidebar-target-markets', type=ElementType.LINK)
     ADAPTATION = Selector(By.ID, 'sidebar-adaptation-for-international-markets', type=ElementType.LINK)
