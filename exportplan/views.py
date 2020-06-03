@@ -88,7 +88,7 @@ class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
         )
         return super().form_valid(form)
 
-    def get_form_initial(self):
+    def get_initial(self):
         return self.export_plan['brand_product_details']
 
     def get_context_data(self, *args, **kwargs):

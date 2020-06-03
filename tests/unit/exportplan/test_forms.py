@@ -46,8 +46,9 @@ def test_brand_product_form_empty_fields():
 
 @pytest.mark.django_db
 @patch.object(helpers, 'update_exportplan')
-@patch.object(helpers, 'get_exportplan')
-def test_brand_product_form_view(mock_get_export_plan, mock_update_exportplan, client, user):
+@patch.object(helpers, 'get_or_create_export_plan')
+def test_brand_product_form_view(mock_get_export_plan, mock_update_exportplan, valid_form_data, client, user):
+    mock_get_export_plan.return_value = {'pk': 1, 'brand_product_details': valid_form_data}
     url = reverse('exportplan:brand-and-product')
     client.force_login(user)
     response = client.get(url)
@@ -57,7 +58,7 @@ def test_brand_product_form_view(mock_get_export_plan, mock_update_exportplan, c
 
 @pytest.mark.django_db
 @patch.object(helpers, 'update_exportplan')
-@patch.object(helpers, 'get_exportplan')
+@patch.object(helpers, 'get_or_create_export_plan')
 def test_brand_product_form_view_submission(
     mock_get_export_plan, mock_update_exportplan, valid_form_data, client, user
 ):
