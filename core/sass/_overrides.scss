@@ -2,3 +2,7 @@
 img {
   display: block;
 }
+
+body.js-disbled textarea.form-control {
+  min-height: 200px;
+}

@@ -2,9 +2,11 @@ from datetime import datetime
 import json
 import sentry_sdk
 
+from django.http import Http404
 from django.views.generic import TemplateView, FormView
 from django.utils.functional import cached_property
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -14,10 +16,16 @@ from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES
 from directory_api_client.client import api_client
-from exportplan import data, helpers, serializers, forms
+
+from exportplan import data, serializers, helpers, forms
 
 
 class BaseExportPlanView(TemplateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.slug not in data.SECTION_SLUGS:
+            raise Http404()
+        return super().dispatch(request, *args, **kwargs)
 
     @cached_property
     def export_plan(self):
@@ -29,6 +37,7 @@ class BaseExportPlanView(TemplateView):
         return super().get_context_data(
             next_section=self.next_section,
             sections=data.SECTION_TITLES,
+            export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
             *args, **kwargs)
@@ -56,7 +65,6 @@ class ExportPlanSectionView(BaseExportPlanView):
 
 
 class ExportPlanTargetMarketsView(ExportPlanSectionView):
-    slug = 'target-markets'
     template_name = 'exportplan/sections/target-markets.html'
 
     def get_context_data(self, **kwargs):
@@ -66,6 +74,41 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
             target_markets=json.dumps(self.export_plan.get('target_markets', [])),
             datenow=datetime.now(),
         )
+
+
+class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
+    form_class = forms.ExportPlanBrandAndProductForm
+    success_url = reverse_lazy('exportplan:brand-and-product')
+
+    def form_valid(self, form):
+        helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=self.export_plan['pk'],
+            data={'brand_product_details': form.cleaned_data}
+        )
+        return super().form_valid(form)
+
+    def get_initial(self):
+        return self.export_plan['brand_product_details']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        field_names = list(self.form_class.base_fields.keys())
+
+        field_labels = [field.label for field in self.form_class.base_fields.values()]
+
+        field_placeholders = [field.widget.attrs['placeholder'] for field in self.form_class.base_fields.values()]
+
+        form_fields = [
+            {'name': name, 'label': label, 'placeholder': placeholder}
+            for name, label, placeholder in zip(field_names, field_labels, field_placeholders)
+        ]
+
+        context['form_initial'] = json.dumps(context['form'].initial)
+        context['form_fields'] = json.dumps(form_fields)
+
+        return context
 
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):

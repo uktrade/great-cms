@@ -22,6 +22,24 @@ export function TextInput(props) {
   )
 }
 
+export function TextArea(props) {
+
+  const { disabled, id, name, handleChange, placeholder, type, value } = props
+
+  return (
+    <textarea
+      className="form-control"
+      disabled={disabled}
+      id={id}
+      name={name}
+      onChange={(e) => handleChange(e)}
+      placeholder={placeholder}
+      type={type}
+      value={value}
+    />
+  )
+}
+
 export function RadioInput(props) {
 
   const children = props.options.map(({label, value, disabled}, i) => {
@@ -60,6 +78,9 @@ export default function Field(props){
   function getInput() {
     if (props.type === 'radio') {
       return <RadioInput id={id_for_label} {...props} />
+    }
+    if (props.type === 'textarea') {
+      return <TextArea id={id_for_label} {...props} />
     }
     return <TextInput id={id_for_label} {...props} />
   }
