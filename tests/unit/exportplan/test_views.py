@@ -74,7 +74,7 @@ def test_export_plan_builder_landing_page(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach'})
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
 def test_exportplan_sections(slug, client, user):
     client.force_login(user)
 
@@ -104,7 +104,7 @@ def test_exportplan_section_marketing_approach(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
 def test_exportplan_section_target_makret_country(client, user):
     client.force_login(user)
 

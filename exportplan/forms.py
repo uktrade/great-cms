@@ -1,5 +1,5 @@
 from great_components import forms
-from django.forms import ImageField
+from django.forms import ImageField, Textarea
 
 import directory_validators.url
 import directory_validators.string
@@ -36,4 +36,47 @@ class CountryDemographicsForm(forms.Form):
     )
     age_range = forms.ChoiceField(
         choices=((i, i) for i in population_age_range_choices)
+    )
+
+
+class ExportPlanBrandAndProductForm(forms.Form):
+    story = forms.CharField(
+        label='Story behind brand',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'Add some text, for example: We have since 1863 been distilling gin over five generations of our '
+                'family using handed down process'
+            )}
+        ),
+    )
+    location = forms.CharField(
+        label='Location',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'Add some text, for example: Distilled 1,200ft above sea level in ancient spring in the '
+                'Peak District'
+            )}
+        ),
+    )
+    processes = forms.CharField(
+        label='Manufacturing processes',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'Add some text, for example: The ingredients are ground by hand before being distilled '
+                'in Cheshire. The alcohol vapour and the flavoursome oils from the botanicals reach our copper '
+                'condenser, where they are immediately cooled'
+            )}
+        ),
+    )
+    packaging = forms.CharField(
+        label='Packaging',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'Add some text, for example: hand made ceramic bottle hand sealed with wax'
+            )}
+        ),
     )

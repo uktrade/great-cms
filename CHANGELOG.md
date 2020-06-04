@@ -13,6 +13,7 @@
 - MVP-579 - create export plan cms page
 
 ### Implemented enhancements
+- MVP-452 - Add brand and product page with autosave function
 - MVP-317 - Add dummy pages for all export plan sections
 - MVP-306 - Added sector chooser component
 - MVP-299 - Finalised styling for export plan sections
