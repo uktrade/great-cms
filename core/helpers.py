@@ -53,6 +53,10 @@ with open(settings.ROOT_DIR + 'core/fixtures/countries-urban-rural.csv', 'r') as
     country_urban_rural_data = f.read()
 
 
+with open(settings.ROOT_DIR + 'core/fixtures/countries-consumer-price-index.csv', 'r') as f:
+    country_consumer_price_index_data = f.read()
+
+
 population_age_range_choices = [
     '0-8',
     '5-9',
@@ -236,14 +240,16 @@ def get_popular_export_destinations(sector_label):
 
 
 @functools.lru_cache(maxsize=None)
-def get_country_population(country_name, year):
+def get_country_population(name, year):
+    # returns thousands
     for row in csv.reader(StringIO(country_population_data), delimiter=','):
-        if is_fuzzy_match(label_a=country_name, label_b=row[2]) and row[7] == str(year):
+        if is_fuzzy_match(label_a=name, label_b=row[2]) and row[7] == str(year):
             return int(float(row[29].replace(',', '')))
 
 
 @functools.lru_cache(maxsize=None)
-def get_country_population_by_age_range(country_name, year, age_range, sex_filter=None):
+def get_country_population_by_age_range(name, year, age_range, sex_filter=None):
+    # returns thousands
     assert age_range in population_age_range_choices
 
     dataset = {
@@ -253,35 +259,46 @@ def get_country_population_by_age_range(country_name, year, age_range, sex_filte
     }[sex_filter]
 
     for row in csv.reader(StringIO(dataset), delimiter=','):
-        if is_fuzzy_match(label_a=country_name, label_b=row[2]) and row[7] == str(year):
+        if is_fuzzy_match(label_a=name, label_b=row[2]) and row[7] == str(year):
             # age range column starts at index 8
             index = population_age_range_choices.index(age_range) + 8
             return int(float(row[index].replace(' ', '')))
 
 
 @functools.lru_cache(maxsize=None)
-def get_country_average_income(country_name, year):
+def get_country_average_income(name, year):
+    # in USD
     for row in csv.reader(StringIO(country_average_income_data), delimiter=','):
-        if is_fuzzy_match(label_a=country_name, label_b=row[0]):
+        if is_fuzzy_match(label_a=name, label_b=row[0]):
             return int(float(row[-1]))
 
 
 @functools.lru_cache(maxsize=None)
-def get_country_urban_percentage(country_name, year):
+def get_country_urban_percentage(name, year):
     for row in csv.reader(StringIO(country_urban_rural_data), delimiter=','):
-        if is_fuzzy_match(label_a=country_name, label_b=row[1]):
+        if is_fuzzy_match(label_a=name, label_b=row[1]):
             return float(row[7])
 
 
-class CountryDemographics:
+@functools.lru_cache(maxsize=None)
+def get_country_consumer_price_index(name, year):
+    for row in csv.reader(StringIO(country_consumer_price_index_data), delimiter=','):
+        if is_fuzzy_match(label_a=name, label_b=row[0]):
+            index = 4 + year - 1960  # year columns start at column 4, it's year 1960
+            return round(float(row[index]), 2)
 
-    def __init__(self, country_name, year=2020):
-        self.country_name = country_name
-        self.year = year
+
+class CountryDemographics:
+    year_population = 2020
+    year_income = 2018
+    year_consumer_price_index = 2019
+
+    def __init__(self, name):
+        self.name = name
 
     @property
     def urban_percentage(self):
-        return get_country_urban_percentage(country_name=self.country_name, year=self.year)
+        return get_country_urban_percentage(name=self.name, year=self.year_population)
 
     @property
     def rural_percentage(self):
@@ -289,14 +306,40 @@ class CountryDemographics:
 
     @property
     def average_income(self):
-        # in USD
-        return get_country_average_income(country_name=self.country_name, year=self.year)
+        return get_country_average_income(name=self.name, year=self.year_income)
 
     @property
     def population(self):
-        # returns thousands
-        return get_country_population(country_name=self.country_name, year=self.year)
+        return get_country_population(name=self.name, year=self.year_population) * 1000
 
-    def filter_population(self, *args, **kwargs):
-        # returns thousands
-        return get_country_population_by_age_range(country_name=self.country_name, year=self.year, *args, **kwargs)
+    @property
+    def consumer_price_index(self):
+        return get_country_consumer_price_index(name=self.name, year=self.year_consumer_price_index)
+
+    def filter_age_range(self, age_range):
+        return AgeRangeCountryDemographics(name=self.name, age_range=age_range, year=self.year_population)
+
+
+class AgeRangeCountryDemographics:
+
+    def __init__(self, name, age_range, year):
+        self.name = name
+        self.age_range = age_range
+        self.year = year
+
+    @property
+    def population_male(self):
+        return get_country_population_by_age_range(
+            name=self.name, year=self.year, age_range=self.age_range, sex_filter=MALE
+        ) * 1000
+
+    @property
+    def population_female(self):
+        return get_country_population_by_age_range(
+            name=self.name, year=self.year, age_range=self.age_range, sex_filter=FEMALE
+        ) * 1000
+
+    @property
+    def population(self):
+        # note population != population_female + population_male
+        return get_country_population_by_age_range(name=self.name, year=self.year, age_range=self.age_range) * 1000

@@ -1,14 +1,14 @@
-from io import BytesIO
-import pytest
-from PIL import Image, ImageDraw
-
-from requests.exceptions import HTTPError
 from collections import OrderedDict
 from datetime import datetime
+from io import BytesIO
 from unittest import mock
 import json
+import pytest
 
 from freezegun import freeze_time
+from PIL import Image, ImageDraw
+from requests.exceptions import HTTPError
+
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -73,14 +73,57 @@ def test_export_plan_builder_landing_page(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('url', data.SECTION_URLS)
-@mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(mock_get_export_plan_or_create, url, client, user):
-    if url == reverse('exportplan:section', kwargs={'slug': 'target-markets'}):
-        return True
+@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach'})
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
+def test_exportplan_sections(slug, client, user):
     client.force_login(user)
-    response = client.get(url)
+
+    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
+def test_exportplan_section_target_makret(client, user):
+    client.force_login(user)
+
+    response = client.get(reverse('exportplan:target-markets'))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
+def test_exportplan_section_marketing_approach(client, user):
+    client.force_login(user)
+
+    response = client.get(reverse('exportplan:marketing-approach'))
+    assert response.status_code == 200
+    assert 'country' not in response.context_data
+    assert 'united_kingdom' not in response.context_data
+    assert 'age_range' not in response.context_data
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
+def test_exportplan_section_target_makret_country(client, user):
+    client.force_login(user)
+
+    response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
+    assert response.status_code == 200
+    assert 'united_kingdom' in response.context_data
+    assert 'country' in response.context_data
+    assert 'age_range' in response.context_data
+    assert response.context_data['country'].name
+    assert response.context_data['country'].year_income
+    assert response.context_data['country'].year_population
+    assert response.context_data['country'].population
+    assert response.context_data['country'].rural_percentage
+    assert response.context_data['country'].urban_percentage
+    assert response.context_data['country'].consumer_price_index
+    assert response.context_data['age_range'].name
+    assert response.context_data['age_range'].age_range
+    assert response.context_data['age_range'].population_female
+    assert response.context_data['age_range'].population_male
 
 
 @pytest.mark.django_db
@@ -122,10 +165,9 @@ def test_exportplan_target_markets(
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_or_create_export_plan')
+@mock.patch.object(helpers, 'get_or_create_export_plan', return_value={'pk': 1, 'target_markets': []})
 def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
     client.force_login(user)
-    mock_get_or_create_export_plan.return_value = {'pk': 1, 'target_markets': []}
     mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
 
     url = reverse('exportplan:api-update-export-plan')
