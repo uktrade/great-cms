@@ -76,7 +76,7 @@ def test_export_plan_builder_landing_page(
 @pytest.mark.parametrize('url', data.SECTION_URLS)
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_sections(mock_get_export_plan_or_create, url, client, user):
-    if url == reverse('exportplan:section', kwargs={'slug': 'target-markets'}):
+    if 'target-markets' in url or 'brand-and-product' in url:
         return True
     client.force_login(user)
     response = client.get(url)
