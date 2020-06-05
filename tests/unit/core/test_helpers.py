@@ -206,3 +206,38 @@ def test_search_commodity_by_term(requests_mock):
         {'value': '123323', 'label': 'some description'},
         {'value': '223323', 'label': 'some other description'},
     ]
+
+
+def test_country_demographics():
+
+    country = helpers.CountryDemographics(name='France')
+
+    assert country.urban_percentage == 80.4
+    assert country.rural_percentage == 19.6
+    assert country.urban_percentage + country.rural_percentage == 100
+    assert country.average_income == 41_089
+    assert country.population == 65_274_000
+    assert country.consumer_price_index == 110.05
+
+
+def test_country_demographics_filter_population_age_range():
+    population = 0
+
+    country = helpers.CountryDemographics(name='France')
+
+    for age_range in helpers.population_age_range_choices:
+        population += country.filter_age_range(age_range=age_range).population
+
+    assert population == country.population
+
+
+def test_country_demographics_filter_population_age_sex_filter():
+    population = 0
+    country = helpers.CountryDemographics(name='France')
+
+    for age_range in helpers.population_age_range_choices:
+        population += country.filter_age_range(age_range=age_range).population_male
+        population += country.filter_age_range(age_range=age_range).population_female
+
+    # some folks dont fall under either
+    assert country.population * 0.999 < population <= country.population

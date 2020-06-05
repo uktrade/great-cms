@@ -16,11 +16,11 @@ from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES
 from directory_api_client.client import api_client
+from exportplan import data, helpers, serializers, forms
+from core.helpers import CountryDemographics
 
-from exportplan import data, serializers, helpers, forms
 
-
-class BaseExportPlanView(TemplateView):
+class ExportPlanMixin:
 
     def dispatch(self, request, *args, **kwargs):
         if self.slug not in data.SECTION_SLUGS:
@@ -30,27 +30,6 @@ class BaseExportPlanView(TemplateView):
     @cached_property
     def export_plan(self):
         return helpers.get_or_create_export_plan(self.request.user)
-
-    def get_context_data(self, *args, **kwargs):
-        industries = [name for id, name in INDUSTRIES]
-        country_choices = [{'value': key, 'label': label} for key, label in helpers.get_madb_country_list()]
-        return super().get_context_data(
-            next_section=self.next_section,
-            sections=data.SECTION_TITLES,
-            export_plan=self.export_plan,
-            sectors=json.dumps(industries),
-            country_choices=json.dumps(country_choices),
-            *args, **kwargs)
-
-
-class ExportPlanSectionView(BaseExportPlanView):
-
-    @property
-    def slug(self, **kwargs):
-        return self.kwargs['slug']
-
-    def get_template_names(self, **kwargs):
-        return [f'exportplan/sections/{self.slug}.html']
 
     @property
     def next_section(self):
@@ -62,6 +41,50 @@ class ExportPlanSectionView(BaseExportPlanView):
             'title': data.SECTION_TITLES[index + 1],
             'url': data.SECTION_URLS[index + 1],
         }
+
+    def get_context_data(self, **kwargs):
+        industries = [name for _, name in INDUSTRIES]
+        country_choices = [{'value': key, 'label': label} for key, label in helpers.get_madb_country_list()]
+        return super().get_context_data(
+            next_section=self.next_section,
+            sections=data.SECTION_TITLES,
+            export_plan=self.export_plan,
+            sectors=json.dumps(industries),
+            country_choices=json.dumps(country_choices),
+            **kwargs
+        )
+
+
+class ExportPlanSectionView(ExportPlanMixin, TemplateView):
+    @property
+    def slug(self, **kwargs):
+        return self.kwargs['slug']
+
+    def get_template_names(self, **kwargs):
+        return [f'exportplan/sections/{self.slug}.html']
+
+
+class ExportPlanMarketingApproachView(ExportPlanMixin, FormView):
+    form_class = forms.CountryDemographicsForm
+    template_name = 'exportplan/sections/marketing-approach.html'
+    slug = 'marketing-approach'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        data = self.request.GET or {}
+        if data:
+            kwargs['data'] = data
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = self.get_form()
+        if form.is_valid():
+            country = CountryDemographics(form.cleaned_data['name'])
+            context['country'] = country
+            context['age_range'] = country.filter_age_range(form.cleaned_data['age_range'])
+            context['united_kingdom'] = CountryDemographics('United Kingdom')
+        return context
 
 
 class ExportPlanTargetMarketsView(ExportPlanSectionView):
