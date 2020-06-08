@@ -100,3 +100,4 @@
 - no ticket - fix logo
 - no ticket - fix locust's breaking changes
 - MVP-563 - Add time to read
+- MVP-564 - Collect country demographics information from spreadsheets

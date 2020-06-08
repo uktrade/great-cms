@@ -8,6 +8,8 @@ LOGIN_URL = reverse_lazy('core:login')
 app_name = 'exportplan'
 
 urlpatterns = [
+    path('section/marketing-approach/', views.ExportPlanMarketingApproachView.as_view(), name='marketing-approach'),
+    path('logo', views.LogoFormView.as_view(), name='add-logo'),
     path(
         'section/target-markets/',
         login_required(views.ExportPlanTargetMarketsView.as_view(), login_url=LOGIN_URL),
