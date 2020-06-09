@@ -11,6 +11,7 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 - MVP-579 - create export plan cms page
+- GP2-67 - fix backbutton upload logo
 
 ### Implemented enhancements
 - MVP-452 - Add brand and product page with autosave function
