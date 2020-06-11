@@ -99,21 +99,7 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
         )
 
 
-class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
-    form_class = forms.ExportPlanBrandAndProductForm
-    success_url = reverse_lazy('exportplan:brand-and-product')
-
-    def form_valid(self, form):
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.export_plan['pk'],
-            data={'brand_product_details': form.cleaned_data}
-        )
-        return super().form_valid(form)
-
-    def get_initial(self):
-        return self.export_plan['brand_product_details']
-
+class FormContextMixin:
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
@@ -121,7 +107,9 @@ class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
 
         field_labels = [field.label for field in self.form_class.base_fields.values()]
 
-        field_placeholders = [field.widget.attrs['placeholder'] for field in self.form_class.base_fields.values()]
+        field_placeholders = [
+            field.widget.attrs.get('placeholder', '') for field in self.form_class.base_fields.values()
+        ]
 
         form_fields = [
             {'name': name, 'label': label, 'placeholder': placeholder}
@@ -134,6 +122,32 @@ class ExportPlanBrandAndProductView(ExportPlanSectionView, FormView):
         return context
 
 
+class ExportPlanBrandAndProductView(FormContextMixin, ExportPlanSectionView, FormView):
+    form_class = forms.ExportPlanBrandAndProductForm
+    success_url = reverse_lazy('exportplan:brand-and-product')
+
+    def form_valid(self, form):
+        helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=self.export_plan['pk'],
+            data={'brand_product_details': form.cleaned_data}
+        )
+        return super().form_valid(form)
+
+
+class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):
+    form_class = forms.ExportPlanBusinessObjectivesForm
+    success_url = reverse_lazy('exportplan:objectives')
+
+    def form_valid(self, form):
+        helpers.update_exportplan(
+            sso_session_id=self.request.user.session_id,
+            id=self.export_plan['pk'],
+            data=form.cleaned_data
+        )
+        return super().form_valid(form)
+
+
 class UpdateExportPlanAPIView(generics.GenericAPIView):
 
     serializer_class = serializers.ExportPlanSerializer
@@ -141,14 +155,17 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        export_plan = helpers.get_or_create_export_plan(self.request.user)
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=export_plan['pk'],
-            data=serializer.validated_data
-        )
-        return Response({})
+
+        if serializer.is_valid(raise_exception=True):
+            export_plan = helpers.get_or_create_export_plan(self.request.user)
+            helpers.update_exportplan(
+                sso_session_id=self.request.user.session_id,
+                id=export_plan['pk'],
+                data=serializer.validated_data
+            )
+            return Response(serializer.validated_data)
+
+        return Response(serializer.errors)
 
 
 class BaseFormView(FormView):
