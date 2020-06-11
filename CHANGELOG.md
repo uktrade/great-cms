@@ -14,6 +14,7 @@
 - GP2-67 - fix backbutton upload logo
 
 ### Implemented enhancements
+- GP2-115 - Add objectives business rationale section
 - MVP-452 - Add brand and product page with autosave function
 - MVP-317 - Add dummy pages for all export plan sections
 - MVP-306 - Added sector chooser component
