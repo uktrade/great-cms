@@ -44,6 +44,25 @@ urlpatterns = [
         name='signup'
     ),
     path(
+        'signup/company-name/',
+        login_required(core.views.CompanyNameFormView.as_view()),
+        name='set-company-name'
+    ),
+    path(
+        'signup/tailored-content/<str:step>/',
+        anonymous_user_required(
+            core.views.SignupForTailoredContentWizardView.as_view(url_name='core:signup-wizard-tailored-content')
+        ),
+        name='signup-wizard-tailored-content'
+    ),
+    path(
+        'signup/export-plan/<str:step>/',
+        anonymous_user_required(
+            core.views.SignupForExportPlanWizardView.as_view(url_name='core:signup-wizard-export-plan')
+        ),
+        name='signup-wizard-export-plan'
+    ),
+    path(
         'api/update-company/',
         core.views.UpdateCompanyAPIView.as_view(),
         name='api-update-company'

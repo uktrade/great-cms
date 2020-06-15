@@ -3,7 +3,8 @@ from unittest import mock
 import pytest
 from wagtail.tests.utils import WagtailPageTests
 
-from core.models import AbstractObjectHash, ListPage, DetailPage
+from core.models import AbstractObjectHash, LandingPage, ListPage, CuratedListPage, InterstitialPage, DetailPage
+from exportplan.models import ExportPlanDashboardPage
 from domestic.models import DomesticHomePage
 from tests.unit.core import factories
 
@@ -19,8 +20,10 @@ def test_object_hash():
 def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_site):
     # given the user has not read a lesson
     client.force_login(user)
+
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
-    detail_page = factories.DetailPageFactory(parent=list_page,)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    detail_page = factories.DetailPageFactory(parent=curated_list_page)
 
     client.get(detail_page.url)
 
@@ -35,7 +38,8 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
     # given the user has not read a lesson
     client.force_login(user)
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
-    detail_page = factories.DetailPageFactory(parent=list_page)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    detail_page = factories.DetailPageFactory(parent=curated_list_page)
 
     client.get(detail_page.url)
 
@@ -46,7 +50,7 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
 @pytest.mark.django_db
 def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site):
     # given the user has not read a lesson
-    list_page = factories.ListPageFactory(parent=domestic_homepage)
+    list_page = factories.CuratedListPageFactory(parent=domestic_homepage)
     detail_page = factories.DetailPageFactory(parent=list_page)
 
     client.get(detail_page.url)
@@ -55,16 +59,34 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
     assert detail_page.page_views.count() == 0
 
 
-class ListPageTests(WagtailPageTests):
+class LandingPageTests(WagtailPageTests):
 
     def test_can_be_created_under_homepage(self):
-        self.assertAllowedParentPageTypes(ListPage, {DomesticHomePage})
+        self.assertAllowedParentPageTypes(LandingPage, {DomesticHomePage})
+
+    def test_can_be_created_under_landing_page(self):
+        self.assertAllowedSubpageTypes(LandingPage, {ListPage, InterstitialPage, ExportPlanDashboardPage})
+
+
+class ListPageTests(WagtailPageTests):
+
+    def test_can_be_created_under_landing_page(self):
+        self.assertAllowedParentPageTypes(ListPage, {LandingPage})
 
     def test_allowed_subtypes(self):
-        self.assertAllowedSubpageTypes(ListPage, {DetailPage})
+        self.assertAllowedSubpageTypes(ListPage, {CuratedListPage})
+
+
+class CuratedListPageTests(WagtailPageTests):
+
+    def test_can_be_created_under_list_page(self):
+        self.assertAllowedParentPageTypes(CuratedListPage, {ListPage})
+
+    def test_allowed_subtypes(self):
+        self.assertAllowedSubpageTypes(CuratedListPage, {DetailPage})
 
 
 class DetailPageTests(WagtailPageTests):
 
-    def test_can_be_created_under_list_page(self):
-        self.assertAllowedParentPageTypes(DetailPage, {ListPage})
+    def test_can_be_created_under_curated_list_page(self):
+        self.assertAllowedParentPageTypes(DetailPage, {CuratedListPage})

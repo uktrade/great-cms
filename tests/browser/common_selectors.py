@@ -167,7 +167,7 @@ class StickyHeader(SelectorsEnum):
 
 
 class ExportPlanDashboard(SelectorsEnum):
-    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'about-your-business', type=ElementType.LINK)
+    BRAND_AND_PRODUCT = Selector(By.ID, 'brand-and-product', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'objectives', type=ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'target-markets', type=ElementType.LINK)
     ADAPTATION = Selector(By.ID, 'adaptation-for-international-markets', type=ElementType.LINK)
@@ -177,7 +177,6 @@ class ExportPlanDashboard(SelectorsEnum):
     PAYMENT_METHODS = Selector(By.ID, 'payment-methods', type=ElementType.LINK)
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'travel-and-business-policies', type=ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'business-risk', type=ElementType.LINK)
-    ACTION_PLAN = Selector(By.ID, 'action-plan', type=ElementType.LINK)
 
 
 class ExportPlanDashboardPageTourStep0(SelectorsEnum):
@@ -213,13 +212,13 @@ class ExportPlanDashboardPageTourStep4(SelectorsEnum):
 
 class ExportPlanDashboardPageTourStep5(SelectorsEnum):
     STEP = Selector(By.ID, 'page-tour-step-lets-start')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'brand-and-product')
     NEXT = Selector(By.ID, 'page-tour-start-now', type=ElementType.LINK)
 
 
 class ExportPlanTargetMarkets(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'sidebar-content')
-    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', type=ElementType.LINK)
+    BRAND_AND_PRODUCT = Selector(By.ID, 'sidebar-brand-and-product', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'sidebar-objectives', type=ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'sidebar-target-markets', type=ElementType.LINK)
     ADAPTATION = Selector(By.ID, 'sidebar-adaptation-for-international-markets', type=ElementType.LINK)
@@ -229,7 +228,6 @@ class ExportPlanTargetMarkets(SelectorsEnum):
     PAYMENT_METHODS = Selector(By.ID, 'sidebar-payment-methods', type=ElementType.LINK)
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'sidebar-travel-and-business-policies', type=ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', type=ElementType.LINK)
-    ACTION_PLAN = Selector(By.ID, 'sidebar-action-plan', type=ElementType.LINK)
     CONTENT = Selector(By.ID, 'target-markets-content')
 
 
@@ -313,7 +311,7 @@ class TargetMarketsCountryChooser(SelectorsEnum):
 class TopicLessonListing(SelectorsEnum):
     TITLE = Selector(By.ID, 'topic-title')
     LESSON_LIST = Selector(By.ID, 'topic-lesson-list')
-    LESSON_LINKS = Selector(By.CSS_SELECTOR, 'a[id^=lesson-]')
+    LESSON_LINKS = Selector(By.CSS_SELECTOR, 'div[id^=lesson-]')
 
 
 class LessonPage(SelectorsEnum):

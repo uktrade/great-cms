@@ -151,6 +151,13 @@ $desktop: 1024px;
     background-color: $white;
 }
 
+.learn__topic-item-read-time {
+  color: $grey;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 5px 0 0 0;
+}
+
 .learn__topic-item-title,
 .learn__topic-item {
     color: $grey;

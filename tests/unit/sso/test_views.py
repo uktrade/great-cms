@@ -6,6 +6,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from sso import helpers
+from tests.helpers import create_response
 
 
 @pytest.mark.django_db
@@ -66,7 +67,7 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
         email=data['email'],
         verification_code='12345',
         form_url=url,
-        verification_link=f'http://testserver/?verify=test@example.com'
+        verification_link='http://testserver/?verify=test@example.com'
     )
 
 
@@ -99,6 +100,8 @@ def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
 @mock.patch.object(helpers, 'check_verification_code')
 @mock.patch.object(helpers, 'send_welcome_notification')
 def test_business_sso_verify_code_valid(mock_send_welcome_notification, mock_check_verification_code, client):
+
+    mock_check_verification_code.return_value = create_response()
     data = {'email': 'test@example.com', 'code': '12345'}
     url = reverse('sso:business-sso-verify-code-api')
 

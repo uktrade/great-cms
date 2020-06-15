@@ -3,17 +3,16 @@ from django.urls import reverse_lazy
 
 
 SECTION_TITLES = [
-    'About your business',
+    'Brand and product',
     'Objectives',
     'Target markets',
     'Adaptation for international markets',
     'Marketing approach',
-    'Finance',
     'Costs and pricing',
+    'Finance',
     'Payment methods',
     'Travel and business policies',
     'Business risk',
-    'Action plan',
 ]
 
 SECTION_SLUGS = [slugify(section) for section in SECTION_TITLES]

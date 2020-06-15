@@ -1,14 +1,23 @@
+import abc
+
 from directory_constants import choices
+from formtools.wizard.views import NamedUrlSessionWizardView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.template.response import TemplateResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
 
 from core import forms, helpers, models, serializers
+
+
+STEP_START = 'start'
+STEP_WHAT_SELLING = 'what-are-you-selling'
+STEP_PRODUCT_SEARCH = 'product-search'
+STEP_SIGN_UP = 'sign-up'
 
 
 class DashboardView(TemplateView):
@@ -29,6 +38,7 @@ class DashboardView(TemplateView):
             ))
             .order_by('-read_progress')
         )
+
         return super().get_context_data(
             list_pages=list_pages,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
@@ -57,7 +67,7 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
 class ArticleView(FormView):
     template_name = 'core/article.html'
     success_url = reverse_lazy('core:dashboard')
-    form_class = forms.ArticleForm
+    form_class = forms.NoOperationForm
 
     def get_context_data(self):
         return super().get_context_data(
@@ -122,3 +132,93 @@ def handler500(request, *args, **kwargs):
         context={},
         status=500
     )
+
+
+class AbstractSignupWizardView(abc.ABC):
+
+    step_labels = (
+        'Get tailored content',
+        'What are you selling?',
+        'Find your product',
+        'Sign up',
+    )
+
+    @property
+    @abc.abstractmethod
+    def templates(self):
+        raise NotImplementedError
+
+    @property
+    @abc.abstractmethod
+    def form_list(self):
+        raise NotImplementedError
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        # react component handles the signing up, this wizard is just for data collection that is fed into
+        # the react component on the final step, so this step should not be submitted to
+        raise NotImplementedError
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(step_labels=self.step_labels, **kwargs)
+        if self.steps.current == STEP_SIGN_UP:
+            context['product_search_data'] = self.get_cleaned_data_for_step(STEP_PRODUCT_SEARCH)
+        return context
+
+    def get_step_url(self, step):
+        # we want to maintain the querystring params. e.g, next tells the final
+        # step where to send the user
+        url = super().get_step_url(step)
+        if self.request.GET.get('next'):
+            querystring = self.request.META['QUERY_STRING']
+            if querystring:
+                url = f'{url}?{querystring}'
+        return url
+
+
+class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+    extra_context = {'allow_skip_signup': True}
+    templates = {
+        STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
+        STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
+        STEP_PRODUCT_SEARCH: 'core/signup-wizard-step-product-search.html',
+        STEP_SIGN_UP: 'core/signup-wizard-step-sign-up.html',
+    }
+
+    form_list = (
+        (STEP_START, forms.NoOperationForm),
+        (STEP_WHAT_SELLING, forms.WhatAreYouSellingForm),
+        (STEP_PRODUCT_SEARCH, forms.ProductSearchForm),
+        (STEP_SIGN_UP, forms.NoOperationForm),
+    )
+
+
+class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+    extra_context = {'allow_skip_signup': False}
+    templates = {
+        STEP_START: 'core/signup-wizard-step-start-export-plan.html',
+        STEP_WHAT_SELLING: 'core/signup-wizard-step-what-selling.html',
+        STEP_PRODUCT_SEARCH: 'core/signup-wizard-step-product-search.html',
+        STEP_SIGN_UP: 'core/signup-wizard-step-sign-up.html',
+    }
+
+    form_list = (
+        (STEP_START, forms.NoOperationForm),
+        (STEP_WHAT_SELLING, forms.WhatAreYouSellingForm),
+        (STEP_PRODUCT_SEARCH, forms.ProductSearchForm),
+        (STEP_SIGN_UP, forms.NoOperationForm),
+    )
+
+
+class CompanyNameFormView(FormView):
+    template_name = 'core/company-name-form.html'
+    form_class = forms.CompanyNameForm
+
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse('core:dashboard'))
+
+    def form_valid(self, form):
+        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
+        return super().form_valid(form)

@@ -5,7 +5,7 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  margin-left: 0px;
+  margin-left: 300px;
 
   .nav-extra-links {
     float: right;
@@ -102,4 +102,12 @@
 
     }
   }
+}
+
+
+.great-mvp-link-disabled {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: black;
 }

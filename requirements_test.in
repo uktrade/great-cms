@@ -6,7 +6,7 @@ Werkzeug
 allure-pytest
 pillow
 selenium
-locustio
+locust
 pytest==5.3.5
 pytest-cov
 pytest-django

@@ -11,8 +11,17 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
             raise serializers.ValidationError('sectors is a required field')
 
 
+class BrandAndProductDetailsSerializer(serializers.Serializer):
+    story = serializers.CharField(required=False, allow_blank=True)
+    location = serializers.CharField(required=False, allow_blank=True)
+    processes = serializers.CharField(required=False, allow_blank=True)
+    packaging = serializers.CharField(required=False, allow_blank=True)
+
+
 class ExportPlanSerializer(serializers.Serializer):
-    target_markets = serializers.ListField(child=serializers.CharField())
+    target_markets = serializers.ListField(child=serializers.CharField(), required=False)
+    brand_product_details = BrandAndProductDetailsSerializer(required=False)
+    rational = serializers.CharField(required=False, allow_blank=True)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]

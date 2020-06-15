@@ -2,6 +2,7 @@ from collections import Counter
 from difflib import SequenceMatcher
 from logging import getLogger
 import csv
+from io import StringIO
 import functools
 from urllib.parse import urljoin
 
@@ -17,12 +18,68 @@ from django.conf import settings
 
 from core.serializers import parse_opportunities, parse_events
 
+
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
 COMMODITY_SEARCH_URL = urljoin(settings.DIT_HELPDESK_URL, '/search/api/commodity-term/')
+MALE = 'xy'
+FEMALE = 'xx'
 
 
 logger = getLogger(__name__)
+
+
+with open(settings.ROOT_DIR + 'core/fixtures/countries-populations.csv', 'r') as f:
+    country_population_data = f.read()
+
+
+with open(settings.ROOT_DIR + 'core/fixtures/countries-populations-male.csv', 'r') as f:
+    country_population_data_male = f.read()
+
+
+with open(settings.ROOT_DIR + 'core/fixtures/countries-populations-female.csv', 'r') as f:
+    country_population_data_female = f.read()
+
+
+with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
+    countries_sectors = f.read()
+
+
+with open(settings.ROOT_DIR + 'core/fixtures/countries-average-income.csv', 'r') as f:
+    country_average_income_data = f.read()
+
+
+with open(settings.ROOT_DIR + 'core/fixtures/countries-urban-rural.csv', 'r') as f:
+    country_urban_rural_data = f.read()
+
+
+with open(settings.ROOT_DIR + 'core/fixtures/countries-consumer-price-index.csv', 'r') as f:
+    country_consumer_price_index_data = f.read()
+
+
+population_age_range_choices = [
+    '0-8',
+    '5-9',
+    '10-14',
+    '15-19',
+    '20-24',
+    '25-29',
+    '30-34',
+    '35-39',
+    '40-44',
+    '45-49',
+    '50-54',
+    '55-59',
+    '60-64',
+    '65-69',
+    '70-74',
+    '75-79',
+    '80-84',
+    '85-89',
+    '90-94',
+    '95-99',
+    '100+',
+]
 
 
 def get_location(request):
@@ -105,17 +162,6 @@ def is_fuzzy_match(label_a, label_b):
     return match.ratio() > 0.9
 
 
-def get_popular_export_destinations(sector_label):
-    export_destinations = Counter()
-
-    with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
-        for row in csv.DictReader(f, delimiter=','):
-            row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
-            if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
-                export_destinations.update([row['country']])
-    return export_destinations.most_common(5)
-
-
 class CompanyParser(great_components.helpers.CompanyParser):
 
     INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
@@ -123,9 +169,14 @@ class CompanyParser(great_components.helpers.CompanyParser):
     def __init__(self, data):
         data = {**data}
         data.setdefault('expertise_products_services', {})
+        data.setdefault('expertise_countries', [])
+        data.setdefault('expertise_industries', [])
         if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
             data['expertise_industries'] = ['SL10017']  # food and drink
         super().__init__(data=data)
+
+    def __getattr__(self, name):
+        return self.data.get(name)
 
     @property
     def expertise_industries_labels(self):
@@ -176,3 +227,119 @@ def search_commodity_by_term(term, page=1):
         {'value': item['commodity_code'], 'label': item['description']}
         for item in parsed['results']
     ]
+
+
+@functools.lru_cache(maxsize=None)
+def get_popular_export_destinations(sector_label):
+    export_destinations = Counter()
+    for row in csv.DictReader(StringIO(countries_sectors), delimiter=','):
+        row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
+        if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
+            export_destinations.update([row['country']])
+    return export_destinations.most_common(5)
+
+
+@functools.lru_cache(maxsize=None)
+def get_country_population(name, year):
+    # returns thousands
+    for row in csv.reader(StringIO(country_population_data), delimiter=','):
+        if is_fuzzy_match(label_a=name, label_b=row[2]) and row[7] == str(year):
+            return int(float(row[29].replace(',', '')))
+
+
+@functools.lru_cache(maxsize=None)
+def get_country_population_by_age_range(name, year, age_range, sex_filter=None):
+    # returns thousands
+    assert age_range in population_age_range_choices
+
+    dataset = {
+        MALE: country_population_data_male,
+        FEMALE: country_population_data_female,
+        None: country_population_data,
+    }[sex_filter]
+
+    for row in csv.reader(StringIO(dataset), delimiter=','):
+        if is_fuzzy_match(label_a=name, label_b=row[2]) and row[7] == str(year):
+            # age range column starts at index 8
+            index = population_age_range_choices.index(age_range) + 8
+            return int(float(row[index].replace(' ', '')))
+
+
+@functools.lru_cache(maxsize=None)
+def get_country_average_income(name, year):
+    # in USD
+    for row in csv.reader(StringIO(country_average_income_data), delimiter=','):
+        if is_fuzzy_match(label_a=name, label_b=row[0]):
+            return int(float(row[-1]))
+
+
+@functools.lru_cache(maxsize=None)
+def get_country_urban_percentage(name, year):
+    for row in csv.reader(StringIO(country_urban_rural_data), delimiter=','):
+        if is_fuzzy_match(label_a=name, label_b=row[1]):
+            return float(row[7])
+
+
+@functools.lru_cache(maxsize=None)
+def get_country_consumer_price_index(name, year):
+    for row in csv.reader(StringIO(country_consumer_price_index_data), delimiter=','):
+        if is_fuzzy_match(label_a=name, label_b=row[0]):
+            index = 4 + year - 1960  # year columns start at column 4, it's year 1960
+            return round(float(row[index]), 2)
+
+
+class CountryDemographics:
+    year_population = 2020
+    year_income = 2018
+    year_consumer_price_index = 2019
+
+    def __init__(self, name):
+        self.name = name
+
+    @property
+    def urban_percentage(self):
+        return get_country_urban_percentage(name=self.name, year=self.year_population)
+
+    @property
+    def rural_percentage(self):
+        return round(100 - self.urban_percentage, 2)
+
+    @property
+    def average_income(self):
+        return get_country_average_income(name=self.name, year=self.year_income)
+
+    @property
+    def population(self):
+        return get_country_population(name=self.name, year=self.year_population) * 1000
+
+    @property
+    def consumer_price_index(self):
+        return get_country_consumer_price_index(name=self.name, year=self.year_consumer_price_index)
+
+    def filter_age_range(self, age_range):
+        return AgeRangeCountryDemographics(name=self.name, age_range=age_range, year=self.year_population)
+
+
+class AgeRangeCountryDemographics:
+
+    def __init__(self, name, age_range, year):
+        self.name = name
+        self.age_range = age_range
+        self.year = year
+
+    @property
+    def population_male(self):
+        return get_country_population_by_age_range(
+            name=self.name, year=self.year, age_range=self.age_range, sex_filter=MALE
+        ) * 1000
+
+    @property
+    def population_female(self):
+        return get_country_population_by_age_range(
+            name=self.name, year=self.year, age_range=self.age_range, sex_filter=FEMALE
+        ) * 1000
+
+    @property
+    def population(self):
+        # note population != population_female + population_male
+        return get_country_population_by_age_range(name=self.name, year=self.year, age_range=self.age_range) * 1000

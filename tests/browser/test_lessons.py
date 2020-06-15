@@ -50,7 +50,9 @@ def open_random_lesson(browser: WebDriver):
 @allure.step('Check topics reading progress')
 def check_topic_read_progress(browser: WebDriver, topic: ListPageFactory, lessons: List[DetailPageFactory]):
     attach_jpg_screenshot(browser, 'Topics reading progress', selector=DashboardReadingProgress.YOUR_PROGRESS_CARD)
-    topic_read_count = browser.find_element_by_id(f'topics-read-count-lesson-{topic.slug}')
+    list_page = topic.get_parent()
+
+    topic_read_count = browser.find_element_by_id(f'topics-read-count-{list_page.slug}')
     no_of_lessons = topic_read_count.get_property('max')
     no_of_read_lessons = topic_read_count.get_property('value')
     assert no_of_lessons == len(lessons)
@@ -70,13 +72,13 @@ def test_can_view_lessons_from_different_topics(
     visit_page(live_server, browser, 'core:dashboard', 'Dashboard')
     should_see_all_elements(browser, DashboardReadingProgress)
 
-    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.slug)
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', f'/{topic_a.slug}/{topic_a_lessons[0].slug}/')
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A2', f'/{topic_a.slug}/{topic_a_lessons[1].slug}/')
+    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
+    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', topic_a_lessons[0].url)
+    visit_lesson_page(live_server, browser, 'Topic A - Lesson A2', topic_a_lessons[1].url)
 
-    visit_lesson_listing_page(live_server, browser, 'Topic B', topic_b.slug)
-    visit_lesson_page(live_server, browser, 'Topic B - Lesson B1', f'/{topic_b.slug}/{topic_b_lessons[0].slug}/')
-    visit_lesson_page(live_server, browser, 'Topic B - Lesson B2', f'/{topic_b.slug}/{topic_b_lessons[1].slug}/')
+    visit_lesson_listing_page(live_server, browser, 'Topic B', topic_b.url)
+    visit_lesson_page(live_server, browser, 'Topic B - Lesson B1', topic_b_lessons[0].url)
+    visit_lesson_page(live_server, browser, 'Topic B - Lesson B2', topic_b_lessons[1].url)
 
 
 def test_can_navigate_from_topic_to_lesson(
@@ -87,7 +89,8 @@ def test_can_navigate_from_topic_to_lesson(
 ):
     live_server, user, browser = server_user_browser_dashboard
     topic_a, topic_a_lessons = topics_with_lessons[0]
-    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.slug)
+
+    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
 
     open_random_lesson(browser)
 
@@ -103,7 +106,7 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     live_server, user, browser = server_user_browser_dashboard
     topic_a, topic_a_lessons = topics_with_lessons[0]
 
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', f'/{topic_a.slug}/{topic_a_lessons[0].slug}/')
+    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', topic_a_lessons[0].url)
 
     visit_page(live_server, browser, 'core:dashboard', 'Dashboard')
     should_see_all_elements(browser, DashboardReadingProgress)

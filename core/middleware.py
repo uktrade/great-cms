@@ -1,4 +1,7 @@
+from great_components.helpers import add_next
+
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
 
 from core import helpers
@@ -26,18 +29,35 @@ class UserSpecificRedirectMiddleware(MiddlewareMixin):
             return redirect('/learn/categories/')
         elif request.path == '/learn/introduction/':
             request.session[self.SESSION_KEY_LEARN] = True
+        elif request.path in ['/export-plan/', '/export-plan/dashboard/']:
+            if request.user.is_authenticated and (not request.user.company or not request.user.company.name):
+                url = add_next(destination_url=reverse('core:set-company-name'), current_url=request.get_full_path())
+                return redirect(url)
 
 
 class StoreUserExpertiseMiddleware(MiddlewareMixin):
-    def process_request(self, request):
+
+    def should_set_product_expertise(self, request):
         if request.user.is_anonymous or 'remember-expertise-products-services' not in request.GET:
-            return
+            return False
 
+        if not request.user.company:
+            # no company yet. `update_company_profile` will update or create if not yet exists.
+            return True
+
+        # only update if specified products are different to current expertise
         products = request.GET.getlist('product')
+        return request.user.company and products and products != request.user.company.expertise_products_services
 
-        if request.user.company and products and products != request.user.company.expertise_products_services:
+    def process_request(self, request):
+        if self.should_set_product_expertise(request):
+            products = request.GET.getlist('product')
             helpers.update_company_profile(
                 sso_session_id=request.user.session_id,
                 data={'expertise_products_services': {'other': products}}
             )
-            request.user.company.data['expertise_products_services']['other'] = products
+            # invalidating the cached property
+            try:
+                del request.user.company
+            except AttributeError:
+                pass

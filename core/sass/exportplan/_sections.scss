@@ -1,0 +1,16 @@
+.brand-and-product-content,
+.objectives-content {
+
+  label {
+    @extend .h-m;
+  }
+
+  textarea {
+    width: 100%;
+    resize: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+
+}

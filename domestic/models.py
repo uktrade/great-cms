@@ -9,7 +9,5 @@ class DomesticHomePage(
     mixins.AnonymousUserRequired,
     Page,
 ):
-    parent_page_types = ['wagtailcore.Page']
 
-    def get_template(self, request, *args, **kwargs):
-        return ['learn/learn_page.html']
+    pass

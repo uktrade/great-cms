@@ -17,7 +17,7 @@ pytestmark = [
 
 
 @pytest.mark.django_db
-def test_export_plan_about_your_business_page(
+def test_export_plan_brand_and_product_page(
     server_user_browser_dashboard, mock_all_dashboard_and_export_plan_requests_and_responses
 ):
     live_server, _, browser = server_user_browser_dashboard

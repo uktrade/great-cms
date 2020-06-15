@@ -1,17 +1,54 @@
+import json
+from urllib.parse import urlencode
 from unittest import mock
 from unittest.mock import patch, Mock
-import json
 
-import pytest
 from directory_api_client import api_client
+from formtools.wizard.views import normalize_name
+import pytest
 
 from django.db.utils import DataError
 from django.urls import reverse
 
-from core import helpers, models, serializers
+from core import forms, helpers, models, serializers, views
 from tests.helpers import create_response
-from tests.unit.core.factories import ListPageFactory, DetailPageFactory
-from tests.unit.learn.factories import LessonPageFactory, TopicPageFactory
+from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
+from tests.unit.learn.factories import LessonPageFactory
+
+
+def submit_step_factory(client, url_name, view_class):
+    step_names = iter([name for name, form in view_class.form_list])
+    view_name = normalize_name(view_class.__name__)
+
+    def submit_step(data, step_name=None, params={}):
+        step_name = step_name or next(step_names)
+        path = reverse(url_name, kwargs={'step': step_name})
+        return client.post(
+            path=f'{path}?{urlencode(params, doseq=True)}',
+            data={
+                view_name + '-current_step': step_name,
+                **{step_name + '-' + key: value for key, value in data.items()}
+            },
+        )
+    return submit_step
+
+
+@pytest.fixture
+def submit_signup_tailored_content_wizard_step(client):
+    return submit_step_factory(
+        client=client,
+        url_name='core:signup-wizard-tailored-content',
+        view_class=views.SignupForTailoredContentWizardView,
+    )
+
+
+@pytest.fixture
+def submit_signup_export_plan_wizard_step(client):
+    return submit_step_factory(
+        client=client,
+        url_name='core:signup-wizard-export-plan',
+        view_class=views.SignupForExportPlanWizardView,
+    )
 
 
 @pytest.fixture
@@ -376,10 +413,10 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
 def test_list_page_uses_right_template(domestic_homepage, rf, user):
     request = rf.get('/')
     request.user = user
-    topic_page = TopicPageFactory(parent=domestic_homepage)
+    topic_page = CuratedListPageFactory(parent=domestic_homepage)
     lesson_page = LessonPageFactory(parent=topic_page)
     response = lesson_page.serve(request)
-    assert response.template_name == 'learn/lesson_page.html'
+    assert response.template_name == 'learn/detail_page.html'
 
 
 @pytest.mark.django_db
@@ -388,3 +425,207 @@ def test_handler404(client, settings):
 
     assert response.template_name == 'core/404.html'
     assert response.status_code == 404
+
+
+@pytest.fixture
+def signup_wizard_steps_data():
+    return {
+        views.STEP_START: {},
+        views.STEP_WHAT_SELLING: {'choice': forms.WhatAreYouSellingForm.PRODUCTS},
+        views.STEP_PRODUCT_SEARCH: {'products': 'Sharks,Crayons'},
+        views.STEP_SIGN_UP: {},
+    }
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_tailored_content_success(
+    submit_signup_tailored_content_wizard_step, signup_wizard_steps_data, client
+):
+    response = submit_signup_tailored_content_wizard_step(signup_wizard_steps_data[views.STEP_START])
+    assert response.status_code == 302
+
+    response = submit_signup_tailored_content_wizard_step(signup_wizard_steps_data[views.STEP_WHAT_SELLING])
+    assert response.status_code == 302
+
+    response = submit_signup_tailored_content_wizard_step(signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH])
+    assert response.status_code == 302
+
+    response = submit_signup_tailored_content_wizard_step(signup_wizard_steps_data[views.STEP_SIGN_UP])
+    assert response.status_code == 302
+
+    # note that the react component handles the logging in, so no need to submit the last step here,
+    with pytest.raises(NotImplementedError):
+        client.get(response.url)
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_tailored_content_step_labels_exposed(client):
+
+    response = client.get(reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+    response = client.get(reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_WHAT_SELLING}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+    response = client.get(reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_PRODUCT_SEARCH}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+    response = client.get(reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_SIGN_UP}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_tailored_content_exposes_product_on_final_step(
+    submit_signup_tailored_content_wizard_step, signup_wizard_steps_data, client
+):
+    search_data = signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH]
+
+    response = submit_signup_tailored_content_wizard_step(signup_wizard_steps_data[views.STEP_START])
+    assert response.status_code == 302
+
+    response = submit_signup_tailored_content_wizard_step(signup_wizard_steps_data[views.STEP_WHAT_SELLING])
+    assert response.status_code == 302
+
+    response = submit_signup_tailored_content_wizard_step(search_data)
+    assert response.status_code == 302
+
+    response = client.get(response.url)
+    assert response.context_data['product_search_data'] == search_data
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_tailored_content_next_url(
+    submit_signup_tailored_content_wizard_step, signup_wizard_steps_data
+):
+    response = submit_signup_tailored_content_wizard_step(
+        data=signup_wizard_steps_data[views.STEP_START],
+        params={'next': '/foo/bar/'},
+    )
+    assert response.status_code == 302
+    assert response.url == '/signup/tailored-content/what-are-you-selling/?next=%2Ffoo%2Fbar%2F'
+
+    response = submit_signup_tailored_content_wizard_step(
+        data=signup_wizard_steps_data[views.STEP_WHAT_SELLING],
+        params={'next': '/foo/bar/'},
+    )
+    assert response.status_code == 302
+    assert response.url == '/signup/tailored-content/product-search/?next=%2Ffoo%2Fbar%2F'
+
+    response = submit_signup_tailored_content_wizard_step(
+        data=signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH],
+        params={'next': '/foo/bar/'},
+    )
+    assert response.status_code == 302
+    assert response.url == '/signup/tailored-content/sign-up/?next=%2Ffoo%2Fbar%2F'
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_export_plan_success(
+    submit_signup_export_plan_wizard_step, signup_wizard_steps_data, client
+):
+    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_START])
+    assert response.status_code == 302
+
+    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_WHAT_SELLING])
+    assert response.status_code == 302
+
+    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH])
+    assert response.status_code == 302
+
+    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_SIGN_UP])
+    assert response.status_code == 302
+
+    # note that the react component handles the logging in, so no need to submit the last step here,
+    with pytest.raises(NotImplementedError):
+        client.get(response.url)
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_export_plan_step_labels_exposed(client):
+
+    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_START}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_WHAT_SELLING}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_PRODUCT_SEARCH}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_SIGN_UP}))
+    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_export_plan_exposes_product_on_final_step(
+    submit_signup_export_plan_wizard_step, signup_wizard_steps_data, client
+):
+    search_data = signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH]
+
+    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_START])
+    assert response.status_code == 302
+
+    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_WHAT_SELLING])
+    assert response.status_code == 302
+
+    response = submit_signup_export_plan_wizard_step(search_data)
+    assert response.status_code == 302
+
+    response = client.get(response.url)
+    assert response.context_data['product_search_data'] == search_data
+
+
+@pytest.mark.django_db
+def test_signup_wizard_for_export_plan_next_url(
+    submit_signup_export_plan_wizard_step, signup_wizard_steps_data
+):
+    response = submit_signup_export_plan_wizard_step(
+        data=signup_wizard_steps_data[views.STEP_START],
+        params={'next': '/foo/bar/'},
+    )
+    assert response.status_code == 302
+    assert response.url == '/signup/export-plan/what-are-you-selling/?next=%2Ffoo%2Fbar%2F'
+
+    response = submit_signup_export_plan_wizard_step(
+        data=signup_wizard_steps_data[views.STEP_WHAT_SELLING],
+        params={'next': '/foo/bar/'},
+    )
+    assert response.status_code == 302
+    assert response.url == '/signup/export-plan/product-search/?next=%2Ffoo%2Fbar%2F'
+
+    response = submit_signup_export_plan_wizard_step(
+        data=signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH],
+        params={'next': '/foo/bar/'},
+    )
+    assert response.status_code == 302
+    assert response.url == '/signup/export-plan/sign-up/?next=%2Ffoo%2Fbar%2F'
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_company_profile')
+def test_set_company_name_success(mock_update_company_profile, mock_get_company_profile, client, user):
+    mock_update_company_profile.return_value = create_response()
+    mock_get_company_profile.return_value = {'foo': 'bar'}
+    client.force_login(user)
+
+    response = client.post(reverse('core:set-company-name'), {'name': 'Example corp'})
+    assert response.status_code == 302
+    assert response.url == '/dashboard/'
+    assert mock_update_company_profile.call_count == 1
+    assert mock_update_company_profile.call_args == mock.call(
+        data={'name': 'Example corp'},
+        sso_session_id=user.session_id,
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_company_profile')
+def test_set_company_name_success_with_next(mock_update_company_profile, mock_get_company_profile, client, user):
+    mock_update_company_profile.return_value = create_response()
+    mock_get_company_profile.return_value = {'foo': 'bar'}
+    client.force_login(user)
+
+    url = reverse('core:set-company-name')
+    response = client.post(f'{url}?next=/foo/bar/', {'name': 'Example corp'})
+    assert response.status_code == 302
+    assert response.url == '/foo/bar/'
