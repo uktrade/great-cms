@@ -21,6 +21,7 @@ class BrandAndProductDetailsSerializer(serializers.Serializer):
 class ExportPlanSerializer(serializers.Serializer):
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     brand_product_details = BrandAndProductDetailsSerializer(required=False)
+    rational = serializers.CharField(required=False, allow_blank=True)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
