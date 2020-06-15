@@ -7,13 +7,13 @@ from tests.unit.core.factories import DetailPageFactory
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('page_count,expected', (
-    (1, '2 mins'),
-    (2, '4 mins'),
-    (10, '19 mins'),
-    (20, '37 mins'),
-    (35, '1 hour 4 mins'),
-    (50, '1 hour 31 mins'),
-    (90, '2 hours 44 mins'),
+    (1, '1 min'),
+    (2, '2 mins'),
+    (10, '7 mins'),
+    (20, '13 mins'),
+    (50, '32 mins'),
+    (100, '1 hour 4 mins'),
+    (200, '2 hours 7 mins'),
 ))
 def test_read_time(page_count, expected, user, rf, domestic_site):
     request = rf.get('/')
