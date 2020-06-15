@@ -1,6 +1,8 @@
 import readtime
 import readtime.result
 
+from bs4 import BeautifulSoup
+
 from django import template
 from django.template.loader import render_to_string
 from django.utils.translation.trans_null import ngettext
@@ -33,6 +35,11 @@ def read_time(context, pages):
     for page in pages:
         page = page.specific
         html = render_to_string(page.template, page.get_context(context['request']))
-        seconds.append(readtime.of_html(html).seconds)
+        soup = BeautifulSoup(html, 'html.parser')
+        body = soup.find('body')
+        hidden_content = body.find_all(['script', 'noscript', 'link', 'style', 'meta'])
+        for tag in hidden_content:
+            tag.decompose()
+        seconds.append(readtime.of_html(str(body)).seconds)
     result = Result(seconds=sum(seconds))
     return result.text

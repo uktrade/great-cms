@@ -44,14 +44,15 @@
       var userProducts = [];
       {% endif %}
       // static values that will not be updated by user interacting with react components
-      ditMVP.setConfig({ 
+      ditMVP.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
-          countryDataUrl: '{% url "exportplan:ajax-country-data" %}',
+          removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
+          countryDataUrl: '{% url "exportplan:api-country-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url "core:dashboard" %}',
@@ -62,7 +63,7 @@
           loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
           signupUrl: '{% url "core:signup" %}',
           passwordResetUrl: '{{ javascript_components.password_reset_url }}',
-          removeCountryDataUrl: '{% url "exportplan:ajax-remove-country-data" %}',
+          removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
           userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}'
