@@ -12,6 +12,7 @@
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 - MVP-579 - create export plan cms page
 - GP2-67 - fix backbutton upload logo
+- GV2-104 - GP2-121 - Tags and content modules
 
 ### Implemented enhancements
 - MVP-392 - Add remove sector functionality
