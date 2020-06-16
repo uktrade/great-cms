@@ -1,7 +1,7 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-from exportplan import views, ajax
+from exportplan import views, api
 
 LOGIN_URL = reverse_lazy('core:login')
 
@@ -40,11 +40,11 @@ urlpatterns = [
     ),
     path(
         'api/recommended-countries/',
-        login_required(ajax.ExportPlanRecommendedCountriesDataView.as_view(), login_url=LOGIN_URL),
+        login_required(api.ExportPlanRecommendedCountriesDataView.as_view(), login_url=LOGIN_URL),
         name='ajax-recommended-countries-data'
     ),
-    path('api/export-plan/', views.UpdateExportPlanAPIView.as_view(), name='api-update-export-plan'),
-    path('api/remove-country-data/', ajax.ExportPlanRemoveCountryDataView.as_view(), name='api-remove-country-data'),
-    path('api/remove-sector/', ajax.ExportPlanRemoveSectorView.as_view(), name='api-remove-sector'),
-    path('api/country-data/', ajax.ExportPlanCountryDataView.as_view(), name='api-country-data'),
+    path('api/export-plan/', api.UpdateExportPlanAPIView.as_view(), name='api-update-export-plan'),
+    path('api/remove-country-data/', api.ExportPlanRemoveCountryDataView.as_view(), name='api-remove-country-data'),
+    path('api/remove-sector/', api.ExportPlanRemoveSectorView.as_view(), name='api-remove-sector'),
+    path('api/country-data/', api.ExportPlanCountryDataView.as_view(), name='api-country-data'),
 ]
