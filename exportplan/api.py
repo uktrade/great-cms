@@ -98,7 +98,6 @@ class ExportPlanRecommendedCountriesDataView(APIView):
 
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):
-
     serializer_class = serializers.ExportPlanSerializer
     permission_classes = [IsAuthenticated]
 
@@ -113,5 +112,33 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
                 data=serializer.validated_data
             )
             return Response(serializer.validated_data)
+
+        return Response(serializer.errors)
+
+
+class ObjectivesCreateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.ObjectiveSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
+            return Response(response.json())
+
+        return Response(serializer.errors)
+
+
+class ObjectivesUpdateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.ObjectiveSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
+            return Response(response.json())
 
         return Response(serializer.errors)

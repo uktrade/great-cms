@@ -27,5 +27,14 @@ class ExportPlanSerializer(serializers.Serializer):
         return [{'country': c} for c in values]
 
 
+class ObjectiveSerializer(serializers.Serializer):
+    description = serializers.CharField(required=False, allow_blank=True)
+    planned_reviews = serializers.CharField(required=False, allow_blank=True)
+    owner = serializers.CharField(required=False, allow_blank=True)
+    start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    companyexportplan = serializers.IntegerField()
+
+
 class ExportPlanCountrySerializer(serializers.Serializer):
     country = serializers.CharField()

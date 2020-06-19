@@ -77,6 +77,16 @@ const updateExportPlan = function (data) {
   return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
 }
 
+const createObjective = function (data) {
+  console.log(config.apiObjectivesCreateUrl);
+  return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
+}
+
+const updateObjective = function (data) {
+  console.log(config.apiObjectivesUpdateUrl);
+  return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
+}
+
 const checkVerificationCode = function ({ email, code }) {
   return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
@@ -141,6 +151,8 @@ const setConfig = function ({
   verifyCodeUrl,
   userIsAuthenticated,
   apiUpdateExportPlanUrl,
+  apiObjectivesCreateUrl,
+  apiObjectivesUpdateUrl,
   exportPlanTargetMarketsUrl,
   signupUrl,
 }) {
@@ -153,6 +165,8 @@ const setConfig = function ({
   config.apiLookupProductUrl = apiLookupProductUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
+  config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
+  config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
   config.dashboardUrl = dashboardUrl
@@ -180,6 +194,8 @@ export default {
   removeSector,
   getCountriesDataBySectors,
   updateExportPlan,
+  createObjective,
+  updateObjective,
   lookupProduct,
   setConfig,
   config,
