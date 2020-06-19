@@ -1,8 +1,24 @@
 <nav class="sub-header-nav p-s" id="exportplan-country-sector-customisation-bar">
   <p class="inline-block m-0">Exporting
-  <span class="bg-stone bold pill" id="exportplan-country-sector-what">gin and geneva</span>
+  <span id="exportplan-country-sector-what">
+	{% if request.user.company.expertise_products_services %}
+        {% for label in request.user.company.expertise_products_services %}
+                <span class="great-mvp-pill-button">{{ label }}</span>
+            {% endfor %}
+        {% else %}
+            <span class="great-mvp-pill-button">add products</span>
+        {% endif %}
+  </span>
   to
-  <span class="bg-stone bold pill" id="exportplan-country-sector-where">Australia</span>
+  <span id="exportplan-country-sector-where">
+        {% if request.user.company.expertise_countries_labels %}
+            {% for label in request.user.company.expertise_countries_labels %}
+                <span class="great-mvp-pill-button">{{ label }}</span>
+            {% endfor %}
+        {% else %}
+            <span class="great-mvp-pill-button">add countries</span>
+        {% endif %}
+  </span>
   </p>
   <ul class="nav-extra-links m-0" id="exportplan-collaboraton-menu">
     <li><a href="#" class="link" id="exportplan-collaboraton-menu-share">Share</a></li>
