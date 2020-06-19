@@ -14,7 +14,7 @@ from rest_framework.response import Response
 
 from requests.exceptions import RequestException
 
-from directory_constants.choices import INDUSTRIES
+from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES
 from directory_api_client.client import api_client
 from exportplan import data, helpers, serializers, forms
 from core.helpers import CountryDemographics
@@ -44,7 +44,8 @@ class ExportPlanMixin:
 
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
-        country_choices = [{'value': key, 'label': label} for key, label in helpers.get_madb_country_list()]
+        country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
+
         return super().get_context_data(
             next_section=self.next_section,
             sections=data.SECTION_TITLES,

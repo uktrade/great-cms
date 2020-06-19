@@ -129,11 +129,8 @@ def test_exportplan_section_target_makret_country(client, user):
 @pytest.mark.django_db
 @freeze_time('2016-11-23T11:21:10.977518Z')
 @mock.patch('exportplan.helpers.get_exportplan')
-@mock.patch.object(helpers, 'get_madb_country_list')
 @mock.patch('core.helpers.store_user_location')
-def test_exportplan_target_markets(
-    mock_user_location_create, mock_get_country_list, mock_get_exportplan, client, user
-):
+def test_exportplan_target_markets(mock_user_location_create, mock_get_exportplan, client, user):
     client.force_login(user)
 
     explan_plan_data = {
@@ -148,11 +145,7 @@ def test_exportplan_target_markets(
         },
     }
     mock_get_exportplan.return_value = explan_plan_data
-    mock_get_country_list.return_value = [
-        ('Australia', 'Australia'),
-        ('China', 'China'),
-        ('India', 'India'),
-    ]
+
     response = client.get(reverse('exportplan:target-markets'))
 
     assert mock_get_exportplan.call_count == 1
