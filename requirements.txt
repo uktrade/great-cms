@@ -16,7 +16,7 @@ botocore==1.14.17         # via boto3, s3transfer
 certifi==2020.6.20        # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 cssselect==1.1.0          # via pyquery
-directory-api-client==21.8.0  # via -r requirements.in
+directory-api-client==21.9.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
@@ -52,7 +52,7 @@ jinja2==2.11.2            # via sphinx
 jmespath==0.10.0          # via boto3, botocore
 jsonschema==3.2.0         # via great-components
 l18n==2018.5              # via wagtail
-lxml==4.5.1               # via pyquery
+lxml==4.5.2               # via pyquery
 markdown2==2.3.9          # via -r requirements.in, readtime
 markupsafe==1.1.1         # via jinja2
 maxminddb==1.5.4          # via geoip2
