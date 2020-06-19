@@ -15,26 +15,9 @@ customElements.define(
                 'name',
                 'theme',
                 'type',
-                'value',
+                'value'
             ]
         }
-
-        inputTypes = [
-            'color',
-            'date',
-            'datetime-local',
-            'email',
-            'file',
-            'month',
-            'number',
-            'password',
-            'search',
-            'tel',
-            'text',
-            'time',
-            'url',
-            'week',
-        ]
 
         constructor() {
             super()
@@ -49,6 +32,23 @@ customElements.define(
             this.shadow.appendChild(stylesheet)
 
             this.input = this.shadow.querySelector('input')
+
+            this.inputTypes = [
+                'color',
+                'date',
+                'datetime-local',
+                'email',
+                'file',
+                'month',
+                'number',
+                'password',
+                'search',
+                'tel',
+                'text',
+                'time',
+                'url',
+                'week'
+            ]
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
