@@ -69,11 +69,6 @@ def test_get_madb_commodity_list():
     }
 
 
-def test_get_madb_country_list():
-    country_list = helpers.get_madb_country_list()
-    assert country_list == [('China', 'China'), ('India', 'India')]
-
-
 def test_get_rules_and_regulations(mock_airtable_search):
     rules = helpers.get_rules_and_regulations('India')
     assert mock_airtable_search.call_args == mock.call('country', 'India')
