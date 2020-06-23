@@ -17,6 +17,7 @@ wagtail==2.9
 wagtail-personalisation==0.14.*
 wagtail-cache==1.0.*
 wagtailmedia==0.5.0
+wagtailfontawesome==1.2.1
 
 
 # Prod tools

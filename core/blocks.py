@@ -1,3 +1,5 @@
+from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
 from wagtail.core import blocks
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
@@ -57,3 +59,24 @@ class ButtonBlock(blocks.StructBlock):
 
     class Meta:
         template = 'core/button.html'
+
+
+class ModularContentStaticBlock(blocks.StaticBlock):
+
+    class Meta:
+        admin_text = 'Content modules will be automatically displayed, no configuration needed.'
+        icon = 'fa-archive'
+
+    def render_basic(self, value, context=None):
+        html = ''
+        if 'tags' in context['request'].GET:
+            from core.models import ContentModule
+
+            tags = context['request'].GET['tags'].split(',')
+            modules = ContentModule.objects.filter(tags__name__in=tags).distinct()
+            div = '<div class="modules"> {} </div>'
+            html = format_html(
+                div,
+                format_html_join('\n', "<div> {} </div>", ((mark_safe(module.content),) for module in modules))
+            )
+        return html
