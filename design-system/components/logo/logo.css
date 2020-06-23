@@ -1,0 +1,22 @@
+@import '../../index.css';
+
+:root {
+    --size-sm-height: 56px;
+    --size-sm-width: 112px;
+    --size-lg-height: 112px;
+    --size-lg-width: 224px;
+}
+
+:host {
+    display: inline-block;
+}
+
+.sm svg {
+    height: var(--size-sm-height);
+    width: var(--size-sm-width);
+}
+
+.lg svg {
+    height: var(--size-lg-height);
+    width: var(--size-lg-width);
+}

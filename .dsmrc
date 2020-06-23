@@ -1,0 +1,7 @@
+{
+  "authToken": "process.env.STORYBOOK_DSM",
+  "dsmHost": "trade.invisionapp.com",
+  "organization": "department-for-international-trade",
+  "outputDir": ".dsm",
+  "storyPath": "design-system/components/**/*.stories.js"
+}
