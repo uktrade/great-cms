@@ -16,12 +16,13 @@
                 <div class="grid">
                     <div class="learn__single-category-header-content c-1-2-l">
                         <h1 class="learn__single-category-title h1" id="topic-title">{{ page.title }}</h1>
-                        <span class="learn__category-topics">{{ page.count_topics }} topics, <div>
+                        <div class="learn__category-entities">
+                            <span class="learn__category-topics">{{ page.count_topics }} topics, </span>
                             <span class="learn__category-lessons">{{ page.count_detail_pages }} lessons</span>
-                        <p class="learn__single-category-header-details">{{ page.heading|richtext }}</p>
                         </div>
-                    {% image child.image width-600 class="learn__single-category-header c-1-2-l" %}
+                        <p class="learn__single-category-header-details">{{ page.heading|richtext }}</p>
                 </div>
+                    {% image page.image width-600 class="learn__single-category-header c-1-2-l" %}
             </div>
         </section>
         <section class="learn__category-lists container" id="topic-lesson-list">

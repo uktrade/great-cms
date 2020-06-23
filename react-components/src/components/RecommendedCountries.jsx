@@ -19,7 +19,7 @@ export default class RecommendedCountries extends React.Component {
     const { countries, addCountry, removeCountry } = this.props
 
     return (
-      <ul className="grid" id="recommended-countries-list" ref={this.countryRef}>
+      <ul className="grid m-t-0" id="recommended-countries-list" ref={this.countryRef}>
         {countries.map((countryData) => (
           <li className="c-1-3" key={slugify(countryData.country)}>
             <RecommendedCountry

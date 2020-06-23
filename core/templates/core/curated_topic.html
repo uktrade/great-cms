@@ -1,11 +1,12 @@
 {% load wagtailcore_tags %}
+{% load read_time from content_tags %}
 
 <ol class="learn__topics-list">
     <li class="learn__topic-item">
         <div class="grid">
             <div class="learn__topic-item-details c-1-3-l">
                 <h2 class="learn__topic-item-title">{{ value.title }}</h2>
-                <time class="learn__topic-duration" datatime="5M"></time>
+                <p class="learn__topic-item-read-time">{% read_time value.pages %}</p>
             </div>
             <ul class="learn__lessons-list c-2-3-l">
                 {% for page in value.pages %}

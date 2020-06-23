@@ -17,13 +17,13 @@ afterEach(() => {
 
 it('shows the select component on click', () => {
   const countryList = [
-    { key: 'Australia', label: 'Australia' },
-    { key: 'India', label: 'India' },
-    { key: 'Japan', label: 'Japan' },
+    { value: 'Australia', label: 'Australia' },
+    { value: 'India', label: 'India' },
+    { value: 'Japan', label: 'Japan' },
   ]
 
   act(() => {
-    ReactDOM.render(<CountryChooser countryList={countryList} selectedCountries={[]} />, container)
+    ReactDOM.render(<CountryChooser countryList={countryList} selectedCountries={[]} addCountry={function(){}} />, container)
   })
 
   expect(container.querySelector('#country-autocomplete')).toBeFalsy()

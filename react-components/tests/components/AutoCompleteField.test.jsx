@@ -30,6 +30,7 @@ describe('AutoCompleteField', () => {
         handleChange={() => {}}
         options={[{ value: 'foo', label: 'Foo' }]}
         name="example"
+        placeholder="Some placeholder"
         value={[{ value: 'foo', label: 'Foo' }]}
       />
     )

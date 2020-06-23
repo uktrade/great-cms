@@ -88,7 +88,8 @@
         "webpack": "4.42.1",
         "webpack-cli": "3.3.11",
         "webpack-dev-server": "^3.11.0",
-        "wct-browser-legacy": "^1.0.2"
+        "wct-browser-legacy": "^1.0.2",
+        "rxjs-marbles": "^6.0.0"
     },
     "dependencies": {
         "@invisionapp/dsm-storybook": "0.0.129",
@@ -108,6 +109,8 @@
         "redux": "^4.0.5",
         "remove-files-webpack-plugin": "1.4.0",
         "styled-components": "5.0.1",
-        "svg-inline-loader": "^0.8.2"
+        "svg-inline-loader": "^0.8.2",
+        "@babel/polyfill": "^7.10.1",
+        "rxjs": "^6.5.5"
     }
 }

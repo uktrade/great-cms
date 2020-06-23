@@ -3,6 +3,8 @@ import hashlib
 from django.utils.functional import cached_property
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
+from taggit.managers import TaggableManager
+from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
     ObjectList, TabbedInterface
 from wagtail.core import blocks
@@ -208,7 +210,7 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
 class LandingPage(CMSGenericPage):
     parent_page_types = ['domestic.DomesticHomePage']
-    subpage_types = ['core.ListPage', 'core.InterstitialPage']
+    subpage_types = ['core.ListPage', 'core.InterstitialPage', 'exportplan.ExportPlanDashboardPage']
     template_choices = (
         ('learn/landing_page.html', 'Learn'),
     )
@@ -391,3 +393,23 @@ class PageView(TimeStampedModel):
     class Meta:
         ordering = ['page__pk']
         unique_together = ['page', 'sso_id']
+
+
+class ContentModuleTag(TaggedItemBase):
+    content_object = ParentalKey('core.ContentModule', on_delete=models.CASCADE, related_name='tagged_items')
+
+
+@register_snippet
+class ContentModule(ClusterableModel):
+    title = models.CharField(max_length=255)
+    content = RichTextField()
+    tags = TaggableManager(through=ContentModuleTag, blank=True)
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('content'),
+        FieldPanel('tags'),
+    ]
+
+    def __str__(self):
+        return self.title

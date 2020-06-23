@@ -1,6 +1,6 @@
 # Django
 # ------------
-django==2.2.10
+django==2.2.13
 django-environ==0.4.*
 django-filter==2.2.*
 django-redis==4.10.*
@@ -44,4 +44,4 @@ markdown2==2.3.9
 iso3166==1.0.1
 freezegun==0.1.5
 sphinx==1.8.*
-
+readtime==1.*
