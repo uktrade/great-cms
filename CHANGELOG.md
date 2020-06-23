@@ -106,3 +106,5 @@
 - MVP-563 - Add time to read
 - MVP-564 - Collect country demographics information from spreadsheets
 - GV2-104 - GP2-121 - Tags and content modules
+- GP2-154 - update country list
+- GP2-100 - Add personalisation bar to export plan
