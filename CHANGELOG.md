@@ -90,6 +90,7 @@
 - MVP-526 - Add Learn introduction page with slider
 - MVP-433 - Fix last step of signin 404
 - no-ticket - Fix images on /learn/categories being hidden
+- GDS-1, GDS-2, GDS-4, GDS-12 - Creates the foundation for Great Design System, Storybook and Web Components
 - MVP-438 - Only view learn interstitials once
 - MVP-464 - Store selected product as expertise
 - MVP-420 - test tooltips for multiple countries on target markets data page

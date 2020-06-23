@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <script src="../../../node_modules/wct-browser-legacy/browser.js"></script>
+        <script type="module" src="link.js"></script>
+    </head>
+    <body>
+        <great-link href="path/to/link"></great-link>
+        <script>
+            suite('link', function() {
+                const link = document.body.querySelector('great-link')
+
+                test('renders', function() {
+                    assert.equal(link.getAttribute('href'), 'path/to/link')
+                })
+            })
+        </script>
+    </body>
+</html>

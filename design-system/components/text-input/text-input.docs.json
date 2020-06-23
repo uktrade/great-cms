@@ -1,0 +1,11 @@
+{
+    "description": "Text Input description",
+    "displayName": "Text Input",
+    "props": [
+        {
+            "value": "type",
+            "description": "input type",
+            "required": true
+        }
+    ]
+}

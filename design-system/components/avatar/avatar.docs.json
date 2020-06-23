@@ -1,0 +1,15 @@
+{
+    "description": "\nAvatars might be used into page navigation indicating that a user is logged in.\n Custom styling or class names should not be applied to the avatar.\n The only attribute that avatars accept is the 'src' for the avatar's image, if the source is empty it will show an empty state.\n The avatar can also exist as an element within larger molecules and organisms.",
+    "displayName": "Avatar",
+    "props": [
+        {
+            "value": "avatar",
+            "description": "Base class to define a button",
+            "required": true
+        },
+        {
+            "value": "empty-avatar",
+            "description": "Required when the button is with an icon"
+        }
+    ]
+}

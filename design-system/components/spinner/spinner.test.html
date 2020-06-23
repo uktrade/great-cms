@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <script src="../../../node_modules/wct-browser-legacy/browser.js"></script>
+        <script type="module" src="spinner.js"></script>
+    </head>
+    <body>
+        <great-spinner theme="dark"></great-spinner>
+        <script>
+            suite('spinner', function() {
+                const spinner = document.body.querySelector('great-spinner')
+
+                test('renders', function() {
+                    assert.equal(spinner.getAttribute('theme'), 'dark')
+                })
+            })
+        </script>
+    </body>
+</html>
