@@ -107,3 +107,4 @@
 - GV2-104 - GP2-121 - Tags and content modules
 - GP2-154 - update country list
 - GP2-100 - Add personalisation bar to export plan
+- GP2-122 - Render modules
