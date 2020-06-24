@@ -12,7 +12,6 @@ import Spinner from './Spinner/Spinner'
 
 
 class BrandAndProductForm extends React.Component {
-
   constructor(props) {
     super(props)
 
@@ -29,7 +28,7 @@ class BrandAndProductForm extends React.Component {
 
     saveInput$.subscribe(data => {
       this.setState({ isLoading: true }, () => {
-        Services.updateExportPlan({ brand_product_details: data })
+        Services.updateExportPlan(this.formatData(data))
           .then(this.handleUpdateSuccess)
           .catch(this.handleUpdateError)
       })
@@ -42,6 +41,10 @@ class BrandAndProductForm extends React.Component {
     })
 
     this.bindEvents()
+  }
+
+  formatData(data) {
+    return { brand_product_details: data }
   }
 
   bindEvents() {

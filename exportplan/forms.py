@@ -80,3 +80,11 @@ class ExportPlanBrandAndProductForm(forms.Form):
             )}
         ),
     )
+
+
+class ExportPlanBusinessObjectivesForm(forms.Form):
+    rational = forms.CharField(
+        label='Add business rationale',
+        required=False,
+        widget=Textarea(attrs={'placeholder': 'Add some text'})
+    )

@@ -11,8 +11,11 @@
 - No ticket - v3 ci pipeline manifest.yml file fix
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 - MVP-579 - create export plan cms page
+- GP2-67 - fix backbutton upload logo
 
 ### Implemented enhancements
+- MVP-392 - Add remove sector functionality
+- GP2-115 - Add objectives business rationale section
 - MVP-452 - Add brand and product page with autosave function
 - MVP-317 - Add dummy pages for all export plan sections
 - MVP-306 - Added sector chooser component
@@ -87,6 +90,7 @@
 - MVP-526 - Add Learn introduction page with slider
 - MVP-433 - Fix last step of signin 404
 - no-ticket - Fix images on /learn/categories being hidden
+- GDS-1, GDS-2, GDS-4, GDS-12 - Creates the foundation for Great Design System, Storybook and Web Components
 - MVP-438 - Only view learn interstitials once
 - MVP-464 - Store selected product as expertise
 - MVP-420 - test tooltips for multiple countries on target markets data page
@@ -101,3 +105,6 @@
 - no ticket - fix locust's breaking changes
 - MVP-563 - Add time to read
 - MVP-564 - Collect country demographics information from spreadsheets
+- GV2-104 - GP2-121 - Tags and content modules
+- GP2-154 - update country list
+- GP2-100 - Add personalisation bar to export plan

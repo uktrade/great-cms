@@ -1,0 +1,50 @@
+@import '../../index.css';
+
+:root {
+    --size-sm: 16px;
+    --size-lg: 32px;
+    --size-xl: 64px;
+    --size-xxl: 128px;
+}
+
+:host {
+    display: inline-block;
+}
+
+.sm svg {
+    height: var(--size-sm);
+    width: var(--size-sm);
+}
+
+.lg svg {
+    height: var(--size-lg);
+    width: var(--size-lg);
+}
+
+.xl svg {
+    height: var(--size-xl);
+    width: var(--size-xl);
+}
+
+.xxl svg {
+    height: var(--size-xxl);
+    width: var(--size-xxl);
+}
+
+.primary {
+    svg {
+        fill: #4b426d;
+    }
+
+    &.disabled svg {
+        fill: var(--colour-black-20);
+    }
+
+    &:not(.disabled) svg:hover {
+        fill: var(--colour-blue-deep-100);
+    }
+}
+
+.secondary svg {
+    fill: var(--colour-white-100);
+}

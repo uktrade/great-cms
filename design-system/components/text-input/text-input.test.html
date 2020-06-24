@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <script src="../../../node_modules/wct-browser-legacy/browser.js"></script>
+        <script type="module" src="text-input.js"></script>
+    </head>
+    <body>
+        <great-text-input type="search"></great-text-input>
+        <script>
+            suite('text-input', function() {
+                const textInput = document.body.querySelector('great-text-input')
+
+                test('renders', function() {
+                    assert.equal(textInput.getAttribute('type'), 'search')
+                })
+            })
+        </script>
+    </body>
+</html>
