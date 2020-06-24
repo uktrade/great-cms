@@ -32,6 +32,19 @@ const post = function (url, data) {
   })
 }
 
+const httpDelete = function (url, data) {
+  return fetch(url, {
+    method: 'delete',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': config.csrfToken,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    body: JSON.stringify(data),
+  })
+}
+
 const get = function (url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
   const parsedParams = new URLSearchParams(params).toString()
@@ -78,12 +91,14 @@ const updateExportPlan = function (data) {
 }
 
 const createObjective = function (data) {
-  console.log(config.apiObjectivesCreateUrl);
   return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
 }
 
+const deleteObjective = function (pk) {
+  return httpDelete(config.apiObjectivesDeleteUrl, {pk: pk}).then(responseHandler)
+}
+
 const updateObjective = function (data) {
-  console.log(config.apiObjectivesUpdateUrl);
   return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
 }
 
@@ -152,6 +167,7 @@ const setConfig = function ({
   userIsAuthenticated,
   apiUpdateExportPlanUrl,
   apiObjectivesCreateUrl,
+  apiObjectivesDeleteUrl,
   apiObjectivesUpdateUrl,
   exportPlanTargetMarketsUrl,
   signupUrl,
@@ -166,6 +182,7 @@ const setConfig = function ({
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
   config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
+  config.apiObjectivesDeleteUrl = apiObjectivesDeleteUrl
   config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
@@ -195,6 +212,7 @@ export default {
   getCountriesDataBySectors,
   updateExportPlan,
   createObjective,
+  deleteObjective,
   updateObjective,
   lookupProduct,
   setConfig,

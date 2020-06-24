@@ -117,7 +117,7 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
 
 
 class ObjectivesCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.ObjectiveSerializer
+    serializer_class = serializers.NewObjectiveSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -138,7 +138,21 @@ class ObjectivesUpdateAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid(raise_exception=True):
-            response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
+            response = helpers.update_objective(self.request.user.session_id, serializer.validated_data)
             return Response(response.json())
+
+        return Response(serializer.errors)
+
+
+class ObjectivesDestroyAPIView(generics.GenericAPIView):
+    serializer_class = serializers.PkOnlySerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            helpers.delete_objective(self.request.user.session_id, serializer.validated_data)
+            return Response({})
 
         return Response(serializer.errors)

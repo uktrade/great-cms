@@ -34,6 +34,15 @@ class ObjectiveSerializer(serializers.Serializer):
     start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
+class NewObjectiveSerializer(ObjectiveSerializer):
+    pk = serializers.IntegerField(required=False)
+
+
+class PkOnlySerializer(serializers.Serializer):
+    pk = serializers.IntegerField()
 
 
 class ExportPlanCountrySerializer(serializers.Serializer):

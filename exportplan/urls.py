@@ -49,4 +49,5 @@ urlpatterns = [
     path('api/country-data/', api.ExportPlanCountryDataView.as_view(), name='api-country-data'),
     path('api/objectives/create/', api.ObjectivesCreateAPIView.as_view(), name='api-objectives-create'),
     path('api/objectives/update/', api.ObjectivesUpdateAPIView.as_view(), name='api-objectives-update'),
+    path('api/objectives/delete/', api.ObjectivesDestroyAPIView.as_view(), name='api-objectives-delete'),
 ]
