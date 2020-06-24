@@ -144,6 +144,11 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         )
         return super().form_valid(form)
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['objectives'] = json.dumps(self.export_plan['company_objectives'])
+        return context
+
 
 class BaseFormView(FormView):
 
