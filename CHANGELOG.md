@@ -3,108 +3,112 @@
 ## Pre-release
 
 ### Fixed bugs
-- MVP-431 - Fix percentage amounts in country data component
-- MVP-428 - Fix country data component formatting
-- MVP-402 - Fix Localisation
-- MVP-429 - Add missing country thumbnails for food and drink sector
-- MVP-437 - Show product in lesson page nav bar
-- No ticket - v3 ci pipeline manifest.yml file fix
-- MVP-443 - Use non-GREAT stlye 404 and 500 pages
-- MVP-579 - create export plan cms page
-- GP2-67 - fix backbutton upload logo
+
+-   MVP-431 - Fix percentage amounts in country data component
+-   MVP-428 - Fix country data component formatting
+-   MVP-402 - Fix Localisation
+-   MVP-429 - Add missing country thumbnails for food and drink sector
+-   MVP-437 - Show product in lesson page nav bar
+-   No ticket - v3 ci pipeline manifest.yml file fix
+-   MVP-443 - Use non-GREAT stlye 404 and 500 pages
+-   MVP-579 - create export plan cms page
+-   GP2-67 - fix backbutton upload logo
 
 ### Implemented enhancements
-- MVP-392 - Add remove sector functionality
-- GP2-115 - Add objectives business rationale section
-- MVP-452 - Add brand and product page with autosave function
-- MVP-317 - Add dummy pages for all export plan sections
-- MVP-306 - Added sector chooser component
-- MVP-299 - Finalised styling for export plan sections
-- MVP-99 - Added skeleton for export plan dashboard and first page of builder
-- MVP-79 - Add react build tool
-- MVP-52 - Add login and sign up modals
-- MVP-53 - Add login via linked and google
-- MVP-80 - Implement design for modals
-- MVP-174 - Add "welcome" notification
-- MVP-113 - Implement dashboard
-- MVP-111 - Show welcome message to logged in users
-- MVP-125 - Store user's location
-- MVP-102 - select-commodity-code
-- MVP-146 - Question modal
-- MVP-214 - Dummy capability article page
-- MVP-228 - add custom duties url
-- MVP-251 - Connect dashboard exops and events apis to directory-api
-- MVP-216 - Add lesson object
-- MVP-138 - add example browser and load tests
-- MVP-144 - add example BDD browser tests
-- MVP-224 - Implement design for login page
-- no ticket - move tests to dedicated folders: browser, load & unit
-- MVP-40 - Add GA360 context processor
-- MVP-256 - add data services
-- MVP-292 - Add dummy markets page
-- MVP-271 - Add tour to export-plan
-- MVP-297 - Add dummy export opportunies
-- MVP-310 - comtrade data
-- MVP-271 - Add tour to export-plan
-- MVP-297 - Add dummy export opportunies
-- MVP-720 - Add new IDs and more browser tests
-- MVP-293 - Expose social profile image
-- No Ticket - Fix DirectoryAPI Receiving Session ID
-- MVP-297 - Add dummy export opportunies
-- MVP-259 - Content segmentation (wagxperience)
-- MVP-333 - Content segmentation on country of interest
-- MVP-215 - Track lesson read progress
-- MVP-332 - Content segmentation on sector of interest
-- MVP-349 - Adds capabilities landing page under /learn
-- MVP-328 - Sector modal iteration
-- MVP-329 - Country modal iteration
-- MVP-344 - Wagtail cache
-- MVP-356 - marketdata target-markets
-- MVP-357 - Implement new signup modal design
-- MVP-362 - styling and correct HTML for country statistics view
-- MVP-365 - tooltip functionality and dynamic component rendering
-- MVP-289 - add products modal to export plan
-- MVP-360 - multiple markets
-- MVP-382 - add product modal to lesson page
-- MVP-350 - Capabilities learn how to export carousel
-- MVP-385 - Consolidate page models
-- MVP-335 - Add market capture component
-- no ticket - rm redundant CircleCI step setup_remote_docker
-- MVP-388 - add commdity name
-- MVP-350, MVP-351, MVP 352 - add how to export carousel
-- MVP-404 - make all tests use PostgreSQL
-- MVP-380 - add UI test to add multiple countries on target markets page
-- MVP-405 - create initial export plan
-- MVP-407 - refactor Browser tests
-- no-ticket - update export-plan link
-- MVP-406 - hook up remove country
-- MVP-392 - hook up selected industries to be deleted
-- no-ticket make food default when creating export plan
-- MVP-381 - Wagtail media and video block
-- MVP-490 - Add learn how to export landing page
-- MVP-427 - Persist products upon signup
-- MVP-430 - Expand/collapse lesosns on
-- MVP-408 - Add Market research landing (category) page
-- No-Ticket - Change behaviour of users context export plan to 'GET
-- MVP-425 - Updates to Learn homepage
-- MVP-526 - Add Learn introduction page with slider
-- MVP-433 - Fix last step of signin 404
-- no-ticket - Fix images on /learn/categories being hidden
-- GDS-1, GDS-2, GDS-4, GDS-12 - Creates the foundation for Great Design System, Storybook and Web Components
-- MVP-438 - Only view learn interstitials once
-- MVP-464 - Store selected product as expertise
-- MVP-420 - test tooltips for multiple countries on target markets data page
-- MVP-438 - Only view learn interstitials once
-- MVP-458 - Implement signup wizard
-- MVP-450 - update add company logo
-- MVP-460 - Create page types
-- MVP-512 - Handle user requesting generic content
-- MVP-496 - Handle signup from export plan
-- no ticket - Handle dit-cf-security munging cookies
-- no ticket - fix logo
-- no ticket - fix locust's breaking changes
-- MVP-563 - Add time to read
-- MVP-564 - Collect country demographics information from spreadsheets
-- GV2-104 - GP2-121 - Tags and content modules
-- GP2-154 - update country list
-- GP2-100 - Add personalisation bar to export plan
+
+-   MVP-392 - Add remove sector functionality
+-   GP2-115 - Add objectives business rationale section
+-   MVP-452 - Add brand and product page with autosave function
+-   MVP-317 - Add dummy pages for all export plan sections
+-   MVP-306 - Added sector chooser component
+-   MVP-299 - Finalised styling for export plan sections
+-   MVP-99 - Added skeleton for export plan dashboard and first page of builder
+-   MVP-79 - Add react build tool
+-   MVP-52 - Add login and sign up modals
+-   MVP-53 - Add login via linked and google
+-   MVP-80 - Implement design for modals
+-   MVP-174 - Add "welcome" notification
+-   MVP-113 - Implement dashboard
+-   MVP-111 - Show welcome message to logged in users
+-   MVP-125 - Store user's location
+-   MVP-102 - select-commodity-code
+-   MVP-146 - Question modal
+-   MVP-214 - Dummy capability article page
+-   MVP-228 - add custom duties url
+-   MVP-251 - Connect dashboard exops and events apis to directory-api
+-   MVP-216 - Add lesson object
+-   MVP-138 - add example browser and load tests
+-   MVP-144 - add example BDD browser tests
+-   MVP-224 - Implement design for login page
+-   no ticket - move tests to dedicated folders: browser, load & unit
+-   MVP-40 - Add GA360 context processor
+-   MVP-256 - add data services
+-   MVP-292 - Add dummy markets page
+-   MVP-271 - Add tour to export-plan
+-   MVP-297 - Add dummy export opportunies
+-   MVP-310 - comtrade data
+-   MVP-271 - Add tour to export-plan
+-   MVP-297 - Add dummy export opportunies
+-   MVP-720 - Add new IDs and more browser tests
+-   MVP-293 - Expose social profile image
+-   No Ticket - Fix DirectoryAPI Receiving Session ID
+-   MVP-297 - Add dummy export opportunies
+-   MVP-259 - Content segmentation (wagxperience)
+-   MVP-333 - Content segmentation on country of interest
+-   MVP-215 - Track lesson read progress
+-   MVP-332 - Content segmentation on sector of interest
+-   MVP-349 - Adds capabilities landing page under /learn
+-   MVP-328 - Sector modal iteration
+-   MVP-329 - Country modal iteration
+-   MVP-344 - Wagtail cache
+-   MVP-356 - marketdata target-markets
+-   MVP-357 - Implement new signup modal design
+-   MVP-362 - styling and correct HTML for country statistics view
+-   MVP-365 - tooltip functionality and dynamic component rendering
+-   MVP-289 - add products modal to export plan
+-   MVP-360 - multiple markets
+-   MVP-382 - add product modal to lesson page
+-   MVP-350 - Capabilities learn how to export carousel
+-   MVP-385 - Consolidate page models
+-   MVP-335 - Add market capture component
+-   no ticket - rm redundant CircleCI step setup_remote_docker
+-   MVP-388 - add commdity name
+-   MVP-350, MVP-351, MVP 352 - add how to export carousel
+-   MVP-404 - make all tests use PostgreSQL
+-   MVP-380 - add UI test to add multiple countries on target markets page
+-   MVP-405 - create initial export plan
+-   MVP-407 - refactor Browser tests
+-   no-ticket - update export-plan link
+-   MVP-406 - hook up remove country
+-   MVP-392 - hook up selected industries to be deleted
+-   no-ticket make food default when creating export plan
+-   MVP-381 - Wagtail media and video block
+-   MVP-490 - Add learn how to export landing page
+-   MVP-427 - Persist products upon signup
+-   MVP-430 - Expand/collapse lesosns on
+-   MVP-408 - Add Market research landing (category) page
+-   No-Ticket - Change behaviour of users context export plan to 'GET
+-   MVP-425 - Updates to Learn homepage
+-   MVP-526 - Add Learn introduction page with slider
+-   MVP-433 - Fix last step of signin 404
+-   no-ticket - Fix images on /learn/categories being hidden
+-   GDS-1, GDS-2, GDS-4, GDS-12 - Creates the foundation for Great Design System, Storybook and Web
+-   GP2-72 - Module landing overview
+    Components
+-   MVP-438 - Only view learn interstitials once
+-   MVP-464 - Store selected product as expertise
+-   MVP-420 - test tooltips for multiple countries on target markets data page
+-   MVP-438 - Only view learn interstitials once
+-   MVP-458 - Implement signup wizard
+-   MVP-450 - update add company logo
+-   MVP-460 - Create page types
+-   MVP-512 - Handle user requesting generic content
+-   MVP-496 - Handle signup from export plan
+-   no ticket - Handle dit-cf-security munging cookies
+-   no ticket - fix logo
+-   no ticket - fix locust's breaking changes
+-   MVP-563 - Add time to read
+-   MVP-564 - Collect country demographics information from spreadsheets
+-   GV2-104 - GP2-121 - Tags and content modules
+-   GP2-154 - update country list
+-   GP2-100 - Add personalisation bar to export plan
