@@ -74,9 +74,13 @@ class ModularContentStaticBlock(blocks.StaticBlock):
 
             tags = context['request'].GET['tags'].split(',')
             modules = ContentModule.objects.filter(tags__name__in=tags).distinct()
-            div = '<div class="modules"> {} </div>'
+            div = '<div class="modules"> {} </div>' # NOQA P103
             html = format_html(
                 div,
-                format_html_join('\n', "<div> {} </div>", ((mark_safe(module.content),) for module in modules))
+                format_html_join(
+                    '\n',
+                    "<div> {} </div>", # NOQA P103
+                    ((mark_safe(module.content),) for module in modules)
+                )
             )
         return html
