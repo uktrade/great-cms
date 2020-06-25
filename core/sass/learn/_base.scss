@@ -144,12 +144,12 @@ $desktop: 1024px;
 }
 
 .learn__single-category-header-content {
-    margin: 33px 0 0 70px;
+    margin: 38px 0 0 70px;
 }
 
 .learn__single-category-title.h1 {
     @include moduleLandingHeading;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 }
 
 .learn__single-category-header {
@@ -157,12 +157,14 @@ $desktop: 1024px;
 }
 
 .learn__single-category-image {
-    margin: 77px 0 50px 10px;
+    margin: 77px 0 52px 10px;
 }
 
 .learn__single-category-header-details {
-    @include moduleLandingIntro;
-    margin-top: 12px;
+    p {
+        @include moduleLandingIntro;
+        margin-top: 15px;
+    }
 }
 
 .learn__topic-item-read-time {
