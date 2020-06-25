@@ -46,7 +46,7 @@ $desktop: 1024px;
     margin-bottom: 120px;
 
     .learn__wrapper--paragraph {
-        margin-bottom: 110px
+        margin-bottom: 110px;
     }
 }
 
@@ -83,7 +83,7 @@ $desktop: 1024px;
 }
 
 .learn__step-block {
-    background: url("/static/img/circle-check-icon.png") no-repeat calc(50% + 15px) 0;
+    background: url('/static/img/circle-check-icon.png') no-repeat calc(50% + 15px) 0;
     padding-top: 88px;
     text-align: center;
 }
@@ -144,18 +144,28 @@ $desktop: 1024px;
 }
 
 .learn__single-category-title.h1 {
-    margin-bottom: 10px;
+    @include moduleLandingHeading;
+    margin: 33px 35px 10px 30px;
 }
 
 .learn__single-category-header {
     background-color: $white;
 }
 
+.learn__single-category-image {
+    margin: 71px 0 50px 0;
+}
+
+.learn__single-category-header-details {
+    @include moduleLandingIntro;
+    margin: 12px 32px 0 30px;
+}
+
 .learn__topic-item-read-time {
-  color: $grey;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 5px 0 0 0;
+    color: $grey;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 5px 0 0 0;
 }
 
 .learn__topic-item-title,
@@ -191,11 +201,10 @@ $desktop: 1024px;
 .learn__lesson-item {
     background-color: $white;
     margin-bottom: 6px;
-
 }
 
 .learn__lesson-item-link {
-    background: url("/static/img/caret-circle-right.png") no-repeat 98% center;
+    background: url('/static/img/caret-circle-right.png') no-repeat 98% center;
     color: $grey;
     display: block;
     font-size: 19px;
@@ -203,7 +212,6 @@ $desktop: 1024px;
     padding: 18px 50px 18px 20px;
     text-decoration: none;
 }
-
 
 #lesson-page {
     details {
@@ -236,38 +244,38 @@ $desktop: 1024px;
         top: 0;
 
         h3 {
-          padding-top: 20;
-          padding-bottom: 0;
-          a.topic-link {
-            text-decoration: none;
-          }
+            padding-top: 20;
+            padding-bottom: 0;
+            a.topic-link {
+                text-decoration: none;
+            }
         }
 
         a {
-          color: $grey;
-          font-size: 16px;
+            color: $grey;
+            font-size: 16px;
         }
     }
     .lesson-next-area {
         display: inline-block;
 
         h5 {
-          color: #919191;
-          font-size: 16px;
-          font-weight: bold;
+            color: #919191;
+            font-size: 16px;
+            font-weight: bold;
         }
 
         .lesson-next-link {
-          color: #3C3C3C;
-          font-size: 36px;
-          font-weight: bold;
+            color: #3c3c3c;
+            font-size: 36px;
+            font-weight: bold;
         }
 
         .lesson-back-to-learning {
-          color: #3C3C3C;
-          font-size: 19px;
-          font-weight: bold;
-          display: block;
+            color: #3c3c3c;
+            font-size: 19px;
+            font-weight: bold;
+            display: block;
         }
     }
 
@@ -275,5 +283,4 @@ $desktop: 1024px;
     .set-country-button {
         cursor: pointer;
     }
-
 }

@@ -1,4 +1,3 @@
-
 // !!! Imports only in this file !!!
 
 // Great styles
@@ -6,6 +5,10 @@
 
 // Config
 $asset-root: '/static/images/';
+
+@import '../../design-system/_style-params.css';
+@import '../../design-system/_fonts.css';
+@import '../../design-system/_mixins.scss';
 
 // Base
 @import 'elements/reset';

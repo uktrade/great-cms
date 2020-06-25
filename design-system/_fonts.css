@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'FS Lucas';
+    src: url('fonts/FSLucas-Regular.woff2') format('woff2'), url('fonts/FSLucas-Regular.woff') format('woff'),
+        url('fonts/FSLucas-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
