@@ -6,12 +6,13 @@
 // Config
 $asset-root: '/static/images/';
 
-@import '../../design-system/_style-params.css';
-@import '../../design-system/_fonts.css';
-@import '../../design-system/_mixins.scss';
-
 // Base
 @import 'elements/reset';
+
+// Design System
+@import 'design-system/style-params';
+@import 'design-system/fonts';
+@import 'design-system/mixins';
 
 // Elements
 @import 'elements/layout';

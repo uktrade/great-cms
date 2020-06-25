@@ -16,6 +16,7 @@
 
 ### Implemented enhancements
 
+- GP2-72 - Module landing page - overview
 - MVP-392 - Add remove sector functionality
 - GP2-115 - Add objectives business rationale section
 - MVP-452 - Add brand and product page with autosave function
@@ -111,4 +112,3 @@
 - GP2-154 - update country list
 - GP2-100 - Add personalisation bar to export plan
 - GP2-120 - Fix numbers on curated list page
-- GP2-72 - Module landing page - overview

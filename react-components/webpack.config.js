@@ -58,6 +58,12 @@ module.exports = {
               sourceMap: true
             }
           },
+          {
+            loader: 'resolve-url-loader',
+            options: {
+              sourceMap: true
+            }
+          },
           // Compiles Sass to CSS
           {
             loader: 'sass-loader',
@@ -73,8 +79,12 @@ module.exports = {
         ]
       },
       {
-        test: /\.(jpg|png|gif|jpeg|woff|woff2|eot|ttf|svg)$/,
+        test: /\.(jpg|png|gif|jpeg|svg)$/,
         loader: 'url-loader?limit=10000&name=img/[name].[ext]'
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loader: 'url-loader?limit=10000&name=fonts/[name].[ext]'
       }
     ]
   },
@@ -87,8 +97,8 @@ module.exports = {
       { from: 'react-components/dist/img/', to: '../../core/static/img/' },
       // copy assets needed by CSS files as they are not automatically moved to dist foler by React
       { from: 'react-components/assets/stylesheet-assets/', to: '../../core/static/img/' },
-      { from: 'design-system/fonts/', to: '../../core/static/img/' }
+      { from: 'design-system/fonts/', to: '../../core/static/fonts/' }
     ]),
-    new RemovePlugin({ after: { include: ['./react-components/dist/img/'] } })
+    new RemovePlugin({ after: { include: ['./react-components/dist/img/', './react-components/dist/fonts/'] } })
   ]
 }
