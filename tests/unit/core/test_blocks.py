@@ -1,6 +1,10 @@
+from unittest import mock
+
+import pytest
 from wagtail.core import blocks
 
 from core import blocks as core_blocks
+from tests.unit.core.factories import ContentModuleFactory
 
 
 def test_link_block():
@@ -31,3 +35,17 @@ def test_video_block():
     assert type(child_blocks['width']) is blocks.IntegerBlock
     assert type(child_blocks['height']) is blocks.IntegerBlock
     assert type(child_blocks['video']) is core_blocks.MediaChooserBlock
+
+
+@pytest.mark.django_db
+def test_modular_content_static_block_render():
+    module = ContentModuleFactory()
+    module.tags = ['tag1', 'tag2']
+    module.save()
+
+    request = mock.Mock(GET={'tags': 'tag1,tag2'})
+    block = core_blocks.ModularContentStaticBlock()
+    context = {'request': request}
+    html = block.render_basic(context=context, value='')
+    expected_html = '<div class="modules">  </div>'
+    assert html == expected_html

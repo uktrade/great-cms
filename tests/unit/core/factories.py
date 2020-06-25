@@ -21,6 +21,14 @@ class CountryFactory(factory.django.DjangoModelFactory):
         model = models.Country
 
 
+class ContentModuleFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker('word')
+    content = factory.fuzzy.FuzzyText(length=200)
+
+    class Meta:
+        model = models.ContentModule
+
+
 class LandingPageFactory(wagtail_factories.PageFactory):
     title = 'Landing page'
     description = factory.fuzzy.FuzzyText(length=200)
