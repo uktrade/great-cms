@@ -26,11 +26,13 @@
             </div>
         </section>
         <section class="learn__category-lists container" id="topic-lesson-list">
-            {% for topic in page.topics %}
-                <div id="lesson-{{ topic.slug }}">
-                    {% include_block topic %}
-                </div>
-            {% endfor %}
+            <ol class="learn__topics-list">
+                {% for topic in page.topics %}
+                    <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
+                        {% include_block topic %}
+                    </li>
+                {% endfor %}
+            </ol>
         </section>
     </div>
 {% endblock %}
