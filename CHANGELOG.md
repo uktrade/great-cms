@@ -109,3 +109,4 @@
 - GP2-154 - update country list
 - GP2-100 - Add personalisation bar to export plan
 - GP2-122 - Render modules
+- GP2-120 - Fix numbers on curated list page
