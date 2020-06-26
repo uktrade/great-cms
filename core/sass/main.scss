@@ -1,4 +1,3 @@
-
 // !!! Imports only in this file !!!
 
 // Great styles
@@ -9,6 +8,10 @@ $asset-root: '/static/images/';
 
 // Base
 @import 'elements/reset';
+
+// Design System
+@import 'design-system/fonts';
+@import 'design-system/mixins';
 
 // Elements
 @import 'elements/layout';

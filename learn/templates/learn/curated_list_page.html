@@ -2,30 +2,24 @@
 {% load static %}
 {% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs from great_components %}
-
 {% block content %}
-    <div id="learn-root" class="learn__page learn__category-page">
-        <section class="learn__single-category-header">
-            <div class="container">
-                {% breadcrumbs 'Identify opportunities and research your market' %}
-                <a href="{% url 'core:dashboard' %}" id="breadcrumbs-home">Home</a>
-                {% endbreadcrumbs %}
-            </div>
-            <div class="learn__single-category-header-wrapper container">
-                <div class="grid">
-                    <div class="learn__single-category-header-content c-1-2-l">
+<div id="learn-root" class="learn__page learn__category-page">
+    <section class="learn__single-category-header">
+        <div class="learn__single-category-header-wrapper container">
+            <div class="grid">
+                <div class="c-1-2-l">
+                    <div class="learn__single-category-header-content">
                         <h1 class="learn__single-category-title h1" id="topic-title">{{ page.title }}</h1>
-                        <div class="learn__category-entities">
-                            <span class="learn__category-topics">{{ page.count_topics }} topics, </span>
-                            <span class="learn__category-lessons">{{ page.count_detail_pages }} lessons</span>
-                        </div>
-                        <p class="learn__single-category-header-details">{{ page.heading|richtext }}</p>
+                        <div class="learn__single-category-header-details">{{ page.heading | richtext }}</div>
+                    </div>
                 </div>
-                    {% image page.image width-600 class="learn__single-category-header c-1-2-l" %}
-            </div>
-        </section>
-        <section class="learn__category-lists container" id="topic-lesson-list">
+                <div class="c-1-2-l">
+                    {% image page.image width-600 class="learn__single-category-image" %}
+                </div>
+            </div>    
+        </div>
+    </section>
+    <section class="learn__category-lists container" id="topic-lesson-list">
             <ol class="learn__topics-list">
                 {% for topic in page.topics %}
                     <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
@@ -34,5 +28,6 @@
                 {% endfor %}
             </ol>
         </section>
-    </div>
+</div>
 {% endblock %}
+
