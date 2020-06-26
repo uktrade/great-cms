@@ -30,16 +30,14 @@ class Result(readtime.result.Result):
 
 
 @register.simple_tag(takes_context=True)
-def read_time(context, pages):
-    seconds = []
-    for page in pages:
-        page = page.specific
-        html = render_to_string(page.template, page.get_context(context['request']))
-        soup = BeautifulSoup(html, 'html.parser')
-        body = soup.find('body')
-        hidden_content = body.find_all(['script', 'noscript', 'link', 'style', 'meta'])
-        for tag in hidden_content:
-            tag.decompose()
-        seconds.append(readtime.of_html(str(body)).seconds)
-    result = Result(seconds=sum(seconds))
+def read_time(context, page):
+    page = page.specific
+    html = render_to_string(page.template, page.get_context(context['request']))
+    soup = BeautifulSoup(html, 'html.parser')
+
+    for tag in soup.body.find_all(['script', 'noscript', 'link', 'style', 'meta']):
+        tag.decompose()
+
+    seconds = readtime.of_html(str(soup.body)).seconds
+    result = Result(seconds=seconds)
     return result.text

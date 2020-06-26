@@ -6,32 +6,21 @@ from tests.unit.core.factories import DetailPageFactory
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('page_count,expected', (
-    (1, '1 min'),
-    (2, '2 mins'),
-    (10, '7 mins'),
-    (20, '13 mins'),
-    (50, '32 mins'),
-    (100, '1 hour 4 mins'),
-    (200, '2 hours 7 mins'),
-))
-def test_read_time(page_count, expected, user, rf, domestic_site):
+def test_read_time(user, rf, domestic_site):
     request = rf.get('/')
     request.user = user
 
     template = Template(
         '{% load read_time from content_tags %}'
-        '{% read_time pages %}'
+        '{% read_time page %}'
     )
 
-    pages = (
-        DetailPageFactory(
-            template='learn/detail_page.html',
-            body='hello',
-            parent=domestic_site.root_page,
-        ) for count in range(page_count)
+    page = DetailPageFactory(
+        template='learn/detail_page.html',
+        body='hello',
+        parent=domestic_site.root_page,
     )
-    context = Context({'pages': pages, 'request': request})
+    context = Context({'page': page, 'request': request})
     html = template.render(context)
 
-    assert html == expected
+    assert html == '1 min'
