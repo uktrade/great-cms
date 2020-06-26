@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Fixed bugs
+
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
@@ -14,6 +15,8 @@
 - GP2-67 - fix backbutton upload logo
 
 ### Implemented enhancements
+
+- GP2-72 - Module landing page - overview
 - MVP-392 - Add remove sector functionality
 - GP2-115 - Add objectives business rationale section
 - MVP-452 - Add brand and product page with autosave function
