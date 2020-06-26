@@ -29,7 +29,7 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 great-components==1.1.*
-directory-api-client==21.9.*
+directory-api-client==21.10.*
 directory-constants==20.11.*
 directory-forms-api-client==5.0.*
 directory-sso-api-client==6.2.*

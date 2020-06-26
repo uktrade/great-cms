@@ -26,7 +26,7 @@ configargparse==1.2.3     # via locust
 coverage==5.2             # via codecov, pytest-cov
 cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
-directory-api-client==21.9.0  # via -r requirements.in
+directory-api-client==21.10.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
