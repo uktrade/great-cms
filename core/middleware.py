@@ -47,6 +47,7 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
 
         # only update if specified products are different to current expertise
         products = request.GET.getlist('product')
+        hs_codes = request.GET.getlist('hs_codes')
         return request.user.company and products and products != request.user.company.expertise_products_services
 
     def process_request(self, request):
@@ -54,7 +55,10 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
             products = request.GET.getlist('product')
             helpers.update_company_profile(
                 sso_session_id=request.user.session_id,
-                data={'expertise_products_services': {'other': products}}
+                data={
+                    'expertise_products_services': {'other': products},
+                    'hs_codes': hs_codes
+                }
             )
             # invalidating the cached property
             try:

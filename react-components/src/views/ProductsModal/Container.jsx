@@ -35,7 +35,7 @@ export function Container(props){
   }
 
   function buildNextUrl() {
-    const reducer = (accumulator, product) => `${accumulator}&product=${product.label}&`
+    const reducer = (accumulator, product) => `${accumulator}&product=${product.label}&hs_codes=${product.value}`
     return props.products.reduce(reducer, location.pathname + '?remember-expertise-products-services=true&')
   }
 
