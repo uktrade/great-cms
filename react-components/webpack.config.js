@@ -97,8 +97,7 @@ module.exports = {
       { from: 'react-components/dist/img/', to: '../../core/static/img/' },
       { from: 'react-components/dist/fonts/', to: '../../core/static/fonts/' },
       // copy assets needed by CSS files as they are not automatically moved to dist foler by React
-      { from: 'react-components/assets/stylesheet-assets/', to: '../../core/static/img/' },
-      { from: 'design-system/fonts/', to: '../../core/static/fonts/' }
+      { from: 'react-components/assets/stylesheet-assets/', to: '../../core/static/img/' }
     ]),
     new RemovePlugin({ after: { include: ['./react-components/dist/img/', './react-components/dist/fonts/'] } })
   ]
