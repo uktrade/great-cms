@@ -47,12 +47,12 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
 
         # only update if specified products are different to current expertise
         products = request.GET.getlist('product')
-        hs_codes = request.GET.getlist('hs_codes')
         return request.user.company and products and products != request.user.company.expertise_products_services
 
     def process_request(self, request):
         if self.should_set_product_expertise(request):
             products = request.GET.getlist('product')
+            hs_codes = request.GET.getlist('hs_codes')
             helpers.update_company_profile(
                 sso_session_id=request.user.session_id,
                 data={
