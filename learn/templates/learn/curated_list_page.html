@@ -12,6 +12,10 @@
                         <h1 class="learn__single-category-title h1" id="topic-title">{{ page.title }}</h1>
                         <div class="learn__single-category-header-details">{{ page.heading | richtext }}</div>
                     </div>
+                    <div class="learn__category-entities">
+                        <span class="learn__category-topics">{{ page.count_topics }} topics, </span>
+                        <span class="learn__category-lessons">{{ page.count_detail_pages }} lessons</span>
+                    </div>
                 </div>
                 <div class="c-1-2-l">
                     {% image page.image width-600 class="learn__single-category-image" %}
