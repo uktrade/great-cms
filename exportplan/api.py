@@ -125,7 +125,7 @@ class ObjectivesCreateAPIView(generics.GenericAPIView):
 
         if serializer.is_valid(raise_exception=True):
             response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
-            return Response(response.json())
+            return Response(response)
 
         return Response(serializer.errors)
 
@@ -139,7 +139,7 @@ class ObjectivesUpdateAPIView(generics.GenericAPIView):
 
         if serializer.is_valid(raise_exception=True):
             response = helpers.update_objective(self.request.user.session_id, serializer.validated_data)
-            return Response(response.json())
+            return Response(response)
 
         return Response(serializer.errors)
 

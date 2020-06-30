@@ -105,7 +105,11 @@ def test_objectives_form_empty_fields():
 @patch.object(helpers, 'update_exportplan')
 @patch.object(helpers, 'get_or_create_export_plan')
 def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, objectives_form_data, client, user):
-    mock_get_export_plan.return_value = {'pk': 1, **objectives_form_data}
+    mock_get_export_plan.return_value = {
+        'pk': 1,
+        **objectives_form_data,
+        'company_objectives': [],
+    }
     url = reverse('exportplan:objectives')
     client.force_login(user)
     response = client.get(url)
