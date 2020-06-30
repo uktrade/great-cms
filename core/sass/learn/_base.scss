@@ -7,148 +7,168 @@ $tablet: 768px;
 $desktop: 1024px;
 
 .breadcrumb {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .learn__page {
-    font-family: $brand-font-body;
+  font-family: $brand-font-body;
 
-    .h1 {
-        color: $grey;
-        font-size: 48px;
-        font-weight: bold;
-        line-height: 50px;
-        margin-bottom: 50px;
+  .h1 {
+    color: $grey;
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 50px;
+    margin-bottom: 50px;
+  }
+
+  .button {
+    background-color: $grey;
+    border-radius: 4px;
+    color: $white;
+    display: inline-block;
+    font-size: 19px;
+    font-weight: bold;
+    height: 50px;
+    line-height: 34px;
+    padding: 8px 40px;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: darken($grey, 5);
+      color: $white;
     }
-
-    .button {
-        background-color: $grey;
-        border-radius: 4px;
-        color: $white;
-        display: inline-block;
-        font-size: 19px;
-        font-weight: bold;
-        height: 50px;
-        line-height: 34px;
-        padding: 8px 40px;
-        text-decoration: none;
-        white-space: nowrap;
-
-        &:hover {
-            background-color: darken($grey, 5);
-            color: $white;
-        }
-    }
+  }
 }
 
 .learn__home-page {
-    padding-top: 120px;
-    margin-bottom: 120px;
+  padding-top: 120px;
+  margin-bottom: 120px;
 
-    .learn__wrapper--paragraph {
-        margin-bottom: 110px
-    }
+  .learn__wrapper--paragraph {
+    margin-bottom: 110px;
+  }
 }
 
 .learn__wrapper--paragraph {
-    color: $grey;
-    font-size: 20px;
-    line-height: 30px;
-    margin: 0 0 40px 0;
+  color: $grey;
+  font-size: 20px;
+  line-height: 30px;
+  margin: 0 0 40px 0;
 }
 
 .learn__carousel {
-    margin: 0 25%;
-    text-align: center;
+  margin: 0 25%;
+  text-align: center;
 }
 
 .learn__introduction-page {
-    margin-bottom: 120px;
-    padding-top: 80px;
+  margin-bottom: 120px;
+  padding-top: 80px;
 }
 
 .learn__carousel--paragraph {
-    font-size: 19px;
-    font-weight: normal;
-    line-height: 29px;
+  font-size: 19px;
+  font-weight: normal;
+  line-height: 29px;
 }
 
 .learn__introduction {
-    margin: 0 percentage(1 / 4) 60px;
+  margin: 0 percentage(1 / 4) 60px;
 }
 
 .learn__category-header {
-    padding-top: 80px;
-    margin-bottom: 80px;
+  padding-top: 80px;
+  margin-bottom: 80px;
 }
 
 .learn__step-block {
-    background: url("/static/img/circle-check-icon.png") no-repeat calc(50% + 15px) 0;
-    padding-top: 88px;
-    text-align: center;
+  background: url('/static/img/circle-check-icon.png') no-repeat calc(50% + 15px) 0;
+  padding-top: 88px;
+  text-align: center;
 }
 
 .learn__step-title {
-    color: $grey;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 28px;
-    margin-bottom: 20px;
+  color: $grey;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 28px;
+  margin-bottom: 20px;
 }
 
 .learn__category {
-    background-color: $white;
-    margin-bottom: 20px;
-    min-height: 360px;
-    position: relative;
+  background-color: $white;
+  margin-bottom: 20px;
+  min-height: 360px;
+  position: relative;
 }
 
 .learn__category-content {
-    padding-bottom: 40px;
-    padding-top: 40px;
+  padding-bottom: 40px;
+  padding-top: 40px;
 }
 
 .learn__category-title {
-    color: $grey;
-    font-size: 36px;
-    font-weight: bold;
-    line-height: 44px;
-    margin-bottom: 10px;
+  color: $grey;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 44px;
+  margin-bottom: 10px;
 }
 
 .learn__category-details {
-    margin: 0 0 60px;
+  margin: 0 0 60px;
 }
 
 .learn__category-entities {
-    background-color: $light-grey;
-    border-radius: 15px;
-    color: $grey;
-    display: inline-block;
-    font-size: 16px;
-    height: 30px;
-    line-height: 30px;
-    margin-bottom: 20px;
-    padding: 0 15px;
-    white-space: nowrap;
+  background-color: $light-grey;
+  border-radius: 15px;
+  color: $grey;
+  display: inline-block;
+  font-size: 16px;
+  height: 30px;
+  line-height: 30px;
+  margin-bottom: 20px;
+  padding: 0 15px;
+  white-space: nowrap;
 }
 
 .learn__category-image {
-    bottom: 0;
-    position: absolute;
-    right: 20px;
+  bottom: 0;
+  position: absolute;
+  right: 20px;
 }
 
 .learn__single-category-header-wrapper {
-    padding-top: 40px;
+  padding-top: 40px;
+}
+
+.learn__single-category-header-content {
+  margin: 38px 0 0 70px;
 }
 
 .learn__single-category-title.h1 {
-    margin-bottom: 10px;
+  @include moduleLandingHeading;
+  margin-bottom: 16px;
 }
 
 .learn__single-category-header {
-    background-color: $white;
+  background-color: $white;
+}
+
+.learn__single-category-image {
+  margin: 77px 0 52px 10px;
+}
+
+.learn__single-category-header-details {
+  p {
+    @include moduleLandingIntro;
+    margin-top: 15px;
+  }
+}
+
+.learn__topics-list {
+  margin: 125px 0 0;
 }
 
 .learn__topic-item-read-time {
@@ -160,120 +180,113 @@ $desktop: 1024px;
 
 .learn__topic-item-title,
 .learn__topic-item {
-    color: $grey;
-    font-size: 32px;
-    font-weight: bold;
-    line-height: 40px;
+  color: $grey;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 40px;
 }
 
 .learn__topic-item-title {
-    border-bottom: 4px solid $white;
-    margin-right: 20px;
-    padding-bottom: 20px;
+  @include moduleLandingTopicHeading;
+  margin-right: 20px;
+  padding-bottom: 21px;
 }
 
 .learn__topic-item {
-    list-style-type: decimal;
-    margin: 0 0 60px 34px;
-    padding-left: 4px;
+  margin-bottom: 50px;
+  padding-left: 4px;
 }
 
 .learn__topic-duration {
-    color: $grey;
-    font-size: 16px;
-    font-weight: bold;
+  color: $grey;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .learn__lessons-list {
-    margin: 0;
+  margin: 0;
 }
 
 .learn__lesson-item {
-    background-color: $white;
-    margin-bottom: 6px;
-
+  background-color: $white;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .learn__lesson-item-link {
-    background: url("/static/img/caret-circle-right.png") no-repeat 98% center;
-    color: $grey;
-    display: block;
-    font-size: 19px;
-    line-height: 34px;
-    padding: 18px 50px 18px 20px;
-    text-decoration: none;
+  @include moduleLandingTopicLink;
+  display: block;
+  padding: 22px 50px 20px 21px;
+  text-decoration: none;
 }
 
-
 #lesson-page {
-    details {
-        summary {
-            font-weight: bold;
-            color: #333;
+  details {
+    summary {
+      font-weight: bold;
+      color: #333;
 
-            h3 {
-                display: inline;
-            }
-        }
+      h3 {
+        display: inline;
+      }
     }
-    li.great-mvp-list-arrow {
-        list-style-type: disclosure-closed;
-        margin-left: 20px;
-        padding-left: 5px;
+  }
+  li.great-mvp-list-arrow {
+    list-style-type: disclosure-closed;
+    margin-left: 20px;
+    padding-left: 5px;
+  }
+  nav {
+    background: $white;
+
+    .great-mvp-pill-button {
+      margin-left: 5px;
     }
-    nav {
-        background: $white;
+  }
+  aside {
+    background: $white;
+    border-right: 1px solid $light-grey;
+    height: 100%;
+    position: sticky;
+    top: 0;
 
-        .great-mvp-pill-button {
-            margin-left: 5px;
-        }
-    }
-    aside {
-        background: $white;
-        border-right: 1px solid $light-grey;
-        height: 100%;
-        position: sticky;
-        top: 0;
-
-        h3 {
-          padding-top: 20;
-          padding-bottom: 0;
-          a.topic-link {
-            text-decoration: none;
-          }
-        }
-
-        a {
-          color: $grey;
-          font-size: 16px;
-        }
-    }
-    .lesson-next-area {
-        display: inline-block;
-
-        h5 {
-          color: #919191;
-          font-size: 16px;
-          font-weight: bold;
-        }
-
-        .lesson-next-link {
-          color: #3C3C3C;
-          font-size: 36px;
-          font-weight: bold;
-        }
-
-        .lesson-back-to-learning {
-          color: #3C3C3C;
-          font-size: 19px;
-          font-weight: bold;
-          display: block;
-        }
+    h3 {
+      padding-top: 20;
+      padding-bottom: 0;
+      a.topic-link {
+        text-decoration: none;
+      }
     }
 
-    .set-product-button,
-    .set-country-button {
-        cursor: pointer;
+    a {
+      color: $grey;
+      font-size: 16px;
+    }
+  }
+  .lesson-next-area {
+    display: inline-block;
+
+    h5 {
+      color: #919191;
+      font-size: 16px;
+      font-weight: bold;
     }
 
+    .lesson-next-link {
+      color: #3c3c3c;
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .lesson-back-to-learning {
+      color: #3c3c3c;
+      font-size: 19px;
+      font-weight: bold;
+      display: block;
+    }
+  }
+
+  .set-product-button,
+  .set-country-button {
+    cursor: pointer;
+  }
 }

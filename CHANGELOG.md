@@ -15,6 +15,9 @@
 - GP2-67 - fix backbutton upload logo
 
 ### Implemented enhancements
+
+- GP2-73 - Module landing page - topics & lessons
+- GP2-72 - Module landing page - overview
 - MVP-392 - Add remove sector functionality
 - GP2-115 - Add objectives business rationale section
 - MVP-452 - Add brand and product page with autosave function

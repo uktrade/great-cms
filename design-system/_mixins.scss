@@ -1,0 +1,41 @@
+@import '_style-params';
+
+@mixin moduleLandingHeading {
+  font-size: var(--font-title-3-6-blue-80-1-left-font-size);
+  line-height: var(--font-title-3-6-blue-80-1-left-font-size);
+  text-align: var(--font-title-3-6-blue-80-1-left-text-align);
+  font-style: var(--font-title-3-6-blue-80-1-left-font-style);
+  font-weight: var(--font-title-3-6-blue-80-1-left-font-weight);
+  font-family: var(--font-title-3-6-blue-80-1-left-font-family);
+  color: var(--colour-blue-deep-80);
+}
+
+@mixin moduleLandingIntro {
+  font-size: var(--font-body-6-blue-80-1-left-font-size);
+  line-height: var(--font-body-6-blue-80-1-left-line-height);
+  text-align: var(--font-body-6-blue-80-1-left-text-align);
+  color: var(--font-body-6-blue-80-1-left-color);
+  font-style: var(--font-body-6-blue-80-1-left-font-style);
+  font-weight: var(--font-body-6-blue-80-1-left-font-weight);
+  font-family: var(--font-body-6-blue-80-1-left-font-family);
+}
+
+@mixin moduleLandingTopicHeading {
+  font-size: var(--font-title-2-6-blue-1-left-font-size);
+  line-height: var(--font-title-2-6-blue-1-left-line-height);
+  text-align: var(--font-title-2-6-blue-1-left-text-align);
+  color: var(--font-title-2-6-blue-1-left-color);
+  font-style: var(--font-title-2-6-blue-1-left-font-style);
+  font-weight: var(--font-title-2-6-blue-1-left-font-weight);
+  font-family: var(--font-title-2-6-blue-1-left-font-family);
+}
+
+@mixin moduleLandingTopicLink {
+  font-size: var(--font-title-1-6-blue-1-left-font-size);
+  line-height: var(--font-title-1-6-blue-1-left-line-height);
+  text-align: var(--font-title-1-6-blue-1-left-text-align);
+  color: var(--font-title-1-6-blue-1-left-color);
+  font-style: var(--font-title-1-6-blue-1-left-font-style);
+  font-weight: var(--font-title-1-6-blue-1-left-font-weight);
+  font-family: var(--font-title-1-6-blue-1-left-font-family);
+}
