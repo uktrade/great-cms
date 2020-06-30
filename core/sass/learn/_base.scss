@@ -98,6 +98,7 @@ $desktop: 1024px;
 
 .learn__category {
   background-color: $white;
+  border-radius: 10px;
   margin-bottom: 20px;
   min-height: 360px;
   position: relative;
@@ -106,18 +107,25 @@ $desktop: 1024px;
 .learn__category-content {
   padding-bottom: 40px;
   padding-top: 40px;
+  padding-left: 25px;
 }
 
 .learn__category-title {
-  color: $grey;
-  font-size: 36px;
-  font-weight: bold;
-  line-height: 44px;
-  margin-bottom: 10px;
+  @include moduleLandingHeading;
+  margin-top: 13px;
 }
 
 .learn__category-details {
-  margin: 0 0 60px;
+  margin: 0 0 40px;
+
+  p {
+    @include moduleLandingIntro;
+    margin-top: 16px;
+  }
+}
+
+.learn__category-link {
+  @include moduleLink;
 }
 
 .learn__category-entities {
@@ -130,7 +138,8 @@ $desktop: 1024px;
 .learn__category-image {
   bottom: 0;
   position: absolute;
-  right: 20px;
+  right: 0;
+  max-width: 50%;
 }
 
 .learn__single-category-header-wrapper {
@@ -184,7 +193,7 @@ $desktop: 1024px;
 .learn__topic-item-title {
   @include moduleLandingTopicHeading;
   margin-right: 20px;
-  padding-bottom: 21px;
+  padding-bottom: 20px;
 }
 
 .learn__topic-item {
