@@ -16,6 +16,7 @@
 
 ### Implemented enhancements
 
+- GP2-31 - Count of topics and lessons in a module
 - GP2-73 - Module landing page - topics & lessons
 - GP2-72 - Module landing page - overview
 - MVP-392 - Add remove sector functionality
