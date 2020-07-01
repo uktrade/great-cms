@@ -34,6 +34,7 @@
     $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     $ python get-pip.py pip==18
 
+
 ### Configuration
 
 Secrets such as API keys and environment specific configurations are placed in `conf/env/secrets-do-not-commit` - a file that is not added to version control. To create a template secrets file with dummy values run `make secrets`.
