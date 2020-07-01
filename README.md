@@ -16,7 +16,6 @@
     $ git clone https://github.com/uktrade/great-cms
     $ cd great-cms
     $ [create and activate virtual environment]
-    $ python -m pip install pip-tools
     $ make install_requirements
     $ make secrets
     $ make ARGUMENTS=migrate manage
