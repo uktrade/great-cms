@@ -89,7 +89,7 @@ jobs:
           command: |
             . venv/bin/activate
             make pytest
-            coveralls
+            codecov
       - store_test_results:
           path: ./results/
 
