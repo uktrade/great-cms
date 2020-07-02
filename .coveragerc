@@ -1,20 +1,13 @@
 [run]
-
 omit =
     .venv/*
-    venv/*
-    config/*
+    conf/wsgi.py
+    conf/settings.py
     manage.py
     **/tests/*
-    conftest.py
-    **/migrations/*
     *__init__*
-    docs/*
-    htmlcov/*
-    node_modules/*
-    javascript/*
-    static/*
-    parse_test_summary_json.py
+    conf/urls_prefixed.py
+    **/tests
 
 [report]
 exclude_lines =
