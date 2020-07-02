@@ -345,16 +345,17 @@ class DetailPage(CMSGenericPage):
             'paragraph', PersonalisedStructBlock(
                 [('paragraph', blocks.RichTextBlock())],
                 template='core/personalised_page_struct_paragraph_block.html',
-                icon='pilcrow'
+                icon='fa-font'
             )
         ),
         (
             'video', PersonalisedStructBlock(
                 [('video', core_blocks.VideoBlock())],
                 template='core/personalised_page_struct_video_block.html',
-                icon='media'
+                icon='fa-play'
             )
-        )
+        ),
+        ('content_module', core_blocks.ModularContentStaticBlock())
     ])
 
     #########
@@ -365,7 +366,7 @@ class DetailPage(CMSGenericPage):
     def handle_page_view(self, request):
         if request.user.is_authenticated:
             # checking if the page should record read progress
-            # checking if the page is alreayd marked as read
+            # checking if the page is already marked as read
             list_page = (
                 ListPage.objects
                 .ancestor_of(self)
