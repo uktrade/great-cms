@@ -9,8 +9,10 @@
     <ul class="learn__lessons-list c-2-3-l">
         {% for page in value.pages %}
             <li class="learn__lesson-item">
-                <a class="learn__lesson-item-link" href="{% pageurl page %}">{{ page.title }}</a>
-                <div class="learn__topic-item-read-time">{% read_time page %}</div>
+                <a class="learn__lesson-item-link" href="{% pageurl page %}">
+                    {{ page.title }}
+                    <div class="learn__topic-item-read-time">{% read_time page %}</div>
+                </a>
             </li>
         {% endfor %}
     </ul>

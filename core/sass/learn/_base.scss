@@ -166,15 +166,6 @@ $desktop: 1024px;
   margin: 125px 0 0;
 }
 
-.learn__topic-item-read-time {
-  color: $grey;
-  font-size: 16px;
-  font-weight: 600;
-  position: absolute;
-  top: 13px;
-  right: 60px;
-}
-
 .learn__topic-item-title,
 .learn__topic-item {
   color: $grey;
@@ -215,6 +206,17 @@ $desktop: 1024px;
   display: block;
   padding: 22px 50px 20px 21px;
   text-decoration: none;
+  position: relative;
+}
+
+.learn__topic-item-read-time {
+  color: $grey;
+  font-size: 16px;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  margin-top: -14px;
+  right: 60px;
 }
 
 #lesson-page {
