@@ -16,6 +16,7 @@ requests-mock
 pip-tools
 ipdb
 beautifulsoup4
+codecov==2.0.15
 
 # Code quality
 # -------------
