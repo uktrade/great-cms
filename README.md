@@ -188,8 +188,8 @@ https://github.com/uktrade?q=great
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-cms/tree/develop.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/great-cms/tree/develop
 
-[codecov-image]: https://codecov.io/gh/uktrade/directory-api/branch/master/graph/badge.svg
-[codecov]: https://codecov.io/gh/uktrade/directory-api
+[codecov-image]: https://codecov.io/gh/uktrade/great-cms/branch/master/graph/badge.svg
+[codecov]: https://codecov.io/gh/uktrade/great-cms
 
 [docs-image]: https://readthedocs.org/projects/great-cms/badge/?version=latest
 [docs]: https://great-cms.readthedocs.io/en/latest/?badge=latest
