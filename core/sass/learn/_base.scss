@@ -121,16 +121,10 @@ $desktop: 1024px;
 }
 
 .learn__category-entities {
-  background-color: $light-grey;
-  border-radius: 15px;
-  color: $grey;
-  display: inline-block;
-  font-size: 16px;
-  height: 30px;
-  line-height: 30px;
-  margin-bottom: 20px;
-  padding: 0 15px;
-  white-space: nowrap;
+  @include countBox;
+  position: absolute;
+  top: 35px;
+  right: 0;
 }
 
 .learn__category-image {
@@ -141,6 +135,7 @@ $desktop: 1024px;
 
 .learn__single-category-header-wrapper {
   padding-top: 40px;
+  position: relative;
 }
 
 .learn__single-category-header-content {
@@ -167,6 +162,10 @@ $desktop: 1024px;
   }
 }
 
+.learn__topics-list {
+  margin: 125px 0 0;
+}
+
 .learn__topic-item-read-time {
   color: $grey;
   font-size: 16px;
@@ -185,14 +184,13 @@ $desktop: 1024px;
 }
 
 .learn__topic-item-title {
-  border-bottom: 4px solid $white;
+  @include moduleLandingTopicHeading;
   margin-right: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 21px;
 }
 
 .learn__topic-item {
-  list-style-type: decimal;
-  margin: 0 0 60px 34px;
+  margin-bottom: 50px;
   padding-left: 4px;
 }
 
@@ -209,16 +207,13 @@ $desktop: 1024px;
 
 .learn__lesson-item {
   background-color: $white;
-  margin-bottom: 6px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .learn__lesson-item-link {
-  background: url('/static/img/caret-circle-right.png') no-repeat 98% center;
-  color: $grey;
+  @include moduleLandingTopicLink;
   display: block;
-  font-size: 19px;
-  line-height: 34px;
-  padding: 18px 50px 18px 20px;
+  padding: 22px 50px 20px 21px;
   text-decoration: none;
 }
 

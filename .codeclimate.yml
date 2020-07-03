@@ -1,0 +1,25 @@
+engines:
+  radon:
+    enabled: true
+  pep8:
+    enabled: true
+  fixme:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - python:
+ratings:
+  paths:
+    - "**.py"
+exclude_paths:
+- "**/tests/"
+- "README.md"
+- "LICENCE"
+- "*.yml"
+- "**/conftest.py"
+- "**/*.html"
+- "**/static/icons/"
+- "**/static/images/"
+- "**/static/css/bootstrap/"
