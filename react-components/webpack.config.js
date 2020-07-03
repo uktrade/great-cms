@@ -85,6 +85,10 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf)$/,
         loader: 'url-loader?limit=10000&name=fonts/[name].[ext]'
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader'
       }
     ]
   },

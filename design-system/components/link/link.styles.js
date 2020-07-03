@@ -1,6 +1,4 @@
-@import '../../index.css';
-
-a {
+export default `a {
     font-family: 'FS Lucas', sans-serif;
     font-weight: bold;
     text-decoration: none;
@@ -29,4 +27,4 @@ a {
 
 .secondary {
     color: var(--colour-red-80);
-}
+}`

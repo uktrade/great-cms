@@ -1,6 +1,5 @@
 import '../../core/sass/main.scss'
 
-
 import Signup from '@src/views/Signup/Container'
 import SignupModal from '@src/views/SignupModal/Container'
 import ProductsModal from '@src/views/ProductsModal/Container'
@@ -19,7 +18,6 @@ import LearnIntroduction from '@src/views/LearnIntroduction/LearnIntroduction'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
 import '@babel/polyfill'
-
 
 export default {
   Countries,
@@ -40,5 +38,5 @@ export default {
   SignupModal,
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
-  Tour,
+  Tour
 }
