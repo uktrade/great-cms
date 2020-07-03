@@ -1,7 +1,7 @@
 # Great CMS
 
 [![circle-ci-image]][circle-ci]
-[![coverage-image]][coverage]
+[![codecov-image]][codecov]
 [![docs-image]][docs]
 [![gitflow-image]][gitflow]
 [![calver-image]][calver]
@@ -188,8 +188,8 @@ https://github.com/uktrade?q=great
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-cms/tree/develop.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/great-cms/tree/develop
 
-[coverage-image]: https://coveralls.io/repos/github/uktrade/great-cms/badge.svg
-[coverage]: https://coveralls.io/github/uktrade/great-cms
+[codecov-image]: https://codecov.io/gh/uktrade/directory-api/branch/master/graph/badge.svg
+[codecov]: https://codecov.io/gh/uktrade/directory-api
 
 [docs-image]: https://readthedocs.org/projects/great-cms/badge/?version=latest
 [docs]: https://great-cms.readthedocs.io/en/latest/?badge=latest

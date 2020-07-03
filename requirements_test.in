@@ -16,7 +16,6 @@ requests-mock
 pip-tools
 ipdb
 beautifulsoup4
-codecov==2.0.15
 
 # Code quality
 # -------------
@@ -29,4 +28,4 @@ flake8-quotes
 flake8-string-format
 pep8-naming
 pylint-django
-coveralls
+codecov

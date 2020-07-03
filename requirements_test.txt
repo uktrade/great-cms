@@ -21,10 +21,9 @@ botocore==1.14.17         # via boto3, s3transfer
 certifi==2020.6.20        # via geventhttpclient, requests, sentry-sdk
 chardet==3.0.4            # via requests
 click==7.1.2              # via flask, pip-tools
-codecov==2.0.15           # via -r requirements_test.in
+codecov==2.1.7            # via -r requirements_test.in
 configargparse==1.2.3     # via locust
-coverage==5.1             # via codecov, coveralls, pytest-cov
-coveralls==2.0.0          # via -r requirements_test.in
+coverage==5.1             # via codecov, pytest-cov
 cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
 directory-api-client==21.8.0  # via -r requirements.in
@@ -47,7 +46,6 @@ django-taggit==1.3.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
 django==2.2.13            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-debug-toolbar, django-filter, django-formtools, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, great-components, sigauth, wagtail, wagtailfontawesome
 djangorestframework==3.9.4  # via -r requirements.in, sigauth, wagtail
-docopt==0.6.2             # via coveralls
 docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
 factory-boy==2.12.0       # via wagtail-factories
@@ -130,7 +128,7 @@ readtime==1.1.1           # via -r requirements.in
 redis==3.5.3              # via django-redis
 requests-mock==1.8.0      # via -r requirements_test.in
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.24.0          # via airtable-python-wrapper, codecov, coveralls, directory-api-client, directory-client-core, geoip2, locust, requests-mock, requests-oauthlib, sphinx, wagtail
+requests==2.24.0          # via airtable-python-wrapper, codecov, directory-api-client, directory-client-core, geoip2, locust, requests-mock, requests-oauthlib, sphinx, wagtail
 s3transfer==0.3.3         # via boto3
 selenium==3.141.0         # via -r requirements_test.in
 sentry-sdk==0.13.5        # via -r requirements.in
