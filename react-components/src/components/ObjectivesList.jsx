@@ -22,15 +22,6 @@ function cleanData(data) {
 
 class ObjectivesList extends React.Component {
 
-  newObjective = {
-    description: '',
-    owner: '',
-    planned_reviews: '',
-    start_date: '',
-    end_date: '',
-    companyexportplan: this.props.exportPlanID,
-  }
-
   constructor(props) {
     super(props)
 
@@ -130,7 +121,14 @@ class ObjectivesList extends React.Component {
 
   createObjective() {
     const data = {
-      data: {...this.newObjective}
+      data: {
+        description: '',
+        owner: '',
+        planned_reviews: '',
+        start_date: '',
+        end_date: '',
+        companyexportplan: this.props.exportPlanID,
+      }
     }
     const cleanedData = cleanData(data)
     this.setState({ isLoading: true }, () => {
