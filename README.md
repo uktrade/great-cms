@@ -1,7 +1,7 @@
 # Great CMS
 
 [![circle-ci-image]][circle-ci]
-[![coverage-image]][coverage]
+[![codecov-image]][codecov]
 [![docs-image]][docs]
 [![gitflow-image]][gitflow]
 [![calver-image]][calver]
@@ -57,10 +57,10 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make install_requirements     | Installed the compile requirements file |
 | make css                      | Compile scss to css |
 | make secrets                  | Create your secret env var file |
-| make database                 | Drop and recrete the database |
-| make boostrap_great           | Create required database records so the CMS works |
-| make create_tours             | Create required Page tours |
-| make recreate                 | Runs: database, boostrap_great, create_pages, create_tours in one go |
+| make recreate                 | Runs following command in one go |
+|                               | **make database**: Drop and recrete the database |
+|                               | **make boostrap_great**: Create required database records so the CMS works |
+|                               | **make create_tours** |
 
 ### Setting up the local database
 
@@ -193,8 +193,8 @@ https://github.com/uktrade?q=great
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-cms/tree/develop.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/great-cms/tree/develop
 
-[coverage-image]: https://coveralls.io/repos/github/uktrade/great-cms/badge.svg
-[coverage]: https://coveralls.io/github/uktrade/great-cms
+[codecov-image]: https://codecov.io/gh/uktrade/great-cms/branch/master/graph/badge.svg
+[codecov]: https://codecov.io/gh/uktrade/great-cms
 
 [docs-image]: https://readthedocs.org/projects/great-cms/badge/?version=latest
 [docs]: https://great-cms.readthedocs.io/en/latest/?badge=latest
