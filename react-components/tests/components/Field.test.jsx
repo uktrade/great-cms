@@ -19,6 +19,7 @@ test('Field should use props', () => {
   const component = Enzyme.shallow(
     <Field
       type="text"
+      id="id_some-name"
       placeholder="some placeholder"
       name="some-name"
       value="some value"
@@ -29,22 +30,21 @@ test('Field should use props', () => {
     />
   )
 
-  expect(
-    component.matchesElement(
-      <div>
-        <ErrorList errors={errors} />
-        <TextInput
-          id="id_some-name"
-          value="some value"
-          name="some-name"
-          placeholder="some placeholder"
-          type="text"
-          autofocus
-          disabled
-        />
-      </div>
-    )
-  ).toEqual(true)
+  const errorList = (<ErrorList errors={errors} />)
+  const field = (
+    <TextInput
+      id="id_some-name"
+      value="some value"
+      name="some-name"
+      placeholder="some placeholder"
+      type="text"
+      autofocus
+      disabled
+    />
+  )
+
+  expect(component.containsMatchingElement(field)).toEqual(true)
+  expect(component.containsMatchingElement(errorList)).toEqual(true)
 })
 
 test('Field should render radio', () => {
@@ -56,6 +56,7 @@ test('Field should render radio', () => {
   const component = Enzyme.shallow(
     <Field
       type="radio"
+      id="id_some-name"
       placeholder="some placeholder"
       name="some-name"
       options={options}
@@ -64,27 +65,29 @@ test('Field should render radio', () => {
       errors={errors}
     />
   )
-  expect(
-    component.containsMatchingElement(
-      <RadioInput
-        id="id_some-name"
-        type="radio"
-        placeholder="some placeholder"
-        name="some-name"
-        options={options}
-        value="bar"
-        errors={errors}
-        autofocus={false}
-        disabled={false}
-      />
-    )
-  ).toEqual(true)
+
+  const radio = (
+    <RadioInput
+      id="id_some-name"
+      type="radio"
+      placeholder="some placeholder"
+      name="some-name"
+      options={options}
+      value="bar"
+      errors={errors}
+      autofocus={false}
+      disabled={false}
+    />
+  )
+
+  expect(component.containsMatchingElement(radio)).toEqual(true)
 })
 
 test('Field should handle default props', () => {
   const errors = []
   const component = Enzyme.shallow(
     <Field
+      id="id_some-name"
       type="text"
       placeholder="some placeholder"
       name="some-name"
@@ -94,21 +97,20 @@ test('Field should handle default props', () => {
     />
   )
 
-  expect(
-    component.containsMatchingElement(
-      <div>
-        <ErrorList errors={errors} />
-        <TextInput
-          id="id_some-name"
-          autofocus={false}
-          disabled={false}
-          errors={errors}
-          placeholder="some placeholder"
-          type="text"
-          name="some-name"
-          value="some value"
-        />
-      </div>
-    )
-  ).toEqual(true)
+  const errorList = (<ErrorList errors={errors} />)
+  const field = (
+    <TextInput
+      id="id_some-name"
+      autofocus={false}
+      disabled={false}
+      errors={errors}
+      placeholder="some placeholder"
+      type="text"
+      name="some-name"
+      value="some value"
+    />
+  )
+
+  expect(component.containsMatchingElement(field)).toEqual(true)
+  expect(component.containsMatchingElement(errorList)).toEqual(true)
 })

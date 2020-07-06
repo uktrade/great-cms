@@ -80,7 +80,7 @@ export function RadioInput(props) {
           checked={val === value}
           onChange={(e) => handleChange(e.target.value)}
         />
-      <label id={`${id}_label`} htmlFor={id} className='form-label'>{label}</label>
+      <label id={`${id}_label`} htmlFor={childId} className='form-label'>{label}</label>
       </li>
     )
   })
