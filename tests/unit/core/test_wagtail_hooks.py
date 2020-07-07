@@ -6,6 +6,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from core import wagtail_hooks
 from tests.unit.learn.factories import LessonPageFactory
 from tests.unit.exportplan.factories import ExportPlanPageFactory, ExportPlanDashboardPageFactory
+from tests.unit.core import factories
 
 
 @pytest.mark.django_db
@@ -185,3 +186,18 @@ def test_login_required_signup_wizard_exportplan_logged_in(domestic_site, user, 
         )
 
         assert response is None
+
+
+@pytest.mark.django_db
+def test_estimated_read_time_calculation(rf, domestic_homepage):
+
+    request = rf.get('/')
+    request.user = AnonymousUser()
+
+    detail_page = factories.DetailPageFactory(parent=domestic_homepage)
+    response = wagtail_hooks.set_read_time(
+        page=detail_page,
+        request=request
+    )
+
+    assert response > 0

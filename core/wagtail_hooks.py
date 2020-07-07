@@ -8,10 +8,8 @@ from core import mixins, views
 
 from django.template.loader import render_to_string
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
+from datetime import timedelta
 import readtime
-#import readtime.result
-
 
 SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT = 'LESSON_PAGE_SHOW_GENERIC_CONTENT'
 exportplan_templates = ['exportplan/automated_list_page.html', 'exportplan/dashboard_page.html']
@@ -56,3 +54,4 @@ def set_read_time(request, page):
         seconds = readtime.of_html(str(soup.body)).seconds
         page.estimated_read_duration = timedelta(seconds=seconds)
         page.save()
+        return seconds
