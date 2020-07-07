@@ -3,6 +3,7 @@
 {% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
 {% load breadcrumbs from great_components %}
+{% load pluralize from content_tags %}
 
 {% block content %}
     <div class="container">
@@ -50,8 +51,8 @@
                     </div>
                     
                     <div class="learn__category-entities">
-                        <span class="learn__category-topics">{{ child.count_topics }} topics, <span>
-                        <span class="learn__category-lessons">{{ child.count_detail_pages }} lessons</span>
+                        <span class="learn__category-topics">{{ child.count_topics }} topic{% pluralize child.count_topics %}, <span>
+                        <span class="learn__category-lessons">{{ child.count_detail_pages }} lesson{% pluralize child.count_detail_pages %}</span>
                     </div>
                 </div>
                 {% image child.image width-600 class="learn__category-image" %}
