@@ -1,5 +1,5 @@
 {% load wagtailcore_tags %}
-{% load read_time from content_tags %}
+{% load format_timedelta from content_tags %}
 
 
 <div class="grid">
@@ -11,7 +11,7 @@
             <li class="learn__lesson-item">
                 <a class="learn__lesson-item-link" href="{% pageurl page %}">
                     {{ page.title }}
-                    <div class="learn__topic-item-read-time">{% read_time page %}</div>
+                    <div class="learn__topic-item-read-time">{{ page.specific.estimated_read_duration|format_timedelta }}</div>
                 </a>
             </li>
         {% endfor %}
