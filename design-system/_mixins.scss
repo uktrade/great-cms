@@ -54,3 +54,22 @@
   display: inline-block;
   white-space: nowrap;
 }
+
+@mixin moduleLink {
+  background: var(--colour-blue-deep-80);
+  border-radius: 20px;
+  padding: 12px 22px;
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    font-size: var(--font-subcopy-bold-4-white-1-left-font-size);
+    line-height: var(--font-subcopy-bold-4-white-1-left-line-height);
+    color: var(--font-subcopy-bold-4-white-1-left-color);
+    font-style: var(--font-subcopy-bold-4-white-1-left-font-style);
+    font-weight: var(--font-subcopy-bold-4-white-1-left-font-weight);
+    font-family: var(--font-subcopy-bold-4-white-1-left-font-family);
+    text-decoration: none;
+  }
+}
