@@ -44,9 +44,9 @@ geoip2==2.9.0             # via -r requirements.in
 great-components==1.1.1   # via -r requirements.in
 gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.1             # via wagtail
-idna==2.9                 # via requests
+idna==2.10                # via requests
 imagesize==1.2.0          # via sphinx
-importlib-metadata==1.6.1  # via jsonschema
+importlib-metadata==1.7.0  # via jsonschema
 iso3166==1.0.1            # via -r requirements.in
 jinja2==2.11.2            # via sphinx
 jmespath==0.10.0          # via boto3, botocore
@@ -63,7 +63,7 @@ olefile==0.46             # via directory-validators
 packaging==20.4           # via sphinx
 pillow==6.2.2             # via directory-validators, wagtail
 psycopg2==2.8.5           # via -r requirements.in
-pycountry==19.8.18        # via wagtail-personalisation
+pycountry==20.7.3         # via wagtail-personalisation
 pygments==2.6.1           # via sphinx
 pyparsing==2.4.7          # via packaging
 pyquery==1.4.1            # via readtime
@@ -81,7 +81,7 @@ six==1.15.0               # via airtable-python-wrapper, django-extensions, html
 snowballstemmer==2.0.0    # via sphinx
 soupsieve==2.0.1          # via beautifulsoup4
 sphinx==1.8.5             # via -r requirements.in
-sphinxcontrib-websupport==1.2.2  # via sphinx
+sphinxcontrib-websupport==1.2.3  # via sphinx
 sqlparse==0.3.1           # via django
 text-unidecode==1.3       # via faker
 ua-parser==0.10.0         # via user-agents

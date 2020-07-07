@@ -121,16 +121,10 @@ $desktop: 1024px;
 }
 
 .learn__category-entities {
-  background-color: $light-grey;
-  border-radius: 15px;
-  color: $grey;
-  display: inline-block;
-  font-size: 16px;
-  height: 30px;
-  line-height: 30px;
-  margin-bottom: 20px;
-  padding: 0 15px;
-  white-space: nowrap;
+  @include countBox;
+  position: absolute;
+  top: 35px;
+  right: 0;
 }
 
 .learn__category-image {
@@ -141,6 +135,7 @@ $desktop: 1024px;
 
 .learn__single-category-header-wrapper {
   padding-top: 40px;
+  position: relative;
 }
 
 .learn__single-category-header-content {

@@ -16,6 +16,7 @@
 
 ### Implemented enhancements
 
+- GP2-31 - Count of topics and lessons in a module
 - GP2-73 - Module landing page - topics & lessons
 - GP2-72 - Module landing page - overview
 - MVP-392 - Add remove sector functionality
@@ -114,3 +115,4 @@
 - GP2-100 - Add personalisation bar to export plan
 - GP2-122 - Render modules
 - GP2-120 - Fix numbers on curated list page
+- no-ticket - Migrate to codecov remove coveralls
