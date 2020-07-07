@@ -80,7 +80,7 @@ class ObjectivesList extends React.Component {
         const newObjective = {...data}
         newObjective.isLoading = false
         newObjective.showSavedMessage = false
-        newObjective.errors = []
+        newObjective.errors = {}
         const updatedObjectives = state.objectives.concat([newObjective])
         return { objectives: updatedObjectives, isLoading: false }
       })
@@ -94,7 +94,7 @@ class ObjectivesList extends React.Component {
         const updatedObjectives = [...state.objectives]
         updatedObjectives[objectiveToUpdate].isLoading = false
         updatedObjectives[objectiveToUpdate].showSavedMessage = true
-        updatedObjectives[objectiveToUpdate].errors = []
+        updatedObjectives[objectiveToUpdate].errors = {}
         return { objectives: updatedObjectives }
       })
     })
@@ -114,7 +114,7 @@ class ObjectivesList extends React.Component {
       const objectiveToUpdate = state.objectives.indexOf(state.objectives.filter(objective => objective.pk === pk)[0])
       const updatedObjectives = [...state.objectives]
       updatedObjectives[objectiveToUpdate].isLoading = false
-      updatedObjectives[objectiveToUpdate].errors = errors.__all__
+      updatedObjectives[objectiveToUpdate].errors = errors
       return { objectives: updatedObjectives, isLoading: false }
     })
   }

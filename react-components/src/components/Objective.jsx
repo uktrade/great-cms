@@ -44,9 +44,7 @@ export default class Objective extends React.Component {
     if (isLoading) {
       statusIndicator = <Spinner text="Saving..."/>
     } else if (showSavedMessage) {
-      statusIndicator = 'Changes saved.'
-    } else if (errors.length > 0) {
-      statusIndicator = <ErrorList errors={errors || []} />
+      statusIndicator = <p id="objective-saved-message">Changes saved.</p>
     } else {
       statusIndicator = ''
     }
@@ -127,7 +125,9 @@ Objective.propTypes = {
   id: PropTypes.number.isRequired,
   isLoading: PropTypes.bool,
   showSavedMessage: PropTypes.bool,
-  errors: PropTypes.arrayOf(PropTypes.string.isRequired),
+  errors: PropTypes.shape({
+    __all__: PropTypes.arrayOf(PropTypes.string.isRequired),
+  }),
   data: PropTypes.shape({
     description: PropTypes.string,
     owner: PropTypes.string,
@@ -140,7 +140,7 @@ Objective.propTypes = {
 }
 
 Objective.defaultProps = {
-  errors: [],
+  errors: {__all__: []},
   isLoading: false,
   showSavedMessage: false,
 }
