@@ -6,6 +6,10 @@ from django.shortcuts import redirect
 
 from core import mixins, views
 
+from django.template.loader import render_to_string
+from bs4 import BeautifulSoup
+from datetime import timedelta
+import readtime
 
 SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT = 'LESSON_PAGE_SHOW_GENERIC_CONTENT'
 exportplan_templates = ['exportplan/automated_list_page.html', 'exportplan/dashboard_page.html']
@@ -35,3 +39,16 @@ def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
         signup_url = reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_START})
         url = add_next(destination_url=signup_url, current_url=request.get_full_path())
         return redirect(url)
+
+
+@hooks.register('after_edit_page')
+def set_read_time(request, page):
+    if hasattr(page, 'estimated_read_duration'):
+        html = render_to_string(page.template, {'page': page, 'request': request})
+        soup = BeautifulSoup(html, 'html.parser')
+        for tag in soup.body.find_all(['script', 'noscript', 'link', 'style', 'meta']):
+            tag.decompose()
+        seconds = readtime.of_html(str(soup.body)).seconds
+        page.estimated_read_duration = timedelta(seconds=seconds)
+        page.save()
+        return seconds
