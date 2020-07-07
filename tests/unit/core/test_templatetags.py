@@ -7,11 +7,12 @@ from datetime import timedelta
 @pytest.mark.django_db
 def test_format_timedelta_filter(user, rf, domestic_site):
     cases = [
-        {'value': 0, 'result': '0 min'},
-        {'value': 25, 'result': '1 min'},
-        {'value': 70, 'result': '2 mins'},
-        {'value': 4500, 'result': '1 hour 15 mins'},
-        {'value': 7200, 'result': '2 hours'},
+        {'value': timedelta(seconds=0), 'result': '0 min'},
+        {'value': timedelta(seconds=25), 'result': '1 min'},
+        {'value': timedelta(seconds=70), 'result': '2 mins'},
+        {'value': timedelta(seconds=4500), 'result': '1 hour 15 mins'},
+        {'value': timedelta(seconds=7200), 'result': '2 hours'},
+        {'value': None, 'result': ''}
     ]
 
     template = Template(
@@ -19,7 +20,7 @@ def test_format_timedelta_filter(user, rf, domestic_site):
         '{{ delta|format_timedelta }}'
     )
     for case in cases:
-        context = Context({'delta': timedelta(seconds=case.get('value'))})
+        context = Context({'delta': case.get('value')})
         html = template.render(context)
         assert html == case.get('result')
 

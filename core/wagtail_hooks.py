@@ -44,10 +44,7 @@ def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
 @hooks.register('after_edit_page')
 def set_read_time(request, page):
     if hasattr(page, 'estimated_read_duration'):
-        try:
-            html = render_to_string(page.template, {'page': page, 'request': request})
-        except Exception:
-            html = ''
+        html = render_to_string(page.template, {'page': page, 'request': request})
         soup = BeautifulSoup(html, 'html.parser')
         for tag in soup.body.find_all(['script', 'noscript', 'link', 'style', 'meta']):
             tag.decompose()

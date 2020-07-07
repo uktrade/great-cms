@@ -199,5 +199,4 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
         page=detail_page,
         request=request
     )
-
     assert response > 0
