@@ -43,16 +43,20 @@
         <section class="learn__categories-content container">
         {% for child in page.get_children.specific.live %}
             <article class="learn__category grid">
-                <div class="learn__category-content c-1-2-l">
-                    <h2 class="learn__category-title">{{ child.title }}</h2>
+                <div class="c-1-2-l">
+                    <div class="learn__category-content ">
+                        <h2 class="learn__category-title">{{ child.title }}</h2>
+                        <div class="learn__category-details">{{ child.heading | richtext }}</div>
+                        <a class="learn__category-link" href="{% pageurl child %}">{{ page.button_label }}</a>
+                    </div>
+                    
                     <div class="learn__category-entities">
                         <span class="learn__category-topics">{{ child.count_topics }} topic{% pluralize child.count_topics %}, <span>
                         <span class="learn__category-lessons">{{ child.count_detail_pages }} lesson{% pluralize child.count_detail_pages %}</span>
                     </div>
-                    <p class="learn__category-details">{{ child.heading | richtext }}</p>
-                    <a class="button" href="{% pageurl child %}">{{ page.button_label }}</a>
                 </div>
-                {% image child.image width-600 class="learn__category-image c-1-2-l" %}
+                {% image child.image width-600 class="learn__category-image" %}
+                
             </article>
         {% endfor %}
         </section>
