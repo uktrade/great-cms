@@ -3,7 +3,7 @@
 ## Pre-release
 
 ### Fixed bugs
-
+- GP-96 - HS Codes saved in DirectoryAPI
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
