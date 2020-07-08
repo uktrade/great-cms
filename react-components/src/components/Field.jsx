@@ -111,9 +111,9 @@ export function FieldWithExample(props) {
 
 export default function Field(props){
 
-  const { label, name, id } = props
+  const { label, id } = props
 
-  const idForLabel = `label_${name}`
+  const idForLabel = `label_${id}`
 
   function getLabel() {
     if (label) {
