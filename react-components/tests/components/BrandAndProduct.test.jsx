@@ -6,7 +6,7 @@ import fetchMock from 'fetch-mock'
 import { fakeSchedulers } from 'rxjs-marbles/jest'
 
 import { BrandAndProductForm } from '@src/components/BrandAndProduct'
-import Field from '@src/components/Field'
+import { FieldWithExample } from '@src/components/Field'
 import Services from '@src/Services'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -48,8 +48,7 @@ describe('BrandAndProductForm', () => {
   test('should generate form fields from props and prepopulate', () => {
 
     expect(wrapper.containsMatchingElement(
-      <Field
-        type="textarea"
+      <FieldWithExample
         placeholder={dummyFieldOne.placeholder}
         key={dummyFieldOne.name}
         label={dummyFieldOne.label}

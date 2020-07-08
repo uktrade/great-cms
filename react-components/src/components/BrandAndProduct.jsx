@@ -6,7 +6,7 @@ import { Subject } from 'rxjs'
 import { debounceTime, delay } from 'rxjs/operators';
 
 import ErrorList from '@src/components/ErrorList'
-import Field from './Field'
+import { FieldWithExample } from './Field'
 import Services from '../Services'
 import Spinner from './Spinner/Spinner'
 
@@ -96,8 +96,7 @@ class BrandAndProductForm extends React.Component {
     <>
       {
         formFields.map(field => (
-          <Field
-            type="textarea"
+          <FieldWithExample
             placeholder={field.placeholder}
             key={field.name}
             label={field.label}

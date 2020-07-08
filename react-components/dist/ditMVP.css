@@ -1723,7 +1723,7 @@ html,body,div,span,object,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,addr
 
 .great-mvp-error-list li.error-message{text-align:left}
 
-.great-mvp-field-input{width:371px;padding:10px;border-color:#333;height:51px;background-color:#fff}.great-mvp-field-input[disabled]{background-color:#d8d8d8}.great-mvp-field-label{height:29px;width:510px;color:#333;font-size:19px;line-height:29px}
+.great-mvp-field-input{width:371px;padding:10px;border-color:#333;height:51px;background-color:#fff}.great-mvp-field-input[disabled]{background-color:#d8d8d8}.great-mvp-field-label{height:29px;width:510px;color:#333;font-size:19px;line-height:29px}.great-mvp-field-example{background-color:#d8d8d8;margin:20px 0;padding:20px}.great-mvp-field-example dt{font-weight:bold}
 
 .great-mvp-social-login-buttons a{width:100%}.great-mvp-social-login-buttons a img{display:inline;vertical-align:middle}.great-mvp-social-login-buttons a span{vertical-align:middle;margin-left:10px;display:inline-block}
 
