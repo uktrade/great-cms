@@ -11,15 +11,6 @@ import Services from '../Services'
 import Spinner from './Spinner/Spinner'
 
 
-function cleanData(data) {
-  // convert empty date values to null here to avoid conversion between controlled/uncontrolled input
-  const cleanedData = {...data}
-  cleanedData.data.start_date = cleanedData.data.start_date || null
-  cleanedData.data.end_date = cleanedData.data.end_date || null
-  return cleanedData
-}
-
-
 class ObjectivesList extends React.Component {
 
   constructor(props) {
@@ -29,6 +20,13 @@ class ObjectivesList extends React.Component {
       errors: {},
       objectives: this.props.objectives || []
     }
+
+    const { objectives } = this.state
+
+    objectives.forEach(objective => {
+      objective.isLoading = false
+      objective.showSavedMessage = false
+    })
 
     this.inputToSave$ = new Subject()
 
@@ -130,9 +128,8 @@ class ObjectivesList extends React.Component {
         companyexportplan: this.props.exportPlanID,
       }
     }
-    const cleanedData = cleanData(data)
     this.setState({ isLoading: true }, () => {
-      Services.createObjective(cleanedData.data)
+      Services.createObjective(data.data)
         .then(this.handleCreateSuccess)
         .catch(this.handleCreateError)
     })
@@ -156,15 +153,13 @@ class ObjectivesList extends React.Component {
   }
 
   updateObjective(data) {
-    const cleanedData = cleanData(data)
-
     this.setState(state => {
       const updatedObjectives = [...state.objectives]
       updatedObjectives[data.id] = data.data
       return { objectives: updatedObjectives }
 
     }, () => {
-      this.inputToSave$.next(cleanedData)
+      this.inputToSave$.next(data)
     })
 
   }

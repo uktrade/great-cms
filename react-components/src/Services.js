@@ -123,17 +123,13 @@ const updateCompany = function ({ company_name, expertise_industries, expertise_
 
 const responseHandler = function (response) {
   if (response.status == 400) {
-    return response.json().then((error) => {
-      throw error
-    })
+    throw MESSAGE_UNEXPECTED_ERROR
   } else if (response.status == 403) {
     throw MESSAGE_PERMISSION_DENIED
   } else if (response.status == 404) {
     throw MESSAGE_NOT_FOUND_ERROR
   } else if (response.status == 504) {
     throw MESSAGE_TIMEOUT_ERROR
-  } else if (response.status == 400) {
-    throw MESSAGE_BAD_REQUEST_ERROR
   } else if (response.status != 200) {
     throw MESSAGE_UNEXPECTED_ERROR
   } else {
