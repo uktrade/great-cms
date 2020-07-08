@@ -36,6 +36,17 @@ class ObjectiveSerializer(serializers.Serializer):
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
+    # convert empty strings to null values
+    def validate_start_date(self, value):
+        if value == '':
+            return None
+        return value
+
+    def validate_end_date(self, value):
+        if value == '':
+            return None
+        return value
+
 
 class NewObjectiveSerializer(ObjectiveSerializer):
     pk = serializers.IntegerField(required=False)

@@ -62,6 +62,30 @@ def test_objective_serializer():
     assert serializer.data == data
 
 
+def test_objective_serializer_empty_date_fields():
+
+    data = {
+        'description': 'Lorem ipsum',
+        'planned_reviews': 'Some reviews',
+        'owner': 'John Smith',
+        'start_date': '',
+        'end_date': '',
+        'companyexportplan': 1,
+    }
+
+    serializer = serializers.NewObjectiveSerializer(data=data)
+
+    assert serializer.is_valid()
+    assert serializer.data == {
+        'description': 'Lorem ipsum',
+        'planned_reviews': 'Some reviews',
+        'owner': 'John Smith',
+        'start_date': None,
+        'end_date': None,
+        'companyexportplan': 1,
+    }
+
+
 def test_new_objective_serializer():
 
     data = {
