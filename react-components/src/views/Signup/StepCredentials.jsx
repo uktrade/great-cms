@@ -18,6 +18,7 @@ export default function StepCredentials(props){
       </p>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <Field
+          id="id_email"
           type="text"
           placeholder="Email address"
           name="email"
@@ -28,6 +29,7 @@ export default function StepCredentials(props){
           errors={props.errors.email || []}
         />
         <Field
+          id="id_password"
           type="password"
           placeholder="Password"
           name="password"
