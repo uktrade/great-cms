@@ -1,4 +1,5 @@
 import abc
+import datetime
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -10,6 +11,8 @@ from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
+from django.conf import settings
+from core.fern import Fern
 
 from core import forms, helpers, models, serializers
 
@@ -222,3 +225,21 @@ class CompanyNameFormView(FormView):
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
         return super().form_valid(form)
+
+class CreateTokenView(generics.GenericAPIView):
+        permission_classes = []
+
+        def get(self, request):
+            # request.params()
+            # print(settings.BETA_ENVIRONMENT)
+            # print(str(datetime.date.today() + datetime.timedelta(days=1)))
+            print(settings.BETA_ENVIRONMENT)
+            plaintext = str(datetime.date.today() + datetime.timedelta(days=1))
+            aes = Fern(settings.BETA_ENVIRONMENT)
+            ciphertext = aes.encrypt(plaintext)
+
+            # serializer = self.get_serializer(data=request.query_params)
+            # serializer.is_valid(raise_exception=True)
+            # data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
+            return Response(f"token is: {plaintext} & url is: {ciphertext.decode()}")
+            # return Response({encrypted_msg})

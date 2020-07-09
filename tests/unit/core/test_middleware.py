@@ -1,3 +1,7 @@
+from core.middleware import TimedAccessMiddleware
+# from mock import Mock
+# from .models import *
+
 from unittest import mock
 
 import pytest
@@ -208,3 +212,12 @@ def test_user_product_expertise_middleware_not_store_idempotent(
     )
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 0
+
+
+@pytest.mark.django_db
+def test_timed_access_middleware(self):
+    response = self.middleware.process_request(self.request)
+    self.assertIsNone(response)
+    # Whatever middleware model is referenced
+    count = TimedAccessMiddleware.objects.all().count()
+    self.assertEqual(count, 1)
