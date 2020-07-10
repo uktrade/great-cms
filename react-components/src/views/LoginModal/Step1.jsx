@@ -16,6 +16,7 @@ export default function Step1(props){
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <ErrorList errors={props.errors.__all__ || []} className="m-b-s" />
         <Field
+          id="id_email"
           type="text"
           placeholder="Email address"
           name="email"
@@ -26,6 +27,7 @@ export default function Step1(props){
           errors={props.errors.email || []}
         />
         <Field
+          id="id_password"
           type="password"
           placeholder="Password"
           name="password"

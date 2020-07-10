@@ -1,6 +1,6 @@
 //TODO create a clean base button placeholder with common styles
 
-.button--plus {
+.icon--plus {
     @extend .pill;
     @extend .bg-white;
     @extend .border-grey;
@@ -71,4 +71,43 @@
         background-color: inherit;
         color: $mid-grey;
     }
+}
+
+.button--plus {
+  position: relative;
+
+  span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    &:hover {
+      background-color: $white;
+    }
+
+    &:hover:after,
+    &:hover:before {
+      background-color: $grey;
+    }
+  }
+}
+
+.button--stone {
+  @extend .text-grey;
+  @extend .bg-stone-90;
+  @extend .font-brand;
+  @extend .bg-hover-stone;
+  @extend .border-hover-stone;
+  @extend .pill;
+  padding: $space-xs-m;
+  padding-left: 60px;
+  padding-right: 25px;
+  border-radius: $space-m-m;
+
+  @include desktop {
+    border-radius: $space-m;
+    padding: $space-xs;
+    padding-left: 60px;
+    padding-right: 25px;
+  }
 }

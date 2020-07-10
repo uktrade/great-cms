@@ -21,6 +21,30 @@ export function TextInput(props) {
   )
 }
 
+export function DateInput(props) {
+
+  const { disabled, id, name, handleChange, placeholder } = props
+  let { value } = props
+
+  // date input doesn't like null values so convert to empty string here
+  if (value === null) {
+    value = ''
+  }
+
+  return (
+    <input
+      className='great-mvp-field-input form-control'
+      disabled={disabled}
+      id={id}
+      name={name}
+      onChange={(e) => handleChange(e)}
+      placeholder={placeholder}
+      type='date'
+      value={value}
+    />
+  )
+}
+
 export function TextArea(props) {
 
   const { disabled, id, name, handleChange, placeholder, type, value } = props
@@ -80,6 +104,9 @@ export default function Field(props){
     }
     if (props.type === 'textarea') {
       return <TextArea id={id_for_label} {...props} />
+    }
+    if (props.type === 'date') {
+      return <DateInput id={id_for_label} {...props} />
     }
     return <TextInput id={id_for_label} {...props} />
   }

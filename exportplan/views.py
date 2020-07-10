@@ -8,15 +8,11 @@ from django.utils.functional import cached_property
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-
 from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES
 from directory_api_client.client import api_client
-from exportplan import data, helpers, serializers, forms
+from exportplan import data, helpers, forms
 from core.helpers import CountryDemographics
 
 
@@ -156,25 +152,10 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         )
         return super().form_valid(form)
 
-
-class UpdateExportPlanAPIView(generics.GenericAPIView):
-
-    serializer_class = serializers.ExportPlanSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            export_plan = helpers.get_or_create_export_plan(self.request.user)
-            helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id,
-                id=export_plan['pk'],
-                data=serializer.validated_data
-            )
-            return Response(serializer.validated_data)
-
-        return Response(serializer.errors)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['objectives'] = json.dumps(self.export_plan['company_objectives'])
+        return context
 
 
 class BaseFormView(FormView):
