@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Field from '@src/components/Field'
+import Field from '@src/components/Fields/Field'
 
 import './stylesheets/StepCode.scss'
 

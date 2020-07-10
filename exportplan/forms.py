@@ -41,19 +41,25 @@ class CountryDemographicsForm(forms.Form):
 
 class ExportPlanBrandAndProductForm(forms.Form):
     story = forms.CharField(
-        label='Story behind brand',
+        label='How we started',
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
                 'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in '
-                'Shrewsbury. Simon came across a book of gin recipes on a visit to The GIn Museum of '
+                'Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of '
                 'London. This inspired him to recreate gin distilled in the midlands 200 hundred years '
                 'ago, with a modern twist.'
+            ),
+            'tooltip': (
+                'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in '
+                'Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. '
+                'This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a '
+                'modern twist.'
             )}
         ),
     )
     location = forms.CharField(
-        label='Location',
+        label="Where we're based",
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
@@ -63,7 +69,7 @@ class ExportPlanBrandAndProductForm(forms.Form):
         ),
     )
     processes = forms.CharField(
-        label='Manufacturing processes',
+        label='How we make our products',
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
@@ -74,7 +80,7 @@ class ExportPlanBrandAndProductForm(forms.Form):
         ),
     )
     packaging = forms.CharField(
-        label='Packaging',
+        label='Our packaging',
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
@@ -88,7 +94,7 @@ class ExportPlanBrandAndProductForm(forms.Form):
 
 class ExportPlanBusinessObjectivesForm(forms.Form):
     rational = forms.CharField(
-        label='Add business rationale',
+        label='Business performance',
         required=False,
         widget=Textarea(attrs={'placeholder': 'Add some text'})
     )
