@@ -8,9 +8,7 @@ from core import helpers
 from sso.models import BusinessSSOUser
 from datetime import datetime
 from django.http import HttpResponseForbidden
-import pdb
 from core.fern import Fern
-from django.conf import settings
 
 
 class UserLocationStoreMiddleware(MiddlewareMixin):
@@ -72,43 +70,48 @@ class TimedAccessMiddleware(MiddlewareMixin):
         self.get_response = get_response
 
     def __call__(self, request):
+
         response = self.get_response(request)
         # need to whitelist the endpoint, to be able to generate tokens
         if(request.path == '/api/create-token/' or request.path == '/favicon.ico'):
             return response
 
+        ciphertext = request.GET.get('enc', '')
+
         # try cookie first
-        self.try_cookie(request, response)
+        resp = self.try_cookie(request, response)
+        if(resp):
+            return resp
 
-        # if cookie fails, try the URL
-        encrypted_token = request.GET.get('enc', '')
-        import pdb;pdb.set_trace()
-
-        decrypted_token = self.decrypt(encrypted_token)
-        # try to parse token from URL
-        try:
-            date_time_obj = datetime.strptime(decrypted_token, '%Y-%m-%d')
-            self.compare_date(response, date_time_obj, encrypted_token)
-        except ValueError:
-            # cant parse the date, or no date in the URL
-            import pdb;pdb.set_trace()
-            # self.try_cookie(request, response)
+        # try URL if we have a value to parse
+        if(ciphertext != ''):
+            return self.try_url(request, response, ciphertext)
+        else:
             return HttpResponseForbidden()
-        return response
+
+
+    def try_url(self, request, response, ciphertext):
+        plaintext = self.decrypt(ciphertext)
+        try:
+            date_time_obj = datetime.strptime(plaintext, '%Y-%m-%d')
+            return self.compare_date(response, date_time_obj, ciphertext)
+        except ValueError:
+            return HttpResponseForbidden()
 
 
     def try_cookie(self, request, response):
         beta_user_timestamp_enc = request.COOKIES.get('beta-user')
         # user has a cookie
-        if beta_user_timestamp_enc:
+        if beta_user_timestamp_enc is not None:
             beta_user_timestamp = self.decrypt(beta_user_timestamp_enc)
-            self.compare_date(response, datetime.strptime(beta_user_timestamp, '%Y-%m-%d'), beta_user_timestamp_enc)
+            return self.compare_date(response, datetime.strptime(beta_user_timestamp, '%Y-%m-%d'), beta_user_timestamp_enc)
         # user with no cookie, ran out of options, 403
-        else:
-            return HttpResponseForbidden()
-    def decrypt(self, ciphertext):
-        fernet = Fern(settings.BETA_ENVIRONMENT)
-        return fernet.decrypt(ciphertext).decode()
+        # else:
+        #     raise PermissionDenied()
+
+    @staticmethod
+    def decrypt(ciphertext):
+        return Fern().decrypt(ciphertext)
 
     def compare_date(self, response, date_time_obj, encrypted_token):
         if date_time_obj < datetime.now():
