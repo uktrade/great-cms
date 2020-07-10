@@ -271,3 +271,55 @@ def test_get_or_create_export_plan_created(
     )
 
     assert export_plan == {'export_plan_created'}
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_objectives_create')
+def test_objective_create(mock_create_objective):
+    data = {
+        'description': 'Lorem ipsum',
+        'planned_reviews': 'Some reviews',
+        'owner': 'John Smith',
+        'start_date': '2020-03-01',
+        'end_date': '2020-12-23',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_create_objective.return_value = create_response(data)
+
+    response = helpers.create_objective(123, data)
+
+    assert mock_create_objective.call_count == 1
+    assert mock_create_objective.call_args == mock.call(data=data, sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_objectives_update')
+def test_objective_update(mock_update_objective):
+    data = {
+        'description': 'Lorem ipsum',
+        'planned_reviews': 'Some reviews',
+        'owner': 'John Smith',
+        'start_date': '2020-03-01',
+        'end_date': '2020-12-23',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_update_objective.return_value = create_response(data)
+
+    response = helpers.update_objective(123, data)
+
+    assert mock_update_objective.call_count == 1
+    assert mock_update_objective.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_objectives_delete')
+def test_objective_delete(mock_delete_objective):
+    data = {'pk': 1}
+    mock_delete_objective.return_value = create_response(data)
+
+    response = helpers.delete_objective(123, data)
+
+    assert mock_delete_objective.call_count == 1
+    assert mock_delete_objective.call_args == mock.call(id=data['pk'], sso_session_id=123)
+    assert response.status_code == 200
