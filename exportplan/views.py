@@ -108,9 +108,13 @@ class FormContextMixin:
             field.widget.attrs.get('placeholder', '') for field in self.form_class.base_fields.values()
         ]
 
+        field_tooltip = [
+            field.widget.attrs.get('tooltip', '') for field in self.form_class.base_fields.values()
+        ]
+
         form_fields = [
-            {'name': name, 'label': label, 'placeholder': placeholder}
-            for name, label, placeholder in zip(field_names, field_labels, field_placeholders)
+            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip}
+            for name, label, placeholder, tooltip in zip(field_names, field_labels, field_placeholders, field_tooltip)
         ]
 
         context['form_initial'] = json.dumps(context['form'].initial)
@@ -120,6 +124,10 @@ class FormContextMixin:
 
 
 class ExportPlanBrandAndProductView(FormContextMixin, ExportPlanSectionView, FormView):
+
+    def get_initial(self):
+        return self.export_plan['brand_product_details']
+
     form_class = forms.ExportPlanBrandAndProductForm
     success_url = reverse_lazy('exportplan:brand-and-product')
 

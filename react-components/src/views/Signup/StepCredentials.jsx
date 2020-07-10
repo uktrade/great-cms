@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import Field from '@src/components/Field'
+import Field from '@src/components/Fields/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
 import './stylesheets/StepCredentials.scss'

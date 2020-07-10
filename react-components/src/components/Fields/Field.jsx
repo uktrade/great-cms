@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ErrorList from './ErrorList'
+import ErrorList from '../ErrorList'
 
-import './stylesheets/Field.scss'
-
+import '../stylesheets/Field.scss'
 
 export function TextInput(props) {
   return (
@@ -85,27 +84,6 @@ export function RadioInput(props) {
   })
 
   return <ul id={props.id} className='g-select-multiple '>{children}</ul>
-}
-
-export function FieldWithExample(props) {
-
-  const id_for_label = `id_${props.name}`
-
-  return (
-    <>
-      <label htmlFor={id_for_label} className='great-mvp-field-label'>{props.label}</label>
-      <dl className='great-mvp-field-example'>
-        <dt>Example</dt>
-        <dd>{props.placeholder}</dd>
-      </dl>
-      <ErrorList errors={props.errors || []} />
-      <TextArea
-        id={id_for_label}
-        {...props}
-        placeholder='Add some text'
-      />
-    </>
-  )
 }
 
 export default function Field(props){

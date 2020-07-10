@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Field from './Field'
+import Field from './Fields/Field'
 import ErrorList from './ErrorList'
 import Spinner from './Spinner/Spinner'
 
