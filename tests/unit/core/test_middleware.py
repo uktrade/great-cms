@@ -1,7 +1,3 @@
-from core.middleware import TimedAccessMiddleware
-# from mock import Mock
-# from .models import *
-
 from unittest import mock
 
 import pytest
