@@ -113,8 +113,6 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
             )
             return Response(serializer.validated_data)
 
-        return Response(serializer.errors)
-
 
 class ObjectivesCreateAPIView(generics.GenericAPIView):
     serializer_class = serializers.NewObjectiveSerializer
@@ -126,8 +124,6 @@ class ObjectivesCreateAPIView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
             return Response(response)
-
-        return Response(serializer.errors)
 
 
 class ObjectivesUpdateAPIView(generics.GenericAPIView):
@@ -141,8 +137,6 @@ class ObjectivesUpdateAPIView(generics.GenericAPIView):
             response = helpers.update_objective(self.request.user.session_id, serializer.validated_data)
             return Response(response)
 
-        return Response(serializer.errors)
-
 
 class ObjectivesDestroyAPIView(generics.GenericAPIView):
     serializer_class = serializers.PkOnlySerializer
@@ -154,5 +148,3 @@ class ObjectivesDestroyAPIView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             helpers.delete_objective(self.request.user.session_id, serializer.validated_data)
             return Response({})
-
-        return Response(serializer.errors)

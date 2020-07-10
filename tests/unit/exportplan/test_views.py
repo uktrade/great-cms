@@ -270,3 +270,62 @@ def test_delete_objective_api_view(mock_delete_objective, client, user):
     assert mock_delete_objective.call_count == 1
     assert response.status_code == 200
     assert mock_delete_objective.call_args == mock.call('123', objective)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_objective')
+def test_objectives_validation_delete(mock_delete_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-delete')
+
+    objective = {}
+
+    mock_delete_objective.return_value = {}
+
+    response = client.delete(url, objective, content_type='application/json')
+
+    assert mock_delete_objective.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {'pk': ['This field is required.']}
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_objective')
+def test_objectives_validation_update(mock_update_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-update')
+
+    objective = {}
+
+    mock_update_objective.return_value = {}
+
+    response = client.post(url, objective)
+
+    assert mock_update_objective.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.'],
+        'pk': ['This field is required.']
+    }
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_objective')
+def test_objectives_validation_create(mock_create_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-create')
+
+    objective = {}
+
+    mock_create_objective.return_value = {}
+
+    response = client.post(url, objective)
+
+    assert mock_create_objective.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.']
+    }
