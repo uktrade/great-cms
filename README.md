@@ -57,10 +57,10 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make install_requirements     | Installed the compile requirements file |
 | make css                      | Compile scss to css |
 | make secrets                  | Create your secret env var file |
-| make database                 | Drop and recreate the database |
-| make bootstrap_great          | Create required database records so the CMS works |
-| make create_tours             | Create required Page tours |
-| make recreate                 | Runs: database, bootstrap_great, create_pages, create_tours in one go |
+| make recreate                 | Runs following command in one go |
+|                               | **make database**: Drop and recrete the database |
+|                               | **make bootstrap_great**: Create required database records so the CMS works |
+|                               | **make create_tours** |
 
 ### Setting up the local database
 
