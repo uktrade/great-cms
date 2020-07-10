@@ -6,7 +6,7 @@ import fetchMock from 'fetch-mock'
 import { fakeSchedulers } from 'rxjs-marbles/jest'
 
 import { ObjectivesList } from '@src/components/ObjectivesList'
-import Field from '@src/components/Field'
+import Field from '@src/components/Fields/Field'
 import Services from '@src/Services'
 
 Enzyme.configure({ adapter: new Adapter() })
