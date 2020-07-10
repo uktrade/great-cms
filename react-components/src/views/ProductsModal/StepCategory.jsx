@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import Field from '@src/components/Field'
+import Field from '@src/components/Fields/Field'
 
 
 export default function StepCategory(props){
@@ -20,7 +20,7 @@ export default function StepCategory(props){
         autofocus={true}
         errors={props.errors.category || []}
         options={[
-          {value: 'products', label: 'products', disabled: false},  
+          {value: 'products', label: 'products', disabled: false},
           {value: 'services', label: 'services', disabled: true},
           {value: 'products-and-services', label: 'products and services', disabled: true},
         ]}

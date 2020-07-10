@@ -3,10 +3,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import Field from '@src/components/Field'
+import Field from '@src/components/Fields/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 import ErrorList from '@src/components/ErrorList'
-
 import './stylesheets/Step1.scss'
 
 
@@ -17,6 +16,7 @@ export default function Step1(props){
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <ErrorList errors={props.errors.__all__ || []} className="m-b-s" />
         <Field
+          id="id_email"
           type="text"
           placeholder="Email address"
           name="email"
@@ -27,6 +27,7 @@ export default function Step1(props){
           errors={props.errors.email || []}
         />
         <Field
+          id="id_password"
           type="password"
           placeholder="Password"
           name="password"
@@ -42,7 +43,7 @@ export default function Step1(props){
           disabled={props.disabled}
         />
         <p><a href={Services.config.passwordResetUrl}>Forgotten password?</a></p>
-      </form>          
+      </form>
 
       <div className='great-mvp-vertical-separator'>
         <hr/>
