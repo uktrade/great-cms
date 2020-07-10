@@ -11,11 +11,9 @@ from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
-from django.conf import settings
 from core.fern import Fern
 
 from core import forms, helpers, models, serializers
-
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -53,7 +51,6 @@ class DashboardView(TemplateView):
 
 
 class UpdateCompanyAPIView(generics.GenericAPIView):
-
     serializer_class = serializers.CompanySerializer
     permission_classes = [IsAuthenticated]
 
@@ -138,7 +135,6 @@ def handler500(request, *args, **kwargs):
 
 
 class AbstractSignupWizardView(abc.ABC):
-
     step_labels = (
         'Get tailored content',
         'What are you selling?',
@@ -226,13 +222,13 @@ class CompanyNameFormView(FormView):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
         return super().form_valid(form)
 
+
 class CreateTokenView(generics.GenericAPIView):
-        permission_classes = []
+    permission_classes = []
 
-        def get(self, request):
-            plaintext = str(datetime.date.today() + datetime.timedelta(days=1))
-            fern = Fern()
-            ciphertext = fern.encrypt(plaintext)
+    def get(self, request):
+        plaintext = str(datetime.date.today() + datetime.timedelta(days=1))
+        fern = Fern()
+        ciphertext = fern.encrypt(plaintext)
 
-            return Response(f"{ciphertext}")
-
+        return Response(f'{ciphertext}')

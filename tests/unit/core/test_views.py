@@ -630,27 +630,29 @@ def test_set_company_name_success_with_next(mock_update_company_profile, mock_ge
     assert response.status_code == 302
     assert response.url == '/foo/bar/'
 
+
 @pytest.mark.django_db
 def test_create_api_token(client, rf):
     response = client.get('/api/create-token/')
     assert response.data is not None
     assert response.status_code == 200
 
+
 @pytest.mark.django_db
 def test_auth_with_url(client, rf):
     response = client.get('/api/create-token/')
     token = response.data
-    response_2 = client.get(f"/admin/?enc={token}")
+    response_2 = client.get(f'/admin/?enc={token}')
     assert response_2.status_code == 302
+
 
 @pytest.mark.django_db
 def test_auth_with_cookie(client, rf):
     response = client.get('/api/create-token/')
     token = response.data
 
-    response_2 = client.get(f"/admin/?enc={token}")
+    response_2 = client.get(f'/admin/?enc={token}')
     assert response_2.status_code == 302
 
-    response_3 = client.get(f"/admin/")
+    response_3 = client.get('/admin/')
     assert response_3.status_code == 302
-

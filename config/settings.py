@@ -446,5 +446,3 @@ BETA_ENVIRONMENT = env.str('BETA_TOKEN')
 
 if BETA_ENVIRONMENT:
     MIDDLEWARE = (['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE)
-
-

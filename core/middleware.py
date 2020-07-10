@@ -65,6 +65,7 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
             except AttributeError:
                 pass
 
+
 class TimedAccessMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
         self.get_response = get_response
@@ -73,21 +74,20 @@ class TimedAccessMiddleware(MiddlewareMixin):
 
         response = self.get_response(request)
         # need to whitelist the endpoint, to be able to generate tokens
-        if(request.path == '/api/create-token/' or request.path == '/favicon.ico'):
+        if request.path == '/api/create-token/' or request.path == '/favicon.ico':
             return response
 
         ciphertext = request.GET.get('enc', '')
 
         # try cookie first
         resp = self.try_cookie(request, response)
-        if(resp):
+        if resp:
             return resp
         # try URL if we have a value to parse
-        if(ciphertext != ''):
+        if ciphertext != '':
             return self.try_url(request, response, ciphertext)
         else:
             return HttpResponseForbidden()
-
 
     def try_url(self, request, response, ciphertext):
         plaintext = self.decrypt(ciphertext)
@@ -97,13 +97,14 @@ class TimedAccessMiddleware(MiddlewareMixin):
         except ValueError:
             return HttpResponseForbidden()
 
-
     def try_cookie(self, request, response):
         beta_user_timestamp_enc = request.COOKIES.get('beta-user')
         # user has a cookie
         if beta_user_timestamp_enc is not None:
             beta_user_timestamp = self.decrypt(beta_user_timestamp_enc)
-            return self.compare_date(response, datetime.strptime(beta_user_timestamp, '%Y-%m-%d'), beta_user_timestamp_enc)
+            return self.compare_date(response,
+                                     datetime.strptime(beta_user_timestamp, '%Y-%m-%d'),
+                                     beta_user_timestamp_enc)
 
     @staticmethod
     def decrypt(ciphertext):
