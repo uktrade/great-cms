@@ -77453,7 +77453,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Field */ "./react-components/src/components/Field.jsx");
+/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
 /* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Services */ "./react-components/src/Services.js");
 /* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
@@ -77608,16 +77608,13 @@ var BrandAndProductForm = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (field) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Field__WEBPACK_IMPORTED_MODULE_6__["FieldWithExample"], {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          tooltip: field.tooltip,
           placeholder: field.placeholder,
-          key: field.name,
           label: field.label,
           name: field.name,
-          disabled: false,
           value: formData[field.name],
-          handleChange: _this3.handleChange,
-          autofocus: true,
-          errors: []
+          handleChange: _this3.handleChange
         });
       }), saveIndicator, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
         errors: errors.__all__ || [],
@@ -78412,11 +78409,11 @@ ErrorList.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/Field.jsx":
-/*!***************************************************!*\
-  !*** ./react-components/src/components/Field.jsx ***!
-  \***************************************************/
-/*! exports provided: TextInput, TextArea, RadioInput, FieldWithExample, default */
+/***/ "./react-components/src/components/Fields/Field.jsx":
+/*!**********************************************************!*\
+  !*** ./react-components/src/components/Fields/Field.jsx ***!
+  \**********************************************************/
+/*! exports provided: TextInput, TextArea, RadioInput, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78424,14 +78421,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextInput", function() { return TextInput; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextArea", function() { return TextArea; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RadioInput", function() { return RadioInput; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FieldWithExample", function() { return FieldWithExample; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _ErrorList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _stylesheets_Field_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stylesheets/Field.scss */ "./react-components/src/components/stylesheets/Field.scss");
+/* harmony import */ var _ErrorList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _stylesheets_Field_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../stylesheets/Field.scss */ "./react-components/src/components/stylesheets/Field.scss");
 /* harmony import */ var _stylesheets_Field_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_Field_scss__WEBPACK_IMPORTED_MODULE_3__);
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -78505,21 +78501,6 @@ function RadioInput(props) {
     className: "g-select-multiple "
   }, children);
 }
-function FieldWithExample(props) {
-  var id_for_label = "id_".concat(props.name);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: id_for_label,
-    className: "great-mvp-field-label"
-  }, props.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", {
-    className: "great-mvp-field-example"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", null, "Example"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", null, props.placeholder)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ErrorList__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    errors: props.errors || []
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TextArea, _extends({
-    id: id_for_label
-  }, props, {
-    placeholder: "Add some text"
-  })));
-}
 function Field(props) {
   var id_for_label = "id_".concat(props.name);
 
@@ -78570,6 +78551,86 @@ Field.defaultProps = {
   errors: [],
   placeholder: ''
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/Fields/FieldWithExample/FieldWithExample.scss":
+/*!***************************************************************************************!*\
+  !*** ./react-components/src/components/Fields/FieldWithExample/FieldWithExample.scss ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/components/Fields/FieldWithExample/index.jsx":
+/*!***************************************************************************!*\
+  !*** ./react-components/src/components/Fields/FieldWithExample/index.jsx ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Field */ "./react-components/src/components/Fields/Field.jsx");
+/* harmony import */ var _EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../EducationalMomentTooltip */ "./react-components/src/components/EducationalMomentTooltip.jsx");
+/* harmony import */ var _FieldWithExample_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FieldWithExample.scss */ "./react-components/src/components/Fields/FieldWithExample/FieldWithExample.scss");
+/* harmony import */ var _FieldWithExample_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_FieldWithExample_scss__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+var FieldWithExample = function FieldWithExample(_ref) {
+  var name = _ref.name,
+      label = _ref.label,
+      placeholder = _ref.placeholder,
+      tooltip = _ref.tooltip,
+      handleChange = _ref.handleChange,
+      value = _ref.value;
+  var labelId = "id_".concat(name);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "great-mvp-tooltip"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: labelId,
+    className: "great-mvp-field-label"
+  }, label), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    heading: "",
+    description: tooltip,
+    id: 34,
+    type: "LEFT"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", {
+    className: "great-mvp-field-example"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", null, "Example"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", null, placeholder)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Field__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
+    id: labelId,
+    disabled: false,
+    name: name,
+    handleChange: handleChange,
+    placeholder: "Add some text",
+    value: value
+  }));
+};
+
+FieldWithExample.propTypes = {
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
+FieldWithExample.defaultProps = {
+  placeholder: '',
+  tooltip: ''
+};
+/* harmony default export */ __webpack_exports__["default"] = (FieldWithExample);
 
 /***/ }),
 
@@ -81621,7 +81682,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Field */ "./react-components/src/components/Field.jsx");
+/* harmony import */ var _src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Fields/Field */ "./react-components/src/components/Fields/Field.jsx");
 /* harmony import */ var _src_components_SocialLoginButtons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/SocialLoginButtons */ "./react-components/src/components/SocialLoginButtons.jsx");
 /* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
 /* harmony import */ var _stylesheets_Step1_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./stylesheets/Step1.scss */ "./react-components/src/views/LoginModal/stylesheets/Step1.scss");
@@ -81647,7 +81708,7 @@ function Step1(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
     errors: props.errors.__all__ || [],
     className: "m-b-s"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
     type: "text",
     placeholder: "Email address",
     name: "email",
@@ -81656,7 +81717,7 @@ function Step1(props) {
     handleChange: props.handleEmailChange,
     autofocus: true,
     errors: props.errors.email || []
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
     type: "password",
     placeholder: "Password",
     name: "password",
@@ -82254,7 +82315,7 @@ function Container(props) {
 
   function buildNextUrl() {
     var reducer = function reducer(accumulator, product) {
-      return "".concat(accumulator, "&product=").concat(product.label, "&");
+      return "".concat(accumulator, "&product=").concat(product.label, "&hs_codes=").concat(product.value, "&");
     };
 
     return props.products.reduce(reducer, location.pathname + '?remember-expertise-products-services=true&');
@@ -82335,7 +82396,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Field */ "./react-components/src/components/Field.jsx");
+/* harmony import */ var _src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Fields/Field */ "./react-components/src/components/Fields/Field.jsx");
 /* eslint-disable */
 
 
@@ -82346,7 +82407,7 @@ function StepCategory(props) {
     className: "great-mvp-export-wizard-step-category"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m"
-  }, "What are you looking to export?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, "What are you looking to export?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
     type: "radio",
     name: "category",
     disabled: props.disabled,
@@ -82772,7 +82833,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Field */ "./react-components/src/components/Field.jsx");
+/* harmony import */ var _src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/Field */ "./react-components/src/components/Fields/Field.jsx");
 /* harmony import */ var _stylesheets_StepCode_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stylesheets/StepCode.scss */ "./react-components/src/views/Signup/stylesheets/StepCode.scss");
 /* harmony import */ var _stylesheets_StepCode_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_StepCode_scss__WEBPACK_IMPORTED_MODULE_3__);
 /* eslint-disable */
@@ -82792,7 +82853,7 @@ function StepCode(props) {
       event.preventDefault();
       props.handleSubmit();
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_2__["default"], {
     type: "text",
     placeholder: "Enter code",
     name: "code",
@@ -82841,7 +82902,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Field */ "./react-components/src/components/Field.jsx");
+/* harmony import */ var _src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Fields/Field */ "./react-components/src/components/Fields/Field.jsx");
 /* harmony import */ var _src_components_SocialLoginButtons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/SocialLoginButtons */ "./react-components/src/components/SocialLoginButtons.jsx");
 /* harmony import */ var _stylesheets_StepCredentials_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./stylesheets/StepCredentials.scss */ "./react-components/src/views/Signup/stylesheets/StepCredentials.scss");
 /* harmony import */ var _stylesheets_StepCredentials_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_stylesheets_StepCredentials_scss__WEBPACK_IMPORTED_MODULE_5__);
@@ -82867,7 +82928,7 @@ function StepCredentials(props) {
       event.preventDefault();
       props.handleSubmit();
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
     type: "text",
     placeholder: "Email address",
     name: "email",
@@ -82876,7 +82937,7 @@ function StepCredentials(props) {
     handleChange: props.handleEmailChange,
     autofocus: true,
     errors: props.errors.email || []
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
     type: "password",
     placeholder: "Password",
     name: "password",

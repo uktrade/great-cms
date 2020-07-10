@@ -1,7 +1,7 @@
 import React from 'react'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import Field, { TextInput, RadioInput } from '@src/components/Field'
+import Field, { TextInput, RadioInput } from '@src/components/Fields/Field'
 import ErrorList from '@src/components/ErrorList'
 
 Enzyme.configure({ adapter: new Adapter() })
