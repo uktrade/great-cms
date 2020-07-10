@@ -132,13 +132,16 @@ def test_user_product_expertise_middleware(domestic_site, client, mock_update_co
 
     response = client.get(
         lesson_page.url,
-        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
+        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True, 'hs_codes': [1, 2]}
     )
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         sso_session_id=user.session_id,
-        data={'expertise_products_services': {'other': ['Vodka', 'Potassium']}}
+        data={
+            'expertise_products_services': {'other': ['Vodka', 'Potassium']},
+            'hs_codes': ['1', '2']
+        }
     )
 
 
@@ -154,13 +157,16 @@ def test_user_product_expertise_middleware_no_company(
 
     response = client.get(
         lesson_page.url,
-        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
+        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True, 'hs_codes': [1, 2]}
     )
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         sso_session_id=user.session_id,
-        data={'expertise_products_services': {'other': ['Vodka', 'Potassium']}}
+        data={
+            'expertise_products_services': {'other': ['Vodka', 'Potassium']},
+            'hs_codes': ['1', '2']
+        }
     )
 
 

@@ -41,42 +41,52 @@ class CountryDemographicsForm(forms.Form):
 
 class ExportPlanBrandAndProductForm(forms.Form):
     story = forms.CharField(
-        label='Story behind brand',
+        label='How we started',
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
-                'Add some text, for example: We have since 1863 been distilling gin over five generations of our '
-                'family using handed down process'
+                'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in '
+                'Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of '
+                'London. This inspired him to recreate gin distilled in the midlands 200 hundred years '
+                'ago, with a modern twist.'
+            ),
+            'tooltip': (
+                'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in '
+                'Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. '
+                'This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a '
+                'modern twist.'
             )}
         ),
     )
     location = forms.CharField(
-        label='Location',
+        label="Where we're based",
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
-                'Add some text, for example: Distilled 1,200ft above sea level in ancient spring in the '
-                'Peak District'
+                'By 2015 the garage was too small for the volumes we produced so we moved to larger '
+                'premises in rented, shared business space in Shrewsbury.'
             )}
         ),
     )
     processes = forms.CharField(
-        label='Manufacturing processes',
+        label='How we make our products',
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
-                'Add some text, for example: The ingredients are ground by hand before being distilled '
-                'in Cheshire. The alcohol vapour and the flavoursome oils from the botanicals reach our copper '
-                'condenser, where they are immediately cooled'
+                'We use vacuum distillation instead of traditional pot distillation. This  preserves '
+                'the richness of flavour and aromas of the botanicals that give our gin its purity of '
+                'taste.'
             )}
         ),
     )
     packaging = forms.CharField(
-        label='Packaging',
+        label='Our packaging',
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
-                'Add some text, for example: hand made ceramic bottle hand sealed with wax'
+                'From 2015 to 2018 sales have grown on average 31% a year. Revenue flattened off '
+                'slightly in 2019 because of a UK distribution issue which has now been resolved. '
+                'We are on track to meet our sales targets for 2020.'
             )}
         ),
     )
@@ -84,7 +94,7 @@ class ExportPlanBrandAndProductForm(forms.Form):
 
 class ExportPlanBusinessObjectivesForm(forms.Form):
     rational = forms.CharField(
-        label='Add business rationale',
+        label='Business performance',
         required=False,
         widget=Textarea(attrs={'placeholder': 'Add some text'})
     )

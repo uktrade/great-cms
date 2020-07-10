@@ -327,6 +327,10 @@ class CuratedListPage(CMSGenericPage):
 
 
 class DetailPage(CMSGenericPage):
+    estimated_read_duration = models.DurationField(
+        null=True,
+        blank=True
+    )
     parent_page_types = ['core.CuratedListPage']
     template_choices = (
         ('exportplan/dashboard_page.html', 'Export plan dashboard'),

@@ -36,10 +36,21 @@
       }
     },
     {
-      "files": ["./src/components/SectorChooser.jsx", "./src/components/TargetMarketCountries.jsx"],
+      "files": [
+        "./src/components/SectorChooser.jsx",
+        "./src/components/BrandAndProduct.jsx",
+        "./src/components/TargetMarketCountries.jsx",
+        "./src/components/ObjectivesList.jsx",
+        "./src/components/Objective.jsx",
+      ],
       "rules": {
         "no-underscore-dangle": "off",
-        "react/jsx-props-no-spreading": "off"
+        "react/jsx-props-no-spreading": "off",
+        "react/destructuring-assignment": "off",
+        "react/no-array-index-key": "off",
+        "class-methods-use-this": "off",
+        "no-param-reassign": "off",
+        "camelcase": "off",
       }
     }
   ]

@@ -6,7 +6,7 @@ import fetchMock from 'fetch-mock'
 import { fakeSchedulers } from 'rxjs-marbles/jest'
 
 import { BrandAndProductForm } from '@src/components/BrandAndProduct'
-import Field from '@src/components/Field'
+import FieldWithExample from '@src/components/Fields/FieldWithExample'
 import Services from '@src/Services'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -16,7 +16,8 @@ let wrapper;
 const dummyFieldOne = {
   name: 'field_one',
   label: 'Field one',
-  placeholder: 'Some placeholder text'
+  placeholder: 'Some placeholder text',
+  tooltip: 'tooltip text'
 }
 
 const formData = {
@@ -48,16 +49,13 @@ describe('BrandAndProductForm', () => {
   test('should generate form fields from props and prepopulate', () => {
 
     expect(wrapper.containsMatchingElement(
-      <Field
-        type="textarea"
+      <FieldWithExample
+        tooltip={dummyFieldOne.tooltip}
         placeholder={dummyFieldOne.placeholder}
-        key={dummyFieldOne.name}
         label={dummyFieldOne.label}
+        key={dummyFieldOne.name}
         name={dummyFieldOne.name}
-        disabled={false}
         value={formData.field_one}
-        autofocus
-        errors={[]}
       />
     )).toEqual(true)
   })
