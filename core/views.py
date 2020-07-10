@@ -234,5 +234,5 @@ class CreateTokenView(generics.GenericAPIView):
             fern = Fern()
             ciphertext = fern.encrypt(plaintext)
 
-            return Response(f"token is: {plaintext} & url is: {ciphertext}")
+            return Response(f"{ciphertext}")
 

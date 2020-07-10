@@ -82,7 +82,6 @@ class TimedAccessMiddleware(MiddlewareMixin):
         resp = self.try_cookie(request, response)
         if(resp):
             return resp
-
         # try URL if we have a value to parse
         if(ciphertext != ''):
             return self.try_url(request, response, ciphertext)
@@ -105,9 +104,6 @@ class TimedAccessMiddleware(MiddlewareMixin):
         if beta_user_timestamp_enc is not None:
             beta_user_timestamp = self.decrypt(beta_user_timestamp_enc)
             return self.compare_date(response, datetime.strptime(beta_user_timestamp, '%Y-%m-%d'), beta_user_timestamp_enc)
-        # user with no cookie, ran out of options, 403
-        # else:
-        #     raise PermissionDenied()
 
     @staticmethod
     def decrypt(ciphertext):

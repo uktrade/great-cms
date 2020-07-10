@@ -212,14 +212,3 @@ def test_user_product_expertise_middleware_not_store_idempotent(
     )
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 0
-
-
-@pytest.fixture(autouse=True)
-@pytest.mark.django_db
-def test_timed_access_middleware(self):
-    import pdb;pdb.set_trace()
-    response = self.middleware.process_request(self.request)
-    self.assertIsNone(response)
-    # Whatever middleware model is referenced
-    count = TimedAccessMiddleware.objects.all().count()
-    self.assertEqual(count, 1)
