@@ -5,16 +5,19 @@ from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
 
 from core import helpers
-from sso.models import BusinessSSOUser
+# from sso.models import BusinessSSOUser
 from datetime import datetime
 from django.http import HttpResponseForbidden
 from core.fern import Fern
+from django.conf import settings
 
 
 class UserLocationStoreMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
-        if request.user.is_authenticated and isinstance(request.user, BusinessSSOUser):
+        # TODO: fix and uncomment the line below. Circular dependency from the helpers.py?
+        # if request.user.is_authenticated and isinstance(request.user, BusinessSSOUser):
+        if request.user.is_authenticated:
             helpers.store_user_location(request)
 
 
@@ -73,6 +76,8 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
 class TimedAccessMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
         self.get_response = get_response
+        self.whitelisted_endpoints = settings.BETA_WHITELISTED_ENDPOINTS
+        self.blacklisted_users = settings.BETA_BLACKLISTED_USERS
 
     def __call__(self, request):
 
@@ -95,6 +100,7 @@ class TimedAccessMiddleware(MiddlewareMixin):
 
     def try_url(self, request, response, ciphertext):
         plaintext = self.decrypt(ciphertext)
+        #TODO: logger.debug the value here for debugging purposes
         try:
             date_time_obj = datetime.strptime(plaintext, '%Y-%m-%d')
             return self.compare_date(response, date_time_obj, ciphertext)

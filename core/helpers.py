@@ -17,10 +17,10 @@ from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
 
 from core.serializers import parse_opportunities, parse_events
-
+from core.middleware import TimedAccessMiddleware
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
-USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
+USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
 COMMODITY_SEARCH_URL = urljoin(settings.DIT_HELPDESK_URL, '/search/api/commodity-term/')
 MALE = 'xy'
 FEMALE = 'xx'
@@ -343,3 +343,8 @@ class AgeRangeCountryDemographics:
     def population(self):
         # note population != population_female + population_male
         return get_country_population_by_age_range(name=self.name, year=self.year, age_range=self.age_range) * 1000
+
+
+# Helper method to decrypt tokens via shell for debug purposes
+def decrypt_token(request, token):
+    return TimedAccessMiddleware().decrypt(token)
