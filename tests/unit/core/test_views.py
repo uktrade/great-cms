@@ -642,6 +642,7 @@ def test_create_api_token(client, rf):
 def test_auth_with_url(client, rf):
     response = client.get('/api/create-token/')
     token = response.data
+
     response_2 = client.get(f'/markets/?enc={token}')
     assert response_2.status_code == 200
 

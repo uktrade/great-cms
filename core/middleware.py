@@ -77,7 +77,10 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
 # testing method
 # will return False if the test is not in the whitelisted hardcoded list
 def test_not_beta_access() -> bool:
-    current_test = os.environ['PYTEST_CURRENT_TEST']
+    if os.environ.get('PYTEST_CURRENT_TEST'):
+        current_test = os.environ['PYTEST_CURRENT_TEST']
+    else:
+        current_test = ''
     for url in ['test_create_api_token', 'test_auth_with_url', 'test_auth_with_cookie', 'test_bad_auth_with_url']:
         if current_test.find(url) != -1:
             return False
@@ -93,7 +96,6 @@ class TimedAccessMiddleware(MiddlewareMixin):
     def __call__(self, request):
 
         response = self.get_response(request)
-
         # need to whitelist the endpoint, to be able to generate tokens
         # == '/api/create-token/' or request.path == '/favicon.ico':
         if request.path in settings.BETA_WHITELISTED_ENDPOINTS:
@@ -125,7 +127,7 @@ class TimedAccessMiddleware(MiddlewareMixin):
         plaintext = self.decrypt(ciphertext)
         # TODO: logger.debug the value here for debugging purposes
         try:
-            date_time_obj = datetime.strptime(plaintext, '%Y-%m-%d')
+            date_time_obj = datetime.strptime(plaintext, '%Y-%m-%d %H:%M:%S.%f')
             return self.compare_date(response, date_time_obj, ciphertext)
         except ValueError:
             return HttpResponseForbidden()
@@ -135,15 +137,14 @@ class TimedAccessMiddleware(MiddlewareMixin):
         # user has a cookie
         if beta_user_timestamp_enc is not None:
             beta_user_timestamp = self.decrypt(beta_user_timestamp_enc)
-            return self.compare_date(response,
-                                     datetime.strptime(beta_user_timestamp, '%Y-%m-%d'),
-                                     beta_user_timestamp_enc)
+            return self.compare_date(response=response,
+                                     date_time_obj=datetime.strptime(beta_user_timestamp, '%Y-%m-%d %H:%M:%S.%f'),
+                                     encrypted_token=beta_user_timestamp_enc)
 
     @staticmethod
     def decrypt(ciphertext):
         return Fern().decrypt(ciphertext)
 
-    @staticmethod
     def compare_date(self, response, date_time_obj, encrypted_token):
         if date_time_obj < datetime.now():
             return HttpResponseForbidden()

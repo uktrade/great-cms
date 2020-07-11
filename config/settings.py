@@ -450,5 +450,7 @@ if BETA_ENVIRONMENT:
     BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS')
     BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS')
 
-if sys.argv[0:1][0].find('pytest'):
+if sys.argv[0:1][0].find('pytest') != -1:
     TESTING = True
+else:
+    TESTING = False
