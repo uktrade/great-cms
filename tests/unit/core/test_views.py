@@ -642,8 +642,8 @@ def test_create_api_token(client, rf):
 def test_auth_with_url(client, rf):
     response = client.get('/api/create-token/')
     token = response.data
-    response_2 = client.get(f'/admin/?enc={token}')
-    assert response_2.status_code == 302
+    response_2 = client.get(f'/markets/?enc={token}')
+    assert response_2.status_code == 200
 
 
 @pytest.mark.django_db
@@ -651,8 +651,13 @@ def test_auth_with_cookie(client, rf):
     response = client.get('/api/create-token/')
     token = response.data
 
-    response_2 = client.get(f'/admin/?enc={token}')
-    assert response_2.status_code == 302
+    response_2 = client.get(f'/markets/?enc={token}')
+    assert response_2.status_code == 200
 
-    response_3 = client.get('/admin/')
-    assert response_3.status_code == 302
+    response_3 = client.get('/markets/')
+    assert response_3.status_code == 200
+
+@pytest.mark.django_db
+def test_bad_auth_with_url(client, rf):
+    response = client.get(f'/markets/')
+    assert response.status_code == 403

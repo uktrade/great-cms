@@ -17,6 +17,16 @@ pytest:
 		--cov=. \
 		$(ARGUMENTS)
 
+# Usage: make single_pytest <path_to_file>::<method_name>
+single_pytest:
+	ENV_FILES=$(ENV_FILES) \
+	pytest \
+	    $(ARGUMENTS)
+		--junit-xml=./results/pytest_unit_report.xml \
+		--cov-config=.coveragerc \
+		--cov-report=html \
+		--cov=. \
+
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
 	pytest \
