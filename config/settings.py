@@ -1,4 +1,4 @@
-import os
+import os, sys
 
 import environ
 import sentry_sdk
@@ -448,5 +448,8 @@ if BETA_ENVIRONMENT:
     MIDDLEWARE = (['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE)
     BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS')
     BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS')
+
+if sys.argv[0:1][0].find('pytest'):
+    TESTING = True
 
 

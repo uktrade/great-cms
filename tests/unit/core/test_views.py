@@ -661,3 +661,5 @@ def test_auth_with_cookie(client, rf):
 def test_bad_auth_with_url(client, rf):
     response = client.get(f'/markets/')
     assert response.status_code == 403
+
+
