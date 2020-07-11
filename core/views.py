@@ -227,9 +227,9 @@ class CreateTokenView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, request):
-        #TODO: replace with datetime.datetime.now() for msec precise approval
+        # TODO: replace with datetime.datetime.now() for msec precise approval
         plaintext = str(datetime.datetime.now() + datetime.timedelta(days=1))
-        print(f'token valid until {plaintext}')
+        # print(f'token valid until {plaintext}')
         # plaintext = str(datetime.date.today() + datetime.timedelta(days=1))
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)

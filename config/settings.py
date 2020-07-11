@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 import environ
 import sentry_sdk
@@ -451,5 +452,3 @@ if BETA_ENVIRONMENT:
 
 if sys.argv[0:1][0].find('pytest'):
     TESTING = True
-
-

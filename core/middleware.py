@@ -74,6 +74,16 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
                 pass
 
 
+# testing method
+# will return False if the test is not in the whitelisted hardcoded list
+def test_not_beta_access() -> bool:
+    current_test = os.environ['PYTEST_CURRENT_TEST']
+    for url in ['test_create_api_token', 'test_auth_with_url', 'test_auth_with_cookie', 'test_bad_auth_with_url']:
+        if current_test.find(url) != -1:
+            return False
+    return True
+
+
 class TimedAccessMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
         self.get_response = get_response
@@ -85,7 +95,8 @@ class TimedAccessMiddleware(MiddlewareMixin):
         response = self.get_response(request)
 
         # need to whitelist the endpoint, to be able to generate tokens
-        if request.path in settings.BETA_WHITELISTED_ENDPOINTS: # == '/api/create-token/' or request.path == '/favicon.ico':
+        # == '/api/create-token/' or request.path == '/favicon.ico':
+        if request.path in settings.BETA_WHITELISTED_ENDPOINTS:
             return response
 
         # ignore every other test when running
@@ -95,7 +106,7 @@ class TimedAccessMiddleware(MiddlewareMixin):
 
         # ignore every other test when running
         # short circuiting and will save us
-        if settings.TESTING and self.test_not_beta_access():
+        if settings.TESTING and test_not_beta_access():
             return response
 
         ciphertext = request.GET.get('enc', '')
@@ -110,19 +121,9 @@ class TimedAccessMiddleware(MiddlewareMixin):
         else:
             return HttpResponseForbidden()
 
-    # testing method
-    # will return False if the test
-    def test_not_beta_access(self) -> bool:
-        current_test = os.environ['PYTEST_CURRENT_TEST']
-        print(current_test)
-        for url in ['test_create_api_token', 'test_auth_with_url', 'test_auth_with_cookie', 'test_bad_auth_with_url']:
-            if current_test.find(url) != -1:
-                return False
-        return True
-
     def try_url(self, request, response, ciphertext):
         plaintext = self.decrypt(ciphertext)
-        #TODO: logger.debug the value here for debugging purposes
+        # TODO: logger.debug the value here for debugging purposes
         try:
             date_time_obj = datetime.strptime(plaintext, '%Y-%m-%d')
             return self.compare_date(response, date_time_obj, ciphertext)
@@ -142,6 +143,7 @@ class TimedAccessMiddleware(MiddlewareMixin):
     def decrypt(ciphertext):
         return Fern().decrypt(ciphertext)
 
+    @staticmethod
     def compare_date(self, response, date_time_obj, encrypted_token):
         if date_time_obj < datetime.now():
             return HttpResponseForbidden()

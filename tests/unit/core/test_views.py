@@ -657,9 +657,8 @@ def test_auth_with_cookie(client, rf):
     response_3 = client.get('/markets/')
     assert response_3.status_code == 200
 
+
 @pytest.mark.django_db
 def test_bad_auth_with_url(client, rf):
-    response = client.get(f'/markets/')
+    response = client.get('/markets/')
     assert response.status_code == 403
-
-
