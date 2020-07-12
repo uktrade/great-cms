@@ -16,7 +16,9 @@ from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory,
 from tests.unit.learn.factories import LessonPageFactory
 from django.http.cookie import SimpleCookie
 
-BETA_AUTH_TOKEN_PAST = 'gAAAAABfCpH53lJcM0TiiXTqD7X18yRoZHOjy-rbSogRxB0v011FMb6rCkMeizffou-z80D9DPL1PWRA7sn9NBrUS-M7FTQeapvntabhj-on62OFlNvzVMQ='
+BETA_AUTH_TOKEN_PAST = 'gAAAAABfCpH53lJcM0TiiXTqD7X18yRoZHOjy-rbSogRxB0v011FMb6rCkMeizffou-z80D9DPL1PWRA7sn9NBrUS' \
+                       '-M7FTQeapvntabhj-on62OFlNvzVMQ= '
+
 
 def submit_step_factory(client, url_name, view_class):
     step_names = iter([name for name, form in view_class.form_list])
@@ -675,6 +677,6 @@ def test_bad_auth_with_cookie(client):
 
 
 @pytest.mark.django_db
-def test_bad_auth_with_enc_token (client):
+def test_bad_auth_with_enc_token(client):
     response = client.get('/markets/?enc={BETA_AUTH_TOKEN_PAST}')
     assert response.status_code == 403

@@ -2,6 +2,7 @@ from django.conf import settings
 from cryptography.fernet import Fernet
 from cryptography.fernet import InvalidToken
 
+
 class Fern:
     # """
     #   Usage:

@@ -81,7 +81,12 @@ def test_not_beta_access() -> bool:
         current_test = os.environ['PYTEST_CURRENT_TEST']
     else:
         current_test = ''
-    for url in ['test_create_api_token', 'test_auth_with_url', 'test_auth_with_cookie', 'test_bad_auth_with_url', 'test_bad_auth_with_cookie', 'test_bad_auth_with_enc_token']:
+    for url in ['test_create_api_token',
+                'test_auth_with_url',
+                'test_auth_with_cookie',
+                'test_bad_auth_with_url',
+                'test_bad_auth_with_cookie',
+                'test_bad_auth_with_enc_token']:
         if current_test.find(url) != -1:
             return False
     return True
