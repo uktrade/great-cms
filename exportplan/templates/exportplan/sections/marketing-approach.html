@@ -25,7 +25,23 @@
 </div>
 
 <h2 class="h-l">Who are the audience for your marketing and communication strategy in the Netherlands?</h2>
-<p>!!! TODO !!!</p>
+<h3>Select target age groups</h3>
+<button>Select</button>
+<form>
+    <div>
+        <input id="0_14" type="checkbox" />
+        <label for="0_14">0-14 year old</label>
+    </div>
+    <div>
+        <input id="15_24" type="checkbox" />
+        <label for="15_24">15-24 year old</label>
+    </div>
+    <div>
+        <input id="25_54" type="checkbox" />
+        <label for="25_54">25-54 year old</label>
+    </div>
+</form>
+{% include "exportplan/includes/insight.html" %}
 
 {% endblock %}
 
@@ -91,3 +107,4 @@
 
 {% block user_input %}
 {% endblock %}
+

@@ -1,36 +1,52 @@
 .statistic {
-    display: block;
-    margin-bottom: 15px;
+  display: block;
+  margin-bottom: 15px;
 
-    @include tablet {
-        margin-bottom: 30px;
-    }
+  @include tablet {
+    margin-bottom: 30px;
+  }
 }
 
 .statistic__details {
-    font-size: $font-size-small-mobile;
-    display: block;
+  font-size: $font-size-small-mobile;
+  display: block;
+  font-weight: 600;
 
-    @include tablet {
-        font-size: $font-size-small-desktop;
-    }
+  @include tablet {
+    font-size: $font-size-large-desktop;
+  }
 }
 
-
 .statistic__caption {
-    font-size: $font-size-small-mobile;
-    margin: 0;
+  font-size: $font-size-small-mobile;
+  margin: 0;
 
-    @include tablet {
-        font-size: $font-size-small-desktop;
-    }
+  @include tablet {
+    font-size: $font-size-small-desktop;
+  }
 }
 
 .statistic__figure {
-    font-size: $font-size-xlarge-mobile;
-    margin: 0;
+  font-size: $font-size-xlarge-mobile;
+  margin: 0;
 
-    @include tablet {
-        font-size: $font-size-xlarge-desktop;
-    }
+  @include tablet {
+    font-size: $font-size-xlarge-desktop;
+  }
+}
+
+.statistic__group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.statistic__percentage {
+  background: #c0bdbd;
+  height: 4px;
+
+  span {
+    display: block;
+    background: black;
+    height: 4px;
+  }
 }
