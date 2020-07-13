@@ -13,6 +13,7 @@ SECTION_TITLES = [
     'Payment methods',
     'Travel and business policies',
     'Business risk',
+    'Target market research',
 ]
 
 SECTION_SLUGS = [slugify(section) for section in SECTION_TITLES]

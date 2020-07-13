@@ -103,6 +103,59 @@ class ExportPlanBrandAndProductForm(forms.Form):
     )
 
 
+class TargetMarketResearchForm(forms.Form):
+    demand = forms.CharField(
+        label='Demand',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in '
+                'Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of '
+                'London. This inspired him to recreate gin distilled in the midlands 200 hundred years '
+                'ago, with a modern twist.'
+            ),
+            'tooltip': (
+                'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in '
+                'Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. '
+                'This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a '
+                'modern twist.'
+            )}
+        ),
+    )
+    competitors = forms.CharField(
+        label='competitors',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'By 2015 the garage was too small for the volumes we produced so we moved to larger '
+                'premises in rented, shared business space in Shrewsbury.'
+            )}
+        ),
+    )
+    trend = forms.CharField(
+        label='trend',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'We use vacuum distillation instead of traditional pot distillation. This  preserves '
+                'the richness of flavour and aromas of the botanicals that give our gin its purity of '
+                'taste.'
+            )}
+        ),
+    )
+    unqiue_selling_proposition = forms.CharField(
+        label='Unique Selling props',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
+                'Our packaging is themed around purity and comprises elegant clear glass bottles with '
+                'twist cap and unbleached paper label printed with natural dyes. Our distribution and '
+                'delivery boxes are 100% recycled cardboard. Each features our distinctive Dove label. '
+            )}
+        ),
+    )
+
+
 class ExportPlanBusinessObjectivesForm(forms.Form):
     rational = forms.CharField(
         label='Business performance',
