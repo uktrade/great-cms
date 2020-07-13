@@ -23,6 +23,12 @@ urlpatterns = [
         name='brand-and-product'
     ),
     path(
+        'section/target-markets-research/',
+        login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'target-markets-research'},
+        name='target-markets-research'
+    ),
+    path(
         'section/objectives/',
         login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=LOGIN_URL),
         {'slug': 'objectives'},

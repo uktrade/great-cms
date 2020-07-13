@@ -19,10 +19,18 @@ class BrandAndProductDetailsSerializer(serializers.Serializer):
     performance = serializers.CharField(required=False, allow_blank=True)
 
 
+class TargetMarketsResearchSerializer(serializers.Serializer):
+    demand = serializers.CharField(required=False, allow_blank=True)
+    competitors = serializers.CharField(required=False, allow_blank=True)
+    trend = serializers.CharField(required=False, allow_blank=True)
+    unqiue_selling_proposition = serializers.CharField(required=False, allow_blank=True)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     brand_product_details = BrandAndProductDetailsSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
+    target_markets_research = TargetMarketsResearchSerializer(required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
