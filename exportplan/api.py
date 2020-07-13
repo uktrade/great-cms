@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework import generics
+
 from . import helpers
 from exportplan import serializers
 
@@ -93,3 +95,56 @@ class ExportPlanRecommendedCountriesDataView(APIView):
 
         data = {'countries': recommended_countries, }
         return Response(data)
+
+
+class UpdateExportPlanAPIView(generics.GenericAPIView):
+    serializer_class = serializers.ExportPlanSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            export_plan = helpers.get_or_create_export_plan(self.request.user)
+            helpers.update_exportplan(
+                sso_session_id=self.request.user.session_id,
+                id=export_plan['pk'],
+                data=serializer.validated_data
+            )
+            return Response(serializer.validated_data)
+
+
+class ObjectivesCreateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.NewObjectiveSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
+            return Response(response)
+
+
+class ObjectivesUpdateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.ObjectiveSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.update_objective(self.request.user.session_id, serializer.validated_data)
+            return Response(response)
+
+
+class ObjectivesDestroyAPIView(generics.GenericAPIView):
+    serializer_class = serializers.PkOnlySerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            helpers.delete_objective(self.request.user.session_id, serializer.validated_data)
+            return Response({})

@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import Field from '@src/components/Field'
+import Field from '@src/components/Fields/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
 import './stylesheets/StepCredentials.scss'
@@ -18,6 +18,7 @@ export default function StepCredentials(props){
       </p>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
         <Field
+          id="id_email"
           type="text"
           placeholder="Email address"
           name="email"
@@ -28,6 +29,7 @@ export default function StepCredentials(props){
           errors={props.errors.email || []}
         />
         <Field
+          id="id_password"
           type="password"
           placeholder="Password"
           name="password"
