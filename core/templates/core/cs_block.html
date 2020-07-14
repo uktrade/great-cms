@@ -1,0 +1,6 @@
+{% load  wagtailcore_tags %}
+<div class="modules">
+{%  for module in modules %}
+     <p class="m-b-0 ">{% include_block module.content|richtext %}</p>
+{% endfor %}
+</div>

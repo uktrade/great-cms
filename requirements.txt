@@ -35,7 +35,7 @@ django-staff-sso-client==1.0.1  # via -r requirements.in
 django-storages[boto3]==1.8  # via -r requirements.in
 django-taggit==1.3.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
-django==2.2.13            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-filter, django-formtools, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, great-components, sigauth, wagtail, wagtailfontawesome
+django==2.2.14            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-filter, django-formtools, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, great-components, sigauth, wagtail, wagtailfontawesome
 djangorestframework==3.9.4  # via -r requirements.in, sigauth, wagtail
 docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail

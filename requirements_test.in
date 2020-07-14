@@ -16,6 +16,7 @@ requests-mock
 pip-tools
 ipdb
 beautifulsoup4
+wagtail-import-export
 
 # Code quality
 # -------------
