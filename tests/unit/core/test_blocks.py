@@ -40,12 +40,18 @@ def test_video_block():
 @pytest.mark.django_db
 def test_modular_content_static_block_render():
     module = ContentModuleFactory()
-    module.tags = ['tag1', 'tag2']
+    module.tags.add('tag1', 'tag2')
     module.save()
 
     request = mock.Mock(GET={'tags': 'tag1,tag2'})
     block = core_blocks.ModularContentStaticBlock()
     context = {'request': request}
-    html = block.render_basic(context=context, value='')
-    expected_html = '<div class="modules">  </div>'
+    html = block.render(context=context, value=module.content)
+    expected_html = '\n<div class="modules">\n\n     <p class="m-b-0 "><div class="rich-text">{}</div></p>\n\n</div>\n'.format(module.content) # noqa
     assert html == expected_html
+
+
+def test_render_form_with_constructor():
+    block = core_blocks.ModularContentStaticBlock()
+    rendered_html = block.render_form(None)
+    assert rendered_html == 'Content modules will be automatically displayed, no configuration needed.'

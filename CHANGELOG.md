@@ -1,6 +1,7 @@
 # Changelog
 
 ## Pre-release
+- GP2-218 - Image and media surfacing from CMS modules
 
 ### Fixed bugs
 - GP-96 - HS Codes saved in DirectoryAPI
