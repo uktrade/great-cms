@@ -130,3 +130,22 @@ def get_or_create_export_plan(user):
             exportplan_data=serialize_exportplan_data(rules_regulations=rules, user=user)
         )
     return export_plan
+
+
+def create_objective(sso_session_id, data):
+    response = api_client.exportplan.exportplan_objectives_create(sso_session_id=sso_session_id, data=data)
+    response.raise_for_status()
+    return response.json()
+
+
+def update_objective(sso_session_id, data):
+    response = api_client.exportplan.exportplan_objectives_update(
+        sso_session_id=sso_session_id, id=data['pk'], data=data)
+    response.raise_for_status()
+    return response.json()
+
+
+def delete_objective(sso_session_id, data):
+    response = api_client.exportplan.exportplan_objectives_delete(sso_session_id=sso_session_id, id=data['pk'])
+    response.raise_for_status()
+    return response

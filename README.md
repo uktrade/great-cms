@@ -59,7 +59,7 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make secrets                  | Create your secret env var file |
 | make recreate                 | Runs following command in one go |
 |                               | **make database**: Drop and recrete the database |
-|                               | **make boostrap_great**: Create required database records so the CMS works |
+|                               | **make bootstrap_great**: Create required database records so the CMS works |
 |                               | **make create_tours** |
 
 ### Setting up the local database

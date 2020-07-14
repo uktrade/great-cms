@@ -6,7 +6,7 @@ import { Subject } from 'rxjs'
 import { debounceTime, delay } from 'rxjs/operators';
 
 import ErrorList from '@src/components/ErrorList'
-import { FieldWithExample } from './Field'
+import FieldWithExample from '@src/components/Fields/FieldWithExample'
 import Services from '../Services'
 import Spinner from './Spinner/Spinner'
 
@@ -93,25 +93,21 @@ class BrandAndProductForm extends React.Component {
     }
 
     return (
-    <>
-      {
-        formFields.map(field => (
-          <FieldWithExample
-            placeholder={field.placeholder}
-            key={field.name}
-            label={field.label}
-            name={field.name}
-            disabled={false}
-            value={formData[field.name]}
-            handleChange={this.handleChange}
-            autofocus
-            errors={[]}
-          />
-        ))
-      }
-      {saveIndicator}
-      <ErrorList errors={errors.__all__ || []} className="m-0" />
-    </>
+      <>
+        {formFields.map(field => (
+            <FieldWithExample
+              tooltip={field.tooltip}
+              placeholder={field.placeholder}
+              label={field.label}
+              key={field.name}
+              name={field.name}
+              value={formData[field.name]}
+              handleChange={this.handleChange}
+            />
+          ))}
+        {saveIndicator}
+        <ErrorList errors={errors.__all__ || []} className="m-0" />
+      </>
     )
   }
 }

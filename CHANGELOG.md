@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 - GP-96 - HS Codes saved in DirectoryAPI
+- GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
@@ -118,3 +119,4 @@
 - GP2-120 - Fix numbers on curated list page
 - GP2-163 - Show estimated reading time for lesson
 - no-ticket - Migrate to codecov remove coveralls
+- no-ticket - Bump django version to 2.2.14

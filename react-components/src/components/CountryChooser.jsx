@@ -87,11 +87,11 @@ export default class CountryChooser extends React.Component {
 
     return (
       <div className="country-chooser-section" id="country-chooser-section">
-        <div className={`country-chooser ${open ? 'open' : ''}`}>
-          <span className="button--plus" />
+        <div className={`button--plus ${open ? 'open' : ''}`}>
+          <span className="icon--plus" />
           <button
             type="button"
-            className="country-chooser-button text-grey bg-stone-90 font-brand bg-hover-stone border-hover-stone pill"
+            className="button--stone"
             id="country-chooser-button"
             onClick={this.showCountrySelect}
           >

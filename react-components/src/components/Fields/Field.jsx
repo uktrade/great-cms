@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ErrorList from './ErrorList'
+import ErrorList from '../ErrorList'
 
-import './stylesheets/Field.scss'
-
+import '../stylesheets/Field.scss'
 
 export function TextInput(props) {
   return (
@@ -18,6 +17,30 @@ export function TextInput(props) {
       placeholder={props.placeholder}
       type={props.type}
       value={props.value}
+    />
+  )
+}
+
+export function DateInput(props) {
+
+  const { disabled, id, name, handleChange, placeholder } = props
+  let { value } = props
+
+  // date input doesn't like null values so convert to empty string here
+  if (value === null) {
+    value = ''
+  }
+
+  return (
+    <input
+      className='great-mvp-field-input form-control'
+      disabled={disabled}
+      id={id}
+      name={name}
+      onChange={(e) => handleChange(e)}
+      placeholder={placeholder}
+      type='date'
+      value={value}
     />
   )
 }
@@ -63,27 +86,6 @@ export function RadioInput(props) {
   return <ul id={props.id} className='g-select-multiple '>{children}</ul>
 }
 
-export function FieldWithExample(props) {
-
-  const id_for_label = `id_${props.name}`
-
-  return (
-    <>
-      <label htmlFor={id_for_label} className='great-mvp-field-label'>{props.label}</label>
-      <dl className='great-mvp-field-example'>
-        <dt>Example</dt>
-        <dd>{props.placeholder}</dd>
-      </dl>
-      <ErrorList errors={props.errors || []} />
-      <TextArea
-        id={id_for_label}
-        {...props}
-        placeholder='Add some text'
-      />
-    </>
-  )
-}
-
 export default function Field(props){
 
   const id_for_label = `id_${props.name}`
@@ -102,6 +104,9 @@ export default function Field(props){
     }
     if (props.type === 'textarea') {
       return <TextArea id={id_for_label} {...props} />
+    }
+    if (props.type === 'date') {
+      return <DateInput id={id_for_label} {...props} />
     }
     return <TextInput id={id_for_label} {...props} />
   }
