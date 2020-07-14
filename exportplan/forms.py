@@ -84,6 +84,17 @@ class ExportPlanBrandAndProductForm(forms.Form):
         required=False,
         widget=Textarea(attrs={
             'placeholder': (
+                'Our packaging is themed around purity and comprises elegant clear glass bottles with '
+                'twist cap and unbleached paper label printed with natural dyes. Our distribution and '
+                'delivery boxes are 100% recycled cardboard. Each features our distinctive Dove label. '
+            )}
+        ),
+    )
+    performance = forms.CharField(
+        label='Business performance',
+        required=False,
+        widget=Textarea(attrs={
+            'placeholder': (
                 'From 2015 to 2018 sales have grown on average 31% a year. Revenue flattened off '
                 'slightly in 2019 because of a UK distribution issue which has now been resolved. '
                 'We are on track to meet our sales targets for 2020.'
