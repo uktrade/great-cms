@@ -25,23 +25,9 @@
 </div>
 
 <h2 class="h-l">Who are the audience for your marketing and communication strategy in the Netherlands?</h2>
-<h3>Select target age groups</h3>
-<button>Select</button>
-<form>
-    <div>
-        <input id="0_14" type="checkbox" />
-        <label for="0_14">0-14 year old</label>
-    </div>
-    <div>
-        <input id="15_24" type="checkbox" />
-        <label for="15_24">15-24 year old</label>
-    </div>
-    <div>
-        <input id="25_54" type="checkbox" />
-        <label for="25_54">25-54 year old</label>
-    </div>
-</form>
-{% include "exportplan/includes/insight.html" %}
+<div id="target-age-groups-component" class="m-b-xl">
+    {% include "exportplan/includes/insight.html" %}
+</div>
 
 {% endblock %}
 
@@ -67,10 +53,6 @@
         </div>
     </div>
 </section>
-
-
-
-
 {% endblock %}
 
 
@@ -101,10 +83,21 @@
     <button type="submit" class="great-mvp-wizard-step-button m-b-s">Submit</button>
 </form> -->
 
-
-
-
-
 {% block user_input %}
 {% endblock %}
 
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    var element = document.getElementById('target-age-groups-component');
+    ditMVP.createTargetAgeGroups({
+      element: element,
+      groups: [
+          {key: "0_9", label: '0-9 year olds'},
+          {key: "10_19", label: '10-19 year olds'},
+          {key: "20_29", label: '20-29 year olds'},
+          {key: "30_39", label: '30-39 year olds'}
+      ]
+    })
+  </script>
+{% endblock %}
