@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'domestic',
     'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
-    'learn.apps.LearnConfig'
+    'learn.apps.LearnConfig',
+    'wagtailimportexport'
 ]
 
 MIDDLEWARE = [
