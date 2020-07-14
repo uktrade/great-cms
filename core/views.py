@@ -12,6 +12,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
 from core.fern import Fern
+from django.conf import settings
 
 from core import forms, helpers, models, serializers
 
@@ -229,9 +230,11 @@ class CreateTokenView(generics.GenericAPIView):
     def get(self, request):
         # expire access @ now() in msec + 1 day
         plaintext = str(datetime.datetime.now() + datetime.timedelta(days=1))
+        base_url = settings.BASE_URL
         # TODO: logging
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
 
-        return Response(f'{ciphertext}')
+        return Response(f'Access valid until: {plaintext}. Please use the following URL to give access to the user:  '
+                        f'http://{base_url}/?enc={ciphertext}')
