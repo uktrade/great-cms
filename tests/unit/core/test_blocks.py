@@ -4,7 +4,7 @@ import pytest
 from wagtail.core import blocks
 
 from core import blocks as core_blocks
-from tests.unit.core.factories import ContentModuleFactory
+from tests.unit.core.factories import ContentModuleFactory, DetailPageFactory
 
 
 def test_link_block():
@@ -55,3 +55,28 @@ def test_render_form_with_constructor():
     block = core_blocks.ModularContentStaticBlock()
     rendered_html = block.render_form(None)
     assert rendered_html == 'Content modules will be automatically displayed, no configuration needed.'
+
+
+def test_basic_render_form_for_media_chooser_block():
+    block = core_blocks.MediaChooserBlock()
+    with pytest.raises(NotImplementedError):
+        block.render_basic(value=None)
+
+
+@pytest.mark.django_db
+def test_internal_link_structure_value(domestic_homepage):
+    page = DetailPageFactory(parent=domestic_homepage)
+    block = core_blocks.LinkBlock()
+    value = block.to_python({
+        'internal_link': page.id,
+    })
+    assert page.url_path == value.url
+
+
+@pytest.mark.django_db
+def test_external_link_structure_value(domestic_homepage):
+    block = core_blocks.LinkBlock()
+    value = block.to_python({
+        'external_link': 'http://great.gov.uk'
+    })
+    assert value.url == 'http://great.gov.uk'

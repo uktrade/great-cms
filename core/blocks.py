@@ -5,7 +5,7 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 class MediaChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
         """Render implemented in the VideoBlock, this block shouldn't be used in its own."""
-        pass
+        raise NotImplementedError("MediaChooserBlock Shouldn't be used it's own")
 
 
 class VideoBlock(blocks.StructBlock):
@@ -31,7 +31,7 @@ class LinkStructValue(blocks.StructValue):
         page = self.get('internal_link')
         ext = self.get('external_link')
         if page:
-            return page.url
+            return page.url_path
         else:
             return ext
 
