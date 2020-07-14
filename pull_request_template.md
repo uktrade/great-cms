@@ -6,3 +6,4 @@ To do (delete all that do not apply):
  - [ ] (if updating requirements) Requirements have been compiled.
  - [ ] (if adding env vars) Added any new environment variable to vault.
  - [ ] (if adding feature flags) Cleaned up old flags
+ - [ ] I have updated security dependencies
