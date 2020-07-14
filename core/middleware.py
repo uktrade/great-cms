@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
 
 from core import helpers
-# from sso.models import BusinessSSOUser
+from sso.models import BusinessSSOUser
 from datetime import datetime
 from django.http import HttpResponseForbidden
 from core.fern import Fern
@@ -16,9 +16,8 @@ from django.conf import settings
 class UserLocationStoreMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
-        # TODO: fix and uncomment the line below. Circular dependency from the helpers.py?
-        # if request.user.is_authenticated and isinstance(request.user, BusinessSSOUser):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and isinstance(request.user, BusinessSSOUser):
+        # if request.user.is_authenticated:
             helpers.store_user_location(request)
 
 
@@ -81,13 +80,13 @@ def test_not_beta_access() -> bool:
         current_test = os.environ['PYTEST_CURRENT_TEST']
     else:
         current_test = ''
-    for url in ['test_create_api_token',
-                'test_auth_with_url',
-                'test_auth_with_cookie',
-                'test_bad_auth_with_url',
-                'test_bad_auth_with_cookie',
-                'test_bad_auth_with_enc_token']:
-        if current_test.find(url) != -1:
+    for test_name in ['test_create_api_token',
+                      'test_auth_with_url',
+                      'test_auth_with_cookie',
+                      'test_bad_auth_with_url',
+                      'test_bad_auth_with_cookie',
+                      'test_bad_auth_with_enc_token']:
+        if current_test.find(test_name) != -1:
             return False
     return True
 
