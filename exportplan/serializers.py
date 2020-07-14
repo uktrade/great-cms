@@ -16,6 +16,7 @@ class BrandAndProductDetailsSerializer(serializers.Serializer):
     location = serializers.CharField(required=False, allow_blank=True)
     processes = serializers.CharField(required=False, allow_blank=True)
     packaging = serializers.CharField(required=False, allow_blank=True)
+    performance = serializers.CharField(required=False, allow_blank=True)
 
 
 class ExportPlanSerializer(serializers.Serializer):

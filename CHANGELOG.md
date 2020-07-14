@@ -14,6 +14,8 @@
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 - MVP-579 - create export plan cms page
 - GP2-67 - fix backbutton upload logo
+- GP2-170 - business performance
+
 
 ### Implemented enhancements
 
