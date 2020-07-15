@@ -77287,7 +77287,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
 /* harmony import */ var _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Container */ "./react-components/src/views/MarketSelectNavbar/Container.jsx");
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
-/* harmony import */ var _src_components_TargetAgeGroups__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/components/TargetAgeGroups */ "./react-components/src/components/TargetAgeGroups.jsx");
+/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
 /* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
 /* harmony import */ var _src_components_BrandAndProduct__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/components/BrandAndProduct */ "./react-components/src/components/BrandAndProduct.jsx");
 /* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
@@ -77318,7 +77318,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   Countries: _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_6__["default"],
   CountriesModal: _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_4__["default"],
-  createTargetAgeGroups: _src_components_TargetAgeGroups__WEBPACK_IMPORTED_MODULE_11__["createTargetAgeGroups"],
+  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_11__["createTargetAgeGroupInsights"],
   createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_12__["createTargetMarketCountries"],
   createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_14__["createBusinessRationale"],
   createBrandAndProductForm: _src_components_BrandAndProduct__WEBPACK_IMPORTED_MODULE_13__["createBrandAndProductForm"],
@@ -79829,21 +79829,172 @@ Spinner.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/TargetAgeGroups.jsx":
-/*!*************************************************************!*\
-  !*** ./react-components/src/components/TargetAgeGroups.jsx ***!
-  \*************************************************************/
-/*! exports provided: TargetAgeGroups, createTargetAgeGroups */
+/***/ "./react-components/src/components/TargetAgeGroupInsights/Table.jsx":
+/*!**************************************************************************!*\
+  !*** ./react-components/src/components/TargetAgeGroupInsights/Table.jsx ***!
+  \**************************************************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TargetAgeGroups", function() { return TargetAgeGroups; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTargetAgeGroups", function() { return createTargetAgeGroups; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Table; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function Table(_ref) {
+  var population = _ref.population,
+      cpi = _ref.cpi,
+      urban = _ref.urban,
+      rural = _ref.rural,
+      female = _ref.female,
+      male = _ref.male,
+      internet = _ref.internet,
+      targetPopulation = _ref.targetPopulation;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-t-m"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid"
+  }, population && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Total population")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, population, " million")))), internet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Access to internet")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, internet, "% (312.32 million)")))), cpi && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Consumer Price Index")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, cpi)))), targetPopulation && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Target age population")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, targetPopulation, " million (100%)"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid"
+  }, urban && rural && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "statistic__percentage m-b-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    style: {
+      width: "".concat(urban, "%")
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "statistic__group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Living in urban areas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, urban, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Living in rural areas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, rural, "%"))))), female && male && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "statistic__percentage m-b-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    style: {
+      width: '51%'
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "statistic__group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Female in target group")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, female, " m"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Male in target group")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, male, " m")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
+    className: "statistic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__caption"
+  }, "Language")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "statistic__figure"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "statistic__details"
+  }, "Dutch (official); Frisian, Low Saxon,"))))));
+}
+Table.propTypes = {
+  population: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  cpi: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  urban: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  rural: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  female: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  male: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  internet: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  targetPopulation: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx":
+/*!*******************************************************************************************!*\
+  !*** ./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx ***!
+  \*******************************************************************************************/
+/*! exports provided: TargetAgeGroupInsights, createTargetAgeGroupInsights */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TargetAgeGroupInsights", function() { return TargetAgeGroupInsights; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTargetAgeGroupInsights", function() { return createTargetAgeGroupInsights; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Table */ "./react-components/src/components/TargetAgeGroupInsights/Table.jsx");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
@@ -79886,144 +80037,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+ // mock endpoint until real endpoint created
 
-function renderTable(_ref) {
-  var population = _ref.population,
-      cpi = _ref.cpi,
-      urban = _ref.urban,
-      rural = _ref.rural,
-      female = _ref.female,
-      male = _ref.male,
-      internet = _ref.internet,
-      targetPopulation = _ref.targetPopulation;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "m-t-m"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "grid"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Total population")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, population, " million")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Access to internet")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, internet, "% (312.32 million)")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Consumer Price Index")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, cpi)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Target age population")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, targetPopulation, " million (100%)"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "grid"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "statistic__percentage m-b-xs"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    style: {
-      width: "".concat(urban, "%")
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "statistic__group"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Living in urban areas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, urban, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Living in rural areas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, rural, "%"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "statistic__percentage m-b-xs"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    style: {
-      width: '51%'
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "statistic__group"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Female in target group")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, female, " m"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Male in target group")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, male, " m")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "grid"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figure", {
-    className: "statistic"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("figcaption", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__caption"
-  }, "Language")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "statistic__figure"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "statistic__details"
-  }, "Dutch (official); Frisian, Low Saxon,"))))));
+function mockEndpoint(selectedGroups, cb) {
+  function random(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  console.log('selectedGroups===', selectedGroups);
+  var data = {
+    population: random(200, 400),
+    cpi: random(100, 300),
+    urban: 50,
+    rural: 50,
+    female: random(30, 80),
+    male: random(30, 80),
+    internet: random(50, 75),
+    targetPopulation: random(200, 300)
+  };
+  setTimeout(function () {
+    cb(data);
+  }, 100);
 }
 
-function random(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
+var TargetAgeGroupInsights = /*#__PURE__*/function (_React$Component) {
+  _inherits(TargetAgeGroupInsights, _React$Component);
 
-var TargetAgeGroups = /*#__PURE__*/function (_React$Component) {
-  _inherits(TargetAgeGroups, _React$Component);
+  var _super = _createSuper(TargetAgeGroupInsights);
 
-  var _super = _createSuper(TargetAgeGroups);
-
-  function TargetAgeGroups(props) {
+  function TargetAgeGroupInsights(props) {
     var _this;
 
-    _classCallCheck(this, TargetAgeGroups);
+    _classCallCheck(this, TargetAgeGroupInsights);
 
     _this = _super.call(this, props);
 
@@ -80036,7 +80083,14 @@ var TargetAgeGroups = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "submitForm", function (event) {
       event.preventDefault();
 
-      _this.toggleSelector();
+      _this.toggleSelector(); // pass selected groups to endpoint
+
+
+      mockEndpoint(_this.state.selectedGroups, function (data) {
+        _this.setState({
+          data: data
+        });
+      });
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleChange", function (event) {
@@ -80062,16 +80116,18 @@ var TargetAgeGroups = /*#__PURE__*/function (_React$Component) {
 
     _this.state = {
       isOpen: false,
-      selectedGroups: []
+      selectedGroups: [],
+      data: null
     };
     return _this;
   }
 
-  _createClass(TargetAgeGroups, [{
+  _createClass(TargetAgeGroupInsights, [{
     key: "render",
     value: function render() {
       var groups = this.props.groups,
           _this$state = this.state,
+          data = _this$state.data,
           isOpen = _this$state.isOpen,
           selectedGroups = _this$state.selectedGroups,
           toggleSelector = this.toggleSelector,
@@ -80084,8 +80140,6 @@ var TargetAgeGroups = /*#__PURE__*/function (_React$Component) {
       });
       var showTable = selectedGroups.length >= 1 && !isOpen;
       var buttonText = showTable ? targetGroupLabels.join(', ') : 'Select';
-      var urban = random(25, 75);
-      var rural = 100 - urban;
       return groups ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Select target age groups"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "statistic__details",
         onClick: toggleSelector
@@ -80093,9 +80147,9 @@ var TargetAgeGroups = /*#__PURE__*/function (_React$Component) {
         onSubmit: submitForm
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "form-group select-multiple"
-      }, groups.map(function (_ref2) {
-        var key = _ref2.key,
-            label = _ref2.label;
+      }, groups.map(function (_ref) {
+        var key = _ref.key,
+            label = _ref.label;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "multiple-choice",
           key: key
@@ -80113,27 +80167,18 @@ var TargetAgeGroups = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "g-button",
         type: "submit"
-      }, "Confirm")), showTable && renderTable({
-        population: random(200, 400),
-        cpi: random(100, 300),
-        urban: urban,
-        rural: rural,
-        female: random(30, 80),
-        male: random(30, 80),
-        internet: random(50, 75),
-        targetPopulation: random(200, 300)
-      })) : null;
+      }, "Confirm")), showTable && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_2__["default"], data)) : null;
     }
   }]);
 
-  return TargetAgeGroups;
+  return TargetAgeGroupInsights;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-function createTargetAgeGroups(_ref3) {
-  var element = _ref3.element,
-      params = _objectWithoutProperties(_ref3, ["element"]);
+function createTargetAgeGroupInsights(_ref2) {
+  var element = _ref2.element,
+      params = _objectWithoutProperties(_ref2, ["element"]);
 
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TargetAgeGroups, params), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TargetAgeGroupInsights, params), element);
 }
 
 
