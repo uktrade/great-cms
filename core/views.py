@@ -237,4 +237,4 @@ class CreateTokenView(generics.GenericAPIView):
         ciphertext = fern.encrypt(plaintext)
 
         return Response(f'Access valid until: {plaintext}. Please use the following URL to give access to the user:  '
-                        f'http://{base_url}/?enc={ciphertext}')
+                        f'{base_url}/markets?enc={ciphertext}')
