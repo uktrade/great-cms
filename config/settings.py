@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
     'wagtail.contrib.routable_page',
+    'wagtailimportexport',
 
     'wagtailmedia',
     'wagtailcache',
@@ -63,8 +64,7 @@ INSTALLED_APPS = [
     'domestic',
     'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
-    'learn.apps.LearnConfig',
-    'wagtailimportexport'
+    'learn.apps.LearnConfig'
 ]
 
 MIDDLEWARE = [
