@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { TextArea } from '../Field'
 import EducationalMomentTooltip from '../../EducationalMomentTooltip'
-import './FieldWithExample.scss'
 
 const FieldWithExample = ({
   name,
@@ -17,8 +16,8 @@ const FieldWithExample = ({
   const labelId = `id_${name}`
 
   return (
-    <div className='great-mvp-tooltip'>
-      <label htmlFor={labelId} className='great-mvp-field-label'>{label}</label>
+    <div className='field-with-example'>
+      <label htmlFor={labelId}>{label}</label>
       { tooltip &&
           <EducationalMomentTooltip
             heading=''
@@ -27,7 +26,7 @@ const FieldWithExample = ({
             type='LEFT'
           />
       }
-      <dl className='great-mvp-field-example'>
+      <dl>
         <dt>Example</dt>
         <dd>{placeholder}</dd>
       </dl>

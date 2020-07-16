@@ -44,7 +44,7 @@ class BrandAndProductForm extends React.Component {
   }
 
   formatData(data) {
-    return { brand_product_details: data }
+    return { [this.props.field] : data }
   }
 
   bindEvents() {
@@ -118,6 +118,7 @@ BrandAndProductForm.propTypes = {
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
   })).isRequired,
+  field: PropTypes.string.isRequired,
   formData: PropTypes.objectOf(PropTypes.string).isRequired,
 }
 
