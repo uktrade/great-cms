@@ -131,14 +131,6 @@ class ExportPlanBrandAndProductView(FormContextMixin, ExportPlanSectionView, For
     form_class = forms.ExportPlanBrandAndProductForm
     success_url = reverse_lazy('exportplan:brand-and-product')
 
-    def form_valid(self, form):
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.export_plan['pk'],
-            data={'brand_product_details': form.cleaned_data}
-        )
-        return super().form_valid(form)
-
 
 class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
 
@@ -147,14 +139,6 @@ class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionVie
 
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
-
-    def form_valid(self, form):
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.export_plan['pk'],
-            data={'target_markets_research': form.cleaned_data}
-        )
-        return super().form_valid(form)
 
 
 class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):
