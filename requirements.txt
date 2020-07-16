@@ -91,6 +91,7 @@ user-agents==2.1          # via wagtail-personalisation
 w3lib==1.22.0             # via directory-client-core
 wagtail-cache==1.0.0      # via -r requirements.in
 wagtail-factories==2.0.0  # via -r requirements.in
+wagtail-import-export==0.2  # via -r requirements.in
 wagtail-personalisation==0.14.0  # via -r requirements.in
 wagtail==2.9              # via -r requirements.in, wagtail-cache, wagtail-factories, wagtail-personalisation, wagtailfontawesome, wagtailmedia
 wagtailfontawesome==1.2.1  # via -r requirements.in, wagtail-personalisation

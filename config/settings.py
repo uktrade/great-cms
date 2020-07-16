@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
     'wagtail.contrib.routable_page',
+    'wagtailimportexport',
 
     'wagtailmedia',
     'wagtailcache',
