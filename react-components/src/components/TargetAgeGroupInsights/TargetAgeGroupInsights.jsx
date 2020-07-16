@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './TargetAgeGroupInsights.scss'
 
 import Table from './Table'
+import Services from '@src/Services'
 
 // mock endpoint until real endpoint created
 function mockEndpoint(selectedGroups, cb) {
@@ -12,7 +13,6 @@ function mockEndpoint(selectedGroups, cb) {
     return Math.floor(Math.random() * (max - min)) + min
   }
 
-  console.log('selectedGroups===', selectedGroups)
   const data = {
     population: random(200, 400),
     cpi: random(100, 300),
@@ -53,6 +53,10 @@ class TargetAgeGroupInsights extends React.Component {
         data
       })
     })
+
+    // Services.getMarketingCountryData(this.state.selectedGroups)
+    //   .then((data) => console.log(data))
+    //   .catch((error) => console.log(error))
   }
 
   handleChange = (event) => {
