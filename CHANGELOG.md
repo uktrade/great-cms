@@ -1,5 +1,7 @@
 # Changelog
 - AA-129 - Beta environment for GREAT.gov
+- AA-129 - wagtail import export for Beta environment
+
 ## Pre-release
 - GP2-218 - Image and media surfacing from CMS modules
 
