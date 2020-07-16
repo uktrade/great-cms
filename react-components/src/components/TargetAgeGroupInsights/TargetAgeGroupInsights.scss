@@ -1,0 +1,17 @@
+.target-age-group-insights {
+  figcaption {
+    position: relative;
+  }
+
+  .educational-moment--tooltip-container {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+  }
+
+  &__source {
+    color: #888;
+    font-size: 12px;
+    margin-top: 16px;
+  }
+}

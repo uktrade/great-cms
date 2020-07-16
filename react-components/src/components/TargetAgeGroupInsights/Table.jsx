@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import EducationalMomentTooltip from '../EducationalMomentTooltip'
+
 export default function Table({ population, cpi, urban, rural, female, male, internet, targetPopulation }) {
   return (
-    <div className="m-t-m">
+    <div className="target-age-group-insights m-t-m">
       <div className="grid">
         {population && (
           <div className="c-1-4">
@@ -34,6 +36,7 @@ export default function Table({ population, cpi, urban, rural, female, male, int
             <figure className="statistic">
               <figcaption>
                 <p className="statistic__caption">Consumer Price Index</p>
+                <EducationalMomentTooltip id={`cpi-tooltip`} heading="What is CPI?" description="Explanation of CPI" />
               </figcaption>
               <p className="statistic__figure">
                 <span className="statistic__details">{cpi}</span>
@@ -120,6 +123,13 @@ export default function Table({ population, cpi, urban, rural, female, male, int
           </figure>
         </div>
       </div>
+
+      <hr className="m-t-0 m-b-0" />
+      <p className="target-age-group-insights__source">
+        Source
+        <br />
+        CIA factbook
+      </p>
     </div>
   )
 }
