@@ -50,7 +50,11 @@ export default function Table({
             <figure className="statistic">
               <figcaption>
                 <p className="statistic__caption">Consumer Price Index</p>
-                <EducationalMomentTooltip id={`cpi-tooltip`} heading="What is CPI?" description="Explanation of CPI" />
+                <EducationalMomentTooltip
+                  id={`corruption-perception-index-tooltip`}
+                  heading="What is the Consumer Price Index?"
+                  description="The CPI measures the average change in prices over time that consumers pay for a basket of goods and services for their household, this is also known as inflation. It is used to estimate the change in total cost of this basket and the effect this has on the purchasing power of the country’s unit of currency."
+                />
               </figcaption>
               <p className="statistic__figure">
                 <span className="statistic__details">{cpi}</span>
