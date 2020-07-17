@@ -67,7 +67,8 @@ class TargetAgeGroupInsights extends React.Component {
     return groups ? (
       <div className="target-age-group-insights">
         <h3 className="target-age-group-insights__heading">Select target age groups</h3>
-        <button className="target-age-group-insights__select-button" onClick={toggleSelector}>
+        <button className="target-age-group-insights__select-button m-t-xs" onClick={toggleSelector}>
+          <span className="fa fa-chevron-circle-down"></span>
           {buttonText}
         </button>
         {isOpen && (

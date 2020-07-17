@@ -1761,7 +1761,7 @@ html,body,div,span,object,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,addr
 
 .great-mvp-tour-button{font-size:19px;color:#fff;font-size:16px;font-weight:bold;line-height:19px;text-align:center;border-radius:4px;background-color:#606060;border:none;cursor:pointer}
 
-.target-age-group-insights .educational-moment--tooltip-container{margin-top:-33px;margin-right:-8px;float:right}.target-age-group-insights__select-button{font-size:24px;font-weight:600}.target-age-group-insights__source{color:#888;font-size:12px;margin-top:16px}.target-age-group-insights label{font-size:24px;font-weight:600;line-height:30px;padding-left:20px}.target-age-group-insights .multiple-choice [type='checkbox']+label::before{background:#fff;width:25px;height:25px}.target-age-group-insights .multiple-choice [type='checkbox']+label::after{border-width:0 0 4px 4px;width:10px;height:5px;top:9px;left:8px}
+.target-age-group-insights .educational-moment--tooltip-container{margin-top:-33px;margin-right:-8px;float:right}.target-age-group-insights__select-button{font-size:24px;font-weight:600}.target-age-group-insights__select-button span{margin-right:10px}.target-age-group-insights__source{color:#888;font-size:12px;margin-top:16px}.target-age-group-insights label{font-size:24px;font-weight:600;line-height:30px;padding-left:20px}.target-age-group-insights .multiple-choice [type='checkbox']+label::before{background:#fff;width:25px;height:25px}.target-age-group-insights .multiple-choice [type='checkbox']+label::after{border-width:0 0 4px 4px;width:10px;height:5px;top:9px;left:8px}
 
 .educational-moment__button-image{width:25px;height:auto}.educational-moment__paragraph{display:inline}.educational-moment{display:inline-block;vertical-align:middle}
 

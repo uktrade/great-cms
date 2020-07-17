@@ -8,6 +8,10 @@
   &__select-button {
     font-size: 24px;
     font-weight: 600;
+
+    span {
+      margin-right: 10px;
+    }
   }
 
   &__source {
