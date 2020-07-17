@@ -65,14 +65,14 @@ class TargetAgeGroupInsights extends React.Component {
     const buttonText = showTable ? targetGroupLabels.join(', ') : 'Select'
 
     return groups ? (
-      <>
+      <div className="target-age-group-insights">
         <h3 className="target-age-group-insights__heading">Select target age groups</h3>
         <button className="target-age-group-insights__select-button" onClick={toggleSelector}>
           {buttonText}
         </button>
         {isOpen && (
           <form onSubmit={submitForm}>
-            <ul className="form-group select-multiple">
+            <ul className="form-group select-multiple m-b-0">
               {groups.map(({ key, label }) => (
                 <li className="multiple-choice" key={key}>
                   <input
@@ -90,13 +90,13 @@ class TargetAgeGroupInsights extends React.Component {
               ))}
             </ul>
 
-            <button className="g-button m-t-s" type="submit">
+            <button className="dark-button m-t-s" type="submit">
               Confirm
             </button>
           </form>
         )}
         {showTable && <Table {...data} />}
-      </>
+      </div>
     ) : null
   }
 }
