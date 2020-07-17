@@ -3,7 +3,19 @@ import PropTypes from 'prop-types'
 
 import EducationalMomentTooltip from '../EducationalMomentTooltip'
 
-export default function Table({ population, cpi, urban, rural, female, male, internet, targetPopulation }) {
+export default function Table({
+  population,
+  cpi,
+  urban,
+  rural,
+  female,
+  male,
+  internet_percentage,
+  internet_total,
+  target_population,
+  target_population_percentage,
+  languages
+}) {
   return (
     <div className="target-age-group-insights m-t-m">
       <div className="grid">
@@ -19,14 +31,16 @@ export default function Table({ population, cpi, urban, rural, female, male, int
             </figure>
           </div>
         )}
-        {internet && (
+        {internet_percentage && internet_total && (
           <div className="c-1-4">
             <figure className="statistic">
               <figcaption>
                 <p className="statistic__caption">Access to internet</p>
               </figcaption>
               <p className="statistic__figure">
-                <span className="statistic__details">{internet}% (312.32 million)</span>
+                <span className="statistic__details">
+                  {internet_percentage}% ({internet_total} million)
+                </span>
               </p>
             </figure>
           </div>
@@ -44,14 +58,16 @@ export default function Table({ population, cpi, urban, rural, female, male, int
             </figure>
           </div>
         )}
-        {targetPopulation && (
+        {target_population && target_population_percentage && (
           <div className="c-1-4">
             <figure className="statistic">
               <figcaption>
                 <p className="statistic__caption">Target age population</p>
               </figcaption>
               <p className="statistic__figure">
-                <span className="statistic__details">{targetPopulation} million (100%)</span>
+                <span className="statistic__details">
+                  {target_population} million ({target_population_percentage}%)
+                </span>
               </p>
             </figure>
           </div>
@@ -111,18 +127,20 @@ export default function Table({ population, cpi, urban, rural, female, male, int
         )}
       </div>
 
-      <div className="grid">
-        <div className="c-1-2">
-          <figure className="statistic">
-            <figcaption>
-              <p className="statistic__caption">Language</p>
-            </figcaption>
-            <p className="statistic__figure">
-              <span className="statistic__details">Dutch (official); Frisian, Low Saxon,</span>
-            </p>
-          </figure>
+      {languages && (
+        <div className="grid">
+          <div className="c-1-2">
+            <figure className="statistic">
+              <figcaption>
+                <p className="statistic__caption">Language</p>
+              </figcaption>
+              <p className="statistic__figure">
+                <span className="statistic__details">{languages}</span>
+              </p>
+            </figure>
+          </div>
         </div>
-      </div>
+      )}
 
       <hr className="m-t-0 m-b-0" />
       <p className="target-age-group-insights__source">

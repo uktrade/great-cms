@@ -54,8 +54,8 @@ const getCountryData = function(country) {
   return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
-const getMarketingCountryData = function(ranges) {
-  return get(config.marketingCountryData, { ranges: ranges }).then((response) => responseHandler(response).json())
+const getMarketingCountryData = function(data) {
+  return get(config.marketingCountryData, data).then((response) => responseHandler(response).json())
 }
 
 const removeSector = function() {

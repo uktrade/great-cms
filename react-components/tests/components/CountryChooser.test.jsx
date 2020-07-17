@@ -19,11 +19,14 @@ it('shows the select component on click', () => {
   const countryList = [
     { value: 'Australia', label: 'Australia' },
     { value: 'India', label: 'India' },
-    { value: 'Japan', label: 'Japan' },
+    { value: 'Japan', label: 'Japan' }
   ]
 
   act(() => {
-    ReactDOM.render(<CountryChooser countryList={countryList} selectedCountries={[]} addCountry={function(){}} />, container)
+    ReactDOM.render(
+      <CountryChooser countryList={countryList} selectedCountries={[]} addCountry={function() {}} />,
+      container
+    )
   })
 
   expect(container.querySelector('#country-autocomplete')).toBeFalsy()

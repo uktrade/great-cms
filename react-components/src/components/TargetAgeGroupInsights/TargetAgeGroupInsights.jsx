@@ -4,29 +4,7 @@ import './TargetAgeGroupInsights.scss'
 
 import Table from './Table'
 import Services from '@src/Services'
-
-// mock endpoint until real endpoint created
-function mockEndpoint(selectedGroups, cb) {
-  function random(min, max) {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min)) + min
-  }
-
-  const data = {
-    population: random(200, 400),
-    cpi: random(100, 300),
-    urban: 50,
-    rural: 50,
-    female: random(30, 80),
-    male: random(30, 80),
-    internet: random(50, 75),
-    targetPopulation: random(200, 300)
-  }
-  setTimeout(() => {
-    cb(data)
-  }, 100)
-}
+import { mapData } from './utils'
 
 class TargetAgeGroupInsights extends React.Component {
   constructor(props) {
@@ -47,30 +25,22 @@ class TargetAgeGroupInsights extends React.Component {
     event.preventDefault()
     this.toggleSelector()
 
-    // pass selected groups to endpoint
-    mockEndpoint(this.state.selectedGroups, (data) => {
-      this.setState({
-        data
-      })
-    })
-
-    // Services.getMarketingCountryData(this.state.selectedGroups)
-    //   .then((data) => console.log(data))
-    //   .catch((error) => console.log(error))
+    Services.getMarketingCountryData({ country: this.props.country, age_group_start: this.state.selectedGroups })
+      .then((data) =>
+        this.setState({
+          data: mapData(data)
+        })
+      )
+      .catch((error) => console.log(error))
   }
 
   handleChange = (event) => {
     const { selectedGroups } = this.state
     const value = event.target.value
     const isAlreadySelected = selectedGroups.find((group) => group === value)
-
-    let updatedSelectedGroups = []
-
-    if (isAlreadySelected) {
-      updatedSelectedGroups = selectedGroups.filter((group) => group !== value)
-    } else {
-      updatedSelectedGroups = [...selectedGroups, value]
-    }
+    const updatedSelectedGroups = isAlreadySelected
+      ? selectedGroups.filter((group) => group !== value)
+      : [...selectedGroups, value]
 
     this.setState({
       selectedGroups: updatedSelectedGroups
