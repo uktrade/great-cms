@@ -47,5 +47,5 @@ urlpatterns = [
     path('api/remove-country-data/', ajax.ExportPlanRemoveCountryDataView.as_view(), name='api-remove-country-data'),
     path('api/remove-sector/', ajax.ExportPlanRemoveSectorView.as_view(), name='api-remove-sector'),
     path('api/country-data/', ajax.ExportPlanCountryDataView.as_view(), name='api-country-data'),
-    path('api/marketing-country-data/', ajax.RetrieveMarketingCountryData.as_view(), name='api-marketing-country-data'),  
+    path('api/marketing-country-data/', ajax.RetrieveMarketingCountryData.as_view(), name='api-marketing-country-data'),
 ]
