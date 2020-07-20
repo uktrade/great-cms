@@ -123,8 +123,8 @@ class FormContextMixin:
         form_fields = [
             {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip, 'example': example,
              'description': description}
-            for name, label, placeholder, tooltip, example, description in zip(field_names, field_labels,
-            field_placeholders, field_tooltip, field_example, field_description)
+            for name, label, placeholder, tooltip, example, description in zip(
+                field_names, field_labels, field_placeholders, field_tooltip, field_example, field_description)
         ]
 
         context['form_initial'] = json.dumps(context['form'].initial)
