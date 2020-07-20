@@ -64,7 +64,7 @@ def click_through_page_tour(browser):
 
 @pytest.mark.django_db
 def test_export_plan_dashboard_click_through_page_tour(
-    server_user_browser_dashboard, 
+    server_user_browser_dashboard,
     mock_all_dashboard_and_export_plan_requests_and_responses,
     mock_get_company_profile_with_expertise
 ):

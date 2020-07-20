@@ -145,7 +145,14 @@ def visit_signup_page(live_server, browser, domestic_site_browser_tests):
 
 
 @pytest.fixture
-def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests, mock_get_has_visited_page, mock_set_user_page_view):
+def server_user_browser_dashboard(
+    mock_get_company_profile,
+    server_user_browser,
+    settings,
+    domestic_site_browser_tests,
+    mock_get_has_visited_page,
+    mock_set_user_page_view
+):
     live_server, user, browser = server_user_browser
 
     browser.get(f'{live_server.url}/dashboard/')
@@ -365,12 +372,6 @@ def mock_get_company_profile_with_expertise():
         'name': 'Example company',
     }
     with patch.object(sso_helpers, 'get_company_profile', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
-def mock_get_has_visited_page():
-    with patch.object(sso_helpers, 'has_visited_page', return_value=None) as patched:
         yield patched
 
 

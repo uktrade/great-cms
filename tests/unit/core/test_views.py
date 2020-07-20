@@ -11,7 +11,6 @@ from django.db.utils import DataError
 from django.urls import reverse
 
 from core import forms, helpers, models, serializers, views
-from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
 from tests.unit.learn.factories import LessonPageFactory
