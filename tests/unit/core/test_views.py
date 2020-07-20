@@ -11,6 +11,7 @@ from django.db.utils import DataError
 from django.urls import reverse
 
 from core import forms, helpers, models, serializers, views
+from sso import helpers as sso_helpers
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
 from tests.unit.learn.factories import LessonPageFactory
@@ -128,6 +129,8 @@ def test_api_update_company_not_logged_in(client, company_data):
 def test_dashboard_page_logged_in(
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
+    patch_set_user_page_view,
+    patch_has_visited_page,
     mock_get_company_profile,
     client,
     user
@@ -149,6 +152,8 @@ def test_dashboard_page_logged_in(
 def test_dashboard_page_lesson_progress(
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
+    patch_set_user_page_view,
+    patch_has_visited_page,
     mock_get_company_profile,
     client,
     user,

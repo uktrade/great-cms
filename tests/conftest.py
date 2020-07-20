@@ -241,6 +241,16 @@ def patch_get_dashboard_export_opportunities():
     yield mock.patch('core.helpers.get_dashboard_export_opportunities', return_value=None)
 
 
+@pytest.fixture
+def patch_has_visited_page():
+    yield mock.patch('sso.helpers.has_visited_page', return_value=None).start()
+
+
+@pytest.fixture
+def patch_set_user_page_view():
+    yield mock.patch('sso.helpers.set_user_page_view', return_value=None).start()
+
+
 @pytest.fixture(autouse=True)
 def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     yield patch_get_dashboard_export_opportunities.start()
