@@ -40,8 +40,6 @@ class DashboardView(TemplateView):
             .order_by('-read_progress')
         )
 
-        # self.request.user.update_user_profile({'job_title':'IT God2'})
-        # See if page has been visited, and mark it as such for next time
         visited_already = self.request.user.has_visited_page(self.page_name)
         self.request.user.set_page_view(self.page_name)
 
