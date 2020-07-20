@@ -174,7 +174,7 @@ export default class SectorChooser extends React.Component {
           <button
             id="sector-chooser-button"
             type="button"
-            className="button--plus"
+            className="icon--plus"
             onClick={this.showSectorList}
             onMouseOver={this.handleMouseOver}
             onFocus={this.handleMouseOver}

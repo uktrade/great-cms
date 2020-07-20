@@ -16,6 +16,16 @@ def brand_product_form_data():
 
 
 @pytest.fixture
+def target_markets_research_data():
+    return {
+        'demand': 'Lorem ipsum',
+        'competitors': 'Dolor sit amet',
+        'trend': 'Consectetur adipisicing elit',
+        'unqiue_selling_proposition': 'Sed do eiusmod tempor',
+    }
+
+
+@pytest.fixture
 def objectives_form_data():
     return {
         'rational': 'Lorem ipsum',
@@ -51,10 +61,38 @@ def test_brand_product_form_empty_fields():
     assert form.is_valid()
 
 
+def test_target_markets_research_form_valid(target_markets_research_data):
+    form = forms.ExportPlanBrandAndProductForm(
+        data=target_markets_research_data
+    )
+    assert form.is_valid()
+
+
+def test_target_markets_research_missing_fields():
+    form = forms.ExportPlanBrandAndProductForm(
+        data={
+            'demand': 'Lorem ipsum',
+            'competitors': 'Dolor sit amet',
+        }
+    )
+    assert form.is_valid()
+
+
+def test_target_markets_research_form_empty_fields():
+    form = forms.ExportPlanTargetMarketsResearchForm(
+        data={
+            'demand': '',
+            'competitors': '',
+            'trend': '',
+            'unqiue_selling_proposition': '',
+        }
+    )
+    assert form.is_valid()
+
+
 @pytest.mark.django_db
-@patch.object(helpers, 'update_exportplan')
 @patch.object(helpers, 'get_or_create_export_plan')
-def test_brand_product_form_view(mock_get_export_plan, mock_update_exportplan, brand_product_form_data, client, user):
+def test_brand_product_form_view(mock_get_export_plan, brand_product_form_data, client, user):
     mock_get_export_plan.return_value = {'pk': 1, 'brand_product_details': brand_product_form_data}
     url = reverse('exportplan:brand-and-product')
     client.force_login(user)
@@ -64,18 +102,14 @@ def test_brand_product_form_view(mock_get_export_plan, mock_update_exportplan, b
 
 
 @pytest.mark.django_db
-@patch.object(helpers, 'update_exportplan')
 @patch.object(helpers, 'get_or_create_export_plan')
-def test_brand_product_form_view_submission(
-    mock_get_export_plan, mock_update_exportplan, brand_product_form_data, client, user
-):
-    url = reverse('exportplan:brand-and-product')
+def test_traget_markets_research_form_view(mock_get_export_plan, target_markets_research_data, client, user):
+    mock_get_export_plan.return_value = {'pk': 1, 'target_markets_research': target_markets_research_data}
+    url = reverse('exportplan:target-markets-research')
     client.force_login(user)
-    response = client.post(url, brand_product_form_data)
+    response = client.get(url)
 
-    assert mock_update_exportplan.call_count == 1
-    assert response.status_code == 302
-    assert response.url == url
+    assert response.status_code == 200
 
 
 def test_objectives_form_valid(objectives_form_data):
@@ -105,7 +139,11 @@ def test_objectives_form_empty_fields():
 @patch.object(helpers, 'update_exportplan')
 @patch.object(helpers, 'get_or_create_export_plan')
 def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, objectives_form_data, client, user):
-    mock_get_export_plan.return_value = {'pk': 1, **objectives_form_data}
+    mock_get_export_plan.return_value = {
+        'pk': 1,
+        **objectives_form_data,
+        'company_objectives': [],
+    }
     url = reverse('exportplan:objectives')
     client.force_login(user)
     response = client.get(url)

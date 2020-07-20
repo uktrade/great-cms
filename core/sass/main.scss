@@ -64,6 +64,7 @@ $asset-root: '/static/images/';
 @import 'components/forms';
 @import 'components/statistics';
 @import 'components/progress-wizard';
+@import 'components/field-with-example';
 
 @import 'base';
 @import 'overrides';
@@ -72,5 +73,6 @@ $asset-root: '/static/images/';
 // Pages
 @import 'exportplan/dashboard';
 @import 'exportplan/sections';
+@import 'exportplan/objectives';
 @import 'learn/base';
 @import 'exportplan/builder';

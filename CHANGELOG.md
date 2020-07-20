@@ -1,9 +1,12 @@
 # Changelog
+- AA-129 - wagtail import export for Beta environment
 
 ## Pre-release
+- GP2-218 - Image and media surfacing from CMS modules
 
 ### Fixed bugs
 - GP-96 - HS Codes saved in DirectoryAPI
+- GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
@@ -13,6 +16,8 @@
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 - MVP-579 - create export plan cms page
 - GP2-67 - fix backbutton upload logo
+- GP2-170 - business performance
+
 
 ### Implemented enhancements
 
@@ -118,3 +123,4 @@
 - GP2-120 - Fix numbers on curated list page
 - GP2-163 - Show estimated reading time for lesson
 - no-ticket - Migrate to codecov remove coveralls
+- no-ticket - Bump django version to 2.2.14

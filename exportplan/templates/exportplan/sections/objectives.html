@@ -40,7 +40,29 @@
       </div>
     </section>
 
-    <input type="submit" class="g-button" value="Save">
+    <hr>
+    <section class="container m-b-m m-t-l">
+      <div class="grid">
+        <div class="c-1-3">&nbsp;</div>
+        <div class="c-1-2">
+          <h2 class="h-l">Why we want to export</h2>
+          <p>What do you want to accomplish and by when?</p>
+          <div class="g-panel">
+            <p>You’ll want to ensure objectives are specific, measurable and realistic and include time periods or dates. For example:</p>
+            <ul class="list-bullet">
+              <li>increase sales by 10% over 5 years</li>
+              <li>target and enter 3 new markets by 2023</li>
+            </ul>
+            <p><a href="#">See examples</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="container section--with-sidebar">
+
+      <div id="objectives-form--objectives">
+        <input type="submit" class="g-button" value="Save">
+      </div>
   </form>
 </div>
 {% endblock %}
@@ -48,11 +70,17 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('objectives-form--rationale');
+    var rationale = document.getElementById('objectives-form--rationale');
     ditMVP.createBusinessRationale({
-      element: element,
+      element: rationale,
       formData: {{ form_initial|safe }},
       formFields: {{ form_fields|safe }},
+    })
+    var objectives = document.getElementById('objectives-form--objectives');
+    ditMVP.createObjectivesList({
+      element: objectives,
+      objectives: {{ objectives|safe }},
+      exportPlanID: {{ export_plan.pk }}
     })
   </script>
   <script type="text/javascript" src="{% static 'js/auto-resize-textarea.js'%}"></script>
