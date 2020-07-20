@@ -20,7 +20,7 @@
 
 
 ### Implemented enhancements
-
+- GP2-207 - Welcome back message
 - GP2-23 - Modules - not started
 - GP2-31 - Count of topics and lessons in a module
 - GP2-73 - Module landing page - topics & lessons
