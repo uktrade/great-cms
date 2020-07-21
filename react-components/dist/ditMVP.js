@@ -77647,11 +77647,12 @@ var BrandAndProductForm = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (field) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_6__["default"], {
           tooltip: field.tooltip,
-          placeholder: field.placeholder,
           label: field.label,
+          example: field.example,
           key: field.name,
           name: field.name,
           value: formData[field.name],
+          description: field.description,
           handleChange: _this3.handleChange
         });
       }), saveIndicator, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -78649,25 +78650,31 @@ var FieldWithExample = function FieldWithExample(_ref) {
   var name = _ref.name,
       label = _ref.label,
       placeholder = _ref.placeholder,
+      example = _ref.example,
       tooltip = _ref.tooltip,
       handleChange = _ref.handleChange,
-      value = _ref.value;
+      value = _ref.value,
+      description = _ref.description;
   var labelId = "id_".concat(name);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "field-with-example"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: labelId
-  }, label), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, label), description && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, description), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
     heading: "",
     description: tooltip,
     id: 34,
     type: "LEFT"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", null, "Example"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", null, placeholder)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Field__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
+  }), example && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", null, "Example"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", {
+    dangerouslySetInnerHTML: {
+      __html: example
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Field__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
     id: labelId,
     disabled: false,
     name: name,
     handleChange: handleChange,
-    placeholder: "Add some text",
+    placeholder: placeholder,
     value: value
   }));
 };
@@ -78675,14 +78682,18 @@ var FieldWithExample = function FieldWithExample(_ref) {
 FieldWithExample.propTypes = {
   name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 FieldWithExample.defaultProps = {
-  placeholder: '',
-  tooltip: ''
+  placeholder: 'Add some text',
+  tooltip: '',
+  example: '',
+  description: ''
 };
 /* harmony default export */ __webpack_exports__["default"] = (FieldWithExample);
 

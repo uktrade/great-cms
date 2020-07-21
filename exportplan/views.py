@@ -112,9 +112,19 @@ class FormContextMixin:
             field.widget.attrs.get('tooltip', '') for field in self.form_class.base_fields.values()
         ]
 
+        field_example = [
+            field.widget.attrs.get('example', '') for field in self.form_class.base_fields.values()
+        ]
+
+        field_description = [
+            field.widget.attrs.get('description', '') for field in self.form_class.base_fields.values()
+        ]
+
         form_fields = [
-            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip}
-            for name, label, placeholder, tooltip in zip(field_names, field_labels, field_placeholders, field_tooltip)
+            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip, 'example': example,
+             'description': description}
+            for name, label, placeholder, tooltip, example, description in zip(
+                field_names, field_labels, field_placeholders, field_tooltip, field_example, field_description)
         ]
 
         context['form_initial'] = json.dumps(context['form'].initial)

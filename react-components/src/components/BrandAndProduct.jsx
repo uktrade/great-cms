@@ -97,11 +97,12 @@ class BrandAndProductForm extends React.Component {
         {formFields.map(field => (
             <FieldWithExample
               tooltip={field.tooltip}
-              placeholder={field.placeholder}
               label={field.label}
+              example={field.example}
               key={field.name}
               name={field.name}
               value={formData[field.name]}
+              description={field.description}
               handleChange={this.handleChange}
             />
           ))}
