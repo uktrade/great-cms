@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { TextArea } from '../Field'
+import { TextArea, TextInput } from '../Field'
 import EducationalMomentTooltip from '../../EducationalMomentTooltip'
 
 const FieldWithExample = ({
+  tag,
   name,
   label,
   placeholder,
@@ -12,9 +13,11 @@ const FieldWithExample = ({
   tooltip,
   handleChange,
   value,
-  description
+  description,
+  currency
 }) => {
 
+  const InputTag = tag === 'number' ? TextInput : TextArea
   const labelId = `id_${name}`
 
   return (
@@ -36,14 +39,18 @@ const FieldWithExample = ({
             <dd dangerouslySetInnerHTML={{ __html: example }} />
           </dl>
       }
-      <TextArea
-        id={labelId}
-        disabled={false}
-        name={name}
-        handleChange={handleChange}
-        placeholder={placeholder}
-        value={value}
-      />
+      <>
+        { currency && <span className='m-r-xxs'>{currency}</span> }
+        <InputTag
+          id={labelId}
+          disabled={false}
+          name={name}
+          handleChange={handleChange}
+          placeholder={placeholder}
+          value={value}
+          type='number'
+        />
+      </>
     </div>
   )
 }
@@ -56,14 +63,18 @@ FieldWithExample.propTypes = {
   tooltip: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  description: PropTypes.string
+  description: PropTypes.string,
+  tag: PropTypes.string,
+  currency: PropTypes.string
 }
 
 FieldWithExample.defaultProps = {
   placeholder: 'Add some text',
   tooltip: '',
   example: '',
-  description: ''
+  description: '',
+  tag: 'text',
+  currency: ''
 }
 
 export default FieldWithExample

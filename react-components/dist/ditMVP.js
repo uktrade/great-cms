@@ -78647,14 +78647,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var FieldWithExample = function FieldWithExample(_ref) {
-  var name = _ref.name,
+  var tag = _ref.tag,
+      name = _ref.name,
       label = _ref.label,
       placeholder = _ref.placeholder,
       example = _ref.example,
       tooltip = _ref.tooltip,
       handleChange = _ref.handleChange,
       value = _ref.value,
-      description = _ref.description;
+      description = _ref.description,
+      currency = _ref.currency;
+  var InputTag = tag === 'number' ? _Field__WEBPACK_IMPORTED_MODULE_2__["TextInput"] : _Field__WEBPACK_IMPORTED_MODULE_2__["TextArea"];
   var labelId = "id_".concat(name);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "field-with-example"
@@ -78669,14 +78672,17 @@ var FieldWithExample = function FieldWithExample(_ref) {
     dangerouslySetInnerHTML: {
       __html: example
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Field__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, currency && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "m-r-xxs"
+  }, currency), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InputTag, {
     id: labelId,
     disabled: false,
     name: name,
     handleChange: handleChange,
     placeholder: placeholder,
-    value: value
-  }));
+    value: value,
+    type: "number"
+  })));
 };
 
 FieldWithExample.propTypes = {
@@ -78687,13 +78693,17 @@ FieldWithExample.propTypes = {
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  tag: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 FieldWithExample.defaultProps = {
   placeholder: 'Add some text',
   tooltip: '',
   example: '',
-  description: ''
+  description: '',
+  tag: 'text',
+  currency: ''
 };
 /* harmony default export */ __webpack_exports__["default"] = (FieldWithExample);
 
