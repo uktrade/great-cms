@@ -2,38 +2,53 @@
 
 {% load intcomma from humanize %}
 {% block intro_content %}
-<h1 class="h-xl">Marketing approach</h1>
+<h1 class="export-plan-heading h-xl">Marketing approach!</h1>
 <p>There are many ways to market your product or service. Learn to assess the different options to ensure you find the best one for maximising your business.</p>
 {% endblock %}
 
 {% block main_content %}
-<p>For each market and product or service, consider the methods and channels you’ll use to get your goods to the market (for example direct selling or franchising, or through an online marketplace or social media). Record how you’ll get people to know about your offer, and the budget and resource you’ll need to allocate to this.</p>
-<p>Again, you might want to record this in a grid to present the facts clearly.</p>
-<p><a href="#">See examples</a></p>
-{% if country %}
-    <h3 class="h-m">Demographic Content personalised for {{ country.name }}</h3>
 
-    <p>{{ country.name }} for {{ country.year_population }} has a total estimated population of {{ country.population|intcomma }}, in {{ country.year_population }} this was split with {{ country.urban_percentage }}% being in Urban areas and {{ country.rural_percentage }}% in Rural areas.</p>
+<div class="text-inset">
+  <p>Ways you can sell your product to customers include:</p>
+  <ul class="list-bullet">
+    <li>selling direct</li>
+    <li>online marketplaces</li>
+    <li>licensing or franchising your product</li>
+  </ul>
+  <p>In this section you’ll be able to set out:</p>
+  <ul class="list-bullet">
+    <li>the best ways get your product to customers</li>
+    <li>how you’ll promote your product</li>
+    <li>what help you’ll need with marketing activity</li>
+    <li>how much it’s all going to cost</li>
+  </ul>
+</div>
 
-    <p>Urban locations are self defined by individual countries. They tend to be defined as areas with a higher density of people and buildings which generally suggests a higher level of amenities and activity.</p>
-
-    <p>Based on your target demographic {{ age_range.age_range }} the estimated population is split into {{ age_range.population_female|intcomma }} Females and {{ age_range.population_male|intcomma }} Males.</p>
-
-    <p>From data in {{ country.year_income }} individuals in {{ country.name }} earn on average a national income of {{ country.average_income|intcomma }} in USD, for comparison an individual in the UK earns on average {{ united_kingdom.average_income|intcomma }} in USD.</p>
-
-    <p>Overall {{ country.name }} has a Consumer Price Index of {{ country.consumer_price_index }}, the higher this number the more it costs for individuals to purchase products in their own currency.</p>
-
-    <p>You may need to consider how your product is marketed based on the income, age and culture of your consumers.</p>
-{% endif %}
-
-<form method="get" enctype="multipart/form-data" novalidate="novalidate">
-    {{ form }}
-    <button type="submit" class="great-mvp-wizard-step-button m-b-s">Submit</button>
-</form>
-
+<h2 class="h-l">Who are the audience for your marketing and communication strategy in the Netherlands?</h2>
+<p>TODO</p>
 
 {% endblock %}
 
-
-{% block user_input %}
+{% block additional_content %}
+<hr class="m-t-0">
+<section class="container">
+  <div class="grid">
+    <div class="c-1-3">&nbsp;</div>
+    <div class="c-1-2">
+      <h2 class="h-l">How will you get your product to customers in the Netherlands?</h2>
+      <p>Make a list of the ways you’ll get your product to customers. You can choose more than one option.</p>
+      <p>TODO</p>
+    </div>
+  </div>
+</section>
+<hr class="m-t-0">
+<section class="container">
+  <div class="grid">
+    <div class="c-1-3">&nbsp;</div>
+    <div class="c-1-2">
+        <h2 class="h-m">What marketing resources do you need?</h2>
+        <p>TODO</p>
+    </div>
+  </div>
+</section>
 {% endblock %}
