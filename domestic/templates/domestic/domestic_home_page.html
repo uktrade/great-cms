@@ -1,1 +1,26 @@
-{% extends "core/base.html" %}
+{% extends 'core/base.html' %}
+{% load breadcrumbs from great_components %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% block content %}
+    <div id="great-hero" class="container p-s">
+        {% breadcrumbs page.title %}
+            <a href="{% url 'core:dashboard' %}">Home</a>
+        {% endbreadcrumbs %}
+    </div>
+
+    <div class="container">
+        <div class="grid m-b-s">
+            <div class="c-full">
+                <h3 class="h-l pb-xxs w-1-12-all">{{ page.title }}</h3>
+                {{ page.description|richtext }}
+                {% include_block page.button %}
+            </div>
+
+            <div class="c-1-2-l">
+                {% image page.image width-600 class="learn__single-category-image" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
