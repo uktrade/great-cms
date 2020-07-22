@@ -129,7 +129,7 @@ def test_dashboard_page_logged_in(
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
     patch_set_user_page_view,
-    patch_has_visited_page,
+    patch_get_user_page_views,
     mock_get_company_profile,
     client,
     user
@@ -152,7 +152,7 @@ def test_dashboard_page_lesson_progress(
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
     patch_set_user_page_view,
-    patch_has_visited_page,
+    patch_get_user_page_views,
     mock_get_company_profile,
     client,
     user,
@@ -203,6 +203,7 @@ def test_dashboard_page_lesson_progress(
 def test_dashboard_page_lesson_division_by_zero(
         mock_events_by_location_list,
         mock_export_opportunities_by_relevance_list,
+        patch_set_user_page_view,
         mock_get_company_profile,
         client,
         user,
@@ -222,7 +223,13 @@ def test_dashboard_page_lesson_division_by_zero(
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_ok(client, user, patch_get_dashboard_events, patch_get_dashboard_export_opportunities):
+def test_dashboard_apis_ok(
+    client,
+    user,
+    patch_get_dashboard_events,
+    patch_get_dashboard_export_opportunities,
+    patch_set_user_page_view
+):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
 
@@ -292,7 +299,13 @@ export-opportunities/opportunities/french-sardines-required',
 
 
 @pytest.mark.django_db
-def test_dashboard_apis_fail(client, user, patch_get_dashboard_events, patch_get_dashboard_export_opportunities):
+def test_dashboard_apis_fail(
+        client,
+        user,
+        patch_get_dashboard_events,
+        patch_get_dashboard_export_opportunities,
+        patch_set_user_page_view,
+):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
     with patch(

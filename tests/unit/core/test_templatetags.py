@@ -40,3 +40,15 @@ def test_pluralize(user, rf, domestic_site):
     for case in cases:
         html = template.render(Context({'value': case.get('value')}))
         assert html == case.get('result')
+
+
+@pytest.mark.django_db
+def test_tojson(user, rf, domestic_site):
+
+    template = Template(
+        '{% load to_json %}'
+        '{{ data|to_json }}'
+    )
+
+    html = template.render(Context({'data': {'thing1': 'one', 'thing2': 'two'}}))
+    assert html == '{"thing1": "one", "thing2": "two"}'

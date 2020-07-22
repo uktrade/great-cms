@@ -31,6 +31,10 @@ class ProfileUpdateFailure(APIException):
     pass
 
 
+class PageViewUpdateFailure(APIException):
+    pass
+
+
 def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
     for cookie in cookie_jar:
         if cookie.name in whitelist:
@@ -126,7 +130,7 @@ def update_user_profile(sso_session_id, data):
 def set_user_page_view(sso_session_id, page):
     response = sso_api_client.user.set_user_page_view(sso_session_id, SERVICE_NAME, page)
     if response.status_code in [400, 404]:
-        raise ProfileUpdateFailure(detail=response.json(), code=response.status_code)
+        raise PageViewUpdateFailure(detail=response.json(), code=response.status_code)
     response.raise_for_status()
     return response.json()
 
@@ -134,7 +138,7 @@ def set_user_page_view(sso_session_id, page):
 def get_user_page_views(sso_session_id, page=None):
     response = sso_api_client.user.get_user_page_views(sso_session_id, SERVICE_NAME, page)
     if response.status_code in [400, 404]:
-        raise ProfileUpdateFailure(detail=response.json(), code=response.status_code)
+        return None
     response.raise_for_status()
     return response.json()
 
