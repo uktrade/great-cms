@@ -8,9 +8,11 @@ const FieldWithExample = ({
   name,
   label,
   placeholder,
+  example,
   tooltip,
   handleChange,
-  value
+  value,
+  description
 }) => {
 
   const labelId = `id_${name}`
@@ -18,6 +20,7 @@ const FieldWithExample = ({
   return (
     <div className='field-with-example'>
       <label htmlFor={labelId}>{label}</label>
+      { description && <p>{description}</p> }
       { tooltip &&
           <EducationalMomentTooltip
             heading=''
@@ -26,16 +29,19 @@ const FieldWithExample = ({
             type='LEFT'
           />
       }
-      <dl>
-        <dt>Example</dt>
-        <dd>{placeholder}</dd>
-      </dl>
+      {
+        example &&
+          <dl>
+            <dt>Example</dt>
+            <dd dangerouslySetInnerHTML={{ __html: example }} />
+          </dl>
+      }
       <TextArea
         id={labelId}
         disabled={false}
         name={name}
         handleChange={handleChange}
-        placeholder='Add some text'
+        placeholder={placeholder}
         value={value}
       />
     </div>
@@ -45,15 +51,19 @@ const FieldWithExample = ({
 FieldWithExample.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  example: PropTypes.string,
   placeholder: PropTypes.string,
   tooltip: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  description: PropTypes.string
 }
 
 FieldWithExample.defaultProps = {
-  placeholder: '',
-  tooltip: ''
+  placeholder: 'Add some text',
+  tooltip: '',
+  example: '',
+  description: ''
 }
 
 export default FieldWithExample
