@@ -24,6 +24,7 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
     competitors = serializers.CharField(required=False, allow_blank=True)
     trend = serializers.CharField(required=False, allow_blank=True)
     unqiue_selling_proposition = serializers.CharField(required=False, allow_blank=True)
+    average_price = serializers.IntegerField()
 
 
 class ExportPlanSerializer(serializers.Serializer):
