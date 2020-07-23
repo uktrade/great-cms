@@ -4,23 +4,14 @@
 {% load wagtailimages_tags %}
 {% load static %}
 {% block content %}
-    <div id="great-hero" class="container p-s">
-        {% breadcrumbs page.title %}
-            <a href="{% url 'core:dashboard' %}">Home</a>
-        {% endbreadcrumbs %}
-    </div>
-
-    <div class="container">
-        <div class="grid m-b-s">
-            <div class="c-full">
-                <h3 class="h-l pb-xxs w-1-12-all">{{ page.title }}</h3>
-                {{ page.description|richtext }}
+    <section class="learn__page learn__home-page container" id="learn-root">
+        <div class="grid">
+            <div class="col-12 col-md-8">
+                <h1 class="h1">{{ page.title }}</h1>
+                 {% image page.image width-630%}
+                <p class="learn__wrapper--paragraph">{{ page.body | richtext }}</p>
                 {% include_block page.button %}
             </div>
-
-            <div class="c-1-2-l">
-                {% image page.image width-600 class="learn__single-category-image" %}
-            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

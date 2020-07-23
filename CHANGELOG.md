@@ -1,6 +1,7 @@
 # Changelog
 
 - AA-129 - wagtail import export for Beta environment
+- GP2-270 - Homepage editable
 
 ## Pre-release
 

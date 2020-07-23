@@ -1,4 +1,3 @@
-from wagtail.core.models import Page
 from django.db import models
 
 from core import mixins
@@ -19,7 +18,7 @@ class DomesticHomePage(
     mixins.AnonymousUserRequired,
     Page,
 ):
-    description = RichTextField(null=True, blank=True)
+    body = RichTextField(null=True, blank=True)
     button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
     image = models.ForeignKey(
         get_image_model_string(),
@@ -33,7 +32,7 @@ class DomesticHomePage(
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [
-        FieldPanel('description'),
+        FieldPanel('body'),
         StreamFieldPanel('button'),
         ImageChooserPanel('image')
     ]
