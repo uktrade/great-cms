@@ -10,7 +10,6 @@ airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.16     # via -r requirements_test.in
 allure-python-commons==2.8.16  # via allure-pytest
-appnope==0.1.0            # via ipython
 astroid==2.4.2            # via pylint
 attrs==19.3.0             # via allure-python-commons, jsonschema, pytest
 babel==2.8.0              # via sphinx
@@ -21,7 +20,7 @@ botocore==1.14.17         # via boto3, s3transfer
 certifi==2020.6.20        # via geventhttpclient, requests, sentry-sdk
 chardet==3.0.4            # via requests
 click==7.1.2              # via flask, pip-tools
-codecov==2.1.7            # via -r requirements_test.in
+codecov==2.1.8            # via -r requirements_test.in
 configargparse==1.2.3     # via locust
 coverage==5.2             # via codecov, pytest-cov
 cssselect==1.1.0          # via pyquery
@@ -30,7 +29,7 @@ directory-api-client==21.10.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
-directory-sso-api-client==6.2.0  # via -r requirements.in
+directory-sso-api-client==6.3.0  # via -r requirements.in
 directory-validators==6.0.2  # via -r requirements.in
 django-debug-toolbar==2.2  # via -r requirements_test.in
 django-environ==0.4.5     # via -r requirements.in
@@ -76,7 +75,7 @@ ipython==7.16.1           # via ipdb
 iso3166==1.0.1            # via -r requirements.in
 isort==4.3.21             # via pylint
 itsdangerous==1.1.0       # via flask
-jedi==0.17.1              # via ipython
+jedi==0.17.2              # via ipython
 jinja2==2.11.2            # via flask, sphinx
 jmespath==0.10.0          # via boto3, botocore
 jsonschema==3.2.0         # via great-components
@@ -86,7 +85,7 @@ locust==1.1.1             # via -r requirements_test.in
 lxml==4.5.2               # via pyquery
 markdown2==2.3.9          # via -r requirements.in, readtime
 markupsafe==1.1.1         # via jinja2
-maxminddb==1.5.4          # via geoip2
+maxminddb==2.0.1          # via geoip2
 mccabe==0.6.1             # via flake8, pylint
 mohawk==1.1.0             # via sigauth
 monotonic==1.5            # via directory-client-core
@@ -103,7 +102,7 @@ pillow==6.2.2             # via -r requirements_test.in, directory-validators, w
 pip-tools==5.2.1          # via -r requirements_test.in
 pluggy==0.13.1            # via allure-python-commons, pytest
 prompt-toolkit==3.0.5     # via ipython
-psutil==5.7.0             # via locust
+psutil==5.7.2             # via locust
 psycopg2==2.8.5           # via -r requirements.in
 ptyprocess==0.6.0         # via pexpect
 py==1.9.0                 # via pytest
@@ -111,7 +110,7 @@ pycodestyle==2.6.0        # via flake8, flake8-debugger, flake8-print
 pycountry==20.7.3         # via wagtail-personalisation
 pyflakes==2.2.0           # via flake8
 pygments==2.6.1           # via ipython, sphinx
-pylint-django==2.0.15     # via -r requirements_test.in
+pylint-django==2.2.0      # via -r requirements_test.in
 pylint-plugin-utils==0.6  # via pylint-django
 pylint==2.5.3             # via pylint-django, pylint-plugin-utils
 pyparsing==2.4.7          # via packaging
@@ -146,7 +145,7 @@ traitlets==4.3.3          # via ipython
 typed-ast==1.4.1          # via astroid
 ua-parser==0.10.0         # via user-agents
 unidecode==1.1.1          # via wagtail
-urllib3==1.25.9           # via botocore, directory-validators, requests, selenium, sentry-sdk
+urllib3==1.25.10          # via botocore, directory-validators, requests, selenium, sentry-sdk
 user-agents==2.1          # via wagtail-personalisation
 w3lib==1.22.0             # via directory-client-core
 wagtail-cache==1.0.0      # via -r requirements.in
