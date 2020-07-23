@@ -1,11 +1,14 @@
 # Changelog
+
 - AA-129 - wagtail import export for Beta environment
 
 ## Pre-release
+
 - GP2-218 - Image and media surfacing from CMS modules
 - No ticket - Wagtail upgrade to 2.9.3
 
 ### Fixed bugs
+
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
@@ -19,9 +22,9 @@
 - GP2-67 - fix backbutton upload logo
 - GP2-170 - business performance
 
-
 ### Implemented enhancements
-
+- GP2-280 - Removal of product sector selector modal
+- GP2-192 - Marketing approach page structure
 - GP2-23 - Modules - not started
 - GP2-31 - Count of topics and lessons in a module
 - GP2-73 - Module landing page - topics & lessons
