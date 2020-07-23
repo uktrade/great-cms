@@ -22,6 +22,8 @@
 - GP2-170 - business performance
 
 ### Implemented enhancements
+
+- GP2-197 - Export plan navigation to the next section
 - GP2-280 - Removal of product sector selector modal
 - GP2-192 - Marketing approach page structure
 - GP2-23 - Modules - not started
