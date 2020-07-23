@@ -1,4 +1,4 @@
-import { addDecorator, addParameters, configure } from '@storybook/html';
+import { configure, addDecorator, addParameters } from '@storybook/react';
 import { withA11y } from '@storybook/addon-a11y';
 import centered from '@storybook/addon-centered/html';
 import { initDsm } from '@invisionapp/dsm-storybook';
@@ -29,7 +29,7 @@ function setCustomOptions() {
 
 addParameters({
     backgrounds: [
-        ...backgrounds.slice(1), 
+        ...backgrounds.slice(1),
         { name: 'Light', value: '#f8f8fa', default: true },
     ],
 });
@@ -45,6 +45,6 @@ initDsm({
   callback: () => {
     // apply the custom options
     setCustomOptions();
-    configure(require.context('../design-system/components', true, /\.stories\.js$/), module);
+    configure(require.context('../react-components', true, /\.stories\.js$/), module);
   }
 });

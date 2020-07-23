@@ -3,7 +3,7 @@ import FieldWithExample from '.'
 
 export default { title: 'FieldWithExample' }
 
-export const props = {
+const props = {
   label: 'This a the label',
   tooltip: 'This is a tooltip',
   description: 'This is a description',

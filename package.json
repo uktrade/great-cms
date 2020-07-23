@@ -12,7 +12,7 @@
         "ds-lint": "eslint --config design-system/.eslintrc.json design-system",
         "ds-prettier": "prettier --settings .prettierrc -c 'design-system' --write",
         "ds-test": "./node_modules/.bin/wct --npm design-system/components/**/*.test.html",
-        "storybook": "dsm-storybook preview",
+        "storybook": "start-storybook",
         "storybook-publish": "dsm-storybook publish",
         "storybook-build": "build-storybook"
     },
@@ -47,6 +47,7 @@
         "@storybook/addon-viewport": "5.3.18",
         "@storybook/addons": "5.3.18",
         "@storybook/html": "5.3.18",
+        "@storybook/react": "^5.3.19",
         "babel-eslint": "10.1.0",
         "babel-jest": "25.1.0",
         "babel-loader": "8.1.0",
