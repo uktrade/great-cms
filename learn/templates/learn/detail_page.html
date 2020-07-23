@@ -84,18 +84,6 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-      {% if request.session.LESSON_PAGE_SHOW_GENERIC_CONTENT %}
-        var showProductsModal = false
-      {% else %}
-          var showProductsModal = {{ request.user.company.expertise_products_services|yesno:'false,true' }}
-      {% endif %}
-
-      ditMVP.setInitialState({
-        modalIsOpen: {
-          products: showProductsModal
-        }
-      })
-
       ditMVP.MarketSelectNavbar({
         element: document.getElementById('market-select-navbar'),
         productElement: document.getElementById('set-product-button'),

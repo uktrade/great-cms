@@ -1,15 +1,8 @@
 import React from 'react'
 import FieldWithExample from '.'
+import props from './FieldWithExample.fixtures'
 
 export default { title: 'FieldWithExample' }
-
-export const props = {
-  label: 'This a the label',
-  tooltip: 'This is a tooltip',
-  description: 'This is a description',
-  example: '<p>An example of the required text</p>',
-  name: 'test'
-}
 
 export const Default = () => (
   <FieldWithExample
@@ -41,6 +34,23 @@ export const DescriptionOnly= () => (
     {...props}
     tooltip=''
     example=''
+    handleChange={() => {}}
+  />
+)
+
+export const WithNumericInputField = () => (
+  <FieldWithExample
+    {...props}
+    tag={'number'}
+    handleChange={() => {}}
+  />
+)
+
+export const WithNumericInputAndCurrencyField = () => (
+  <FieldWithExample
+    {...props}
+    tag={'number'}
+    currency={'CHF'}
     handleChange={() => {}}
   />
 )
