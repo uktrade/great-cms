@@ -32,7 +32,7 @@ great-components==1.1.*
 directory-api-client==21.10.*
 directory-constants==20.11.*
 directory-forms-api-client==5.0.*
-directory-sso-api-client==6.3.*
+directory-sso-api-client==6.4.*
 django-staff-sso-client==1.0.*
 directory-validators==6.0.2
 
