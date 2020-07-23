@@ -11,7 +11,7 @@ module.exports = {
   transform: {
     "^.+\\.jsx?$": "babel-jest",
   },
-  setupFiles: [
+  setupFilesAfterEnv: [
     "<rootDir>/react-components/setupEnzyme.js",
     "<rootDir>/react-components/setupJest.js",
   ],
