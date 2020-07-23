@@ -24,3 +24,8 @@
 .text-inset {
   @include textInset;
 }
+
+.bottom-nav {
+  display: flex;
+  align-items: flex-end;
+}

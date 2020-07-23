@@ -42,12 +42,15 @@
   {% if next_section %}
   <section class="p-b-xl">
     <div class="container">
-      <div class="grid">
+      <div class="grid bottom-nav">
         <div class="c-1-4">&nbsp;</div>
-          <div class="c-3-4">
-            <p class="m-b-0">Next</p>
-            <a class="h-l" href="{{ next_section.url }}">{{ next_section.title }}</a>
-          </div>
+        <div class="c-1-3">
+          <p class="m-b-0">Next</p>
+          <a class="h-l" href="{{ next_section.url }}">{{ next_section.title }}</a>
+          <div class="m-t-s m-b-s"><a href="/export-plan">Back to Export Plan</a></div>
+        </div>
+        <div class="c-1-3">
+          <img src="{% static 'images/export-plan-bottom-nav.png' %}" alt="" />
         </div>
       </div>
     </div>
