@@ -2,9 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './RouteToMarket.scss'
 
+import Heading from '@components/Heading'
+import Button from '@components/Button'
+
 function renderTable({ route, promote, why }, index, updateTable) {
   return (
     <div className="route-to-market__table" key={`table_${index}`}>
+      <Heading>Test react heading</Heading>
+      <Button>Test react button</Button>
       <div className="route-to-market__table-cell">
         <label>Route to market</label>
         <input type="text" value={route} onChange={(event) => updateTable(index, 'route', event.target.value)} />
