@@ -85,6 +85,7 @@ def test_target_markets_research_form_empty_fields():
             'competitors': '',
             'trend': '',
             'unqiue_selling_proposition': '',
+            'average_price': None,
         }
     )
     assert form.is_valid()
