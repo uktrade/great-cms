@@ -38,5 +38,7 @@ def test_update_user_profile(mock_update_user_profile):
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
 def test_has_visited_page(mock_get_user_page_views):
     user = get_user()
-    mock_get_user_page_views.return_value = create_response({'result': 'ok', 'page_views': {'mypage': 1}})
+    page_views_response = {'result': 'ok', 'page_views': {'mypage': 1}}
+    mock_get_user_page_views.return_value = create_response(page_views_response)
+    assert user.get_page_views() == page_views_response
     assert user.has_visited_page(page='mypage') == {'mypage': 1}
