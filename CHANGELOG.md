@@ -10,6 +10,7 @@
 
 ### Fixed bugs
 
+- GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
