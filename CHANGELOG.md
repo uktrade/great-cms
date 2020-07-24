@@ -1,10 +1,12 @@
 # Changelog
 
 - AA-129 - wagtail import export for Beta environment
+- GP2-270 - Homepage editable
 
 ## Pre-release
 
 - GP2-218 - Image and media surfacing from CMS modules
+- No ticket - Wagtail upgrade to 2.9.3
 
 ### Fixed bugs
 
