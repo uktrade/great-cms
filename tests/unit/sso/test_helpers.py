@@ -165,7 +165,16 @@ def test_has_visited_page(mock_get_user_page_views):
         status_code=200,
         json_body={'result': 'ok', 'page_views': {'dashboard': 1}}
     )
-    assert helpers.has_visited_page(123, page='dashbooard') is not None
+    assert helpers.has_visited_page(123, page='dashboard') is not None
+
+
+@mock.patch.object(sso_api_client.user, 'get_user_page_views')
+def test_has_not_visited_page(mock_get_user_page_views):
+    mock_get_user_page_views.return_value = create_response(
+        status_code=200,
+        json_body={'result': 'ok'}
+    )
+    assert helpers.has_visited_page(123, page='dashboard') is None
 
 
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
