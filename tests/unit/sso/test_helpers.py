@@ -6,11 +6,15 @@ from directory_sso_api_client import sso_api_client
 import pytest
 from requests.cookies import RequestsCookieJar
 from requests.exceptions import HTTPError
+from rest_framework.exceptions import APIException
 
 from django.http import JsonResponse
 
 from sso import helpers
 from tests.helpers import create_response
+
+
+test_response = {'result': 'ok'}
 
 
 def test_set_cookies_from_cookie_jar():
@@ -116,24 +120,43 @@ def test_get_company_profile_200(mock_profile_retrieve, patch_get_company_profil
 
 @mock.patch.object(sso_api_client.user, 'get_session_user')
 def test_get_user_profile(mock_get_session_user):
-    test_response = {'result': 'ok'}
     mock_get_session_user.return_value = create_response(status_code=200, json_body=test_response)
     assert helpers.get_user_profile(123) == test_response
 
 
+@mock.patch.object(sso_api_client.user, 'get_session_user')
+def test_get_user_profile_fail(mock_get_session_user):
+    mock_get_session_user.return_value = create_response(status_code=400, json_body=test_response)
+    with pytest.raises(APIException):
+        helpers.get_user_profile(123)
+
+
 @mock.patch.object(sso_api_client.user, 'update_user_profile')
 def test_update_user_profile(mock_update_user_profile):
-    test_response = {'result': 'ok'}
     mock_update_user_profile.return_value = create_response(status_code=200, json_body=test_response)
     assert helpers.update_user_profile(123, {}) == test_response
+
+
+@mock.patch.object(sso_api_client.user, 'update_user_profile')
+def test_update_user_profile_fail(mock_update_user_profile):
+    mock_update_user_profile.return_value = create_response(status_code=400, json_body=test_response)
+    with pytest.raises(APIException):
+        helpers.update_user_profile(123, {})
 
 
 @mock.patch.object(sso_api_client.user, 'set_user_page_view')
 def test_set_user_page_view(mock_set_user_page_view, user):
     test_response = create_response(status_code=200, json_body={'result': 'ok'})
-    mock_set_user_page_view.return_value = test_response
-    actual_response = helpers.set_user_page_view(123, page='dashboard')
-    assert test_response.json() == actual_response
+    mock_set_user_page_view.return_value = create_response(status_code=200, json_body=test_response)
+    assert test_response == helpers.set_user_page_view(123, page='dashboard')
+
+
+@mock.patch.object(sso_api_client.user, 'set_user_page_view')
+def test_set_user_page_view_fail(mock_set_user_page_view, user):
+    test_response = create_response(status_code=400, json_body={'result': 'ok'})
+    mock_set_user_page_view.return_value = create_response(status_code=400, json_body=test_response)
+    with pytest.raises(APIException):
+        helpers.set_user_page_view(123, page='dashboard')
 
 
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
@@ -143,3 +166,13 @@ def test_has_visited_page(mock_get_user_page_views):
         json_body={'result': 'ok', 'page_views': {'dashboard': 1}}
     )
     assert helpers.has_visited_page(123, page='dashbooard') is not None
+
+
+@mock.patch.object(sso_api_client.user, 'get_user_page_views')
+def test_has_visited_page_fail(mock_get_user_page_views):
+    mock_get_user_page_views.return_value = create_response(
+        status_code=400,
+        json_body={'result': 'ok', 'page_views': {'dashboard': 1}}
+    )
+    with pytest.raises(APIException):
+        helpers.has_visited_page(123, page='dashbooard')
