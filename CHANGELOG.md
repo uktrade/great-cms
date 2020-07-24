@@ -1,14 +1,18 @@
 # Changelog
 
 - AA-129 - wagtail import export for Beta environment
+- GP2-270 - Homepage editable
 
 ## Pre-release
 
 - GP2-218 - Image and media surfacing from CMS modules
+- No ticket - Wagtail upgrade to 2.9.3
 
 ### Fixed bugs
 
 - GP-96   - HS Codes saved in DirectoryAPI
+- GP2-176 - Navigation to the next section
+- GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
