@@ -33,24 +33,24 @@ const modalStyles = {
 export default function Modal(props) {
   return (
     <ReactModal isOpen={props.isOpen} style={modalStyles} onRequestClose={props.handleSkip} contentLabel="Modal">
-      <div className="great-mvp-tour-modal great-mvp-signup-wizard-step-1" id="page-tour-modal-step-1">
-        <h2 className="great-mvp-tour-heading">{props.title}</h2>
-        <p className="great-mvp-tour-text">{props.body}</p>
-        <div className="great-mvp-tour-actions">
-          <great-button
+      <div className="great-tour-modal great-signup-wizard-step-1" id="page-tour-modal-step-1">
+        <img src="/static/images/learning-modal.png" alt="" />
+        <h2 className="great-tour-heading m-t-s">{props.title}</h2>
+        <p className="great-tour-text">{props.body}</p>
+        <div className="great-tour-actions">
+          <button
             id="page-tour-submit"
-            theme="primary"
-            size="large"
+            className="button button--primary button--large"
             onClick={(event) => {
               event.preventDefault()
               props.handleStart()
             }}
           >
             {props.buttonText}
-          </great-button>
-          <great-link
+          </button>
+          <a
             id="page-tour-skip"
-            theme="primary"
+            className="link"
             href="#"
             onClick={(event) => {
               event.preventDefault()
@@ -58,7 +58,7 @@ export default function Modal(props) {
             }}
           >
             Skip walk-through
-          </great-link>
+          </a>
         </div>
       </div>
     </ReactModal>

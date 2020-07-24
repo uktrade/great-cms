@@ -1,21 +1,26 @@
 @import 'helpers/colours';
 @import 'design-system/mixins';
 
-.great-mvp-tour-modal {
+.great-tour-modal {
+  background: $white;
   padding: 35px;
+
+  img {
+    max-width: 100%;
+  }
 }
 
-.great-mvp-tour-heading {
+.great-tour-heading {
   @include modalHeading;
 }
 
-.great-mvp-tour-text {
+.great-tour-text {
   @include modalText;
   margin-top: 16px;
   margin-bottom: 34px;
 }
 
-.great-mvp-tour-actions {
+.great-tour-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
