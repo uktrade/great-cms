@@ -8,7 +8,7 @@
 
 ### Fixed bugs
 
-- GP-96 - HS Codes saved in DirectoryAPI
+- GP-96   - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
