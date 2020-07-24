@@ -241,6 +241,22 @@ def patch_get_dashboard_export_opportunities():
     yield mock.patch('core.helpers.get_dashboard_export_opportunities', return_value=None)
 
 
+@pytest.fixture
+def patch_get_user_page_views():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_page_views',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
+
+
+@pytest.fixture
+def patch_set_user_page_view():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.set_user_page_view',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
+
+
 @pytest.fixture(autouse=True)
 def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     yield patch_get_dashboard_export_opportunities.start()

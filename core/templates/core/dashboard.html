@@ -3,7 +3,7 @@
 {% block content %}
     <div id="great-hero" class="p-t-l">
       <div class="container">
-        <h2 class="h-m" id="great-hero-welcome">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
+        <h2 class="h-m" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:request.user.email }}</h2>
         <h3 class="h-s p-v-s">Start learning</h3>
       </div>
     </div>
