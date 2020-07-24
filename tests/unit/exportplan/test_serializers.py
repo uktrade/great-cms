@@ -113,3 +113,19 @@ def test_pk_only_serializer():
 
     assert serializer.is_valid()
     assert serializer.data == data
+
+
+def target_markets_research_serializer():
+
+    data = {
+        'demand': 'Lorem ipsum',
+        'competitors': 'Consectetur adipisicing elit',
+        'trend': 'Dolor sit amet',
+        'unqiue_selling_proposition': 'Sed do eiusmod tempor incididunt',
+        'average_price': 10
+    }
+
+    serializer = serializers.TargetMarketsResearchSerializer(data=data)
+
+    assert serializer.is_valid()
+    assert serializer.data == data
