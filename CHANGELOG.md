@@ -32,7 +32,6 @@
 - GP2-156 - learning onboarding - welcome message
 - GP2-307 - Add new form field to the target markets research page
 - GP2-207 - Welcome back message
-- GP2-307 - Add new form field to the target markets research 
 - GP2-197 - Export plan navigation to the next section
 - GP2-280 - Removal of product sector selector modal
 - GP2-192 - Marketing approach page structure

@@ -13,7 +13,7 @@ export function TextInput(props) {
       disabled={props.disabled}
       id={props.id}
       name={props.name}
-      onChange={(e) => props.handleChange(event.target.value)}
+      onChange={() => props.handleChange(event.target.value)}
       placeholder={props.placeholder}
       type={props.type}
       value={props.value}
