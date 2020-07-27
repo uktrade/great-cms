@@ -10,7 +10,7 @@
 
 ### Fixed bugs
 
-- GP-96   - HS Codes saved in DirectoryAPI
+- GP-96 - HS Codes saved in DirectoryAPI
 - GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
@@ -26,6 +26,9 @@
 - GP2-170 - business performance
 
 ### Implemented enhancements
+
+- GP2-160 - learning onboarding - skip walkthrough
+- GP2-156 - learning onboarding - welcome message
 - GP2-207 - Welcome back message
 - GP2-197 - Export plan navigation to the next section
 - GP2-280 - Removal of product sector selector modal
