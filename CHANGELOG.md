@@ -27,6 +27,7 @@
 
 ### Implemented enhancements
 
+- GP2-159 - learning onboarding - tooltips
 - GP2-160 - learning onboarding - skip walkthrough
 - GP2-156 - learning onboarding - welcome message
 - GP2-207 - Welcome back message
