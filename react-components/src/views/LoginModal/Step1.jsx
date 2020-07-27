@@ -43,7 +43,7 @@ export default function Step1(props) {
         <input
           type="submit"
           value="Log in"
-          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
+          className="great-wizard-step-submit great-wizard-step-button"
           disabled={props.disabled}
         />
         <p>
@@ -51,7 +51,7 @@ export default function Step1(props) {
         </p>
       </form>
 
-      <div className="great-mvp-vertical-separator">
+      <div className="great-vertical-separator">
         <hr />
         <span>or</span>
         <hr />
