@@ -16,7 +16,6 @@ export function Container(props) {
   function handleSkipTour(error) {
     setIsOpenModal(false)
     setIsOpenTour(false)
-    setCookie(props.disableTourCookieName, 'true')
   }
 
   function handleStartTour(nextStep) {
@@ -26,7 +25,6 @@ export function Container(props) {
 
   function handleTourClose() {
     setIsOpenTour(false)
-    setCookie(props.disableTourCookieName, 'true')
   }
 
   return (
