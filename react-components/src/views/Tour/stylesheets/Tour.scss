@@ -1,14 +1,28 @@
 @import 'helpers/colours';
+@import 'design-system/mixins';
 
-.great-mvp-tour-button {
-  font-size: 19px;
-  color: $white;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 19px;
-  text-align: center;
-  border-radius: 4px;
-  background-color: #606060;
-  border: none;
-  cursor: pointer;
+.great-tour-modal {
+  background: $white;
+  padding: 35px;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.great-tour-heading {
+  @include modalHeading;
+}
+
+.great-tour-text {
+  @include modalText;
+  margin-top: 16px;
+  margin-bottom: 34px;
+}
+
+.great-tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
 }
