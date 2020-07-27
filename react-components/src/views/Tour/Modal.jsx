@@ -5,9 +5,6 @@ import ReactModal from 'react-modal'
 
 import Services from '@src/Services'
 
-import '../../../../design-system/components/button/button'
-import '../../../../design-system/components/link/link'
-
 import './stylesheets/Tour.scss'
 
 const modalStyles = {

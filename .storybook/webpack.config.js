@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   resolve: {
     modules: ['../', '../node_modules'],
-    extensions: ['.json', '.js']
+    extensions: ['.json', '.js',],
   },
   module: {
     rules: [
@@ -15,13 +15,13 @@ module.exports = {
           removeTags: true,
           removingTags: ['title', 'desc'],
           removeSVGTagAttrs: false,
-          removingTagAttrs: ['fill']
-        }
+          removingTagAttrs: ['fill'],
+        },
       },
       {
         test: /\.scss$/i,
         exclude: /node_modules/,
-        use: ['css-loader', 'resolve-url-loader', 'sass-loader']
+        use: ['css-loader', 'resolve-url-loader', 'sass-loader'],
       },
       {
         test: /\.css$/i,
@@ -30,13 +30,13 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1
-            }
+              importLoaders: 1,
+            },
           },
           {
-            loader: 'postcss-loader'
-          }
-        ]
+            loader: 'postcss-loader',
+          },
+        ],
       },
       {
         test: /\.(ttf|woff|woff2)$/i,
@@ -44,8 +44,8 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
-          outputPath: 'fonts'
-        }
+          outputPath: 'fonts',
+        },
       },
       {
         test: /\.(jpg|png|gif)$/i,
@@ -53,9 +53,9 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
-          outputPath: 'images'
-        }
-      }
-    ]
-  }
+          outputPath: 'images',
+        },
+      },
+    ],
+  },
 }
