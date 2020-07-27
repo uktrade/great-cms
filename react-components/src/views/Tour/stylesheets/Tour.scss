@@ -10,11 +10,11 @@
   }
 }
 
-.great-tour-heading {
+.great-modal-heading {
   @include modalHeading;
 }
 
-.great-tour-text {
+.great-modal-text {
   @include modalText;
   margin-top: 16px;
   margin-bottom: 34px;
@@ -25,4 +25,42 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 40px;
+}
+
+.great-tour-heading {
+  @include tourHeading;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.great-tour-text {
+  @include moduleLandingIntro;
+  margin-bottom: 12px;
+}
+
+.reactour__helper [data-tour-elem='controls'] {
+  display: block;
+  margin: 0;
+
+  [data-tour-elem='navigation'] {
+    justify-content: left;
+    margin-bottom: 28px;
+    margin-left: -3px;
+  }
+
+  [data-tour-elem='right-arrow'] {
+    display: block;
+    margin: 0;
+  }
+
+  [data-tour-elem='dot'] {
+    background: #d2d0da;
+    color: #d2d0da;
+
+    &.reactour__dot--is-active {
+      background: #4b426d;
+      color: #4b426d;
+      transform: scale(1);
+    }
+  }
 }
