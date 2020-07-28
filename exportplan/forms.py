@@ -1,5 +1,5 @@
 from great_components import forms
-from django.forms import ImageField, Textarea
+from django.forms import ImageField, Textarea, NumberInput
 
 import directory_validators.url
 import directory_validators.string
@@ -172,6 +172,18 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
                 'Explain your product’s particular appeal to consumers in the Netherlands. Why would they '
                 'buy it rather than another brand?'
             )}
+        ),
+    )
+    average_price = forms.CharField(
+        label='What’s the avg price for your product in the Netherlands?',
+        required=False,
+        widget=NumberInput(attrs={
+            'placeholder': (
+                0.00
+            ),
+            'currency': (
+                'GBP'
+            )},
         ),
     )
 

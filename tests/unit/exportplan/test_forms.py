@@ -22,6 +22,7 @@ def target_markets_research_data():
         'competitors': 'Dolor sit amet',
         'trend': 'Consectetur adipisicing elit',
         'unqiue_selling_proposition': 'Sed do eiusmod tempor',
+        'average_price': 10,
     }
 
 
@@ -85,6 +86,7 @@ def test_target_markets_research_form_empty_fields():
             'competitors': '',
             'trend': '',
             'unqiue_selling_proposition': '',
+            'average_price': None,
         }
     )
     assert form.is_valid()
