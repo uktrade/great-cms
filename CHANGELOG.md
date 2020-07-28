@@ -11,6 +11,7 @@
 ### Fixed bugs
 
 - GP2-280 - removal of product selector from dashboard
+- GP-310 - Format time as min rather than mins
 - GP2-247 - image resizing module image
 - GP2-246 - wrong url for learning header link
 - GP-96 - HS Codes saved in DirectoryAPI
@@ -33,6 +34,7 @@
 - GP2-159 - learning onboarding - tooltips
 - GP2-160 - learning onboarding - skip walkthrough
 - GP2-156 - learning onboarding - welcome message
+- GP2-307 - Add new form field to the target markets research page
 - GP2-207 - Welcome back message
 - GP2-197 - Export plan navigation to the next section
 - GP2-280 - Removal of product sector selector modal
