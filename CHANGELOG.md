@@ -10,6 +10,7 @@
 
 ### Fixed bugs
 
+- GP2-280 - removal of product selector from dashboard
 - GP2-247 - image resizing module image
 - GP2-246 - wrong url for learning header link
 - GP-96 - HS Codes saved in DirectoryAPI
