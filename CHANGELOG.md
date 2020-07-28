@@ -10,6 +10,7 @@
 
 ### Fixed bugs
 
+- GP-310 - Format time as min rather than mins
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
