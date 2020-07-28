@@ -78486,7 +78486,7 @@ function TextInput(props) {
     disabled: props.disabled,
     id: props.id,
     name: props.name,
-    onChange: function onChange(e) {
+    onChange: function onChange() {
       return props.handleChange(event.target.value);
     },
     placeholder: props.placeholder,
