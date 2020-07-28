@@ -31,6 +31,7 @@
     var element = document.getElementById('brand-product-form');
     ditMVP.createBrandAndProductForm({
       element: element,
+      field: 'brand_product_details',
       formData: {{ form_initial|safe }},
       formFields: {{ form_fields|safe }},
     })

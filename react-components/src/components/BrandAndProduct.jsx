@@ -6,7 +6,7 @@ import { Subject } from 'rxjs'
 import { debounceTime, delay } from 'rxjs/operators';
 
 import ErrorList from '@src/components/ErrorList'
-import { FieldWithExample } from './Field'
+import FieldWithExample from '@src/components/Fields/FieldWithExample'
 import Services from '../Services'
 import Spinner from './Spinner/Spinner'
 
@@ -44,7 +44,7 @@ class BrandAndProductForm extends React.Component {
   }
 
   formatData(data) {
-    return { brand_product_details: data }
+    return { [this.props.field] : data }
   }
 
   bindEvents() {
@@ -93,25 +93,25 @@ class BrandAndProductForm extends React.Component {
     }
 
     return (
-    <>
-      {
-        formFields.map(field => (
-          <FieldWithExample
-            placeholder={field.placeholder}
-            key={field.name}
-            label={field.label}
-            name={field.name}
-            disabled={false}
-            value={formData[field.name]}
-            handleChange={this.handleChange}
-            autofocus
-            errors={[]}
-          />
-        ))
-      }
-      {saveIndicator}
-      <ErrorList errors={errors.__all__ || []} className="m-0" />
-    </>
+      <>
+        {formFields.map(field => (
+            <FieldWithExample
+              tooltip={field.tooltip}
+              label={field.label}
+              example={field.example}
+              key={field.name}
+              name={field.name}
+              value={formData[field.name]}
+              description={field.description}
+              placeholder={Number.isInteger(field.placeholder) ? field.placeholder : 'Add some text'}
+              currency={field.currency}
+              tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
+              handleChange={this.handleChange}
+            />
+          ))}
+        {saveIndicator}
+        <ErrorList errors={errors.__all__ || []} className="m-0" />
+      </>
     )
   }
 }
@@ -122,6 +122,7 @@ BrandAndProductForm.propTypes = {
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
   })).isRequired,
+  field: PropTypes.string.isRequired,
   formData: PropTypes.objectOf(PropTypes.string).isRequired,
 }
 

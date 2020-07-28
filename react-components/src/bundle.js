@@ -15,6 +15,7 @@ import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsi
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createBrandAndProductForm } from '@src/components/BrandAndProduct'
 import { createBusinessRationale } from '@src/components/BusinessRationale'
+import { createObjectivesList } from '@src/components/ObjectivesList'
 import LearnIntroduction from '@src/views/LearnIntroduction/LearnIntroduction'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
@@ -27,6 +28,7 @@ export default {
   createTargetAgeGroupInsights,
   createTargetMarketCountries,
   createBusinessRationale,
+  createObjectivesList,
   createBrandAndProductForm,
   IndustriesModal,
   LearnIntroduction,

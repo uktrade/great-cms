@@ -29,7 +29,20 @@ const post = function(url, data) {
   })
 }
 
-const get = function(url, params) {
+const httpDelete = function (url, data) {
+  return fetch(url, {
+    method: 'delete',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': config.csrfToken,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    body: JSON.stringify(data),
+  })
+}
+
+const get = function (url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
   const parsedParams = new URLSearchParams(params).toString()
   parsedUrl.search = parsedParams
@@ -78,7 +91,19 @@ const updateExportPlan = function(data) {
   return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
 }
 
-const checkVerificationCode = function({ email, code }) {
+const createObjective = function (data) {
+  return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
+}
+
+const deleteObjective = function (pk) {
+  return httpDelete(config.apiObjectivesDeleteUrl, {pk: pk}).then(responseHandler)
+}
+
+const updateObjective = function (data) {
+  return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
+}
+
+const checkVerificationCode = function ({ email, code }) {
   return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
 
@@ -141,6 +166,9 @@ const setConfig = function({
   verifyCodeUrl,
   userIsAuthenticated,
   apiUpdateExportPlanUrl,
+  apiObjectivesCreateUrl,
+  apiObjectivesDeleteUrl,
+  apiObjectivesUpdateUrl,
   exportPlanTargetMarketsUrl,
   signupUrl
 }) {
@@ -154,6 +182,9 @@ const setConfig = function({
   config.apiLookupProductUrl = apiLookupProductUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
+  config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
+  config.apiObjectivesDeleteUrl = apiObjectivesDeleteUrl
+  config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
   config.dashboardUrl = dashboardUrl
@@ -182,6 +213,9 @@ export default {
   removeSector,
   getCountriesDataBySectors,
   updateExportPlan,
+  createObjective,
+  deleteObjective,
+  updateObjective,
   lookupProduct,
   setConfig,
   config,

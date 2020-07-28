@@ -140,6 +140,7 @@ $desktop: 1024px;
   position: absolute;
   right: 0;
   max-width: 50%;
+  max-height: 250px;
 }
 
 .learn__single-category-header-wrapper {
@@ -152,7 +153,6 @@ $desktop: 1024px;
 }
 
 .learn__single-category-title.h1 {
-  @include moduleLandingHeading;
   margin-bottom: 16px;
 }
 

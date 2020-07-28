@@ -109,7 +109,7 @@ class TargetMarketCountries extends React.Component {
     }
 
     return (
-      <>
+      <div className="target-markets-section">
         <SectorChooser
           selectedCountries={selectedCountries}
           addCountry={this.addCountry}
@@ -126,7 +126,7 @@ class TargetMarketCountries extends React.Component {
           <ErrorList errors={errors.__all__ || []} className="m-v-s" />
         </div>
         <CountryChooser countryList={countryList} addCountry={this.addCountry} />
-      </>
+      </div>
     )
   }
 }

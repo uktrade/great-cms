@@ -55,6 +55,7 @@
   white-space: nowrap;
 }
 
+
 @mixin moduleLink {
   background: var(--colour-blue-deep-80);
   border-radius: 20px;
@@ -95,6 +96,22 @@
 }
 
 @mixin textInset {
+  padding: 10px 30px;
+  margin: 30px 0;
+  border-left: 8px solid var(--colour-black-20);
+}
+
+@mixin modalHeading {
+  font-size: var(--font-title-1-1-black-1-left-font-size);
+  line-height: var(--font-title-1-1-black-1-left-line-height);
+  text-align: var(--font-title-1-1-black-1-left-text-align);
+  color: var(--font-title-1-1-black-1-left-color);
+  font-style: var(--font-title-1-1-black-1-left-font-style);
+  font-weight: var(--font-title-1-1-black-1-left-font-weight);
+  font-family: var(--font-title-1-1-black-1-left-font-family);
+}
+
+@mixin modalText {
   font-size: var(--font-body-1-black-1-left-font-size);
   line-height: var(--font-body-1-black-1-left-line-height);
   text-align: var(--font-body-1-black-1-left-text-align);
@@ -102,7 +119,14 @@
   font-style: var(--font-body-1-black-1-left-font-style);
   font-weight: var(--font-body-1-black-1-left-font-weight);
   font-family: var(--font-body-1-black-1-left-font-family);
-  padding: 10px 30px;
-  margin: 30px 0;
-  border-left: 8px solid var(--colour-black-20);
+}
+
+@mixin tourHeading {
+  color: var(--colour-blue-deep-80);
+  font-size: var(--font-title-1-6-blue-80-1-left-font-size);
+  line-height: var(--font-title-1-6-blue-80-1-left-line-height);
+  text-align: var(--font-title-1-6-blue-80-1-left-text-align);
+  font-style: var(--font-title-1-6-blue-80-1-left-font-style);
+  font-weight: var(--font-title-1-6-blue-80-1-left-font-weight);
+  font-family: var(--font-title-1-6-blue-80-1-left-font-family);
 }

@@ -6,7 +6,7 @@ import fetchMock from 'fetch-mock'
 import { fakeSchedulers } from 'rxjs-marbles/jest'
 
 import { BrandAndProductForm } from '@src/components/BrandAndProduct'
-import { FieldWithExample } from '@src/components/Field'
+import FieldWithExample from '@src/components/Fields/FieldWithExample'
 import Services from '@src/Services'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -16,7 +16,12 @@ let wrapper;
 const dummyFieldOne = {
   name: 'field_one',
   label: 'Field one',
-  placeholder: 'Some placeholder text'
+  tooltip: 'This is a tooltip',
+  description: 'This is a description',
+  example: '<p>An example of the required text</p>',
+  placeholder: 'Add some text',
+  currency: 'GBP',
+  tag: 'text'
 }
 
 const formData = {
@@ -49,14 +54,16 @@ describe('BrandAndProductForm', () => {
 
     expect(wrapper.containsMatchingElement(
       <FieldWithExample
-        placeholder={dummyFieldOne.placeholder}
-        key={dummyFieldOne.name}
+        tooltip={dummyFieldOne.tooltip}
         label={dummyFieldOne.label}
+        key={dummyFieldOne.name}
         name={dummyFieldOne.name}
-        disabled={false}
         value={formData.field_one}
-        autofocus
-        errors={[]}
+        description={dummyFieldOne.description}
+        placeholder={dummyFieldOne.placeholder}
+        currency={dummyFieldOne.currency}
+        tag={dummyFieldOne.tag}
+        example={dummyFieldOne.example}
       />
     )).toEqual(true)
   })

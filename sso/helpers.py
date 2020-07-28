@@ -13,6 +13,8 @@ from django.conf import settings
 from django.utils import formats
 from django.utils.dateparse import parse_datetime
 
+from core.constants import SERVICE_NAME
+
 
 ADMIN_URL_PATTERN = re.compile(r'^\/(django\-)?admin\/.*')
 
@@ -99,6 +101,43 @@ def create_user(email, password):
         raise CreateUserException(detail=response.json(), code=response.status_code)
     response.raise_for_status()
     return response.json()
+
+
+def get_user_profile(sso_session_id):
+    response = sso_api_client.user.get_session_user(sso_session_id)
+    if response.status_code == 400:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def update_user_profile(sso_session_id, data):
+    response = sso_api_client.user.update_user_profile(sso_session_id, data)
+    if response.status_code == 400:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def set_user_page_view(sso_session_id, page):
+    response = sso_api_client.user.set_user_page_view(sso_session_id, SERVICE_NAME, page)
+    if response.status_code in [400, 404]:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_user_page_views(sso_session_id, page=None):
+    response = sso_api_client.user.get_user_page_views(sso_session_id, SERVICE_NAME, page)
+    if response.status_code in [400, 404]:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def has_visited_page(sso_session_id, page):
+    result = get_user_page_views(sso_session_id, page)
+    return result and result.get('page_views') if result else None
 
 
 def get_company_profile(sso_session_id):

@@ -1,7 +1,7 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-from exportplan import views, ajax
+from exportplan import views, api
 
 LOGIN_URL = reverse_lazy('core:login')
 
@@ -23,6 +23,12 @@ urlpatterns = [
         name='brand-and-product'
     ),
     path(
+        'section/target-markets-research/',
+        login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'target-markets-research'},
+        name='target-markets-research'
+    ),
+    path(
         'section/objectives/',
         login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=LOGIN_URL),
         {'slug': 'objectives'},
@@ -40,12 +46,14 @@ urlpatterns = [
     ),
     path(
         'api/recommended-countries/',
-        login_required(ajax.ExportPlanRecommendedCountriesDataView.as_view(), login_url=LOGIN_URL),
+        login_required(api.ExportPlanRecommendedCountriesDataView.as_view(), login_url=LOGIN_URL),
         name='ajax-recommended-countries-data'
     ),
-    path('api/export-plan/', views.UpdateExportPlanAPIView.as_view(), name='api-update-export-plan'),
-    path('api/remove-country-data/', ajax.ExportPlanRemoveCountryDataView.as_view(), name='api-remove-country-data'),
-    path('api/remove-sector/', ajax.ExportPlanRemoveSectorView.as_view(), name='api-remove-sector'),
-    path('api/country-data/', ajax.ExportPlanCountryDataView.as_view(), name='api-country-data'),
-    path('api/marketing-country-data/', ajax.RetrieveMarketingCountryData.as_view(), name='api-marketing-country-data'),
+    path('api/export-plan/', api.UpdateExportPlanAPIView.as_view(), name='api-update-export-plan'),
+    path('api/remove-country-data/', api.ExportPlanRemoveCountryDataView.as_view(), name='api-remove-country-data'),
+    path('api/remove-sector/', api.ExportPlanRemoveSectorView.as_view(), name='api-remove-sector'),
+    path('api/country-data/', api.ExportPlanCountryDataView.as_view(), name='api-country-data'),
+    path('api/objectives/create/', api.ObjectivesCreateAPIView.as_view(), name='api-objectives-create'),
+    path('api/objectives/update/', api.ObjectivesUpdateAPIView.as_view(), name='api-objectives-update'),
+    path('api/objectives/delete/', api.ObjectivesDestroyAPIView.as_view(), name='api-objectives-delete'),
 ]

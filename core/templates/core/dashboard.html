@@ -3,7 +3,7 @@
 {% block content %}
     <div id="great-hero" class="p-t-l">
       <div class="container">
-        <h2 class="h-m" id="great-hero-welcome">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
+        <h2 class="h-m" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:request.user.email }}</h2>
         <h3 class="h-s p-v-s">Start learning</h3>
       </div>
     </div>
@@ -189,23 +189,6 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block body_js %}
-    {{ block.super }}
-    {% if not request.user.company.expertise_industries_labels %}
-        <script type="text/javascript">
-            ditMVP.setInitialState({
-                // prevents modals from opening on page load if user dismissed the modal already
-                modalIsOpen: {
-                  industries: true,
-                }
-            })
-            var element = document.createElement('div');
-            document.body.appendChild(element);
-            ditMVP.IndustriesModal({element: element});
-        </script>
-    {% endif %}
 {% endblock %}
 
 {% block feedback_reporter %}{% endblock %}

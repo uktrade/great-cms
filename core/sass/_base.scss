@@ -4,6 +4,10 @@ button {
   @include button-reset;
 }
 
+label {
+  display: block;
+}
+
 .text-center {
   text-align: center;
 }

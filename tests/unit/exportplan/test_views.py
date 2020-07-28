@@ -34,6 +34,14 @@ def company_profile_data():
     }
 
 
+@pytest.fixture(autouse=True)
+def export_plan_data():
+    return {
+        'brand_product_details': '',
+        'target_markets_research': ''
+    }
+
+
 def create_test_image(extension):
     image = Image.new('RGB', (300, 50))
     draw = ImageDraw.Draw(image)
@@ -73,9 +81,10 @@ def test_export_plan_builder_landing_page(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach'})
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
-def test_exportplan_sections(slug, client, user):
+@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach', 'objectives'})
+@mock.patch.object(helpers, 'get_or_create_export_plan')
+def test_exportplan_sections(mock_get_create_exportplan, export_plan_data, slug, client, user):
+    mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
 
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -216,3 +225,116 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user):
 
     with pytest.raises(HTTPError):
         client.post(url, data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_objective')
+def test_update_objective_api_view(mock_update_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-update')
+
+    objective = {'pk': 1, 'description': 'Some text', 'companyexportplan': 1}
+
+    mock_update_objective.return_value = objective
+
+    response = client.post(url, objective)
+
+    assert mock_update_objective.call_count == 1
+    assert response.status_code == 200
+    assert mock_update_objective.call_args == mock.call('123', objective)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_objective')
+def test_create_objective_api_view(mock_create_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-create')
+
+    objective = {'description': 'Some text', 'companyexportplan': 1}
+
+    mock_create_objective.return_value = {'pk': 1, **objective}
+
+    response = client.post(url, objective)
+
+    assert mock_create_objective.call_count == 1
+    assert response.status_code == 200
+    assert mock_create_objective.call_args == mock.call('123', objective)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_objective')
+def test_delete_objective_api_view(mock_delete_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-delete')
+
+    objective = {'pk': 1}
+
+    mock_delete_objective.return_value = {}
+
+    response = client.delete(url, objective, content_type='application/json')
+
+    assert mock_delete_objective.call_count == 1
+    assert response.status_code == 200
+    assert mock_delete_objective.call_args == mock.call('123', objective)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_objective')
+def test_objectives_validation_delete(mock_delete_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-delete')
+
+    objective = {}
+
+    mock_delete_objective.return_value = {}
+
+    response = client.delete(url, objective, content_type='application/json')
+
+    assert mock_delete_objective.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {'pk': ['This field is required.']}
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_objective')
+def test_objectives_validation_update(mock_update_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-update')
+
+    objective = {}
+
+    mock_update_objective.return_value = {}
+
+    response = client.post(url, objective)
+
+    assert mock_update_objective.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.'],
+        'pk': ['This field is required.']
+    }
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_objective')
+def test_objectives_validation_create(mock_create_objective, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-objectives-create')
+
+    objective = {}
+
+    mock_create_objective.return_value = {}
+
+    response = client.post(url, objective)
+
+    assert mock_create_objective.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.']
+    }
