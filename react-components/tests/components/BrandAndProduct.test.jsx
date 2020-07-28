@@ -19,6 +19,9 @@ const dummyFieldOne = {
   tooltip: 'This is a tooltip',
   description: 'This is a description',
   example: '<p>An example of the required text</p>',
+  placeholder: 'Add some text',
+  currency: 'GBP',
+  tag: 'text'
 }
 
 const formData = {
@@ -57,6 +60,9 @@ describe('BrandAndProductForm', () => {
         name={dummyFieldOne.name}
         value={formData.field_one}
         description={dummyFieldOne.description}
+        placeholder={dummyFieldOne.placeholder}
+        currency={dummyFieldOne.currency}
+        tag={dummyFieldOne.tag}
         example={dummyFieldOne.example}
       />
     )).toEqual(true)

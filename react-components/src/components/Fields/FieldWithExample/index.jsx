@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { TextArea, TextInput } from '../Field'
+import { TextArea } from '../Field'
+import { TextInput } from './TextInput'
 import EducationalMomentTooltip from '../../EducationalMomentTooltip'
 
 const FieldWithExample = ({
