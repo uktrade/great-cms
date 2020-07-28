@@ -14,6 +14,7 @@ from core import forms, helpers, models, serializers, views
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
 from tests.unit.learn.factories import LessonPageFactory
+from tests.unit.domestic.factories import DomesticDashboardFactory
 
 
 def submit_step_factory(client, url_name, view_class):
@@ -131,14 +132,15 @@ def test_dashboard_page_logged_in(
     patch_set_user_page_view,
     patch_get_user_page_views,
     mock_get_company_profile,
+    domestic_homepage,
     client,
     user
 ):
+
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
-
-    url = reverse('core:dashboard')
+    url = '/dashboard/'
 
     response = client.get(url)
 
@@ -181,20 +183,17 @@ def test_dashboard_page_lesson_progress(
         list_page=topic_one,
         sso_id=user.pk
     )
-
-    # when the dashboard is visited
-    url = reverse('core:dashboard')
-    response = client.get(url)
-
-    # then the progress is exposed
-    assert response.status_code == 200
-    assert len(response.context_data['list_pages']) == 2
-    assert response.context_data['list_pages'][0] == topic_one
-    assert response.context_data['list_pages'][0].read_count == 2
-    assert response.context_data['list_pages'][0].read_progress == 50
-    assert response.context_data['list_pages'][1] == topic_two
-    assert response.context_data['list_pages'][1].read_count == 0
-    assert response.context_data['list_pages'][1].read_progress == 0
+    # create dashboard
+    dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
+    context_data = dashboard.get_user_context(user)
+    # check the progress
+    assert len(context_data['list_pages']) == 2
+    assert context_data['list_pages'][0] == topic_one
+    assert context_data['list_pages'][0].read_count == 2
+    assert context_data['list_pages'][0].read_progress == 50
+    assert context_data['list_pages'][1] == topic_two
+    assert context_data['list_pages'][1].read_count == 0
+    assert context_data['list_pages'][1].read_progress == 0
 
 
 @pytest.mark.django_db
@@ -204,6 +203,7 @@ def test_dashboard_page_lesson_division_by_zero(
         mock_events_by_location_list,
         mock_export_opportunities_by_relevance_list,
         patch_set_user_page_view,
+        patch_get_user_page_views,
         mock_get_company_profile,
         client,
         user,
@@ -219,7 +219,9 @@ def test_dashboard_page_lesson_division_by_zero(
 
     # when the dashboard is visited a division by zero should be raised
     with pytest.raises(DataError, match='division by zero'):
-        client.get(reverse('core:dashboard'))
+        # create dashboard
+        client.force_login(user)
+        DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
 
 
 @pytest.mark.django_db
@@ -228,7 +230,9 @@ def test_dashboard_apis_ok(
     user,
     patch_get_dashboard_events,
     patch_get_dashboard_export_opportunities,
-    patch_set_user_page_view
+    patch_set_user_page_view,
+    patch_get_user_page_views,
+    domestic_homepage
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
@@ -269,12 +273,10 @@ export-opportunities/opportunities/french-sardines-required',
 
             client.force_login(user)
 
-            url = reverse('core:dashboard')
+            dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
+            context_data = dashboard.get_user_context(user)
 
-            response = client.get(url)
-
-            assert response.status_code == 200
-            assert response.context_data['events'] == [{
+            assert context_data['events'] == [{
                 'title': 'Global Aid and Development Directory',
                 'description': 'DIT is producing a directory of compani…',
                 'url': 'www.example.com',
@@ -287,7 +289,7 @@ export-opportunities/opportunities/french-sardines-required',
                 'location': 'n/a',
                 'date': 'n/a'
             }]
-            assert response.context_data['export_opportunities'] == [{
+            assert context_data['export_opportunities'] == [{
                 'title': 'French sardines required',
                 'description': 'Nam dolor nostrum distinctio.…',
                 'source': 'post',
@@ -305,6 +307,8 @@ def test_dashboard_apis_fail(
         patch_get_dashboard_events,
         patch_get_dashboard_export_opportunities,
         patch_set_user_page_view,
+        patch_get_user_page_views,
+        domestic_homepage
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
@@ -320,14 +324,11 @@ personalisation.export_opportunities_by_relevance_list'
             exops_api_results.return_value = Mock(status_code=500, **{'json.return_value': {}})
 
             client.force_login(user)
+            dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
+            context_data = dashboard.get_user_context(user)
 
-            url = reverse('core:dashboard')
-
-            response = client.get(url)
-
-            assert response.status_code == 200
-            assert response.context_data['events'] == []
-            assert response.context_data['export_opportunities'] == []
+            assert context_data['events'] == []
+            assert context_data['export_opportunities'] == []
 
 
 @pytest.mark.django_db

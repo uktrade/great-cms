@@ -1,4 +1,5 @@
 from wagtail.core import blocks
+from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 
@@ -57,6 +58,16 @@ class ButtonBlock(blocks.StructBlock):
 
     class Meta:
         template = 'core/button.html'
+
+
+class RouteSectionBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255)
+    body = blocks.TextBlock(max_length=4096)
+    image = ImageChooserBlock()
+    button = ButtonBlock(icon='cog')
+
+    class Meta:
+        template = 'core/route-section.html'
 
 
 class ModularContentStaticBlock(blocks.StaticBlock):

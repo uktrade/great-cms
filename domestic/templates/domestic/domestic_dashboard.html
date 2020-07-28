@@ -1,42 +1,21 @@
 {% extends 'core/base.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 
 {% block content %}
     <div id="great-hero" class="p-t-l">
       <div class="container">
-<<<<<<< Updated upstream
-        <h2 class="h-m" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:request.user.email }}</h2>
-=======
         [{{ self.title }}]
-        <h2 class="h-m" id="great-hero-welcome">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
->>>>>>> Stashed changes
-        <h3 class="h-s p-v-s">Start learning</h3>
+        <h2 class="h-m" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:request.user.email }}</h2>
       </div>
     </div>
 
     <div class="container">
-
         <div class="grid m-b-s" id="pre-journey-routing-component">
-            <div class="c-full">
-                <div class="bg-offwhite p-xs">
-                    <h2 class="h-m m-b-xs">Hello, {{ request.user.first_name|default:request.user.email }}</h2>
-                    <div class="dashboard__routing grid">
-                        <article class="dashboard__routing-block w-full-m c-1-3-l">
-                            <span aria-hidden="true" class="circle-check--icon"></span>
-                            <h3 class="learn__step-title">{{route_1_title|default:'Learn'}}</h3>
-                            <p class="learn__wrapper--paragraph">Find all that you need to know about exporting, from regulationa and logistics to identifying opportunities</p>
-                        </article>
-                        <article class="dashboard__routing-block w-full-m c-1-3-l">
-                            <span aria-hidden="true" class="circle-check--icon"></span>
-                            <h3 class="learn__step-title">Go at your own pace</h3>
-                            <p class="learn__wrapper--paragraph">There’s no deadline. Take all the time you need to fit it in
-                                your day.</p>
-                        </article>
-                        <article class="dashboard__routing-block w-full-m c-1-3-l">
-                            <span aria-hidden="true" class="circle-check--icon"></span>
-                            <h3 class="learn__step-title">Get ready to trade</h3>
-                            <p class="learn__wrapper--paragraph">Put your new knowledge and confidence to work and make a
-                                success of exporting.</p>
-                        </article>
+            <div class="c-full great-dashboard__routing">
+                <div class="bg-white p-s great-dashboard-card">
+                    <div class="grid routes">
+                        {% include_block page.routes %}
                     </div>
                 </div>
             </div>

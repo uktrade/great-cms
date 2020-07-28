@@ -1,7 +1,7 @@
 from wagtail.tests.utils import WagtailPageTests
 from core import mixins
-from domestic.models import DomesticHomePage
-from .factories import DomesticHomePageFactory
+from domestic.models import DomesticHomePage, DomesticDashboard
+from .factories import DomesticHomePageFactory, DomesticDashboardFactory
 
 
 class DomesticHomePageTests(WagtailPageTests):
@@ -29,3 +29,13 @@ class DomesticHomePageTests(WagtailPageTests):
         homepage.add_child(instance=events_page)
         retrieved_page = DomesticHomePage.objects.get(id=events_page.id)
         self.assertEqual(retrieved_page.slug, 'events')
+
+
+class DomesticDashboardTests(WagtailPageTests):
+
+    def test_page_is_exclusive(self):
+        assert issubclass(DomesticDashboard, mixins.WagtailAdminExclusivePageMixin)
+
+    def test_can_create_dashboard(self):
+        dashboard = DomesticDashboardFactory()
+        self.assertEqual(dashboard.title, 'dashboard')

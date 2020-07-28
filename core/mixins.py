@@ -1,5 +1,4 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.urls import reverse_lazy
 
 
 class WagtailAdminExclusivePageMixin:
@@ -30,4 +29,8 @@ class EnableTourMixin:
 
 class AnonymousUserRequired:
     # used by core.wagtail_hooks.anonymous_user_required
-    anonymous_user_required_redirect_url = reverse_lazy('core:dashboard')
+    anonymous_user_required_redirect_url = '/dashboard/'
+
+
+class AuthenticatedUserRequired:
+    authenticated_user_required_redirect_url = '/login/'

@@ -1,0 +1,17 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<article class="dashboard__routing-block w-full-m c-1-3-l">
+	<div class="image-stretch">
+    	{% image value.image max-300x300 %}
+	</div>
+	<div class="p-xs">
+		<div class="m-b-l">
+		    <h3 class="h-m">{{value.title|default:'Learn'}}</h3>
+		    <p class="">{{value.body}}</p>
+		</div>
+	    <a class="button button--secondary --button-large" icon="" theme="secondary" href="{{value.button.link.url}}">
+	      {{value.button.label}}
+	    </a>
+	</div>
+</article>

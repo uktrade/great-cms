@@ -1,7 +1,5 @@
 import pytest
 
-from django.urls import reverse
-
 
 @pytest.mark.django_db
 def test_landing_page_not_logged_in(client, user, domestic_site):
@@ -17,4 +15,4 @@ def test_landing_page_logged_in(client, user, domestic_site):
     response = client.get('/')
 
     assert response.status_code == 302
-    assert response.url == reverse('core:dashboard')
+    assert response.url == '/dashboard/'
