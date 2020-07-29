@@ -9,7 +9,7 @@ import './stylesheets/Tour.scss'
 
 const modalStyles = {
   content: {
-    background: '#f5f2ed',
+    background: '#fff',
     bottom: 'auto',
     left: '50%',
     marginRight: '-50%',
@@ -32,8 +32,8 @@ export default function Modal(props) {
     <ReactModal isOpen={props.isOpen} style={modalStyles} onRequestClose={props.handleSkip} contentLabel="Modal">
       <div className="great-tour-modal great-signup-wizard-step-1" id="page-tour-modal-step-1">
         <img src="/static/images/learning-modal.png" alt="" />
-        <h2 className="great-tour-heading m-t-s">{props.title}</h2>
-        <p className="great-tour-text">{props.body}</p>
+        <h2 className="great-modal-heading m-t-s">{props.title}</h2>
+        <p className="great-modal-text">{props.body}</p>
         <div className="great-tour-actions">
           <button
             id="page-tour-submit"
@@ -56,6 +56,12 @@ export default function Modal(props) {
           >
             Skip walk-through
           </a>
+        </div>
+      </div>
+      <div className="great-tour-modal__footer">
+        <div className="great-checkbox">
+          <input type="checkbox" id="checkbox" onChange={() => console.log('changed')} />
+          <label htmlFor="checkbox">Don’t show me this again</label>
         </div>
       </div>
     </ReactModal>
