@@ -38,7 +38,7 @@
                 <div class="c-2-3">
                     <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
                     {% include 'core/personalised_body.html' %}
-                    <div id="countries-chooser" class="great-mvp-full-width-background"></div>
+                    <div id="countries-chooser" class="w-full-viewport"></div>
                     {% with page.get_next_siblings.live.first as next_page %}
                         {% if next_page %}
                             <div class="lesson-next-area p-t-xxl p-b-s">
