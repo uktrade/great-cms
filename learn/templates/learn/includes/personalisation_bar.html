@@ -1,0 +1,52 @@
+
+{% load wagtailimages_tags %}
+{% load routablepageurl from wagtailroutablepage_tags %}
+
+<nav class="p-t-xs p-h-xs p-b-xxs great-mvp-full-width-background" id="market-select-navbar">
+    <span class="m-f-xs m-r-xxs">I am interested in exporting</span>
+    <span id="set-product-button">
+        {% if profile.expertise_products_services %}
+            {% for label in profile.expertise_products_services %}
+                <button class="button button--primary button--round-corner">{{ label }}</button>
+            {% endfor %}
+        {% else %}
+            <button class="button button--primary button--round-corner">add products</button>
+        {% endif %}
+    </span>
+    <span class="m-f-xxs m-r-xxs">to</span>
+    <span id="set-country-button">
+        {% if profile.expertise_countries_labels %}
+            {% for label in profile.expertise_countries_labels %}
+                <button class="button button--primary button--round-corner">{{ label }}</button>
+            {% endfor %}
+        {% else %}
+            <button class="button button--primary button--round-corner">add countries</button>
+        {% endif %}
+    </span>
+</nav>
+
+<script type="text/javascript">
+    // This inline scrit is temporary
+    ditMVP.MarketSelectNavbar({
+        element: document.getElementById('market-select-navbar'),
+        productElement: document.getElementById('set-product-button'),
+        countryElement: document.getElementById('set-country-button')
+    })
+
+    var countriesModalElement = document.createElement('div');
+    document.body.appendChild(countriesModalElement);        
+    ditMVP.CountriesModal({element: countriesModalElement});
+
+    var productsModalElement = document.createElement('div');
+    document.body.appendChild(productsModalElement);
+    ditMVP.ProductsModal({element: productsModalElement});
+
+    {% if request.user.is_authenticated and not request.user.export_plan.target_markets %}
+        var suggestedCountries = {{ suggested_countries|safe }}
+        ditMVP.Countries({
+            element: document.getElementById('countries-chooser'),
+            suggestedCountries: suggestedCountries,
+        })
+    {% endif %}
+  
+</script>
