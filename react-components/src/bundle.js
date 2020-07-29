@@ -10,6 +10,8 @@ import ProductLookup from '@src/views/ProductLookup/Container'
 import LoginModal from '@src/views/LoginModal/Modal'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Container'
+import { createRouteToMarket } from '@src/components/RouteToMarket/RouteToMarket'
+import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createBrandAndProductForm } from '@src/components/BrandAndProduct'
 import { createBusinessRationale } from '@src/components/BusinessRationale'
@@ -22,6 +24,8 @@ import '@babel/polyfill'
 export default {
   Countries,
   CountriesModal,
+  createRouteToMarket,
+  createTargetAgeGroupInsights,
   createTargetMarketCountries,
   createBusinessRationale,
   createObjectivesList,
