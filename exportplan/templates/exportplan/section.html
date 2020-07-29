@@ -6,7 +6,7 @@
 {% block content %}
 
 {% include "exportplan/includes/sidebar.html" %}
-{% include "exportplan/includes/sticky-header.html" %}
+{% include "learn/includes/personalisation_bar.html" with profile=request.user.company %}
 
 <section class="main-section bg-stone-50 {{ view.slug }}-content" id="{{ view.slug }}-content">
 
