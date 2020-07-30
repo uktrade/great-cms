@@ -6,7 +6,7 @@
 
 {% block content %}
 
-{% include "exportplan/includes/sticky-header.html" %}
+{% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
 
 <section class="bg-stone-30 p-v-m">
   <div class="container">
@@ -50,27 +50,3 @@
 {% endblock %}
 
 
-{% block body_js %}
-    {{ block.super }}
-    <script type="text/javascript">
-      ditMVP.MarketSelectNavbar({
-        element: document.getElementById('exportplan-country-sector-customisation-bar'),
-        productElement: document.getElementById('exportplan-country-sector-what'),
-        countryElement: document.getElementById('exportplan-country-sector-where')
-      })
-
-      var productsModalElement = document.createElement('div');
-      document.body.appendChild(productsModalElement);
-      ditMVP.ProductsModal({element: productsModalElement})
-
-      var signupModalElement = document.createElement('div');
-      document.body.appendChild(signupModalElement);
-      ditMVP.SignupModal({element: signupModalElement})
-
-      var countriesModalElement = document.createElement('div');
-      document.body.appendChild(countriesModalElement);
-      ditMVP.CountriesModal({element: countriesModalElement})
-
-    </script>
-
-{% endblock %}
