@@ -60,8 +60,8 @@ export default function Modal(props) {
       </div>
       <div className="great-tour-modal__footer">
         <div className="great-checkbox">
-          <input type="checkbox" id="checkbox" onChange={() => console.log('changed')} />
-          <label htmlFor="checkbox">Don’t show me this again</label>
+          <input type="checkbox" id="great-tour-disable" onChange={() => props.handleDisable()} />
+          <label htmlFor="great-tour-disable">Don’t show me this again</label>
         </div>
       </div>
     </ReactModal>
@@ -70,5 +70,7 @@ export default function Modal(props) {
 
 Modal.propTypes = {
   handleSkip: PropTypes.func.isRequired,
-  handleStart: PropTypes.func.isRequired
+  handleStart: PropTypes.func.isRequired,
+  handleTourClose: PropTypes.func.isRequired,
+  handleDisable: PropTypes.func.isRequired
 }
