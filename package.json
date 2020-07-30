@@ -114,6 +114,6 @@
         "svg-inline-loader": "^0.8.2",
         "@babel/polyfill": "^7.10.1",
         "rxjs": "^6.5.5",
-        "great-styles": "file:../great-styles"
+        "great-styles": "uktrade/great-styles"
     }
 }
