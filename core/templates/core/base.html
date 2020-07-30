@@ -11,6 +11,7 @@
 {% block head_js %}
   {{ block.super }}
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
+    <script src="https://use.fontawesome.com/88eb2f9954.js"></script>
 {% endblock %}
 
 {% block body_header %}
@@ -56,6 +57,7 @@
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
           countryDataUrl: '{% url "exportplan:api-country-data" %}',
+          marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url "core:dashboard" %}',

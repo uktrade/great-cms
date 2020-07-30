@@ -129,8 +129,8 @@ def test_recommended_countries(
     url = reverse('exportplan:ajax-recommended-countries-data')
 
     recommended_countries = [{'country': 'Japan'}, {'country': 'South Korea'}]
-    mock_get_recommended_countries.return_value = recommended_countries
 
+    mock_get_recommended_countries.return_value = recommended_countries
     mock_get_export_plan.return_value = {'pk': 1, 'sectors': ['electrical']}
 
     response = client.get(url, {'sectors': 'Automotive,Electrical'})
@@ -162,3 +162,14 @@ def test_recommended_countries_no_country(client, user):
     response = client.get(url)
 
     assert response.status_code == 400
+
+
+@pytest.mark.django_db
+def test_retrieve_marketing_country_data(client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-marketing-country-data')
+
+    response = client.get(url, {'country': 'Canada', 'age_group_start': '5, 10 , 15'})
+    assert response.json()['cia_factbookdata']['country'] == 'Canada'
+    assert response.json()['country_population']['population_by_age']['age_groups'] == '5, 10 , 15'
