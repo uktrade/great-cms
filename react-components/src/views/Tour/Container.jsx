@@ -24,6 +24,13 @@ export function Container(props) {
   }
 
   function handleTourClose() {
+    setIsOpenModal(false)
+    setIsOpenTour(false)
+  }
+
+  function handleTourDisable() {
+    setCookie(props.disableTourCookieName, 'true')
+    setIsOpenModal(false)
     setIsOpenTour(false)
   }
 
@@ -31,6 +38,7 @@ export function Container(props) {
     <Component
       handleSkip={handleSkipTour}
       handleStart={handleStartTour}
+      handleDisable={handleTourDisable}
       isOpenModal={isOpenModal}
       buttonText={props.buttonText}
       title={props.title}
