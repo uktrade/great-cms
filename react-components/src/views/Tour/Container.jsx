@@ -24,6 +24,7 @@ export function Container(props) {
   }
 
   function handleTourClose() {
+    setIsOpenModal(false)
     setIsOpenTour(false)
   }
 
