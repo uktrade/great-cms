@@ -3,11 +3,16 @@
 
 .great-tour-modal {
   background: $white;
-  padding: 35px;
+  padding: 35px 35px 0;
 
   img {
     max-width: 100%;
   }
+}
+
+.great-tour-modal__footer {
+  border-top: 1px solid $black-10;
+  padding: 20px 35px;
 }
 
 .great-modal-heading {
