@@ -1,0 +1,25 @@
+
+{% load wagtailcore_tags %}
+
+{% comment %}
+****************
+A horizontal bar consisting of routing sections - each with a title, body, image and button.
+As seen at the top of the domestic dashboard.
+**************
+{% endcomment %}
+
+{% if routes %}
+    <div class="grid m-b-s" id="pre-journey-routing-component">
+        <div class="c-full great-dashboard__routing">
+            <div class="bg-white p-s great-dashboard-card">
+                <div class="grid routes">
+                    {% for route in routes  %}
+                        <article class="dashboard__routing-block w-full-m c-1-{{routes|length}}-l">
+                            {% include_block route %}
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
