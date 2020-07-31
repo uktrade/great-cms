@@ -11,6 +11,17 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
             raise serializers.ValidationError('sectors is a required field')
 
 
+class PopulationDataSerializer(serializers.Serializer):
+    target_age_groups = serializers.ListField(child=serializers.CharField())
+    country = serializers.CharField()
+
+    def validate_target_age_groups(self, value):
+        if value:
+            return value[0].split(',')
+        else:
+            raise serializers.ValidationError('target age(s) is a required field')
+
+
 class BrandAndProductDetailsSerializer(serializers.Serializer):
     story = serializers.CharField(required=False, allow_blank=True)
     location = serializers.CharField(required=False, allow_blank=True)
