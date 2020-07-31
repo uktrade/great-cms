@@ -1,0 +1,24 @@
+.route-to-market {
+  &__table {
+    background: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin-bottom: 30px;
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid grey;
+    }
+  }
+
+  &__table-cell {
+    border-bottom: 1px solid grey;
+    padding: 30px;
+
+    &:last-child {
+      border: 0;
+    }
+  }
+}

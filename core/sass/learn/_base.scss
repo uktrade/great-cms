@@ -140,6 +140,7 @@ $desktop: 1024px;
   position: absolute;
   right: 0;
   max-width: 50%;
+  max-height: 250px;
 }
 
 .learn__single-category-header-wrapper {
@@ -291,10 +292,5 @@ $desktop: 1024px;
       font-weight: bold;
       display: block;
     }
-  }
-
-  .set-product-button,
-  .set-country-button {
-    cursor: pointer;
   }
 }

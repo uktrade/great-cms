@@ -7,10 +7,10 @@ export default class CountryData extends React.Component {
   constructor(props) {
     super(props)
     const {
-      data: { timezone },
+      data: { timezone }
     } = this.props
     this.state = {
-      time: new Date().toLocaleTimeString('en-GB', { timeZone: timezone }), // has to come from data TODO
+      time: new Date().toLocaleTimeString('en-GB', { timeZone: timezone }) // has to come from data TODO
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -27,10 +27,10 @@ export default class CountryData extends React.Component {
 
   tick() {
     const {
-      data: { timezone },
+      data: { timezone }
     } = this.props
     this.setState({
-      time: new Date().toLocaleTimeString('en-GB', { timeZone: timezone }),
+      time: new Date().toLocaleTimeString('en-GB', { timeZone: timezone })
     })
   }
 
@@ -49,8 +49,8 @@ export default class CountryData extends React.Component {
         country,
         last_year_data: lastYearData,
         corruption_perceptions_index: corruptionPerceptionsIndex,
-        easeofdoingbusiness,
-      },
+        easeofdoingbusiness
+      }
     } = this.props
 
     const { time } = this.state
@@ -71,7 +71,7 @@ export default class CountryData extends React.Component {
                     id={`ease-of-doing-business-tooltip-${slugify(country)}`}
                     heading="What is Ease of Doing Business Rank?"
                     description="Ease of doing business ranks economies from 1 to 190, with first place being the best. A high ranking (a low numerical rank) means that the regulatory environment is conducive to business operation"
-                    />
+                  />
                 </figcaption>
                 <p className="statistic__figure">
                   {easeofdoingbusiness && easeofdoingbusiness.year_2019 ? (
@@ -89,11 +89,11 @@ export default class CountryData extends React.Component {
               <figure className="statistic">
                 <figcaption>
                   <p className="statistic__caption educational-moment__paragraph">Corruption Perception Index</p>
-                    <EducationalMomentTooltip
-                      id={`corruption-perception-index-tooltip-${slugify(country)}`}
-                      heading="What is the Corruption Perception Index?"
-                      description='The Corruption Perception Index (CPI) is an index published annually by Transparency International since 1995 which ranks countries "by their perceived levels of public sector corruption, as determined by expert assessments and options surveys."'
-                      />
+                  <EducationalMomentTooltip
+                    id={`corruption-perception-index-tooltip-${slugify(country)}`}
+                    heading="What is the Corruption Perception Index?"
+                    description='The Corruption Perception Index (CPI) is an index published annually by Transparency International since 1995 which ranks countries "by their perceived levels of public sector corruption, as determined by expert assessments and options surveys."'
+                  />
                 </figcaption>
                 <p className="statistic__figure">
                   {corruptionPerceptionsIndex && corruptionPerceptionsIndex.rank ? (
@@ -136,7 +136,8 @@ export default class CountryData extends React.Component {
                     </p>
                   </figcaption>
                   <p className="statistic__figure">
-                    {parseInt(lastYearData.trade_value, 10).toLocaleString()} USD <span className="statistic__details">Source: Comtrade</span>
+                    {parseInt(lastYearData.trade_value, 10).toLocaleString()} USD{' '}
+                    <span className="statistic__details">Source: Comtrade</span>
                   </p>
                 </figure>
               ) : null}
@@ -172,20 +173,20 @@ CountryData.propTypes = {
       year: PropTypes.string,
       trade_value: PropTypes.string,
       country_name: PropTypes.string,
-      year_on_year_change: PropTypes.string,
+      year_on_year_change: PropTypes.string
     }),
     corruption_perceptions_index: PropTypes.shape({
       rank: PropTypes.number,
       country_code: PropTypes.string,
       country_name: PropTypes.string,
-      cpi_score_2019: PropTypes.number,
+      cpi_score_2019: PropTypes.number
     }),
     easeofdoingbusiness: PropTypes.shape({
       total: PropTypes.number,
       year_2019: PropTypes.number,
       country_code: PropTypes.string,
-      country_name: PropTypes.string,
-    }),
+      country_name: PropTypes.string
+    })
   }).isRequired,
-  removeCountry: PropTypes.func.isRequired,
+  removeCountry: PropTypes.func.isRequired
 }

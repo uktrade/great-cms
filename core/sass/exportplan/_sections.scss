@@ -17,12 +17,12 @@
   @include ExportPlanHeading;
 }
 
-.marketing-approach-content p {
-  @include ExportPlanBodyText;
-}
-
 .text-inset {
   @include textInset;
+}
+
+.marketing-approach-content {
+  font-family: 'FS Lucas';
 }
 
 .bottom-nav {

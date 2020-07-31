@@ -103,6 +103,9 @@ class BrandAndProductForm extends React.Component {
               name={field.name}
               value={formData[field.name]}
               description={field.description}
+              placeholder={Number.isInteger(field.placeholder) ? field.placeholder : 'Add some text'}
+              currency={field.currency}
+              tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
               handleChange={this.handleChange}
             />
           ))}
