@@ -67,7 +67,7 @@ class RouteSectionBlock(blocks.StructBlock):
     button = ButtonBlock(icon='cog')
 
     class Meta:
-        template = 'core/route-section.html'
+        template = 'core/includes/_route-section.html'
 
 
 class ModularContentStaticBlock(blocks.StaticBlock):
