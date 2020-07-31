@@ -10,6 +10,7 @@ airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.18     # via -r requirements_test.in
 allure-python-commons==2.8.18  # via allure-pytest
+appnope==0.1.0            # via ipython
 astroid==2.4.2            # via pylint
 attrs==19.3.0             # via allure-python-commons, jsonschema, pytest
 babel==2.8.0              # via sphinx
