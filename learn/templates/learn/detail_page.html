@@ -31,9 +31,7 @@
 
                 </ul>
             </aside>
-            <div class="c-5-6">
-                {% include "learn/includes/personalisation_bar.html" with profile=request.user.company %}
-            </div>
+            {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
             <div class="grid p-t-l p-f-l">
                 <div class="c-2-3">
                     <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>

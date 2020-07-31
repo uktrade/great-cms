@@ -21,12 +21,6 @@ defaults = dict(
             selector='.exportplan-section-item img',
         ),
         models.TourStep(
-            title='Collaborate with your team and International Trade Advisers',
-            body='If you like, you can share your draft plan with colleagues for them to contribute too.',
-            position='bottom',
-            selector='#exportplan-collaboraton-menu',
-        ),
-        models.TourStep(
             title='Learn as you go',
             body=(
                 'You can also go back to your learning, or choose any guidance we linked to your export '
@@ -48,7 +42,7 @@ defaults = dict(
                 'useful links, hints and data.'
             ),
             position='bottom',
-            selector='#exportplan-country-sector-customisation-bar p',
+            selector='#personalisation-bar',
         ),
     ]
 )

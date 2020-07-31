@@ -28,6 +28,9 @@ export default function Tour(props) {
       onBeforeOpen={() => {
         document.body.style.overflowY = 'auto'
       }}
+      onBeforeClose={() => {
+        document.body.style.overflowY = 'auto'
+      }}
       steps={steps}
       isOpen={props.isOpen}
       onRequestClose={props.handleClose}
