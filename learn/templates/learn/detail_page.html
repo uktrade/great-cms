@@ -35,6 +35,16 @@
             <div class="grid p-t-l p-f-l">
                 <div class="c-2-3">
                     <h1 class="h-xl text-blue-deep-80" id="lesson-title">{{ self.title }}</h1>
+                    <div class="objectives">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed auctor sapien.</p>
+                        <p>Integer semper interdum felis, at posuere urna elementum ac. Donec rhoncus, augue id mollis consectetur, velit metus varius</p>
+                        <p>Morbi accumsan, neque ut efficitur sollicitudin, tortor ex eleifend nisl, in tempus odio quam at enim.</p>
+                        <ul class="list-bullet">
+                            <li>List item 1</li>
+                            <li>List item 2</li>
+                            <li>List item 3</li>
+                        </ul>
+                    </div>
                     {% include 'core/personalised_body.html' %}
                     <div id="countries-chooser" class="w-full-viewport"></div>
                     {% with page.get_next_siblings.live.first as next_page %}
