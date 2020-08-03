@@ -15,7 +15,7 @@ const mockGroups = [
 ]
 
 const mockResponse = {
-  cia_factbookdata: {
+  cia_factbook_data: {
     languages: {
       language: [{ name: 'English' }, { name: 'French' }, { name: 'Spanish' }]
     }
@@ -24,19 +24,17 @@ const mockResponse = {
     consumer_price_index: {
       value: 123
     },
-    internet_use_percentage_pop: 0.2
-  },
-  country_population: {
-    population_totals: {
-      total: 1000,
-      urban_percentage: 0.4,
-      rural_percentage: 0.6
-    },
-    population_by_age: {
-      female_total: 100,
-      male_total: 100,
-      total: 200
+    internet_usage: {
+      value: 80
     }
+  },
+  population_data: {
+    female_target_age_population: 100,
+    male_target_age_population: 200,
+    total_population: 200,
+    urban_percentage: 0.4,
+    rural_percentage: 0.6,
+    total_target_age_population: 1000,
   }
 }
 
@@ -87,16 +85,16 @@ describe('TargetAgeGroupInsights', () => {
 describe('utils', () => {
   test('mapData', () => {
     expect(mapData(mockResponse)).toEqual({
-      population: 1000,
-      cpi: 123,
+      population: 0.2,
+      cpi: '123.00',
       urban: 40,
       rural: 60,
-      female: 100,
-      male: 100,
-      internet_percentage: 20,
-      internet_total: 200,
-      target_population: 200,
-      target_population_percentage: 20,
+      female: 0.1,
+      male: 0.2,
+      internet_percentage: 80,
+      internet_total: 0.2,
+      target_population: 1,
+      target_population_percentage: 500,
       languages: 'English, French, Spanish'
     })
   })
