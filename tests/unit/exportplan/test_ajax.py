@@ -191,3 +191,13 @@ def test_retrieve_marketing_country_data(mock_population_data, mock_factbook_dat
         'population_data': {'target_population': 10000},
         'country_data': {'cpi': 100},
     }
+
+
+@pytest.mark.django_db
+def test_retrieve_marketing_country_data_no_target_ages(client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-marketing-country-data')
+    response = client.get(url, {'country': 'Canada'})
+
+    assert response.status_code == 400
