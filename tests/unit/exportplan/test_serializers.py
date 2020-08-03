@@ -141,3 +141,10 @@ def test_population_data_serializer():
     serializer = serializers.PopulationDataSerializer(data=data)
     assert serializer.is_valid()
     assert serializer.data['target_age_groups'] == ['0-5', '5-25']
+
+
+def test_population_data_serializer_missing_target_age():
+
+    data = {'country': 'uk'}
+    serializer = serializers.PopulationDataSerializer(data=data)
+    assert serializer.is_valid() is False
