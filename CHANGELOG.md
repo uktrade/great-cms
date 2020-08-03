@@ -25,7 +25,7 @@
 
 ### Implemented enhancements
 
-- GP2-210 - Restyle of personalisation bar
+- GP2-210 - Personalisation bar restyled and moved to core component
 - GP2-159 - learning onboarding - tooltips
 - GP2-160 - learning onboarding - skip walkthrough
 - GP2-156 - learning onboarding - welcome message

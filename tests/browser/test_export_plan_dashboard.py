@@ -11,10 +11,9 @@ from tests.browser.common_selectors import (
     ExportPlanDashboardPageTourStep2,
     ExportPlanDashboardPageTourStep3,
     ExportPlanDashboardPageTourStep4,
-    ExportPlanDashboardPageTourStep5,
     HeaderCommon,
     HeaderSignedIn,
-    StickyHeader,
+    PersonalisationBar,
 )
 from tests.browser.steps import (
     should_not_see_element,
@@ -50,7 +49,6 @@ def click_through_page_tour(browser):
         ExportPlanDashboardPageTourStep2,
         ExportPlanDashboardPageTourStep3,
         ExportPlanDashboardPageTourStep4,
-        ExportPlanDashboardPageTourStep5,
     ]
 
     for idx, step in enumerate(steps[:-1]):
@@ -59,7 +57,7 @@ def click_through_page_tour(browser):
         attach_jpg_screenshot(browser, str(step))
         should_see_all_elements(browser, steps[idx + 1])
 
-    click_next(browser, ExportPlanDashboardPageTourStep5)
+    click_next(browser, ExportPlanDashboardPageTourStep4)
 
 
 @pytest.mark.django_db
@@ -72,9 +70,10 @@ def test_export_plan_dashboard_click_through_page_tour(
 
     visit_page(live_server, browser, '', 'Dashboard', endpoint='/export-plan/dashboard/')
     should_see_all_expected_page_sections(
-        browser, [HeaderCommon, HeaderSignedIn, StickyHeader, ExportPlanDashboard, ExportPlanDashboardPageTourStep0]
+        browser, [HeaderCommon, HeaderSignedIn, PersonalisationBar,
+                  ExportPlanDashboard, ExportPlanDashboardPageTourStep0]
     )
 
     click_through_page_tour(browser)
 
-    should_not_see_element(browser, ExportPlanDashboardPageTourStep5.STEP)
+    should_not_see_element(browser, ExportPlanDashboardPageTourStep4.STEP)

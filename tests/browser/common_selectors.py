@@ -158,12 +158,10 @@ class MarketsContainer(SelectorsEnum):
     FORM = Selector(By.ID, 'markets-form')
 
 
-class StickyHeader(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
-    WHAT = Selector(By.ID, 'exportplan-country-sector-what')
-    WHERE = Selector(By.ID, 'exportplan-country-sector-where')
-    SHARE = Selector(By.ID, 'exportplan-collaboraton-menu-share', type=ElementType.LINK)
-    DOWNLOAD = Selector(By.ID, 'exportplan-collaboraton-menu-download', type=ElementType.LINK)
+class PersonalisationBar(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'personalisation-bar')
+    PRODUCT = Selector(By.ID, 'set-product-button')
+    COUNTRY = Selector(By.ID, 'set-country-button')
 
 
 class ExportPlanDashboard(SelectorsEnum):
@@ -188,7 +186,7 @@ class ExportPlanDashboardPageTourStep0(SelectorsEnum):
 
 class ExportPlanDashboardPageTourStep1(SelectorsEnum):
     STEP = Selector(By.ID, 'page-tour-step-where-do-you-want-to-export')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'personalisation-bar')
     NEXT = Selector(By.ID, 'page-tour-next-step')
 
 
@@ -205,12 +203,6 @@ class ExportPlanDashboardPageTourStep3(SelectorsEnum):
 
 
 class ExportPlanDashboardPageTourStep4(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-collaborate-with-your-team-and-international-trade-advisers',)
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-collaboraton-menu')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep5(SelectorsEnum):
     STEP = Selector(By.ID, 'page-tour-step-lets-start')
     HIGHLIGHTED_ELEMENT = Selector(By.ID, 'brand-and-product')
     NEXT = Selector(By.ID, 'page-tour-start-now', type=ElementType.LINK)
