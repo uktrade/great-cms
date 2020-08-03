@@ -31,6 +31,7 @@
 
 ### Implemented enhancements
 
+- GP2-252 - Lesson - objectives
 - GP2-79 - Lessons - title
 - GP2-210 - Personalisation bar restyled and moved to core component
 - GP2-159 - learning onboarding - tooltips
