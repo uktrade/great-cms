@@ -273,7 +273,7 @@ def mock_get_export_plan_rules_regulations():
 @pytest.fixture
 def mock_get_comtrade_last_year_import_data():
     return_value = {'last_year_data_partner': {'Year': 2019, 'value': 16249072}}
-    with patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata', return_value=return_value) as patched:
+    with patch.object(exportplan_helpers, 'get_comtrade_last_year_import_data', return_value=return_value) as patched:
         yield patched
 
 
@@ -334,14 +334,14 @@ def mock_get_corruption_perceptions_index():
 def mock_get_ease_of_doing_business():
     data = CHINA['easeofdoingbusiness']
     return_value = create_response(status_code=200, json_body=data)
-    with patch.object(api_client.dataservices, 'get_easeofdoingbusiness', return_value=return_value) as patched:
+    with patch.object(api_client.dataservices, 'get_ease_of_doing_business', return_value=return_value) as patched:
         yield patched
 
 
 @pytest.fixture
 def mock_get_last_year_import_data():
     return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
-    with patch.object(api_client.dataservices, 'get_lastyearimportdata', return_value=return_value) as patched:
+    with patch.object(api_client.dataservices, 'get_last_year_import_data', return_value=return_value) as patched:
         yield patched
 
 
