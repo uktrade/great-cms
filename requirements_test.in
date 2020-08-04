@@ -4,7 +4,7 @@
 # ------------
 Werkzeug
 allure-pytest
-pillow
+Pillow>=7.1.0
 selenium
 locust
 pytest==5.3.5
