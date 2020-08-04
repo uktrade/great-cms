@@ -24,8 +24,8 @@ chardet==3.0.4            # via requests
 click==7.1.2              # via flask, pip-tools
 codecov==2.1.8            # via -r requirements_test.in
 configargparse==1.2.3     # via locust
-cryptography==2.9.2       # via -r requirements.in, -r requirements_test.in
 coverage==5.2.1           # via codecov, pytest-cov
+cryptography==2.9.2       # via -r requirements.in, -r requirements_test.in
 cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
 directory-api-client==22.1.0  # via -r requirements.in
