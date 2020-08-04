@@ -28,7 +28,6 @@
 <div id="target-age-groups-component" class="m-b-xl">
   {% include "exportplan/includes/insight.html" %}
 </div>
-<p>TODO</p>
 
 {% endblock %}
 
@@ -41,8 +40,6 @@
       <h2 class="h-l">How will you get your product to customers in the Netherlands?</h2>
       <p>Make a list of the ways you’ll get your product to customers. You can choose more than one option.</p>
       <div id="route-to-market-component" class="m-b-xl"></div>
-
-      <p>TODO</p>
     </div>
   </div>
 </section>
@@ -51,8 +48,7 @@
   <div class="grid">
     <div class="c-1-3">&nbsp;</div>
     <div class="c-1-2">
-      <h2 class="h-m">What marketing resources do you need?</h2>
-      <p>!!! TODO !!!</p>
+      <div id="spending-and-resources-component" class="m-b-xl"></div>
     </div>
   </div>
 </section>
@@ -108,24 +104,46 @@
       country: 'Netherlands'
     })
 
-    element = document.getElementById('route-to-market-component');
-    ditMVP.createRouteToMarket({
+    element = document.getElementById('spending-and-resources-component');
+    ditMVP.createSpendingAndResources({
       element,
       data: [
         {
-          label: 'Route to market',
-          options: ['Direct sales', 'International e-commerce', 'Agent or distributor', 'Licensing', 'Franchising', 'Joint ventures', 'Set up a business abroad', 'Other'],
-          name: 'route'
+          label: 'What marketing resources do you need?',
+          description: 'This is a description',
+          example: '<p>An example of the required text</p>',
+          name: 'test'
         },
         {
-          label: 'How will we promote your product',
-          options: ['Marketing at events', 'Online marketing', 'Other'],
-          name: 'promote'
+          label: 'How much do you think you’ll spend on marketing?',
+          description: 'This is a description',
+          example: '<p>An example of the required text</p>',
+          name: 'test'
         }
-      ],
-      example: '<p>We’ve found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>',
-      label: 'Explain in your words why you selected this route to market and promotional channel',
-      name: 'market_promotional_channel'
+      ]
+    })
+
+    element = document.getElementById('route-to-market-component');
+    ditMVP.createRouteToMarket({
+      element,
+      field: 'marketing_approach',
+      formData: {
+        data: [
+          {
+            label: 'Route to market',
+            options: ['Direct sales', 'International e-commerce', 'Agent or distributor', 'Licensing', 'Franchising', 'Joint ventures', 'Set up a business abroad', 'Other'],
+            name: 'route'
+          },
+          {
+            label: 'How will we promote your product',
+            options: ['Marketing at events', 'Online marketing', 'Other'],
+            name: 'promote'
+          }
+        ],
+        example: '<p>We’ve found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>',
+        label: 'Explain in your words why you selected this route to market and promotional channel',
+        name: 'market_promotional_channel'
+      }
     })
   </script>
 {% endblock %}
