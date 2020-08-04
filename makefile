@@ -17,8 +17,8 @@ pytest:
 		--cov=. \
 		$(ARGUMENTS)
 
-# Usage: make single_pytest <path_to_file>::<method_name>
-single_pytest:
+# Usage: make pytest_single <path_to_file>::<method_name>
+pytest_single:
 	ENV_FILES=$(ENV_FILES) \
 	pytest \
 	    $(ARGUMENTS)

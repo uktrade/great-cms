@@ -17,7 +17,6 @@ class UserLocationStoreMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         if request.user.is_authenticated and isinstance(request.user, BusinessSSOUser):
-        # if request.user.is_authenticated:
             helpers.store_user_location(request)
 
 
