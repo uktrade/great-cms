@@ -25,7 +25,7 @@ class TargetAgeGroupInsights extends React.Component {
     event.preventDefault()
     this.toggleSelector()
 
-    Services.getMarketingCountryData({ country: this.props.country, age_group_start: this.state.selectedGroups })
+    Services.getMarketingCountryData({ country: this.props.country, target_age_groups: this.state.selectedGroups })
       .then((data) =>
         this.setState({
           data: mapData(data)

@@ -1,12 +1,6 @@
 # Changelog
 
-- AA-129 - wagtail import export for Beta environment
-- GP2-270 - Homepage editable
-
 ## Pre-release
-
-- GP2-218 - Image and media surfacing from CMS modules
-- No ticket - Wagtail upgrade to 2.9.3
 
 ### Fixed bugs
 
@@ -145,3 +139,8 @@
 - GP2-163 - Show estimated reading time for lesson
 - no-ticket - Migrate to codecov remove coveralls
 - no-ticket - Bump django version to 2.2.14
+- AA-129 - wagtail import export for Beta environment
+- GP2-270 - Homepage editable
+- GP2-218 - Image and media surfacing from CMS modules
+- No ticket - Wagtail upgrade to 2.9.3
+- GP2-312-  integrate population data target audience

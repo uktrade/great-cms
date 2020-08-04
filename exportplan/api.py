@@ -101,72 +101,17 @@ class ExportPlanRecommendedCountriesDataView(APIView):
 class RetrieveMarketingCountryData(APIView):
     # Mock view to retrieve data for market approach page
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.PopulationDataSerializer
 
     def get(self, request):
-        # population_data = helpers.get_country_population_data(country, age_group_start=[25,40])
-        # country_data = helpers.get_country_data(country)
-        # factbook_data = helpers.get_cia_factbook_data_data(country,'language')
-        country = self.request.GET.get('country')
-        age_group_start = self.request.GET.get('age_group_start')
+        serializer = self.serializer_class(data=self.request.GET)
+        serializer.is_valid(raise_exception=True)
+        target_age_groups = serializer.validated_data['target_age_groups']
+        country = serializer.validated_data['country']
 
-        population_data = {
-            'country_population':
-            {
-                'country': country,
-                'population_by_age':
-                    {
-                        'age_groups': age_group_start,
-                        'year': 2020,
-                        'male_total': 1389.541,
-                        'female_total': 1343.606,
-                        'total': 2733.147,
-                    },
-                'population_totals':
-                    {
-                        'year': 2019,
-                        'male_total': 18563.538,
-                        'female_total': 18847.5,
-                        'total': 37411.038,
-                        'rural_percentage': 0.6,
-                        'urban_percentage': 0.4,
-                    }
-            }
-        }
-        country_data = {
-            'country_data': {
-                'country': country,
-                'consumer_price_index': {'value': 135.70, 'year': 2019, },
-                'internet_use_percentage_pop': 0.243,
-            }
-        }
-        factbook_data = {
-            'cia_factbookdata':
-                {
-                    'country': country,
-                    'languages': {
-                        'date': '2017',
-                        'note': 'data represent the language spoken at home',
-                        'language': [
-                            {
-                                'name': 'English only',
-                                'percent': 78.2
-                            },
-                            {
-                                'name': 'Spanish',
-                                'percent': 13.4,
-                            },
-                            {
-                                'name': 'Chinese',
-                                'percent': 1.1,
-                            },
-                            {
-                                'name': 'other',
-                                'percent': 7.3
-                            }
-                        ]
-                    }
-                }
-        }
+        population_data = helpers.get_population_data(country=country, target_ages=target_age_groups)
+        country_data = helpers.get_country_data(country)
+        factbook_data = helpers.get_cia_world_factbook_data(country=country, key='people,languages')
         data = {**population_data, **country_data, **factbook_data}
         return Response(data)
 

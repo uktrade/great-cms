@@ -5,10 +5,15 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
     sectors = serializers.ListField(child=serializers.CharField())
 
     def validate_sectors(self, value):
-        if value:
-            return value[0].split(',')
-        else:
-            raise serializers.ValidationError('sectors is a required field')
+        return value[0].split(',')
+
+
+class PopulationDataSerializer(serializers.Serializer):
+    target_age_groups = serializers.ListField(child=serializers.CharField())
+    country = serializers.CharField()
+
+    def validate_target_age_groups(self, value):
+        return value[0].split(',')
 
 
 class BrandAndProductDetailsSerializer(serializers.Serializer):
