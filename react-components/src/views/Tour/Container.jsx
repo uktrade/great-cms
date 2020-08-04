@@ -3,21 +3,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 
-import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie'
 import ReactModal from 'react-modal'
 
 import Component from './Component'
 
-
-export function Container(props){
-  const [cookies, setCookie] = useCookies([props.disableTourCookieName]); 
+export function Container(props) {
+  const [cookies, setCookie] = useCookies([props.disableTourCookieName])
   const [isOpenModal, setIsOpenModal] = React.useState(cookies[props.disableTourCookieName] !== 'true')
   const [isOpenTour, setIsOpenTour] = React.useState()
 
   function handleSkipTour(error) {
     setIsOpenModal(false)
     setIsOpenTour(false)
-    setCookie(props.disableTourCookieName, 'true');
   }
 
   function handleStartTour(nextStep) {
@@ -26,14 +24,21 @@ export function Container(props){
   }
 
   function handleTourClose() {
+    setIsOpenModal(false)
     setIsOpenTour(false)
-    setCookie(props.disableTourCookieName, 'true');
+  }
+
+  function handleTourDisable() {
+    setCookie(props.disableTourCookieName, 'true')
+    setIsOpenModal(false)
+    setIsOpenTour(false)
   }
 
   return (
     <Component
       handleSkip={handleSkipTour}
       handleStart={handleStartTour}
+      handleDisable={handleTourDisable}
       isOpenModal={isOpenModal}
       buttonText={props.buttonText}
       title={props.title}
@@ -46,12 +51,12 @@ export function Container(props){
 }
 
 Container.propTypes = {
-  isOpen: PropTypes.bool,
+  isOpen: PropTypes.bool
 }
 
 Container.defaultProps = {
   isOpenTour: false,
-  isOpenModal: false,
+  isOpenModal: false
 }
 
 export default function createModal({ element, ...params }) {

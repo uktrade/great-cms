@@ -113,3 +113,38 @@ def test_pk_only_serializer():
 
     assert serializer.is_valid()
     assert serializer.data == data
+
+
+def target_markets_research_serializer():
+
+    data = {
+        'demand': 'Lorem ipsum',
+        'competitors': 'Consectetur adipisicing elit',
+        'trend': 'Dolor sit amet',
+        'unqiue_selling_proposition': 'Sed do eiusmod tempor incididunt',
+        'average_price': 10
+    }
+
+    serializer = serializers.TargetMarketsResearchSerializer(data=data)
+
+    assert serializer.is_valid()
+    assert serializer.data == data
+
+
+def test_population_data_serializer():
+
+    data = {
+        'country': 'uk',
+        'target_age_groups': ['0-5,5-25'],
+    }
+
+    serializer = serializers.PopulationDataSerializer(data=data)
+    assert serializer.is_valid()
+    assert serializer.data['target_age_groups'] == ['0-5', '5-25']
+
+
+def test_population_data_serializer_missing_target_age():
+
+    data = {'country': 'uk', 'target_age_groups': ''}
+    serializer = serializers.PopulationDataSerializer(data=data)
+    assert serializer.is_valid() is False

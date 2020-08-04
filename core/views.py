@@ -24,6 +24,7 @@ STEP_SIGN_UP = 'sign-up'
 
 class DashboardView(TemplateView):
     template_name = 'core/dashboard.html'
+    page_name = 'dashboard'
 
     def get_context_data(self, **kwargs):
         user = self.request.user
@@ -41,7 +42,11 @@ class DashboardView(TemplateView):
             .order_by('-read_progress')
         )
 
+        visited_already = self.request.user.has_visited_page(self.page_name)
+        self.request.user.set_page_view(self.page_name)
+
         return super().get_context_data(
+            visited_already=visited_already,
             list_pages=list_pages,
             export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
             industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],

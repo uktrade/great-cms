@@ -44,7 +44,7 @@ class BrandAndProductForm extends React.Component {
   }
 
   formatData(data) {
-    return { brand_product_details: data }
+    return { [this.props.field] : data }
   }
 
   bindEvents() {
@@ -97,11 +97,15 @@ class BrandAndProductForm extends React.Component {
         {formFields.map(field => (
             <FieldWithExample
               tooltip={field.tooltip}
-              placeholder={field.placeholder}
               label={field.label}
+              example={field.example}
               key={field.name}
               name={field.name}
               value={formData[field.name]}
+              description={field.description}
+              placeholder={Number.isInteger(field.placeholder) ? field.placeholder : 'Add some text'}
+              currency={field.currency}
+              tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
               handleChange={this.handleChange}
             />
           ))}
@@ -118,6 +122,7 @@ BrandAndProductForm.propTypes = {
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
   })).isRequired,
+  field: PropTypes.string.isRequired,
   formData: PropTypes.objectOf(PropTypes.string).isRequired,
 }
 

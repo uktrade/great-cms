@@ -3,9 +3,15 @@
 - AA-129 - wagtail import export for Beta environment
 
 ## Pre-release
-- GP2-218 - Image and media surfacing from CMS modules
 
 ### Fixed bugs
+
+- GP2-280 - removal of product selector from dashboard
+- GP-310 - Format time as min rather than mins
+- GP2-247 - image resizing module image
+- GP2-246 - wrong url for learning header link
+- GP-96 - HS Codes saved in DirectoryAPI
+- GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
@@ -19,9 +25,19 @@
 - GP2-67 - fix backbutton upload logo
 - GP2-170 - business performance
 
-
 ### Implemented enhancements
 
+- GP2-252 - Lesson - objectives
+- GP2-79 - Lessons - title
+- GP2-210 - Personalisation bar restyled and moved to core component
+- GP2-159 - learning onboarding - tooltips
+- GP2-160 - learning onboarding - skip walkthrough
+- GP2-156 - learning onboarding - welcome message
+- GP2-307 - Add new form field to the target markets research page
+- GP2-207 - Welcome back message
+- GP2-197 - Export plan navigation to the next section
+- GP2-280 - Removal of product sector selector modal
+- GP2-192 - Marketing approach page structure
 - GP2-23 - Modules - not started
 - GP2-31 - Count of topics and lessons in a module
 - GP2-73 - Module landing page - topics & lessons
@@ -125,3 +141,8 @@
 - GP2-163 - Show estimated reading time for lesson
 - no-ticket - Migrate to codecov remove coveralls
 - no-ticket - Bump django version to 2.2.14
+- AA-129 - wagtail import export for Beta environment
+- GP2-270 - Homepage editable
+- GP2-218 - Image and media surfacing from CMS modules
+- No ticket - Wagtail upgrade to 2.9.3
+- GP2-312-  integrate population data target audience

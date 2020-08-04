@@ -21,7 +21,8 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       '@src': path.resolve(__dirname, 'src'),
-      '@assets': path.resolve(__dirname, 'assets')
+      '@assets': path.resolve(__dirname, 'assets'),
+      '@components': path.resolve(__dirname, '../node_modules/great-styles/dist/')
     }
   },
   module: {

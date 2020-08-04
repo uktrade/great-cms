@@ -4,7 +4,7 @@
     "description": "",
     "scripts": {
         "test": "jest  react-components/tests/",
-        "test:dev": "jest --watch react-components/tests/",
+        "test:dev": "jest --watch",
         "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
         "build-dev": "webpack --config react-components/webpack.config.js --mode development",
         "build": "webpack --config react-components/webpack.config.js --mode production",
@@ -47,6 +47,8 @@
         "@storybook/addon-viewport": "5.3.18",
         "@storybook/addons": "5.3.18",
         "@storybook/html": "5.3.18",
+        "@testing-library/jest-dom": "^5.11.1",
+        "@testing-library/react": "^10.4.7",
         "babel-eslint": "10.1.0",
         "babel-jest": "25.1.0",
         "babel-loader": "8.1.0",
@@ -95,7 +97,6 @@
     "dependencies": {
         "@invisionapp/dsm-storybook": "0.0.129",
         "@webcomponents/webcomponentsjs": "2.4.3",
-        "great-styles": "uktrade/great-styles#v0.1.0",
         "prop-types": "15.7.2",
         "react": "16.13.1",
         "react-cookie": "4.0.3",
@@ -112,6 +113,7 @@
         "styled-components": "5.0.1",
         "svg-inline-loader": "^0.8.2",
         "@babel/polyfill": "^7.10.1",
-        "rxjs": "^6.5.5"
+        "rxjs": "^6.5.5",
+        "great-styles": "uktrade/great-styles"
     }
 }

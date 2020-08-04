@@ -1,6 +1,5 @@
 .brand-and-product-content,
 .objectives-content {
-
   label {
     @extend .h-m;
   }
@@ -12,5 +11,21 @@
     border: 0;
     padding: 0;
   }
+}
 
+.export-plan-heading {
+  @include ExportPlanHeading;
+}
+
+.text-inset {
+  @include textInset;
+}
+
+.marketing-approach-content {
+  font-family: 'FS Lucas';
+}
+
+.bottom-nav {
+  display: flex;
+  align-items: flex-end;
 }

@@ -112,9 +112,24 @@ class FormContextMixin:
             field.widget.attrs.get('tooltip', '') for field in self.form_class.base_fields.values()
         ]
 
+        field_example = [
+            field.widget.attrs.get('example', '') for field in self.form_class.base_fields.values()
+        ]
+
+        field_description = [
+            field.widget.attrs.get('description', '') for field in self.form_class.base_fields.values()
+        ]
+
+        field_currency = [
+            field.widget.attrs.get('currency', '') for field in self.form_class.base_fields.values()
+        ]
+
         form_fields = [
-            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip}
-            for name, label, placeholder, tooltip in zip(field_names, field_labels, field_placeholders, field_tooltip)
+            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip, 'example': example,
+             'description': description, 'currency': currency}
+            for name, label, placeholder, tooltip, example, description, currency in zip(
+                field_names, field_labels, field_placeholders, field_tooltip, field_example, field_description,
+                field_currency)
         ]
 
         context['form_initial'] = json.dumps(context['form'].initial)
@@ -131,13 +146,14 @@ class ExportPlanBrandAndProductView(FormContextMixin, ExportPlanSectionView, For
     form_class = forms.ExportPlanBrandAndProductForm
     success_url = reverse_lazy('exportplan:brand-and-product')
 
-    def form_valid(self, form):
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.export_plan['pk'],
-            data={'brand_product_details': form.cleaned_data}
-        )
-        return super().form_valid(form)
+
+class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
+
+    def get_initial(self):
+        return self.export_plan['target_markets_research']
+
+    form_class = forms.ExportPlanTargetMarketsResearchForm
+    success_url = reverse_lazy('exportplan:target-markets-research')
 
 
 class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):

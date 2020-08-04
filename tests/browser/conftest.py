@@ -145,7 +145,14 @@ def visit_signup_page(live_server, browser, domestic_site_browser_tests):
 
 
 @pytest.fixture
-def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
+def server_user_browser_dashboard(
+    mock_get_company_profile,
+    server_user_browser,
+    settings,
+    domestic_site_browser_tests,
+    mock_get_has_visited_page,
+    mock_set_user_page_view
+):
     live_server, user, browser = server_user_browser
 
     browser.get(f'{live_server.url}/dashboard/')
@@ -266,7 +273,7 @@ def mock_get_export_plan_rules_regulations():
 @pytest.fixture
 def mock_get_comtrade_last_year_import_data():
     return_value = {'last_year_data_partner': {'Year': 2019, 'value': 16249072}}
-    with patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata', return_value=return_value) as patched:
+    with patch.object(exportplan_helpers, 'get_comtrade_last_year_import_data', return_value=return_value) as patched:
         yield patched
 
 
@@ -327,14 +334,14 @@ def mock_get_corruption_perceptions_index():
 def mock_get_ease_of_doing_business():
     data = CHINA['easeofdoingbusiness']
     return_value = create_response(status_code=200, json_body=data)
-    with patch.object(api_client.dataservices, 'get_easeofdoingbusiness', return_value=return_value) as patched:
+    with patch.object(api_client.dataservices, 'get_ease_of_doing_business', return_value=return_value) as patched:
         yield patched
 
 
 @pytest.fixture
 def mock_get_last_year_import_data():
     return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
-    with patch.object(api_client.dataservices, 'get_lastyearimportdata', return_value=return_value) as patched:
+    with patch.object(api_client.dataservices, 'get_last_year_import_data', return_value=return_value) as patched:
         yield patched
 
 
@@ -365,6 +372,18 @@ def mock_get_company_profile_with_expertise():
         'name': 'Example company',
     }
     with patch.object(sso_helpers, 'get_company_profile', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_has_visited_page():
+    with patch.object(sso_helpers, 'has_visited_page', return_value=None) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_set_user_page_view():
+    with patch.object(sso_helpers, 'set_user_page_view', return_value=None) as patched:
         yield patched
 
 

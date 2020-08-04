@@ -1,6 +1,5 @@
 import '../../core/sass/main.scss'
 
-
 import Signup from '@src/views/Signup/Container'
 import SignupModal from '@src/views/SignupModal/Container'
 import ProductsModal from '@src/views/ProductsModal/Container'
@@ -11,6 +10,8 @@ import ProductLookup from '@src/views/ProductLookup/Container'
 import LoginModal from '@src/views/LoginModal/Modal'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Container'
+import { createRouteToMarket } from '@src/components/RouteToMarket/RouteToMarket'
+import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createBrandAndProductForm } from '@src/components/BrandAndProduct'
 import { createBusinessRationale } from '@src/components/BusinessRationale'
@@ -20,10 +21,11 @@ import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal
 import Services from '@src/Services'
 import '@babel/polyfill'
 
-
 export default {
   Countries,
   CountriesModal,
+  createRouteToMarket,
+  createTargetAgeGroupInsights,
   createTargetMarketCountries,
   createBusinessRationale,
   createObjectivesList,
@@ -40,5 +42,5 @@ export default {
   SignupModal,
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
-  Tour,
+  Tour
 }

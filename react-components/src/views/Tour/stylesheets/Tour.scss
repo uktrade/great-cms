@@ -1,14 +1,71 @@
 @import 'helpers/colours';
+@import 'design-system/mixins';
 
-.great-mvp-tour-button {
-  font-size: 19px;
-  color: $white;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 19px;
-  text-align: center;
-  border-radius: 4px;
-  background-color: #606060;
-  border: none;
-  cursor: pointer;
+.great-tour-modal {
+  background: $white;
+  padding: 35px 35px 0;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.great-tour-modal__footer {
+  border-top: 1px solid $black-10;
+  padding: 20px 35px;
+}
+
+.great-modal-heading {
+  @include modalHeading;
+}
+
+.great-modal-text {
+  @include modalText;
+  margin-top: 16px;
+  margin-bottom: 34px;
+}
+
+.great-tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.great-tour-heading {
+  @include tourHeading;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.great-tour-text {
+  @include moduleLandingIntro;
+  margin-bottom: 12px;
+}
+
+.reactour__helper [data-tour-elem='controls'] {
+  display: block;
+  margin: 0;
+
+  [data-tour-elem='navigation'] {
+    justify-content: left;
+    margin-bottom: 28px;
+    margin-left: -3px;
+  }
+
+  [data-tour-elem='right-arrow'] {
+    display: block;
+    margin: 0;
+  }
+
+  [data-tour-elem='dot'] {
+    background: #d2d0da;
+    color: #d2d0da;
+
+    &.reactour__dot--is-active {
+      background: #4b426d;
+      color: #4b426d;
+      transform: scale(1);
+    }
+  }
 }

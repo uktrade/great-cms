@@ -135,9 +135,9 @@ def mock_user_location_create():
 @pytest.fixture
 @pytest.mark.django_db(transaction=True)
 @mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
-@mock.patch.object(api_client.dataservices, 'get_lastyearimportdata')
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
 @mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
-@mock.patch.object(api_client.dataservices, 'get_easeofdoingbusiness')
+@mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 def mock_export_plan_requests(
     mock_export_plan_list,
@@ -239,6 +239,22 @@ def mock_get_events(patch_get_dashboard_events):
 @pytest.fixture
 def patch_get_dashboard_export_opportunities():
     yield mock.patch('core.helpers.get_dashboard_export_opportunities', return_value=None)
+
+
+@pytest.fixture
+def patch_get_user_page_views():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_page_views',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
+
+
+@pytest.fixture
+def patch_set_user_page_view():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.set_user_page_view',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
 
 
 @pytest.fixture(autouse=True)

@@ -34,6 +34,14 @@ def company_profile_data():
     }
 
 
+@pytest.fixture(autouse=True)
+def export_plan_data():
+    return {
+        'brand_product_details': '',
+        'target_markets_research': ''
+    }
+
+
 def create_test_image(extension):
     image = Image.new('RGB', (300, 50))
     draw = ImageDraw.Draw(image)
@@ -74,8 +82,9 @@ def test_export_plan_builder_landing_page(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach', 'objectives'})
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
-def test_exportplan_sections(slug, client, user):
+@mock.patch.object(helpers, 'get_or_create_export_plan')
+def test_exportplan_sections(mock_get_create_exportplan, export_plan_data, slug, client, user):
+    mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
 
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))

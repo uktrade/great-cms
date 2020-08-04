@@ -9,9 +9,8 @@ import Services from '@src/Services'
 
 import './stylesheets/Modal.scss'
 
-
 const modalStyles = {
-  content : {
+  content: {
     background: '#f5f2ed',
     bottom: 'auto',
     left: '50%',
@@ -23,17 +22,17 @@ const modalStyles = {
     top: 75,
     width: 430,
     overflow: 'visible',
-    height: '100%',
+    height: '100%'
   },
   overlay: {
     zIndex: 1000,
     backgroundColor: 'transparent',
     width: 430,
-    height: '100%',
-  },
+    height: '100%'
+  }
 }
 
-export function Modal(props){
+export function Modal(props) {
   const [isOpen, setIsOpen] = React.useState(props.isOpen)
 
   function handleOpen(event) {
@@ -42,17 +41,13 @@ export function Modal(props){
   }
 
   function handleRequestSkipFeature() {
-    setCookie(props.skipFeatureCookieName, 'true');
+    setCookie(props.skipFeatureCookieName, 'true')
     setIsOpen(false)
   }
 
   return (
-    <div className='great-mvp-signup-modal'>
-      <ReactModal
-        isOpen={isOpen}
-        style={modalStyles}
-        contentLabel="Modal"
-      >
+    <div className="great-signup-modal">
+      <ReactModal isOpen={isOpen} style={modalStyles} contentLabel="Modal">
         <Wizard nextUrl={props.nextUrl} />
       </ReactModal>
     </div>
@@ -61,11 +56,11 @@ export function Modal(props){
 
 Modal.propTypes = {
   isOpen: PropTypes.bool,
-  nextUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string.isRequired
 }
 
 Modal.defaultProps = {
-  isOpen: false,
+  isOpen: false
 }
 
 export default function createModal({ element, ...params }) {

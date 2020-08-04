@@ -23,6 +23,12 @@ urlpatterns = [
         name='brand-and-product'
     ),
     path(
+        'section/target-markets-research/',
+        login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'target-markets-research'},
+        name='target-markets-research'
+    ),
+    path(
         'section/objectives/',
         login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=LOGIN_URL),
         {'slug': 'objectives'},
@@ -47,6 +53,7 @@ urlpatterns = [
     path('api/remove-country-data/', api.ExportPlanRemoveCountryDataView.as_view(), name='api-remove-country-data'),
     path('api/remove-sector/', api.ExportPlanRemoveSectorView.as_view(), name='api-remove-sector'),
     path('api/country-data/', api.ExportPlanCountryDataView.as_view(), name='api-country-data'),
+    path('api/marketing-country-data/', api.RetrieveMarketingCountryData.as_view(), name='api-marketing-country-data'),
     path('api/objectives/create/', api.ObjectivesCreateAPIView.as_view(), name='api-objectives-create'),
     path('api/objectives/update/', api.ObjectivesUpdateAPIView.as_view(), name='api-objectives-update'),
     path('api/objectives/delete/', api.ObjectivesDestroyAPIView.as_view(), name='api-objectives-delete'),

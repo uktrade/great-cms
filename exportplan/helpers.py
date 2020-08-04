@@ -62,7 +62,7 @@ def get_exportplan_marketdata(country_code):
     exportplan_response.raise_for_status()
     exportplan_marketdata['corruption_perceptions_index'] = exportplan_response.json()
 
-    marketdata_response = api_client.dataservices.get_easeofdoingbusiness(country_code)
+    marketdata_response = api_client.dataservices.get_ease_of_doing_business(country_code)
     marketdata_response.raise_for_status()
     exportplan_marketdata['easeofdoingbusiness'] = marketdata_response.json()
     return exportplan_marketdata
@@ -79,14 +79,14 @@ def get_timezone(country_code):
         return pytz.country_timezones(iso3_country_code)[0]
 
 
-def get_comtrade_lastyearimportdata(commodity_code, country):
-    response = api_client.dataservices.get_lastyearimportdata(commodity_code=commodity_code, country=country)
+def get_comtrade_last_year_import_data(commodity_code, country):
+    response = api_client.dataservices.get_last_year_import_data(commodity_code=commodity_code, country=country)
     response.raise_for_status()
     return response.json()
 
 
-def get_comtrade_historicalimportdata(commodity_code, country):
-    response = api_client.dataservices.get_historicalimportdata(commodity_code=commodity_code, country=country)
+def get_comtrade_historical_import_data(commodity_code, country):
+    response = api_client.dataservices.get_historical_import_data(commodity_code=commodity_code, country=country)
     response.raise_for_status()
     return response.json()
 
@@ -149,3 +149,21 @@ def delete_objective(sso_session_id, data):
     response = api_client.exportplan.exportplan_objectives_delete(sso_session_id=sso_session_id, id=data['pk'])
     response.raise_for_status()
     return response
+
+
+def get_country_data(country):
+    response = api_client.dataservices.get_country_data(country)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_cia_world_factbook_data(country, key):
+    response = api_client.dataservices.get_cia_world_factbook_data(country=country, data_key=key)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_population_data(country, target_ages):
+    response = api_client.dataservices.get_population_data(country=country, target_ages=target_ages)
+    response.raise_for_status()
+    return response.json()

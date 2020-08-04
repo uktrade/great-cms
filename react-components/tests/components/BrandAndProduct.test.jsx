@@ -16,8 +16,12 @@ let wrapper;
 const dummyFieldOne = {
   name: 'field_one',
   label: 'Field one',
-  placeholder: 'Some placeholder text',
-  tooltip: 'tooltip text'
+  tooltip: 'This is a tooltip',
+  description: 'This is a description',
+  example: '<p>An example of the required text</p>',
+  placeholder: 'Add some text',
+  currency: 'GBP',
+  tag: 'text'
 }
 
 const formData = {
@@ -51,11 +55,15 @@ describe('BrandAndProductForm', () => {
     expect(wrapper.containsMatchingElement(
       <FieldWithExample
         tooltip={dummyFieldOne.tooltip}
-        placeholder={dummyFieldOne.placeholder}
         label={dummyFieldOne.label}
         key={dummyFieldOne.name}
         name={dummyFieldOne.name}
         value={formData.field_one}
+        description={dummyFieldOne.description}
+        placeholder={dummyFieldOne.placeholder}
+        currency={dummyFieldOne.currency}
+        tag={dummyFieldOne.tag}
+        example={dummyFieldOne.example}
       />
     )).toEqual(true)
   })

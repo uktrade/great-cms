@@ -5,10 +5,15 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
     sectors = serializers.ListField(child=serializers.CharField())
 
     def validate_sectors(self, value):
-        if value:
-            return value[0].split(',')
-        else:
-            raise serializers.ValidationError('sectors is a required field')
+        return value[0].split(',')
+
+
+class PopulationDataSerializer(serializers.Serializer):
+    target_age_groups = serializers.ListField(child=serializers.CharField())
+    country = serializers.CharField()
+
+    def validate_target_age_groups(self, value):
+        return value[0].split(',')
 
 
 class BrandAndProductDetailsSerializer(serializers.Serializer):
@@ -19,10 +24,19 @@ class BrandAndProductDetailsSerializer(serializers.Serializer):
     performance = serializers.CharField(required=False, allow_blank=True)
 
 
+class TargetMarketsResearchSerializer(serializers.Serializer):
+    demand = serializers.CharField(required=False, allow_blank=True)
+    competitors = serializers.CharField(required=False, allow_blank=True)
+    trend = serializers.CharField(required=False, allow_blank=True)
+    unqiue_selling_proposition = serializers.CharField(required=False, allow_blank=True)
+    average_price = serializers.IntegerField(required=False, allow_null=True)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     brand_product_details = BrandAndProductDetailsSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
+    target_markets_research = TargetMarketsResearchSerializer(required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]

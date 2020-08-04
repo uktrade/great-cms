@@ -31,97 +31,37 @@
 
                 </ul>
             </aside>
-            <div class="c-5-6">
-                <nav class="p-t-xs p-h-xs great-mvp-full-width-background" id="market-select-navbar">
-                    <span class="m-f-xs">Exporting </span>
-                    <span id="set-product-button">
-                        {% if request.user.company.expertise_products_services %} for
-                            {% for label in request.user.company.expertise_products_services %}
-                                <span class="great-mvp-pill-button">{{ label }}</span>
-                            {% endfor %}
-                        {% else %}
-                            <span class="great-mvp-pill-button">add products</span>
-                        {% endif %}
-                    </span>
-                    to
-                    <span id="set-country-button">
-                        {% if request.user.company.expertise_countries_labels %}
-                            {% for label in request.user.company.expertise_countries_labels %}
-                                <span class="great-mvp-pill-button">{{ label }}</span>
-                            {% endfor %}
-                        {% else %}
-                            <span class="great-mvp-pill-button">add countries</span>
-                        {% endif %}
-                    </span>
-                </nav>
-
-                <div class="grid p-t-l p-f-l">
-                    <div class="c-2-3">
-                        <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
-                        {% include 'core/personalised_body.html' %}
-                        <div id="countries-chooser" class="great-mvp-full-width-background"></div>
-                        {% with page.get_next_siblings.live.first as next_page %}
-                            {% if next_page %}
-                                <div class="lesson-next-area p-t-xxl p-b-s">
-                                    <h5>Next</h5>
-                                    <a class="lesson-next-link" href="{{ next_page.get_url }}?{{ request.GET.urlencode }}">{{ next_page.title }}</a>
-                                    <a class="lesson-back-to-learning m-t-l" href="{{ next_page.get_parent.get_url }}">Back to learning</a>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
-
+            {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+            <div class="grid p-t-l p-f-l">
+                <div class="c-2-3">
+                    <h1 class="h-xl text-blue-deep-80" id="lesson-title">{{ self.title }}</h1>
+                    <div class="objectives">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed auctor sapien.</p>
+                        <p>Integer semper interdum felis, at posuere urna elementum ac. Donec rhoncus, augue id mollis consectetur, velit metus varius</p>
+                        <p>Morbi accumsan, neque ut efficitur sollicitudin, tortor ex eleifend nisl, in tempus odio quam at enim.</p>
+                        <ul class="list-bullet">
+                            <li>List item 1</li>
+                            <li>List item 2</li>
+                            <li>List item 3</li>
+                        </ul>
                     </div>
-                    <div class="c-1-3">
-                        <h4 class="h-s">&nbsp;</h4>
-                    </div>
+                    {% include 'core/personalised_body.html' %}
+                    <div id="countries-chooser" class="w-full-viewport"></div>
+                    {% with page.get_next_siblings.live.first as next_page %}
+                        {% if next_page %}
+                            <div class="lesson-next-area p-t-xxl p-b-s">
+                                <h5>Next</h5>
+                                <a class="lesson-next-link" href="{{ next_page.get_url }}?{{ request.GET.urlencode }}">{{ next_page.title }}</a>
+                                <a class="lesson-back-to-learning m-t-l" href="{{ next_page.get_parent.get_url }}">Back to learning</a>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="c-1-3">
+                    <h4 class="h-s">&nbsp;</h4>
                 </div>
             </div>
+
         </div>
     </div>
-{% endblock %}
-
-
-{% block body_js %}
-    {{ block.super }}
-    <script type="text/javascript">
-      {% if request.session.LESSON_PAGE_SHOW_GENERIC_CONTENT %}
-        var showProductsModal = false
-      {% else %}
-          var showProductsModal = {{ request.user.company.expertise_products_services|yesno:'false,true' }}
-      {% endif %}
-
-      ditMVP.setInitialState({
-        modalIsOpen: {
-          products: showProductsModal
-        }
-      })
-
-      ditMVP.MarketSelectNavbar({
-        element: document.getElementById('market-select-navbar'),
-        productElement: document.getElementById('set-product-button'),
-        countryElement: document.getElementById('set-country-button')
-      })
-
-      var productsModalElement = document.createElement('div');
-      document.body.appendChild(productsModalElement);
-      ditMVP.ProductsModal({element: productsModalElement})
-
-      var signupModalElement = document.createElement('div');
-      document.body.appendChild(signupModalElement);        
-      ditMVP.SignupModal({element: signupModalElement})
-
-      var countriesModalElement = document.createElement('div');
-      document.body.appendChild(countriesModalElement);        
-      ditMVP.CountriesModal({element: countriesModalElement})
-
-
-      {% if request.user.is_authenticated and not request.user.export_plan.target_markets %}
-        var suggestedCountries = {{ suggested_countries|safe }}
-        ditMVP.Countries({
-          element: document.getElementById('countries-chooser'),
-          suggestedCountries: suggestedCountries,
-        })
-      {% endif %}
-    </script>
-
 {% endblock %}
