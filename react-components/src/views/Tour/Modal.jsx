@@ -23,7 +23,7 @@ const modalStyles = {
   },
   overlay: {
     zIndex: 1000,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    backgroundColor: 'rgba(0, 0, 0, 0.7)'
   }
 }
 
