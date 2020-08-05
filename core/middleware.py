@@ -3,7 +3,6 @@ from great_components.helpers import add_next
 
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.deprecation import MiddlewareMixin
 
 from core import helpers
 from sso.models import BusinessSSOUser
@@ -11,6 +10,7 @@ from datetime import datetime
 from django.http import HttpResponseForbidden
 from core.fern import Fern
 from django.conf import settings
+from django.utils.deprecation import MiddlewareMixin
 
 
 class UserLocationStoreMiddleware(MiddlewareMixin):
@@ -155,8 +155,6 @@ class TimedAccessMiddleware(MiddlewareMixin):
             # set the cookie to 24 hours and return
             response.set_cookie('beta-user', encrypted_token, max_age=86400)
             return response
-
-from django.utils.deprecation import MiddlewareMixin
 
 
 class GoogleCampaignMiddleware(MiddlewareMixin):

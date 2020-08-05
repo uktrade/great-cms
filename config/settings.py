@@ -83,8 +83,7 @@ MIDDLEWARE = [
     'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
-    'core.middleware.GoogleCampaignMiddleware',
-    'directory_components.middleware.CheckGATags'
+    'core.middleware.GoogleCampaignMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'

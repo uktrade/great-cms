@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
+from great_components.decorators import skip_ga360
 
 import core.views
 
@@ -78,3 +79,4 @@ urlpatterns = [
         name='api-create-token'
     )
 ]
+
