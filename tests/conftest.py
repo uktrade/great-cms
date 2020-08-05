@@ -40,7 +40,7 @@ def domestic_homepage(root_page):
 
 
 @pytest.fixture
-def domestic_dashboard(domestic_homepage):
+def domestic_dashboard(domestic_homepage, domestic_site):
     return tests.unit.domestic.factories.DomesticDashboardFactory(parent=domestic_homepage)
 
 

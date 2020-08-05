@@ -133,6 +133,7 @@ def test_dashboard_page_logged_in(
     patch_get_user_page_views,
     mock_get_company_profile,
     domestic_homepage,
+    domestic_dashboard,
     client,
     user
 ):
@@ -140,9 +141,7 @@ def test_dashboard_page_logged_in(
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
     url = '/dashboard/'
-
     response = client.get(url)
-
     assert response.status_code == 200
 
 
@@ -376,7 +375,7 @@ def test_login_page_logged_in(client, user):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('core:dashboard')
+    assert response.url == '/login/'
 
 
 @pytest.mark.django_db

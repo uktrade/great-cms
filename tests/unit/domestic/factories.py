@@ -1,5 +1,6 @@
 import wagtail_factories
 import factory
+import factory.fuzzy
 from domestic.models import DomesticHomePage, DomesticDashboard
 # from wagtail.tests.utils.form_data import streamfield
 # from wagtail.core.fields import StreamField
