@@ -136,7 +136,6 @@ def test_dashboard_page_logged_in(
     client,
     user
 ):
-
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
@@ -212,7 +211,6 @@ def test_dashboard_page_lesson_division_by_zero(
 ):
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
-    client.force_login(user)
 
     # given a lesson listing page without any lesson in it
     ListPageFactory(parent=domestic_homepage, slug='test-topic-one', record_read_progress=True)
@@ -221,7 +219,8 @@ def test_dashboard_page_lesson_division_by_zero(
     with pytest.raises(DataError, match='division by zero'):
         # create dashboard
         client.force_login(user)
-        DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
+        dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
+        dashboard.get_user_context(user)
 
 
 @pytest.mark.django_db

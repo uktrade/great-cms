@@ -10,7 +10,6 @@ from wagtail_factories import SiteFactory
 import environ
 import pytest
 
-from django.core.management import call_command
 from core import helpers as core_helpers
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
@@ -109,7 +108,7 @@ def server_user_browser(live_server, browser, user, client):
 
 
 @pytest.fixture
-def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashboard, client):
+def domestic_site_browser_tests(live_server, domestic_homepage, domestic_dashboard, exportplan_dashboard, client):
     """Will server domestic site on the same port as liver_server.
     Note:
         live_server.url looks like this: http://localhost:48049
@@ -429,13 +428,3 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_user_location_create,
 ):
     yield
-
-##########################################################
-# Populate database
-##########################################################
-
-@pytest.fixture
-def load_test_fixture(self, django_db_blocker):
-    with django_db_blocker.unblock():
-        call_command('loaddata', 'test_fixture.json')
-

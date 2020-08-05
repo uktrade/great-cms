@@ -38,4 +38,4 @@ class DomesticDashboardTests(WagtailPageTests):
 
     def test_can_create_dashboard(self):
         dashboard = DomesticDashboardFactory()
-        self.assertEqual(dashboard.title, 'dashboard')
+        self.assertEqual(dashboard.title, 'dashboard title')
