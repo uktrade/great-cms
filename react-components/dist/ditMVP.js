@@ -76925,15 +76925,45 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
   \*****************************************/
-/*! exports provided: slugify */
+/*! exports provided: slugify, addItemToList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "slugify", function() { return slugify; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addItemToList", function() { return addItemToList; });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 /* eslint-disable */
 var slugify = function slugify(string) {
   return string.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+};
+
+var addItemToList = function addItemToList() {
+  var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var x = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+  var newArray = _toConsumableArray(arr);
+
+  arr[i] ? newArray[i] = _objectSpread(_objectSpread({}, newArray[i]), x) : newArray = [].concat(_toConsumableArray(newArray), [_objectSpread({}, x)]);
+  return newArray;
 };
 
 
@@ -78788,6 +78818,104 @@ FieldWithExample.defaultProps = {
 
 /***/ }),
 
+/***/ "./react-components/src/components/Fields/InputWithDropdown/index.jsx":
+/*!****************************************************************************!*\
+  !*** ./react-components/src/components/Fields/InputWithDropdown/index.jsx ***!
+  \****************************************************************************/
+/*! exports provided: InputWithDropdown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InputWithDropdown", function() { return InputWithDropdown; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+var InputWithDropdown = function InputWithDropdown(_ref) {
+  var label = _ref.label,
+      update = _ref.update,
+      name = _ref.name,
+      selected = _ref.selected,
+      options = _ref.options;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(selected),
+      _useState2 = _slicedToArray(_useState, 2),
+      input = _useState2[0],
+      setInput = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isOpen = _useState4[0],
+      setIsOpen = _useState4[1];
+
+  var selectOption = function selectOption(item) {
+    setInput(item);
+    setIsOpen(false);
+    update(_defineProperty({}, name, item));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "route-to-market__table-cell"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: label
+  }, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "route-to-market__input"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: label,
+    name: label,
+    readOnly: true,
+    value: input,
+    placeholder: "Select Option"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "dropdown"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    "aria-haspopup": "listbox",
+    onClick: function onClick() {
+      return setIsOpen(!isOpen);
+    }
+  }, "^"), isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    role: "listbox"
+  }, options.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      key: item,
+      onClick: function onClick() {
+        return selectOption(item);
+      },
+      "aria-selected": item === input,
+      role: "option"
+    }, item);
+  })))));
+};
+InputWithDropdown.propTypes = {
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired
+};
+InputWithDropdown.defaultProps = {
+  selected: ''
+};
+
+/***/ }),
+
 /***/ "./react-components/src/components/Figure/Figure.jsx":
 /*!***********************************************************!*\
   !*** ./react-components/src/components/Figure/Figure.jsx ***!
@@ -80040,144 +80168,81 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RouteToMarket.scss */ "./react-components/src/components/RouteToMarket/RouteToMarket.scss");
-/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_2__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RouteToMarketSection */ "./react-components/src/components/RouteToMarket/RouteToMarketSection/index.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./RouteToMarket.scss */ "./react-components/src/components/RouteToMarket/RouteToMarket.scss");
+/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4__);
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
-function renderTable(_ref, index, updateTable) {
-  var route = _ref.route,
-      promote = _ref.promote,
-      why = _ref.why;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "route-to-market__table",
-    key: "table_".concat(index)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "route-to-market__table-cell"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Route to market"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    value: route,
-    onChange: function onChange(event) {
-      return updateTable(index, 'route', event.target.value);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "route-to-market__table-cell"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "How will you promote your product?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    value: promote,
-    onChange: function onChange(event) {
-      return updateTable(index, 'promote', event.target.value);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "route-to-market__table-cell"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Explain in your words why you selected this route to market and promotional channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    value: why,
-    onChange: function onChange(event) {
-      return updateTable(index, 'why', event.target.value);
-    }
-  })));
-}
 
-var RouteToMarket = /*#__PURE__*/function (_React$Component) {
-  _inherits(RouteToMarket, _React$Component);
 
-  var _super = _createSuper(RouteToMarket);
+var RouteToMarket = function RouteToMarket(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      rows = _useState2[0],
+      setRows = _useState2[1];
 
-  function RouteToMarket(props) {
-    var _this;
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      data = _useState4[0],
+      setData = _useState4[1];
 
-    _classCallCheck(this, RouteToMarket);
+  var addTable = function addTable() {
+    setRows([].concat(_toConsumableArray(rows), [rows.length++]));
+  };
 
-    _this = _super.call(this, props);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (data.length > 0) console.log('POST DATA HERE', data);
+  }, [data]);
 
-    _defineProperty(_assertThisInitialized(_this), "addTable", function () {
-      _this.setState({
-        tables: [].concat(_toConsumableArray(_this.state.tables), [{
-          route: '',
-          promote: '',
-          why: ''
-        }])
-      });
-    });
+  var update = function update(i, x) {
+    setData(Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["addItemToList"])(data, i, x));
+  };
 
-    _defineProperty(_assertThisInitialized(_this), "updateTable", function (index, key, value) {
-      var newState = _this.state.tables;
-      newState[index] = _objectSpread(_objectSpread({}, newState[index]), {}, _defineProperty({}, key, value));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rows.length >= 1 && rows.map(function (i) {
+    return Object(_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__["RouteToMarketSection"])(props, update, i);
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "button--plus"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "icon--plus"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: addTable,
+    className: "button--stone"
+  }, "Add route to market")));
+};
 
-      _this.setState({
-        tables: newState
-      });
-    });
+function createRouteToMarket(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
 
-    _this.state = {
-      tables: []
-    };
-    return _this;
-  }
-
-  _createClass(RouteToMarket, [{
-    key: "render",
-    value: function render() {
-      var tables = this.state.tables,
-          addTable = this.addTable,
-          updateTable = this.updateTable;
-      console.log(this.state.tables);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, tables.length >= 1 && tables.map(function (props, index) {
-        return renderTable(props, index, updateTable);
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: addTable
-      }, "Add route to market"));
-    }
-  }]);
-
-  return RouteToMarket;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-function createRouteToMarket(_ref2) {
-  var element = _ref2.element;
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RouteToMarket, null), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RouteToMarket, params), element);
 }
 
 
@@ -80192,6 +80257,70 @@ function createRouteToMarket(_ref2) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/components/RouteToMarket/RouteToMarketSection/index.jsx":
+/*!**************************************************************************************!*\
+  !*** ./react-components/src/components/RouteToMarket/RouteToMarketSection/index.jsx ***!
+  \**************************************************************************************/
+/*! exports provided: RouteToMarketSection */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RouteToMarketSection", function() { return RouteToMarketSection; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/InputWithDropdown */ "./react-components/src/components/Fields/InputWithDropdown/index.jsx");
+/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var RouteToMarketSection = function RouteToMarketSection(_ref, _update, i) {
+  var data = _ref.data,
+      label = _ref.label,
+      example = _ref.example,
+      name = _ref.name;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "route-to-market__table",
+    key: i
+  }, data.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__["InputWithDropdown"], {
+      key: item.name,
+      label: item.label,
+      update: function update(x) {
+        return _update(i, x);
+      },
+      name: item.name,
+      options: item.options
+    });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "route-to-market__table-cell"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    label: label,
+    example: example,
+    name: name,
+    handleChange: function handleChange(e) {
+      return _update(i, _defineProperty({}, e.target.name, e.target.value));
+    }
+  })));
+};
+RouteToMarketSection.propTypes = {
+  data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string)
+  }).isRequired).isRequired,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
 
 /***/ }),
 
@@ -81058,7 +81187,7 @@ var TargetAgeGroupInsights = /*#__PURE__*/function (_React$Component) {
 
       _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].getMarketingCountryData({
         country: _this.props.country,
-        age_group_start: _this.state.selectedGroups
+        target_age_groups: _this.state.selectedGroups
       }).then(function (data) {
         return _this.setState({
           data: Object(_utils__WEBPACK_IMPORTED_MODULE_5__["mapData"])(data)
@@ -81182,21 +81311,21 @@ function createTargetAgeGroupInsights(_ref2) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapData", function() { return mapData; });
 var mapData = function mapData(_ref) {
-  var cia_factbookdata = _ref.cia_factbookdata,
+  var cia_factbook_data = _ref.cia_factbook_data,
       country_data = _ref.country_data,
-      country_population = _ref.country_population;
+      population_data = _ref.population_data;
   return {
-    population: Number(country_population.population_totals.total.toFixed(1)),
-    cpi: Number(country_data.consumer_price_index.value.toFixed(2)),
-    urban: country_population.population_totals.urban_percentage * 100,
-    rural: country_population.population_totals.rural_percentage * 100,
-    female: Number(country_population.population_by_age.female_total.toFixed(1)),
-    male: Number(country_population.population_by_age.male_total.toFixed(1)),
-    internet_percentage: Math.floor(country_data.internet_use_percentage_pop * 100),
-    internet_total: Number((country_data.internet_use_percentage_pop * country_population.population_totals.total).toFixed(2)),
-    target_population: Number(country_population.population_by_age.total.toFixed(1)),
-    target_population_percentage: Math.floor(country_population.population_by_age.total / country_population.population_totals.total * 100),
-    languages: cia_factbookdata.languages.language.map(function (_ref2) {
+    population: Number((population_data.total_population / 1000).toFixed(1)),
+    cpi: Number(country_data.consumer_price_index.value).toFixed(2),
+    urban: Number((population_data.urban_percentage * 100).toFixed(1)),
+    rural: Number((population_data.rural_percentage * 100).toFixed(1)),
+    female: Number((population_data.female_target_age_population / 1000).toFixed(1)),
+    male: Number((population_data.male_target_age_population / 1000).toFixed(1)),
+    internet_percentage: Math.floor(country_data.internet_usage.value),
+    internet_total: Number((country_data.internet_usage.value / 100 * (population_data.total_population / 1000)).toFixed(1)),
+    target_population: Number((population_data.total_target_age_population / 1000).toFixed(1)),
+    target_population_percentage: Math.floor(population_data.total_target_age_population / population_data.total_population * 100),
+    languages: cia_factbook_data.languages.language.map(function (_ref2) {
       var name = _ref2.name;
       return name;
     }).join(', ')

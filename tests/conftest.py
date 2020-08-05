@@ -140,9 +140,9 @@ def mock_user_location_create():
 @pytest.fixture
 @pytest.mark.django_db(transaction=True)
 @mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
-@mock.patch.object(api_client.dataservices, 'get_lastyearimportdata')
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
 @mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
-@mock.patch.object(api_client.dataservices, 'get_easeofdoingbusiness')
+@mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 def mock_export_plan_requests(
     mock_export_plan_list,
