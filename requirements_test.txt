@@ -10,6 +10,7 @@ airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.17     # via -r requirements_test.in
 allure-python-commons==2.8.17  # via allure-pytest
+appnope==0.1.0            # via ipython
 astroid==2.4.2            # via pylint
 attrs==19.3.0             # via allure-python-commons, jsonschema, pytest
 babel==2.8.0              # via sphinx
@@ -25,7 +26,7 @@ configargparse==1.2.3     # via locust
 coverage==5.2.1           # via codecov, pytest-cov
 cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
-directory-api-client==22.1.0  # via -r requirements.in
+directory-api-client==22.2.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.11.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
@@ -110,7 +111,7 @@ pycodestyle==2.6.0        # via flake8, flake8-debugger, flake8-print
 pycountry==20.7.3         # via wagtail-personalisation
 pyflakes==2.2.0           # via flake8
 pygments==2.6.1           # via ipython, sphinx
-pylint-django==2.2.0      # via -r requirements_test.in
+pylint-django==2.3.0      # via -r requirements_test.in
 pylint-plugin-utils==0.6  # via pylint-django
 pylint==2.5.3             # via pylint-django, pylint-plugin-utils
 pyparsing==2.4.7          # via packaging
