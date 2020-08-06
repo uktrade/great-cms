@@ -2,6 +2,8 @@
 
 ## Pre-release
 
+- no ticket - Dependencies upgrade
+
 ### Fixed bugs
 
 - GP2-280 - removal of product selector from dashboard
