@@ -18,7 +18,7 @@ export const RouteToMarket = ({
   const addTable = () => {
     setRows([
         ...rows,
-        rows.length+1
+        rows.length++
       ]
     )
   }
