@@ -37,7 +37,7 @@ def company_profile_data():
 @pytest.fixture(autouse=True)
 def export_plan_data():
     return {
-        'brand_product_details': '',
+        'about_your_business': '',
         'target_markets_research': ''
     }
 
@@ -113,7 +113,7 @@ def test_exportplan_section_marketing_approach(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'about_your_business': ''}))
 def test_exportplan_section_target_makret_country(client, user):
     client.force_login(user)
 

@@ -39,7 +39,7 @@ class CountryDemographicsForm(forms.Form):
     )
 
 
-class ExportPlanBrandAndProductForm(forms.Form):
+class ExportPlanAboutYourBusinessForm(forms.Form):
     story = forms.CharField(
         label='How we started',
         required=False,
