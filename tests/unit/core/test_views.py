@@ -140,8 +140,7 @@ def test_dashboard_page_logged_in(
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
-    url = constants.DASHBOARD_URL
-    response = client.get(url)
+    response = client.get(constants.DASHBOARD_URL)
     assert response.status_code == 200
 
 
@@ -154,7 +153,7 @@ def test_dashboard_page_not_logged_in(
 ):
     response = client.get(constants.DASHBOARD_URL)
     assert response.status_code == 302
-    assert response.url == '/login/'
+    assert response.url == constants.LOGIN_URL
 
 
 @pytest.mark.django_db
@@ -367,7 +366,7 @@ def test_capability_article_not_logged_in(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == f'/login/?next={url}'
+    assert response.url == f'{constants.LOGIN_URL}?next={url}'
 
 
 @pytest.mark.django_db
@@ -387,7 +386,7 @@ def test_login_page_logged_in(client, user):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == '/login/'
+    assert response.url == constants.LOGIN_URL
 
 
 @pytest.mark.django_db

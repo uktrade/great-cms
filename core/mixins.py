@@ -34,4 +34,4 @@ class AnonymousUserRequired:
 
 
 class AuthenticatedUserRequired:
-    authenticated_user_required_redirect_url = '/login/'
+    authenticated_user_required_redirect_url = constants.LOGIN_URL
