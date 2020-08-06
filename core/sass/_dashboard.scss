@@ -32,9 +32,22 @@ body {
     }
   }
 
+  .great-dashboard__routing {
+
+    .button--secondary {
+      position: absolute;
+      bottom: $space-m;
+    }
+  }
+
+  .image-stretch > img {
+    width: 100%;
+    object-fit: cover;
+  }
+
   .great-dashboard-card {
     flex-flow: row wrap;
-
+    position: relative;
     > h3 {
       width: 100%;
     }

@@ -1,5 +1,6 @@
 {% extends 'core/signup-wizard-step-base.html' %}
 {% load breadcrumbs from great_components %}
+{% load url_map %}
 
 
 {% block above_form %}
@@ -22,7 +23,7 @@
     {{ block.super }}
     <script type="text/javascript">
         ditMVP.setInitialState({
-            nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url "core:dashboard" %}{% endif %}?product={{ product_search_data.products }}&remember-expertise-products-services=true'
+            nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}?product={{ product_search_data.products }}&remember-expertise-products-services=true'
         })
         ditMVP.Signup({
             element: document.getElementById('signup-app-root'),
