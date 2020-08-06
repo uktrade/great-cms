@@ -25,6 +25,7 @@
 
 ### Implemented enhancements
 
+- GP2-279 - Dashboard page made wagtail configurable and added routing block
 - GP2-250 - Lesson - estimated time (FE)
 - GP2-252 - Lesson - objectives (FE)
 - GP2-79 - Lessons - title (FE)

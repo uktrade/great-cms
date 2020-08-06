@@ -146,6 +146,18 @@ def test_dashboard_page_logged_in(
 
 
 @pytest.mark.django_db
+def test_dashboard_page_not_logged_in(
+    domestic_homepage,
+    domestic_dashboard,
+    client,
+    user
+):
+    response = client.get(constants.DASHBOARD_URL)
+    assert response.status_code == 302
+    assert response.url == '/login/'
+
+
+@pytest.mark.django_db
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
 def test_dashboard_page_lesson_progress(
