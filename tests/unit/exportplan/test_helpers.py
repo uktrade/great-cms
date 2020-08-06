@@ -325,6 +325,54 @@ def test_objective_delete(mock_delete_objective):
     assert response.status_code == 200
 
 
+@mock.patch.object(api_client.exportplan, 'route_to_market_create')
+def test_route_to_markets_create(mock_route_to_market_create):
+    data = {
+        'route': 'Shipping',
+        'promote': 'Biscuits',
+        'market_promotional_channel': 'News',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_route_to_market_create.return_value = create_response(data)
+
+    response = helpers.create_route_to_market(123, data)
+
+    assert mock_route_to_market_create.call_count == 1
+    assert mock_route_to_market_create.call_args == mock.call(data=data, sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'route_to_market_update')
+def test_route_to_markets_update(mock_route_to_market_update):
+    data = {
+        'route': 'Shipping',
+        'promote': 'Biscuits',
+        'market_promotional_channel': 'News',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_route_to_market_update.return_value = create_response(data)
+
+    response = helpers.update_route_to_market(123, data)
+
+    assert mock_route_to_market_update.call_count == 1
+    assert mock_route_to_market_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'route_to_market_delete')
+def test_route_to_markets_delete(mock_route_to_market_delete):
+    data = {'pk': 1}
+    mock_route_to_market_delete.return_value = create_response(data)
+
+    response = helpers.delete_route_to_market(123, data)
+
+    assert mock_route_to_market_delete.call_count == 1
+    assert mock_route_to_market_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
+    assert response.status_code == 200
+
+
 @mock.patch.object(api_client.dataservices, 'get_country_data')
 def test_get_country_data(mock_cia_world_factbook_data):
     data = {'population_data': {'cpi': 100}}

@@ -25,7 +25,7 @@
 - MVP-579 - create export plan cms page
 - GP2-67 - fix backbutton upload logo
 - GP2-170 - business performance
-
+GP2-315 - route to market backend integration
 ### Implemented enhancements
 
 - GP2-279 - Dashboard page made wagtail configurable and added routing block
