@@ -83,7 +83,8 @@ MIDDLEWARE = [
     'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
-    'core.middleware.GoogleCampaignMiddleware'
+    'core.middleware.GoogleCampaignMiddleware',
+    'great_components.middleware.CheckGATags'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -104,6 +105,7 @@ TEMPLATES = [
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.javascript_components',
+                'great_components.context_processors.analytics',
             ],
         },
     },
@@ -383,6 +385,7 @@ AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
 # Google tag manager
 GOOGLE_TAG_MANAGER_ID = env.str('GOOGLE_TAG_MANAGER_ID')
 GOOGLE_TAG_MANAGER_ENV = env.str('GOOGLE_TAG_MANAGER_ENV', '')
+UTM_COOKIE_DOMAIN = env.str('UTM_COOKIE_DOMAIN')
 GA360_BUSINESS_UNIT = 'GreatMagna'
 
 REST_FRAMEWORK = {

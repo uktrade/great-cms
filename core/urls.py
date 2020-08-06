@@ -65,17 +65,17 @@ urlpatterns = [
     ),
     path(
         'api/update-company/',
-        core.views.UpdateCompanyAPIView.as_view(),
+        skip_ga360(core.views.UpdateCompanyAPIView.as_view()),
         name='api-update-company'
     ),
     path(
         'api/lookup-product/',
-        core.views.ProductLookupView.as_view(),
+        skip_ga360(core.views.ProductLookupView.as_view()),
         name='api-lookup-product'
     ),
     path(
         'api/create-token/',
-        core.views.CreateTokenView.as_view(),
+        skip_ga360(core.views.CreateTokenView.as_view()),
         name='api-create-token'
     )
 ]

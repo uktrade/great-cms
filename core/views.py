@@ -13,8 +13,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
-
-
+from directory_components.mixins import GA360Mixin
 from core import forms, helpers, models, serializers
 
 STEP_START = 'start'
@@ -93,7 +92,16 @@ class SignupView(TemplateView):
     template_name = 'core/signup.html'
 
 
-class MarketsView(TemplateView):
+class MarketsView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Markets',
+            business_unit='MarketsUnit',
+            site_section='MarketsSection',
+            site_subsection='MarketPage',
+        )
+
     template_name = 'core/markets.html'
 
     def get_page_title(self):
