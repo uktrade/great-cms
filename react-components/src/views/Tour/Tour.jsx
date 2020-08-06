@@ -42,7 +42,7 @@ export default function Tour(props) {
       }
       nextButton={
         <button className="button button--primary p-v-xxs p-h-xs" id="page-tour-next-step">
-          next
+          Next
         </button>
       }
       prevButton={<></>}
