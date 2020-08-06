@@ -96,7 +96,7 @@ def test_target_markets_research_form_empty_fields():
 @patch.object(helpers, 'get_or_create_export_plan')
 def test_about_your_business_form_view(mock_get_export_plan, about_your_business_form_data, client, user):
     mock_get_export_plan.return_value = {'pk': 1, 'about_your_business': about_your_business_form_data}
-    url = reverse('exportplan:about_your_business')
+    url = reverse('exportplan:about-your-business')
     client.force_login(user)
     response = client.get(url)
 
