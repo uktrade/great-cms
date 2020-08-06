@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { BrandAndProductForm } from './BrandAndProduct'
+import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
 
-
-class BusinessRationale extends BrandAndProductForm {
+class BusinessRationale extends FormWithInputWithExample {
 
   formatData(data) {
     return data

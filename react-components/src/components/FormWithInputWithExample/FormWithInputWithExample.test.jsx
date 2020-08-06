@@ -5,9 +5,9 @@ import Adapter from 'enzyme-adapter-react-16'
 import fetchMock from 'fetch-mock'
 import { fakeSchedulers } from 'rxjs-marbles/jest'
 
-import { BrandAndProductForm } from '@src/components/BrandAndProduct'
 import FieldWithExample from '@src/components/Fields/FieldWithExample'
 import Services from '@src/Services'
+import { FormWithInputWithExample } from '.'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -33,7 +33,7 @@ beforeEach(() => {
   fetchMock.reset()
 
   wrapper = Enzyme.mount(
-    <BrandAndProductForm
+    <FormWithInputWithExample
       formFields={[dummyFieldOne]}
       formData={formData}
     />
@@ -49,7 +49,7 @@ afterEach(() => {
   jest.useRealTimers()
 })
 
-describe('BrandAndProductForm', () => {
+describe('FormWithInputWithExample', () => {
   test('should generate form fields from props and prepopulate', () => {
 
     expect(wrapper.containsMatchingElement(
