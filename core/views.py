@@ -8,21 +8,14 @@ from rest_framework.response import Response
 
 from django.template.response import TemplateResponse
 from django.views.generic import TemplateView, FormView
-from django.shortcuts import redirect
 
-from core import forms, helpers, serializers
+from core import forms, helpers, serializers, constants
 
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
 STEP_PRODUCT_SEARCH = 'product-search'
 STEP_SIGN_UP = 'sign-up'
-
-
-class DashboardView(TemplateView):
-
-    def get(self, request):
-        return redirect('/dashboard/')
 
 
 class UpdateCompanyAPIView(generics.GenericAPIView):
@@ -42,7 +35,7 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
 
 class ArticleView(FormView):
     template_name = 'core/article.html'
-    success_url = '/dashboard/'
+    success_url = constants.DASHBOARD_URL
     form_class = forms.NoOperationForm
 
     def get_context_data(self):
@@ -193,7 +186,7 @@ class CompanyNameFormView(FormView):
     form_class = forms.CompanyNameForm
 
     def get_success_url(self):
-        return self.request.GET.get('next', '/dashboard/')
+        return self.request.GET.get('next', constants.DASHBOARD_URL)
 
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)

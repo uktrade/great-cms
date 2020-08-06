@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from core import constants
 
 
 class WagtailAdminExclusivePageMixin:
@@ -29,7 +30,7 @@ class EnableTourMixin:
 
 class AnonymousUserRequired:
     # used by core.wagtail_hooks.anonymous_user_required
-    anonymous_user_required_redirect_url = '/dashboard/'
+    anonymous_user_required_redirect_url = constants.DASHBOARD_URL
 
 
 class AuthenticatedUserRequired:

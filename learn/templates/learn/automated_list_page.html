@@ -4,11 +4,12 @@
 {% load wagtailcore_tags %}
 {% load breadcrumbs from great_components %}
 {% load pluralize from content_tags %}
+{% load url_map %}
 
 {% block content %}
     <div class="container">
         {% breadcrumbs 'Learn how to export' %}
-            <a href="{% url 'core:dashboard' %}" id="breadcrumbs-home">Home</a>
+            <a href="{% url_map 'dashboard' %}" id="breadcrumbs-home">Home</a>
         {% endbreadcrumbs %}
     </div>
     <section id="learn-root" class="learn__page learn__categories-page container">

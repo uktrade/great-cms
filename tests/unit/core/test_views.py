@@ -10,7 +10,7 @@ import pytest
 from django.db.utils import DataError
 from django.urls import reverse
 
-from core import forms, helpers, models, serializers, views
+from core import forms, helpers, models, serializers, views, constants
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
 from tests.unit.learn.factories import LessonPageFactory
@@ -140,7 +140,7 @@ def test_dashboard_page_logged_in(
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
-    url = '/dashboard/'
+    url = constants.DASHBOARD_URL
     response = client.get(url)
     assert response.status_code == 200
 
@@ -626,7 +626,7 @@ def test_set_company_name_success(mock_update_company_profile, mock_get_company_
 
     response = client.post(reverse('core:set-company-name'), {'name': 'Example corp'})
     assert response.status_code == 302
-    assert response.url == '/dashboard/'
+    assert response.url == constants.DASHBOARD_URL
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         data={'name': 'Example corp'},

@@ -19,12 +19,6 @@ def anonymous_user_required(function):
 
 urlpatterns = [
     path(
-        'dashboardbase/',
-        login_required(core.views.DashboardView.as_view(), login_url=LOGIN_URL),
-        name='dashboard'
-    ),
-
-    path(
         'markets/',
         core.views.MarketsView.as_view(),
         name='markets'

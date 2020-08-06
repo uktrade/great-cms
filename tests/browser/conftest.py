@@ -11,6 +11,7 @@ import environ
 import pytest
 
 from core import helpers as core_helpers
+from core import constants
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from exportplan import helpers as exportplan_helpers
@@ -154,7 +155,7 @@ def server_user_browser_dashboard(
 ):
     live_server, user, browser = server_user_browser
 
-    browser.get(f'{live_server.url}/dashboard/')
+    browser.get(f'{live_server.url}{constants.DASHBOARD_URL}')
 
     browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
     browser.refresh()

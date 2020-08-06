@@ -4,7 +4,6 @@ from directory_sso_api_client import sso_api_client
 import pytest
 
 from django.contrib.auth import authenticate
-from django.urls import reverse
 
 from sso import models
 from tests.helpers import reload_urlconf
@@ -59,7 +58,7 @@ def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
 @pytest.mark.parametrize('url,expected_staff_call_count,expected_business_call_count', (
     ('/django-admin/', 1, 0),
     ('/admin/', 1, 0),
-    (reverse('core:dashboard'), 0, 1),
+    ('/dashboard/', 0, 1),
 ))
 def test_sso_backends_admin_url_handling(
     mock_business_auth, mock_staff_auth, url, expected_staff_call_count, expected_business_call_count, settings, rf
