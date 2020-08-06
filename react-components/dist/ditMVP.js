@@ -77362,7 +77362,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
 /* harmony import */ var _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Container */ "./react-components/src/views/MarketSelectNavbar/Container.jsx");
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
-/* harmony import */ var _src_components_RouteToMarket_RouteToMarket__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/components/RouteToMarket/RouteToMarket */ "./react-components/src/components/RouteToMarket/RouteToMarket.jsx");
+/* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
 /* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
 /* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
 /* harmony import */ var _src_components_BrandAndProduct__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/components/BrandAndProduct */ "./react-components/src/components/BrandAndProduct.jsx");
@@ -77397,7 +77397,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   Countries: _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_6__["default"],
   CountriesModal: _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_4__["default"],
-  createRouteToMarket: _src_components_RouteToMarket_RouteToMarket__WEBPACK_IMPORTED_MODULE_11__["createRouteToMarket"],
+  createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createRouteToMarket"],
+  createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createSpendingAndResources"],
   createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_12__["createTargetAgeGroupInsights"],
   createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_13__["createTargetMarketCountries"],
   createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_15__["createBusinessRationale"],
@@ -80150,177 +80151,6 @@ RecommendedCountry.propTypes = {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./react-components/src/components/RouteToMarket/RouteToMarket.jsx":
-/*!*************************************************************************!*\
-  !*** ./react-components/src/components/RouteToMarket/RouteToMarket.jsx ***!
-  \*************************************************************************/
-/*! exports provided: RouteToMarket, createRouteToMarket */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RouteToMarket", function() { return RouteToMarket; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createRouteToMarket", function() { return createRouteToMarket; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RouteToMarketSection */ "./react-components/src/components/RouteToMarket/RouteToMarketSection/index.jsx");
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./RouteToMarket.scss */ "./react-components/src/components/RouteToMarket/RouteToMarket.scss");
-/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4__);
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-var RouteToMarket = function RouteToMarket(props) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      rows = _useState2[0],
-      setRows = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      data = _useState4[0],
-      setData = _useState4[1];
-
-  var addTable = function addTable() {
-    setRows([].concat(_toConsumableArray(rows), [rows.length++]));
-  };
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (data.length > 0) console.log('POST DATA HERE', data);
-  }, [data]);
-
-  var update = function update(i, x) {
-    setData(Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["addItemToList"])(data, i, x));
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rows.length >= 1 && rows.map(function (i) {
-    return Object(_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__["RouteToMarketSection"])(props, update, i);
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "button--plus"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "icon--plus"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    onClick: addTable,
-    className: "button--stone"
-  }, "Add route to market")));
-};
-
-function createRouteToMarket(_ref) {
-  var element = _ref.element,
-      params = _objectWithoutProperties(_ref, ["element"]);
-
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RouteToMarket, params), element);
-}
-
-
-
-/***/ }),
-
-/***/ "./react-components/src/components/RouteToMarket/RouteToMarket.scss":
-/*!**************************************************************************!*\
-  !*** ./react-components/src/components/RouteToMarket/RouteToMarket.scss ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./react-components/src/components/RouteToMarket/RouteToMarketSection/index.jsx":
-/*!**************************************************************************************!*\
-  !*** ./react-components/src/components/RouteToMarket/RouteToMarketSection/index.jsx ***!
-  \**************************************************************************************/
-/*! exports provided: RouteToMarketSection */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RouteToMarketSection", function() { return RouteToMarketSection; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/InputWithDropdown */ "./react-components/src/components/Fields/InputWithDropdown/index.jsx");
-/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-var RouteToMarketSection = function RouteToMarketSection(_ref, _update, i) {
-  var data = _ref.data,
-      label = _ref.label,
-      example = _ref.example,
-      name = _ref.name;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "route-to-market__table",
-    key: i
-  }, data.map(function (item) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__["InputWithDropdown"], {
-      key: item.name,
-      label: item.label,
-      update: function update(x) {
-        return _update(i, x);
-      },
-      name: item.name,
-      options: item.options
-    });
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "route-to-market__table-cell"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    label: label,
-    example: example,
-    name: name,
-    handleChange: function handleChange(e) {
-      return _update(i, _defineProperty({}, e.target.name, e.target.value));
-    }
-  })));
-};
-RouteToMarketSection.propTypes = {
-  data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string)
-  }).isRequired).isRequired,
-  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-};
 
 /***/ }),
 
@@ -84909,7 +84739,7 @@ var modalStyles = {
   },
   overlay: {
     zIndex: 1000,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    backgroundColor: 'rgba(0, 0, 0, 0.7)'
   }
 };
 function Modal(props) {
@@ -84925,9 +84755,9 @@ function Modal(props) {
     src: "/static/images/learning-modal.png",
     alt: ""
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "great-modal-heading m-t-s"
+    className: "great-modal-heading m-t-s m-r-s"
   }, props.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "great-modal-text"
+    className: "great-modal-text m-r-s"
   }, props.body), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "great-tour-actions"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -85027,7 +84857,7 @@ function Tour(props) {
     nextButton: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "button button--primary p-v-xxs p-h-xs",
       id: "page-tour-next-step"
-    }, "next"),
+    }, "Next"),
     prevButton: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null),
     showCloseButton: false,
     rounded: 4
@@ -85044,6 +84874,301 @@ function Tour(props) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarket.scss":
+/*!************************************************************************************************!*\
+  !*** ./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarket.scss ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection/index.jsx":
+/*!************************************************************************************************************!*\
+  !*** ./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection/index.jsx ***!
+  \************************************************************************************************************/
+/*! exports provided: RouteToMarketSection */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RouteToMarketSection", function() { return RouteToMarketSection; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/InputWithDropdown */ "./react-components/src/components/Fields/InputWithDropdown/index.jsx");
+/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var RouteToMarketSection = function RouteToMarketSection(_ref, _update, i) {
+  var data = _ref.data,
+      label = _ref.label,
+      example = _ref.example,
+      name = _ref.name;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "route-to-market__table",
+    key: i
+  }, data.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__["InputWithDropdown"], {
+      key: item.name,
+      label: item.label,
+      update: function update(x) {
+        return _update(i, x);
+      },
+      name: item.name,
+      options: item.options
+    });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "route-to-market__table-cell"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    label: label,
+    example: example,
+    name: name,
+    handleChange: function handleChange(e) {
+      return _update(i, _defineProperty({}, e.target.name, e.target.value));
+    }
+  })));
+};
+RouteToMarketSection.propTypes = {
+  data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string)
+  }).isRequired).isRequired,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/index.jsx":
+/*!***************************************************************************************!*\
+  !*** ./react-components/src/views/sections/MarketingApproach/RouteToMarket/index.jsx ***!
+  \***************************************************************************************/
+/*! exports provided: RouteToMarket */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RouteToMarket", function() { return RouteToMarket; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_views_sections_MarketingApproach_RouteToMarket_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection */ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection/index.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../Services */ "./react-components/src/Services.js");
+/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RouteToMarket.scss */ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarket.scss");
+/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_5__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+var RouteToMarket = function RouteToMarket(_ref) {
+  var field = _ref.field,
+      formData = _ref.formData;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      rows = _useState2[0],
+      setRows = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      data = _useState4[0],
+      setData = _useState4[1];
+
+  var addTable = function addTable() {
+    setRows([].concat(_toConsumableArray(rows), [rows.length++]));
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (data.length > 0) {
+      _Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan(_defineProperty({}, field, data)).then(function () {})["catch"](function () {});
+    }
+  }, [data]);
+
+  var update = function update(i, x) {
+    setData(Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["addItemToList"])(data, i, x));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rows.length >= 1 && rows.map(function (i) {
+    return Object(_src_views_sections_MarketingApproach_RouteToMarket_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__["RouteToMarketSection"])(formData, update, i);
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "button--plus"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "icon--plus"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: addTable,
+    className: "button--stone"
+  }, "Add route to market")));
+};
+RouteToMarket.propTypes = {
+  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string)
+    }).isRequired).isRequired,
+    example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  }).isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/MarketingApproach/SpendingAndResources/index.jsx":
+/*!**********************************************************************************************!*\
+  !*** ./react-components/src/views/sections/MarketingApproach/SpendingAndResources/index.jsx ***!
+  \**********************************************************************************************/
+/*! exports provided: SpendingAndResources */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpendingAndResources", function() { return SpendingAndResources; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
+/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../Services */ "./react-components/src/Services.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var SpendingAndResources = function SpendingAndResources(_ref) {
+  var field = _ref.field,
+      formFields = _ref.formFields,
+      formData = _ref.formData;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
+      _useState2 = _slicedToArray(_useState, 2),
+      input = _useState2[0],
+      setInput = _useState2[1];
+
+  var update = function update(e) {
+    setInput(_defineProperty({}, e.target.name, e.target.value));
+    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateExportPlan(_defineProperty({}, field, _defineProperty({}, e.target.name, e.target.value))).then(function () {})["catch"](function () {});
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      tooltip: item.tooltip,
+      label: item.label,
+      example: item.example,
+      key: item.name,
+      name: item.name,
+      value: input[item.name],
+      description: item.description,
+      placeholder: Number.isInteger(item.placeholder) ? item.placeholder : 'Add some text',
+      currency: item.currency,
+      tag: Number.isInteger(item.placeholder) ? 'number' : 'text',
+      handleChange: update
+    });
+  }));
+};
+SpendingAndResources.propTypes = {
+  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired,
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  })).isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/MarketingApproach/index.jsx":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/views/sections/MarketingApproach/index.jsx ***!
+  \*************************************************************************/
+/*! exports provided: createRouteToMarket, createSpendingAndResources */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createRouteToMarket", function() { return createRouteToMarket; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSpendingAndResources", function() { return createSpendingAndResources; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_views_sections_MarketingApproach_RouteToMarket__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/sections/MarketingApproach/RouteToMarket */ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/index.jsx");
+/* harmony import */ var _src_views_sections_MarketingApproach_SpendingAndResources__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/sections/MarketingApproach/SpendingAndResources */ "./react-components/src/views/sections/MarketingApproach/SpendingAndResources/index.jsx");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+var createRouteToMarket = function createRouteToMarket(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_sections_MarketingApproach_RouteToMarket__WEBPACK_IMPORTED_MODULE_2__["RouteToMarket"], params), element);
+};
+var createSpendingAndResources = function createSpendingAndResources(_ref2) {
+  var element = _ref2.element,
+      params = _objectWithoutProperties(_ref2, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_sections_MarketingApproach_SpendingAndResources__WEBPACK_IMPORTED_MODULE_3__["SpendingAndResources"], params), element);
+};
 
 /***/ })
 
