@@ -57,4 +57,9 @@ urlpatterns = [
     path('api/objectives/create/', api.ObjectivesCreateAPIView.as_view(), name='api-objectives-create'),
     path('api/objectives/update/', api.ObjectivesUpdateAPIView.as_view(), name='api-objectives-update'),
     path('api/objectives/delete/', api.ObjectivesDestroyAPIView.as_view(), name='api-objectives-delete'),
+    path('api/route-to-markets/create/', api.RouteToMarketsCreateAPIView.as_view(), name='api-route-to-markets-create'),
+    path('api/route-to-markets/update/', api.RouteToMarketsUpdateAPIView.as_view(), name='api-route-to-markets-update'),
+    path(
+        'api/route-to-markets/delete/', api.RouteToMarketsDestroyAPIView.as_view(), name='api-route-to-markets-delete'
+    ),
 ]

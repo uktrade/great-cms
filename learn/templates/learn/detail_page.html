@@ -1,12 +1,13 @@
 {% extends 'core/base.html' %}
 {% load wagtailimages_tags %}
 {% load routablepageurl from wagtailroutablepage_tags %}
+{% load url_map %}
 
 {% block content %}
     <div class="container" id="lesson-page">
         <div class="grid">
             <aside class="c-1-6 p-t-xxs p-h-xs">
-                <a href="{% url 'core:dashboard' %}">Back</a>
+                <a href="{% url_map 'dashboard' %}">Back</a>
                 <ul class="m-v-0">
                     {% for topic in topics %}
                         {% if topic.pk != page.get_parent.pk %}

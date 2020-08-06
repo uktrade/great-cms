@@ -69,6 +69,18 @@ class ObjectiveSerializer(serializers.Serializer):
         return value
 
 
+class RouteToMarketSerializer(serializers.Serializer):
+    route = serializers.CharField(required=False, allow_blank=True)
+    promote = serializers.CharField(required=False, allow_blank=True)
+    market_promotional_channel = serializers.CharField(required=False, allow_blank=True)
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
+class NewRouteToMarketSerializer(RouteToMarketSerializer):
+    pk = serializers.IntegerField(required=False)
+
+
 class NewObjectiveSerializer(ObjectiveSerializer):
     pk = serializers.IntegerField(required=False)
 

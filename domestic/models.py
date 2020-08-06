@@ -9,7 +9,10 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images import get_image_model_string
 
 from core import blocks as core_blocks
-from core.models import CMSGenericPage
+from core.models import CMSGenericPage, ListPage
+
+from directory_constants import choices
+from core import helpers, forms
 
 
 class DomesticHomePage(
@@ -36,3 +39,50 @@ class DomesticHomePage(
         StreamFieldPanel('button'),
         ImageChooserPanel('image')
     ]
+
+
+class DomesticDashboard(
+    mixins.WagtailAdminExclusivePageMixin,
+    mixins.EnableTourMixin,
+    mixins.AuthenticatedUserRequired,
+    Page,
+):
+
+    routes = StreamField([('route', core_blocks.RouteSectionBlock(icon='cog'))], null=True, blank=True)
+
+    def get_user_context(self, user):
+        context = {}
+        context['visited_already'] = user.has_visited_page(self.slug)
+        user.set_page_view(self.slug)
+        context['export_plan_progress_form'] = forms.ExportPlanForm(
+            initial={'step_a': True, 'step_b': True, 'step_c': True}
+        )
+        context['industry_options'] = [{'value': key, 'label': label} for key, label in choices.SECTORS]
+        context['events'] = helpers.get_dashboard_events(user.session_id)
+        context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
+
+        # coerce to list to make the db read happen here rather than in the template, thus making a
+        # traceback more debuggable
+        context['list_pages'] = list(
+            ListPage.objects.live().filter(record_read_progress=True)
+            .annotate(read_count=models.Count('page_views_list', filter=models.Q(page_views_list__sso_id=user.id)))
+            .annotate(read_progress=(
+                models.ExpressionWrapper(
+                    expression=models.F('read_count') * 100 / models.F('numchild'),
+                    output_field=models.IntegerField()
+                )
+            ))
+            .order_by('-read_progress')
+        )
+        return context
+
+    def get_context(self, request):
+        user = request.user
+        context = super().get_context(request)
+        context.update(self.get_user_context(user))
+        return context
+
+    #########
+    # Panels
+    #########
+    content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('routes')]
