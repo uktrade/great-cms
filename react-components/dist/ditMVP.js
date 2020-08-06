@@ -77363,9 +77363,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Container */ "./react-components/src/views/MarketSelectNavbar/Container.jsx");
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
 /* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
-/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
-/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
-/* harmony import */ var _src_components_BrandAndProduct__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/components/BrandAndProduct */ "./react-components/src/components/BrandAndProduct.jsx");
+/* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
+/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
+/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
 /* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
 /* harmony import */ var _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/components/ObjectivesList */ "./react-components/src/components/ObjectivesList.jsx");
 /* harmony import */ var _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/views/LearnIntroduction/LearnIntroduction */ "./react-components/src/views/LearnIntroduction/LearnIntroduction.jsx");
@@ -77398,12 +77398,12 @@ __webpack_require__.r(__webpack_exports__);
   Countries: _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_6__["default"],
   CountriesModal: _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_4__["default"],
   createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createRouteToMarket"],
+  aboutYourBusinessForm: _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_12__["aboutYourBusinessForm"],
   createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createSpendingAndResources"],
-  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_12__["createTargetAgeGroupInsights"],
-  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_13__["createTargetMarketCountries"],
+  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_13__["createTargetAgeGroupInsights"],
+  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_14__["createTargetMarketCountries"],
   createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_15__["createBusinessRationale"],
   createObjectivesList: _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_16__["createObjectivesList"],
-  createBrandAndProductForm: _src_components_BrandAndProduct__WEBPACK_IMPORTED_MODULE_14__["createBrandAndProductForm"],
   IndustriesModal: _src_views_IndustriesModal_Container__WEBPACK_IMPORTED_MODULE_5__["default"],
   LearnIntroduction: _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_17__["default"],
   ProductLookup: _src_views_ProductLookup_Container__WEBPACK_IMPORTED_MODULE_7__["default"],
@@ -77518,223 +77518,6 @@ AutoCompleteField.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/BrandAndProduct.jsx":
-/*!*************************************************************!*\
-  !*** ./react-components/src/components/BrandAndProduct.jsx ***!
-  \*************************************************************/
-/*! exports provided: BrandAndProductForm, createBrandAndProductForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BrandAndProductForm", function() { return BrandAndProductForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBrandAndProductForm", function() { return createBrandAndProductForm; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Services */ "./react-components/src/Services.js");
-/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-
-
-
-
-
-
-
-
-var BrandAndProductForm = /*#__PURE__*/function (_React$Component) {
-  _inherits(BrandAndProductForm, _React$Component);
-
-  var _super = _createSuper(BrandAndProductForm);
-
-  function BrandAndProductForm(props) {
-    var _this;
-
-    _classCallCheck(this, BrandAndProductForm);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      errors: {},
-      isLoading: false,
-      showSavedMessage: false,
-      formData: props.formData
-    };
-    _this.inputToSave$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
-
-    var saveInput$ = _this.inputToSave$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["debounceTime"])(1000 * 2));
-
-    saveInput$.subscribe(function (data) {
-      _this.setState({
-        isLoading: true
-      }, function () {
-        _Services__WEBPACK_IMPORTED_MODULE_7__["default"].updateExportPlan(_this.formatData(data)).then(_this.handleUpdateSuccess)["catch"](_this.handleUpdateError);
-      });
-    });
-    var afterSave$ = saveInput$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["delay"])(1000 * 2));
-    afterSave$.subscribe(function () {
-      _this.setState({
-        showSavedMessage: false
-      });
-    });
-
-    _this.bindEvents();
-
-    return _this;
-  }
-
-  _createClass(BrandAndProductForm, [{
-    key: "formatData",
-    value: function formatData(data) {
-      return _defineProperty({}, this.props.field, data);
-    }
-  }, {
-    key: "bindEvents",
-    value: function bindEvents() {
-      this.handleChange = this.handleChange.bind(this);
-      this.handleUpdateSuccess = this.handleUpdateSuccess.bind(this);
-      this.handleUpdateError = this.handleUpdateError.bind(this);
-    }
-  }, {
-    key: "handleUpdateSuccess",
-    value: function handleUpdateSuccess() {
-      this.setState({
-        isLoading: false,
-        showSavedMessage: true,
-        errors: {}
-      });
-    }
-  }, {
-    key: "handleUpdateError",
-    value: function handleUpdateError(err) {
-      this.setState({
-        errors: err.message || err,
-        isLoading: false
-      });
-    }
-  }, {
-    key: "handleChange",
-    value: function handleChange(e) {
-      var _this2 = this;
-
-      var formData = this.state.formData;
-
-      var data = _objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value));
-
-      this.setState({
-        formData: data
-      }, function () {
-        _this2.inputToSave$.next(data);
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
-
-      var formFields = this.props.formFields;
-      var _this$state = this.state,
-          formData = _this$state.formData,
-          isLoading = _this$state.isLoading,
-          showSavedMessage = _this$state.showSavedMessage,
-          errors = _this$state.errors;
-      var saveIndicator;
-
-      if (isLoading) {
-        saveIndicator = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_8__["default"], {
-          text: "Saving..."
-        });
-      } else if (showSavedMessage) {
-        saveIndicator = 'Changes saved.';
-      } else {
-        saveIndicator = '';
-      }
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (field) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          tooltip: field.tooltip,
-          label: field.label,
-          example: field.example,
-          key: field.name,
-          name: field.name,
-          value: formData[field.name],
-          description: field.description,
-          placeholder: Number.isInteger(field.placeholder) ? field.placeholder : 'Add some text',
-          currency: field.currency,
-          tag: Number.isInteger(field.placeholder) ? 'number' : 'text',
-          handleChange: _this3.handleChange
-        });
-      }), saveIndicator, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        errors: errors.__all__ || [],
-        className: "m-0"
-      }));
-    }
-  }]);
-
-  return BrandAndProductForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-BrandAndProductForm.propTypes = {
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-    name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
-    label: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
-    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired
-  })).isRequired,
-  field: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
-  formData: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string).isRequired
-};
-
-function createBrandAndProductForm(_ref2) {
-  var element = _ref2.element,
-      params = _objectWithoutProperties(_ref2, ["element"]);
-
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BrandAndProductForm, params), element);
-}
-
-
-
-/***/ }),
-
 /***/ "./react-components/src/components/BusinessRationale.jsx":
 /*!***************************************************************!*\
   !*** ./react-components/src/components/BusinessRationale.jsx ***!
@@ -77750,7 +77533,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _BrandAndProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BrandAndProduct */ "./react-components/src/components/BrandAndProduct.jsx");
+/* harmony import */ var _src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FormWithInputWithExample */ "./react-components/src/components/FormWithInputWithExample/index.jsx");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
@@ -77781,8 +77564,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var BusinessRationale = /*#__PURE__*/function (_BrandAndProductForm) {
-  _inherits(BusinessRationale, _BrandAndProductForm);
+var BusinessRationale = /*#__PURE__*/function (_FormWithInputWithExa) {
+  _inherits(BusinessRationale, _FormWithInputWithExa);
 
   var _super = _createSuper(BusinessRationale);
 
@@ -77800,7 +77583,7 @@ var BusinessRationale = /*#__PURE__*/function (_BrandAndProductForm) {
   }]);
 
   return BusinessRationale;
-}(_BrandAndProduct__WEBPACK_IMPORTED_MODULE_2__["BrandAndProductForm"]);
+}(_src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_2__["FormWithInputWithExample"]);
 
 function createBusinessRationale(_ref) {
   var element = _ref.element,
@@ -78990,6 +78773,204 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_flag_icon_css__WEBPACK_IMPORTED_MODULE_1__["default"])(react__WEBPACK_IMPORTED_MODULE_0__, {
   useCssModules: false
 }));
+
+/***/ }),
+
+/***/ "./react-components/src/components/FormWithInputWithExample/index.jsx":
+/*!****************************************************************************!*\
+  !*** ./react-components/src/components/FormWithInputWithExample/index.jsx ***!
+  \****************************************************************************/
+/*! exports provided: FormWithInputWithExample */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormWithInputWithExample", function() { return FormWithInputWithExample; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
+/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/components/Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+
+var FormWithInputWithExample = /*#__PURE__*/function (_Component) {
+  _inherits(FormWithInputWithExample, _Component);
+
+  var _super = _createSuper(FormWithInputWithExample);
+
+  function FormWithInputWithExample(props) {
+    var _this;
+
+    _classCallCheck(this, FormWithInputWithExample);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      errors: {},
+      isLoading: false,
+      showSavedMessage: false,
+      formData: props.formData
+    };
+    _this.inputToSave$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
+
+    var saveInput$ = _this.inputToSave$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["debounceTime"])(1000 * 2));
+
+    saveInput$.subscribe(function (data) {
+      _this.setState({
+        isLoading: true
+      }, function () {
+        _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateExportPlan(_this.formatData(data)).then(_this.handleUpdateSuccess)["catch"](_this.handleUpdateError);
+      });
+    });
+    var afterSave$ = saveInput$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(1000 * 2));
+    afterSave$.subscribe(function () {
+      _this.setState({
+        showSavedMessage: false
+      });
+    });
+
+    _this.bindEvents();
+
+    return _this;
+  }
+
+  _createClass(FormWithInputWithExample, [{
+    key: "formatData",
+    value: function formatData(data) {
+      return _defineProperty({}, this.props.field, data);
+    }
+  }, {
+    key: "bindEvents",
+    value: function bindEvents() {
+      this.handleChange = this.handleChange.bind(this);
+      this.handleUpdateSuccess = this.handleUpdateSuccess.bind(this);
+      this.handleUpdateError = this.handleUpdateError.bind(this);
+    }
+  }, {
+    key: "handleUpdateSuccess",
+    value: function handleUpdateSuccess() {
+      this.setState({
+        isLoading: false,
+        showSavedMessage: true,
+        errors: {}
+      });
+    }
+  }, {
+    key: "handleUpdateError",
+    value: function handleUpdateError(err) {
+      this.setState({
+        errors: err.message || err,
+        isLoading: false
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(e) {
+      var _this2 = this;
+
+      var formData = this.state.formData;
+
+      var data = _objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value));
+
+      this.setState({
+        formData: data
+      }, function () {
+        _this2.inputToSave$.next(data);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var formFields = this.props.formFields;
+      var _this$state = this.state,
+          formData = _this$state.formData,
+          isLoading = _this$state.isLoading,
+          showSavedMessage = _this$state.showSavedMessage,
+          errors = _this$state.errors;
+      var saveIndicator;
+
+      if (isLoading) {
+        saveIndicator = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__["default"], {
+          text: "Saving..."
+        });
+      } else if (showSavedMessage) {
+        saveIndicator = 'Changes saved.';
+      } else {
+        saveIndicator = '';
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (field) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          tooltip: field.tooltip,
+          label: field.label,
+          example: field.example,
+          key: field.name,
+          name: field.name,
+          value: formData[field.name],
+          description: field.description,
+          placeholder: Number.isInteger(field.placeholder) ? field.placeholder : 'Add some text',
+          currency: field.currency,
+          tag: Number.isInteger(field.placeholder) ? 'number' : 'text',
+          handleChange: _this3.handleChange
+        });
+      }), saveIndicator, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        errors: errors.__all__ || [],
+        className: "m-0"
+      }));
+    }
+  }]);
+
+  return FormWithInputWithExample;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+FormWithInputWithExample.propTypes = {
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  })).isRequired,
+  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired
+};
 
 /***/ }),
 
@@ -84874,6 +84855,37 @@ function Tour(props) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/AboutYourBusiness/index.jsx":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/views/sections/AboutYourBusiness/index.jsx ***!
+  \*************************************************************************/
+/*! exports provided: aboutYourBusinessForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "aboutYourBusinessForm", function() { return aboutYourBusinessForm; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FormWithInputWithExample */ "./react-components/src/components/FormWithInputWithExample/index.jsx");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var aboutYourBusinessForm = function aboutYourBusinessForm(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_2__["FormWithInputWithExample"], params), element);
+};
 
 /***/ }),
 
