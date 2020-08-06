@@ -32,11 +32,17 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
     average_price = serializers.IntegerField(required=False, allow_null=True)
 
 
+class MarketingApproachSerializer(serializers.Serializer):
+    resources = serializers.CharField(required=False, allow_blank=True)
+    spending = serializers.IntegerField(required=False, allow_null=True)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     brand_product_details = BrandAndProductDetailsSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
     target_markets_research = TargetMarketsResearchSerializer(required=False)
+    marketing_approach = MarketingApproachSerializer(required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
