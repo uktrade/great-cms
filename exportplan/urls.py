@@ -17,10 +17,10 @@ urlpatterns = [
         name='target-markets'
     ),
     path(
-        'section/brand-and-product/',
-        login_required(views.ExportPlanBrandAndProductView.as_view(), login_url=LOGIN_URL),
-        {'slug': 'brand-and-product'},
-        name='brand-and-product'
+        'section/about-your-business/',
+        login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'about-your-business'},
+        name='about-your-business'
     ),
     path(
         'section/target-markets-research/',

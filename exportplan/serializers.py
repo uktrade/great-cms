@@ -16,7 +16,7 @@ class PopulationDataSerializer(serializers.Serializer):
         return value[0].split(',')
 
 
-class BrandAndProductDetailsSerializer(serializers.Serializer):
+class AboutYourBuinessSerializer(serializers.Serializer):
     story = serializers.CharField(required=False, allow_blank=True)
     location = serializers.CharField(required=False, allow_blank=True)
     processes = serializers.CharField(required=False, allow_blank=True)
@@ -39,7 +39,7 @@ class MarketingApproachSerializer(serializers.Serializer):
 
 class ExportPlanSerializer(serializers.Serializer):
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
-    brand_product_details = BrandAndProductDetailsSerializer(required=False)
+    about_your_business = AboutYourBuinessSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
     target_markets_research = TargetMarketsResearchSerializer(required=False)
     marketing_approach = MarketingApproachSerializer(required=False)

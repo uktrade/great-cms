@@ -6,7 +6,7 @@ from exportplan import forms, helpers
 
 
 @pytest.fixture
-def brand_product_form_data():
+def about_your_business_form_data():
     return {
         'story': 'Lorem ipsum',
         'location': 'Dolor sit amet',
@@ -33,15 +33,15 @@ def objectives_form_data():
     }
 
 
-def test_brand_product_form_valid(brand_product_form_data):
-    form = forms.ExportPlanBrandAndProductForm(
-        data=brand_product_form_data
+def test_about_your_business_form_valid(about_your_business_form_data):
+    form = forms.ExportPlanAboutYourBusinessForm(
+        data=about_your_business_form_data
     )
     assert form.is_valid()
 
 
-def test_brand_product_form_missing_fields():
-    form = forms.ExportPlanBrandAndProductForm(
+def test_about_your_business_form_missing_fields():
+    form = forms.ExportPlanAboutYourBusinessForm(
         data={
             'story': 'Lorem ipsum',
             'location': 'Dolor sit amet',
@@ -50,8 +50,8 @@ def test_brand_product_form_missing_fields():
     assert form.is_valid()
 
 
-def test_brand_product_form_empty_fields():
-    form = forms.ExportPlanBrandAndProductForm(
+def test_about_your_business_form_empty_fields():
+    form = forms.ExportPlanAboutYourBusinessForm(
         data={
             'story': '',
             'location': '',
@@ -63,14 +63,14 @@ def test_brand_product_form_empty_fields():
 
 
 def test_target_markets_research_form_valid(target_markets_research_data):
-    form = forms.ExportPlanBrandAndProductForm(
+    form = forms.ExportPlanAboutYourBusinessForm(
         data=target_markets_research_data
     )
     assert form.is_valid()
 
 
 def test_target_markets_research_missing_fields():
-    form = forms.ExportPlanBrandAndProductForm(
+    form = forms.ExportPlanAboutYourBusinessForm(
         data={
             'demand': 'Lorem ipsum',
             'competitors': 'Dolor sit amet',
@@ -94,9 +94,9 @@ def test_target_markets_research_form_empty_fields():
 
 @pytest.mark.django_db
 @patch.object(helpers, 'get_or_create_export_plan')
-def test_brand_product_form_view(mock_get_export_plan, brand_product_form_data, client, user):
-    mock_get_export_plan.return_value = {'pk': 1, 'brand_product_details': brand_product_form_data}
-    url = reverse('exportplan:brand-and-product')
+def test_about_your_business_form_view(mock_get_export_plan, about_your_business_form_data, client, user):
+    mock_get_export_plan.return_value = {'pk': 1, 'about_your_business': about_your_business_form_data}
+    url = reverse('exportplan:about-your-business')
     client.force_login(user)
     response = client.get(url)
 
@@ -129,7 +129,7 @@ def test_objectives_form_missing_fields():
 
 
 def test_objectives_form_empty_fields():
-    form = forms.ExportPlanBrandAndProductForm(
+    form = forms.ExportPlanAboutYourBusinessForm(
         data={
             'rational': '',
         }

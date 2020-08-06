@@ -1,7 +1,7 @@
 from exportplan import serializers
 
 
-def test_brand_product_details_serializer():
+def test_about_your_business_serializer():
 
     data = {
         'story': 'Lorem ipsum',
@@ -10,20 +10,20 @@ def test_brand_product_details_serializer():
         'processes': 'Sed do eiusmod tempor incididunt'
     }
 
-    serializer = serializers.BrandAndProductDetailsSerializer(data=data)
+    serializer = serializers.AboutYourBuinessSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == data
 
 
-def test_brand_product_details_serializer_allows_blank_omitted():
+def test_about_your_business_serializer_allows_blank_omitted():
 
     data = {
         'story': '',
         'location': '',
     }
 
-    serializer = serializers.BrandAndProductDetailsSerializer(data=data)
+    serializer = serializers.AboutYourBuinessSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == data
@@ -32,7 +32,7 @@ def test_brand_product_details_serializer_allows_blank_omitted():
 def test_export_plan_serializer_empty_target_markets():
 
     data = {
-        'brand_product_details': {
+        'about_your_business': {
             'story': '',
             'location': ''
         }
