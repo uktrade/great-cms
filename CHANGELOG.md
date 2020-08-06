@@ -28,6 +28,7 @@
 GP2-315 - route to market backend integration
 ### Implemented enhancements
 
+- GP2-241 - rename brand and product page to about your business 
 - GP2-279 - Dashboard page made wagtail configurable and added routing block
 - GP2-250 - Lesson - estimated time (FE)
 - GP2-252 - Lesson - objectives (FE)
