@@ -99,7 +99,6 @@ class ExportPlanRecommendedCountriesDataView(APIView):
 
 
 class RetrieveMarketingCountryData(APIView):
-    # Mock view to retrieve data for market approach page
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.PopulationDataSerializer
 
@@ -166,4 +165,40 @@ class ObjectivesDestroyAPIView(generics.GenericAPIView):
 
         if serializer.is_valid(raise_exception=True):
             helpers.delete_objective(self.request.user.session_id, serializer.validated_data)
+            return Response({})
+
+
+class RouteToMarketsCreateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.NewRouteToMarketSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.create_route_to_market(self.request.user.session_id, serializer.validated_data)
+            return Response(response)
+
+
+class RouteToMarketsUpdateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.RouteToMarketSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.update_route_to_market(self.request.user.session_id, serializer.validated_data)
+            return Response(response)
+
+
+class RouteToMarketsDestroyAPIView(generics.GenericAPIView):
+    serializer_class = serializers.PkOnlySerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            helpers.delete_route_to_market(self.request.user.session_id, serializer.validated_data)
             return Response({})
