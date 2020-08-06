@@ -2,6 +2,8 @@
 
 ## Pre-release
 
+- no ticket - Dependencies upgrade
+
 ### Fixed bugs
 
 - GP2-314 - onboarding learning modal design tweaks
