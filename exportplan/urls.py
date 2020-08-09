@@ -17,10 +17,10 @@ urlpatterns = [
         name='target-markets'
     ),
     path(
-        'section/brand-and-product/',
-        login_required(views.ExportPlanBrandAndProductView.as_view(), login_url=LOGIN_URL),
-        {'slug': 'brand-and-product'},
-        name='brand-and-product'
+        'section/about-your-business/',
+        login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'about-your-business'},
+        name='about-your-business'
     ),
     path(
         'section/target-markets-research/',
@@ -57,4 +57,9 @@ urlpatterns = [
     path('api/objectives/create/', api.ObjectivesCreateAPIView.as_view(), name='api-objectives-create'),
     path('api/objectives/update/', api.ObjectivesUpdateAPIView.as_view(), name='api-objectives-update'),
     path('api/objectives/delete/', api.ObjectivesDestroyAPIView.as_view(), name='api-objectives-delete'),
+    path('api/route-to-markets/create/', api.RouteToMarketsCreateAPIView.as_view(), name='api-route-to-markets-create'),
+    path('api/route-to-markets/update/', api.RouteToMarketsUpdateAPIView.as_view(), name='api-route-to-markets-update'),
+    path(
+        'api/route-to-markets/delete/', api.RouteToMarketsDestroyAPIView.as_view(), name='api-route-to-markets-delete'
+    ),
 ]

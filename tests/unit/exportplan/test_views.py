@@ -37,7 +37,7 @@ def company_profile_data():
 @pytest.fixture(autouse=True)
 def export_plan_data():
     return {
-        'brand_product_details': '',
+        'about_your_business': '',
         'target_markets_research': ''
     }
 
@@ -113,7 +113,7 @@ def test_exportplan_section_marketing_approach(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
+@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'about_your_business': ''}))
 def test_exportplan_section_target_makret_country(client, user):
     client.force_login(user)
 
@@ -334,6 +334,119 @@ def test_objectives_validation_create(mock_create_objective, client, user):
     response = client.post(url, objective)
 
     assert mock_create_objective.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.']
+    }
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_route_to_market')
+def test_update_route_to_market_api_view(mock_update_route_to_market, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-route-to-markets-update')
+
+    data = {'pk': 1, 'route': 'Some text', 'companyexportplan': 1}
+
+    mock_update_route_to_market.return_value = data
+
+    response = client.post(url, data)
+
+    assert mock_update_route_to_market.call_count == 1
+    assert response.status_code == 200
+    assert mock_update_route_to_market.call_args == mock.call('123', data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_route_to_market')
+def test_create_route_to_market_api_view(mock_create_route_to_market, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-route-to-markets-create')
+
+    data = {'route': 'Some text', 'companyexportplan': 1}
+
+    mock_create_route_to_market.return_value = {'pk': 1, **data}
+
+    response = client.post(url, data)
+
+    assert mock_create_route_to_market.call_count == 1
+    assert response.status_code == 200
+    assert mock_create_route_to_market.call_args == mock.call('123', data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_route_to_market')
+def test_delete_route_to_market_api_view(mock_delete_route_to_market, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-route-to-markets-delete')
+
+    data = {'pk': 1}
+
+    mock_delete_route_to_market.return_value = {}
+
+    response = client.delete(url, data, content_type='application/json')
+
+    assert mock_delete_route_to_market.call_count == 1
+    assert response.status_code == 200
+    assert mock_delete_route_to_market.call_args == mock.call('123', data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_route_to_market')
+def test_route_to_market_validation_delete(mock_delete_route_to_market, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-route-to-markets-delete')
+
+    data = {}
+
+    mock_delete_route_to_market.return_value = {}
+
+    response = client.delete(url, data, content_type='application/json')
+
+    assert mock_delete_route_to_market.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {'pk': ['This field is required.']}
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_route_to_market')
+def test_route_to_market_validation_update(mock_update_route_to_market, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-route-to-markets-update')
+
+    data = {}
+
+    mock_update_route_to_market.return_value = {}
+
+    response = client.post(url, data)
+
+    assert mock_update_route_to_market.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.'],
+        'pk': ['This field is required.']
+    }
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_route_to_market')
+def test_route_to_market_validation_create(mock_create_route_to_market, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-route-to-markets-create')
+
+    data = {}
+
+    mock_create_route_to_market.return_value = {}
+
+    response = client.post(url, data)
+
+    assert mock_create_route_to_market.call_count == 0
     assert response.status_code == 400
     assert response.json() == {
         'companyexportplan': ['This field is required.']

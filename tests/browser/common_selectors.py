@@ -165,7 +165,7 @@ class PersonalisationBar(SelectorsEnum):
 
 
 class ExportPlanDashboard(SelectorsEnum):
-    BRAND_AND_PRODUCT = Selector(By.ID, 'brand-and-product', type=ElementType.LINK)
+    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'about-your-business', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'objectives', type=ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'target-markets', type=ElementType.LINK)
     ADAPTATION = Selector(By.ID, 'adaptation-for-international-markets', type=ElementType.LINK)
@@ -204,13 +204,13 @@ class ExportPlanDashboardPageTourStep3(SelectorsEnum):
 
 class ExportPlanDashboardPageTourStep4(SelectorsEnum):
     STEP = Selector(By.ID, 'page-tour-step-lets-start')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'brand-and-product')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
     NEXT = Selector(By.ID, 'page-tour-start-now', type=ElementType.LINK)
 
 
 class ExportPlanTargetMarkets(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'sidebar-content')
-    BRAND_AND_PRODUCT = Selector(By.ID, 'sidebar-brand-and-product', type=ElementType.LINK)
+    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'sidebar-objectives', type=ElementType.LINK)
     TARGET_MARKETS = Selector(By.ID, 'sidebar-target-markets', type=ElementType.LINK)
     ADAPTATION = Selector(By.ID, 'sidebar-adaptation-for-international-markets', type=ElementType.LINK)

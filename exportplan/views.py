@@ -138,13 +138,13 @@ class FormContextMixin:
         return context
 
 
-class ExportPlanBrandAndProductView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):
 
     def get_initial(self):
-        return self.export_plan['brand_product_details']
+        return self.export_plan['about_your_business']
 
-    form_class = forms.ExportPlanBrandAndProductForm
-    success_url = reverse_lazy('exportplan:brand-and-product')
+    form_class = forms.ExportPlanAboutYourBusinessForm
+    success_url = reverse_lazy('exportplan:about-your-business')
 
 
 class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):

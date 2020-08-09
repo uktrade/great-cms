@@ -16,7 +16,7 @@ class PopulationDataSerializer(serializers.Serializer):
         return value[0].split(',')
 
 
-class BrandAndProductDetailsSerializer(serializers.Serializer):
+class AboutYourBuinessSerializer(serializers.Serializer):
     story = serializers.CharField(required=False, allow_blank=True)
     location = serializers.CharField(required=False, allow_blank=True)
     processes = serializers.CharField(required=False, allow_blank=True)
@@ -32,11 +32,17 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
     average_price = serializers.IntegerField(required=False, allow_null=True)
 
 
+class MarketingApproachSerializer(serializers.Serializer):
+    resources = serializers.CharField(required=False, allow_blank=True)
+    spending = serializers.IntegerField(required=False, allow_null=True)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
-    brand_product_details = BrandAndProductDetailsSerializer(required=False)
+    about_your_business = AboutYourBuinessSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
     target_markets_research = TargetMarketsResearchSerializer(required=False)
+    marketing_approach = MarketingApproachSerializer(required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
@@ -61,6 +67,18 @@ class ObjectiveSerializer(serializers.Serializer):
         if value == '':
             return None
         return value
+
+
+class RouteToMarketSerializer(serializers.Serializer):
+    route = serializers.CharField(required=False, allow_blank=True)
+    promote = serializers.CharField(required=False, allow_blank=True)
+    market_promotional_channel = serializers.CharField(required=False, allow_blank=True)
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
+class NewRouteToMarketSerializer(RouteToMarketSerializer):
+    pk = serializers.IntegerField(required=False)
 
 
 class NewObjectiveSerializer(ObjectiveSerializer):

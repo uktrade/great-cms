@@ -11,6 +11,7 @@ import environ
 import pytest
 
 from core import helpers as core_helpers
+from core import constants
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from exportplan import helpers as exportplan_helpers
@@ -84,7 +85,6 @@ JAPAN = {
 # Browser fixtures
 ##########################################################
 
-
 @pytest.fixture(scope='session')
 def browser():
     options = Options()
@@ -109,7 +109,7 @@ def server_user_browser(live_server, browser, user, client):
 
 
 @pytest.fixture
-def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashboard, client):
+def domestic_site_browser_tests(live_server, domestic_homepage, domestic_dashboard, exportplan_dashboard, client):
     """Will server domestic site on the same port as liver_server.
     Note:
         live_server.url looks like this: http://localhost:48049
@@ -155,7 +155,7 @@ def server_user_browser_dashboard(
 ):
     live_server, user, browser = server_user_browser
 
-    browser.get(f'{live_server.url}/dashboard/')
+    browser.get(f'{live_server.url}{constants.DASHBOARD_URL}')
 
     browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
     browser.refresh()

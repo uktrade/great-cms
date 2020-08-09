@@ -39,7 +39,7 @@ class CountryDemographicsForm(forms.Form):
     )
 
 
-class ExportPlanBrandAndProductForm(forms.Form):
+class ExportPlanAboutYourBusinessForm(forms.Form):
     story = forms.CharField(
         label='How we started',
         required=False,
@@ -193,4 +193,58 @@ class ExportPlanBusinessObjectivesForm(forms.Form):
         label='Business performance',
         required=False,
         widget=Textarea(attrs={'placeholder': 'Add some text'})
+    )
+
+
+class ExportPlanMarketingApproachForm(forms.Form):
+    resources = forms.CharField(
+        label='What marketing resources do you need?',
+        required=False,
+        widget=Textarea(attrs={
+            'example': (
+                '<p>Right now it’s not practical for the team to travel to Australia, so we’re '
+                'aiming to establish Dove Gin by creating a buzz from the UK.</p><p>Our research '
+                'shows that the Australian gin market is similar to the UK. However as a niche '
+                'British product (rather than local hero), we’ll have to adapt the current Dove '
+                'Gin marketing strategy.</p><p>There are already over 100 craft gin distilleries '
+                'in Australia, so we’re focused on what makes Dove Gin unique.</p><p>We’re '
+                'capitalising on our historic recipe backstory to make us stand out from the '
+                'competition. We also know our product design is very appealing - and tastes as '
+                'good as it looks.</p><p>We’ll be working with our existing marketing agency Blue '
+                'Sky to run paid social campaigns to raise awareness of our product in Australia.</p>'
+                '<p>Our agency will also help with search engine optimisation so that Dove Gin appears '
+                'in search results for craft gin in Australia. We’re very active on our brand social '
+                'media accounts. We’re building up our connections with Australian influencers - bar '
+                'owners, gin bloggers and premium gin importers. Once we have an Australian distributor,'
+                'we’ll be able to leverage their promotional channels to reach a wider audience, for '
+                'example liquor store email marketing campaigns.</p>'
+            ),
+            'description': (
+                '<p>Write down</p><ul><li>what marketing you can do in-house</li><li>the areas where your '
+                'business will need support</li><li>external agencies or people you’ll work with and what '
+                'you expect them to do</p>'
+            )}
+        ),
+    )
+    spending = forms.CharField(
+        label='How much do you think you’ll spend on marketing?',
+        required=False,
+        widget=NumberInput(attrs={
+            'example': (
+                '<p>We think we’ll spend around £13,000 a year in 2021 and 2022 on marketing for Dove Gin’s '
+                'launch in Australia.</p><p>The main costs will be:</p><ul><li>£500 per month for paid search '
+                'for a 6 month campaign late 2021</li><li>£5,000 agency fees</li></ul><p>Remaining budget tbc '
+                'but will need to include giveaways and potential cost of sponsoring launch nights at bars in '
+                'late 2021.</p>'
+            ),
+            'description': (
+                '<p>Explain how your total marketing spend breaks down.</p>'
+            ),
+            'placeholder': (
+                0.00
+            ),
+            'currency': (
+                'GBP'
+            )},
+        ),
     )

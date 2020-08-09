@@ -1,5 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Subject } from 'rxjs'
@@ -7,11 +6,11 @@ import { debounceTime, delay } from 'rxjs/operators';
 
 import ErrorList from '@src/components/ErrorList'
 import FieldWithExample from '@src/components/Fields/FieldWithExample'
-import Services from '../Services'
-import Spinner from './Spinner/Spinner'
+import Services from '@src/Services'
+import Spinner from '@src/components/Spinner/Spinner'
 
 
-class BrandAndProductForm extends React.Component {
+export class FormWithInputWithExample extends Component {
   constructor(props) {
     super(props)
 
@@ -116,7 +115,7 @@ class BrandAndProductForm extends React.Component {
   }
 }
 
-BrandAndProductForm.propTypes = {
+FormWithInputWithExample.propTypes = {
   formFields: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -125,9 +124,3 @@ BrandAndProductForm.propTypes = {
   field: PropTypes.string.isRequired,
   formData: PropTypes.objectOf(PropTypes.string).isRequired,
 }
-
-function createBrandAndProductForm({ element, ...params }) {
-  ReactDOM.render(<BrandAndProductForm {...params} />, element)
-}
-
-export { BrandAndProductForm, createBrandAndProductForm }

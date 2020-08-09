@@ -23,6 +23,13 @@ def anonymous_user_required(page, request, serve_args, serve_kwargs):
 
 
 @hooks.register('before_serve_page')
+def authenticated_user_required(page, request, serve_args, serve_kwargs):
+    if isinstance(page, mixins.AuthenticatedUserRequired):
+        if not request.user.is_authenticated:
+            return redirect(page.authenticated_user_required_redirect_url)
+
+
+@hooks.register('before_serve_page')
 def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
     if page.template == 'learn/detail_page.html' and request.user.is_anonymous:
 

@@ -23,7 +23,7 @@ const modalStyles = {
   },
   overlay: {
     zIndex: 1000,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    backgroundColor: 'rgba(0, 0, 0, 0.7)'
   }
 }
 
@@ -32,8 +32,8 @@ export default function Modal(props) {
     <ReactModal isOpen={props.isOpen} style={modalStyles} onRequestClose={props.handleSkip} contentLabel="Modal">
       <div className="great-tour-modal great-signup-wizard-step-1" id="page-tour-modal-step-1">
         <img src="/static/images/learning-modal.png" alt="" />
-        <h2 className="great-modal-heading m-t-s">{props.title}</h2>
-        <p className="great-modal-text">{props.body}</p>
+        <h2 className="great-modal-heading m-t-s m-r-s">{props.title}</h2>
+        <p className="great-modal-text m-r-s">{props.body}</p>
         <div className="great-tour-actions">
           <button
             id="page-tour-submit"

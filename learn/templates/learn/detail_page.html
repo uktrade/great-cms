@@ -1,12 +1,13 @@
 {% extends 'core/base.html' %}
 {% load wagtailimages_tags %}
 {% load routablepageurl from wagtailroutablepage_tags %}
+{% load url_map %}
 
 {% block content %}
     <div class="container" id="lesson-page">
         <div class="grid">
             <aside class="c-1-6 p-t-xxs p-h-xs">
-                <a href="{% url 'core:dashboard' %}">Back</a>
+                <a href="{% url_map 'dashboard' %}">Back</a>
                 <ul class="m-v-0">
                     {% for topic in topics %}
                         {% if topic.pk != page.get_parent.pk %}
@@ -35,6 +36,10 @@
             <div class="grid p-t-l p-f-l">
                 <div class="c-2-3">
                     <h1 class="h-xl text-blue-deep-80" id="lesson-title">{{ self.title }}</h1>
+                    <p class="estimated-time text-blue-deep-80">
+                        <i class="fa fa-clock-o m-r-xxs" aria-hidden="true"></i>
+                        <strong>12 min read</strong>
+                    </p>
                     <div class="objectives">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed auctor sapien.</p>
                         <p>Integer semper interdum felis, at posuere urna elementum ac. Donec rhoncus, augue id mollis consectetur, velit metus varius</p>
