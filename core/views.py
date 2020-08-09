@@ -22,7 +22,15 @@ STEP_PRODUCT_SEARCH = 'product-search'
 STEP_SIGN_UP = 'sign-up'
 
 
-class DashboardView(TemplateView):
+class DashboardView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/dashboard.html'
     page_name = 'dashboard'
 
@@ -70,7 +78,15 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
-class ArticleView(FormView):
+class ArticleView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/article.html'
     success_url = reverse_lazy('core:dashboard')
     form_class = forms.NoOperationForm
@@ -84,11 +100,27 @@ class ArticleView(FormView):
         )
 
 
-class LoginView(TemplateView):
+class LoginView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/login.html'
 
 
-class SignupView(TemplateView):
+class SignupView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/signup.html'
 
 
@@ -192,7 +224,15 @@ class AbstractSignupWizardView(abc.ABC):
         return url
 
 
-class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     extra_context = {'allow_skip_signup': True}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
@@ -209,7 +249,15 @@ class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessi
     )
 
 
-class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     extra_context = {'allow_skip_signup': False}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-export-plan.html',
@@ -226,7 +274,15 @@ class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWiz
     )
 
 
-class CompanyNameFormView(FormView):
+class CompanyNameFormView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/company-name-form.html'
     form_class = forms.CompanyNameForm
 

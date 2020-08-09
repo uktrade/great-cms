@@ -39,7 +39,7 @@ pytest_browser:
 
 flake8:
 	flake8 . \
-	--exclude=.venv,venv,node_modules,migrations \
+	--exclude=ENV,ENV2,.venv,venv,node_modules,migrations \
 	--max-line-length=120
 
 manage:

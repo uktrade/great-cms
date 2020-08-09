@@ -79,4 +79,3 @@ urlpatterns = [
         name='api-create-token'
     )
 ]
-
