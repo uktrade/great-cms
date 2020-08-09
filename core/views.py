@@ -1,5 +1,6 @@
 import abc
 import datetime
+import json
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -305,6 +306,5 @@ class CreateTokenView(generics.GenericAPIView):
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
-
-        return Response(f'Access valid until: {plaintext}. Please use the following URL to give access to the user:  '
-                        f'{base_url}/markets?enc={ciphertext}')
+        response = {'valid_until': plaintext, 'url': f'{base_url}/markets?enc={ciphertext}', 'token': ciphertext}
+        return Response(json.dumps(response))
