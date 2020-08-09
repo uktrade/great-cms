@@ -19,10 +19,10 @@ urlpatterns = [
         name='target-markets'
     ),
     path(
-        'section/brand-and-product/',
-        login_required(skip_ga360(views.ExportPlanBrandAndProductView.as_view()), login_url=LOGIN_URL),
-        {'slug': 'brand-and-product'},
-        name='brand-and-product'
+        'section/about-your-business/',
+        login_required(skip_ga360(views.ExportPlanAboutYourBusinessView.as_view()), login_url=LOGIN_URL),
+        {'slug': 'about-your-business'},
+        name='about-your-business'
     ),
     path(
         'section/target-markets-research/',
@@ -61,4 +61,9 @@ urlpatterns = [
     path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
     path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),
     path('api/objectives/delete/', skip_ga360(api.ObjectivesDestroyAPIView.as_view()), name='api-objectives-delete'),
+    path('api/route-to-markets/create/', skip_ga360(api.RouteToMarketsCreateAPIView.as_view()), name='api-route-to-markets-create'),
+    path('api/route-to-markets/update/', skip_ga360(api.RouteToMarketsUpdateAPIView.as_view()), name='api-route-to-markets-update'),
+    path(
+        'api/route-to-markets/delete/', skip_ga360(api.RouteToMarketsDestroyAPIView.as_view()), name='api-route-to-markets-delete'
+    ),
 ]

@@ -1,10 +1,12 @@
 {% extends 'core/base.html' %}
 {% load breadcrumbs from great_components %}
 {% load wagtailcore_tags %}
+{% load url_map %}
+
 {% block content %}
     <div id="great-hero" class="container p-s">
         {% breadcrumbs page.title %}
-          <a href="{% url 'core:dashboard' %}">Home</a>
+          <a href="{% url_map 'dashboard' %}">Home</a>
         {% endbreadcrumbs %}
     </div>
 

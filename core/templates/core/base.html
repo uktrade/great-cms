@@ -1,6 +1,7 @@
 {% extends 'great_components/base.html' %}
 {% load static %}
 {% load static_absolute from great_components %}
+{% load url_map %}
 
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
@@ -61,7 +62,7 @@
           marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
-          dashboardUrl: '{% url "core:dashboard" %}',
+          dashboardUrl: '{% url_map "dashboard" %}',
           exportPlanTargetMarketsUrl: '{% url "exportplan:target-markets" %}',
           googleUrl: '{{ javascript_components.google_url }}',
           industryOptions: {{ javascript_components.industry_options|safe }},
@@ -79,7 +80,7 @@
       ditMVP.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
         performSkipFeatureCookieCheck: true,
-        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url "core:dashboard" %}{% endif %}',
+        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}',
         modalIsOpen: {
           products: false,
           countries: false,

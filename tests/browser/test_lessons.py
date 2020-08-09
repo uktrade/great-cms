@@ -15,6 +15,7 @@ from tests.browser.common_selectors import (
 from tests.browser.steps import should_see_all_elements, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
 from tests.unit.core.factories import DetailPageFactory, ListPageFactory
+from core import constants
 
 pytestmark = [
     pytest.mark.browser,
@@ -69,7 +70,7 @@ def test_can_view_lessons_from_different_topics(
     topic_a, topic_a_lessons = topics_with_lessons[0]
     topic_b, topic_b_lessons = topics_with_lessons[1]
 
-    visit_page(live_server, browser, 'core:dashboard', 'Dashboard')
+    visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
     should_see_all_elements(browser, DashboardReadingProgress)
 
     visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
@@ -107,8 +108,8 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     topic_a, topic_a_lessons = topics_with_lessons[0]
 
     visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', topic_a_lessons[0].url)
+    visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
 
-    visit_page(live_server, browser, 'core:dashboard', 'Dashboard')
     should_see_all_elements(browser, DashboardReadingProgress)
 
     check_topic_read_progress(browser, topic_a, topic_a_lessons)

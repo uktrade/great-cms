@@ -8,14 +8,13 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.template.response import TemplateResponse
-from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
 from core import forms, helpers, models, serializers
+from core import forms, helpers, serializers, constants
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -89,7 +88,7 @@ class ArticleView(GA360Mixin, FormView):
             site_subsection='MagnaSubsection',
         )
     template_name = 'core/article.html'
-    success_url = reverse_lazy('core:dashboard')
+    success_url = constants.DASHBOARD_URL
     form_class = forms.NoOperationForm
 
     def get_context_data(self):
@@ -288,7 +287,7 @@ class CompanyNameFormView(GA360Mixin, FormView):
     form_class = forms.CompanyNameForm
 
     def get_success_url(self):
-        return self.request.GET.get('next', reverse('core:dashboard'))
+        return self.request.GET.get('next', constants.DASHBOARD_URL)
 
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)

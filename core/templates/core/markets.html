@@ -1,10 +1,11 @@
 {% extends 'core/base.html' %}
 {% load breadcrumbs from great_components %}
+{% load url_map %}
 
 {% block content %}
     <div id="great-hero" class="container p-b-s p-h-s p-t-0">
         {% breadcrumbs 'Markets' %}
-	      <a href="{% url 'core:dashboard' %}" id="breadcrumbs-home">Home</a>
+	      <a href="{% url_map 'dashboard' %}" id="breadcrumbs-home">Home</a>
 	    {% endbreadcrumbs %}
     </div>
 

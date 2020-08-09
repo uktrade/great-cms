@@ -4,8 +4,11 @@
 
 ## Pre-release
 
+- no ticket - Dependencies upgrade
+
 ### Fixed bugs
 
+- GP2-314 - onboarding learning modal design tweaks
 - GP2-280 - removal of product selector from dashboard
 - GP-310 - Format time as min rather than mins
 - GP2-247 - image resizing module image
@@ -24,11 +27,14 @@
 - MVP-579 - create export plan cms page
 - GP2-67 - fix backbutton upload logo
 - GP2-170 - business performance
-
+GP2-315 - route to market backend integration
 ### Implemented enhancements
 
-- GP2-252 - Lesson - objectives
-- GP2-79 - Lessons - title
+- GP2-241 - rename brand and product page to about your business 
+- GP2-279 - Dashboard page made wagtail configurable and added routing block
+- GP2-250 - Lesson - estimated time (FE)
+- GP2-252 - Lesson - objectives (FE)
+- GP2-79 - Lessons - title (FE)
 - GP2-210 - Personalisation bar restyled and moved to core component
 - GP2-159 - learning onboarding - tooltips
 - GP2-160 - learning onboarding - skip walkthrough
@@ -145,4 +151,4 @@
 - GP2-270 - Homepage editable
 - GP2-218 - Image and media surfacing from CMS modules
 - No ticket - Wagtail upgrade to 2.9.3
-- GP2-312-  integrate population data target audience
+- GP2-312- integrate population data target audience

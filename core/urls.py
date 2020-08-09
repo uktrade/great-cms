@@ -12,18 +12,13 @@ LOGIN_URL = reverse_lazy('core:login')
 def anonymous_user_required(function):
     inner = user_passes_test(
         lambda user: bool(user.is_anonymous),
-        reverse_lazy('core:dashboard'),
+        reverse_lazy('core:login'),
         None
     )
     return inner(function)
 
 
 urlpatterns = [
-    path(
-        'dashboard/',
-        login_required(core.views.DashboardView.as_view(), login_url=LOGIN_URL),
-        name='dashboard'
-    ),
     path(
         'markets/',
         core.views.MarketsView.as_view(),
