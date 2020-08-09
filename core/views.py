@@ -13,54 +13,12 @@ from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
-from core import forms, helpers, models, serializers
+from core import forms, helpers, serializers, constants
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
 STEP_PRODUCT_SEARCH = 'product-search'
 STEP_SIGN_UP = 'sign-up'
-
-
-class DashboardView(GA360Mixin, TemplateView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='MagnaPage',
-            business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
-        )
-    template_name = 'core/dashboard.html'
-    page_name = 'dashboard'
-
-    def get_context_data(self, **kwargs):
-        user = self.request.user
-        # coerce to list to make the db read happen here rather than in the template, thus making a
-        # traceback more debuggable
-        list_pages = list(
-            models.ListPage.objects.live().filter(record_read_progress=True)
-            .annotate(read_count=Count('page_views_list', filter=Q(page_views_list__sso_id=user.id)))
-            .annotate(read_progress=(
-                ExpressionWrapper(
-                    expression=F('read_count') * 100 / F('numchild'),
-                    output_field=IntegerField()
-                )
-            ))
-            .order_by('-read_progress')
-        )
-
-        visited_already = self.request.user.has_visited_page(self.page_name)
-        self.request.user.set_page_view(self.page_name)
-
-        return super().get_context_data(
-            visited_already=visited_already,
-            list_pages=list_pages,
-            export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
-            industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(user.session_id),
-            export_opportunities=helpers.get_dashboard_export_opportunities(user.session_id, user.company),
-            **kwargs,
-        )
 
 
 class UpdateCompanyAPIView(generics.GenericAPIView):

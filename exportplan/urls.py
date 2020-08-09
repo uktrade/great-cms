@@ -61,9 +61,12 @@ urlpatterns = [
     path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
     path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),
     path('api/objectives/delete/', skip_ga360(api.ObjectivesDestroyAPIView.as_view()), name='api-objectives-delete'),
-    path('api/route-to-markets/create/', skip_ga360(api.RouteToMarketsCreateAPIView.as_view()), name='api-route-to-markets-create'),
-    path('api/route-to-markets/update/', skip_ga360(api.RouteToMarketsUpdateAPIView.as_view()), name='api-route-to-markets-update'),
+    path('api/route-to-markets/create/', skip_ga360(api.RouteToMarketsCreateAPIView.as_view()),
+         name='api-route-to-markets-create'),
+    path('api/route-to-markets/update/', skip_ga360(api.RouteToMarketsUpdateAPIView.as_view()),
+         name='api-route-to-markets-update'),
     path(
-        'api/route-to-markets/delete/', skip_ga360(api.RouteToMarketsDestroyAPIView.as_view()), name='api-route-to-markets-delete'
+        'api/route-to-markets/delete/', skip_ga360(api.RouteToMarketsDestroyAPIView.as_view()),
+        name='api-route-to-markets-delete'
     ),
 ]
