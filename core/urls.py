@@ -47,7 +47,8 @@ urlpatterns = [
     path(
         'signup/tailored-content/<str:step>/',
         anonymous_user_required(
-            skip_ga360(core.views.SignupForTailoredContentWizardView.as_view(url_name='core:signup-wizard-tailored-content'))
+            skip_ga360(
+                core.views.SignupForTailoredContentWizardView.as_view(url_name='core:signup-wizard-tailored-content'))
         ),
         name='signup-wizard-tailored-content'
     ),

@@ -69,15 +69,7 @@ class LoginView(GA360Mixin, TemplateView):
     template_name = 'core/login.html'
 
 
-class SignupView(GA360Mixin, TemplateView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='MagnaPage',
-            business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
-        )
+class SignupView(TemplateView):
     template_name = 'core/signup.html'
 
 
@@ -207,14 +199,6 @@ class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, N
 
 
 class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='MagnaPage',
-            business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
-        )
     extra_context = {'allow_skip_signup': False}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-export-plan.html',
