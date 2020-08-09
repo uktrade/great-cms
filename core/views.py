@@ -14,7 +14,6 @@ from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
 from core import forms, helpers, models, serializers
-from core import forms, helpers, serializers, constants
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
