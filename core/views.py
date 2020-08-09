@@ -174,14 +174,6 @@ class AbstractSignupWizardView(abc.ABC):
 
 
 class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='MagnaPage',
-            business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
-        )
     extra_context = {'allow_skip_signup': True}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
