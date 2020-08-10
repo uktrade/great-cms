@@ -83,7 +83,6 @@ MIDDLEWARE = [
     'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
-    'core.middleware.GoogleCampaignMiddleware',
     'core.middleware.CheckGATags'
 ]
 
