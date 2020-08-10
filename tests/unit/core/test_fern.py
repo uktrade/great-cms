@@ -12,9 +12,9 @@ def test_valid_fern():
 
 
 @pytest.mark.django_db
-def test_custom_key_fern(key='alpal'):
+def test_custom_key_fern():
     text = 'Cras aliquam neque consectetur'
-    enc = Fern().encrypt(text)
+    enc = Fern(key='81HqDtbqAywKSOumSha3BhWNOdQ26slT6K0YaZeZyPs=').encrypt(text)
     assert enc is not None
 
 
