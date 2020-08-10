@@ -30,6 +30,7 @@
 - GP2-170 - business performance
 GP2-315 - route to market backend integration
 ### Implemented enhancements
+- GP2-337 - adaptation for target market - insights 
 - GP2-334 - page struture adaptation for target market page
 - GP2-372 - Lesson -step by step (FE)
 - GP2-241 - rename brand and product page to about your business 
