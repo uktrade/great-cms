@@ -6,7 +6,7 @@
 
 ### Fixed bugs
 
-- GP2-321 - quotes rendering for snippets
+- GP2-321 - quotes rendering for snippet
 - GP2-314 - onboarding learning modal design tweaks
 - GP2-280 - removal of product selector from dashboard
 - GP-310 - Format time as min rather than mins
@@ -29,6 +29,7 @@
 GP2-315 - route to market backend integration
 ### Implemented enhancements
 
+- GP2-372 - Lesson -step by step (FE)
 - GP2-241 - rename brand and product page to about your business 
 - GP2-279 - Dashboard page made wagtail configurable and added routing block
 - GP2-250 - Lesson - estimated time (FE)
