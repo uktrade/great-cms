@@ -4,9 +4,9 @@
 {% load url_map %}
 
 {% block content %}
-    <div class="container" id="lesson-page">
+    <div class="container bg-white" id="lesson-page">
         <div class="grid">
-            <aside class="c-1-6 p-t-xxs p-h-xs">
+            <!-- <aside class="c-1-6 p-t-xxs p-h-xs">
                 <a href="{% url_map 'dashboard' %}">Back</a>
                 <ul class="m-v-0">
                     {% for topic in topics %}
@@ -31,10 +31,13 @@
                     {% endfor %}
 
                 </ul>
-            </aside>
+            </aside> -->
             {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
             <div class="grid p-t-l p-f-l">
-                <div class="c-2-3">
+                <div class="c-1-4">
+                    <h4 class="h-s">&nbsp;</h4>
+                </div>
+                <div class="c-1-2">
                     <h1 class="h-xl text-blue-deep-80" id="lesson-title">{{ self.title }}</h1>
                     <p class="estimated-time text-blue-deep-80">
                         <i class="fa fa-clock-o m-r-xxs" aria-hidden="true"></i>
@@ -44,7 +47,7 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed auctor sapien.</p>
                         <p>Integer semper interdum felis, at posuere urna elementum ac. Donec rhoncus, augue id mollis consectetur, velit metus varius</p>
                         <p>Morbi accumsan, neque ut efficitur sollicitudin, tortor ex eleifend nisl, in tempus odio quam at enim.</p>
-                        <ul class="list-bullet">
+                        <ul class="list-dot">
                             <li>List item 1</li>
                             <li>List item 2</li>
                             <li>List item 3</li>
@@ -62,7 +65,52 @@
                         {% endif %}
                     {% endwith %}
                 </div>
-                <div class="c-1-3">
+                <div class="c-1-4">
+                    <h4 class="h-s">&nbsp;</h4>
+                </div>
+            </div>
+
+            <hr class="hr--thick" />
+
+            <div class="grid p-t-l p-f-l">
+                <div class="c-1-4">
+                    <h4 class="h-s">&nbsp;</h4>
+                </div>
+                <div class="c-1-2">
+                    <ul class="step-by-step">
+                        <li class="media-block m-b-m">
+                            <img src="https://dummyimage.com/70x70/a00/fff" alt="" />
+                            <div>
+                              <h3 class="h-l text-blue-deep-80">1. Understand and be prepared</h3>
+                              <p class="text-blue-deep-80">
+                                An exchange rate is the value of a country's currency in terms of the
+                                currency of another country or economic zone.
+                              </p>
+                              <ul class="list-dot text-blue-deep-80">
+                                <li>Typically, these rates of foreign exchange</li>
+                                <li>If you haven't fixed your exchange rate</li>
+                              </ul>
+                              <hr class="hr--thick" />
+                              <p class="text-blue-deep-80">
+                                An exchange rate is the value of a country's currency in terms of the
+                                currency of another country or economic zone.
+                              </p>
+                              <ul class="list-dot text-blue-deep-80">
+                                <li>Typically, these rates of foreign exchange</li>
+                                <li>If you haven't fixed your exchange rate</li>
+                              </ul>
+                            </div>
+                        </li>
+                        <li class="media-block m-b-m">
+                            <img src="https://dummyimage.com/70x70/0a0/fff" alt="" />
+                            <div>
+                                <h3 class="h-l text-blue-deep-80">2. Consider your invoicing currency</h3>
+                                <p class="text-blue-deep-80">Think about whether you'll charge for your goods in pounds or the currency of your export market.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="c-1-4">
                     <h4 class="h-s">&nbsp;</h4>
                 </div>
             </div>
@@ -70,3 +118,6 @@
         </div>
     </div>
 {% endblock %}
+
+
+

@@ -19,6 +19,12 @@ urlpatterns = [
         name='target-markets'
     ),
     path(
+        'section/adaptation-for-target-market/',
+        login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'adaptation-for-target-market'},
+        name='adaptation-for-target-market'
+    ),
+    path(
         'section/about-your-business/',
         login_required(skip_ga360(views.ExportPlanAboutYourBusinessView.as_view()), login_url=LOGIN_URL),
         {'slug': 'about-your-business'},
