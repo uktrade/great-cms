@@ -189,6 +189,13 @@ def test_company_parser_expertise_countries_value_label_pairs(company_profile, e
     assert helpers.CompanyParser(company_profile).expertise_countries_value_label_pairs == expected
 
 
+def test_company_parser_expertise_countries_hard_code_industries(settings):
+    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
+    assert helpers.CompanyParser({'expertise_industries': ['FR']}).expertise_industries_value_label_pairs == (
+        [{'label': 'Food & Drink', 'value': 'SL10017'}]
+    )
+
+
 def test_search_commodity_by_term(requests_mock):
     requests_mock.get(
         helpers.COMMODITY_SEARCH_URL,
@@ -208,36 +215,13 @@ def test_search_commodity_by_term(requests_mock):
     ]
 
 
-def test_country_demographics():
-
-    country = helpers.CountryDemographics(name='France')
-
-    assert country.urban_percentage == 80.4
-    assert country.rural_percentage == 19.6
-    assert country.urban_percentage + country.rural_percentage == 100
-    assert country.average_income == 41_089
-    assert country.population == 65_274_000
-    assert country.consumer_price_index == 110.05
+def test_get_popular_export_destinations():
+    destinations = helpers.get_popular_export_destinations('Aerospace')
+    assert destinations[0] == ('China', 29)
 
 
-def test_country_demographics_filter_population_age_range():
-    population = 0
-
-    country = helpers.CountryDemographics(name='France')
-
-    for age_range in helpers.population_age_range_choices:
-        population += country.filter_age_range(age_range=age_range).population
-
-    assert population == country.population
-
-
-def test_country_demographics_filter_population_age_sex_filter():
-    population = 0
-    country = helpers.CountryDemographics(name='France')
-
-    for age_range in helpers.population_age_range_choices:
-        population += country.filter_age_range(age_range=age_range).population_male
-        population += country.filter_age_range(age_range=age_range).population_female
-
-    # some folks dont fall under either
-    assert country.population * 0.999 < population <= country.population
+@mock.patch.object(helpers, 'is_fuzzy_match')
+def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
+    mock_is_fuzzy.return_value = True
+    destinations = helpers.get_popular_export_destinations('Aerospace')
+    assert destinations[0] == ('China', 29)
