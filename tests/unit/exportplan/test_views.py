@@ -101,38 +101,15 @@ def test_exportplan_section_target_makret(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
-def test_exportplan_section_marketing_approach(client, user):
+@mock.patch.object(helpers, 'get_or_create_export_plan')
+def test_exportplan_section_marketing_approach(mock_get_create_export_plan, client, user):
     client.force_login(user)
-
-    response = client.get(reverse('exportplan:marketing-approach'))
-    assert response.status_code == 200
-    assert 'country' not in response.context_data
-    assert 'united_kingdom' not in response.context_data
-    assert 'age_range' not in response.context_data
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'about_your_business': ''}))
-def test_exportplan_section_target_makret_country(client, user):
-    client.force_login(user)
-
+    mock_get_create_export_plan.return_value = {'about_your_business': '', 'route_to_markets': {'route': 'test'}}
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
-    assert 'united_kingdom' in response.context_data
-    assert 'country' in response.context_data
-    assert 'age_range' in response.context_data
-    assert response.context_data['country'].name
-    assert response.context_data['country'].year_income
-    assert response.context_data['country'].year_population
-    assert response.context_data['country'].population
-    assert response.context_data['country'].rural_percentage
-    assert response.context_data['country'].urban_percentage
-    assert response.context_data['country'].consumer_price_index
-    assert response.context_data['age_range'].name
-    assert response.context_data['age_range'].age_range
-    assert response.context_data['age_range'].population_female
-    assert response.context_data['age_range'].population_male
+    assert response.context_data['route_to_markets'] == '{"route": "test"}'
+    assert response.context_data['route_choices']
+    assert response.context_data['promotional_choices']
 
 
 @pytest.mark.django_db

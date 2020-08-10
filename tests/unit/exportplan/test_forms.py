@@ -105,7 +105,7 @@ def test_about_your_business_form_view(mock_get_export_plan, about_your_business
 
 @pytest.mark.django_db
 @patch.object(helpers, 'get_or_create_export_plan')
-def test_traget_markets_research_form_view(mock_get_export_plan, target_markets_research_data, client, user):
+def test_market_markets_research_form_view(mock_get_export_plan, target_markets_research_data, client, user):
     mock_get_export_plan.return_value = {'pk': 1, 'target_markets_research': target_markets_research_data}
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
