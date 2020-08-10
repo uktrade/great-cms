@@ -206,3 +206,15 @@ def test_search_commodity_by_term(requests_mock):
         {'value': '123323', 'label': 'some description'},
         {'value': '223323', 'label': 'some other description'},
     ]
+
+
+def test_get_popular_export_destinations():
+    destinations = helpers.get_popular_export_destinations('Aerospace')
+    assert destinations[0] == ('China', 29)
+
+
+@mock.patch.object(helpers, 'is_fuzzy_match')
+def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
+    mock_is_fuzzy.return_value = True
+    destinations = helpers.get_popular_export_destinations('Aerospace')
+    assert destinations[0] == ('China', 29)
