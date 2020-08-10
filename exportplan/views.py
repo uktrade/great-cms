@@ -152,7 +152,8 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         return context
 
 
-class ExportPlanTargetMarketsView(ExportPlanSectionView):
+class ExportPlanTargetMarketsView(TemplateView):
+    # This view has been taken our of scope leaving it here for now as it may get reintroduceded
     template_name = 'exportplan/sections/target-markets.html'
 
     def get_context_data(self, **kwargs):
@@ -162,6 +163,10 @@ class ExportPlanTargetMarketsView(ExportPlanSectionView):
             target_markets=json.dumps(self.export_plan.get('target_markets', [])),
             datenow=datetime.now(),
         )
+
+    @cached_property
+    def export_plan(self):
+        return helpers.get_or_create_export_plan(self.request.user)
 
 
 class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):

@@ -13,7 +13,6 @@ urlpatterns = [
     path(
         'section/target-markets/',
         login_required(views.ExportPlanTargetMarketsView.as_view(), login_url=LOGIN_URL),
-        {'slug': 'target-markets'},
         name='target-markets'
     ),
     path(

@@ -81,22 +81,13 @@ def test_export_plan_builder_landing_page(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach', 'objectives'})
+@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_sections(mock_get_create_exportplan, export_plan_data, slug, client, user):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
 
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
-def test_exportplan_section_target_makret(client, user):
-    client.force_login(user)
-
-    response = client.get(reverse('exportplan:target-markets'))
     assert response.status_code == 200
 
 
