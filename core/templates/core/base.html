@@ -104,7 +104,7 @@
           isOpenModal: true,
           steps: {{ tour.steps|safe }},
           title: '{{ tour.title }}',
-          body: '{{ tour.body }}',
+          body: "{% autoescape off %}{{ tour.body }}{% endautoescape %}",
           buttonText: '{{ tour.button_text }}',
           disableTourCookieName: 'disable-tour-{{ page.content_type }}'
         })

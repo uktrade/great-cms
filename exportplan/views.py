@@ -105,6 +105,16 @@ class ExportPlanSectionView(ExportPlanMixin, TemplateView):
 class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
+class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectionView, FormView):
+
+    def get_initial(self):
+        return self.export_plan['about_your_business']
+
+    form_class = forms.ExportPlanAboutYourBusinessForm
+    success_url = reverse_lazy('exportplan:about-your-business')
+
+
+class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

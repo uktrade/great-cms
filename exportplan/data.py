@@ -14,6 +14,7 @@ SECTION_TITLES = [
     'Travel and business policies',
     'Business risk',
     'Target markets research',
+    'Adaptation for target market'
 ]
 
 SECTION_SLUGS = [slugify(section) for section in SECTION_TITLES]
