@@ -12,10 +12,13 @@ from django.http import HttpResponseForbidden
 from core.fern import Fern
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
-from great_components.decorators import skip_ga360
 from great_components.mixins import GA360Mixin
+import jsonschema as jsonschema
+from jsonschema import ValidationError
+
 
 logger = logging.getLogger(__name__)
+
 
 class UserLocationStoreMiddleware(MiddlewareMixin):
 
@@ -206,10 +209,10 @@ class CheckGATags(MiddlewareMixin):
         context_data = response.context_data
 
         if 'ga360' not in context_data:
-            logger.error("No Google Analytics data found on the response. "
-                         "You should either set this using the GA360Mixin, "
+            logger.error('No Google Analytics data found on the response. '
+                         'You should either set this using the GA360Mixin, '
                          "or use the 'skip_ga360' decorator to indicate that this page "
-                         "does not require analytics")
+                         'does not require analytics')
             return response
 
         ga_data = context_data['ga360']
@@ -217,7 +220,31 @@ class CheckGATags(MiddlewareMixin):
             jsonschema.validate(instance=ga_data, schema=ga_schema)
         except ValidationError as exception:
             raise GADataMissingException(
-                "A field required for Google Analytics is missing or has "
-                "the incorrect type. Details: %s" % exception.message)
+                'A field required for Google Analytics is missing or has '
+                'the incorrect type. Details: %s' % exception.message)
 
         return response
+
+
+class GADataMissingException(Exception):
+    pass
+
+
+ga_schema = {
+    'type': 'object',
+    'properties': {
+        'business_unit': {'type': 'string'},
+        'site_section': {'type': 'string'},
+        'user_id': {},  # Can be null
+        'login_status': {'type': 'boolean'},
+        'site_language': {'type': 'string'},
+        'site_subsection': {'type': 'string'},
+    },
+    'required': [
+        'business_unit',
+        'site_section',
+        'login_status',
+        'site_language',
+        'user_id',
+    ]
+}
