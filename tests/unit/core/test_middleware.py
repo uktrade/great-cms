@@ -47,7 +47,6 @@ def test_user_specific_redirect_middleware(domestic_site, client):
         parent=learn_page, slug='introduction', template='learn/automated_list_page.html'
     )
     categories_page = factories.CuratedListPageFactory(parent=learn_page, slug='categories')
-
     # Given the user has gone to /learn/introduction/
     response = client.get(introduction_page.url)
 

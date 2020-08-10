@@ -84,7 +84,7 @@ MIDDLEWARE = [
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
     'core.middleware.GoogleCampaignMiddleware',
-    'great_components.middleware.CheckGATags'
+    'core.middleware.CheckGATags'
 ]
 
 ROOT_URLCONF = 'config.urls'

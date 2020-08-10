@@ -1,4 +1,5 @@
 import os
+import logging
 from great_components.helpers import add_next
 
 from django.shortcuts import redirect
@@ -11,7 +12,10 @@ from django.http import HttpResponseForbidden
 from core.fern import Fern
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
+from great_components.decorators import skip_ga360
+from great_components.mixins import GA360Mixin
 
+logger = logging.getLogger(__name__)
 
 class UserLocationStoreMiddleware(MiddlewareMixin):
 
@@ -20,7 +24,7 @@ class UserLocationStoreMiddleware(MiddlewareMixin):
             helpers.store_user_location(request)
 
 
-class UserSpecificRedirectMiddleware(MiddlewareMixin):
+class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):
     # some pages should remember they were visited already and redirect away
 
     SESSION_KEY_LEARN = 'LEARN_INTRO_COMPLETE'
@@ -184,3 +188,36 @@ class GoogleCampaignMiddleware(MiddlewareMixin):
         # store utm codes on the request object,
         # so they're available in templates
         request.utm = request.session['utm']
+
+
+class CheckGATags(MiddlewareMixin):
+    def process_response(self, _, response):
+
+        # Only check 2xx responses for google analytics.
+        if not 200 <= response.status_code < 300:
+            return response
+
+        # Don't check views which should be skipped (see @skip_ga360 decorator)
+        if getattr(response, 'skip_ga360', False):
+            return response
+
+        if not hasattr(response, 'context_data'):
+            raise GADataMissingException('No context data found')
+        context_data = response.context_data
+
+        if 'ga360' not in context_data:
+            logger.error("No Google Analytics data found on the response. "
+                         "You should either set this using the GA360Mixin, "
+                         "or use the 'skip_ga360' decorator to indicate that this page "
+                         "does not require analytics")
+            return response
+
+        ga_data = context_data['ga360']
+        try:
+            jsonschema.validate(instance=ga_data, schema=ga_schema)
+        except ValidationError as exception:
+            raise GADataMissingException(
+                "A field required for Google Analytics is missing or has "
+                "the incorrect type. Details: %s" % exception.message)
+
+        return response
