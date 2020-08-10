@@ -1,0 +1,9 @@
+.insight {
+  &-section {
+    padding: 30px;
+
+    &--border {
+      border-bottom: 1px solid $grey;
+    }
+  }
+}
