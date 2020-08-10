@@ -6,6 +6,7 @@
 
 ### Fixed bugs
 
+- GP2-321 - quotes rendering for snippets
 - GP2-314 - onboarding learning modal design tweaks
 - GP2-280 - removal of product selector from dashboard
 - GP-310 - Format time as min rather than mins
