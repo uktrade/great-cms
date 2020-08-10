@@ -133,13 +133,6 @@ class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionVie
     def get_initial(self):
         return self.export_plan['target_markets_research']
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        data = self.request.GET or {}
-        if data:
-            kwargs['data'] = data
-        return kwargs
-
 
 class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanBusinessObjectivesForm
