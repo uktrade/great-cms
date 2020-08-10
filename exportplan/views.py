@@ -105,6 +105,17 @@ class ExportPlanSectionView(ExportPlanMixin, TemplateView):
 class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES],
+        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES],
+        context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
+        context['route_choices'] = route_choices
+        context['promotional_choices'] = promotional_choices
+        return context
+
+
 class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectionView, FormView):
 
     def get_initial(self):
@@ -116,21 +127,18 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
 
 class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
 
+    form_class = forms.ExportPlanTargetMarketsResearchForm
+    success_url = reverse_lazy('exportplan:target-markets-research')
+
+    def get_initial(self):
+        return self.export_plan['target_markets_research']
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         data = self.request.GET or {}
         if data:
             kwargs['data'] = data
         return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES],
-        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES],
-        context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
-        context['route_choices'] = route_choices
-        context['promotional_choices'] = promotional_choices
-        return context
 
 
 class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):
@@ -170,15 +178,6 @@ class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, F
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
-
-
-class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
-
-    def get_initial(self):
-        return self.export_plan['target_markets_research']
-
-    form_class = forms.ExportPlanTargetMarketsResearchForm
-    success_url = reverse_lazy('exportplan:target-markets-research')
 
 
 class BaseFormView(FormView):
