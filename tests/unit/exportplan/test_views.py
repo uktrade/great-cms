@@ -101,27 +101,15 @@ def test_exportplan_section_target_makret(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'route_to_markets': {}}))
-def test_exportplan_section_marketing_approach(client, user):
-    client.force_login(user)
-
-    response = client.get(reverse('exportplan:marketing-approach'))
-    assert response.status_code == 200
-    assert 'country' not in response.context_data
-    assert 'united_kingdom' not in response.context_data
-    assert 'age_range' not in response.context_data
-
-
-@pytest.mark.django_db
 @mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_section_target_market_country(mock_get_create_export_plan, client, user):
+def test_exportplan_section_marketing_approach(mock_get_create_export_plan, client, user):
     client.force_login(user)
     mock_get_create_export_plan.return_value = {'about_your_business': '', 'route_to_markets': {'route': 'test'}}
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
-    assert response.context_data['route_to_markets']
-    assert response.context_data['promotional_choices']
+    assert response.context_data['route_to_markets'] == '{"route": "test"}'
     assert response.context_data['route_choices']
+    assert response.context_data['promotional_choices']
 
 
 @pytest.mark.django_db
