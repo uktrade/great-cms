@@ -275,18 +275,6 @@ def test_check_ga_360_rejects_responses_without_context_data():
     assert 'No context data found' in str(exception.value)
 
 
-def test_check_ga_360_rejects_responses_without_a_ga360_payload():
-    response = dummy_valid_ga_360_response()
-    response.context_data = {}
-    instance = middleware.CheckGATags()
-
-    with pytest.raises(GADataMissingException) as exception:
-        instance.process_response({}, response)
-
-    assert 'No Google Analytics data found on the response.' \
-           in str(exception.value)
-
-
 def test_check_ga_360_rejects_responses_missing_a_required_field():
     response = dummy_valid_ga_360_response()
     response.context_data['ga360'] = {}
