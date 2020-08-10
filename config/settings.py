@@ -1,4 +1,5 @@
 import os
+import sys
 
 import environ
 import sentry_sdk
@@ -82,6 +83,7 @@ MIDDLEWARE = [
     'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
+    'core.middleware.CheckGATags'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -102,6 +104,7 @@ TEMPLATES = [
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.javascript_components',
+                'great_components.context_processors.analytics',
             ],
         },
     },
@@ -378,6 +381,11 @@ SSO_OAUTH2_LINKEDIN_URL = env.str('SSO_OAUTH2_LINKEDIN_URL')
 SSO_OAUTH2_GOOGLE_URL = env.str('SSO_OAUTH2_GOOGLE_URL')
 AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
 
+# Google tag manager
+GOOGLE_TAG_MANAGER_ID = env.str('GOOGLE_TAG_MANAGER_ID')
+GOOGLE_TAG_MANAGER_ENV = env.str('GOOGLE_TAG_MANAGER_ENV', '')
+UTM_COOKIE_DOMAIN = env.str('UTM_COOKIE_DOMAIN')
+GA360_BUSINESS_UNIT = 'GreatMagna'
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
@@ -442,3 +450,15 @@ VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int(
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
 
 FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE', False)
+
+BETA_ENVIRONMENT = env.str('BETA_TOKEN')
+
+if BETA_ENVIRONMENT:
+    MIDDLEWARE = (['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE)
+    BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS')
+    BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS')
+
+if sys.argv[0:1][0].find('pytest') != -1:
+    TESTING = True
+else:
+    TESTING = False

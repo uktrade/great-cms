@@ -14,7 +14,9 @@ beautifulsoup4==4.8.2     # via great-components, readtime, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
 certifi==2020.6.20        # via requests, sentry-sdk
+cffi==1.14.0              # via cryptography
 chardet==3.0.4            # via requests
+cryptography==2.9.2       # via -r requirements.in
 cssselect==1.1.0          # via pyquery
 directory-api-client==22.2.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
@@ -64,6 +66,7 @@ packaging==20.4           # via sphinx
 pillow==7.2.0             # via -r requirements.in, directory-validators, wagtail
 psycopg2==2.8.5           # via -r requirements.in
 pycountry==20.7.3         # via wagtail-personalisation
+pycparser==2.20           # via cffi
 pygments==2.6.1           # via sphinx
 pyparsing==2.4.7          # via packaging
 pyquery==1.4.1            # via readtime
@@ -77,7 +80,7 @@ requests==2.24.0          # via airtable-python-wrapper, directory-api-client, d
 s3transfer==0.3.3         # via boto3
 sentry-sdk==0.13.5        # via -r requirements.in
 sigauth==4.2.0            # via directory-client-core
-six==1.15.0               # via airtable-python-wrapper, django-extensions, html5lib, jsonschema, l18n, packaging, pyrsistent, python-dateutil, sphinx, w3lib
+six==1.15.0               # via airtable-python-wrapper, cryptography, django-extensions, html5lib, jsonschema, l18n, packaging, pyrsistent, python-dateutil, sphinx, w3lib
 snowballstemmer==2.0.0    # via sphinx
 soupsieve==2.0.1          # via beautifulsoup4
 sphinx==1.8.5             # via -r requirements.in

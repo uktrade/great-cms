@@ -17,6 +17,16 @@ pytest:
 		--cov=. \
 		$(ARGUMENTS)
 
+# Usage: make pytest_single <path_to_file>::<method_name>
+pytest_single:
+	ENV_FILES=$(ENV_FILES) \
+	pytest \
+	    $(ARGUMENTS)
+		--junit-xml=./results/pytest_unit_report.xml \
+		--cov-config=.coveragerc \
+		--cov-report=html \
+		--cov=. \
+
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
 	pytest \
@@ -29,7 +39,7 @@ pytest_browser:
 
 flake8:
 	flake8 . \
-	--exclude=.venv,venv,node_modules,migrations \
+	--exclude=ENV,ENV2,.venv,venv,node_modules,migrations \
 	--max-line-length=120
 
 manage:

@@ -1,4 +1,6 @@
 import abc
+import datetime
+import json
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -8,9 +10,10 @@ from rest_framework.response import Response
 
 from django.template.response import TemplateResponse
 from django.views.generic import TemplateView, FormView
-
+from core.fern import Fern
+from django.conf import settings
+from great_components.mixins import GA360Mixin
 from core import forms, helpers, serializers, constants
-
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -19,7 +22,6 @@ STEP_SIGN_UP = 'sign-up'
 
 
 class UpdateCompanyAPIView(generics.GenericAPIView):
-
     serializer_class = serializers.CompanySerializer
     permission_classes = [IsAuthenticated]
 
@@ -33,7 +35,15 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
-class ArticleView(FormView):
+class ArticleView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/article.html'
     success_url = constants.DASHBOARD_URL
     form_class = forms.NoOperationForm
@@ -47,7 +57,15 @@ class ArticleView(FormView):
         )
 
 
-class LoginView(TemplateView):
+class LoginView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/login.html'
 
 
@@ -55,7 +73,16 @@ class SignupView(TemplateView):
     template_name = 'core/signup.html'
 
 
-class MarketsView(TemplateView):
+class MarketsView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Markets',
+            business_unit='MarketsUnit',
+            site_section='MarketsSection',
+            site_subsection='MarketPage',
+        )
+
     template_name = 'core/markets.html'
 
     def get_page_title(self):
@@ -104,7 +131,6 @@ def handler500(request, *args, **kwargs):
 
 
 class AbstractSignupWizardView(abc.ABC):
-
     step_labels = (
         'Get tailored content',
         'What are you selling?',
@@ -147,7 +173,7 @@ class AbstractSignupWizardView(abc.ABC):
         return url
 
 
-class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
     extra_context = {'allow_skip_signup': True}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
@@ -164,7 +190,7 @@ class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessi
     )
 
 
-class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
     extra_context = {'allow_skip_signup': False}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-export-plan.html',
@@ -181,7 +207,15 @@ class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWiz
     )
 
 
-class CompanyNameFormView(FormView):
+class CompanyNameFormView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/company-name-form.html'
     form_class = forms.CompanyNameForm
 
@@ -191,3 +225,18 @@ class CompanyNameFormView(FormView):
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
         return super().form_valid(form)
+
+
+class CreateTokenView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request):
+        # expire access @ now() in msec + 1 day
+        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=1))
+        base_url = settings.BASE_URL
+        # TODO: logging
+        # print(f'token valid until {plaintext}')
+        fern = Fern()
+        ciphertext = fern.encrypt(plaintext)
+        response = {'valid_until': plaintext, 'url': f'{base_url}/markets?enc={ciphertext}', 'token': ciphertext}
+        return Response(json.dumps(response))

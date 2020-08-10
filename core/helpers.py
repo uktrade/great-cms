@@ -18,9 +18,8 @@ from django.conf import settings
 
 from core.serializers import parse_opportunities, parse_events
 
-
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
-USER_LOCATION_DETERMINE_ERROR = 'Unanble to determine user location'
+USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
 COMMODITY_SEARCH_URL = urljoin(settings.DIT_HELPDESK_URL, '/search/api/commodity-term/')
 MALE = 'xy'
 FEMALE = 'xx'
