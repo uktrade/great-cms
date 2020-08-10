@@ -10,10 +10,9 @@ from django.urls import reverse_lazy
 
 from requests.exceptions import RequestException
 
-from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES
+from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES, MARKET_ROUTE_CHOICES, PRODUCT_PROMOTIONAL_CHOICES
 from directory_api_client.client import api_client
 from exportplan import data, helpers, forms
-from core.helpers import CountryDemographics
 
 
 class ExportPlanMixin:
@@ -49,50 +48,6 @@ class ExportPlanMixin:
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
             **kwargs
-        )
-
-
-class ExportPlanSectionView(ExportPlanMixin, TemplateView):
-    @property
-    def slug(self, **kwargs):
-        return self.kwargs['slug']
-
-    def get_template_names(self, **kwargs):
-        return [f'exportplan/sections/{self.slug}.html']
-
-
-class ExportPlanMarketingApproachView(ExportPlanMixin, FormView):
-    form_class = forms.CountryDemographicsForm
-    template_name = 'exportplan/sections/marketing-approach.html'
-    slug = 'marketing-approach'
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        data = self.request.GET or {}
-        if data:
-            kwargs['data'] = data
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        form = self.get_form()
-        if form.is_valid():
-            country = CountryDemographics(form.cleaned_data['name'])
-            context['country'] = country
-            context['age_range'] = country.filter_age_range(form.cleaned_data['age_range'])
-            context['united_kingdom'] = CountryDemographics('United Kingdom')
-        return context
-
-
-class ExportPlanTargetMarketsView(ExportPlanSectionView):
-    template_name = 'exportplan/sections/target-markets.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-            selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
-            target_markets=json.dumps(self.export_plan.get('target_markets', [])),
-            datenow=datetime.now(),
         )
 
 
@@ -138,22 +93,34 @@ class FormContextMixin:
         return context
 
 
-class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanSectionView(ExportPlanMixin, TemplateView):
+    @property
+    def slug(self, **kwargs):
+        return self.kwargs['slug']
 
-    def get_initial(self):
-        return self.export_plan['about_your_business']
-
-    form_class = forms.ExportPlanAboutYourBusinessForm
-    success_url = reverse_lazy('exportplan:about-your-business')
+    def get_template_names(self, **kwargs):
+        return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, FormView):
+    form_class = forms.ExportPlanMarketingApproachForm
+    slug = 'marketing-approach'
 
-    def get_initial(self):
-        return self.export_plan['target_markets_research']
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        data = self.request.GET or {}
+        if data:
+            kwargs['data'] = data
+        return kwargs
 
-    form_class = forms.ExportPlanTargetMarketsResearchForm
-    success_url = reverse_lazy('exportplan:target-markets-research')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES],
+        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES],
+        context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
+        context['route_choices'] = route_choices
+        context['promotional_choices'] = promotional_choices
+        return context
 
 
 class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):
@@ -172,6 +139,36 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         context = super().get_context_data(*args, **kwargs)
         context['objectives'] = json.dumps(self.export_plan['company_objectives'])
         return context
+
+
+class ExportPlanTargetMarketsView(ExportPlanSectionView):
+    template_name = 'exportplan/sections/target-markets.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
+            target_markets=json.dumps(self.export_plan.get('target_markets', [])),
+            datenow=datetime.now(),
+        )
+
+
+class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):
+
+    def get_initial(self):
+        return self.export_plan['about_your_business']
+
+    form_class = forms.ExportPlanAboutYourBusinessForm
+    success_url = reverse_lazy('exportplan:about-your-business')
+
+
+class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
+
+    def get_initial(self):
+        return self.export_plan['target_markets_research']
+
+    form_class = forms.ExportPlanTargetMarketsResearchForm
+    success_url = reverse_lazy('exportplan:target-markets-research')
 
 
 class BaseFormView(FormView):
