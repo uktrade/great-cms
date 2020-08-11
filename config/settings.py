@@ -455,8 +455,8 @@ BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')
 
 if BETA_ENVIRONMENT != '':
     MIDDLEWARE = (['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE)
-    BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS')
-    BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS')
+    BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS', default=None)
+    BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS', default=None)
 
 if sys.argv[0:1][0].find('pytest') != -1:
     TESTING = True
