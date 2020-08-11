@@ -1,6 +1,4 @@
 # Changelog
-- AA-129 - Beta environment for GREAT.gov
-- AA-129 - wagtail import export for Beta environment
 
 ## Pre-release
 
@@ -155,3 +153,6 @@ GP2-315 - route to market backend integration
 - GP2-218 - Image and media surfacing from CMS modules
 - No ticket - Wagtail upgrade to 2.9.3
 - GP2-312- integrate population data target audience
+- AA-129 - Beta environment for GREAT.gov
+- AA-129 - wagtail import export for Beta environment
+- GP2-317 - Order of export-plan landing pages
