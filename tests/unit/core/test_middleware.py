@@ -263,18 +263,6 @@ def test_check_ga_360_allows_responses_marked_as_skip_ga360():
     assert processed_response is not None
 
 
-def test_check_ga_360_rejects_responses_without_context_data():
-    response = HttpResponse()
-    response.status_code = 201
-
-    instance = middleware.CheckGATags()
-
-    with pytest.raises(GADataMissingException) as exception:
-        instance.process_response({}, response)
-
-    assert 'No context data found' in str(exception.value)
-
-
 def test_check_ga_360_rejects_responses_missing_a_required_field():
     response = dummy_valid_ga_360_response()
     response.context_data['ga360'] = {}

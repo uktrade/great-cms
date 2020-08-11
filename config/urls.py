@@ -4,7 +4,6 @@ from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 from wagtailimportexport import urls as wagtailimportexport_urls
-from great_components.decorators import skip_ga360
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
@@ -19,7 +18,7 @@ urlpatterns = []
 if settings.ENFORCE_STAFF_SSO_ENABLED:
     urlpatterns += [
         path('admin/login/',
-             skip_ga360(RedirectView.as_view(url=reverse_lazy('authbroker_client:login'))), query_string=True),
+             RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
         path('auth/', include('authbroker_client.urls')),
     ]
 

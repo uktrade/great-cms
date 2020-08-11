@@ -176,7 +176,8 @@ class CheckGATags(MiddlewareMixin):
             return response
 
         if not hasattr(response, 'context_data'):
-            raise GADataMissingException('No context data found')
+            logger.error('No context data found')
+            return response
         context_data = response.context_data
 
         if 'ga360' not in context_data:
