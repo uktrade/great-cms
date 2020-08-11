@@ -150,7 +150,7 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
 
 
 class ExportPlanTargetMarketsView(TemplateView):
-    # This view has been taken our of scope leaving it here for now as it may get reintroduceded
+    # This view has been taken out-of-scope leaving it here for now as it may get re-introduceded
     template_name = 'exportplan/sections/target-markets.html'
 
     def get_context_data(self, **kwargs):
