@@ -77,24 +77,8 @@
     ditMVP.createSpendingAndResources({
       element,
       field: 'marketing_approach',
-      formData: {
-        marketing: '',
-        resources: ''
-      },
-      formFields: [
-        {
-          label: 'What marketing resources do you need?',
-          description: 'This is a description',
-          example: '<p>An example of the required text</p>',
-          name: 'marketing'
-        },
-        {
-          label: 'How much do you think you’ll spend on marketing?',
-          description: 'This is a description',
-          example: '<p>An example of the required text</p>',
-          name: 'resources'
-        }
-      ]
+      formData: {{ form_initial|safe }},
+      formFields: {{ form_fields|safe }},
     })
 
     element = document.getElementById('route-to-market-component');

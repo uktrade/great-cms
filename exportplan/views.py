@@ -106,6 +106,9 @@ class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, F
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
 
+    def get_initial(self):
+        return self.export_plan['marketing_approach']
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES],
