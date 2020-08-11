@@ -6,7 +6,7 @@ SECTION_TITLES = [
     'About your business',
     'Objectives',
     'Target markets research',
-    'Adaptation for target market',
+    'Adaptation for your target market',
     'Marketing approach',
     'Costs and pricing',
     'Finance',
