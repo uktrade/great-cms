@@ -239,6 +239,33 @@ class LandingPage(CMSGenericPage):
     ]
 
 
+class ExtendedLandingPage(CMSGenericPage):
+    parent_page_types = ['domestic.DomesticHomePage']
+    subpage_types = []
+    template_choices = (
+        ('core/extended_landing_page.html', 'Generic'),
+    )
+
+    ################
+    # Content fields
+    ################
+    description = RichTextField()
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    #########
+    # Panels
+    #########
+    content_panels = CMSGenericPage.content_panels + [
+        FieldPanel('description'),
+        ImageChooserPanel('image')
+    ]
+
 class InterstitialPage(CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     template_choices = (
