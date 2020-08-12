@@ -49,8 +49,7 @@ class DomesticDashboard(
 ):
 
     components = StreamField([
-        ('route', core_blocks.RouteSectionBlock(icon='pick')),
-        ('media', core_blocks.MediaChooserBlock(icon='pick')),
+        ('route', core_blocks.RouteSectionBlock(icon='pick'))
     ], null=True, blank=True)
 
     def get_context(self, request):
