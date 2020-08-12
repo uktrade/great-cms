@@ -104,7 +104,9 @@ def test_exportplan_section_target_makret(client, user):
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_section_marketing_approach(mock_get_create_export_plan, client, user):
     client.force_login(user)
-    mock_get_create_export_plan.return_value = {'about_your_business': '', 'route_to_markets': {'route': 'test'}}
+    mock_get_create_export_plan.return_value = {
+        'about_your_business': '', 'route_to_markets': {'route': 'test'}, 'marketing_approach': {'resources': 'xyz'}
+    }
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
     assert response.context_data['route_to_markets'] == '{"route": "test"}'
