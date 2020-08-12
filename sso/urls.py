@@ -22,4 +22,9 @@ urlpatterns = [
         skip_ga360(sso.views.SSOBusinessVerifyCodeView.as_view()),
         name='business-sso-verify-code-api'
     ),
+    path(
+        'api/v1/lesson-completed/<int:lesson>/',
+        skip_ga360(sso.views.LessonCompletedAPIView.as_view()),
+        name='lesson-completed'
+    )
 ]
