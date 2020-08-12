@@ -15,6 +15,10 @@ class VideoBlock(blocks.StructBlock):
     video = MediaChooserBlock()
 
 
+class ObjectiveItem(blocks.StructBlock):
+    item = blocks.CharBlock(max_length=255)
+
+
 class CuratedTopicBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=255)
     pages = blocks.ListBlock(blocks.PageChooserBlock(label='Detail page'))
