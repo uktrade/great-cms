@@ -208,3 +208,24 @@ def test_get_lesson_completed(mock_set_user_lesson_completed, client, user):
     data = {'lesson': lesson.pk, 'sso_session_id': user.session_id}
     response = client.get(reverse('sso:lesson-completed', kwargs={'lesson': lesson.pk}), data)
     assert response.status_code == 200
+
+
+@mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
+def test_has_lesson_completed_get_fail(mock_get_user_lesson_completed):
+    mock_get_user_lesson_completed.return_value = create_response(
+        status_code=400,
+        json_body={'result': 'ok'}
+    )
+    with pytest.raises(APIException):
+        helpers.get_lesson_completed(123, lesson='1')
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'set_user_lesson_completed')
+def test_has_lesson_completed_post_fail(mock_set_user_lesson_completed):
+    lesson = DetailPageFactory()
+    mock_set_user_lesson_completed.return_value = create_response(
+        status_code=400,
+    )
+    with pytest.raises(APIException):
+        helpers.set_lesson_completed(123, lesson=lesson.pk)
