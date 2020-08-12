@@ -168,6 +168,7 @@ def has_visited_page(sso_session_id, page):
 
 def get_company_profile(sso_session_id):
     response = api_client.company.profile_retrieve(sso_session_id)
+
     if response.status_code == 404:
         return None
     response.raise_for_status()

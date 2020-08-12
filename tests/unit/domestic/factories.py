@@ -7,7 +7,8 @@ from core import blocks as core_blocks
 
 class RouteSectionFactory(wagtail_factories.StructBlockFactory):
     title = 'Title'
-    body = '345678638721683768723'
+    route_type = 'learn'
+    body = factory.fuzzy.FuzzyText(length=60)
     image = None
     button = None
 
@@ -27,19 +28,13 @@ class DomesticHomePageFactory(wagtail_factories.PageFactory):
 
 
 class DomesticDashboardFactory(wagtail_factories.PageFactory):
-    title = 'dashboard title'
+    title = 'Title of Dashboard'
     live = True
     slug = 'dashboard'
-    """
-    routes = streamfield([
-        (RouteSectionFactory()),
-        (RouteSectionFactory(Title='wibble')),
-    ])
-    """
-    routes = wagtail_factories.StreamFieldFactory([
-        RouteSectionFactory
-    ]
-    )
+
+    components = wagtail_factories.StreamFieldFactory({
+        'route': RouteSectionFactory
+    })
 
     class Meta:
         model = DomesticDashboard

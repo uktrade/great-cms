@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from datetime import datetime
 from io import BytesIO
 from unittest import mock
@@ -81,7 +80,7 @@ def test_export_plan_builder_landing_page(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach', 'objectives'})
+@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_sections(mock_get_create_exportplan, export_plan_data, slug, client, user):
     mock_get_create_exportplan.return_value = export_plan_data
@@ -92,19 +91,12 @@ def test_exportplan_sections(mock_get_create_exportplan, export_plan_data, slug,
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
-def test_exportplan_section_target_makret(client, user):
-    client.force_login(user)
-
-    response = client.get(reverse('exportplan:target-markets'))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_section_marketing_approach(mock_get_create_export_plan, client, user):
     client.force_login(user)
-    mock_get_create_export_plan.return_value = {'about_your_business': '', 'route_to_markets': {'route': 'test'}}
+    mock_get_create_export_plan.return_value = {
+        'about_your_business': '', 'route_to_markets': {'route': 'test'}, 'marketing_approach': {'resources': 'xyz'}
+    }
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
     assert response.context_data['route_to_markets'] == '{"route": "test"}'
@@ -140,28 +132,6 @@ def test_exportplan_target_markets(mock_user_location_create, mock_get_exportpla
     assert response.context['target_markets'] == json.dumps(explan_plan_data['target_markets'])
     assert response.context['selected_sectors'] == json.dumps(explan_plan_data['sectors'])
     assert response.context['datenow'] == datetime.now()
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_or_create_export_plan', return_value={'pk': 1, 'target_markets': []})
-def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
-    client.force_login(user)
-    mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
-
-    url = reverse('exportplan:api-update-export-plan')
-
-    response = client.post(url, {'target_markets': ['China', 'India']})
-    assert mock_get_or_create_export_plan.call_count == 1
-    assert mock_get_or_create_export_plan.call_args == mock.call(user)
-    assert response.status_code == 200
-
-    assert mock_update_exportplan.call_count == 1
-    assert mock_update_exportplan.call_args == mock.call(
-        data=OrderedDict([('target_markets', [{'country': 'China'}, {'country': 'India'}])]),
-        id=1,
-        sso_session_id='123'
-    )
 
 
 @pytest.mark.django_db
@@ -202,229 +172,3 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user):
 
     with pytest.raises(HTTPError):
         client.post(url, data)
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'update_objective')
-def test_update_objective_api_view(mock_update_objective, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-objectives-update')
-
-    objective = {'pk': 1, 'description': 'Some text', 'companyexportplan': 1}
-
-    mock_update_objective.return_value = objective
-
-    response = client.post(url, objective)
-
-    assert mock_update_objective.call_count == 1
-    assert response.status_code == 200
-    assert mock_update_objective.call_args == mock.call('123', objective)
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'create_objective')
-def test_create_objective_api_view(mock_create_objective, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-objectives-create')
-
-    objective = {'description': 'Some text', 'companyexportplan': 1}
-
-    mock_create_objective.return_value = {'pk': 1, **objective}
-
-    response = client.post(url, objective)
-
-    assert mock_create_objective.call_count == 1
-    assert response.status_code == 200
-    assert mock_create_objective.call_args == mock.call('123', objective)
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'delete_objective')
-def test_delete_objective_api_view(mock_delete_objective, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-objectives-delete')
-
-    objective = {'pk': 1}
-
-    mock_delete_objective.return_value = {}
-
-    response = client.delete(url, objective, content_type='application/json')
-
-    assert mock_delete_objective.call_count == 1
-    assert response.status_code == 200
-    assert mock_delete_objective.call_args == mock.call('123', objective)
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'delete_objective')
-def test_objectives_validation_delete(mock_delete_objective, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-objectives-delete')
-
-    objective = {}
-
-    mock_delete_objective.return_value = {}
-
-    response = client.delete(url, objective, content_type='application/json')
-
-    assert mock_delete_objective.call_count == 0
-    assert response.status_code == 400
-    assert response.json() == {'pk': ['This field is required.']}
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'update_objective')
-def test_objectives_validation_update(mock_update_objective, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-objectives-update')
-
-    objective = {}
-
-    mock_update_objective.return_value = {}
-
-    response = client.post(url, objective)
-
-    assert mock_update_objective.call_count == 0
-    assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.'],
-        'pk': ['This field is required.']
-    }
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'create_objective')
-def test_objectives_validation_create(mock_create_objective, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-objectives-create')
-
-    objective = {}
-
-    mock_create_objective.return_value = {}
-
-    response = client.post(url, objective)
-
-    assert mock_create_objective.call_count == 0
-    assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.']
-    }
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'update_route_to_market')
-def test_update_route_to_market_api_view(mock_update_route_to_market, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-route-to-markets-update')
-
-    data = {'pk': 1, 'route': 'Some text', 'companyexportplan': 1}
-
-    mock_update_route_to_market.return_value = data
-
-    response = client.post(url, data)
-
-    assert mock_update_route_to_market.call_count == 1
-    assert response.status_code == 200
-    assert mock_update_route_to_market.call_args == mock.call('123', data)
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'create_route_to_market')
-def test_create_route_to_market_api_view(mock_create_route_to_market, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-route-to-markets-create')
-
-    data = {'route': 'Some text', 'companyexportplan': 1}
-
-    mock_create_route_to_market.return_value = {'pk': 1, **data}
-
-    response = client.post(url, data)
-
-    assert mock_create_route_to_market.call_count == 1
-    assert response.status_code == 200
-    assert mock_create_route_to_market.call_args == mock.call('123', data)
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'delete_route_to_market')
-def test_delete_route_to_market_api_view(mock_delete_route_to_market, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-route-to-markets-delete')
-
-    data = {'pk': 1}
-
-    mock_delete_route_to_market.return_value = {}
-
-    response = client.delete(url, data, content_type='application/json')
-
-    assert mock_delete_route_to_market.call_count == 1
-    assert response.status_code == 200
-    assert mock_delete_route_to_market.call_args == mock.call('123', data)
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'delete_route_to_market')
-def test_route_to_market_validation_delete(mock_delete_route_to_market, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-route-to-markets-delete')
-
-    data = {}
-
-    mock_delete_route_to_market.return_value = {}
-
-    response = client.delete(url, data, content_type='application/json')
-
-    assert mock_delete_route_to_market.call_count == 0
-    assert response.status_code == 400
-    assert response.json() == {'pk': ['This field is required.']}
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'update_route_to_market')
-def test_route_to_market_validation_update(mock_update_route_to_market, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-route-to-markets-update')
-
-    data = {}
-
-    mock_update_route_to_market.return_value = {}
-
-    response = client.post(url, data)
-
-    assert mock_update_route_to_market.call_count == 0
-    assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.'],
-        'pk': ['This field is required.']
-    }
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'create_route_to_market')
-def test_route_to_market_validation_create(mock_create_route_to_market, client, user):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-route-to-markets-create')
-
-    data = {}
-
-    mock_create_route_to_market.return_value = {}
-
-    response = client.post(url, data)
-
-    assert mock_create_route_to_market.call_count == 0
-    assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.']
-    }

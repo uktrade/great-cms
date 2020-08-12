@@ -2,7 +2,7 @@
 import pytest
 
 from tests.browser.common_selectors import (
-    ExportPlanTargetMarkets,
+    ExportPlanTargetMarketsResearch,
     HeaderCommon,
     HeaderSignedIn,
     PersonalisationBar,
@@ -22,8 +22,8 @@ def test_export_plan_about_your_business_page(
 ):
     live_server, _, browser = server_user_browser_dashboard
 
-    visit_page(live_server, browser, 'exportplan:target-markets', 'Target markets')
+    visit_page(live_server, browser, 'exportplan:target-markets-research', 'Target markets research')
 
     should_see_all_expected_page_sections(
-        browser, [HeaderCommon, HeaderSignedIn, PersonalisationBar, ExportPlanTargetMarkets]
+        browser, [HeaderCommon, HeaderSignedIn, PersonalisationBar, ExportPlanTargetMarketsResearch]
     )

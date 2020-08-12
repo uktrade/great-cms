@@ -190,7 +190,7 @@ def test_has_visited_page_fail(mock_get_user_page_views):
 
 @pytest.mark.django_db
 @mock.patch.object(sso_api_client.user, 'set_user_lesson_completed')
-def test_get_lesson_completed(mock_set_user_lesson_completed, client, user):
+def test_set_lesson_completed(mock_set_user_lesson_completed, client, user):
     lesson = DetailPageFactory()
     client.force_login(user)
     mock_set_user_lesson_completed.return_value = create_response()
