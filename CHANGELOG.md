@@ -28,6 +28,7 @@
 - GP2-170 - business performance
 GP2-315 - route to market backend integration
 ### Implemented enhancements
+- GP2-337 - adaptation for target market - insights 
 - GP2-334 - page struture adaptation for target market page
 - GP2-372 - Lesson -step by step (FE)
 - GP2-241 - rename brand and product page to about your business 
@@ -152,3 +153,6 @@ GP2-315 - route to market backend integration
 - GP2-218 - Image and media surfacing from CMS modules
 - No ticket - Wagtail upgrade to 2.9.3
 - GP2-312- integrate population data target audience
+- AA-129 - Beta environment for GREAT.gov
+- AA-129 - wagtail import export for Beta environment
+- GP2-317 - Order of export-plan landing pages and remove target-markets

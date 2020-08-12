@@ -1,4 +1,5 @@
 from django.urls import path
+from great_components.decorators import skip_ga360
 
 import sso.views
 
@@ -8,17 +9,17 @@ app_name = 'sso'
 urlpatterns = [
     path(
         'api/business-login/',
-        sso.views.SSOBusinessUserLoginView.as_view(),
+        skip_ga360(sso.views.SSOBusinessUserLoginView.as_view()),
         name='business-sso-login-api'
     ),
     path(
         'api/business-user-create/',
-        sso.views.SSOBusinessUserCreateView.as_view(),
+        skip_ga360(sso.views.SSOBusinessUserCreateView.as_view()),
         name='business-sso-create-user-api'
     ),
     path(
         'api/business-verify-code/',
-        sso.views.SSOBusinessVerifyCodeView.as_view(),
+        skip_ga360(sso.views.SSOBusinessVerifyCodeView.as_view()),
         name='business-sso-verify-code-api'
     ),
 ]

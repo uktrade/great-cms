@@ -13,7 +13,11 @@ from core import forms, helpers, models, serializers, views, constants
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
 from tests.unit.learn.factories import LessonPageFactory
+from django.http.cookie import SimpleCookie
 from tests.unit.domestic.factories import DomesticDashboardFactory
+
+BETA_AUTH_TOKEN_PAST = 'gAAAAABfCpH53lJcM0TiiXTqD7X18yRoZHOjy-rbSogRxB0v011FMb6rCkMeizffou-z80D9DPL1PWRA7sn9NBrUS' \
+                       '-M7FTQeapvntabhj-on62OFlNvzVMQ= '
 
 
 def submit_step_factory(client, url_name, view_class):
@@ -23,6 +27,7 @@ def submit_step_factory(client, url_name, view_class):
     def submit_step(data, step_name=None, params={}):
         step_name = step_name or next(step_names)
         path = reverse(url_name, kwargs={'step': step_name})
+        # import pdb;pdb.set_trace()
         return client.post(
             path=f'{path}?{urlencode(params, doseq=True)}',
             data={
@@ -685,3 +690,50 @@ def test_set_company_name_success_with_next(mock_update_company_profile, mock_ge
     response = client.post(f'{url}?next=/foo/bar/', {'name': 'Example corp'})
     assert response.status_code == 302
     assert response.url == '/foo/bar/'
+
+
+@pytest.mark.django_db
+def test_create_api_token(client, rf):
+    response = client.get('/api/create-token/')
+    assert response.data is not None
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_auth_with_url(client, rf):
+    response = client.get('/api/create-token/')
+    token = json.loads(response.data)['token']
+
+    response_2 = client.get(f'/markets/?enc={token}')
+    assert response_2.status_code == 200
+
+
+@pytest.mark.django_db
+def test_auth_with_cookie(client, rf):
+    response = client.get('/api/create-token/')
+    token = json.loads(response.data)['token']
+
+    response_2 = client.get(f'/markets/?enc={token}')
+    assert response_2.status_code == 200
+
+    response_3 = client.get('/markets/')
+    assert response_3.status_code == 200
+
+
+@pytest.mark.django_db
+def test_bad_auth_with_url(client):
+    response = client.get('/markets/')
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_bad_auth_with_cookie(client):
+    client.cookies = SimpleCookie({'beta-user': BETA_AUTH_TOKEN_PAST})
+    response = client.get('/markets/')
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_bad_auth_with_enc_token(client):
+    response = client.get(f'/markets/?enc={BETA_AUTH_TOKEN_PAST}')
+    assert response.status_code == 403

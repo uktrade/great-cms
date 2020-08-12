@@ -17,7 +17,8 @@ urlpatterns = []
 
 if settings.ENFORCE_STAFF_SSO_ENABLED:
     urlpatterns += [
-        path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
+        path('admin/login/',
+             RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
         path('auth/', include('authbroker_client.urls')),
     ]
 
