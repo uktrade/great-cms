@@ -18,10 +18,10 @@ urlpatterns = [
         name='target-markets'
     ),
     path(
-        'section/adaptation-for-target-market/',
+        'section/adaptation-for-your-target-market/',
         login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=LOGIN_URL),
-        {'slug': 'adaptation-for-target-market'},
-        name='adaptation-for-target-market'
+        {'slug': 'adaptation-for-your-target-market'},
+        name='adaptation-for-your-target-market'
     ),
     path(
         'section/about-your-business/',

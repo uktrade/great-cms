@@ -124,6 +124,11 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        return context
+
 
 class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
 
@@ -152,8 +157,7 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         return context
 
 
-class ExportPlanTargetMarketsView(TemplateView):
-    # This view has been taken out-of-scope leaving it here for now as it may get re-introduceded
+class ExportPlanTargetMarketsView(ExportPlanSectionView):
     template_name = 'exportplan/sections/target-markets.html'
 
     def get_context_data(self, **kwargs):
@@ -163,10 +167,6 @@ class ExportPlanTargetMarketsView(TemplateView):
             target_markets=json.dumps(self.export_plan.get('target_markets', [])),
             datenow=datetime.now(),
         )
-
-    @cached_property
-    def export_plan(self):
-        return helpers.get_or_create_export_plan(self.request.user)
 
 
 class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):

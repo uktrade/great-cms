@@ -1,15 +1,13 @@
-from datetime import datetime
 from io import BytesIO
 from unittest import mock
-import json
 import pytest
 
-from freezegun import freeze_time
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.utils.text import slugify
 
 from tests.helpers import create_response
 from exportplan import data, helpers
@@ -39,6 +37,13 @@ def export_plan_data():
         'about_your_business': '',
         'target_markets_research': ''
     }
+
+
+@pytest.fixture(autouse=True)
+def mock_get_create_export_plan(export_plan_data):
+    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=create_response(export_plan_data))
+    yield patch.start()
+    patch.stop()
 
 
 def create_test_image(extension):
@@ -105,36 +110,6 @@ def test_exportplan_section_marketing_approach(mock_get_create_export_plan, clie
 
 
 @pytest.mark.django_db
-@freeze_time('2016-11-23T11:21:10.977518Z')
-@mock.patch('exportplan.helpers.get_exportplan')
-@mock.patch('core.helpers.store_user_location')
-def test_exportplan_target_markets(mock_user_location_create, mock_get_exportplan, client, user):
-    client.force_login(user)
-
-    explan_plan_data = {
-        'country': 'Australia',
-        'commodity_code': '220.850',
-        'sectors': ['Automotive'],
-        'target_markets': [
-            {'country': 'China'},
-        ],
-        'rules_regulations': {
-            'country_code': 'CHN',
-        },
-    }
-    mock_get_exportplan.return_value = explan_plan_data
-
-    response = client.get(reverse('exportplan:target-markets'))
-
-    assert mock_get_exportplan.call_count == 1
-    assert mock_get_exportplan.call_args == mock.call(user.session_id)
-
-    assert response.context['target_markets'] == json.dumps(explan_plan_data['target_markets'])
-    assert response.context['selected_sectors'] == json.dumps(explan_plan_data['sectors'])
-    assert response.context['datenow'] == datetime.now()
-
-
-@pytest.mark.django_db
 def test_edit_logo_page_submmit_success(client, mock_update_company, user):
     client.force_login(user)
     url = reverse('exportplan:add-logo')
@@ -172,3 +147,12 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user):
 
     with pytest.raises(HTTPError):
         client.post(url, data)
+
+
+@pytest.mark.django_db
+def test_adaption_for_target_markets_cheg_link(mock_get_create_export_plan, client, user):
+    client.force_login(user)
+    slug = slugify('Adaptation for your target market')
+    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+    assert response.status_code == 200
+    response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
