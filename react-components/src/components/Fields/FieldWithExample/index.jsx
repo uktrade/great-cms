@@ -24,7 +24,7 @@ const FieldWithExample = ({
   return (
     <div className='field-with-example'>
       <label htmlFor={labelId}>{label}</label>
-      { description && <p>{description}</p> }
+      { description && <div dangerouslySetInnerHTML={{ __html: description }} /> }
       { tooltip &&
           <EducationalMomentTooltip
             heading=''
