@@ -220,9 +220,9 @@ class ExportPlanMarketingApproachForm(forms.Form):
                 'example liquor store email marketing campaigns.</p>'
             ),
             'description': (
-                '<p>Write down</p><ul><li>what marketing you can do in-house</li><li>the areas where your '
-                'business will need support</li><li>external agencies or people you’ll work with and what '
-                'you expect them to do</p>'
+                '<p>Write down:</p><ul class="list-bullet"><li>what marketing you can do in-house</li>'
+                '<li>the areas where your business will need support</li><li>external agencies or '
+                'people you’ll work with and what you expect them to do</li>'
             )}
         ),
     )
