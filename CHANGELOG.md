@@ -26,8 +26,11 @@
 - MVP-579 - create export plan cms page
 - GP2-67 - fix backbutton upload logo
 - GP2-170 - business performance
-GP2-315 - route to market backend integration
+- GP2-315 - route to market backend integration
+
 ### Implemented enhancements
+
+- GP2-335 - Routing logic for dashboard
 - GP2-195 - FE BE integration
 - GP2-337 - adaptation for target market - insights 
 - GP2-334 - page struture adaptation for target market page

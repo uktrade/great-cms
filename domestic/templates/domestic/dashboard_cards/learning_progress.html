@@ -1,0 +1,14 @@
+
+<div class="g-card" id="your-progress-card">
+    <div class="g-card-header">
+         <h3 class="h-m">Your progress</h3>
+    </div>
+    {% for list_page in list_pages %}
+        <div class="grid m-b-s m-v-0">
+            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ list_page.title|slugify }}"><a href="{{ list_page.get_children.first.get_url }}">{{ list_page.title }}</a></h3>
+            <div class="c-5-12"><progress id="topics-read-count-{{ list_page.title|slugify }}" value="{{ list_page.read_count }}" max="{{ list_page.numchild }}"></progress></div>
+            <div class="c-2-12 great-mvp-right-text" id="topics-read-progress-{{ list_page.title|slugify }}">{{ list_page.read_progress|default:0 }}%</div>
+        </div>
+        <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
+    {% endfor %}
+</div>

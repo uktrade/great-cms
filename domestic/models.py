@@ -10,8 +10,8 @@ from wagtail.images import get_image_model_string
 
 from core import blocks as core_blocks
 from core.models import CMSGenericPage, ListPage
-
 from directory_constants import choices
+from domestic.helpers import build_route_context
 from core import helpers, forms
 
 
@@ -48,10 +48,13 @@ class DomesticDashboard(
     Page,
 ):
 
-    routes = StreamField([('route', core_blocks.RouteSectionBlock(icon='cog'))], null=True, blank=True)
+    components = StreamField([
+        ('route', core_blocks.RouteSectionBlock(icon='pick'))
+    ], null=True, blank=True)
 
-    def get_user_context(self, user):
-        context = {}
+    def get_context(self, request):
+        user = request.user
+        context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
         user.set_page_view(self.slug)
         context['export_plan_progress_form'] = forms.ExportPlanForm(
@@ -74,15 +77,13 @@ class DomesticDashboard(
             ))
             .order_by('-read_progress')
         )
-        return context
-
-    def get_context(self, request):
-        user = request.user
-        context = super().get_context(request)
-        context.update(self.get_user_context(user))
+        context['routes'] = build_route_context(user, context)
+        context['routes_wide'] = len(context['routes']) < 3
         return context
 
     #########
     # Panels
     #########
-    content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('routes')]
+    content_panels = CMSGenericPage.content_panels + [
+        StreamFieldPanel('components')
+    ]

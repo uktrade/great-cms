@@ -1,191 +1,37 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <div id="great-hero" class="p-t-l">
-      <div class="container">
-        <h2 class="h-m" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:request.user.email }}</h2>
-      </div>
-    </div>
+    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+  <div class="container">
+    <h2 class="h-l m-t-l" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:request.user.email }}</h2>
+  </div>
 
     <div class="container">
-        {% include "core/includes/routing_bar.html" with routes=page.routes %}
+        {% include "core/includes/routing_bar.html" with routes=routes %}
         
-        <div class="grid m-b-s" id="great-continue-learning-box">
-            <div class="c-1-2">
-                <div class="bg-white p-xs great-dashboard-card">
-                    <h3 class="card-heading text-16 m-b-xs">Market research</h3>
-                    <h4 class="h-l p-b-0">Calculate consumer demand</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex-grid m-b-s">
-            <div class="c-1-2">
-                <div class="bg-white p-xs great-dashboard-card your-progress-card" id="your-progress-card">
-                    <h3 class="c-full card-heading text-16 m-b-xs">Your progress</h3>
-
-                    {% for list_page in list_pages %}
-                        <div class="grid m-b-s m-v-0">
-                            <h3 class="c-5-12 h-s p-v-0" id="topics-{{ list_page.title|slugify }}"><a href="{{ list_page.get_children.first.get_url }}">{{ list_page.title }}</a></h3>
-                            <div class="c-5-12"><progress id="topics-read-count-{{ list_page.title|slugify }}" value="{{ list_page.read_count }}" max="{{ list_page.numchild }}"></progress></div>
-                            <div class="c-2-12 great-mvp-right-text" id="topics-read-progress-{{ list_page.title|slugify }}">{{ list_page.read_progress|default:0 }}%</div>
-                        </div>
-                        <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="c-1-2" id="great-export-plan-card">
-                <div class="bg-white p-xs great-dashboard-card great-export-plan-card" id="your-export-plan-card">
-                    <h3 class="m-b-0 card-heading text-16">Your export plan</h3>
+        <div class="grid">
+            <div class="c-1-2 m-b-s">
+                {% include './dashboard_cards/events.html' %}
+                {% include './dashboard_cards/learning_progress.html' %}
+                <div class="g-card" id="your-export-plan-card">
+                    <div class="g-card-header">
+                        <h3 class="h-m">Your export plan</h3>
+                    </div>
                     <p class="m-v-s">Get ready to Trade Export plan</p>
                     <form class="great-mvp-small-checkbox-container">
                        {{ export_plan_progress_form }}
                     </form>
                 </div>
-            </div>
-        </div>
-
-        <div class="flex-grid m-b-s">
-            <div class="c-1-2" id="did-you-know-card">
-                <div class="bg-white p-xs great-dashboard-card">
+                <div class="g-card" id="did-you-know-card">
                     <h3 class="m-b-s card-heading text-16">Did you know</h3>
                     <p>If you're exporting and your bank or credit insurer can't help, you may qualify for government-backed finance or insurance from UK Export Finance (UKEF). Contact UKEF for free, impartial guidance on getting finance for exporting.</p>
                 </div>
             </div>
+
             <div class="c-1-2">
-                <div class="bg-white p-xs great-dashboard-card" id="discover-new-markets-card">
-                    <h3 class="m-b-xs card-heading text-16">Discover new markets</h3>
-                    <div>
-                        <div class="grid m-v-0">
-                            <h3 class="c-2-3 h-s p-v-0">United States</h3>
-                            <div class="c-1-3 great-mvp-right-text">
-                                <ul class="m-v-0 card-heading text-12">
-                                    <li>FOOD AND DRINK</li>
-                                    <li>AGRICULTURE</li>
-                                    <li>RAIL</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-                        <div class="grid m-v-0">
-                            <h3 class="c-2-3 h-s p-v-0">France</h3>
-                            <div class="c-1-3 great-mvp-right-text">
-                                <ul class="m-v-0 card-heading text-12">
-                                    <li>FOOD AND DRINK</li>
-                                    <li>AGRICULTURE</li>
-                                    <li>RAIL</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-                        <div class="grid m-v-0">
-                            <h3 class="c-2-3 h-s p-v-0">Belgium</h3>
-                            <div class="c-1-3 great-mvp-right-text">
-                                <ul class="m-v-0 card-heading text-12">
-                                    <li>FOOD AND DRINK</li>
-                                    <li>AGRICULTURE</li>
-                                    <li>RAIL</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex-grid m-b-s">
-            <div class="c-1-2" id="export-opportunities-card">
-                <div class="bg-white p-xs great-dashboard-card">
-                    <h3 class="m-b-s card-heading text-16">Export opportunities</h3>
-                    <ul class="m-v-0 c-full">
-                        {% for opportunity in export_opportunities %}
-                            <li>
-                                <a class="g-link m-b-xs" href="{{ opportunity.url }}">{{ opportunity.title }}</a>
-                                <div class="grid m-b-s m-v-0 text-16">
-                                    {% if opportunity.description %}
-                                        <div class="c-2-3 p-v-xxs">{{ opportunity.description }}</div>
-                                    {% endif %}
-                                    {% if opportunity.source == 'volume_opps' %}
-                                        <div class="c-2-3 p-v-xxs">Provided by <strong>OpenOpps</strong></div>
-                                    {% endif %}
-                                </div>
-                                <div class="grid m-b-s m-v-0 text-16">
-                                    <div class="c-1-2">
-                                        <div><strong>Published:</strong>{{ opportunity.published_date }}</div>
-                                    </div>
-                                    <div class="c-1-2">
-                                        <div><strong>Closing date:</strong>{{ opportunity.closing_date }}</div>
-                                    </div>
-                                </div>
-                                <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-                            </li>
-                        {% endfor %}
-                        <li class="text-center p-v-xxs">
-                            <a class="g-link m-b-xs bold" href="#">View more opportunities</a>
-                        </li>
-                    </ul>
-
-                </div>
-            </div>
-
-            <div class="c-1-2" id="events-card">
-                <div class="bg-white p-xs great-dashboard-card">
-                    <h3 class="m-b-xs card-heading text-16">Events</h3>
-                    <ul class="m-v-0">
-                        {% for event in events %}
-                            <li>
-                                <a class="g-link m-b-xs" href="{{ event.url }}">{{ event.title }}</a>
-                                <div class="grid m-b-s m-v-0 text-16">
-                                    <div class="c-2-3 p-v-xxs">{{ event.description }}</div>
-                                    <div class="c-1-3 great-mvp-right-text">
-                                        <div>{{ event.location }}</div>
-                                        <div>{{ event.date }}</div>
-                                    </div>
-                                </div>
-                                <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
-                            </li>
-                        {% endfor %}
-                        {% if events %}
-                            <li class="text-center p-v-xxs">
-                                <a class="g-link m-b-xs bold" href="#">View more events</a>
-                            </li>
-                        {% else %}
-                            <li class="text-center p-v-xxs">
-                                <p>No relevant events found</p>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex-grid m-b-s">
-            <div class="c-full" id="tariffs-and-duties-card">
-                <div class="bg-white p-xs great-dashboard-card">
-                    <h3 class="card-heading text-16 m-b-xxs">Tariffs and duties</h3>
-                    <div class="m-b-xs">Exporting to <a href="#" class="link">China</a></div>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="card-heading text-12">COMMODITY</th>
-                                <th class="card-heading text-12">VAT</th>
-                                <th class="card-heading text-12">THIRD COUNTRY DUTY</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="bold">0747439</div>
-                                    <div>Fresh or chilled edible mushrooms (excl. chaterelles, flap mushrooms, mushrooms of genus "Agaricus" and truffles)</div>
-                                </td>
-                                <td>0%</td>
-                                <td>12%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {% include './dashboard_cards/export_opportunities.html' %}
+                {% include './dashboard_cards/tariffs.html' %}
+                {% include './dashboard_cards/new_markets.html' %}
             </div>
         </div>
     </div>

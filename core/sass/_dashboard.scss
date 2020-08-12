@@ -1,11 +1,4 @@
 
-.card-heading {
-  font-weight: bold;
-  color: $grey;
-  text-decoration: none;
-}
-
-
 #discover-new-markets-card {
  display: inline-block;
 }
@@ -32,14 +25,6 @@ body {
     }
   }
 
-  .great-dashboard__routing {
-
-    .button--secondary {
-      position: absolute;
-      bottom: $space-m;
-    }
-  }
-
   .image-stretch > img {
     width: 100%;
     object-fit: cover;
@@ -47,7 +32,7 @@ body {
 
   .great-dashboard-card {
     flex-flow: row wrap;
-    position: relative;
+
     > h3 {
       width: 100%;
     }
