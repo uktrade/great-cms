@@ -14,8 +14,7 @@ urlpatterns = [
     path('logo', skip_ga360(views.LogoFormView.as_view()), name='add-logo'),
     path(
         'section/target-markets/',
-        login_required(skip_ga360(views.ExportPlanTargetMarketsView.as_view()), login_url=LOGIN_URL),
-        {'slug': 'target-markets'},
+        login_required(views.ExportPlanTargetMarketsView.as_view(), login_url=LOGIN_URL),
         name='target-markets'
     ),
     path(

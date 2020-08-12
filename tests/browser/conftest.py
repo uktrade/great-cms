@@ -282,6 +282,7 @@ def mock_get_export_plan():
     return_value = {
         'pk': 1,
         'target_markets': [JAPAN],
+        'target_markets_research': {'demand': 'high'},
     }
     with patch.object(exportplan_helpers, 'get_exportplan', return_value=return_value) as patched:
         yield patched
@@ -292,6 +293,7 @@ def mock_get_user_context_export_plan():
     return_value = {
         'pk': 1,
         'target_markets': [JAPAN],
+        'target_markets_research': {'demand': 'high'},
     }
     with patch.object(models, 'get_exportplan', return_value=return_value) as patched:
         yield patched
