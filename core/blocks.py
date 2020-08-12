@@ -61,12 +61,18 @@ class ButtonBlock(blocks.StructBlock):
 
 
 class RouteSectionBlock(blocks.StructBlock):
+    route_type = blocks.ChoiceBlock(choices=[
+        ('learn', 'Learning'),
+        ('plan', 'Export plan'),
+        ('target', 'Target market'),
+    ], icon='redirect')
     title = blocks.CharBlock(max_length=255)
     body = blocks.TextBlock(max_length=4096)
     image = ImageChooserBlock()
-    button = ButtonBlock(icon='cog')
+    button = ButtonBlock(icon='cog', required=False)
 
     class Meta:
+        admin_text = 'The routing block at the top of the dashboard. There should be three - learn, target, plan'
         template = 'core/includes/_route-section.html'
 
 

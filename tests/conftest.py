@@ -13,6 +13,7 @@ from sso.models import BusinessSSOUser
 from tests.helpers import create_response
 from wagtail.core.models import Page
 from wagtail_factories import PageFactory, SiteFactory
+from django.test.client import RequestFactory
 
 # This is to reduce logging verbosity of these two libraries when running pytests
 # with DEBUG=true and --log-cli-level=DEBUG
@@ -22,6 +23,18 @@ urllib3_logger = logging.getLogger('urllib3')
 selenium_logger.setLevel(logging.CRITICAL)
 pil_logger.setLevel(logging.CRITICAL)
 urllib3_logger.setLevel(logging.CRITICAL)
+
+
+def get_user():
+    return BusinessSSOUser(
+        id=1,
+        pk=1,
+        mobile_phone_number='55512345',
+        email='jim@example.com',
+        first_name='Jim',
+        last_name='Cross',
+        session_id='123',
+    )
 
 
 @pytest.mark.django_db
@@ -70,15 +83,14 @@ def auth_backend():
 
 @pytest.fixture
 def user():
-    return BusinessSSOUser(
-        id=1,
-        pk=1,
-        mobile_phone_number='55512345',
-        email='jim@example.com',
-        first_name='Jim',
-        last_name='Cross',
-        session_id='123',
-    )
+    return get_user()
+
+
+@pytest.fixture
+def get_request():
+    req = RequestFactory().get('/dashboard/')
+    req.user = get_user()
+    return req
 
 
 @pytest.fixture

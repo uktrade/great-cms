@@ -9,17 +9,11 @@ As seen at the top of the domestic dashboard.
 {% endcomment %}
 
 {% if routes %}
-    <div class="grid m-b-s" id="pre-journey-routing-component">
-        <div class="c-full great-dashboard__routing">
-            <div class="bg-white p-s great-dashboard-card">
-                <div class="grid routes">
-                    {% for route in routes  %}
-                        <article class="dashboard__routing-block w-full-m c-1-{{routes|length}}-l">
-                            {% include_block route %}
-                        </article>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+    <div class="grid" id="pre-journey-routing-component">
+        {% for component in routes  %}
+            <article class="dashboard__routing-block c-1-{{routes|length}}-l {% if routes|length < 3 %}wide{% endif %}">
+                {% include_block component with wide=routes_wide %}
+            </article>
+        {% endfor %}
     </div>
 {% endif %}
