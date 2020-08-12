@@ -210,61 +210,6 @@ def test_dashboard_page_lesson_progress(
     assert context_data['list_pages'][1].read_progress == 0
 
 
-"""
-@pytest.mark.django_db
-@mock.patch.object(api_client.personalisation, 'events_by_location_list')
-@mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
-def test_dashboard_page_routing(
-        mock_events_by_location_list,
-        mock_export_opportunities_by_relevance_list,
-        patch_set_user_page_view,
-        patch_get_user_page_views,
-        mock_get_company_profile,
-        client,
-        user,
-        get_request,
-        domestic_homepage,
-        domestic_site
-):
-    mock_events_by_location_list.return_value = create_response(json_body={'results': []})
-    mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
-
-    topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
-    lesson_one = DetailPageFactory(parent=topic_one, slug='lesson-one')
-
-    dashboard = DomesticDashboardFactory(
-        parent=domestic_homepage,
-        slug='dashboard',
-        components__0__route__route_type="learn",
-        components__0__route__title="Learning title",
-        components__0__route__body="Learning Body Text",
-        components__0__route__button={'label': 'Start learning'},
-        components__1__route__route_type="target",
-        components__1__route__title="Target title",
-        components__1__route__body="Target Body Text",
-        components__1__route__button={'label': 'Start targetting'},
-        components__2__route__route_type="plan",
-        components__2__route__title="Planning title",
-        components__2__route__body="Planning Body Text",
-        components__2__route__button={'label': 'Start planning'}
-    )
-    # All three routes should be visible
-    context_data = dashboard.get_context(get_request)
-    assert len(context_data['routes']) == 3
-    assert context_data['routes'][0].value.get('route_type') == 'learn'
-
-    # set a learning page view
-    models.PageView.objects.create(
-        page=lesson_one,
-        list_page=topic_one,
-        sso_id=user.pk
-    )
-    context_data = dashboard.get_context(get_request)
-    assert len(context_data['routes']) == 2
-    assert context_data['routes'][0].value.get('route_type') == 'target'
-"""
-
-
 @pytest.mark.django_db
 def test_dashboard_apis_ok(
     client,
