@@ -48,3 +48,4 @@ sphinx==1.8.*
 readtime==1.*
 cryptography==2.9.*
 pillow>=7.1.0
+factory-boy==2.12.*

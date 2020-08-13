@@ -161,6 +161,14 @@ def get_lesson_completed(sso_session_id, lesson=None):
     return response.json()
 
 
+def delete_lesson_completed(sso_session_id, lesson=None):
+    response = sso_api_client.user.delete_user_lesson_completed(sso_session_id, SERVICE_NAME, lesson)
+    if response.status_code in [400, 404]:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
 def has_visited_page(sso_session_id, page):
     result = get_user_page_views(sso_session_id, page)
     return result and result.get('page_views') if result else None

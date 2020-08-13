@@ -210,6 +210,17 @@ def test_get_lesson_completed(mock_set_user_lesson_completed, client, user):
     assert response.status_code == 200
 
 
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'delete_user_lesson_completed')
+def test_delete_lesson_completed(mock_delete_user_lesson_completed, client, user):
+    lesson = DetailPageFactory()
+    client.force_login(user)
+    mock_delete_user_lesson_completed.return_value = create_response(status_code=204)
+    data = {'lesson': lesson.pk, 'sso_session_id': user.session_id}
+    response = client.delete(reverse('sso:lesson-completed', kwargs={'lesson': lesson.pk}), data)
+    assert response.status_code == 204
+
+
 @mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_has_lesson_completed_get_fail(mock_get_user_lesson_completed):
     mock_get_user_lesson_completed.return_value = create_response(
@@ -229,3 +240,14 @@ def test_has_lesson_completed_post_fail(mock_set_user_lesson_completed):
     )
     with pytest.raises(APIException):
         helpers.set_lesson_completed(123, lesson=lesson.pk)
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'delete_user_lesson_completed')
+def test_has_lesson_completed_delete_fail(mock_delete_user_lesson_completed):
+    lesson = DetailPageFactory()
+    mock_delete_user_lesson_completed.return_value = create_response(
+        status_code=400,
+    )
+    with pytest.raises(APIException):
+        helpers.delete_lesson_completed(123, lesson=lesson.pk)
