@@ -102,7 +102,7 @@ export class FormWithInputWithExample extends Component {
               name={field.name}
               value={formData[field.name]}
               description={field.description}
-              placeholder={Number.isInteger(field.placeholder) ? field.placeholder : 'Add some text'}
+              placeholder={field.placeholder}
               currency={field.currency}
               tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
               handleChange={this.handleChange}

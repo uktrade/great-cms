@@ -15,6 +15,7 @@ import {
   createSpendingAndResources
 } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
+import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
 import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createBusinessRationale } from '@src/components/BusinessRationale'
@@ -29,6 +30,7 @@ export default {
   CountriesModal,
   createRouteToMarket,
   aboutYourBusinessForm,
+  adaptToTargetMarketForm,
   createSpendingAndResources,
   createTargetAgeGroupInsights,
   createTargetMarketCountries,

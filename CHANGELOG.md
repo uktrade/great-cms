@@ -32,6 +32,7 @@
 ### Implemented enhancements
 
 - GP2-252 - Added objective field to lesson page in CMS
+- GP2-339 - product alterations
 - GP2-335 - Routing logic for dashboard
 - GP2-195 - FE BE integration
 - GP2-337 - adaptation for target market - insights 
