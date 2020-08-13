@@ -352,10 +352,7 @@ class DetailPage(CMSGenericPage):
         (
             'ListItem', core_blocks.ObjectiveItem()
         ),
-    ],
-        null=True,
-        blank=True,
-    )
+    ])
     body = StreamField([
         (
             'paragraph', PersonalisedStructBlock(

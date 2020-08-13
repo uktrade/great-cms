@@ -1,9 +1,0 @@
-{% extends 'core/base.html' %}
-{% load breadcrumbs from great_components %}
-{% load url_map %}
-
-{% block content %}
-<form action="/sso/api/v1/lesson-completed/14/" method="post">
-    <input type="submit" value="GO">{% csrf_token %}
-</form>
-{% endblock %}

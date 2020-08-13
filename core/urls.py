@@ -4,7 +4,6 @@ from great_components.decorators import skip_ga360
 
 import core.views
 
-from django.views.generic import TemplateView
 app_name = 'core'
 
 LOGIN_URL = reverse_lazy('core:login')
@@ -20,7 +19,6 @@ def anonymous_user_required(function):
 
 
 urlpatterns = [
-    path('foo/', TemplateView.as_view(template_name='core/test_post.html')),
     path(
         'markets/',
         skip_ga360(core.views.MarketsView.as_view()),
