@@ -257,14 +257,19 @@ class ExtendedLandingPage(CMSGenericPage):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    body = StreamField([
+        ('paragraph', blocks.RichTextBlock())
+    ])
 
     #########
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('description'),
-        ImageChooserPanel('image')
+        ImageChooserPanel('image'),
+        StreamFieldPanel('body')
     ]
+
 
 class InterstitialPage(CMSGenericPage):
     parent_page_types = ['core.LandingPage']
