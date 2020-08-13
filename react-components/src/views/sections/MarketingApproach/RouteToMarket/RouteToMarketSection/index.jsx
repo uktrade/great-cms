@@ -8,17 +8,22 @@ export const RouteToMarketSection = ({
   data,
   label,
   example,
-  name
-}, update, i) => {
+  name,
+  update,
+  deleteTable,
+  field
+}) => {
   return (
-    <div className='route-to-market__table' key={i}>
+    <div className='route-to-market__table' key={field.pk}>
+      <button type='button' onClick={() => deleteTable(field.pk)} className='button--stone'>Delete</button>
       {data.map((item) => (
         <InputWithDropdown
           key={item.name}
           label={item.label}
-          update={(x) => update(i, x)}
+          update={(x) => update(field.pk, x)}
           name={item.name}
           options={item.options}
+          selected={field[item.name]}
         />
       ))}
       <div className='route-to-market__table-cell'>
@@ -26,7 +31,8 @@ export const RouteToMarketSection = ({
           label={label}
           example={example}
           name={name}
-          handleChange={(e) => update(i, {[e.target.name]: e.target.value})}
+          handleChange={(e) => update(field.pk, {[e.target.name]: e.target.value})}
+          value={field[name]}
         />
       </div>
     </div>
@@ -44,4 +50,10 @@ RouteToMarketSection.propTypes = {
   label: PropTypes.string.isRequired,
   example: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  field: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  update: PropTypes.func.isRequired,
+  deleteTable: PropTypes.func.isRequired,
 }
