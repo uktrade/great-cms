@@ -156,3 +156,21 @@ def test_adaption_for_target_markets_cheg_link(mock_get_create_export_plan, clie
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
     assert response.status_code == 200
     response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+
+
+@pytest.mark.django_db
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_cia_world_factbook_data')
+def test_adaption_for_target_markets_language(moch_get_factbook_data, mock_get_create_export_plan, client, user):
+    client.force_login(user)
+    moch_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
+
+    slug = slugify('Adaptation for your target market')
+    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+
+    assert response.status_code == 200
+
+    assert moch_get_factbook_data.call_count == 1
+    assert moch_get_factbook_data.call_args == mock.call(country='Netherlands', key='people,languages')
+
+    response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}

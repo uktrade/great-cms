@@ -110,8 +110,8 @@ class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, F
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES],
-        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES],
+        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
+        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES]
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
         context['promotional_choices'] = promotional_choices
@@ -126,6 +126,8 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        # To do pass lanaguage from export_plan object rather then  hardcoded
+        context['language'] = helpers.get_cia_world_factbook_data(country='Netherlands', key='people,languages')
         return context
 
 
