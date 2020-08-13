@@ -186,3 +186,9 @@ def get_population_data(country, target_ages):
     response = api_client.dataservices.get_population_data(country=country, target_ages=target_ages)
     response.raise_for_status()
     return response.json()
+
+
+def get_check_duties_link(exportplan):
+    # TODO Once requirements have been defined pick country code from export plan
+    url = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+    return url
