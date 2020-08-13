@@ -6,6 +6,7 @@
 
 ### Fixed bugs
 
+- GP2-382 - remove email from welcome message
 - GP2-321 - quotes rendering for snippet
 - GP2-314 - onboarding learning modal design tweaks
 - GP2-280 - removal of product selector from dashboard
