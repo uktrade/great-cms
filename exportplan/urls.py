@@ -13,11 +13,6 @@ urlpatterns = [
          name='marketing-approach'),
     path('logo', skip_ga360(views.LogoFormView.as_view()), name='add-logo'),
     path(
-        'section/target-markets/',
-        login_required(views.ExportPlanTargetMarketsView.as_view(), login_url=LOGIN_URL),
-        name='target-markets'
-    ),
-    path(
         'section/adaptation-for-your-target-market/',
         login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=LOGIN_URL),
         {'slug': 'adaptation-for-your-target-market'},

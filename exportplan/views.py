@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 import sentry_sdk
 
@@ -155,18 +154,6 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         context = super().get_context_data(*args, **kwargs)
         context['objectives'] = json.dumps(self.export_plan['company_objectives'])
         return context
-
-
-class ExportPlanTargetMarketsView(ExportPlanSectionView):
-    template_name = 'exportplan/sections/target-markets.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-            selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
-            target_markets=json.dumps(self.export_plan.get('target_markets', [])),
-            datenow=datetime.now(),
-        )
 
 
 class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):
