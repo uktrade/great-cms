@@ -74,7 +74,7 @@ class LandingPageTests(WagtailPageTests):
 class ExtendedLandingPageTests(WagtailPageTests):
 
     def test_can_be_created_under_homepage(self):
-        self.assertAllowedParentPageTypes({DomesticHomePage})
+        self.assertAllowedParentPageTypes(ExtendedLandingPage, {DomesticHomePage})
 
     def test_can_be_created_under_landing_page(self):
         self.assertAllowedSubpageTypes(
