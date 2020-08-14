@@ -29,20 +29,20 @@ const post = function(url, data) {
   })
 }
 
-const httpDelete = function (url, data) {
+const httpDelete = function(url, data) {
   return fetch(url, {
     method: 'delete',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRFToken': config.csrfToken,
-      'X-Requested-With': 'XMLHttpRequest',
+      'X-Requested-With': 'XMLHttpRequest'
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   })
 }
 
-const get = function (url, params) {
+const get = function(url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
   const parsedParams = new URLSearchParams(params).toString()
   parsedUrl.search = parsedParams
@@ -91,19 +91,19 @@ const updateExportPlan = function(data) {
   return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
 }
 
-const createObjective = function (data) {
+const createObjective = function(data) {
   return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
 }
 
-const deleteObjective = function (pk) {
-  return httpDelete(config.apiObjectivesDeleteUrl, {pk: pk}).then(responseHandler)
+const deleteObjective = function(pk) {
+  return httpDelete(config.apiObjectivesDeleteUrl, { pk: pk }).then(responseHandler)
 }
 
-const updateObjective = function (data) {
+const updateObjective = function(data) {
   return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
 }
 
-const checkVerificationCode = function ({ email, code }) {
+const checkVerificationCode = function({ email, code }) {
   return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
 
@@ -120,6 +120,18 @@ const updateCompany = function({ company_name, expertise_industries, expertise_c
     last_name
   }
   return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
+}
+
+const getLessonComplete = function(endpoint) {
+  return get(endpoint).then(responseHandler)
+}
+
+const setLessonComplete = function(endpoint) {
+  return post(endpoint).then(responseHandler)
+}
+
+const setLessonIncomplete = function(endpoint) {
+  return httpDelete(endpoint).then(responseHandler)
 }
 
 const responseHandler = function(response) {
@@ -218,6 +230,9 @@ export default {
   updateObjective,
   lookupProduct,
   setConfig,
+  getLessonComplete,
+  setLessonComplete,
+  setLessonIncomplete,
   config,
   setInitialState,
   messages: {
