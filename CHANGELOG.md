@@ -1,5 +1,4 @@
 # Changelog
-- AA-129 - Beta environment for GREAT.gov
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
 
@@ -9,6 +8,7 @@
 
 ### Fixed bugs
 
+- GP2-382 - remove email from welcome message
 - GP2-321 - quotes rendering for snippet
 - GP2-314 - onboarding learning modal design tweaks
 - GP2-280 - removal of product selector from dashboard
@@ -33,6 +33,9 @@
 
 ### Implemented enhancements
 
+- AA-129 - Beta environment for GREAT.gov
+- GP2-252 - Added objective field to lesson page in CMS
+- GP2-339 - product alterations
 - GP2-335 - Routing logic for dashboard
 - GP2-195 - FE BE integration
 - GP2-337 - adaptation for target market - insights 
@@ -163,3 +166,5 @@
 - AA-129 - Beta environment for GREAT.gov
 - AA-129 - wagtail import export for Beta environment
 - GP2-317 - Order of export-plan landing pages and remove target-markets
+- gp2-369 - CHEG tailored link
+- GP2-370 - cia factbook language
