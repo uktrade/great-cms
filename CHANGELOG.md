@@ -165,3 +165,4 @@
 - GP2-317 - Order of export-plan landing pages and remove target-markets
 - gp2-369 - CHEG tailored link
 - GP2-370 - cia factbook language
+- GP2-393 - adaption fields saving
