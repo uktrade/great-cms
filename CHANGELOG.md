@@ -1,4 +1,6 @@
 # Changelog
+- AA-129 - wagtail import export for Beta environment
+- GP2-36 - lesson completed functionality
 
 ## Pre-release
 
@@ -31,6 +33,7 @@
 
 ### Implemented enhancements
 
+- AA-129 - Beta environment for GREAT.gov
 - GP2-252 - Added objective field to lesson page in CMS
 - GP2-339 - product alterations
 - GP2-335 - Routing logic for dashboard

@@ -72,7 +72,7 @@
           removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
           userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}'
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
       });
 
       // dynamic value that can be updated by user interacting with react components

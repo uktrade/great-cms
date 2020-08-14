@@ -14,6 +14,7 @@ from django.utils import formats
 from django.utils.dateparse import parse_datetime
 
 from core.constants import SERVICE_NAME
+from core.models import DetailPage
 
 
 ADMIN_URL_PATTERN = re.compile(r'^\/(django\-)?admin\/.*')
@@ -129,6 +130,39 @@ def set_user_page_view(sso_session_id, page):
 
 def get_user_page_views(sso_session_id, page=None):
     response = sso_api_client.user.get_user_page_views(sso_session_id, SERVICE_NAME, page)
+    if response.status_code in [400, 404]:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def set_lesson_completed(sso_session_id, lesson):
+    lesson_obj = DetailPage.objects.get(pk=lesson)
+    lesson_page = lesson_obj.url_path
+    module = lesson_obj.get_parent()
+    response = sso_api_client.user.set_user_lesson_completed(
+        sso_session_id,
+        SERVICE_NAME,
+        lesson_page,
+        lesson_obj.pk,
+        module.pk,
+    )
+    if response.status_code in [400, 404]:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_lesson_completed(sso_session_id, lesson=None):
+    response = sso_api_client.user.get_user_lesson_completed(sso_session_id, SERVICE_NAME, lesson)
+    if response.status_code in [400, 404]:
+        raise APIException(detail=response.json(), code=response.status_code)
+    response.raise_for_status()
+    return response.json()
+
+
+def delete_lesson_completed(sso_session_id, lesson=None):
+    response = sso_api_client.user.delete_user_lesson_completed(sso_session_id, SERVICE_NAME, lesson)
     if response.status_code in [400, 404]:
         raise APIException(detail=response.json(), code=response.status_code)
     response.raise_for_status()
