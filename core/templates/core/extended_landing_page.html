@@ -6,8 +6,7 @@
 {% block content %}
 
 {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-
-<section class="main-section bg-stone-50 {{ view.slug }}-content" id="{{ view.slug }}-content">
+<section class="main-section bg-black-10 {{ view.slug }}-content" id="{{ view.slug }}-content">
   <section class="container">
     <div class="grid">
       <div class="c-1-3">&nbsp;</div>
@@ -17,27 +16,11 @@
       </div>
     </div>
   </section>
-
-  <img src="https://via.placeholder.com/1600x200/dfd5c5?text=Banner image" alt="" class="width-full banner-image">
-
+  <div class="c-full">
+    {% image page.image max-1600x600 class="m-h-auto" %}
+  </div>
   <section class="container">
-    <div class="grid m-b-s" id="great-continue-learning-box">
-      <div class="c-1-2">
-
-      </div>
-    </div>
-
-    <div class="grid">
-      <div class="c-1-3">
-        <div class="bg-white p-xs great-dashboard-card">
-          <h3 class="card-heading text-16 m-b-xs">Market research</h3>
-          <h4 class="h-l p-b-0">Choosing a country</h4>
-        </div>
-      </div>
-      <div class="c-2-3">
-        {{ page.body }}
-      </div>
-    </div>
+    {{ page.body}}
   </section>
 </section>
 

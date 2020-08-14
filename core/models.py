@@ -208,12 +208,22 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
         return context
 
 
+"""
+section = StreamField([
+        ('section_title', core_blocks.TitleBlock()),
+        ('text_block', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
+        ('side_link', core_blocks.SidebarLinkBlock(icon='pick')),
+    ], null=True, blank=True)
+"""
+
+
 class LandingPage(CMSGenericPage):
     parent_page_types = ['domestic.DomesticHomePage']
     subpage_types = ['core.ListPage', 'core.InterstitialPage',
                      'exportplan.ExportPlanDashboardPage', 'domestic.DomesticDashboard']
     template_choices = (
         ('learn/landing_page.html', 'Learn'),
+        ('core/extended_landing_page.html', 'Generic'),
     )
 
     ################
@@ -229,45 +239,23 @@ class LandingPage(CMSGenericPage):
         related_name='+'
     )
 
+    body = StreamField([
+        ('section', core_blocks.SectionBlock(icon='pick'))
+    ], null=True, blank=True)
+
+    components = StreamField([
+        ('route', core_blocks.RouteSectionBlock(icon='pick'))
+    ], null=True, blank=True)
+
     #########
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('description'),
         StreamFieldPanel('button'),
-        ImageChooserPanel('image')
-    ]
-
-
-class ExtendedLandingPage(CMSGenericPage):
-    parent_page_types = ['domestic.DomesticHomePage']
-    subpage_types = []
-    template_choices = (
-        ('core/extended_landing_page.html', 'Generic'),
-    )
-
-    ################
-    # Content fields
-    ################
-    description = RichTextField()
-    image = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    body = StreamField([
-        ('paragraph', blocks.RichTextBlock())
-    ])
-
-    #########
-    # Panels
-    #########
-    content_panels = CMSGenericPage.content_panels + [
-        FieldPanel('description'),
         ImageChooserPanel('image'),
-        StreamFieldPanel('body')
+        StreamFieldPanel('components'),
+        StreamFieldPanel('body'),
     ]
 
 

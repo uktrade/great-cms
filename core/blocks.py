@@ -52,6 +52,21 @@ class LinkBlock(blocks.StructBlock):
         value_class = LinkStructValue
 
 
+class TitleBlock(blocks.CharBlock):
+    class Meta:
+        max_length = 255
+        help_text = 'Enter a title'
+        template = 'core/includes/_title.html'
+        icon = 'bold'
+
+
+class HrBlock(blocks.StaticBlock):
+    class Meta:
+        help_text = 'Horizontal rule'
+        template = 'core/includes/_hr.html'
+        icon = 'horizontalrule'
+
+
 class ButtonBlock(blocks.StructBlock):
     label = blocks.CharBlock(max_length=255)
     link = LinkBlock(required=False)
@@ -72,8 +87,39 @@ class RouteSectionBlock(blocks.StructBlock):
     button = ButtonBlock(icon='cog', required=False)
 
     class Meta:
-        admin_text = 'The routing block at the top of the dashboard. There should be three - learn, target, plan'
+        help_text = 'The routing block at the top of the dashboard. There should be three - learn, target, plan'
         template = 'core/includes/_route-section.html'
+
+
+class SidebarLinkBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255)
+    lede = blocks.CharBlock(max_length=255, required=False)
+    body = blocks.TextBlock(max_length=255, required=False)
+    link = LinkBlock(required=False)
+
+    class Meta:
+        help_text = 'A floating link in a section to the right of the content'
+        template = 'core/includes/_sidebar-link.html'
+
+
+class ComponentTargetTable(blocks.StaticBlock):
+    class Meta:
+        help_text = 'Target section table for marketing approach page'
+        template = 'core/includes/_target_table.html'
+        icon = 'cog'
+
+
+class SectionBlock(blocks.StreamBlock):
+    title = TitleBlock()
+    hr = HrBlock()
+    text_block = blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')
+    side_link = SidebarLinkBlock(icon='pick')
+    target_table = ComponentTargetTable()
+
+    class Meta:
+        help_text = 'A section'
+        template = 'core/includes/_section.html'
+        icon = 'cog'
 
 
 class ModularContentStaticBlock(blocks.StaticBlock):
