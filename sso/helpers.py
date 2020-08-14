@@ -161,7 +161,7 @@ def get_lesson_completed(sso_session_id, lesson=None):
     return response.json()
 
 
-def delete_lesson_completed(sso_session_id, lesson=None):
+def delete_lesson_completed(sso_session_id, lesson):
     response = sso_api_client.user.delete_user_lesson_completed(sso_session_id, SERVICE_NAME, lesson)
     if response.status_code in [400, 404]:
         raise APIException(detail=response.json(), code=response.status_code)
