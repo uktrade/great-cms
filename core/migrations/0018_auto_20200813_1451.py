@@ -4,7 +4,7 @@ from django.db import migrations
 import wagtail.core.blocks
 import wagtail.core.fields
 import wagtail.images.blocks
-
+import core.blocks 
 
 class Migration(migrations.Migration):
 
