@@ -81,7 +81,7 @@
       {% if request.user.is_authenticated %}
       ditMVP.createMarkLessonAsComplete({
         element: document.querySelector("#mark_as_complete"),
-        endpoint: '{% url "sso:lesson-completed" lesson=self.id %}'
+        endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
       })
       {% endif %}
     </script>
