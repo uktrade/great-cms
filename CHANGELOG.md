@@ -9,6 +9,7 @@
 ### Fixed bugs
 
 - No ticket - minor refactor on lesson completed endpoint
+- GP2-36 - mark as complete only for authenticated users
 - GP2-382 - remove email from welcome message
 - GP2-321 - quotes rendering for snippet
 - GP2-314 - onboarding learning modal design tweaks
