@@ -37,12 +37,26 @@ class MarketingApproachSerializer(serializers.Serializer):
     spending = serializers.IntegerField(required=False, allow_null=True)
 
 
+class AdaptationTargetMarketSerializer(serializers.Serializer):
+    labelling = serializers.CharField(required=False, allow_blank=True)
+    packaging = serializers.CharField(required=False, allow_null=True)
+    size = serializers.CharField(required=False, allow_null=True)
+    standards = serializers.CharField(required=False, allow_null=True)
+    translations = serializers.CharField(required=False, allow_null=True)
+    other_changes = serializers.CharField(required=False, allow_null=True)
+    certificate_of_origin = serializers.CharField(required=False, allow_null=True)
+    insurance_certificate = serializers.CharField(required=False, allow_null=True)
+    commercial_invoice = serializers.CharField(required=False, allow_null=True)
+    uk_customs_declaration = serializers.CharField(required=False, allow_null=True)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     about_your_business = AboutYourBuinessSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
     target_markets_research = TargetMarketsResearchSerializer(required=False)
     marketing_approach = MarketingApproachSerializer(required=False)
+    adaptation_target_market = AdaptationTargetMarketSerializer(required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
