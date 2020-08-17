@@ -77154,6 +77154,18 @@ var updateCompany = function updateCompany(_ref5) {
   return post(config.apiUpdateCompanyUrl, data).then(responseHandler);
 };
 
+var getLessonComplete = function getLessonComplete(endpoint) {
+  return get(endpoint).then(responseHandler);
+};
+
+var setLessonComplete = function setLessonComplete(endpoint) {
+  return post(endpoint).then(responseHandler);
+};
+
+var setLessonIncomplete = function setLessonIncomplete(endpoint) {
+  return httpDelete(endpoint).then(responseHandler);
+};
+
 var responseHandler = function responseHandler(response) {
   if (response.status == 400) {
     return response.json().then(function (error) {
@@ -77250,6 +77262,9 @@ var setConfig = function setConfig(_ref6) {
   updateObjective: updateObjective,
   lookupProduct: lookupProduct,
   setConfig: setConfig,
+  getLessonComplete: getLessonComplete,
+  setLessonComplete: setLessonComplete,
+  setLessonIncomplete: setLessonIncomplete,
   config: config,
   setInitialState: setInitialState,
   messages: {
@@ -77364,15 +77379,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
 /* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
 /* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
-/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
-/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
-/* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
-/* harmony import */ var _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/components/ObjectivesList */ "./react-components/src/components/ObjectivesList.jsx");
-/* harmony import */ var _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/views/LearnIntroduction/LearnIntroduction */ "./react-components/src/views/LearnIntroduction/LearnIntroduction.jsx");
-/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
+/* harmony import */ var _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/components/MarkLessonAsComplete/MarkLessonAsComplete */ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx");
+/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
+/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
+/* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
+/* harmony import */ var _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/components/ObjectivesList */ "./react-components/src/components/ObjectivesList.jsx");
+/* harmony import */ var _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/views/LearnIntroduction/LearnIntroduction */ "./react-components/src/views/LearnIntroduction/LearnIntroduction.jsx");
+/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_22__);
+
+
 
 
 
@@ -77397,25 +77416,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   Countries: _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_6__["default"],
   CountriesModal: _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_4__["default"],
+  createMarkLessonAsComplete: _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_14__["createMarkLessonAsComplete"],
   createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createRouteToMarket"],
   aboutYourBusinessForm: _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_12__["aboutYourBusinessForm"],
+  adaptToTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_13__["adaptToTargetMarketForm"],
   createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createSpendingAndResources"],
-  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_13__["createTargetAgeGroupInsights"],
-  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_14__["createTargetMarketCountries"],
-  createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_15__["createBusinessRationale"],
-  createObjectivesList: _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_16__["createObjectivesList"],
+  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_15__["createTargetAgeGroupInsights"],
+  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_16__["createTargetMarketCountries"],
+  createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_17__["createBusinessRationale"],
+  createObjectivesList: _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_18__["createObjectivesList"],
   IndustriesModal: _src_views_IndustriesModal_Container__WEBPACK_IMPORTED_MODULE_5__["default"],
-  LearnIntroduction: _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_17__["default"],
+  LearnIntroduction: _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_19__["default"],
   ProductLookup: _src_views_ProductLookup_Container__WEBPACK_IMPORTED_MODULE_7__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_8__["default"],
   MarketSelectNavbar: _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__["default"],
   ProductsModal: _src_views_ProductsModal_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_19__["default"].setConfig,
-  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_19__["default"].setInitialState,
+  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_21__["default"].setConfig,
+  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_21__["default"].setInitialState,
   Signup: _src_views_Signup_Container__WEBPACK_IMPORTED_MODULE_1__["default"],
   SignupModal: _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_2__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_18__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_18__["STEP_VERIFICATION_CODE"],
+  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_20__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_20__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__["default"]
 });
 
@@ -78952,7 +78973,7 @@ var FormWithInputWithExample = /*#__PURE__*/function (_Component) {
           name: field.name,
           value: formData[field.name],
           description: field.description,
-          placeholder: Number.isInteger(field.placeholder) ? field.placeholder : 'Add some text',
+          placeholder: field.placeholder,
           currency: field.currency,
           tag: Number.isInteger(field.placeholder) ? 'number' : 'text',
           handleChange: _this3.handleChange
@@ -79074,6 +79095,100 @@ var LearnIntroduction = function LearnIntroduction() {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx":
+/*!***************************************************************************************!*\
+  !*** ./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx ***!
+  \***************************************************************************************/
+/*! exports provided: MarkLessonAsComplete, createMarkLessonAsComplete */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkLessonAsComplete", function() { return MarkLessonAsComplete; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMarkLessonAsComplete", function() { return createMarkLessonAsComplete; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Services */ "./react-components/src/Services.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var MarkLessonAsComplete = function MarkLessonAsComplete(_ref) {
+  var endpoint = _ref.endpoint;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined),
+      _useState2 = _slicedToArray(_useState, 2),
+      isComplete = _useState2[0],
+      setIsComplete = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isChecked = _useState4[0],
+      setIsChecked = _useState4[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (isComplete === undefined) {
+      _Services__WEBPACK_IMPORTED_MODULE_2__["default"].getLessonComplete(endpoint).then(function (response) {
+        return response.json();
+      }).then(function (_ref2) {
+        var lesson_completed = _ref2.lesson_completed;
+
+        if (lesson_completed.length >= 1) {
+          setIsComplete(true);
+        }
+      }).then(function () {})["catch"](function () {});
+    } else {
+      _Services__WEBPACK_IMPORTED_MODULE_2__["default"][isComplete ? 'setLessonComplete' : 'setLessonIncomplete'](endpoint).then(function () {})["catch"](function () {});
+    }
+  }, [isComplete]);
+  var labelText = isComplete && isChecked ? 'Great! Progress saved' : 'Yes';
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "mark-lesson-as-complete"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-l text-white"
+  }, "Lesson complete?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "great-checkbox great-checkbox--large"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    id: "markascomplete_checkbox",
+    onChange: function onChange() {
+      setIsComplete(!isComplete);
+    },
+    onClick: function onClick() {
+      return setIsChecked(true);
+    },
+    checked: Boolean(isComplete)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "markascomplete_checkbox"
+  }, labelText)));
+};
+
+function createMarkLessonAsComplete(_ref3) {
+  var element = _ref3.element,
+      endpoint = _ref3.endpoint;
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MarkLessonAsComplete, {
+    endpoint: endpoint
+  }), element);
+}
+
+
 
 /***/ }),
 
@@ -84889,6 +85004,60 @@ var aboutYourBusinessForm = function aboutYourBusinessForm(_ref) {
       params = _objectWithoutProperties(_ref, ["element"]);
 
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_2__["FormWithInputWithExample"], params), element);
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/AdaptationForYourTargetMarket/adaptToTargetMarketForm/index.jsx":
+/*!*************************************************************************************************************!*\
+  !*** ./react-components/src/views/sections/AdaptationForYourTargetMarket/adaptToTargetMarketForm/index.jsx ***!
+  \*************************************************************************************************************/
+/*! exports provided: AdaptToTargetMarketForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdaptToTargetMarketForm", function() { return AdaptToTargetMarketForm; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/FormWithInputWithExample */ "./react-components/src/components/FormWithInputWithExample/index.jsx");
+
+
+var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "target-market-form"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_1__["FormWithInputWithExample"], params));
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx":
+/*!*************************************************************************************!*\
+  !*** ./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx ***!
+  \*************************************************************************************/
+/*! exports provided: adaptToTargetMarketForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "adaptToTargetMarketForm", function() { return adaptToTargetMarketForm; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket_adaptToTargetMarketForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket/adaptToTargetMarketForm */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/adaptToTargetMarketForm/index.jsx");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var adaptToTargetMarketForm = function adaptToTargetMarketForm(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_sections_AdaptationForYourTargetMarket_adaptToTargetMarketForm__WEBPACK_IMPORTED_MODULE_2__["AdaptToTargetMarketForm"], params), element);
 };
 
 /***/ }),

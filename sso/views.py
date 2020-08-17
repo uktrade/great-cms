@@ -78,5 +78,4 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
             email=serializer.validated_data['email'],
             form_url=self.request.path
         )
-
         return helpers.response_factory(upstream_response=upstream_response)

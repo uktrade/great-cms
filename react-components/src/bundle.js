@@ -10,11 +10,10 @@ import ProductLookup from '@src/views/ProductLookup/Container'
 import LoginModal from '@src/views/LoginModal/Modal'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Container'
-import {
-  createRouteToMarket,
-  createSpendingAndResources
-} from '@src/views/sections/MarketingApproach'
+import { createRouteToMarket, createSpendingAndResources } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
+import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
+import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
 import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createBusinessRationale } from '@src/components/BusinessRationale'
@@ -27,8 +26,10 @@ import '@babel/polyfill'
 export default {
   Countries,
   CountriesModal,
+  createMarkLessonAsComplete,
   createRouteToMarket,
   aboutYourBusinessForm,
+  adaptToTargetMarketForm,
   createSpendingAndResources,
   createTargetAgeGroupInsights,
   createTargetMarketCountries,

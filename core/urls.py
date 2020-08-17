@@ -73,5 +73,6 @@ urlpatterns = [
         'api/create-token/',
         skip_ga360(core.views.CreateTokenView.as_view()),
         name='api-create-token'
-    )
+    ),
+
 ]

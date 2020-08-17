@@ -358,6 +358,14 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
+    objective = StreamField([
+        (
+            'paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),
+        ),
+        (
+            'ListItem', core_blocks.ObjectiveItem()
+        ),
+    ])
     body = StreamField([
         (
             'paragraph', PersonalisedStructBlock(
@@ -379,7 +387,7 @@ class DetailPage(CMSGenericPage):
     #########
     # Panels
     ##########
-    content_panels = Page.content_panels + [StreamFieldPanel('body')]
+    content_panels = Page.content_panels + [StreamFieldPanel('objective'), StreamFieldPanel('body')]
 
     def handle_page_view(self, request):
         if request.user.is_authenticated:

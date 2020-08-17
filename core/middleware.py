@@ -178,7 +178,6 @@ class CheckGATags(MiddlewareMixin):
             logger.error('No context data found')
             return response
         context_data = response.context_data
-
         if 'ga360' not in context_data:
             logger.error('No Google Analytics data found on the response. '
                          'You should either set this using the GA360Mixin, '

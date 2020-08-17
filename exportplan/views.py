@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 import sentry_sdk
 
@@ -111,8 +110,8 @@ class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, F
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES],
-        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES],
+        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
+        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES]
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
         context['promotional_choices'] = promotional_choices
@@ -123,6 +122,16 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
+
+    def get_initial(self):
+        return self.export_plan['adaptation_target_market']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        # To do pass lanaguage from export_plan object rather then  hardcoded
+        context['language'] = helpers.get_cia_world_factbook_data(country='Netherlands', key='people,languages')
+        return context
 
 
 class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
@@ -150,23 +159,6 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         context = super().get_context_data(*args, **kwargs)
         context['objectives'] = json.dumps(self.export_plan['company_objectives'])
         return context
-
-
-class ExportPlanTargetMarketsView(TemplateView):
-    # This view has been taken out-of-scope leaving it here for now as it may get re-introduceded
-    template_name = 'exportplan/sections/target-markets.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-            selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
-            target_markets=json.dumps(self.export_plan.get('target_markets', [])),
-            datenow=datetime.now(),
-        )
-
-    @cached_property
-    def export_plan(self):
-        return helpers.get_or_create_export_plan(self.request.user)
 
 
 class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):

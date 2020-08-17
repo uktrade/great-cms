@@ -36,21 +36,26 @@
     </ul>
   </div>
   <div class="insight-section">
-    <p class="m-0">To find out what product alterations and documents you might need visit <a href=" https://www.check-duties-customs-exporting-goods.service.gov.uk/">Check how to export goods</a> and choose the commodity code that best matches your product.</p>
+    <p class="m-0">To find out what product alterations and documents you might need visit  <a href="{{ check_duties_link }}">Check how to export goods</a> and choose the commodity code that best matches your product.</p>
   </div>
 </section>
 {% endblock %}
 
 {% block user_input %}
-<section class="container">
+<section class="container m-b-m">
   <div class="grid">
     <div class="c-1-3">&nbsp;</div>
     <div class="c-1-2">
-      <form class="" action="" method="post" id="about-your-business-form">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" class="g-button" value="Save">
-      </form>
+      <h3 class="h-l">Changing your product to adapt to your target market</h3>
+      <p>It is likely that you will have to make changes to your product so you can successfully sell it in your tarket market. You will have to do your own research to find out what changes need to be made.</p>
+      <p>Record all these changes in the following table.</p>
+      <div class="">
+        <form class="" action="" method="post" id="adapt-to-target-market">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" class="g-button" value="Save">
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -58,4 +63,51 @@
 
 {% block body_js %}
   {{ block.super }}
+  <script type="text/javascript">
+    var element = document.getElementById('adapt-to-target-market');
+    ditMVP.adaptToTargetMarketForm({
+      element: element,
+      field: 'about_your_business',
+      formData: '',
+      formFields: [
+          {
+            label: 'Labelling',
+            name: 'labelling',
+            tooltip: 'Labelling is used to inform the consumer about the product you are selling to them. Labelling will need to be changed to fit into the market you are selling to. For example some pictures and colours may not be appropriate for certain markets. You will have to research what the requirements are so your products have the correct labels for your target market',
+            placeholder: 'Describe alterations'
+          },
+          {
+            label: 'Packaging',
+            name: 'packaging',
+            tooltip: 'Packaging provides protection for your product and prepares your product to be safely stored and transported. The information you need to include on your packaging will change depending on the market.You will have to research packaging requirements for your target market to avoid your products becoming damaged, lost or rejected.',
+            placeholder: 'Describe alterations'
+
+          },
+          {
+            label: 'Size',
+            name: 'size',
+            tooltip: 'Standard product sizes vary by country depending on factors like buying habits in each market. Consumers who buy less may want larger products to last them longer between shopping trips. You will have to research the size of products sold in this market so you meet customer needs for your target market.',
+            placeholder: 'Describe alterations'
+          },
+          {
+            label: 'Product changes to comply with standards',
+            name: 'standards',
+            tooltip: 'Your product will have to comply with local standards, if it does not comply it will not be allowed to be sold. For example you may have to change the voltage of electrical products in order to comply with safety regulations in that market. You will have to research standards relevant to your product to make sure they are compliant.',
+            placeholder: 'Describe alterations'
+          },
+          {
+            label: 'Translations',
+            name: 'translations',
+            tooltip: "Translations",
+            placeholder: 'Describe alterations'
+          },
+          {
+            label: 'Other changes',
+            name: 'other_changes',
+            tooltip: "Other changes",
+            placeholder: 'Describe alterations'
+          }
+        ]
+    })
+  </script>
 {% endblock %}

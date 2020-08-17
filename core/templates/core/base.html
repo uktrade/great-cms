@@ -63,7 +63,6 @@
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "dashboard" %}',
-          exportPlanTargetMarketsUrl: '{% url "exportplan:target-markets" %}',
           googleUrl: '{{ javascript_components.google_url }}',
           industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
@@ -73,7 +72,7 @@
           removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
           userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}'
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
       });
 
       // dynamic value that can be updated by user interacting with react components
