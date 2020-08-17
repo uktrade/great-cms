@@ -35,7 +35,8 @@ def company_profile_data():
 def export_plan_data():
     return {
         'about_your_business': '',
-        'target_markets_research': ''
+        'target_markets_research': '',
+        'adaptation_target_market': '',
     }
 
 
@@ -152,10 +153,11 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user):
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_cia_world_factbook_data')
-def test_adaption_for_target_markets_context(mock_get_factbook_data, client, user):
+def test_adaption_for_target_markets_context(mock_get_factbook_data, mock_get_create_export_plan, client, user):
     client.force_login(user)
 
     mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
+    mock_get_create_export_plan.return_value = {'adaptation_target_market': []}
     slug = slugify('Adaptation for your target market')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
