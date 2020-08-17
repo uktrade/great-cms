@@ -69,6 +69,7 @@
                     <h4 class="h-s">&nbsp;</h4>
                 </div>
                 <div class="c-1-2">
+                    {% include 'learn/step_by_step.html' %}
                     <ul class="step-by-step">
                         <li class="media-block m-b-m">
                             <img src="https://dummyimage.com/70x70/a00/fff" alt="" />
@@ -111,5 +112,10 @@
     </div>
 {% endblock %}
 
-
+    <script>
+      ditMVP.createMarkLessonAsComplete({
+        element: document.querySelector("#mark_as_complete"),
+        endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+      })
+    </script>
 
