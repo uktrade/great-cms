@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         ('wagtailredirects', '0006_redirect_increase_max_length'),
         ('wagtailforms', '0004_add_verbose_name_plural'),
         ('wagtail_personalisation', '0025_auto_20190822_0627'),
-        ('core', '0016_detailpage_estimated_read_duration'),
+        ('core', '0017_detailpage_objective'),
     ]
 
     operations = [
