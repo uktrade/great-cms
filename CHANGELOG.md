@@ -34,6 +34,7 @@
 
 ### Implemented enhancements
 
+- GP2-396 - Lesson - page structure
 - AA-129 - Beta environment for GREAT.gov
 - GP2-252 - Added objective field to lesson page in CMS
 - GP2-339 - product alterations
