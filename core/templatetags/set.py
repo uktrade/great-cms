@@ -1,7 +1,5 @@
 from django import template
-
 register = template.Library()
-
 
 """
 Template tag to set a context variable

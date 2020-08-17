@@ -40,18 +40,6 @@ class LandingPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
-class ExtendedLandingPageFactory(wagtail_factories.PageFactory):
-    title = 'Extended landing page'
-    description = factory.fuzzy.FuzzyText(length=200)
-    body = factory.fuzzy.FuzzyText(length=500)
-    template = factory.fuzzy.FuzzyChoice(models.ExtendedLandingPage.template_choices, getter=lambda choice: choice[0])
-    parent = factory.SubFactory(DomesticHomePageFactory)
-
-    class Meta:
-        model = models.ExtendedLandingPage
-        django_get_or_create = ['slug', 'parent']
-
-
 class ListPageFactory(wagtail_factories.PageFactory):
     title = 'List page'
     live = True

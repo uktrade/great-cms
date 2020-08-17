@@ -1,11 +1,26 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load format_timedelta from content_tags %}
 
 <div class="grid">
 	<div class="c-3-4 bg-white p-xs">
-		<h3 class="lede m-b-0 color-black-30">{{ value.lede }}</h3>
-		<h4 class="h-m p-b-s p-t-0">{{ value.body }}</h4>
-		<a class="button button--secondary --button-large">Learn</a>
+		<h3 class="lede m-b-0 color-black-30">
+			{% if value.lede_override %}
+				{{ value.lede_override }}
+			{% else %} 
+				{{ value.target_lede|default:'&lt;Enter a lede&gt;' }}
+			{% endif %}
+		</h3>
+		<h4 class="h-m p-b-s p-t-0">
+			{% if value.title_override %}
+				{{ value.title_override }}
+			{% else %} 
+				{{ value.target_title|default:'&lt;Enter a title&gt;' }}
+			{% endif %}
+		</h4>
+		<a class="button button--secondary --button-large" href={{value.link.internal_link.url_path}}>
+			{% if value.read_time %}<i class="fa fa-clock-o m-r-xxs" aria-hidden="true"></i>{{value.read_time|format_timedelta}}{% else %}Learn{% endif %}
+		</a>
 	</div>
 </div>
 

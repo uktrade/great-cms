@@ -2,6 +2,9 @@ from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
+from core import models
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
@@ -50,6 +53,7 @@ class LinkBlock(blocks.StructBlock):
 
     class Meta:
         value_class = LinkStructValue
+        icon = 'redirect'
 
 
 class TitleBlock(blocks.CharBlock):
@@ -67,12 +71,20 @@ class HrBlock(blocks.StaticBlock):
         icon = 'horizontalrule'
 
 
+class ImageBlock(ImageChooserBlock):
+    class Meta:
+        help_text = 'Include an image'
+        template = 'core/includes/_image.html'
+        icon = 'image'
+
+
 class ButtonBlock(blocks.StructBlock):
     label = blocks.CharBlock(max_length=255)
     link = LinkBlock(required=False)
 
     class Meta:
         template = 'core/button.html'
+        icon = 'radio-full'
 
 
 class RouteSectionBlock(blocks.StructBlock):
@@ -89,37 +101,52 @@ class RouteSectionBlock(blocks.StructBlock):
     class Meta:
         help_text = 'The routing block at the top of the dashboard. There should be three - learn, target, plan'
         template = 'core/includes/_route-section.html'
+        icon = 'redirect'
 
 
 class SidebarLinkBlock(blocks.StructBlock):
-    title = blocks.CharBlock(max_length=255)
-    lede = blocks.CharBlock(max_length=255, required=False)
-    body = blocks.TextBlock(max_length=255, required=False)
-    link = LinkBlock(required=False)
+    link = LinkBlock(required=True)
+    title_override = blocks.CharBlock(max_length=255, required=False)
+    lede_override = blocks.CharBlock(max_length=255, required=False)
+
+    def render(self, context):
+        link = context.get('link')
+        if link:
+            internal_link = link.get('internal_link')
+            try:
+                page = models.DetailPage.objects.get(id=internal_link.id)
+                context['target_lede'] = page.get_parent() and page.get_parent().title
+                context['target_title'] = page.title
+                context['read_time'] = getattr(page, 'estimated_read_duration')
+            except ObjectDoesNotExist:
+                pass
+        return super().render(context)
 
     class Meta:
-        help_text = 'A floating link in a section to the right of the content'
+        help_text = 'A floating link in a section to the right of the content. Text is overriddeb'
         template = 'core/includes/_sidebar-link.html'
+        icon = 'tag'
 
 
 class ComponentTargetTable(blocks.StaticBlock):
     class Meta:
         help_text = 'Target section table for marketing approach page'
         template = 'core/includes/_target_table.html'
-        icon = 'cog'
+        icon = 'grip'
 
 
 class SectionBlock(blocks.StreamBlock):
     title = TitleBlock()
     hr = HrBlock()
     text_block = blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')
-    side_link = SidebarLinkBlock(icon='pick')
+    side_link = SidebarLinkBlock()
+    image = ImageBlock()
     target_table = ComponentTargetTable()
 
     class Meta:
         help_text = 'A section'
         template = 'core/includes/_section.html'
-        icon = 'cog'
+        icon = 'placeholder'
 
 
 class ModularContentStaticBlock(blocks.StaticBlock):

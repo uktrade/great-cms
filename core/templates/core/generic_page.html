@@ -16,9 +16,11 @@
       </div>
     </div>
   </section>
-  <div class="c-full">
-    {% image page.image max-1600x600 class="m-h-auto" %}
-  </div>
+  {% if page.image %}
+    <div class="c-full">
+      {% image page.image max-1600x600 class="m-h-auto" %}
+    </div>
+  {% endif %}
   <section class="container">
     {{ page.body}}
   </section>

@@ -208,22 +208,13 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
         return context
 
 
-"""
-section = StreamField([
-        ('section_title', core_blocks.TitleBlock()),
-        ('text_block', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
-        ('side_link', core_blocks.SidebarLinkBlock(icon='pick')),
-    ], null=True, blank=True)
-"""
-
-
 class LandingPage(CMSGenericPage):
     parent_page_types = ['domestic.DomesticHomePage']
     subpage_types = ['core.ListPage', 'core.InterstitialPage',
                      'exportplan.ExportPlanDashboardPage', 'domestic.DomesticDashboard']
     template_choices = (
         ('learn/landing_page.html', 'Learn'),
-        ('core/extended_landing_page.html', 'Generic'),
+        ('core/generic_page.html', 'Generic'),
     )
 
     ################
@@ -240,11 +231,13 @@ class LandingPage(CMSGenericPage):
     )
 
     body = StreamField([
-        ('section', core_blocks.SectionBlock(icon='pick'))
+        ('section', core_blocks.SectionBlock()),
+        ('hr', core_blocks.HrBlock()),
+        ('image', core_blocks.ImageBlock()),
     ], null=True, blank=True)
 
     components = StreamField([
-        ('route', core_blocks.RouteSectionBlock(icon='pick'))
+        ('route', core_blocks.RouteSectionBlock())
     ], null=True, blank=True)
 
     #########

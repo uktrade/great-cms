@@ -174,7 +174,7 @@ class CheckGATags(MiddlewareMixin):
         if getattr(response, 'skip_ga360', False):
             return response
 
-        if not hasattr(response, 'context_data'):
+        if not hasattr(response, 'context_data') or not response.context_data:
             logger.error('No context data found')
             return response
         context_data = response.context_data
