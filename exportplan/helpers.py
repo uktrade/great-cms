@@ -177,7 +177,7 @@ def create_target_market_documents(sso_session_id, data):
 
 
 def update_target_market_documents(sso_session_id, data):
-    response = api_client.exportplan.route_to_market_update(
+    response = api_client.exportplan.target_market_documents_update(
         sso_session_id=sso_session_id, id=data['pk'], data=data)
     response.raise_for_status()
     return response.json()
