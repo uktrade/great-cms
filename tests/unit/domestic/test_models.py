@@ -101,4 +101,3 @@ def test_dashboard_page_routing(
     context_data = dashboard.get_context(get_request)
     assert len(context_data['routes']) == 2
     assert context_data['routes'][0].value.get('route_type') == 'target'
-
