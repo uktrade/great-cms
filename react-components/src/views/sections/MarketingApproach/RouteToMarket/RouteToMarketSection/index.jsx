@@ -15,7 +15,7 @@ export const RouteToMarketSection = ({
 }) => {
   return (
     <div className='route-to-market__table' key={field.pk}>
-      <button type='button' onClick={() => deleteTable(field.pk)} className='button--stone'>Delete</button>
+      <button type='button' onClick={() => deleteTable(field.pk)} className='button--stone route-to-market__delete'>x</button>
       {data.map((item) => (
         <InputWithDropdown
           key={item.name}

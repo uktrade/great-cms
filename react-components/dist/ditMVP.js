@@ -79895,7 +79895,6 @@ function createObjectivesList(_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
-  debugger;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ObjectivesList, params), element);
 }
 
@@ -85142,8 +85141,8 @@ var RouteToMarketSection = function RouteToMarketSection(_ref) {
     onClick: function onClick() {
       return deleteTable(field.pk);
     },
-    className: "button--stone"
-  }, "Delete"), data.map(function (item) {
+    className: "button--stone route-to-market__delete"
+  }, "x"), data.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__["InputWithDropdown"], {
       key: item.name,
       label: item.label,

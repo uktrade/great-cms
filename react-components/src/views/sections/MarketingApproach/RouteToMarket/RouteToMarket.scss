@@ -4,12 +4,24 @@
     border: 1px solid grey;
     border-radius: 10px;
     margin-bottom: 30px;
+    position: relative;
 
     input {
       display: block;
       width: 100%;
-      padding: 0px;
+      padding: 0;
     }
+  }
+
+  &__delete {
+    border-radius: 30px;
+    height: 30px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 30px;
+    z-index: 2;
   }
 
   &__table-cell {
@@ -37,6 +49,8 @@
       }
     }
   }
+
+
 
   &__input {
     position: relative;
