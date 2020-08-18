@@ -370,11 +370,16 @@ class DetailPage(CMSGenericPage):
         ),
         ('content_module', core_blocks.ModularContentStaticBlock())
     ])
+    step_by_step = StreamField([('Step', core_blocks.StepByStepBlock(icon='cog'), )], null=True, blank=True)
 
     #########
     # Panels
     ##########
-    content_panels = Page.content_panels + [StreamFieldPanel('objective'), StreamFieldPanel('body')]
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('objective'),
+        StreamFieldPanel('body'),
+        StreamFieldPanel('step_by_step'),
+    ]
 
     def handle_page_view(self, request):
         if request.user.is_authenticated:

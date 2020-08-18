@@ -8,6 +8,7 @@
 
 ### Fixed bugs
 
+- GP2-257 - Added Step fields to Detail Model
 - No ticket - Fixed rendering of lesson in editor mode
 - GP2-36 - mark as complete only for authenticated users
 - GP2-382 - remove email from welcome message
