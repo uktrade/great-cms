@@ -91,6 +91,17 @@ class RouteToMarketSerializer(serializers.Serializer):
     pk = serializers.IntegerField()
 
 
+class TargetMarketDocumentSerializer(serializers.Serializer):
+    document_name = serializers.CharField(required=False, allow_blank=True)
+    note = serializers.CharField(required=False, allow_blank=True)
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
+class NewTargetMarketDocumentSerializer(TargetMarketDocumentSerializer):
+    pk = serializers.IntegerField(required=False)
+
+
 class NewRouteToMarketSerializer(RouteToMarketSerializer):
     pk = serializers.IntegerField(required=False)
 

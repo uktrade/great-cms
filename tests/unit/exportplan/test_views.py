@@ -37,6 +37,7 @@ def export_plan_data():
         'about_your_business': '',
         'target_markets_research': '',
         'adaptation_target_market': '',
+        'target_market_documents': '',
     }
 
 
@@ -157,7 +158,9 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, mock_get_cr
     client.force_login(user)
 
     mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
-    mock_get_create_export_plan.return_value = {'adaptation_target_market': []}
+    mock_get_create_export_plan.return_value = {
+        'adaptation_target_market': [], 'target_market_documents': {'document_name': 'test'}
+    }
     slug = slugify('Adaptation for your target market')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
@@ -168,3 +171,4 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, mock_get_cr
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
     response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+    response.context_data['target_market_documents'] = {'document_name': 'test'}
