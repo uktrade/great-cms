@@ -69,6 +69,7 @@ class TitleBlock(blocks.CharBlock):
 
 
 class HrBlock(blocks.StaticBlock):
+    # A horizontal full-width line
     class Meta:
         help_text = 'Horizontal rule'
         template = 'core/includes/_hr.html'
@@ -92,6 +93,7 @@ class ButtonBlock(blocks.StructBlock):
 
 
 class RouteSectionBlock(blocks.StructBlock):
+    # One of the three intro blocks at the top of the domestic dashboard
     route_type = blocks.ChoiceBlock(choices=[
         ('learn', 'Learning'),
         ('plan', 'Export plan'),
@@ -109,22 +111,24 @@ class RouteSectionBlock(blocks.StructBlock):
 
 
 class SidebarLinkBlock(blocks.StructBlock):
+    # a link to a learning page in the RH column
     link = LinkBlock(required=True)
     title_override = blocks.CharBlock(max_length=255, required=False)
     lede_override = blocks.CharBlock(max_length=255, required=False)
 
-    def render(self, context):
-        link = context.get('link')
+    def render(self, value, context={}):
+        link = value.get('link')
         if link:
             internal_link = link.get('internal_link')
             try:
                 page = models.DetailPage.objects.get(id=internal_link.id)
-                context['target_lede'] = page.get_parent() and page.get_parent().title
-                context['target_title'] = page.title
-                context['read_time'] = getattr(page, 'estimated_read_duration')
+                value['target_lede'] = page.get_parent() and page.get_parent().title
+                value['target_title'] = page.title
+                value['read_time'] = getattr(page, 'estimated_read_duration')
             except ObjectDoesNotExist:
                 pass
-        return super().render(context)
+
+        return super().render(value, context=context)
 
     class Meta:
         help_text = 'A floating link in a section to the right of the content. Text is overriddeb'
@@ -133,6 +137,7 @@ class SidebarLinkBlock(blocks.StructBlock):
 
 
 class ComponentTargetTable(blocks.StaticBlock):
+    # This is a dummy block to show the principal of components
     class Meta:
         help_text = 'Target section table for marketing approach page'
         template = 'core/includes/_target_table.html'
@@ -140,15 +145,17 @@ class ComponentTargetTable(blocks.StaticBlock):
 
 
 class SectionBlock(blocks.StreamBlock):
+    # a section in generic layout 1:2 columns
     title = TitleBlock()
-    hr = HrBlock()
     text_block = blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')
-    side_link = SidebarLinkBlock()
     image = ImageBlock()
+    hr = HrBlock()
+    #  Components
+    side_link = SidebarLinkBlock()
     target_table = ComponentTargetTable()
 
     class Meta:
-        help_text = 'A section'
+        help_text = 'A 1:2 column section'
         template = 'core/includes/_section.html'
         icon = 'placeholder'
 

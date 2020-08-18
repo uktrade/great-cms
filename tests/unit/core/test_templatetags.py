@@ -53,3 +53,16 @@ def test_tojson(user, rf, domestic_site):
 
     html = template.render(Context({'data': {'thing1': 'one', 'thing2': 'two'}}))
     assert html == '{"thing1": "one", "thing2": "two"}'
+
+
+@pytest.mark.django_db
+def test_set(user, rf, domestic_site):
+
+    template = Template(
+        '{% load set %}'
+        "{% set 'my_variable' 1234 %}"
+        '{{ my_variable }}'
+    )
+
+    html = template.render(Context({}))
+    assert html == '1234'

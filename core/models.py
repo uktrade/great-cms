@@ -232,12 +232,13 @@ class LandingPage(CMSGenericPage):
 
     body = StreamField([
         ('section', core_blocks.SectionBlock()),
-        ('hr', core_blocks.HrBlock()),
+        ('title', core_blocks.TitleBlock()),
+        ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
         ('image', core_blocks.ImageBlock()),
     ], null=True, blank=True)
 
     components = StreamField([
-        ('route', core_blocks.RouteSectionBlock())
+        ('route', core_blocks.RouteSectionBlock()),
     ], null=True, blank=True)
 
     #########
