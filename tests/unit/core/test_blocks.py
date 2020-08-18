@@ -47,7 +47,7 @@ def test_modular_content_static_block_render():
     block = core_blocks.ModularContentStaticBlock()
     context = {'request': request}
     html = block.render(context=context, value=module.content)
-    expected_html = '\n<div class="modules">\n\n     <p class="m-b-0 "><div class="rich-text">{}</div></p>\n\n</div>\n'.format(module.content) # noqa
+    expected_html = '\n<div class="modules">\n\n     <p class="m-b-0 "><div class="rich-text">{}</div></p>\n\n</div>\n'.format(module.content)  # noqa
     assert html == expected_html
 
 
@@ -80,3 +80,35 @@ def test_external_link_structure_value(domestic_homepage):
         'external_link': 'http://great.gov.uk'
     })
     assert value.url == 'http://great.gov.uk'
+
+
+@pytest.mark.django_db
+def test_learning_link_component(domestic_homepage):
+    test_title = 'Detail page title'
+    override_title = 'Overidden title'
+    override_lede = 'Overidden lede'
+    target_page = DetailPageFactory(parent=domestic_homepage, title=test_title)
+    link_block = core_blocks.SidebarLinkBlock()
+    # Render values from linked page
+    result = link_block.render(value={'link': {'internal_link': target_page}}, context={})
+    assert test_title in result
+    assert domestic_homepage.title in result
+    # Override the title and lede
+    result_override = link_block.render(
+        value={
+            'title_override': override_title,
+            'lede_override': override_lede,
+            'link': {'internal_link': target_page}
+        },
+        context={})
+    assert override_title in result_override
+    assert override_lede in result_override
+    assert test_title not in result_override
+    result_nolink = link_block.render(
+        value={
+            'title_override': override_title,
+            'lede_override': override_lede,
+            'link': None
+        },
+        context={})
+    assert override_title in result_nolink

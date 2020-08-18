@@ -3,7 +3,8 @@ from unittest import mock
 import pytest
 from wagtail.tests.utils import WagtailPageTests
 
-from core.models import AbstractObjectHash, LandingPage, ListPage, CuratedListPage, InterstitialPage, DetailPage
+from core.models import AbstractObjectHash, LandingPage
+from core.models import ListPage, CuratedListPage, InterstitialPage, DetailPage
 from exportplan.models import ExportPlanDashboardPage
 from domestic.models import DomesticHomePage, DomesticDashboard
 from tests.unit.core import factories
