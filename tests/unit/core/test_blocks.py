@@ -4,7 +4,7 @@ import pytest
 from wagtail.core import blocks
 
 from core import blocks as core_blocks
-from tests.unit.core.factories import ContentModuleFactory, DetailPageFactory, SidebarLinkFactory
+from tests.unit.core.factories import ContentModuleFactory, DetailPageFactory
 
 
 def test_link_block():
@@ -88,13 +88,13 @@ def test_learning_link_component(domestic_homepage):
     override_title = 'Overidden title'
     override_lede = 'Overidden lede'
     target_page = DetailPageFactory(parent=domestic_homepage, title=test_title)
-    linkBlock = core_blocks.SidebarLinkBlock()
+    link_block = core_blocks.SidebarLinkBlock()
     # Render values from linked page
-    result = linkBlock.render(value={'link': {'internal_link': target_page}}, context={})
+    result = link_block.render(value={'link': {'internal_link': target_page}}, context={})
     assert test_title in result
     assert domestic_homepage.title in result
     # Override the title and lede
-    result_override = linkBlock.render(
+    result_override = link_block.render(
         value={
             'title_override': override_title,
             'lede_override': override_lede,
