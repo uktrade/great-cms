@@ -403,3 +403,49 @@ def test_get_population_data(mock_get_population_data):
     assert mock_get_population_data.call_count == 1
     assert mock_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
     assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'target_market_documents_create')
+def test_target_market_documentss_create(mock_target_market_documents_create):
+    data = {
+        'document_name': 'doc1',
+        'note': 'my notes',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_target_market_documents_create.return_value = create_response(data)
+
+    response = helpers.create_target_market_documents(123, data)
+
+    assert mock_target_market_documents_create.call_count == 1
+    assert mock_target_market_documents_create.call_args == mock.call(data=data, sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'target_market_documents_update')
+def test_target_market_documentss_update(mock_target_market_documents_update):
+    data = {
+        'document_name': 'doc1',
+        'note': 'my notes',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_target_market_documents_update.return_value = create_response(data)
+
+    response = helpers.update_target_market_documents(123, data)
+
+    assert mock_target_market_documents_update.call_count == 1
+    assert mock_target_market_documents_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'target_market_documents_delete')
+def test_target_market_documentss_delete(mock_target_market_documents_delete):
+    data = {'pk': 1}
+    mock_target_market_documents_delete.return_value = create_response(data)
+
+    response = helpers.delete_target_market_documents(123, data)
+
+    assert mock_target_market_documents_delete.call_count == 1
+    assert mock_target_market_documents_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
+    assert response.status_code == 200

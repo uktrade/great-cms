@@ -450,3 +450,115 @@ def test_route_to_market_validation_create(mock_create_route_to_market, client, 
     assert response.json() == {
         'companyexportplan': ['This field is required.']
     }
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_target_market_documents')
+def test_update_target_market_documents_api_view(mock_update_target_market_document, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-target-markets-documents-update')
+
+    tm_document = {'pk': 1, 'document_name': 'doc2', 'companyexportplan': 1}
+
+    mock_update_target_market_document.return_value = tm_document
+
+    response = client.post(url, tm_document)
+
+    assert mock_update_target_market_document.call_count == 1
+    assert response.status_code == 200
+    assert mock_update_target_market_document.call_args == mock.call('123', tm_document)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_target_market_documents')
+def test_create_target_market_documents_api_view(mock_create_target_market_document, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-target-markets-documents-create')
+
+    tm_document = {'document_name': 'doc1', 'companyexportplan': 1}
+
+    mock_create_target_market_document.return_value = {'pk': 1, **tm_document}
+
+    response = client.post(url, tm_document)
+    assert response.status_code == 200
+    assert mock_create_target_market_document.call_count == 1
+    assert mock_create_target_market_document.call_args == mock.call('123', tm_document)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_target_market_documents')
+def test_delete_target_market_documents_api_view(mock_delete_target_market_documents, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-target-markets-documents-delete')
+
+    data = {'pk': 1}
+
+    mock_delete_target_market_documents.return_value = {}
+
+    response = client.delete(url, data, content_type='application/json')
+
+    assert mock_delete_target_market_documents.call_count == 1
+    assert response.status_code == 200
+    assert mock_delete_target_market_documents.call_args == mock.call('123', data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_target_market_documents')
+def test_target_market_documents_validation_delete(mock_delete_target_market_documents, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-target-markets-documents-delete')
+
+    data = {}
+
+    mock_delete_target_market_documents.return_value = {}
+
+    response = client.delete(url, data, content_type='application/json')
+
+    assert mock_delete_target_market_documents.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {'pk': ['This field is required.']}
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_target_market_documents')
+def test_target_market_documents_validation_update(mock_update_target_market_documents, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-target-markets-documents-update')
+
+    data = {}
+
+    mock_update_target_market_documents.return_value = {}
+
+    response = client.post(url, data)
+
+    assert mock_update_target_market_documents.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.'],
+        'pk': ['This field is required.']
+    }
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_target_market_documents')
+def test_target_market_documents_validation_create(mock_create_target_market_documents, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-target-markets-documents-create')
+
+    data = {}
+
+    mock_create_target_market_documents.return_value = {}
+
+    response = client.post(url, data)
+
+    assert mock_create_target_market_documents.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {
+        'companyexportplan': ['This field is required.']
+    }

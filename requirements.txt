@@ -14,11 +14,11 @@ beautifulsoup4==4.8.2     # via great-components, readtime, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
 certifi==2020.6.20        # via requests, sentry-sdk
-cffi==1.14.1              # via cryptography
+cffi==1.14.2              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==2.9.2       # via -r requirements.in
 cssselect==1.1.0          # via pyquery
-directory-api-client==22.2.0  # via -r requirements.in
+directory-api-client==22.3.0  # via -r requirements.in
 directory-client-core==6.2.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.14.1  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
@@ -40,7 +40,7 @@ djangorestframework==3.9.4  # via -r requirements.in, sigauth, wagtail
 docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
 factory-boy==2.12.0       # via -r requirements.in, wagtail-factories
-faker==4.1.1              # via factory-boy
+faker==4.1.2              # via factory-boy
 freezegun==0.1.5          # via -r requirements.in
 geoip2==2.9.0             # via -r requirements.in
 great-components==1.1.1   # via -r requirements.in

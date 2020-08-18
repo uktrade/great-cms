@@ -69,4 +69,15 @@ urlpatterns = [
         'api/route-to-markets/delete/', skip_ga360(api.RouteToMarketsDestroyAPIView.as_view()),
         name='api-route-to-markets-delete'
     ),
+    path('api/target-markets-documents/create/',
+         skip_ga360(api.TargetMarketDocumentsCreateAPIView.as_view()),
+         name='api-target-markets-documents-create'),
+    path('api/target-markets-documents/update/',
+         skip_ga360(api.TargetMarketDocumentUpdateAPIView.as_view()),
+         name='api-target-markets-documents-update'),
+    path(
+        'api/target-markets-documents/delete/',
+        skip_ga360(api.TargetMarketDocumentsDestroyAPIView.as_view()),
+        name='api-target-markets-documents-delete'
+    ),
 ]

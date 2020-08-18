@@ -170,6 +170,25 @@ def delete_route_to_market(sso_session_id, data):
     return response
 
 
+def create_target_market_documents(sso_session_id, data):
+    response = api_client.exportplan.target_market_documents_create(sso_session_id=sso_session_id, data=data)
+    response.raise_for_status()
+    return response.json()
+
+
+def update_target_market_documents(sso_session_id, data):
+    response = api_client.exportplan.target_market_documents_update(
+        sso_session_id=sso_session_id, id=data['pk'], data=data)
+    response.raise_for_status()
+    return response.json()
+
+
+def delete_target_market_documents(sso_session_id, data):
+    response = api_client.exportplan.target_market_documents_delete(sso_session_id=sso_session_id, id=data['pk'])
+    response.raise_for_status()
+    return response
+
+
 def get_country_data(country):
     response = api_client.dataservices.get_country_data(country)
     response.raise_for_status()

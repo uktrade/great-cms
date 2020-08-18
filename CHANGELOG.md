@@ -176,3 +176,4 @@
 - gp2-369 - CHEG tailored link
 - GP2-370 - cia factbook language
 - GP2-393 - adaption fields saving
+- GP2-395 - adaption tm documents API views

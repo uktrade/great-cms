@@ -202,3 +202,38 @@ class RouteToMarketsDestroyAPIView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             helpers.delete_route_to_market(self.request.user.session_id, serializer.validated_data)
             return Response({})
+
+
+class TargetMarketDocumentsCreateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.NewTargetMarketDocumentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.create_target_market_documents(self.request.user.session_id, serializer.validated_data)
+            return Response(response)
+
+
+class TargetMarketDocumentUpdateAPIView(generics.GenericAPIView):
+    serializer_class = serializers.TargetMarketDocumentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.update_target_market_documents(self.request.user.session_id, serializer.validated_data)
+            return Response(response)
+
+
+class TargetMarketDocumentsDestroyAPIView(generics.GenericAPIView):
+    serializer_class = serializers.PkOnlySerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            helpers.delete_target_market_documents(self.request.user.session_id, serializer.validated_data)
+            return Response({})
