@@ -12,12 +12,10 @@
   }
 }
 
-.export-plan-heading {
-  @include ExportPlanHeading;
-}
-
 .text-inset {
-  @include textInset;
+  padding: 10px 30px;
+  margin: 30px 0;
+  border-left: 8px solid $black-20;
 }
 
 .marketing-approach-content {

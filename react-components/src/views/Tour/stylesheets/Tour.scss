@@ -1,5 +1,4 @@
 @import 'helpers/colours';
-@import 'design-system/mixins';
 
 .great-tour-modal {
   background: $white;
@@ -15,12 +14,7 @@
   padding: 20px 35px;
 }
 
-.great-modal-heading {
-  @include modalHeading;
-}
-
 .great-modal-text {
-  @include modalText;
   margin-top: 16px;
   margin-bottom: 34px;
 }
@@ -30,17 +24,6 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 40px;
-}
-
-.great-tour-heading {
-  @include tourHeading;
-  margin-top: 10px;
-  margin-bottom: 6px;
-}
-
-.great-tour-text {
-  @include moduleLandingIntro;
-  margin-bottom: 12px;
 }
 
 .reactour__helper [data-tour-elem='controls'] {

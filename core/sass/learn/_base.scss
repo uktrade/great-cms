@@ -20,25 +20,6 @@ $desktop: 1024px;
     line-height: 50px;
     margin-bottom: 50px;
   }
-
-  .button {
-    background-color: $grey;
-    border-radius: 4px;
-    color: $white;
-    display: inline-block;
-    font-size: 19px;
-    font-weight: bold;
-    height: 50px;
-    line-height: 34px;
-    padding: 8px 40px;
-    text-decoration: none;
-    white-space: nowrap;
-
-    &:hover {
-      background-color: darken($grey, 5);
-      color: $white;
-    }
-  }
 }
 
 .learn__home-page {
@@ -111,25 +92,23 @@ $desktop: 1024px;
 }
 
 .learn__category-title {
-  @include moduleLandingHeading;
   margin-top: 13px;
+  line-height: 48px;
 }
 
 .learn__category-details {
   margin: 0 0 40px;
 
   p {
-    @include moduleLandingIntro;
+    color: $blue-deep-80;
     margin-top: 16px;
   }
 }
 
-.learn__category-link {
-  @include moduleLink;
-}
-
 .learn__category-entities {
-  @include countBox;
+  padding: 8px 17px 7px;
+  display: inline-block;
+  white-space: nowrap;
   position: absolute;
   top: 35px;
   right: 0;
@@ -166,7 +145,8 @@ $desktop: 1024px;
 
 .learn__single-category-header-details {
   p {
-    @include moduleLandingIntro;
+    color: $blue-deep-80;
+    font-size: 20px;
     margin-top: 15px;
   }
 }
@@ -175,16 +155,7 @@ $desktop: 1024px;
   margin: 125px 0 0;
 }
 
-.learn__topic-item-title,
-.learn__topic-item {
-  color: $grey;
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 40px;
-}
-
 .learn__topic-item-title {
-  @include moduleLandingTopicHeading;
   margin-right: 20px;
   padding-bottom: 20px;
 }
@@ -211,7 +182,7 @@ $desktop: 1024px;
 }
 
 .learn__lesson-item-link {
-  @include moduleLandingTopicLink;
+  color: $blue-deep-80;
   display: block;
   padding: 22px 50px 20px 21px;
   text-decoration: none;

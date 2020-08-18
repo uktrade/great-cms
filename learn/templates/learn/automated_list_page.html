@@ -46,12 +46,12 @@
             <article class="learn__category grid">
                 <div class="c-1-2-l">
                     <div class="learn__category-content ">
-                        <h2 class="learn__category-title">{{ child.title }}</h2>
+                        <h2 class="h-xl text-blue-deep-80 learn__category-title">{{ child.title }}</h2>
                         <div class="learn__category-details">{{ child.heading | richtext }}</div>
-                        <a class="learn__category-link" href="{% pageurl child %}">{{ page.button_label }}</a>
+                        <a class="button button--secondary" href="{% pageurl child %}">{{ page.button_label }}</a>
                     </div>
-                    
-                    <div class="learn__category-entities">
+
+                    <div class="learn__category-entities button button--round-corner bg-aqua">
                         <span class="learn__category-topics">{{ child.count_topics }} topic{% pluralize child.count_topics %}, <span>
                         <span class="learn__category-lessons">{{ child.count_detail_pages }} lesson{% pluralize child.count_detail_pages %}</span>
                     </div>
