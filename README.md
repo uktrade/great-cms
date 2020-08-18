@@ -1,5 +1,4 @@
-# Great CMS
-
+# Great CM
 
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
