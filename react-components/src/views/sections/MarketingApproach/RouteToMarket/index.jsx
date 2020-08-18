@@ -1,45 +1,53 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { RouteToMarketSection } from '@src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection'
-import { addItemToList } from '@src/Helpers'
 import Services from '../../../../Services'
 
 import './RouteToMarket.scss'
 
 export const RouteToMarket = ({
-  field,
-  formData
+  fields,
+  formData,
+  formFields
 }) => {
 
-  const [rows, setRows] = useState([])
-  const [data, setData] = useState([])
+  const [routes, setRoutes] = useState(fields)
 
   const addTable = () => {
-    setRows([
-        ...rows,
-        rows.length++
-      ]
-    )
+    Services.createRouteToMarket({ ...formFields })
+      .then((data) => {
+        setRoutes([
+          ...routes,
+          data
+        ])
+      })
+      .catch(() => {})
   }
 
-  useEffect(() => {
-    if (data.length > 0) {
-      Services.updateExportPlan({
-        [field]: data
+  const deleteTable = (id) => {
+    Services.deleteRouteToMarket(id)
+      .then(() => {
+        setRoutes(routes.filter((x) => x.pk !== id))
       })
-        .then(() => {})
-        .catch(() => {})
-    }
-  }, [data])
+      .catch(() => {})
+  }
 
-  const update = (i, x) => {
-    setData(addItemToList(data, i, x))
+  const update = (id, selected) => {
+    const field = fields.find(x => x.pk === id)
+    const updatedRoutes = routes.map( x => x.pk === id ? { ...x, ...selected} : x )
+
+    /* TODO - to promise resolve after endpoint has been fixed */
+    setRoutes(updatedRoutes)
+
+    Services.updateRouteToMarket({ ...field, ...selected  })
+      .then(() => {})
+      .catch(() => {})
   }
 
   return (
     <>
-      {rows.length >=1 && rows.map((i) => RouteToMarketSection(formData, update, i))}
+      {routes.length >=1 && routes.map((field) => RouteToMarketSection({ ...formData, update, deleteTable, field }))}
       <div className='button--plus'>
         <span className='icon--plus' />
         <button type='button' onClick={addTable} className='button--stone'>Add route to market</button>
@@ -49,7 +57,11 @@ export const RouteToMarket = ({
 }
 
 RouteToMarket.propTypes = {
-  field: PropTypes.string.isRequired,
+  fields: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired
+  ).isRequired,
   formData: PropTypes.shape({
     data:PropTypes.arrayOf(
       PropTypes.shape({
@@ -61,5 +73,9 @@ RouteToMarket.propTypes = {
     example: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  formFields: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired
 }

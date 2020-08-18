@@ -29,20 +29,20 @@ const post = function(url, data) {
   })
 }
 
-const httpDelete = function(url, data) {
+const httpDelete = function (url, data) {
   return fetch(url, {
     method: 'delete',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRFToken': config.csrfToken,
-      'X-Requested-With': 'XMLHttpRequest'
+      'X-Requested-With': 'XMLHttpRequest',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
 }
 
-const get = function(url, params) {
+const get = function (url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
   const parsedParams = new URLSearchParams(params).toString()
   parsedUrl.search = parsedParams
@@ -91,19 +91,19 @@ const updateExportPlan = function(data) {
   return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
 }
 
-const createObjective = function(data) {
+const createObjective = function (data) {
   return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
 }
 
-const deleteObjective = function(pk) {
-  return httpDelete(config.apiObjectivesDeleteUrl, { pk: pk }).then(responseHandler)
+const deleteObjective = function (pk) {
+  return httpDelete(config.apiObjectivesDeleteUrl, {pk: pk}).then(responseHandler)
 }
 
-const updateObjective = function(data) {
+const updateObjective = function (data) {
   return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
 }
 
-const checkVerificationCode = function({ email, code }) {
+const checkVerificationCode = function ({ email, code }) {
   return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
 
@@ -132,6 +132,18 @@ const setLessonComplete = function(endpoint) {
 
 const setLessonIncomplete = function(endpoint) {
   return httpDelete(endpoint).then(responseHandler)
+}
+
+const createRouteToMarket = function (data) {
+  return post(config.apiRouteToMarketCreateUrl, data).then((response) => responseHandler(response).json())
+}
+
+const deleteRouteToMarket = function (pk) {
+  return httpDelete(config.apiRouteToMarketDeleteUrl, {pk: pk}).then(responseHandler)
+}
+
+const updateRouteToMarket = function (data) {
+  return post(config.apiRouteToMarketUpdateUrl, data).then((response) => responseHandler(response).json())
 }
 
 const responseHandler = function(response) {
@@ -181,6 +193,9 @@ const setConfig = function({
   apiObjectivesCreateUrl,
   apiObjectivesDeleteUrl,
   apiObjectivesUpdateUrl,
+  apiRouteToMarketCreateUrl,
+  apiRouteToMarketDeleteUrl,
+  apiRouteToMarketUpdateUrl,
   exportPlanTargetMarketsUrl,
   signupUrl
 }) {
@@ -197,6 +212,9 @@ const setConfig = function({
   config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
   config.apiObjectivesDeleteUrl = apiObjectivesDeleteUrl
   config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl
+  config.apiRouteToMarketCreateUrl = apiRouteToMarketCreateUrl
+  config.apiRouteToMarketDeleteUrl = apiRouteToMarketDeleteUrl
+  config.apiRouteToMarketUpdateUrl = apiRouteToMarketUpdateUrl
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
   config.dashboardUrl = dashboardUrl
@@ -234,6 +252,9 @@ export default {
   setLessonComplete,
   setLessonIncomplete,
   config,
+  createRouteToMarket,
+  deleteRouteToMarket,
+  updateRouteToMarket,
   setInitialState,
   messages: {
     MESSAGE_UNEXPECTED_ERROR,

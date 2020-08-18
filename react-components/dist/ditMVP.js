@@ -77166,6 +77166,24 @@ var setLessonIncomplete = function setLessonIncomplete(endpoint) {
   return httpDelete(endpoint).then(responseHandler);
 };
 
+var createRouteToMarket = function createRouteToMarket(data) {
+  return post(config.apiRouteToMarketCreateUrl, data).then(function (response) {
+    return responseHandler(response).json();
+  });
+};
+
+var deleteRouteToMarket = function deleteRouteToMarket(pk) {
+  return httpDelete(config.apiRouteToMarketDeleteUrl, {
+    pk: pk
+  }).then(responseHandler);
+};
+
+var updateRouteToMarket = function updateRouteToMarket(data) {
+  return post(config.apiRouteToMarketUpdateUrl, data).then(function (response) {
+    return responseHandler(response).json();
+  });
+};
+
 var responseHandler = function responseHandler(response) {
   if (response.status == 400) {
     return response.json().then(function (error) {
@@ -77214,6 +77232,9 @@ var setConfig = function setConfig(_ref6) {
       apiObjectivesCreateUrl = _ref6.apiObjectivesCreateUrl,
       apiObjectivesDeleteUrl = _ref6.apiObjectivesDeleteUrl,
       apiObjectivesUpdateUrl = _ref6.apiObjectivesUpdateUrl,
+      apiRouteToMarketCreateUrl = _ref6.apiRouteToMarketCreateUrl,
+      apiRouteToMarketDeleteUrl = _ref6.apiRouteToMarketDeleteUrl,
+      apiRouteToMarketUpdateUrl = _ref6.apiRouteToMarketUpdateUrl,
       exportPlanTargetMarketsUrl = _ref6.exportPlanTargetMarketsUrl,
       signupUrl = _ref6.signupUrl;
   config.countryDataUrl = countryDataUrl;
@@ -77229,6 +77250,9 @@ var setConfig = function setConfig(_ref6) {
   config.apiObjectivesCreateUrl = apiObjectivesCreateUrl;
   config.apiObjectivesDeleteUrl = apiObjectivesDeleteUrl;
   config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl;
+  config.apiRouteToMarketCreateUrl = apiRouteToMarketCreateUrl;
+  config.apiRouteToMarketDeleteUrl = apiRouteToMarketDeleteUrl;
+  config.apiRouteToMarketUpdateUrl = apiRouteToMarketUpdateUrl;
   config.countryOptions = countryOptions;
   config.csrfToken = csrfToken;
   config.dashboardUrl = dashboardUrl;
@@ -77266,6 +77290,9 @@ var setConfig = function setConfig(_ref6) {
   setLessonComplete: setLessonComplete,
   setLessonIncomplete: setLessonIncomplete,
   config: config,
+  createRouteToMarket: createRouteToMarket,
+  deleteRouteToMarket: deleteRouteToMarket,
+  updateRouteToMarket: updateRouteToMarket,
   setInitialState: setInitialState,
   messages: {
     MESSAGE_UNEXPECTED_ERROR: MESSAGE_UNEXPECTED_ERROR,
@@ -78705,11 +78732,11 @@ var InputWithDropdown = function InputWithDropdown(_ref) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       key: item,
       onClick: function onClick() {
-        return selectOption(item);
+        return selectOption(item.label);
       },
-      "aria-selected": item === input,
+      "aria-selected": item.label === input,
       role: "option"
-    }, item);
+    }, item.label);
   })))));
 };
 InputWithDropdown.propTypes = {
@@ -78717,7 +78744,10 @@ InputWithDropdown.propTypes = {
   update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired
+  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf({
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired
 };
 InputWithDropdown.defaultProps = {
   selected: ''
@@ -85095,23 +85125,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var RouteToMarketSection = function RouteToMarketSection(_ref, _update, i) {
+var RouteToMarketSection = function RouteToMarketSection(_ref) {
   var data = _ref.data,
       label = _ref.label,
       example = _ref.example,
-      name = _ref.name;
+      name = _ref.name,
+      _update = _ref.update,
+      deleteTable = _ref.deleteTable,
+      field = _ref.field;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "route-to-market__table",
-    key: i
-  }, data.map(function (item) {
+    key: field.pk
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return deleteTable(field.pk);
+    },
+    className: "button--stone"
+  }, "Delete"), data.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__["InputWithDropdown"], {
       key: item.name,
       label: item.label,
       update: function update(x) {
-        return _update(i, x);
+        return _update(field.pk, x);
       },
       name: item.name,
-      options: item.options
+      options: item.options,
+      selected: field[item.name]
     });
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "route-to-market__table-cell"
@@ -85120,8 +85160,9 @@ var RouteToMarketSection = function RouteToMarketSection(_ref, _update, i) {
     example: example,
     name: name,
     handleChange: function handleChange(e) {
-      return _update(i, _defineProperty({}, e.target.name, e.target.value));
-    }
+      return _update(field.pk, _defineProperty({}, e.target.name, e.target.value));
+    },
+    value: field[name]
   })));
 };
 RouteToMarketSection.propTypes = {
@@ -85132,7 +85173,10 @@ RouteToMarketSection.propTypes = {
   }).isRequired).isRequired,
   label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number]).isRequired,
+  update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  deleteTable: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
 
 /***/ }),
@@ -85152,12 +85196,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_views_sections_MarketingApproach_RouteToMarket_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection */ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection/index.jsx");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../Services */ "./react-components/src/Services.js");
-/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RouteToMarket.scss */ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarket.scss");
-/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_5__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../Services */ "./react-components/src/Services.js");
+/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./RouteToMarket.scss */ "./react-components/src/views/sections/MarketingApproach/RouteToMarket/RouteToMarket.scss");
+/* harmony import */ var _RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_RouteToMarket_scss__WEBPACK_IMPORTED_MODULE_4__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -85165,6 +85206,12 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -85183,37 +85230,49 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var RouteToMarket = function RouteToMarket(_ref) {
-  var field = _ref.field,
-      formData = _ref.formData;
+  var fields = _ref.fields,
+      formData = _ref.formData,
+      formFields = _ref.formFields;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(fields),
       _useState2 = _slicedToArray(_useState, 2),
-      rows = _useState2[0],
-      setRows = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      data = _useState4[0],
-      setData = _useState4[1];
+      routes = _useState2[0],
+      setRoutes = _useState2[1];
 
   var addTable = function addTable() {
-    setRows([].concat(_toConsumableArray(rows), [rows.length++]));
+    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].createRouteToMarket(_objectSpread({}, formFields)).then(function (data) {
+      setRoutes([].concat(_toConsumableArray(routes), [data]));
+    })["catch"](function () {});
   };
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (data.length > 0) {
-      _Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan(_defineProperty({}, field, data)).then(function () {})["catch"](function () {});
-    }
-  }, [data]);
-
-  var update = function update(i, x) {
-    setData(Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["addItemToList"])(data, i, x));
+  var deleteTable = function deleteTable(id) {
+    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].deleteRouteToMarket(id).then(function () {
+      setRoutes(routes.filter(function (x) {
+        return x.pk !== id;
+      }));
+    })["catch"](function () {});
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rows.length >= 1 && rows.map(function (i) {
-    return Object(_src_views_sections_MarketingApproach_RouteToMarket_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__["RouteToMarketSection"])(formData, update, i);
+  var update = function update(id, selected) {
+    var field = fields.find(function (x) {
+      return x.pk === id;
+    });
+    var updatedRoutes = routes.map(function (x) {
+      return x.pk === id ? _objectSpread(_objectSpread({}, x), selected) : x;
+    });
+    /* TODO - to promise resolve after endpoint has been fixed */
+
+    setRoutes(updatedRoutes);
+    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateRouteToMarket(_objectSpread(_objectSpread({}, field), selected)).then(function () {})["catch"](function () {});
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, routes.length >= 1 && routes.map(function (field) {
+    return Object(_src_views_sections_MarketingApproach_RouteToMarket_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__["RouteToMarketSection"])(_objectSpread(_objectSpread({}, formData), {}, {
+      update: update,
+      deleteTable: deleteTable,
+      field: field
+    }));
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "button--plus"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -85225,7 +85284,7 @@ var RouteToMarket = function RouteToMarket(_ref) {
   }, "Add route to market")));
 };
 RouteToMarket.propTypes = {
-  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  fields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number]).isRequired).isRequired,
   formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
       name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -85235,7 +85294,8 @@ RouteToMarket.propTypes = {
     example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  }).isRequired
+  }).isRequired,
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number]).isRequired
 };
 
 /***/ }),
