@@ -8,6 +8,7 @@
 
 ### Fixed bugs
 
+- GP2-401 - lesson page rich text styling
 - No ticket - Remove css vars and mixins
 - GP2-257 - Added Step fields to Detail Model
 - No ticket - Fixed rendering of lesson in editor mode
