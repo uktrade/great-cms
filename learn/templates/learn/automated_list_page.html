@@ -48,7 +48,7 @@
                     <div class="learn__category-content ">
                         <h2 class="h-xl text-blue-deep-80 learn__category-title">{{ child.title }}</h2>
                         <div class="learn__category-details">{{ child.heading | richtext }}</div>
-                        <a class="button button--secondary" href="{% pageurl child %}">{{ page.button_label }}</a>
+                        <a class="button button--secondary" href="{% pageurl child %}" title="{{ page.button_label }}">{{ page.button_label }}</a>
                     </div>
 
                     <div class="learn__category-entities button button--round-corner bg-aqua">
