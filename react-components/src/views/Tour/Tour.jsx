@@ -11,10 +11,10 @@ export default function Tour(props) {
       ...step,
       content: (
         <>
-          <h2 className="h-s p-v-0 great-mvp-tour-heading" id={'page-tour-step-' + slugify(step.title)}>
+          <h2 className="h-s p-v-0" id={'page-tour-step-' + slugify(step.title)}>
             {step.title}
           </h2>
-          <p className="great-mvp-tour-text">{step.body}</p>
+          <p>{step.body}</p>
         </>
       )
     }

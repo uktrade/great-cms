@@ -123,6 +123,9 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
 
+    def get_initial(self):
+        return self.export_plan['adaptation_target_market']
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)

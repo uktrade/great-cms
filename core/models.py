@@ -214,6 +214,7 @@ class LandingPage(CMSGenericPage):
                      'exportplan.ExportPlanDashboardPage', 'domestic.DomesticDashboard']
     template_choices = (
         ('learn/landing_page.html', 'Learn'),
+        ('core/generic_page.html', 'Generic'),
     )
 
     ################
@@ -229,13 +230,26 @@ class LandingPage(CMSGenericPage):
         related_name='+'
     )
 
+    body = StreamField([
+        ('section', core_blocks.SectionBlock()),
+        ('title', core_blocks.TitleBlock()),
+        ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
+        ('image', core_blocks.ImageBlock()),
+    ], null=True, blank=True)
+
+    components = StreamField([
+        ('route', core_blocks.RouteSectionBlock()),
+    ], null=True, blank=True)
+
     #########
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('description'),
         StreamFieldPanel('button'),
-        ImageChooserPanel('image')
+        ImageChooserPanel('image'),
+        StreamFieldPanel('components'),
+        StreamFieldPanel('body'),
     ]
 
 
@@ -370,11 +384,16 @@ class DetailPage(CMSGenericPage):
         ),
         ('content_module', core_blocks.ModularContentStaticBlock())
     ])
+    step_by_step = StreamField([('Step', core_blocks.StepByStepBlock(icon='cog'), )], null=True, blank=True)
 
     #########
     # Panels
     ##########
-    content_panels = Page.content_panels + [StreamFieldPanel('objective'), StreamFieldPanel('body')]
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('objective'),
+        StreamFieldPanel('body'),
+        StreamFieldPanel('step_by_step'),
+    ]
 
     def handle_page_view(self, request):
         if request.user.is_authenticated:

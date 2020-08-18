@@ -148,3 +148,24 @@ def test_population_data_serializer_missing_target_age():
     data = {'country': 'uk', 'target_age_groups': ''}
     serializer = serializers.PopulationDataSerializer(data=data)
     assert serializer.is_valid() is False
+
+
+def test_adaptation_target_market_serializer():
+
+    data = {
+        'labelling': 'Lorem ipsum',
+        'packaging': 'Consectetur adipisicing elit',
+        'size': 'Dolor sit amet',
+        'standards': 'Sed do eiusmod tempor incididunt',
+        'translations': 'In french',
+        'other_changes': 'none',
+        'certificate_of_origin': 'France',
+        'insurance_certificate': '5',
+        'commercial_invoice': 'XYZ_invoice',
+        'uk_customs_declaration': 'not required',
+    }
+
+    serializer = serializers.AdaptationTargetMarketSerializer(data=data)
+
+    assert serializer.is_valid()
+    assert serializer.data == data

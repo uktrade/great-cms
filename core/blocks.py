@@ -2,6 +2,9 @@ from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
+from core import models
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
@@ -54,6 +57,30 @@ class LinkBlock(blocks.StructBlock):
 
     class Meta:
         value_class = LinkStructValue
+        icon = 'redirect'
+
+
+class TitleBlock(blocks.CharBlock):
+    class Meta:
+        max_length = 255
+        help_text = 'Enter a title'
+        template = 'core/includes/_title.html'
+        icon = 'bold'
+
+
+class HrBlock(blocks.StaticBlock):
+    # A horizontal full-width line
+    class Meta:
+        help_text = 'Horizontal rule'
+        template = 'core/includes/_hr.html'
+        icon = 'horizontalrule'
+
+
+class ImageBlock(ImageChooserBlock):
+    class Meta:
+        help_text = 'Include an image'
+        template = 'core/includes/_image.html'
+        icon = 'image'
 
 
 class ButtonBlock(blocks.StructBlock):
@@ -62,9 +89,11 @@ class ButtonBlock(blocks.StructBlock):
 
     class Meta:
         template = 'core/button.html'
+        icon = 'radio-full'
 
 
 class RouteSectionBlock(blocks.StructBlock):
+    # One of the three intro blocks at the top of the domestic dashboard
     route_type = blocks.ChoiceBlock(choices=[
         ('learn', 'Learning'),
         ('plan', 'Export plan'),
@@ -76,8 +105,56 @@ class RouteSectionBlock(blocks.StructBlock):
     button = ButtonBlock(icon='cog', required=False)
 
     class Meta:
-        admin_text = 'The routing block at the top of the dashboard. There should be three - learn, target, plan'
+        help_text = 'The routing block at the top of the dashboard. There should be three - learn, target, plan'
         template = 'core/includes/_route-section.html'
+        icon = 'redirect'
+
+
+class SidebarLinkBlock(blocks.StructBlock):
+    # a link to a learning page in the RH column
+    link = LinkBlock(required=True)
+    title_override = blocks.CharBlock(max_length=255, required=False)
+    lede_override = blocks.CharBlock(max_length=255, required=False)
+
+    def render(self, value, context={}):
+        try:
+            internal_link = value['link']['internal_link']
+            page = models.DetailPage.objects.get(id=internal_link.id)
+            value['target_lede'] = page.get_parent() and page.get_parent().title
+            value['target_title'] = page.title
+            value['read_time'] = getattr(page, 'estimated_read_duration')
+        except (ObjectDoesNotExist, KeyError, TypeError):
+            pass
+        return super().render(value, context=context)
+
+    class Meta:
+        help_text = 'A floating link in a section to the right of the content. Labels can be overridden.'
+        template = 'core/includes/_sidebar-link.html'
+        icon = 'tag'
+
+
+class ComponentTargetTable(blocks.StaticBlock):
+    # This is a dummy block to show the principal of components
+    class Meta:
+        help_text = 'Target section table for marketing approach page'
+        template = 'core/includes/_target_table.html'
+        icon = 'grip'
+
+
+class SectionBlock(blocks.StreamBlock):
+    # a section in generic layout 1:2 columns
+    title = TitleBlock()
+    text_block = blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')
+    image = ImageBlock()
+    hr = HrBlock()
+    #  Components
+    side_link = SidebarLinkBlock()
+    target_table = ComponentTargetTable()
+
+    class Meta:
+        help_text = 'A 1:2 column section'
+        template = 'core/includes/_section.html'
+        icon = 'placeholder'
 
 
 class ModularContentStaticBlock(blocks.StaticBlock):
@@ -95,3 +172,12 @@ class ModularContentStaticBlock(blocks.StaticBlock):
             tags = context['request'].GET['tags'].split(',')
             context['modules'] = ContentModule.objects.filter(tags__name__in=tags).distinct()
         return context
+
+
+class StepByStepBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255)
+    body = blocks.RichTextBlock()
+    image = ImageChooserBlock(required=False)
+
+    class Meta:
+        template = 'learn/step_by_step.html'

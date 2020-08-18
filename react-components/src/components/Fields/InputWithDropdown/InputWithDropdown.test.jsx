@@ -7,7 +7,7 @@ const props = {
   label: 'label example',
   name: 'input example',
   selected: 'item one',
-  options: ['item one', 'item two']
+  options: [{name: 'item_one', label: 'item one'}, {name: 'item_two', label: 'item two'}]
 
 }
 
@@ -66,8 +66,8 @@ describe('InputWithDropdown', () => {
 
       await waitFor(() => {
         expect(queryByRole('listbox')).toBeInTheDocument()
-        expect(getByText(props.options[0])).toBeInTheDocument()
-        expect(getByText(props.options[1])).toBeInTheDocument()
+        expect(getByText(props.options[0].label)).toBeInTheDocument()
+        expect(getByText(props.options[1].label)).toBeInTheDocument()
       })
     })
   })
@@ -79,7 +79,7 @@ describe('InputWithDropdown', () => {
 
       fireEvent.click(getByText('^'))
       await waitFor(() => {
-        fireEvent.click(getByText(props.options[0]))
+        fireEvent.click(getByText(props.options[0].label))
         expect(actions.update).toHaveBeenCalledTimes(1)
         expect(actions.update).toHaveBeenCalledWith({ 'input example': 'item one' })
       })

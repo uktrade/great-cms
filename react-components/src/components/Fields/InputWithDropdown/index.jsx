@@ -36,10 +36,10 @@ export const InputWithDropdown = ({
             {options.map((item) =>
               <li
                 key={item}
-                onClick={() => selectOption(item)}
-                aria-selected={item === input}
+                onClick={() => selectOption(item.label)}
+                aria-selected={item.label === input}
                 role='option'
-              >{item}</li>
+              >{item.label}</li>
             )}
           </ul>
           }
@@ -54,7 +54,10 @@ InputWithDropdown.propTypes = {
   update: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   selected: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired
+  options: PropTypes.arrayOf({
+    name: PropTypes.string,
+    label: PropTypes.string,
+  }).isRequired
 }
 
 InputWithDropdown.defaultProps = {
