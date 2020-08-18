@@ -8,6 +8,7 @@
 
 ### Fixed bugs
 
+- No ticket - Fixed rendering of lesson in editor mode
 - GP2-36 - mark as complete only for authenticated users
 - GP2-382 - remove email from welcome message
 - GP2-321 - quotes rendering for snippet
