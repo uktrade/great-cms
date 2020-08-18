@@ -186,6 +186,7 @@ AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, yo
 * [GDS service standards](https://www.gov.uk/service-manual/service-standard)
 * [GDS design principles](https://www.gov.uk/design-principles)
 
+
 ## Related projects:
 https://github.com/uktrade?q=directory
 
