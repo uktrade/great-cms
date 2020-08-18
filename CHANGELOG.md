@@ -36,16 +36,17 @@
 
 ### Implemented enhancements
 
+- GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
-- AA-129 - Beta environment for GREAT.gov
+- AA-129 -  Beta environment for GREAT.gov
 - GP2-252 - Added objective field to lesson page in CMS
 - GP2-339 - product alterations
 - GP2-335 - Routing logic for dashboard
 - GP2-195 - FE BE integration
-- GP2-337 - adaptation for target market - insights 
+- GP2-337 - adaptation for target market - insights
 - GP2-334 - page struture adaptation for target market page
 - GP2-372 - Lesson -step by step (FE)
-- GP2-241 - rename brand and product page to about your business 
+- GP2-241 - rename brand and product page to about your business
 - GP2-279 - Dashboard page made wagtail configurable and added routing block
 - GP2-250 - Lesson - estimated time (FE)
 - GP2-252 - Lesson - objectives (FE)
