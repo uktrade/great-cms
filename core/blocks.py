@@ -117,21 +117,18 @@ class SidebarLinkBlock(blocks.StructBlock):
     lede_override = blocks.CharBlock(max_length=255, required=False)
 
     def render(self, value, context={}):
-        link = value.get('link')
-        if link:
-            internal_link = link.get('internal_link')
-            try:
-                page = models.DetailPage.objects.get(id=internal_link.id)
-                value['target_lede'] = page.get_parent() and page.get_parent().title
-                value['target_title'] = page.title
-                value['read_time'] = getattr(page, 'estimated_read_duration')
-            except ObjectDoesNotExist:
-                pass
-
+        try:
+            internal_link = value['link']['internal_link']
+            page = models.DetailPage.objects.get(id=internal_link.id)
+            value['target_lede'] = page.get_parent() and page.get_parent().title
+            value['target_title'] = page.title
+            value['read_time'] = getattr(page, 'estimated_read_duration')
+        except (ObjectDoesNotExist, KeyError, TypeError):
+            pass
         return super().render(value, context=context)
 
     class Meta:
-        help_text = 'A floating link in a section to the right of the content. Text is overriddeb'
+        help_text = 'A floating link in a section to the right of the content. Labels can be overridden.'
         template = 'core/includes/_sidebar-link.html'
         icon = 'tag'
 

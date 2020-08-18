@@ -102,4 +102,13 @@ def test_learning_link_component(domestic_homepage):
         },
         context={})
     assert override_title in result_override
-    assert domestic_homepage.title in result_override
+    assert override_lede in result_override
+    assert test_title not in result_override
+    result_nolink = link_block.render(
+        value={
+            'title_override': override_title,
+            'lede_override': override_lede,
+            'link': None
+        },
+        context={})
+    assert override_title in result_nolink
