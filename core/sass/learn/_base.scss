@@ -266,8 +266,8 @@ $desktop: 1024px;
   }
 }
 
-.objectives,
-.step-by-step {
+.objectives .rich-text,
+.step-by-step .rich-text {
   h1, h2, h3, h4, h5, h6 {
     @extend .h-m;
     color: $blue-deep-80;
