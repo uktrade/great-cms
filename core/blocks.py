@@ -172,3 +172,12 @@ class ModularContentStaticBlock(blocks.StaticBlock):
             tags = context['request'].GET['tags'].split(',')
             context['modules'] = ContentModule.objects.filter(tags__name__in=tags).distinct()
         return context
+
+
+class StepByStepBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255)
+    body = blocks.RichTextBlock()
+    image = ImageChooserBlock(required=False)
+
+    class Meta:
+        template = 'learn/step_by_step.html'
