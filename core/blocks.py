@@ -122,8 +122,9 @@ class SidebarLinkBlock(blocks.StructBlock):
             value['target_lede'] = internal_link.get_parent() and internal_link.get_parent().title
             value['target_title'] = internal_link.title
             # If it's a detail page, get the get the read duration
-            detail_page = (models.DetailPage.objects.get(id=internal_link.id))
-            value['read_time'] = getattr(detail_page, 'estimated_read_duration')
+            if isinstance(internal_link.specific, models.DetailPage):
+                detail_page = (internal_link.specific.__class__.objects.get(id=internal_link.id))
+                value['read_time'] = getattr(detail_page, 'estimated_read_duration')
         except (ObjectDoesNotExist, KeyError, TypeError, AttributeError):
             pass
         return super().render(value, context=context)
