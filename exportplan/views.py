@@ -120,8 +120,8 @@ class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, F
 
 class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectionView, FormView):
 
-    form_class = forms.ExportPlanAboutYourBusinessForm
-    success_url = reverse_lazy('exportplan:about-your-business')
+    form_class = forms.ExportPlanAdaptationForTargetMarketForm
+    success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
 
     def get_initial(self):
         return self.export_plan['adaptation_target_market']
