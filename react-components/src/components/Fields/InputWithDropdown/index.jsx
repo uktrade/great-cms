@@ -13,9 +13,9 @@ export const InputWithDropdown = ({
   const [isOpen, setIsOpen] = useState(false)
 
   const selectOption = (item) => {
-    setInput(item)
+    setInput(item.label)
     setIsOpen(false)
-    update({ [name]: item })
+    update({ [name]: item.value })
   }
 
   return (
@@ -36,7 +36,7 @@ export const InputWithDropdown = ({
             {options.map((item) =>
               <li
                 key={item}
-                onClick={() => selectOption(item.label)}
+                onClick={() => selectOption(item)}
                 aria-selected={item.label === input}
                 role='option'
               >{item.label}</li>
@@ -55,7 +55,7 @@ InputWithDropdown.propTypes = {
   name: PropTypes.string.isRequired,
   selected: PropTypes.string,
   options: PropTypes.arrayOf({
-    name: PropTypes.string,
+    value: PropTypes.string,
     label: PropTypes.string,
   }).isRequired
 }
