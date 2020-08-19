@@ -90,7 +90,7 @@ def test_learning_link_component(domestic_homepage):
     target_page = DetailPageFactory(parent=domestic_homepage, title=test_title)
     link_block = core_blocks.SidebarLinkBlock()
     # Render values from linked page
-    result = link_block.render(value={'link': {'internal_link': target_page}}, context={})
+    result = link_block.render(value={'link': {'internal_link': target_page, 'external_link': ''}}, context={})
     assert test_title in result
     assert domestic_homepage.title in result
     # Override the title and lede
@@ -98,7 +98,7 @@ def test_learning_link_component(domestic_homepage):
         value={
             'title_override': override_title,
             'lede_override': override_lede,
-            'link': {'internal_link': target_page}
+            'link': {'internal_link': target_page, 'external_link': ''}
         },
         context={})
     assert override_title in result_override
