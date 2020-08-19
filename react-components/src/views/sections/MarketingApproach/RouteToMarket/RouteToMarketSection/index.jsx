@@ -23,7 +23,7 @@ export const RouteToMarketSection = ({
           update={(x) => update(field.pk, x)}
           name={item.name}
           options={item.options}
-          selected={field[item.name]}
+          selected={field[item.name] ? item.options.find(x => x.value === field[item.name]).label : ''}
         />
       ))}
       <div className='route-to-market__table-cell'>

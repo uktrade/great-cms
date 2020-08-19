@@ -34,10 +34,9 @@ export const RouteToMarket = ({
   }
 
   const update = (id, selected) => {
-    const field = fields.find(x => x.pk === id)
+    const field = routes.find(x => x.pk === id)
     const updatedRoutes = routes.map( x => x.pk === id ? { ...x, ...selected} : x )
 
-    /* TODO - to promise resolve after endpoint has been fixed */
     setRoutes(updatedRoutes)
 
     Services.updateRouteToMarket({ ...field, ...selected  })
