@@ -21,7 +21,7 @@
 - GP-310 - Format time as min rather than mins
 - GP2-247 - image resizing module image
 - GP2-246 - wrong url for learning header link
-- GP-96 - HS Codes saved in DirectoryAPI
+- GP-96  - HS Codes saved in DirectoryAPI
 - GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
