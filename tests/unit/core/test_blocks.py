@@ -83,7 +83,7 @@ def test_external_link_structure_value(domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_learning_link_component(domestic_homepage):
+def test_learning_link_component(domestic_site, domestic_homepage):
     test_detail_title = 'Detail page title'
     test_list_title = 'List page title'
     override_title = 'Overidden title'
@@ -99,6 +99,7 @@ def test_learning_link_component(domestic_homepage):
     assert test_detail_title in result
     assert domestic_homepage.title in result
     assert '3 min' in result
+    assert target_detail_page.get_url() in result
     # Override the title and lede
     result_override = link_block.render(
         value={
@@ -136,3 +137,4 @@ def test_learning_link_component(domestic_homepage):
         },
         context={})
     assert 'Go' in result_list_link
+    assert target_list_page.get_url() in result_list_link
