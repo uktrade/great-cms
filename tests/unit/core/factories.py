@@ -115,3 +115,11 @@ class MatchFirstIndustryOfInterestFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = rules.MatchFirstIndustryOfInterestRule
+
+
+class TourFactory(factory.django.DjangoModelFactory):
+    title = factory.fuzzy.FuzzyText(length=90)
+    body = factory.fuzzy.FuzzyText(length=200)
+
+    class Meta:
+        model = models.Tour
