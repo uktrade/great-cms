@@ -105,6 +105,94 @@ class ExportPlanAboutYourBusinessForm(forms.Form):
     )
 
 
+class ExportPlanAdaptationForTargetMarketForm(forms.Form):
+    labelling = forms.CharField(
+        label='Labelling',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Labelling is used to inform the consumer about the product you are selling to them. '
+                'Labelling will need to be changed to fit into the market you are selling to. For example '
+                'some pictures and colours may not be appropriate for certain markets. You will have to '
+                'research what the requirements are so your products have the correct labels for your '
+                'target market.'
+            ),
+            'placeholder': (
+                'Describe alterations'
+            )}
+        ),
+    )
+    packaging = forms.CharField(
+        label='Packaging',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Packaging provides protection for your product and prepares your product to be safely stored '
+                'and transported. The information you need to include on your packaging will change depending '
+                'on the market.You will have to research packaging requirements for your target market to avoid '
+                'your products becoming damaged, lost or rejected.'
+            ),
+            'placeholder': (
+                'Describe alterations'
+            )}
+        ),
+    )
+    size = forms.CharField(
+        label='Size',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Standard product sizes vary by country depending on factors like buying habits in each '
+                'market. Consumers who buy less may want larger products to last them longer between '
+                'shopping trips. You will have to research the size of products sold in this market so '
+                'you meet customer needs for your target market.'
+            ),
+            'placeholder': (
+                'Describe alterations'
+            )}
+        ),
+    )
+    standards = forms.CharField(
+        label='Product changes to comply with standards',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Your product will have to comply with local standards, if it does not comply it will not '
+                'be allowed to be sold. For example you may have to change the voltage of electrical products '
+                'in order to comply with safety regulations in that market. You will have to research '
+                'standards relevant to your product to make sure they are compliant.'
+            ),
+            'placeholder': (
+                'Describe alterations'
+            )}
+        ),
+    )
+    translations = forms.CharField(
+        label='Translations',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Translations'
+            ),
+            'placeholder': (
+                'Describe alterations'
+            )}
+        ),
+    )
+    other_changes = forms.CharField(
+        label='Other changes',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Other changes'
+            ),
+            'placeholder': (
+                'Describe alterations'
+            )}
+        ),
+    )
+
+
 class ExportPlanTargetMarketsResearchForm(forms.Form):
     demand = forms.CharField(
         label='Describe the consumer demand for your product in the Netherlands',
