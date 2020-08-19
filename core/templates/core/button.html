@@ -1,1 +1,1 @@
-<a class="button" href="{{ value.link.url }}">{{ value.label }}</a>
+<a class="button button--primary" href="{{value.link.internal_link.get_url|default:value.link.external_link}}">{{ value.label }}</a>
