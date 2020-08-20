@@ -281,3 +281,14 @@ $desktop: 1024px;
     @extend .list-dot;
   }
 }
+
+.step-by-step {
+  h2, h3, h4, h5 {
+    color: $blue-deep-80;
+  }
+
+  ul.list-bullet li {
+    position: static;
+    padding-left: 0;
+  }
+}
