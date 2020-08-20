@@ -39,6 +39,7 @@
 
 ### Implemented enhancements
 
+- GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
 - AA-129 -  Beta environment for GREAT.gov
