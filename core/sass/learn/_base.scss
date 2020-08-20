@@ -292,3 +292,10 @@ $desktop: 1024px;
     padding-left: 0;
   }
 }
+
+.lesson-hero {
+  img, video {
+    border-radius: 5px;
+    max-width: 100%;
+  }
+}

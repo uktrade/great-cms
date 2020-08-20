@@ -9,16 +9,19 @@
         <div class="container">
             <div class="grid">
                 {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-                <div class="grid p-t-l p-f-l">
+                <div class="grid p-t-l">
                     <div class="c-1-4">
                         <h4 class="h-s">&nbsp;</h4>
                     </div>
                     <div class="c-1-2">
                         <h1 class="h-xl text-blue-deep-80" id="lesson-title">{{ self.title }}</h1>
-                        <p class="estimated-time text-blue-deep-80">
+                        <p class="estimated-time text-blue-deep-80 m-t-xs">
                             <i class="fa fa-clock-o m-r-xxs" aria-hidden="true"></i>
                             <strong>{{page.estimated_read_duration|format_timedelta}} read</strong>
                         </p>
+                        <div class="lesson-hero m-t-m m-b-m">
+                            {% include 'learn/hero_media_item.html' %}
+                        </div>
                         {% include 'core/objectives.html' %}
                     </div>
                     <div class="c-1-4">
