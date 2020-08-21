@@ -39,6 +39,7 @@
 
 ### Implemented enhancements
 
+- Gp2-253 - Lesson - text paragraph
 - GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
