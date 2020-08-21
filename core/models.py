@@ -382,9 +382,9 @@ class DetailPage(CMSGenericPage):
                 icon='fa-play'
             )
         ),
-        ('content_module', core_blocks.ModularContentStaticBlock())
+        ('content_module', core_blocks.ModularContentStaticBlock()),
+        ('Step', core_blocks.StepByStepBlock(icon='cog'),)
     ])
-    step_by_step = StreamField([('Step', core_blocks.StepByStepBlock(icon='cog'), )], null=True, blank=True)
 
     #########
     # Panels
@@ -392,7 +392,6 @@ class DetailPage(CMSGenericPage):
     content_panels = Page.content_panels + [
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
-        StreamFieldPanel('step_by_step'),
     ]
 
     def handle_page_view(self, request):

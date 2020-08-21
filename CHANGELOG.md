@@ -9,6 +9,7 @@
 ### Fixed bugs
 
 - GP2-415 - internal button links
+- GP2-414 - Moving step block to Body field for Detail page
 - GP2-401 - lesson page rich text styling
 - No ticket - Remove css vars and mixins
 - GP2-257 - Added Step fields to Detail Model
@@ -39,6 +40,7 @@
 
 ### Implemented enhancements
 
+- GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
 - AA-129 -  Beta environment for GREAT.gov
