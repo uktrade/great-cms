@@ -235,6 +235,7 @@ class LandingPage(CMSGenericPage):
         ('title', core_blocks.TitleBlock()),
         ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
         ('image', core_blocks.ImageBlock()),
+        ('hr', core_blocks.HrBlock()),
     ], null=True, blank=True)
 
     components = StreamField([

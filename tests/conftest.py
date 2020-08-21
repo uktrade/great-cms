@@ -274,6 +274,14 @@ def patch_set_user_page_view():
     ).start()
 
 
+@pytest.fixture
+def patch_get_user_lesson_completed():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_lesson_completed',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
+
+
 @pytest.fixture(autouse=True)
 def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     yield patch_get_dashboard_export_opportunities.start()
