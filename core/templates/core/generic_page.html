@@ -13,6 +13,7 @@
       <div class="c-1-2 p-t-xl p-b-s">
         <h1 class="h-xl">{{ page.title }}</h1>
         <p>{{ page.description | richtext }}</p>
+        {% include_block page.button %}
       </div>
     </div>
   </section>
