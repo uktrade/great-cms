@@ -9,12 +9,12 @@ LOGIN_URL = reverse_lazy('core:login')
 app_name = 'exportplan'
 
 urlpatterns = [
-    path('section/marketing-approach/', skip_ga360(views.ExportPlanMarketingApproachView.as_view()),
+    path('section/marketing-approach/', login_required(skip_ga360(views.ExportPlanMarketingApproachView.as_view())),
          name='marketing-approach'),
-    path('logo', skip_ga360(views.LogoFormView.as_view()), name='add-logo'),
+    path('logo', login_required(skip_ga360(views.LogoFormView.as_view())), name='add-logo'),
     path(
         'section/adaptation-for-your-target-market/',
-        login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=LOGIN_URL),
+        login_required(skip_ga360(views.ExportPlanAdaptationForTargetMarketView.as_view()), login_url=LOGIN_URL),
         {'slug': 'adaptation-for-your-target-market'},
         name='adaptation-for-your-target-market'
     ),
