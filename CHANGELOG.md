@@ -8,6 +8,7 @@
 
 ### Fixed bugs
 
+- GP2-438 - lesson font styling tweaks
 - GP2-415 - internal button links
 - GP2-414 - Moving step block to Body field for Detail page
 - GP2-401 - lesson page rich text styling

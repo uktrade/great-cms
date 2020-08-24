@@ -7,7 +7,7 @@
         "test:dev": "jest --watch",
         "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
         "build-dev": "webpack --config react-components/webpack.config.js --mode development",
-        "build": "npm install great-styles && webpack --config react-components/webpack.config.js --mode production",
+        "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
         "ds-tokens": ". ./fetch-design-tokens.sh",
         "ds-lint": "eslint --config design-system/.eslintrc.json design-system",
         "ds-prettier": "prettier --settings .prettierrc -c 'design-system' --write",
