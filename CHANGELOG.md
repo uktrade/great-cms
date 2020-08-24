@@ -8,6 +8,7 @@
 
 ### Fixed bugs
 
+- GP2-415 - internal button links
 - GP2-414 - Moving step block to Body field for Detail page
 - GP2-401 - lesson page rich text styling
 - No ticket - Remove css vars and mixins
@@ -21,7 +22,7 @@
 - GP-310 - Format time as min rather than mins
 - GP2-247 - image resizing module image
 - GP2-246 - wrong url for learning header link
-- GP-96 - HS Codes saved in DirectoryAPI
+- GP-96  - HS Codes saved in DirectoryAPI
 - GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
@@ -39,6 +40,7 @@
 
 ### Implemented enhancements
 
+- Gp2-253 - Lesson - text paragraph
 - GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
