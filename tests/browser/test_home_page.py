@@ -82,7 +82,6 @@ def should_see_expected_error_messages(
 
 def test_anonymous_user_should_not_see_header_elements_for_authenticated_users(browser, visit_home_page):
     should_not_see_errors(browser)
-    should_see_all_expected_page_sections(browser, [HeaderCommon, HeaderSignUp])
     should_not_see_any_element(browser, HeaderSignedIn)
 
 
