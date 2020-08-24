@@ -269,10 +269,25 @@ $desktop: 1024px;
 .lesson-page {
   .rich-text {
     h2, h3, h4 {
-      @extend .h-m;
       color: $blue-deep-80;
       margin-bottom: 30px;
       padding: 0;
+    }
+
+    h2 {
+      @extend .h-l;
+    }
+
+    h3 {
+      @extend .h-m;
+    }
+
+    h4 {
+      @extend .h-s;
+    }
+
+    b > i {
+      font-weight: bold;
     }
 
     p, li {
