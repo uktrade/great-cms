@@ -16,8 +16,11 @@
 
 {% endblock %}
 
+
 {% block body_header %}
-	{% include 'core/header.html' %}
+        {% if request.user.is_authenticated %}
+            {% include 'core/header.html' %}
+        {% endif %}
 {% endblock %}
 
 {% block body_content_container %}
