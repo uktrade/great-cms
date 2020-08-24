@@ -9,9 +9,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 import allure
 from sso import helpers
 from tests.browser.common_selectors import (
-    HeaderCommon,
     HeaderSignedIn,
-    HeaderSignUp,
     SignUpModal,
     SignUpModalSuccess,
     SignUpModalVerificationCode,
@@ -20,7 +18,6 @@ from tests.browser.steps import (
     should_not_see_any_element,
     should_not_see_errors,
     should_see_all_elements,
-    should_see_all_expected_page_sections,
 )
 from tests.helpers import create_response
 from tests.browser.util import (
