@@ -338,6 +338,13 @@ $desktop: 1024px;
     img, video {
       border-radius: 5px;
       max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  .fictional-example {
+    h2, h3, h4 {
+      margin-bottom: 12px;
     }
   }
 }

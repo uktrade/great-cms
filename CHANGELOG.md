@@ -41,6 +41,7 @@
 
 ### Implemented enhancements
 
+- GP2-438 - Lesson fictional example (FE)
 - GP2-438 - Lesson - recap (FE)
 - Gp2-253 - Lesson - text paragraph
 - GP2-386 - Lesson - hero image (FE)
