@@ -359,6 +359,13 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     objective = StreamField([
         (
             'paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),
@@ -390,6 +397,7 @@ class DetailPage(CMSGenericPage):
     # Panels
     ##########
     content_panels = Page.content_panels + [
+        ImageChooserPanel('image'),
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
     ]
