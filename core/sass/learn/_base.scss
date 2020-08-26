@@ -337,14 +337,22 @@ $desktop: 1024px;
   .lesson-hero {
     img, video {
       border-radius: 5px;
+      margin: 0 auto;
       max-width: 100%;
-      width: 100%;
     }
   }
 
   .fictional-example {
     h2, h3, h4 {
       margin-bottom: 12px;
+    }
+  }
+
+  .ita-quote {
+    img {
+      transform: scale(.6);
+      margin-bottom: 10px;
+      margin-top: -5px;
     }
   }
 }
