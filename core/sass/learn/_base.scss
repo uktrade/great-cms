@@ -20,25 +20,6 @@ $desktop: 1024px;
     line-height: 50px;
     margin-bottom: 50px;
   }
-
-  .button {
-    background-color: $grey;
-    border-radius: 4px;
-    color: $white;
-    display: inline-block;
-    font-size: 19px;
-    font-weight: bold;
-    height: 50px;
-    line-height: 34px;
-    padding: 8px 40px;
-    text-decoration: none;
-    white-space: nowrap;
-
-    &:hover {
-      background-color: darken($grey, 5);
-      color: $white;
-    }
-  }
 }
 
 .learn__home-page {
@@ -46,7 +27,7 @@ $desktop: 1024px;
   margin-bottom: 120px;
 
   .learn__wrapper--paragraph {
-    margin-bottom: 110px;
+    margin-bottom: 30px;
   }
 }
 
@@ -98,7 +79,8 @@ $desktop: 1024px;
 
 .learn__category {
   background-color: $white;
-  margin-bottom: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
   min-height: 360px;
   position: relative;
 }
@@ -106,22 +88,27 @@ $desktop: 1024px;
 .learn__category-content {
   padding-bottom: 40px;
   padding-top: 40px;
+  padding-left: 25px;
 }
 
 .learn__category-title {
-  color: $grey;
-  font-size: 36px;
-  font-weight: bold;
-  line-height: 44px;
-  margin-bottom: 10px;
+  margin-top: 13px;
+  line-height: 48px;
 }
 
 .learn__category-details {
-  margin: 0 0 60px;
+  margin: 0 0 40px;
+
+  p {
+    color: $blue-deep-80;
+    margin-top: 16px;
+  }
 }
 
 .learn__category-entities {
-  @include countBox;
+  padding: 8px 17px 7px;
+  display: inline-block;
+  white-space: nowrap;
   position: absolute;
   top: 35px;
   right: 0;
@@ -130,7 +117,9 @@ $desktop: 1024px;
 .learn__category-image {
   bottom: 0;
   position: absolute;
-  right: 20px;
+  right: 0;
+  max-width: 50%;
+  max-height: 250px;
 }
 
 .learn__single-category-header-wrapper {
@@ -143,7 +132,6 @@ $desktop: 1024px;
 }
 
 .learn__single-category-title.h1 {
-  @include moduleLandingHeading;
   margin-bottom: 16px;
 }
 
@@ -157,7 +145,8 @@ $desktop: 1024px;
 
 .learn__single-category-header-details {
   p {
-    @include moduleLandingIntro;
+    color: $blue-deep-80;
+    font-size: 20px;
     margin-top: 15px;
   }
 }
@@ -166,25 +155,9 @@ $desktop: 1024px;
   margin: 125px 0 0;
 }
 
-.learn__topic-item-read-time {
-  color: $grey;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 5px 0 0 0;
-}
-
-.learn__topic-item-title,
-.learn__topic-item {
-  color: $grey;
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 40px;
-}
-
 .learn__topic-item-title {
-  @include moduleLandingTopicHeading;
   margin-right: 20px;
-  padding-bottom: 21px;
+  padding-bottom: 20px;
 }
 
 .learn__topic-item {
@@ -200,6 +173,7 @@ $desktop: 1024px;
 
 .learn__lessons-list {
   margin: 0;
+  position: relative;
 }
 
 .learn__lesson-item {
@@ -208,10 +182,21 @@ $desktop: 1024px;
 }
 
 .learn__lesson-item-link {
-  @include moduleLandingTopicLink;
+  color: $blue-deep-80;
   display: block;
   padding: 22px 50px 20px 21px;
   text-decoration: none;
+  position: relative;
+}
+
+.learn__topic-item-read-time {
+  color: $grey;
+  font-size: 16px;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  margin-top: -14px;
+  right: 60px;
 }
 
 #lesson-page {
@@ -279,9 +264,87 @@ $desktop: 1024px;
       display: block;
     }
   }
+}
 
-  .set-product-button,
-  .set-country-button {
-    cursor: pointer;
+.lesson-page {
+  .rich-text {
+    h2, h3, h4 {
+      color: $blue-deep-80;
+      margin-bottom: 30px;
+      padding: 0;
+    }
+
+    h2 {
+      @extend .h-l;
+    }
+
+    h3 {
+      @extend .h-m;
+    }
+
+    h4 {
+      @extend .h-s;
+    }
+
+    b > i {
+      font-weight: bold;
+    }
+
+    p, li {
+      color: $blue-deep-80;
+    }
+
+    ul {
+      @extend .list-dot;
+
+      li {
+        list-style-type: none;
+      }
+    }
+
+    ol {
+      @extend .list-number;
+      margin-left: 0;
+
+      li {
+        list-style-position: inside;
+        margin-bottom: 11px;
+        padding-left: 0;
+        position: static;
+      }
+    }
+
+    hr {
+      @extend .hr--thick;
+    }
+  }
+
+  .step-by-step {
+    h2, h3, h4 {
+      color: $blue-deep-80;
+    }
+  
+    > ul {
+      margin: 0;
+    }
+  
+    > ul.list-bullet > li {
+      position: static;
+      padding-left: 0;
+    }
+  }
+  
+  .lesson-hero {
+    img, video {
+      border-radius: 5px;
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  .fictional-example {
+    h2, h3, h4 {
+      margin-bottom: 12px;
+    }
   }
 }

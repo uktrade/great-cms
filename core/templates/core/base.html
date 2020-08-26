@@ -1,6 +1,7 @@
 {% extends 'great_components/base.html' %}
 {% load static %}
 {% load static_absolute from great_components %}
+{% load url_map %}
 
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
@@ -11,10 +12,15 @@
 {% block head_js %}
   {{ block.super }}
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
+    <script src="https://use.fontawesome.com/88eb2f9954.js"></script>
+
 {% endblock %}
 
+
 {% block body_header %}
-	{% include 'core/header.html' %}
+        {% if request.user.is_authenticated %}
+            {% include 'core/header.html' %}
+        {% endif %}
 {% endblock %}
 
 {% block body_content_container %}
@@ -50,13 +56,19 @@
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          apiObjectivesUpdateUrl: '{% url "exportplan:api-objectives-update" %}',
+          apiObjectivesCreateUrl: '{% url "exportplan:api-objectives-create" %}',
+          apiObjectivesDeleteUrl: '{% url "exportplan:api-objectives-delete" %}',
+          apiRouteToMarketCreateUrl: '{% url "exportplan:api-route-to-markets-create" %}',
+          apiRouteToMarketUpdateUrl: '{% url "exportplan:api-route-to-markets-update" %}',
+          apiRouteToMarketDeleteUrl: '{% url "exportplan:api-route-to-markets-delete" %}',
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
           countryDataUrl: '{% url "exportplan:api-country-data" %}',
+          marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
-          dashboardUrl: '{% url "core:dashboard" %}',
-          exportPlanTargetMarketsUrl: '{% url "exportplan:target-markets" %}',
+          dashboardUrl: '{% url_map "dashboard" %}',
           googleUrl: '{{ javascript_components.google_url }}',
           industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
@@ -66,14 +78,14 @@
           removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
           userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}'
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
       });
 
       // dynamic value that can be updated by user interacting with react components
       ditMVP.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
         performSkipFeatureCookieCheck: true,
-        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url "core:dashboard" %}{% endif %}',
+        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}',
         modalIsOpen: {
           products: false,
           countries: false,
@@ -98,7 +110,7 @@
           isOpenModal: true,
           steps: {{ tour.steps|safe }},
           title: '{{ tour.title }}',
-          body: '{{ tour.body }}',
+          body: "{% autoescape off %}{{ tour.body }}{% endautoescape %}",
           buttonText: '{{ tour.button_text }}',
           disableTourCookieName: 'disable-tour-{{ page.content_type }}'
         })

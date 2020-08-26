@@ -84,7 +84,7 @@ def test_get_rules_and_regulations_empty(mock_airtable_search):
 
 
 @mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
-@mock.patch.object(api_client.dataservices, 'get_easeofdoingbusiness')
+@mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
 def test_get_exportplan_marketdata(mock_cpi, mock_easeofdoingbusiness):
     timezone_data = 'Asia/Shanghai'
     cpi_data = {'country_name': 'China', 'country_code': 'CHN', 'cpi_score_2019': 41, 'rank': 80}
@@ -121,19 +121,19 @@ def test_get_local_time_not_found():
     assert helpers.get_timezone('XS') is None
 
 
-@mock.patch.object(api_client.dataservices, 'get_lastyearimportdata')
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
 def test_get_comtrade_lastyearimportdata(mock_lastyearimportdata):
     mock_lastyearimportdata.return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
-    comtrade_data = helpers.get_comtrade_lastyearimportdata(commodity_code='220.850', country='Australia')
+    comtrade_data = helpers.get_comtrade_last_year_import_data(commodity_code='220.850', country='Australia')
     assert mock_lastyearimportdata.call_count == 1
     assert mock_lastyearimportdata.call_args == mock.call(commodity_code='220.850', country='Australia')
     assert comtrade_data == {'lastyear_history': 123}
 
 
-@mock.patch.object(api_client.dataservices, 'get_historicalimportdata')
+@mock.patch.object(api_client.dataservices, 'get_historical_import_data')
 def test_get_comtrade_historicalimportdata(mock_historical_data):
     mock_historical_data.return_value = create_response(status_code=200, json_body={'history': 123})
-    comtrade_data = helpers.get_comtrade_historicalimportdata(commodity_code='220.850', country='Australia')
+    comtrade_data = helpers.get_comtrade_historical_import_data(commodity_code='220.850', country='Australia')
     assert mock_historical_data.call_count == 1
     assert mock_historical_data.call_args == mock.call(commodity_code='220.850', country='Australia')
     assert comtrade_data == {'history': 123}
@@ -271,3 +271,181 @@ def test_get_or_create_export_plan_created(
     )
 
     assert export_plan == {'export_plan_created'}
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_objectives_create')
+def test_objective_create(mock_create_objective):
+    data = {
+        'description': 'Lorem ipsum',
+        'planned_reviews': 'Some reviews',
+        'owner': 'John Smith',
+        'start_date': '2020-03-01',
+        'end_date': '2020-12-23',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_create_objective.return_value = create_response(data)
+
+    response = helpers.create_objective(123, data)
+
+    assert mock_create_objective.call_count == 1
+    assert mock_create_objective.call_args == mock.call(data=data, sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_objectives_update')
+def test_objective_update(mock_update_objective):
+    data = {
+        'description': 'Lorem ipsum',
+        'planned_reviews': 'Some reviews',
+        'owner': 'John Smith',
+        'start_date': '2020-03-01',
+        'end_date': '2020-12-23',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_update_objective.return_value = create_response(data)
+
+    response = helpers.update_objective(123, data)
+
+    assert mock_update_objective.call_count == 1
+    assert mock_update_objective.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_objectives_delete')
+def test_objective_delete(mock_delete_objective):
+    data = {'pk': 1}
+    mock_delete_objective.return_value = create_response(data)
+
+    response = helpers.delete_objective(123, data)
+
+    assert mock_delete_objective.call_count == 1
+    assert mock_delete_objective.call_args == mock.call(id=data['pk'], sso_session_id=123)
+    assert response.status_code == 200
+
+
+@mock.patch.object(api_client.exportplan, 'route_to_market_create')
+def test_route_to_markets_create(mock_route_to_market_create):
+    data = {
+        'route': 'Shipping',
+        'promote': 'Biscuits',
+        'market_promotional_channel': 'News',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_route_to_market_create.return_value = create_response(data)
+
+    response = helpers.create_route_to_market(123, data)
+
+    assert mock_route_to_market_create.call_count == 1
+    assert mock_route_to_market_create.call_args == mock.call(data=data, sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'route_to_market_update')
+def test_route_to_markets_update(mock_route_to_market_update):
+    data = {
+        'route': 'Shipping',
+        'promote': 'Biscuits',
+        'market_promotional_channel': 'News',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_route_to_market_update.return_value = create_response(data)
+
+    response = helpers.update_route_to_market(123, data)
+
+    assert mock_route_to_market_update.call_count == 1
+    assert mock_route_to_market_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'route_to_market_delete')
+def test_route_to_markets_delete(mock_route_to_market_delete):
+    data = {'pk': 1}
+    mock_route_to_market_delete.return_value = create_response(data)
+
+    response = helpers.delete_route_to_market(123, data)
+
+    assert mock_route_to_market_delete.call_count == 1
+    assert mock_route_to_market_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
+    assert response.status_code == 200
+
+
+@mock.patch.object(api_client.dataservices, 'get_country_data')
+def test_get_country_data(mock_cia_world_factbook_data):
+    data = {'population_data': {'cpi': 100}}
+
+    mock_cia_world_factbook_data.return_value = create_response(data)
+    response = helpers.get_country_data('United Kingdom')
+    assert mock_cia_world_factbook_data.call_count == 1
+    assert mock_cia_world_factbook_data.call_args == mock.call('United Kingdom')
+    assert response == data
+
+
+@mock.patch.object(api_client.dataservices, 'get_cia_world_factbook_data')
+def test_get_cia_world_factbook_data(mock_cia_world_factbook_data):
+    data = {'cia_factbook_data': {'languages': ['English']}}
+    mock_cia_world_factbook_data.return_value = create_response(data)
+    response = helpers.get_cia_world_factbook_data(country='United Kingdom', key='people,languages')
+    assert mock_cia_world_factbook_data.call_count == 1
+    assert mock_cia_world_factbook_data.call_args == mock.call(country='United Kingdom', data_key='people,languages')
+    assert response == data
+
+
+@mock.patch.object(api_client.dataservices, 'get_population_data')
+def test_get_population_data(mock_get_population_data):
+    data = {'population_data': {'target_population': 10000}}
+
+    mock_get_population_data.return_value = create_response(data)
+    response = helpers.get_population_data(country='United Kingdom', target_ages=['25-34', '35-44'])
+    assert mock_get_population_data.call_count == 1
+    assert mock_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'target_market_documents_create')
+def test_target_market_documentss_create(mock_target_market_documents_create):
+    data = {
+        'document_name': 'doc1',
+        'note': 'my notes',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_target_market_documents_create.return_value = create_response(data)
+
+    response = helpers.create_target_market_documents(123, data)
+
+    assert mock_target_market_documents_create.call_count == 1
+    assert mock_target_market_documents_create.call_args == mock.call(data=data, sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'target_market_documents_update')
+def test_target_market_documentss_update(mock_target_market_documents_update):
+    data = {
+        'document_name': 'doc1',
+        'note': 'my notes',
+        'companyexportplan': 1,
+        'pk': 1
+    }
+    mock_target_market_documents_update.return_value = create_response(data)
+
+    response = helpers.update_target_market_documents(123, data)
+
+    assert mock_target_market_documents_update.call_count == 1
+    assert mock_target_market_documents_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'target_market_documents_delete')
+def test_target_market_documentss_delete(mock_target_market_documents_delete):
+    data = {'pk': 1}
+    mock_target_market_documents_delete.return_value = create_response(data)
+
+    response = helpers.delete_target_market_documents(123, data)
+
+    assert mock_target_market_documents_delete.call_count == 1
+    assert mock_target_market_documents_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
+    assert response.status_code == 200

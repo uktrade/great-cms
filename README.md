@@ -1,7 +1,7 @@
 # Great CMS
 
 [![circle-ci-image]][circle-ci]
-[![coverage-image]][coverage]
+[![codecov-image]][codecov]
 [![docs-image]][docs]
 [![gitflow-image]][gitflow]
 [![calver-image]][calver]
@@ -17,6 +17,7 @@
     $ cd great-cms
     $ [create and activate virtual environment]
     $ make install_requirements
+    $ make secrets
     $ make ARGUMENTS=migrate manage
 
 
@@ -58,7 +59,7 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make secrets                  | Create your secret env var file |
 | make recreate                 | Runs following command in one go |
 |                               | **make database**: Drop and recrete the database |
-|                               | **make boostrap_great**: Create required database records so the CMS works |
+|                               | **make bootstrap_great**: Create required database records so the CMS works |
 |                               | **make create_tours** |
 
 ### Setting up the local database
@@ -66,6 +67,8 @@ Secrets such as API keys and environment specific configurations are placed in `
     $ make database
 
 `make database` drops then recreates the local database.
+
+When setting up the project initially ensure you have postgress app running and have created a db called `greatcms` with a user called `debug`. Instructions shown here - https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
 
 ### Setting up the Chrome Driver
 
@@ -172,7 +175,10 @@ LOCUST_FILE=tests/load/mvp_home.py NUM_USERS=10 HATCH_RATE=2 RUN_TIME=30s make t
 
 ## Known issues
 * Local development environment: If you try to get to a URL (i.e. /markets/) and you get an error similar to "AttributeError
+
 AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, you need to go to /django-admin/ and logout from the top right hand side. This is a temporary workaround to resolve an incompatibility between great-cms and directory-sso.
+
+* On ubuntu you may need to run `sudo apt-get install libpq-dev` if after trying to install dependencies you get an error message relating to `psycopg`.
 
 ## Helpful links
 * [Developers Onboarding Checklist](https://uktrade.atlassian.net/wiki/spaces/ED/pages/32243946/Developers+onboarding+checklist)
@@ -188,8 +194,8 @@ https://github.com/uktrade?q=great
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-cms/tree/develop.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/great-cms/tree/develop
 
-[coverage-image]: https://coveralls.io/repos/github/uktrade/great-cms/badge.svg
-[coverage]: https://coveralls.io/github/uktrade/great-cms
+[codecov-image]: https://codecov.io/gh/uktrade/great-cms/branch/master/graph/badge.svg
+[codecov]: https://codecov.io/gh/uktrade/great-cms
 
 [docs-image]: https://readthedocs.org/projects/great-cms/badge/?version=latest
 [docs]: https://great-cms.readthedocs.io/en/latest/?badge=latest

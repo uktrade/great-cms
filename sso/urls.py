@@ -1,6 +1,8 @@
 from django.urls import path
+from great_components.decorators import skip_ga360
 
-import sso.views
+from sso.views import SSOBusinessUserLoginView, SSOBusinessUserCreateView, SSOBusinessVerifyCodeView
+from sso.api import LessonCompletedAPIView
 
 app_name = 'sso'
 
@@ -8,17 +10,22 @@ app_name = 'sso'
 urlpatterns = [
     path(
         'api/business-login/',
-        sso.views.SSOBusinessUserLoginView.as_view(),
+        skip_ga360(SSOBusinessUserLoginView.as_view()),
         name='business-sso-login-api'
     ),
     path(
         'api/business-user-create/',
-        sso.views.SSOBusinessUserCreateView.as_view(),
+        skip_ga360(SSOBusinessUserCreateView.as_view()),
         name='business-sso-create-user-api'
     ),
     path(
         'api/business-verify-code/',
-        sso.views.SSOBusinessVerifyCodeView.as_view(),
+        skip_ga360(SSOBusinessVerifyCodeView.as_view()),
         name='business-sso-verify-code-api'
     ),
+    path(
+        'api/v1/lesson-completed/<int:lesson>/',
+        skip_ga360(LessonCompletedAPIView.as_view()),
+        name='lesson-completed'
+    )
 ]

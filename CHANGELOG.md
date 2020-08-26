@@ -1,9 +1,33 @@
 # Changelog
+- AA-129 - wagtail import export for Beta environment
+- GP2-36 - lesson completed functionality
 
 ## Pre-release
 
+- no ticket - Dependencies upgrade
+
 ### Fixed bugs
 
+- No ticket - Fix font awesome font path
+- GP2-438 - lesson font styling tweaks
+- GP2-415 - internal button links
+- GP2-414 - Moving step block to Body field for Detail page
+- GP2-401 - lesson page rich text styling
+- No ticket - Remove css vars and mixins
+- GP2-257 - Added Step fields to Detail Model
+- No ticket - Fixed rendering of lesson in editor mode
+- GP2-36 - mark as complete only for authenticated users
+- GP2-382 - remove email from welcome message
+- GP2-321 - quotes rendering for snippet
+- GP2-314 - onboarding learning modal design tweaks
+- GP2-280 - removal of product selector from dashboard
+- GP-310 - Format time as min rather than mins
+- GP2-247 - image resizing module image
+- GP2-246 - wrong url for learning header link
+- GP-96  - HS Codes saved in DirectoryAPI
+- GP2-176 - Navigation to the next section
+- GP-96 - HS Codes saved in DirectoryAPI
+- GP2-113 - Add objectives list component
 - MVP-431 - Fix percentage amounts in country data component
 - MVP-428 - Fix country data component formatting
 - MVP-402 - Fix Localisation
@@ -13,9 +37,40 @@
 - MVP-443 - Use non-GREAT stlye 404 and 500 pages
 - MVP-579 - create export plan cms page
 - GP2-67 - fix backbutton upload logo
+- GP2-170 - business performance
+- GP2-315 - route to market backend integration
 
 ### Implemented enhancements
 
+- GP2-438 - Lesson fictional example (FE)
+- GP2-438 - Lesson - recap (FE)
+- Gp2-253 - Lesson - text paragraph
+- GP2-386 - Lesson - hero image (FE)
+- GP2-365 - Add Target Market landing page
+- GP2-396 - Lesson - page structure
+- AA-129 -  Beta environment for GREAT.gov
+- GP2-252 - Added objective field to lesson page in CMS
+- GP2-339 - product alterations
+- GP2-335 - Routing logic for dashboard
+- GP2-195 - FE BE integration
+- GP2-337 - adaptation for target market - insights
+- GP2-334 - page struture adaptation for target market page
+- GP2-372 - Lesson -step by step (FE)
+- GP2-241 - rename brand and product page to about your business
+- GP2-279 - Dashboard page made wagtail configurable and added routing block
+- GP2-250 - Lesson - estimated time (FE)
+- GP2-252 - Lesson - objectives (FE)
+- GP2-79 - Lessons - title (FE)
+- GP2-210 - Personalisation bar restyled and moved to core component
+- GP2-159 - learning onboarding - tooltips
+- GP2-160 - learning onboarding - skip walkthrough
+- GP2-156 - learning onboarding - welcome message
+- GP2-307 - Add new form field to the target markets research page
+- GP2-207 - Welcome back message
+- GP2-197 - Export plan navigation to the next section
+- GP2-280 - Removal of product sector selector modal
+- GP2-192 - Marketing approach page structure
+- GP2-23 - Modules - not started
 - GP2-31 - Count of topics and lessons in a module
 - GP2-73 - Module landing page - topics & lessons
 - GP2-72 - Module landing page - overview
@@ -115,3 +170,19 @@
 - GP2-100 - Add personalisation bar to export plan
 - GP2-122 - Render modules
 - GP2-120 - Fix numbers on curated list page
+- GP2-163 - Show estimated reading time for lesson
+- no-ticket - Migrate to codecov remove coveralls
+- no-ticket - Bump django version to 2.2.14
+- AA-129 - wagtail import export for Beta environment
+- GP2-270 - Homepage editable
+- GP2-218 - Image and media surfacing from CMS modules
+- No ticket - Wagtail upgrade to 2.9.3
+- GP2-312- integrate population data target audience
+- AA-129 - Beta environment for GREAT.gov
+- AA-129 - wagtail import export for Beta environment
+- GP2-317 - Order of export-plan landing pages and remove target-markets
+- gp2-369 - CHEG tailored link
+- GP2-370 - cia factbook language
+- GP2-393 - adaption fields saving
+- GP2-395 - adaption tm documents API views
+- GP2-424 - remove-links logged out state

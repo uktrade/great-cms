@@ -3,6 +3,7 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
+from wagtailimportexport import urls as wagtailimportexport_urls
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
@@ -16,7 +17,8 @@ urlpatterns = []
 
 if settings.ENFORCE_STAFF_SSO_ENABLED:
     urlpatterns += [
-        path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
+        path('admin/login/',
+             RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
         path('auth/', include('authbroker_client.urls')),
     ]
 
@@ -28,6 +30,7 @@ urlpatterns += [
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
+    path('', include(wagtailimportexport_urls)),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in

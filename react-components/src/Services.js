@@ -4,7 +4,6 @@ import { createStore } from 'redux'
 import reducers from '@src/reducers'
 import actions from '@src/actions'
 
-
 const MESSAGE_UNEXPECTED_ERROR = { __all__: ['Unexpected Error'] }
 const MESSAGE_PERMISSION_DENIED = { __all__: ['You do not have permission to perform this action'] }
 const MESSAGE_NOT_FOUND_ERROR = { __all__: ['Not found'] }
@@ -13,15 +12,26 @@ const MESSAGE_BAD_REQUEST_ERROR = { __all__: ['Bad request'] }
 
 export const store = createStore(reducers)
 
-
 const setInitialState = function(state) {
   store.dispatch(actions.setInitialState(state))
 }
 
-
-const post = function (url, data) {
+const post = function(url, data) {
   return fetch(url, {
     method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': config.csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify(data)
+  })
+}
+
+const httpDelete = function (url, data) {
+  return fetch(url, {
+    method: 'delete',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -42,61 +52,101 @@ const get = function (url, params) {
     headers: {
       Accept: 'application/json',
       'X-CSRFToken': config.csrfToken,
-      'X-Requested-With': 'XMLHttpRequest',
-    },
+      'X-Requested-With': 'XMLHttpRequest'
+    }
   })
 }
 
-const getCountriesDataBySectors = function (sectors) {
+const getCountriesDataBySectors = function(sectors) {
   return get(config.countriesBySectorsDataUrl, { sectors: sectors }).then((response) =>
     responseHandler(response).json()
   )
 }
 
-const getCountryData = function (country) {
+const getCountryData = function(country) {
   return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
-const removeSector = function () {
+const getMarketingCountryData = function(data) {
+  return get(config.marketingCountryData, data).then((response) => responseHandler(response).json())
+}
+
+const removeSector = function() {
   return get(config.removeSectorUrl, {}).then((response) => responseHandler(response).json())
 }
 
-const removeCountryData = function (country) {
+const removeCountryData = function(country) {
   return get(config.removeCountryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
-const lookupProduct = function ({ q }) {
+const lookupProduct = function({ q }) {
   return get(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
 }
 
-const createUser = function ({ email, password }) {
+const createUser = function({ email, password }) {
   return post(config.apiSignupUrl, { email, password }).then(responseHandler)
 }
 
-const updateExportPlan = function (data) {
+const updateExportPlan = function(data) {
   return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
+}
+
+const createObjective = function (data) {
+  return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
+}
+
+const deleteObjective = function (pk) {
+  return httpDelete(config.apiObjectivesDeleteUrl, {pk: pk}).then(responseHandler)
+}
+
+const updateObjective = function (data) {
+  return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
 }
 
 const checkVerificationCode = function ({ email, code }) {
   return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
 
-const checkCredentials = function ({ email, password }) {
+const checkCredentials = function({ email, password }) {
   return post(config.apiLoginUrl, { email, password }).then(responseHandler)
 }
 
-const updateCompany = function ({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
+const updateCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
   const data = {
     company_name,
     expertise_industries,
     expertise_countries,
     first_name,
-    last_name,
+    last_name
   }
   return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
 }
 
-const responseHandler = function (response) {
+const getLessonComplete = function(endpoint) {
+  return get(endpoint).then(responseHandler)
+}
+
+const setLessonComplete = function(endpoint) {
+  return post(endpoint).then(responseHandler)
+}
+
+const setLessonIncomplete = function(endpoint) {
+  return httpDelete(endpoint).then(responseHandler)
+}
+
+const createRouteToMarket = function (data) {
+  return post(config.apiRouteToMarketCreateUrl, data).then((response) => responseHandler(response).json())
+}
+
+const deleteRouteToMarket = function (pk) {
+  return httpDelete(config.apiRouteToMarketDeleteUrl, {pk: pk}).then(responseHandler)
+}
+
+const updateRouteToMarket = function (data) {
+  return post(config.apiRouteToMarketUpdateUrl, data).then((response) => responseHandler(response).json())
+}
+
+const responseHandler = function(response) {
   if (response.status == 400) {
     return response.json().then((error) => {
       throw error
@@ -116,12 +166,11 @@ const responseHandler = function (response) {
   }
 }
 
-
-
 // static values that will not change during execution of the code
 let config = {}
-const setConfig = function ({
+const setConfig = function({
   countryDataUrl,
+  marketingCountryData,
   removeSectorUrl,
   removeCountryDataUrl,
   countriesBySectorsDataUrl,
@@ -141,10 +190,17 @@ const setConfig = function ({
   verifyCodeUrl,
   userIsAuthenticated,
   apiUpdateExportPlanUrl,
+  apiObjectivesCreateUrl,
+  apiObjectivesDeleteUrl,
+  apiObjectivesUpdateUrl,
+  apiRouteToMarketCreateUrl,
+  apiRouteToMarketDeleteUrl,
+  apiRouteToMarketUpdateUrl,
   exportPlanTargetMarketsUrl,
-  signupUrl,
+  signupUrl
 }) {
   config.countryDataUrl = countryDataUrl
+  config.marketingCountryData = marketingCountryData
   config.removeSectorUrl = removeSectorUrl
   config.removeCountryDataUrl = removeCountryDataUrl
   config.countriesBySectorsDataUrl = countriesBySectorsDataUrl
@@ -153,6 +209,12 @@ const setConfig = function ({
   config.apiLookupProductUrl = apiLookupProductUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
+  config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
+  config.apiObjectivesDeleteUrl = apiObjectivesDeleteUrl
+  config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl
+  config.apiRouteToMarketCreateUrl = apiRouteToMarketCreateUrl
+  config.apiRouteToMarketDeleteUrl = apiRouteToMarketDeleteUrl
+  config.apiRouteToMarketUpdateUrl = apiRouteToMarketUpdateUrl
   config.countryOptions = countryOptions
   config.csrfToken = csrfToken
   config.dashboardUrl = dashboardUrl
@@ -176,18 +238,28 @@ export default {
   store: store,
   updateCompany,
   getCountryData,
+  getMarketingCountryData,
   removeCountryData,
   removeSector,
   getCountriesDataBySectors,
   updateExportPlan,
+  createObjective,
+  deleteObjective,
+  updateObjective,
   lookupProduct,
   setConfig,
+  getLessonComplete,
+  setLessonComplete,
+  setLessonIncomplete,
   config,
+  createRouteToMarket,
+  deleteRouteToMarket,
+  updateRouteToMarket,
   setInitialState,
   messages: {
     MESSAGE_UNEXPECTED_ERROR,
     MESSAGE_PERMISSION_DENIED,
     MESSAGE_NOT_FOUND_ERROR,
-    MESSAGE_TIMEOUT_ERROR,
-  },
+    MESSAGE_TIMEOUT_ERROR
+  }
 }

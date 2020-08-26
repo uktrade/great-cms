@@ -39,3 +39,19 @@ class BusinessSSOUser(AbstractUser):
     @cached_property
     def export_plan(self):
         return get_exportplan(self.session_id)
+
+    @cached_property
+    def user_profile(self):
+        return helpers.get_user_profile(self.session_id)
+
+    def update_user_profile(self, data):
+        return helpers.update_user_profile(self.session_id, data)
+
+    def set_page_view(self, page):
+        return helpers.set_user_page_view(self.session_id, page)
+
+    def get_page_views(self, page=None):
+        return helpers.get_user_page_views(self.session_id, page)
+
+    def has_visited_page(self, page):
+        return helpers.has_visited_page(self.session_id, page)

@@ -2,20 +2,20 @@
 @import '@src/stylesheets/_WizardStep';
 
 
-.great-mvp-signup-wizard-step-1 {
+.great-signup-wizard-step-1 {
 
-    .great-mvp-synopsis {
+    .great-synopsis {
         font-size: 19px;
         margin-bottom: 30px;
     }
 
-    .great-mvp-terms {
+    .great-terms {
         fontSize: 19px;
         margin-top: 10px;
     }
 }
 
-.great-mvp-vertical-separator {
+.great-vertical-separator {
     margin-top: 30px;
     margin-bottom: 30px;
 
@@ -35,6 +35,6 @@
     }
 }
 
-.great-mvp-field-input {
+.great-field-input {
     margin-bottom: 20px;
 }

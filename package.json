@@ -4,15 +4,11 @@
     "description": "",
     "scripts": {
         "test": "jest  react-components/tests/",
-        "test:dev": "jest --watch react-components/tests/",
+        "test:dev": "jest --watch",
         "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
         "build-dev": "webpack --config react-components/webpack.config.js --mode development",
-        "build": "webpack --config react-components/webpack.config.js --mode production",
-        "ds-tokens": ". ./fetch-design-tokens.sh",
-        "ds-lint": "eslint --config design-system/.eslintrc.json design-system",
-        "ds-prettier": "prettier --settings .prettierrc -c 'design-system' --write",
-        "ds-test": "./node_modules/.bin/wct --npm design-system/components/**/*.test.html",
-        "storybook": "dsm-storybook preview",
+        "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
+        "storybook": "start-storybook",
         "storybook-publish": "dsm-storybook publish",
         "storybook-build": "build-storybook"
     },
@@ -47,6 +43,8 @@
         "@storybook/addon-viewport": "5.3.18",
         "@storybook/addons": "5.3.18",
         "@storybook/html": "5.3.18",
+        "@testing-library/jest-dom": "^5.11.1",
+        "@testing-library/react": "^10.4.7",
         "babel-eslint": "10.1.0",
         "babel-jest": "25.1.0",
         "babel-loader": "8.1.0",
@@ -60,6 +58,7 @@
         "eslint-config-prettier": "6.11.0",
         "eslint-loader": "4.0.0",
         "eslint-plugin-import": "2.20.2",
+        "eslint-plugin-jest": "^23.17.1",
         "eslint-plugin-jsx-a11y": "6.2.3",
         "eslint-plugin-prettier": "3.1.2",
         "eslint-plugin-react": "7.19.0",
@@ -92,9 +91,9 @@
         "webpack-dev-server": "^3.11.0"
     },
     "dependencies": {
-        "@invisionapp/dsm-storybook": "0.0.129",
-        "@webcomponents/webcomponentsjs": "2.4.3",
-        "great-styles": "uktrade/great-styles#v0.1.0",
+        "@babel/polyfill": "^7.10.1",
+        "@storybook/react": "^6.0.16",
+        "great-styles": "github:uktrade/great-styles",
         "prop-types": "15.7.2",
         "react": "16.13.1",
         "react-cookie": "4.0.3",
@@ -108,9 +107,8 @@
         "reactour": "1.16.3",
         "redux": "^4.0.5",
         "remove-files-webpack-plugin": "1.4.0",
+        "rxjs": "^6.5.5",
         "styled-components": "5.0.1",
-        "svg-inline-loader": "^0.8.2",
-        "@babel/polyfill": "^7.10.1",
-        "rxjs": "^6.5.5"
+        "svg-inline-loader": "^0.8.2"
     }
 }

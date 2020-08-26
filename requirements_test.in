@@ -4,7 +4,7 @@
 # ------------
 Werkzeug
 allure-pytest
-pillow
+pillow>=7.1.0
 selenium
 locust
 pytest==5.3.5
@@ -28,4 +28,5 @@ flake8-quotes
 flake8-string-format
 pep8-naming
 pylint-django
-coveralls
+codecov
+cryptography==2.9.2

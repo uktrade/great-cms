@@ -1,4 +1,6 @@
 import abc
+import datetime
+import json
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -6,13 +8,12 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from django.db.models import F, Q, Count, IntegerField, ExpressionWrapper
 from django.template.response import TemplateResponse
-from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, FormView
-
-from core import forms, helpers, models, serializers
-
+from core.fern import Fern
+from django.conf import settings
+from great_components.mixins import GA360Mixin
+from core import forms, helpers, serializers, constants
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -20,37 +21,7 @@ STEP_PRODUCT_SEARCH = 'product-search'
 STEP_SIGN_UP = 'sign-up'
 
 
-class DashboardView(TemplateView):
-    template_name = 'core/dashboard.html'
-
-    def get_context_data(self, **kwargs):
-        user = self.request.user
-        # coerce to list to make the db read happen here rather than in the template, thus making a
-        # traceback more debuggable
-        list_pages = list(
-            models.ListPage.objects.live().filter(record_read_progress=True)
-            .annotate(read_count=Count('page_views_list', filter=Q(page_views_list__sso_id=user.id)))
-            .annotate(read_progress=(
-                ExpressionWrapper(
-                    expression=F('read_count') * 100 / F('numchild'),
-                    output_field=IntegerField()
-                )
-            ))
-            .order_by('-read_progress')
-        )
-
-        return super().get_context_data(
-            list_pages=list_pages,
-            export_plan_progress_form=forms.ExportPlanForm(initial={'step_a': True, 'step_b': True, 'step_c': True}),
-            industry_options=[{'value': key, 'label': label} for key, label in choices.SECTORS],
-            events=helpers.get_dashboard_events(user.session_id),
-            export_opportunities=helpers.get_dashboard_export_opportunities(user.session_id, user.company),
-            **kwargs,
-        )
-
-
 class UpdateCompanyAPIView(generics.GenericAPIView):
-
     serializer_class = serializers.CompanySerializer
     permission_classes = [IsAuthenticated]
 
@@ -64,9 +35,17 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
-class ArticleView(FormView):
+class ArticleView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/article.html'
-    success_url = reverse_lazy('core:dashboard')
+    success_url = constants.DASHBOARD_URL
     form_class = forms.NoOperationForm
 
     def get_context_data(self):
@@ -78,7 +57,15 @@ class ArticleView(FormView):
         )
 
 
-class LoginView(TemplateView):
+class LoginView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/login.html'
 
 
@@ -86,7 +73,16 @@ class SignupView(TemplateView):
     template_name = 'core/signup.html'
 
 
-class MarketsView(TemplateView):
+class MarketsView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Markets',
+            business_unit='MarketsUnit',
+            site_section='MarketsSection',
+            site_subsection='MarketPage',
+        )
+
     template_name = 'core/markets.html'
 
     def get_page_title(self):
@@ -135,7 +131,6 @@ def handler500(request, *args, **kwargs):
 
 
 class AbstractSignupWizardView(abc.ABC):
-
     step_labels = (
         'Get tailored content',
         'What are you selling?',
@@ -178,7 +173,7 @@ class AbstractSignupWizardView(abc.ABC):
         return url
 
 
-class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForTailoredContentWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
     extra_context = {'allow_skip_signup': True}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-tailored-content.html',
@@ -195,7 +190,7 @@ class SignupForTailoredContentWizardView(AbstractSignupWizardView, NamedUrlSessi
     )
 
 
-class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWizardView):
+class SignupForExportPlanWizardView(GA360Mixin, AbstractSignupWizardView, NamedUrlSessionWizardView):
     extra_context = {'allow_skip_signup': False}
     templates = {
         STEP_START: 'core/signup-wizard-step-start-export-plan.html',
@@ -212,13 +207,36 @@ class SignupForExportPlanWizardView(AbstractSignupWizardView, NamedUrlSessionWiz
     )
 
 
-class CompanyNameFormView(FormView):
+class CompanyNameFormView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='MagnaSection',
+            site_subsection='MagnaSubsection',
+        )
     template_name = 'core/company-name-form.html'
     form_class = forms.CompanyNameForm
 
     def get_success_url(self):
-        return self.request.GET.get('next', reverse('core:dashboard'))
+        return self.request.GET.get('next', constants.DASHBOARD_URL)
 
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
         return super().form_valid(form)
+
+
+class CreateTokenView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request):
+        # expire access @ now() in msec + 1 day
+        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=1))
+        base_url = settings.BASE_URL
+        # TODO: logging
+        # print(f'token valid until {plaintext}')
+        fern = Fern()
+        ciphertext = fern.encrypt(plaintext)
+        response = {'valid_until': plaintext, 'url': f'{base_url}/markets?enc={ciphertext}', 'token': ciphertext}
+        return Response(json.dumps(response))

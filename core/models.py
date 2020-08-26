@@ -210,9 +210,11 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
 
 class LandingPage(CMSGenericPage):
     parent_page_types = ['domestic.DomesticHomePage']
-    subpage_types = ['core.ListPage', 'core.InterstitialPage', 'exportplan.ExportPlanDashboardPage']
+    subpage_types = ['core.ListPage', 'core.InterstitialPage',
+                     'exportplan.ExportPlanDashboardPage', 'domestic.DomesticDashboard']
     template_choices = (
         ('learn/landing_page.html', 'Learn'),
+        ('core/generic_page.html', 'Generic'),
     )
 
     ################
@@ -228,13 +230,26 @@ class LandingPage(CMSGenericPage):
         related_name='+'
     )
 
+    body = StreamField([
+        ('section', core_blocks.SectionBlock()),
+        ('title', core_blocks.TitleBlock()),
+        ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
+        ('image', core_blocks.ImageBlock()),
+    ], null=True, blank=True)
+
+    components = StreamField([
+        ('route', core_blocks.RouteSectionBlock()),
+    ], null=True, blank=True)
+
     #########
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('description'),
         StreamFieldPanel('button'),
-        ImageChooserPanel('image')
+        ImageChooserPanel('image'),
+        StreamFieldPanel('components'),
+        StreamFieldPanel('body'),
     ]
 
 
@@ -327,6 +342,10 @@ class CuratedListPage(CMSGenericPage):
 
 
 class DetailPage(CMSGenericPage):
+    estimated_read_duration = models.DurationField(
+        null=True,
+        blank=True
+    )
     parent_page_types = ['core.CuratedListPage']
     template_choices = (
         ('exportplan/dashboard_page.html', 'Export plan dashboard'),
@@ -340,6 +359,14 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
+    objective = StreamField([
+        (
+            'paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),
+        ),
+        (
+            'ListItem', core_blocks.ObjectiveItem()
+        ),
+    ])
     body = StreamField([
         (
             'paragraph', PersonalisedStructBlock(
@@ -355,13 +382,17 @@ class DetailPage(CMSGenericPage):
                 icon='fa-play'
             )
         ),
-        ('content_module', core_blocks.ModularContentStaticBlock())
+        ('content_module', core_blocks.ModularContentStaticBlock()),
+        ('Step', core_blocks.StepByStepBlock(icon='cog'),)
     ])
 
     #########
     # Panels
     ##########
-    content_panels = Page.content_panels + [StreamFieldPanel('body')]
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('objective'),
+        StreamFieldPanel('body'),
+    ]
 
     def handle_page_view(self, request):
         if request.user.is_authenticated:

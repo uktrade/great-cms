@@ -11,6 +11,7 @@ import environ
 import pytest
 
 from core import helpers as core_helpers
+from core import constants
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from exportplan import helpers as exportplan_helpers
@@ -84,7 +85,6 @@ JAPAN = {
 # Browser fixtures
 ##########################################################
 
-
 @pytest.fixture(scope='session')
 def browser():
     options = Options()
@@ -109,7 +109,7 @@ def server_user_browser(live_server, browser, user, client):
 
 
 @pytest.fixture
-def domestic_site_browser_tests(live_server, domestic_homepage, exportplan_dashboard, client):
+def domestic_site_browser_tests(live_server, domestic_homepage, domestic_dashboard, exportplan_dashboard, client):
     """Will server domestic site on the same port as liver_server.
     Note:
         live_server.url looks like this: http://localhost:48049
@@ -145,10 +145,17 @@ def visit_signup_page(live_server, browser, domestic_site_browser_tests):
 
 
 @pytest.fixture
-def server_user_browser_dashboard(mock_get_company_profile, server_user_browser, settings, domestic_site_browser_tests):
+def server_user_browser_dashboard(
+    mock_get_company_profile,
+    server_user_browser,
+    settings,
+    domestic_site_browser_tests,
+    mock_get_has_visited_page,
+    mock_set_user_page_view
+):
     live_server, user, browser = server_user_browser
 
-    browser.get(f'{live_server.url}/dashboard/')
+    browser.get(f'{live_server.url}{constants.DASHBOARD_URL}')
 
     browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
     browser.refresh()
@@ -266,7 +273,7 @@ def mock_get_export_plan_rules_regulations():
 @pytest.fixture
 def mock_get_comtrade_last_year_import_data():
     return_value = {'last_year_data_partner': {'Year': 2019, 'value': 16249072}}
-    with patch.object(exportplan_helpers, 'get_comtrade_lastyearimportdata', return_value=return_value) as patched:
+    with patch.object(exportplan_helpers, 'get_comtrade_last_year_import_data', return_value=return_value) as patched:
         yield patched
 
 
@@ -275,6 +282,7 @@ def mock_get_export_plan():
     return_value = {
         'pk': 1,
         'target_markets': [JAPAN],
+        'target_markets_research': {'demand': 'high'},
     }
     with patch.object(exportplan_helpers, 'get_exportplan', return_value=return_value) as patched:
         yield patched
@@ -285,6 +293,7 @@ def mock_get_user_context_export_plan():
     return_value = {
         'pk': 1,
         'target_markets': [JAPAN],
+        'target_markets_research': {'demand': 'high'},
     }
     with patch.object(models, 'get_exportplan', return_value=return_value) as patched:
         yield patched
@@ -327,14 +336,14 @@ def mock_get_corruption_perceptions_index():
 def mock_get_ease_of_doing_business():
     data = CHINA['easeofdoingbusiness']
     return_value = create_response(status_code=200, json_body=data)
-    with patch.object(api_client.dataservices, 'get_easeofdoingbusiness', return_value=return_value) as patched:
+    with patch.object(api_client.dataservices, 'get_ease_of_doing_business', return_value=return_value) as patched:
         yield patched
 
 
 @pytest.fixture
 def mock_get_last_year_import_data():
     return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
-    with patch.object(api_client.dataservices, 'get_lastyearimportdata', return_value=return_value) as patched:
+    with patch.object(api_client.dataservices, 'get_last_year_import_data', return_value=return_value) as patched:
         yield patched
 
 
@@ -365,6 +374,18 @@ def mock_get_company_profile_with_expertise():
         'name': 'Example company',
     }
     with patch.object(sso_helpers, 'get_company_profile', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_get_has_visited_page():
+    with patch.object(sso_helpers, 'has_visited_page', return_value=None) as patched:
+        yield patched
+
+
+@pytest.fixture
+def mock_set_user_page_view():
+    with patch.object(sso_helpers, 'set_user_page_view', return_value=None) as patched:
         yield patched
 
 

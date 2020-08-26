@@ -1,0 +1,64 @@
+.route-to-market {
+  &__table {
+    background: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    position: relative;
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 0;
+    }
+  }
+
+  &__delete {
+    border-radius: 30px;
+    height: 30px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 30px;
+    z-index: 2;
+  }
+
+  &__table-cell {
+    border-bottom: 1px solid grey;
+    padding: 30px;
+    position: relative;
+
+    &:last-child {
+      border: 0;
+    }
+
+    ul {
+      border: 1px solid grey;
+      border-radius: 5px;
+      position: absolute;
+      background-color: #fff;
+      min-width: 400px;
+      z-index: 1;
+      margin: 0;
+
+      li {
+        border-bottom: 1px solid grey;
+        cursor: pointer;
+        padding: 10px;
+      }
+    }
+  }
+
+
+
+  &__input {
+    position: relative;
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}

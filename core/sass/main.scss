@@ -5,13 +5,16 @@
 
 // Config
 $asset-root: '/static/images/';
+$fonts: '/static/fonts';
+$fa-font-path: '/static/fonts';
+
+// Icons
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
 // Base
 @import 'elements/reset';
-
-// Design System
-@import 'design-system/fonts';
-@import 'design-system/mixins';
 
 // Elements
 @import 'elements/layout';
@@ -19,6 +22,7 @@ $asset-root: '/static/images/';
 @import 'elements/forms/base';
 @import 'elements/link';
 @import 'elements/list';
+@import 'elements/media-block';
 @import 'elements/typography';
 @import 'elements/quote';
 @import 'elements/colours';
@@ -28,6 +32,7 @@ $asset-root: '/static/images/';
 @import 'elements/tables';
 @import 'elements/utils';
 @import 'elements/spacing';
+@import 'elements/box';
 
 // Components
 @import 'components/card/base';
@@ -64,6 +69,9 @@ $asset-root: '/static/images/';
 @import 'components/forms';
 @import 'components/statistics';
 @import 'components/progress-wizard';
+@import 'components/field-with-example';
+@import 'components/insights';
+@import 'components/target-market-form';
 
 @import 'base';
 @import 'overrides';
@@ -72,5 +80,6 @@ $asset-root: '/static/images/';
 // Pages
 @import 'exportplan/dashboard';
 @import 'exportplan/sections';
+@import 'exportplan/objectives';
 @import 'learn/base';
 @import 'exportplan/builder';

@@ -1,11 +1,4 @@
 
-.card-heading {
-  font-weight: bold;
-  color: $grey;
-  text-decoration: none;
-}
-
-
 #discover-new-markets-card {
  display: inline-block;
 }
@@ -30,6 +23,11 @@ body {
     h3 {
       padding-top: 0;
     }
+  }
+
+  .image-stretch > img {
+    width: 100%;
+    object-fit: cover;
   }
 
   .great-dashboard-card {

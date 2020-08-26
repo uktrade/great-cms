@@ -88,8 +88,8 @@ jobs:
           name: Run Unit tests
           command: |
             . venv/bin/activate
-            make pytest
-            coveralls
+            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=term --junitxml=test-reports/junit.xml
+            codecov
       - store_test_results:
           path: ./results/
 

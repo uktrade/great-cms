@@ -158,22 +158,20 @@ class MarketsContainer(SelectorsEnum):
     FORM = Selector(By.ID, 'markets-form')
 
 
-class StickyHeader(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
-    WHAT = Selector(By.ID, 'exportplan-country-sector-what')
-    WHERE = Selector(By.ID, 'exportplan-country-sector-where')
-    SHARE = Selector(By.ID, 'exportplan-collaboraton-menu-share', type=ElementType.LINK)
-    DOWNLOAD = Selector(By.ID, 'exportplan-collaboraton-menu-download', type=ElementType.LINK)
+class PersonalisationBar(SelectorsEnum):
+    CONTAINER = Selector(By.ID, 'personalisation-bar')
+    PRODUCT = Selector(By.ID, 'set-product-button')
+    COUNTRY = Selector(By.ID, 'set-country-button')
 
 
 class ExportPlanDashboard(SelectorsEnum):
-    BRAND_AND_PRODUCT = Selector(By.ID, 'brand-and-product', type=ElementType.LINK)
+    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'about-your-business', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'objectives', type=ElementType.LINK)
-    TARGET_MARKETS = Selector(By.ID, 'target-markets', type=ElementType.LINK)
-    ADAPTATION = Selector(By.ID, 'adaptation-for-international-markets', type=ElementType.LINK)
+    TARGET_MARKETS_RESEARCH = Selector(By.ID, 'target-markets-research', type=ElementType.LINK)
+    ADAPTATION = Selector(By.ID, 'adaptation-for-your-target-market', type=ElementType.LINK)
     MARKETING_APPROACH = Selector(By.ID, 'marketing-approach', type=ElementType.LINK)
-    FINANCE = Selector(By.ID, 'finance', type=ElementType.LINK)
     COSTS_AND_PRICING = Selector(By.ID, 'costs-and-pricing', type=ElementType.LINK)
+    FINANCE = Selector(By.ID, 'finance', type=ElementType.LINK)
     PAYMENT_METHODS = Selector(By.ID, 'payment-methods', type=ElementType.LINK)
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'travel-and-business-policies', type=ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'business-risk', type=ElementType.LINK)
@@ -188,7 +186,7 @@ class ExportPlanDashboardPageTourStep0(SelectorsEnum):
 
 class ExportPlanDashboardPageTourStep1(SelectorsEnum):
     STEP = Selector(By.ID, 'page-tour-step-where-do-you-want-to-export')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-country-sector-customisation-bar')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'personalisation-bar')
     NEXT = Selector(By.ID, 'page-tour-next-step')
 
 
@@ -205,107 +203,30 @@ class ExportPlanDashboardPageTourStep3(SelectorsEnum):
 
 
 class ExportPlanDashboardPageTourStep4(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-collaborate-with-your-team-and-international-trade-advisers',)
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-collaboraton-menu')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep5(SelectorsEnum):
     STEP = Selector(By.ID, 'page-tour-step-lets-start')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'brand-and-product')
+    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
     NEXT = Selector(By.ID, 'page-tour-start-now', type=ElementType.LINK)
 
 
-class ExportPlanTargetMarkets(SelectorsEnum):
+class ExportPlanTargetMarketsResearch(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'sidebar-content')
-    BRAND_AND_PRODUCT = Selector(By.ID, 'sidebar-brand-and-product', type=ElementType.LINK)
+    ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', type=ElementType.LINK)
     OBJECTIVES = Selector(By.ID, 'sidebar-objectives', type=ElementType.LINK)
-    TARGET_MARKETS = Selector(By.ID, 'sidebar-target-markets', type=ElementType.LINK)
-    ADAPTATION = Selector(By.ID, 'sidebar-adaptation-for-international-markets', type=ElementType.LINK)
+    TARGET_MARKETS_RESEARCH = Selector(By.ID, 'sidebar-target-markets-research', type=ElementType.LINK)
+    ADAPTATION = Selector(By.ID, 'sidebar-adaptation-for-your-target-market', type=ElementType.LINK)
     MARKETING_APPROACH = Selector(By.ID, 'sidebar-marketing-approach', type=ElementType.LINK)
-    FINANCE = Selector(By.ID, 'sidebar-finance', type=ElementType.LINK)
     COSTS_AND_PRICING = Selector(By.ID, 'sidebar-costs-and-pricing', type=ElementType.LINK)
+    FINANCE = Selector(By.ID, 'sidebar-finance', type=ElementType.LINK)
     PAYMENT_METHODS = Selector(By.ID, 'sidebar-payment-methods', type=ElementType.LINK)
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'sidebar-travel-and-business-policies', type=ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'sidebar-business-risk', type=ElementType.LINK)
-    CONTENT = Selector(By.ID, 'target-markets-content')
-
-
-class TargetMarketsRecommendedCountriesFolded(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'target-market-countries-component')
-    RECOMMENDED_COUNTRIES_SECTION = Selector(By.ID, 'recommended-countries')
-    SECTOR_CHOOSER_SECTION = Selector(By.ID, 'sector-chooser')
-    SECTOR_CHOOSER_BUTTON = Selector(By.ID, 'sector-chooser-button', type=ElementType.BUTTON)
-
-
-class TargetMarketsSectorSelectorUnfolded(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'sector-chooser')
-    SECTOR_LIST = Selector(By.ID, 'sector-list')
-    SECTOR_BUTTONS = Selector(By.CSS_SELECTOR, '#sector-list button', type=ElementType.BUTTON)
-
-
-class TargetMarketsSectorsSelected(SelectorsEnum):
-    SAVE = Selector(By.ID, 'sector-list-save', type=ElementType.BUTTON)
-
-
-class TargetMarketsSelectedSectors(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'sector-chooser')
-    SECTORS = Selector(By.CSS_SELECTOR, '#selected-sectors li button')
+    CONTENT = Selector(By.ID, 'target-markets-research-content')
 
 
 class TargetMarketsRecommendedCountries(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'recommended-countries')
     COUNTRY_LIST = Selector(By.ID, 'recommended-countries-list')
     COUNTRY_BUTTONS = Selector(By.CSS_SELECTOR, '#recommended-countries-list button')
-
-
-class ExportPlanTargetMarketsData(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'target-market-countries-component')
-    MARKET_DATA = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--]')
-    COUNTRY_NAME = Selector(By.CSS_SELECTOR, 'section[id^=export-market-data--] h2')
-    REMOVE_COUNTRY = Selector(By.CLASS_NAME, 'remove-country-button')
-    EASE_OF_DOING_BUSINESS = Selector(By.CSS_SELECTOR, 'div[id^=ease-of-doing-business-rank]')
-    CPI = Selector(By.CSS_SELECTOR, 'div[id^=corruption-perception-index]')
-    LOCAL_TIME = Selector(By.CSS_SELECTOR, 'div[id^=local-time-]')
-    DUTY = Selector(By.CSS_SELECTOR, 'div[id^=duty-]')
-    IMPORT_VALUE = Selector(By.CSS_SELECTOR, 'div[id^=import-value-]')
-    YEAR_TO_YEAR_CHANGE = Selector(By.CSS_SELECTOR, 'div[id^=year-to-year-change-]')
-    ADD_COUNTRY = Selector(By.ID, 'country-chooser-button')
-    YOUR_ACTIONS = Selector(By.ID, 'your-actions')
-
-
-class ExportPlanTargetMarketsDataTooltip(SelectorsEnum):
-    EASE_OF_DOING_BUSINESS_TOOLTIP_BUTTON = Selector(
-        By.CSS_SELECTOR,
-        'div[id^=ease-of-doing-business-rank] button',
-        name='Ease of Doing Business tooltip button',
-        selector_template='div[id^=ease-of-doing-business-rank-{country}] button',
-    )
-    EASE_OF_DOING_BUSINESS_TOOLTIP = Selector(
-        By.CSS_SELECTOR,
-        'div[id^=ease-of-doing-business-tooltip]',
-        name='Ease of Doing Business tooltip',
-        selector_template='div[id^=ease-of-doing-business-tooltip-{country}]',
-    )
-    CPI_TOOLTIP_BUTTON = Selector(
-        By.CSS_SELECTOR,
-        'div[id^=corruption-perception-index] button',
-        name='CPI tooltip button',
-        selector_template='div[id^=corruption-perception-index-{country}] button',
-    )
-    CPI_TOOLTIP = Selector(
-        By.CSS_SELECTOR,
-        'div[id^=corruption-perception-index-tooltip]',
-        name='CPI tooltip',
-        selector_template='div[id^=corruption-perception-index-tooltip-{country}]',
-    )
-
-
-class TargetMarketsCountryChooser(SelectorsEnum):
-    COUNTRY_AUTOCOMPLETE = Selector(By.ID, 'country-autocomplete')
-    COUNTRY_AUTOCOMPLETE_MENU = Selector(By.CSS_SELECTOR, 'div.country-autocomplete__placeholder')
-    AUTOCOMPLETE_COUNTRIES = Selector(By.CSS_SELECTOR, 'div[id^=react-select-2-option-]')
-    SAVE_COUNTRY = Selector(By.ID, 'country-chooser-save-button')
 
 
 class TopicLessonListing(SelectorsEnum):

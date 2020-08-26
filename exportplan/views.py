@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 import sentry_sdk
 
@@ -8,16 +7,11 @@ from django.utils.functional import cached_property
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-
 from requests.exceptions import RequestException
 
-from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES
+from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES, MARKET_ROUTE_CHOICES, PRODUCT_PROMOTIONAL_CHOICES
 from directory_api_client.client import api_client
-from exportplan import data, helpers, serializers, forms
-from core.helpers import CountryDemographics
+from exportplan import data, helpers, forms
 
 
 class ExportPlanMixin:
@@ -56,50 +50,6 @@ class ExportPlanMixin:
         )
 
 
-class ExportPlanSectionView(ExportPlanMixin, TemplateView):
-    @property
-    def slug(self, **kwargs):
-        return self.kwargs['slug']
-
-    def get_template_names(self, **kwargs):
-        return [f'exportplan/sections/{self.slug}.html']
-
-
-class ExportPlanMarketingApproachView(ExportPlanMixin, FormView):
-    form_class = forms.CountryDemographicsForm
-    template_name = 'exportplan/sections/marketing-approach.html'
-    slug = 'marketing-approach'
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        data = self.request.GET or {}
-        if data:
-            kwargs['data'] = data
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        form = self.get_form()
-        if form.is_valid():
-            country = CountryDemographics(form.cleaned_data['name'])
-            context['country'] = country
-            context['age_range'] = country.filter_age_range(form.cleaned_data['age_range'])
-            context['united_kingdom'] = CountryDemographics('United Kingdom')
-        return context
-
-
-class ExportPlanTargetMarketsView(ExportPlanSectionView):
-    template_name = 'exportplan/sections/target-markets.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-            selected_sectors=json.dumps(self.export_plan.get('sectors', [])),
-            target_markets=json.dumps(self.export_plan.get('target_markets', [])),
-            datenow=datetime.now(),
-        )
-
-
 class FormContextMixin:
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -112,9 +62,28 @@ class FormContextMixin:
             field.widget.attrs.get('placeholder', '') for field in self.form_class.base_fields.values()
         ]
 
+        field_tooltip = [
+            field.widget.attrs.get('tooltip', '') for field in self.form_class.base_fields.values()
+        ]
+
+        field_example = [
+            field.widget.attrs.get('example', '') for field in self.form_class.base_fields.values()
+        ]
+
+        field_description = [
+            field.widget.attrs.get('description', '') for field in self.form_class.base_fields.values()
+        ]
+
+        field_currency = [
+            field.widget.attrs.get('currency', '') for field in self.form_class.base_fields.values()
+        ]
+
         form_fields = [
-            {'name': name, 'label': label, 'placeholder': placeholder}
-            for name, label, placeholder in zip(field_names, field_labels, field_placeholders)
+            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip, 'example': example,
+             'description': description, 'currency': currency}
+            for name, label, placeholder, tooltip, example, description, currency in zip(
+                field_names, field_labels, field_placeholders, field_tooltip, field_example, field_description,
+                field_currency)
         ]
 
         context['form_initial'] = json.dumps(context['form'].initial)
@@ -123,17 +92,56 @@ class FormContextMixin:
         return context
 
 
-class ExportPlanBrandAndProductView(FormContextMixin, ExportPlanSectionView, FormView):
-    form_class = forms.ExportPlanBrandAndProductForm
-    success_url = reverse_lazy('exportplan:brand-and-product')
+class ExportPlanSectionView(ExportPlanMixin, TemplateView):
+    @property
+    def slug(self, **kwargs):
+        return self.kwargs['slug']
 
-    def form_valid(self, form):
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.export_plan['pk'],
-            data={'brand_product_details': form.cleaned_data}
-        )
-        return super().form_valid(form)
+    def get_template_names(self, **kwargs):
+        return [f'exportplan/sections/{self.slug}.html']
+
+
+class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, FormView):
+    form_class = forms.ExportPlanMarketingApproachForm
+    slug = 'marketing-approach'
+
+    def get_initial(self):
+        return self.export_plan['marketing_approach']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
+        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES]
+        context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
+        context['route_choices'] = route_choices
+        context['promotional_choices'] = promotional_choices
+        return context
+
+
+class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectionView, FormView):
+
+    form_class = forms.ExportPlanAdaptationForTargetMarketForm
+    success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
+
+    def get_initial(self):
+        return self.export_plan['adaptation_target_market']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        # To do pass lanaguage from export_plan object rather then  hardcoded
+        context['language'] = helpers.get_cia_world_factbook_data(country='Netherlands', key='people,languages')
+        context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
+        return context
+
+
+class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
+
+    form_class = forms.ExportPlanTargetMarketsResearchForm
+    success_url = reverse_lazy('exportplan:target-markets-research')
+
+    def get_initial(self):
+        return self.export_plan['target_markets_research']
 
 
 class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):
@@ -148,25 +156,19 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         )
         return super().form_valid(form)
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['objectives'] = json.dumps(self.export_plan['company_objectives'])
+        return context
 
-class UpdateExportPlanAPIView(generics.GenericAPIView):
 
-    serializer_class = serializers.ExportPlanSerializer
-    permission_classes = [IsAuthenticated]
+class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+    def get_initial(self):
+        return self.export_plan['about_your_business']
 
-        if serializer.is_valid(raise_exception=True):
-            export_plan = helpers.get_or_create_export_plan(self.request.user)
-            helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id,
-                id=export_plan['pk'],
-                data=serializer.validated_data
-            )
-            return Response(serializer.validated_data)
-
-        return Response(serializer.errors)
+    form_class = forms.ExportPlanAboutYourBusinessForm
+    success_url = reverse_lazy('exportplan:about-your-business')
 
 
 class BaseFormView(FormView):

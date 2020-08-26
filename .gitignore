@@ -8,6 +8,7 @@ venv/
 staticfiles
 BrowserStackLocal
 node_modules/
+activate/
 
 # C extensions
 *.so
@@ -103,7 +104,6 @@ Temporary Items
 
 # JS
 node_modules/
-package-lock.json
 .vscode/
 
 # Docker
@@ -119,6 +119,6 @@ config/env/secrets-do-not-commit-e
 .env
 domestic/migrations/__pycache__/__init__.cpython-36.pyc
 
-# InVision Design system manager, ignores logs files 
+# InVision Design system manager, ignores logs files
 .dsm
 storybook-static/

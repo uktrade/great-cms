@@ -13,6 +13,7 @@ from sso.models import BusinessSSOUser
 from tests.helpers import create_response
 from wagtail.core.models import Page
 from wagtail_factories import PageFactory, SiteFactory
+from django.test.client import RequestFactory
 
 # This is to reduce logging verbosity of these two libraries when running pytests
 # with DEBUG=true and --log-cli-level=DEBUG
@@ -22,6 +23,18 @@ urllib3_logger = logging.getLogger('urllib3')
 selenium_logger.setLevel(logging.CRITICAL)
 pil_logger.setLevel(logging.CRITICAL)
 urllib3_logger.setLevel(logging.CRITICAL)
+
+
+def get_user():
+    return BusinessSSOUser(
+        id=1,
+        pk=1,
+        mobile_phone_number='55512345',
+        email='jim@example.com',
+        first_name='Jim',
+        last_name='Cross',
+        session_id='123',
+    )
 
 
 @pytest.mark.django_db
@@ -37,6 +50,11 @@ def root_page():
 @pytest.fixture
 def domestic_homepage(root_page):
     return tests.unit.domestic.factories.DomesticHomePageFactory(parent=root_page)
+
+
+@pytest.fixture
+def domestic_dashboard(domestic_homepage, domestic_site):
+    return tests.unit.domestic.factories.DomesticDashboardFactory(parent=domestic_homepage)
 
 
 @pytest.fixture
@@ -65,15 +83,14 @@ def auth_backend():
 
 @pytest.fixture
 def user():
-    return BusinessSSOUser(
-        id=1,
-        pk=1,
-        mobile_phone_number='55512345',
-        email='jim@example.com',
-        first_name='Jim',
-        last_name='Cross',
-        session_id='123',
-    )
+    return get_user()
+
+
+@pytest.fixture
+def get_request():
+    req = RequestFactory().get('/dashboard/')
+    req.user = get_user()
+    return req
 
 
 @pytest.fixture
@@ -135,9 +152,9 @@ def mock_user_location_create():
 @pytest.fixture
 @pytest.mark.django_db(transaction=True)
 @mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
-@mock.patch.object(api_client.dataservices, 'get_lastyearimportdata')
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
 @mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
-@mock.patch.object(api_client.dataservices, 'get_easeofdoingbusiness')
+@mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 def mock_export_plan_requests(
     mock_export_plan_list,
@@ -239,6 +256,22 @@ def mock_get_events(patch_get_dashboard_events):
 @pytest.fixture
 def patch_get_dashboard_export_opportunities():
     yield mock.patch('core.helpers.get_dashboard_export_opportunities', return_value=None)
+
+
+@pytest.fixture
+def patch_get_user_page_views():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_page_views',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
+
+
+@pytest.fixture
+def patch_set_user_page_view():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.set_user_page_view',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
 
 
 @pytest.fixture(autouse=True)

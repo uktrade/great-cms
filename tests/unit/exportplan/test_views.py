@@ -1,16 +1,13 @@
-from collections import OrderedDict
-from datetime import datetime
 from io import BytesIO
 from unittest import mock
-import json
 import pytest
 
-from freezegun import freeze_time
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.utils.text import slugify
 
 from tests.helpers import create_response
 from exportplan import data, helpers
@@ -32,6 +29,23 @@ def company_profile_data():
         'created': '2012-06-15T13:45:30.00000Z',
         'modified': '2019-04-05T06:43:23.00000Z'
     }
+
+
+@pytest.fixture(autouse=True)
+def export_plan_data():
+    return {
+        'about_your_business': '',
+        'target_markets_research': '',
+        'adaptation_target_market': '',
+        'target_market_documents': '',
+    }
+
+
+@pytest.fixture(autouse=True)
+def mock_get_create_export_plan(export_plan_data):
+    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=create_response(export_plan_data))
+    yield patch.start()
+    patch.stop()
 
 
 def create_test_image(extension):
@@ -73,9 +87,11 @@ def test_export_plan_builder_landing_page(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'target-markets', 'marketing-approach'})
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
-def test_exportplan_sections(slug, client, user):
+@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'marketing-approach', 'objectives'})
+@mock.patch.object(helpers, 'get_cia_world_factbook_data')
+@mock.patch.object(helpers, 'get_or_create_export_plan')
+def test_exportplan_sections(mock_get_create_exportplan, mock_cia_factbook_data, export_plan_data, slug, client, user):
+    mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
 
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -83,99 +99,17 @@ def test_exportplan_sections(slug, client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
-def test_exportplan_section_target_makret(client, user):
+@mock.patch.object(helpers, 'get_or_create_export_plan')
+def test_exportplan_section_marketing_approach(mock_get_create_export_plan, client, user):
     client.force_login(user)
-
-    response = client.get(reverse('exportplan:target-markets'))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={}))
-def test_exportplan_section_marketing_approach(client, user):
-    client.force_login(user)
-
-    response = client.get(reverse('exportplan:marketing-approach'))
-    assert response.status_code == 200
-    assert 'country' not in response.context_data
-    assert 'united_kingdom' not in response.context_data
-    assert 'age_range' not in response.context_data
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan', mock.Mock(return_value={'brand_product_details': ''}))
-def test_exportplan_section_target_makret_country(client, user):
-    client.force_login(user)
-
+    mock_get_create_export_plan.return_value = {
+        'about_your_business': '', 'route_to_markets': {'route': 'test'}, 'marketing_approach': {'resources': 'xyz'}
+    }
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
-    assert 'united_kingdom' in response.context_data
-    assert 'country' in response.context_data
-    assert 'age_range' in response.context_data
-    assert response.context_data['country'].name
-    assert response.context_data['country'].year_income
-    assert response.context_data['country'].year_population
-    assert response.context_data['country'].population
-    assert response.context_data['country'].rural_percentage
-    assert response.context_data['country'].urban_percentage
-    assert response.context_data['country'].consumer_price_index
-    assert response.context_data['age_range'].name
-    assert response.context_data['age_range'].age_range
-    assert response.context_data['age_range'].population_female
-    assert response.context_data['age_range'].population_male
-
-
-@pytest.mark.django_db
-@freeze_time('2016-11-23T11:21:10.977518Z')
-@mock.patch('exportplan.helpers.get_exportplan')
-@mock.patch('core.helpers.store_user_location')
-def test_exportplan_target_markets(mock_user_location_create, mock_get_exportplan, client, user):
-    client.force_login(user)
-
-    explan_plan_data = {
-        'country': 'Australia',
-        'commodity_code': '220.850',
-        'sectors': ['Automotive'],
-        'target_markets': [
-            {'country': 'China'},
-        ],
-        'rules_regulations': {
-            'country_code': 'CHN',
-        },
-    }
-    mock_get_exportplan.return_value = explan_plan_data
-
-    response = client.get(reverse('exportplan:target-markets'))
-
-    assert mock_get_exportplan.call_count == 1
-    assert mock_get_exportplan.call_args == mock.call(user.session_id)
-
-    assert response.context['target_markets'] == json.dumps(explan_plan_data['target_markets'])
-    assert response.context['selected_sectors'] == json.dumps(explan_plan_data['sectors'])
-    assert response.context['datenow'] == datetime.now()
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_or_create_export_plan', return_value={'pk': 1, 'target_markets': []})
-def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
-    client.force_login(user)
-    mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
-
-    url = reverse('exportplan:api-update-export-plan')
-
-    response = client.post(url, {'target_markets': ['China', 'India']})
-    assert mock_get_or_create_export_plan.call_count == 1
-    assert mock_get_or_create_export_plan.call_args == mock.call(user)
-    assert response.status_code == 200
-
-    assert mock_update_exportplan.call_count == 1
-    assert mock_update_exportplan.call_args == mock.call(
-        data=OrderedDict([('target_markets', [{'country': 'China'}, {'country': 'India'}])]),
-        id=1,
-        sso_session_id='123'
-    )
+    assert response.context_data['route_to_markets'] == '{"route": "test"}'
+    assert response.context_data['route_choices']
+    assert response.context_data['promotional_choices']
 
 
 @pytest.mark.django_db
@@ -216,3 +150,25 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user):
 
     with pytest.raises(HTTPError):
         client.post(url, data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_cia_world_factbook_data')
+def test_adaption_for_target_markets_context(mock_get_factbook_data, mock_get_create_export_plan, client, user):
+    client.force_login(user)
+
+    mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
+    mock_get_create_export_plan.return_value = {
+        'adaptation_target_market': [], 'target_market_documents': {'document_name': 'test'}
+    }
+    slug = slugify('Adaptation for your target market')
+    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+
+    assert response.status_code == 200
+
+    assert mock_get_factbook_data.call_count == 1
+    assert mock_get_factbook_data.call_args == mock.call(country='Netherlands', key='people,languages')
+
+    response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
+    response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+    response.context_data['target_market_documents'] = {'document_name': 'test'}

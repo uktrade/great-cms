@@ -1,1 +1,18 @@
-{% extends "core/base.html" %}
+{% extends 'core/base.html' %}
+{% load breadcrumbs from great_components %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% block content %}
+
+    <section class="learn__page learn__home-page container" id="learn-root">
+        <div class="grid">
+            <div class="col-12 col-md-8">
+                <h1 class="h1">{{ page.title }}</h1>
+                 {% image page.image width-630%}
+                <p class="learn__wrapper--paragraph">{{ page.body | richtext }}</p>
+                {% include_block page.button %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
