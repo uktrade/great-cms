@@ -362,7 +362,6 @@ class DetailPage(CMSGenericPage):
     image = models.ForeignKey(
         get_image_model_string(),
         null=True,
-        blank=True,
         on_delete=models.SET_NULL,
         related_name='+'
     )

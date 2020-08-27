@@ -1,4 +1,5 @@
 # Changelog
+- GP2-386 - Hero image for Lesson
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
 
