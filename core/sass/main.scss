@@ -5,12 +5,16 @@
 
 // Config
 $asset-root: '/static/images/';
+$fonts: '/static/fonts';
+$fa-font-path: '/static/fonts';
+
+// Icons
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
 // Base
 @import 'elements/reset';
-
-// Design System
-@import 'design-system/fonts';
 
 // Elements
 @import 'elements/layout';
@@ -28,6 +32,7 @@ $asset-root: '/static/images/';
 @import 'elements/tables';
 @import 'elements/utils';
 @import 'elements/spacing';
+@import 'elements/box';
 
 // Components
 @import 'components/card/base';

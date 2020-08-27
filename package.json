@@ -7,12 +7,16 @@
         "test:dev": "jest --watch",
         "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
         "build-dev": "webpack --config react-components/webpack.config.js --mode development",
-        "build": "webpack --config react-components/webpack.config.js --mode production",
+        "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
+<<<<<<< Updated upstream
+        "storybook": "start-storybook",
+=======
         "ds-tokens": ". ./fetch-design-tokens.sh",
         "ds-lint": "eslint --config design-system/.eslintrc.json design-system",
         "ds-prettier": "prettier --settings .prettierrc -c 'design-system' --write",
         "ds-test": "./node_modules/.bin/wct --npm design-system/components/**/*.test.html",
         "storybook": "dsm-storybook preview",
+>>>>>>> Stashed changes
         "storybook-publish": "dsm-storybook publish",
         "storybook-build": "build-storybook"
     },
@@ -69,7 +73,6 @@
         "eslint-plugin-wc": "1.2.0",
         "fetch-mock": "8.3.2",
         "file-loader": "^5.1.0",
-        "great-styles": "github:uktrade/great-styles",
         "identity-obj-proxy": "3.0.0",
         "jest": "25.1.0",
         "mini-css-extract-plugin": "0.9.0",
@@ -97,8 +100,8 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.10.1",
-        "@invisionapp/dsm-storybook": "0.0.129",
-        "@webcomponents/webcomponentsjs": "2.4.3",
+        "@storybook/react": "^6.0.16",
+        "great-styles": "github:uktrade/great-styles",
         "prop-types": "15.7.2",
         "react": "16.13.1",
         "react-cookie": "4.0.3",

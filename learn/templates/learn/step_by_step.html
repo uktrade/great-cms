@@ -1,0 +1,16 @@
+{% load  wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<div class="step-by-step">
+    <ul>
+        <li class="m-b-m">
+            <div class="{% if value.image %}media-block media-block--round-image{% endif %}">
+                {% image value.image fill-70x70 class="c-1-2-l" %}
+                <div>
+                    <h3 class="h-l text-blue-deep-80 p-0">{{ value.title }}</h3>
+                    <div class="text-blue-deep-80">{{ value.body|richtext }}</div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

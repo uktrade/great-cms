@@ -360,6 +360,13 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     objective = StreamField([
         (
             'paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),
@@ -383,17 +390,17 @@ class DetailPage(CMSGenericPage):
                 icon='fa-play'
             )
         ),
-        ('content_module', core_blocks.ModularContentStaticBlock())
+        ('content_module', core_blocks.ModularContentStaticBlock()),
+        ('Step', core_blocks.StepByStepBlock(icon='cog'),)
     ])
-    step_by_step = StreamField([('Step', core_blocks.StepByStepBlock(icon='cog'), )], null=True, blank=True)
 
     #########
     # Panels
     ##########
     content_panels = Page.content_panels + [
+        ImageChooserPanel('image'),
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
-        StreamFieldPanel('step_by_step'),
     ]
 
     def handle_page_view(self, request):

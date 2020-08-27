@@ -8,6 +8,10 @@
 
 ### Fixed bugs
 
+- No ticket - Fix font awesome font path
+- GP2-438 - lesson font styling tweaks
+- GP2-415 - internal button links
+- GP2-414 - Moving step block to Body field for Detail page
 - GP2-401 - lesson page rich text styling
 - No ticket - Remove css vars and mixins
 - GP2-257 - Added Step fields to Detail Model
@@ -20,7 +24,7 @@
 - GP-310 - Format time as min rather than mins
 - GP2-247 - image resizing module image
 - GP2-246 - wrong url for learning header link
-- GP-96 - HS Codes saved in DirectoryAPI
+- GP-96  - HS Codes saved in DirectoryAPI
 - GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
@@ -38,6 +42,10 @@
 
 ### Implemented enhancements
 
+- GP2-438 - Lesson fictional example (FE)
+- GP2-438 - Lesson - recap (FE)
+- Gp2-253 - Lesson - text paragraph
+- GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
 - AA-129 -  Beta environment for GREAT.gov
@@ -177,3 +185,4 @@
 - GP2-370 - cia factbook language
 - GP2-393 - adaption fields saving
 - GP2-395 - adaption tm documents API views
+- GP2-424 - remove-links logged out state

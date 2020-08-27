@@ -93,6 +93,7 @@ module.exports = {
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([
       { from: './node_modules/great-styles/src/images', to: 'images' },
+      { from: './node_modules/great-styles/styles/fonts', to: '../../core/static/fonts/' },
       // copies the images to core/static only if not present. This avoids
       // the svg files showing up in diff every time a new build occurs
       { from: 'react-components/dist/img/', to: '../../core/static/img/' },
