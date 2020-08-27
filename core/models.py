@@ -392,6 +392,14 @@ class DetailPage(CMSGenericPage):
         ('content_module', core_blocks.ModularContentStaticBlock()),
         ('Step', core_blocks.StepByStepBlock(icon='cog'),)
     ])
+    recap = StreamField([
+        (
+            'title', blocks.CharBlock(icon='fa-header'),
+        ),
+        (
+            'item', core_blocks.ObjectiveItem(icon='fa-list')
+        ),
+    ])
 
     #########
     # Panels
@@ -400,6 +408,7 @@ class DetailPage(CMSGenericPage):
         ImageChooserPanel('image'),
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
+        StreamFieldPanel('recap'),
     ]
 
     def handle_page_view(self, request):
