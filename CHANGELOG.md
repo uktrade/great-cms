@@ -9,6 +9,7 @@
 
 ### Fixed bugs
 
+- No ticket - Fix font awesome font path
 - GP2-438 - lesson font styling tweaks
 - GP2-415 - internal button links
 - GP2-414 - Moving step block to Body field for Detail page
@@ -42,6 +43,7 @@
 
 ### Implemented enhancements
 
+- GP2-255 - Lesson ita quote (FE)
 - GP2-438 - Lesson fictional example (FE)
 - GP2-438 - Lesson - recap (FE)
 - Gp2-253 - Lesson - text paragraph
