@@ -1,3 +1,18 @@
+.section-list {
+  &__item {
+    border-radius: 4px;
+  }
+}
+
+.section-upload {
+  border: {
+    color: $colour-blue-deep-20;
+    radius: 4px;
+    style: dashed;
+    width: 1px;
+  }
+  display: block;
+}
 
 .export-plan-dashboard {
 
