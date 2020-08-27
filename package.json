@@ -8,15 +8,7 @@
         "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
         "build-dev": "webpack --config react-components/webpack.config.js --mode development",
         "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
-<<<<<<< Updated upstream
         "storybook": "start-storybook",
-=======
-        "ds-tokens": ". ./fetch-design-tokens.sh",
-        "ds-lint": "eslint --config design-system/.eslintrc.json design-system",
-        "ds-prettier": "prettier --settings .prettierrc -c 'design-system' --write",
-        "ds-test": "./node_modules/.bin/wct --npm design-system/components/**/*.test.html",
-        "storybook": "dsm-storybook preview",
->>>>>>> Stashed changes
         "storybook-publish": "dsm-storybook publish",
         "storybook-build": "build-storybook"
     },
