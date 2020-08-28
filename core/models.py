@@ -367,12 +367,8 @@ class DetailPage(CMSGenericPage):
         related_name='+'
     )
     objective = StreamField([
-        (
-            'paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),
-        ),
-        (
-            'ListItem', core_blocks.ObjectiveItem()
-        ),
+        ('paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),),
+        ('ListItem', core_blocks.ObjectiveItem()),
     ])
     body = StreamField([
         (
@@ -399,12 +395,14 @@ class DetailPage(CMSGenericPage):
         ),),
     ])
     recap = StreamField([
-        (
-            'title', blocks.CharBlock(icon='fa-header'),
-        ),
-        (
-            'item', core_blocks.ObjectiveItem(icon='fa-list')
-        ),
+        ('recap_item', blocks.StructBlock([
+            ('title', blocks.CharBlock(icon='fa-header')),
+            ('item', blocks.StreamBlock([
+                ('item', core_blocks.ObjectiveItem(),)]
+            ))
+        ],
+            template='learn/recap.html',
+            icon='fa-commenting-o', ),)
     ])
 
     #########

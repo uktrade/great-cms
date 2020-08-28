@@ -1,18 +1,15 @@
 {% load  wagtailcore_tags %}
 
+
 <div class="m-b-m">
     {% for block in page.recap %}
-        {% if block.block_type == 'title' %}
-            <h3 class="h-l text-white p-b-s">{{ block.value|richtext}}</h3>
-        {% endif %}
+        <h3 class="h-l text-white p-b-s">{{ block.value.title|richtext }}</h3>
     {% endfor %}
     <ol class="list-circle-number">
         {% for block in page.recap %}
-            {% if block.block_type == 'item' %}
-                <li>
-                    <span>{{ block.value.item }}.</span>
-                </li>
-            {% endif %}
+            {% for item in block.value.item %}
+                <li><span>{{ item.value.item }}</span></li>
+            {% endfor %}
         {% endfor %}
     </ol>
 </div>
