@@ -3,7 +3,7 @@
 <div class="m-b-m">
     {% for block in page.recap %}
         {% if block.block_type == 'title' %}
-            <h3 class="h-l text-white p-b-s">{{ block.value }}</h3>
+            <h3 class="h-l text-white p-b-s">{{ block.value|richtext}}</h3>
         {% endif %}
     {% endfor %}
     <ol class="list-circle-number">
