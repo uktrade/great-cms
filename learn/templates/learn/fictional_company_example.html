@@ -1,12 +1,11 @@
-{% load static %}
+{% load wagtailimages_tags %}
 
 <div class="fictional-example media-block m-b-m">
-    <img src="{% static 'images/fictional-company-example.png' %}" alt="" />
+     {% image block.value.image fill-70x90  %}
     <div>
         <div class="box">
             <div class="rich-text">
-                <h3 class="p-b-s">Fictional example</h3>
-                <p>Dove Gin’s craft gin sales have done really well in the UK, and Simon Dove felt there could be long-term growth in major cities in several continents. After looking at countries in Europe and Asia, he turned to Australia. His target age group (25-54 year olds) makes up 40% of Australia’s population. Looking online, he found that gin imports were hugely on the rise in Australia, with an increase of 25% year-on-year. Average income is increasing too. There were 100 craft gin distilleries already in the country, but Simon and his sister Flora, who designed the product packaging, felt that the London backstory and ethical packaging would help them stand out.  They decided they would be able to sell £235,000 worth of Dove Gin by end of 2022.</p>
+                {{ block.value.fiction_body }}
             </div>
         </div>
     </div>

@@ -390,7 +390,13 @@ class DetailPage(CMSGenericPage):
             )
         ),
         ('content_module', core_blocks.ModularContentStaticBlock()),
-        ('Step', core_blocks.StepByStepBlock(icon='cog'),)
+        ('Step', core_blocks.StepByStepBlock(icon='cog'),),
+        ('fiction', blocks.StructBlock(
+            [('fiction_body', blocks.RichTextBlock(icon='openquote')),
+             ('image', core_blocks.ImageBlock(required=False))],
+            template='learn/fictional_company_example.html',
+            icon='fa-commenting-o',
+        ),),
     ])
     recap = StreamField([
         (
