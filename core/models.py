@@ -393,6 +393,7 @@ class DetailPage(CMSGenericPage):
             template='learn/fictional_company_example.html',
             icon='fa-commenting-o',
         ),),
+        ('ITA_Quote', core_blocks.ITAQuoteBlock(icon='fa-quote-left'),),
     ])
     recap = StreamField([
         ('recap_item', blocks.StructBlock([

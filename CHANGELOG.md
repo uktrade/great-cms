@@ -42,6 +42,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-255 - Lesson ita quote (BE)
 - GP2-453 - Lesson fictional example (BE)
 - GP2-294 - Lesson - recap (BE)
 - GP2-255 - Lesson ita quote (FE)
