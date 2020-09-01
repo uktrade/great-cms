@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from random import choice
 from typing import List
+from unittest import mock
 
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -12,10 +13,12 @@ from tests.browser.common_selectors import (
     LessonPage,
     TopicLessonListing,
 )
+from tests.helpers import create_response
 from tests.browser.steps import should_see_all_elements, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
 from tests.unit.core.factories import DetailPageFactory, ListPageFactory
 from core import constants
+from directory_sso_api_client import sso_api_client
 
 pytestmark = [
     pytest.mark.browser,
@@ -51,18 +54,15 @@ def open_random_lesson(browser: WebDriver):
 @allure.step('Check topics reading progress')
 def check_topic_read_progress(browser: WebDriver, topic: ListPageFactory, lessons: List[DetailPageFactory]):
     attach_jpg_screenshot(browser, 'Topics reading progress', selector=DashboardReadingProgress.YOUR_PROGRESS_CARD)
-    list_page = topic.get_parent()
-
-    topic_read_count = browser.find_element_by_id(f'topics-read-count-{list_page.slug}')
-    no_of_lessons = topic_read_count.get_property('max')
-    no_of_read_lessons = topic_read_count.get_property('value')
-    assert no_of_lessons == len(lessons)
-    assert no_of_read_lessons == 1
+    count_element = browser.find_element_by_css_selector('#your-progress-card .topics-read-text')
+    count_text = count_element.text
+    assert count_text == '1/1 complete'
 
 
 def test_can_view_lessons_from_different_topics(
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
+    mock_get_lessons_read,
     topics_with_lessons,
     server_user_browser_dashboard,
 ):
@@ -71,7 +71,6 @@ def test_can_view_lessons_from_different_topics(
     topic_b, topic_b_lessons = topics_with_lessons[1]
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
-    should_see_all_elements(browser, DashboardReadingProgress)
 
     visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
     visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', topic_a_lessons[0].url)
@@ -98,18 +97,25 @@ def test_can_navigate_from_topic_to_lesson(
     should_see_all_elements(browser, LessonPage)
 
 
+@mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
+    mock_get_user_lesson_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
     topics_with_lessons,
     server_user_browser_dashboard,
+    domestic_homepage,
 ):
+
     live_server, user, browser = server_user_browser_dashboard
     topic_a, topic_a_lessons = topics_with_lessons[0]
+    list_page = ListPageFactory(parent=domestic_homepage, title='Test list page')
+    lesson_page = DetailPageFactory(parent=list_page)
+    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
+        {'lesson': lesson_page.id}
+    ]})
 
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', topic_a_lessons[0].url)
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
-
     should_see_all_elements(browser, DashboardReadingProgress)
 
     check_topic_read_progress(browser, topic_a, topic_a_lessons)

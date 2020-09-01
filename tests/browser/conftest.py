@@ -237,6 +237,16 @@ def mock_get_dashboard_events():
 
 
 @pytest.fixture
+def mock_get_lessons_read():
+    lessons_read = {'lessons_read': [
+        {'service': 'great-cms',
+            'lesson': 14, 'module': 9, 'user': 6
+         }]}
+    with patch.object(sso_helpers, 'get_lesson_completed', return_value=lessons_read) as patched:
+        yield patched
+
+
+@pytest.fixture
 def mock_get_dashboard_export_opportunities():
     single_opportunity = {
         'title': 'French sardines required',
