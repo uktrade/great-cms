@@ -7,6 +7,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- No ticket - recap rearrange
 - No ticket - recap field render as rich text
 - No ticket - Fix font awesome font path
 - GP2-438 - lesson font styling tweaks

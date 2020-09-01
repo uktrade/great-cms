@@ -1,5 +1,6 @@
 {% load wagtailimages_tags %}
 
+{%  if block.block_type == 'fiction' %}
 <div class="fictional-example media-block m-b-m">
      {% image block.value.image fill-70x90  %}
     <div>
@@ -10,3 +11,4 @@
         </div>
     </div>
 </div>
+{% endif %}
