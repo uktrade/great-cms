@@ -177,37 +177,6 @@ class ExportPlanDashboard(SelectorsEnum):
     BUSINESS_RISK = Selector(By.ID, 'business-risk', type=ElementType.LINK)
 
 
-class ExportPlanDashboardPageTourStep0(SelectorsEnum):
-    MODAL = Selector(By.ID, 'page-tour-modal-step-1')
-    NEXT = Selector(By.ID, 'page-tour-submit', type=ElementType.LINK)
-    SKIP = Selector(By.ID, 'page-tour-skip', type=ElementType.LINK)
-    HIGHLIGHTED_ELEMENT = None
-
-
-class ExportPlanDashboardPageTourStep1(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-where-do-you-want-to-export')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'personalisation-bar')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep2(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-track-your-progress')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-completion-progress-indicator')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep3(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-learn-as-you-go')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-continue-leaning-title')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep4(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-lets-start')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
-    NEXT = Selector(By.ID, 'page-tour-start-now', type=ElementType.LINK)
-
-
 class ExportPlanTargetMarketsResearch(SelectorsEnum):
     CONTAINER = Selector(By.ID, 'sidebar-content')
     ABOUT_YOUR_BUSINESS = Selector(By.ID, 'sidebar-about-your-business', type=ElementType.LINK)

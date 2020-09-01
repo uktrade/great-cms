@@ -92,9 +92,9 @@ var ditMVP =
   !*** ./core/sass/main.scss ***!
   \*****************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-// extracted by mini-css-extract-plugin
+throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nSassError: File to import not found or unreadable: design-system/fonts.\n        on line 13 of /home/robert/dev/great/great-cms/core/sass/main.scss\n>> @import 'design-system/fonts';\n\n   ^\n\n    at /home/robert/dev/great/great-cms/node_modules/webpack/lib/NormalModule.js:316:20\n    at /home/robert/dev/great/great-cms/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /home/robert/dev/great/great-cms/node_modules/loader-runner/lib/LoaderRunner.js:233:18\n    at context.callback (/home/robert/dev/great/great-cms/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at Object.callback (/home/robert/dev/great/great-cms/node_modules/sass-loader/dist/index.js:73:7)\n    at Object.done [as callback] (/home/robert/dev/great/great-cms/node_modules/neo-async/async.js:8067:18)\n    at options.error (/home/robert/dev/great/great-cms/node_modules/node-sass/lib/index.js:294:32)");
 
 /***/ }),
 
@@ -77093,9 +77093,24 @@ var lookupProduct = function lookupProduct(_ref) {
   });
 };
 
-var createUser = function createUser(_ref2) {
-  var email = _ref2.email,
-      password = _ref2.password;
+var lookupProductRefine = function lookupProductRefine(_ref2) {
+  var txId = _ref2.txId,
+      interractionId = _ref2.interractionId,
+      valueId = _ref2.valueId,
+      valueString = _ref2.valueString;
+  return get(config.apiLookupProductUrl, {
+    txId: txId,
+    interractionId: interractionId,
+    valueId: valueId,
+    valueString: valueString
+  }).then(function (response) {
+    return responseHandler(response).json();
+  });
+};
+
+var createUser = function createUser(_ref3) {
+  var email = _ref3.email,
+      password = _ref3.password;
   return post(config.apiSignupUrl, {
     email: email,
     password: password
@@ -77120,30 +77135,30 @@ var updateObjective = function updateObjective(data) {
   return post(config.apiObjectivesUpdateUrl, data).then(responseHandler);
 };
 
-var checkVerificationCode = function checkVerificationCode(_ref3) {
-  var email = _ref3.email,
-      code = _ref3.code;
+var checkVerificationCode = function checkVerificationCode(_ref4) {
+  var email = _ref4.email,
+      code = _ref4.code;
   return post(config.verifyCodeUrl, {
     email: email,
     code: code
   }).then(responseHandler);
 };
 
-var checkCredentials = function checkCredentials(_ref4) {
-  var email = _ref4.email,
-      password = _ref4.password;
+var checkCredentials = function checkCredentials(_ref5) {
+  var email = _ref5.email,
+      password = _ref5.password;
   return post(config.apiLoginUrl, {
     email: email,
     password: password
   }).then(responseHandler);
 };
 
-var updateCompany = function updateCompany(_ref5) {
-  var company_name = _ref5.company_name,
-      expertise_industries = _ref5.expertise_industries,
-      expertise_countries = _ref5.expertise_countries,
-      first_name = _ref5.first_name,
-      last_name = _ref5.last_name;
+var updateCompany = function updateCompany(_ref6) {
+  var company_name = _ref6.company_name,
+      expertise_industries = _ref6.expertise_industries,
+      expertise_countries = _ref6.expertise_countries,
+      first_name = _ref6.first_name,
+      last_name = _ref6.last_name;
   var data = {
     company_name: company_name,
     expertise_industries: expertise_industries,
@@ -77207,36 +77222,36 @@ var responseHandler = function responseHandler(response) {
 
 var config = {};
 
-var setConfig = function setConfig(_ref6) {
-  var countryDataUrl = _ref6.countryDataUrl,
-      marketingCountryData = _ref6.marketingCountryData,
-      removeSectorUrl = _ref6.removeSectorUrl,
-      removeCountryDataUrl = _ref6.removeCountryDataUrl,
-      countriesBySectorsDataUrl = _ref6.countriesBySectorsDataUrl,
-      apiLoginUrl = _ref6.apiLoginUrl,
-      apiSignupUrl = _ref6.apiSignupUrl,
-      apiLookupProductUrl = _ref6.apiLookupProductUrl,
-      apiUpdateCompanyUrl = _ref6.apiUpdateCompanyUrl,
-      countryOptions = _ref6.countryOptions,
-      csrfToken = _ref6.csrfToken,
-      dashboardUrl = _ref6.dashboardUrl,
-      googleUrl = _ref6.googleUrl,
-      industryOptions = _ref6.industryOptions,
-      linkedInUrl = _ref6.linkedInUrl,
-      loginUrl = _ref6.loginUrl,
-      passwordResetUrl = _ref6.passwordResetUrl,
-      termsUrl = _ref6.termsUrl,
-      verifyCodeUrl = _ref6.verifyCodeUrl,
-      userIsAuthenticated = _ref6.userIsAuthenticated,
-      apiUpdateExportPlanUrl = _ref6.apiUpdateExportPlanUrl,
-      apiObjectivesCreateUrl = _ref6.apiObjectivesCreateUrl,
-      apiObjectivesDeleteUrl = _ref6.apiObjectivesDeleteUrl,
-      apiObjectivesUpdateUrl = _ref6.apiObjectivesUpdateUrl,
-      apiRouteToMarketCreateUrl = _ref6.apiRouteToMarketCreateUrl,
-      apiRouteToMarketDeleteUrl = _ref6.apiRouteToMarketDeleteUrl,
-      apiRouteToMarketUpdateUrl = _ref6.apiRouteToMarketUpdateUrl,
-      exportPlanTargetMarketsUrl = _ref6.exportPlanTargetMarketsUrl,
-      signupUrl = _ref6.signupUrl;
+var setConfig = function setConfig(_ref7) {
+  var countryDataUrl = _ref7.countryDataUrl,
+      marketingCountryData = _ref7.marketingCountryData,
+      removeSectorUrl = _ref7.removeSectorUrl,
+      removeCountryDataUrl = _ref7.removeCountryDataUrl,
+      countriesBySectorsDataUrl = _ref7.countriesBySectorsDataUrl,
+      apiLoginUrl = _ref7.apiLoginUrl,
+      apiSignupUrl = _ref7.apiSignupUrl,
+      apiLookupProductUrl = _ref7.apiLookupProductUrl,
+      apiUpdateCompanyUrl = _ref7.apiUpdateCompanyUrl,
+      countryOptions = _ref7.countryOptions,
+      csrfToken = _ref7.csrfToken,
+      dashboardUrl = _ref7.dashboardUrl,
+      googleUrl = _ref7.googleUrl,
+      industryOptions = _ref7.industryOptions,
+      linkedInUrl = _ref7.linkedInUrl,
+      loginUrl = _ref7.loginUrl,
+      passwordResetUrl = _ref7.passwordResetUrl,
+      termsUrl = _ref7.termsUrl,
+      verifyCodeUrl = _ref7.verifyCodeUrl,
+      userIsAuthenticated = _ref7.userIsAuthenticated,
+      apiUpdateExportPlanUrl = _ref7.apiUpdateExportPlanUrl,
+      apiObjectivesCreateUrl = _ref7.apiObjectivesCreateUrl,
+      apiObjectivesDeleteUrl = _ref7.apiObjectivesDeleteUrl,
+      apiObjectivesUpdateUrl = _ref7.apiObjectivesUpdateUrl,
+      apiRouteToMarketCreateUrl = _ref7.apiRouteToMarketCreateUrl,
+      apiRouteToMarketDeleteUrl = _ref7.apiRouteToMarketDeleteUrl,
+      apiRouteToMarketUpdateUrl = _ref7.apiRouteToMarketUpdateUrl,
+      exportPlanTargetMarketsUrl = _ref7.exportPlanTargetMarketsUrl,
+      signupUrl = _ref7.signupUrl;
   config.countryDataUrl = countryDataUrl;
   config.marketingCountryData = marketingCountryData;
   config.removeSectorUrl = removeSectorUrl;
@@ -77285,6 +77300,7 @@ var setConfig = function setConfig(_ref6) {
   deleteObjective: deleteObjective,
   updateObjective: updateObjective,
   lookupProduct: lookupProduct,
+  lookupProductRefine: lookupProductRefine,
   setConfig: setConfig,
   getLessonComplete: getLessonComplete,
   setLessonComplete: setLessonComplete,
@@ -77404,19 +77420,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/views/LoginModal/Modal */ "./react-components/src/views/LoginModal/Modal.jsx");
 /* harmony import */ var _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Container */ "./react-components/src/views/MarketSelectNavbar/Container.jsx");
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
-/* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
-/* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
-/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
-/* harmony import */ var _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/components/MarkLessonAsComplete/MarkLessonAsComplete */ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx");
-/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
-/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
-/* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
-/* harmony import */ var _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/components/ObjectivesList */ "./react-components/src/components/ObjectivesList.jsx");
-/* harmony import */ var _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/views/LearnIntroduction/LearnIntroduction */ "./react-components/src/views/LearnIntroduction/LearnIntroduction.jsx");
-/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _src_components_ProductFinder_ProductFinder__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/components/ProductFinder/ProductFinder */ "./react-components/src/components/ProductFinder/ProductFinder.jsx");
+/* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
+/* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
+/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
+/* harmony import */ var _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/components/MarkLessonAsComplete/MarkLessonAsComplete */ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx");
+/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
+/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
+/* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
+/* harmony import */ var _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/components/ObjectivesList */ "./react-components/src/components/ObjectivesList.jsx");
+/* harmony import */ var _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/views/LearnIntroduction/LearnIntroduction */ "./react-components/src/views/LearnIntroduction/LearnIntroduction.jsx");
+/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_23__);
+
 
 
 
@@ -77443,27 +77461,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   Countries: _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_6__["default"],
   CountriesModal: _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_4__["default"],
-  createMarkLessonAsComplete: _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_14__["createMarkLessonAsComplete"],
-  createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createRouteToMarket"],
-  aboutYourBusinessForm: _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_12__["aboutYourBusinessForm"],
-  adaptToTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_13__["adaptToTargetMarketForm"],
-  createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_11__["createSpendingAndResources"],
-  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_15__["createTargetAgeGroupInsights"],
-  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_16__["createTargetMarketCountries"],
-  createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_17__["createBusinessRationale"],
-  createObjectivesList: _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_18__["createObjectivesList"],
+  createMarkLessonAsComplete: _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_15__["createMarkLessonAsComplete"],
+  createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_12__["createRouteToMarket"],
+  aboutYourBusinessForm: _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_13__["aboutYourBusinessForm"],
+  adaptToTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__["adaptToTargetMarketForm"],
+  createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_12__["createSpendingAndResources"],
+  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_16__["createTargetAgeGroupInsights"],
+  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_17__["createTargetMarketCountries"],
+  createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_18__["createBusinessRationale"],
+  createObjectivesList: _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_19__["createObjectivesList"],
   IndustriesModal: _src_views_IndustriesModal_Container__WEBPACK_IMPORTED_MODULE_5__["default"],
-  LearnIntroduction: _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_19__["default"],
+  LearnIntroduction: _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_20__["default"],
   ProductLookup: _src_views_ProductLookup_Container__WEBPACK_IMPORTED_MODULE_7__["default"],
+  ProductFinder: _src_components_ProductFinder_ProductFinder__WEBPACK_IMPORTED_MODULE_11__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_8__["default"],
   MarketSelectNavbar: _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__["default"],
   ProductsModal: _src_views_ProductsModal_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_21__["default"].setConfig,
-  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_21__["default"].setInitialState,
+  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_22__["default"].setConfig,
+  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_22__["default"].setInitialState,
   Signup: _src_views_Signup_Container__WEBPACK_IMPORTED_MODULE_1__["default"],
   SignupModal: _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_2__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_20__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_20__["STEP_VERIFICATION_CODE"],
+  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_21__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_21__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__["default"]
 });
 
@@ -79919,6 +79938,313 @@ ObjectivesList.propTypes = {
 ObjectivesList.defaultProps = {
   objectives: []
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/ProductFinder/ProductFinder.jsx":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/components/ProductFinder/ProductFinder.jsx ***!
+  \*************************************************************************/
+/*! exports provided: ProductFinder, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductFinder", function() { return ProductFinder; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+ //import { connect, Provider } from 'react-redux'
+
+
+ //import actions from '@src/actions'
+
+var customStyles = {
+  content: {
+    top: '0',
+    right: '0',
+    bottom: '0',
+    left: 'auto',
+    minWidth: '600px',
+    width: '800px',
+    padding: '0',
+    border: 'none'
+  },
+  overlay: {
+    //position: 'absolute',
+    background: 'rgb(45 45 45 / 45%)',
+    zIndex: '3'
+  }
+};
+
+function ValueChooser(attribute, handleChange) {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState({}),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      combinationValue = _React$useState2[0],
+      setCombinationValue = _React$useState2[1];
+
+  var changeValue = function changeValue(element) {
+    console.log(combinationValue);
+    debugger;
+  };
+
+  var startCombinationValue = {};
+  var profile = (attribute.attrs || []).map(function (option, index) {
+    startCombinationValue[option.id] = option.value;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      key: option.id,
+      htmlFor: option.id,
+      className: "p-f-m m-b-xxs grid"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-1-4"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "number",
+      className: "form-control",
+      id: option.id,
+      name: attribute.id,
+      defaultValue: option.value,
+      "data-label": option.name,
+      onChange: changeValue
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-3-4"
+    }, option.name));
+  });
+  setCombinationValue(startCombinationValue);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, profile, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    "class": "button button--primary",
+    onClick: handleChange
+  }, "Send"));
+}
+
+function ProductFinder(props) {
+  var searchInput;
+
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      modalIsOpen = _React$useState4[0],
+      setIsOpen = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState([]),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      searchResults = _React$useState6[0],
+      setSearchResults = _React$useState6[1];
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+    setSearchResults({});
+  }
+
+  function modalAfterOpen() {
+    searchInput.focus();
+  }
+
+  function inputKeypress(evt) {
+    if (evt.key == 'Enter') {
+      evt.preventDefault();
+      search();
+    }
+  }
+
+  function search() {
+    var query = searchInput.value;
+    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].lookupProduct({
+      q: query
+    }).then(function (result) {
+      console.log('***   Search result', result);
+      setSearchResults(result && result.data);
+    })["catch"](function () {
+      setSearchResults(result || {});
+    });
+  }
+
+  function RadioButtons(attribute, handleChange) {
+    var buttons = (attribute.attrs || []).map(function (option, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        key: option.id,
+        htmlFor: option.id,
+        className: "multiple-choice p-f-m m-b-xxs"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "radio",
+        className: "radio",
+        id: option.id,
+        name: attribute.id,
+        value: option.id,
+        "data-label": option.name,
+        defaultChecked: option.value == 'true'
+      }), option.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: option.id
+      }));
+    });
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      onChange: handleChange
+    }, buttons);
+  }
+
+  function Attribute(attribute) {
+    var handleChange = function handleChange(event) {
+      _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].lookupProductRefine({
+        txId: searchResults.txId,
+        attributeId: attribute.id,
+        valueId: event.target.value,
+        valueString: event.target.getAttribute('data-label')
+      }).then(function (result) {
+        console.log('***   refine result', result);
+
+        if (result && result.data && result.data.txId) {
+          setSearchResults(result && result.data);
+        } else {
+          setSearchResults(searchResults); // force re-render to reset any changed selectors
+        }
+      })["catch"](function (error) {
+        debugger;
+        setSearchResults({});
+      });
+    };
+
+    var body = {
+      SELECTION: RadioButtons,
+      VALUED: ValueChooser
+    }[attribute.type](attribute, handleChange);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "grid m-v-s",
+      key: attribute.id
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-1-4 h-s p-t-0 capitalize"
+    }, attribute.label.replace(/_/g, ' ')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-3-4"
+    }, body));
+  }
+
+  function Section(title, sectionDetails) {
+    if (!sectionDetails || sectionDetails.length == 0 || !sectionDetails.map) return null;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      className: "summary"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+      className: "h-m p-0"
+    }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: ""
+    }, (sectionDetails || []).map(function (value, index) {
+      return Attribute(value);
+    })));
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--primary button--round-corner",
+    onClick: openModal
+  }, "add product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+    isOpen: modalIsOpen,
+    onRequestClose: closeModal,
+    style: customStyles,
+    onAfterOpen: modalAfterOpen
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    className: "product-finder"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "search-header bg-blue-deep-80 text-white p-s"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "pull-right m-r-0",
+    onClick: closeModal
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "fa fa-window-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-m text-white p-t-0"
+  }, "Search by name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Find the product you want to export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: "form-control c-2-3",
+    type: "text",
+    ref: function ref(_searchInput) {
+      return searchInput = _searchInput;
+    },
+    onKeyPress: inputKeypress
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--tertiary m-f-xxs",
+    type: "button",
+    onClick: search
+  }, "Search")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "classification-result"
+  }, searchResults.hsCode && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+    className: "found-section grid bg-black-10"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "h-m"
+  }, "You've found your product!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "h-s p-t-0"
+  }, searchResults.currentItemName), "hs code: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "bold"
+  }, searchResults.hsCode)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--primary",
+    type: "button",
+    onClick: closeModal
+  }, "Select this product"))),  false && /*#__PURE__*/false, Section("Tell us more about your '".concat(searchResults.currentItemName, "'"), searchResults.currentQuestionInteraction && [searchResults.currentQuestionInteraction]),  false && false, Section("Your item's characteristics", searchResults.knownInteractions), Section("We've assumed:", searchResults.assumedInteractions)))));
+}
+/*
+const mapStateToProps = (state) => {
+  return {
+    isDialogueOpen: getModalIsOpen(state, 'products'),
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setDialogueOpen: (isOpen) => {
+      dispatch(actions.toggleModalIsOpen('products', isOpen))
+    },
+  }
+}
+
+const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ProductFinder)
+*/
+
+/*
+export default function ({ ...params }) {
+  const mainElement = document.createElement('span')
+  document.body.appendChild(mainElement)
+  params.element.onClick=openModal;
+  Modal.setAppElement(mainElement)
+  ReactDOM.render(
+    <Provider store={Services.store}>
+      <ProductFinder {...params} />
+    </Provider>,
+    mainElement
+  )
+}*/
+
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
+  var params = _extends({}, _ref);
+
+  var mainElement = document.createElement('span');
+  document.body.appendChild(mainElement);
+  react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(mainElement);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ProductFinder, null), params.element);
+});
 
 /***/ }),
 

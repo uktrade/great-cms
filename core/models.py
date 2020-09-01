@@ -391,7 +391,21 @@ class DetailPage(CMSGenericPage):
             )
         ),
         ('content_module', core_blocks.ModularContentStaticBlock()),
-        ('Step', core_blocks.StepByStepBlock(icon='cog'),)
+        ('Step', core_blocks.StepByStepBlock(icon='cog'),),
+        ('fiction', blocks.StructBlock(
+            [('fiction_body', blocks.RichTextBlock(icon='openquote')),
+             ('image', core_blocks.ImageBlock(required=False))],
+            template='learn/fictional_company_example.html',
+            icon='fa-commenting-o',
+        ),),
+    ])
+    recap = StreamField([
+        (
+            'title', blocks.CharBlock(icon='fa-header'),
+        ),
+        (
+            'item', core_blocks.ObjectiveItem(icon='fa-list')
+        ),
     ])
 
     #########
@@ -401,6 +415,7 @@ class DetailPage(CMSGenericPage):
         ImageChooserPanel('image'),
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
+        StreamFieldPanel('recap'),
     ]
 
     def handle_page_view(self, request):

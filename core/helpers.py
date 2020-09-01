@@ -20,7 +20,10 @@ from core.serializers import parse_opportunities, parse_events
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
-COMMODITY_SEARCH_URL = urljoin(settings.DIT_HELPDESK_URL, '/search/api/commodity-term/')
+# COMMODITY_SEARCH_URL = urljoin(settings.DIT_HELPDESK_URL, '/search/api/commodity-term/')
+COMMODITY_SEARCH_URL = 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-start'  # TODO - get  from environment
+COMMODITY_SEARCH_REFINE_URL = 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-continue'
+COMMODITY_SEARCH_TOKEN = 'bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhbGV4YW5kcm9zLmdpYW1hc0BkaWdpdGFsLnRyYWRlLmdvdi51ayIsInN5c3RlbV9pZCI6IjI4NzliOTI5LWQwOGEtNDBhYy05YTAzLThhZjRkNmU4ZmUwNyIsInByb2ZpbGVfaWQiOiI0MTY1ZjBhZThhNGU0MWZlOTJlZTAwNjJmODNhYmVlZSIsInNjb3BlIjpbIkRFTU9TQ09QRSJdLCJleHAiOjE2MDM1MDI1MTMsImF1dGhvcml0aWVzIjpbIlJPTEVfQ0VSVElGSUNBVEUiLCJST0xFX05PVEVTIiwiUk9MRV9DT01NRU5UQVJZIiwiUk9MRV9UQVJJRkZfRUxJR0lCSUxJVFkiLCJST0xFX0NMQVNTSUZJQ0FUSU9OIiwiUk9MRV9UUkFERURBVEEiXSwianRpIjoiODUwOGZiOWEtMDI0Mi00NmU0LTlhMGItOWZmMjBhOTZkMTgzIiwiY2xpZW50X2lkIjoiVUtEZXBhcnRtZW50b2ZJbnRlcm5hdGlvbmFsVHJhZGVfYXBpX2NsaWVudCJ9.IuSy2kRrgk-UHhw6ZsmGZLLeY2ZRQpVkNIDRegqLVjGlzlhc1yZla8SaTerubu7WF2xl608cHaDUPIoUJ6GZSSWCuD7yXP5d6Rgfbynsw_eyrvZH727zWxDISlrfWAmasWmjCrJEQxagd0SrcQChjbDfRv05QHPhTFTDGPRrbDGAVeqYpo4OqP5jy2KHT5HXCRKe3MFLtQT3tBzC-gds7g1gWID1WBMXBG2ykIFMU6h62qVGsjsdYTEW5rXa4JoF4r6jHMrJP4Tv4uKNZ4yx-Dag6WFD7AoeCygYCgE5eRpdA08nwJXVtRSvUcEEjn1d3tfN8Nrto74-INuQm6NKUw'
 MALE = 'xy'
 FEMALE = 'xx'
 
@@ -218,14 +221,82 @@ def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
 
 
-def search_commodity_by_term(term, page=1):
-    response = requests.get(COMMODITY_SEARCH_URL, {'q': term, 'page': page})
+def search_commodity_by_term(term):
+    classification_mock = {
+        'productDescription': 'Cheese',
+        'knownInteractions': [{
+            'name': 'end use',
+            'label': 'What kind of cheese?',
+        },
+        {
+            'name': 'kind',
+            'label': 'What kind of cheese?',
+        }],
+        'currentQuestionInteraction': {
+            'id': 2,
+            'name': 'cheese_variety',
+            'label': 'treatment',
+            'type': 'SELECTION',
+            'inputType': 'inferred',
+            'selectedString': 'Other',
+            'attrs': [
+                {
+                    'name': 'Animal Feeding',
+                    'value': False,
+                },
+                {
+                    'name': 'Other',
+                    'value': True,
+                },
+            ]
+        },
+
+    }
+
+    # return classification_mock
+
+    print('*** Classification term', term)
+    response = requests.post(
+        url=COMMODITY_SEARCH_URL,
+        json={
+            'proddesc': term,
+            'destination': 'GB',
+        },
+        headers={
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+            'Authorization': COMMODITY_SEARCH_TOKEN,
+        }
+    )
+    print('**************   RESPONSE', response)
     response.raise_for_status()
-    parsed = response.json()
-    return [
-        {'value': item['commodity_code'], 'label': item['description']}
-        for item in parsed['results']
-    ]
+    return response.json()
+    # 
+    # parsed = response.json()
+    # return [
+    #    {'value': item['commodity_code'], 'label': item['description']}
+    #    for item in parsed['results']
+    # ]
+def search_commodity_refine(interractionId, txId, valueId, valueString):
+    response = requests.post(
+        url=COMMODITY_SEARCH_REFINE_URL,
+        json={
+            'state': 'continue',
+            'interractionid': interractionId,
+            'txid': txId,
+            'values': [{'first':valueId, 'second':valueString}],
+        },
+        headers={
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+            'Authorization': COMMODITY_SEARCH_TOKEN,
+        }
+    )
+    print('**************   REFINE RESPONSE', response)
+    response.raise_for_status()
+    return response.json()
 
 
 @functools.lru_cache(maxsize=None)

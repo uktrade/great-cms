@@ -27,6 +27,7 @@
 
 <script type="text/javascript">
     // This inline scrit is temporary
+    {% if False %}
     ditMVP.MarketSelectNavbar({
         element: document.getElementById('personalisation-bar'),
         productElement: document.getElementById('set-product-button'),
@@ -48,5 +49,13 @@
             suggestedCountries: suggestedCountries,
         })
     {% endif %}
-  
+  {% else %}
+        {% if request.user.is_authenticated %}
+          ditMVP.ProductFinder({
+            element: document.querySelector("#set-product-button"),
+            endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+          })
+        {% endif %}
+    {% endif %}
+
 </script>

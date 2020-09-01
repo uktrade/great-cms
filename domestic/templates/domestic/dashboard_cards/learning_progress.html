@@ -1,4 +1,8 @@
-
+{% comment %}
+The lessonb progress card.
+Only show if progress has started
+{% endcomment %}
+{% if lessons_in_progress %}
 <div class="g-card p-b-0" id="your-progress-card">
     <div class="g-card-header">
          <h3 class="h-m">Learn to export</h3>
@@ -22,3 +26,4 @@
         </div>
     {% endfor %}
 </div>
+{% endif %}
