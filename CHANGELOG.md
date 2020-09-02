@@ -42,6 +42,10 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-386 - Lesson - hero image (FE) - Resize
+- no ticket - rename fiction components to fictional example
+- No ticket - wagtail upgrade 2.10
+- GP2-255 - Lesson ita quote (BE)
 - GP2-453 - Lesson fictional example (BE)
 - GP2-294 - Lesson - recap (BE)
 - GP2-255 - Lesson ita quote (FE)
