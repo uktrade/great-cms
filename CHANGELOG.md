@@ -42,6 +42,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- No ticket - wagtail upgrade 2.10
 - GP2-255 - Lesson ita quote (BE)
 - GP2-453 - Lesson fictional example (BE)
 - GP2-294 - Lesson - recap (BE)
