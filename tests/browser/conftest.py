@@ -151,7 +151,8 @@ def server_user_browser_dashboard(
     settings,
     domestic_site_browser_tests,
     mock_get_has_visited_page,
-    mock_set_user_page_view
+    mock_set_user_page_view,
+    mock_get_lessons_completed
 ):
     live_server, user, browser = server_user_browser
 
@@ -162,7 +163,6 @@ def server_user_browser_dashboard(
 
     should_not_see_errors(browser)
     return live_server, user, browser
-
 
 ##########################################################
 # Page fixtures
@@ -237,11 +237,8 @@ def mock_get_dashboard_events():
 
 
 @pytest.fixture
-def mock_get_lessons_read():
-    lessons_read = {'lessons_read': [
-        {'service': 'great-cms',
-            'lesson': 14, 'module': 9, 'user': 6
-         }]}
+def mock_get_lessons_completed():
+    lessons_read = {'lesson_completed': []}
     with patch.object(sso_helpers, 'get_lesson_completed', return_value=lessons_read) as patched:
         yield patched
 

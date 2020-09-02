@@ -13,12 +13,11 @@ from tests.browser.common_selectors import (
     LessonPage,
     TopicLessonListing,
 )
-from tests.helpers import create_response
-from tests.browser.steps import should_see_all_elements, visit_page
+from tests.browser.steps import should_see_all_elements, should_not_see_any_element, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
 from tests.unit.core.factories import DetailPageFactory, ListPageFactory
 from core import constants
-from directory_sso_api_client import sso_api_client
+from sso import helpers as sso_helpers
 
 pytestmark = [
     pytest.mark.browser,
@@ -56,16 +55,17 @@ def check_topic_read_progress(browser: WebDriver, topic: ListPageFactory, lesson
     attach_jpg_screenshot(browser, 'Topics reading progress', selector=DashboardReadingProgress.YOUR_PROGRESS_CARD)
     count_element = browser.find_element_by_css_selector('#your-progress-card .topics-read-text')
     count_text = count_element.text
-    assert count_text == '1/1 complete'
+    assert count_text == '1/2 complete'
 
 
 def test_can_view_lessons_from_different_topics(
+    mock_get_lessons_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    mock_get_lessons_read,
     topics_with_lessons,
     server_user_browser_dashboard,
 ):
+
     live_server, user, browser = server_user_browser_dashboard
     topic_a, topic_a_lessons = topics_with_lessons[0]
     topic_b, topic_b_lessons = topics_with_lessons[1]
@@ -97,23 +97,27 @@ def test_can_navigate_from_topic_to_lesson(
     should_see_all_elements(browser, LessonPage)
 
 
-@mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
+@mock.patch.object(sso_helpers, 'get_lesson_completed')
 def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
-    mock_get_user_lesson_completed,
+    mock_get_lesson_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
     topics_with_lessons,
     server_user_browser_dashboard,
     domestic_homepage,
 ):
-
     live_server, user, browser = server_user_browser_dashboard
     topic_a, topic_a_lessons = topics_with_lessons[0]
     list_page = ListPageFactory(parent=domestic_homepage, title='Test list page')
-    lesson_page = DetailPageFactory(parent=list_page)
-    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
+    lesson_page = DetailPageFactory(parent=list_page, title='test detail page 1')
+    DetailPageFactory(parent=list_page, title='test detail page 2')
+
+    visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
+    should_not_see_any_element(browser, DashboardReadingProgress)
+    # Setting a lesson complete should show progress card with 1/1 complete
+    mock_get_lesson_completed.return_value = {'result': 'ok', 'lesson_completed': [
         {'lesson': lesson_page.id}
-    ]})
+    ]}
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
     should_see_all_elements(browser, DashboardReadingProgress)
