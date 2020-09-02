@@ -21,3 +21,13 @@
   }
 
 }
+
+.completion-status {
+  height: 100%;
+  position: absolute;
+  width: 330px;
+
+  .section-upload {
+    font-size: 16px;
+  }
+}

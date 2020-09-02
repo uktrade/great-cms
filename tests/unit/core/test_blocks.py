@@ -47,7 +47,7 @@ def test_modular_content_static_block_render():
     block = core_blocks.ModularContentStaticBlock()
     context = {'request': request}
     html = block.render(context=context, value=module.content)
-    expected_html = '\n<div class="modules">\n\n     <p class="m-b-0 "><div class="rich-text">{}</div></p>\n\n</div>\n'.format(module.content)  # noqa
+    expected_html = '\n<div class="modules">\n\n     <p class="m-b-0 ">{}</p>\n\n</div>\n'.format(module.content)  # noqa
     assert html == expected_html
 
 
