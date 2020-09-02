@@ -187,9 +187,8 @@ class StepByStepBlock(blocks.StructBlock):
 
 
 class ITAQuoteBlock(blocks.StructBlock):
-    text = blocks.RichTextBlock()
+    quote = blocks.RichTextBlock()
     author = blocks.CharBlock(max_length=255)
-    icon = ImageChooserBlock(required=False)
 
     class Meta:
         template = 'learn/ita_quote.html'
