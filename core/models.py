@@ -388,8 +388,7 @@ class DetailPage(CMSGenericPage):
         ('content_module', core_blocks.ModularContentStaticBlock()),
         ('Step', core_blocks.StepByStepBlock(icon='cog'),),
         ('fictional_example', blocks.StructBlock(
-            [('fiction_body', blocks.RichTextBlock(icon='openquote')),
-             ('image', core_blocks.ImageBlock(required=False))],
+            [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
             template='learn/fictional_company_example.html',
             icon='fa-commenting-o',
         ),),
