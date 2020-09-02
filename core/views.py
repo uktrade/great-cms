@@ -108,13 +108,11 @@ class ProductLookupView(generics.GenericAPIView):
     def get(self, request):
         serializer = self.get_serializer(data=request.query_params)
         serializer.is_valid(raise_exception=True)
-
-        if 'txId' in serializer.validated_data:
+        if 'tx_id' in serializer.validated_data:
             data = helpers.search_commodity_refine(**serializer.validated_data)
-        else:    
+        else:
             data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
         return Response(data)
-
 
 
 def handler404(request, *args, **kwargs):

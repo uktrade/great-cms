@@ -4,7 +4,6 @@ from logging import getLogger
 import csv
 from io import StringIO
 import functools
-from urllib.parse import urljoin
 
 from directory_api_client import api_client
 import great_components.helpers
@@ -218,40 +217,6 @@ def values_to_value_label_pairs(values, choices):
 
 
 def search_commodity_by_term(term):
-    """ 
-    classification_mock = {
-        'productDescription': 'Cheese',
-        'knownInteractions': [{
-            'name': 'end use',
-            'label': 'What kind of cheese?',
-        },
-            {
-            'name': 'kind',
-            'label': 'What kind of cheese?',
-        }],
-        'currentQuestionInteraction': {
-            'id': 2,
-            'name': 'cheese_variety',
-            'label': 'treatment',
-            'type': 'SELECTION',
-            'inputType': 'inferred',
-            'selectedString': 'Other',
-            'attrs': [
-                {
-                    'name': 'Animal Feeding',
-                    'value': False,
-                },
-                {
-                    'name': 'Other',
-                    'value': True,
-                },
-            ]
-        },
-
-    }
-
-    # return classification_mock
-    """
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
         json={
@@ -270,14 +235,14 @@ def search_commodity_by_term(term):
     return response.json()
 
 
-def search_commodity_refine(interractionId, txId, valueId, valueString):
+def search_commodity_refine(interraction_id, tx_id, value_id, value_string):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_REFINE_URL,
         json={
             'state': 'continue',
-            'interractionid': interractionId,
-            'txid': txId,
-            'values': [{'first': valueId, 'second': valueString}],
+            'interractionid': interraction_id,
+            'txid': tx_id,
+            'values': [{'first': value_id, 'second': value_string}],
         },
         headers={
             'Accept': '*/*',
@@ -286,7 +251,6 @@ def search_commodity_refine(interractionId, txId, valueId, valueString):
             'Authorization': settings.COMMODITY_SEARCH_TOKEN,
         }
     )
-    print('**************   REFINE RESPONSE', response)
     response.raise_for_status()
     return response.json()
 

@@ -84,7 +84,7 @@ const lookupProduct = function({ q }) {
 }
 
 const lookupProductRefine = function({ txId, interractionId, valueId, valueString }) {
-  return get(config.apiLookupProductUrl, { txId, interractionId, valueId, valueString }).then((response) => responseHandler(response).json())
+  return get(config.apiLookupProductUrl, { tx_id:txId, interraction_id:interractionId, value_id:valueId, value_string:valueString }).then((response) => responseHandler(response).json())
 }
 
 const createUser = function({ email, password }) {

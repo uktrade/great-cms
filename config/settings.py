@@ -432,7 +432,7 @@ MADB_URL = env.str(
 )
 
 # 3CE commodity classification
-COMMODITY_SEARCH_URL = 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-start'  # TODO - get  from environment
+COMMODITY_SEARCH_URL = 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-start'
 COMMODITY_SEARCH_REFINE_URL = 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-continue'
 COMMODITY_SEARCH_TOKEN = env.str('3CE_COMMODITY_SEARCH_TOKEN', '')
 
