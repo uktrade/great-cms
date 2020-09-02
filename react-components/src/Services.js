@@ -83,6 +83,10 @@ const lookupProduct = function({ q }) {
   return get(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
 }
 
+const lookupProductRefine = function({ txId, interractionId, valueId, valueString }) {
+  return get(config.apiLookupProductUrl, { txId, interractionId, valueId, valueString }).then((response) => responseHandler(response).json())
+}
+
 const createUser = function({ email, password }) {
   return post(config.apiSignupUrl, { email, password }).then(responseHandler)
 }
@@ -247,6 +251,7 @@ export default {
   deleteObjective,
   updateObjective,
   lookupProduct,
+  lookupProductRefine,
   setConfig,
   getLessonComplete,
   setLessonComplete,

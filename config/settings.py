@@ -431,6 +431,11 @@ MADB_URL = env.str(
     'MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 )
 
+# 3CE commodity classification
+COMMODITY_SEARCH_URL = 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-start'  # TODO - get  from environment
+COMMODITY_SEARCH_REFINE_URL = 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-continue'
+COMMODITY_SEARCH_TOKEN = env.str('3CE_COMMODITY_SEARCH_TOKEN', '')
+
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30

@@ -26,27 +26,36 @@
 </nav>
 
 <script type="text/javascript">
-    // This inline scrit is temporary
-    ditMVP.MarketSelectNavbar({
-        element: document.getElementById('personalisation-bar'),
-        productElement: document.getElementById('set-product-button'),
-        countryElement: document.getElementById('set-country-button')
-    })
-
-    var countriesModalElement = document.createElement('div');
-    document.body.appendChild(countriesModalElement);        
-    ditMVP.CountriesModal({element: countriesModalElement});
-
-    var productsModalElement = document.createElement('div');
-    document.body.appendChild(productsModalElement);
-    ditMVP.ProductsModal({element: productsModalElement});
-
-    {% if request.user.is_authenticated and not request.user.export_plan.target_markets %}
-        var suggestedCountries = {{ suggested_countries|safe }}
-        ditMVP.Countries({
-            element: document.getElementById('countries-chooser'),
-            suggestedCountries: suggestedCountries,
+    // This inline script is temporary
+    {% if False %}
+        ditMVP.MarketSelectNavbar({
+            element: document.getElementById('personalisation-bar'),
+            productElement: document.getElementById('set-product-button'),
+            countryElement: document.getElementById('set-country-button')
         })
+
+        var countriesModalElement = document.createElement('div');
+        document.body.appendChild(countriesModalElement);        
+        ditMVP.CountriesModal({element: countriesModalElement});
+
+        var productsModalElement = document.createElement('div');
+        document.body.appendChild(productsModalElement);
+        ditMVP.ProductsModal({element: productsModalElement});
+
+        {% if request.user.is_authenticated and not request.user.export_plan.target_markets %}
+            var suggestedCountries = {{ suggested_countries|safe }}
+            ditMVP.Countries({
+                element: document.getElementById('countries-chooser'),
+                suggestedCountries: suggestedCountries,
+            })
+        {% endif %}
+      {% else %}
+        {% if request.user.is_authenticated %}
+          ditMVP.ProductFinder({
+            element: document.querySelector("#set-product-button"),
+            endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+          })
+        {% endif %}
     {% endif %}
   
 </script>
