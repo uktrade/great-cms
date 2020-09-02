@@ -10,48 +10,51 @@
 
 {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
 
-<section class="bg-white">
-	<div class="">
-		<div class="grid">
-			<aside class="completion-status c-1-4 p-v-m p-r-s p-f-l text-center">
-			   {% if not request.user.company.logo %}
-					<a id="add-image" href="{% url 'exportplan:add-logo' %}" class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
-                        <i class="fas fa-upload"></i>
-                        <h3 class="m-v-xs">Upload your logo</h3>
-                        <p class="m-0">Drag and drop a file or click here.</p>
-                        <p class="m-0">PNG, GIF or JPG, 270x170 pixels</p>
-					</a>
-			    {% else %}
-			        <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full"/>
-			        <a id="edit-image"  href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
-			    {% endif %}
+<section class="bg-blue-deep-10">
+	<aside class="completion-status p-v-m p-r-s p-f-s text-center bg-white">
+       {% if not request.user.company.logo %}
+            <a id="add-image" href="{% url 'exportplan:add-logo' %}" class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
+                <i class="fas fa-upload"></i>
+                <h3 class="m-v-xs bold">Upload your logo</h3>
+                <p class="m-0">Drag and drop a file or click here.</p>
+                <p class="m-0">PNG, GIF or JPG, 270x170 pixels</p>
+            </a>
+        {% else %}
+            <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full"/>
+            <a id="edit-image"  href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
+        {% endif %}
 
-				<div class="m-t-s m-b-m">
-			        <a href="#" class="link link--underline">Add your business name</a>
-				</div>
-			    <button class="button button--secondary button--icon-left m-b-xs width-full "><i class="fas fa-download"></i> Save your plan as a PDF</button>
-			    <button class="button button--secondary button--icon-left m-b-xs width-full"><i class="fas fa-share"></i> Share your plan</button>
-			    <button class="button button--secondary button--icon-left m-b-xs width-full"><i class="fas fa-globe"></i> Find your target market</button>
-			</aside>
-
-			<div class="c-3-4 bg-blue-deep-10 p-v-m p-r-xs" id="section-list">
-				<div class="flex-grid">
-					{% for section in sections %}
-						<div class="c-1-3">
-							<div class="bg-white m-b-s section-list__item">
-							    <a class="w-full link" href="{% url 'exportplan:section' slug=section.title|slugify %}" id="{{ section.title|slugify }}">
-					                <img class="w-full p-h-s p-t-m p-b-s" src="{% static 'images/ep-placeholder.svg' %}" alt="about the business">
-							            <div class="p-h-s p-b-s">
-					                        <h3 class="h-m text-blue-deep-80">{{ section }}</h3>
-							            </div>
-							      </a>
-							</div>
-						</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
+        <div class="m-t-s m-b-m">
+            <a href="#" class="link link--underline">Add your business name</a>
+        </div>
+        <button class="button button--secondary button--icon-left m-b-xs width-full" disabled="disabled"><i class="fas fa-download"></i> Save your plan as a PDF</button>
+        <button class="button button--secondary button--icon-left m-b-xs width-full" disabled="disabled"><i class="fas fa-share"></i> Share your plan</button>
+        <button class="button button--secondary button--icon-left m-b-xs width-full" disabled="disabled"><i class="fas fa-globe"></i> Find your target market</button>
+    </aside>
+    <div class="container">
+        <div class="grid">
+            <div class="c-1-4-l">&nbsp;</div>
+            <div class="c-3-4-l">
+                <div class="p-v-m p-h-m" id="section-list">
+                    <div class="flex-grid">
+                        {% for section in sections %}
+                            <div class="c-1-3">
+                                <div class="bg-white m-b-s section-list__item">
+                                    <a class="w-full link" href="{% url 'exportplan:section' slug=section.title|slugify %}" id="{{ section.title|slugify }}">
+                                        <img class="w-full p-h-s p-t-m p-b-s" src="{% static 'images/ep-placeholder.svg' %}" alt="about the business">
+                                            <div class="p-h-s p-b-s">
+                                                <h3 class="h-m text-blue-deep-80">{{ section }}</h3>
+                                            </div>
+                                      </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
 	</div>
+
 </section>
 
 {% endblock %}
