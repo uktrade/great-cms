@@ -1,5 +1,5 @@
 from sso import helpers as sso_helpers
-from core.models import DetailPage, ListPage, CuratedListPage
+from core.models import DetailPage, CuratedListPage
 
 
 def check_route(route_type, context, user_profile):
