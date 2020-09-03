@@ -8,6 +8,7 @@
 
 ### Fixed bugs
 - GP2-336 - dashboard show lesson progress accumulated to curatedlistpage
+- GP2-255 - style tweaks after wagtail upgrade
 - GP2-382 - fix welcome message
 - No ticket - recap rearrange
 - No ticket - recap field render as rich text
