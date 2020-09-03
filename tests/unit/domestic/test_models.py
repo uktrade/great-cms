@@ -2,10 +2,11 @@ import pytest
 from wagtail.tests.utils import WagtailPageTests
 from unittest import mock
 
-from core import mixins, models
+from core import mixins
 from domestic.models import DomesticHomePage, DomesticDashboard
+from directory_sso_api_client import sso_api_client
 from .factories import DomesticHomePageFactory, DomesticDashboardFactory
-from tests.unit.core.factories import DetailPageFactory, ListPageFactory
+from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
 from tests.helpers import create_response
 
 from directory_api_client import api_client
@@ -51,7 +52,9 @@ class DomesticDashboardTests(WagtailPageTests):
 @pytest.mark.django_db
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
+@mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_dashboard_page_routing(
+    mock_get_user_lesson_completed,
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
     patch_set_user_page_view,
@@ -86,16 +89,19 @@ def test_dashboard_page_routing(
         components__2__route__button={'label': 'Start planning'}
     )
     # All three routes should be visible
+    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok'})
     context_data = dashboard.get_context(get_request)
     assert len(context_data['routes']) == 3
     assert context_data['routes'][0].value.get('route_type') == 'learn'
 
-    # set a learning page view
-    models.PageView.objects.create(
-        page=lesson_one,
-        list_page=topic_one,
-        sso_id=user.pk
-    )
+    # Build learning pages and set one to 'read'
+    topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
+    section_one = CuratedListPageFactory(parent=topic_one, slug='topic-one-section-one')
+    lesson_one = DetailPageFactory(parent=section_one, slug='lesson-one')
+
+    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
+        {'lesson': lesson_one.id},
+    ]})
 
     # the learning one should vanish
     context_data = dashboard.get_context(get_request)
