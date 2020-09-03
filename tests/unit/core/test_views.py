@@ -206,13 +206,13 @@ def test_dashboard_page_lesson_progress(
 
     context_data = dashboard.get_context(get_request)
     # check the progress
-    assert len(context_data['list_pages']) == 2
-    assert context_data['list_pages'][0]['page'].id == module_one.id
-    assert context_data['list_pages'][1]['page'].id == module_two.id
-    assert context_data['list_pages'][0]['total_pages'] == 2
-    assert context_data['list_pages'][1]['total_pages'] == 3
-    assert context_data['list_pages'][0]['read_count'] == 2
-    assert context_data['list_pages'][1]['read_count'] == 0
+    assert len(context_data['module_pages']) == 2
+    assert context_data['module_pages'][0]['page'].id == module_one.id
+    assert context_data['module_pages'][1]['page'].id == module_two.id
+    assert context_data['module_pages'][0]['total_pages'] == 2
+    assert context_data['module_pages'][1]['total_pages'] == 3
+    assert context_data['module_pages'][0]['read_count'] == 2
+    assert context_data['module_pages'][1]['read_count'] == 0
 
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
         {'lesson': lesson_one.id},
@@ -222,10 +222,10 @@ def test_dashboard_page_lesson_progress(
 
     context_data = dashboard.get_context(get_request)
     # the topics should swap round as two is in progress and has more unread than one
-    assert context_data['list_pages'][0]['page'].id == module_two.id
-    assert context_data['list_pages'][1]['page'].id == module_one.id
-    assert context_data['list_pages'][0]['read_count'] == 1
-    assert context_data['list_pages'][1]['read_count'] == 2
+    assert context_data['module_pages'][0]['page'].id == module_two.id
+    assert context_data['module_pages'][1]['page'].id == module_one.id
+    assert context_data['module_pages'][0]['read_count'] == 1
+    assert context_data['module_pages'][1]['read_count'] == 2
 
 
 @pytest.mark.django_db
