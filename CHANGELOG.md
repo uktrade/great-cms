@@ -43,8 +43,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-- GP2-336 - Lesson progress on dashboard
 - GP2-259 - Lesson - pros and cons (FE)
+- GP2-336 - Lesson progress on dashboard
 - GP2-386 - Lesson - hero image (FE) - Resize
 - no ticket - rename fiction components to fictional example
 - No ticket - wagtail upgrade 2.10
