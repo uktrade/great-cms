@@ -359,13 +359,16 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     objective = StreamField([
-        (
-            'paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),
-        ),
-        (
-            'ListItem', core_blocks.ObjectiveItem()
-        ),
+        ('paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),),
+        ('ListItem', core_blocks.ObjectiveItem()),
     ])
     body = StreamField([
         (
@@ -383,15 +386,33 @@ class DetailPage(CMSGenericPage):
             )
         ),
         ('content_module', core_blocks.ModularContentStaticBlock()),
-        ('Step', core_blocks.StepByStepBlock(icon='cog'),)
+        ('Step', core_blocks.StepByStepBlock(icon='cog'),),
+        ('fictional_example', blocks.StructBlock(
+            [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
+            template='learn/fictional_company_example.html',
+            icon='fa-commenting-o',
+        ),),
+        ('ITA_Quote', core_blocks.ITAQuoteBlock(icon='fa-quote-left'),),
+    ])
+    recap = StreamField([
+        ('recap_item', blocks.StructBlock([
+            ('title', blocks.CharBlock(icon='fa-header')),
+            ('item', blocks.StreamBlock([
+                ('item', core_blocks.ObjectiveItem(),)]
+            ))
+        ],
+            template='learn/recap.html',
+            icon='fa-commenting-o', ),)
     ])
 
     #########
     # Panels
     ##########
     content_panels = Page.content_panels + [
+        ImageChooserPanel('image'),
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
+        StreamFieldPanel('recap'),
     ]
 
     def handle_page_view(self, request):

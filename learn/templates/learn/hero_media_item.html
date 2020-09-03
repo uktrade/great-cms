@@ -1,1 +1,5 @@
-<img src="https://dummyimage.com/600x400/000/fff" alt="" />
+{% load wagtailimages_tags %}
+
+{% image page.image original as hero_image %}
+
+<img src="{{ hero_image.url }}" alt="{{ hero_image.alt }}"  />

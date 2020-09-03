@@ -1,0 +1,15 @@
+{% load  wagtailcore_tags static %}
+
+<div class="ita-quote media-block m-b-m">
+     <img src="{% static 'images/quote.png' %}" alt="quote image" />
+    <div>
+        <figure class="quote">
+            <blockquote class="m-t-0">
+                {{ value.quote|richtext }}
+            </blockquote>
+            <figcaption>
+                {{ value.author|richtext }}
+            </figcaption>
+        </figure>
+    </div>
+</div>

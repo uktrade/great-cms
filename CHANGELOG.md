@@ -7,7 +7,10 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-
+- GP2-382 - fix welcome message
+- No ticket - recap rearrange
+- No ticket - recap field render as rich text
+- No ticket - Fix font awesome font path
 - GP2-438 - lesson font styling tweaks
 - GP2-415 - internal button links
 - GP2-414 - Moving step block to Body field for Detail page
@@ -40,8 +43,15 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-
-- GP2-438 - Lesson - recap (FE)
+- GP2-386 - Lesson - hero image (FE) - Resize
+- no ticket - rename fiction components to fictional example
+- No ticket - wagtail upgrade 2.10
+- GP2-255 - Lesson ita quote (BE)
+- GP2-453 - Lesson fictional example (BE)
+- GP2-294 - Lesson - recap (BE)
+- GP2-255 - Lesson ita quote (FE)
+- GP2-452 - Lesson fictional example (FE)
+- GP2-293 - Lesson - recap (FE)
 - Gp2-253 - Lesson - text paragraph
 - GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
