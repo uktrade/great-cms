@@ -1,6 +1,7 @@
 # Changelog
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
+- GP2-519 - turn over choices
 
 ## Pre-release
 
