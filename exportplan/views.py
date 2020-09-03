@@ -50,6 +50,20 @@ class ExportPlanMixin:
         )
 
 
+class LessonDetailsMixin:
+
+    @property
+    def lesson_details(self):
+        return helpers.get_all_lesson_details()
+
+    def get_context_data(self, **kwargs):
+
+        return super().get_context_data(
+            lesson_details=self.lesson_details,
+            **kwargs
+        )
+
+
 class FormContextMixin:
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -162,7 +176,7 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         return context
 
 
-class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
     def get_initial(self):
         return self.export_plan['about_your_business']
