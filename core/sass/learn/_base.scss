@@ -346,6 +346,14 @@ $desktop: 1024px;
     h2, h3, h4 {
       margin-bottom: 12px;
     }
+
+    .rich-text > p:first-of-type {
+      margin-top: 0;
+    }
+
+    .rich-text *:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .ita-quote {
@@ -353,6 +361,10 @@ $desktop: 1024px;
       transform: scale(.6);
       margin-bottom: 10px;
       margin-top: -5px;
+    }
+
+    .rich-text p {
+      margin-top: 0;
     }
   }
 }
