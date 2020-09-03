@@ -31,6 +31,14 @@ def build_route_context(user, context={}):
     return routes
 
 
+def get_ancestor(page, ancestor_class):
+    # Seek up the tree to fin a page matching class
+    while page:
+        if isinstance(page.specific, ancestor_class):
+            return page
+        page = page.get_parent()
+
+
 def get_read_progress(user, context={}):
     # Gets all detail pages and uses the parental tree to get a list of learning
     # sections with a count of read lessons in each
@@ -42,19 +50,19 @@ def get_read_progress(user, context={}):
 
     lessons_in_progress = False
     completed = set()
-    for lesson in sso_helpers.get_lesson_completed(user.session_id).get('lesson_completed') or []:
+    data = sso_helpers.get_lesson_completed(user.session_id)
+    for lesson in data.get('lesson_completed', []):
         completed.add(lesson.get('lesson'))
     page_map = {}
     for detail_page in DetailPage.objects.live():
-        list_page = detail_page
-        while not isinstance(list_page.specific, ListPage) and list_page.get_parent():
-            list_page = list_page.get_parent()
-        page_map[list_page.id] = page_map.get(
-            list_page.id) or {'total_pages': 0, 'read_count': 0, 'page': list_page}
-        page_map[list_page.id]['total_pages'] += 1
-        if detail_page.id in completed:
-            page_map[list_page.id]['read_count'] += 1
-            lessons_in_progress = True
+        list_page = get_ancestor(detail_page, ListPage)
+        if list_page:
+            page_map[list_page.id] = page_map.get(
+                list_page.id) or {'total_pages': 0, 'read_count': 0, 'page': list_page}
+            page_map[list_page.id]['total_pages'] += 1
+            if detail_page.id in completed:
+                page_map[list_page.id]['read_count'] += 1
+                lessons_in_progress = True
     list_pages = list(page_map.values())
     list_pages.sort(key=lesson_comparator, reverse=True)
     return {
