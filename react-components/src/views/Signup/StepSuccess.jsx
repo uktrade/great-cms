@@ -1,33 +1,23 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Services from '@src/Services'
-import './stylesheets/StepSuccess.scss'
-
-
-export default function StepSuccess(props){
+const StepSuccess = ({
+  showTitle,
+  nextUrl
+}) => {
   return (
-    <div className='great-mvp-signup-wizard-step-success' id="signup-modal-success">
-      {props.showTitle && <h2 className="h-xl">Complete</h2>}
-      <p className='great-mvp-subtitle'>Your account has been created.</p>
-      <div className="body-text great-mvp-synopsis m-t-0">
-        <span>You can now:</span>
-        <ul className="list list-bullet">
-          <li>Start using your Great.gov.uk <a href={Services.config.dashboardUrl}>Dashboard</a></li>
-          <li>Create an  <a href="/export-plan">export plan</a></li>
-          <li>Save your progress in learning</li>
-        </ul>
-      </div>
+    <div id="signup-modal-success">
+      <i className="fas fa-check-circle" />
+      {showTitle && <h2 className="h-m text-blue-deep-80 body-l">Sign up complete</h2>}
+      <p>Your account has been created.</p>
       <a
         id="signup-modal-submit-success"
-        className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
-        href={props.nextUrl}
-      >Continue</a>
+        className="button button--primary"
+        href={nextUrl}
+      >Continue to the dashboard</a>
     </div>
   )
 }
-
 
 StepSuccess.propTypes = {
   nextUrl: PropTypes.string.isRequired,
@@ -37,3 +27,5 @@ StepSuccess.propTypes = {
 StepSuccess.defaultProps = {
   showTitle: true,
 }
+
+export default StepSuccess
