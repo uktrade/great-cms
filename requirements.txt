@@ -20,7 +20,7 @@ cryptography==2.9.2       # via -r requirements.in
 cssselect==1.1.0          # via pyquery
 directory-api-client==22.3.0  # via -r requirements.in
 directory-client-core==6.2.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
-directory-constants==20.14.1  # via -r requirements.in, great-components
+directory-constants==20.15.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
 directory-sso-api-client==6.5.3  # via -r requirements.in
 directory-validators==6.0.3  # via -r requirements.in

@@ -10,6 +10,7 @@ airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.18     # via -r requirements_test.in
 allure-python-commons==2.8.18  # via allure-pytest
+appnope==0.1.0            # via ipython
 astroid==2.4.2            # via pylint
 attrs==20.1.0             # via allure-python-commons, jsonschema, pytest
 babel==2.8.0              # via sphinx
@@ -29,7 +30,7 @@ cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
 directory-api-client==22.3.0  # via -r requirements.in
 directory-client-core==6.2.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
-directory-constants==20.14.1  # via -r requirements.in, great-components
+directory-constants==20.15.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
 directory-sso-api-client==6.5.3  # via -r requirements.in
 directory-validators==6.0.3  # via -r requirements.in
@@ -76,7 +77,7 @@ ipdb==0.13.3              # via -r requirements_test.in
 ipython-genutils==0.2.0   # via traitlets
 ipython==7.16.1           # via ipdb
 iso3166==1.0.1            # via -r requirements.in
-isort==5.4.2              # via pylint
+isort==5.5.0              # via pylint
 itsdangerous==1.1.0       # via flask
 jdcal==1.4.1              # via openpyxl
 jedi==0.17.2              # via ipython
