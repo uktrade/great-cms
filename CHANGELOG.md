@@ -7,6 +7,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-336 - dashboard show lesson progress accumulated to curatedlistpage
 - GP2-382 - fix welcome message
 - No ticket - recap rearrange
 - No ticket - recap field render as rich text

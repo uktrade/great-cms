@@ -15,7 +15,7 @@ from tests.browser.common_selectors import (
 )
 from tests.browser.steps import should_see_all_elements, should_not_see_any_element, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
-from tests.unit.core.factories import DetailPageFactory, ListPageFactory
+from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
 from core import constants
 from sso import helpers as sso_helpers
 
@@ -108,9 +108,9 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
 ):
     live_server, user, browser = server_user_browser_dashboard
     topic_a, topic_a_lessons = topics_with_lessons[0]
-    list_page = ListPageFactory(parent=domestic_homepage, title='Test list page')
-    lesson_page = DetailPageFactory(parent=list_page, title='test detail page 1')
-    DetailPageFactory(parent=list_page, title='test detail page 2')
+    module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
+    lesson_page = DetailPageFactory(parent=module_page, title='test detail page 1')
+    DetailPageFactory(parent=module_page, title='test detail page 2')
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
     should_not_see_any_element(browser, DashboardReadingProgress)
