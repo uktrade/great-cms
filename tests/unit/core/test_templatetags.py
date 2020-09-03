@@ -66,3 +66,21 @@ def test_set(user, rf, domestic_site):
 
     html = template.render(Context({}))
     assert html == '1234'
+
+
+@pytest.mark.django_db
+def test_get_item_filter(user, rf, domestic_site):
+    cases = [
+        {'lesson_details': {'my-lesson': {'topic_name': 'my topic'}}, 'result': 'my topic'},
+        {'lesson_details': {'myLesson2': {'topic_name': 'my topic'}}, 'result': ''},
+        {'lesson_details': '', 'result': ''},
+    ]
+
+    template = Template(
+        '{% load object_tags %}'
+        '{{ lesson_details|get_item:\"my-lesson\"|get_item:\"topic_name\" }}'
+    )
+
+    for case in cases:
+        html = template.render(Context({'lesson_details': case.get('lesson_details')}))
+        assert html == case.get('result')
