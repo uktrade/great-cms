@@ -1,5 +1,5 @@
 from sso import helpers as sso_helpers
-from core.models import DetailPage, ListPage
+from core.models import DetailPage, ListPage, CuratedListPage
 
 
 def check_route(route_type, context, user_profile):
@@ -55,7 +55,7 @@ def get_read_progress(user, context={}):
         completed.add(lesson.get('lesson'))
     page_map = {}
     for detail_page in DetailPage.objects.live():
-        list_page = get_ancestor(detail_page, ListPage)
+        list_page = get_ancestor(detail_page, CuratedListPage)
         if list_page:
             page_map[list_page.id] = page_map.get(
                 list_page.id) or {'total_pages': 0, 'read_count': 0, 'page': list_page}

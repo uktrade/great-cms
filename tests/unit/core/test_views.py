@@ -186,16 +186,16 @@ def test_dashboard_page_lesson_progress(
     client.force_login(user)
 
     # given the user has read some lessons
-    topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
-    topic_two = ListPageFactory(parent=domestic_homepage, slug='topic-two', record_read_progress=True)
-    section_one = CuratedListPageFactory(parent=topic_one, slug='topic-one-section-one')
-    section_two = CuratedListPageFactory(parent=topic_two, slug='topic-two-section-one')
-    CuratedListPageFactory(parent=topic_two, slug='topic-two-section-two')
-    lesson_one = DetailPageFactory(parent=section_one, slug='lesson-one')
-    lesson_two = DetailPageFactory(parent=section_one, slug='lesson-two')
-    DetailPageFactory(parent=section_two, slug='lesson-three',)
-    DetailPageFactory(parent=section_two, slug='lesson-four')
-    lesson_five = DetailPageFactory(parent=section_two, slug='lesson-one-topic-two')
+    section_one = ListPageFactory(parent=domestic_homepage, slug='section-one', record_read_progress=True)
+    section_two = ListPageFactory(parent=domestic_homepage, slug='section-two', record_read_progress=True)
+    module_one = CuratedListPageFactory(parent=section_one, slug='section-one-module-one')
+    module_two = CuratedListPageFactory(parent=section_two, slug='section-two-module-one')
+    CuratedListPageFactory(parent=section_two, slug='section-two-module-two')
+    lesson_one = DetailPageFactory(parent=module_one, slug='lesson-one')
+    lesson_two = DetailPageFactory(parent=module_one, slug='lesson-two')
+    DetailPageFactory(parent=module_two, slug='lesson-three',)
+    DetailPageFactory(parent=module_two, slug='lesson-four')
+    lesson_five = DetailPageFactory(parent=module_two, slug='lesson-five')
     # create dashboard
     dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
 
@@ -207,8 +207,8 @@ def test_dashboard_page_lesson_progress(
     context_data = dashboard.get_context(get_request)
     # check the progress
     assert len(context_data['list_pages']) == 2
-    assert context_data['list_pages'][0]['page'].id == topic_one.id
-    assert context_data['list_pages'][1]['page'].id == topic_two.id
+    assert context_data['list_pages'][0]['page'].id == module_one.id
+    assert context_data['list_pages'][1]['page'].id == module_two.id
     assert context_data['list_pages'][0]['total_pages'] == 2
     assert context_data['list_pages'][1]['total_pages'] == 3
     assert context_data['list_pages'][0]['read_count'] == 2
@@ -222,8 +222,8 @@ def test_dashboard_page_lesson_progress(
 
     context_data = dashboard.get_context(get_request)
     # the topics should swap round as two is in progress and has more unread than one
-    assert context_data['list_pages'][0]['page'].id == topic_two.id
-    assert context_data['list_pages'][1]['page'].id == topic_one.id
+    assert context_data['list_pages'][0]['page'].id == module_two.id
+    assert context_data['list_pages'][1]['page'].id == module_one.id
     assert context_data['list_pages'][0]['read_count'] == 1
     assert context_data['list_pages'][1]['read_count'] == 2
 
