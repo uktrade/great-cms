@@ -7,6 +7,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- No ticket - Fix lesson page layout issues after wagtail upgrade
 - GP2-255 - style tweaks after wagtail upgrade
 - GP2-336 - dashboard show lesson progress accumulated to curatedlistpage
 - GP2-382 - fix welcome message

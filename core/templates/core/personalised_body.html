@@ -4,7 +4,7 @@
 
 
 {% for block in page.body %}
-    <div>
+    <div class="rich-text">
     {% filter add_anchors_to_all_headings %}
         {% filter add_export_elements_classes %}
             {% include_block block %}
