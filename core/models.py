@@ -359,12 +359,10 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
-    image = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
+    hero = StreamField([
+        ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
+        ('Video', core_blocks.SimpleVideoBlock())],
+        null=True
     )
     objective = StreamField([
         ('paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),),
@@ -409,7 +407,7 @@ class DetailPage(CMSGenericPage):
     # Panels
     ##########
     content_panels = Page.content_panels + [
-        ImageChooserPanel('image'),
+        StreamFieldPanel('hero'),
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
         StreamFieldPanel('recap'),

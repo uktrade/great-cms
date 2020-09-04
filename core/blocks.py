@@ -17,6 +17,9 @@ class VideoBlock(blocks.StructBlock):
     height = blocks.IntegerBlock()
     video = MediaChooserBlock()
 
+    class Meta:
+        icon = 'fa-play'
+
 
 class ObjectiveItem(blocks.StructBlock):
     item = blocks.CharBlock(max_length=255)
@@ -81,6 +84,15 @@ class ImageBlock(ImageChooserBlock):
         help_text = 'Include an image'
         template = 'core/includes/_image.html'
         icon = 'image'
+
+
+class SimpleVideoBlock(blocks.StructBlock):
+    video = MediaChooserBlock()
+
+    class Meta:
+        help_text = 'Include a video'
+        template = 'core/includes/_hero_video.html'
+        icon = 'fa-play'
 
 
 class ButtonBlock(blocks.StructBlock):

@@ -1,5 +1,5 @@
-{% load wagtailimages_tags %}
+{% load include_block from wagtailcore_tags %}
 
-{% image page.image original as hero_image %}
-
-<img src="{{ hero_image.url }}" alt="{{ hero_image.alt }}"  />
+{% for block in page.hero %}
+    {% include_block block %}
+{% endfor %}
