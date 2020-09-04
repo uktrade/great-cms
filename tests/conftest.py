@@ -224,6 +224,14 @@ def mock_get_company_profile(patch_get_company_profile):
 
 
 @pytest.fixture
+def patch_get_user_lesson_completed():
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_lesson_completed',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+    ).start()
+
+
+@pytest.fixture
 def patch_update_company_profile():
     yield mock.patch('core.helpers.update_company_profile', return_value=None)
 

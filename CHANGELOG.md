@@ -7,6 +7,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-255 - style tweaks after wagtail upgrade
+- GP2-336 - dashboard show lesson progress accumulated to curatedlistpage
 - GP2-382 - fix welcome message
 - No ticket - recap rearrange
 - No ticket - recap field render as rich text
@@ -43,6 +45,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-259 - Lesson - pros and cons (FE)
+- GP2-336 - Lesson progress on dashboard
 - GP2-386 - Lesson - hero image (FE) - Resize
 - no ticket - rename fiction components to fictional example
 - No ticket - wagtail upgrade 2.10

@@ -8,7 +8,7 @@
 			    <h3 class="h-m">{{value.title|default:'Learn'}}</h3>
 			    <p class="">{{value.body|linebreaksbr}}</p>
 			</div>
-		    <a class="button button--secondary --button-large" icon="" theme="secondary" href="{{value.button.link.url}}">
+		    <a class="button button--secondary --button-large" icon="" theme="secondary" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
 		      {{value.button.label}}
 		    </a>
 		</div>

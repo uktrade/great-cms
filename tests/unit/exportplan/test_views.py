@@ -88,12 +88,14 @@ def test_export_plan_builder_landing_page(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'marketing-approach', 'objectives'})
+@mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
 @mock.patch.object(helpers, 'get_cia_world_factbook_data')
 @mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(mock_get_create_exportplan, mock_cia_factbook_data, export_plan_data, slug, client, user):
+def test_exportplan_sections(
+        mock_get_create_exportplan, mock_cia_factbook_data, mock_get_all_lessons, export_plan_data, slug, client, user
+):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
-
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
     assert response.status_code == 200
 
@@ -172,3 +174,22 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, mock_get_cr
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
     response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     response.context_data['target_market_documents'] = {'document_name': 'test'}
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_all_lesson_details')
+def test_about_your_business_has_lessons(mock_get_all_lesson_details, mock_get_create_export_plan, client, user):
+    client.force_login(user)
+
+    mock_get_all_lesson_details.return_value = {
+        'lesson1': {'title': 'my lesson', 'url': 'my url'}
+    }
+    mock_get_create_export_plan.return_value = {'about_your_business': {}}
+    slug = slugify('About your business')
+    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+
+    assert response.status_code == 200
+
+    assert mock_get_all_lesson_details.call_count == 1
+
+    response.context_data['lesson_details'] = {'lesson1': {'title': 'my lesson', 'url': 'my url'}}

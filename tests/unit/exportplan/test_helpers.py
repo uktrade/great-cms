@@ -6,6 +6,8 @@ import pytest
 
 from tests.helpers import create_response
 from exportplan import helpers
+from tests.unit.learn.factories import LessonPageFactory
+from tests.unit.core.factories import CuratedListPageFactory
 
 
 @pytest.fixture(autouse=True)
@@ -440,7 +442,7 @@ def test_target_market_documentss_update(mock_target_market_documents_update):
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_delete')
-def test_target_market_documentss_delete(mock_target_market_documents_delete):
+def test_target_market_documents_delete(mock_target_market_documents_delete):
     data = {'pk': 1}
     mock_target_market_documents_delete.return_value = create_response(data)
 
@@ -449,3 +451,20 @@ def test_target_market_documentss_delete(mock_target_market_documents_delete):
     assert mock_target_market_documents_delete.call_count == 1
     assert mock_target_market_documents_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_get_all_lesson_details(domestic_homepage):
+    topic = CuratedListPageFactory(parent=domestic_homepage)
+    LessonPageFactory(parent=topic)
+
+    lessons = helpers.get_all_lesson_details()
+    assert lessons == {
+        'detail-page':
+            {
+                'topic_name': 'Curated List Page',
+                'title': 'Detail page',
+                'estimated_read_duration': None,
+                'url': None
+            }
+    }
