@@ -91,6 +91,7 @@ class SimpleVideoBlock(blocks.StructBlock):
 
     class Meta:
         help_text = 'Include a video'
+        template = 'core/includes/_hero_video.html'
         icon = 'fa-play'
 
 

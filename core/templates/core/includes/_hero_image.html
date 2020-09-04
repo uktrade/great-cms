@@ -1,0 +1,4 @@
+{% load wagtailimages_tags %}
+
+{% image block.value original as hero_image %}
+<img src="{{ hero_image.url }}" alt="{{ hero_image.alt }}"/>

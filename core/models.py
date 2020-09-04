@@ -360,7 +360,7 @@ class DetailPage(CMSGenericPage):
     # Content fields
     ################
     hero = StreamField([
-        ('Image', core_blocks.ImageBlock()),
+        ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
         ('Video', core_blocks.SimpleVideoBlock())],
         null=True
     )

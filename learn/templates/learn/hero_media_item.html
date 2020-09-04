@@ -1,12 +1,5 @@
-{% load wagtailimages_tags %}
+{% load include_block from wagtailcore_tags %}
 
 {% for block in page.hero %}
-    {% if block.block_type == 'Image' %}
-        {% image block.value original as hero_image %}
-        <img src="{{ hero_image.url }}" alt="{{ hero_image.alt }}"/>
-        {% elif block.block_type == 'Video' %}
-        {% load video_tags %}
-        {% render_video block.value %}
-    {% endif %}
+    {% include_block block %}
 {% endfor %}
-
