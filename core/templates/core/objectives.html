@@ -2,9 +2,11 @@
 
 <div class="objectives">
     {% for block in page.objective %}
+        <div class="rich-text">
         {% if block.block_type == 'paragraph' %}
             <p> {{ block.value }}</p>
         {% endif %}
+        </div>
     {% endfor %}
     <ul class="list-dot text-blue-deep-80">
         {% for block in page.objective %}
