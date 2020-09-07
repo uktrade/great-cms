@@ -6,14 +6,12 @@
         <div class="box box--no-pointer pros-and-cons h-100">
             <h3 class="h-l text-blue-deep-80 p-b-xs">Pros</h3>
             <ul class="list-arrow">
+                {% for pro in block.value.pros %}
                 <li>
                 <i class="fas fa-angle-right"></i>
-                <span>Your own bank may be more familiar with your business</span>
+                <span>{{ pro.value.item }}</span>
                 </li>
-                <li>
-                <i class="fas fa-angle-right"></i>
-                <span>Bank loans let you keep full control of your company</span>
-                </li>
+                {% endfor %}
             </ul>
             </div>
     </div>
@@ -21,10 +19,12 @@
         <div class="box box--no-pointer pros-and-cons h-100">
             <h3 class="h-l text-blue-deep-80 p-b-xs">Cons</h3>
             <ul class="list-arrow">
+                {% for con in block.value.cons %}
                 <li>
                 <i class="fas fa-angle-right"></i>
-                <span>Your own bank may be more familiar with your business</span>
+                <span>{{ con.value.item }}</span>
                 </li>
+                {% endfor %}
             </ul>
             </div>
     </div>
