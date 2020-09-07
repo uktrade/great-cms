@@ -51,6 +51,7 @@
 
 ### Implemented enhancements
 - GP2-259 - Lesson - pros and cons (BE)
+- GP2-208 - Product search modal
 - GP2-259 - Lesson - pros and cons (FE)
 - GP2-336 - Lesson progress on dashboard
 - GP2-386 - Lesson - hero image (FE) - Resize
