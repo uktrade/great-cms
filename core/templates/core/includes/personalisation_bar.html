@@ -52,8 +52,7 @@
       {% else %}
         {% if request.user.is_authenticated %}
           ditMVP.ProductFinder({
-            element: document.querySelector("#set-product-button"),
-            endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+            element: document.querySelector("#set-product-button")
           })
         {% endif %}
     {% endif %}

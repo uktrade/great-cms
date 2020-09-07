@@ -8,6 +8,7 @@ from requests.exceptions import HTTPError
 
 from core import helpers
 from tests.helpers import create_response
+from django.conf import settings
 
 
 @mock.patch.object(helpers, 'get_client_ip')
@@ -196,23 +197,29 @@ def test_company_parser_expertise_countries_hard_code_industries(settings):
     )
 
 
-def test_search_commodity_by_term(requests_mock):
-    requests_mock.get(
-        helpers.COMMODITY_SEARCH_URL,
-        json={
+def test_helper_search_commodity_by_term(requests_mock):
+    data = {
             'results': [
                 {'commodity_code': '123323', 'description': 'some description'},
                 {'commodity_code': '223323', 'description': 'some other description'},
             ]
         }
+
+    requests_mock.post(
+        settings.COMMODITY_SEARCH_URL,
+        json=data
     )
 
-    actual = helpers.search_commodity_by_term('word')
+    requests_mock.post(
+        settings.COMMODITY_SEARCH_REFINE_URL,
+        json=data
+    )
 
-    assert actual == [
-        {'value': '123323', 'label': 'some description'},
-        {'value': '223323', 'label': 'some other description'},
-    ]
+    first_response = helpers.search_commodity_by_term('word')
+    assert first_response == data
+
+    refine_response = helpers.search_commodity_refine(interraction_id=1234, tx_id=1234, value_id=1234, value_string='processed')
+    assert refine_response == data
 
 
 def test_get_popular_export_destinations():
