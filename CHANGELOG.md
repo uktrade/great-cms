@@ -7,6 +7,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-267 & GP2-526 Fix page publishing bypassing draft status
 - No ticket - Fix lesson page layout issues after wagtail upgrade
 - GP2-255 - style tweaks after wagtail upgrade
 - GP2-336 - dashboard show lesson progress accumulated to curatedlistpage
@@ -46,6 +47,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-259 - Lesson - pros and cons (BE)
 - GP2-259 - Lesson - pros and cons (FE)
 - GP2-336 - Lesson progress on dashboard
 - GP2-386 - Lesson - hero image (FE) - Resize
@@ -199,3 +201,4 @@
 - GP2-393 - adaption fields saving
 - GP2-395 - adaption tm documents API views
 - GP2-424 - remove-links logged out state
+- GP2-362 - factbook-lanuage-display
