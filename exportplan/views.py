@@ -103,7 +103,7 @@ class FormContextMixin:
 
         form_fields = [
             {'name': name, 'label': label, 'field_type': field_type, 'placeholder': placeholder,
-             'tooltip': tooltip, 'example': example,'description': description, 'currency': currency,
+             'tooltip': tooltip, 'example': example, 'description': description, 'currency': currency,
              'choices': choices}
             for
             name, label, field_type, placeholder, tooltip, example, description, currency, choices
