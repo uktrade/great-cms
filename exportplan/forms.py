@@ -1,9 +1,10 @@
 from great_components import forms
-from django.forms import ImageField, Textarea, NumberInput
+from django.forms import ImageField, Textarea, NumberInput, Select
 
 import directory_validators.url
 import directory_validators.string
 import directory_validators.file
+from directory_constants.choices import TURNOVER_CHOICES
 
 from core.helpers import population_age_range_choices
 
@@ -88,10 +89,11 @@ class ExportPlanAboutYourBusinessForm(forms.Form):
             )}
         ),
     )
-    performance = forms.CharField(
+    performance = forms.ChoiceField(
         label='Business performance',
+        choices=TURNOVER_CHOICES,
         required=False,
-        widget=Textarea(attrs={
+        widget=Select(attrs={
             'example': (
                 'From 2015 to 2018 sales have grown on average 31% a year. Revenue flattened off '
                 'slightly in 2019 because of a UK distribution issue which has now been resolved. '
@@ -100,7 +102,8 @@ class ExportPlanAboutYourBusinessForm(forms.Form):
             'tooltip': (
                 'Give a summary of the past 3 to 5 years. You could include sales and profit figures '
                 'or percentages, together with a brief description of any significant events.'
-            )}
+            ),
+        }
         ),
     )
 

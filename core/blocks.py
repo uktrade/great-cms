@@ -21,7 +21,7 @@ class VideoBlock(blocks.StructBlock):
         icon = 'fa-play'
 
 
-class ObjectiveItem(blocks.StructBlock):
+class Item(blocks.StructBlock):
     item = blocks.CharBlock(max_length=255)
 
 

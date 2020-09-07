@@ -366,7 +366,7 @@ class DetailPage(CMSGenericPage):
     )
     objective = StreamField([
         ('paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),),
-        ('ListItem', core_blocks.ObjectiveItem()),
+        ('ListItem', core_blocks.Item()),
     ])
     body = StreamField([
         (
@@ -391,12 +391,22 @@ class DetailPage(CMSGenericPage):
             icon='fa-commenting-o',
         ),),
         ('ITA_Quote', core_blocks.ITAQuoteBlock(icon='fa-quote-left'),),
+        ('pros_cons', blocks.StructBlock([
+            ('pros', blocks.StreamBlock([
+                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+            )),
+            ('cons', blocks.StreamBlock([
+                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+            ))
+        ],
+            template='learn/pros_and_cons.html',
+            icon='fa-arrow-right', ),)
     ])
     recap = StreamField([
         ('recap_item', blocks.StructBlock([
             ('title', blocks.CharBlock(icon='fa-header')),
             ('item', blocks.StreamBlock([
-                ('item', core_blocks.ObjectiveItem(),)]
+                ('item', core_blocks.Item(),)]
             ))
         ],
             template='learn/recap.html',

@@ -8,7 +8,7 @@
 
 airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
-attrs==20.1.0             # via jsonschema
+attrs==20.2.0             # via jsonschema
 babel==2.8.0              # via sphinx
 beautifulsoup4==4.8.2     # via great-components, readtime, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
@@ -20,7 +20,7 @@ cryptography==2.9.2       # via -r requirements.in
 cssselect==1.1.0          # via pyquery
 directory-api-client==22.3.0  # via -r requirements.in
 directory-client-core==6.2.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
-directory-constants==20.14.1  # via -r requirements.in, great-components
+directory-constants==20.15.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
 directory-sso-api-client==6.5.3  # via -r requirements.in
 directory-validators==6.0.3  # via -r requirements.in
@@ -67,7 +67,7 @@ olefile==0.46             # via directory-validators
 openpyxl==3.0.5           # via tablib
 packaging==20.4           # via sphinx
 pillow==7.2.0             # via -r requirements.in, directory-validators, wagtail
-psycopg2==2.8.5           # via -r requirements.in
+psycopg2==2.8.6           # via -r requirements.in
 pycountry==20.7.3         # via wagtail-personalisation
 pycparser==2.20           # via cffi
 pygments==2.6.1           # via sphinx
