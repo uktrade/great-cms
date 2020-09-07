@@ -57,5 +57,5 @@ def set_read_time(request, page):
             tag.decompose()
         seconds = readtime.of_html(str(soup.body)).seconds
         page.estimated_read_duration = timedelta(seconds=seconds)
-        page.save()
+        page.save_revision()
         return seconds
