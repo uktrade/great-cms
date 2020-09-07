@@ -201,3 +201,4 @@
 - GP2-395 - adaption tm documents API views
 - GP2-424 - remove-links logged out state
 - GP2-362 - factbook-lanuage-display
+- GP2-519 - turn-over-choices

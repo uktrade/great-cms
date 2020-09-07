@@ -92,12 +92,25 @@ class FormContextMixin:
             field.widget.attrs.get('currency', '') for field in self.form_class.base_fields.values()
         ]
 
+        field_choices = [
+            field.choices if hasattr(field, 'choices') else '' for field in
+            self.form_class.base_fields.values()
+        ]
+
+        field_types = [
+            type(field.widget).__name__ for field in self.form_class.base_fields.values()
+        ]
+
         form_fields = [
-            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip, 'example': example,
-             'description': description, 'currency': currency}
-            for name, label, placeholder, tooltip, example, description, currency in zip(
-                field_names, field_labels, field_placeholders, field_tooltip, field_example, field_description,
-                field_currency)
+            {'name': name, 'label': label, 'field_type': field_type, 'placeholder': placeholder,
+             'tooltip': tooltip, 'example': example, 'description': description, 'currency': currency,
+             'choices': choices}
+            for
+            name, label, field_type, placeholder, tooltip, example, description, currency, choices
+            in zip(
+                field_names, field_labels, field_types, field_placeholders, field_tooltip,
+                field_example, field_description,
+                field_currency, field_choices)
         ]
 
         context['form_initial'] = json.dumps(context['form'].initial)
