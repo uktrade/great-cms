@@ -199,11 +199,11 @@ def test_company_parser_expertise_countries_hard_code_industries(settings):
 
 def test_helper_search_commodity_by_term(requests_mock):
     data = {
-            'results': [
-                {'commodity_code': '123323', 'description': 'some description'},
-                {'commodity_code': '223323', 'description': 'some other description'},
-            ]
-        }
+        'results': [
+            {'commodity_code': '123323', 'description': 'some description'},
+            {'commodity_code': '223323', 'description': 'some other description'},
+        ]
+    }
 
     requests_mock.post(
         settings.COMMODITY_SEARCH_URL,
@@ -218,7 +218,8 @@ def test_helper_search_commodity_by_term(requests_mock):
     first_response = helpers.search_commodity_by_term('word')
     assert first_response == data
 
-    refine_response = helpers.search_commodity_refine(interraction_id=1234, tx_id=1234, value_id=1234, value_string='processed')
+    refine_response = helpers.search_commodity_refine(
+        interraction_id=1234, tx_id=1234, value_id=1234, value_string='processed')
     assert refine_response == data
 
 
