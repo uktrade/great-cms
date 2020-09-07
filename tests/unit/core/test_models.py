@@ -8,6 +8,10 @@ from core.models import ListPage, CuratedListPage, InterstitialPage, DetailPage
 from exportplan.models import ExportPlanDashboardPage
 from domestic.models import DomesticHomePage, DomesticDashboard
 from tests.unit.core import factories
+from .factories import DetailPageFactory
+from wagtail_factories import ImageFactory
+
+from django.core.exceptions import ValidationError
 
 
 def test_object_hash():
@@ -93,3 +97,17 @@ class DetailPageTests(WagtailPageTests):
 
     def test_can_be_created_under_curated_list_page(self):
         self.assertAllowedParentPageTypes(DetailPage, {CuratedListPage})
+
+    def test_detail_page_creation_for_single_hero_image(self):
+
+        detail_page = DetailPageFactory(
+            hero=[('Image', ImageFactory())]
+        )
+        self.assert_(detail_page, True)
+
+    def test_validation_kick_for_multiple_hero_image(self):
+        with pytest.raises(ValidationError):
+            detail_page = DetailPageFactory(
+                hero=[('Image', ImageFactory()), ('Image', ImageFactory())]
+            )
+            self.assert_(detail_page, None)

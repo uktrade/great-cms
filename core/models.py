@@ -1,28 +1,35 @@
 import hashlib
 
+from django.core.exceptions import ValidationError
+from django.db import models
 from django.utils.functional import cached_property
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
-    ObjectList, TabbedInterface
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    PageChooserPanel,
+    StreamFieldPanel,
+    TabbedInterface,
+)
 from wagtail.core import blocks
-from wagtail.core.fields import StreamField, RichTextField
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.images.models import Image, AbstractImage, AbstractRendition
+from wagtail.images.models import AbstractImage, AbstractRendition, Image
+from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
-from wagtail.snippets.models import register_snippet
 
-from django.db import models
-
+from core import blocks as core_blocks, mixins
 from core.context import get_context_provider
-from core import mixins
-from core import blocks as core_blocks
 
 
 class AbstractObjectHash(models.Model):
@@ -341,6 +348,16 @@ class CuratedListPage(CMSGenericPage):
         return sum((len(topic.value['pages']) for topic in self.topics))
 
 
+def hero_singular_validation(value):
+    if value and len(value) > 1:
+        raise StreamBlockValidationError(
+            non_block_errors=ValidationError(
+                'Only one image or video allowed in Hero section',
+                code='invalid'
+            ),
+        )
+
+
 class DetailPage(CMSGenericPage):
     estimated_read_duration = models.DurationField(
         null=True,
@@ -362,7 +379,8 @@ class DetailPage(CMSGenericPage):
     hero = StreamField([
         ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
         ('Video', core_blocks.SimpleVideoBlock())],
-        null=True
+        null=True,
+        validators=[hero_singular_validation]
     )
     objective = StreamField([
         ('paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),),
