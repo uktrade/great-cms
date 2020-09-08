@@ -11,7 +11,7 @@ import wagtail_personalisation.blocks
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0031_auto_20200907_1046'),
+        ('core', '0032_auto_20200907_1802'),
     ]
 
     operations = [
