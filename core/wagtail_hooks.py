@@ -59,3 +59,15 @@ def set_read_time(request, page):
         page.estimated_read_duration = timedelta(seconds=seconds)
         page.save_revision()
         return seconds
+
+
+@hooks.register('after_edit_page')
+def set_lesson_pages_topic_id(request, page):
+    if hasattr(page, 'topics'):
+        for topic in page.topics:
+            for empty_topic_page in [
+                topic_pages.specific for topic_pages in topic.value['pages'] if not topic_pages.specific.topic_block_id
+            ]:
+                empty_topic_page.topic_block_id = topic.id
+                empty_topic_page.save()
+        return page
