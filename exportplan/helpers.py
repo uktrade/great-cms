@@ -218,7 +218,7 @@ def get_all_lesson_details():
     lessons = {}
     for lesson in models.DetailPage.objects.live():
         lessons[lesson.slug] = {
-            'topic_name': lesson.get_parent().title,
+            'topic_name': lesson.topic_title,
             'title': lesson.title,
             'estimated_read_duration': lesson.estimated_read_duration,
             'url': lesson.url,
