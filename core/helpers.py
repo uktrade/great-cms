@@ -183,9 +183,9 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     @property
     def expertise_countries_labels(self):
-        if self.data['expertise_countries']:
-            return values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
-        return []
+        return values_to_labels(
+            values=self.data['expertise_countries'], choices=self.COUNTRIES
+        ) if self.data.get('expertise_countries') else []
 
     @property
     def expertise_countries_value_label_pairs(self):
