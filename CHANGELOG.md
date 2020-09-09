@@ -7,6 +7,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-514 - Fix alt text
 - GP2-386 - Added validation for hero section
 - GP2-267 & GP2-526 Fix page publishing bypassing draft status
 - No ticket - Fix lesson page layout issues after wagtail upgrade

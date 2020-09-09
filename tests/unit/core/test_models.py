@@ -1,17 +1,26 @@
 from unittest import mock
 
 import pytest
-from wagtail.tests.utils import WagtailPageTests
-
-from core.models import AbstractObjectHash, LandingPage
-from core.models import ListPage, CuratedListPage, InterstitialPage, DetailPage
-from exportplan.models import ExportPlanDashboardPage
-from domestic.models import DomesticHomePage, DomesticDashboard
-from tests.unit.core import factories
-from .factories import DetailPageFactory
+from django.core.exceptions import ValidationError
+from django.test import TestCase
+from wagtail.core.models import Collection
+from wagtail.images import get_image_model
+from wagtail.images.tests.utils import get_test_image_file
+from wagtail.tests.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
-from django.core.exceptions import ValidationError
+from core.models import (
+    AbstractObjectHash,
+    CuratedListPage,
+    DetailPage,
+    InterstitialPage,
+    LandingPage,
+    ListPage,
+)
+from domestic.models import DomesticDashboard, DomesticHomePage
+from exportplan.models import ExportPlanDashboardPage
+from tests.unit.core import factories
+from .factories import DetailPageFactory
 
 
 def test_object_hash():
@@ -111,3 +120,24 @@ class DetailPageTests(WagtailPageTests):
                 hero=[('Image', ImageFactory()), ('Image', ImageFactory())]
             )
             self.assert_(detail_page, None)
+
+
+class TestImageAltRendition(TestCase, WagtailTestUtils):
+    def setUp(self):
+        self.login()
+        root_collection = Collection.objects.create(name='Root', depth=0)
+        great_image_collection = root_collection.add_child(name='Great Images')
+
+        # Create an image with alt text
+        AltTextImage = get_image_model() # Noqa
+        self.image = AltTextImage.objects.create(
+            title='Test image',
+            file=get_test_image_file(),
+            alt_text='smart alt text',
+            collection=great_image_collection
+        )
+
+    def test_image_alt_rendition(self):
+        rendition = self.image.get_rendition('width-100')
+        assert rendition.alt == 'smart alt text'
+        assert self.image.title != rendition.alt
