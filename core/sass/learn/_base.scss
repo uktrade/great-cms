@@ -317,6 +317,39 @@ $desktop: 1024px;
     hr {
       @extend .hr--thick;
     }
+
+    .pros-and-cons {
+      h3 {
+        @extend .h-l;
+        color: $blue-deep-80;
+        padding-bottom: 15px;
+        margin-bottom: 0;
+      }
+
+      ul {
+        @extend .list-arrow;
+
+        li {
+          padding-left: 0;
+
+          &::before {
+            display: none;
+          }
+        }
+      }
+
+      &__pros {
+        @include tablet {
+          margin-left: -82px;
+        }
+      }
+
+      &__cons {
+        @include tablet {
+          margin-right: -82px;
+        }
+      }
+    }
   }
 
   .step-by-step {
