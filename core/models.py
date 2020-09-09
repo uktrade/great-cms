@@ -79,6 +79,10 @@ class Rendition(AbstractRendition):
     class Meta:
         unique_together = (('image', 'filter_spec', 'focal_point_key'))
 
+    @property
+    def alt(self):
+        return self.image.alt_text
+
 
 @register_snippet
 class Tour(ClusterableModel):
