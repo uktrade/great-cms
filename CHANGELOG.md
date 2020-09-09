@@ -8,6 +8,7 @@
 
 ### Fixed bugs
 - GP2-514 - Fix alt text
+- GP2-259 - Pros and Cons layout tweaks
 - GP2-386 - Added validation for hero section
 - GP2-267 & GP2-526 Fix page publishing bypassing draft status
 - No ticket - Fix lesson page layout issues after wagtail upgrade
@@ -205,3 +206,4 @@
 - GP2-424 - remove-links logged out state
 - GP2-362 - factbook-lanuage-display
 - GP2-519 - turn-over-choices
+- GP2-420 - get topic details

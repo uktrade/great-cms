@@ -6,8 +6,6 @@ import pytest
 
 from tests.helpers import create_response
 from exportplan import helpers
-from tests.unit.learn.factories import LessonPageFactory
-from tests.unit.core.factories import CuratedListPageFactory
 
 
 @pytest.fixture(autouse=True)
@@ -454,17 +452,19 @@ def test_target_market_documents_delete(mock_target_market_documents_delete):
 
 
 @pytest.mark.django_db
-def test_get_all_lesson_details(domestic_homepage):
-    topic = CuratedListPageFactory(parent=domestic_homepage)
-    LessonPageFactory(parent=topic)
-
+def test_get_all_lesson_details(topics_with_lessons):
     lessons = helpers.get_all_lesson_details()
     assert lessons == {
-        'detail-page':
+        'lesson-a1':
             {
-                'topic_name': 'Curated List Page',
-                'title': 'Detail page',
-                'estimated_read_duration': None,
-                'url': None
-            }
+                'topic_name': 'Some title', 'title': 'Lesson A1', 'estimated_read_duration': None, 'url': None
+            },
+        'lesson-a2':
+            {
+                'topic_name': 'Some title', 'title': 'Lesson A2', 'estimated_read_duration': None, 'url': None
+            },
+        'lesson-b1':
+            {
+                'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': None, 'url': None
+            },
     }
