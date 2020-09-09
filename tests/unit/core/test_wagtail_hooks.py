@@ -203,14 +203,14 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id(rf, topic_with_lessons):
+def test_set_lesson_pages_topic_id(rf, topics_with_lessons):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    # Rest the topic_block_if for all lessons
-    curated_page = topic_with_lessons[0][0]
-    for topic in topic_with_lessons[0][1]:
+    # Rest the topic_block_id for all lessons
+    curated_page = topics_with_lessons[0][0]
+    for topic in topics_with_lessons[0][1]:
         topic.topic_block_id = None
         topic.save()
 
@@ -218,24 +218,26 @@ def test_set_lesson_pages_topic_id(rf, topic_with_lessons):
         page=curated_page,
         request=request
     )
+
     for topic in response.topics:
         for lesson in topic.value['pages']:
             assert lesson.specific.topic_block_id == topic.id
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id_already_set(rf, topic_with_lessons):
+def test_set_lesson_pages_topic_id_removed(rf, topics_with_lessons):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    # Rest the topic_block_if for all lessons
-    curated_page = topic_with_lessons[0][0]
+    curated_page = topics_with_lessons[0][0]
+    # Remove the second lesson from topic
+    topic_page_2 = curated_page.topics[0].value['pages'][1]
+    curated_page.topics[0].value['pages'].remove(topic_page_2)
 
-    response = wagtail_hooks.set_lesson_pages_topic_id(
+    wagtail_hooks.set_lesson_pages_topic_id(
         page=curated_page,
         request=request
     )
-    for topic in response.topics:
-        for lesson in topic.value['pages']:
-            assert lesson.specific.topic_block_id == topic.id
+
+    assert topic_page_2.specific.topic_block_id is None
