@@ -205,3 +205,4 @@
 - GP2-424 - remove-links logged out state
 - GP2-362 - factbook-lanuage-display
 - GP2-519 - turn-over-choices
+- GP2-420 - get topic details

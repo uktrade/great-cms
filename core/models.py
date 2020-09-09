@@ -369,6 +369,8 @@ class DetailPage(CMSGenericPage):
         ('learn/detail_page.html', 'Learn'),
     )
 
+    topic_block_id = models.CharField(max_length=50, blank=True, null=True)
+
     class Meta:
         verbose_name = 'Personalisable detail page'
         verbose_name_plural = 'Personalisable detail pages'
@@ -462,6 +464,14 @@ class DetailPage(CMSGenericPage):
     def serve(self, request, *args, **kwargs):
         self.handle_page_view(request)
         return super().serve(request, **kwargs)
+
+    @cached_property
+    def topic_title(self):
+        if self.topic_block_id:
+            topic_pages = self.get_parent()
+            for topic in topic_pages.specific.topics:
+                if topic.id == self.topic_block_id:
+                    return topic.value['title']
 
 
 class PageView(TimeStampedModel):
