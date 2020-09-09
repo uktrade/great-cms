@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-//import { connect, Provider } from 'react-redux'
 import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
-//import actions from '@src/actions'
 
 const customStyles = {
   content: {
@@ -18,55 +16,50 @@ const customStyles = {
     border: 'none',
   },
   overlay: {
-    //position: 'absolute',
     background: 'rgb(45 45 45 / 45%)',
     zIndex: '3',
   },
 }
 
-
 function ValueChooser(attribute, handleChange) {
-    //const [combinationValue, setCombinationValue] = React.useState({})
-
-    const changeValue = (element) => {
-      console.log(combinationValue)
-      debugger;
-    }
-    let startCombinationValue = {}
-    let profile = (attribute.attrs || []).map((option, index) => {
-      startCombinationValue[option.id] = option.value;
-      return (
-        <label key={option.id} htmlFor={option.id} className="p-f-m m-b-xxs grid">
-          <div className="c-1-4">
-            <input
-              type="number"
-              className="form-control"
-              id={option.id}
-              name={attribute.id}
-              defaultValue={option.value}
-              data-label={option.name}
-              onChange={changeValue}
-            />
-          </div>
-          <div className="c-3-4">{option.name}</div>
-        </label>
-      )
-    })
-    //setCombinationValue(startCombinationValue);
-
-    return (
-      <div>
-        {profile}
-        <button class="button button--primary" onClick={handleChange}>
-          Send
-        </button>
-      </div>
-    )
+  const changeValue = (element) => {
+    console.log(combinationValue) // TODO WIP
   }
+  let startCombinationValue = {}
+  let profile = (attribute.attrs || []).map((option, index) => {
+    startCombinationValue[option.id] = option.value
+    return (
+      <label key={option.id} htmlFor={option.id} className="p-f-m m-b-xxs grid">
+        <div className="c-1-4">
+          <input
+            type="number"
+            className="form-control"
+            id={option.id}
+            name={attribute.id}
+            defaultValue={option.value}
+            data-label={option.name}
+            onChange={changeValue}
+          />
+        </div>
+        <div className="c-3-4">{option.name}</div>
+      </label>
+    )
+  })
+
+  return (
+    <div>
+      {profile}
+      <button class="button button--primary" onClick={handleChange}>
+        Send
+      </button>
+    </div>
+  )
+}
 
 export function ProductFinder(props) {
   var searchInput
   const [modalIsOpen, setIsOpen] = React.useState(false)
+  const [selectedProduct, setSelectedProduct] = React.useState(props.text)
   const [searchResults, setSearchResults] = React.useState([])
 
   function openModal() {
@@ -76,6 +69,20 @@ export function ProductFinder(props) {
   function closeModal() {
     setIsOpen(false)
     setSearchResults({})
+  }
+
+  function saveProduct() {
+    setSelectedProduct(searchResults.hsCode)
+    Services.updateExportPlan({
+      commodity_name: searchResults.currentItemName,
+      export_commodity_codes: [searchResults.hsCode],
+    })
+      .then((result) => {
+        closeModal()
+      })
+      .catch((result) => {
+        debugger
+      })
   }
 
   function modalAfterOpen() {
@@ -93,8 +100,8 @@ export function ProductFinder(props) {
     let query = searchInput.value
     Services.lookupProduct({ q: query })
       .then((result) => {
-        console.log('***   Search result', result)
-        setSearchResults(result && result.data)
+        console.log('Initial search result', result); // TODO: Needed during development 
+        setSearchResults(result && result.data);
       })
       .catch(() => {
         setSearchResults(result || {})
@@ -122,8 +129,6 @@ export function ProductFinder(props) {
     return <div onChange={handleChange}>{buttons}</div>
   }
 
-  
-
   function Attribute(attribute) {
     const handleChange = (event) => {
       Services.lookupProductRefine({
@@ -133,7 +138,7 @@ export function ProductFinder(props) {
         valueString: event.target.getAttribute('data-label'),
       })
         .then((result) => {
-          console.log('***   refine result', result)
+          console.log('***   refine result', result); // TODO: Needed during development
           if (result && result.data && result.data.txId) {
             setSearchResults(result && result.data)
           } else {
@@ -154,6 +159,7 @@ export function ProductFinder(props) {
       </div>
     )
   }
+
   function Section(title, sectionDetails) {
     if (!sectionDetails || sectionDetails.length == 0 || !sectionDetails.map) return null
     return (
@@ -171,7 +177,7 @@ export function ProductFinder(props) {
   return (
     <span>
       <button className="button button--primary button--round-corner" onClick={openModal}>
-        add product
+        {selectedProduct || 'add product'}
       </button>
       <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} onAfterOpen={modalAfterOpen}>
         <form className="product-finder">
@@ -186,6 +192,7 @@ export function ProductFinder(props) {
               type="text"
               ref={(_searchInput) => (searchInput = _searchInput)}
               onKeyPress={inputKeypress}
+              defaultValue=""
             />
             <button className="button button--tertiary m-f-xxs" type="button" onClick={search}>
               Search
@@ -202,7 +209,7 @@ export function ProductFinder(props) {
                   hs code: <span className="bold">{searchResults.hsCode}</span>
                 </div>
                 <div className="c-1-3">
-                  <button className="button button--primary" type="button" onClick={closeModal}>
+                  <button className="button button--primary" type="button" onClick={saveProduct}>
                     Select this product
                   </button>
                 </div>
@@ -234,40 +241,11 @@ export function ProductFinder(props) {
     </span>
   )
 }
-/*
-const mapStateToProps = (state) => {
-  return {
-    isDialogueOpen: getModalIsOpen(state, 'products'),
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setDialogueOpen: (isOpen) => {
-      dispatch(actions.toggleModalIsOpen('products', isOpen))
-    },
-  }
-}
-
-const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ProductFinder)
-*/
-/*
-export default function ({ ...params }) {
-  const mainElement = document.createElement('span')
-  document.body.appendChild(mainElement)
-  params.element.onClick=openModal;
-  Modal.setAppElement(mainElement)
-  ReactDOM.render(
-    <Provider store={Services.store}>
-      <ProductFinder {...params} />
-    </Provider>,
-    mainElement
-  )
-}*/
 
 export default function ({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  ReactDOM.render(<ProductFinder></ProductFinder>, params.element)
+  let text = params.element.innerText
+  ReactDOM.render(<ProductFinder text={text}></ProductFinder>, params.element)
 }

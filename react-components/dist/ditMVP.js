@@ -77421,19 +77421,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/views/MarketSelectNavbar/Container */ "./react-components/src/views/MarketSelectNavbar/Container.jsx");
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
 /* harmony import */ var _src_components_ProductFinder_ProductFinder__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/components/ProductFinder/ProductFinder */ "./react-components/src/components/ProductFinder/ProductFinder.jsx");
-/* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
-/* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
-/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
-/* harmony import */ var _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/components/MarkLessonAsComplete/MarkLessonAsComplete */ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx");
-/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
-/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
-/* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
-/* harmony import */ var _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/components/ObjectivesList */ "./react-components/src/components/ObjectivesList.jsx");
-/* harmony import */ var _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/views/LearnIntroduction/LearnIntroduction */ "./react-components/src/views/LearnIntroduction/LearnIntroduction.jsx");
-/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var _src_components_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/components/ProductFinder/CountryFinder */ "./react-components/src/components/ProductFinder/CountryFinder.jsx");
+/* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
+/* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
+/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
+/* harmony import */ var _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/components/MarkLessonAsComplete/MarkLessonAsComplete */ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx");
+/* harmony import */ var _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/components/TargetAgeGroupInsights/TargetAgeGroupInsights */ "./react-components/src/components/TargetAgeGroupInsights/TargetAgeGroupInsights.jsx");
+/* harmony import */ var _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/components/TargetMarketCountries */ "./react-components/src/components/TargetMarketCountries.jsx");
+/* harmony import */ var _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/components/BusinessRationale */ "./react-components/src/components/BusinessRationale.jsx");
+/* harmony import */ var _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/components/ObjectivesList */ "./react-components/src/components/ObjectivesList.jsx");
+/* harmony import */ var _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/views/LearnIntroduction/LearnIntroduction */ "./react-components/src/views/LearnIntroduction/LearnIntroduction.jsx");
+/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_24__);
+
 
 
 
@@ -77461,28 +77463,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   Countries: _src_views_Countries_Container__WEBPACK_IMPORTED_MODULE_6__["default"],
   CountriesModal: _src_views_CountriesModal_Container__WEBPACK_IMPORTED_MODULE_4__["default"],
-  createMarkLessonAsComplete: _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_15__["createMarkLessonAsComplete"],
-  createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_12__["createRouteToMarket"],
-  aboutYourBusinessForm: _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_13__["aboutYourBusinessForm"],
-  adaptToTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__["adaptToTargetMarketForm"],
-  createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_12__["createSpendingAndResources"],
-  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_16__["createTargetAgeGroupInsights"],
-  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_17__["createTargetMarketCountries"],
-  createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_18__["createBusinessRationale"],
-  createObjectivesList: _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_19__["createObjectivesList"],
+  createMarkLessonAsComplete: _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_16__["createMarkLessonAsComplete"],
+  createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_13__["createRouteToMarket"],
+  aboutYourBusinessForm: _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_14__["aboutYourBusinessForm"],
+  adaptToTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_15__["adaptToTargetMarketForm"],
+  createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_13__["createSpendingAndResources"],
+  createTargetAgeGroupInsights: _src_components_TargetAgeGroupInsights_TargetAgeGroupInsights__WEBPACK_IMPORTED_MODULE_17__["createTargetAgeGroupInsights"],
+  createTargetMarketCountries: _src_components_TargetMarketCountries__WEBPACK_IMPORTED_MODULE_18__["createTargetMarketCountries"],
+  createBusinessRationale: _src_components_BusinessRationale__WEBPACK_IMPORTED_MODULE_19__["createBusinessRationale"],
+  createObjectivesList: _src_components_ObjectivesList__WEBPACK_IMPORTED_MODULE_20__["createObjectivesList"],
   IndustriesModal: _src_views_IndustriesModal_Container__WEBPACK_IMPORTED_MODULE_5__["default"],
-  LearnIntroduction: _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_20__["default"],
+  LearnIntroduction: _src_views_LearnIntroduction_LearnIntroduction__WEBPACK_IMPORTED_MODULE_21__["default"],
   ProductLookup: _src_views_ProductLookup_Container__WEBPACK_IMPORTED_MODULE_7__["default"],
   ProductFinder: _src_components_ProductFinder_ProductFinder__WEBPACK_IMPORTED_MODULE_11__["default"],
+  CountryFinder: _src_components_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_12__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_8__["default"],
   MarketSelectNavbar: _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__["default"],
   ProductsModal: _src_views_ProductsModal_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_22__["default"].setConfig,
-  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_22__["default"].setInitialState,
+  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_23__["default"].setConfig,
+  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_23__["default"].setInitialState,
   Signup: _src_views_Signup_Container__WEBPACK_IMPORTED_MODULE_1__["default"],
   SignupModal: _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_2__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_21__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_21__["STEP_VERIFICATION_CODE"],
+  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_22__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_22__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__["default"]
 });
 
@@ -79941,6 +79944,145 @@ ObjectivesList.defaultProps = {
 
 /***/ }),
 
+/***/ "./react-components/src/components/ProductFinder/CountryFinder.jsx":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/components/ProductFinder/CountryFinder.jsx ***!
+  \*************************************************************************/
+/*! exports provided: CountryFinder, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CountryFinder", function() { return CountryFinder; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var customStyles = {
+  content: {
+    top: '0',
+    right: '0',
+    bottom: '0',
+    left: 'auto',
+    width: '100%',
+    padding: '0',
+    border: 'none'
+  },
+  overlay: {
+    background: 'rgb(45 45 45 / 45%)',
+    zIndex: '3'
+  }
+};
+function CountryFinder(props) {
+  var searchInput;
+
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      modalIsOpen = _React$useState2[0],
+      setIsOpen = _React$useState2[1];
+
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.text),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      selectedCountry = _React$useState4[0],
+      setSelectedCountry = _React$useState4[1];
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function modalAfterOpen() {//searchInput.focus()
+  }
+
+  function saveCountry(country) {
+    setSelectedCountry(country);
+    var result = _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan({
+      export_countries: [country]
+    }).then(function (result) {
+      closeModal(); // window.location.reload(true);   # do we need to reload page
+    })["catch"](function (result) {
+      debugger;
+    });
+  }
+
+  function selectCountry(evt) {
+    var targetCountry = evt.target.getAttribute('data-country');
+    saveCountry(targetCountry);
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--primary button--round-corner",
+    onClick: openModal
+  }, selectedCountry), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+    isOpen: modalIsOpen,
+    onRequestClose: closeModal,
+    style: customStyles,
+    onAfterOpen: modalAfterOpen
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    className: "country-chooser"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "pull-right m-r-0",
+    onClick: closeModal
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "fa fa-window-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-m p-t-0"
+  }, "Choose your country"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "country-list",
+    onClick: selectCountry
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "link",
+    "data-country": "France"
+  }, "France"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "link",
+    "data-country": "Belgium"
+  }, "Belgium"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "link",
+    "data-country": "Brazil"
+  }, "Brazil")))));
+}
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
+  var params = _extends({}, _ref);
+
+  var mainElement = document.createElement('span');
+  document.body.appendChild(mainElement);
+  react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(mainElement);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CountryFinder, {
+    text: params.element.innerText
+  }), params.element);
+});
+
+/***/ }),
+
 /***/ "./react-components/src/components/ProductFinder/ProductFinder.jsx":
 /*!*************************************************************************!*\
   !*** ./react-components/src/components/ProductFinder/ProductFinder.jsx ***!
@@ -79975,10 +80117,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
- //import { connect, Provider } from 'react-redux'
 
 
- //import actions from '@src/actions'
 
 var customStyles = {
   content: {
@@ -79992,17 +80132,14 @@ var customStyles = {
     border: 'none'
   },
   overlay: {
-    //position: 'absolute',
     background: 'rgb(45 45 45 / 45%)',
     zIndex: '3'
   }
 };
 
 function ValueChooser(attribute, handleChange) {
-  //const [combinationValue, setCombinationValue] = React.useState({})
   var changeValue = function changeValue(element) {
-    console.log(combinationValue);
-    debugger;
+    console.log(combinationValue); // TODO WIP
   };
 
   var startCombinationValue = {};
@@ -80025,8 +80162,7 @@ function ValueChooser(attribute, handleChange) {
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-3-4"
     }, option.name));
-  }); //setCombinationValue(startCombinationValue);
-
+  });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, profile, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     "class": "button button--primary",
     onClick: handleChange
@@ -80041,10 +80177,15 @@ function ProductFinder(props) {
       modalIsOpen = _React$useState2[0],
       setIsOpen = _React$useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState([]),
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.text),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
-      searchResults = _React$useState4[0],
-      setSearchResults = _React$useState4[1];
+      selectedProduct = _React$useState4[0],
+      setSelectedProduct = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState([]),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      searchResults = _React$useState6[0],
+      setSearchResults = _React$useState6[1];
 
   function openModal() {
     setIsOpen(true);
@@ -80053,6 +80194,18 @@ function ProductFinder(props) {
   function closeModal() {
     setIsOpen(false);
     setSearchResults({});
+  }
+
+  function saveProduct() {
+    setSelectedProduct(searchResults.hsCode);
+    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan({
+      commodity_name: searchResults.currentItemName,
+      export_commodity_codes: [searchResults.hsCode]
+    }).then(function (result) {
+      closeModal();
+    })["catch"](function (result) {
+      debugger;
+    });
   }
 
   function modalAfterOpen() {
@@ -80071,7 +80224,8 @@ function ProductFinder(props) {
     _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].lookupProduct({
       q: query
     }).then(function (result) {
-      console.log('***   Search result', result);
+      console.log('Initial search result', result); // TODO: Needed during development 
+
       setSearchResults(result && result.data);
     })["catch"](function () {
       setSearchResults(result || {});
@@ -80109,7 +80263,7 @@ function ProductFinder(props) {
         valueId: event.target.value,
         valueString: event.target.getAttribute('data-label')
       }).then(function (result) {
-        console.log('***   refine result', result);
+        console.log('***   refine result', result); // TODO: Needed during development
 
         if (result && result.data && result.data.txId) {
           setSearchResults(result && result.data);
@@ -80152,7 +80306,7 @@ function ProductFinder(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button button--primary button--round-corner",
     onClick: openModal
-  }, "add product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+  }, selectedProduct || 'add product'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
     isOpen: modalIsOpen,
     onRequestClose: closeModal,
     style: customStyles,
@@ -80174,7 +80328,8 @@ function ProductFinder(props) {
     ref: function ref(_searchInput) {
       return searchInput = _searchInput;
     },
-    onKeyPress: inputKeypress
+    onKeyPress: inputKeypress,
+    defaultValue: ""
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button button--tertiary m-f-xxs",
     type: "button",
@@ -80198,48 +80353,19 @@ function ProductFinder(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button button--primary",
     type: "button",
-    onClick: closeModal
+    onClick: saveProduct
   }, "Select this product"))),  false && /*#__PURE__*/false, Section("Tell us more about your '".concat(searchResults.currentItemName, "'"), searchResults.currentQuestionInteraction && [searchResults.currentQuestionInteraction]),  false && false, Section("Your item's characteristics", searchResults.knownInteractions), Section("We've assumed:", searchResults.assumedInteractions)))));
 }
-/*
-const mapStateToProps = (state) => {
-  return {
-    isDialogueOpen: getModalIsOpen(state, 'products'),
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setDialogueOpen: (isOpen) => {
-      dispatch(actions.toggleModalIsOpen('products', isOpen))
-    },
-  }
-}
-
-const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ProductFinder)
-*/
-
-/*
-export default function ({ ...params }) {
-  const mainElement = document.createElement('span')
-  document.body.appendChild(mainElement)
-  params.element.onClick=openModal;
-  Modal.setAppElement(mainElement)
-  ReactDOM.render(
-    <Provider store={Services.store}>
-      <ProductFinder {...params} />
-    </Provider>,
-    mainElement
-  )
-}*/
-
 /* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var params = _extends({}, _ref);
 
   var mainElement = document.createElement('span');
   document.body.appendChild(mainElement);
   react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(mainElement);
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ProductFinder, null), params.element);
+  var text = params.element.innerText;
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ProductFinder, {
+    text: text
+  }), params.element);
 });
 
 /***/ }),

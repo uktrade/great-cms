@@ -45,6 +45,7 @@ class DomesticDashboard(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
+    mixins.ExportPlanMixin,
     Page,
 ):
 

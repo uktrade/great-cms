@@ -11,6 +11,7 @@ import LoginModal from '@src/views/LoginModal/Modal'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Container'
 import ProductFinder from '@src/components/ProductFinder/ProductFinder'
+import CountryFinder from '@src/components/ProductFinder/CountryFinder'
 import { createRouteToMarket, createSpendingAndResources } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
@@ -40,6 +41,7 @@ export default {
   LearnIntroduction,
   ProductLookup,
   ProductFinder,
+  CountryFinder,
   LoginModal,
   MarketSelectNavbar,
   ProductsModal,
