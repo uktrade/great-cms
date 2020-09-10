@@ -7,6 +7,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-495 - Update headings on lesson pages
 - GP2-514 - Fix alt text
 - GP2-259 - Pros and Cons layout tweaks
 - GP2-386 - Added validation for hero section

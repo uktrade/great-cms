@@ -4,12 +4,12 @@
 
 <div class="grid">
     <div class="learn__topic-item-details c-1-3-l">
-        <h2 class="learn__topic-item-title h-l text-blue-deep-80">{{ value.title }}</h2>
+        <h2 class="learn__topic-item-title h-m">{{ value.title }}</h2>
     </div>
     <ul class="learn__lessons-list c-2-3-l">
         {% for page in value.pages %}
             <li class="learn__lesson-item">
-                <a class="learn__lesson-item-link h-m" href="{% pageurl page %}" title="{{ page.title }}">
+                <a class="learn__lesson-item-link h-xs" href="{% pageurl page %}" title="{{ page.title }}">
                     {{ page.title }}
                     <div class="learn__topic-item-read-time">{{ page.specific.estimated_read_duration|format_timedelta }}</div>
                 </a>
