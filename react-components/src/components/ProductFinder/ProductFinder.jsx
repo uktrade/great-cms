@@ -62,16 +62,16 @@ export function ProductFinder(props) {
   const [selectedProduct, setSelectedProduct] = React.useState(props.text)
   const [searchResults, setSearchResults] = React.useState([])
 
-  function openModal() {
+  const openModal = () => {
     setIsOpen(true)
   }
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false)
     setSearchResults({})
   }
 
-  function saveProduct() {
+  const saveProduct = () => {
     setSelectedProduct(searchResults.hsCode)
     Services.updateExportPlan({
       commodity_name: searchResults.currentItemName,
@@ -81,22 +81,22 @@ export function ProductFinder(props) {
         closeModal()
       })
       .catch((result) => {
-        debugger
+        // TODO: add an error dialogue here
       })
   }
 
-  function modalAfterOpen() {
+  const modalAfterOpen = () => {
     searchInput.focus()
   }
 
-  function inputKeypress(evt) {
+  const inputKeypress = (evt) => {
     if (evt.key == 'Enter') {
       evt.preventDefault()
       search()
     }
   }
 
-  function search() {
+  const search = () => {
     let query = searchInput.value
     Services.lookupProduct({ q: query })
       .then((result) => {
@@ -108,7 +108,7 @@ export function ProductFinder(props) {
       })
   }
 
-  function RadioButtons(attribute, handleChange) {
+  const RadioButtons = (attribute, handleChange) => {
     let buttons = (attribute.attrs || []).map((option, index) => {
       return (
         <label key={option.id} htmlFor={option.id} className="multiple-choice p-f-m m-b-xxs">
@@ -129,7 +129,7 @@ export function ProductFinder(props) {
     return <div onChange={handleChange}>{buttons}</div>
   }
 
-  function Attribute(attribute) {
+  const Attribute = (attribute) => {
     const handleChange = (event) => {
       Services.lookupProductRefine({
         txId: searchResults.txId,
@@ -138,7 +138,7 @@ export function ProductFinder(props) {
         valueString: event.target.getAttribute('data-label'),
       })
         .then((result) => {
-          console.log('***   refine result', result); // TODO: Needed during development
+          console.log('***   refine result', result); // TODO: Needed during developmen
           if (result && result.data && result.data.txId) {
             setSearchResults(result && result.data)
           } else {
@@ -146,7 +146,7 @@ export function ProductFinder(props) {
           }
         })
         .catch((error) => {
-          debugger
+          // TODO: add an error dialogue here
           setSearchResults({})
         })
     }
@@ -160,7 +160,7 @@ export function ProductFinder(props) {
     )
   }
 
-  function Section(title, sectionDetails) {
+  const Section = (title, sectionDetails) => {
     if (!sectionDetails || sectionDetails.length == 0 || !sectionDetails.map) return null
     return (
       <section className="summary">

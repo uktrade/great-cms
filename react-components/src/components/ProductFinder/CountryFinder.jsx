@@ -27,29 +27,28 @@ export function CountryFinder(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [selectedCountry, setSelectedCountry] = React.useState(props.text);
 
-  function openModal() {
+  const openModal = () => {
     setIsOpen(true);
   }
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
   }
 
-  function modalAfterOpen() {
+  const modalAfterOpen = () => {
     modalContent.style.maxHeight='700px'
   }
 
-  function saveCountry(country) {
+  const saveCountry = (country) => {
     setSelectedCountry(country);
     let result = Services.updateExportPlan({export_countries:[country]}).then((result) => {
       closeModal();
-      // window.location.reload(true);   # do we need to reload page
     }).catch((result) => {
-      debugger;
+      // TODO: Add error confirmation here
     });    
   }
 
-  function selectCountry(evt) {
+  const selectCountry = (evt) => {
     let targetCountry = evt.target.getAttribute('data-country');
     saveCountry(targetCountry);
   }
