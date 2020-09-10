@@ -396,6 +396,14 @@ $desktop: 1024px;
       margin-top: -5px;
     }
 
+    &__quote p {
+      font-weight: 700;
+    }
+
+    &__author {
+      margin-top: 12px;
+    }
+
     .rich-text p {
       margin-top: 0;
     }
