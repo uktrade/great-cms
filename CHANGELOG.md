@@ -51,6 +51,7 @@
 
 ### Implemented enhancements
 - GP2-208 - Product search and country search modal
+- GP2-535 - Lesson ita quote updated (FE)
 - GP2-259 - Lesson - pros and cons (BE)
 - GP2-208 - Product search modal
 - GP2-259 - Lesson - pros and cons (FE)
