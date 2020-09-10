@@ -3,7 +3,6 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
-from wagtailimportexport import urls as wagtailimportexport_urls
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
@@ -30,7 +29,6 @@ urlpatterns += [
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
-    path('', include(wagtailimportexport_urls)),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
