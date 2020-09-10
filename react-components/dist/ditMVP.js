@@ -79964,6 +79964,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -79983,21 +79985,22 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var customStyles = {
   content: {
-    top: '0',
-    right: '0',
-    bottom: '0',
-    left: 'auto',
-    width: '100%',
-    padding: '0',
-    border: 'none'
+    top: '10%',
+    left: '10%',
+    width: '80%',
+    border: 'none',
+    height: '80%',
+    padding: '40px 60px'
   },
   overlay: {
     background: 'rgb(45 45 45 / 45%)',
     zIndex: '3'
   }
 };
+var countries = ['Algeria', 'Angola', 'Benin', 'Botswana', 'Belize', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Central African Republic'];
+var suggested = ['France', 'Spain', 'Italy', 'Jamaica'];
 function CountryFinder(props) {
-  var searchInput;
+  var modalContent;
 
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -80017,7 +80020,8 @@ function CountryFinder(props) {
     setIsOpen(false);
   }
 
-  function modalAfterOpen() {//searchInput.focus()
+  function modalAfterOpen() {
+    modalContent.style.maxHeight = '700px';
   }
 
   function saveCountry(country) {
@@ -80036,6 +80040,56 @@ function CountryFinder(props) {
     saveCountry(targetCountry);
   }
 
+  var _countries = [];
+
+  var _iterator = _createForOfIteratorHelper(countries.entries()),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var _step$value = _slicedToArray(_step.value, 2),
+          index = _step$value[0],
+          value = _step$value[1];
+
+      _countries.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "c-1-6",
+        key: index
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "link",
+        "data-country": value
+      }, value)));
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  var _suggested = [];
+
+  var _iterator2 = _createForOfIteratorHelper(suggested.entries()),
+      _step2;
+
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var _step2$value = _slicedToArray(_step2.value, 2),
+          _index = _step2$value[0],
+          _value = _step2$value[1];
+
+      _suggested.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        key: _index,
+        type: "button",
+        className: "button button--tertiary button--round-corner m-r-s",
+        "data-country": _value
+      }, _value));
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button button--primary button--round-corner",
     onClick: openModal
@@ -80043,7 +80097,10 @@ function CountryFinder(props) {
     isOpen: modalIsOpen,
     onRequestClose: closeModal,
     style: customStyles,
-    onAfterOpen: modalAfterOpen
+    onAfterOpen: modalAfterOpen,
+    contentRef: function contentRef(_modalContent) {
+      return modalContent = _modalContent;
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "country-chooser"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -80051,24 +80108,38 @@ function CountryFinder(props) {
     onClick: closeModal
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "fa fa-window-close"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "h-l p-t-0"
+  }, "Choose a target market"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-m p-t-0"
-  }, "Choose your country"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "country-list",
+  }, "Suggested markets for your product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "body-m"
+  }, "These markets may be a good place to consider exporting your product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "",
     onClick: selectCountry
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "link",
-    "data-country": "France"
-  }, "France"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "link",
-    "data-country": "Belgium"
-  }, "Belgium"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "link",
-    "data-country": "Brazil"
-  }, "Brazil")))));
+  }, _suggested), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "bg-black-70"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-m p-t-0"
+  }, "Use our data to compare markets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-3-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "body-m"
+  }, "Compare facts and figures for over 180 countries to help you determine which will be the best fit for your product.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-1-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "#",
+    className: "button button--secondary pull-right width-full"
+  }, "Find your market"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "bg-black-70"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-m p-t-0"
+  }, "Select a target market"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "country-list body-m",
+    onClick: selectCountry
+  }, _countries))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var params = _extends({}, _ref);
