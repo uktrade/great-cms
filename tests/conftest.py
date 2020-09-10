@@ -282,6 +282,14 @@ def patch_set_user_page_view():
     ).start()
 
 
+@pytest.fixture
+def patch_export_plan():
+    yield mock.patch(
+        'directory_api_client.api_client.exportplan.exportplan_list',
+        return_value=create_response(status_code=200, json_body=[{'id': 1}])
+    ).start()
+
+
 @pytest.fixture(autouse=True)
 def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     yield patch_get_dashboard_export_opportunities.start()

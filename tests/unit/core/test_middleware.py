@@ -82,7 +82,7 @@ def test_user_specific_redirect_exportplan_middleware_logged_in(domestic_site, c
 
 @pytest.mark.django_db
 def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set(
-    domestic_site, client, user, mock_get_company_profile
+    domestic_site, client, user, mock_get_company_profile, patch_export_plan
 ):
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
     exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
