@@ -92,9 +92,9 @@ var ditMVP =
   !*** ./core/sass/main.scss ***!
   \*****************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-// extracted by mini-css-extract-plugin
+throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nSassError: \".lesson-page .rich-text .pros-and-cons ul\" failed to @extend \".list-arrow\".\n       The selector \".list-arrow\" was not found.\n       Use \"@extend .list-arrow !optional\" if the extend should be able to fail.\n        on line 330 of core/sass/learn/_base.scss\n>>         @extend .list-arrow;\n\n   ----------------^\n\n    at /home/robert/dev/great/great-cms/node_modules/webpack/lib/NormalModule.js:316:20\n    at /home/robert/dev/great/great-cms/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /home/robert/dev/great/great-cms/node_modules/loader-runner/lib/LoaderRunner.js:233:18\n    at context.callback (/home/robert/dev/great/great-cms/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at Object.callback (/home/robert/dev/great/great-cms/node_modules/sass-loader/dist/index.js:73:7)\n    at Object.done [as callback] (/home/robert/dev/great/great-cms/node_modules/neo-async/async.js:8067:18)\n    at options.error (/home/robert/dev/great/great-cms/node_modules/node-sass/lib/index.js:294:32)");
 
 /***/ }),
 
