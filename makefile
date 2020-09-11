@@ -45,12 +45,19 @@ flake8:
 manage:
 	ENV_FILES='secrets-do-not-commit,dev' ./manage.py $(ARGUMENTS)
 
+manage_transfer_target:  # runs manage.py with additional/overriding settings from dev-transfer-target
+	ENV_FILES='secrets-do-not-commit,dev-transfer-target,dev' ./manage.py $(ARGUMENTS)
+
 ENV_FILES?='secrets-do-not-commit,dev'
 check_migrations:
 	yes n | ENV_FILES=$(ENV_FILES) ./manage.py migrate --plan
 
-webserver:
+webserver:  # runs on 8020
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
+
+# for testing wagtail-transfer, we need an alternative local site too, with its own DB
+webserver_transfer_target:  # runs on 8030
+	ENV_FILES='secrets-do-not-commit,dev-transfer-target,dev' python manage.py runserver_plus 0.0.0.0:8030 $(ARGUMENTS)
 
 LOCUST_FILE?=tests/load/mvp_home.py
 NUM_USERS?=10
@@ -89,10 +96,14 @@ database:
 	PGPASSWORD=debug dropdb --if-exists -h localhost -U debug greatcms
 	PGPASSWORD=debug createdb -h localhost -U debug greatcms
 
+database_transfer_target:
+	PGPASSWORD=debug dropdb --if-exists -h localhost -U debug greatcms_transfer_target
+	PGPASSWORD=debug createdb -h localhost -U debug greatcms_transfer_target
+
 recreate:
 	$(MAKE) database
 	$(MAKE) ARGUMENTS=migrate manage
 	$(MAKE) ARGUMENTS=bootstrap_great manage
 	$(MAKE) ARGUMENTS=create_tours manage
 
-.PHONY: clean pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database recreate
+.PHONY: clean pytest test_load flake8 manage manage_transfer_target webserver webserver_transfer_target requirements install_requirements css worker secrets check_migrations database database_transfer_target recreate
