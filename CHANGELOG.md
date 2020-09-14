@@ -51,6 +51,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-582 - Product search handling multiple item selection
+- GP2-581 & GP2-586 - Product search spinner, 'no results message' and scroll area
 - GP2-208 - Product search and country search modal
 - GP2-535 - Lesson ita quote updated (FE)
 - GP2-259 - Lesson - pros and cons (BE)
