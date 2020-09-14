@@ -76,8 +76,9 @@ export function CountryFinder(props) {
     return <section key={region}>
       <div className="grid" >
         <div className="c-full-width">
-          <h2 class="h-s">{region}</h2>
+          <h2 className="h-m">{region}</h2>
           <ul style={{display:'flex', flexWrap:'wrap'}}>{_countries}</ul>
+          <hr className="hr m-b-xxs"></hr>
         </div>
       </div>
       </section>
