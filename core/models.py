@@ -30,6 +30,7 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 
 from core import blocks as core_blocks, mixins
 from core.context import get_context_provider
+from core.utils import PageTopic
 
 
 class AbstractObjectHash(models.Model):
@@ -171,6 +172,7 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
     """
     Generic page, freely inspired by Codered page
     """
+
     class Meta:
         abstract = True
 
@@ -313,7 +315,7 @@ class ListPage(CMSGenericPage):
     settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
     content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
 
-
+# Module
 class CuratedListPage(CMSGenericPage):
     parent_page_types = ['core.ListPage']
     subpage_types = ['core.DetailPage']
@@ -361,7 +363,7 @@ def hero_singular_validation(value):
             ),
         )
 
-
+# lesson
 class DetailPage(CMSGenericPage):
     estimated_read_duration = models.DurationField(
         null=True,
@@ -453,10 +455,10 @@ class DetailPage(CMSGenericPage):
             # checking if the page is already marked as read
             list_page = (
                 ListPage.objects
-                .ancestor_of(self)
-                .filter(record_read_progress=True)
-                .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
-                .first()
+                    .ancestor_of(self)
+                    .filter(record_read_progress=True)
+                    .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
+                    .first()
             )
             if list_page:
                 PageView.objects.get_or_create(
@@ -476,6 +478,12 @@ class DetailPage(CMSGenericPage):
             for topic in topic_pages.specific.topics:
                 if topic.id == self.topic_block_id:
                     return topic.value['title']
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        page_topic = PageTopic(self)
+        context['next_lesson'] = page_topic.get_next_lesson()
+        return context
 
 
 class PageView(TimeStampedModel):

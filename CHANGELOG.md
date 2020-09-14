@@ -7,6 +7,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+
 - GP2-514 - Fix alt text
 - GP2-259 - Pros and Cons layout tweaks
 - GP2-386 - Added validation for hero section
@@ -50,6 +51,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-263 - Next lesson (BE)
 - GP2-259 - Lesson - pros and cons (BE)
 - GP2-259 - Lesson - pros and cons (FE)
 - GP2-336 - Lesson progress on dashboard
