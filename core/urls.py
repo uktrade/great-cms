@@ -70,6 +70,11 @@ urlpatterns = [
         name='api-lookup-product'
     ),
     path(
+        'api/countries/',
+        skip_ga360(core.views.CountriesView.as_view()),
+        name='api-countries'
+    ),
+    path(
         'api/create-token/',
         skip_ga360(core.views.CreateTokenView.as_view()),
         name='api-create-token'

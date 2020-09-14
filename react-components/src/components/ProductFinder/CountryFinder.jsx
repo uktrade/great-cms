@@ -19,13 +19,14 @@ const customStyles = {
   },
 }
 
-const countries = ['Algeria', 'Angola', 'Benin', 'Botswana', 'Belize', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Central African Republic' ];
-const suggested = ['France', 'Spain', 'Italy', 'Jamaica' ];
+//const countries = ['Algeria', 'Angola', 'Benin', 'Botswana', 'Belize', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Central African Republic' ];
+const suggested = ['France', 'Spain', 'Italy', 'Jamaica'];
 
 export function CountryFinder(props) {
   let modalContent;
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [selectedCountry, setSelectedCountry] = React.useState(props.text);
+  const [countryList, setCountryList] = React.useState()
 
   const openModal = () => {
     setIsOpen(true);
@@ -36,16 +37,31 @@ export function CountryFinder(props) {
   }
 
   const modalAfterOpen = () => {
-    modalContent.style.maxHeight='700px'
+    modalContent.style.maxHeight = '700px';
+    if (!countryList) {
+      getCountries();
+    }
+  }
+
+  const getCountries = () => {
+    Services.getCountries().then((result) => {
+      // map regions
+      let regions = {};
+      for (const [index, country] of result.entries()) {
+        let region = country.region;
+        (regions[region] = regions[region] || []).push(country);
+      }
+      setCountryList(regions);
+    });
   }
 
   const saveCountry = (country) => {
     setSelectedCountry(country);
-    let result = Services.updateExportPlan({export_countries:[country]}).then((result) => {
+    let result = Services.updateExportPlan({ export_countries: [country] }).then((result) => {
       closeModal();
     }).catch((result) => {
       // TODO: Add error confirmation here
-    });    
+    });
   }
 
   const selectCountry = (evt) => {
@@ -53,13 +69,22 @@ export function CountryFinder(props) {
     saveCountry(targetCountry);
   }
 
-  const _countries = []; 
-  for(const [index, value] of countries.entries()) {
-    _countries.push(<li className="c-1-6" key={index}><button type="button" className="link" data-country={value}>{value}</button></li>);
-  }
+  let _regions = Object.keys(countryList || {}).map((region) => {
+    let _countries = (countryList[region] || []).map((country, index) => {
+      return (<li style={{order:'5'}} key={country.id}><button type="button" className="link m-r-s m-b-xs" data-country={country.name}>{country.name}</button></li>)
+    })
+    return <section key={region}>
+      <div className="grid" >
+        <div className="c-full-width">
+          <h2 class="h-s">{region}</h2>
+          <ul style={{display:'flex', flexWrap:'wrap'}}>{_countries}</ul>
+        </div>
+      </div>
+      </section>
+  })
 
   const _suggested = [];
-  for(const [index, value] of suggested.entries()) {
+  for (const [index, value] of suggested.entries()) {
     _suggested.push(<button key={index} type="button" className="button button--tertiary button--round-corner m-r-s" data-country={value}>{value}</button>);
   }
 
@@ -84,7 +109,7 @@ export function CountryFinder(props) {
           <h3 className="h-m p-t-0">Suggested markets for your product</h3>
           <p className="body-m">These markets may be a good place to consider exporting your product</p>
           <ul className="" onClick={selectCountry}>
-            {_suggested}
+            {_suggested }
           </ul>
           <hr className="bg-black-70"></hr>
           
@@ -97,7 +122,7 @@ export function CountryFinder(props) {
           <hr className="bg-black-70"></hr>
           <h3 className="h-m p-t-0">Select a target market</h3>
           <ul  className="country-list body-m" onClick={selectCountry}>
-            {_countries}
+            { _regions }
           </ul>
 
         </form>
@@ -106,7 +131,7 @@ export function CountryFinder(props) {
   )
 }
 
-export default function ({ ...params }) {
+export default function({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
