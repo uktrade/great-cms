@@ -1,7 +1,5 @@
 import pytz
 
-from config import settings
-
 from airtable import Airtable
 from directory_api_client import api_client
 from iso3166 import countries_by_alpha3
@@ -104,31 +102,23 @@ def get_recommended_countries(sso_session_id, sectors):
     return []
 
 
-def serialize_exportplan_data(rules_regulations, user):
-    target_markets = [{'country': rules_regulations['country']}]
+def serialize_exportplan_data(user):
+    target_markets = []
     if user.company and user.company.expertise_countries_labels:
         target_markets = target_markets + [{'country': c} for c in user.company.expertise_countries_labels]
-    exportplan_data = {
-        'export_countries': [rules_regulations['country']],
-        'export_commodity_codes': [rules_regulations['commodity_code']],
-        'rules_regulations': rules_regulations,
-        'target_markets': target_markets,
-
-
-    }
-    if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
-        exportplan_data['sectors'] = ['food and drink']
-    return exportplan_data
+        export_plan_data = {'target_markets': target_markets, }
+    else:
+        export_plan_data = {}
+    return export_plan_data
 
 
 def get_or_create_export_plan(user):
     # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
     export_plan = get_exportplan(user.session_id)
     if not export_plan:
-        rules = get_rules_and_regulations('Australia')
         export_plan = create_export_plan(
             sso_session_id=user.session_id,
-            exportplan_data=serialize_exportplan_data(rules_regulations=rules, user=user)
+            exportplan_data=serialize_exportplan_data(user=user)
         )
     return export_plan
 

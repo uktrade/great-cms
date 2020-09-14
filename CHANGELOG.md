@@ -211,3 +211,4 @@
 - GP2-362 - factbook-lanuage-display
 - GP2-519 - turn-over-choices
 - GP2-420 - get topic details
+- GP2-540 - EP-make-fields-optional
