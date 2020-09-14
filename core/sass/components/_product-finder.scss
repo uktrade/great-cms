@@ -1,0 +1,9 @@
+.product-finder {
+  section {
+    @extend .p-s;
+    border-bottom: 1px solid $black-50;
+  }
+  .capitalize {
+    text-transform: capitalize;
+  }
+}

@@ -437,6 +437,23 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'search_commodity_refine')
+def test_refine_commodity(mock_search_commodity_refine, client):
+    mock_search_commodity_refine.return_value = data = [
+        {'value': '123323', 'label': 'some description'},
+        {'value': '223323', 'label': 'some other description'},
+    ]
+
+    response = client.get(reverse('core:api-lookup-product'), {
+        'interraction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
+    })
+
+    assert response.status_code == 200
+    assert response.json() == data
+    assert mock_search_commodity_refine.call_count == 1
+
+
+@pytest.mark.django_db
 def test_list_page_uses_right_template(domestic_homepage, rf, user):
     request = rf.get('/')
     request.user = user

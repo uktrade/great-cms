@@ -28,6 +28,15 @@ class EnableTourMixin:
         return context
 
 
+class ExportPlanMixin:
+    # gets export plan data for use by the persionalization bar
+    def get_context(self, request):
+        context = super().get_context(request)
+        if request.user and hasattr(request.user, 'export_plan'):
+            context['export_plan'] = request.user.export_plan
+        return context
+
+
 class AnonymousUserRequired:
     # used by core.wagtail_hooks.anonymous_user_required
     anonymous_user_required_redirect_url = constants.DASHBOARD_URL

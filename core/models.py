@@ -168,7 +168,7 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
-class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
+class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, mixins.ExportPlanMixin, Page):
     """
     Generic page, freely inspired by Codered page
     """
@@ -315,7 +315,7 @@ class ListPage(CMSGenericPage):
     settings_panels = CMSGenericPage.settings_panels + [FieldPanel('record_read_progress')]
     content_panels = CMSGenericPage.content_panels + [FieldPanel('description'), FieldPanel('button_label')]
 
-# Module
+
 class CuratedListPage(CMSGenericPage):
     parent_page_types = ['core.ListPage']
     subpage_types = ['core.DetailPage']
@@ -363,7 +363,6 @@ def hero_singular_validation(value):
             ),
         )
 
-# lesson
 class DetailPage(CMSGenericPage):
     estimated_read_duration = models.DurationField(
         null=True,

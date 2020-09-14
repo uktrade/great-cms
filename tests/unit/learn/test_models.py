@@ -16,7 +16,7 @@ def test_topic_view(client, domestic_homepage, user, domestic_site):
 
 
 @pytest.mark.django_db
-def test_lesson_page_products(client, domestic_homepage, domestic_site, user):
+def test_lesson_page_products(client, domestic_homepage, domestic_site, user, patch_export_plan):
     client.force_login(user)
 
     # given the user has not read a lesson

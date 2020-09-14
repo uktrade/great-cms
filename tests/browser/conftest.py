@@ -152,7 +152,8 @@ def server_user_browser_dashboard(
     domestic_site_browser_tests,
     mock_get_has_visited_page,
     mock_set_user_page_view,
-    mock_get_lessons_completed
+    mock_get_lessons_completed,
+    mock_get_user_context_export_plan,
 ):
     live_server, user, browser = server_user_browser
 
