@@ -172,7 +172,6 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, mixins.Exp
     """
     Generic page, freely inspired by Codered page
     """
-
     class Meta:
         abstract = True
 
@@ -363,6 +362,7 @@ def hero_singular_validation(value):
             ),
         )
 
+
 class DetailPage(CMSGenericPage):
     estimated_read_duration = models.DurationField(
         null=True,
@@ -454,10 +454,10 @@ class DetailPage(CMSGenericPage):
             # checking if the page is already marked as read
             list_page = (
                 ListPage.objects
-                    .ancestor_of(self)
-                    .filter(record_read_progress=True)
-                    .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
-                    .first()
+                .ancestor_of(self)
+                .filter(record_read_progress=True)
+                .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
+                .first()
             )
             if list_page:
                 PageView.objects.get_or_create(
@@ -480,8 +480,9 @@ class DetailPage(CMSGenericPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
-        page_topic = PageTopic(self)
-        context['next_lesson'] = page_topic.get_next_lesson()
+        if hasattr(self.get_parent().specific, 'topics'):
+            page_topic = PageTopic(self)
+            context['next_lesson'] = page_topic.get_next_lesson()
         return context
 
 
