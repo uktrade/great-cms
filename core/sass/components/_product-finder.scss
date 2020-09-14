@@ -1,3 +1,11 @@
+@mixin stretch {
+  	position:absolute;
+  	left:0;
+  	right:0;
+  	bottom: 0;
+  	top: 0;
+}
+
 .product-finder {
   section {
     @extend .p-s;
@@ -5,5 +13,33 @@
   }
   .capitalize {
     text-transform: capitalize;
+  }
+  .classification-result {
+  	@include stretch
+  	top: 172px;
+  	.inner-scroll {
+  		overflow: auto;
+  		@include stretch;
+  	}
+  }
+  .shim {
+  	z-index: 3;
+  	@include stretch;
+  	text-align: center;
+  	padding-top: 30%;
+  	&:before {
+  		content: '';
+  		@include stretch;
+  		background: $black-50;
+  		opacity:0.6
+  	}
+  	.spinner {
+  		height: 50px;
+  		width: 50px;
+  		border-width: 6px;
+  	}
+  }
+  .center {
+    text-align: center;
   }
 }
