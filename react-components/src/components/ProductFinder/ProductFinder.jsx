@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
+import Spinner from '../Spinner/Spinner'
 
 const customStyles = {
   content: {
@@ -10,10 +11,10 @@ const customStyles = {
     right: '0',
     bottom: '0',
     left: 'auto',
-    minWidth: '600px',
-    width: '800px',
+    minWidth: '800px',
     padding: '0',
     border: 'none',
+    overflow: 'none',
   },
   overlay: {
     background: 'rgb(45 45 45 / 45%)',
@@ -61,6 +62,7 @@ export function ProductFinder(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
   const [selectedProduct, setSelectedProduct] = React.useState(props.text)
   const [searchResults, setSearchResults] = React.useState([])
+  const [isLoading, setLoading] = React.useState(false)
 
   const openModal = () => {
     setIsOpen(true)
@@ -96,19 +98,30 @@ export function ProductFinder(props) {
     }
   }
 
-  const search = () => {
-    let query = searchInput.value
-    Services.lookupProduct({ q: query })
+  const processResponse = (request) => {
+    setLoading(true)
+    request
       .then((result) => {
-        console.log('Initial search result', result); // TODO: Needed during development 
-        setSearchResults(result && result.data);
+        setLoading(false)
+        console.log('Initial search result', result) // TODO: Needed during development
+        if (result && result.data && result.data.txId) {
+          setSearchResults(result.data)
+        } else {
+          setSearchResults(searchResults) // force re-render to reset any changed selectors
+        }
       })
       .catch(() => {
+        setLoading(false)
         setSearchResults(result || {})
       })
   }
 
-  const RadioButtons = (attribute, handleChange) => {
+  const search = () => {
+    let query = searchInput.value
+    processResponse(Services.lookupProduct({ q: query }))
+  }
+
+  const RadioButtons = (attribute, handleChange, setValue = true) => {
     let buttons = (attribute.attrs || []).map((option, index) => {
       return (
         <label key={option.id} htmlFor={option.id} className="multiple-choice p-f-m m-b-xxs">
@@ -119,7 +132,7 @@ export function ProductFinder(props) {
             name={attribute.id}
             value={option.id}
             data-label={option.name}
-            defaultChecked={option.value == 'true'}
+            defaultChecked={setValue && option.value == 'true'}
           />
           {option.name}
           <label htmlFor={option.id}></label>
@@ -129,28 +142,27 @@ export function ProductFinder(props) {
     return <div onChange={handleChange}>{buttons}</div>
   }
 
-  const Attribute = (attribute) => {
+  const Attribute = (attribute, section) => {
     const handleChange = (event) => {
-      Services.lookupProductRefine({
-        txId: searchResults.txId,
-        attributeId: attribute.id,
-        valueId: event.target.value,
-        valueString: event.target.getAttribute('data-label'),
-      })
-        .then((result) => {
-          console.log('***   refine result', result); // TODO: Needed during developmen
-          if (result && result.data && result.data.txId) {
-            setSearchResults(result && result.data)
-          } else {
-            setSearchResults(searchResults) // force re-render to reset any changed selectors
-          }
-        })
-        .catch((error) => {
-          // TODO: add an error dialogue here
-          setSearchResults({})
-        })
+      if (section.isItemChoice) {
+        processResponse(Services.lookupProduct({ q: event.target.getAttribute('data-label') }))
+      } else {
+        processResponse(
+          Services.lookupProductRefine({
+            txId: searchResults.txId,
+            attributeId: attribute.id,
+            valueId: event.target.value,
+            valueString: event.target.getAttribute('data-label'),
+          })
+        )
+      }
     }
-    let body = { SELECTION: RadioButtons, VALUED: ValueChooser }[attribute.type](attribute, handleChange)
+
+    let body = { SELECTION: RadioButtons, VALUED: ValueChooser }[attribute.type](
+      attribute,
+      handleChange,
+      !section.isItemChoice
+    )
 
     return (
       <div className="grid m-v-s" key={attribute.id}>
@@ -167,10 +179,82 @@ export function ProductFinder(props) {
         <h3 className="h-m p-0">{title}</h3>
         <div className="">
           {(sectionDetails || []).map((value, index) => {
-            return Attribute(value)
+            return Attribute(value, sectionDetails)
           })}
         </div>
       </section>
+    )
+  }
+
+  const buildMap = (block, map) => {
+    // build an intetrraction block, removing any duplicates from previous
+    let newBlock = []
+    for (var index in block) {
+      let interraction = block[index]
+      if (interraction && interraction.id) {
+        if (!map[interraction.id]) {
+          map[interraction.id] = true
+          newBlock.push(interraction)
+        }
+      }
+    }
+    return newBlock.length ? newBlock : null
+  }
+
+  const resultsDisplay = (searchResults) => {
+    // Build maps of intteractions as we don't want any duplicates
+    let iMap = {}
+    let questions = buildMap([searchResults.currentQuestionInteraction], iMap)
+    let assumptions = buildMap(searchResults.assumedInteractions, iMap)
+    let known = buildMap(searchResults.knownInteractions, iMap)
+    let itemChoice = buildMap([searchResults.currentItemInteraction], iMap)
+    ;(itemChoice || {}).isItemChoice = true
+    let spinner = isLoading ? (
+      <div className="shim">
+        <Spinner text="" />
+      </div>
+    ) : (
+      ''
+    )
+    return (
+      <div>
+        {spinner}
+        <div className="inner-scroll">
+          {searchResults.txId && !questions && !searchResults.hsCode && (
+            <div className="grid p-t-l">
+              <p className="h-m center">No results found</p>
+            </div>
+          )}
+          {searchResults.hsCode && (
+            <section className="found-section grid bg-black-10">
+              <div className="c-1-3">
+                <span className="h-m">You've found your product!</span>
+              </div>
+              <div className="c-1-3">
+                <div className="h-s p-t-0 capitalize">{searchResults.currentItemName}</div>
+                hs code: <span className="bold">{searchResults.hsCode}</span>
+              </div>
+              <div className="c-1-3">
+                <button className="button button--primary" type="button" onClick={saveProduct}>
+                  Select this product
+                </button>
+              </div>
+            </section>
+          )}
+          {false && searchResults.productDescription && (
+            <section className="summary table">
+              <div className="table-row">
+                <div className="table-cell">Here's what we know about your</div>
+                <div className="table-cell bold capitalize">{searchResults.productDescription}</div>
+              </div>
+            </section>
+          )}
+          {Section('Please choose your item', itemChoice)}
+          {!itemChoice && Section(`Tell us more about your '${searchResults.currentItemName}'`, questions)}
+          {!itemChoice && Section(`Your item's characteristics`, known)}
+          {!itemChoice && Section("We've assumed:", assumptions)}
+        </div>
+      </div>
     )
   }
 
@@ -198,44 +282,7 @@ export function ProductFinder(props) {
               Search
             </button>
           </div>
-          <div className="classification-result">
-            {searchResults.hsCode && (
-              <section className="found-section grid bg-black-10">
-                <div className="c-1-3">
-                  <span className="h-m">You've found your product!</span>
-                </div>
-                <div className="c-1-3">
-                  <div className="h-s p-t-0">{searchResults.currentItemName}</div>
-                  hs code: <span className="bold">{searchResults.hsCode}</span>
-                </div>
-                <div className="c-1-3">
-                  <button className="button button--primary" type="button" onClick={saveProduct}>
-                    Select this product
-                  </button>
-                </div>
-              </section>
-            )}
-
-            {false && searchResults.productDescription && (
-              <section className="summary table">
-                <div className="table-row">
-                  <div className="table-cell">Here's what we know about your</div>
-                  <div className="table-cell bold">{searchResults.productDescription}</div>
-                </div>
-              </section>
-            )}
-            {Section(
-              `Tell us more about your '${searchResults.currentItemName}'`,
-              searchResults.currentQuestionInteraction && [searchResults.currentQuestionInteraction]
-            )}
-            {false &&
-              Section(
-                'Please choose your item',
-                searchResults.currentItemInteraction && [searchResults.currentItemInteraction]
-              )}
-            {Section(`Your item's characteristics`, searchResults.knownInteractions)}
-            {Section("We've assumed:", searchResults.assumedInteractions)}
-          </div>
+          <div className="classification-result">{resultsDisplay(searchResults)}</div>
         </form>
       </ReactModal>
     </span>
