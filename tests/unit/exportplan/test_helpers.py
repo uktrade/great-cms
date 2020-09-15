@@ -1,6 +1,5 @@
 from unittest import mock
 
-from config import settings
 from directory_api_client import api_client
 import pytest
 
@@ -194,35 +193,10 @@ def test_get_recommended_countries_no_return(mock_recommended_countries):
 
 
 def test_serialize_exportplan_data(user):
-    rules_regulations_data = {
-        'country': 'UK', 'commodity_code': '123'
-    }
 
-    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
+    exportplan_data = helpers.serialize_exportplan_data(user)
 
-    assert exportplan_data == {
-        'export_countries': ['UK'],
-        'export_commodity_codes': ['123'],
-        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
-        'target_markets': [{'country': 'UK'}],
-    }
-
-
-def test_serialize_exportplan_data_hardcoded_industries(user):
-    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
-    rules_regulations_data = {
-        'country': 'UK', 'commodity_code': '123'
-    }
-
-    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
-    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = False
-    assert exportplan_data == {
-        'export_countries': ['UK'],
-        'export_commodity_codes': ['123'],
-        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
-        'target_markets': [{'country': 'UK'}],
-        'sectors': ['food and drink'],
-    }
+    assert exportplan_data == {}
 
 
 def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company_profile):
@@ -230,30 +204,17 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
         'expertise_countries': ['CN']
     }
 
-    rules_regulations_data = {
-        'country': 'UK', 'commodity_code': '123'
-    }
-
-    exportplan_data = helpers.serialize_exportplan_data(rules_regulations_data, user)
-
-    assert exportplan_data == {
-        'export_countries': ['UK'],
-        'export_commodity_codes': ['123'],
-        'rules_regulations': {'country': 'UK', 'commodity_code': '123'},
-        'target_markets': [{'country': 'UK'}, {'country': 'China'}],
-    }
+    exportplan_data = helpers.serialize_exportplan_data(user)
+    assert exportplan_data == {'target_markets': [{'country': 'China'}]}
 
 
 @mock.patch.object(helpers, 'get_exportplan')
-@mock.patch.object(helpers, 'get_rules_and_regulations')
 @mock.patch.object(helpers, 'create_export_plan')
 def test_get_or_create_export_plan_created(
-        mock_create_export_plan, mock_get_rules_and_regulations, mock_get_exportplan, user
+        mock_create_export_plan, mock_get_exportplan, user
 ):
     mock_get_exportplan.return_value = None
-    mock_get_rules_and_regulations.return_value = {
-        'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
-    }
+
     mock_create_export_plan.return_value = {'export_plan_created'}
 
     export_plan = helpers.get_or_create_export_plan(user)
@@ -263,10 +224,7 @@ def test_get_or_create_export_plan_created(
 
     assert mock_create_export_plan.call_count == 1
     assert mock_create_export_plan.call_args == mock.call(
-        exportplan_data={
-            'export_countries': ['UK'], 'export_commodity_codes': ['123'], 'rules_regulations':
-                {'country': 'UK', 'commodity_code': '123', 'rules_regulations': 'abc'
-                 }, 'target_markets': [{'country': 'UK'}]},
+        exportplan_data={},
         sso_session_id='123'
     )
 
