@@ -59,7 +59,10 @@ class ArticleView(GA360Mixin, FormView):
 
 
 class LoginView(GA360Mixin, TemplateView):
-    MESSAGE_EMAIL_EXISTING = 'User with this email already exists'
+    MESSAGE_EMAIL_EXISTING = ('This email address is already registered. '
+                              'Use the social account you signed up with or '
+                              'reset your password.'
+                              )
 
     def __init__(self):
         super().__init__()
