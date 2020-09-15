@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- No ticket - Fix heading styling
 - GP2-495 - Update headings on lesson pages
 - GP2-514 - Fix alt text
 - GP2-259 - Pros and Cons layout tweaks
