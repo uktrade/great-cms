@@ -1,40 +1,32 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
 import Field from '@src/components/Fields/Field'
 
-import './stylesheets/StepCode.scss'
-
-
-export default function StepCode(props){
+export const StepCode = (props) => {
   return (
-    <div className='great-mvp-signup-wizard-step-code'>
-      { props.showTitle && <h2 className="h-xl">Confirmation code</h2> }
-      <p className="body-text great-mvp-synopsis m-t-0">
-        <span>we've emailed you a five-digit confirmation code.</span>
-      </p>
-      <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
-        <Field
-          id="id_code"
-          type="text"
-          placeholder="Enter code"
-          name="code"
-          disabled={props.disabled}
-          value={props.code}
-          handleChange={props.handleCodeChange}
-          autofocus={true}
-          errors={props.errors.code || []}
-        />
-        <input
-          type="submit"
-          value="Submit"
-          id="signup-modal-submit-code"
-          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button"
-          disabled={props.disabled}
-        />
-      </form>
-    </div>
+    <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
+      { props.showTitle && <legend className="h-m text-blue-deep-80 body-l">Check your email</legend> }
+      <p className="body-text great-mvp-synopsis m-t-0">We have emailed you a five-digit code. <br /> Enter it below:</p>
+      <label htmlFor="id_code">Confirmation code</label>
+      <Field
+        id="id_code"
+        type="text"
+        placeholder="Enter code"
+        name="code"
+        disabled={props.disabled}
+        value={props.code}
+        handleChange={props.handleCodeChange}
+        autofocus={true}
+        errors={props.errors.code || []}
+      />
+      <button
+        type="submit"
+        id="signup-modal-submit-code"
+        className="button button--primary m-t-s"
+        disabled={props.disabled}
+      >Submit</button>
+    </form>
   )
 }
 
@@ -53,3 +45,5 @@ StepCode.defaultProps = {
   errors: {},
   showTitle: true,
 }
+
+export default StepCode
