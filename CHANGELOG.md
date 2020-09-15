@@ -4,6 +4,7 @@
 
 ## Pre-release
 
+- no ticket - node-fetch module upgrade
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
