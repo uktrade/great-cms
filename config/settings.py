@@ -394,6 +394,7 @@ REST_FRAMEWORK = {
 }
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
+WAGTAILMEDIA_MEDIA_MODEL = 'core.GreatMedia'
 
 # directory forms api client
 DIRECTORY_FORMS_API_BASE_URL = env.str('DIRECTORY_FORMS_API_BASE_URL')
