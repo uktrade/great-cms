@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -6,19 +5,20 @@ import Services from '@src/Services'
 import Field from '@src/components/Fields/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 import ErrorList from '@src/components/ErrorList'
-import './stylesheets/Step1.scss'
 
 export default function Step1(props) {
   return (
-    <div className="great-signup-wizard-step-1">
-      <h2 className="h-xl m-t-l">Log in</h2>
+    <>
       <form
         onSubmit={(event) => {
           event.preventDefault()
           props.handleSubmit()
         }}
       >
+        <legend className="h-m text-blue-deep-80 body-l">Log in</legend>
+        <p>Do not have an account? <a href={Services.config.signupUrl} className='text-red-80 inline-block'>Sign up</a></p>
         <ErrorList errors={props.errors.__all__ || []} className="m-b-s" />
+        <label htmlFor="id_email">Email address</label>
         <Field
           id="id_email"
           type="text"
@@ -30,6 +30,7 @@ export default function Step1(props) {
           autofocus={true}
           errors={props.errors.email || []}
         />
+        <label htmlFor="id_password" className='m-t-s'>Password</label>
         <Field
           id="id_password"
           type="password"
@@ -40,28 +41,24 @@ export default function Step1(props) {
           handleChange={props.handlePasswordChange}
           errors={props.errors.password || []}
         />
-        <input
+        <a href={Services.config.passwordResetUrl} className='text-red-80 inline-block m-t-xs'>Forgotten password?</a>
+        <br />
+        <button
           type="submit"
-          value="Log in"
-          className="great-wizard-step-submit great-wizard-step-button"
+          id="signup-modal-submit"
+          className="button button--primary m-t-s"
           disabled={props.disabled}
-        />
-        <p>
-          <a href={Services.config.passwordResetUrl}>Forgotten password?</a>
-        </p>
+        >Log in</button>
       </form>
 
-      <div className="great-vertical-separator">
+      <div className="vertical-separator">
         <hr />
         <span>or</span>
         <hr />
       </div>
 
       <SocialLoginButtons linkedinUrl={props.linkedinLoginUrl} googleUrl={props.googleLoginUrl} />
-      <p>
-        Do not have an account? <a href={Services.config.signupUrl}>Sign up</a>
-      </p>
-    </div>
+    </>
   )
 }
 

@@ -4,10 +4,12 @@
 
 ## Pre-release
 
+- no ticket - node-fetch module upgrade
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
 
+- No ticket - Fix heading styling
 - GP2-495 - Update headings on lesson pages
 - GP2-514 - Fix alt text
 - GP2-259 - Pros and Cons layout tweaks
@@ -53,6 +55,9 @@
 
 ### Implemented enhancements
 - GP2-263 - Next lesson (BE)
+- GP2-582 - Product search handling multiple item selection
+- GP2-581 & GP2-586 - Product search spinner, 'no results message' and scroll area
+- GP2-528 - Horizontal rule styling updates
 - GP2-208 - Product search and country search modal
 - GP2-535 - Lesson ita quote updated (FE)
 - GP2-259 - Lesson - pros and cons (BE)
@@ -213,3 +218,5 @@
 - GP2-362 - factbook-lanuage-display
 - GP2-519 - turn-over-choices
 - GP2-420 - get topic details
+- GP2-540 - EP-make-fields-optional
+- GP2-545 - remove airtable

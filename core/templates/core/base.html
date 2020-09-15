@@ -12,8 +12,6 @@
 {% block head_js %}
   {{ block.super }}
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
-    <script src="https://use.fontawesome.com/88eb2f9954.js"></script>
-
 {% endblock %}
 
 
@@ -25,6 +23,7 @@
 
 {% block body_content_container %}
   <main id="content" class="{% block css_layout_class %}{% endblock %}">
+      {% block content_header %}{% endblock %}
       {% block content %}{% endblock %}
   </main>
 {% endblock %}

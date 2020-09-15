@@ -10,3 +10,18 @@ def test_get_suggested_countries_for_sector(mock_get_popular_export_destinations
     assert actual == [{'value': 'CN', 'label': 'China'}, {'value': 'FR', 'label': 'France'}]
     assert mock_get_popular_export_destinations.call_count == 1
     assert mock_get_popular_export_destinations.call_args == mock.call('Aerospace')
+
+
+def test_get_suggested_countries_for_user(rf, user, mock_get_company_profile):
+    request = rf.get('/')
+    request.user = user
+    mock_get_company_profile.return_value = {
+        'expertise_industries': ['SL10003']
+    }
+
+    actual = helpers.get_suggested_countries_for_user(request)
+
+    assert actual == [
+        {'value': 'UA', 'label': 'Ukraine'}, {'value': 'IN', 'label': 'India'}, {'value': 'AU', 'label': 'Australia'},
+        {'value': 'DE', 'label': 'Germany'}
+    ]

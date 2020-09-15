@@ -3,7 +3,7 @@
 {% block content %}
     {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
   <div class="container">
-    <h2 class="h-l m-t-l" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:'' }}</h2>
+    <h2 class="h-m m-t-l" id="great-hero-welcome">Welcome {% if visited_already %}back {% endif %}{{ request.user.first_name|default:'' }}</h2>
   </div>
 
     <div class="container">
@@ -16,7 +16,7 @@
 
                 <div class="g-card" id="your-export-plan-card">
                     <div class="g-card-header">
-                        <h3 class="h-m">Your export plan</h3>
+                        <h3 class="h-s p-t-xxs">Your export plan</h3>
                     </div>
                     <p class="m-v-s">Get ready to Trade Export plan</p>
                     <form class="great-mvp-small-checkbox-container">
