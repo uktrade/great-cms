@@ -275,15 +275,15 @@ $desktop: 1024px;
     }
 
     h2 {
-      @extend .h-l;
-    }
-
-    h3 {
       @extend .h-m;
     }
 
-    h4 {
+    h3 {
       @extend .h-s;
+    }
+
+    h4 {
+      @extend .h-xs;
     }
 
     b > i {
