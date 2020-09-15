@@ -11,13 +11,6 @@ def create_export_plan(sso_session_id, exportplan_data):
     return response.json()
 
 
-def get_exportplan_rules_regulations(sso_session_id):
-    response = api_client.exportplan.exportplan_list(sso_session_id)
-    response.raise_for_status()
-    if response.json():
-        return response.json()[0]['rules_regulations']
-
-
 def get_exportplan(sso_session_id):
     response = api_client.exportplan.exportplan_list(sso_session_id)
     response.raise_for_status()
