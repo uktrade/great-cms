@@ -7,7 +7,17 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-
+- GP2-495 - Update headings on lesson pages
+- GP2-514 - Fix alt text
+- GP2-259 - Pros and Cons layout tweaks
+- GP2-386 - Added validation for hero section
+- GP2-267 & GP2-526 Fix page publishing bypassing draft status
+- No ticket - Fix lesson page layout issues after wagtail upgrade
+- GP2-255 - style tweaks after wagtail upgrade
+- GP2-336 - dashboard show lesson progress accumulated to curatedlistpage
+- GP2-382 - fix welcome message
+- No ticket - recap rearrange
+- No ticket - recap field render as rich text
 - No ticket - Fix font awesome font path
 - GP2-438 - lesson font styling tweaks
 - GP2-415 - internal button links
@@ -41,9 +51,24 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-
-- GP2-438 - Lesson fictional example (FE)
-- GP2-438 - Lesson - recap (FE)
+- GP2-582 - Product search handling multiple item selection
+- GP2-581 & GP2-586 - Product search spinner, 'no results message' and scroll area
+- GP2-528 - Horizontal rule styling updates
+- GP2-208 - Product search and country search modal
+- GP2-535 - Lesson ita quote updated (FE)
+- GP2-259 - Lesson - pros and cons (BE)
+- GP2-208 - Product search modal
+- GP2-259 - Lesson - pros and cons (FE)
+- GP2-336 - Lesson progress on dashboard
+- GP2-386 - Lesson - hero image (FE) - Resize
+- no ticket - rename fiction components to fictional example
+- No ticket - wagtail upgrade 2.10
+- GP2-255 - Lesson ita quote (BE)
+- GP2-453 - Lesson fictional example (BE)
+- GP2-294 - Lesson - recap (BE)
+- GP2-255 - Lesson ita quote (FE)
+- GP2-452 - Lesson fictional example (FE)
+- GP2-293 - Lesson - recap (FE)
 - Gp2-253 - Lesson - text paragraph
 - GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
@@ -186,3 +211,6 @@
 - GP2-393 - adaption fields saving
 - GP2-395 - adaption tm documents API views
 - GP2-424 - remove-links logged out state
+- GP2-362 - factbook-lanuage-display
+- GP2-519 - turn-over-choices
+- GP2-420 - get topic details

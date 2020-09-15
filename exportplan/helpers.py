@@ -5,6 +5,7 @@ from config import settings
 from airtable import Airtable
 from directory_api_client import api_client
 from iso3166 import countries_by_alpha3
+from core import models
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -211,3 +212,15 @@ def get_check_duties_link(exportplan):
     # TODO Once requirements have been defined pick country code from export plan
     url = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     return url
+
+
+def get_all_lesson_details():
+    lessons = {}
+    for lesson in models.DetailPage.objects.live():
+        lessons[lesson.slug] = {
+            'topic_name': lesson.topic_title,
+            'title': lesson.title,
+            'estimated_read_duration': lesson.estimated_read_duration,
+            'url': lesson.url,
+        }
+    return lessons

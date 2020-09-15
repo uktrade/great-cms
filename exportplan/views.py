@@ -50,6 +50,20 @@ class ExportPlanMixin:
         )
 
 
+class LessonDetailsMixin:
+
+    @property
+    def lesson_details(self):
+        return helpers.get_all_lesson_details()
+
+    def get_context_data(self, **kwargs):
+
+        return super().get_context_data(
+            lesson_details=self.lesson_details,
+            **kwargs
+        )
+
+
 class FormContextMixin:
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -78,12 +92,25 @@ class FormContextMixin:
             field.widget.attrs.get('currency', '') for field in self.form_class.base_fields.values()
         ]
 
+        field_choices = [
+            field.choices if hasattr(field, 'choices') else '' for field in
+            self.form_class.base_fields.values()
+        ]
+
+        field_types = [
+            type(field.widget).__name__ for field in self.form_class.base_fields.values()
+        ]
+
         form_fields = [
-            {'name': name, 'label': label, 'placeholder': placeholder, 'tooltip': tooltip, 'example': example,
-             'description': description, 'currency': currency}
-            for name, label, placeholder, tooltip, example, description, currency in zip(
-                field_names, field_labels, field_placeholders, field_tooltip, field_example, field_description,
-                field_currency)
+            {'name': name, 'label': label, 'field_type': field_type, 'placeholder': placeholder,
+             'tooltip': tooltip, 'example': example, 'description': description, 'currency': currency,
+             'choices': choices}
+            for
+            name, label, field_type, placeholder, tooltip, example, description, currency, choices
+            in zip(
+                field_names, field_labels, field_types, field_placeholders, field_tooltip,
+                field_example, field_description,
+                field_currency, field_choices)
         ]
 
         context['form_initial'] = json.dumps(context['form'].initial)
@@ -130,7 +157,7 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
         # To do pass lanaguage from export_plan object rather then  hardcoded
-        context['language'] = helpers.get_cia_world_factbook_data(country='Netherlands', key='people,languages')
+        context['language_data'] = helpers.get_cia_world_factbook_data(country='Netherlands', key='people,languages')
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
         return context
 
@@ -162,7 +189,7 @@ class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, 
         return context
 
 
-class ExportPlanAboutYourBusinessView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
     def get_initial(self):
         return self.export_plan['about_your_business']

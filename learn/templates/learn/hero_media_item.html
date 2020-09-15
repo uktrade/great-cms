@@ -1,3 +1,5 @@
-{% load static %}
+{% load include_block from wagtailcore_tags %}
 
-<img src="{% static 'images/lesson-hero-image.png' %}" alt="" />
+{% for block in page.hero %}
+    {% include_block block %}
+{% endfor %}

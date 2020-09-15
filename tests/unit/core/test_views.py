@@ -4,12 +4,13 @@ from unittest import mock
 from unittest.mock import patch, Mock
 
 from directory_api_client import api_client
+from directory_sso_api_client import sso_api_client
 from formtools.wizard.views import normalize_name
 import pytest
 
 from django.urls import reverse
 
-from core import forms, helpers, models, serializers, views, constants
+from core import forms, helpers, serializers, views, constants
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
 from tests.unit.learn.factories import LessonPageFactory
@@ -130,7 +131,9 @@ def test_api_update_company_not_logged_in(client, company_data):
 @pytest.mark.django_db
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
+@mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_dashboard_page_logged_in(
+    mock_get_user_lesson_completed,
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
     patch_set_user_page_view,
@@ -141,6 +144,7 @@ def test_dashboard_page_logged_in(
     client,
     user
 ):
+    mock_get_user_lesson_completed.return_value = create_response(json_body={'results': []})
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
@@ -163,9 +167,11 @@ def test_dashboard_page_not_logged_in(
 @pytest.mark.django_db
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
+@mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_dashboard_page_lesson_progress(
-    mock_events_by_location_list,
+    mock_get_user_lesson_completed,
     mock_export_opportunities_by_relevance_list,
+    mock_events_by_location_list,
     patch_set_user_page_view,
     patch_get_user_page_views,
     mock_get_company_profile,
@@ -180,34 +186,46 @@ def test_dashboard_page_lesson_progress(
     client.force_login(user)
 
     # given the user has read some lessons
-    topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
-    topic_two = ListPageFactory(parent=domestic_homepage, slug='topic-two', record_read_progress=True)
-    lesson_one = DetailPageFactory(parent=topic_one, slug='lesson-one')
-    lesson_two = DetailPageFactory(parent=topic_one, slug='lesson-two')
-    DetailPageFactory(parent=topic_one, slug='lesson-three',)
-    DetailPageFactory(parent=topic_one, slug='lesson-four')
-    DetailPageFactory(parent=topic_two, slug='lesson-one-topic-two')
-    models.PageView.objects.create(
-        page=lesson_one,
-        list_page=topic_one,
-        sso_id=user.pk
-    )
-    models.PageView.objects.create(
-        page=lesson_two,
-        list_page=topic_one,
-        sso_id=user.pk
-    )
+    section_one = ListPageFactory(parent=domestic_homepage, slug='section-one', record_read_progress=True)
+    section_two = ListPageFactory(parent=domestic_homepage, slug='section-two', record_read_progress=True)
+    module_one = CuratedListPageFactory(parent=section_one, slug='section-one-module-one')
+    module_two = CuratedListPageFactory(parent=section_two, slug='section-two-module-one')
+    CuratedListPageFactory(parent=section_two, slug='section-two-module-two')
+    lesson_one = DetailPageFactory(parent=module_one, slug='lesson-one')
+    lesson_two = DetailPageFactory(parent=module_one, slug='lesson-two')
+    DetailPageFactory(parent=module_two, slug='lesson-three',)
+    DetailPageFactory(parent=module_two, slug='lesson-four')
+    lesson_five = DetailPageFactory(parent=module_two, slug='lesson-five')
     # create dashboard
     dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
+
+    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
+        {'lesson': lesson_one.id},
+        {'lesson': lesson_two.id},
+    ]})
+
     context_data = dashboard.get_context(get_request)
     # check the progress
-    assert len(context_data['list_pages']) == 2
-    assert context_data['list_pages'][0] == topic_one
-    assert context_data['list_pages'][0].read_count == 2
-    assert context_data['list_pages'][0].read_progress == 50
-    assert context_data['list_pages'][1] == topic_two
-    assert context_data['list_pages'][1].read_count == 0
-    assert context_data['list_pages'][1].read_progress == 0
+    assert len(context_data['module_pages']) == 2
+    assert context_data['module_pages'][0]['page'].id == module_one.id
+    assert context_data['module_pages'][1]['page'].id == module_two.id
+    assert context_data['module_pages'][0]['total_pages'] == 2
+    assert context_data['module_pages'][1]['total_pages'] == 3
+    assert context_data['module_pages'][0]['read_count'] == 2
+    assert context_data['module_pages'][1]['read_count'] == 0
+
+    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
+        {'lesson': lesson_one.id},
+        {'lesson': lesson_two.id},
+        {'lesson': lesson_five.id}
+    ]})
+
+    context_data = dashboard.get_context(get_request)
+    # the topics should swap round as two is in progress and has more unread than one
+    assert context_data['module_pages'][0]['page'].id == module_two.id
+    assert context_data['module_pages'][1]['page'].id == module_one.id
+    assert context_data['module_pages'][0]['read_count'] == 1
+    assert context_data['module_pages'][1]['read_count'] == 2
 
 
 @pytest.mark.django_db
@@ -219,6 +237,7 @@ def test_dashboard_apis_ok(
     patch_get_dashboard_export_opportunities,
     patch_set_user_page_view,
     patch_get_user_page_views,
+    patch_get_user_lesson_completed,
     domestic_homepage
 ):
     patch_get_dashboard_events.stop()
@@ -296,10 +315,12 @@ def test_dashboard_apis_fail(
         patch_get_dashboard_export_opportunities,
         patch_set_user_page_view,
         patch_get_user_page_views,
+        patch_get_user_lesson_completed,
         domestic_homepage
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
+    patch_get_user_lesson_completed.stop()
     with patch(
         'directory_api_client.api_client.personalisation.events_by_location_list'
     ) as events_api_results:
@@ -413,6 +434,23 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     assert response.json() == data
     assert mock_search_commodity_by_term.call_count == 1
     assert mock_search_commodity_by_term.call_args == mock.call(term=term)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'search_commodity_refine')
+def test_refine_commodity(mock_search_commodity_refine, client):
+    mock_search_commodity_refine.return_value = data = [
+        {'value': '123323', 'label': 'some description'},
+        {'value': '223323', 'label': 'some other description'},
+    ]
+
+    response = client.get(reverse('core:api-lookup-product'), {
+        'interraction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
+    })
+
+    assert response.status_code == 200
+    assert response.json() == data
+    assert mock_search_commodity_refine.call_count == 1
 
 
 @pytest.mark.django_db

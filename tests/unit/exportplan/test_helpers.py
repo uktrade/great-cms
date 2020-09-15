@@ -440,7 +440,7 @@ def test_target_market_documentss_update(mock_target_market_documents_update):
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_delete')
-def test_target_market_documentss_delete(mock_target_market_documents_delete):
+def test_target_market_documents_delete(mock_target_market_documents_delete):
     data = {'pk': 1}
     mock_target_market_documents_delete.return_value = create_response(data)
 
@@ -449,3 +449,22 @@ def test_target_market_documentss_delete(mock_target_market_documents_delete):
     assert mock_target_market_documents_delete.call_count == 1
     assert mock_target_market_documents_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_get_all_lesson_details(topics_with_lessons):
+    lessons = helpers.get_all_lesson_details()
+    assert lessons == {
+        'lesson-a1':
+            {
+                'topic_name': 'Some title', 'title': 'Lesson A1', 'estimated_read_duration': None, 'url': None
+            },
+        'lesson-a2':
+            {
+                'topic_name': 'Some title', 'title': 'Lesson A2', 'estimated_read_duration': None, 'url': None
+            },
+        'lesson-b1':
+            {
+                'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': None, 'url': None
+            },
+    }

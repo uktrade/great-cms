@@ -1,5 +1,4 @@
 DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
-DEFAULT_FILE_STORAGE=core.storage_backends.FileSystemStorage
 API_CACHE_DISABLED=true
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
 DEBUG=false

@@ -315,7 +315,40 @@ $desktop: 1024px;
     }
 
     hr {
-      @extend .hr--thick;
+      @extend .hr;
+    }
+
+    .pros-and-cons {
+      h3 {
+        @extend .h-l;
+        color: $blue-deep-80;
+        padding-bottom: 15px;
+        margin-bottom: 0;
+      }
+
+      ul {
+        @extend .list-arrow;
+
+        li {
+          padding-left: 0;
+
+          &::before {
+            display: none;
+          }
+        }
+      }
+
+      &__pros {
+        @include tablet {
+          margin-left: -82px;
+        }
+      }
+
+      &__cons {
+        @include tablet {
+          margin-right: -82px;
+        }
+      }
     }
   }
 
@@ -337,14 +370,41 @@ $desktop: 1024px;
   .lesson-hero {
     img, video {
       border-radius: 5px;
+      margin: 0 auto;
       max-width: 100%;
-      width: 100%;
     }
   }
 
   .fictional-example {
     h2, h3, h4 {
       margin-bottom: 12px;
+    }
+
+    .rich-text > p:first-of-type {
+      margin-top: 0;
+    }
+
+    .rich-text *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .ita-quote {
+    img {
+      margin-top: 5px;
+      width: 40px;
+
+      @include tablet {
+        margin-left: 30px;
+      }
+    }
+
+    &__quote p {
+      font-weight: 700;
+    }
+
+    &__author {
+      margin-top: 12px;
     }
   }
 }

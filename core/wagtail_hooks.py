@@ -11,6 +11,8 @@ from bs4 import BeautifulSoup
 from datetime import timedelta
 import readtime
 
+from core import models
+
 SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT = 'LESSON_PAGE_SHOW_GENERIC_CONTENT'
 exportplan_templates = ['exportplan/automated_list_page.html', 'exportplan/dashboard_page.html']
 
@@ -57,5 +59,29 @@ def set_read_time(request, page):
             tag.decompose()
         seconds = readtime.of_html(str(soup.body)).seconds
         page.estimated_read_duration = timedelta(seconds=seconds)
-        page.save()
+        page.save_revision()
         return seconds
+
+
+@hooks.register('after_edit_page')
+def set_lesson_pages_topic_id(request, page):
+    if hasattr(page, 'topics'):
+        topic_map = {}
+        # build a map of all the topics-lessons for this curated page
+        for topic in page.topics:
+            topic_map[topic.id] = []
+            for lesson_page in topic.value['pages']:
+                topic_map[topic.id].append(lesson_page.id)
+
+        for topic_id, lesson_ids in topic_map.items():
+            # Set the topic to any lesson which don't have this topic set
+            lesson_to_update = models.DetailPage.objects.filter(id__in=lesson_ids).exclude(topic_block_id=topic_id)
+            for lesson in lesson_to_update:
+                lesson.topic_block_id = topic_id
+                lesson.save()
+            # Blank the topic to any lessons which have lesson set which aren't in the map
+            lesson_to_blank = models.DetailPage.objects.filter(topic_block_id=topic_id).exclude(id__in=lesson_ids)
+            for lesson in lesson_to_blank:
+                lesson.topic_block_id = None
+                lesson.save()
+    return page

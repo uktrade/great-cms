@@ -24,15 +24,25 @@
   <div class="insight-section insight-section--border">
     <h3>Facts about the Netherlands to get you started</h3>
   </div>
-  <div class="insight-section insight-section--border">
+<div class="insight-section insight-section--border">
     <p class="m-0">The main languages in your chosen market are:</p>
+    <p>
+      {{ language_data.cia_factbook_data.languages.note }}
+    </p>
     <ul class="h-m p-0 m-0">
-      <li class="inline-block">Dutch (official);</li>
-      <li class="inline-block">Frisian,</li>
-      <li class="inline-block">Low Saxon,</li>
-      <li class="inline-block">Limburgish,</li>
-      <li class="inline-block">Romani,</li>
-      <li class="inline-block">Yiddish</li>
+      {% for language in language_data.cia_factbook_data.languages.language %}
+        <li class="inline-block">
+          {{language.name}}
+            {% if language.note == 'official' and language.percent %}
+              (official: {{language.percent}}%)
+            {% elif language.note == 'official' %}
+              (Official)
+            {% elif language.percent %}
+            ({{language.percent}}%)
+          {% endif %}
+          {% if not forloop.last %} , {% endif %}
+        </li>
+      {% endfor %}
     </ul>
   </div>
   <div class="insight-section">

@@ -9,9 +9,9 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images import get_image_model_string
 
 from core import blocks as core_blocks
-from core.models import CMSGenericPage, ListPage
+from core.models import CMSGenericPage
 from directory_constants import choices
-from domestic.helpers import build_route_context
+from domestic.helpers import build_route_context, get_read_progress
 from core import helpers, forms
 
 
@@ -45,6 +45,7 @@ class DomesticDashboard(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
+    mixins.ExportPlanMixin,
     Page,
 ):
 
@@ -53,6 +54,7 @@ class DomesticDashboard(
     ], null=True, blank=True)
 
     def get_context(self, request):
+
         user = request.user
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
@@ -63,20 +65,7 @@ class DomesticDashboard(
         context['industry_options'] = [{'value': key, 'label': label} for key, label in choices.SECTORS]
         context['events'] = helpers.get_dashboard_events(user.session_id)
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
-
-        # coerce to list to make the db read happen here rather than in the template, thus making a
-        # traceback more debuggable
-        context['list_pages'] = list(
-            ListPage.objects.live().filter(record_read_progress=True)
-            .annotate(read_count=models.Count('page_views_list', filter=models.Q(page_views_list__sso_id=user.id)))
-            .annotate(read_progress=(
-                models.ExpressionWrapper(
-                    expression=models.F('read_count') * 100 / models.F('numchild'),
-                    output_field=models.IntegerField()
-                )
-            ))
-            .order_by('-read_progress')
-        )
+        context.update(get_read_progress(user, context))
         context['routes'] = build_route_context(user, context)
         context['routes_wide'] = len(context['routes']) < 3
         return context

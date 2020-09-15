@@ -4,7 +4,6 @@ from logging import getLogger
 import csv
 from io import StringIO
 import functools
-from urllib.parse import urljoin
 
 from directory_api_client import api_client
 import great_components.helpers
@@ -20,7 +19,6 @@ from core.serializers import parse_opportunities, parse_events
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
-COMMODITY_SEARCH_URL = urljoin(settings.DIT_HELPDESK_URL, '/search/api/commodity-term/')
 MALE = 'xy'
 FEMALE = 'xx'
 
@@ -185,9 +183,9 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     @property
     def expertise_countries_labels(self):
-        if self.data['expertise_countries']:
-            return values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
-        return []
+        return values_to_labels(
+            values=self.data['expertise_countries'], choices=self.COUNTRIES
+        ) if self.data.get('expertise_countries') else []
 
     @property
     def expertise_countries_value_label_pairs(self):
@@ -218,14 +216,43 @@ def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
 
 
-def search_commodity_by_term(term, page=1):
-    response = requests.get(COMMODITY_SEARCH_URL, {'q': term, 'page': page})
+def search_commodity_by_term(term):
+    response = requests.post(
+        url=settings.COMMODITY_SEARCH_URL,
+        json={
+            'proddesc': term,
+            'destination': 'GB',
+        },
+        headers={
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+            'Authorization': settings.COMMODITY_SEARCH_TOKEN,
+        }
+    )
+
     response.raise_for_status()
-    parsed = response.json()
-    return [
-        {'value': item['commodity_code'], 'label': item['description']}
-        for item in parsed['results']
-    ]
+    return response.json()
+
+
+def search_commodity_refine(interraction_id, tx_id, value_id, value_string):
+    response = requests.post(
+        url=settings.COMMODITY_SEARCH_REFINE_URL,
+        json={
+            'state': 'continue',
+            'interractionid': interraction_id,
+            'txid': tx_id,
+            'values': [{'first': value_id, 'second': value_string}],
+        },
+        headers={
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+            'Authorization': settings.COMMODITY_SEARCH_TOKEN,
+        }
+    )
+    response.raise_for_status()
+    return response.json()
 
 
 @functools.lru_cache(maxsize=None)

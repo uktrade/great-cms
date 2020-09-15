@@ -1,28 +1,35 @@
 import hashlib
 
+from django.core.exceptions import ValidationError
+from django.db import models
 from django.utils.functional import cached_property
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, StreamFieldPanel, \
-    ObjectList, TabbedInterface
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    PageChooserPanel,
+    StreamFieldPanel,
+    TabbedInterface,
+)
 from wagtail.core import blocks
-from wagtail.core.fields import StreamField, RichTextField
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.images.models import Image, AbstractImage, AbstractRendition
+from wagtail.images.models import AbstractImage, AbstractRendition, Image
+from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
-from wagtail.snippets.models import register_snippet
 
-from django.db import models
-
+from core import blocks as core_blocks, mixins
 from core.context import get_context_provider
-from core import mixins
-from core import blocks as core_blocks
 
 
 class AbstractObjectHash(models.Model):
@@ -71,6 +78,10 @@ class Rendition(AbstractRendition):
 
     class Meta:
         unique_together = (('image', 'filter_spec', 'focal_point_key'))
+
+    @property
+    def alt(self):
+        return self.image.alt_text
 
 
 @register_snippet
@@ -156,7 +167,7 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
-class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, Page):
+class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, mixins.ExportPlanMixin, Page):
     """
     Generic page, freely inspired by Codered page
     """
@@ -341,6 +352,16 @@ class CuratedListPage(CMSGenericPage):
         return sum((len(topic.value['pages']) for topic in self.topics))
 
 
+def hero_singular_validation(value):
+    if value and len(value) > 1:
+        raise StreamBlockValidationError(
+            non_block_errors=ValidationError(
+                'Only one image or video allowed in Hero section',
+                code='invalid'
+            ),
+        )
+
+
 class DetailPage(CMSGenericPage):
     estimated_read_duration = models.DurationField(
         null=True,
@@ -352,6 +373,8 @@ class DetailPage(CMSGenericPage):
         ('learn/detail_page.html', 'Learn'),
     )
 
+    topic_block_id = models.CharField(max_length=50, blank=True, null=True)
+
     class Meta:
         verbose_name = 'Personalisable detail page'
         verbose_name_plural = 'Personalisable detail pages'
@@ -359,13 +382,15 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
+    hero = StreamField([
+        ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
+        ('Video', core_blocks.SimpleVideoBlock())],
+        null=True,
+        validators=[hero_singular_validation]
+    )
     objective = StreamField([
-        (
-            'paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),
-        ),
-        (
-            'ListItem', core_blocks.ObjectiveItem()
-        ),
+        ('paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),),
+        ('ListItem', core_blocks.Item()),
     ])
     body = StreamField([
         (
@@ -383,15 +408,43 @@ class DetailPage(CMSGenericPage):
             )
         ),
         ('content_module', core_blocks.ModularContentStaticBlock()),
-        ('Step', core_blocks.StepByStepBlock(icon='cog'),)
+        ('Step', core_blocks.StepByStepBlock(icon='cog'),),
+        ('fictional_example', blocks.StructBlock(
+            [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
+            template='learn/fictional_company_example.html',
+            icon='fa-commenting-o',
+        ),),
+        ('ITA_Quote', core_blocks.ITAQuoteBlock(icon='fa-quote-left'),),
+        ('pros_cons', blocks.StructBlock([
+            ('pros', blocks.StreamBlock([
+                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+            )),
+            ('cons', blocks.StreamBlock([
+                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+            ))
+        ],
+            template='learn/pros_and_cons.html',
+            icon='fa-arrow-right', ),)
+    ])
+    recap = StreamField([
+        ('recap_item', blocks.StructBlock([
+            ('title', blocks.CharBlock(icon='fa-header')),
+            ('item', blocks.StreamBlock([
+                ('item', core_blocks.Item(),)]
+            ))
+        ],
+            template='learn/recap.html',
+            icon='fa-commenting-o', ),)
     ])
 
     #########
     # Panels
     ##########
     content_panels = Page.content_panels + [
+        StreamFieldPanel('hero'),
         StreamFieldPanel('objective'),
         StreamFieldPanel('body'),
+        StreamFieldPanel('recap'),
     ]
 
     def handle_page_view(self, request):
@@ -415,6 +468,14 @@ class DetailPage(CMSGenericPage):
     def serve(self, request, *args, **kwargs):
         self.handle_page_view(request)
         return super().serve(request, **kwargs)
+
+    @cached_property
+    def topic_title(self):
+        if self.topic_block_id:
+            topic_pages = self.get_parent()
+            for topic in topic_pages.specific.topics:
+                if topic.id == self.topic_block_id:
+                    return topic.value['title']
 
 
 class PageView(TimeStampedModel):

@@ -117,8 +117,8 @@ class DashboardContentsOnSuccess(SelectorsEnum):
 
 class DashboardReadingProgress(SelectorsEnum):
     YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
-    TOPICS_HEADERS = Selector(By.CSS_SELECTOR, 'h3[id^=topics-]')
-    TOPICS_READ_PROGRESS = Selector(By.CSS_SELECTOR, 'div[id^=topics-read-progress-]')
+    TOPICS_HEADERS = Selector(By.CSS_SELECTOR, '#your-progress-card h3[id^=topics-]')
+    TOPICS_READ_PROGRESS = Selector(By.CSS_SELECTOR, '#your-progress-card progress[id^=topics-read-]')
 
 
 class SignUpModal(SelectorsEnum):
@@ -175,37 +175,6 @@ class ExportPlanDashboard(SelectorsEnum):
     PAYMENT_METHODS = Selector(By.ID, 'payment-methods', type=ElementType.LINK)
     TRAVEL_AND_BUSINESS_POLICIES = Selector(By.ID, 'travel-and-business-policies', type=ElementType.LINK)
     BUSINESS_RISK = Selector(By.ID, 'business-risk', type=ElementType.LINK)
-
-
-class ExportPlanDashboardPageTourStep0(SelectorsEnum):
-    MODAL = Selector(By.ID, 'page-tour-modal-step-1')
-    NEXT = Selector(By.ID, 'page-tour-submit', type=ElementType.LINK)
-    SKIP = Selector(By.ID, 'page-tour-skip', type=ElementType.LINK)
-    HIGHLIGHTED_ELEMENT = None
-
-
-class ExportPlanDashboardPageTourStep1(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-where-do-you-want-to-export')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'personalisation-bar')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep2(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-track-your-progress')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-completion-progress-indicator')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep3(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-learn-as-you-go')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'exportplan-continue-leaning-title')
-    NEXT = Selector(By.ID, 'page-tour-next-step')
-
-
-class ExportPlanDashboardPageTourStep4(SelectorsEnum):
-    STEP = Selector(By.ID, 'page-tour-step-lets-start')
-    HIGHLIGHTED_ELEMENT = Selector(By.ID, 'about-your-business')
-    NEXT = Selector(By.ID, 'page-tour-start-now', type=ElementType.LINK)
 
 
 class ExportPlanTargetMarketsResearch(SelectorsEnum):

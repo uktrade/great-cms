@@ -1,0 +1,9 @@
+{% load  wagtailcore_tags static %}
+
+<div class="ita-quote media-block m-b-m">
+    <img src="{% static 'images/quote.png' %}" alt="quote image" />
+    <div class="g-panel p-b-0">
+        <div class="h-xs ita-quote__quote p-t-0">{{ value.quote|richtext }}</div>
+        <div class="body-l ita-quote__author">{{ value.author|richtext }}</div>
+    </div>
+</div>

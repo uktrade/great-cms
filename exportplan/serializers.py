@@ -51,6 +51,8 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
 
 
 class ExportPlanSerializer(serializers.Serializer):
+    export_commodity_codes = serializers.ListField(child=serializers.CharField(), required=False)
+    export_countries = serializers.ListField(child=serializers.CharField(), required=False)
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     about_your_business = AboutYourBuinessSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
