@@ -1,6 +1,5 @@
 import pytz
 
-from airtable import Airtable
 from directory_api_client import api_client
 from iso3166 import countries_by_alpha3
 from core import models
@@ -10,13 +9,6 @@ def create_export_plan(sso_session_id, exportplan_data):
     response = api_client.exportplan.exportplan_create(sso_session_id=sso_session_id, data=exportplan_data)
     response.raise_for_status()
     return response.json()
-
-
-def get_exportplan_rules_regulations(sso_session_id):
-    response = api_client.exportplan.exportplan_list(sso_session_id)
-    response.raise_for_status()
-    if response.json():
-        return response.json()[0]['rules_regulations']
 
 
 def get_exportplan(sso_session_id):
@@ -31,25 +23,6 @@ def update_exportplan(sso_session_id, id, data):
     response = api_client.exportplan.exportplan_update(sso_session_id=sso_session_id, id=id, data=data)
     response.raise_for_status()
     return response.json()
-
-
-def get_madb_commodity_list():
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    commodity_name_set = set()
-    for row in airtable.get_all(view='Grid view'):
-        commodity_code = row['fields']['commodity_code']
-        commodity_name = row['fields']['commodity_name']
-        commodity_name_code = f'{commodity_name} - {commodity_code}'
-        commodity_name_set.add((commodity_code, commodity_name_code))
-    return commodity_name_set
-
-
-def get_rules_and_regulations(country):
-    airtable = Airtable('appcxR2dZGyugfvyd', 'CountryDBforGIN')
-    rules = airtable.search('country', country)
-    if not rules:
-        raise ValueError('No data found for country')
-    return rules[0]['fields']
 
 
 def get_exportplan_marketdata(country_code):
