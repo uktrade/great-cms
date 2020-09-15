@@ -1,18 +1,19 @@
-{% extends 'core/base.html' %}
+{% extends 'core/page_no_navigation.html' %}
 {% load breadcrumbs from great_components %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load static %}
-{% block content %}
-
-    <section class="learn__page learn__home-page container" id="learn-root">
+{% block header_class %} sign-up--header__single {% endblock %}
+{% block inner_content %}
+    <section id="learn-root">
         <div class="grid">
             <div class="col-12 col-md-8">
-                <h1 class="h1">{{ page.title }}</h1>
+                <h1 class="h-m text-blue-deep-80 body-l">{{ page.title }}</h1>
                  {% image page.image width-630%}
-                <p class="learn__wrapper--paragraph">{{ page.body | richtext }}</p>
+                <p>{{ page.body | richtext }}</p>
                 {% include_block page.button %}
             </div>
         </div>
+        <p>Or <a href='/login' class='text-red-80 inline-block m-t-xs'>login</a> to your account</p>
     </section>
 {% endblock %}

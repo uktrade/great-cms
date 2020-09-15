@@ -81,22 +81,6 @@ def test_can_view_lessons_from_different_topics(
     visit_lesson_page(live_server, browser, 'Topic B - Lesson B2', topic_b_lessons[1].url)
 
 
-def test_can_navigate_from_topic_to_lesson(
-    mock_dashboard_profile_events_opportunities,
-    mock_export_plan_requests,
-    topics_with_lessons,
-    server_user_browser_dashboard,
-):
-    live_server, user, browser = server_user_browser_dashboard
-    topic_a, topic_a_lessons = topics_with_lessons[0]
-
-    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
-
-    open_random_lesson(browser)
-
-    should_see_all_elements(browser, LessonPage)
-
-
 @mock.patch.object(sso_helpers, 'get_lesson_completed')
 def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     mock_get_lesson_completed,

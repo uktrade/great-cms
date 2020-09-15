@@ -17,7 +17,7 @@ afterEach(() => {
   jest.useRealTimers()
 })
 
-test('SocialLoginButtons should render', () => {
+xtest('SocialLoginButtons should render', () => {
   const linkedinUrl = 'http://www.example.com/linkedInUrl/'
   const googleUrl = 'http://www.example.com/google/'
 

@@ -7,7 +7,7 @@ const props = {
   label: 'label example',
   name: 'input example',
   selected: 'item one',
-  options: [{name: 'item_one', label: 'item one'}, {name: 'item_two', label: 'item two'}]
+  options: [{value: 'item_one', label: 'item one'}, {value: 'item_two', label: 'item two'}]
 
 }
 
@@ -81,7 +81,7 @@ describe('InputWithDropdown', () => {
       await waitFor(() => {
         fireEvent.click(getByText(props.options[0].label))
         expect(actions.update).toHaveBeenCalledTimes(1)
-        expect(actions.update).toHaveBeenCalledWith({ 'input example': 'item one' })
+        expect(actions.update).toHaveBeenCalledWith({ 'input example': 'item_one' })
       })
     })
   })
