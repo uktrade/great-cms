@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom'
 
 import Wizard from './Wizard'
 
-const Modal = ({ nextUrl }) => {
+const Modal = ({ nextUrl, email, errors }) => {
   return (
-    <Wizard nextUrl={props.nextUrl} email={props.email} errors={props.errors} />
+    <Wizard nextUrl={nextUrl} email={email} errors={errors} />
   )
 }
 
