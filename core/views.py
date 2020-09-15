@@ -12,6 +12,7 @@ from django.template.response import TemplateResponse
 from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
+from django.shortcuts import render
 from great_components.mixins import GA360Mixin
 from core import forms, helpers, serializers, constants
 
@@ -58,6 +59,8 @@ class ArticleView(GA360Mixin, FormView):
 
 
 class LoginView(GA360Mixin, TemplateView):
+    MESSAGE_EMAIL_EXISTING = 'User with this email already exists'
+
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -67,6 +70,19 @@ class LoginView(GA360Mixin, TemplateView):
             site_subsection='MagnaSubsection',
         )
     template_name = 'core/login.html'
+
+    def get(self, request):
+        # get the url param
+        email = request.GET.get('email', False)
+        if email:
+            # add email to context if present
+            return render(
+                request,
+                self.template_name,
+                {'email': email, 'error': self.MESSAGE_EMAIL_EXISTING}
+            )
+
+        return super().get(request)
 
 
 class SignupView(TemplateView):

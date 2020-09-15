@@ -14,7 +14,10 @@
         ditMVP.LoginModal({
             element: element,
             isOpen: true,
-            nextUrl: '{% url_map "dashboard" %}'
-        })
+            nextUrl: '{% url_map "dashboard" %}',
+            email: '{{ email }}',
+            errors: {'__all__': ['{{ error }}']}
+          })
+        }
     </script>
 {% endblock %}

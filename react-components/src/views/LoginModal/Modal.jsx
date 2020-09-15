@@ -6,7 +6,7 @@ import Wizard from './Wizard'
 
 const Modal = ({ nextUrl }) => {
   return (
-    <Wizard nextUrl={nextUrl} />
+    <Wizard nextUrl={props.nextUrl} email={props.email} errors={props.errors} />
   )
 }
 
