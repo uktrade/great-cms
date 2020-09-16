@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -6,17 +5,15 @@ import Services from '@src/Services'
 import Field from '@src/components/Fields/Field'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
-import './stylesheets/StepCredentials.scss'
-
-
-export default function StepCredentials(props){
+const StepCredentials = (props) => {
   return (
-    <div className='great-mvp-signup-wizard-step-credentials'>
-      { props.showTitle && <h2 className="h-xl">Sign up</h2> }
-      <p className="body-text m-t-0 m-b-m">
-         <a href={Services.config.loginUrl} id="signup-modal-log-in">I already have a great.gov.uk account</a>
-      </p>
+    <>
+      <span className='beta bg-blue-deep-10 text-blue-deep-80'><strong>BETA</strong></span>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
+        { props.showTitle && <legend className="h-m text-blue-deep-80 body-l">Sign up to great.gov.uk</legend> }
+        <a href={Services.config.loginUrl} id="signup-modal-log-in" className='text-red-80 m-b-xs inline-block'>I already have a great.gov.uk account</a>
+
+        <label htmlFor="id_email">Email address</label>
         <Field
           id="id_email"
           type="text"
@@ -28,6 +25,7 @@ export default function StepCredentials(props){
           autofocus={true}
           errors={props.errors.email || []}
         />
+        <label htmlFor="id_password" className='m-t-s'>Password</label>
         <Field
           id="id_password"
           type="password"
@@ -38,25 +36,25 @@ export default function StepCredentials(props){
           handleChange={props.handlePasswordChange}
           errors={props.errors.password || []}
         />
-        <p className='great-mvp-terms m-0'>By signing up, you agree to our <a href={Services.config.termsUrl} target="_blank" id="signup-modal-t-and-c">user agreement and privacy notice</a>.</p>
-        <input
+        <button
           type="submit"
-          value="Sign up"
           id="signup-modal-submit"
-          className="great-mvp-wizard-step-submit great-mvp-wizard-step-button m-t-m"
+          className="button button--primary width-full m-v-s"
           disabled={props.disabled}
-        />
+        >Sign up</button>
       </form>
-      <div className='great-mvp-vertical-separator'>
-        <hr/>
+      <p className='m-0'>By signing up, you agree to our <a href={Services.config.termsUrl} target="_blank" id="signup-modal-t-and-c" rel="noopener noreferrer" className='text-red-80'>user agreement</a> and <a href={Services.config.termsUrl} target="_blank" rel="noopener noreferrer" className='text-red-80'>privacy notice</a></p>
+      <div className='vertical-separator'>
+        <hr className='bg-blue-deep-10'/>
         <span>or</span>
-        <hr/>
+        <hr className='bg-blue-deep-10'/>
       </div>
       <SocialLoginButtons
         linkedinUrl={props.linkedinLoginUrl}
         googleUrl={props.googleLoginUrl}
+        action='Sign up'
       />
-    </div>
+    </>
   )
 }
 
@@ -68,8 +66,8 @@ StepCredentials.propTypes = {
   handleEmailChange: PropTypes.func.isRequired,
   password: PropTypes.string,
   email: PropTypes.string,
-  googleUrl: PropTypes.string,
-  linkedinUrl: PropTypes.string,
+  linkedinLoginUrl: PropTypes.string.isRequired,
+  googleLoginUrl: PropTypes.string.isRequired,
   showTitle: PropTypes.bool,
 }
 
@@ -80,3 +78,5 @@ StepCredentials.defaultProps = {
   password: '',
   email: '',
 }
+
+export default StepCredentials

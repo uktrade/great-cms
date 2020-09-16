@@ -22,3 +22,42 @@
     height: 20px;
   }
 }
+
+.form {
+  &--sign-up {
+    bottom:0;
+    left:0;
+    margin: auto;
+    position:absolute;
+    right:0;
+    top:150px;
+    width: 430px;
+
+    .vertical-separator {
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      span {
+        display: inline-block;
+        font-size: 19px;
+        width: 20%;
+        text-align: center;
+        margin: 0;
+      }
+
+      hr {
+        display: inline-block;
+        height: 2px;
+        margin: 0;
+        vertical-align: middle;
+        width: 40%;
+      }
+    }
+
+    .beta {
+      position: absolute;
+      right: 30px;
+      top: 25px;
+    }
+  }
+}

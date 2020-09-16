@@ -37,7 +37,7 @@ from core.context import get_context_provider
 
 class GreatMedia(Media):
 
-    transcript = models.TextField(verbose_name=_('transcript'), blank=True, null=True)
+    transcript = models.TextField(verbose_name=_('Transcript'), blank=True, null=True)
 
     admin_form_fields = Media.admin_form_fields + ('transcript', )
 

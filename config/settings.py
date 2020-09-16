@@ -426,8 +426,6 @@ DIRECTORY_API_CLIENT_API_KEY = env.str('DIRECTORY_API_CLIENT_API_KEY')
 DIRECTORY_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_API_CLIENT_DEFAULT_TIMEOUT = 15
 
-# airtable
-AIRTABLE_API_KEY = env.str('AIRTABLE_API_KEY')
 MADB_URL = env.str(
     'MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 )

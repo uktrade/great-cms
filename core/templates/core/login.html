@@ -1,18 +1,20 @@
-{% extends 'core/base.html' %}
+{% extends 'core/page_no_navigation.html' %}
 {% load breadcrumbs from great_components %}
 {% load url_map %}
+{% load static %}
+
+{% block inner_content %}
+    <div id="login"></div>
+{% endblock %}
 
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-        var element = document.createElement('div');
-        document.body.appendChild(element);
-        if (element) {
-          ditMVP.LoginModal({
+        var element = document.getElementById('login');
+        ditMVP.LoginModal({
             element: element,
             isOpen: true,
             nextUrl: '{% url_map "dashboard" %}'
-          })
-        }
+        })
     </script>
 {% endblock %}

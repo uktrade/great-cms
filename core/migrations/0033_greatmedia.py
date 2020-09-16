@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='GreatMedia',
             fields=[
                 ('media_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailmedia.Media')),
-                ('transcript', models.TextField(blank=True, null=True, verbose_name='transcript')),
+                ('transcript', models.TextField(blank=True, null=True, verbose_name='Transcript')),
             ],
             options={
                 'verbose_name': 'media',

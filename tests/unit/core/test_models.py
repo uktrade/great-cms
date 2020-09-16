@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.test import TestCase
-from six import b
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
