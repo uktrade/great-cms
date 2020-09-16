@@ -1,8 +1,10 @@
 import hashlib
+import mimetypes
 
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
@@ -27,9 +29,25 @@ from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
+from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
 from core.context import get_context_provider
+
+
+class GreatMedia(Media):
+
+    transcript = models.TextField(verbose_name=_('Transcript'), blank=True, null=True)
+
+    admin_form_fields = Media.admin_form_fields + ('transcript', )
+
+    @property
+    def sources(self):
+        return [{
+            'src': self.url,
+            'type': mimetypes.guess_type(self.filename)[0] or 'application/octet-stream',
+            'transcript': self.transcript
+        }]
 
 
 class AbstractObjectHash(models.Model):

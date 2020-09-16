@@ -2,12 +2,15 @@ from unittest import mock
 
 import pytest
 from django.core.exceptions import ValidationError
+from django.core.files import File
+from django.core.files.base import ContentFile
 from django.test import TestCase
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.tests.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
+from wagtailmedia import models
 
 from core.models import (
     AbstractObjectHash,
@@ -141,3 +144,35 @@ class TestImageAltRendition(TestCase, WagtailTestUtils):
         rendition = self.image.get_rendition('width-100')
         assert rendition.alt == 'smart alt text'
         assert self.image.title != rendition.alt
+
+
+class TestGreatMedia(TestCase):
+    def test_sources_mp4_with_no_transcript(self):
+        fake_file = ContentFile(b'An example movie file')
+        fake_file.name = 'movie.mp4'
+        root_collection = Collection.objects.create(name='Root', depth=0)
+        media_model = models.get_media_model()
+        media = media_model(collection=root_collection)
+
+        media.file = File(fake_file)
+        self.assertEqual(media.sources, [{
+            'src': '/media/movie.mp4',
+            'type': 'video/mp4',
+            'transcript': None,
+        }])
+
+    def test_sources_mp4_with_transcript(self):
+        fake_file = ContentFile(b'An example movie file')
+        fake_file.name = 'movie.mp4'
+        root_collection = Collection.objects.create(name='Root', depth=0)
+        media_model = models.get_media_model()
+        media = media_model(collection=root_collection)
+
+        media.file = File(fake_file)
+        media.transcript = 'A test transcript text'
+
+        self.assertEqual(media.sources, [{
+            'src': '/media/movie.mp4',
+            'type': 'video/mp4',
+            'transcript': 'A test transcript text',
+        }])
