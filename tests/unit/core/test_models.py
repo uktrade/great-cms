@@ -149,7 +149,7 @@ class TestImageAltRendition(TestCase, WagtailTestUtils):
 
 class TestGreatMedia(TestCase):
     def test_sources_mp4_with_no_transcript(self):
-        fake_file = ContentFile(b('An example movie file'))
+        fake_file = ContentFile(b'An example movie file')
         fake_file.name = 'movie.mp4'
         root_collection = Collection.objects.create(name='Root', depth=0)
         media_model = models.get_media_model()
@@ -163,7 +163,7 @@ class TestGreatMedia(TestCase):
         }])
 
     def test_sources_mp4_with_transcript(self):
-        fake_file = ContentFile(b('An example movie file'))
+        fake_file = ContentFile(b'An example movie file')
         fake_file.name = 'movie.mp4'
         root_collection = Collection.objects.create(name='Root', depth=0)
         media_model = models.get_media_model()

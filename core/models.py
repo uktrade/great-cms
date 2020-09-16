@@ -29,14 +29,17 @@ from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtail_personalisation.blocks import PersonalisedStructBlock
 from wagtail_personalisation.models import PersonalisablePageMixin
-from wagtailmedia.models import AbstractMedia, Media
+from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
 from core.context import get_context_provider
 
 
-class GreatVideo(AbstractMedia):
+class GreatMedia(Media):
+
     transcript = models.TextField(verbose_name=_('transcript'), blank=True, null=True)
+
+    admin_form_fields = Media.admin_form_fields + ('transcript', )
 
     @property
     def sources(self):
@@ -45,10 +48,6 @@ class GreatVideo(AbstractMedia):
             'type': mimetypes.guess_type(self.filename)[0] or 'application/octet-stream',
             'transcript': self.transcript
         }]
-
-
-class GreatMedia(GreatVideo):
-    admin_form_fields = getattr(Media, 'admin_form_fields') + ('transcript', )
 
 
 class AbstractObjectHash(models.Model):
