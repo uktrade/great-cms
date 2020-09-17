@@ -56,6 +56,18 @@ def mock_get_create_export_plan(export_plan_data):
     patch.stop()
 
 
+@pytest.fixture(autouse=True)
+def mock_cia_factbook_data():
+    patch = mock.patch.object(
+        helpers,
+        'get_cia_world_factbook_data',
+        return_value={'language': 'Dutch', 'note': 'Many other too'}
+    )
+
+    yield patch.start()
+    patch.stop()
+
+
 def create_test_image(extension):
     image = Image.new('RGB', (300, 50))
     draw = ImageDraw.Draw(image)
@@ -97,10 +109,9 @@ def test_export_plan_builder_landing_page(
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
-@mock.patch.object(helpers, 'get_cia_world_factbook_data')
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_sections(
-        mock_get_create_exportplan, mock_cia_factbook_data, mock_get_all_lessons, export_plan_data, slug, client, user
+        mock_get_create_exportplan, mock_get_all_lessons, export_plan_data, slug, client, user
 ):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
