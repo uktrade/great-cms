@@ -25,9 +25,9 @@
         ditMVP.sectionSidebar({
             element: element,
             sections: {{ sections|safe}},
-            url: '/export-plan/section/',
-            logo: '',
-            company: ''
+            current_section: {{ current_section|safe}},
+            logo: '{{ request.user.company.logo|default_if_none:"" }}',
+            company: '{{ request.user.company.name }}'
         })
     </script>
 {% endblock %}

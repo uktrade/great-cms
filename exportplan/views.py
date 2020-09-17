@@ -36,12 +36,21 @@ class ExportPlanMixin:
             'url': data.SECTION_URLS[index + 1],
         }
 
+    @property
+    def current_section(self):
+        index = data.SECTION_SLUGS.index(self.slug)
+        return {
+            'title': data.SECTION_TITLES[index],
+            'url': data.SECTION_URLS[index],
+        }
+
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
         country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
 
         return super().get_context_data(
             next_section=self.next_section,
+            current_section=self.current_section,
             sections=data.SECTION_TITLES,
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
