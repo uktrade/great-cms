@@ -32,20 +32,24 @@ def reload_urlconf(urlconf=None):
 
 
 def make_test_video(
+    title="Test file",
     content=b'An example movie file',
     filename='movie.mp4',
     duration=120,
     transcript=None,
     collection_name='Root'
 ):
-
     fake_file = ContentFile(content)
     fake_file.name = filename
-    root_collection = Collection.objects.create(name=collection_name, depth=0)
+    root_collection, _ = Collection.objects.get_or_create(
+        name=collection_name,
+        depth=0
+    )
     media_model = wagtailmedia_models.get_media_model()
     media = media_model(collection=root_collection)
-
+    media.title = title
     media.file = File(fake_file)
+    media.duration=duration
     media.transcript = transcript
 
     return media
