@@ -3,7 +3,7 @@ import factory.fuzzy
 import wagtail_factories
 import wagtail_personalisation.models
 
-from core import models, rules
+from core import blocks, models, rules
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
 
@@ -123,3 +123,10 @@ class TourFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = models.Tour
+
+
+class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
+    video = None
+
+    class Meta:
+        model = blocks.SimpleVideoBlock

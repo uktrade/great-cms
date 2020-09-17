@@ -1,17 +1,21 @@
-from great_components.helpers import add_next
-from wagtail.core import hooks
+import datetime
+import json
 
-from django.urls import reverse
-from django.shortcuts import redirect
-
-from core import mixins, views
-
-from django.template.loader import render_to_string
-from bs4 import BeautifulSoup
 from datetime import timedelta
+
+from bs4 import BeautifulSoup
 import readtime
 
-from core import models
+from great_components.helpers import add_next
+from wagtail.core import hooks
+from wagtail.core.models import Page
+
+from django.urls import reverse
+from django.core.serializers.json import DjangoJSONEncoder
+from django.shortcuts import redirect
+from django.template.loader import render_to_string
+
+from core import constants, mixins, views, models
 
 SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT = 'LESSON_PAGE_SHOW_GENERIC_CONTENT'
 exportplan_templates = ['exportplan/automated_list_page.html', 'exportplan/dashboard_page.html']
@@ -50,6 +54,40 @@ def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
         return redirect(url)
 
 
+def _update_data_for_appropriate_version(page: Page, data_to_update: dict) -> None:
+    """For a given Page instance, use the provided data to update either:
+        * its latest revision ONLY, if there are unpublished changes (ie, its a Draft)
+        or
+        * the latest revision AND the live page, if the revision is the one that became
+        the live page. (We update the revision for consistency and history.)
+    """
+
+    latest_revision = page.get_latest_revision()
+    latest_revision_json = json.loads(latest_revision.content_json)
+
+    # 1. Update the revision, whether it's for the latest Draft or the
+    # revision which created the current Live page
+    for key, value in data_to_update.items():
+        # We need to watch out for the timedelta, because it serialises to
+        # a different format (PxDTxxHxxMxxS) by default
+        if isinstance(value, datetime.timedelta):
+            value = str(value)
+        latest_revision_json[key] = value
+
+    latest_revision.content_json = json.dumps(latest_revision_json, cls=DjangoJSONEncoder)
+    latest_revision.save()
+
+    if not page.has_unpublished_changes:
+        # 2. The live version is based on the latest revision, which means
+        # we also need to update the live page, because it won't automatically
+        # reflect the chages we made to that revision.
+
+        # This update()-based approach is awkward but we want to update the
+        # Page record without any side effects via save() etc
+        queryset_for_page = type(page).objects.filter(id=page.id)
+        queryset_for_page.update(**data_to_update)
+
+
 @hooks.register('after_edit_page')
 def set_read_time(request, page):
     if hasattr(page, 'estimated_read_duration'):
@@ -57,11 +95,21 @@ def set_read_time(request, page):
         soup = BeautifulSoup(html, 'html.parser')
         for tag in soup.body.find_all(['script', 'noscript', 'link', 'style', 'meta']):
             tag.decompose()
-        seconds = readtime.of_html(str(soup.body)).seconds
-        page.estimated_read_duration = timedelta(seconds=seconds)
-        page.save_revision()
-        return seconds
+        reading_seconds = readtime.of_html(str(soup.body)).seconds
+        video_nodes = soup.find_all(
+            'video', attrs={
+                constants.VIDEO_DURATION_DATA_ATTR_NAME: True
+            }
+        )
+        watching_seconds = sum([
+            int(node.get(constants.VIDEO_DURATION_DATA_ATTR_NAME, 0)) for node in video_nodes
+        ])
+        seconds = reading_seconds + watching_seconds
 
+        _update_data_for_appropriate_version(
+            page=page,
+            data_to_update={'estimated_read_duration': timedelta(seconds=seconds)}
+        )
 
 @hooks.register('after_edit_page')
 def set_lesson_pages_topic_id(request, page):
