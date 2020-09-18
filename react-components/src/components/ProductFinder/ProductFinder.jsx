@@ -63,9 +63,13 @@ export function ProductFinder(props) {
   const [selectedProduct, setSelectedProduct] = React.useState(props.text)
   const [searchResults, setSearchResults] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
+  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(!!selectedProduct)
 
   const openModal = () => {
-    setIsOpen(true)
+    console.log('selected product: ' + selectedProduct )
+    setProductConfirmationRequired(!!selectedProduct)
+    console.log('Produce Confirmation Required: ' + productConfirmationRequired)
+    setIsOpen(!!productConfirmationRequired)
   }
 
   const closeModal = () => {
