@@ -370,6 +370,7 @@ $desktop: 1024px;
   .lesson-hero {
     img, video {
       border-radius: 5px;
+      display: block;
       margin: 0 auto;
       max-width: 100%;
     }
