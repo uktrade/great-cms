@@ -15,13 +15,13 @@ from tests.unit.exportplan.factories import (
 from tests.unit.learn.factories import LessonPageFactory
 
 LOREM_IPSUM = (
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-    "Verum hoc loco sumo verbis his eandem certe vim voluptatis "
-    "Epicurum nosse quam ceteros. Consequentia exquirere, quoad sit "
-    "id, quod volumus, effectum. Et quidem saepe quaerimus verbum "
-    "Latinum par Graeco et quod idem valeat; Quam illa ardentis "
-    "amores excitaret sui! Cur tandem? Nihil est enim, de quo aliter "
-    "tu sentias atque ego, modo commutatis verbis ipsas res conferamus. "
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+    'Verum hoc loco sumo verbis his eandem certe vim voluptatis '
+    'Epicurum nosse quam ceteros. Consequentia exquirere, quoad sit '
+    'id, quod volumus, effectum. Et quidem saepe quaerimus verbum '
+    'Latinum par Graeco et quod idem valeat; Quam illa ardentis '
+    'amores excitaret sui! Cur tandem? Nihil est enim, de quo aliter '
+    'tu sentias atque ego, modo commutatis verbis ipsas res conferamus. '
 )
 
 
@@ -210,18 +210,18 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    READING_CONTENT = f'<p>{ LOREM_IPSUM * 10}</p>'
+    reading_content = f'<p>{ LOREM_IPSUM * 10}</p>'
 
     detail_page = factories.DetailPageFactory(
         parent=domestic_homepage,
-        template="learn/detail_page.html",
+        template='learn/detail_page.html',
         hero=[],
         body=[],
         objective=[
-          ('paragraph', RichText(READING_CONTENT))
+            ('paragraph', RichText(reading_content))
         ],
     )
-    # Every real-world page will have a revision, so the test needs one, too
+    # Every real-world page will have a revision, so the test needs one, too
     revision = detail_page.save_revision()
     revision.publish()
 
@@ -248,16 +248,16 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     video_for_hero = make_test_video(duration=123)
     video_for_hero.save()
 
-    READING_CONTENT = f'<p>{ LOREM_IPSUM * 10}</p>'
+    reading_content = f'<p>{ LOREM_IPSUM * 10}</p>'
 
     detail_page = factories.DetailPageFactory(
         parent=domestic_homepage,
-        template="learn/detail_page.html",
+        template='learn/detail_page.html',
         hero=[
             ('Video', factories.SimpleVideoBlockFactory(video=video_for_hero)),
         ],
         objective=[
-          ('paragraph', RichText(READING_CONTENT))
+            ('paragraph', RichText(reading_content))
         ],
         body=[
             # For now, the body ONLY contains PersonalisedStructBlocks, which don't
@@ -266,11 +266,11 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
             # time for if/when we need to.
         ],
     )
-    # Every real-world page will have a revision, so the test needs one, too
+    # Every real-world page will have a revision, so the test needs one, too
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=155 + 123)  # reading + watching
+    expected_duration = timedelta(seconds=155 + 123)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -295,7 +295,7 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
 
     detail_page = factories.DetailPageFactory(
         parent=domestic_homepage,
-        template="learn/detail_page.html",
+        template='learn/detail_page.html',
         hero=[
             ('Video', factories.SimpleVideoBlockFactory(video=video_for_hero)),
         ],
@@ -307,11 +307,11 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
             # time for if/when we need to.
         ],
     )
-    # Every real-world page will have a revision, so the test needs one, too
+    # Every real-world page will have a revision, so the test needs one, too
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=6 + 123)  # reading + watching
+    expected_duration = timedelta(seconds=6 + 123)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -323,7 +323,6 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration == expected_duration
-
 
 
 @pytest.mark.django_db

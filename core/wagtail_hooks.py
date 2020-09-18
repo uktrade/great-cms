@@ -65,7 +65,7 @@ def _update_data_for_appropriate_version(page: Page, data_to_update: dict) -> No
     latest_revision = page.get_latest_revision()
     latest_revision_json = json.loads(latest_revision.content_json)
 
-    # 1. Update the revision, whether it's for the latest Draft or the
+    # 1. Update the revision, whether it's for the latest Draft or the
     # revision which created the current Live page
     for key, value in data_to_update.items():
         # We need to watch out for the timedelta, because it serialises to
@@ -110,6 +110,7 @@ def set_read_time(request, page):
             page=page,
             data_to_update={'estimated_read_duration': timedelta(seconds=seconds)}
         )
+
 
 @hooks.register('after_edit_page')
 def set_lesson_pages_topic_id(request, page):

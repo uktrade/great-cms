@@ -2,14 +2,12 @@ from unittest import mock
 
 import pytest
 from django.core.exceptions import ValidationError
-from django.core.files import File
 from django.test import TestCase
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.tests.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
-from wagtailmedia import models
 
 from core.models import (
     AbstractObjectHash,
@@ -156,7 +154,7 @@ class TestGreatMedia(TestCase):
         }])
 
     def test_sources_mp4_with_transcript(self):
-        media = make_test_video(transcript = 'A test transcript text')
+        media = make_test_video(transcript='A test transcript text')
 
         self.assertEqual(media.sources, [{
             'src': '/media/movie.mp4',

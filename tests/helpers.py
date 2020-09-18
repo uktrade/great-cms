@@ -30,9 +30,8 @@ def reload_urlconf(urlconf=None):
         import_module(urlconf)
 
 
-
 def make_test_video(
-    title="Test file",
+    title='Test file',
     content=b'An example movie file',
     filename='movie.mp4',
     duration=120,
@@ -49,7 +48,7 @@ def make_test_video(
     media = media_model(collection=root_collection)
     media.title = title
     media.file = File(fake_file)
-    media.duration=duration
+    media.duration = duration
     media.transcript = transcript
 
     return media
