@@ -47,11 +47,10 @@ class ExportPlanMixin:
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
         country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
-
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
-            sections=data.SECTION_TITLES,
+            sections=data.SECTION_TITLES_URLS,
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),

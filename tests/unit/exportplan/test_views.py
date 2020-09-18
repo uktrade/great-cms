@@ -224,5 +224,5 @@ def test_export_plan_mixin(export_plan_data, slug, client, user):
         'title': data.SECTION_TITLES[data.SECTION_SLUGS.index(slug)],
         'url': data.SECTION_URLS[data.SECTION_SLUGS.index(slug)],
     }
-    assert response.context_data['sections'] == data.SECTION_TITLES
+    assert response.context_data['sections'] == data.SECTION_TITLES_URLS
     assert response.context_data['export_plan'] == export_plan_data
