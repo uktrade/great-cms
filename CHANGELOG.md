@@ -53,8 +53,9 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-
+- GP2-594, GP2-595 - Updated personalization bar buttons
 - GP2-449 - Extended video model for transcript field
+- GP2-388 - Country selection with full country list
 - GP2-582 - Product search handling multiple item selection
 - GP2-581 & GP2-586 - Product search spinner, 'no results message' and scroll area
 - GP2-528 - Horizontal rule styling updates
