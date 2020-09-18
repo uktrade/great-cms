@@ -3,6 +3,7 @@
 {% load routablepageurl from wagtailroutablepage_tags %}
 {% load url_map %}
 {% load content_tags %}
+{% load static %}
 
 {% block content %}
 <div class="lesson-page">
@@ -68,25 +69,50 @@
         </div>
         <div class="container">
             <div class="grid">
-                <div class="grid p-t-s p-b-xl">
+                <div class="grid p-t-s p-b-s">
                     <div class="c-1-4">
                         <h4 class="h-s">&nbsp;</h4>
                     </div>
                     <div class="c-1-2">
                         <div id="mark_as_complete" class="bg-blue-deep-80"></div>
-                        {% with page.get_next_siblings.live.first as next_page %}
-                            {% if next_page %}
-                                <div class="lesson-next-area p-t-xxl p-b-s">
-                                    <h5>Next</h5>
-                                    <a class="lesson-next-link" href="{{ next_page.get_url }}?{{ request.GET.urlencode }}">{{ next_page.title }}</a>
-                                    <a class="lesson-back-to-learning m-t-l" href="{{ next_page.get_parent.get_url }}">Back to learning</a>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
                     </div>
                     <div class="c-1-4">
                         <h4 class="h-s">&nbsp;</h4>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="grid p-t-m">
+                <div class="c-1-12">
+                    <h4 class="h-s">&nbsp;</h4>
+                </div>
+                <div class="c-10-12 m-b-xl">
+                    <div class="g-card g-card--with-image">
+                        <div class="g-card--with-image__content">
+                        <p class="body-l-b m-0">Your next lesson</p>
+                        <h3 class="h-m p-t-xxs">
+                            Marketing at events - Attend a trade show
+                        </h3>
+                        <p class="text-blue-deep-80 m-t-0 p-t-0 m-b-xs">
+                            <i class="fas fa-clock m-r-xxs"></i>
+                            <strong> 12 min read</strong>
+                        </p>
+                        <p class="text-blue-deep-80 m-t-xs m-b-xs">
+                            Part of your next module:<br />
+                            <strong>Preparing to sell into a new country</strong>
+                        </p>
+                        <button class="button button--secondary m-b-xs">
+                            Continue learning
+                        </button>
+                        </div>
+                        <div class="g-card--with-image__image">
+                            <img src="{% static 'images/next-lesson.png' %}" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="c-1-12">
+                    <h4 class="h-s">&nbsp;</h4>
                 </div>
             </div>
         </div>
