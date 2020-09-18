@@ -63,6 +63,7 @@ export function ProductFinder(props) {
   const [selectedProduct, setSelectedProduct] = React.useState(props.text)
   const [searchResults, setSearchResults] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
+  const [isScrolled, setIsScrolled] = React.useState(false)
 
   const openModal = () => {
     setIsOpen(true)
@@ -99,9 +100,7 @@ export function ProductFinder(props) {
   }
 
   const onScroll = (evt) => {
-    debugger
-    if (evt.target.offsetScroll > 0) {
-    }
+    setIsScrolled(evt.target.scrollTop > 0)
   }
 
   const processResponse = (request) => {
@@ -264,9 +263,12 @@ export function ProductFinder(props) {
     )
   }
 
+  let buttonClass = 'button ' + (selectedProduct ? 'button--secondary' : 'button--ghost-blue')+' button--round-corner button--chevron'
+  let scrollerClass = 'scroll-area '+(isScrolled ? 'scrolled' : '')
+
   return (
     <span>
-      <button className="button button--primary button--round-corner" onClick={openModal}>
+      <button className={buttonClass} onClick={openModal}>
         {selectedProduct || 'add product'}
       </button>
       <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} onAfterOpen={modalAfterOpen}>
@@ -286,7 +288,7 @@ export function ProductFinder(props) {
               Search
             </button>
           </div>
-          <div className="scroll-area" style={{ marginTop: '172px' }} onScroll={onScroll}>
+          <div className={scrollerClass} style={{ marginTop: '172px' }} onScroll={onScroll}>
             {resultsDisplay(searchResults)}
           </div>
         </form>
@@ -299,6 +301,6 @@ export default function ({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  let text = params.element.innerText
+  let text = params.element.getAttribute('data-text')
   ReactDOM.render(<ProductFinder text={text}></ProductFinder>, params.element)
 }

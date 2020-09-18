@@ -20,7 +20,6 @@ const customStyles = {
   },
 }
 
-//const countries = ['Algeria', 'Angola', 'Benin', 'Botswana', 'Belize', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Central African Republic' ];
 const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
 
 export function CountryFinder(props) {
@@ -32,6 +31,7 @@ export function CountryFinder(props) {
 
   const openModal = () => {
     setIsOpen(true)
+    setSearchStr('')
   }
 
   const closeModal = () => {
@@ -123,11 +123,12 @@ export function CountryFinder(props) {
       </button>
     )
   }
+  let buttonClass = 'button ' + (selectedCountry ? 'button--secondary' : 'button--ghost-blue') + ' button--chevron button--round-corner '
 
   return (
     <span>
-      <button className="button button--primary button--round-corner" onClick={openModal}>
-        {selectedCountry}
+      <button className={buttonClass} onClick={openModal}>
+        {selectedCountry || 'add country'}
       </button>
       <ReactModal
         isOpen={modalIsOpen}
@@ -200,5 +201,6 @@ export default function ({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  ReactDOM.render(<CountryFinder text={params.element.innerText}></CountryFinder>, params.element)
+  let text = params.element.getAttribute('data-text')
+  ReactDOM.render(<CountryFinder text={text}></CountryFinder>, params.element)
 }
