@@ -36,14 +36,34 @@ def export_plan_data():
     return {
         'about_your_business': '',
         'target_markets_research': '',
-        'adaptation_target_market': '',
-        'target_market_documents': '',
+        'adaptation_target_market': [],
+        'target_market_documents': {'document_name': 'test'},
+        'route_to_markets': {'route': 'test'},
+        'marketing_approach': {'resources': 'xyz'},
+        'company_objectives': {},
     }
 
 
 @pytest.fixture(autouse=True)
 def mock_get_create_export_plan(export_plan_data):
-    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=create_response(export_plan_data))
+    patch = mock.patch.object(
+        helpers,
+        'get_or_create_export_plan',
+        return_value=export_plan_data
+    )
+
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=True)
+def mock_cia_factbook_data():
+    patch = mock.patch.object(
+        helpers,
+        'get_cia_world_factbook_data',
+        return_value={'language': 'Dutch', 'note': 'Many other too'}
+    )
+
     yield patch.start()
     patch.stop()
 
@@ -89,10 +109,9 @@ def test_export_plan_builder_landing_page(
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
-@mock.patch.object(helpers, 'get_cia_world_factbook_data')
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_sections(
-        mock_get_create_exportplan, mock_cia_factbook_data, mock_get_all_lessons, export_plan_data, slug, client, user
+        mock_get_create_exportplan, mock_get_all_lessons, export_plan_data, slug, client, user
 ):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
@@ -101,12 +120,8 @@ def test_exportplan_sections(
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_section_marketing_approach(mock_get_create_export_plan, client, user):
+def test_exportplan_section_marketing_approach(client, user):
     client.force_login(user)
-    mock_get_create_export_plan.return_value = {
-        'about_your_business': '', 'route_to_markets': {'route': 'test'}, 'marketing_approach': {'resources': 'xyz'}
-    }
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
     assert response.context_data['route_to_markets'] == '{"route": "test"}'
@@ -156,13 +171,10 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user):
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_cia_world_factbook_data')
-def test_adaption_for_target_markets_context(mock_get_factbook_data, mock_get_create_export_plan, client, user):
+def test_adaption_for_target_markets_context(mock_get_factbook_data, client, user):
     client.force_login(user)
 
     mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
-    mock_get_create_export_plan.return_value = {
-        'adaptation_target_market': [], 'target_market_documents': {'document_name': 'test'}
-    }
     slug = slugify('Adaptation for your target market')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
@@ -178,13 +190,12 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, mock_get_cr
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_all_lesson_details')
-def test_about_your_business_has_lessons(mock_get_all_lesson_details, mock_get_create_export_plan, client, user):
+def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, user):
     client.force_login(user)
 
     mock_get_all_lesson_details.return_value = {
         'lesson1': {'title': 'my lesson', 'url': 'my url'}
     }
-    mock_get_create_export_plan.return_value = {'about_your_business': {}}
     slug = slugify('About your business')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
@@ -192,4 +203,26 @@ def test_about_your_business_has_lessons(mock_get_all_lesson_details, mock_get_c
 
     assert mock_get_all_lesson_details.call_count == 1
 
-    response.context_data['lesson_details'] = {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
+    assert response.context_data['lesson_details'] == {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS))
+def test_export_plan_mixin(export_plan_data, slug, client, user):
+    client.force_login(user)
+    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+
+    assert response.status_code == 200
+
+    if not slug == data.SECTION_SLUGS[-1]:
+        assert response.context_data['next_section'] == {
+            'title': data.SECTION_TITLES[data.SECTION_SLUGS.index(slug) + 1],
+            'url': data.SECTION_URLS[data.SECTION_SLUGS.index(slug) + 1],
+        }
+
+    assert response.context_data['current_section'] == {
+        'title': data.SECTION_TITLES[data.SECTION_SLUGS.index(slug)],
+        'url': data.SECTION_URLS[data.SECTION_SLUGS.index(slug)],
+    }
+    assert response.context_data['sections'] == data.SECTION_TITLES_URLS
+    assert response.context_data['export_plan'] == export_plan_data
