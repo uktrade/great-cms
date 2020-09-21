@@ -318,6 +318,17 @@ $desktop: 1024px;
       @extend .hr;
     }
 
+    .choose-dont-choose {
+      h3 {
+        @extend .h-xs;
+        margin-bottom: 10px;
+
+        @include tablet {
+          padding: 0;
+        }
+      }
+    }
+
     .pros-and-cons {
       h3 {
         @extend .h-l;
