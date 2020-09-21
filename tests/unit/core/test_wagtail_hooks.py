@@ -1,3 +1,5 @@
+import json
+
 from datetime import timedelta
 
 import pytest
@@ -323,6 +325,84 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration == expected_duration
+
+
+@pytest.mark.django_db
+def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
+    rf, domestic_homepage
+):
+    # This test ensures that all paths are walked for
+    # wagtail_hooks._update_data_for_appropriate_version()
+
+    request = rf.get('/')
+    request.user = AnonymousUser()
+
+    video_for_hero = make_test_video(duration=123)
+    video_for_hero.save()
+
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        body=[],
+    )
+    assert detail_page.live is True
+
+    original_live_read_duration = detail_page.estimated_read_duration
+    assert original_live_read_duration is None
+
+    # Note: for test simplicity here, we're not adding streamfield content to our
+    # revision - it is enough to just notice how the readtimes for Draft vs Live
+    # are appropriate updated at the expected times, based on the minimal default
+    # content of a DetailPage.
+
+    revision = detail_page.save_revision()
+    assert json.loads(revision.content_json)['estimated_read_duration'] == original_live_read_duration
+
+    detail_page.refresh_from_db()
+
+    wagtail_hooks.set_read_time(
+        page=detail_page,
+        request=request
+    )
+
+    detail_page.refresh_from_db()
+
+    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
+
+    # show the live version is not updated yet
+    assert detail_page.has_unpublished_changes is True
+    assert detail_page.estimated_read_duration != expected_duration
+    assert detail_page.estimated_read_duration == original_live_read_duration
+
+    # but the draft is
+    latest_rev = detail_page.get_latest_revision()
+    assert revision == latest_rev
+    assert json.loads(latest_rev.content_json)['estimated_read_duration'] == str(expected_duration)
+
+    # Now publish the draft and show it updates the live, too
+    latest_rev.publish()
+
+    detail_page.refresh_from_db()
+
+    wagtail_hooks.set_read_time(
+        page=detail_page,
+        request=request
+    )
+
+    detail_page.refresh_from_db()
+    assert detail_page.estimated_read_duration != original_live_read_duration
+
+    # NOTE: for a reason unrelated to the point of _this_ test, the readtime
+    # of the published page is calculated as beign slightly longer than the draft.
+    # This may be in part due to the page having a very small amount of content.
+    assert detail_page.estimated_read_duration == timedelta(seconds=5)
+
+    # The behaviour above matches the parameters passed to
+    # _update_data_for_appropriate_version, which is our focus in this test:
+    # * params of first update (to draft only ):
+    #   {'estimated_read_duration': datetime.timedelta(0, 4)}
+    # * params of second update (to draft AND to the live page):
+    #   {'estimated_read_duration': datetime.timedelta(0, 5)}
 
 
 @pytest.mark.django_db
