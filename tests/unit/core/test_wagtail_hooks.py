@@ -1,12 +1,28 @@
-import pytest
+from datetime import timedelta
 
+import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
+from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
-from tests.unit.learn.factories import LessonPageFactory
-from tests.unit.exportplan.factories import ExportPlanPageFactory, ExportPlanDashboardPageFactory
+from tests.helpers import make_test_video
 from tests.unit.core import factories
+from tests.unit.exportplan.factories import (
+    ExportPlanDashboardPageFactory,
+    ExportPlanPageFactory,
+)
+from tests.unit.learn.factories import LessonPageFactory
+
+LOREM_IPSUM = (
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+    'Verum hoc loco sumo verbis his eandem certe vim voluptatis '
+    'Epicurum nosse quam ceteros. Consequentia exquirere, quoad sit '
+    'id, quod volumus, effectum. Et quidem saepe quaerimus verbum '
+    'Latinum par Graeco et quod idem valeat; Quam illa ardentis '
+    'amores excitaret sui! Cur tandem? Nihil est enim, de quo aliter '
+    'tu sentias atque ego, modo commutatis verbis ipsas res conferamus. '
+)
 
 
 @pytest.mark.django_db
@@ -194,12 +210,119 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    detail_page = factories.DetailPageFactory(parent=domestic_homepage)
-    response = wagtail_hooks.set_read_time(
+    reading_content = f'<p>{ LOREM_IPSUM * 10}</p>'
+
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        hero=[],
+        body=[],
+        objective=[
+            ('paragraph', RichText(reading_content))
+        ],
+    )
+    # Every real-world page will have a revision, so the test needs one, too
+    revision = detail_page.save_revision()
+    revision.publish()
+
+    expected_duration = timedelta(seconds=154)
+
+    detail_page.refresh_from_db()
+    assert detail_page.estimated_read_duration != expected_duration
+
+    wagtail_hooks.set_read_time(
         page=detail_page,
         request=request
     )
-    assert response > 0
+
+    detail_page.refresh_from_db()
+    assert detail_page.estimated_read_duration == expected_duration
+
+
+@pytest.mark.django_db
+def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_homepage):
+
+    request = rf.get('/')
+    request.user = AnonymousUser()
+
+    video_for_hero = make_test_video(duration=123)
+    video_for_hero.save()
+
+    reading_content = f'<p>{ LOREM_IPSUM * 10}</p>'
+
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        hero=[
+            ('Video', factories.SimpleVideoBlockFactory(video=video_for_hero)),
+        ],
+        objective=[
+            ('paragraph', RichText(reading_content))
+        ],
+        body=[
+            # For now, the body ONLY contains PersonalisedStructBlocks, which don't
+            # count towards page read or view time.
+            # WARNING: These is a fiddle to set up in tests, so estimate appropriate
+            # time for if/when we need to.
+        ],
+    )
+    # Every real-world page will have a revision, so the test needs one, too
+    revision = detail_page.save_revision()
+    revision.publish()
+
+    expected_duration = timedelta(seconds=155 + 123)  # reading + watching
+
+    detail_page.refresh_from_db()
+    assert detail_page.estimated_read_duration != expected_duration
+
+    wagtail_hooks.set_read_time(
+        page=detail_page,
+        request=request
+    )
+
+    detail_page.refresh_from_db()
+    assert detail_page.estimated_read_duration == expected_duration
+
+
+@pytest.mark.django_db
+def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
+
+    request = rf.get('/')
+    request.user = AnonymousUser()
+
+    video_for_hero = make_test_video(duration=123)
+    video_for_hero.save()
+
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        hero=[
+            ('Video', factories.SimpleVideoBlockFactory(video=video_for_hero)),
+        ],
+        objective=[],
+        body=[
+            # For now, the body ONLY contains PersonalisedStructBlocks, which don't
+            # count towards page read or view time.
+            # WARNING: These is a fiddle to set up in tests, so estimate appropriate
+            # time for if/when we need to.
+        ],
+    )
+    # Every real-world page will have a revision, so the test needs one, too
+    revision = detail_page.save_revision()
+    revision.publish()
+
+    expected_duration = timedelta(seconds=6 + 123)  # reading + watching
+
+    detail_page.refresh_from_db()
+    assert detail_page.estimated_read_duration != expected_duration
+
+    wagtail_hooks.set_read_time(
+        page=detail_page,
+        request=request
+    )
+
+    detail_page.refresh_from_db()
+    assert detail_page.estimated_read_duration == expected_duration
 
 
 @pytest.mark.django_db
