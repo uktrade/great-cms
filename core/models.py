@@ -511,7 +511,7 @@ class DetailPage(CMSGenericPage):
                 else:
                     next_module = self.module.get_next_sibling()
                     if not next_module:
-                        return
+                        return context
                     context['next_module'] = next_module.specific
                     context['next_lesson'] = get_first_lesson(next_module)
         return context

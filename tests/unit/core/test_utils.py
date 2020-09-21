@@ -80,6 +80,8 @@ def test_multiple_module(domestic_homepage, client, user):
     module_1.save()
     module_2.save()
 
+    pt_1 = PageTopic(detail_page_1)
+    pt_2 = PageTopic(detail_page_2)
     pt_3 = PageTopic(detail_page_3)
 
     assert get_first_lesson(module_1) == detail_page_1
@@ -88,6 +90,8 @@ def test_multiple_module(domestic_homepage, client, user):
     assert len(get_all_lesson(module_1)) == 3
     assert len(get_all_lesson(module_2)) == 1
 
+    assert pt_1.get_next_lesson() == detail_page_2
+    assert pt_2.get_next_lesson() == detail_page_3
     # last page of module should have None as next lesson
     assert pt_3.get_next_lesson() is None
 
@@ -96,6 +100,10 @@ def test_multiple_module(domestic_homepage, client, user):
     request = HttpRequest()
     request.user = user
     request.user.export_plan = {}
-    response = detail_page_3.serve(request)
+    page1_response = detail_page_1.serve(request)
+    page2_response = detail_page_2.serve(request)
+    page3_response = detail_page_3.serve(request)
 
-    assert response.context_data['next_lesson'].specific == detail_page_4
+    assert page1_response.context_data['next_lesson'].specific == detail_page_2
+    assert page2_response.context_data['next_lesson'].specific == detail_page_3
+    assert page3_response.context_data['next_lesson'].specific == detail_page_4
