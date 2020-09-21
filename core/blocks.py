@@ -6,13 +6,8 @@ from core import models
 from django.core.exceptions import ObjectDoesNotExist
 
 
-# Define a strict subset of rich-text features that prevents editors from
-# including items that may break layout or a11y
-RICHTEXT_FEATURES__MINIMAL = (
-    'link',
-    'ol',
-    'ul',
-)
+# Define a strict subset of rich-text features only includes linebreaks
+RICHTEXT_FEATURES__MINIMAL = ()
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
