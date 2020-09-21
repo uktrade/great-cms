@@ -55,6 +55,10 @@
 
 ### Implemented enhancements
 - GP2-263 - Next lesson (BE)
+- GP2-449 - video transcript FE
+- GP2-594, GP2-595 - Updated personalization bar buttons
+- GP2-449 - Extended video model for transcript field
+- GP2-388 - Country selection with full country list
 - GP2-582 - Product search handling multiple item selection
 - GP2-581 & GP2-586 - Product search spinner, 'no results message' and scroll area
 - GP2-528 - Horizontal rule styling updates
@@ -220,3 +224,4 @@
 - GP2-420 - get topic details
 - GP2-540 - EP-make-fields-optional
 - GP2-545 - remove airtable
+- GP2-500 - include video duration in read time for the page

@@ -133,6 +133,13 @@ class TourFactory(factory.django.DjangoModelFactory):
         model = models.Tour
 
 
+class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
+    video = None
+
+    class Meta:
+        model = blocks.SimpleVideoBlock
+
+
 class CuratedTopicBlockfactory(wagtail_factories.StructBlockFactory):
     title = factory.fuzzy.FuzzyText(length=255)
     pages = factory.SubFactory(DetailPageFactory)

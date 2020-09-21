@@ -20,6 +20,7 @@ from core.models import (
 from domestic.models import DomesticDashboard, DomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
 from tests.unit.core import factories
+from tests.helpers import make_test_video
 from .factories import DetailPageFactory
 
 
@@ -141,3 +142,22 @@ class TestImageAltRendition(TestCase, WagtailTestUtils):
         rendition = self.image.get_rendition('width-100')
         assert rendition.alt == 'smart alt text'
         assert self.image.title != rendition.alt
+
+
+class TestGreatMedia(TestCase):
+    def test_sources_mp4_with_no_transcript(self):
+        media = make_test_video()
+        self.assertEqual(media.sources, [{
+            'src': '/media/movie.mp4',
+            'type': 'video/mp4',
+            'transcript': None,
+        }])
+
+    def test_sources_mp4_with_transcript(self):
+        media = make_test_video(transcript='A test transcript text')
+
+        self.assertEqual(media.sources, [{
+            'src': '/media/movie.mp4',
+            'type': 'video/mp4',
+            'transcript': 'A test transcript text',
+        }])

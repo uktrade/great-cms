@@ -115,6 +115,11 @@ class ProductLookupView(generics.GenericAPIView):
         return Response(data)
 
 
+class CountriesView(generics.GenericAPIView):
+    def get(self, request):
+        return Response(choices.COUNTRIES_AND_TERRITORIES_REGION)
+
+
 def handler404(request, *args, **kwargs):
     return TemplateResponse(
         request=request,

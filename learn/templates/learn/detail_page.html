@@ -3,7 +3,6 @@
 {% load routablepageurl from wagtailroutablepage_tags %}
 {% load url_map %}
 {% load content_tags %}
-{% load static %}
 
 {% block content %}
     <div class="lesson-page">
@@ -133,12 +132,17 @@
 {% block body_js %}
     {{ block.super }}
     <script>
-        {% if request.user.is_authenticated %}
-            ditMVP.createMarkLessonAsComplete({
-                element: document.querySelector("#mark_as_complete"),
-                endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
-            })
-        {% endif %}
+      {% if request.user.is_authenticated %}
+      ditMVP.createMarkLessonAsComplete({
+        element: document.querySelector("#mark_as_complete"),
+        endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+      })
+      {% endif %}
+
+      ditMVP.createVideoTranscript({
+        element: document.querySelector("#lesson-hero-video-transcript"),
+        source: document.querySelector(".lesson-hero video source[transcript]")
+      })
     </script>
 
 {% endblock %}

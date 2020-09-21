@@ -4,7 +4,7 @@ from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.video_tags import render_video
 
 
-def test_render_video_block_tag():
+def test_render_personalised_video_block_tag():
     video_mock = mock.Mock(
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}]
     )
@@ -20,16 +20,17 @@ def test_render_video_block_tag():
     assert 'Your browser does not support the video tag.' in html
 
 
-def test_render_video_tag():
+def test_general_render_video_tag():
     video_mock = mock.Mock(
-        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}]
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
     )
     block = dict(
         video=video_mock
     )
     html = render_video(block)
 
-    assert '<video controls>' in html
+    assert '<video controls data-v-duration="120">' in html
     assert '<source src="/media/foo.mp4" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
 
