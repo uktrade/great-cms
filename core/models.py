@@ -352,9 +352,9 @@ class CuratedListPage(CMSGenericPage):
     )
     topics = StreamField([('topic', core_blocks.CuratedTopicBlock(icon='plus'))], null=True, blank=True)
 
-    #########
+    ########
     # Panels
-    ##########
+    ########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('heading'),
         ImageChooserPanel('image'),
@@ -368,6 +368,13 @@ class CuratedListPage(CMSGenericPage):
     @cached_property
     def count_detail_pages(self):
         return sum((len(topic.value['pages']) for topic in self.topics))
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+        # Give the template a simple way to link back to the parent
+        # learning module (ListPage)
+        context['parent_page_url'] = self.get_parent().url
+        return context
 
 
 def hero_singular_validation(value):

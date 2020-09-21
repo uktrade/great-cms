@@ -74,6 +74,30 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
     assert detail_page.page_views.count() == 0
 
 
+@pytest.mark.django_db
+def test_curated_list_page_has_link_in_context_back_to_parent(client, domestic_homepage, domestic_site):
+
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage,
+        record_read_progress=False,
+        slug='example-learning-homepage'
+    )
+    curated_list_page = factories.CuratedListPageFactory(
+        parent=list_page,
+        slug='example-module'
+    )
+
+    expected_url = list_page.url
+    assert expected_url == '/example-learning-homepage/'
+
+    resp = client.get(curated_list_page.url)
+
+    # Make a more precise string to search for: one that's marked up as a
+    # hyperlink target, at least
+    expected_link_string = f'href="{expected_url}"'
+    assert expected_link_string.encode('utf-8') in resp.content
+
+
 class LandingPageTests(WagtailPageTests):
 
     def test_can_be_created_under_homepage(self):

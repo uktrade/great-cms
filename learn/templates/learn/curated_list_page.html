@@ -5,6 +5,11 @@
 {% load pluralize from content_tags %}
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
+
+
+    {% comment %} TODO: Appropriate positioning and FE styling {% endcomment %}
+    <a href="{{parent_page_url}}">BACK</a>
+
     <section class="learn__single-category-header">
         <div class="learn__single-category-header-wrapper container">
             <div class="grid">
@@ -22,7 +27,7 @@
                 <div class="c-1-2-l">
                     {% image page.image width-600 class="learn__single-category-image" %}
                 </div>
-            </div>    
+            </div>
         </div>
     </section>
     <section class="learn__category-lists container" id="topic-lesson-list">
@@ -36,4 +41,3 @@
         </section>
 </div>
 {% endblock %}
-
