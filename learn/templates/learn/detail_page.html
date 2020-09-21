@@ -95,7 +95,7 @@
 {% endblock %}
 
 {% block body_js %}
-    {{ block.super }}
+    {{ block.super }
     <script>
       {% if request.user.is_authenticated %}
       ditMVP.createMarkLessonAsComplete({
@@ -103,6 +103,11 @@
         endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
       })
       {% endif %}
+
+      ditMVP.createVideoTranscript({
+        element: document.querySelector("#lesson-hero-video-transcript"),
+        source: document.querySelector(".lesson-hero video source[transcript]")
+      })
     </script>
 
 {% endblock %}
