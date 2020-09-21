@@ -30,7 +30,7 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 
 from core import blocks as core_blocks, mixins
 from core.context import get_context_provider
-from core.utils import PageTopic
+from core.utils import PageTopic, get_first_lesson
 
 
 class AbstractObjectHash(models.Model):
@@ -478,11 +478,24 @@ class DetailPage(CMSGenericPage):
                 if topic.id == self.topic_block_id:
                     return topic.value['title']
 
+    @cached_property
+    def module(self):
+        return self.get_parent().specific
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
         if hasattr(self.get_parent().specific, 'topics'):
             page_topic = PageTopic(self)
-            context['next_lesson'] = page_topic.get_next_lesson()
+            if page_topic:
+                next_lesson = page_topic.get_next_lesson()
+                if next_lesson:
+                    context['next_lesson'] = next_lesson
+                else:
+                    next_module = self.module.get_next_sibling()
+                    if not next_module:
+                        return
+                    context['next_module'] = next_module.specific
+                    context['next_lesson'] = get_first_lesson(next_module)
         return context
 
 

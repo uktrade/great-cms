@@ -1,16 +1,36 @@
+def get_all_lesson(module):
+    """
+    Helper function to get all lesson of a module
+    @return: list of lesson objects
+    """
+    lessons = [page for topic in module.specific.topics for page in topic.value['pages'] if page.live]
+    if lessons:
+        return lessons
+
+
+def get_first_lesson(module):
+    """
+    Helper function to get first lesson of a module
+    @return: lesson object
+    """
+    lessons = get_all_lesson(module)
+    if lessons:
+        return lessons[0]
+
+
 class PageTopic:
     """
     Utility class for Page's topic. Helper class gather all info regarding topic specific for relevant page.
     For example given page it calculate next lesson of topic.
 
     """
+
     def __init__(self, page):
         self.page = page
         self.module = page.get_parent().specific
         self.page_topic = self.get_page_topic()
         self.module_topics = self.get_module_topics()
-        self.module_pages = self.get_module_lessons()
-        self.next_lesson = self.get_next_lesson()
+        self.module_lessons = get_all_lesson(self.module)
 
     def get_page_topic(self):
         for topic in self.module.topics:
@@ -27,27 +47,16 @@ class PageTopic:
 
     @property
     def total_module_lessons(self):
-        return len(self.module_pages)
-
-    def get_module_lessons(self):
-        return [
-            page for topic in self.module.topics
-            for page in topic.value['pages']
-            if page.live
-        ]
-
-    def get_topic_page_pairs(self):
-        return [
-            (topic.value['title'], page)
-            for topic in self.module.topics
-            for page in topic.value['pages']
-            if page.live
-        ]
+        return len(self.module_lessons)
 
     def get_next_lesson(self):
-        for i, item in enumerate(self.get_topic_page_pairs()):
-            if self.page.id == item[1].id:
+        lessons = get_all_lesson(self.module)
+        if not lessons:
+            return
+        for i, item in enumerate(lessons):
+            if self.page.id == item.id:
                 try:
-                    return self.get_topic_page_pairs()[i + 1]
+                    next_lesson = lessons[i + 1]
+                    return next_lesson.specific
                 except IndexError:
                     return
