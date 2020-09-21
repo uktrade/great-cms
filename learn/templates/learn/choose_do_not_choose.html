@@ -1,0 +1,16 @@
+{% load  wagtailcore_tags %}
+
+{% comment %} REAL MARKUP FOR CHOOSE DON'T CHOOSE BLOCK TO COME - THANKS, LEWIS! {% endcomment %}
+
+{% comment %} CSS for this element needs to allow UL and OL lists {% endcomment %}
+
+<div class="">
+
+    <h3 class="">{{ value.choose_title }}</h3>
+    {{ value.choose_body|richtext }}
+
+
+    <h3 class="">{{ value.do_not_choose_title }}</h3>
+    {{ value.do_not_choose_body|richtext }}
+
+</div>
