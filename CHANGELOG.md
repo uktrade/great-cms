@@ -54,6 +54,7 @@
 
 ### Implemented enhancements
 - GP2-260 - Lesson - Choose don't choose
+- GP2-449 - video transcript FE
 - GP2-594, GP2-595 - Updated personalization bar buttons
 - GP2-449 - Extended video model for transcript field
 - GP2-388 - Country selection with full country list
