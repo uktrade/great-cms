@@ -443,7 +443,8 @@ class DetailPage(CMSGenericPage):
             ))
         ],
             template='learn/pros_and_cons.html',
-            icon='fa-arrow-right', ),)
+            icon='fa-arrow-right', ),),
+        ('choose_do_not_choose', core_blocks.ChooseDoNotChooseBlock()),
     ])
     recap = StreamField([
         ('recap_item', blocks.StructBlock([
