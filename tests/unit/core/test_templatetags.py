@@ -7,6 +7,7 @@ from datetime import timedelta
 
 from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.video_tags import render_video
+from core.templatetags.content_tags import get_backlinked_url
 
 
 def test_render_personalised_video_block_tag():
@@ -127,3 +128,61 @@ def test_get_item_filter(user, rf, domestic_site):
     for case in cases:
         html = template.render(Context({'lesson_details': case.get('lesson_details')}))
         assert html == case.get('result')
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "request_path,outbound_url,expected_backlinked_url",
+    (
+        (
+            '/example/export-plan/path/',
+            '/test/outbound/path/',
+            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F'
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            '/test/outbound/path/',
+            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+        ),
+        (
+            '/example/export-plan/path/',
+            'https://example.com/test/outbound/path/',
+            'https://example.com/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F'
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            'https://example.com/test/outbound/path/',
+            (
+                'https://example.com/test/outbound/path/'
+                '?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            )
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            '/test/outbound/path/?bam=baz',
+            (
+                '/test/outbound/path/'
+                '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            )
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            'https://example.com/test/outbound/path/?bam=baz',
+            (
+                'https://example.com/test/outbound/path/'
+                '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            )
+        ),
+    ),
+    ids=[
+        "1. Outbound path with NO existing querystring for the source/request path",
+        "2. Outbound path with an existing querystring for the source/request path",
+        "3. Full outbound URL with NO existing querystring for the source/request path",
+        "4. Full outbound URL with existing querystring for the source/request path",
+        "5. Both source/request and outbound URLs feature querystrings",
+        "5. Both source/request and outbound URLs feature querystrings; outbound is a full URL",
+    ]
+)
+def test_get_backlinked_url(rf, request_path, outbound_url, expected_backlinked_url):
+    context = {'request': rf.get(request_path)}
+    assert get_backlinked_url(context, outbound_url) == expected_backlinked_url

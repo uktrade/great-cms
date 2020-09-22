@@ -4,6 +4,8 @@ from django import template
 from django.utils.http import urlencode
 import datetime
 
+from urllib.parse import urlparse
+
 from core.constants import BACKLINK_QUERYSTRING_NAME
 
 logger = logging.getLogger(__name__)
@@ -42,11 +44,13 @@ def get_backlinked_url(context, outbound_url):
 
     request = context.get('request')
     if request:
-        backlink = urlencode(query={BACKLINK_QUERYSTRING_NAME: request.path})
-        if request.GET:
+        backlink = urlencode(query={BACKLINK_QUERYSTRING_NAME: request.get_full_path()})
+
+        delimiter = '?'
+        parsed_outbound_url = urlparse(outbound_url)
+        if parsed_outbound_url.query:
+            # ie the outbound URL has a querystring so we need to ADD our backlink to it
             delimiter = '&'
-        else:
-            delimiter = '?'
         outbound_url += f'{delimiter}{backlink}'
 
     return outbound_url
