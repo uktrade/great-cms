@@ -81,6 +81,19 @@
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
       });
 
+      {% if 'verify' in request.GET %}
+      var element = document.createElement('div');
+      var step = ditMVP.STEP_VERIFICATION_CODE;
+      var username = '{{ request.GET.verify }}';
+      ditMVP.SignupModal({
+				element: element,
+				currentStep: step,
+				isOpenModal: true,
+				username: username,
+				nextUrl: '{% url_map "dashboard" %}',
+			})
+      {% endif %}
+
       // dynamic value that can be updated by user interacting with react components
       ditMVP.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
