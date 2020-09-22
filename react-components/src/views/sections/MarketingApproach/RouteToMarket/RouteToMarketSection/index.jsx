@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { InputWithDropdown } from '@src/components/Fields/InputWithDropdown'
-import FieldWithExample from '@src/components/Fields/FieldWithExample'
+import { TextArea } from '@src/components/Form/TextArea'
 
 export const RouteToMarketSection = ({
   data,
@@ -27,12 +27,12 @@ export const RouteToMarketSection = ({
         />
       ))}
       <div className='route-to-market__table-cell'>
-        <FieldWithExample
+        <TextArea
           label={label}
           example={example}
-          name={name}
-          handleChange={(e) => update(field.pk, {[e.target.name]: e.target.value})}
+          onChange={(e) => update(field.pk, e)}
           value={field[name]}
+          id={name}
         />
       </div>
     </div>
