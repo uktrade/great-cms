@@ -65,27 +65,26 @@ export function ProductFinder(props) {
   const [searchResults, setSearchResults] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
   const [isScrolled, setIsScrolled] = React.useState(false)
-  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(!!selectedProduct)
+  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedProduct)
     // eslint-disable-next-line no-use-before-define
-    console.log(productConfirmationRequired)
     if (productConfirmationRequired) {
       setProductConfirmationRequired(false)
-    } else {
-      setIsOpen(!productConfirmationRequired)
     }
+    setIsOpen(!productConfirmationRequired)
+
   }
 
   const closeModal = () => {
     setIsOpen(false)
     setSearchResults({})
   }
-
+  
   const closeConfirmation = () => {
      setProductConfirmationRequired(false)
-      setIsOpen(true)
+     setIsOpen(true)
 
   }
 
@@ -285,11 +284,15 @@ export function ProductFinder(props) {
 
   return ( productConfirmationRequired ?
       <span>
-      <MessageConfirmation buttonClass={buttonClass} selectedProduct={selectedProduct} />
-       <button className={buttonClass} onClick={closeConfirmation}>
-        Close
-      </button>
-        </span>
+      <MessageConfirmation
+          buttonClass={buttonClass}
+          selectedProduct={selectedProduct}
+          handleButtonClick={closeConfirmation}
+          messsageTitle="Changing product?"
+          messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change product at any time."
+          messageButtonText="Got it"
+      />
+      </span>
           :
     <span>
       <button className={buttonClass} onClick={openModal}>

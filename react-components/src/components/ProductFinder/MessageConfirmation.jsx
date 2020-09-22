@@ -3,11 +3,11 @@ import ReactModal from "react-modal";
 
 const customStyles = {
     content: {
-        top: '10%',
-        left: '10%',
-        width: '80%',
+        top: '30%',
+        left: '30%',
+        width: '30%',
         border: 'none',
-        height: '80%',
+        height: '30%',
         padding: '40px 60px',
         overflow: 'none',
     },
@@ -23,18 +23,20 @@ export function MessageConfirmation(props) {
     const closeModal = () => {
         setIsOpen(false)
     }
-
     return (
         <span>
-      <button className={props.buttonClass}>
-          {props.selectedProduct || 'add product'}
-      </button>
+            <button className={props.buttonClass}>
+                {props.selectedProduct || 'add product'}
+            </button>
 
-      <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
-          <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
-           <div>Confirmation message</div>
-      </ReactModal>
-    </span>
+            <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+                <div><strong>{props.messsageTitle}</strong>
+                    <p>{props.messageBody}</p>
+                </div>
+                <button className="button button--primary button--round-corner"
+                        onClick={props.handleButtonClick}>{props.messageButtonText}</button>
+            </ReactModal>
+        </span>
     )
 }
 

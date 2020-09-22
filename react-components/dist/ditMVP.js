@@ -80260,11 +80260,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var customStyles = {
   content: {
-    top: '10%',
-    left: '10%',
-    width: '80%',
+    top: '30%',
+    left: '30%',
+    width: '30%',
     border: 'none',
-    height: '80%',
+    height: '30%',
     padding: '40px 60px',
     overflow: 'none'
   },
@@ -80289,10 +80289,10 @@ function MessageConfirmation(props) {
     isOpen: modalIsOpen,
     onRequestClose: closeModal,
     style: customStyles
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "pull-right m-r-0 dialog-close",
-    onClick: closeModal
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Confirmation message")));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, props.messsageTitle), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, props.messageBody)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--primary button--round-corner",
+    onClick: props.handleButtonClick
+  }, props.messageButtonText)));
 }
 /* harmony default export */ __webpack_exports__["default"] = (MessageConfirmation);
 
@@ -80416,7 +80416,7 @@ function ProductFinder(props) {
       isScrolled = _React$useState10[0],
       setIsScrolled = _React$useState10[1];
 
-  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(!!selectedProduct),
+  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
       _React$useState12 = _slicedToArray(_React$useState11, 2),
       productConfirmationRequired = _React$useState12[0],
       setProductConfirmationRequired = _React$useState12[1];
@@ -80424,13 +80424,11 @@ function ProductFinder(props) {
   var openModal = function openModal() {
     setProductConfirmationRequired(!!selectedProduct); // eslint-disable-next-line no-use-before-define
 
-    console.log(productConfirmationRequired);
-
     if (productConfirmationRequired) {
       setProductConfirmationRequired(false);
-    } else {
-      setIsOpen(!productConfirmationRequired);
     }
+
+    setIsOpen(!productConfirmationRequired);
   };
 
   var closeModal = function closeModal() {
@@ -80623,11 +80621,12 @@ function ProductFinder(props) {
   var scrollerClass = 'scroll-area ' + (isScrolled ? 'scrolled' : '');
   return productConfirmationRequired ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageConfirmation__WEBPACK_IMPORTED_MODULE_6__["default"], {
     buttonClass: buttonClass,
-    selectedProduct: selectedProduct
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: buttonClass,
-    onClick: closeConfirmation
-  }, "Close")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    selectedProduct: selectedProduct,
+    handleButtonClick: closeConfirmation,
+    messsageTitle: "Changing product?",
+    messageBody: "if you've created an export plan, make sure you update it to reflect your new market. you can change product at any time.",
+    messageButtonText: "Got it"
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: buttonClass,
     onClick: openModal
   }, selectedProduct || 'add product'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
