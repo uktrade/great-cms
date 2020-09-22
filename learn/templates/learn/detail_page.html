@@ -3,7 +3,6 @@
 {% load routablepageurl from wagtailroutablepage_tags %}
 {% load url_map %}
 {% load content_tags %}
-{% load static %}
 
 {% block content %}
     <div class="lesson-page">
@@ -115,9 +114,12 @@
                                     </a>
 
                                 </div>
+                                {% if next_module.image %}
                                 <div class="g-card--with-image__image">
-                                    <img src="{% static 'images/next-lesson.png' %}" alt=""/>
+                                    {% image next_module.image original as next_module_image %}
+                                    <img src="{{ next_module_image.url }}" alt="{{ next_module_image.alt }}"/>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="c-1-12">
