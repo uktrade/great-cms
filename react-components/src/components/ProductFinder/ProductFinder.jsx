@@ -81,7 +81,7 @@ export function ProductFinder(props) {
     setIsOpen(false)
     setSearchResults({})
   }
-  
+
   const closeConfirmation = () => {
      setProductConfirmationRequired(false)
      setIsOpen(true)
@@ -289,7 +289,7 @@ export function ProductFinder(props) {
           selectedProduct={selectedProduct}
           handleButtonClick={closeConfirmation}
           messsageTitle="Changing product?"
-          messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change product at any time."
+          messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
           messageButtonText="Got it"
       />
       </span>
