@@ -498,22 +498,22 @@ class DetailPage(CMSGenericPage):
 
     @cached_property
     def module(self):
+        """Gets the learning module this lesson belongs to"""
         return self.get_parent().specific
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
         if hasattr(self.get_parent().specific, 'topics'):
             page_topic = PageTopic(self)
-            if page_topic:
-                next_lesson = page_topic.get_next_lesson()
-                if next_lesson:
-                    context['next_lesson'] = next_lesson
-                else:
-                    next_module = self.module.get_next_sibling()
-                    if not next_module:
-                        return context
-                    context['next_module'] = next_module.specific
-                    context['next_lesson'] = get_first_lesson(next_module)
+            next_lesson = page_topic.get_next_lesson()
+            if next_lesson:
+                context['next_lesson'] = next_lesson
+            else:
+                next_module = self.module.get_next_sibling()
+                if not next_module:
+                    return context
+                context['next_module'] = next_module.specific
+                context['next_lesson'] = get_first_lesson(next_module)
         return context
 
 

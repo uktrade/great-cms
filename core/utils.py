@@ -1,4 +1,4 @@
-def get_all_lesson(module):
+def get_all_lessons(module):
     """
     Helper function to get all lesson of a module
     @return: list of lesson objects
@@ -13,7 +13,7 @@ def get_first_lesson(module):
     Helper function to get first lesson of a module
     @return: lesson object
     """
-    lessons = get_all_lesson(module)
+    lessons = get_all_lessons(module)
     if lessons:
         return lessons[0]
 
@@ -30,9 +30,10 @@ class PageTopic:
         self.module = page.get_parent().specific
         self.page_topic = self.get_page_topic()
         self.module_topics = self.get_module_topics()
-        self.module_lessons = get_all_lesson(self.module)
+        self.module_lessons = get_all_lessons(self.module)
 
     def get_page_topic(self):
+        # the `topics` StreamField, so we have to find them this way, rather than via the ORM
         for topic in self.module.topics:
             for page in topic.value['pages']:
                 if self.page.id == page.id:
@@ -50,7 +51,7 @@ class PageTopic:
         return len(self.module_lessons)
 
     def get_next_lesson(self):
-        lessons = get_all_lesson(self.module)
+        lessons = get_all_lessons(self.module)
         if not lessons:
             return
         for i, item in enumerate(lessons):

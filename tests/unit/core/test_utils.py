@@ -1,7 +1,7 @@
 import pytest
 from django.http import HttpRequest
 
-from core.utils import PageTopic, get_all_lesson, get_first_lesson
+from core.utils import PageTopic, get_all_lessons, get_first_lesson
 from tests.unit.core import factories
 
 
@@ -87,8 +87,8 @@ def test_multiple_module(domestic_homepage, client, user):
     assert get_first_lesson(module_1) == detail_page_1
     assert get_first_lesson(module_2) == detail_page_4
 
-    assert len(get_all_lesson(module_1)) == 3
-    assert len(get_all_lesson(module_2)) == 1
+    assert len(get_all_lessons(module_1)) == 3
+    assert len(get_all_lessons(module_2)) == 1
 
     assert pt_1.get_next_lesson() == detail_page_2
     assert pt_2.get_next_lesson() == detail_page_3
@@ -103,7 +103,9 @@ def test_multiple_module(domestic_homepage, client, user):
     page1_response = detail_page_1.serve(request)
     page2_response = detail_page_2.serve(request)
     page3_response = detail_page_3.serve(request)
+    page4_response = detail_page_4.serve(request)
 
     assert page1_response.context_data['next_lesson'].specific == detail_page_2
     assert page2_response.context_data['next_lesson'].specific == detail_page_3
     assert page3_response.context_data['next_lesson'].specific == detail_page_4
+    assert page4_response.context_data.get('next_lesson') is None
