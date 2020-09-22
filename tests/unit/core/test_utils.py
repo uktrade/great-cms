@@ -28,8 +28,8 @@ def test_lesson_module(domestic_homepage):
     curated_list_page.save()
     pt_1 = PageTopic(detail_page_1)
 
-    assert pt_1.total_module_lessons == 3
-    assert pt_1.total_module_topics == 2
+    assert pt_1.total_module_lessons() == 3
+    assert pt_1.total_module_topics() == 2
     assert pt_1.get_next_lesson() == detail_page_2
 
     # Last lesson of topic should have following topic's first lesson as next lesson
