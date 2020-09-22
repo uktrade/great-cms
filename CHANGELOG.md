@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+
 - No ticket - Fix heading styling
 - GP2-495 - Update headings on lesson pages
 - GP2-514 - Fix alt text
@@ -53,6 +54,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-263 - Next lesson (BE)
 - GP2-260 - Lesson - Choose don't choose
 - GP2-449 - video transcript FE
 - GP2-594, GP2-595 - Updated personalization bar buttons
