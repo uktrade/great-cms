@@ -1,5 +1,6 @@
 import hashlib
 import mimetypes
+from urllib.parse import unquote
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -32,6 +33,7 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
+from core.constants import BACKLINK_QUERYSTRING_NAME
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
@@ -502,8 +504,23 @@ class DetailPage(CMSGenericPage):
         """Gets the learning module this lesson belongs to"""
         return self.get_parent().specific
 
+    def _get_backlink(self, request):
+        backlink_path = request.GET.get(BACKLINK_QUERYSTRING_NAME, '')
+        if backlink_path is not None:
+            backlink_path = unquote(backlink_path)
+            if (
+                backlink_path.startswith('/') and '://' not in backlink_path
+            ):
+                return backlink_path
+
+        return None  # safe default
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
+        _backlink = self._get_backlink(request)
+        if _backlink:
+            context['backlink'] = _backlink
+
         if hasattr(self.get_parent().specific, 'topics'):
             page_topic = PageTopic(self)
             next_lesson = page_topic.get_next_lesson()

@@ -1,6 +1,12 @@
+import logging
 import math
 from django import template
+from django.utils.http import urlencode
 import datetime
+
+from core.constants import BACKLINK_QUERYSTRING_NAME
+
+logger = logging.getLogger(__name__)
 
 register = template.Library()
 
@@ -23,3 +29,24 @@ def format_timedelta(timedelta, pluralize=False):
 @register.simple_tag()
 def pluralize(value, plural_string='s'):
     return plural_string if value != 1 else ''
+
+
+@register.simple_tag(takes_context=True)
+def get_backlinked_url(context, outbound_url):
+    """Appends a querystring to the provided outbound_url that features the
+    current page's relative path as an encoded string.
+
+    Use case is allowing pages to link to others and tell them, in a robust way,
+    where to take the user back to (eg export plan -> lesson -> export plan)
+    """
+
+    request = context.get('request')
+    if request:
+        backlink = urlencode(query={BACKLINK_QUERYSTRING_NAME: request.path})
+        if request.GET:
+            delimiter = '&'
+        else:
+            delimiter = '?'
+        outbound_url += f'{delimiter}{backlink}'
+
+    return outbound_url
