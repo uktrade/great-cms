@@ -74,6 +74,98 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
     assert detail_page.page_views.count() == 0
 
 
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'querystring_to_add,expected_backlink_value',
+    (
+        ('', None),
+        (
+            '?return-link=%2Fexample%2Fexport-plan%2Fpath%2F',
+            '/example/export-plan/path/'
+        ),
+        (
+            '?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
+            '/example/export-plan/path/?foo=bar'
+        ),
+        (
+            '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
+            '/example/export-plan/path/?foo=bar'  # NB: bam=baz should not be here
+        ),
+        (
+            '?bam=baz&return-link=example%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
+            None
+        ),
+        (
+            (
+                '?bam=baz&return-link=https%3A%2F%2Fphishing.example.com'
+                '%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            ),
+            None
+        ),
+        (
+            (
+                '?bam=baz&return-link=%3A%2F%2Fphishing.example.com'
+                '%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            ),
+            None
+        ),
+        (
+            '?bam=baz',
+            None
+        ),
+        (
+            '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
+            '/example/export-plan/path/?foo=bar'
+        ),
+
+    ),
+    ids=(
+        "no backlink querystring present",
+        "backlink querystring present without encoded querystring of its own",
+        "backlink querystring present WITH encoded querystring of its own",
+        "backlink querystring present WITH encoded querystring and other args",
+        "backlink querystring present WITH bad payload - path doesn't start with / ",
+        "backlink querystring present WITH bad payload - path is a full URL",
+        "backlink querystring present WITH bad payload - path is a URL with flexible proto",
+        "backlink querystring NOT present BUT another querystring is",
+        "backlink querystring present WITH OTHER QUERYSTRING TOO",
+    )
+)
+def test_detail_page_get_context_handles_backlink_querystring_appropriately(
+    rf,
+    domestic_homepage,
+    domestic_site,
+    user,
+    querystring_to_add,
+    expected_backlink_value
+):
+
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage,
+        record_read_progress=False
+    )
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    detail_page = factories.DetailPageFactory(
+        parent=curated_list_page,
+        template='learn/detail_page.html'
+    )
+
+    lesson_page_url = detail_page.url
+    if querystring_to_add:
+        lesson_page_url += querystring_to_add
+
+    request = rf.get(lesson_page_url)
+    request.user = user
+    request.user.export_plan = mock.Mock('mocked-export-plan')
+
+    context = detail_page.get_context(request)
+
+    if expected_backlink_value is None:
+        assert 'backlink' not in context
+    else:
+        assert context.get('backlink') == expected_backlink_value
+
+
 class LandingPageTests(WagtailPageTests):
 
     def test_can_be_created_under_homepage(self):
