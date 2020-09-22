@@ -16,12 +16,12 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
     client.force_login(user)
     url = reverse('exportplan:api-country-data')
 
-    update_return_data = {'target_markets': [{'country': 'UK'}, {'country': 'China', 'SomeData': 'xyz'}, ]}
+    update_return_data = {'target_markets': [{'country_name': 'UK'}, {'country_name': 'China', 'SomeData': 'xyz'}, ]}
 
-    mock_get_export_plan.return_value = {'pk': 1, 'target_markets': [{'country': 'UK'}, ]}
+    mock_get_export_plan.return_value = {'pk': 1, 'target_markets': [{'country_name': 'UK'}, ]}
     mock_update_exportplan.return_value = update_return_data
 
-    response = client.get(url, {'country': 'China', })
+    response = client.get(url, {'country_name': 'China', })
 
     assert mock_get_export_plan.call_count == 1
     assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
@@ -29,7 +29,7 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data={'target_markets': [{'country': 'UK'}, {'country': 'China'}]},
+        data={'target_markets': [{'country_name': 'UK'}, {'country_name': 'China'}]},
         id=1,
         sso_session_id='123'
     )
@@ -56,13 +56,15 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
     client.force_login(user)
     url = reverse('exportplan:api-remove-country-data')
 
-    export_plan_data = {'pk': 1, 'target_markets': [{'country': 'UK'}, {'country': 'China', 'SomeData': 'xyz'}, ]}
-    update_return_data = {'target_markets': [{'country': 'UK'}]}
+    export_plan_data = {
+        'pk': 1, 'target_markets': [{'country_name': 'UK'}, {'country_name': 'China', 'SomeData': 'xyz'}, ]
+    }
+    update_return_data = {'target_markets': [{'country_name': 'UK'}]}
 
     mock_get_export_plan.return_value = export_plan_data
     mock_update_exportplan.return_value = update_return_data
 
-    response = client.get(url, {'country': 'China', })
+    response = client.get(url, {'country_name': 'China', })
 
     assert mock_get_export_plan.call_count == 1
     assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
@@ -70,7 +72,7 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data={'target_markets': [{'country': 'UK'}]},
+        data={'target_markets': [{'country_name': 'UK'}]},
         id=1,
         sso_session_id='123'
     )

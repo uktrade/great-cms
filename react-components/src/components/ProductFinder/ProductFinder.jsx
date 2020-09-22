@@ -75,10 +75,7 @@ export function ProductFinder(props) {
 
   const saveProduct = () => {
     setSelectedProduct(searchResults.hsCode)
-    Services.updateExportPlan({
-      commodity_name: searchResults.currentItemName,
-      export_commodity_codes: [searchResults.hsCode],
-    })
+    let result = Services.updateExportPlan({ export_commodity_codes: [{commodity_name: searchResults.currentItemName, commodity_code: searchResults.hsCode}]})
       .then((result) => {
         closeModal()
       })

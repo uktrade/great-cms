@@ -221,3 +221,5 @@
 - GP2-420 - get topic details
 - GP2-540 - EP-make-fields-optional
 - GP2-545 - remove airtable
+- GP2-542 - Commodity code and Country store as key/vaule pairs
+
