@@ -34,6 +34,8 @@ class PageTopic:
 
     def get_page_topic(self):
         # the `topics` StreamField, so we have to find them this way, rather than via the ORM
+        # The user-facing relationship between lessons and their topics exists only through 
+        # the `topics` StreamField, so we have to find them this way, rather than via the ORM
         for topic in self.module.topics:
             for page in topic.value['pages']:
                 if self.page.id == page.id:
