@@ -12,7 +12,7 @@
     <script type="text/javascript">
 		var element = document.getElementById('sign-up');
 		var currentStep = '{% if request.GET.verify %}verification-code{% else %}credentials{% endif %}';
-		var email = '{% if request.GET.verify %}{{request.GET.verify}}{% endif %}';
+		var email = '{{ request.GET.verify }}';
 		ditMVP.SignupModal({
 			element: element,
 			currentStep: currentStep,
