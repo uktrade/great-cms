@@ -509,7 +509,11 @@ class DetailPage(CMSGenericPage):
         if backlink_path is not None:
             backlink_path = unquote(backlink_path)
             if (
+                # We only want relative paths as backlinks:
                 backlink_path.startswith('/') and '://' not in backlink_path
+                # The check for '://' will stop us accepting a backlink which
+                # features a full URL as its OWN querystring param, but that's
+                # an acceptable limitation here and is very unlikely to happen.
             ):
                 return backlink_path
 
