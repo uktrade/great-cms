@@ -80224,7 +80224,7 @@ function CountryFinder(props) {
     productConfirmation: productConfirmationRequired,
     handleButtonClick: closeConfirmation,
     messsageTitle: "Changing target market?",
-    messageBody: "if you've created an export plan, make sure you update it to reflect your new market. you can change product at any time.",
+    messageBody: "if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time.",
     messageButtonText: "Got it"
   }));
 }
@@ -84847,6 +84847,7 @@ function Component(props) {
         handleSubmit: props.handleStepCodeSubmit,
         disabled: props.isInProgress,
         handleCodeChange: props.setCode,
+        email: props.email,
         code: props.code,
         showTitle: props.showTitle
       });
@@ -84947,7 +84948,7 @@ function Container(props) {
       isInProgress = _React$useState4[0],
       setIsInProgress = _React$useState4[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(_Component__WEBPACK_IMPORTED_MODULE_5__["STEP_CREDENTIALS"]),
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.currentStep),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       currentStep = _React$useState6[0],
       setCurrentStep = _React$useState6[1];

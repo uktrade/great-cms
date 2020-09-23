@@ -40,7 +40,7 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
         return super().handle_exception(exc)
 
     def get_verification_link(self, username):
-        return self.request.build_absolute_uri('/') + f'?verify={username}'
+        return self.request.build_absolute_uri('/signup/') + f'?verify={username}'
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
