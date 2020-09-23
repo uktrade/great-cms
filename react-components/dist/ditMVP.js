@@ -78694,6 +78694,132 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./react-components/src/components/Form/FormGroup/index.jsx":
+/*!******************************************************************!*\
+  !*** ./react-components/src/components/Form/FormGroup/index.jsx ***!
+  \******************************************************************/
+/*! exports provided: FormGroup */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormGroup", function() { return FormGroup; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var FormGroup = function FormGroup(_ref) {
+  var children = _ref.children,
+      error = _ref.error;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group ".concat(error && 'form-group-error')
+  }, children);
+};
+FormGroup.propTypes = {
+  children: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.element.isRequired,
+  error: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+};
+FormGroup.defaultProps = {
+  error: false
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/Form/TextArea/index.jsx":
+/*!*****************************************************************!*\
+  !*** ./react-components/src/components/Form/TextArea/index.jsx ***!
+  \*****************************************************************/
+/*! exports provided: TextArea */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextArea", function() { return TextArea; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _FormGroup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FormGroup */ "./react-components/src/components/Form/FormGroup/index.jsx");
+/* harmony import */ var _EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../EducationalMomentTooltip */ "./react-components/src/components/EducationalMomentTooltip.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var TextArea = function TextArea(_ref) {
+  var error = _ref.error,
+      label = _ref.label,
+      disabled = _ref.disabled,
+      id = _ref.id,
+      placeholder = _ref.placeholder,
+      value = _ref.value,
+      _onChange2 = _ref.onChange,
+      description = _ref.description,
+      tooltip = _ref.tooltip,
+      example = _ref.example;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FormGroup__WEBPACK_IMPORTED_MODULE_2__["FormGroup"], {
+    error: error
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "form-label",
+    htmlFor: id
+  }, label), description && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-blue-deep-80 p-t-xs p-b-xxs",
+    dangerouslySetInnerHTML: {
+      __html: description
+    }
+  }), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    heading: "",
+    description: tooltip,
+    id: id,
+    type: "LEFT"
+  }), example && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", {
+    className: "form-group-example bg-blue-deep-10 p-xs m-b-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", {
+    className: "body-l-b"
+  }, "Example"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", {
+    className: "m-t-xxs body-l",
+    dangerouslySetInnerHTML: {
+      __html: example
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+    className: "form-control",
+    id: id,
+    name: id,
+    disabled: disabled,
+    onChange: function onChange(e) {
+      return _onChange2(_defineProperty({}, id, e.target.value));
+    },
+    placeholder: placeholder,
+    value: value
+  })));
+};
+TextArea.propTypes = {
+  error: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+};
+TextArea.defaultProps = {
+  error: false,
+  disabled: false,
+  placeholder: '',
+  value: '',
+  description: '',
+  tooltip: '',
+  example: ''
+};
+
+/***/ }),
+
 /***/ "./react-components/src/components/FormWithInputWithExample/index.jsx":
 /*!****************************************************************************!*\
   !*** ./react-components/src/components/FormWithInputWithExample/index.jsx ***!
@@ -78711,7 +78837,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_components_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/components/Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -78858,7 +78984,7 @@ var FormWithInputWithExample = /*#__PURE__*/function (_Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (field) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_8__["TextArea"], {
           tooltip: field.tooltip,
           label: field.label,
           example: field.example,
@@ -80139,7 +80265,7 @@ var customStyles = {
   }
 };
 function MessageConfirmation(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(true),
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.productConfirmation),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       modalIsOpen = _React$useState2[0],
       setIsOpen = _React$useState2[1];
@@ -80148,10 +80274,8 @@ function MessageConfirmation(props) {
     setIsOpen(false);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: props.buttonClass
-  }, props.selectedProduct || 'add product'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_1___default.a, {
-    isOpen: modalIsOpen,
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_1___default.a, {
+    isOpen: props.productConfirmation,
     onRequestClose: closeModal,
     style: customStyles
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, props.messsageTitle), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, props.messageBody)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -80287,13 +80411,8 @@ function ProductFinder(props) {
       setProductConfirmationRequired = _React$useState12[1];
 
   var openModal = function openModal() {
-    setProductConfirmationRequired(!!selectedProduct); // eslint-disable-next-line no-use-before-define
-
-    if (productConfirmationRequired) {
-      setProductConfirmationRequired(false);
-    }
-
-    setIsOpen(!productConfirmationRequired);
+    setProductConfirmationRequired(!!selectedProduct);
+    setIsOpen(!selectedProduct);
   };
 
   var closeModal = function closeModal() {
@@ -80485,14 +80604,7 @@ function ProductFinder(props) {
 
   var buttonClass = 'button ' + (selectedProduct ? 'button--secondary' : 'button--ghost-blue') + ' button--round-corner button--chevron';
   var scrollerClass = 'scroll-area ' + (isScrolled ? 'scrolled' : '');
-  return productConfirmationRequired ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageConfirmation__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    buttonClass: buttonClass,
-    selectedProduct: selectedProduct,
-    handleButtonClick: closeConfirmation,
-    messsageTitle: "Changing product?",
-    messageBody: "if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time.",
-    messageButtonText: "Got it"
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: buttonClass,
     onClick: openModal
   }, selectedProduct || 'add product'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -80530,7 +80642,14 @@ function ProductFinder(props) {
       marginTop: '172px'
     },
     onScroll: onScroll
-  }, resultsDisplay(searchResults)))));
+  }, resultsDisplay(searchResults)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageConfirmation__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    buttonClass: buttonClass,
+    productConfirmation: productConfirmationRequired,
+    handleButtonClick: closeConfirmation,
+    messsageTitle: "Changing product?",
+    messageBody: "if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time.",
+    messageButtonText: "Got it"
+  }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var params = _extends({}, _ref);
@@ -85701,7 +85820,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/InputWithDropdown */ "./react-components/src/components/Fields/InputWithDropdown/index.jsx");
-!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
 
 
 
@@ -85738,7 +85857,7 @@ var RouteToMarketSection = function RouteToMarketSection(_ref) {
     });
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "route-to-market__table-cell"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_4__["TextArea"], {
     label: label,
     example: example,
     onChange: function onChange(e) {
@@ -85895,7 +86014,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
 /* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../Services */ "./react-components/src/Services.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -85935,7 +86054,7 @@ var SpendingAndResources = function SpendingAndResources(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (item) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_4__["TextArea"], {
       tooltip: item.tooltip,
       label: item.label,
       example: item.example,

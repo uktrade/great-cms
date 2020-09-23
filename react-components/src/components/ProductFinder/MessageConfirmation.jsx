@@ -18,18 +18,13 @@ const customStyles = {
 }
 
 export function MessageConfirmation(props) {
-    const [modalIsOpen, setIsOpen] = React.useState(true)
-
+    const [modalIsOpen, setIsOpen] = React.useState(props.productConfirmation)
     const closeModal = () => {
         setIsOpen(false)
     }
     return (
         <span>
-            <button className={props.buttonClass}>
-                {props.selectedProduct || 'add product'}
-            </button>
-
-            <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+            <ReactModal isOpen={props.productConfirmation} onRequestClose={closeModal} style={customStyles}>
                 <div><strong>{props.messsageTitle}</strong>
                     <p>{props.messageBody}</p>
                 </div>
