@@ -37,6 +37,8 @@ from core.constants import BACKLINK_QUERYSTRING_NAME
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
+from exportplan.data import SECTION_TITLES_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+
 
 class GreatMedia(Media):
 
@@ -504,26 +506,56 @@ class DetailPage(CMSGenericPage):
         """Gets the learning module this lesson belongs to"""
         return self.get_parent().specific
 
+    @cached_property
+    def _export_plan_url_map(self):
+        """Return a lookup dictionary of URL->title for all the
+        Export Plan sections we have."""
+
+        return {
+            entry['url']: entry['title'] for entry in EXPORT_PLAN_SECTION_TITLES_URLS
+        }
+
     def _get_backlink(self, request):
+        """Try to extract a backlink (used for a link to the export plan) from the
+        querystring on the request that brought us to this view.
+
+        Only accepts backlinks that we KNOW are for the export plan, else ignore it."""
         backlink_path = request.GET.get(BACKLINK_QUERYSTRING_NAME, '')
         if backlink_path is not None:
             backlink_path = unquote(backlink_path)
+
             if (
-                # We only want relative paths as backlinks:
-                backlink_path.startswith('/') and '://' not in backlink_path
-                # The check for '://' will stop us accepting a backlink which
-                # features a full URL as its OWN querystring param, but that's
-                # an acceptable limitation here and is very unlikely to happen.
+                backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
+                '://' not in backlink_path
             ):
+                # The check for '://' will stop us accepting a backlink which
+                # features a full URL as its OWN querystring param (eg a crafted attack
+                # URL), but that's an acceptable limitation here and is very unlikely
+                # to happen.
                 return backlink_path
 
         return None  # safe default
 
+    def _get_backlink_title(self, backlink_path):
+        """For a given backlink, see if we can get a title that goes with it.
+        For now, this is limited only to Export Plan pages/links.
+        """
+        # We have to re-arrange EXPORT_PLAN_SECTION_TITLES_URLS after import
+        # because it features lazily-evaluated URLs that aren't ready when
+        # models are imported
+
+        if backlink_path:
+            _path = backlink_path.split('?')[0]
+            return self._export_plan_url_map.get(_path)
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
+
+        # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
         if _backlink:
             context['backlink'] = _backlink
+            context['backlink_title'] = self._get_backlink_title(_backlink)
 
         if hasattr(self.get_parent().specific, 'topics'):
             page_topic = PageTopic(self)

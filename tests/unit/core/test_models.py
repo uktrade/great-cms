@@ -80,16 +80,16 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
     (
         ('', None),
         (
-            '?return-link=%2Fexample%2Fexport-plan%2Fpath%2F',
-            '/example/export-plan/path/'
+            '?return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F',
+            '/export-plan/section/about-your-business/'
         ),
         (
-            '?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
-            '/example/export-plan/path/?foo=bar'
+            '?return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
+            '/export-plan/section/about-your-business/?foo=bar'
         ),
         (
-            '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
-            '/example/export-plan/path/?foo=bar'  # NB: bam=baz should not be here
+            '?bam=baz&return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
+            '/export-plan/section/about-your-business/?foo=bar'  # NB: bam=baz should not be here
         ),
         (
             '?bam=baz&return-link=example%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
@@ -98,14 +98,14 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
         (
             (
                 '?bam=baz&return-link=https%3A%2F%2Fphishing.example.com'
-                '%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+                '%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar'
             ),
             None
         ),
         (
             (
                 '?bam=baz&return-link=%3A%2F%2Fphishing.example.com'
-                '%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+                '%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar'
             ),
             None
         ),
@@ -114,8 +114,8 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
             None
         ),
         (
-            '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
-            '/example/export-plan/path/?foo=bar'
+            '?bam=baz&return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
+            '/export-plan/section/about-your-business/?foo=bar'
         ),
 
     ),
@@ -164,6 +164,60 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         assert 'backlink' not in context
     else:
         assert context.get('backlink') == expected_backlink_value
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'backlink_path,expected',
+    (
+        (None, None),
+        ('', None),
+        ('/export-plan/section/about-your-business/', 'About your business'),
+        ('/export-plan/section/objectives/', 'Objectives'),
+        ('/export-plan/section/target-markets-research/', 'Target markets research'),
+        ('/export-plan/section/adaptation-for-your-target-market/', 'Adaptation for your target market'),
+        ('/export-plan/section/marketing-approach/', 'Marketing approach'),
+        ('/export-plan/section/costs-and-pricing/', 'Costs and pricing'),
+        ('/export-plan/section/finance/', 'Finance'),
+        ('/export-plan/section/payment-methods/', 'Payment methods'),
+        ('/export-plan/section/travel-and-business-policies/', 'Travel and business policies'),
+        ('/export-plan/section/business-risk/', 'Business risk'),
+        (
+            '/export-plan/section/adaptation-for-your-target-market/?foo=bar',
+            'Adaptation for your target market'
+        ),
+        (
+            '/export-plan/',
+            None
+        ),
+        (
+            '/path/that/will/not/match/anything/',
+            None
+        ),
+    ),
+    ids=(
+        'no backlink',
+        'empty string backlink',
+        'Seeking: About your business',
+        'Seeking: Objectives',
+        'Seeking: Target markets research',
+        'Seeking: Adaptation for your target market',
+        'Seeking: Marketing approach',
+        'Seeking: Costs and pricing',
+        'Seeking: Payment methods',
+        'Seeking: Finance',
+        'Seeking: Travel and business policies',
+        'Seeking: Business risk',
+        'Valid backlink with querystring does not break name lookup',
+        'backlink for real page that is not an export plan step',
+        'backlink for a non-existent page',
+    )
+)
+def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_path, expected):
+    detail_page = factories.DetailPageFactory(
+        template='learn/detail_page.html'
+    )
+    assert detail_page._get_backlink_title(backlink_path) == expected
 
 
 class LandingPageTests(WagtailPageTests):
