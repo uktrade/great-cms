@@ -80429,6 +80429,11 @@ function ProductFinder(props) {
       isScrolled = _React$useState10[0],
       setIsScrolled = _React$useState10[1];
 
+  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
+      _React$useState12 = _slicedToArray(_React$useState11, 2),
+      productConfirmationRequired = _React$useState12[0],
+      setProductConfirmationRequired = _React$useState12[1];
+
   var openModal = function openModal() {
     setIsOpen(true);
   };

@@ -65,6 +65,7 @@ export function ProductFinder(props) {
   const [searchResults, setSearchResults] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
   const [isScrolled, setIsScrolled] = React.useState(false)
+  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
 
   const openModal = () => {
     setIsOpen(true)
