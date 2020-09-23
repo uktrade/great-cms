@@ -80061,9 +80061,12 @@ function CountryFinder(props) {
   };
 
   var saveCountry = function saveCountry(country) {
-    setSelectedCountry(country);
+    setSelectedCountry(country.name);
     var result = _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan({
-      export_countries: [country]
+      export_countries: [{
+        'country_name': country.name,
+        'country_iso2_code': country.id
+      }]
     }).then(function (result) {
       closeModal();
     })["catch"](function (result) {// TODO: Add error confirmation here
@@ -80072,7 +80075,10 @@ function CountryFinder(props) {
 
   var selectCountry = function selectCountry(evt) {
     var targetCountry = evt.target.getAttribute('data-country');
-    saveCountry(targetCountry);
+    saveCountry({
+      name: evt.target.getAttribute('data-country'),
+      id: evt.target.getAttribute('data-id')
+    });
   };
 
   var _regions = Object.keys(countryList || {}).map(function (region) {
@@ -80086,7 +80092,8 @@ function CountryFinder(props) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: "link m-r-s m-b-xs",
-        "data-country": country.name
+        "data-country": country.name,
+        "data-id": country.id
       }, country.name));
     });
 
@@ -80422,19 +80429,8 @@ function ProductFinder(props) {
       isScrolled = _React$useState10[0],
       setIsScrolled = _React$useState10[1];
 
-  var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
-      _React$useState12 = _slicedToArray(_React$useState11, 2),
-      productConfirmationRequired = _React$useState12[0],
-      setProductConfirmationRequired = _React$useState12[1];
-
   var openModal = function openModal() {
-    setProductConfirmationRequired(!!selectedProduct); // eslint-disable-next-line no-use-before-define
-
-    if (productConfirmationRequired) {
-      setProductConfirmationRequired(false);
-    }
-
-    setIsOpen(!productConfirmationRequired);
+    setIsOpen(true);
   };
 
   var closeModal = function closeModal() {
@@ -80449,10 +80445,11 @@ function ProductFinder(props) {
 
   var saveProduct = function saveProduct() {
     setSelectedProduct(searchResults.hsCode);
-    setProductConfirmationRequired(!!selectedProduct);
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan({
-      commodity_name: searchResults.currentItemName,
-      export_commodity_codes: [searchResults.hsCode]
+    var result = _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan({
+      export_commodity_codes: [{
+        commodity_name: searchResults.currentItemName,
+        commodity_code: searchResults.hsCode
+      }]
     }).then(function (result) {
       closeModal();
     })["catch"](function (result) {// TODO: add an error dialogue here

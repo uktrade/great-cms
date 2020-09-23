@@ -17,11 +17,11 @@ class ExportPlanCountryDataView(APIView):
     def get(self, request):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
-        country = serializer.validated_data['country']
+        country = serializer.validated_data['country_name']
 
         # To make more efficient by removing get
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
-        data = {'target_markets': export_plan['target_markets'] + [{'country': country}]}
+        data = {'target_markets': export_plan['target_markets'] + [{'country_name': country}]}
         export_plan = helpers.update_exportplan(
             sso_session_id=self.request.user.session_id,
             id=export_plan['pk'],
@@ -42,10 +42,10 @@ class ExportPlanRemoveCountryDataView(APIView):
     def get(self, request):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
-        country = serializer.validated_data['country']
+        country = serializer.validated_data['country_name']
         # To make more efficient by removing get
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
-        data = [item for item in export_plan['target_markets'] if item['country'] != country]
+        data = [item for item in export_plan['target_markets'] if item['country_name'] != country]
         export_plan = helpers.update_exportplan(
             sso_session_id=self.request.user.session_id,
             id=export_plan['pk'],
@@ -121,7 +121,6 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-
         if serializer.is_valid(raise_exception=True):
             export_plan = helpers.get_or_create_export_plan(self.request.user)
             helpers.update_exportplan(

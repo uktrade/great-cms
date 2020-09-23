@@ -65,16 +65,9 @@ export function ProductFinder(props) {
   const [searchResults, setSearchResults] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
   const [isScrolled, setIsScrolled] = React.useState(false)
-  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
 
   const openModal = () => {
-    setProductConfirmationRequired(!!selectedProduct)
-    // eslint-disable-next-line no-use-before-define
-    if (productConfirmationRequired) {
-      setProductConfirmationRequired(false)
-    }
-    setIsOpen(!productConfirmationRequired)
-
+    setIsOpen(true)
   }
 
   const closeModal = () => {
@@ -90,11 +83,10 @@ export function ProductFinder(props) {
 
   const saveProduct = () => {
     setSelectedProduct(searchResults.hsCode)
-    setProductConfirmationRequired(!!selectedProduct)
-    Services.updateExportPlan({
-      commodity_name: searchResults.currentItemName,
-      export_commodity_codes: [searchResults.hsCode],
-    })
+    let result = Services.updateExportPlan(
+        {export_commodity_codes: [{commodity_name: searchResults.currentItemName,
+            commodity_code: searchResults.hsCode}]
+            })
       .then((result) => {
         closeModal()
       })
@@ -205,7 +197,6 @@ export function ProductFinder(props) {
       </section>
     )
   }
-
 
   const buildMap = (block, map) => {
     // build an intetrraction block, removing any duplicates from previous

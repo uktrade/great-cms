@@ -1,15 +1,15 @@
 
 {% load wagtailimages_tags %}
 {% load routablepageurl from wagtailroutablepage_tags %}
-{% with product_name=export_plan.export_commodity_codes.0 market=export_plan.export_countries.0 %}
+{% with product_name=export_plan.export_commodity_codes.0.commodity_name market=export_plan.export_countries.0 %}
   <nav class="p-t-xxs p-h-xs p-b-xxs bg-white w-full-viewport" id="personalisation-bar">
       <span class="m-f-xs m-r-xxs">I am interested in exporting</span>
       <span id="set-product-button" data-text="{{product_name}}">
         <button class="button {% if product_name %}button-secondary{% else %}button--ghost-blue{% endif %} button--round-corner button-chevron">{{product_name|default:'add product'}}</button>
       </span>
       <span class="m-f-xxs m-r-xxs">to</span>
-      <span id="set-country-button" data-text="{{market}}">
-        <button class="button {% if market %}button-secondary{% else %}button--ghost-blue{% endif %} button--round-corner button-chevron">{{market|default:'add country'}}</button>
+      <span id="set-country-button" data-text="{{market.country_name}}">
+        <button class="button {% if market %}button-secondary{% else %}button--ghost-blue{% endif %} button--round-corner button-chevron">{{market.country_name|default:'add countries'}}</button>
       </span>
   </nav>
 {% endwith %}

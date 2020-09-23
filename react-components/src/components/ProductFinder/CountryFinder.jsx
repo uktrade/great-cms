@@ -63,8 +63,8 @@ export function CountryFinder(props) {
   }
 
   const saveCountry = (country) => {
-    setSelectedCountry(country)
-    let result = Services.updateExportPlan({ export_countries: [country] })
+    setSelectedCountry(country.name)
+    let result = Services.updateExportPlan({ export_countries: [{'country_name': country.name, 'country_iso2_code': country.id}] })
       .then((result) => {
         closeModal()
       })
@@ -75,7 +75,10 @@ export function CountryFinder(props) {
 
   const selectCountry = (evt) => {
     let targetCountry = evt.target.getAttribute('data-country')
-    saveCountry(targetCountry)
+    saveCountry({
+        name: evt.target.getAttribute('data-country'),
+        id: evt.target.getAttribute('data-id')
+    });
   }
 
   let _regions = Object.keys(countryList || {}).map((region) => {
@@ -85,7 +88,7 @@ export function CountryFinder(props) {
       countryFound = true
       return (
         <li key={country.id}>
-          <button type="button" className="link m-r-s m-b-xs" data-country={country.name}>
+          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id}>
             {country.name}
           </button>
         </li>
