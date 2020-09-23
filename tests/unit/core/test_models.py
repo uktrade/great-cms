@@ -120,15 +120,15 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
 
     ),
     ids=(
-        "no backlink querystring present",
-        "backlink querystring present without encoded querystring of its own",
-        "backlink querystring present WITH encoded querystring of its own",
-        "backlink querystring present WITH encoded querystring and other args",
-        "backlink querystring present WITH bad payload - path doesn't start with / ",
-        "backlink querystring present WITH bad payload - path is a full URL",
-        "backlink querystring present WITH bad payload - path is a URL with flexible proto",
-        "backlink querystring NOT present BUT another querystring is",
-        "backlink querystring present WITH OTHER QUERYSTRING TOO",
+        'no backlink querystring present',
+        'backlink querystring present without encoded querystring of its own',
+        'backlink querystring present WITH encoded querystring of its own',
+        'backlink querystring present WITH encoded querystring and other args',
+        'backlink querystring present WITH bad payload - path does not start with / ',
+        'backlink querystring present WITH bad payload - path is a full URL',
+        'backlink querystring present WITH bad payload - path is a URL with flexible proto',
+        'backlink querystring NOT present BUT another querystring is',
+        'backlink querystring present WITH OTHER QUERYSTRING TOO',
     )
 )
 def test_detail_page_get_context_handles_backlink_querystring_appropriately(

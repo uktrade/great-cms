@@ -132,7 +132,7 @@ def test_get_item_filter(user, rf, domestic_site):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "request_path,outbound_url,expected_backlinked_url",
+    'request_path,outbound_url,expected_backlinked_url',
     (
         (
             '/example/export-plan/path/',
@@ -175,12 +175,12 @@ def test_get_item_filter(user, rf, domestic_site):
         ),
     ),
     ids=[
-        "1. Outbound path with NO existing querystring for the source/request path",
-        "2. Outbound path with an existing querystring for the source/request path",
-        "3. Full outbound URL with NO existing querystring for the source/request path",
-        "4. Full outbound URL with existing querystring for the source/request path",
-        "5. Both source/request and outbound URLs feature querystrings",
-        "5. Both source/request and outbound URLs feature querystrings; outbound is a full URL",
+        '1. Outbound path with NO existing querystring for the source/request path',
+        '2. Outbound path with an existing querystring for the source/request path',
+        '3. Full outbound URL with NO existing querystring for the source/request path',
+        '4. Full outbound URL with existing querystring for the source/request path',
+        '5. Both source/request and outbound URLs feature querystrings',
+        '5. Both source/request and outbound URLs feature querystrings; outbound is a full URL',
     ]
 )
 def test_get_backlinked_url(rf, request_path, outbound_url, expected_backlinked_url):
