@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { act, Simulate } from 'react-dom/test-utils'
-import { waitFor } from '@testing-library/react'
 import ModalMenu from '@src/components/ModalMenu'
 
 let button
