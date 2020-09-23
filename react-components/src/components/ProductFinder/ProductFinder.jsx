@@ -68,7 +68,13 @@ export function ProductFinder(props) {
   const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
 
   const openModal = () => {
-    setIsOpen(true)
+     setProductConfirmationRequired(!!selectedProduct)
+    // eslint-disable-next-line no-use-before-define
+    if (productConfirmationRequired) {
+      setProductConfirmationRequired(false)
+    }
+    setIsOpen(!productConfirmationRequired)
+
   }
 
   const closeModal = () => {

@@ -80435,7 +80435,13 @@ function ProductFinder(props) {
       setProductConfirmationRequired = _React$useState12[1];
 
   var openModal = function openModal() {
-    setIsOpen(true);
+    setProductConfirmationRequired(!!selectedProduct); // eslint-disable-next-line no-use-before-define
+
+    if (productConfirmationRequired) {
+      setProductConfirmationRequired(false);
+    }
+
+    setIsOpen(!productConfirmationRequired);
   };
 
   var closeModal = function closeModal() {
