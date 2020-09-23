@@ -15,7 +15,7 @@ export function Container(props){
 
   const [errors, setErrors] = React.useState(props.errors)
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-  const [currentStep, setCurrentStep] = React.useState(STEP_CREDENTIALS)
+  const [currentStep, setCurrentStep] = React.useState(props.currentStep)
   const [email, setEmail] = React.useState(props.email)
   const [password, setPassword] = React.useState(props.password)
   const [code, setCode] = React.useState('')
