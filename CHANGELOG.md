@@ -9,6 +9,7 @@
 
 ### Fixed bugs
 
+- GP2-394 - Enter verification code for sign-up
 - No ticket - Fix heading styling
 - GP2-495 - Update headings on lesson pages
 - GP2-514 - Fix alt text
