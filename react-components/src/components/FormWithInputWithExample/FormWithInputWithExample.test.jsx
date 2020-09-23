@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16'
 import fetchMock from 'fetch-mock'
 import { fakeSchedulers } from 'rxjs-marbles/jest'
 
-import FieldWithExample from '@src/components/Fields/FieldWithExample'
+import { TextArea } from '@src/components/Form/TextArea'
 import Services from '@src/Services'
 import { FormWithInputWithExample } from '.'
 
@@ -53,15 +53,14 @@ describe('FormWithInputWithExample', () => {
   test('should generate form fields from props and prepopulate', () => {
 
     expect(wrapper.containsMatchingElement(
-      <FieldWithExample
+      <TextArea
         tooltip={dummyFieldOne.tooltip}
         label={dummyFieldOne.label}
         key={dummyFieldOne.name}
-        name={dummyFieldOne.name}
+        id={dummyFieldOne.name}
         value={formData.field_one}
         description={dummyFieldOne.description}
         placeholder={dummyFieldOne.placeholder}
-        currency={dummyFieldOne.currency}
         tag={dummyFieldOne.tag}
         example={dummyFieldOne.example}
       />

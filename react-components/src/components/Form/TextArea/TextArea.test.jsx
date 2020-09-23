@@ -1,15 +1,15 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import props from './FieldWithExample.fixtures'
+import props from './TextArea.fixtures'
 
-import FieldWithExample from '.'
+import { TextArea } from '.'
 
 const setup = ({...data}) => {
   const actions = {
     handleChange: jest.fn()
   }
 
-  const utils = render(<FieldWithExample
+  const utils = render(<TextArea
     {...data}
     {...actions}
   />)
@@ -20,22 +20,10 @@ const setup = ({...data}) => {
   }
 }
 
-describe('FieldWithExample', () => {
+describe('TextArea', () => {
   it('Should have a label', () => {
     const { queryByText } = setup(props)
     expect(queryByText(props.label)).toBeInTheDocument()
-  })
-
-  describe('Input', () => {
-    it('Should have a textarea', () => {
-      const { container } = setup(props)
-      expect(container.querySelector('textarea')).toBeInTheDocument()
-    })
-
-    it('Should have an input', () => {
-      const { container } = setup({...props, tag: 'number'})
-      expect(container.querySelector('input')).toBeInTheDocument()
-    })
   })
 
   describe('Example', () => {
@@ -47,17 +35,6 @@ describe('FieldWithExample', () => {
     it('Should not have an example', () => {
       const { queryByText } = setup({...props, example: ''})
       expect(queryByText('An example of the required text')).not.toBeInTheDocument()
-    })
-  })
-
-  describe('Currency', () => {
-    it('Should have a currency', () => {
-      const { queryByText } = setup({...props, tag: 'number', currency: 'MUR'})
-      expect(queryByText('MUR')).toBeInTheDocument()
-    })
-    it('Should not have a currency', () => {
-      const { queryByText } = setup(props)
-      expect(queryByText('MUR')).not.toBeInTheDocument()
     })
   })
 
