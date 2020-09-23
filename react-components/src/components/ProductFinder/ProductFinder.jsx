@@ -279,41 +279,40 @@ export function ProductFinder(props) {
 
     return (
         <span>
-
-                {/* eslint-disable-next-line react/button-has-type */}
+            {/* eslint-disable-next-line react/button-has-type */}
             <button className={buttonClass} onClick={openModal}>
-                    {selectedProduct || 'add product'}
-                </button>
-                <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}
-                            onAfterOpen={modalAfterOpen}>
-                    <form className="product-finder">
-                        <div className="search-header bg-blue-deep-80 text-white p-s" style={{height: '172px'}}>
-                            <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
-                            <h3 className="h-s text-white p-t-0">Search by name</h3>
-                            <div>Find the product you want to export</div>
-                            <input
-                                className="form-control c-2-3"
-                                type="text"
-                                ref={(_searchInput) => (searchInput = _searchInput)}
-                                onKeyPress={inputKeypress}
-                                defaultValue=""
-                            />
-                            <button className="button button--tertiary m-f-xxs" type="button" onClick={search}>
-                              Search
-                            </button>
-                          </div>
-                          <div className={scrollerClass} style={{marginTop: '172px'}} onScroll={onScroll}>
-                            {resultsDisplay(searchResults)}
-                          </div>
-                    </form>
-                    </ReactModal>
-                    <MessageConfirmation
-                        buttonClass={buttonClass}
-                        productConfirmation={productConfirmationRequired}
-                        handleButtonClick={closeConfirmation}
-                        messsageTitle="Changing product?"
-                        messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
-                        messageButtonText="Got it"/>
+                {selectedProduct || 'add product'}
+            </button>
+            <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}
+                        onAfterOpen={modalAfterOpen}>
+                <form className="product-finder">
+                    <div className="search-header bg-blue-deep-80 text-white p-s" style={{height: '172px'}}>
+                        <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
+                        <h3 className="h-s text-white p-t-0">Search by name</h3>
+                        <div>Find the product you want to export</div>
+                        <input
+                            className="form-control c-2-3"
+                            type="text"
+                            ref={(_searchInput) => (searchInput = _searchInput)}
+                            onKeyPress={inputKeypress}
+                            defaultValue=""
+                        />
+                        <button className="button button--tertiary m-f-xxs" type="button" onClick={search}>
+                          Search
+                        </button>
+                      </div>
+                      <div className={scrollerClass} style={{marginTop: '172px'}} onScroll={onScroll}>
+                        {resultsDisplay(searchResults)}
+                      </div>
+                </form>
+                </ReactModal>
+                <MessageConfirmation
+                    buttonClass={buttonClass}
+                    productConfirmation={productConfirmationRequired}
+                    handleButtonClick={closeConfirmation}
+                    messsageTitle="Changing product?"
+                    messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
+                    messageButtonText="Got it"/>
 
             </span>
 
