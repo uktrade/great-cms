@@ -78517,154 +78517,6 @@ Field.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/Fields/FieldWithExample/TextInput/index.jsx":
-/*!*************************************************************************************!*\
-  !*** ./react-components/src/components/Fields/FieldWithExample/TextInput/index.jsx ***!
-  \*************************************************************************************/
-/*! exports provided: TextInput */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextInput", function() { return TextInput; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/* TODO merge with Fields/TextInput which is currently onChange don't pass parameter */
-
-var TextInput = function TextInput(_ref) {
-  var disabled = _ref.disabled,
-      id = _ref.id,
-      name = _ref.name,
-      handleChange = _ref.handleChange,
-      placeholder = _ref.placeholder,
-      type = _ref.type,
-      value = _ref.value;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    className: "great-mvp-field-input form-control",
-    disabled: disabled,
-    id: id,
-    name: name,
-    onChange: function onChange(e) {
-      return handleChange(e);
-    },
-    placeholder: placeholder,
-    type: type,
-    value: value
-  });
-};
-TextInput.propTypes = {
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-};
-TextInput.defaultProps = {
-  disabled: false,
-  id: '',
-  placeholder: 'Add some text',
-  value: '',
-  type: 'text'
-};
-
-/***/ }),
-
-/***/ "./react-components/src/components/Fields/FieldWithExample/index.jsx":
-/*!***************************************************************************!*\
-  !*** ./react-components/src/components/Fields/FieldWithExample/index.jsx ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Field */ "./react-components/src/components/Fields/Field.jsx");
-/* harmony import */ var _TextInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TextInput */ "./react-components/src/components/Fields/FieldWithExample/TextInput/index.jsx");
-/* harmony import */ var _EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../EducationalMomentTooltip */ "./react-components/src/components/EducationalMomentTooltip.jsx");
-
-
-
-
-
-
-var FieldWithExample = function FieldWithExample(_ref) {
-  var tag = _ref.tag,
-      name = _ref.name,
-      label = _ref.label,
-      placeholder = _ref.placeholder,
-      example = _ref.example,
-      tooltip = _ref.tooltip,
-      handleChange = _ref.handleChange,
-      value = _ref.value,
-      description = _ref.description,
-      currency = _ref.currency;
-  var InputTag = tag === 'number' ? _TextInput__WEBPACK_IMPORTED_MODULE_3__["TextInput"] : _Field__WEBPACK_IMPORTED_MODULE_2__["TextArea"];
-  var labelId = "id_".concat(name);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "field-with-example"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: labelId
-  }, label), description && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: description
-    }
-  }), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    heading: "",
-    description: tooltip,
-    id: name,
-    type: "LEFT"
-  }), example && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", null, "Example"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", {
-    dangerouslySetInnerHTML: {
-      __html: example
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, currency && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "m-r-xxs"
-  }, currency), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InputTag, {
-    id: labelId,
-    disabled: false,
-    name: name,
-    handleChange: handleChange,
-    placeholder: placeholder,
-    value: value,
-    type: "number"
-  })));
-};
-
-FieldWithExample.propTypes = {
-  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  handleChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  tag: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-};
-FieldWithExample.defaultProps = {
-  placeholder: 'Add some text',
-  tooltip: '',
-  example: '',
-  description: '',
-  tag: 'text',
-  currency: '',
-  value: ''
-};
-/* harmony default export */ __webpack_exports__["default"] = (FieldWithExample);
-
-/***/ }),
-
 /***/ "./react-components/src/components/Fields/InputWithDropdown/index.jsx":
 /*!****************************************************************************!*\
   !*** ./react-components/src/components/Fields/InputWithDropdown/index.jsx ***!
@@ -78859,7 +78711,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
+!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_components_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/components/Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -78974,7 +78826,7 @@ var FormWithInputWithExample = /*#__PURE__*/function (_Component) {
 
       var formData = this.state.formData;
 
-      var data = _objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value));
+      var data = _objectSpread(_objectSpread({}, formData), e);
 
       this.setState({
         formData: data
@@ -79006,18 +78858,18 @@ var FormWithInputWithExample = /*#__PURE__*/function (_Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (field) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
           tooltip: field.tooltip,
           label: field.label,
           example: field.example,
           key: field.name,
-          name: field.name,
+          id: field.name,
           value: formData[field.name],
           description: field.description,
           placeholder: field.placeholder,
           currency: field.currency,
           tag: Number.isInteger(field.placeholder) ? 'number' : 'text',
-          handleChange: _this3.handleChange
+          onChange: _this3.handleChange
         });
       }), saveIndicator, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__["default"], {
         errors: errors.__all__ || [],
@@ -85849,9 +85701,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_Fields_InputWithDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/InputWithDropdown */ "./react-components/src/components/Fields/InputWithDropdown/index.jsx");
-/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
 
@@ -85888,14 +85738,14 @@ var RouteToMarketSection = function RouteToMarketSection(_ref) {
     });
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "route-to-market__table-cell"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
     label: label,
     example: example,
-    name: name,
-    handleChange: function handleChange(e) {
-      return _update(field.pk, _defineProperty({}, e.target.name, e.target.value));
+    onChange: function onChange(e) {
+      return _update(field.pk, e);
     },
-    value: field[name]
+    value: field[name],
+    id: name
   })));
 };
 RouteToMarketSection.propTypes = {
@@ -86045,8 +85895,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Fields/FieldWithExample */ "./react-components/src/components/Fields/FieldWithExample/index.jsx");
+!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 /* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../Services */ "./react-components/src/Services.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -86076,23 +85930,23 @@ var SpendingAndResources = function SpendingAndResources(_ref) {
       setInput = _useState2[1];
 
   var update = function update(e) {
-    setInput(_defineProperty({}, e.target.name, e.target.value));
-    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateExportPlan(_defineProperty({}, field, _defineProperty({}, e.target.name, e.target.value))).then(function () {})["catch"](function () {});
+    setInput(_objectSpread({}, e));
+    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateExportPlan(_defineProperty({}, field, _objectSpread({}, e))).then(function () {})["catch"](function () {});
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (item) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Fields_FieldWithExample__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(!(function webpackMissingModule() { var e = new Error("Cannot find module '@src/components/Form/TextArea'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
       tooltip: item.tooltip,
       label: item.label,
       example: item.example,
       key: item.name,
-      name: item.name,
+      id: item.name,
       value: input[item.name],
       description: item.description,
       placeholder: Number.isInteger(item.placeholder) ? item.placeholder : 'Add some text',
       currency: item.currency,
       tag: Number.isInteger(item.placeholder) ? 'number' : 'text',
-      handleChange: update
+      onChange: update
     });
   }));
 };
