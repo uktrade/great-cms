@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
+import MessageConfirmation from "./MessageConfirmation";
 
 const customStyles = {
   content: {
@@ -28,14 +29,23 @@ export function CountryFinder(props) {
   const [selectedCountry, setSelectedCountry] = React.useState(props.text)
   const [countryList, setCountryList] = React.useState()
   const [searchStr, setSearchStr] = React.useState()
+  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
+
 
   const openModal = () => {
-    setIsOpen(true)
+    setProductConfirmationRequired(!!selectedCountry)
+    setIsOpen(!selectedCountry)
     setSearchStr('')
   }
 
   const closeModal = () => {
+    setProductConfirmationRequired(false)
     setIsOpen(false)
+  }
+
+  const closeConfirmation = () => {
+        setProductConfirmationRequired(false)
+        setIsOpen(true)
   }
 
   const modalAfterOpen = () => {
@@ -196,6 +206,13 @@ export function CountryFinder(props) {
           </div>
         </form>
       </ReactModal>
+      <MessageConfirmation
+          buttonClass={buttonClass}
+          productConfirmation={productConfirmationRequired}
+          handleButtonClick={closeConfirmation}
+          messsageTitle="Changing target market?"
+          messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change product at any time."
+          messageButtonText="Got it"/>
     </span>
   )
 }
