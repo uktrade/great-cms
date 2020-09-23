@@ -1,32 +1,34 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load url_map %}
-
 <header class="great-mvp-header" id="header" dir="ltr" data-ga-section="header">
   <nav>
     <a id="header-logo-link" href="/">
-        <img class="great-mvp-header-logo" src="{% static 'images/exporting-is-great-logo.png' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
+      <img class="great-mvp-header-logo" src="{% static 'images/exporting-is-great-logo.png' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
     </a>
     <div class="great-mvp-header-links">
       <ul id="services-area" class="services-area">
-          <li><a id="header-link-learning" href="/learn/categories/">Learning</a></li>
-          <li><a id="header-link-exporting-plan" href="/export-plan/dashboard/">Export plan</a></li>
-          <li><a id="header-link-markets" href="{% url 'core:markets' %}">Markets</a></li>
-          <li><a id="header-link-services" href="#">Services</a></li>
+        <li><a id="header-link-learning" href="/learn/categories/">Learning</a></li>
+        <li><a id="header-link-exporting-plan" href="/export-plan/dashboard/">Export plan</a></li>
+        <li><a id="header-link-markets" href="{% url 'core:markets' %}">Markets</a></li>
+        <li><a id="header-link-services" href="#">Services</a></li>
       </ul>
-      <ul class="bg-stone-50 user-state-area" id="user-state-area">
-          {% if request.user.is_authenticated %}
-              <li><a id="header-link-notifications" href="#">
-                <img class="great-mvp-header-icon" src="{% static 'images/notification-icon.png' %}" /></a>
-              </li>
-              <li><a id="header-link-user-profile" href="#">
-                  <img class="great-mvp-header-icon" src="{{ request.user.profile_image }}" />
-              </a></li>
-              <li class="name-greet"><a id="header-link-user-profile-email-link" href="#">Hello {{ request.user.first_name|default:request.user.email }}</a></li>
-              <li><a id="header-link-dashboard" href="{% url_map 'dashboard' %}" class="great-mvp-header-link">Dashboard</a></li>
-          {% else %}
-              <li><a id="header-sign-up-link" href="#" class="great-mvp-link-disabled">Sign up</a></li>
-          {% endif %}
+      <ul class="user-state-area p-r-m" id="user-state-area">
+        {% if request.user.is_authenticated %}
+        <li id="header-link-user-profile">
+          <img class="great-mvp-header-icon" src="{{ request.user.profile_image }}" />
+        </li>
+        <script type="text/javascript">
+        ditMVP.ModalMenu({
+          element: document.querySelector("#header-link-user-profile"),
+          avatar: '{{ request.user.profile_image|default:"/static/images/country/australia.png" }}',
+          user_name: '{{request.user.first_name}}'
+        })
+
+        </script>
+        {% else %}
+        <li><a id="header-sign-up-link" href="#" class="great-mvp-link-disabled">Sign up</a></li>
+        {% endif %}
       </ul>
     </div>
   </nav>

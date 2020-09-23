@@ -77422,7 +77422,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
 /* harmony import */ var _src_components_ProductFinder_ProductFinder__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/components/ProductFinder/ProductFinder */ "./react-components/src/components/ProductFinder/ProductFinder.jsx");
 /* harmony import */ var _src_components_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/components/ProductFinder/CountryFinder */ "./react-components/src/components/ProductFinder/CountryFinder.jsx");
-/* harmony import */ var _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @src/components/ModalMenu */ "./react-components/src/components/ModalMenu.jsx");
+/* harmony import */ var _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/components/ModalMenu */ "./react-components/src/components/ModalMenu.jsx");
 /* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
 /* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
 /* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
@@ -77484,7 +77484,7 @@ __webpack_require__.r(__webpack_exports__);
   ProductLookup: _src_views_ProductLookup_Container__WEBPACK_IMPORTED_MODULE_7__["default"],
   ProductFinder: _src_components_ProductFinder_ProductFinder__WEBPACK_IMPORTED_MODULE_11__["default"],
   CountryFinder: _src_components_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_12__["default"],
-  ModalMenu: _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_28__["default"],
+  ModalMenu: _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_13__["default"],
   LoginModal: _src_views_LoginModal_Modal__WEBPACK_IMPORTED_MODULE_8__["default"],
   MarketSelectNavbar: _src_views_MarketSelectNavbar_Container__WEBPACK_IMPORTED_MODULE_9__["default"],
   ProductsModal: _src_views_ProductsModal_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -79423,10 +79423,13 @@ function Menu(props) {
     modalContent.style.maxHeight = '700px';
   };
 
+  var avatar = props.avatar ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: props.avatar
+  }) : '';
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: 'avatar' + (modalIsOpen ? ' active' : ''),
     onClick: openModal
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+  }, avatar), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
     isOpen: modalIsOpen,
     onRequestClose: closeModal,
     style: customStyles,
@@ -79437,7 +79440,7 @@ function Menu(props) {
     className: "modal-menu"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "h-xs p-t-xxs"
-  }, "Hi Chad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }, "Hi ", props.user_name || ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "menu-items"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/dashboard/",
@@ -79478,7 +79481,10 @@ function Menu(props) {
   var mainElement = document.createElement('span');
   document.body.appendChild(mainElement);
   react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(mainElement);
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Menu, null), params.element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Menu, {
+    avatar: params.avatar,
+    user_name: params.user_name
+  }), params.element);
 });
 
 /***/ }),

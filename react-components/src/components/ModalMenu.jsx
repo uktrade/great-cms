@@ -27,9 +27,12 @@ export function Menu(props) {
     modalContent.style.maxHeight = '700px'
   }
 
+  let avatar = props.avatar ? (<img src={props.avatar} />) : ''
+
   return (
     <span>
       <button className={'avatar' + (modalIsOpen ? ' active' : '')} onClick={openModal}>
+        {avatar}
       </button>
       <ReactModal
         isOpen={modalIsOpen}
@@ -39,7 +42,7 @@ export function Menu(props) {
         contentRef={(_modalContent) => (modalContent = _modalContent)}
         className="modal-menu"
       >
-      <div className="h-xs p-t-xxs">Hi Chad</div>
+      <div className="h-xs p-t-xxs">Hi {props.user_name || ''}</div>
         <ul className="menu-items">
           <li><a href="/dashboard/" className="link"><i className="fa fa-tachometer-alt"></i><span>Dashboard</span></a></li>
           <li><a href="/learn/categories/" className="link"><i className="fa fa-book"></i><span>Learn to export</span></a></li>
@@ -58,5 +61,5 @@ export default function({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  ReactDOM.render(<Menu></Menu>, params.element)
+  ReactDOM.render(<Menu avatar={params.avatar} user_name={params.user_name}></Menu>, params.element)
 }
