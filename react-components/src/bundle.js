@@ -7,11 +7,13 @@ import CountriesModal from '@src/views/CountriesModal/Container'
 import IndustriesModal from '@src/views/IndustriesModal/Container'
 import Countries from '@src/views/Countries/Container'
 import ProductLookup from '@src/views/ProductLookup/Container'
+
 import LoginModal from '@src/views/LoginModal/Modal'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Container'
 import ProductFinder from '@src/components/ProductFinder/ProductFinder'
 import CountryFinder from '@src/components/ProductFinder/CountryFinder'
+import ModalMenu from '@src/components/ModalMenu'
 import { createRouteToMarket, createSpendingAndResources } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
@@ -45,6 +47,7 @@ export default {
   ProductLookup,
   ProductFinder,
   CountryFinder,
+  ModalMenu,
   LoginModal,
   MarketSelectNavbar,
   ProductsModal,

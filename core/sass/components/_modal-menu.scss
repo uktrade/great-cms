@@ -1,0 +1,91 @@
+.modal-menu {
+  position: absolute;
+  left: auto;
+  right: inherit;
+  background: $white;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  width: auto;
+  height: auto;
+  box-shadow: 0px 0px 9px 0px $black-50;
+  margin-top: 68px;
+  margin-right: 40px;
+  min-width: 363px;
+  /* The pointer at the top */
+  &:after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+    background: $white;
+    box-shadow: 0 0 9px 0 $black-50;
+    top: -10px;
+    right: 20px;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 16px;
+    background: $white;
+    top: 0px;
+    right: 10px;
+    z-index: 1;
+  }
+  .menu-items {
+    margin: 0;
+    li {
+      a {
+        display: block;
+        cursor: pointer;
+        > span {
+          padding: 11px 0 11px 58px;
+          display: block;
+        }
+      }
+      @extend .p-v-xxs;
+      i.fa {
+        width: 44px;
+        height: 44px;
+        background: $black-10;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $blue-deep-80;
+        float:left;
+        transition: background-color 0.3s;
+      }
+      &:hover {
+        i.fa {
+          background-color: darken($black-10, 5%);
+        }
+      }
+    }
+  }
+}
+
+.avatar {
+  width:40px;
+  height:40px;
+  border-radius: 50%;
+  background-color: $black-20;
+  position: relative;
+  &:focus , &.active {
+    outline: none;
+    &:after {
+      content: '';
+      top: -10%;
+      left: -10%;
+      display: block;
+      position: absolute;
+      border: 2px solid $red-80;
+      width:110%;
+      height: 110%;
+      border-radius: 50%;
+    }
+  }
+
+}
