@@ -228,3 +228,4 @@
 - GP2-545 - remove airtable
 - GP2-500 - include video duration in read time for the page
 - GP2-542 - Commodity code and Country store as key/value pairs
+- GP2-426 - Backend support (as GP2-657) for supporting backlinks from lessons to the originating export plan

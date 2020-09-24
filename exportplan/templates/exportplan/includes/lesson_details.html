@@ -1,8 +1,10 @@
 {% load object_tags %}
-{% load format_timedelta from content_tags %}
+{% load format_timedelta get_backlinked_url from content_tags %}
 
+{% with lesson_details|get_item:lesson_name|get_item:'url' as outbound_url %}
 <p>
         topic title: {{ lesson_details|get_item:lesson_name|get_item:'topic_name' }} <br>
-        name of lesson: <a href="{{ lesson_details|get_item:lesson_name|get_item:'url' }}">{{ lesson_details|get_item:lesson_name|get_item:'title' }}</a> <br>
+        name of lesson: <a href="{% get_backlinked_url outbound_url %}">{{ lesson_details|get_item:lesson_name|get_item:'title' }}</a> <br>
         estimated time: {{ lesson_details|get_item:lesson_name|get_item:'estimated_read_duration'|format_timedelta }} read <br>
 </p>
+{% endwith %}
