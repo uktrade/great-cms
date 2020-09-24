@@ -94,11 +94,11 @@ export class FormWithInputWithExample extends Component {
     return (
       <>
         {formFields.map(field => (
+          <div className='p-b-s' key={field.name}>
             <TextArea
               tooltip={field.tooltip}
               label={field.label}
               example={field.example}
-              key={field.name}
               id={field.name}
               value={formData[field.name]}
               description={field.description}
@@ -107,6 +107,7 @@ export class FormWithInputWithExample extends Component {
               tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
               onChange={this.handleChange}
             />
+          </div>
           ))}
         {saveIndicator}
         <ErrorList errors={errors.__all__ || []} className="m-0" />
