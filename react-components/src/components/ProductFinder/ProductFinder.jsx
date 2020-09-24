@@ -121,6 +121,7 @@ export function ProductFinder(props) {
         setLoading(false)
         console.log('Initial search result', result) // TODO: Needed during development
         if (result && result.data && result.data.txId) {
+          console.log('set search result')
           setSearchResults(result.data)
         } else {
           setSearchResults(searchResults) // force re-render to reset any changed selectors
@@ -274,15 +275,15 @@ export function ProductFinder(props) {
     )
   }
 
-  let buttonClass = 'button ' + (selectedProduct ? 'button--secondary' : 'button--ghost-blue') + ' button--round-corner button--chevron'
-  let scrollerClass = 'scroll-area ' + (isScrolled ? 'scrolled' : '')
+  let buttonClass = 'button ' + (selectedProduct ? 'button--primary' : 'button--ghost-blue')+' button--round-corner button--chevron'
+  let scrollerClass = 'scroll-area '+(isScrolled ? 'scrolled' : '')
 
   return (
     <span>
             {/* eslint-disable-next-line react/button-has-type */}
       <button className={buttonClass} onClick={openModal}>
-                {selectedProduct || 'add product'}
-            </button>
+            {selectedProduct || 'add product'}
+      </button>
             <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}
                         onAfterOpen={modalAfterOpen}>
                 <form className="product-finder">

@@ -146,7 +146,7 @@ export function CountryFinder(props) {
   }
   let buttonClass =
     'button ' +
-    (selectedCountry ? 'button--secondary' : 'button--ghost-blue') +
+    (selectedCountry ? 'button--primary' : 'button--ghost-blue') +
     ' button--chevron button--round-corner '
 
   return (

@@ -79426,7 +79426,11 @@ function Menu(props) {
   var avatar = props.avatar ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: props.avatar
   }) : '';
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      lineHeight: 0
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: 'avatar' + (modalIsOpen ? ' active' : ''),
     onClick: openModal
   }, avatar), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -80297,7 +80301,7 @@ function CountryFinder(props) {
     _iterator2.f();
   }
 
-  var buttonClass = 'button ' + (selectedCountry ? 'button--secondary' : 'button--ghost-blue') + ' button--chevron button--round-corner ';
+  var buttonClass = 'button ' + (selectedCountry ? 'button--primary' : 'button--ghost-blue') + ' button--chevron button--round-corner ';
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: buttonClass,
     onClick: openModal
@@ -80696,7 +80700,7 @@ function ProductFinder(props) {
     }, "Select this product"))),  false && /*#__PURE__*/false, Section('Please choose your item', itemChoice), !itemChoice && Section("Tell us more about your '".concat(searchResults.currentItemName, "'"), questions), !itemChoice && Section("Your item's characteristics", known), !itemChoice && Section("We've assumed:", assumptions)));
   };
 
-  var buttonClass = 'button ' + (selectedProduct ? 'button--secondary' : 'button--ghost-blue') + ' button--round-corner button--chevron';
+  var buttonClass = 'button ' + (selectedProduct ? 'button--primary' : 'button--ghost-blue') + ' button--round-corner button--chevron';
   var scrollerClass = 'scroll-area ' + (isScrolled ? 'scrolled' : '');
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: buttonClass,

@@ -30,7 +30,7 @@ export function Menu(props) {
   let avatar = props.avatar ? (<img src={props.avatar} />) : ''
 
   return (
-    <span>
+    <div style={{lineHeight:0}}>
       <button className={'avatar' + (modalIsOpen ? ' active' : '')} onClick={openModal}>
         {avatar}
       </button>
@@ -53,7 +53,7 @@ export function Menu(props) {
           <li><a href="#" className="link"><i className="fa fa-arrow-right"></i><span>Sign out</span></a></li>
         </ul>
       </ReactModal>
-    </span>
+    </div>
   )
 }
 

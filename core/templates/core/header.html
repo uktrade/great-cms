@@ -1,21 +1,18 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load url_map %}
-<header class="great-mvp-header" id="header" dir="ltr" data-ga-section="header">
+<header class="great-mvp-header bg-blue-deep-80 text-white" id="header" dir="ltr" data-ga-section="header">
   <nav>
-    <a id="header-logo-link" href="/">
-      <img class="great-mvp-header-logo" src="{% static 'images/exporting-is-great-logo.png' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
+    <a id="header-logo-link" class="m-h-xs m-t-xxs" href="/">
+      <img class="great-mvp-header-logo" src="{% static 'images/exporting-is-great.svg' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
     </a>
     <div class="great-mvp-header-links">
       <ul id="services-area" class="services-area">
-        <li><a id="header-link-learning" href="/learn/categories/">Learning</a></li>
-        <li><a id="header-link-exporting-plan" href="/export-plan/dashboard/">Export plan</a></li>
-        <li><a id="header-link-markets" href="{% url 'core:markets' %}">Markets</a></li>
-        <li><a id="header-link-services" href="#">Services</a></li>
-      </ul>
-      <ul class="user-state-area p-r-m" id="user-state-area">
+        <li><a id="header-link-learning" class="button button-secondary" href="/learn/categories/">Learn to export</a></li>
+        <li><a id="header-link-exporting-plan" class="button button-secondary" href="/export-plan/dashboard/">Target a market</a></li>
+        <li><a id="header-link-markets" class="button button-secondary" href="{% url 'core:markets' %}">Make an export plan</a></li>
         {% if request.user.is_authenticated %}
-        <li id="header-link-user-profile">
+        <li id="header-link-user-profile" class="m-v-xs m-h-xs">
           <img class="great-mvp-header-icon" src="{{ request.user.profile_image }}" />
         </li>
         <script type="text/javascript">

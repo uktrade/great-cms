@@ -5,17 +5,15 @@
 {% load content_tags %}
 
 {% block content %}
-
     {% comment "For FE - please remove" %}
     BACKLINK AVAILABLE TO USE IN THE FRONTEND ==> <a href="{{backlink}}">{{backlink}}</a>
     BACKLINK TARGET TITLE: {{backlink_title}}
     {% endcomment %}
-
+    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
     <div class="lesson-page">
         <div class="bg-white">
             <div class="container">
                 <div class="grid">
-                    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
                     <div class="grid p-t-l">
                         <div class="c-1-4">
                             <h4 class="h-s">&nbsp;</h4>
