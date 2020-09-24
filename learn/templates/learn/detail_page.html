@@ -120,10 +120,10 @@
                                     </a>
 
                                 </div>
-                                {% if next_module.image %}
+                                {% if module.image %}
                                 <div class="g-card--with-image__image">
-                                    {% image next_module.image original as next_module_image %}
-                                    <img src="{{ next_module_image.url }}" alt="{{ next_module_image.alt }}"/>
+                                    {% image module.image original as module_image %}
+                                    <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
                                 </div>
                                 {% endif %}
                             </div>
