@@ -562,11 +562,12 @@ class DetailPage(CMSGenericPage):
             next_lesson = page_topic.get_next_lesson()
             if next_lesson:
                 context['next_lesson'] = next_lesson
+                context['module'] = page_topic.module
             else:
                 next_module = self.module.get_next_sibling()
                 if not next_module:
                     return context
-                context['next_module'] = next_module.specific
+                context['module'] = next_module.specific
                 context['next_lesson'] = get_first_lesson(next_module)
         return context
 
