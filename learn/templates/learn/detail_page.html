@@ -5,12 +5,6 @@
 {% load content_tags %}
 
 {% block content %}
-
-    {% comment "For FE - please remove" %}
-    BACKLINK AVAILABLE TO USE IN THE FRONTEND ==> <a href="{{backlink}}">{{backlink}}</a>
-    BACKLINK TARGET TITLE: {{backlink_title}}
-    {% endcomment %}
-
     <div class="lesson-page">
         <div class="bg-white">
             <div class="container">
@@ -41,16 +35,28 @@
         <div class="bg-white">
             <div class="container">
                 <div class="grid">
-                    <div class="grid p-t-m">
+                    <div class="grid">
                         <div class="c-1-4">
                             <h4 class="h-s">&nbsp;</h4>
                         </div>
-                        <div class="c-1-2">
+                        <div class="c-1-2 p-t-m">
                             {% include 'core/personalised_body.html' %}
                             {% include 'learn/step_by_step.html' %}
                         </div>
-                        <div class="c-1-4">
+                        <div class="c-1-4 p-t-xs">
+                            {% if backlink and backlink_title %}
+                            <div class="back-to-export-plan p-b-l">
+                                <h4 class="body-l-b m-b-xxs">Update your export plan</h4>
+                                <div class="box box--no-pointer bg-aqua-20 p-b-l">
+                                    <a href="{{backlink}}" class="link link--large link--icon-right p-0">
+                                        <span>{{backlink_title}}</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            {% else %}
                             <h4 class="h-s">&nbsp;</h4>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
