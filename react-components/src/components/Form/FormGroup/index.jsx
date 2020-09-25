@@ -6,7 +6,7 @@ export const FormGroup = ({
   error
 }) => (
   <div
-    className={`form-group ${error && 'form-group-error'}`}
+    className={`form-group ${error ? 'form-group-error' : ''}`}
   >
     {children}
   </div>

@@ -20,8 +20,6 @@ export const TextArea = ({
     error={error}
   >
     <>
-      <label className='form-label' htmlFor={id}>{label}</label>
-      { description && <div className='text-blue-deep-80 p-t-xs p-b-xxs' dangerouslySetInnerHTML={{ __html: description }} /> }
       {
         tooltip &&
         <EducationalMomentTooltip
@@ -31,6 +29,8 @@ export const TextArea = ({
           type='LEFT'
         />
       }
+      <label className='form-label' htmlFor={id}>{label}</label>
+      { description && <div className='text-blue-deep-80 p-t-xs p-b-xxs' dangerouslySetInnerHTML={{ __html: description }} /> }
       {
         example &&
         <dl className='form-group-example bg-blue-deep-10 p-xs m-b-xs'>

@@ -5,6 +5,12 @@
 {% load content_tags %}
 
 {% block content %}
+
+    {% comment "For FE - please remove" %}
+    BACKLINK AVAILABLE TO USE IN THE FRONTEND ==> <a href="{{backlink}}">{{backlink}}</a>
+    BACKLINK TARGET TITLE: {{backlink_title}}
+    {% endcomment %}
+
     <div class="lesson-page">
         <div class="bg-white">
             <div class="container">
@@ -114,10 +120,10 @@
                                     </a>
 
                                 </div>
-                                {% if next_module.image %}
+                                {% if module.image %}
                                 <div class="g-card--with-image__image">
-                                    {% image next_module.image original as next_module_image %}
-                                    <img src="{{ next_module_image.url }}" alt="{{ next_module_image.alt }}"/>
+                                    {% image module.image original as module_image %}
+                                    <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
                                 </div>
                                 {% endif %}
                             </div>
