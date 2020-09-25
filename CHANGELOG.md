@@ -55,6 +55,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-429 - Learning homepage remove old content
 - GP2-426 - Link to export plan (FE)
 - GP2-263 - Next lesson (BE)
 - GP2-260 - Lesson - Choose don't choose
