@@ -165,7 +165,9 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
         # To do pass lanaguage from export_plan object rather then  hardcoded
-        context['language_data'] = helpers.get_cia_world_factbook_data(country='Netherlands', key='people,languages')
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.export_plan['export_countries'][0]['country_name'], key='people,languages'
+        )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
         return context
 

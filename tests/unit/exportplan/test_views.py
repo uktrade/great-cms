@@ -41,6 +41,7 @@ def export_plan_data():
         'route_to_markets': {'route': 'test'},
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
+        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]
     }
 
 
