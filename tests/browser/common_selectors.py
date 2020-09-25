@@ -88,11 +88,7 @@ class HeaderSignUp(SelectorsEnum):
 
 
 class HeaderSignedIn(SelectorsEnum):
-    CONTAINER = Selector(By.ID, 'user-state-area', type=ElementType.HEADER, is_visible=False)
-    NOTIFICATIONS = Selector(By.ID, 'header-link-notifications', type=ElementType.LINK)
     USER_PROFILE = Selector(By.ID, 'header-link-user-profile', type=ElementType.LINK)
-    USER_PROFILE_EMAIL = Selector(By.ID, 'header-link-user-profile-email-link', type=ElementType.LINK)
-    DASHBOARD = Selector(By.ID, 'header-link-dashboard', type=ElementType.LINK)
 
 
 class DashboardContents(SelectorsEnum):

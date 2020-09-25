@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
+import {getModalIsOpen, getProductsExpertise} from '@src/reducers'
 import Services from '@src/Services'
+import MessageConfirmation from "./MessageConfirmation";
 
 const customStyles = {
   content: {
@@ -28,14 +29,23 @@ export function CountryFinder(props) {
   const [selectedCountry, setSelectedCountry] = React.useState(props.text)
   const [countryList, setCountryList] = React.useState()
   const [searchStr, setSearchStr] = React.useState()
+  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
+
 
   const openModal = () => {
-    setIsOpen(true)
+    setProductConfirmationRequired(!!selectedCountry)
+    setIsOpen(!selectedCountry)
     setSearchStr('')
   }
 
   const closeModal = () => {
+    setProductConfirmationRequired(false)
     setIsOpen(false)
+  }
+
+  const closeConfirmation = () => {
+    setProductConfirmationRequired(false)
+    setIsOpen(true)
   }
 
   const modalAfterOpen = () => {
@@ -55,17 +65,22 @@ export function CountryFinder(props) {
       // map regions
       let regions = {}
       for (const [index, country] of result.entries()) {
-        let region = country.region
-        ;(regions[region] = regions[region] || []).push(country)
+        let region = country.region;
+        (regions[region] = regions[region] || []).push(country)
       }
       setCountryList(regions)
     })
   }
 
   const saveCountry = (country) => {
-    setSelectedCountry(country)
-    let result = Services.updateExportPlan({ export_countries: [country] })
-      .then((result) => {
+    setSelectedCountry(country.name)
+    let result = Services.updateExportPlan({
+      export_countries: [{
+        'country_name': country.name,
+        'country_iso2_code': country.id
+      }]
+    })
+    .then((result) => {
         closeModal()
       })
       .catch((result) => {
@@ -75,7 +90,10 @@ export function CountryFinder(props) {
 
   const selectCountry = (evt) => {
     let targetCountry = evt.target.getAttribute('data-country')
-    saveCountry(targetCountry)
+    saveCountry({
+      name: evt.target.getAttribute('data-country'),
+      id: evt.target.getAttribute('data-id')
+    });
   }
 
   let _regions = Object.keys(countryList || {}).map((region) => {
@@ -85,7 +103,7 @@ export function CountryFinder(props) {
       countryFound = true
       return (
         <li key={country.id}>
-          <button type="button" className="link m-r-s m-b-xs" data-country={country.name}>
+          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id}>
             {country.name}
           </button>
         </li>
@@ -96,7 +114,7 @@ export function CountryFinder(props) {
         <section key={region}>
           <div className="grid">
             <div className="c-full-width">
-              <h2 className="h-xs">{region}</h2>
+              <h2 className="region-name h-xs">{region}</h2>
               <ul style={{ display: 'flex', flexWrap: 'wrap' }}>{_countries}</ul>
               <hr className="hr m-b-xxs"></hr>
             </div>
@@ -109,7 +127,6 @@ export function CountryFinder(props) {
   if (!_regions.filter((region) => region).length) {
     _regions = <div className="h-xs">No results found</div>
   }
-
   const _suggested = []
   for (const [index, value] of suggested.entries()) {
     _suggested.push(
@@ -123,7 +140,10 @@ export function CountryFinder(props) {
       </button>
     )
   }
-  let buttonClass = 'button ' + (selectedCountry ? 'button--secondary' : 'button--ghost-blue') + ' button--chevron button--round-corner '
+  let buttonClass =
+    'button ' +
+    (selectedCountry ? 'button--primary' : 'button--ghost-blue') +
+    ' button--chevron button--round-corner '
 
   return (
     <span>
@@ -133,16 +153,17 @@ export function CountryFinder(props) {
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        className="modal max-modal"
+        overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         contentRef={(_modalContent) => (modalContent = _modalContent)}
       >
         <form className="country-chooser">
-          <div className="modal-header" style={{ height: '100px' }}>
+          <div className="modal-header" style={{height: '100px'}}>
             <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
             <h2 className="h-m p-v-xs">Choose a target market</h2>
           </div>
-          <div className="scroll-area" style={{ marginTop: '100px' }}>
+          <div className="scroll-area" style={{marginTop: '100px'}}>
             <div className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs">
               <h3 className="h-s">Suggested markets</h3>
               <p className="m-v-xs">
@@ -175,6 +196,7 @@ export function CountryFinder(props) {
                     className="form-control"
                     type="text"
                     onChange={searchChange}
+                    onClick={searchChange}
                     defaultValue=""
                     placeholder="Search markets"
                   ></input>
@@ -193,11 +215,18 @@ export function CountryFinder(props) {
           </div>
         </form>
       </ReactModal>
+      <MessageConfirmation
+        buttonClass={buttonClass}
+        productConfirmation={productConfirmationRequired}
+        handleButtonClick={closeConfirmation}
+        messsageTitle="Changing target market?"
+        messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time."
+        messageButtonText="Got it"/>
     </span>
   )
 }
 
-export default function ({ ...params }) {
+export default function ({...params}) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)

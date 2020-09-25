@@ -6,6 +6,10 @@ from core import models
 from django.core.exceptions import ObjectDoesNotExist
 
 
+# Define a strict subset of rich-text features only includes linebreaks
+RICHTEXT_FEATURES__MINIMAL = ()
+
+
 class MediaChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
         """Render implemented in the VideoBlock, this block shouldn't be used in its own."""
@@ -204,3 +208,19 @@ class ITAQuoteBlock(blocks.StructBlock):
 
     class Meta:
         template = 'learn/ita_quote.html'
+
+
+class ChooseDoNotChooseBlock(blocks.StructBlock):
+    choose_title = blocks.CharBlock(max_length=255)
+    choose_body = blocks.RichTextBlock(features=RICHTEXT_FEATURES__MINIMAL)
+
+    do_not_choose_title = blocks.CharBlock(max_length=255)
+    do_not_choose_body = blocks.RichTextBlock(features=RICHTEXT_FEATURES__MINIMAL)
+
+    class Meta:
+        help_text = (
+            'A pair of custom rich-text areas with titles, '
+            'one for Choose and the other for Do Not Choose'
+        )
+        icon = 'fa-question-circle'
+        template = 'learn/choose_do_not_choose.html'

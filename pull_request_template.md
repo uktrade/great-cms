@@ -1,6 +1,6 @@
 To do (delete all that do not apply):
 
- - [ ] Ticket exists in Jira https://uktrade.atlassian.net/browse/TICKET_ID_HERE 
+ - [ ] Ticket exists in Jira https://URL/browse/TICKET_ID_HERE 
  - [ ] Jira ticket has the correct status.
  - [ ] [Changelog](CHANGELOG.md) entry added.
  - [ ] (if needs manual testing) How to test locally, including how to set up appropriate data

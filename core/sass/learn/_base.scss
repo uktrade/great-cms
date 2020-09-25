@@ -326,6 +326,17 @@ $desktop: 1024px;
       @extend .hr;
     }
 
+    .choose-dont-choose {
+      h3 {
+        @extend .h-xs;
+        margin-bottom: 10px;
+
+        @include tablet {
+          padding: 0;
+        }
+      }
+    }
+
     .pros-and-cons {
       h3 {
         @extend .h-l;
@@ -378,8 +389,17 @@ $desktop: 1024px;
   .lesson-hero {
     img, video {
       border-radius: 5px;
+      display: block;
       margin: 0 auto;
       max-width: 100%;
+    }
+
+    .video-transcript {
+      &__text-area {
+        color: $blue-deep-80;
+        max-height: 200px;
+        overflow-y: scroll;
+      }
     }
   }
 

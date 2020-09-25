@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import FieldWithExample from '@src/components/Fields/FieldWithExample'
+import { TextArea } from '@src/components/Form/TextArea'
 import Services from '../../../../Services'
 
 export const SpendingAndResources = ({
@@ -13,8 +13,8 @@ export const SpendingAndResources = ({
   const [input, setInput] = useState(formData)
 
   const update = (e) => {
-    setInput({[e.target.name]: e.target.value})
-    Services.updateExportPlan({ [field]: {[e.target.name]: e.target.value}} )
+    setInput({ ...e })
+    Services.updateExportPlan({ [field]: { ...e }})
       .then(() => {})
       .catch(() => {})
   }
@@ -22,18 +22,18 @@ export const SpendingAndResources = ({
   return (
     <>
       {formFields.map(item => (
-        <FieldWithExample
+        <TextArea
           tooltip={item.tooltip}
           label={item.label}
           example={item.example}
           key={item.name}
-          name={item.name}
+          id={item.name}
           value={input[item.name]}
           description={item.description}
           placeholder={Number.isInteger(item.placeholder) ? item.placeholder : 'Add some text'}
           currency={item.currency}
           tag={Number.isInteger(item.placeholder) ? 'number' : 'text'}
-          handleChange={update}
+          onChange={update}
         />
       ))}
     </>

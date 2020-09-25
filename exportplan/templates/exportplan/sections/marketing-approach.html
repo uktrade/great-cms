@@ -24,7 +24,7 @@
   </ul>
 </div>
 
-<h2 class="h-l">Who are the audience for your marketing and communication strategy in the Netherlands?</h2>
+<h2 class="h-l">Who are the audience for your marketing and communication strategy in the {{ export_plan.export_countries.0.country_name }} ?</h2>
 <div id="target-age-groups-component" class="m-b-xl">
   {% include "exportplan/includes/insight.html" %}
 </div>
@@ -37,7 +37,7 @@
   <div class="grid">
     <div class="c-1-3">&nbsp;</div>
     <div class="c-2-3">
-      <h2 class="h-l">How will you get your product to customers in the Netherlands?</h2>
+      <h2 class="h-l">How will you get your product to customers in the {{ export_plan.export_countries.0.country_name }}?</h2>
       <p>Make a list of the ways you’ll get your product to customers. You can choose more than one option.</p>
       <div id="route-to-market-component" class="m-b-xl"></div>
     </div>
@@ -70,7 +70,7 @@
           {key: "55-64", label: '55-64 year olds'},
           {key: "65+", label: '65 years old and over'}
       ],
-      country: 'Netherlands'
+      country: '{{ export_plan.export_countries.0.country_name }}'
     })
 
     element = document.getElementById('spending-and-resources-component');

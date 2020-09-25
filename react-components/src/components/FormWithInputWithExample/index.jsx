@@ -5,7 +5,7 @@ import { Subject } from 'rxjs'
 import { debounceTime, delay } from 'rxjs/operators';
 
 import ErrorList from '@src/components/ErrorList'
-import FieldWithExample from '@src/components/Fields/FieldWithExample'
+import { TextArea } from '@src/components/Form/TextArea'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
 
@@ -71,7 +71,7 @@ export class FormWithInputWithExample extends Component {
     const { formData } = this.state
     const data = {
       ...formData,
-      [e.target.name]: e.target.value
+      ...e
     }
     this.setState({ formData: data }, () => {
       this.inputToSave$.next(data)
@@ -94,19 +94,20 @@ export class FormWithInputWithExample extends Component {
     return (
       <>
         {formFields.map(field => (
-            <FieldWithExample
+          <div className='p-b-s' key={field.name}>
+            <TextArea
               tooltip={field.tooltip}
               label={field.label}
               example={field.example}
-              key={field.name}
-              name={field.name}
+              id={field.name}
               value={formData[field.name]}
               description={field.description}
               placeholder={field.placeholder}
               currency={field.currency}
               tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
-              handleChange={this.handleChange}
+              onChange={this.handleChange}
             />
+          </div>
           ))}
         {saveIndicator}
         <ErrorList errors={errors.__all__ || []} className="m-0" />

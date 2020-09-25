@@ -11,8 +11,12 @@
     {{ block.super }}
     <script type="text/javascript">
 		var element = document.getElementById('sign-up');
+		var currentStep = '{% if request.GET.verify %}verification-code{% else %}credentials{% endif %}';
+		var email = '{{ request.GET.verify }}';
 		ditMVP.SignupModal({
 			element: element,
+			currentStep: currentStep,
+			email: email,
 			nextUrl: '{% url_map "dashboard" %}',
 		})
     </script>

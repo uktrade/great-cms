@@ -50,9 +50,19 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
     uk_customs_declaration = serializers.CharField(required=False, allow_null=True)
 
 
+class ExportPlanCountrySerializer(serializers.Serializer):
+    country_name = serializers.CharField(required=True)
+    country_iso2_code = serializers.CharField(required=False, allow_null=True)
+
+
+class ExportPlanCommodityCodeSerializer(serializers.Serializer):
+    commodity_name = serializers.CharField(required=True)
+    commodity_code = serializers.CharField(required=True)
+
+
 class ExportPlanSerializer(serializers.Serializer):
-    export_commodity_codes = serializers.ListField(child=serializers.CharField(), required=False)
-    export_countries = serializers.ListField(child=serializers.CharField(), required=False)
+    export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
+    export_countries = ExportPlanCountrySerializer(many=True, required=False)
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     about_your_business = AboutYourBuinessSerializer(required=False)
     rational = serializers.CharField(required=False, allow_blank=True)
@@ -114,7 +124,3 @@ class NewObjectiveSerializer(ObjectiveSerializer):
 
 class PkOnlySerializer(serializers.Serializer):
     pk = serializers.IntegerField()
-
-
-class ExportPlanCountrySerializer(serializers.Serializer):
-    country = serializers.CharField()

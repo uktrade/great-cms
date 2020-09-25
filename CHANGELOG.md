@@ -8,6 +8,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-654 - Next lesson image bugfix
+- GP2-394 - Enter verification code for sign-up
 - No ticket - Fix heading styling
 - GP2-495 - Update headings on lesson pages
 - GP2-514 - Fix alt text
@@ -54,6 +56,12 @@
 
 ### Implemented enhancements
 - GP2-76 - Link to learning homepage
+- GP2-599 - Header restyle and header menu
+- GP2-429 - Learning homepage remove old content
+- GP2-426 - Link to export plan (FE)
+- GP2-263 - Next lesson (BE)
+- GP2-260 - Lesson - Choose don't choose
+- GP2-449 - video transcript FE
 - GP2-594, GP2-595 - Updated personalization bar buttons
 - GP2-449 - Extended video model for transcript field
 - GP2-388 - Country selection with full country list
@@ -223,3 +231,6 @@
 - GP2-540 - EP-make-fields-optional
 - GP2-545 - remove airtable
 - GP2-500 - include video duration in read time for the page
+- GP2-542 - Commodity code and Country store as key/value pairs
+- GP2-426 - Backend support (as GP2-657) for supporting backlinks from lessons to the originating export plan
+- GP2-541 - remove hardcoded country
