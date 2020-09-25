@@ -1,3 +1,4 @@
+IS_LOCAL_DEV=True
 SECRET_KEY=debug
 DEBUG=true
 SESSION_COOKIE_SECURE=false
@@ -45,3 +46,7 @@ FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE=True
 GOOGLE_TAG_MANAGER_ID=GTM-1234567
 GOOGLE_TAG_MANAGER_ENV=dev
 UTM_COOKIE_DOMAIN=.great
+
+# Needed for Wagtail-Transfer local development. Also see env/config/dev-transfer-target
+WAGTAILTRANSFER_SECRET_KEY=local-one
+AWS_STORAGE_BUCKET_NAME=great-local-bucket-one
