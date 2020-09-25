@@ -94,21 +94,20 @@ export class FormWithInputWithExample extends Component {
     return (
       <>
         {formFields.map(field => (
-          <div className='p-b-s' key={field.name}>
-            <TextArea
-              tooltip={field.tooltip}
-              label={field.label}
-              example={field.example}
-              id={field.name}
-              value={formData[field.name]}
-              description={field.description}
-              placeholder={field.placeholder}
-              currency={field.currency}
-              tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
-              onChange={this.handleChange}
-            />
-          </div>
-          ))}
+          <TextArea
+            key={field.name}
+            tooltip={field.tooltip}
+            label={field.label}
+            example={field.example}
+            id={field.name}
+            value={formData[field.name]}
+            description={field.description}
+            placeholder={field.placeholder}
+            currency={field.currency}
+            tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
+            onChange={this.handleChange}
+          />
+        ))}
         {saveIndicator}
         <ErrorList errors={errors.__all__ || []} className="m-0" />
       </>
