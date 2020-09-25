@@ -89,7 +89,7 @@ class HeaderSignUp(SelectorsEnum):
 
 class HeaderSignedIn(SelectorsEnum):
     USER_PROFILE = Selector(By.ID, 'header-link-user-profile', type=ElementType.LINK)
-    
+
 
 class DashboardContents(SelectorsEnum):
     HERO = Selector(By.ID, 'great-hero')
