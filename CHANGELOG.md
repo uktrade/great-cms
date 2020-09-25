@@ -244,3 +244,4 @@
 - noticket add-learning-to-objectives
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
+- GP2-655 - local development support/skeleton for Wagtail Transfer work
