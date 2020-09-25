@@ -53,6 +53,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-76 - Link to learning homepage
 - GP2-594, GP2-595 - Updated personalization bar buttons
 - GP2-449 - Extended video model for transcript field
 - GP2-388 - Country selection with full country list
