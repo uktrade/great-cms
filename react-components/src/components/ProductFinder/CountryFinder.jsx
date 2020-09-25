@@ -65,8 +65,8 @@ export function CountryFinder(props) {
       // map regions
       let regions = {}
       for (const [index, country] of result.entries()) {
-        let region = country.region
-        ;(regions[region] = regions[region] || []).push(country)
+        let region = country.region;
+        (regions[region] = regions[region] || []).push(country)
       }
       setCountryList(regions)
     })
@@ -80,7 +80,7 @@ export function CountryFinder(props) {
         'country_iso2_code': country.id
       }]
     })
-      .then((result) => {
+    .then((result) => {
         closeModal()
       })
       .catch((result) => {
@@ -114,8 +114,8 @@ export function CountryFinder(props) {
         <section key={region}>
           <div className="grid">
             <div className="c-full-width">
-              <h2 className="h-xs">{region}</h2>
-              <ul style={{display: 'flex', flexWrap: 'wrap'}}>{_countries}</ul>
+              <h2 className="region-name h-xs">{region}</h2>
+              <ul style={{ display: 'flex', flexWrap: 'wrap' }}>{_countries}</ul>
               <hr className="hr m-b-xxs"></hr>
             </div>
           </div>
@@ -127,7 +127,6 @@ export function CountryFinder(props) {
   if (!_regions.filter((region) => region).length) {
     _regions = <div className="h-xs">No results found</div>
   }
-
   const _suggested = []
   for (const [index, value] of suggested.entries()) {
     _suggested.push(
@@ -141,7 +140,10 @@ export function CountryFinder(props) {
       </button>
     )
   }
-  let buttonClass = 'button ' + (selectedCountry ? 'button--secondary' : 'button--ghost-blue') + ' button--chevron button--round-corner '
+  let buttonClass =
+    'button ' +
+    (selectedCountry ? 'button--primary' : 'button--ghost-blue') +
+    ' button--chevron button--round-corner '
 
   return (
     <span>
@@ -151,7 +153,8 @@ export function CountryFinder(props) {
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        className="modal max-modal"
+        overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         contentRef={(_modalContent) => (modalContent = _modalContent)}
       >
@@ -193,6 +196,7 @@ export function CountryFinder(props) {
                     className="form-control"
                     type="text"
                     onChange={searchChange}
+                    onClick={searchChange}
                     defaultValue=""
                     placeholder="Search markets"
                   ></input>

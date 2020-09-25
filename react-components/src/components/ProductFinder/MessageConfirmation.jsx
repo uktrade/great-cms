@@ -1,21 +1,5 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import ReactModal from "react-modal";
-
-const customStyles = {
-  content: {
-    top: '30%',
-    left: '30%',
-    width: '30%',
-    border: 'none',
-    height: '30%',
-    padding: '40px 60px',
-    overflow: 'none',
-  },
-  overlay: {
-    background: 'rgb(45 45 45 / 45%)',
-    zIndex: '3',
-  },
-}
 
 export function MessageConfirmation(props) {
   const [modalIsOpen, setIsOpen] = React.useState(props.productConfirmation)
@@ -24,12 +8,16 @@ export function MessageConfirmation(props) {
   }
   return (
     <span>
-      <ReactModal isOpen={props.productConfirmation} onRequestClose={closeModal} style={customStyles}>
-        <div><strong>{props.messsageTitle}</strong>
+      <ReactModal 
+        isOpen={props.productConfirmation}
+        onRequestClose={closeModal} 
+        className="modal confirmation-modal"
+        overlayClassName="modal-overlay center"
+        >
+          <div><h2 className="h-s p-t-xxs">{props.messsageTitle}</h2>
             <p>{props.messageBody}</p>
-        </div>
-        <button className="button button--primary button--round-corner"
-                onClick={props.handleButtonClick}>{props.messageButtonText}</button>
+          </div>
+          <button className="button button--primary" onClick={props.handleButtonClick}>{props.messageButtonText}</button>
       </ReactModal>
     </span>
   )
