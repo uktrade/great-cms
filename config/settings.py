@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'wagtailcache',
     'wagtail_personalisation',
     'wagtailfontawesome',
+    'wagtail_transfer',
     'modelcluster',
     'taggit',
     'storages',
@@ -187,10 +188,9 @@ STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = str(ROOT_DIR('media'))
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'  # NB: this is overriden later, if/when AWS is set up
 
-
-# Wagtail set
+# Wagtail settings
 
 WAGTAIL_SITE_NAME = 'Great CMS MVP'
 WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
@@ -341,6 +341,10 @@ AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
 
+if env.bool('USER_MEDIA_ON_S3', default=False) and AWS_STORAGE_BUCKET_NAME:
+    host = AWS_S3_CUSTOM_DOMAIN or AWS_S3_HOST
+    MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{host}/'
+
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
@@ -454,6 +458,33 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int(
     'VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024
 )
+
+# Wagtail-transfer configuration
+
+if env.bool('IS_LOCAL_DEV', default=False):
+    WAGTAILTRANSFER_SOURCES = {
+        # Safe to hard-code these ones for local dev
+        'local_one_on_8020': {  # ie, `make webserver`
+            'BASE_URL': 'http://greatcms.trade.great:8020/wagtail-transfer/',
+            'SECRET_KEY': 'local-one',
+        },
+        'local_two_on_8030': {  # ie, `make webserver_transfer_target`
+            'BASE_URL': 'http://greatcms.trade.great:8030/wagtail-transfer/',
+            'SECRET_KEY': 'local-two',
+        },
+    }
+    # TO COME: Configuration for deployed environments
+
+WAGTAILTRANSFER_SECRET_KEY = env.str("WAGTAILTRANSFER_SECRET_KEY")
+WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
+    'wagtailimages.image',
+    'wagtaildocs',
+    'wagtailmedia',
+    'core.AltTextImage',
+    'core.ContentModule',
+    'core.Tour',
+    'core.TourStep',
+]
 
 # dit_helpdesk
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
