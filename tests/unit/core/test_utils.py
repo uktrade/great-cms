@@ -106,6 +106,10 @@ def test_multiple_module(domestic_homepage, client, user):
     page4_response = detail_page_4.serve(request)
 
     assert page1_response.context_data['next_lesson'].specific == detail_page_2
+    assert page1_response.context_data['module'].specific == module_1
     assert page2_response.context_data['next_lesson'].specific == detail_page_3
+    assert page2_response.context_data['module'].specific == module_1
     assert page3_response.context_data['next_lesson'].specific == detail_page_4
+    assert page3_response.context_data['module'].specific == module_2
     assert page4_response.context_data.get('next_lesson') is None
+    assert page4_response.context_data.get('module') is None
