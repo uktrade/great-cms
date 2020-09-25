@@ -14,7 +14,7 @@ export function MessageConfirmation(props) {
         className="modal confirmation-modal"
         overlayClassName="modal-overlay center"
         >
-          <div><h2 class="h-s p-t-xxs">{props.messsageTitle}</h2>
+          <div><h2 className="h-s p-t-xxs">{props.messsageTitle}</h2>
             <p>{props.messageBody}</p>
           </div>
           <button className="button button--primary" onClick={props.handleButtonClick}>{props.messageButtonText}</button>
