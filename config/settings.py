@@ -475,7 +475,7 @@ if env.bool('IS_LOCAL_DEV', default=False):
     }
     # TO COME: Configuration for deployed environments
 
-WAGTAILTRANSFER_SECRET_KEY = env.str("WAGTAILTRANSFER_SECRET_KEY")
+WAGTAILTRANSFER_SECRET_KEY = env.str('WAGTAILTRANSFER_SECRET_KEY')
 WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'wagtailimages.image',
     'wagtaildocs',
