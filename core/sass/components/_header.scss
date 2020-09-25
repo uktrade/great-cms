@@ -19,7 +19,7 @@
 
 .great-mvp-header-logo {
   @include desktop {
-    height: $space-s * 2;
+    height: 50px + 2*$space-xxs;
     padding: $space-xxs;
   }
 }

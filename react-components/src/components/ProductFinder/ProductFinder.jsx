@@ -83,7 +83,7 @@ export function ProductFinder(props) {
   }
 
   const saveProduct = () => {
-    setSelectedProduct(searchResults.hsCode)
+    setSelectedProduct(searchResults.currentItemName)
     let result = Services.updateExportPlan(
       {
         export_commodity_codes: [{

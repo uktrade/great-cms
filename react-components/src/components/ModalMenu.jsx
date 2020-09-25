@@ -7,15 +7,24 @@ const customStyles = {
   overlay: {
     zIndex: '3',
     background: 'transparent',
-    position: 'absolute'
+    position: 'absolute',
   },
+  content:{
+    marginTop: '15px',
+    marginRight: '-29px'
+  }
 }
 
 export function Menu(props) {
   let modalContent
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
-  const openModal = () => {
+  const openModal = (evt) => {
+    let position = evt.target.getClientRects()[0]
+    let bodyWidth = evt.target.closest('body').clientWidth
+    customStyles.content.top = position.top+position.height + 'px'
+    customStyles.content.right = bodyWidth - (position.left + position.right)/2 + 'px'
+
     setIsOpen(true)
   }
 
@@ -24,13 +33,13 @@ export function Menu(props) {
   }
 
   const modalAfterOpen = () => {
-    modalContent.style.maxHeight = '700px'
+    modalContent.style.opacity = '1'
   }
 
-  let avatar = props.avatar ? (<img src={props.avatar} />) : ''
+  let avatar = props.avatar ? <img src={props.avatar} /> : ''
 
   return (
-    <div style={{lineHeight:0}}>
+    <div style={{ lineHeight: 0 }}>
       <button className={'avatar' + (modalIsOpen ? ' active' : '')} onClick={openModal}>
         {avatar}
       </button>
@@ -42,15 +51,45 @@ export function Menu(props) {
         contentRef={(_modalContent) => (modalContent = _modalContent)}
         className="modal-menu"
       >
-      <div className="h-xs p-t-xxs">Hi {props.user_name || ''}</div>
+        <div className="h-xs p-t-xxs">Hi {props.user_name || ''}</div>
         <ul className="menu-items">
-          <li><a href="/dashboard/" className="link"><i className="fa fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-          <li><a href="/learn/categories/" className="link"><i className="fa fa-book"></i><span>Learn to export</span></a></li>
-          <li><a href="/export-plan/dashboard/" className="link"><i className="fa fa-map-marker-alt"></i><span>Target a market</span></a></li>
-          <li><a className="link"><i className="fa fa-folder"></i><span>Make an export plan</span></a></li>
+          <li>
+            <a href="/dashboard/" className="link">
+              <i className="fa fa-tachometer-alt"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="/learn/categories/" className="link">
+              <i className="fa fa-book"></i>
+              <span>Learn to export</span>
+            </a>
+          </li>
+          <li>
+            <a href="/export-plan/dashboard/" className="link">
+              <i className="fa fa-map-marker-alt"></i>
+              <span>Target a market</span>
+            </a>
+          </li>
+          <li>
+            <a className="link">
+              <i className="fa fa-folder"></i>
+              <span>Make an export plan</span>
+            </a>
+          </li>
           <hr className="m-v-xxs"></hr>
-          <li><a href="#" className="link"><i className="fa fa-comment"></i><span>Send a feedback email</span></a></li>
-          <li><a href="#" className="link"><i className="fa fa-arrow-right"></i><span>Sign out</span></a></li>
+          <li>
+            <a href="#" className="link">
+              <i className="fa fa-comment"></i>
+              <span>Send a feedback email</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" className="link">
+              <i className="fa fa-arrow-right"></i>
+              <span>Sign out</span>
+            </a>
+          </li>
         </ul>
       </ReactModal>
     </div>

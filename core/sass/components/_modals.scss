@@ -1,3 +1,5 @@
+/* Styles for modal overlays, windows and menus */
+
 .modal-menu {
   position: absolute;
   left: auto;
@@ -9,9 +11,10 @@
   width: auto;
   height: auto;
   box-shadow: 0px 0px 9px 0px $black-50;
-  margin-top: 68px;
-  margin-right: 40px;
-  min-width: 363px;
+  min-width: 370px;
+  opacity: 0;
+  transition: opacity 0.3s;
+
   /* The pointer at the top */
   &:after {
     content: '';
@@ -24,6 +27,8 @@
     top: -10px;
     right: 20px;
   }
+
+  // cover the bottom bit of the pointer
   &:before {
     content: '';
     position: absolute;
@@ -34,18 +39,23 @@
     right: 10px;
     z-index: 1;
   }
+
   .menu-items {
     margin: 0;
+
     li {
       a {
         display: block;
         cursor: pointer;
-        > span {
+
+        >span {
           padding: 11px 0 11px 58px;
           display: block;
         }
       }
+
       @extend .p-v-xxs;
+
       i.fa {
         width: 44px;
         height: 44px;
@@ -55,9 +65,10 @@
         justify-content: center;
         align-items: center;
         color: $blue-deep-80;
-        float:left;
+        float: left;
         transition: background-color 0.3s;
       }
+
       &:hover {
         i.fa {
           background-color: darken($black-10, 5%);
@@ -68,14 +79,17 @@
 }
 
 .avatar {
-  width:40px;
-  height:40px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: $black-20;
   position: relative;
   padding: 0;
-  &:focus , &.active {
+
+  &:focus,
+  &.active {
     outline: none;
+
     &:after {
       content: '';
       top: -10%;
@@ -83,14 +97,50 @@
       display: block;
       position: absolute;
       border: 2px solid $red-80;
-      width:110%;
+      width: 110%;
       height: 110%;
       border-radius: 50%;
     }
   }
+
   img {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
+  }
+}
+
+.confirmation-modal {
+  padding: $space-s;
+  max-width: 500px;
+}
+
+.max-modal {
+  width: 80%;
+  height: 80%;
+  padding: $space-m;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(45, 45, 45, 0.3);
+  z-index: 3;
+
+  &.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal {
+    position: absolute;
+    background-color: $white;
+    border: none;
+    border-radius: 5px;
+    outline: none;
   }
 }

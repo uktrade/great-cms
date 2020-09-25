@@ -74,17 +74,13 @@ export function CountryFinder(props) {
 
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
-<<<<<<< HEAD
     let result = Services.updateExportPlan({
       export_countries: [{
         'country_name': country.name,
         'country_iso2_code': country.id
       }]
     })
-=======
-    let result = Services.updateExportPlan({ export_countries: [{ 'country_name': country.name, 'country_iso2_code': country.id }] })
->>>>>>> GP2-599_header_menu
-      .then((result) => {
+    .then((result) => {
         closeModal()
       })
       .catch((result) => {
@@ -157,7 +153,8 @@ export function CountryFinder(props) {
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        className="modal max-modal"
+        overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         contentRef={(_modalContent) => (modalContent = _modalContent)}
       >
