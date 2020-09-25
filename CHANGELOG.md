@@ -55,7 +55,10 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-- GP2-76 - Link to learning homepage
+- GP2-597 - Name convention
+- GP2-600 - Header menu interraction
+- GP2-601 - Highlight section link in header
+- GP2-76  - Link to learning homepage
 - GP2-599 - Header restyle and header menu
 - GP2-429 - Learning homepage remove old content
 - GP2-426 - Link to export plan (FE)

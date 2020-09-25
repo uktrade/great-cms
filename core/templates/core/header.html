@@ -8,9 +8,12 @@
     </a>
     <div class="header-links">
       <ul id="services-area" class="services-area">
-        <li><a id="header-link-learning" class="button button-secondary" href="/learn/categories/">Learn to export</a></li>
-        <li><a id="header-link-exporting-plan" class="button button-secondary" href="/export-plan/dashboard/">Target a market</a></li>
-        <li><a id="header-link-markets" class="button button-secondary" href="{% url 'core:markets' %}">Make an export plan</a></li>
+        {% path_match "^\/learn\/" as in_learning %}
+        {% path_match "^\/export_plan\/" as in_exportplan %}
+        {% path_match "^\/markets\/" as in_targetmarkets %}
+        <li><a id="header-link-learning" class="link {% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
+        <li><a id="header-link-markets" class="link {% if in_targetmarkets %}active{% endif %}" href="{% url 'core:markets' %}">Target a market</a></li>
+        <li><a id="header-link-exporting-plan" class="link {% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Make an export plan</a></li>
         {% if request.user.is_authenticated %}
         <li id="header-link-user-profile" class="m-v-xs m-l-xs m-r-s">
           <img class="great-mvp-header-icon" src="{{ request.user.profile_image }}" />
