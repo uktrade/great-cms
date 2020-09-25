@@ -71,7 +71,7 @@
 /****** TEMPORARY Ghost/chevron buttons Will be replaced by great styles ******/
 .button {
   &--ghost-blue {
-    background: white;
+    background: $colour-white-100;
     border:2px solid $blue-deep-80;
     color: $blue-deep-80;
     &:link,

@@ -1,4 +1,3 @@
-
 .sub-header-nav {
   background-color: $white;
   border-bottom: 1px solid $light-grey;
@@ -12,29 +11,27 @@
   }
 
   .nav-extra-links,
-  .nav-extra-links > * {
+  .nav-extra-links>* {
     display: inline-block;
   }
 }
 
-.great-mvp-header-logo {
-  @include desktop {
-    height: 50px + 2*$space-xxs;
-    padding: $space-xxs;
-  }
-}
-
-.great-mvp-header-links {
-  display: flex;
-  flex-grow: 1;
-  justify-content: flex-end;
-}
-
-.great-mvp-header {
-  background-color: $white;
-  @include shadow;
+.magna-header {
   position: relative;
   z-index: 2;
+
+  .header-logo {
+    @include desktop {
+      height: 50px + 2*$space-xxs;
+      padding: $space-xxs;
+    }
+  }
+
+  .header-links {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
 
   ul {
     display: flex;
