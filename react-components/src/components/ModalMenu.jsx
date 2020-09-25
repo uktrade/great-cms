@@ -51,7 +51,7 @@ export function Menu(props) {
         contentRef={(_modalContent) => (modalContent = _modalContent)}
         className="modal-menu"
       >
-        <div className="h-xs p-t-xxs">Hi {props.user_name || ''}</div>
+        <div className="h-xs p-t-xxs">Hi {props.user_name || 'there'}</div>
         <ul className="menu-items">
           <li>
             <a href="/dashboard/" className="link">
@@ -66,20 +66,20 @@ export function Menu(props) {
             </a>
           </li>
           <li>
-            <a href="/export-plan/dashboard/" className="link">
+            <a href="/markets/" className="link">
               <i className="fa fa-map-marker-alt"></i>
               <span>Target a market</span>
             </a>
           </li>
           <li>
-            <a className="link">
+            <a href="/export-plan/dashboard/" className="link">
               <i className="fa fa-folder"></i>
               <span>Make an export plan</span>
             </a>
           </li>
           <hr className="m-v-xxs"></hr>
           <li>
-            <a href="#" className="link">
+            <a href="https://www.great.gov.uk/contact/feedback/" target="_blank" className="link">
               <i className="fa fa-comment"></i>
               <span>Send a feedback email</span>
             </a>

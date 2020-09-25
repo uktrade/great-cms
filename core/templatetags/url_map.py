@@ -1,5 +1,6 @@
 from django import template
 from core import constants
+import re
 
 register = template.Library()
 
@@ -11,3 +12,11 @@ def url_map(key):
     }
 
     return url_mapping.get(key.upper())
+
+
+@register.simple_tag(takes_context=True)
+def path_match(context, match):
+    # match the current path with provided regexp
+    request = context.get('request')
+    path = request.path
+    return re.search(match, path)

@@ -8,6 +8,7 @@ from datetime import timedelta
 from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.video_tags import render_video
 from core.templatetags.content_tags import get_backlinked_url
+from core.templatetags.url_map import path_match
 
 
 def test_render_personalised_video_block_tag():
@@ -186,3 +187,23 @@ def test_get_item_filter(user, rf, domestic_site):
 def test_get_backlinked_url(rf, request_path, outbound_url, expected_backlinked_url):
     context = {'request': rf.get(request_path)}
     assert get_backlinked_url(context, outbound_url) == expected_backlinked_url
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('path, expected', (
+    ('/markets/', True),
+    ('/markets/morepath/', True),
+    ('/export-plan/markets/', False),
+    ('', False),
+),
+    ids=[
+        'match base path',
+        'match extended path',
+        'non-match',
+        'empty path'
+]
+)
+def test_path_match(rf, path, expected):
+    context = {'request': rf.get(path)}
+    match = path_match(context, '^\\/markets\\/')
+    assert bool(match) == expected
