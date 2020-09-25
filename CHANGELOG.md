@@ -258,3 +258,4 @@
 - noticket bug fix lessons details on objectives
 - GP2-706 - 
 - ablity-to-disable-export-sections
+- GP2-655 - local development support/skeleton for Wagtail Transfer work
