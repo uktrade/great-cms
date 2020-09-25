@@ -284,7 +284,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=155 + 123)  # reading + watching
+    expected_duration = timedelta(seconds=156 + 123)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration

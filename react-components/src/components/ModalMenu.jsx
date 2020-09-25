@@ -20,7 +20,7 @@ export function Menu(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
   const openModal = (evt) => {
-    let position = evt.target.getClientRects()[0]
+    let position = evt.target.getClientRects()[0] || {top:0,height:0}
     let bodyWidth = evt.target.closest('body').clientWidth
     customStyles.content.top = position.top+position.height + 'px'
     customStyles.content.right = bodyWidth - (position.left + position.right)/2 + 'px'
