@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import {getModalIsOpen, getProductsExpertise} from '@src/reducers'
+import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
-import MessageConfirmation from "./MessageConfirmation";
+import MessageConfirmation from './MessageConfirmation'
 
 const customStyles = {
   content: {
@@ -13,12 +13,12 @@ const customStyles = {
     border: 'none',
     height: '80%',
     padding: '40px 60px',
-    overflow: 'none',
+    overflow: 'none'
   },
   overlay: {
     background: 'rgb(45 45 45 / 45%)',
-    zIndex: '3',
-  },
+    zIndex: '3'
+  }
 }
 
 const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
@@ -30,7 +30,6 @@ export function CountryFinder(props) {
   const [countryList, setCountryList] = React.useState()
   const [searchStr, setSearchStr] = React.useState()
   const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
-
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
@@ -65,8 +64,8 @@ export function CountryFinder(props) {
       // map regions
       let regions = {}
       for (const [index, country] of result.entries()) {
-        let region = country.region;
-        (regions[region] = regions[region] || []).push(country)
+        let region = country.region
+        ;(regions[region] = regions[region] || []).push(country)
       }
       setCountryList(regions)
     })
@@ -75,12 +74,14 @@ export function CountryFinder(props) {
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
     let result = Services.updateExportPlan({
-      export_countries: [{
-        'country_name': country.name,
-        'country_iso2_code': country.id
-      }]
+      export_countries: [
+        {
+          country_name: country.name,
+          country_iso2_code: country.id
+        }
+      ]
     })
-    .then((result) => {
+      .then((result) => {
         closeModal()
       })
       .catch((result) => {
@@ -93,7 +94,7 @@ export function CountryFinder(props) {
     saveCountry({
       name: evt.target.getAttribute('data-country'),
       id: evt.target.getAttribute('data-id')
-    });
+    })
   }
 
   let _regions = Object.keys(countryList || {}).map((region) => {
@@ -130,25 +131,18 @@ export function CountryFinder(props) {
   const _suggested = []
   for (const [index, value] of suggested.entries()) {
     _suggested.push(
-      <button
-        key={index}
-        type="button"
-        className="button button--ghost-blue button--round-corner button--chevron m-r-s"
-        data-country={value}
-      >
+      <button key={index} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={value}>
         {value}
       </button>
     )
   }
-  let buttonClass =
-    'button ' +
-    (selectedCountry ? 'button--primary' : 'button--ghost-blue') +
-    ' button--chevron button--round-corner '
+  let buttonClass = 'tag ' + (!selectedCountry ? 'tag--tertiary' : '') + ' tag--icon '
 
   return (
     <span>
       <button className={buttonClass} onClick={openModal}>
         {selectedCountry || 'add country'}
+        <i class="fas fa-chevron-right"></i>
       </button>
       <ReactModal
         isOpen={modalIsOpen}
@@ -159,11 +153,11 @@ export function CountryFinder(props) {
         contentRef={(_modalContent) => (modalContent = _modalContent)}
       >
         <form className="country-chooser">
-          <div className="modal-header" style={{height: '100px'}}>
+          <div className="modal-header" style={{ height: '100px' }}>
             <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
             <h2 className="h-m p-v-xs">Choose a target market</h2>
           </div>
-          <div className="scroll-area" style={{marginTop: '100px'}}>
+          <div className="scroll-area" style={{ marginTop: '100px' }}>
             <div className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs">
               <h3 className="h-s">Suggested markets</h3>
               <p className="m-v-xs">
@@ -221,12 +215,13 @@ export function CountryFinder(props) {
         handleButtonClick={closeConfirmation}
         messsageTitle="Changing target market?"
         messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time."
-        messageButtonText="Got it"/>
+        messageButtonText="Got it"
+      />
     </span>
   )
 }
 
-export default function ({...params}) {
+export default function({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
