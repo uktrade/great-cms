@@ -56,6 +56,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-413 -  style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
 - GP2-601 - Highlight section link in header
