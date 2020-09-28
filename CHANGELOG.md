@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-623 - Further update to next lesson feature
 - GP2-627 - Fix button styling across pages
 - GP2-654 - Next lesson image bugfix
 - GP2-394 - Enter verification code for sign-up
