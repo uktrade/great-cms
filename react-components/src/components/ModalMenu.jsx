@@ -66,7 +66,7 @@ export function Menu(props) {
             </a>
           </li>
           <li>
-            <a href="/markets/" className="link">
+            <a href="/find-your-target-market/" className="link">
               <i className="fa fa-map-marker-alt"></i>
               <span>Target a market</span>
             </a>

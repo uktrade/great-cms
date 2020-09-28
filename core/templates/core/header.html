@@ -10,9 +10,9 @@
       <ul id="services-area" class="services-area">
         {% path_match "^\/learn\/" as in_learning %}
         {% path_match "^\/export_plan\/" as in_exportplan %}
-        {% path_match "^\/markets\/" as in_targetmarkets %}
+        {% path_match "^\/find-your-target-market\/" as in_targetmarkets %}
         <li><a id="header-link-learning" class="link {% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
-        <li><a id="header-link-markets" class="link {% if in_targetmarkets %}active{% endif %}" href="{% url 'core:markets' %}">Target a market</a></li>
+        <li><a id="header-link-markets" class="link {% if in_targetmarkets %}active{% endif %}" href="/find-your-target-market/ ">Target a market</a></li>
         <li><a id="header-link-exporting-plan" class="link {% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Make an export plan</a></li>
         {% if request.user.is_authenticated %}
         <li id="header-link-user-profile" class="m-v-xs m-l-xs m-r-s">
