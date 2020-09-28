@@ -6,6 +6,7 @@ import { debounceTime, delay } from 'rxjs/operators';
 
 import ErrorList from '@src/components/ErrorList'
 import { TextArea } from '@src/components/Form/TextArea'
+import { Select } from '@src/components/Form/Select'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
 
@@ -94,19 +95,31 @@ export class FormWithInputWithExample extends Component {
     return (
       <>
         {formFields.map(field => (
-          <TextArea
-            key={field.name}
-            tooltip={field.tooltip}
-            label={field.label}
-            example={field.example}
-            id={field.name}
-            value={formData[field.name]}
-            description={field.description}
-            placeholder={field.placeholder}
-            currency={field.currency}
-            tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
-            onChange={this.handleChange}
-          />
+          field.field_type === 'Select' ?
+            <Select
+              key={field.name}
+              label={field.label}
+              update={this.handleChange}
+              name={field.name}
+              options={field.choices}
+              selected={field.choices.find(x => x.value === formData[field.name]).label}
+              example={field.example}
+              description={field.description}
+              tooltip={field.tooltip}
+            />:
+            <TextArea
+              key={field.name}
+              tooltip={field.tooltip}
+              label={field.label}
+              example={field.example}
+              id={field.name}
+              value={formData[field.name]}
+              description={field.description}
+              placeholder={field.placeholder}
+              currency={field.currency}
+              tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
+              onChange={this.handleChange}
+            />
         ))}
         {saveIndicator}
         <ErrorList errors={errors.__all__ || []} className="m-0" />
@@ -120,6 +133,7 @@ FormWithInputWithExample.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    field_type: PropTypes.string.isRequired
   })).isRequired,
   field: PropTypes.string.isRequired,
   formData: PropTypes.objectOf(PropTypes.string).isRequired,
