@@ -103,6 +103,9 @@ export class FormWithInputWithExample extends Component {
               name={field.name}
               options={field.choices}
               selected={formData[field.name]}
+              example={field.example}
+              description={field.description}
+              tooltip={field.tooltip}
             />:
             <TextArea
               key={field.name}

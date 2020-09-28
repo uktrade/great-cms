@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Input } from '@src/components/Form/Input'
 
 export const InputWithDropdown = ({
   label,
   update,
   name,
   selected,
-  options
+  options,
+  description,
+  tooltip,
+  example
 }) => {
 
   const [input, setInput] = useState(selected)
@@ -19,15 +23,18 @@ export const InputWithDropdown = ({
   }
 
   return (
-    <div className='route-to-market__table-cell'>
-      <label htmlFor={label}>{label}</label>
-      <div className='route-to-market__input'>
-        <input
+    <div className=''>
+      <div className=''>
+        <Input
+          label={label}
           id={label}
           name={label}
           readOnly
           value={input}
           placeholder='Select Option'
+          description={description}
+          tooltip={tooltip}
+          example={example}
         />
         <div className='dropdown'>
           <button aria-haspopup='listbox' onClick={() => setIsOpen(!isOpen)}>^</button>
@@ -57,9 +64,15 @@ InputWithDropdown.propTypes = {
   options: PropTypes.arrayOf({
     value: PropTypes.string,
     label: PropTypes.string,
-  }).isRequired
+  }).isRequired,
+  description: PropTypes.string,
+  tooltip: PropTypes.string,
+  example: PropTypes.string,
 }
 
 InputWithDropdown.defaultProps = {
-  selected: ''
+  selected: '',
+  description: '',
+  tooltip: '',
+  example: ''
 }
