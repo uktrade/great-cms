@@ -8,32 +8,3 @@
     width: 679px;
   }
 }
-
-.objectives-content {
-  label {
-    @extend .h-m;
-  }
-
-  textarea {
-    width: 100%;
-    resize: none;
-    background: transparent;
-    border: 0;
-    padding: 0;
-  }
-}
-
-.text-inset {
-  padding: 10px 30px;
-  margin: 30px 0;
-  border-left: 8px solid $black-20;
-}
-
-.marketing-approach-content {
-  font-family: 'FS Lucas';
-}
-
-.bottom-nav {
-  display: flex;
-  align-items: flex-end;
-}

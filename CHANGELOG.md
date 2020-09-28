@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-627 - Fix button styling across pages
 - GP2-654 - Next lesson image bugfix
 - GP2-394 - Enter verification code for sign-up
 - No ticket - Fix heading styling
@@ -55,6 +56,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-413 -  style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
 - GP2-601 - Highlight section link in header
@@ -237,3 +239,4 @@
 - GP2-542 - Commodity code and Country store as key/value pairs
 - GP2-426 - Backend support (as GP2-657) for supporting backlinks from lessons to the originating export plan
 - GP2-541 - remove hardcoded country
+- noticket add-learning-to-objectives
