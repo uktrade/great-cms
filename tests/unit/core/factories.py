@@ -3,7 +3,7 @@ import factory.fuzzy
 import wagtail_factories
 import wagtail_personalisation.models
 
-from core import models, rules
+from core import blocks, models, rules
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
 
@@ -60,6 +60,14 @@ class CuratedListPageFactory(wagtail_factories.PageFactory):
     heading = factory.fuzzy.FuzzyText(length=200)
     template = factory.fuzzy.FuzzyChoice(models.CuratedListPage.template_choices, getter=lambda choice: choice[0])
     parent = factory.SubFactory(ListPageFactory)
+    topics = wagtail_factories.StreamFieldFactory(
+        {
+            'title': wagtail_factories.CharBlockFactory,
+            'pages': wagtail_factories.ListBlockFactory(
+                wagtail_factories.PageFactory
+            ),
+        }
+    )
 
     class Meta:
         model = models.CuratedListPage
@@ -123,3 +131,18 @@ class TourFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = models.Tour
+
+
+class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
+    video = None
+
+    class Meta:
+        model = blocks.SimpleVideoBlock
+
+
+class CuratedTopicBlockfactory(wagtail_factories.StructBlockFactory):
+    title = factory.fuzzy.FuzzyText(length=255)
+    pages = factory.SubFactory(DetailPageFactory)
+
+    class Meta:
+        model = blocks.CuratedTopicBlock

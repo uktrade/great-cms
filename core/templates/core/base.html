@@ -12,8 +12,6 @@
 {% block head_js %}
   {{ block.super }}
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
-    <script src="https://use.fontawesome.com/88eb2f9954.js"></script>
-
 {% endblock %}
 
 
@@ -25,6 +23,7 @@
 
 {% block body_content_container %}
   <main id="content" class="{% block css_layout_class %}{% endblock %}">
+      {% block content_header %}{% endblock %}
       {% block content %}{% endblock %}
   </main>
 {% endblock %}
@@ -53,6 +52,7 @@
       ditMVP.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+          apiCountriesUrl: '{% url "core:api-countries" %}',
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',

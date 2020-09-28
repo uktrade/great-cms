@@ -1,28 +1,10 @@
-.objectives-content {
-  label {
-    @extend .h-m;
+.section {
+  &--intro {
+    margin-bottom: 100px;
   }
 
-  textarea {
-    width: 100%;
-    resize: none;
-    background: transparent;
-    border: 0;
-    padding: 0;
+  &--intro-image {
+    margin-bottom: -30px;
+    width: 679px;
   }
-}
-
-.text-inset {
-  padding: 10px 30px;
-  margin: 30px 0;
-  border-left: 8px solid $black-20;
-}
-
-.marketing-approach-content {
-  font-family: 'FS Lucas';
-}
-
-.bottom-nav {
-  display: flex;
-  align-items: flex-end;
 }

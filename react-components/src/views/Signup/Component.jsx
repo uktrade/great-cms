@@ -51,6 +51,7 @@ export default function Component(props){
           handleSubmit={props.handleStepCodeSubmit}
           disabled={props.isInProgress}
           handleCodeChange={props.setCode}
+          email={props.email}
           code={props.code}
           showTitle={props.showTitle}
         />

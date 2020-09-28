@@ -18,3 +18,14 @@ SECTION_TITLES = [
 SECTION_SLUGS = [slugify(section) for section in SECTION_TITLES]
 
 SECTION_URLS = [reverse_lazy('exportplan:section', kwargs={'slug': slug}) for slug in SECTION_SLUGS]
+
+SECTION_TITLES_URLS = [
+    {
+        'title': section,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(section)})
+    } for section in SECTION_TITLES
+]
+
+# Note that SECTION_TITLES_URLS can't be rearranged into a dictionary while preserving
+# the lazy URL reversal, so manipulating SECTION_TITLES_URLS needs to happen after the
+# app is ready to avoid django.core.exceptions.AppRegistryNotReady

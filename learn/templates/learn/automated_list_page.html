@@ -13,35 +13,7 @@
         {% endbreadcrumbs %}
     </div>
     <section id="learn-root" class="learn__page learn__categories-page container">
-        <section class="learn__category-header">
-            <div class="grid">
-                <div class="learn__introduction w-full-m c-1-2-l">
-                    <h1 class="h1">{{ page.title }}</h1>
-                    <p class="learn__wrapper--paragraph">{{ page.description | richtext }}</p>
-                </div>
-            </div>
-            <div class="learn__introduction-steps grid">
-                <article class="learn__step-block w-full-m c-1-3-l">
-                    <span aria-hidden="true" class="circle-check--icon"></span>
-                    <h3 class="learn__step-title">Choose a lesson</h3>
-                    <p class="learn__wrapper--paragraph">Go through each lesson in order or pick and choose what you
-                        want to learn.</p>
-                </article>
-                <article class="learn__step-block w-full-m c-1-3-l">
-                    <span aria-hidden="true" class="circle-check--icon"></span>
-                    <h3 class="learn__step-title">Go at your own pace</h3>
-                    <p class="learn__wrapper--paragraph">There’s no deadline. Take all the time you need to fit it in
-                        your day.</p>
-                </article>
-                <article class="learn__step-block w-full-m c-1-3-l">
-                    <span aria-hidden="true" class="circle-check--icon"></span>
-                    <h3 class="learn__step-title">Get ready to trade</h3>
-                    <p class="learn__wrapper--paragraph">Put your new knowledge and confidence to work and make a
-                        success of exporting.</p>
-                </article>
-            </div>
-        </section>
-        <section class="learn__categories-content container">
+        <section class="learn__categories-content container m-t-m">
         {% for child in page.get_children.specific.live %}
             <article class="learn__category grid">
                 <div class="c-1-2-l">
@@ -51,7 +23,7 @@
                         <a class="button button--secondary" href="{% pageurl child %}" title="{{ page.button_label }}">{{ page.button_label }}</a>
                     </div>
 
-                    <div class="learn__category-entities button button--round-corner bg-aqua">
+                    <div class="learn__category-entities button--round-corner bg-aqua">
                         <span class="learn__category-topics">{{ child.count_topics }} topic{% pluralize child.count_topics %}, <span>
                         <span class="learn__category-lessons">{{ child.count_detail_pages }} lesson{% pluralize child.count_detail_pages %}</span>
                     </div>

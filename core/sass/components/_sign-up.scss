@@ -1,0 +1,58 @@
+.sign-up {
+
+  &--wrapper {
+    background: {
+      image: url('/static/images/sign-up-right.png'), url('/static/images/sign-up-left.png');
+      position: right bottom, left bottom;
+      repeat: no-repeat, no-repeat;
+      size: 273px;
+    }
+    height: 216px;
+    margin: auto;
+    width: 1030px;
+  }
+
+  &--inner {
+    border-radius: 10px;
+  }
+
+  &--header {
+    height: 330px;
+  }
+
+  &--header__single {
+
+    .sign-up--wrapper {
+      background: {
+        image: url('/static/images/welcome.png');
+        position: center bottom;
+        size: 365px;
+      }
+      position: relative;
+      width: 630px;
+
+      &:before {
+        background-color: rgba(255,255,255, 0.1);
+        bottom: 0;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        content: '';
+        left: 0;
+        right: 0;
+        position: absolute;
+        top: 40px;
+      }
+    }
+
+    .form--sign-up {
+      top: 216px;
+      position: relative;
+      width: 630px;
+    }
+
+    .sign-up--inner {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+}

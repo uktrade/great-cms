@@ -4,6 +4,7 @@ import ReactModal from 'react-modal'
 import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
 import Spinner from '../Spinner/Spinner'
+import MessageConfirmation from './MessageConfirmation'
 
 const customStyles = {
   content: {
@@ -14,12 +15,12 @@ const customStyles = {
     minWidth: '800px',
     padding: '0',
     border: 'none',
-    overflow: 'none',
+    overflow: 'none'
   },
   overlay: {
     background: 'rgb(45 45 45 / 45%)',
-    zIndex: '3',
-  },
+    zIndex: '3'
+  }
 }
 
 function ValueChooser(attribute, handleChange) {
@@ -50,7 +51,7 @@ function ValueChooser(attribute, handleChange) {
   return (
     <div>
       {profile}
-      <button class="button button--primary" onClick={handleChange}>
+      <button className="button button--primary" onClick={handleChange}>
         Send
       </button>
     </div>
@@ -63,9 +64,12 @@ export function ProductFinder(props) {
   const [selectedProduct, setSelectedProduct] = React.useState(props.text)
   const [searchResults, setSearchResults] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
+  const [isScrolled, setIsScrolled] = React.useState(false)
+  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
 
   const openModal = () => {
-    setIsOpen(true)
+    setProductConfirmationRequired(!!selectedProduct)
+    setIsOpen(!selectedProduct)
   }
 
   const closeModal = () => {
@@ -73,11 +77,20 @@ export function ProductFinder(props) {
     setSearchResults({})
   }
 
+  const closeConfirmation = () => {
+    setProductConfirmationRequired(false)
+    setIsOpen(true)
+  }
+
   const saveProduct = () => {
-    setSelectedProduct(searchResults.hsCode)
-    Services.updateExportPlan({
-      commodity_name: searchResults.currentItemName,
-      export_commodity_codes: [searchResults.hsCode],
+    setSelectedProduct(searchResults.currentItemName)
+    let result = Services.updateExportPlan({
+      export_commodity_codes: [
+        {
+          commodity_name: searchResults.currentItemName,
+          commodity_code: searchResults.hsCode
+        }
+      ]
     })
       .then((result) => {
         closeModal()
@@ -98,6 +111,10 @@ export function ProductFinder(props) {
     }
   }
 
+  const onScroll = (evt) => {
+    setIsScrolled(evt.target.scrollTop > 0)
+  }
+
   const processResponse = (request) => {
     setLoading(true)
     request
@@ -105,6 +122,7 @@ export function ProductFinder(props) {
         setLoading(false)
         console.log('Initial search result', result) // TODO: Needed during development
         if (result && result.data && result.data.txId) {
+          console.log('set search result')
           setSearchResults(result.data)
         } else {
           setSearchResults(searchResults) // force re-render to reset any changed selectors
@@ -152,7 +170,7 @@ export function ProductFinder(props) {
             txId: searchResults.txId,
             attributeId: attribute.id,
             valueId: event.target.value,
-            valueString: event.target.getAttribute('data-label'),
+            valueString: event.target.getAttribute('data-label')
           })
         )
       }
@@ -166,7 +184,7 @@ export function ProductFinder(props) {
 
     return (
       <div className="grid m-v-s" key={attribute.id}>
-        <div className="c-1-4 h-s p-t-0 capitalize">{attribute.label.replace(/_/g, ' ')}</div>
+        <div className="c-1-4 h-xs p-t-0 capitalize">{attribute.label.replace(/_/g, ' ')}</div>
         <div className="c-3-4">{body}</div>
       </div>
     )
@@ -176,7 +194,7 @@ export function ProductFinder(props) {
     if (!sectionDetails || sectionDetails.length == 0 || !sectionDetails.map) return null
     return (
       <section className="summary">
-        <h3 className="h-m p-0">{title}</h3>
+        <h3 className="h-s p-0">{title}</h3>
         <div className="">
           {(sectionDetails || []).map((value, index) => {
             return Attribute(value, sectionDetails)
@@ -219,19 +237,19 @@ export function ProductFinder(props) {
     return (
       <div>
         {spinner}
-        <div className="inner-scroll">
+        <div className="scroll-inner">
           {searchResults.txId && !questions && !searchResults.hsCode && (
             <div className="grid p-t-l">
-              <p className="h-m center">No results found</p>
+              <p className="h-s center">No results found</p>
             </div>
           )}
           {searchResults.hsCode && (
             <section className="found-section grid bg-black-10">
               <div className="c-1-3">
-                <span className="h-m">You've found your product!</span>
+                <span className="h-s">You've found your product!</span>
               </div>
               <div className="c-1-3">
-                <div className="h-s p-t-0 capitalize">{searchResults.currentItemName}</div>
+                <div className="h-xs p-t-0 capitalize">{searchResults.currentItemName}</div>
                 hs code: <span className="bold">{searchResults.hsCode}</span>
               </div>
               <div className="c-1-3">
@@ -258,18 +276,21 @@ export function ProductFinder(props) {
     )
   }
 
+  let buttonClass = 'tag ' + (!selectedProduct ? 'tag--tertiary' : '') + ' tag--icon'
+  let scrollerClass = 'scroll-area ' + (isScrolled ? 'scrolled' : '')
+
   return (
     <span>
-      <button className="button button--primary button--round-corner" onClick={openModal}>
+      {/* eslint-disable-next-line react/button-has-type */}
+      <button className={buttonClass} onClick={openModal}>
         {selectedProduct || 'add product'}
+        <i class="fas fa-chevron-right"></i>
       </button>
       <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} onAfterOpen={modalAfterOpen}>
         <form className="product-finder">
-          <div className="search-header bg-blue-deep-80 text-white p-s">
-            <button className="pull-right m-r-0" onClick={closeModal}>
-              <span className="fa fa-window-close"></span>
-            </button>
-            <h3 className="h-m text-white p-t-0">Search by name</h3>
+          <div className="search-header bg-blue-deep-80 text-white p-s" style={{ height: '172px' }}>
+            <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
+            <h3 className="h-s text-white p-t-0">Search by name</h3>
             <div>Find the product you want to export</div>
             <input
               className="form-control c-2-3"
@@ -282,17 +303,27 @@ export function ProductFinder(props) {
               Search
             </button>
           </div>
-          <div className="classification-result">{resultsDisplay(searchResults)}</div>
+          <div className={scrollerClass} style={{ marginTop: '172px' }} onScroll={onScroll}>
+            {resultsDisplay(searchResults)}
+          </div>
         </form>
       </ReactModal>
+      <MessageConfirmation
+        buttonClass={buttonClass}
+        productConfirmation={productConfirmationRequired}
+        handleButtonClick={closeConfirmation}
+        messsageTitle="Changing product?"
+        messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
+        messageButtonText="Got it"
+      />
     </span>
   )
 }
 
-export default function ({ ...params }) {
+export default function({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  let text = params.element.innerText
+  let text = params.element.getAttribute('data-text')
   ReactDOM.render(<ProductFinder text={text}></ProductFinder>, params.element)
 }

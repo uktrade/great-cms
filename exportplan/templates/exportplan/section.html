@@ -8,28 +8,30 @@
 {% include "exportplan/includes/sidebar.html" %}
 {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
 
-<section class="main-section bg-stone-50 {{ view.slug }}-content" id="{{ view.slug }}-content">
+<div class="main-section bg-white {{ view.slug }}-content" id="{{ view.slug }}-content">
 
-  <section class="container">
-    <div class="grid">
-      <div class="c-1-3">&nbsp;</div>
-      <div class="c-1-2 p-t-xl p-b-s">
-        {% block intro_content %}{% endblock %}
+  <section class="section--intro bg-blue-deep-90">
+    <div class="container">
+      <div class="grid">
+        <div class="c-1-4">&nbsp;</div>
+        <div class="c-1-2 p-t-xl p-b-s text-white">
+          {% block intro_content %}{% endblock %}
+          <h1 class="h-l text-red-80">{% block intro_title %}{% endblock %}</h1>
+          <p>{% block intro_description %}{% endblock %}</p>
+        </div>
+        <div class="c-1-4">&nbsp;</div>
+        <img src={% block banner_image %}{% static 'images/ep-placeholder.svg' %}{% endblock %} alt="" class="section--intro-image m-r-auto m-f-auto" />
       </div>
     </div>
   </section>
 
-  {% block banner_image %}
-    <img src="https://via.placeholder.com/1600x200/dfd5c5?text=Banner image" alt="" class="width-full banner-image">
-  {% endblock %}
-
   <section class="container">
-
     <div class="grid">
-      <div class="c-1-3">&nbsp;</div>
-      <div class="c-2-3">
+      <div class="c-1-4">&nbsp;</div>
+      <div class="c-1-2 text-blue-deep-80">
         {% block main_content %}{% endblock %}
       </div>
+      <div class="c-1-4">&nbsp;</div>
     </div>
   </section>
 
@@ -37,26 +39,28 @@
 
   {% block additional_content %}{% endblock %}
 
-  <hr class="m-t-0">
-
-  <section class="p-b-xl">
+  <section class="p-v-m bg-blue-deep-80">
     <div class="container">
-      <div class="grid bottom-nav">
+      <div class="grid">
         <div class="c-1-4">&nbsp;</div>
-        <div class="c-1-3">
+        <div class="c-1-2">
           {% if next_section %}
-            <p class="m-b-0">Next</p>
-            <a class="h-l" href="{{ next_section.url }}">{{ next_section.title }}</a>
+            <p class="h-xs m-b-0 text-white">Next</p>
+            <a class="text-red-80 link" href="{{ next_section.url }}" title="{{ next_section.title }}"><span class="inline-block h-l text-red-80 link--underline p-0 m-b-xs">{{ next_section.title }}</span> <br /><i class="fas fa-arrow-circle-right text-red-80"></i> </a>
           {% endif %}
-          <div class="m-t-s m-b-s"><a href="/export-plan">Back to Export Plan</a></div>
+          <div class="m-t-l"><a class="button button--tertiary button--icon" href="/export-plan" title="Back to Export Plan home"><i class="fas fa-arrow-left"></i> Back to Export Plan home</a></div>
         </div>
-        <div class="c-1-3">
-          <img src="{% static 'images/export-plan-bottom-nav.png' %}" alt="" />
-        </div>
+        <div class="c-1-4">&nbsp;</div>
       </div>
     </div>
   </section>
 
-</section>
+  {% block body_footer %}
+    <div class="p-v-l bg-blue-deep-90">
+      &nbsp;
+    </div>
+  {% endblock %}
+
+</div>
 
 {% endblock %}

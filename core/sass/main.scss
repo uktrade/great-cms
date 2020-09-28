@@ -28,11 +28,13 @@ $fa-font-path: '/static/fonts';
 @import 'elements/colours';
 @import 'elements/responsive';
 @import 'elements/buttons';
+@import 'elements/tags';
 @import 'elements/details';
 @import 'elements/tables';
 @import 'elements/utils';
 @import 'elements/spacing';
 @import 'elements/box';
+@import 'elements/icons';
 
 // Components
 @import 'components/card/base';
@@ -57,6 +59,7 @@ $fa-font-path: '/static/fonts';
 @import 'components/stats';
 @import 'components/tag-list';
 @import 'components/panels';
+@import 'components/beta';
 
 // MVP styles
 // ===================================================
@@ -73,6 +76,8 @@ $fa-font-path: '/static/fonts';
 @import 'components/insights';
 @import 'components/target-market-form';
 @import 'components/product-finder';
+@import 'components/sign-up';
+@import 'components/modals';
 
 @import 'base';
 @import 'overrides';

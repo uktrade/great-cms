@@ -36,13 +36,21 @@ class ExportPlanMixin:
             'url': data.SECTION_URLS[index + 1],
         }
 
+    @property
+    def current_section(self):
+        index = data.SECTION_SLUGS.index(self.slug)
+        return {
+            'title': data.SECTION_TITLES[index],
+            'url': data.SECTION_URLS[index],
+        }
+
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
         country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
-
         return super().get_context_data(
             next_section=self.next_section,
-            sections=data.SECTION_TITLES,
+            current_section=self.current_section,
+            sections=data.SECTION_TITLES_URLS,
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
@@ -157,7 +165,9 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
         # To do pass lanaguage from export_plan object rather then  hardcoded
-        context['language_data'] = helpers.get_cia_world_factbook_data(country='Netherlands', key='people,languages')
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.export_plan['export_countries'][0]['country_name'], key='people,languages'
+        )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
         return context
 

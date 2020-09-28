@@ -269,16 +269,6 @@ def mock_get_export_plan_market_data():
 
 
 @pytest.fixture
-def mock_get_export_plan_rules_regulations():
-    return_value = {
-        'country': 'Japan',
-        'commodity_code': '2208.50',
-    }
-    with patch.object(exportplan_helpers, 'get_exportplan_rules_regulations', return_value=return_value,) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_get_comtrade_last_year_import_data():
     return_value = {'last_year_data_partner': {'Year': 2019, 'value': 16249072}}
     with patch.object(exportplan_helpers, 'get_comtrade_last_year_import_data', return_value=return_value) as patched:
@@ -429,7 +419,6 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_get_ease_of_doing_business,
     mock_get_export_plan_list,
     mock_get_export_plan_market_data,
-    mock_get_export_plan_rules_regulations,
     mock_get_export_plan,
     mock_get_user_context_export_plan,
     mock_get_last_year_import_data,

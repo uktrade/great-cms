@@ -107,6 +107,7 @@ $desktop: 1024px;
 
 .learn__category-entities {
   padding: 8px 17px 7px;
+  color: $white;
   display: inline-block;
   white-space: nowrap;
   position: absolute;
@@ -199,6 +200,14 @@ $desktop: 1024px;
   right: 60px;
 }
 
+.learn__back-link {
+  @media(min-width: $desktop) {
+    position: absolute;
+    left: -55px;
+    top: 18px;
+  }
+}
+
 #lesson-page {
   details {
     summary {
@@ -275,15 +284,15 @@ $desktop: 1024px;
     }
 
     h2 {
-      @extend .h-l;
-    }
-
-    h3 {
       @extend .h-m;
     }
 
-    h4 {
+    h3 {
       @extend .h-s;
+    }
+
+    h4 {
+      @extend .h-xs;
     }
 
     b > i {
@@ -316,6 +325,17 @@ $desktop: 1024px;
 
     hr {
       @extend .hr;
+    }
+
+    .choose-dont-choose {
+      h3 {
+        @extend .h-xs;
+        margin-bottom: 10px;
+
+        @include tablet {
+          padding: 0;
+        }
+      }
     }
 
     .pros-and-cons {
@@ -370,8 +390,17 @@ $desktop: 1024px;
   .lesson-hero {
     img, video {
       border-radius: 5px;
+      display: block;
       margin: 0 auto;
       max-width: 100%;
+    }
+
+    .video-transcript {
+      &__text-area {
+        color: $blue-deep-80;
+        max-height: 200px;
+        overflow-y: scroll;
+      }
     }
   }
 

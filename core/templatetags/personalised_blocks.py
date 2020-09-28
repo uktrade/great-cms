@@ -9,6 +9,14 @@ register = template.Library()
 
 @register.simple_tag
 def render_video_block(block):
+    """Renders a video specifically added via a PersonalisedStructBlock
+
+    Note that the viewing time is NOT added to the <video> node as a custom
+    attribute, unlike what happens in video_tags.render_video(). This is
+    because we don't count viewing time of personalised content in estimated
+    reads, so there's no need for it.
+    """
+
     if not block:
         return ''
     sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in block['video'].sources])

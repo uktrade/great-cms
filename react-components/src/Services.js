@@ -87,6 +87,10 @@ const lookupProductRefine = function({ txId, interractionId, valueId, valueStrin
   return get(config.apiLookupProductUrl, { tx_id:txId, interraction_id:interractionId, value_id:valueId, value_string:valueString }).then((response) => responseHandler(response).json())
 }
 
+const getCountries = function() {
+  return get(config.apiCountriesUrl, { }).then((response) => responseHandler(response).json())
+}
+
 const createUser = function({ email, password }) {
   return post(config.apiSignupUrl, { email, password }).then(responseHandler)
 }
@@ -181,6 +185,7 @@ const setConfig = function({
   apiLoginUrl,
   apiSignupUrl,
   apiLookupProductUrl,
+  apiCountriesUrl,
   apiUpdateCompanyUrl,
   countryOptions,
   csrfToken,
@@ -211,6 +216,7 @@ const setConfig = function({
   config.apiLoginUrl = apiLoginUrl
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
+  config.apiCountriesUrl = apiCountriesUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
   config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
@@ -252,6 +258,7 @@ export default {
   updateObjective,
   lookupProduct,
   lookupProductRefine,
+  getCountries,
   setConfig,
   getLessonComplete,
   setLessonComplete,

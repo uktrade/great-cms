@@ -1,8 +1,16 @@
 {% load object_tags %}
-{% load format_timedelta from content_tags %}
+{% load format_timedelta get_backlinked_url from content_tags %}
 
-<p>
-        topic title: {{ lesson_details|get_item:lesson_name|get_item:'topic_name' }} <br>
-        name of lesson: <a href="{{ lesson_details|get_item:lesson_name|get_item:'url' }}">{{ lesson_details|get_item:lesson_name|get_item:'title' }}</a> <br>
-        estimated time: {{ lesson_details|get_item:lesson_name|get_item:'estimated_read_duration'|format_timedelta }} read <br>
-</p>
+{% with lesson_details|get_item:lesson_name|get_item:'url' as outbound_url %}
+<a class="text-white link inline-block m-r-m" href="{% get_backlinked_url outbound_url %}" title="{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}">
+    <h3 class="text-blue-deep-80 body-l-b m-b-xs">Learn</h3>
+    <div class="bg-blue-deep-80 p-s radius">
+        <h4 class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}</h4>
+        <p class="text-white h-s m-t-0">{{ lesson_details|get_item:lesson_name|get_item:'title' }}</p>
+        <div class="text-white">
+            <i class="fa fa-clock text-blue-deep-40 m-r-xs"></i>
+            <span class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'estimated_read_duration'|format_timedelta }} read</span>
+        </div>
+    </div>
+</a>
+{% endwith %}

@@ -1,7 +1,52 @@
+from unittest import mock
+
 import pytest
 
 from django.template import Context, Template
 from datetime import timedelta
+
+from core.templatetags.personalised_blocks import render_video_block
+from core.templatetags.video_tags import render_video
+from core.templatetags.content_tags import get_backlinked_url
+from core.templatetags.url_map import path_match
+
+
+def test_render_personalised_video_block_tag():
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}]
+    )
+    block = dict(
+        width=20,
+        height=20,
+        video=video_mock
+    )
+    html = render_video_block(block)
+
+    assert '<video width="20" height="20" controls>' in html
+    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    assert 'Your browser does not support the video tag.' in html
+
+
+def test_general_render_video_tag():
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
+    )
+    block = dict(
+        video=video_mock
+    )
+    html = render_video(block)
+
+    assert '<video controls data-v-duration="120">' in html
+    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    assert 'Your browser does not support the video tag.' in html
+
+
+def test_empty_block_render_video_tag():
+
+    block = dict()
+    html = render_video(block)
+    assert '' in html
 
 
 @pytest.mark.django_db
@@ -84,3 +129,81 @@ def test_get_item_filter(user, rf, domestic_site):
     for case in cases:
         html = template.render(Context({'lesson_details': case.get('lesson_details')}))
         assert html == case.get('result')
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'request_path,outbound_url,expected_backlinked_url',
+    (
+        (
+            '/example/export-plan/path/',
+            '/test/outbound/path/',
+            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F'
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            '/test/outbound/path/',
+            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+        ),
+        (
+            '/example/export-plan/path/',
+            'https://example.com/test/outbound/path/',
+            'https://example.com/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F'
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            'https://example.com/test/outbound/path/',
+            (
+                'https://example.com/test/outbound/path/'
+                '?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            )
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            '/test/outbound/path/?bam=baz',
+            (
+                '/test/outbound/path/'
+                '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            )
+        ),
+        (
+            '/example/export-plan/path/?foo=bar',
+            'https://example.com/test/outbound/path/?bam=baz',
+            (
+                'https://example.com/test/outbound/path/'
+                '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            )
+        ),
+    ),
+    ids=[
+        '1. Outbound path with NO existing querystring for the source/request path',
+        '2. Outbound path with an existing querystring for the source/request path',
+        '3. Full outbound URL with NO existing querystring for the source/request path',
+        '4. Full outbound URL with existing querystring for the source/request path',
+        '5. Both source/request and outbound URLs feature querystrings',
+        '5. Both source/request and outbound URLs feature querystrings; outbound is a full URL',
+    ]
+)
+def test_get_backlinked_url(rf, request_path, outbound_url, expected_backlinked_url):
+    context = {'request': rf.get(request_path)}
+    assert get_backlinked_url(context, outbound_url) == expected_backlinked_url
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('path, expected', (
+    ('/markets/', True),
+    ('/markets/morepath/', True),
+    ('/export-plan/markets/', False),
+    ('', False),
+),
+    ids=[
+        'match base path',
+        'match extended path',
+        'non-match',
+        'empty path'
+]
+)
+def test_path_match(rf, path, expected):
+    context = {'request': rf.get(path)}
+    match = path_match(context, '^\\/markets\\/')
+    assert bool(match) == expected

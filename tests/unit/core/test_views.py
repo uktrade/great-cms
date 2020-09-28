@@ -454,6 +454,17 @@ def test_refine_commodity(mock_search_commodity_refine, client):
 
 
 @pytest.mark.django_db
+def test_get_countries(client):
+    response = client.get(reverse('core:api-countries'))
+    countries = response.json()
+    assert response.status_code == 200
+    assert len(countries) > 200
+    assert 'id' in countries[0]
+    assert 'name' in countries[0]
+    assert 'region' in countries[0]
+
+
+@pytest.mark.django_db
 def test_list_page_uses_right_template(domestic_homepage, rf, user):
     request = rf.get('/')
     request.user = user

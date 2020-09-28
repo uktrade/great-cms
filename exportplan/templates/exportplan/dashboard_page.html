@@ -27,9 +27,9 @@
         <div class="m-t-s m-b-m">
             <a href="#" class="link link--underline">Add your business name</a>
         </div>
-        <button class="button button--secondary button--icon-left m-b-xs width-full" disabled="disabled"><i class="fas fa-download"></i> Save your plan as a PDF</button>
-        <button class="button button--secondary button--icon-left m-b-xs width-full" disabled="disabled"><i class="fas fa-share"></i> Share your plan</button>
-        <button class="button button--secondary button--icon-left m-b-xs width-full" disabled="disabled"><i class="fas fa-globe"></i> Find your target market</button>
+        <button class="button button--secondary button--icon m-b-xs width-full" disabled="disabled"><i class="fas fa-download"></i> Save your plan as a PDF</button>
+        <button class="button button--secondary button--icon m-b-xs width-full" disabled="disabled"><i class="fas fa-share"></i> Share your plan</button>
+        <button class="button button--secondary button--icon m-b-xs width-full" disabled="disabled"><i class="fas fa-globe"></i> Find your target market</button>
     </aside>
     <div class="container">
         <div class="grid">
@@ -43,7 +43,7 @@
                                     <a class="w-full link" href="{% url 'exportplan:section' slug=section.title|slugify %}" id="{{ section.title|slugify }}">
                                         <img class="w-full p-h-s p-t-m p-b-s" src="{% static 'images/ep-placeholder.svg' %}" alt="about the business">
                                             <div class="p-h-s p-b-s">
-                                                <h3 class="h-m text-blue-deep-80">{{ section }}</h3>
+                                                <h3 class="bold body-l-b text-blue-deep-80">{{ section }}</h3>
                                             </div>
                                       </a>
                                 </div>

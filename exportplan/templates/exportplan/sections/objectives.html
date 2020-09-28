@@ -19,6 +19,15 @@
 {% endblock %}
 
 {% block user_input %}
+
+<section class="container">
+  {% include 'exportplan/includes/lesson_details.html' with lesson_name='opportunity-right-you' %}
+</section>
+
+<section class="container">
+  {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
+</section>
+
 <div id="objectives-form">
   <form class="" action="" method="post">
   {% csrf_token %}
