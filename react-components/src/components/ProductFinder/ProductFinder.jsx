@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import {getModalIsOpen, getProductsExpertise} from '@src/reducers'
+import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
 import Spinner from '../Spinner/Spinner'
-import MessageConfirmation from "./MessageConfirmation";
+import MessageConfirmation from './MessageConfirmation'
 
 const customStyles = {
   content: {
@@ -15,12 +15,12 @@ const customStyles = {
     minWidth: '800px',
     padding: '0',
     border: 'none',
-    overflow: 'none',
+    overflow: 'none'
   },
   overlay: {
     background: 'rgb(45 45 45 / 45%)',
-    zIndex: '3',
-  },
+    zIndex: '3'
+  }
 }
 
 function ValueChooser(attribute, handleChange) {
@@ -84,13 +84,14 @@ export function ProductFinder(props) {
 
   const saveProduct = () => {
     setSelectedProduct(searchResults.currentItemName)
-    let result = Services.updateExportPlan(
-      {
-        export_commodity_codes: [{
+    let result = Services.updateExportPlan({
+      export_commodity_codes: [
+        {
           commodity_name: searchResults.currentItemName,
           commodity_code: searchResults.hsCode
-        }]
-      })
+        }
+      ]
+    })
       .then((result) => {
         closeModal()
       })
@@ -135,7 +136,7 @@ export function ProductFinder(props) {
 
   const search = () => {
     let query = searchInput.value
-    processResponse(Services.lookupProduct({q: query}))
+    processResponse(Services.lookupProduct({ q: query }))
   }
 
   const RadioButtons = (attribute, handleChange, setValue = true) => {
@@ -162,20 +163,20 @@ export function ProductFinder(props) {
   const Attribute = (attribute, section) => {
     const handleChange = (event) => {
       if (section.isItemChoice) {
-        processResponse(Services.lookupProduct({q: event.target.getAttribute('data-label')}))
+        processResponse(Services.lookupProduct({ q: event.target.getAttribute('data-label') }))
       } else {
         processResponse(
           Services.lookupProductRefine({
             txId: searchResults.txId,
             attributeId: attribute.id,
             valueId: event.target.value,
-            valueString: event.target.getAttribute('data-label'),
+            valueString: event.target.getAttribute('data-label')
           })
         )
       }
     }
 
-    let body = {SELECTION: RadioButtons, VALUED: ValueChooser}[attribute.type](
+    let body = { SELECTION: RadioButtons, VALUED: ValueChooser }[attribute.type](
       attribute,
       handleChange,
       !section.isItemChoice
@@ -228,7 +229,7 @@ export function ProductFinder(props) {
     ;(itemChoice || {}).isItemChoice = true
     let spinner = isLoading ? (
       <div className="shim">
-        <Spinner text=""/>
+        <Spinner text="" />
       </div>
     ) : (
       ''
@@ -275,52 +276,51 @@ export function ProductFinder(props) {
     )
   }
 
-  let buttonClass = 'button ' + (selectedProduct ? 'button--primary' : 'button--ghost-blue')+' button--round-corner button--chevron'
-  let scrollerClass = 'scroll-area '+(isScrolled ? 'scrolled' : '')
+  let buttonClass = 'tag ' + (!selectedProduct ? 'tag--tertiary' : '') + ' tag--icon'
+  let scrollerClass = 'scroll-area ' + (isScrolled ? 'scrolled' : '')
 
   return (
     <span>
-            {/* eslint-disable-next-line react/button-has-type */}
+      {/* eslint-disable-next-line react/button-has-type */}
       <button className={buttonClass} onClick={openModal}>
-            {selectedProduct || 'add product'}
+        {selectedProduct || 'add product'}
+        <i class="fas fa-chevron-right"></i>
       </button>
-            <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}
-                        onAfterOpen={modalAfterOpen}>
-                <form className="product-finder">
-                    <div className="search-header bg-blue-deep-80 text-white p-s" style={{height: '172px'}}>
-                        <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
-                        <h3 className="h-s text-white p-t-0">Search by name</h3>
-                        <div>Find the product you want to export</div>
-                        <input
-                          className="form-control c-2-3"
-                          type="text"
-                          ref={(_searchInput) => (searchInput = _searchInput)}
-                          onKeyPress={inputKeypress}
-                          defaultValue=""
-                        />
-                        <button className="button button--tertiary m-f-xxs" type="button" onClick={search}>
-                          Search
-                        </button>
-                      </div>
-                      <div className={scrollerClass} style={{marginTop: '172px'}} onScroll={onScroll}>
-                        {resultsDisplay(searchResults)}
-                      </div>
-                </form>
-                </ReactModal>
-                <MessageConfirmation
-                  buttonClass={buttonClass}
-                  productConfirmation={productConfirmationRequired}
-                  handleButtonClick={closeConfirmation}
-                  messsageTitle="Changing product?"
-                  messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
-                  messageButtonText="Got it"/>
-
-            </span>
-
+      <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} onAfterOpen={modalAfterOpen}>
+        <form className="product-finder">
+          <div className="search-header bg-blue-deep-80 text-white p-s" style={{ height: '172px' }}>
+            <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
+            <h3 className="h-s text-white p-t-0">Search by name</h3>
+            <div>Find the product you want to export</div>
+            <input
+              className="form-control c-2-3"
+              type="text"
+              ref={(_searchInput) => (searchInput = _searchInput)}
+              onKeyPress={inputKeypress}
+              defaultValue=""
+            />
+            <button className="button button--tertiary m-f-xxs" type="button" onClick={search}>
+              Search
+            </button>
+          </div>
+          <div className={scrollerClass} style={{ marginTop: '172px' }} onScroll={onScroll}>
+            {resultsDisplay(searchResults)}
+          </div>
+        </form>
+      </ReactModal>
+      <MessageConfirmation
+        buttonClass={buttonClass}
+        productConfirmation={productConfirmationRequired}
+        handleButtonClick={closeConfirmation}
+        messsageTitle="Changing product?"
+        messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
+        messageButtonText="Got it"
+      />
+    </span>
   )
 }
 
-export default function ({...params}) {
+export default function({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)

@@ -5,11 +5,11 @@
   <nav class="p-t-xxs p-h-xs p-b-xxs bg-blue-deep-70 c-full-width text-white" id="personalisation-bar">
       <span class="m-f-xs m-r-xxs">I want to learn about exporting</span>
       <span id="set-product-button" data-text="{{product_name}}">
-        <button class="button {% if product_name %}button-primary{% else %}button--ghost-blue{% endif %} button--round-corner button-chevron">{{product_name|default:'add product'}}</button>
+        <button class="tag {% if not product_name %}tag--tertiary{% endif %} tag--icon">{{product_name|default:'add product'}}<i class="fas fa-chevron-right"></i></button>
       </span>
       <span class="m-f-xxs m-r-xxs">to</span>
       <span id="set-country-button" data-text="{{market.country_name}}">
-        <button class="button {% if market %}button-primary{% else %}button--ghost-blue{% endif %} button--round-corner button-chevron">{{market.country_name|default:'add countries'}}</button>
+        <button class="tag {% if not market %}tag--tertiary{% endif %} tag--icon">{{market.country_name|default:'add countries'}}<i class="fas fa-chevron-right"></i></button>
       </span>
   </nav>
 {% endwith %}
