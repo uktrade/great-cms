@@ -17,10 +17,11 @@ local site will also be possible.
 
 * The default local site runs on 8020 - the Transfer Target will run on 8030.
 * The Transfer Target uses the main settings.py BUT has a separate env file: ``config/env/dev-transfer-target``
-* The Makefile has been updated to include versions of common commands that use the special env file.
-    * ``manage_transfer_target`` -- run management commands for the Transfer Target site, eg ``createsuperuser`` and ``migrate``
-    * ``webserver_transfer_target`` -- run the web server for it, on 8030
-    * ``database_transfer_target`` -- recreate the DB for the Transfer Target. More on this one below. There is not support for ``make recreate`` - you can do that by hand if you need it.
+* A separate Makefile has been added with versions of common commands that use the special env file. You need to reference it explicitly:
+
+    * ``make --file=makefile-for-wagtail-transfer manage_transfer_target`` -- run management commands for the Transfer Target site, eg ``createsuperuser`` and ``migrate``
+    * ``make --file=makefile-for-wagtail-transfer webserver_transfer_target`` -- run the web server for it, on 8030
+    * ``make --file=makefile-for-wagtail-transfer database_transfer_target`` -- recreate the DB for the Transfer Target. More on this one below. There is not support for ``make recreate`` - you can do that by hand if you need it.
 
 Note that using both sites (8020 and 8030) in different tabs in the same browser will cause frustration as you can only be logged in to one at a time. As such, it's recommended to use two separate browsers/containers/profiles
 
@@ -30,7 +31,7 @@ Local database setup
 
 1. Set up a local DB for the Transfer Target site
 
-``make database_transfer_target``
+``make --file=makefile-for-wagtail-transfer database_transfer_target``
 
 2. Generate a dump of your local, standard, setup to load into the transfer target:
 
