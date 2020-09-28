@@ -238,3 +238,4 @@
 - GP2-542 - Commodity code and Country store as key/value pairs
 - GP2-426 - Backend support (as GP2-657) for supporting backlinks from lessons to the originating export plan
 - GP2-541 - remove hardcoded country
+- noticket add-learning-to-objectives
