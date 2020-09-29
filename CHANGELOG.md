@@ -243,3 +243,4 @@
 - GP2-541 - remove hardcoded country
 - noticket add-learning-to-objectives
 - GP2-513 - Dropdown-changes
+- noticket bug fix lessons details on objectives
