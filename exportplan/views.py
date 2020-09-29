@@ -182,7 +182,7 @@ class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionVie
         return self.export_plan['target_markets_research']
 
 
-class ExportPlanBusinessObjectivesView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanBusinessObjectivesForm
     success_url = reverse_lazy('exportplan:objectives')
 
