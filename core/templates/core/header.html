@@ -9,7 +9,7 @@
     <div class="header-links">
       <ul id="services-area" class="services-area">
         {% path_match "^\/learn\/" as in_learning %}
-        {% path_match "^\/export_plan\/" as in_exportplan %}
+        {% path_match "^\/export-plan\/" as in_exportplan %}
         {% path_match "^\/find-your-target-market\/" as in_targetmarkets %}
         <li><a id="header-link-learning" class="link {% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
         <li><a id="header-link-markets" class="link {% if in_targetmarkets %}active{% endif %}" href="/find-your-target-market/ ">Target a market</a></li>
@@ -22,7 +22,7 @@
         ditMVP.ModalMenu({
           element: document.querySelector("#header-link-user-profile"),
           avatar: '{{ request.user.profile_image|default:"" }}',
-          user_name: '{{request.user.first_name}}'
+          user_name: '{{ request.user.first_name|default:"" }}'
         })
 
         </script>
