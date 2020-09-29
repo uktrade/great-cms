@@ -51,7 +51,7 @@ WAGTAILTRANSFER_SECRET_KEY=local-one
 WAGTAIL_TRANSFER_LOCAL_DEV=False
 
 # This ONLY takes effect if you also have the storage backend set to S3 in
-# your secrets-do-not-commit file, but needs to be defined here, because you it needs to be defined
+# your secrets-do-not-commit file, but needs to be defined here, because it needs to be defined
 # outside of secrets-do-not-commit else the same value will be used for both source and target sites
 # for Wagtail-Transfer. Sorry.
 AWS_STORAGE_BUCKET_NAME=great-local-bucket-one
