@@ -5,12 +5,12 @@
 {% load pluralize from content_tags %}
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
+    <a href="{{parent_page_url}}" class="learn__back-link h-m">
+        <i class="fas fa-arrow-left"></i>
+        <span class="visually-hidden">Back</span>
+    </a>
     <section class="learn__single-category-header">
         <div class="learn__single-category-header-wrapper container">
-            <a href="{{parent_page_url}}" class="learn__back-link h-m">
-                <i class="fas fa-arrow-left"></i>
-                <span class="visually-hidden">Back</span>
-            </a>
             <div class="grid">
                 <div class="c-1-2-l">
                     <div class="learn__single-category-header-content">
