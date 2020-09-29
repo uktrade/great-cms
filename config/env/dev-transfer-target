@@ -1,3 +1,3 @@
+AWS_STORAGE_BUCKET_NAME=great-local-bucket-two
 DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms_transfer_target
 WAGTAILTRANSFER_SECRET_KEY=local-two
-AWS_STORAGE_BUCKET_NAME=great-local-bucket-two

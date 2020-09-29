@@ -50,8 +50,8 @@ builds (both of them) configured to use S3 for media storage.
 * in your secrets-do-not-commit, set:
     * ``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY`` to values for a non-production account (eg dev)
     * ``DEFAULT_FILE_STORAGE=storages.backends.s3boto3.S3Boto3Storage``
-    * ``USER_MEDIA_ON_S3`` to ``True``
     * ``SECRET_KEY`` need to be set to some string, too, if not already set
+    * ``WAGTAIL_TRANSFER_LOCAL_DEV`` to ``True``
 
 For the account that matches the access key you specified accountm, created two buckets, if needed::
 

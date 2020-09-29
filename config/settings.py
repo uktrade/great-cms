@@ -341,9 +341,18 @@ AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
 
-if env.bool('USER_MEDIA_ON_S3', default=False) and AWS_STORAGE_BUCKET_NAME:
-    host = AWS_S3_CUSTOM_DOMAIN or AWS_S3_HOST
-    MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{host}/'
+USER_MEDIA_ON_S3 = (
+    DEFAULT_FILE_STORAGE == 'storages.backends.s3boto3.S3Boto3Storage'
+)
+# Wagtail-Transfer needs MEDIA_URL set to reference cloud storage
+if USER_MEDIA_ON_S3 and (
+    AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN
+):
+    if AWS_S3_CUSTOM_DOMAIN:  # eg cdn.example.com
+        hostname = AWS_S3_CUSTOM_DOMAIN
+    else:
+        hostname = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}'
+    MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}//{hostname}/'
 
 
 if DEBUG:
@@ -461,7 +470,7 @@ VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int(
 
 # Wagtail-transfer configuration
 
-if env.bool('IS_LOCAL_DEV', default=False):
+if env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False):
     WAGTAILTRANSFER_SOURCES = {
         # Safe to hard-code these ones for local dev
         'local_one_on_8020': {  # ie, `make webserver`
