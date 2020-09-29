@@ -201,11 +201,9 @@ $desktop: 1024px;
 }
 
 .learn__back-link {
-  @media(min-width: $desktop) {
-    position: absolute;
-    left: -55px;
-    top: 18px;
-  }
+  position: absolute;
+  left: 38px;
+  top: 95px;
 }
 
 #lesson-page {

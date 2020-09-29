@@ -126,12 +126,15 @@
                                     </a>
 
                                 </div>
-                                {% if module.image %}
+                                {% comment %}
+                                    If `next_module` is present, we want to use the image from that ahead of `current_module`
+                                {% endcomment %}
+                            {% with next_module|default:current_module as appropriate_module %}
                                 <div class="g-card--with-image__image">
-                                    {% image module.image original as module_image %}
+                                    {% image appropriate_module.image original as module_image %}
                                     <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
                                 </div>
-                                {% endif %}
+                            {% endwith %}
                             </div>
                         </div>
                         <div class="c-1-12">

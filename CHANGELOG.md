@@ -8,6 +8,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-623 - Further update to next lesson feature
+- GP2-76 - adjust aligment of back button
 - GP2-627 - Fix button styling across pages
 - GP2-654 - Next lesson image bugfix
 - GP2-394 - Enter verification code for sign-up
@@ -240,3 +242,4 @@
 - GP2-426 - Backend support (as GP2-657) for supporting backlinks from lessons to the originating export plan
 - GP2-541 - remove hardcoded country
 - noticket add-learning-to-objectives
+- GP2-513 - Dropdown-changes

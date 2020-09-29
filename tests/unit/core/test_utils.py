@@ -43,7 +43,7 @@ def test_lesson_module(domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_multiple_module(domestic_homepage, client, user):
+def test_multiple_modules(domestic_homepage, client, user):
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     module_1 = factories.CuratedListPageFactory(
         title='Module 1',
@@ -106,10 +106,17 @@ def test_multiple_module(domestic_homepage, client, user):
     page4_response = detail_page_4.serve(request)
 
     assert page1_response.context_data['next_lesson'].specific == detail_page_2
-    assert page1_response.context_data['module'].specific == module_1
+    assert page1_response.context_data['current_module'].specific == module_1
+    assert page1_response.context_data.get('next_module') is None  # only present for final lesson in module
+
     assert page2_response.context_data['next_lesson'].specific == detail_page_3
-    assert page2_response.context_data['module'].specific == module_1
+    assert page2_response.context_data['current_module'].specific == module_1
+    assert page2_response.context_data.get('next_module') is None  # only present for final lesson in module
+
     assert page3_response.context_data['next_lesson'].specific == detail_page_4
-    assert page3_response.context_data['module'].specific == module_2
+    assert page3_response.context_data['current_module'].specific == module_1
+    assert page3_response.context_data['next_module'].specific == module_2
+
     assert page4_response.context_data.get('next_lesson') is None
-    assert page4_response.context_data.get('module') is None
+    assert page4_response.context_data['current_module'] == module_2
+    assert page4_response.context_data.get('next_module') is None  # no next module, even though final lesson
