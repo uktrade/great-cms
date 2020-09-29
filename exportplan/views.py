@@ -101,8 +101,9 @@ class FormContextMixin:
         ]
 
         field_choices = [
-            field.choices if hasattr(field, 'choices') else '' for field in
-            self.form_class.base_fields.values()
+            [
+                {'value': key, 'label': label} for key, label in field.choices
+            ] if hasattr(field, 'choices') else '' for field in self.form_class.base_fields.values()
         ]
 
         field_types = [
