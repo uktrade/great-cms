@@ -491,6 +491,7 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'wagtailmedia',
     'core.AltTextImage',
     'core.ContentModule',
+    'core.GreatMedia',
     'core.Tour',
     'core.TourStep',
 ]
