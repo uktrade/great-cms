@@ -1,4 +1,3 @@
-IS_LOCAL_DEV=True
 SECRET_KEY=debug
 DEBUG=true
 SESSION_COOKIE_SECURE=false
@@ -49,4 +48,10 @@ UTM_COOKIE_DOMAIN=.great
 
 # Needed for Wagtail-Transfer local development. Also see env/config/dev-transfer-target
 WAGTAILTRANSFER_SECRET_KEY=local-one
+WAGTAIL_TRANSFER_LOCAL_DEV=False
+
+# This ONLY takes effect if you also have the storage backend set to S3 in
+# your secrets-do-not-commit file, but needs to be defined here, because you it needs to be defined
+# outside of secrets-do-not-commit else the same value will be used for both source and target sites
+# for Wagtail-Transfer. Sorry.
 AWS_STORAGE_BUCKET_NAME=great-local-bucket-one
