@@ -20,16 +20,6 @@ def get_wagtail_transfer_configuration() -> dict:
     be set as settings.WAGTAILTRANSFER_SOURCES, which dictates where content
     can be imported FROM.
 
-    For now we need the configuration to permit the following:
-        1. Import from Staging into Beta (so Beta needs to know about Staging)
-        2. Import from Beta into Staging (so Staging needs to know about Beta)
-        3. Import from Beta OR Staging into Dev (so Dev needs to know about both)
-        5. Local dev: only if enabled, a special setup for copying between two
-           local runservers on different ports - see docs/wagtail_transfer.rst
-
-    In the future, we may need to add configuration for UAT and/or Production
-    environments.
-
     Note that importing FROM Dev INTO anywhere else is NOT be allowed, so
     nowhere will have Dev configured as a Wagtail-Transfer source.
     """

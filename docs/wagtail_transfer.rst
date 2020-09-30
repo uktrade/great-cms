@@ -5,11 +5,41 @@ Status: DRAFT
 
 We use ``Wagtail Transfer<https://wagtail.github.io/wagtail-transfer/>``_ to move content between (allowed) environments.
 
-This work is currently IN PROGRES
+This work is currently IN PROGRESS
 
 
-Local setup
------------
+What does it do?
+----------------
+
+W-T allows a Wagtail site to import content FROM another site into itself, creating or updating pages as appropriate.
+
+As such, we need to carefully control which site can import from which other site.
+
+For now, the configuration provided by ``config.utils.get_wagtail_transfer_configuration()`` permits the following:
+
+1. Import from Staging into Beta (so Beta needs to know about Staging)
+2. Import from Beta into Staging (so Staging needs to know about Beta)
+3. Import from Beta OR Staging into Dev (so Dev needs to know about both)
+4. Local dev: only if enabled, a special setup for copying between two
+    local runservers on different ports - see docs/wagtail_transfer.rst
+
+In the future, we may need to add configuration for UAT and/or Production
+environments.
+
+
+What doesn't it do?
+-------------------
+
+Currently, Wagtail Transfer does not:
+
+* automatically reflect the deletion or movemement of pages on a source site. Support can be added, but needs further implementation work. For now we have a manual workaround.
+* automatically handle the transfer of large media files that are featured in pages. This is more about the request timeout threshold of the platform we're on than W-T itself. Again, we can manually work around this.
+
+
+
+Local setup if you need to develop against or test-drive W-T (eg with new content types)
+----------------------------------------------------------------------------------------
+
 You will need to set up set up a second local version of the site, so that you can transfer between them.
 
 This second local site will be termed the 'Transfer Target', although moving content from it to the other
