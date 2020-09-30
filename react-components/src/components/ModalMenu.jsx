@@ -9,7 +9,7 @@ const customStyles = {
     background: 'transparent',
     position: 'absolute',
   },
-  content:{
+  content: {
     marginTop: '15px',
     marginRight: '-29px'
   }
@@ -20,10 +20,10 @@ export function Menu(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
   const openModal = (evt) => {
-    let position = evt.target.getClientRects()[0] || {top:0,height:0}
+    let position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
     let bodyWidth = evt.target.closest('body').clientWidth
-    customStyles.content.top = position.top+position.height + 'px'
-    customStyles.content.right = bodyWidth - (position.left + position.right)/2 + 'px'
+    customStyles.content.top = position.top + position.height + 'px'
+    customStyles.content.right = bodyWidth - (position.left + position.right) / 2 + 'px'
 
     setIsOpen(true)
   }
@@ -36,23 +36,17 @@ export function Menu(props) {
     modalContent.style.opacity = '1'
   }
 
-  let avatar = props.avatar ? <img src={props.avatar} /> : ''
+  const logout = () => {
+    Services.logout().then((response) => {
+      window.location.reload()
+    })
+  }
 
-  return (
-    <div style={{ lineHeight: 0 }}>
-      <button className={'avatar' + (modalIsOpen ? ' active' : '')} onClick={openModal}>
-        {avatar}
-      </button>
-      <ReactModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        onAfterOpen={modalAfterOpen}
-        contentRef={(_modalContent) => (modalContent = _modalContent)}
-        className="modal-menu"
-      >
-        <div className="h-xs p-t-xxs">Hi {props.user_name || 'there'}</div>
-        <ul className="menu-items">
+  let avatar = props.avatar ? <img src={props.avatar} /> : (props.authenticated ? <i className="fas fa-user text-blue-deep-80"></i> : <i className="fas fa-caret-down text-blue-deep-80" style={{fontSize:'30px'}}></i>)
+
+  let menu = {
+    authenticated: (
+      <ul className="menu-items">
           <li>
             <a href="/dashboard/" className="link">
               <i className="fa fa-tachometer-alt"></i>
@@ -85,12 +79,45 @@ export function Menu(props) {
             </a>
           </li>
           <li>
-            <a href="#" className="link">
+            <a href="#" className="link" onClick={logout}>
               <i className="fa fa-arrow-right"></i>
               <span>Sign out</span>
             </a>
           </li>
+        </ul>),
+    non_authenticated: (
+      <ul className="menu-items">
+          <li>
+            <a href="https://www.great.gov.uk/contact/feedback/" target="_blank" className="link">
+              <i className="fa fa-comment"></i>
+              <span>Send a feedback email</span>
+            </a>
+          </li>
+          <li>
+            <a href="/login/" className="link">
+              <i className="fa fa-pencil-alt"></i>
+              <span>Sign up / Log in</span>
+            </a>
+          </li>
         </ul>
+    )
+  }
+
+  return (
+    <div style={{ lineHeight: 0 }}>
+      <button className={'avatar' + (modalIsOpen ? ' active' : '')} onClick={openModal}>
+        {avatar}
+      </button>
+      <ReactModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        onAfterOpen={modalAfterOpen}
+        contentRef={(_modalContent) => (modalContent = _modalContent)}
+        className="modal-menu"
+      > 
+        <div className="h-xs p-t-xxs">Hi {props.user_name || 'there'}</div>
+        {menu[props.authenticated ? 'authenticated' : 'non_authenticated']}
       </ReactModal>
     </div>
   )
@@ -100,5 +127,5 @@ export default function({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  ReactDOM.render(<Menu avatar={params.avatar} user_name={params.user_name}></Menu>, params.element)
+  ReactDOM.render(<Menu avatar={params.avatar} user_name={params.user_name} authenticated={params.authenticated == 'True'}></Menu>, params.element)
 }

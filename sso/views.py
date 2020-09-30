@@ -3,6 +3,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 
 from django.conf import settings
+from django.contrib import auth
 
 from sso import helpers, serializers
 
@@ -23,11 +24,36 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
         upstream_response = requests.post(url=settings.SSO_PROXY_LOGIN_URL, data=data, allow_redirects=False)
         if upstream_response.status_code == 302:
             # redirect from sso indicates the credentials were correct
+            # First, get the domain of the sso_session_cookie so we can delete it at logout
+            sso_session_cookie = helpers.get_cookie(upstream_response, settings.SSO_SESSION_COOKIE)
+            if sso_session_cookie:
+                print('*****************   Saving domain ', sso_session_cookie.domain)
+                request.session['sso_session_cookie_domain'] = sso_session_cookie.domain
             return helpers.response_factory(upstream_response=upstream_response)
         elif upstream_response.status_code == 200:
             # 200 from sso indicate the credentials were not correct
             return Response(data={'__all__': [self.MESSAGE_INVALID_CREDENTIALS]}, status=400)
         upstream_response.raise_for_status()
+
+
+class SSOBusinessUserLogoutView(generics.GenericAPIView):
+
+    MESSAGE_INVALID_CREDENTIALS = 'Incorrect username or password'
+
+    def post(self, request):
+
+        sso_session_cookie_domain = request.session.get('sso_session_cookie_domain','')
+
+        # Call logout on directory_sso to kill the token.
+        upstream_response = requests.post(url=settings.SSO_PROXY_LOGOUT_URL, allow_redirects=False)
+        # Nothing we can do if that fails
+        if upstream_response.status_code == 302:
+            # redirect from sso indicates the credentials were correct            
+            auth.logout(request=request)
+            response = helpers.response_factory(upstream_response=upstream_response)
+            print('*********************   HERE ', sso_session_cookie_domain)
+            response.delete_cookie(settings.SSO_SESSION_COOKIE, domain=sso_session_cookie_domain)
+        return response
 
 
 class SSOBusinessUserCreateView(generics.GenericAPIView):
