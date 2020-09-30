@@ -29,7 +29,7 @@ def target_markets_research_data():
 @pytest.fixture
 def objectives_form_data():
     return {
-        'rational': 'Lorem ipsum',
+        'rationale': 'Lorem ipsum',
     }
 
 
