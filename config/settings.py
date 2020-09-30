@@ -6,6 +6,8 @@ import sentry_sdk
 from django.urls import reverse_lazy
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from .utils import get_wagtail_transfer_configuration
+
 ROOT_DIR = (environ.Path(__file__) - 2)
 
 env = environ.Env()
@@ -470,19 +472,7 @@ VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int(
 
 # Wagtail-transfer configuration
 
-if env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False):
-    WAGTAILTRANSFER_SOURCES = {
-        # Safe to hard-code these ones for local dev
-        'local_one_on_8020': {  # ie, `make webserver`
-            'BASE_URL': 'http://greatcms.trade.great:8020/wagtail-transfer/',
-            'SECRET_KEY': 'local-one',
-        },
-        'local_two_on_8030': {  # ie, `make webserver_transfer_target`
-            'BASE_URL': 'http://greatcms.trade.great:8030/wagtail-transfer/',
-            'SECRET_KEY': 'local-two',
-        },
-    }
-    # TO COME: Configuration for deployed environments
+WAGTAILTRANSFER_SOURCES = get_wagtail_transfer_configuration()
 
 WAGTAILTRANSFER_SECRET_KEY = env.str('WAGTAILTRANSFER_SECRET_KEY')
 WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
