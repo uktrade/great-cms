@@ -109,6 +109,7 @@
         "remove-files-webpack-plugin": "1.4.0",
         "rxjs": "^6.5.5",
         "styled-components": "5.0.1",
-        "svg-inline-loader": "^0.8.2"
+        "svg-inline-loader": "^0.8.2",
+        "watch": "^1.0.2"
     }
 }

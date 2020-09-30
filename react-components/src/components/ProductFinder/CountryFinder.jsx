@@ -73,11 +73,13 @@ export function CountryFinder(props) {
 
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
+    console.log(country);
     let result = Services.updateExportPlan({
       export_countries: [
         {
           country_name: country.name,
-          country_iso2_code: country.id
+          country_iso2_code: country.id,
+          region: country.region
         }
       ]
     })
@@ -93,7 +95,8 @@ export function CountryFinder(props) {
     let targetCountry = evt.target.getAttribute('data-country')
     saveCountry({
       name: evt.target.getAttribute('data-country'),
-      id: evt.target.getAttribute('data-id')
+      id: evt.target.getAttribute('data-id'),
+      region: evt.target.getAttribute('data-region')
     })
   }
 
@@ -104,7 +107,7 @@ export function CountryFinder(props) {
       countryFound = true
       return (
         <li key={country.id}>
-          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id}>
+          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region}>
             {country.name}
           </button>
         </li>
