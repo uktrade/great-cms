@@ -25,12 +25,12 @@ if settings.ENFORCE_STAFF_SSO_ENABLED:
 
 urlpatterns += [
     path('django-admin/', admin.site.urls),
+    path('admin/wagtail-transfer/', include(wagtailtransfer_urls)),  # Has to come before main /admin/ else will fail
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
-    path('wagtail-transfer/', include(wagtailtransfer_urls)),
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:

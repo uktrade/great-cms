@@ -50,11 +50,11 @@ from config.utils import get_wagtail_transfer_configuration
             True,
             {
                 'local_one_on_8020': {
-                    'BASE_URL': 'http://greatcms.trade.great:8020/wagtail-transfer/',
+                    'BASE_URL': 'http://greatcms.trade.great:8020/admin/wagtail-transfer/',
                     'SECRET_KEY': 'local-one',
                 },
                 'local_two_on_8030': {
-                    'BASE_URL': 'http://greatcms.trade.great:8030/wagtail-transfer/',
+                    'BASE_URL': 'http://greatcms.trade.great:8030/admin/wagtail-transfer/',
                     'SECRET_KEY': 'local-two',
                 },
             }
