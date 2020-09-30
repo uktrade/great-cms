@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { InputWithDropdown } from '@src/components/Fields/InputWithDropdown'
+import { Select } from '@src/components/Form/Select'
 import { TextArea } from '@src/components/Form/TextArea'
 
 export const RouteToMarketSection = ({
@@ -17,7 +17,7 @@ export const RouteToMarketSection = ({
     <div className='route-to-market__table' key={field.pk}>
       <button type='button' onClick={() => deleteTable(field.pk)} className='button--stone route-to-market__delete'>x</button>
       {data.map((item) => (
-        <InputWithDropdown
+        <Select
           key={item.name}
           label={item.label}
           update={(x) => update(field.pk, x)}

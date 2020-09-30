@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import { RouteToMarketSection } from '@src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection'
 import Services from '../../../../Services'
 
-import './RouteToMarket.scss'
-
 export const RouteToMarket = ({
   fields,
   formData,

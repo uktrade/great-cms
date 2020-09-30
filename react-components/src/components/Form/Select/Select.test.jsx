@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 
-import { InputWithDropdown } from '.'
+import { Select } from '.'
 
 const props = {
   label: 'label example',
@@ -16,7 +16,7 @@ const setup = ({...data}) => {
     update: jest.fn()
   }
 
-  const utils = render(<InputWithDropdown
+  const utils = render(<Select
     {...data}
     {...actions}
   />)
@@ -27,7 +27,7 @@ const setup = ({...data}) => {
   }
 }
 
-describe('InputWithDropdown', () => {
+describe('Select', () => {
   it('Should have a label', () => {
     const { queryByLabelText } = setup(props)
     expect(queryByLabelText(props.label)).toBeInTheDocument()
