@@ -199,6 +199,10 @@ class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, Exp
         context['objectives'] = json.dumps(self.export_plan['company_objectives'])
         return context
 
+    def get_initial(self):
+        # Required as this is a single value textbox with no form so underlying field is a string not a JSON
+        return {'rationale': self.export_plan['rationale']}
+
 
 class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
