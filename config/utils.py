@@ -1,0 +1,85 @@
+import environ
+
+env = environ.Env()
+for env_file in env.list('ENV_FILES', default=[]):
+    env.read_env(f'config/env/{env_file}')
+
+
+ENV_IDENTIFICATION_KEY = 'APP_ENVIRONMENT'
+DEV = 'dev'
+STAGING = 'staging'
+BETA = 'beta'
+LOCAL = 'local'
+# # TO COME / TO BE RENAMED:
+# PRODUCTION = 'production'
+
+
+def get_wagtail_transfer_configuration() -> dict:
+    """Checks the environment for an indicator of where this code is running
+    so that it can return an appropriate Wagtail-Transfer configuration to
+    be set as settings.WAGTAILTRANSFER_SOURCES, which dictates where content
+    can be imported FROM.
+
+    For now we need the configuration to permit the following:
+        1. Import from Staging into Beta (so Beta needs to know about Staging)
+        2. Import from Beta into Staging (so Staging needs to know about Beta)
+        3. Import from Beta OR Staging into Dev (so Dev needs to know about both)
+        5. Local dev: only if enabled, a special setup for copying between two
+           local runservers on different ports - see docs/wagtail_transfer.rst
+
+    In the future, we may need to add configuration for UAT and/or Production
+    environments.
+
+    Note that importing FROM Dev INTO anywhere else is NOT be allowed, so
+    nowhere will have Dev configured as a Wagtail-Transfer source.
+    """
+
+    config = {}
+
+    active_environment = env.str(ENV_IDENTIFICATION_KEY)
+
+    if active_environment == DEV:
+        # Dev needs to know about Staging and Beta to import FROM them
+        config.update({
+            BETA: {
+                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_BETA'),
+                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_BETA')
+            },
+            STAGING: {
+                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_STAGING'),
+                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
+            },
+        })
+    elif active_environment == STAGING:
+        # Staging needs to know about Beta, to import FROM it
+        config.update({
+            BETA: {
+                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_BETA'),
+                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_BETA')
+            }
+        })
+    elif active_environment == BETA:
+        # Beta needs to know about Staging, to import FROM it
+        config.update({
+            STAGING: {
+                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_STAGING'),
+                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
+            }
+        })
+
+    elif (
+        active_environment == LOCAL and env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False)
+    ):
+        config.update({
+            # Safe to hard-code these ones for local dev
+            'local_one_on_8020': {  # ie, `make webserver`
+                'BASE_URL': 'http://greatcms.trade.great:8020/wagtail-transfer/',
+                'SECRET_KEY': 'local-one',
+            },
+            'local_two_on_8030': {  # ie, `make webserver_transfer_target`
+                'BASE_URL': 'http://greatcms.trade.great:8030/wagtail-transfer/',
+                'SECRET_KEY': 'local-two',
+            },
+        })
+
+    return config
