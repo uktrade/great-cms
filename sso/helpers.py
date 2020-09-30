@@ -54,8 +54,8 @@ def get_cookie_jar(response):
     return cookie_jar
 
 
-def get_cookie(response, name):
-    for cookie in get_cookie_jar(response):
+def get_cookie(cookie_jar, name):
+    for cookie in cookie_jar:
         if cookie.name == name:
             return cookie
 

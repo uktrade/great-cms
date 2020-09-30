@@ -52,6 +52,14 @@ def test_business_sso_user_create_validation_error(client):
 
 
 @pytest.mark.django_db
+def test_business_sso_logout(client, requests_mock):
+    requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302)
+    response = client.post(reverse('sso:business-sso-logout-api'), {})
+
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'create_user')
 @mock.patch.object(helpers, 'send_verification_code_email')
 def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user, client):

@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib import auth
 
 from sso import helpers, serializers
+from core.constants import SSO_COOKIE_DOMAIN_NAME_KEY
 
 
 class SSOBusinessUserLoginView(generics.GenericAPIView):
@@ -25,9 +26,10 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
         if upstream_response.status_code == 302:
             # Redirect from sso indicates the credentials were correct
             # Store the domain of the sso_session_cookie so we can delete it at logout
-            sso_session_cookie = helpers.get_cookie(upstream_response, settings.SSO_SESSION_COOKIE)
+            cookie_jar = helpers.get_cookie_jar(upstream_response)
+            sso_session_cookie = helpers.get_cookie(cookie_jar, settings.SSO_SESSION_COOKIE)
             if sso_session_cookie:
-                request.session['sso_session_cookie_domain'] = sso_session_cookie.domain
+                request.session[SSO_COOKIE_DOMAIN_NAME_KEY] = sso_session_cookie.domain
             return helpers.response_factory(upstream_response=upstream_response)
         elif upstream_response.status_code == 200:
             # 200 from sso indicate the credentials were not correct
@@ -37,17 +39,15 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
 
 class SSOBusinessUserLogoutView(generics.GenericAPIView):
 
-    MESSAGE_INVALID_CREDENTIALS = 'Incorrect username or password'
-
     def post(self, request):
 
-        sso_session_cookie_domain = request.session.get('sso_session_cookie_domain', '')
+        sso_session_cookie_domain = request.session.get(SSO_COOKIE_DOMAIN_NAME_KEY, '')
 
         # Call logout on directory_sso to kill the token.
         upstream_response = requests.post(url=settings.SSO_PROXY_LOGOUT_URL, allow_redirects=False)
         # Nothing we can do if that fails
         if upstream_response.status_code == 302:
-            # redirect from sso indicates the credentials were correct
+            # Redirect from sso indicates the credentials were correct
             auth.logout(request=request)
             response = helpers.response_factory(upstream_response=upstream_response)
             response.delete_cookie(settings.SSO_SESSION_COOKIE, domain=sso_session_cookie_domain)
