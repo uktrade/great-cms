@@ -44,6 +44,8 @@ export function Menu(props) {
 
   let avatar = props.avatar ? <img src={props.avatar} /> : (props.authenticated ? <i className="fas fa-user text-blue-deep-80"></i> : <i className="fas fa-caret-down text-blue-deep-80" style={{fontSize:'30px'}}></i>)
 
+  let greeting = props.authenticated ? (<div className="h-xs p-t-xxs">Hi {props.user_name || 'there'}</div>) : ''
+
   let menu = {
     authenticated: (
       <ul className="menu-items">
@@ -116,7 +118,7 @@ export function Menu(props) {
         contentRef={(_modalContent) => (modalContent = _modalContent)}
         className="modal-menu"
       > 
-        <div className="h-xs p-t-xxs">Hi {props.user_name || 'there'}</div>
+        {greeting}
         {menu[props.authenticated ? 'authenticated' : 'non_authenticated']}
       </ReactModal>
     </div>
