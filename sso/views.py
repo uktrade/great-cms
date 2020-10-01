@@ -26,8 +26,7 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
         if upstream_response.status_code == 302:
             # Redirect from sso indicates the credentials were correct
             # Store the domain of the sso_session_cookie so we can delete it at logout
-            cookie_jar = helpers.get_cookie_jar(upstream_response)
-            sso_session_cookie = helpers.get_cookie(cookie_jar, settings.SSO_SESSION_COOKIE)
+            sso_session_cookie = helpers.get_cookie(upstream_response.cookies, settings.SSO_SESSION_COOKIE)
             if sso_session_cookie:
                 request.session[SSO_COOKIE_DOMAIN_NAME_KEY] = sso_session_cookie.domain
             return helpers.response_factory(upstream_response=upstream_response)

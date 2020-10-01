@@ -7,10 +7,12 @@ from django.urls import reverse
 
 from sso import helpers
 from tests.helpers import create_response
+from requests.cookies import RequestsCookieJar
 
 
 @pytest.mark.django_db
 def test_business_sso_login_validation_error(client, requests_mock):
+
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
 
     response = client.post(reverse('sso:business-sso-login-api'), {})
@@ -20,6 +22,7 @@ def test_business_sso_login_validation_error(client, requests_mock):
 
 @pytest.mark.django_db
 def test_business_sso_login_200_upstream(client, requests_mock):
+
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
 
     response = client.post(reverse('sso:business-sso-login-api'), {'email': 'test', 'password': 'password'})
@@ -29,8 +32,9 @@ def test_business_sso_login_200_upstream(client, requests_mock):
 
 @pytest.mark.django_db
 def test_business_sso_login_302_upstream(client, requests_mock):
-    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
-
+    cookie_jar = RequestsCookieJar()
+    cookie_jar.set(settings.SSO_SESSION_COOKIE, value='1234', domain='.great')
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302, cookies=cookie_jar)
     response = client.post(reverse('sso:business-sso-login-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 200
