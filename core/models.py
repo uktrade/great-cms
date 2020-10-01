@@ -693,7 +693,12 @@ class CaseStudy(ClusterableModel):
             blocks.StreamBlock(
                 [
                     ('image', core_blocks.ImageBlock()),
-                    ('video', core_blocks.SimpleVideoBlock())
+                    (
+                        'video',
+                        core_blocks.SimpleVideoBlock(
+                            template='core/includes/_case_study_video.html'
+                        )
+                    )
                 ],
                 min_num=1,
                 max_num=2,
