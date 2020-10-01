@@ -11,12 +11,16 @@
     {{ block.super }}
     <script type="text/javascript">
         var element = document.getElementById('login');
+        var email = '{{ request.GET.email }}';
+        var errorMsg = 'This email address is already registered. \
+                       Use the social account you signed up with or reset your password.'
+        var error = `{% if request.GET.email %}${errorMsg}{% endif %}`;
         ditMVP.LoginModal({
             element: element,
             isOpen: true,
             nextUrl: '{% url_map "dashboard" %}',
-            email: '{{ email }}',
-            errors: {'__all__': ['{{ error }}']}
+            email: email,
+            errors: (error) ? {'__all__': [error]} : {}
         })
     </script>
 {% endblock %}
