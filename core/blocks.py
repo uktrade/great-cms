@@ -2,12 +2,9 @@ from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
-from core import models
 from django.core.exceptions import ObjectDoesNotExist
-
-
-# Define a strict subset of rich-text features only includes linebreaks
-RICHTEXT_FEATURES__MINIMAL = ()
+from core import models
+from core.constants import RICHTEXT_FEATURES__MINIMAL
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
