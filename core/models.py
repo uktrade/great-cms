@@ -671,6 +671,21 @@ class CountryTaggedCaseStudy(ItemBase):
     )
 
 
+def case_study_body_validation(value):
+    """Ensure the case study has exactly both a media node and a text node
+    """
+    if value and set([x.block_type for x in value]) != {'text', 'media'}:
+        raise StreamBlockValidationError(
+            non_block_errors=ValidationError(
+                (
+                    'This block must contain one Media section (with one or '
+                    'two items in it) and one Text section.'
+                ),
+                code='invalid'
+            ),
+        )
+
+
 @register_snippet
 class CaseStudy(ClusterableModel):
     """Dedicated snippet for use as a case study. Supports personalised
@@ -687,30 +702,37 @@ class CaseStudy(ClusterableModel):
     summary = models.TextField(  # Deliberately not rich-text / no formatting
         blank=False
     )
-    body = StreamField([
-        (
-            'media',
-            blocks.StreamBlock(
-                [
-                    ('image', core_blocks.ImageBlock()),
-                    (
-                        'video',
-                        core_blocks.SimpleVideoBlock(
-                            template='core/includes/_case_study_video.html'
+    body = StreamField(
+        [
+            (
+                'media',
+                blocks.StreamBlock(
+                    [
+                        ('image', core_blocks.ImageBlock()),
+                        (
+                            'video',
+                            core_blocks.SimpleVideoBlock(
+                                template='core/includes/_case_study_video.html'
+                            )
                         )
-                    )
-                ],
-                min_num=1,
-                max_num=2,
-            )
-        ),
-        (
-            'text',
-            blocks.RichTextBlock(
-                features=RICHTEXT_FEATURES__MINIMAL,
+                    ],
+                    min_num=1,
+                    max_num=2,
+                )
             ),
-        ),
-    ])
+            (
+                'text',
+                blocks.RichTextBlock(
+                    features=RICHTEXT_FEATURES__MINIMAL,
+                ),
+            ),
+        ],
+        validators=[case_study_body_validation],
+        help_text=(
+            'This block must contain one Media section '
+            '(with one or two items in it) and one Text section.'
+        )
+    )
 
     # We are keeping the personalisation-relevant tags in separate
     # fields to aid lookup and make the UX easier for editors
