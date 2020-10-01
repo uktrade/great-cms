@@ -1,0 +1,16 @@
+{% load wagtailcore_tags %}
+
+{% if case_study %}
+<div class="box box-no-pointer">
+
+    CASE STUDY: {{case_study}}
+
+    <p>Company name: {{case_study.company_name}}</p>
+    <p>Summary: {{case_study.summary}}</p>
+
+    {% comment %} Body is a streamfield {% endcomment %}
+    {% for block in case_study.body %}
+        {% include_block block %}
+    {% endfor %}
+</div>
+{% endif %}
