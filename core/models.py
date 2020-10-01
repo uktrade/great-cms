@@ -438,7 +438,12 @@ class DetailPage(CMSGenericPage):
                 icon='fa-play'
             )
         ),
-        ('content_module', core_blocks.ModularContentStaticBlock()),
+        (
+            'case_study',
+            core_blocks.CaseStudyStaticBlock(
+                icon='fa-book'
+            )
+        ),
         ('Step', core_blocks.StepByStepBlock(icon='cog'),),
         ('fictional_example', blocks.StructBlock(
             [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
