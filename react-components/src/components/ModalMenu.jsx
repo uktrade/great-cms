@@ -39,7 +39,9 @@ export function Menu(props) {
   const logout = () => {
     Services.logout().then((response) => {
       window.location.reload()
-    })
+    }).catch(
+      window.location.reload()
+    )
   }
 
   let avatar = props.avatar ? <img src={props.avatar} /> : (props.authenticated ? <i className="fas fa-user text-blue-deep-80"></i> : <i className="fas fa-caret-down text-blue-deep-80" style={{fontSize:'30px'}}></i>)
