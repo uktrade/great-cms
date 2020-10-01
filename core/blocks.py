@@ -243,8 +243,9 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         """Add the relevant case study, if any, to the context."""
         # CURRENTLY we get tag values from the querystring, but this will
         # change when we hook into personalisation. For now, testers will
-        # need to provide `?hs-tag=Y&country-tag=X` or `?hs-tag=Y` or
-        # `?country-tag=X` to get the case study logic to work.
+        # need to provide `?hs-tag=Y` or `?country-tag=X` to get the case
+        # study logic to work. NOTE THAT `?hs-tag=Y&country-tag=X` does
+        # NOT work, but this will be replaced by a proper algorithm anyway
 
         hs_tags = context['request'].GET.get(
             HS_TAG_PARAM_NAME, ''

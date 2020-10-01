@@ -625,8 +625,8 @@ class PersonalisationHSCodeTag(TagBase):
     # free_tagging = False  # DISABLED until tag data only comes via data migration
 
     class Meta:
-        verbose_name = "HS Code tag for personalisation"
-        verbose_name_plural = "HS Code tags for personalisation"
+        verbose_name = 'HS Code tag for personalisation'
+        verbose_name_plural = 'HS Code tags for personalisation'
 
 
 class PersonalisationCountryTag(TagBase):
@@ -638,8 +638,8 @@ class PersonalisationCountryTag(TagBase):
     # free_tagging = False  # DISABLED until tag data only comes via data migration
 
     class Meta:
-        verbose_name = "Country tag for personalisation"
-        verbose_name_plural = "Country tags for personalisation"
+        verbose_name = 'Country tag for personalisation'
+        verbose_name_plural = 'Country tags for personalisation'
 
 
 # If you're wondering what's going on here:
@@ -648,7 +648,7 @@ class PersonalisationCountryTag(TagBase):
 class HSCodeTaggedCaseStudy(ItemBase):
     tag = models.ForeignKey(
         PersonalisationHSCodeTag,
-        related_name="hscode_tagged_case_studies",
+        related_name='hscode_tagged_case_studies',
         on_delete=models.CASCADE
     )
     content_object = ParentalKey(
@@ -661,7 +661,7 @@ class HSCodeTaggedCaseStudy(ItemBase):
 class CountryTaggedCaseStudy(ItemBase):
     tag = models.ForeignKey(
         PersonalisationCountryTag,
-        related_name="country_tagged_case_studies",
+        related_name='country_tagged_case_studies',
         on_delete=models.CASCADE
     )
     content_object = ParentalKey(
@@ -739,13 +739,13 @@ class CaseStudy(ClusterableModel):
     hs_code_tags = ClusterTaggableManager(
         through='core.HSCodeTaggedCaseStudy',
         blank=True,
-        verbose_name="HS-code tags"
+        verbose_name='HS-code tags'
     )
 
     country_code_tags = ClusterTaggableManager(
         through='core.CountryTaggedCaseStudy',
         blank=True,
-        verbose_name="Country tags"
+        verbose_name='Country tags'
     )
 
     created = CreationDateTimeField('created', null=True)
@@ -758,14 +758,14 @@ class CaseStudy(ClusterableModel):
                 FieldPanel('summary'),
                 StreamFieldPanel('body'),
             ],
-            heading="Case Study content",
+            heading='Case Study content',
         ),
         MultiFieldPanel(
             [
                 FieldPanel('hs_code_tags'),
                 FieldPanel('country_code_tags')
             ],
-            heading="Case Study tags for Personalisation"
+            heading='Case Study tags for Personalisation'
         ),
     ]
 
