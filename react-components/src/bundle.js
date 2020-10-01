@@ -17,11 +17,11 @@ import ModalMenu from '@src/components/ModalMenu'
 import { createRouteToMarket, createSpendingAndResources } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
+import { createObjectivesReasons } from '@src/views/sections/Objectives'
 import { sectionSidebar } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
 import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
-import { createBusinessRationale } from '@src/components/BusinessRationale'
 import { createObjectivesList } from '@src/components/ObjectivesList'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
 import LearnIntroduction from '@src/views/LearnIntroduction/LearnIntroduction'
@@ -39,8 +39,8 @@ export default {
   createSpendingAndResources,
   createTargetAgeGroupInsights,
   createTargetMarketCountries,
-  createBusinessRationale,
   createObjectivesList,
+  createObjectivesReasons,
   createVideoTranscript,
   IndustriesModal,
   LearnIntroduction,

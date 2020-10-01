@@ -33,3 +33,9 @@
 
 
 }
+
+#objectives-reasons {
+  .form-label {
+    @extend .h-m;
+  }
+}
