@@ -38,6 +38,18 @@ def test_set_cookies_from_cookie_jar():
     )
 
 
+def test_get_cookie():
+    cookie_jar = RequestsCookieJar()
+    cookie_jar.set('foo', 'a secret value', domain='httpbin.org', path='/cookies')
+    cookie_jar.set('bar', 'a secret value - bar', domain='httpbin.org', path='/elsewhere')
+
+    cookie = helpers.get_cookie(
+        cookie_jar=cookie_jar,
+        name='bar'
+    )
+    assert cookie.value == 'a secret value - bar'
+
+
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_welcome_notification(mock_action_class, settings):
     helpers.send_welcome_notification(email='jim@example.com', form_url='foo')

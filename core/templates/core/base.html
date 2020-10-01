@@ -16,9 +16,10 @@
 
 
 {% block body_header %}
-        {% if request.user.is_authenticated %}
-            {% include 'core/header.html' %}
-        {% endif %}
+  {% include 'core/header.html' %}
+  {% if request.user.is_authenticated %}
+    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+  {% endif %}
 {% endblock %}
 
 {% block body_content_container %}
@@ -51,6 +52,7 @@
       // static values that will not be updated by user interacting with react components
       ditMVP.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
+          apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
           apiCountriesUrl: '{% url "core:api-countries" %}',
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',

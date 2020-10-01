@@ -29,8 +29,10 @@ class CreateUserException(APIException):
 
 
 def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
+    cookie_domain = ''
     for cookie in cookie_jar:
         if cookie.name in whitelist:
+            cookie_domain = cookie_domain or cookie.domain
             response.set_cookie(
                 cookie.name,
                 cookie.value,
@@ -42,14 +44,24 @@ def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
             )
 
 
-def response_factory(upstream_response):
+def get_cookie_jar(response):
     cookie_jar = requests.cookies.RequestsCookieJar(policy=LiberalCookiePolicy())
     requests.cookies.extract_cookies_to_jar(
         jar=cookie_jar,
-        request=upstream_response.request,
-        response=upstream_response.raw
+        request=response.request,
+        response=response.raw
     )
+    return cookie_jar
 
+
+def get_cookie(cookie_jar, name):
+    for cookie in cookie_jar:
+        if cookie.name == name:
+            return cookie
+
+
+def response_factory(upstream_response):
+    cookie_jar = get_cookie_jar(upstream_response)
     response = Response(status=200)
     set_cookies_from_cookie_jar(
         cookie_jar=cookie_jar,

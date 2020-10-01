@@ -93,9 +93,10 @@ def set_read_time(request, page):
     if hasattr(page, 'estimated_read_duration'):
         html = render_to_string(page.template, {'page': page, 'request': request})
         soup = BeautifulSoup(html, 'html.parser')
-        for tag in soup.body.find_all(['script', 'noscript', 'link', 'style', 'meta']):
+        for tag in soup.body.find_all(['script', 'noscript', 'link', 'style', 'meta', 'header']):
             tag.decompose()
-        reading_seconds = readtime.of_html(str(soup.body)).seconds
+        # Get the readtime of the main content section of the page (excluding header/footer)
+        reading_seconds = readtime.of_html(str(soup.find('main'))).seconds
         video_nodes = soup.find_all(
             'video', attrs={
                 constants.VIDEO_DURATION_DATA_ATTR_NAME: True
