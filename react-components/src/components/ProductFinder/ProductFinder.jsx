@@ -132,7 +132,9 @@ export function ProductFinder(props) {
 
   const search = () => {
     let query = searchInput.value
-    processResponse(Services.lookupProduct({ q: query }))
+    if(query) { 
+      processResponse(Services.lookupProduct({ q: query }))
+    }
   }
 
   const RadioButtons = (attribute, handleChange, setValue = true) => {
