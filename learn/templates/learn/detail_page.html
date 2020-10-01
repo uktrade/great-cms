@@ -7,6 +7,11 @@
 {% block content %}
     {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
     <div class="lesson-page">
+        {% comment %} TODO: pass in url back to module landing page{% endcomment %}
+        <a href="" class="learn__back-link learn__back-link--top h-m">
+            <i class="fas fa-arrow-left"></i>
+            <span class="visually-hidden">Back</span>
+        </a>
         <div class="bg-white">
             <div class="container">
                 <div class="grid">
@@ -143,6 +148,11 @@
                     </div>
                 </div>
             {% endif %}
+            {% comment %} TODO: pass in url back to module landing page{% endcomment %}
+            <a href="" class="learn__back-link learn__back-link--bottom h-m">
+                <i class="fas fa-arrow-left"></i>
+                <span class="visually-hidden">Back</span>
+            </a>
         </div>
     </div>
 {% endblock %}

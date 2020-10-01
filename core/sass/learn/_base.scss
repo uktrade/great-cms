@@ -201,9 +201,31 @@ $desktop: 1024px;
 }
 
 .learn__back-link {
-  position: absolute;
+  color: $blue-deep-80;
   left: 38px;
   top: 95px;
+
+  @include tablet {
+    position: absolute;
+  }
+
+  &:visited {
+    color: $blue-deep-80;
+  }
+
+  &--top {
+    top: 144px;
+  }
+
+  &--bottom {
+    color: $white;
+    top: auto;
+    bottom: 168px;
+
+    &:visited {
+      color: $white;
+    }
+  }
 }
 
 #lesson-page {
