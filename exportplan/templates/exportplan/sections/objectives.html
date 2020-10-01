@@ -14,22 +14,8 @@
       </div>
     </div>
     <div class="c-1-2 text-blue-deep-80">
-      <h2 class="h-l m-t-m">Why you want to export</h2>
-      <p>What are the main reasons you want to export?</p>
-      <p>Common reasons for exporting include:</p>
-      <ul class="list-bullet">
-        <li>grow the business by selling overseas</li>
-        <li>maintain growth when sales in the UK have levelled off</li>
-        <li>spread risk evenly by selling in countries other than the UK</li>
-        <li>widen your customer base</li>
-      </ul>
-      <p class="g-panel">Planning and thinking about your export objectives will help you make the most out of any export opportunities you are interested in.</p>
-      <div id="objectives-form--rationale">
+      <div id="objectives-reasons">
         {% include 'exportplan/includes/form_field.html' with field=form.rational %}
-      </div>
-      <div class="export-plan-example bg-stone br-xs p-xs m-b-l">
-        <h3 class="bold">Fictional example to help you complete this section</h3>
-        <p class="m-0">A desire for taste lacking in big brands is creating a buzz around 'craft' gin distilleries - especially those in the UK. Dove gin is what we anticipate is long term growth in major cities in Europe, Asia and the US.</p>
       </div>
     </div>
     <div class="c-1-4">&nbsp;</div>
@@ -48,7 +34,7 @@
       <p>What do you want to accomplish and by when?</p>
       <div class="g-panel">
         <p>To increase the prospect of success, ensure what you want to achieve is specific, measurable and realistic:</p>
-        <ul class="list-bullet">
+        <ul class="list-dot">
           <li>specific - your objective is well defined</li>
           <li>measurable - use things like quantity, cost and time frame so you can judge how well you're doing</li>
           <li>realistic - ambition is good but make sure your objective is within reach</li>
@@ -66,8 +52,8 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var rationale = document.getElementById('objectives-form--rationale');
-    ditMVP.createBusinessRationale({
+    var rationale = document.getElementById('objectives-reasons');
+    ditMVP.createObjectivesReasons({
       element: rationale,
       formData: {{ form_initial|safe }},
       formFields: {{ form_fields|safe }},
