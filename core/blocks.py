@@ -239,12 +239,8 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         icon = 'fa-book'
         template = 'core/case_study_block.html'
 
-    def get_context(self, value, parent_context=None):
-        context = super().get_context(
-            value,
-            parent_context=parent_context
-        )
-
+    def _annotate_with_case_study(self, context):
+        """Add the relevant case study, if any, to the context."""
         # CURRENTLY we get tag values from the querystring, but this will
         # change when we hook into personalisation. For now, testers will
         # need to provide `?hs-tag=Y&country-tag=X` or `?hs-tag=Y` or
@@ -268,4 +264,13 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
             ).distinct().first()
 
             context['case_study'] = case_study
+
+        return context
+
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(
+            value,
+            parent_context=parent_context
+        )
+        context = self._annotate_with_case_study(context)
         return context
