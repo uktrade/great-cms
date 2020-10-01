@@ -361,7 +361,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    video_for_hero = make_test_video(duration=123)
+    video_for_hero = make_test_video(duration=124)
     video_for_hero.save()
 
     detail_page = factories.DetailPageFactory(
