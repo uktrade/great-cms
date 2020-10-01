@@ -8,9 +8,18 @@
     <p>Company name: {{case_study.company_name}}</p>
     <p>Summary: {{case_study.summary}}</p>
 
+    <p>BODY: {{case_study.body}}</p>
+
     {% comment %} Body is a streamfield {% endcomment %}
     {% for block in case_study.body %}
-        {% include_block block %}
+        {{block.company_name}}
+        {{block.summary}}
+        {{block.media}}
+
+        {% comment %} {% for subblock in block.media %}
+            --> {{subblock.value}}
+        {% endfor %} {% endcomment %}
+        {% comment %} {% include_block block %} {% endcomment %}
     {% endfor %}
 </div>
 {% endif %}

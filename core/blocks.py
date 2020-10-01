@@ -237,7 +237,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
             'adding this block to the page.'
         )
         icon = 'fa-book'
-        template = 'core/blocks/case_study.html'
+        template = 'core/case_study_block.html'
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(
