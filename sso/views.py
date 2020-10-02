@@ -45,11 +45,9 @@ class SSOBusinessUserLogoutView(generics.GenericAPIView):
         # Call logout on directory_sso to kill the token.
         upstream_response = requests.post(url=settings.SSO_PROXY_LOGOUT_URL, allow_redirects=False)
         # Nothing we can do if that fails
-        if upstream_response.status_code == 302:
-            # Redirect from sso indicates the credentials were correct
-            auth.logout(request=request)
-            response = helpers.response_factory(upstream_response=upstream_response)
-            response.delete_cookie(settings.SSO_SESSION_COOKIE, domain=sso_session_cookie_domain)
+        auth.logout(request=request)
+        response = helpers.response_factory(upstream_response=upstream_response)
+        response.delete_cookie(settings.SSO_SESSION_COOKIE, domain=sso_session_cookie_domain)
         return response
 
 

@@ -29,10 +29,8 @@ class CreateUserException(APIException):
 
 
 def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
-    cookie_domain = ''
     for cookie in cookie_jar:
         if cookie.name in whitelist:
-            cookie_domain = cookie_domain or cookie.domain
             response.set_cookie(
                 cookie.name,
                 cookie.value,

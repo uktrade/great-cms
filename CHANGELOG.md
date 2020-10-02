@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
 - GP2-76 - adjust aligment of back button
 - GP2-627 - Fix button styling across pages
