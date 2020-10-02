@@ -42,6 +42,7 @@
         "./src/components/TargetMarketCountries.jsx",
         "./src/components/ObjectivesList.jsx",
         "./src/components/Objective.jsx",
+        ".src/components/ProductFinder.jsx",
       ],
       "rules": {
         "no-underscore-dangle": "off",
