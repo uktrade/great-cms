@@ -50,39 +50,40 @@ export default class Objective extends React.Component {
 
     return (
       <>
-        <div className="objective bg-blue-deep-10 radius p-s">
+        <div className="objective bg-blue-deep-10 radius p-h-s">
           <div className={`grid objective-fields ${isLoading ? 'loading' : ''}`}>
-            <h3 className='body-l-b'>Objective {number}</h3>
               <div className='c-full'>
                 <TextArea
                   id='description'
                   placeholder="Add some text"
-                  label="Description"
+                  label={`Objective ${number}`}
                   value={data.description}
                   onChange={this.handleChange}
                   errors={[]}
                 />
                 <hr className="hr hr--light" />
               </div>
-              <div className="c-1-2">
-                <Input
-                  id='start_date'
-                  type="date"
-                  label="Start date"
-                  value={data.start_date}
-                  onChange={this.handleChange}
-                  errors={[]}
-                />
-              </div>
-              <div className="c-1-2">
-                <Input
-                  id='end_date'
-                  type="date"
-                  label="End date"
-                  value={data.end_date}
-                  onChange={this.handleChange}
-                  errors={[]}
-                />
+              <div className="grid m-r-xl">
+                <div className="c-1-2">
+                  <Input
+                    id='start_date'
+                    type="date"
+                    label="Start date"
+                    value={data.start_date}
+                    onChange={this.handleChange}
+                    errors={[]}
+                  />
+                </div>
+                <div className="c-1-2">
+                  <Input
+                    id='end_date'
+                    type="date"
+                    label="End date"
+                    value={data.end_date}
+                    onChange={this.handleChange}
+                    errors={[]}
+                  />
+                </div>
               </div>
               <div className='c-full'>
                 <hr className="hr hr--light" />
@@ -107,8 +108,10 @@ export default class Objective extends React.Component {
                 />
               </div>
           </div>
+          <button type="button" className="button button--small button--only-icon button--delete bg-white text-blue-deep-40" onClick={this.deleteObjective}>
+            <i className="fas fa-trash-alt text-blue-deep-40" />
+          </button>
         </div>
-        <button type="button" className="button--delete" onClick={this.deleteObjective}>Delete</button>
         {statusIndicator}
         <ErrorList errors={errors.__all__ || []} />
         <hr/>
