@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
 import { Subject } from 'rxjs'
@@ -7,11 +6,11 @@ import { debounceTime, delay } from 'rxjs/operators'
 
 import ErrorList from '@src/components/ErrorList'
 import Objective from './Objective'
-import Services from '../Services'
-import Spinner from './Spinner/Spinner'
+import Services from '../../Services'
+import Spinner from '../Spinner/Spinner'
 
 
-class ObjectivesList extends React.Component {
+export class ObjectivesList extends React.Component {
 
   constructor(props) {
     super(props)
@@ -181,7 +180,7 @@ class ObjectivesList extends React.Component {
 
     return (
       <div className="objectives-list">
-        <div className="objective-box bg-white br-xs m-b-m border-thin border-light-grey">
+        <div className="objective-box bg-white br-xs m-b-m">
           {
             objectives.map((objective, i) => (
               <Objective key={i} id={i} isLoading={objective.isLoading} errors={objective.errors} showSavedMessage={objective.showSavedMessage} data={objective} number={i+1} handleChange={this.updateObjective} deleteObjective={this.deleteObjective}/>
@@ -196,10 +195,6 @@ class ObjectivesList extends React.Component {
     )
   }
 
-}
-
-function createObjectivesList({ element, ...params }) {
-  ReactDOM.render(<ObjectivesList {...params} />, element)
 }
 
 ObjectivesList.propTypes = {
@@ -221,8 +216,6 @@ ObjectivesList.propTypes = {
   ),
   exportPlanID: PropTypes.number.isRequired,
 }
-
-export { ObjectivesList, createObjectivesList }
 
 ObjectivesList.defaultProps = {
   objectives: [],
