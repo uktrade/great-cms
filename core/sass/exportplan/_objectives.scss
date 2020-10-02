@@ -4,34 +4,28 @@
   .objective {
     position: relative;
 
+    .form-label {
+      @extend .body-l-b;
+    }
+
+    .form-control {
+      @extend .m-t-0;
+    }
+
+    .hr {
+      @extend .m-0;
+    }
+
     .button--delete {
-      @include brand-small;
-      @extend .p-h-xs;
-      @extend .p-v-xxs;
-      @extend .bg-stone-90;
-      @extend .m-r-s;
-      @extend .m-t-s;
       position: absolute;
       top: 0;
-      right: 0;
+      right: -50px;
 
       &:hover {
         @extend .bg-stone;
       }
     }
   }
-
-  .footer {
-    display: flex;
-    @extend .m-v-s;
-
-    > * {
-      margin-right: auto;
-      margin-left: auto;
-    }
-  }
-
-
 }
 
 #objectives-reasons {
