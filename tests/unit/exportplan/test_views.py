@@ -6,10 +6,11 @@ from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
 from django.urls import reverse
+from config import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
 
-from tests.helpers import create_response
+from tests.helpers import create_response, reload_urlconf
 from exportplan import data, helpers
 from directory_api_client.client import api_client
 
@@ -216,15 +217,51 @@ def test_export_plan_mixin(export_plan_data, slug, client, user):
 
     assert response.status_code == 200
 
+    is_disabled = True if data.SECTION_SLUGS.index(slug) in data.SECTIONS_DISABLED else False
+
     if not slug == data.SECTION_SLUGS[-1]:
         assert response.context_data['next_section'] == {
             'title': data.SECTION_TITLES[data.SECTION_SLUGS.index(slug) + 1],
             'url': data.SECTION_URLS[data.SECTION_SLUGS.index(slug) + 1],
+            'disabled': is_disabled,
         }
 
     assert response.context_data['current_section'] == {
         'title': data.SECTION_TITLES[data.SECTION_SLUGS.index(slug)],
         'url': data.SECTION_URLS[data.SECTION_SLUGS.index(slug)],
+        'disabled': is_disabled,
     }
     assert response.context_data['sections'] == data.SECTION_TITLES_URLS
     assert response.context_data['export_plan'] == export_plan_data
+
+
+@pytest.mark.django_db
+def test_404_when_invalid_section_slug(client, user):
+    url = reverse('exportplan:section', kwargs={'slug': 'foo'})
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_redirect_to_service_page_for_disabled_urls(client, user):
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = True
+    reload_urlconf('exportplan.data')
+    slug = slugify(data.SECTIONS_DISABLED[0])
+    url = reverse('exportplan:section', kwargs={'slug': slug})
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url == reverse('exportplan:service-page')
+
+
+@pytest.mark.django_db
+def test_disabled_urls_feature_flag_disabled(client, user):
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = False
+    reload_urlconf('exportplan.data')
+    assert len(data.SECTIONS_DISABLED) == 0
+    slug = slugify(data.SECTION_TITLES[0])
+    url = reverse('exportplan:section', kwargs={'slug': slug})
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200

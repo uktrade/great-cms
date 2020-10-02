@@ -19,6 +19,8 @@ class ExportPlanMixin:
     def dispatch(self, request, *args, **kwargs):
         if self.slug not in data.SECTION_SLUGS:
             raise Http404()
+        elif self.slug in data.SECTIONS_DISABLED_SLUGS:
+            return redirect('exportplan:service-page')
         return super().dispatch(request, *args, **kwargs)
 
     @cached_property
@@ -34,6 +36,7 @@ class ExportPlanMixin:
         return {
             'title': data.SECTION_TITLES[index + 1],
             'url': data.SECTION_URLS[index + 1],
+            'disabled': True if data.SECTION_TITLES[index + 1] in data.SECTIONS_DISABLED else False,
         }
 
     @property
@@ -42,6 +45,7 @@ class ExportPlanMixin:
         return {
             'title': data.SECTION_TITLES[index],
             'url': data.SECTION_URLS[index],
+            'disabled': True if data.SECTION_TITLES[index] in data.SECTIONS_DISABLED else False,
         }
 
     def get_context_data(self, **kwargs):
@@ -255,3 +259,13 @@ class LogoFormView(BaseFormView):
     form_class = forms.LogoForm
     template_name = 'exportplan/logo-form.html'
     success_message = 'Logo updated'
+
+
+class ExportPlanServicePage(TemplateView):
+    template_name = 'exportplan/service_page.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            sections=data.SECTION_TITLES_URLS,
+            **kwargs
+        )
