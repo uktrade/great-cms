@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="c-1-2 text-blue-deep-80">
-      <h2 class="h-m">What you want to achieve</h2>
+      <h2 class="h-m m-b-s">What you want to achieve</h2>
       <p>What do you want to accomplish and by when?</p>
       <div class="g-panel m-b-m">
         <p>To increase the prospect of success, ensure what you want to achieve is specific, measurable and realistic:</p>
@@ -55,6 +55,7 @@
     var rationale = document.getElementById('objectives-reasons');
     ditMVP.createObjectivesReasons({
       element: rationale,
+      field: 'objectives',
       formData: {{ form_initial|safe }},
       formFields: {{ form_fields|safe }},
     })
