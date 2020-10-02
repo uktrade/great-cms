@@ -57,7 +57,6 @@
 
 .button--ghost {
     @extend .pill;
-    @extend .g-button-ghost-blue;
     min-width: 210px;
     border-color: $mid-grey;
     color: $mid-grey;
