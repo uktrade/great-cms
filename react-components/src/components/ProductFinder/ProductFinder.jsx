@@ -1,57 +1,22 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable prefer-destructuring */
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
-import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
 import Spinner from '../Spinner/Spinner'
-import MessageConfirmation from './MessageConfirmation'
+import Confirmation from './MessageConfirmation'
 
-const customStyles = {}
-
-function ValueChooser(attribute, handleChange) {
-  const changeValue = (element) => {
-    console.log(combinationValue) // TODO WIP
-  }
-  let startCombinationValue = {}
-  let profile = (attribute.attrs || []).map((option, index) => {
-    startCombinationValue[option.id] = option.value
-    return (
-      <label key={option.id} htmlFor={option.id} className="p-f-m m-b-xxs grid">
-        <div className="c-1-4">
-          <input
-            type="number"
-            className="form-control"
-            id={option.id}
-            name={attribute.id}
-            defaultValue={option.value}
-            data-label={option.name}
-            onChange={changeValue}
-          />
-        </div>
-        <div className="c-3-4">{option.name}</div>
-      </label>
-    )
-  })
-
-  return (
-    <div>
-      {profile}
-      <button className="button button--primary" onClick={handleChange}>
-        Send
-      </button>
-    </div>
-  )
-}
-
-export function ProductFinder(props) {
-  var searchInput
-  const [modalIsOpen, setIsOpen] = React.useState(false)
-  const [selectedProduct, setSelectedProduct] = React.useState(props.text)
-  const [searchResults, setSearchResults] = React.useState([])
-  const [isLoading, setLoading] = React.useState(false)
-  const [isScrolled, setIsScrolled] = React.useState(false)
-  const [searchEnabled, setSearchEnabled] = React.useState(false)
-  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
+function ProductFinder(props) {
+  const { text } = props;
+  let searchInput
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(text)
+  const [searchResults, setSearchResults] = useState([])
+  const [isLoading, setLoading] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [searchEnabled, setSearchEnabled] = useState(false)
+  const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedProduct)
@@ -70,16 +35,16 @@ export function ProductFinder(props) {
 
   const saveProduct = () => {
     setSelectedProduct(searchResults.currentItemName)
-    let result = Services.updateExportPlan({
+    Services.updateExportPlan({
         export_commodity_codes: [{
           commodity_name: searchResults.currentItemName,
           commodity_code: searchResults.hsCode
         }]
       })
-      .then((result) => {
+      .then(() => {
         closeModal()
       })
-      .catch((result) => {
+      .catch(() => {
         // TODO: add an error dialogue here
       })
   }
@@ -88,20 +53,47 @@ export function ProductFinder(props) {
     searchInput.focus()
   }
 
+  const processResponse = (request) => {
+    setLoading(true)
+    request
+      .then((result) => {
+        setLoading(false)
+        /* eslint-disable no-console */
+        console.log('Search result', result) // TODO: Needed during development
+        /* eslint-enable no-console */
+        if (result && result.data && result.data.txId) {
+          setSearchResults(result.data)
+        } else {
+          setSearchResults(searchResults) // force re-render to reset any changed selectors
+        }
+      })
+      .catch(() => {
+        setLoading(false)
+        setSearchResults({})
+      })
+  }
+
+  const search = () => {
+    const query = searchInput.value
+    if (query) {
+      processResponse(Services.lookupProduct({ q: query }))
+    }
+  }
+
   const inputKeypress = (evt) => {
-    if (evt.key == 'Enter') {
+    if (evt.key === 'Enter') {
       evt.preventDefault()
       search()
     }
   }
 
   const inputChange = (evt) => {
-    let value = evt.target.value
+    const value = evt.target.value
     setSearchEnabled(!!value)
   }
 
   const clearSearchInput = (evt) => {
-    let input = evt.target.parentElement.querySelector('input')
+    const input = evt.target.parentElement.querySelector('input')
     input.value = ''
     input.focus()
     setSearchEnabled(false)
@@ -111,34 +103,9 @@ export function ProductFinder(props) {
     setIsScrolled(evt.target.scrollTop > 0)
   }
 
-  const processResponse = (request) => {
-    setLoading(true)
-    request
-      .then((result) => {
-        setLoading(false)
-        console.log('Search result', result) // TODO: Needed during development
-        if (result && result.data && result.data.txId) {
-          console.log('set search result')
-          setSearchResults(result.data)
-        } else {
-          setSearchResults(searchResults) // force re-render to reset any changed selectors
-        }
-      })
-      .catch(() => {
-        setLoading(false)
-        setSearchResults(result || {})
-      })
-  }
-
-  const search = () => {
-    let query = searchInput.value
-    if(query) { 
-      processResponse(Services.lookupProduct({ q: query }))
-    }
-  }
 
   const RadioButtons = (attribute, handleChange, setValue = true) => {
-    let buttons = (attribute.attrs || []).map((option, index) => {
+    const buttons = (attribute.attrs || []).map((option) => {
       return (
         <label key={option.id} htmlFor={option.id} className="multiple-choice p-f-m m-b-xxs">
           <input
@@ -148,10 +115,13 @@ export function ProductFinder(props) {
             name={attribute.id}
             value={option.id}
             data-label={option.name}
-            defaultChecked={setValue && option.value == 'true'}
+            defaultChecked={setValue && option.value === 'true'}
+            aria-label={option.name}
           />
           {option.name}
-          <label htmlFor={option.id}></label>
+          {/* eslint-disable jsx-a11y/label-has-associated-control */}
+          <label htmlFor={option.id}/>
+          {/* eslint-enable jsx-a11y/label-has-associated-control */}
         </label>
       )
     })
@@ -174,7 +144,7 @@ export function ProductFinder(props) {
       }
     }
 
-    let body = { SELECTION: RadioButtons, VALUED: ValueChooser } [attribute.type](
+    const body = { SELECTION: RadioButtons, VALUED: RadioButtons } [attribute.type](
       attribute,
       handleChange,
       !section.isItemChoice
@@ -189,12 +159,12 @@ export function ProductFinder(props) {
   }
 
   const Section = (title, sectionDetails) => {
-    if (!sectionDetails || sectionDetails.length == 0 || !sectionDetails.map) return null
+    if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return null
     return (
       <section className="summary">
         <h3 className="h-s p-0">{title}</h3>
         <div className="">
-          {(sectionDetails || []).map((value, index) => {
+          {(sectionDetails || []).map((value) => {
             return Attribute(value, sectionDetails)
           })}
         </div>
@@ -202,30 +172,28 @@ export function ProductFinder(props) {
     )
   }
 
-  const buildMap = (block, map) => {
-    // build an intetrraction block, removing any duplicates from previous
-    let newBlock = []
-    for (var index in block) {
-      let interraction = block[index]
-      if (interraction && interraction.id) {
-        if (!map[interraction.id]) {
-          map[interraction.id] = true
-          newBlock.push(interraction)
+  const buildMap = (block) => {
+    // build an interaction block, removing any duplicates from previous
+    const newBlock = []
+    if (block && block.length) {
+      for (let index = 0; index < block.length; index += 1) {
+        const interaction = block[index]
+        if (interaction && interaction.id) {
+          newBlock.push(interaction)
         }
       }
     }
     return newBlock.length ? newBlock : null
   }
 
-  const resultsDisplay = (searchResults) => {
-    // Build maps of intteractions as we don't want any duplicates
-    let iMap = {}
-    let questions = buildMap([searchResults.currentQuestionInteraction], iMap)
-    let assumptions = buildMap(searchResults.assumedInteractions, iMap)
-    let known = buildMap(searchResults.knownInteractions, iMap)
-    let itemChoice = buildMap([searchResults.currentItemInteraction], iMap);
+  const resultsDisplay = (results) => {
+    // Build maps of interactions as we don't want any duplicates
+    const questions = buildMap([results.currentQuestionInteraction])
+    const assumptions = buildMap(results.assumedInteractions)
+    const known = buildMap(results.knownInteractions)
+    const itemChoice = buildMap([results.currentItemInteraction]);
     (itemChoice || {}).isItemChoice = true
-    let spinner = isLoading ? (
+    const spinner = isLoading ? (
       <div className="shim">
         <Spinner text="" />
       </div>
@@ -244,7 +212,7 @@ export function ProductFinder(props) {
           {searchResults.hsCode && (
             <section className="found-section grid bg-black-10">
               <div className="c-1-3">
-                <span className="h-s">You've found your product!</span>
+                <span className="h-s">You&apos;ve found your product!</span>
               </div>
               <div className="c-1-3">
                 <div className="h-xs p-t-0 capitalize">{searchResults.currentItemName}</div>
@@ -260,29 +228,29 @@ export function ProductFinder(props) {
           {false && searchResults.productDescription && (
             <section className="summary table">
               <div className="table-row">
-                <div className="table-cell">Here's what we know about your</div>
+                <div className="table-cell">Here&apos;s what we know about your</div>
                 <div className="table-cell bold capitalize">{searchResults.productDescription}</div>
               </div>
             </section>
           )}
           {Section('Please choose your item', itemChoice)}
           {!itemChoice && Section(`Tell us more about your '${searchResults.currentItemName}'`, questions)}
-          {!itemChoice && Section(`Your item's characteristics`, known)}
-          {!itemChoice && Section("We've assumed:", assumptions)}
+          {!itemChoice && Section('Your item&apos;s characteristics', known)}
+          {!itemChoice && Section('We\'ve assumed:', assumptions)}
         </div>
       </div>
     )
   }
 
-  let buttonClass = 'tag ' + (!selectedProduct ? 'tag--tertiary' : '') + ' tag--icon'
-  let scrollerClass = 'scroll-area ' + (isScrolled ? 'scrolled' : '')
+  const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
+  const scrollerClass = `scroll-area ${isScrolled ? 'scrolled' : ''}`
+  const headerHeight = '190px'
 
   return (
     <span>
-      {/* eslint-disable-next-line react/button-has-type */}
-      <button className={buttonClass} onClick={openModal}>
+      <button type="button" className={buttonClass} onClick={openModal}>
         {selectedProduct || 'add product'}
-        <i className={'fa ' + (selectedProduct ? 'fa-edit' : 'fa-plus')}></i>
+        <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`}/>
       </button>
       <ReactModal 
         isOpen={modalIsOpen} 
@@ -292,8 +260,8 @@ export function ProductFinder(props) {
         onAfterOpen={modalAfterOpen}
       >
         <form className="product-finder">
-          <div className="modal-header" style={{ height: '172px' }}>
-            <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
+          <div className="modal-header" style={{height:headerHeight}}>        
+            <button id="dialog-close" type="button" aria-label="Save" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
             <h3 className="h-m p-t-0">Search by name</h3>
             <div>Find the product you want to export</div>
             <div className="flex-centre m-t-xs search-input">
@@ -301,24 +269,24 @@ export function ProductFinder(props) {
                 <input
                   className="form-control"
                   type="text"
-                  ref={(_searchInput) => (searchInput = _searchInput)}
+                  ref={(_searchInput) => {searchInput = _searchInput}}
                   onKeyPress={inputKeypress}
                   onChange={inputChange}
                   defaultValue=""
                 />
-                <i className="fa fa-times clear" onClick={clearSearchInput}></i>
+                <button type="button" aria-label="Clear" className="fa fa-times clear" onClick={clearSearchInput}/>
                 </div>
               <button className="button button--small button--only-icon m-f-xs" disabled={!searchEnabled} type="button" onClick={search}>
-                <i className="fa fa-arrow-right"></i>
+                <i className="fa fa-arrow-right"/>
               </button>
             </div>
           </div>
-          <div className={scrollerClass} style={{ marginTop: '172px' }} onScroll={onScroll}>
+          <div className={scrollerClass} style={{marginTop:headerHeight}} onScroll={onScroll}>
             {resultsDisplay(searchResults)}
           </div>
         </form>
       </ReactModal>
-      <MessageConfirmation
+      <Confirmation
         buttonClass={buttonClass}
         productConfirmation={productConfirmationRequired}
         handleButtonClick={closeConfirmation}
@@ -330,10 +298,14 @@ export function ProductFinder(props) {
   )
 }
 
-export default function({ ...params }) {
+ProductFinder.propTypes = {
+  text: PropTypes.string.isRequired,
+}
+
+export default function createProductFinder({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  let text = params.element.getAttribute('data-text')
-  ReactDOM.render(<ProductFinder text={text}></ProductFinder>, params.element)
+  const text = params.element.getAttribute('data-text')
+  ReactDOM.render(<ProductFinder text={text}/>, params.element)
 }

@@ -43,9 +43,9 @@
 
     .clear {
       margin-left: -25px;
-      cursor: pointer;
       opacity: 0.5;
       transition: opacity 0.3s;
+      padding: 0;
 
       &:hover {
         opacity: 1;
