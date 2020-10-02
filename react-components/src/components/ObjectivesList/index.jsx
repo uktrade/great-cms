@@ -171,10 +171,7 @@ export class ObjectivesList extends React.Component {
       addNewButton = (<Spinner text="Loading..."/>)
     } else {
       addNewButton = (
-        <div className="button--plus">
-          <span className="icon--plus"/>
-          <button type="button" className="button--stone" onClick={this.createObjective}>Add next objective</button>
-        </div>
+        <button type="button" className="button button--large button--icon" onClick={this.createObjective}><i className="fas fa-plus-circle" />Add next objective</button>
       )
     }
 
@@ -186,10 +183,8 @@ export class ObjectivesList extends React.Component {
               <Objective key={i} id={i} isLoading={objective.isLoading} errors={objective.errors} showSavedMessage={objective.showSavedMessage} data={objective} number={i+1} handleChange={this.updateObjective} deleteObjective={this.deleteObjective}/>
             ))
           }
-          <div className="footer">
-            {addNewButton}
-            <ErrorList errors={errors.__all__ || []} className="m-0" />
-          </div>
+          {addNewButton}
+          <ErrorList errors={errors.__all__ || []} className="m-0" />
         </div>
       </div>
     )
