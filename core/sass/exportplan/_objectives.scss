@@ -21,8 +21,12 @@
       top: 0;
       right: -50px;
 
-      &:hover {
-        @extend .bg-stone;
+      &.button--only-icon {
+        border: 1px solid $colour-blue-deep-40;
+
+        i {
+          color: $colour-blue-deep-40;
+        }
       }
     }
   }

@@ -108,8 +108,8 @@ export default class Objective extends React.Component {
                 />
               </div>
           </div>
-          <button type="button" className="button button--small button--only-icon button--delete bg-white text-blue-deep-40" onClick={this.deleteObjective}>
-            <i className="fas fa-trash-alt text-blue-deep-40" />
+          <button type="button" className="button--only-icon button--small button--delete text-blue-deep-40" onClick={this.deleteObjective}>
+            <i className="fas fa-trash-alt" />
           </button>
         </div>
         {statusIndicator}
