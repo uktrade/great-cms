@@ -4,7 +4,7 @@ import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import fetchMock from 'fetch-mock'
 
-import Objective from '@src/components/Objective'
+import Objective from '@src/components/ObjectivesList/Objective'
 import Field from '@src/components/Fields/Field'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
