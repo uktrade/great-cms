@@ -25,11 +25,11 @@ const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
 
 export function CountryFinder(props) {
   let modalContent
-  const [modalIsOpen, setIsOpen] = React.useState(false)
-  const [selectedCountry, setSelectedCountry] = React.useState(props.text)
-  const [countryList, setCountryList] = React.useState()
-  const [searchStr, setSearchStr] = React.useState()
-  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState(props.text)
+  const [countryList, setCountryList] = useState()
+  const [searchStr, setSearchStr] = useState()
+  const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
@@ -145,7 +145,7 @@ export function CountryFinder(props) {
     <span>
       <button className={buttonClass} onClick={openModal}>
         {selectedCountry || 'add country'}
-        <i class="fas fa-chevron-right"></i>
+        <i className="fas fa-chevron-right"></i>
       </button>
       <ReactModal
         isOpen={modalIsOpen}

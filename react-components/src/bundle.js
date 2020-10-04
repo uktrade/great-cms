@@ -24,6 +24,7 @@ import { createTargetMarketCountries } from '@src/components/TargetMarketCountri
 import { createBusinessRationale } from '@src/components/BusinessRationale'
 import { createObjectivesList } from '@src/components/ObjectivesList'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
+import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
 import LearnIntroduction from '@src/views/LearnIntroduction/LearnIntroduction'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
@@ -42,6 +43,7 @@ export default {
   createBusinessRationale,
   createObjectivesList,
   createVideoTranscript,
+  createCaseStudy,
   IndustriesModal,
   LearnIntroduction,
   ProductLookup,

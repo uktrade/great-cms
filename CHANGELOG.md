@@ -58,6 +58,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-602 - Use new header on all pages and allow login/logout
+- GP2-331 - Rerouting to login page with error message
 - GP2-413 -  style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
@@ -244,3 +246,4 @@
 - noticket add-learning-to-objectives
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
+- GP2-706 - 

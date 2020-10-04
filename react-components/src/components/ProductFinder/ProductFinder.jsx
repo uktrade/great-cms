@@ -284,7 +284,7 @@ export function ProductFinder(props) {
       {/* eslint-disable-next-line react/button-has-type */}
       <button className={buttonClass} onClick={openModal}>
         {selectedProduct || 'add product'}
-        <i class="fas fa-chevron-right"></i>
+        <i className="fas fa-chevron-right"></i>
       </button>
       <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} onAfterOpen={modalAfterOpen}>
         <form className="product-finder">
