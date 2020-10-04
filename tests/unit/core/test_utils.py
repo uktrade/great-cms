@@ -1,4 +1,6 @@
 import pytest
+from unittest import mock
+
 from django.http import HttpRequest
 
 from core.utils import (
@@ -6,6 +8,7 @@ from core.utils import (
     get_all_lessons,
     get_first_lesson,
     get_personalised_case_study_filter_dict,
+    get_selected_personalised_choices,
 )
 from tests.unit.core import factories
 
@@ -16,25 +19,25 @@ def test_lesson_module(domestic_homepage):
         parent=domestic_homepage, record_read_progress=True
     )
     curated_list_page = factories.CuratedListPageFactory(
-        parent=list_page, topics__0__title="Topic 1", topics__1__title="Topic 2"
+        parent=list_page, topics__0__title='Topic 1', topics__1__title='Topic 2'
     )
 
     detail_page_1 = factories.DetailPageFactory(
-        slug="detail-page-1", parent=curated_list_page
+        slug='detail-page-1', parent=curated_list_page
     )
     detail_page_2 = factories.DetailPageFactory(
-        slug="detail-page-2", parent=curated_list_page
+        slug='detail-page-2', parent=curated_list_page
     )
     detail_page_3 = factories.DetailPageFactory(
-        slug="detail-page-3", parent=curated_list_page
+        slug='detail-page-3', parent=curated_list_page
     )
 
     topic_1 = factories.CuratedTopicBlockfactory(
-        title="Topic 1", pages=[detail_page_1, detail_page_2]
+        title='Topic 1', pages=[detail_page_1, detail_page_2]
     )
-    topic_2 = factories.CuratedTopicBlockfactory(title="Topic 2", pages=[detail_page_3])
+    topic_2 = factories.CuratedTopicBlockfactory(title='Topic 2', pages=[detail_page_3])
 
-    curated_list_page.topics = [("topic", topic_1), ("topic", topic_2)]
+    curated_list_page.topics = [('topic', topic_1), ('topic', topic_2)]
 
     curated_list_page.save()
     pt_1 = PageTopic(detail_page_1)
@@ -59,34 +62,34 @@ def test_multiple_modules(domestic_homepage, client, user):
         parent=domestic_homepage, record_read_progress=True
     )
     module_1 = factories.CuratedListPageFactory(
-        title="Module 1",
+        title='Module 1',
         parent=list_page,
-        topics__0__title="Topic 1",
-        topics__1__title="Topic 2",
+        topics__0__title='Topic 1',
+        topics__1__title='Topic 2',
     )
 
     module_2 = factories.CuratedListPageFactory(
-        title="Module 2", parent=list_page, topics__0__title="Topic 21"
+        title='Module 2', parent=list_page, topics__0__title='Topic 21'
     )
 
-    detail_page_1 = factories.DetailPageFactory(slug="detail-page-11", parent=module_1)
-    detail_page_2 = factories.DetailPageFactory(slug="detail-page-12", parent=module_1)
-    detail_page_3 = factories.DetailPageFactory(slug="detail-page-13", parent=module_1)
+    detail_page_1 = factories.DetailPageFactory(slug='detail-page-11', parent=module_1)
+    detail_page_2 = factories.DetailPageFactory(slug='detail-page-12', parent=module_1)
+    detail_page_3 = factories.DetailPageFactory(slug='detail-page-13', parent=module_1)
 
     detail_page_4 = factories.DetailPageFactory(
-        slug="detail-page-4-module-2", parent=module_2
+        slug='detail-page-4-module-2', parent=module_2
     )
 
     topic_1 = factories.CuratedTopicBlockfactory(
-        title="Topic 1", pages=[detail_page_1, detail_page_2]
+        title='Topic 1', pages=[detail_page_1, detail_page_2]
     )
-    topic_2 = factories.CuratedTopicBlockfactory(title="Topic 2", pages=[detail_page_3])
+    topic_2 = factories.CuratedTopicBlockfactory(title='Topic 2', pages=[detail_page_3])
 
-    topic_3 = factories.CuratedTopicBlockfactory(title="Topic 3", pages=[detail_page_4])
+    topic_3 = factories.CuratedTopicBlockfactory(title='Topic 3', pages=[detail_page_4])
 
-    module_1.topics = [("topic", topic_1), ("topic", topic_2)]
+    module_1.topics = [('topic', topic_1), ('topic', topic_2)]
 
-    module_2.topics = [("topic", topic_3)]
+    module_2.topics = [('topic', topic_3)]
 
     module_1.save()
     module_2.save()
@@ -116,177 +119,253 @@ def test_multiple_modules(domestic_homepage, client, user):
     page3_response = detail_page_3.serve(request)
     page4_response = detail_page_4.serve(request)
 
-    assert page1_response.context_data["next_lesson"].specific == detail_page_2
-    assert page1_response.context_data["current_module"].specific == module_1
+    assert page1_response.context_data['next_lesson'].specific == detail_page_2
+    assert page1_response.context_data['current_module'].specific == module_1
     assert (
-        page1_response.context_data.get("next_module") is None
+        page1_response.context_data.get('next_module') is None
     )  # only present for final lesson in module
 
-    assert page2_response.context_data["next_lesson"].specific == detail_page_3
-    assert page2_response.context_data["current_module"].specific == module_1
+    assert page2_response.context_data['next_lesson'].specific == detail_page_3
+    assert page2_response.context_data['current_module'].specific == module_1
     assert (
-        page2_response.context_data.get("next_module") is None
+        page2_response.context_data.get('next_module') is None
     )  # only present for final lesson in module
 
-    assert page3_response.context_data["next_lesson"].specific == detail_page_4
-    assert page3_response.context_data["current_module"].specific == module_1
-    assert page3_response.context_data["next_module"].specific == module_2
+    assert page3_response.context_data['next_lesson'].specific == detail_page_4
+    assert page3_response.context_data['current_module'].specific == module_1
+    assert page3_response.context_data['next_module'].specific == module_2
 
-    assert page4_response.context_data.get("next_lesson") is None
-    assert page4_response.context_data["current_module"] == module_2
+    assert page4_response.context_data.get('next_lesson') is None
+    assert page4_response.context_data['current_module'] == module_2
     assert (
-        page4_response.context_data.get("next_module") is None
+        page4_response.context_data.get('next_module') is None
     )  # no next module, even though final lesson
 
 
 @pytest.mark.parametrize(
-    "product_code,country,region,expected_length, expected_filter_dict",
+    'hs_code,country,region,expected_length, expected_filter_dict',
     [
         (
-            "123456",
-            "IN",
-            "Asia",
-            9,
+            '123456',
+            'IN',
+            'Asia',
+            11,
             [
                 {
-                    "product_tags__name__exact": "123456",
-                    "country_tags__name__exact": "IN",
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'IN',
                 },
                 {
-                    "product_tags__name__exact": "123456",
-                    "country_tags__name__exact": "Asia",
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'Asia',
                 },
-                {"product_tags__name__exact": "123456"},
+                {'hs_code_tags__name': '123456'},
                 {
-                    "product_tags__name__exact": "1234",
-                    "country_tags__name__exact": "IN",
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
                 },
                 {
-                    "product_tags__name__exact": "1234",
-                    "country_tags__name__exact": "Asia",
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'Asia',
                 },
-                {"product_tags__name__exact": "1234"},
-                {"product_tags__name__exact": "12", "country_tags__name__exact": "IN"},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
                 {
-                    "product_tags__name__exact": "12",
-                    "country_tags__name__exact": "Asia",
+                    'hs_code_tags__name': '12',
+                    'country_code_tags__name': 'Asia',
                 },
-                {"product_tags__name__exact": "12"},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Asia'},
             ],
         ),
         (
-            "1234",
-            "IN",
-            "Asia",
-            6,
+            '1234',
+            'IN',
+            'Asia',
+            8,
             [
                 {
-                    "product_tags__name__exact": "1234",
-                    "country_tags__name__exact": "IN",
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
                 },
                 {
-                    "product_tags__name__exact": "1234",
-                    "country_tags__name__exact": "Asia",
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'Asia',
                 },
-                {"product_tags__name__exact": "1234"},
-                {"product_tags__name__exact": "12", "country_tags__name__exact": "IN"},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
                 {
-                    "product_tags__name__exact": "12",
-                    "country_tags__name__exact": "Asia",
+                    'hs_code_tags__name': '12',
+                    'country_code_tags__name': 'Asia',
                 },
-                {"product_tags__name__exact": "12"},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Asia'},
             ],
         ),
         (
-            "12",
-            "IN",
-            "Asia",
-            3,
+            '12',
+            'IN',
+            'Asia',
+            5,
             [
-                {"product_tags__name__exact": "12", "country_tags__name__exact": "IN"},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
                 {
-                    "product_tags__name__exact": "12",
-                    "country_tags__name__exact": "Asia",
+                    'hs_code_tags__name': '12',
+                    'country_code_tags__name': 'Asia',
                 },
-                {"product_tags__name__exact": "12"},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Asia'},
             ],
         ),
         (
-            "123456",
-            "IN",
+            '123456',
+            'IN',
             None,
-            6,
+            7,
             [
                 {
-                    "product_tags__name__exact": "123456",
-                    "country_tags__name__exact": "IN",
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'IN',
                 },
-                {"product_tags__name__exact": "123456"},
+                {'hs_code_tags__name': '123456'},
                 {
-                    "product_tags__name__exact": "1234",
-                    "country_tags__name__exact": "IN",
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
                 },
-                {"product_tags__name__exact": "1234"},
-                {"product_tags__name__exact": "12", "country_tags__name__exact": "IN"},
-                {"product_tags__name__exact": "12"},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
             ],
         ),
         (
-            "1234",
-            "IN",
+            '1234',
+            'IN',
             None,
-            4,
+            5,
             [
                 {
-                    "product_tags__name__exact": "1234",
-                    "country_tags__name__exact": "IN",
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
                 },
-                {"product_tags__name__exact": "1234"},
-                {"product_tags__name__exact": "12", "country_tags__name__exact": "IN"},
-                {"product_tags__name__exact": "12"},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
             ],
         ),
         (
-            "12",
-            "IN",
-            None,
-            2,
-            [
-                {"product_tags__name__exact": "12", "country_tags__name__exact": "IN"},
-                {"product_tags__name__exact": "12"},
-            ],
-        ),
-        (
-            "123456",
-            None,
+            '12',
+            'IN',
             None,
             3,
             [
-                {"product_tags__name__exact": "123456"},
-                {"product_tags__name__exact": "1234"},
-                {"product_tags__name__exact": "12"},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
             ],
         ),
         (
-            "1234",
+            '123456',
+            None,
+            None,
+            3,
+            [
+                {'hs_code_tags__name': '123456'},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12'},
+            ],
+        ),
+        (
+            '1234',
             None,
             None,
             2,
             [
-                {"product_tags__name__exact": "1234"},
-                {"product_tags__name__exact": "12"},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12'},
             ],
         ),
-        ("12", None, None, 1, [{"product_tags__name__exact": "12"}]),
+        ('12', None, None, 1, [{'hs_code_tags__name': '12'}]),
         (None, None, None, 0, []),
     ],
 )
 def test_personalised_filter_condition(
-    product_code, country, region, expected_length, expected_filter_dict
+    hs_code, country, region, expected_length, expected_filter_dict
 ):
     filter_cond = get_personalised_case_study_filter_dict(
-        product_code=product_code, country=country, region=region
+        hs_code=hs_code, country=country, region=region
     )
 
     assert filter_cond == expected_filter_dict
     assert len(filter_cond) == expected_length
+
+
+@pytest.mark.parametrize(
+    'mocked_export_plan, expected_commodity_code, expected_country, expected_region',
+    [
+        (
+            {
+                'export_commodity_codes': [
+                    {'commodity_code': '123456', 'commodity_name': 'Something'}
+                ],
+                'export_countries': [
+                    {
+                        'region': 'Europe',
+                        'country_name': 'Spain',
+                        'country_iso2_code': 'ES',
+                    }
+                ],
+            },
+            '123456',
+            'ES',
+            'Europe',
+        ),
+        (
+            {
+                'export_countries': [
+                    {
+                        'region': 'Europe',
+                        'country_name': 'Spain',
+                        'country_iso2_code': 'ES',
+                    }
+                ]
+            },
+            None,
+            'ES',
+            'Europe',
+        ),
+        (
+            {
+                'export_commodity_codes': [
+                    {'commodity_code': '123456', 'commodity_name': 'Something'}
+                ]
+            },
+            '123456',
+            None,
+            None,
+        ),
+        ({}, None, None, None),
+    ],
+)
+@pytest.mark.django_db
+def test_selected_personalised_choices(
+    rf,
+    user,
+    mocked_export_plan,
+    expected_commodity_code,
+    expected_country,
+    expected_region,
+):
+    request = rf.get('/')
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        commodity_code, country, region = get_selected_personalised_choices(request)
+
+        assert commodity_code == expected_commodity_code
+        assert country == expected_country
+        assert region == expected_region

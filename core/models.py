@@ -489,11 +489,10 @@ class DetailPage(CMSGenericPage):
             # checking if the page should record read progress
             # checking if the page is already marked as read
             list_page = (
-                ListPage.objects
-                    .ancestor_of(self)
-                    .filter(record_read_progress=True)
-                    .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
-                    .first()
+                ListPage.objects.ancestor_of(self)
+                .filter(record_read_progress=True)
+                .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
+                .first()
             )
             if list_page:
                 PageView.objects.get_or_create(
