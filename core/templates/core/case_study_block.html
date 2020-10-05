@@ -20,18 +20,16 @@
 </div>
 
 {% block body_js %}
-    {{ block.super }}
+    {% comment %} {{ block.super }} {% endcomment %}
     <script>
         ditMVP.createCaseStudy({
             element: document.querySelector("#case_study"),
             content: {
-                heading: {{case_study.summary}},
-                company: {{case_study.company_name}},
+                heading: "{{case_study.summary}}",
+                company: "{{case_study.company_name}}",
                 body: "Test body content"
             }
         })
     </script>
 {% endblock %}
 {% endif %}
-
-
