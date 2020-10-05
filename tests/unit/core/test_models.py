@@ -1,8 +1,11 @@
+import time
+
 from unittest import mock
 
 import pytest
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
@@ -16,12 +19,14 @@ from core.models import (
     InterstitialPage,
     LandingPage,
     ListPage,
+    case_study_body_validation,
 )
+
 from domestic.models import DomesticDashboard, DomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
 from tests.unit.core import factories
 from tests.helpers import make_test_video
-from .factories import DetailPageFactory
+from .factories import CaseStudyFactory, DetailPageFactory
 
 
 def test_object_hash():
@@ -242,6 +247,67 @@ def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_
         template='learn/detail_page.html'
     )
     assert detail_page._get_backlink_title(backlink_path) == expected
+
+
+@pytest.mark.django_db
+def test_case_study__str():
+    case_study = CaseStudyFactory(
+        company_name='Test Co'
+    )
+    assert f'{case_study}' == 'Case Study: Test Co'
+
+
+@pytest.mark.django_db
+def test_case_study__timestamps():
+    case_study = CaseStudyFactory(
+        company_name='Test Co'
+    )
+    created = case_study.created
+    modified = case_study.created
+    assert created == modified
+
+    time.sleep(1)  # Forgive this - we need to have a real, later save
+    case_study.save()
+    case_study.refresh_from_db()
+
+    assert case_study.created == created
+    assert case_study.modified > modified
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'block_type_values,expect_raise',
+    (
+        (['media', 'text'], False),
+        (['media'], True),
+        (['text'], True),
+        ([], False),
+        (['media', 'media'], True),
+        (['text', 'text'], True),
+    ),
+    ids=(
+        'media node and text node: fine',
+        'text node only: not fine',
+        'media node only: not fine',
+        'no nodes: fine - the overall requirement is done at a higher level',
+        'two text nodes: not fine',
+        'two media nodes: not fine',
+    )
+)
+def test_case_study_body_validation(block_type_values, expect_raise):
+
+    value = []
+    for block_type in block_type_values:
+        mock_block = mock.Mock()
+        mock_block.block_type = block_type
+        value.append(mock_block)
+
+    if expect_raise:
+        with pytest.raises(StreamBlockValidationError):
+            case_study_body_validation(value)
+    else:
+        # should not blow up
+        case_study_body_validation(value)
 
 
 class LandingPageTests(WagtailPageTests):
