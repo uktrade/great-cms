@@ -29,7 +29,7 @@ const post = function(url, data) {
   })
 }
 
-const httpDelete = function (url, data) {
+const httpDelete = function(url, data) {
   return fetch(url, {
     method: 'delete',
     headers: {
@@ -42,7 +42,7 @@ const httpDelete = function (url, data) {
   })
 }
 
-const get = function (url, params) {
+const get = function(url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
   const parsedParams = new URLSearchParams(params).toString()
   parsedUrl.search = parsedParams
@@ -84,11 +84,11 @@ const lookupProduct = function({ q }) {
 }
 
 const lookupProductRefine = function({ txId, interractionId, valueId, valueString }) {
-  return get(config.apiLookupProductUrl, { tx_id:txId, interraction_id:interractionId, value_id:valueId, value_string:valueString }).then((response) => responseHandler(response).json())
+  return get(config.apiLookupProductUrl, { tx_id: txId, interraction_id: interractionId, value_id: valueId, value_string: valueString }).then((response) => responseHandler(response).json())
 }
 
 const getCountries = function() {
-  return get(config.apiCountriesUrl, { }).then((response) => responseHandler(response).json())
+  return get(config.apiCountriesUrl, {}).then((response) => responseHandler(response).json())
 }
 
 const createUser = function({ email, password }) {
@@ -99,24 +99,28 @@ const updateExportPlan = function(data) {
   return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
 }
 
-const createObjective = function (data) {
+const createObjective = function(data) {
   return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
 }
 
-const deleteObjective = function (pk) {
-  return httpDelete(config.apiObjectivesDeleteUrl, {pk: pk}).then(responseHandler)
+const deleteObjective = function(pk) {
+  return httpDelete(config.apiObjectivesDeleteUrl, { pk: pk }).then(responseHandler)
 }
 
-const updateObjective = function (data) {
+const updateObjective = function(data) {
   return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
 }
 
-const checkVerificationCode = function ({ email, code }) {
+const checkVerificationCode = function({ email, code }) {
   return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
 }
 
 const checkCredentials = function({ email, password }) {
   return post(config.apiLoginUrl, { email, password }).then(responseHandler)
+}
+
+const logout = function() {
+  return post(config.apiLogoutUrl).then(responseHandler)
 }
 
 const updateCompany = function({ company_name, expertise_industries, expertise_countries, first_name, last_name }) {
@@ -142,15 +146,15 @@ const setLessonIncomplete = function(endpoint) {
   return httpDelete(endpoint).then(responseHandler)
 }
 
-const createRouteToMarket = function (data) {
+const createRouteToMarket = function(data) {
   return post(config.apiRouteToMarketCreateUrl, data).then((response) => responseHandler(response).json())
 }
 
-const deleteRouteToMarket = function (pk) {
-  return httpDelete(config.apiRouteToMarketDeleteUrl, {pk: pk}).then(responseHandler)
+const deleteRouteToMarket = function(pk) {
+  return httpDelete(config.apiRouteToMarketDeleteUrl, { pk: pk }).then(responseHandler)
 }
 
-const updateRouteToMarket = function (data) {
+const updateRouteToMarket = function(data) {
   return post(config.apiRouteToMarketUpdateUrl, data).then((response) => responseHandler(response).json())
 }
 
@@ -183,6 +187,7 @@ const setConfig = function({
   removeCountryDataUrl,
   countriesBySectorsDataUrl,
   apiLoginUrl,
+  apiLogoutUrl,
   apiSignupUrl,
   apiLookupProductUrl,
   apiCountriesUrl,
@@ -214,6 +219,7 @@ const setConfig = function({
   config.removeCountryDataUrl = removeCountryDataUrl
   config.countriesBySectorsDataUrl = countriesBySectorsDataUrl
   config.apiLoginUrl = apiLoginUrl
+  config.apiLogoutUrl = apiLogoutUrl
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
   config.apiCountriesUrl = apiCountriesUrl
@@ -243,6 +249,7 @@ const setConfig = function({
 export default {
   createUser,
   checkCredentials,
+  logout,
   checkVerificationCode,
   get,
   store: store,

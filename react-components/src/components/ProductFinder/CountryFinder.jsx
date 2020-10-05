@@ -5,31 +5,15 @@ import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
 import MessageConfirmation from './MessageConfirmation'
 
-const customStyles = {
-  content: {
-    top: '10%',
-    left: '10%',
-    width: '80%',
-    border: 'none',
-    height: '80%',
-    padding: '40px 60px',
-    overflow: 'none'
-  },
-  overlay: {
-    background: 'rgb(45 45 45 / 45%)',
-    zIndex: '3'
-  }
-}
-
 const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
 
 export function CountryFinder(props) {
   let modalContent
-  const [modalIsOpen, setIsOpen] = React.useState(false)
-  const [selectedCountry, setSelectedCountry] = React.useState(props.text)
-  const [countryList, setCountryList] = React.useState()
-  const [searchStr, setSearchStr] = React.useState()
-  const [productConfirmationRequired, setProductConfirmationRequired] = React.useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState(props.text)
+  const [countryList, setCountryList] = useState()
+  const [searchStr, setSearchStr] = useState()
+  const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
@@ -64,8 +48,8 @@ export function CountryFinder(props) {
       // map regions
       let regions = {}
       for (const [index, country] of result.entries()) {
-        let region = country.region
-        ;(regions[region] = regions[region] || []).push(country)
+        let region = country.region;
+        (regions[region] = regions[region] || []).push(country)
       }
       setCountryList(regions)
     })
@@ -74,13 +58,11 @@ export function CountryFinder(props) {
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
     let result = Services.updateExportPlan({
-      export_countries: [
-        {
+        export_countries: [{
           country_name: country.name,
           country_iso2_code: country.id
-        }
-      ]
-    })
+        }]
+      })
       .then((result) => {
         closeModal()
       })
@@ -142,7 +124,7 @@ export function CountryFinder(props) {
     <span>
       <button className={buttonClass} onClick={openModal}>
         {selectedCountry || 'add country'}
-        <i class="fas fa-chevron-right"></i>
+        <i className={'fa ' + (selectedCountry ? 'fa-edit' : 'fa-plus')}></i>
       </button>
       <ReactModal
         isOpen={modalIsOpen}

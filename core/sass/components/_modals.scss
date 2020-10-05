@@ -78,38 +78,6 @@
   }
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: $black-20;
-  position: relative;
-  padding: 0;
-
-  &:focus,
-  &.active {
-    outline: none;
-
-    &:after {
-      content: '';
-      top: -10%;
-      left: -10%;
-      display: block;
-      position: absolute;
-      border: 2px solid $red-80;
-      width: 110%;
-      height: 110%;
-      border-radius: 50%;
-    }
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-  }
-}
-
 .confirmation-modal {
   padding: $space-s;
   max-width: 500px;
