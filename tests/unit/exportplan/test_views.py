@@ -265,3 +265,12 @@ def test_disabled_urls_feature_flag_disabled(client, user):
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_service_page_context(client, user):
+    client.force_login(user)
+    url = reverse('exportplan:service-page')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['sections'] == data.SECTION_TITLES_URLS
