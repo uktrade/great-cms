@@ -1,9 +1,5 @@
 @import 'elements/colours';
 
-button {
-  @include button-reset;
-}
-
 label {
   display: block;
 }

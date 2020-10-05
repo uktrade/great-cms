@@ -31,7 +31,7 @@ export const Input = ({
       type={type}
       name={id}
       disabled={disabled}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange({[id]: e.target.value})}
       placeholder={placeholder}
       value={value}
       readOnly={readOnly}
