@@ -479,6 +479,7 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'wagtailimages.image',
     'wagtaildocs',
     'wagtailmedia',
+    'taggit',
     'core.AltTextImage',
     'core.ContentModule',
     'core.Tour',
