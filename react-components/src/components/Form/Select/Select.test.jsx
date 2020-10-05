@@ -60,9 +60,9 @@ describe('Select', () => {
     })
 
     it('Should show dropdown and 2 items', async () => {
-      const { queryByRole, getByText } = setup({...props})
+      const { queryByRole, getByText, getByRole } = setup({...props})
 
-      fireEvent.click(getByText('^'))
+      fireEvent.click(getByRole('button'))
 
       await waitFor(() => {
         expect(queryByRole('listbox')).toBeInTheDocument()
@@ -75,9 +75,9 @@ describe('Select', () => {
   describe('Update',() => {
 
     it('Should fire',async () => {
-      const { actions, getByText } = setup({...props})
+      const { actions, getByText, getByRole } = setup({...props})
 
-      fireEvent.click(getByText('^'))
+      fireEvent.click(getByRole('button'))
       await waitFor(() => {
         fireEvent.click(getByText(props.options[0].label))
         expect(actions.update).toHaveBeenCalledTimes(1)
