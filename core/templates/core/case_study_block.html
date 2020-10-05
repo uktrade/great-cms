@@ -8,7 +8,7 @@
             <div>
                 <h3 class="h-m m-b-xs p-0">{{case_study.summary}}</h3>
                 <p class="case-study__company h-s p-0">{{case_study.company_name}}</p>
-                <div class="case-study__media">
+                <div class="case-study__media case-study__body">
                     {% comment %} Body is a streamfield {% endcomment %}
                     {% for block in case_study.body %}
                         {% include_block block %}
@@ -27,7 +27,7 @@
             content: {
                 heading: "{{case_study.summary}}",
                 company: "{{case_study.company_name}}",
-                body: "Test body content"
+                body: document.querySelector("#case_study .case-study__body").innerHTML
             }
         })
     </script>

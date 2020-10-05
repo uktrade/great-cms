@@ -368,6 +368,14 @@ $desktop: 1024px;
         }
       }
     }
+
+    .case-study {
+      h3 {
+        @extend .h-m;
+        padding-top: 0;
+        margin-bottom: 15px;
+      }
+    }
   }
 
   .step-by-step {
@@ -462,19 +470,28 @@ $desktop: 1024px;
 
       img, video {
         display: block;
+        height: auto;
         margin: 0 auto;
         max-width: 100%;
       }
 
-      img:nth-child(2) {
-        display: none;
-        position: absolute;
-        top: 0;
-        right: calc(-100% - 30px);
-
-        @include tablet {
-          display: block;
+      .block-image:nth-child(2),
+      .block-video + .block-image {
+        img {
+          display: none;
+          position: absolute;
+          top: 0;
+          right: calc(-100% - 30px);
+  
+          @include tablet {
+            display: block;
+          }
         }
+      }
+
+      .c-full {
+        float: none;
+        margin: 0;
       }
     }
   }
