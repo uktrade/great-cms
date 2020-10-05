@@ -434,4 +434,48 @@ $desktop: 1024px;
       margin-top: 12px;
     }
   }
+
+  .case-study {
+    position: relative;
+
+    &__close {
+      background: none;
+      border: 0;
+      color: $blue-deep-80;
+      cursor: pointer;
+      font-size: 33px;
+      position: absolute;
+      top: -2px;
+
+      @include tablet {
+        right: -58px;
+        top: -24px;
+      }
+    }
+
+    &__company {
+      margin-top: 20px;
+    }
+
+    &__media {
+      position: relative;
+
+      img, video {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+      }
+
+      img:nth-child(2) {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: calc(-100% - 30px);
+
+        @include tablet {
+          display: block;
+        }
+      }
+    }
+  }
 }
