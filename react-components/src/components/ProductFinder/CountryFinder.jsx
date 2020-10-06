@@ -43,6 +43,14 @@ export function CountryFinder(props) {
     setSearchStr(searchString.toUpperCase())
   }
 
+
+   const countryListToggle = (evt) => {
+     evt.preventDefault()
+     const targetElement = evt.target.closest('section').querySelector('ul.countryList')
+     targetElement.classList.contains('open') ? targetElement.classList.remove('open') : targetElement.classList.add('open') ;
+
+   }
+
   const getCountries = () => {
     Services.getCountries().then((result) => {
       // map regions
@@ -97,8 +105,10 @@ export function CountryFinder(props) {
         <section key={region}>
           <div className="grid">
             <div className="c-full-width">
-              <h2 className="region-name h-xs">{region}</h2>
-              <ul style={{ display: 'flex', flexWrap: 'wrap' }}>{_countries}</ul>
+              <h2 className="region-name h-xs">{region}
+              <button className="region-expand" onClick={countryListToggle}>+</button>
+              </h2>
+              <ul className="countryList">{_countries}</ul>
               <hr className="hr m-b-xxs"></hr>
             </div>
           </div>
