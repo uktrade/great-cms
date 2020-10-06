@@ -4,7 +4,7 @@
 {% with lesson_details|get_item:lesson_name|get_item:'url' as outbound_url %}
 <a class="text-white link inline-block" href="{% get_backlinked_url outbound_url %}" title="{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}">
     <h3 class="text-blue-deep-80 body-l-b m-b-xs">Learn</h3>
-    <div class="bg-blue-deep-80 p-s radius">
+    <div class="card bg-blue-deep-80">
         <h4 class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}</h4>
         <p class="text-white h-s m-t-0">{{ lesson_details|get_item:lesson_name|get_item:'title' }}</p>
         <div class="text-white">
