@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import ReactModal from "react-modal";
+import React from 'react'
+import ReactModal from 'react-modal';
 
 export function MessageConfirmation(props) {
   const [modalIsOpen, setIsOpen] = React.useState(props.productConfirmation)
