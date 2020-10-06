@@ -62,7 +62,7 @@
 - GP2-686 - Product-search End result details
 - GP2-685 - Product-search End result selection
 - GP2-683 - Product-search Things you told us
-- GP2-682 - Product-search Tell-us-more
+- GP2-682 - Product-search "Tell us more"
 - GP2-681 - Product-search assumptions restyle
 - GP2-264 - navigate back to module landing
 - GP2-680 - Restyle product search modal
