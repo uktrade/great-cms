@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('company_name', models.CharField(max_length=255)),
                 ('summary', models.TextField()),
-                ('body', wagtail.core.fields.StreamField([('media', wagtail.core.blocks.StreamBlock([('image', core.blocks.ImageBlock()), ('video', wagtail.core.blocks.StructBlock([('video', core.blocks.MediaChooserBlock())], template='core/includes/_case_study_video.html'))], max_num=2, min_num=1)), ('text', wagtail.core.blocks.RichTextBlock(features=()))],  help_text='This block must contain one Media section (with one or two items in it) and one Text section.', validators=[core.models.case_study_body_validation])),
+                ('body', wagtail.core.fields.StreamField([('media', wagtail.core.blocks.StreamBlock([('video', wagtail.core.blocks.StructBlock([('video', core.blocks.MediaChooserBlock())], template='core/includes/_case_study_video.html')), ('image', core.blocks.ImageBlock())], max_num=2, min_num=1)), ('text', wagtail.core.blocks.RichTextBlock(features=()))], help_text='This block must contain one Media section (with one or two items in it) and one Text section.', validators=[core.models.case_study_body_validation]),
                 ('created', django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, null=True, verbose_name='created')),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, null=True, verbose_name='modified')),
             ],
