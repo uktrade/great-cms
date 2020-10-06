@@ -330,8 +330,8 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
     # Every real-world page will have a revision, so the test needs one, too
     revision = detail_page.save_revision()
     revision.publish()
-
-    expected_duration = timedelta(seconds=3 + 123)  # reading + watching
+    
+    expected_duration = timedelta(seconds=7 + 123)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -391,7 +391,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=1)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=5)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
