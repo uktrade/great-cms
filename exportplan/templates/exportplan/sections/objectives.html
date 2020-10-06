@@ -2,32 +2,21 @@
 {% load static %}
 
 {% block intro_title %}Objectives{% endblock %}
-{% block intro_description %}Your reasons for wanting to export and what you want to accomplish are the foundations of your export plan. Define your motivations and goals by setting them out here.{% endblock %}
+{% block intro_description %}To have a strong export plan, you need to know your reasons for wanting to export and what you want to accomplish. <br /> <br />Have a think about your motivations and exporting goals and record them on this page.{% endblock %}
 
 {% block user_input %}
 
 <section class="container">
   <div class="grid">
     <div class="c-1-4 p-0 m-t-s">
-      {% include 'exportplan/includes/lesson_details.html' with lesson_name='opportunity-right-you' %}
+      <div class="lesson__back">
+        {% include 'exportplan/includes/lesson_details.html' with lesson_name='opportunity-right-you' %}
+      </div>
     </div>
-    <div class="c-1-2">
-      <h2 class="h-l m-t-m">Why we want to export</h2>
-      <p>What’s the reason you want to export?<br>Every business will have its own motivations.<br>Common are:</p>
-      <ul class="list-bullet">
-        <li>grow the business by selling overseas</li>
-        <li>maintain growth when sales have levelled off in the UK</li>
-        <li>Spread risk by selling countries other than the UK</li>
-        <li>Take advantage of an increase in customers wanting your kind of product</li>
-      </ul>
-      <p class="g-panel">It doesn’t matter if you’re reacting to an export opportunity or proactively planning, spelling them out will help make the most of either situation. </p>
-        <div id="objectives-form--rationale">
-          {% include 'exportplan/includes/form_field.html' with field=form.rational %}
-        </div>
-        <div class="export-plan-example bg-stone br-xs p-xs m-b-l">
-          <h3 class="bold">For example</h3>
-          <p class="m-0">I want to sell gin outside the U.K to grow my businesss</p>
-        </div>
+    <div class="c-1-2 text-blue-deep-80">
+      <div id="objectives-reasons">
+        {% include 'exportplan/includes/form_field.html' with field=form.rational %}
+      </div>
     </div>
     <div class="c-1-4">&nbsp;</div>
   </div>
@@ -35,28 +24,22 @@
 
 <section class="container m-b-m m-t-l">
   <div class="grid">
-    <div class="c-1-4 p-0 m-t-s">&nbsp;</div>
-    <div class="c-1-2">
-      <h2 class="h-l">Why we want to export</h2>
-      <p>What do you want to accomplish and by when?</p>
-      <div class="g-panel">
-        <p>You’ll want to ensure objectives are specific, measurable and realistic and include time periods or dates. For example:</p>
-        <ul class="list-bullet">
-          <li>increase sales by 10% over 5 years</li>
-          <li>target and enter 3 new markets by 2023</li>
-        </ul>
-        <p><a href="#">See examples</a></p>
+    <div class="c-1-4 p-0 m-t-s">
+      <div class="lesson__back">
+        {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
       </div>
     </div>
-    <div class="c-1-4">&nbsp;</div>
-  </div>
-</section>
-<section class="container">
-  <div class="grid">
-    <div class="c-1-4 p-0 m-t-s">
-      {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
-    </div>
-    <div class="c-1-2">
+    <div class="c-1-2 text-blue-deep-80">
+      <h2 class="h-m m-b-s">What you want to achieve</h2>
+      <p>What do you want to accomplish and by when?</p>
+      <div class="g-panel m-b-m">
+        <p>To increase the prospect of success, ensure what you want to achieve is specific, measurable and realistic:</p>
+        <ul class="list-dot">
+          <li>specific - your objective is well defined</li>
+          <li>measurable - use things like quantity, cost and time frame so you can judge how well you're doing</li>
+          <li>realistic - ambition is good but make sure your objective is within reach</li>
+        </ul>
+      </div>
       <div id="objectives-form--objectives">
         <input type="submit" class="g-button" value="Save">
       </div>
@@ -69,9 +52,10 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var rationale = document.getElementById('objectives-form--rationale');
-    ditMVP.createBusinessRationale({
+    var rationale = document.getElementById('objectives-reasons');
+    ditMVP.createObjectivesReasons({
       element: rationale,
+      field: 'objectives',
       formData: {{ form_initial|safe }},
       formFields: {{ form_fields|safe }},
     })

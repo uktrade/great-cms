@@ -38,6 +38,36 @@ def test_set_cookies_from_cookie_jar():
     )
 
 
+def test_get_cookie():
+    cookie_jar = RequestsCookieJar()
+    cookie_jar.set('foo', 'a secret value', domain='httpbin.org', path='/cookies')
+    cookie_jar.set('bar', 'a secret value - bar', domain='httpbin.org', path='/elsewhere')
+
+    cookie = helpers.get_cookie(
+        cookie_jar=cookie_jar,
+        name='bar'
+    )
+    assert cookie.value == 'a secret value - bar'
+
+
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+def test_send_verification_code_email(mock_action_class, settings):
+    verification_code = {
+        'expiration_date': '2020-12-01T13:12:10',
+        'code': '12345678'
+    }
+
+    helpers.send_verification_code_email(
+        email='jim@example.com', verification_code=verification_code, form_url='foo', verification_link='/somewhere')
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
+        email_address='jim@example.com',
+        form_url='foo',
+    )
+    assert mock_action_class().save.call_count == 1
+
+
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_welcome_notification(mock_action_class, settings):
     helpers.send_welcome_notification(email='jim@example.com', form_url='foo')

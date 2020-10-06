@@ -8,8 +8,6 @@
 
 {% block content %}
 
-{% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-
 <section class="bg-blue-deep-10">
 	<aside class="completion-status p-v-m p-r-s p-f-s text-center bg-white">
        {% if not request.user.company.logo %}

@@ -4,11 +4,12 @@ import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import fetchMock from 'fetch-mock'
 
-import Objective from '@src/components/Objective'
+import { Objective } from '@src/components/ObjectivesList/Objective'
 import Field from '@src/components/Fields/Field'
 import Services from '@src/Services'
-import Spinner from '@src/components/Spinner/Spinner'
 import ErrorList from '@src/components/ErrorList'
+import { TextArea } from '@src/components/Form/TextArea'
+import { Input } from '@src/components/Form/Input'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -32,100 +33,6 @@ afterEach(() => {
 })
 
 describe('Objective', () => {
-  test('should generate objective form fields from props and prepopulate', () => {
-
-    const dummyObjective = {
-      description: 'Some text',
-      owner: 'Jane Doe',
-      planned_reviews: 'Lorem ipsum',
-      start_date: '',
-      end_date: '',
-      companyexportplan: 1,
-      pk: 1,
-    }
-
-    const wrapper = Enzyme.mount(
-      <Objective
-        key={0}
-        id={0}
-        isLoading={dummyObjective.isLoading}
-        errors={dummyObjective.errors}
-        showSavedMessage={dummyObjective.showSavedMessage}
-        data={dummyObjective}
-        number={1}
-        handleChange={dummyFunction}
-        deleteObjective={dummyFunction}/>
-    )
-
-    const plannedReviewsField = (
-      <Field
-        id="planned_reviews_1"
-        type="textarea"
-        placeholder="Add some text"
-        label="Planned reviews"
-        name="planned_reviews"
-        value={dummyObjective.planned_reviews}
-        errors={[]}
-        handleChange={wrapper.props.handleChange}
-      />
-    )
-
-    const descriptionField = (
-      <Field
-        id="description_1"
-        type="textarea"
-        placeholder="Add some text"
-        label="Description"
-        name="description"
-        value={dummyObjective.description}
-        errors={[]}
-        handleChange={wrapper.props.handleChange}
-      />
-    )
-
-    const ownerField = (
-      <Field
-        id="owner_1"
-        type="textarea"
-        placeholder="Add an owner"
-        label="Owner"
-        name="owner"
-        value={dummyObjective.owner}
-        errors={[]}
-        handleChange={wrapper.props.handleChange}
-      />
-    )
-
-    const startDateField = (
-      <Field
-        id="start_date_1"
-        type="date"
-        label="Start date"
-        name="start_date"
-        value={dummyObjective.start_date}
-        errors={[]}
-        handleChange={wrapper.props.handleChange}
-      />
-    )
-
-    const endDateField = (
-      <Field
-        id="end_date_1"
-        type="date"
-        label="End date"
-        name="end_date"
-        value={dummyObjective.end_date}
-        errors={[]}
-        handleChange={wrapper.props.handleChange}
-      />
-    )
-
-    expect(wrapper.containsMatchingElement(descriptionField)).toEqual(true)
-    expect(wrapper.containsMatchingElement(plannedReviewsField)).toEqual(true)
-    expect(wrapper.containsMatchingElement(ownerField)).toEqual(true)
-    expect(wrapper.containsMatchingElement(startDateField)).toEqual(true)
-    expect(wrapper.containsMatchingElement(endDateField)).toEqual(true)
-  })
 
   test('should show saved message when objective has been saved', () => {
 
@@ -156,39 +63,6 @@ describe('Objective', () => {
 
     expect(wrapper.containsMatchingElement(
       <p id="objective-saved-message">Changes saved.</p>
-    )).toEqual(true)
-
-  })
-
-  test('should show spinner when objective loading', () => {
-
-    const dummyObjective = {
-      description: '',
-      owner: '',
-      planned_reviews: '',
-      start_date: '',
-      end_date: '',
-      companyexportplan: 1,
-      pk: 1,
-      showSavedMessage: false,
-      isLoading: true,
-    }
-
-    const wrapper = Enzyme.mount(
-      <Objective
-        key={0}
-        id={0}
-        isLoading={dummyObjective.isLoading}
-        errors={dummyObjective.errors}
-        showSavedMessage={dummyObjective.showSavedMessage}
-        data={dummyObjective}
-        number={1}
-        handleChange={dummyFunction}
-        deleteObjective={dummyFunction}/>
-    )
-
-    expect(wrapper.containsMatchingElement(
-      <Spinner text="Saving..."/>
     )).toEqual(true)
 
   })

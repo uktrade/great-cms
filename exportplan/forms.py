@@ -280,10 +280,26 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
 
 
 class ExportPlanBusinessObjectivesForm(forms.Form):
-    rational = forms.CharField(
-        label='Business performance',
+    rationale = forms.CharField(
+        label='Why you want to export',
         required=False,
-        widget=Textarea(attrs={'placeholder': 'Add some text'})
+        widget=Textarea(attrs={
+            'placeholder': 'Add some text',
+            'description': (
+                '<p>What are the main reasons you want to export?</p><p>Common reasons for exporting include:</p>'
+                '<ul class="list-dot"><li>grow the business by selling overseas</li><li>maintain growth when sales'
+                ' in the UK have levelled off</li><li>spread risk evenly by selling in countries other than the '
+                'UK</li><li>widen your customer base</li></ul> <p class="g-panel">Planning and thinking about your'
+                ' export objectives will help you make the most out of any export opportunities you are interested'
+                ' in.</p>'
+            ),
+            'example': (
+                'A desire for taste lacking in big brands is creating a buzz around "craft" gin distilleries '
+                ' - especially those in the UK. Dove gin is what we anticipate is long term growth in major '
+                'cities in Europe, Asia and the US.'
+
+            ),
+        })
     )
 
 

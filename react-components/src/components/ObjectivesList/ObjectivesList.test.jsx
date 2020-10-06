@@ -78,38 +78,10 @@ afterEach(() => {
 })
 
 describe('ObjectivesList', () => {
-  test('should generate objective form fields from props and prepopulate', () => {
-
-    const descriptionField = (
-      <Field
-        id='description_1'
-        type='textarea'
-        placeholder='Add some text'
-        label='Description'
-        name='description'
-        value={dummyObjectiveOne.description}
-      />
-    )
-
-    const ownerField = (
-      <Field
-        id='owner_1'
-        type='textarea'
-        placeholder='Add an owner'
-        label='Owner'
-        name='owner'
-        value={dummyObjectiveOne.owner}
-      />
-    )
-
-    expect(wrapper.state('objectives')).toEqual(objectives)
-    expect(wrapper.containsMatchingElement(descriptionField)).toEqual(true)
-    expect(wrapper.containsMatchingElement(ownerField)).toEqual(true)
-  })
 
   test('should update objectives list state on change', () => {
 
-    const input = wrapper.find('#description_1 textarea')
+    const input = wrapper.find('#description textarea').first()
 
     // change value of form field
     const dummyEvent = {

@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
 - GP2-76 - adjust aligment of back button
 - GP2-627 - Fix button styling across pages
@@ -58,6 +59,9 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-680 - Restyle product search modal
+- GP2-602 - Use new header on all pages and allow login/logout
+- GP2-331 - Rerouting to login page with error message
 - GP2-413 -  style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
@@ -244,3 +248,4 @@
 - noticket add-learning-to-objectives
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
+- GP2-706 - 
