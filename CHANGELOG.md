@@ -59,6 +59,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-264 - navigate back to module landing
 - GP2-680 - Restyle product search modal
 - GP2-602 - Use new header on all pages and allow login/logout
 - GP2-331 - Rerouting to login page with error message
