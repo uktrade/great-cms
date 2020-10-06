@@ -1,18 +1,14 @@
-/* eslint-disable prefer-destructuring */
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
+import { capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Confirmation from './MessageConfirmation'
 import Interaction from './Interaction'
 import ExpandCollapse from './ExpandCollapse'
 
-
-const capitalize = (str, enable = true) => {
-  return enable ? str.charAt(0).toUpperCase() + str.slice(1) : str
-}
 
 const formatPath = (pathstr) => {
   return pathstr.split('//').map((part, index) => {
@@ -101,8 +97,7 @@ function ProductFinder(props) {
   }
 
   const inputChange = (evt) => {
-    const value = evt.target.value
-    setSearchEnabled(!!value)
+    setSearchEnabled(!!evt.target.value)
   }
 
   const clearSearchInput = (evt) => {
@@ -117,7 +112,7 @@ function ProductFinder(props) {
   }
 
   const Section = (title, sectionDetails) => {
-    if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return null
+    if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return ''
     return (
       <section className="p-h-l p-t-xs">
         <h3 className="h-s p-0">{title}</h3>
@@ -133,9 +128,9 @@ function ProductFinder(props) {
       return (
         <div className="grid m-v-xs" key={interaction.id}>
           <div className="c-fullwidth">
-            <span className="bold p-t-0">{capitalize(interaction.label.replace(/_/g, ' '))}</span>
+            <span className="bold p-t-0">{capitalize(interaction.label)}</span>
             <p className="m-v-xxs">
-              {capitalize(interaction.selectedString.replace(/_/g, ' '))} 
+              {capitalize(interaction.selectedString)} 
               {interaction.selectedString === 'other' ? ` than ${interaction.unselectedString}` : ''}
               {' '}<a href="/" className="link link--underline">change</a>
             </p>
@@ -152,7 +147,7 @@ function ProductFinder(props) {
         <p className="m-v-xxs">We&apos;ve answered some questions for you. View and change these if they&apos;re wrong.</p>
         <ExpandCollapse buttonLabel={`assumptions (${sectionDetails.length})`}>{readOnlyContent(sectionDetails)}</ExpandCollapse> 
       </section>
-    )
+    ) || ''
   }
 
   const sectionProductDetails = (sectionDetails) => {
@@ -165,7 +160,7 @@ function ProductFinder(props) {
         </section>
         <hr className="hr hr--light" />
       </div>
-    )
+    ) || ''
   }
 
   const sectionFound = (_searchResults) => {
@@ -212,6 +207,20 @@ function ProductFinder(props) {
     ) : (
       ''
     )
+
+    const sections = itemChoice ?
+      // If the item is ambiguous - supress other sections
+      <div>
+        {Section('Please choose your item', itemChoice)}
+      </div> :
+      <div>
+        {Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
+        {questions ? (<hr className="hr hr--dark"/>) : ''}
+        {sectionProductDetails(known)} 
+        {sectionAssumptions(assumptions)}
+      </div>
+
+
     return (
       <div>
         {spinner}
@@ -222,11 +231,7 @@ function ProductFinder(props) {
             </div>
           )}
           {searchResults.hsCode && sectionFound(searchResults)}
-          {Section('Please choose your item', itemChoice)}
-          {!itemChoice && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-          {!itemChoice && questions ? (<hr className="hr hr--dark"/>) : ''}
-          {!itemChoice && sectionProductDetails(known)}
-          {!itemChoice && sectionAssumptions(assumptions)}
+          {sections}
         </div>
       </div>
     )

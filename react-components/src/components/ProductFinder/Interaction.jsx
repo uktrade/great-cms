@@ -1,13 +1,7 @@
-/* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
-
-
-const capitalize = (str, enable = true) => {
-  const strWithSpaces = str.replace(/_/g, ' ')
-  return enable ? strWithSpaces.charAt(0).toUpperCase() + strWithSpaces.slice(1) : strWithSpaces
-}
+import { capitalize } from '@src/Helpers'
 
 function RadioButtons(props) {
   const { attribute, valueChange } = props;
@@ -19,9 +13,9 @@ function RadioButtons(props) {
   }
 
   useEffect(() => {
-    (attribute.attrs || []).map((option) => {
-      if (option.value === 'true') {
-        updateSelection({ name: option.name, id: option.id })
+    (attribute.attrs || []).map(({value, name, id}) => {
+      if (value === 'true') {
+        updateSelection({ name, id })
       }
       return null // for eslint only 
     })
