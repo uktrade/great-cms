@@ -257,6 +257,7 @@ class ExportPlanServicePage(TemplateView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
-            sections=list(data.SECTIONS.values()),
+            sections=data.SECTION_URLS,
+            json_sections=json.dumps(data.SECTION_URLS, cls=DjangoJSONEncoder),
             **kwargs
         )
