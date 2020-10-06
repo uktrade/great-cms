@@ -11,7 +11,7 @@
             <ul>
                 {% for section in sections %}
                     <li class="h-s">
-                        <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a>
+                        <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section.title }}</a>
                     </li>
                 {% endfor %}
             </ul>

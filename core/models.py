@@ -37,7 +37,7 @@ from core.constants import BACKLINK_QUERYSTRING_NAME
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
-from exportplan.data import SECTION_TITLES_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+from exportplan.data import SECTIONS as EXPORT_PLAN_SECTION_TITLES_URLS
 
 
 class GreatMedia(Media):
@@ -519,7 +519,7 @@ class DetailPage(CMSGenericPage):
         Export Plan sections we have."""
 
         return {
-            entry['url']: entry['title'] for entry in EXPORT_PLAN_SECTION_TITLES_URLS
+            entry['url']: entry['title'] for entry in list(EXPORT_PLAN_SECTION_TITLES_URLS.values())
         }
 
     def _get_backlink(self, request):

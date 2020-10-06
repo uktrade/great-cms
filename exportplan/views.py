@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, FormView
 from django.utils.functional import cached_property
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-
+from django.core.serializers.json import DjangoJSONEncoder
 from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES, MARKET_ROUTE_CHOICES, PRODUCT_PROMOTIONAL_CHOICES
@@ -17,9 +17,9 @@ from exportplan import data, helpers, forms
 class ExportPlanMixin:
 
     def dispatch(self, request, *args, **kwargs):
-        if self.slug not in data.SECTION_SLUGS:
+        if self.slug not in data.SECTIONS:
             raise Http404()
-        elif self.slug in data.SECTIONS_DISABLED_SLUGS:
+        elif data.SECTIONS[self.slug]['disabled']:
             return redirect('exportplan:service-page')
         return super().dispatch(request, *args, **kwargs)
 
@@ -31,30 +31,21 @@ class ExportPlanMixin:
     def next_section(self):
         if self.slug == data.SECTION_SLUGS[-1]:
             return None
-
-        index = data.SECTION_SLUGS.index(self.slug)
-        return {
-            'title': data.SECTION_TITLES[index + 1],
-            'url': data.SECTION_URLS[index + 1],
-            'disabled': True if data.SECTION_TITLES[index + 1] in data.SECTIONS_DISABLED else False,
-        }
+        return data.SECTIONS[data.SECTION_SLUGS[data.SECTION_SLUGS.index(self.slug) + 1]]
 
     @property
     def current_section(self):
-        index = data.SECTION_SLUGS.index(self.slug)
-        return {
-            'title': data.SECTION_TITLES[index],
-            'url': data.SECTION_URLS[index],
-            'disabled': True if data.SECTION_TITLES[index] in data.SECTIONS_DISABLED else False,
-        }
+        return data.SECTIONS.get(self.slug)
 
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
         country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
+        # sectors need to be removed once json_sections is passed to JS and we update template
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
-            sections=data.SECTION_TITLES_URLS,
+            sections=data.SECTION_URLS,
+            json_sections=json.dumps(data.SECTION_URLS, cls=DjangoJSONEncoder),
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
@@ -266,6 +257,6 @@ class ExportPlanServicePage(TemplateView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
-            sections=data.SECTION_TITLES_URLS,
+            sections=list(data.SECTIONS.values()),
             **kwargs
         )

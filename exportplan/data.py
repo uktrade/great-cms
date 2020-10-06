@@ -1,6 +1,7 @@
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from config import settings
+from collections import OrderedDict
 
 # Constants
 ABOUT_YOUR_BUSINESS = 'About your business'
@@ -30,33 +31,63 @@ if settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED:
 else:
     SECTIONS_DISABLED = []
 
+SECTIONS = OrderedDict({
+    slugify(ABOUT_YOUR_BUSINESS): {
+        'title': ABOUT_YOUR_BUSINESS,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(ABOUT_YOUR_BUSINESS)}),
+        'disabled': True if ABOUT_YOUR_BUSINESS in SECTIONS_DISABLED else False,
+    },
+    slugify(OBJECTIVES): {
+        'title': OBJECTIVES,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(OBJECTIVES)}),
+        'disabled': True if OBJECTIVES in SECTIONS_DISABLED else False,
+    },
+    slugify(TARGET_MARKETS_RESEARCH): {
+        'title': TARGET_MARKETS_RESEARCH,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(TARGET_MARKETS_RESEARCH)}),
+        'disabled': True if TARGET_MARKETS_RESEARCH in SECTIONS_DISABLED else False,
+    },
+    slugify(ADAPTATION_TARGET_MARKET): {
+        'title': ADAPTATION_TARGET_MARKET,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(ADAPTATION_TARGET_MARKET)}),
+        'disabled': True if ADAPTATION_TARGET_MARKET in SECTIONS_DISABLED else False,
+    },
+    slugify(MARKETING_APPROACH): {
+        'title': MARKETING_APPROACH,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(MARKETING_APPROACH)}),
+        'disabled': True if MARKETING_APPROACH in SECTIONS_DISABLED else False,
+    },
+    slugify(COSTS_AND_PRICING): {
+        'title': COSTS_AND_PRICING,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(COSTS_AND_PRICING)}),
+        'disabled': True if COSTS_AND_PRICING in SECTIONS_DISABLED else False,
+    },
+    slugify(FINANCE): {
+        'title': FINANCE,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(FINANCE)}),
+        'disabled': True if FINANCE in SECTIONS_DISABLED else False,
+    },
+    slugify(PAYMENT_METHODS): {
+        'title': PAYMENT_METHODS,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(PAYMENT_METHODS)}),
+        'disabled': True if PAYMENT_METHODS in SECTIONS_DISABLED else False,
+    },
+    slugify(TRAVEL_AND_BUSINESS_POLICIES): {
+        'title': TRAVEL_AND_BUSINESS_POLICIES,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(TRAVEL_AND_BUSINESS_POLICIES)}),
+        'disabled': True if TRAVEL_AND_BUSINESS_POLICIES in SECTIONS_DISABLED else False,
+    },
+    slugify(BUSINESS_RISK): {
+        'title': BUSINESS_RISK,
+        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(BUSINESS_RISK)}),
+        'disabled': True if BUSINESS_RISK in SECTIONS_DISABLED else False,
+    },
+})
 
-SECTION_TITLES = [
-    ABOUT_YOUR_BUSINESS,
-    OBJECTIVES,
-    TARGET_MARKETS_RESEARCH,
-    ADAPTATION_TARGET_MARKET,
-    MARKETING_APPROACH,
-    COSTS_AND_PRICING,
-    FINANCE,
-    PAYMENT_METHODS,
-    TRAVEL_AND_BUSINESS_POLICIES,
-    BUSINESS_RISK,
-]
 
-SECTION_SLUGS = [slugify(section) for section in SECTION_TITLES]
-SECTIONS_DISABLED_SLUGS = [slugify(section) for section in SECTIONS_DISABLED]
-
-SECTION_URLS = [reverse_lazy('exportplan:section', kwargs={'slug': slug}) for slug in SECTION_SLUGS]
-
-SECTION_TITLES_URLS = [
-    {
-        'title': section,
-        'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(section)}),
-        'disabled': True if section in SECTIONS_DISABLED else False,
-    } for section in SECTION_TITLES
-]
-
+SECTION_TITLES = [val['title'] for val in SECTIONS.values()]
+SECTION_SLUGS = list(SECTIONS.keys())
+SECTION_URLS = list(SECTIONS.values())
 
 # Note that SECTION_TITLES_URLS can't be rearranged into a dictionary while preserving
 # the lazy URL reversal, so manipulating SECTION_TITLES_URLS needs to happen after the

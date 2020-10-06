@@ -9,6 +9,8 @@ from django.urls import reverse
 from config import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 from tests.helpers import create_response, reload_urlconf
 from exportplan import data, helpers
@@ -110,7 +112,7 @@ def test_export_plan_builder_landing_page(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS) - {'marketing-approach', 'objectives'})
+@pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_exportplan_sections(
@@ -210,28 +212,31 @@ def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, us
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('slug', set(data.SECTION_SLUGS))
-def test_export_plan_mixin(export_plan_data, slug, client, user):
+@pytest.mark.parametrize(
+    'slug, next_slug',
+    (
+        ('about-your-business', 'objectives'),
+        ('objectives', 'target-markets-research'),
+        ('target-markets-research', 'adaptation-for-your-target-market'),
+        ('adaptation-for-your-target-market', 'marketing-approach'),
+        ('marketing-approach', 'costs-and-pricing'),
+        ('costs-and-pricing', 'finance'),
+        ('finance', 'payment-methods'),
+        ('payment-methods', 'travel-and-business-policies'),
+        ('travel-and-business-policies', 'business-risk'),
+        ('business-risk', None),
+    )
+)
+def test_export_plan_mixin(export_plan_data, slug, next_slug, client, user):
     client.force_login(user)
+
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
-
-    is_disabled = True if data.SECTION_SLUGS.index(slug) in data.SECTIONS_DISABLED else False
-
-    if not slug == data.SECTION_SLUGS[-1]:
-        assert response.context_data['next_section'] == {
-            'title': data.SECTION_TITLES[data.SECTION_SLUGS.index(slug) + 1],
-            'url': data.SECTION_URLS[data.SECTION_SLUGS.index(slug) + 1],
-            'disabled': is_disabled,
-        }
-
-    assert response.context_data['current_section'] == {
-        'title': data.SECTION_TITLES[data.SECTION_SLUGS.index(slug)],
-        'url': data.SECTION_URLS[data.SECTION_SLUGS.index(slug)],
-        'disabled': is_disabled,
-    }
-    assert response.context_data['sections'] == data.SECTION_TITLES_URLS
+    assert response.context_data['next_section'] == data.SECTIONS.get(next_slug)
+    assert response.context_data['current_section'] == data.SECTIONS[slug]
+    assert response.context_data['sections'] == list(data.SECTIONS.values())
+    assert response.context_data['json_sections'] == json.dumps(data.SECTION_URLS, cls=DjangoJSONEncoder)
     assert response.context_data['export_plan'] == export_plan_data
 
 
@@ -259,6 +264,7 @@ def test_redirect_to_service_page_for_disabled_urls(client, user):
 def test_disabled_urls_feature_flag_disabled(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = False
     reload_urlconf('exportplan.data')
+
     assert len(data.SECTIONS_DISABLED) == 0
     slug = slugify(data.SECTION_TITLES[0])
     url = reverse('exportplan:section', kwargs={'slug': slug})
@@ -273,4 +279,4 @@ def test_service_page_context(client, user):
     url = reverse('exportplan:service-page')
     response = client.get(url)
     assert response.status_code == 200
-    assert response.context['sections'] == data.SECTION_TITLES_URLS
+    assert response.context['sections'] == list(data.SECTIONS.values())
