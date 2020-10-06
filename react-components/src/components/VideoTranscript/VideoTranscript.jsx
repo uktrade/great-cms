@@ -16,7 +16,7 @@ const VideoTranscript = ({ transcript }) => {
 }
 
 function createVideoTranscript({ element, source }) {
-  ReactDOM.render(<VideoTranscript transcript={source.getAttribute('transcript')} />, element)
+  ReactDOM.render(<VideoTranscript transcript={source ? source.getAttribute('transcript') : null} />, element)
 }
 
 export { VideoTranscript, createVideoTranscript }
