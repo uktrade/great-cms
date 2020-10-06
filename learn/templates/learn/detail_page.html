@@ -146,8 +146,7 @@
                     </div>
                 </div>
             {% endif %}
-            {% comment %} TODO: pass in url back to module landing page{% endcomment %}
-            <a href="" class="learn__back-link learn__back-link--bottom h-m">
+            <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m">
                 <i class="fas fa-arrow-left"></i>
                 <span class="visually-hidden">Back</span>
             </a>
