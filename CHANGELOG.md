@@ -64,6 +64,7 @@
 - GP2-683 - Product-search Things you told us
 - GP2-682 - Product-search Tell-us-more
 - GP2-681 - Product-search assumptions restyle
+- GP2-264 - navigate back to module landing
 - GP2-680 - Restyle product search modal
 - GP2-602 - Use new header on all pages and allow login/logout
 - GP2-331 - Rerouting to login page with error message
