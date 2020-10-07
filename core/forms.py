@@ -20,7 +20,7 @@ class ExportPlanForm(forms.Form):
     step_g = build_checkbox('Finances')
     step_h = build_checkbox('Payment Methods and when to get paid')
     step_i = build_checkbox('Travel and business policies')
-    step_j = build_checkbox('Busines risk')
+    step_j = build_checkbox('Business risk')
     step_k = build_checkbox('Action plan')
 
 

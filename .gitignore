@@ -9,6 +9,7 @@ staticfiles
 BrowserStackLocal
 node_modules/
 activate/
+coverage/
 
 # C extensions
 *.so

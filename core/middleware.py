@@ -107,7 +107,7 @@ class TimedAccessMiddleware(MiddlewareMixin):
         response = self.get_response(request)
         # need to whitelist the endpoint, to be able to generate tokens
         # == '/api/create-token/' or request.path == '/favicon.ico':
-        if request.path in settings.BETA_WHITELISTED_ENDPOINTS:
+        if request.path in settings.BETA_WHITELISTED_ENDPOINTS or request.POST:
             return response
 
         # ignore every other test when running
