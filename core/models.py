@@ -38,7 +38,7 @@ from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
-from exportplan.data import SECTION_TITLES_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
 
 
 class GreatMedia(Media):
