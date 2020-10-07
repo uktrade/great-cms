@@ -7,11 +7,6 @@
 }
 
 .product-finder {
-  section {
-    @extend .p-s;
-    border-bottom: 1px solid $black-50;
-  }
-
   .shim {
     z-index: 3;
     @include stretch;
@@ -52,10 +47,6 @@
       }
     }
   }
-}
-
-.capitalize {
-  text-transform: capitalize;
 }
 
 .dialog-close {
