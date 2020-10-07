@@ -8,6 +8,7 @@ from core import constants
 class ExportPlanDashboardPage(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
+    mixins.ExportPlanMixin,
     Page,
 ):
 
@@ -15,6 +16,6 @@ class ExportPlanDashboardPage(
 
     def get_context(self, request):
         request.user.set_page_view(constants.EXPORT_PLAN_DASHBOARD_URL)
-        return {
-            'sections': list(data.SECTIONS.values()),
-        }
+        context = super().get_context(request)
+        context['sections'] = list(data.SECTIONS.values())
+        return context
