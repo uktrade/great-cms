@@ -19,14 +19,14 @@ const CaseStudy = ({ content: { heading, company, body } }) => {
   }, [isOpen])
 
   return (
-    <div className="case-study m-b-l">
+    <div className="case-study p-t-m p-b-s m-b-m">
       {isOpen && (
         <button className="case-study__close" onClick={() => setIsOpen(false)} autoFocus>
           <i className="fas fa-times"></i>
           <span className="visually-hidden">Close</span>
         </button>
       )}
-      <div className="media-block">
+      <div className="case-study__content media-block">
         <i className="fas fa-newspaper" />
         <div>
           <h3 className="h-m m-b-xs p-0">{heading}</h3>
@@ -39,7 +39,7 @@ const CaseStudy = ({ content: { heading, company, body } }) => {
         </div>
       </div>
       {!isOpen && (
-        <button className="button button--small button--tertiary" onClick={() => setIsOpen(true)}>
+        <button className="button button--small button--tertiary case-study__open" onClick={() => setIsOpen(true)}>
           Open case study
         </button>
       )}

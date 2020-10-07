@@ -446,6 +446,29 @@ $desktop: 1024px;
   .case-study {
     position: relative;
 
+    &:before {
+      background: $blue-deep-10;
+      content: '';
+      top: 0;
+      position: absolute;
+      left: -1000px;
+      right: -1000px;
+      bottom: 0;
+    }
+
+    &__content,
+    &__open {
+      position: relative;
+    }
+
+    &__content {
+      padding-top: 30px;
+
+      @include tablet {
+        padding-top: 0;
+      }
+    }
+
     &__close {
       background: none;
       border: 0;
@@ -453,11 +476,11 @@ $desktop: 1024px;
       cursor: pointer;
       font-size: 33px;
       position: absolute;
-      top: -2px;
+      top: 10px;
 
       @include tablet {
         right: -58px;
-        top: -24px;
+        top: 23px;
       }
     }
 
@@ -472,7 +495,7 @@ $desktop: 1024px;
         display: block;
         height: auto;
         margin: 0 auto;
-        max-width: 100%;
+        width: 100%;
       }
 
       .block-image:nth-child(2),
