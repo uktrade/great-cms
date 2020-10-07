@@ -2,12 +2,14 @@ from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
-from core import models
 from django.core.exceptions import ObjectDoesNotExist
-
-
-# Define a strict subset of rich-text features only includes linebreaks
-RICHTEXT_FEATURES__MINIMAL = ()
+from django.db.models import Q
+from core import models
+from core.constants import (
+    COUNTRY_TAG_PARAM_NAME,
+    HS_TAG_PARAM_NAME,
+    RICHTEXT_FEATURES__MINIMAL,
+)
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -224,3 +226,52 @@ class ChooseDoNotChooseBlock(blocks.StructBlock):
         )
         icon = 'fa-question-circle'
         template = 'learn/choose_do_not_choose.html'
+
+
+class CaseStudyStaticBlock(blocks.StaticBlock):
+
+    class Meta:
+        admin_text = (
+            'Case Studies are automatically displayed based on '
+            'personalisation rules; no configuration needed beyond '
+            'adding this block to the page.'
+        )
+        icon = 'fa-book'
+        template = 'core/case_study_block.html'
+
+    def _annotate_with_case_study(self, context):
+        """Add the relevant case study, if any, to the context."""
+        # CURRENTLY we get tag values from the querystring, but this will
+        # change when we hook into personalisation. For now, testers will
+        # need to provide `?hs-tag=Y` or `?country-tag=X` to get the case
+        # study logic to work. NOTE THAT `?hs-tag=Y&country-tag=X` does
+        # NOT work, but this will be replaced by a proper algorithm anyway
+
+        hs_tags = context['request'].GET.get(
+            HS_TAG_PARAM_NAME, ''
+        ).split(',')
+
+        country_tags = context['request'].GET.get(
+            COUNTRY_TAG_PARAM_NAME, ''
+        ).split(',')
+
+        if hs_tags or country_tags:
+
+            hs_tags_q = Q(hs_code_tags__name__in=hs_tags)
+            country_tags_q = Q(country_code_tags__name__in=country_tags)
+
+            case_study = models.CaseStudy.objects.filter(
+                hs_tags_q | country_tags_q
+            ).distinct().first()
+
+            context['case_study'] = case_study
+
+        return context
+
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(
+            value,
+            parent_context=parent_context
+        )
+        context = self._annotate_with_case_study(context)
+        return context

@@ -390,6 +390,14 @@ $desktop: 1024px;
         }
       }
     }
+
+    .case-study {
+      h3 {
+        @extend .h-m;
+        padding-top: 0;
+        margin-bottom: 15px;
+      }
+    }
   }
 
   .step-by-step {
@@ -454,6 +462,82 @@ $desktop: 1024px;
 
     &__author {
       margin-top: 12px;
+    }
+  }
+
+  .case-study {
+    position: relative;
+
+    &:before {
+      background: $blue-deep-10;
+      content: '';
+      top: 0;
+      position: absolute;
+      left: -1000px;
+      right: -1000px;
+      bottom: 0;
+    }
+
+    &__content,
+    &__open {
+      position: relative;
+    }
+
+    &__content {
+      padding-top: 30px;
+
+      @include tablet {
+        padding-top: 0;
+      }
+    }
+
+    &__close {
+      background: none;
+      border: 0;
+      color: $blue-deep-80;
+      cursor: pointer;
+      font-size: 33px;
+      position: absolute;
+      top: 10px;
+
+      @include tablet {
+        right: -58px;
+        top: 23px;
+      }
+    }
+
+    &__company {
+      margin-top: 20px;
+    }
+
+    &__media {
+      position: relative;
+
+      img, video {
+        display: block;
+        height: auto;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .block-image:nth-child(2),
+      .block-video + .block-image {
+        img {
+          display: none;
+          position: absolute;
+          top: 0;
+          right: calc(-100% - 30px);
+  
+          @include tablet {
+            display: block;
+          }
+        }
+      }
+
+      .c-full {
+        float: none;
+        margin: 0;
+      }
     }
   }
 }
