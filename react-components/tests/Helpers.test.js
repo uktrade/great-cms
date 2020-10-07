@@ -1,4 +1,4 @@
-import { slugify, addItemToList } from '@src/Helpers'
+import { slugify, addItemToList, capitalize } from '@src/Helpers'
 
 test('slugify', (done) => {
   const testStrings = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
@@ -70,4 +70,11 @@ describe('addItemToList', () => {
   describe('no params', () => {
     expect(addItemToList()).toEqual([{}])
   })
+
+
+})
+
+test('capitalize', () => {
+  expect(capitalize('one_two_three')).toMatch('One two three')
+  expect(capitalize('one_two_three', false)).toMatch('one two three')
 })

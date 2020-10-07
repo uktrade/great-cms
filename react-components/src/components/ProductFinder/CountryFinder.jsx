@@ -4,6 +4,7 @@ import ReactModal from 'react-modal'
 import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
 import MessageConfirmation from './MessageConfirmation'
+import RegionToggle from "./RegionToggle";
 
 const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
 
@@ -14,6 +15,7 @@ export function CountryFinder(props) {
   const [countryList, setCountryList] = useState()
   const [searchStr, setSearchStr] = useState()
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
+  const [expandRegion, setExpandRegion] = useState(false)
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
@@ -43,13 +45,11 @@ export function CountryFinder(props) {
     setSearchStr(searchString.toUpperCase())
   }
 
+  const toggleRegion = (evt) => {
+    setExpandRegion(!expandRegion)
+    evt.preventDefault()
 
-   const countryListToggle = (evt) => {
-     evt.preventDefault()
-     const targetElement = evt.target.closest('section').querySelector('ul.countryList')
-     targetElement.classList.contains('open') ? targetElement.classList.remove('open') : targetElement.classList.add('open') ;
-
-   }
+  }
 
   const getCountries = () => {
     Services.getCountries().then((result) => {
@@ -102,17 +102,7 @@ export function CountryFinder(props) {
     })
     return (
       !!_countries.filter((region) => region).length && (
-        <section key={region}>
-          <div className="grid">
-            <div className="c-full-width">
-              <h2 className="region-name h-xs">{region}
-              <button className="region-expand" onClick={countryListToggle}>+</button>
-              </h2>
-              <ul className="countryList">{_countries}</ul>
-              <hr className="hr m-b-xxs"></hr>
-            </div>
-          </div>
-        </section>
+        <RegionToggle key={region.replace(/[\s,]+/g, '-').toLowerCase()} expandAllRegions={expandRegion} region={region} countries={_countries} />
       )
     )
   })
@@ -192,6 +182,8 @@ export function CountryFinder(props) {
               </div>
               <div className="grid">
                 <div className="c-full">
+                  <button key="region-expand" className="region-expand" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+                    <hr key="region-expand-hr" className="hr m-b-xxs"></hr>
                   <ul className="country-list" onClick={selectCountry}>
                     {_regions}
                   </ul>

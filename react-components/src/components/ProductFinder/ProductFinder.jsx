@@ -1,11 +1,20 @@
-/* eslint-disable prefer-destructuring */
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
+import { capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Confirmation from './MessageConfirmation'
+import Interaction from './Interaction'
+import ExpandCollapse from './ExpandCollapse'
+
+
+const formatPath = (pathstr) => {
+  return pathstr.split('//').map((part, index) => {
+    return `${index > 0 ? ' > ' : ''}${capitalize(part)}`
+  })
+}
 
 function ProductFinder(props) {
   const { text } = props;
@@ -88,8 +97,7 @@ function ProductFinder(props) {
   }
 
   const inputChange = (evt) => {
-    const value = evt.target.value
-    setSearchEnabled(!!value)
+    setSearchEnabled(!!evt.target.value)
   }
 
   const clearSearchInput = (evt) => {
@@ -103,70 +111,69 @@ function ProductFinder(props) {
     setIsScrolled(evt.target.scrollTop > 0)
   }
 
-
-  const RadioButtons = (attribute, handleChange, setValue = true) => {
-    const buttons = (attribute.attrs || []).map((option) => {
-      return (
-        <label key={option.id} htmlFor={option.id} className="multiple-choice p-f-m m-b-xxs">
-          <input
-            type="radio"
-            className="radio"
-            id={option.id}
-            name={attribute.id}
-            value={option.id}
-            data-label={option.name}
-            defaultChecked={setValue && option.value === 'true'}
-            aria-label={option.name}
-          />
-          {option.name}
-          {/* eslint-disable jsx-a11y/label-has-associated-control */}
-          <label htmlFor={option.id}/>
-          {/* eslint-enable jsx-a11y/label-has-associated-control */}
-        </label>
-      )
-    })
-    return <div onChange={handleChange}>{buttons}</div>
-  }
-
-  const Attribute = (attribute, section) => {
-    const handleChange = (event) => {
-      if (section.isItemChoice) {
-        processResponse(Services.lookupProduct({ q: event.target.getAttribute('data-label') }))
-      } else {
-        processResponse(
-          Services.lookupProductRefine({
-            txId: searchResults.txId,
-            attributeId: attribute.id,
-            valueId: event.target.value,
-            valueString: event.target.getAttribute('data-label')
-          })
-        )
-      }
-    }
-
-    const body = { SELECTION: RadioButtons, VALUED: RadioButtons } [attribute.type](
-      attribute,
-      handleChange,
-      !section.isItemChoice
-    )
-
-    return (
-      <div className="grid m-v-s" key={attribute.id}>
-        <div className="c-1-4 h-xs p-t-0 capitalize">{attribute.label.replace(/_/g, ' ')}</div>
-        <div className="c-3-4">{body}</div>
-      </div>
-    )
-  }
-
   const Section = (title, sectionDetails) => {
-    if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return null
+    if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return ''
     return (
-      <section className="summary">
+      <section className="p-h-l p-t-xs">
         <h3 className="h-s p-0">{title}</h3>
-        <div className="">
           {(sectionDetails || []).map((value) => {
-            return Attribute(value, sectionDetails)
+            return <Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>
           })}
+      </section>
+    )
+  }
+
+  const readOnlyContent = (sectionDetails) => {
+    const content = (sectionDetails || []).map((interaction) => {
+      return (
+        <div className="grid m-v-xs" key={interaction.id}>
+          <div className="c-fullwidth">
+            <span className="bold p-t-0">{capitalize(interaction.label)}</span>
+            <p className="m-v-xxs">
+              {capitalize(interaction.selectedString)} 
+              {interaction.selectedString === 'other' ? ` than ${interaction.unselectedString}` : ''}
+              {' '}<a href="/" className="link link--underline">change</a>
+            </p>
+           </div>
+        </div>)
+    })
+    return content
+  }
+
+  const sectionAssumptions = (sectionDetails) => {
+    return sectionDetails && sectionDetails.length && (
+      <section className="p-h-l p-t-xs">
+        <h3 className="h-s p-0">Assumptions</h3>
+        <p className="m-v-xxs">We&apos;ve answered some questions for you. View and change these if they&apos;re wrong.</p>
+        <ExpandCollapse buttonLabel={`assumptions (${sectionDetails.length})`}>{readOnlyContent(sectionDetails)}</ExpandCollapse> 
+      </section>
+    ) || ''
+  }
+
+  const sectionProductDetails = (sectionDetails) => {
+    return sectionDetails && sectionDetails.length && (
+      <div>
+        <section className="p-h-l p-t-xs">
+          <h3 className="h-s p-0">Product details</h3>
+          <p className="m-v-xxs">Things you&apos;ve told us about your product.</p>
+          {readOnlyContent(sectionDetails)}
+        </section>
+        <hr className="hr hr--light" />
+      </div>
+    ) || ''
+  }
+
+  const sectionFound = (_searchResults) => {
+    return (
+      <section className="m-h-l p-t-xs">
+        <div className="h-m">Match for &quot;{_searchResults.currentItemName}&quot;</div>
+        <div className="box box--no-pointer">
+          <h3 className="h-s p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
+          <div className="body-m">HS Code {_searchResults.hsCode}</div>
+          <p>{formatPath(_searchResults.currentSIP)}</p>
+          <button className="button button--primary" type="button" onClick={saveProduct}>
+            Select this product
+          </button>
         </div>
       </section>
     )
@@ -200,43 +207,31 @@ function ProductFinder(props) {
     ) : (
       ''
     )
+
+    const sections = itemChoice ?
+      // If the item is ambiguous - supress other sections
+      <div>
+        {Section('Please choose your item', itemChoice)}
+      </div> :
+      <div>
+        {Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
+        {questions ? (<hr className="hr hr--dark"/>) : ''}
+        {sectionProductDetails(known)} 
+        {sectionAssumptions(assumptions)}
+      </div>
+
+
     return (
       <div>
         {spinner}
-        <div className="scroll-inner">
+        <div className="scroll-inner p-b-m">
           {searchResults.txId && !questions && !searchResults.hsCode && (
             <div className="grid p-t-l">
               <p className="h-s center">No results found</p>
             </div>
           )}
-          {searchResults.hsCode && (
-            <section className="found-section grid bg-black-10">
-              <div className="c-1-3">
-                <span className="h-s">You&apos;ve found your product!</span>
-              </div>
-              <div className="c-1-3">
-                <div className="h-xs p-t-0 capitalize">{searchResults.currentItemName}</div>
-                hs code: <span className="bold">{searchResults.hsCode}</span>
-              </div>
-              <div className="c-1-3">
-                <button className="button button--primary" type="button" onClick={saveProduct}>
-                  Select this product
-                </button>
-              </div>
-            </section>
-          )}
-          {false && searchResults.productDescription && (
-            <section className="summary table">
-              <div className="table-row">
-                <div className="table-cell">Here&apos;s what we know about your</div>
-                <div className="table-cell bold capitalize">{searchResults.productDescription}</div>
-              </div>
-            </section>
-          )}
-          {Section('Please choose your item', itemChoice)}
-          {!itemChoice && Section(`Tell us more about your '${searchResults.currentItemName}'`, questions)}
-          {!itemChoice && Section('Your item&apos;s characteristics', known)}
-          {!itemChoice && Section('We\'ve assumed:', assumptions)}
+          {searchResults.hsCode && sectionFound(searchResults)}
+          {sections}
         </div>
       </div>
     )
@@ -259,7 +254,7 @@ function ProductFinder(props) {
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
       >
-        <form className="product-finder">
+        <form className="product-finder text-blue-deep-80">
           <div className="modal-header" style={{height:headerHeight}}>        
             <button id="dialog-close" type="button" aria-label="Save" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
             <h3 className="h-m p-t-0">Search by name</h3>
@@ -276,7 +271,7 @@ function ProductFinder(props) {
                 />
                 <button type="button" aria-label="Clear" className="fa fa-times clear" onClick={clearSearchInput}/>
                 </div>
-              <button className="button button--small button--only-icon m-f-xs" disabled={!searchEnabled} type="button" onClick={search}>
+              <button className="search-button button button--small button--only-icon m-f-xs" disabled={!searchEnabled} type="button" onClick={search}>
                 <i className="fa fa-arrow-right"/>
               </button>
             </div>
@@ -299,7 +294,11 @@ function ProductFinder(props) {
 }
 
 ProductFinder.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
+}
+
+ProductFinder.defaultProps = {
+  text: '',
 }
 
 export default function createProductFinder({ ...params }) {
