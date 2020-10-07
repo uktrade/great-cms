@@ -20,19 +20,40 @@ export const Modal = ({
         <div className='p-s'>
           <h4 className='h-xs p-0'>{header}</h4>
           <p className='m-t-xs'>{content}</p>
-          <button className='button' onClick={onClick}>{buttonText}</button>
+          <button type='button' className='button' onClick={onClick}>{buttonText}</button>
         </div>
         {footer &&
           <div className='modal-footer'>
             <hr className='hr hr--light m-0' />
             <div className='p-h-s p-b-s'>
               <h4 className='h-xs p-b-xs'>Select a market you’ve already researched</h4>
-              <button className='button button--secondary button--icon inline m-r-xs'><i className='fas fa-plus-square' /><span>United Kingdom</span></button>
-              <button className='button button--secondary button--icon inline'><i className='fas fa-plus-square' /><span>Mauritius</span></button>
+              <button type='button' className='button button--secondary button--icon inline m-r-xs'>
+                <i className='fas fa-plus-square' />
+                <span>United Kingdom</span>
+              </button>
+              <button type='button' className='button button--secondary button--icon inline'>
+                <i className='fas fa-plus-square' />
+                <span>Mauritius</span>
+              </button>
             </div>
           </div>
         }
       </div>
     </div>
   )
+}
+
+Modal.propTypes = {
+  type: PropTypes.oneOf(['2', '3']),
+  backUrl: PropTypes.string.isRequired,
+  footer: PropTypes.bool,
+  header: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  buttonText: PropTypes.string.isRequired
+}
+
+Modal.defaultProps = {
+  type:'',
+  footer: false
 }
