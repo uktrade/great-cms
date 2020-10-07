@@ -42,8 +42,8 @@ class ExportPlanMixin:
         country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
         # sectors need to be removed once json_sections is passed to JS and we update template
         return super().get_context_data(
-            next_section=self.next_section,
-            current_section=self.current_section,
+            next_section=json.dumps(self.next_section, cls=DjangoJSONEncoder),
+            current_section=json.dumps(self.current_section, cls=DjangoJSONEncoder),
             sections=data.SECTION_URLS,
             json_sections=json.dumps(data.SECTION_URLS, cls=DjangoJSONEncoder),
             export_plan=self.export_plan,
