@@ -37,6 +37,8 @@ describe('CaseStudy', () => {
 
     fireEvent.click(getByText(openButtonText))
 
+    jest.useRealTimers()
+
     await waitFor(() => {
       expect(queryByText(openButtonText)).not.toBeInTheDocument()
       expect(getByText(props.company)).toBeInTheDocument()
