@@ -23,6 +23,7 @@ import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete
 import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
+import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
 import LearnIntroduction from '@src/views/LearnIntroduction/LearnIntroduction'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
@@ -41,6 +42,7 @@ export default {
   createObjectivesList,
   createObjectivesReasons,
   createVideoTranscript,
+  createCaseStudy,
   IndustriesModal,
   LearnIntroduction,
   ProductLookup,
