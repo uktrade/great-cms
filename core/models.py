@@ -8,8 +8,9 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, TagBase, ItemBase
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -33,11 +34,11 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
-from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
-from exportplan.data import SECTION_TITLES_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
 
 
 class GreatMedia(Media):
@@ -437,7 +438,12 @@ class DetailPage(CMSGenericPage):
                 icon='fa-play'
             )
         ),
-        ('content_module', core_blocks.ModularContentStaticBlock()),
+        (
+            'case_study',
+            core_blocks.CaseStudyStaticBlock(
+                icon='fa-book'
+            )
+        ),
         ('Step', core_blocks.StepByStepBlock(icon='cog'),),
         ('fictional_example', blocks.StructBlock(
             [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
@@ -590,10 +596,12 @@ class PageView(TimeStampedModel):
         unique_together = ['page', 'sso_id']
 
 
+# TODO: deprecate and remove
 class ContentModuleTag(TaggedItemBase):
     content_object = ParentalKey('core.ContentModule', on_delete=models.CASCADE, related_name='tagged_items')
 
 
+# TODO: deprecate and remove
 @register_snippet
 class ContentModule(ClusterableModel):
     title = models.CharField(max_length=255)
@@ -608,3 +616,222 @@ class ContentModule(ClusterableModel):
 
     def __str__(self):
         return self.title
+
+
+class PersonalisationHSCodeTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be a HS6, HS4 or HS2 code"""
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'HS Code tag for personalisation'
+        verbose_name_plural = 'HS Code tags for personalisation'
+
+
+class PersonalisationCountryTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be an ISO-2 Country code ('DE')
+    _OR_ a geographical string ('Europe')
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Country tag for personalisation'
+        verbose_name_plural = 'Country tags for personalisation'
+
+
+# If you're wondering what's going on here:
+# https://docs.wagtail.io/en/stable/reference/pages/model_recipes.html#custom-tag-models
+
+class HSCodeTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationHSCodeTag,
+        related_name='hscode_tagged_case_studies',
+        on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to='core.CaseStudy',
+        on_delete=models.CASCADE,
+        related_name='hs_code_tagged_items'
+    )
+
+
+class CountryTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationCountryTag,
+        related_name='country_tagged_case_studies',
+        on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to='core.CaseStudy',
+        on_delete=models.CASCADE,
+        related_name='country_tagged_items'
+    )
+
+
+def _high_level_validation(value, error_messages):
+    TEXT_BLOCK = 'text'  # noqa N806
+    MEDIA_BLOCK = 'media'  # noqa N806
+
+    if set([node.block_type for node in value]) != {
+        TEXT_BLOCK, MEDIA_BLOCK
+    }:
+        error_messages.append(
+            (
+                'This block must contain one Media section (with one or '
+                'two items in it) and one Text section.'
+            )
+        )
+
+    return error_messages
+
+
+def _low_level_validation(value, error_messages):
+    # Check content of media node, which should be present here
+
+    MEDIA_BLOCK = 'media'  # noqa N806
+    VIDEO_BLOCK = 'video'  # noqa N806
+
+    for node in value:
+        if node.block_type == MEDIA_BLOCK:
+            subnode_block_types = [subnode.block_type for subnode in node.value]
+            if len(subnode_block_types) == 2:
+                if set(subnode_block_types) == {VIDEO_BLOCK}:
+                    # Two videos: not allowed
+                    error_messages.append(
+                        'Only one video may be used in a case study.'
+                    )
+                elif subnode_block_types[1] == VIDEO_BLOCK:
+                    # implicitly, [0] must be an image
+                    # video after image: not allowed
+                    error_messages.append(
+                        'The video must come before a still image.'
+                    )
+
+    return error_messages
+
+
+def case_study_body_validation(value):
+    """Ensure the case study has exactly both a media node and a text node
+    and that the media node has the following content:
+        * One image, only
+        * One video, only
+        * One video + One image
+            * (video must comes first so that it is displayed first)
+        * Two images
+    """
+
+    error_messages = []
+
+    if value:
+        error_messages = _high_level_validation(value, error_messages)
+        error_messages = _low_level_validation(value, error_messages)
+
+        if error_messages:
+            raise StreamBlockValidationError(
+                non_block_errors=ValidationError(
+                    '; '.join(error_messages),
+                    code='invalid'
+                ),
+            )
+
+
+@register_snippet
+class CaseStudy(ClusterableModel):
+    """Dedicated snippet for use as a case study. Supports personalised
+    selection via its tags.
+
+    The decision about the appropriate Case Study block to show will happen
+    when the page attempts to render the relevant CaseStudyBlock.
+    """
+
+    company_name = models.CharField(
+        max_length=255,
+        blank=False,
+    )
+    summary = models.TextField(  # Deliberately not rich-text / no formatting
+        blank=False
+    )
+    body = StreamField(
+        [
+            (
+                'media',
+                blocks.StreamBlock(
+                    [
+                        (
+                            'video',
+                            core_blocks.SimpleVideoBlock(
+                                template='core/includes/_case_study_video.html'
+                            )
+                        ),
+                        ('image', core_blocks.ImageBlock()),
+                    ],
+                    min_num=1,
+                    max_num=2,
+                )
+            ),
+            (
+                'text',
+                blocks.RichTextBlock(
+                    features=RICHTEXT_FEATURES__MINIMAL,
+                ),
+            ),
+        ],
+        validators=[case_study_body_validation],
+        help_text=(
+            'This block must contain one Media section '
+            '(with one or two items in it) and one Text section.'
+        )
+    )
+
+    # We are keeping the personalisation-relevant tags in separate
+    # fields to aid lookup and make the UX easier for editors
+    hs_code_tags = ClusterTaggableManager(
+        through='core.HSCodeTaggedCaseStudy',
+        blank=True,
+        verbose_name='HS-code tags'
+    )
+
+    country_code_tags = ClusterTaggableManager(
+        through='core.CountryTaggedCaseStudy',
+        blank=True,
+        verbose_name='Country tags'
+    )
+
+    created = CreationDateTimeField('created', null=True)
+    modified = ModificationDateTimeField('modified', null=True)
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('company_name'),
+                FieldPanel('summary'),
+                StreamFieldPanel('body'),
+            ],
+            heading='Case Study content',
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('hs_code_tags'),
+                FieldPanel('country_code_tags')
+            ],
+            heading='Case Study tags for Personalisation'
+        ),
+    ]
+
+    def __str__(self):
+        return f'Case Study: {self.company_name}'
+
+    def save(self, **kwargs):
+        self.update_modified = kwargs.pop(
+            'update_modified',
+            getattr(self, 'update_modified', True)
+        )
+        super().save(**kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Case studies'
+        get_latest_by = 'modified'
+        ordering = ('-modified', '-created',)

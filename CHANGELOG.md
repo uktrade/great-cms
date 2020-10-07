@@ -59,6 +59,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-669 - CountryFinder added collapsibility for region section
 - GP2-686 - Product-search End result details
 - GP2-685 - Product-search End result selection
 - GP2-683 - Product-search Things you told us
@@ -255,3 +256,4 @@
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
 - GP2-706 - 
+- ablity-to-disable-export-sections

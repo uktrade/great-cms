@@ -47,6 +47,12 @@ urlpatterns = [
         name='add-logo'
     ),
     path(
+        'service-page/',
+        login_required(skip_ga360(views.ExportPlanServicePage.as_view()),
+                       login_url=LOGIN_URL),
+        name='service-page'
+    ),
+    path(
         'api/recommended-countries/',
         login_required(skip_ga360(api.ExportPlanRecommendedCountriesDataView.as_view()), login_url=LOGIN_URL),
         name='ajax-recommended-countries-data'

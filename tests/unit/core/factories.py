@@ -146,3 +146,15 @@ class CuratedTopicBlockfactory(wagtail_factories.StructBlockFactory):
 
     class Meta:
         model = blocks.CuratedTopicBlock
+
+
+class CaseStudyFactory(factory.django.DjangoModelFactory):
+    company_name = factory.Faker('word')
+    summary = factory.fuzzy.FuzzyText(length=200)
+
+    # Not bootstrapped:
+    # body is a streamfield
+    # hs_code_tags and country_code_tags use ClusterTaggableManager
+
+    class Meta:
+        model = models.CaseStudy

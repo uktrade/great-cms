@@ -14,5 +14,5 @@ class ExportPlanDashboardPage(
 
     def get_context(self, request):
         return {
-            'sections': data.SECTION_TITLES,
+            'sections': list(data.SECTIONS.values()),
         }

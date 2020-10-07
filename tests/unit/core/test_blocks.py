@@ -1,10 +1,17 @@
+import datetime
 from unittest import mock
 
 import pytest
 from wagtail.core import blocks
 
 from core import blocks as core_blocks
-from tests.unit.core.factories import ContentModuleFactory, DetailPageFactory, ListPageFactory
+from core.models import CaseStudy
+from tests.unit.core.factories import (
+    CaseStudyFactory,
+    ContentModuleFactory,
+    DetailPageFactory,
+    ListPageFactory,
+)
 
 
 def test_link_block():
@@ -138,3 +145,86 @@ def test_learning_link_component(domestic_site, domestic_homepage):
         context={})
     assert 'Go' in result_list_link
     assert target_list_page.get_url() in result_list_link
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_case_study(rf):
+    case_study_1 = CaseStudyFactory()
+    case_study_1.hs_code_tags.add('HS123456', 'HS1234')
+    case_study_1.country_code_tags.add('Europe', 'ES')
+    case_study_1.save()
+
+    case_study_2 = CaseStudyFactory()
+    case_study_2.hs_code_tags.add('HS334455')
+    case_study_2.country_code_tags.add('Europe', 'DE')
+    case_study_2.save()
+
+    # no relevant tags -> no case study
+    request = rf.get('/', {})
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request}
+    context = block._annotate_with_case_study(context)
+    'case_study' not in context
+
+    # Show HS tag match
+    request = rf.get('/', {'hs-tag': 'HS123456'})
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request}
+    context = block._annotate_with_case_study(context)
+    assert context['case_study'] == case_study_1
+
+    request = rf.get('/', {'hs-tag': 'HS334455'})
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request}
+    context = block._annotate_with_case_study(context)
+    assert context['case_study'] == case_study_2
+
+    # Show country tag match
+    request = rf.get('/', {'country-tag': 'DE'})
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request}
+    context = block._annotate_with_case_study(context)
+    assert context['case_study'] == case_study_2
+
+    request = rf.get('/', {'country-tag': 'ES'})
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request}
+    context = block._annotate_with_case_study(context)
+    assert context['case_study'] == case_study_1
+
+    # Show most recently updated is given priority
+    _new_modified_time_for_cs2 = case_study_1.modified + datetime.timedelta(seconds=30)
+    CaseStudy.objects.filter(id=case_study_2.id).update(modified=_new_modified_time_for_cs2)
+    case_study_2.refresh_from_db()
+    assert case_study_2.modified > case_study_1.modified
+
+    request = rf.get('/', {'country-tag': 'Europe'})  # Will find multiple case studies
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request}
+    context = block._annotate_with_case_study(context)
+    assert context['case_study'] == case_study_2
+
+    _new_modified_time_for_cs1 = case_study_2.modified + datetime.timedelta(seconds=30)
+    CaseStudy.objects.filter(id=case_study_1.id).update(modified=_new_modified_time_for_cs1)
+    case_study_1.refresh_from_db()
+    assert case_study_1.modified > case_study_2.modified
+
+    # re-run the same call now the case study timestamps have changed
+    context = block._annotate_with_case_study(context)
+    assert context['case_study'] == case_study_1
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_get_context():
+    with mock.patch(
+        'core.blocks.CaseStudyStaticBlock._annotate_with_case_study'
+    ) as mock_annotate_with_case_study:
+
+        mocked_returned_context = mock.Mock('Annotated context')
+        mock_annotate_with_case_study.return_value = mocked_returned_context
+
+        block = core_blocks.CaseStudyStaticBlock()
+        context = block.get_context(value='test')
+
+        assert context == mocked_returned_context
+        assert mock_annotate_with_case_study.call_count == 1
