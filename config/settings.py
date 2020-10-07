@@ -481,6 +481,7 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'wagtailmedia',
     'taggit',
     'core.AltTextImage',
+    'core.CaseStudy',
     'core.ContentModule',
     'core.Tour',
     'core.TourStep',
