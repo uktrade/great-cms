@@ -31,6 +31,7 @@ function ProductFinder(props) {
   const openModal = () => {
     setProductConfirmationRequired(!!selectedProduct)
     setIsOpen(!selectedProduct)
+    addTagging()
   }
 
   const closeModal = () => {
@@ -59,6 +60,16 @@ function ProductFinder(props) {
       .catch(() => {
         // TODO: add an error dialogue here
       })
+  }
+
+  const addTagging = () => {
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        'event': 'addProductPageview',
+        'virtualPageURL': '/add-product-modal/search_entry',
+        'virtualPageTitle': 'Add Product Modal - Search Entry'
+      });
+    }
   }
 
   const modalAfterOpen = () => {
