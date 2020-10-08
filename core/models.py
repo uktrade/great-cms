@@ -48,7 +48,11 @@ register_snippet(Redirect)
 
 class GreatMedia(Media):
 
-    transcript = models.TextField(verbose_name=_('Transcript'), blank=True, null=True)
+    transcript = models.TextField(
+        verbose_name=_('Transcript'),
+        blank=False,
+        null=True  # left null because was an existing field
+    )
 
     admin_form_fields = Media.admin_form_fields + ('transcript', )
 
