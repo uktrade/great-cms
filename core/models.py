@@ -494,8 +494,7 @@ class DetailPage(CMSGenericPage):
             # checking if the page should record read progress
             # checking if the page is already marked as read
             list_page = (
-                ListPage.objects
-                .ancestor_of(self)
+                ListPage.objects.ancestor_of(self)
                 .filter(record_read_progress=True)
                 .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
                 .first()
@@ -543,8 +542,8 @@ class DetailPage(CMSGenericPage):
             backlink_path = unquote(backlink_path)
 
             if (
-                backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
-                '://' not in backlink_path
+                    backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
+                    '://' not in backlink_path
             ):
                 # The check for '://' will stop us accepting a backlink which
                 # features a full URL as its OWN querystring param (eg a crafted attack

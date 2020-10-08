@@ -57,6 +57,7 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
 class ExportPlanCountrySerializer(serializers.Serializer):
     country_name = serializers.CharField(required=True)
     country_iso2_code = serializers.CharField(required=False, allow_null=True)
+    region = serializers.CharField(required=False, allow_null=True)
 
 
 class ExportPlanCommodityCodeSerializer(serializers.Serializer):
