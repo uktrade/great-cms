@@ -33,7 +33,7 @@ export const Modal = ({
               </button>
               <button type='button' className='button button--secondary button--icon inline'>
                 <i className='fas fa-plus-square' />
-                <span>Mauritius</span>
+                <span>United Kingdom</span>
               </button>
             </div>
           </div>
@@ -44,7 +44,7 @@ export const Modal = ({
 }
 
 Modal.propTypes = {
-  type: PropTypes.oneOf(['2', '3']),
+  type: PropTypes.oneOf(['2', '3', '']),
   backUrl: PropTypes.string.isRequired,
   footer: PropTypes.bool,
   header: PropTypes.string.isRequired,
