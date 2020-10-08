@@ -3,11 +3,11 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
-from wagtailimportexport import urls as wagtailimportexport_urls
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail_transfer import urls as wagtailtransfer_urls
 
 import sso.urls
 import core.urls
@@ -25,13 +25,12 @@ if settings.ENFORCE_STAFF_SSO_ENABLED:
 
 urlpatterns += [
     path('django-admin/', admin.site.urls),
+    path('admin/wagtail-transfer/', include(wagtailtransfer_urls)),  # Has to come before main /admin/ else will fail
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
-    path('', include(wagtailimportexport_urls)),
-
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
