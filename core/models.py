@@ -24,6 +24,7 @@ from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
+from wagtail.contrib.redirects.models import Redirect
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
@@ -39,6 +40,10 @@ from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
 from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+
+
+# If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
+register_snippet(Redirect)
 
 
 class GreatMedia(Media):
