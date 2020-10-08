@@ -47,7 +47,7 @@ function RadioButtons(props) {
       </label>
     )
   })
-  return <div className="m-b-xs" style={{overflow:'hidden'}} onChange={changeVal}>{buttons}</div>
+  return <div className="m-b-xs" onChange={changeVal}>{buttons}</div>
 }
 
 RadioButtons.propTypes = {
@@ -74,9 +74,8 @@ export default function Interaction(props) {
       processResponse(
         Services.lookupProductRefine({
           txId,
-          attributeId: attribute.id,
-          valueId: value.id,
-          valueString: value.name
+          interactionId: attribute.id,
+          values:[{first: value.id, second: value.name}]
         })
       )
     }
@@ -92,7 +91,7 @@ export default function Interaction(props) {
           <span className="interaction-name h-xs p-t-0">{capitalize(attribute.label)}</span>
           <p className="m-v-xxs">Select the best match for your product.</p>
           <RadioButtons attribute={attribute} valueChange={valueChange}/>
-          <button type="button" className="button button--secondary" disabled={!buttonEnabled} onClick={clickNext}>Next</button>
+          <button type="button" className="button button--secondary m-t-xxs" disabled={!buttonEnabled} onClick={clickNext} style={{float:'left',clear:'both'}}>Next</button>
         </div>
     </div>
   )

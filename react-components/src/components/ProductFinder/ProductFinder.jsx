@@ -7,6 +7,7 @@ import { capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Confirmation from './MessageConfirmation'
 import Interaction from './Interaction'
+import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
 
 
@@ -52,6 +53,7 @@ function ProductFinder(props) {
       })
       .then(() => {
         closeModal()
+        window.location.reload()
       })
       .catch(() => {
         // TODO: add an error dialogue here
@@ -59,6 +61,7 @@ function ProductFinder(props) {
   }
 
   const modalAfterOpen = () => {
+    setIsScrolled(false)
     searchInput.focus()
   }
 
@@ -111,13 +114,20 @@ function ProductFinder(props) {
     setIsScrolled(evt.target.scrollTop > 0)
   }
 
+  const onChangeClick = (evt) => {
+    // TODO: Change handling will be added after UR, but we want the button to be available 
+    evt.preventDefault()
+  }
+
   const Section = (title, sectionDetails) => {
     if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return ''
     return (
-      <section className="p-h-l p-t-xs">
+      <section className="p-h-l">
         <h3 className="h-s p-0">{title}</h3>
           {(sectionDetails || []).map((value) => {
-            return <Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>
+            return value.type === 'SELECTION' ? 
+              (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
+              (<ValueInteraction txId={searchResults.txId} key={value.id} attribute={value} processResponse={processResponse} mixedContentError={searchResults.mixedContentError}/>)
           })}
       </section>
     )
@@ -132,7 +142,7 @@ function ProductFinder(props) {
             <p className="m-v-xxs">
               {capitalize(interaction.selectedString)} 
               {interaction.selectedString === 'other' ? ` than ${interaction.unselectedString}` : ''}
-              {' '}<a href="/" className="link link--underline">change</a>
+              {' '}<button type="button" className="link link--underline body-m" onClick={onChangeClick}>Change</button>
             </p>
            </div>
         </div>)
@@ -142,10 +152,10 @@ function ProductFinder(props) {
 
   const sectionAssumptions = (sectionDetails) => {
     return sectionDetails && sectionDetails.length && (
-      <section className="p-h-l p-t-xs">
+      <section className="p-h-l">
         <h3 className="h-s p-0">Assumptions</h3>
         <p className="m-v-xxs">We&apos;ve answered some questions for you. View and change these if they&apos;re wrong.</p>
-        <ExpandCollapse buttonLabel={`assumptions (${sectionDetails.length})`}>{readOnlyContent(sectionDetails)}</ExpandCollapse> 
+        <ExpandCollapse buttonLabel={ `View assumptions (${sectionDetails.length})`} expandedButtonLabel="Hide assumptions">{readOnlyContent(sectionDetails)}</ExpandCollapse> 
       </section>
     ) || ''
   }
@@ -153,23 +163,23 @@ function ProductFinder(props) {
   const sectionProductDetails = (sectionDetails) => {
     return sectionDetails && sectionDetails.length && (
       <div>
-        <section className="p-h-l p-t-xs">
+        <section className="p-h-l">
           <h3 className="h-s p-0">Product details</h3>
           <p className="m-v-xxs">Things you&apos;ve told us about your product.</p>
           {readOnlyContent(sectionDetails)}
         </section>
-        <hr className="hr hr--light" />
+        <hr className="hr bg-black-10 m-h-l" />
       </div>
     ) || ''
   }
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-l p-t-xs">
-        <div className="h-m">Match for &quot;{_searchResults.currentItemName}&quot;</div>
+      <section className="m-h-l">
+        <div className="h-m p-b-s">Match for &quot;{_searchResults.currentItemName}&quot;</div>
         <div className="box box--no-pointer">
-          <h3 className="h-s p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
-          <div className="body-m">HS Code {_searchResults.hsCode}</div>
+          <h3 className="h-xs p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
+          <div className="body-m">HS Code: {_searchResults.hsCode}</div>
           <p>{formatPath(_searchResults.currentSIP)}</p>
           <button className="button button--primary" type="button" onClick={saveProduct}>
             Select this product
@@ -215,7 +225,7 @@ function ProductFinder(props) {
       </div> :
       <div>
         {Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {questions ? (<hr className="hr hr--dark"/>) : ''}
+        {questions ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
         {sectionProductDetails(known)} 
         {sectionAssumptions(assumptions)}
       </div>
@@ -230,15 +240,14 @@ function ProductFinder(props) {
               <p className="h-s center">No results found</p>
             </div>
           )}
-          {searchResults.hsCode && sectionFound(searchResults)}
-          {sections}
+          {searchResults.hsCode ? sectionFound(searchResults) : sections}
         </div>
       </div>
     )
   }
 
   const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
-  const scrollerClass = `scroll-area ${isScrolled ? 'scrolled' : ''}`
+  const scrollerClass = `scroll-area ${isScrolled ? 'scroll-shadow' : ''}`
   const headerHeight = '190px'
 
   return (
@@ -255,8 +264,8 @@ function ProductFinder(props) {
         onAfterOpen={modalAfterOpen}
       >
         <form className="product-finder text-blue-deep-80">
-          <div className="modal-header" style={{height:headerHeight}}>        
-            <button id="dialog-close" type="button" aria-label="Save" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
+          <div style={{height:headerHeight}}>        
+            <button id="dialog-close" type="button" aria-label="Close" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
             <h3 className="h-m p-t-0">Search by name</h3>
             <div>Find the product you want to export</div>
             <div className="flex-centre m-t-xs search-input">
@@ -285,7 +294,7 @@ function ProductFinder(props) {
         buttonClass={buttonClass}
         productConfirmation={productConfirmationRequired}
         handleButtonClick={closeConfirmation}
-        messsageTitle="Changing product?"
+        messageTitle="Changing product?"
         messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
         messageButtonText="Got it"
       />

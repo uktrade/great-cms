@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 export default function ExpandCollapse(props) {
-  const { buttonLabel, defaultExpanded, children } = props
+  const { buttonLabel, expandedButtonLabel, defaultExpanded, children } = props
   const [expanded, setExpanded] = useState(defaultExpanded)
   const [sectionHeight, setSectionHeight] = useState()
 
@@ -23,13 +23,14 @@ export default function ExpandCollapse(props) {
     >
       {children}
     </div>
-   <button type="button" className="button button--tertiary" onClick={toggleExpand} >{expanded ? 'Hide' : 'View'} {buttonLabel}</button>
+   <button type="button" className="button button--tertiary" onClick={toggleExpand} >{expanded ? expandedButtonLabel || buttonLabel : buttonLabel}</button>
    </div>
   )
 }
 
 ExpandCollapse.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
+  expandedButtonLabel: PropTypes.string,
   defaultExpanded: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -38,5 +39,6 @@ ExpandCollapse.propTypes = {
 }
 
 ExpandCollapse.defaultProps = {
-  defaultExpanded: false
+  defaultExpanded: false,
+  expandedButtonLabel: ''
 }

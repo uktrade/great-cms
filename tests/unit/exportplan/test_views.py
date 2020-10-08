@@ -98,10 +98,13 @@ def test_export_plan_landing_page(client, exportplan_homepage, user, mock_get_co
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_export_plan_builder_landing_page(
-    client, exportplan_dashboard, user, mock_get_company_profile, company_profile_data
+    mock_get_create_export_plan, client, exportplan_dashboard, user, mock_get_company_profile, company_profile_data, export_plan_data
 ):
+    mock_get_create_export_plan.return_value = export_plan_data
     mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
 
     response = client.get('/export-plan/dashboard/')

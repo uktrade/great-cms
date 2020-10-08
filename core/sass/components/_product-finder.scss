@@ -17,7 +17,7 @@
       content: '';
       @include stretch;
       background: $black-50;
-      opacity: 0.6;
+      opacity: 0.2;
     }
 
     .spinner {
@@ -66,7 +66,6 @@
 
 .scroll-area {
   @include stretch;
-
   .scroll-inner {
     @include stretch;
     overflow: auto;
@@ -76,4 +75,18 @@
 .flex-centre {
   display: flex;
   align-items: center;
+}
+
+.scroll-shadow {
+  overflow:hidden;
+  &:before {
+    content:'';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-top: -15px;
+    box-shadow: 0 15px 15px 5px $black-50;
+    z-index:1;
+  }
 }

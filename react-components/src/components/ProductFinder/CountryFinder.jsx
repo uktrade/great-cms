@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
+import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import MessageConfirmation from './MessageConfirmation'
-import RegionToggle from "./RegionToggle";
+import RegionToggle from './RegionToggle'
+import Confirmation from './MessageConfirmation'
 
 
 const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
 
 export function CountryFinder(props) {
   let modalContent
+  const { text } = props
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [selectedCountry, setSelectedCountry] = useState(props.text)
+  const [selectedCountry, setSelectedCountry] = useState(text)
   const [countryList, setCountryList] = useState()
   const [searchStr, setSearchStr] = useState()
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
@@ -34,16 +35,8 @@ export function CountryFinder(props) {
     setIsOpen(true)
   }
 
-  const modalAfterOpen = () => {
-    modalContent.style.maxHeight = '700px'
-    if (!countryList) {
-      getCountries()
-    }
-  }
-
   const searchChange = (evt) => {
-    let searchString = evt.target.value
-    setSearchStr(searchString.toUpperCase())
+    setSearchStr(evt.target.value.toUpperCase())
   }
 
   const toggleRegion = (evt) => {
@@ -55,13 +48,21 @@ export function CountryFinder(props) {
   const getCountries = () => {
     Services.getCountries().then((result) => {
       // map regions
-      let regions = {}
-      for (const [index, country] of result.entries()) {
-        let region = country.region;
+      const regions = {}
+      result.map((country) => {
+        const { region } = country;
         (regions[region] = regions[region] || []).push(country)
-      }
+        return null
+      })
       setCountryList(regions)
     })
+  }
+
+  const modalAfterOpen = () => {
+    modalContent.style.maxHeight = '700px'
+    if (!countryList) {
+      getCountries()
+    }
   }
 
   const saveCountry = (country) => {
@@ -77,14 +78,14 @@ export function CountryFinder(props) {
     })
       .then((result) => {
         closeModal()
+        window.location.reload()
       })
-      .catch((result) => {
+      .catch(() => {
         // TODO: Add error confirmation here
       })
   }
 
   const selectCountry = (evt) => {
-    let targetCountry = evt.target.getAttribute('data-country')
     saveCountry({
       name: evt.target.getAttribute('data-country'),
       id: evt.target.getAttribute('data-id'),
@@ -92,44 +93,42 @@ export function CountryFinder(props) {
     })
   }
 
-  let _regions = Object.keys(countryList || {}).map((region) => {
-    let countryFound = false
-    let _countries = (countryList[region] || []).map((country, index) => {
-      if (searchStr && country.name.toUpperCase().indexOf(searchStr) != 0) return ''
-      countryFound = true
+  let regions = Object.keys(countryList || {}).map((region) => {
+    const countries = (countryList[region] || []).map((country) => {
+      if (searchStr && country.name.toUpperCase().indexOf(searchStr) !== 0) return ''
       return (
         <li key={country.id}>
-          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region}>
+          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry}>
             {country.name}
           </button>
         </li>
       )
     })
     return (
-      !!_countries.filter((region) => region).length && (
-        <RegionToggle key={region.replace(/[\s,]+/g, '-').toLowerCase()} expandAllRegions={expandRegion} region={region} countries={_countries} />
+      !!countries.filter((countryRegion) => countryRegion).length && (
+        <RegionToggle key={region.replace(/[\s,]+/g, '-').toLowerCase()} expandAllRegions={expandRegion} region={region} countries={countries} />
       )
     )
   })
 
-  if (!_regions.filter((region) => region).length) {
-    _regions = <div className="h-xs">No results found</div>
+  if (!regions.filter((region) => region).length) {
+    regions = <div className="h-xs">No results found</div>
   }
-  const _suggested = []
-  for (const [index, value] of suggested.entries()) {
-    _suggested.push(
-      <button key={index} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={value}>
+  const suggestedList = suggested.map((value) => {
+    return (
+      <button key={`suggested_${value}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={value} onClick={selectCountry}>
         {value}
       </button>
     )
-  }
-  let buttonClass = 'tag ' + (!selectedCountry ? 'tag--tertiary' : '') + ' tag--icon '
+  })
+
+  const buttonClass = `tag ${!selectedCountry ? 'tag--tertiary' : ''} tag--icon `
 
   return (
     <span>
-      <button className={buttonClass} onClick={openModal}>
+      <button type="button" className={buttonClass} onClick={openModal}>
         {selectedCountry || 'add country'}
-        <i className={'fa ' + (selectedCountry ? 'fa-edit' : 'fa-plus')}></i>
+        <i className={`fa ${(selectedCountry ? 'fa-edit' : 'fa-plus')}`}/>
       </button>
       <ReactModal
         isOpen={modalIsOpen}
@@ -137,11 +136,11 @@ export function CountryFinder(props) {
         className="modal max-modal"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
-        contentRef={(_modalContent) => (modalContent = _modalContent)}
+        contentRef={(_modalContent) => {modalContent = _modalContent; return null}}
       >
         <form className="country-chooser">
-          <div className="modal-header" style={{ height: '100px' }}>
-            <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
+          <div style={{ height: '100px' }}>
+            <button type="button" className="pull-right m-r-0 dialog-close" aria-label="Close" onClick={closeModal}/>
             <h2 className="h-m p-v-xs">Choose a target market</h2>
           </div>
           <div className="scroll-area" style={{ marginTop: '100px' }}>
@@ -150,22 +149,22 @@ export function CountryFinder(props) {
               <p className="m-v-xs">
                 These are based on the size of the market for your product, export distance, tariffs and costs.
               </p>
-              <ul className="m-v-xs" onClick={selectCountry}>
-                {_suggested}
+              <ul className="m-v-xs">
+                {suggestedList}
               </ul>
-              <hr className="bg-black-70"></hr>
+              <hr className="bg-black-70"/>
 
               <h3 className="h-s p-t-0">Compare markets</h3>
               <div className="grid">
                 <div className="c-full">
                   <p className="m-v-xs">Compare stats for over 180 markets to find the best place to export.</p>
-                  <a href="#" className="button button--secondary">
+                  <a href="/" className="button button--secondary">
                     Compare markets
                   </a>
                 </div>
               </div>
 
-              <hr className="bg-black-70"></hr>
+              <hr className="bg-black-70"/>
               <h3 className="h-s p-t-0">List of markets</h3>
               <p className="m-v-xs">
                 If you have an idea of where you want to export, choose from the list below. You can change this at any
@@ -180,17 +179,17 @@ export function CountryFinder(props) {
                     onClick={searchChange}
                     defaultValue=""
                     placeholder="Search markets"
-                  ></input>
+                  />
                   <span className="visually-hidden">Search markets</span>
-                  <i className="fas fa-search"></i>
+                  <i className="fas fa-search"/>
                 </div>
               </div>
               <div className="grid">
                 <div className="c-full">
-                  <button key="region-expand" className="region-expand" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
-                    <hr key="region-expand-hr" className="hr m-b-xxs"></hr>
-                  <ul className="country-list" onClick={selectCountry}>
-                    {_regions}
+                  <button type="button" key="region-expand" className="region-expand" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+                    <hr key="region-expand-hr" className="hr m-b-xxs"/>
+                  <ul className="country-list">
+                    {regions}
                   </ul>
                 </div>
               </div>
@@ -198,11 +197,11 @@ export function CountryFinder(props) {
           </div>
         </form>
       </ReactModal>
-      <MessageConfirmation
+      <Confirmation
         buttonClass={buttonClass}
         productConfirmation={productConfirmationRequired}
         handleButtonClick={closeConfirmation}
-        messsageTitle="Changing target market?"
+        messageTitle="Changing target market?"
         messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time."
         messageButtonText="Got it"
       />
@@ -210,10 +209,17 @@ export function CountryFinder(props) {
   )
 }
 
-export default function({ ...params }) {
+CountryFinder.propTypes = {
+  text: PropTypes.string
+}
+CountryFinder.defaultProps = {
+  text: null
+}
+
+export default function createCountryFinder({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  let text = params.element.getAttribute('data-text')
-  ReactDOM.render(<CountryFinder text={text}></CountryFinder>, params.element)
+  const text = params.element.getAttribute('data-text')
+  ReactDOM.render(<CountryFinder text={text}/>, params.element)
 }
