@@ -15,7 +15,7 @@ export default function RegionToggle(props){
           <div className="grid">
             <div className="c-full-width">
               <h2 className="region-name h-xs">{props.region}
-                <button className="region-expand" onClick={countryListToggle}><strong>{(expand || props.expandAllRegions) ? '-' : '+'}</strong></button>
+                <button type="button" className="region-expand" onClick={countryListToggle}><strong>{(expand || props.expandAllRegions) ? '-' : '+'}</strong></button>
               </h2>
               <ul key={props.region.replace(/[\s,]+/g, '-').toLowerCase()} className={(props.expandAllRegions || expand) ? 'countryList open' : 'countryList'}>{props.countries}</ul>
               <hr className="hr m-b-xxs"></hr>
