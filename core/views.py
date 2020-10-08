@@ -104,7 +104,7 @@ class MarketsView(GA360Mixin, TemplateView):
 class ProductLookupView(generics.GenericAPIView):
     serializer_class = serializers.ProductLookupSerializer
     permission_classes = []
-    
+
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -113,6 +113,7 @@ class ProductLookupView(generics.GenericAPIView):
         else:
             data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
         return Response(data)
+
 
 class CountriesView(generics.GenericAPIView):
     def get(self, request):
