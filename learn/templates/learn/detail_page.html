@@ -103,8 +103,8 @@
                             <h4 class="h-s">&nbsp;</h4>
                         </div>
                         <div class="c-10-12 m-b-xl">
-                            <div class="g-card g-card--with-image">
-                                <div class="g-card--with-image__content">
+                            <div class="card card--horizontal">
+                                <div class="card__section">
                                     <p class="body-l-b m-0">Your next lesson</p>
                                     <h3 class="h-m p-t-xxs">
                                         {{ next_lesson.title }}
@@ -127,17 +127,18 @@
                                             Continue learning
                                         </button>
                                     </a>
-
                                 </div>
-                                {% comment %}
-                                    If `next_module` is present, we want to use the image from that ahead of `current_module`
-                                {% endcomment %}
-                            {% with next_module|default:current_module as appropriate_module %}
-                                <div class="g-card--with-image__image">
-                                    {% image appropriate_module.image original as module_image %}
-                                    <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
+                                <div class="card__section card__section--image">
+                                    <div class="card__image">
+                                        {% comment %}
+                                            If `next_module` is present, we want to use the image from that ahead of `current_module`
+                                        {% endcomment %}
+                                        {% with next_module|default:current_module as appropriate_module %}
+                                            {% image appropriate_module.image original as module_image %}
+                                            <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
+                                        {% endwith %}
+                                    </div>
                                 </div>
-                            {% endwith %}
                             </div>
                         </div>
                         <div class="c-1-12">
