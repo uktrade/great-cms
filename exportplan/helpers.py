@@ -3,6 +3,7 @@ import pytz
 from directory_api_client import api_client
 from iso3166 import countries_by_alpha3
 from core import models
+from exportplan import data
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -187,3 +188,11 @@ def get_all_lesson_details():
             'url': lesson.url,
         }
     return lessons
+
+
+def get_current_url(slug, export_plan):
+    current_url = data.SECTIONS[slug]
+    if slug in data.COUNTRY_REQUIRED:
+        if export_plan['export_countries'] is None or len(export_plan['export_countries']) == 0:
+            current_url['country_required'] = True
+    return current_url
