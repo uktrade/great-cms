@@ -60,6 +60,7 @@
 
 ### Implemented enhancements
 - GP2-669 - CountryFinder added collapsibility for region section
+- GP2-703 - Add new DSM Cards
 - GP2-686 - Product-search End result details
 - GP2-685 - Product-search End result selection
 - GP2-683 - Product-search Things you told us
