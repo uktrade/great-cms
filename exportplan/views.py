@@ -39,7 +39,6 @@ class ExportPlanMixin:
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
         country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
-        # sectors need to be removed once json_sections is passed to JS and we update template
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
