@@ -256,3 +256,4 @@
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
 - GP2-706 - 
+- ablity-to-disable-export-sections
