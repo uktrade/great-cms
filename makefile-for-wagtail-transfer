@@ -1,0 +1,22 @@
+# This Makefile is for setting up a second local environment for manually
+# testing or developing against Wagtail Transfer, which needs 2+ environments
+# between which to transfer/copy data (pages, media files, etc)
+
+# See docs/wagtail_transfer.rst for more context
+
+include makefile
+
+# for testing wagtail-transfer, we need an alternative local site too, with its own DB
+
+webserver_transfer_target:  # runs on 8030
+	ENV_FILES='secrets-do-not-commit,dev-transfer-target,dev' python manage.py runserver_plus 0.0.0.0:8030 $(ARGUMENTS)
+
+manage_transfer_target:  # runs manage.py with additional/overriding settings from dev-transfer-target
+	ENV_FILES='secrets-do-not-commit,dev-transfer-target,dev' ./manage.py $(ARGUMENTS)
+
+database_transfer_target:
+	PGPASSWORD=debug dropdb --if-exists -h localhost -U debug greatcms_transfer_target
+	PGPASSWORD=debug createdb -h localhost -U debug greatcms_transfer_target
+
+
+.PHONY: manage_transfer_target webserver_transfer_target database_transfer_target
