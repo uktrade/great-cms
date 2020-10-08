@@ -6,7 +6,6 @@ from django.views.generic import TemplateView, FormView
 from django.utils.functional import cached_property
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.core.serializers.json import DjangoJSONEncoder
 from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES, MARKET_ROUTE_CHOICES, PRODUCT_PROMOTIONAL_CHOICES
@@ -40,12 +39,10 @@ class ExportPlanMixin:
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
         country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
-        # sectors need to be removed once json_sections is passed to JS and we update template
         return super().get_context_data(
-            next_section=json.dumps(self.next_section, cls=DjangoJSONEncoder),
-            current_section=json.dumps(self.current_section, cls=DjangoJSONEncoder),
+            next_section=self.next_section,
+            current_section=self.current_section,
             sections=data.SECTION_URLS,
-            json_sections=json.dumps(data.SECTION_URLS, cls=DjangoJSONEncoder),
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
@@ -195,8 +192,7 @@ class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, Exp
         return context
 
     def get_initial(self):
-        # Required as this is a single value textbox with no form so underlying field is a string not a JSON
-        return {'rationale': self.export_plan['rationale']}
+        return self.export_plan['objectives']
 
 
 class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
@@ -258,6 +254,5 @@ class ExportPlanServicePage(TemplateView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             sections=data.SECTION_URLS,
-            json_sections=json.dumps(data.SECTION_URLS, cls=DjangoJSONEncoder),
             **kwargs
         )

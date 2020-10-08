@@ -56,7 +56,7 @@ def test_objective_serializer():
         'pk': 2,
     }
 
-    serializer = serializers.ObjectiveSerializer(data=data)
+    serializer = serializers.CompanyObjectiveSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == data
@@ -167,5 +167,14 @@ def test_adaptation_target_market_serializer():
 
     serializer = serializers.AdaptationTargetMarketSerializer(data=data)
 
+    assert serializer.is_valid()
+    assert serializer.data == data
+
+
+def test_objectives_serializer():
+
+    data = {'rationale': 'test'}
+
+    serializer = serializers.ObjectiveSerializer(data=data)
     assert serializer.is_valid()
     assert serializer.data == data

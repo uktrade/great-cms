@@ -9,8 +9,6 @@ from django.urls import reverse
 from config import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
-import json
-from django.core.serializers.json import DjangoJSONEncoder
 
 from tests.helpers import create_response, reload_urlconf
 from exportplan import data, helpers
@@ -44,7 +42,7 @@ def export_plan_data():
         'route_to_markets': {'route': 'test'},
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
-        'rationale': 'business rationale',
+        'objectives': {'rationale': 'business rationale'},
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]
     }
 
@@ -233,10 +231,9 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, client, user):
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
-    assert response.context_data['next_section'] == json.dumps(data.SECTIONS.get(next_slug), cls=DjangoJSONEncoder)
-    assert response.context_data['current_section'] == json.dumps(data.SECTIONS[slug], cls=DjangoJSONEncoder)
-    assert response.context_data['sections'] == list(data.SECTIONS.values())
-    assert response.context_data['json_sections'] == json.dumps(data.SECTION_URLS, cls=DjangoJSONEncoder)
+    assert response.context_data['next_section'] == data.SECTIONS.get(next_slug)
+    assert response.context_data['current_section'] == data.SECTIONS[slug]
+    assert response.context_data['sections'] == data.SECTION_URLS
     assert response.context_data['export_plan'] == export_plan_data
 
 

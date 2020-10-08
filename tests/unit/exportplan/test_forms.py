@@ -28,9 +28,7 @@ def target_markets_research_data():
 
 @pytest.fixture
 def objectives_form_data():
-    return {
-        'rationale': 'Lorem ipsum',
-    }
+    return {'objectives': {'rationale': 'Lorem ipsum', }}
 
 
 def test_about_your_business_form_valid(about_your_business_form_data):

@@ -1,7 +1,7 @@
 import json
 from django.utils.safestring import mark_safe
 from django import template
-
+from django.core.serializers.json import DjangoJSONEncoder
 register = template.Library()
 
 """
@@ -14,4 +14,4 @@ Usage:
 
 @register.filter
 def to_json(data, indent=None):
-    return mark_safe(json.dumps(data, sort_keys=True, indent=indent).replace("'", '&#39;'))
+    return mark_safe(json.dumps(data, sort_keys=True, indent=indent, cls=DjangoJSONEncoder).replace("'", '&#39;'), )

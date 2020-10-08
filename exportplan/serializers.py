@@ -24,6 +24,10 @@ class AboutYourBuinessSerializer(serializers.Serializer):
     performance = serializers.CharField(required=False, allow_blank=True)
 
 
+class ObjectiveSerializer(serializers.Serializer):
+    rationale = serializers.CharField(required=False, allow_blank=True)
+
+
 class TargetMarketsResearchSerializer(serializers.Serializer):
     demand = serializers.CharField(required=False, allow_blank=True)
     competitors = serializers.CharField(required=False, allow_blank=True)
@@ -66,7 +70,7 @@ class ExportPlanSerializer(serializers.Serializer):
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
     target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     about_your_business = AboutYourBuinessSerializer(required=False)
-    rational = serializers.CharField(required=False, allow_blank=True)
+    objectives = ObjectiveSerializer(required=False)
     target_markets_research = TargetMarketsResearchSerializer(required=False)
     marketing_approach = MarketingApproachSerializer(required=False)
     adaptation_target_market = AdaptationTargetMarketSerializer(required=False)
@@ -75,7 +79,7 @@ class ExportPlanSerializer(serializers.Serializer):
         return [{'country': c} for c in values]
 
 
-class ObjectiveSerializer(serializers.Serializer):
+class CompanyObjectiveSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True)
     planned_reviews = serializers.CharField(required=False, allow_blank=True)
     owner = serializers.CharField(required=False, allow_blank=True)
@@ -119,7 +123,7 @@ class NewRouteToMarketSerializer(RouteToMarketSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewObjectiveSerializer(ObjectiveSerializer):
+class NewObjectiveSerializer(CompanyObjectiveSerializer):
     pk = serializers.IntegerField(required=False)
 
 

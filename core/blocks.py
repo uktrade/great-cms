@@ -250,11 +250,9 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
             country=country,
             region=region
         )
-        print(filter_args)
         queryset = models.CaseStudy.objects.all()
         for filter_arg in filter_args:
             case_study = queryset.filter(**filter_arg)
-
             if case_study.exists():
                 context['case_study'] = case_study.distinct().latest()
                 break
