@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from core import models
 from core.constants import RICHTEXT_FEATURES__MINIMAL
 
-from core.utils import get_personalised_case_study_filter_dict, get_personalised_choices
+from core.utils import get_personalised_case_study_orm_filter_args, get_personalised_choices
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -239,16 +239,18 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
     def _annotate_with_case_study(self, context):
         """Add the relevant case study, if any, to the context."""
 
+        # no export_plan no case_study to display
         if 'export_plan' not in context.keys():
             return context
 
         hs_code, country, region = get_personalised_choices(context['export_plan'])
 
-        filter_args = get_personalised_case_study_filter_dict(
+        filter_args = get_personalised_case_study_orm_filter_args(
             hs_code=hs_code,
             country=country,
             region=region
         )
+        print(filter_args)
         queryset = models.CaseStudy.objects.all()
         for filter_arg in filter_args:
             case_study = queryset.filter(**filter_arg)

@@ -1,9 +1,5 @@
 @import 'elements/colours';
 
-button {
-  @include button-reset;
-}
-
 label {
   display: block;
 }
@@ -68,6 +64,7 @@ label {
 
 body {
   background-color: #e9e7ed;
+  overflow-x: hidden;
 
   &.body-background-white {
     background-color: $white;

@@ -1,30 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Subject } from 'rxjs'
 import { debounceTime, delay } from 'rxjs/operators'
 
 import ErrorList from '@src/components/ErrorList'
-import Objective from './Objective'
-import Services from '../Services'
-import Spinner from './Spinner/Spinner'
+import { Objective } from './Objective'
+import Services from '../../Services'
 
-
-class ObjectivesList extends React.Component {
+export class ObjectivesList extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
       errors: {},
-      objectives: this.props.objectives || []
+      objectives: props.objectives || []
     }
 
     const { objectives } = this.state
 
     objectives.forEach(objective => {
-      objective.isLoading = false
       objective.showSavedMessage = false
     })
 
@@ -36,7 +32,6 @@ class ObjectivesList extends React.Component {
 
       this.setState(state => {
         const updatedObjectives = [...state.objectives]
-        updatedObjectives[data.id].isLoading = true
         return { objectives: updatedObjectives }
 
       }, () => {
@@ -56,41 +51,25 @@ class ObjectivesList extends React.Component {
         return { objectives: updatedObjectives }
       })
     })
-
-    this.bindEvents()
   }
 
-
-  bindEvents() {
-    this.createObjective = this.createObjective.bind(this)
-    this.updateObjective = this.updateObjective.bind(this)
-    this.deleteObjective = this.deleteObjective.bind(this)
-    this.handleUpdateSuccess = this.handleUpdateSuccess.bind(this)
-    this.handleCreateSuccess = this.handleCreateSuccess.bind(this)
-    this.handleDeleteSuccess = this.handleDeleteSuccess.bind(this)
-    this.handleError = this.handleError.bind(this)
-    this.handleCreateError = this.handleCreateError.bind(this)
-  }
-
-  handleCreateSuccess(response) {
+  handleCreateSuccess = (response) => {
     response.json().then(data => {
       this.setState(state => {
         const newObjective = {...data}
-        newObjective.isLoading = false
         newObjective.showSavedMessage = false
         newObjective.errors = {}
         const updatedObjectives = state.objectives.concat([newObjective])
-        return { objectives: updatedObjectives, isLoading: false }
+        return { objectives: updatedObjectives }
       })
     })
   }
 
-  handleUpdateSuccess(response) {
+  handleUpdateSuccess = (response) => {
     response.json().then(data => {
       this.setState(state => {
         const objectiveToUpdate = state.objectives.indexOf(state.objectives.filter(objective => objective.pk === data.pk)[0])
         const updatedObjectives = [...state.objectives]
-        updatedObjectives[objectiveToUpdate].isLoading = false
         updatedObjectives[objectiveToUpdate].showSavedMessage = true
         updatedObjectives[objectiveToUpdate].errors = {}
         return { objectives: updatedObjectives }
@@ -98,52 +77,49 @@ class ObjectivesList extends React.Component {
     })
   }
 
-  handleDeleteSuccess(response, pk) {
+  handleDeleteSuccess = (response, pk) => {
     response.json().then(() => {
       this.setState(state => {
         const updatedObjectives = state.objectives.filter(objective => objective.pk !== pk)
-        return { objectives: updatedObjectives, isLoading: false, errors: {} }
+        return { objectives: updatedObjectives, errors: {} }
       })
     })
   }
 
-  handleError(errors, pk) {
+  handleError = (errors, pk) => {
     this.setState(state => {
       const objectiveToUpdate = state.objectives.indexOf(state.objectives.filter(objective => objective.pk === pk)[0])
       const updatedObjectives = [...state.objectives]
-      updatedObjectives[objectiveToUpdate].isLoading = false
       updatedObjectives[objectiveToUpdate].errors = errors
-      return { objectives: updatedObjectives, isLoading: false }
+      return { objectives: updatedObjectives }
     })
   }
 
-  createObjective() {
-    const data = {
-      data: {
-        description: '',
-        owner: '',
-        planned_reviews: '',
-        start_date: '',
-        end_date: '',
-        companyexportplan: this.props.exportPlanID,
-      }
-    }
-    this.setState({ isLoading: true }, () => {
-      Services.createObjective(data.data)
-        .then(this.handleCreateSuccess)
-        .catch(this.handleCreateError)
+  createObjective = () => {
+
+    const { exportPlanID } = this.props
+    const date = new Date()
+    const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2, 0)}-${date.getDate().toString().padStart(2, 0)}`
+
+    Services.createObjective({
+      description: '',
+      owner: '',
+      planned_reviews: '',
+      start_date: today,
+      end_date: today,
+      companyexportplan: exportPlanID,
     })
+      .then(this.handleCreateSuccess)
+      .catch(this.handleCreateError)
   }
 
-  handleCreateError(errors) {
-    this.setState({ isLoading: false, errors })
+  handleCreateError = (errors) => {
+    this.setState({ errors })
   }
 
-  deleteObjective(pk) {
+  deleteObjective = (pk) => {
     this.setState(state => {
-      const objectiveToUpdate = state.objectives.indexOf(state.objectives.filter(objective => objective.pk === pk)[0])
       const updatedObjectives = [...state.objectives]
-      updatedObjectives[objectiveToUpdate].isLoading = true
       return { objectives: updatedObjectives }
     }, () => {
       Services.deleteObjective(pk)
@@ -152,7 +128,7 @@ class ObjectivesList extends React.Component {
     })
   }
 
-  updateObjective(data) {
+  updateObjective = (data) => {
     this.setState(state => {
       const updatedObjectives = [...state.objectives]
       updatedObjectives[data.id] = data.data
@@ -165,41 +141,39 @@ class ObjectivesList extends React.Component {
   }
 
   render() {
-    const { errors, objectives, isLoading } = this.state
-
-    let addNewButton
-    if (isLoading) {
-      addNewButton = (<Spinner text="Loading..."/>)
-    } else {
-      addNewButton = (
-        <div className="button--plus">
-          <span className="icon--plus"/>
-          <button type="button" className="button--stone" onClick={this.createObjective}>Add next objective</button>
-        </div>
-      )
-    }
+    const { errors, objectives } = this.state
 
     return (
-      <div className="objectives-list">
-        <div className="objective-box bg-white br-xs m-b-m border-thin border-light-grey">
+      <div className='objectives-list'>
+        <div className='objective-box bg-white br-xs m-b-m'>
           {
             objectives.map((objective, i) => (
-              <Objective key={i} id={i} isLoading={objective.isLoading} errors={objective.errors} showSavedMessage={objective.showSavedMessage} data={objective} number={i+1} handleChange={this.updateObjective} deleteObjective={this.deleteObjective}/>
+              <Objective
+                key={objective.pk}
+                id={i}
+                isLoading={objective.isLoading}
+                errors={objective.errors}
+                showSavedMessage={objective.showSavedMessage}
+                data={objective}
+                number={i+1}
+                handleChange={this.updateObjective}
+                deleteObjective={this.deleteObjective}
+              />
             ))
           }
-          <div className="footer">
-            {addNewButton}
-            <ErrorList errors={errors.__all__ || []} className="m-0" />
-          </div>
+          {objectives.length !==5 &&
+            <button
+              type='button'
+              className='button button--large button--icon'
+              onClick={this.createObjective}>
+                <i className='fas fa-plus-circle' />Add objective {objectives.length+1} of 5
+            </button>
+          }
+          <ErrorList errors={errors.__all__ || []} className='m-0' />
         </div>
       </div>
     )
   }
-
-}
-
-function createObjectivesList({ element, ...params }) {
-  ReactDOM.render(<ObjectivesList {...params} />, element)
 }
 
 ObjectivesList.propTypes = {
@@ -212,7 +186,6 @@ ObjectivesList.propTypes = {
       end_date: PropTypes.string,
       companyexportplan: PropTypes.number,
       pk: PropTypes.number,
-      isLoading: PropTypes.bool,
       showSavedMessage: PropTypes.bool,
       errors: PropTypes.shape({
         __all__: PropTypes.arrayOf(PropTypes.string)
@@ -221,8 +194,6 @@ ObjectivesList.propTypes = {
   ),
   exportPlanID: PropTypes.number.isRequired,
 }
-
-export { ObjectivesList, createObjectivesList }
 
 ObjectivesList.defaultProps = {
   objectives: [],

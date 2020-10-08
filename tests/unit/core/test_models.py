@@ -274,37 +274,75 @@ def test_case_study__timestamps():
     assert case_study.modified > modified
 
 
+_case_study_top_level_error_message = (
+    'This block must contain one Media section (with one or '
+    'two items in it) and one Text section.'
+)
+
+_case_study_one_video_only_error_message = 'Only one video may be used in a case study.'
+_case_study_video_order_error_message = 'The video must come before a still image.'
+
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    'block_type_values,expect_raise',
+    'block_type_values,exception_message',
     (
-        (['media', 'text'], False),
-        (['media'], True),
-        (['text'], True),
-        ([], False),
-        (['media', 'media'], True),
-        (['text', 'text'], True),
+        (['text'], _case_study_top_level_error_message),
+        ([('media', ('video',))], _case_study_top_level_error_message),
+        ([], None),
+        (['text', 'text'], _case_study_top_level_error_message),
+        ([('media', ('video',)), ('media', ('video',))], _case_study_top_level_error_message),
+        ([('media', ('video', 'image')), 'text'], None),
+        ([('media', ('video',)), 'text'], None),
+        ([('media', ('image',)), 'text'], None),
+        ([('media', ('image', 'image')), 'text'], None),
+        (
+            [('media', ('image', 'video')), 'text'],
+            _case_study_video_order_error_message
+        ),
+        (
+            [('media', ('video', 'video')), 'text'],
+            _case_study_one_video_only_error_message
+        ),
     ),
     ids=(
-        'media node and text node: fine',
-        'text node only: not fine',
-        'media node only: not fine',
-        'no nodes: fine - the overall requirement is done at a higher level',
-        'two text nodes: not fine',
-        'two media nodes: not fine',
+        '1. Top-level check: text node only: not fine',
+        '2. Top-level check: media node only: not fine',
+        '3. Top-level check: no nodes: fine - requirement is done at a higher level',
+        '4. Top-level check: two text nodes: not fine',
+        '5. Top-level check: two media nodes: not fine',
+
+        '6. media node (video and image) and text node: fine',
+        '7. media node (video only) and text node: fine',
+        '8. media node (image only) and text node: fine',
+        '9. media node (two images) and text node: fine',
+        '10. media node (image before video) and text node: not fine',
+        '11. media node (two videos) and text node: not fine',
     )
 )
-def test_case_study_body_validation(block_type_values, expect_raise):
+def test_case_study_body_validation(block_type_values, exception_message):
 
-    value = []
-    for block_type in block_type_values:
+    def _create_block(block_type):
         mock_block = mock.Mock()
         mock_block.block_type = block_type
-        value.append(mock_block)
+        return mock_block
 
-    if expect_raise:
-        with pytest.raises(StreamBlockValidationError):
+    value = []
+    for block_spec in block_type_values:
+        if type(block_spec) == tuple:
+            parent_block = _create_block(block_spec[0])
+            children = []
+            for subblock_spec in block_spec[1]:
+                children.append(_create_block(subblock_spec))
+            parent_block.value = children
+            value.append(parent_block)
+        else:
+            value.append(_create_block(block_spec))
+
+    if exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
             case_study_body_validation(value)
+            assert ctx.message == exception_message
     else:
         # should not blow up
         case_study_body_validation(value)

@@ -7,8 +7,8 @@ from core.utils import (
     PageTopic,
     get_all_lessons,
     get_first_lesson,
-    get_personalised_case_study_filter_dict,
-    get_selected_personalised_choices,
+    get_personalised_case_study_orm_filter_args,
+    get_personalised_choices,
 )
 from tests.unit.core import factories
 
@@ -296,7 +296,7 @@ def test_multiple_modules(domestic_homepage, client, user):
 def test_personalised_filter_condition(
     hs_code, country, region, expected_length, expected_filter_dict
 ):
-    filter_cond = get_personalised_case_study_filter_dict(
+    filter_cond = get_personalised_case_study_orm_filter_args(
         hs_code=hs_code, country=country, region=region
     )
 
@@ -364,7 +364,7 @@ def test_selected_personalised_choices(
     request.user = user
     request.user.export_plan = mock.MagicMock()
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        commodity_code, country, region = get_selected_personalised_choices(request)
+        commodity_code, country, region = get_personalised_choices(mocked_export_plan)
 
         assert commodity_code == expected_commodity_code
         assert country == expected_country

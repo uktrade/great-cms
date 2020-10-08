@@ -4,22 +4,8 @@ import ReactModal from 'react-modal'
 import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
 import Services from '@src/Services'
 import MessageConfirmation from './MessageConfirmation'
+import RegionToggle from "./RegionToggle";
 
-const customStyles = {
-  content: {
-    top: '10%',
-    left: '10%',
-    width: '80%',
-    border: 'none',
-    height: '80%',
-    padding: '40px 60px',
-    overflow: 'none'
-  },
-  overlay: {
-    background: 'rgb(45 45 45 / 45%)',
-    zIndex: '3'
-  }
-}
 
 const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
 
@@ -30,6 +16,7 @@ export function CountryFinder(props) {
   const [countryList, setCountryList] = useState()
   const [searchStr, setSearchStr] = useState()
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
+  const [expandRegion, setExpandRegion] = useState(false)
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
@@ -59,13 +46,19 @@ export function CountryFinder(props) {
     setSearchStr(searchString.toUpperCase())
   }
 
+  const toggleRegion = (evt) => {
+    setExpandRegion(!expandRegion)
+    evt.preventDefault()
+
+  }
+
   const getCountries = () => {
     Services.getCountries().then((result) => {
       // map regions
       let regions = {}
       for (const [index, country] of result.entries()) {
-        let region = country.region
-        ;(regions[region] = regions[region] || []).push(country)
+        let region = country.region;
+        (regions[region] = regions[region] || []).push(country)
       }
       setCountryList(regions)
     })
@@ -73,7 +66,6 @@ export function CountryFinder(props) {
 
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
-    console.log(country);
     let result = Services.updateExportPlan({
       export_countries: [
         {
@@ -115,15 +107,7 @@ export function CountryFinder(props) {
     })
     return (
       !!_countries.filter((region) => region).length && (
-        <section key={region}>
-          <div className="grid">
-            <div className="c-full-width">
-              <h2 className="region-name h-xs">{region}</h2>
-              <ul style={{ display: 'flex', flexWrap: 'wrap' }}>{_countries}</ul>
-              <hr className="hr m-b-xxs"></hr>
-            </div>
-          </div>
-        </section>
+        <RegionToggle key={region.replace(/[\s,]+/g, '-').toLowerCase()} expandAllRegions={expandRegion} region={region} countries={_countries} />
       )
     )
   })
@@ -145,7 +129,7 @@ export function CountryFinder(props) {
     <span>
       <button className={buttonClass} onClick={openModal}>
         {selectedCountry || 'add country'}
-        <i className="fas fa-chevron-right"></i>
+        <i className={'fa ' + (selectedCountry ? 'fa-edit' : 'fa-plus')}></i>
       </button>
       <ReactModal
         isOpen={modalIsOpen}
@@ -203,6 +187,8 @@ export function CountryFinder(props) {
               </div>
               <div className="grid">
                 <div className="c-full">
+                  <button key="region-expand" className="region-expand" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+                    <hr key="region-expand-hr" className="hr m-b-xxs"></hr>
                   <ul className="country-list" onClick={selectCountry}>
                     {_regions}
                   </ul>

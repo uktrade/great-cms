@@ -28,7 +28,7 @@ export const Sidebar = ({ sections, logo, company }) => {
           )}
         </div>
         <ul>
-          {sections.map(({ title, url }) => (
+          {sections.map(({ title, url}) => (
             <li className="p-b-xs p-r-xs" key={url}>
               <a href={url} className="link text-blue-deep-60 body-m" title={title}>
                 {title}

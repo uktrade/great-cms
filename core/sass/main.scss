@@ -35,6 +35,7 @@ $fa-font-path: '/static/fonts';
 @import 'elements/spacing';
 @import 'elements/box';
 @import 'elements/icons';
+@import 'elements/card';
 
 // Components
 @import 'components/card/base';
@@ -68,7 +69,6 @@ $fa-font-path: '/static/fonts';
 @import 'helpers/utils';
 
 @import 'components/header';
-@import 'components/buttons';
 @import 'components/forms';
 @import 'components/statistics';
 @import 'components/progress-wizard';

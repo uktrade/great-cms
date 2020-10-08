@@ -38,7 +38,7 @@ from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
-from exportplan.data import SECTION_TITLES_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
 
 
 class GreatMedia(Media):
@@ -670,19 +670,71 @@ class CountryTaggedCaseStudy(ItemBase):
     )
 
 
+def _high_level_validation(value, error_messages):
+    TEXT_BLOCK = 'text'  # noqa N806
+    MEDIA_BLOCK = 'media'  # noqa N806
+
+    if set([node.block_type for node in value]) != {
+        TEXT_BLOCK, MEDIA_BLOCK
+    }:
+        error_messages.append(
+            (
+                'This block must contain one Media section (with one or '
+                'two items in it) and one Text section.'
+            )
+        )
+
+    return error_messages
+
+
+def _low_level_validation(value, error_messages):
+    # Check content of media node, which should be present here
+
+    MEDIA_BLOCK = 'media'  # noqa N806
+    VIDEO_BLOCK = 'video'  # noqa N806
+
+    for node in value:
+        if node.block_type == MEDIA_BLOCK:
+            subnode_block_types = [subnode.block_type for subnode in node.value]
+            if len(subnode_block_types) == 2:
+                if set(subnode_block_types) == {VIDEO_BLOCK}:
+                    # Two videos: not allowed
+                    error_messages.append(
+                        'Only one video may be used in a case study.'
+                    )
+                elif subnode_block_types[1] == VIDEO_BLOCK:
+                    # implicitly, [0] must be an image
+                    # video after image: not allowed
+                    error_messages.append(
+                        'The video must come before a still image.'
+                    )
+
+    return error_messages
+
+
 def case_study_body_validation(value):
     """Ensure the case study has exactly both a media node and a text node
+    and that the media node has the following content:
+        * One image, only
+        * One video, only
+        * One video + One image
+            * (video must comes first so that it is displayed first)
+        * Two images
     """
-    if value and set([x.block_type for x in value]) != {'text', 'media'}:
-        raise StreamBlockValidationError(
-            non_block_errors=ValidationError(
-                (
-                    'This block must contain one Media section (with one or '
-                    'two items in it) and one Text section.'
+
+    error_messages = []
+
+    if value:
+        error_messages = _high_level_validation(value, error_messages)
+        error_messages = _low_level_validation(value, error_messages)
+
+        if error_messages:
+            raise StreamBlockValidationError(
+                non_block_errors=ValidationError(
+                    '; '.join(error_messages),
+                    code='invalid'
                 ),
-                code='invalid'
-            ),
-        )
+            )
 
 
 @register_snippet
@@ -707,13 +759,13 @@ class CaseStudy(ClusterableModel):
                 'media',
                 blocks.StreamBlock(
                     [
-                        ('image', core_blocks.ImageBlock()),
                         (
                             'video',
                             core_blocks.SimpleVideoBlock(
                                 template='core/includes/_case_study_video.html'
                             )
-                        )
+                        ),
+                        ('image', core_blocks.ImageBlock()),
                     ],
                     min_num=1,
                     max_num=2,

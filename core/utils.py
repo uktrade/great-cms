@@ -67,22 +67,83 @@ class PageTopic:
                     return
 
 
-def get_selected_personalised_choices(request):
-    commodity_code, country, region = None, None, None
+# def get_item_from_list(lst, index):
+#     try:
+#         return lst[index]
+#     except (IndexError, TypeError):
+#         return None
+#
+#
+#
+# def get_personalised_choices(export_plan):
+#     """
+#     Helper function to get selected product and country from export_plan object
+#     @param export_plan: export_plan object
+#     @return: tuple
+#     """
+#
+#     hs_tags, country, region = None, None, None
+#
+#     if not export_plan:
+#         return hs_tags, country, region
+#
+#     if 'export_commodity_codes' in export_plan.keys():
+#         hs_tags = [
+#             item['commodity_code'] for item in export_plan['export_commodity_codes']
+#         ]
+#
+#     if 'export_countries' in export_plan.keys():
+#         country = [
+#             item['country_iso2_code'] for item in export_plan['export_countries']
+#         ]
+#         region = [item['region'] for item in export_plan['export_countries']]
+#
+#     # UI supporting only one choice of product, country/target
+#     hs_tags = get_item_from_list(hs_tags, 0)
+#     country = get_item_from_list(country, 0)
+#     region = get_item_from_list(region, 0)
+#
+#     return hs_tags, country, region
 
-    export_commodity_codes = request.user.export_plan.get('export_commodity_codes', [])
+
+def get_personalised_choices(export_plan):
+    """
+    function to get selected choices from export_plan object
+
+    @param export_plan: export_plan object
+    @return: tuple of commodity_code, country, region
+    """
+
+
+    hs_tags, country, region = None, None, None
+
+    if not export_plan:
+        return hs_tags, country, region
+
+
+    export_commodity_codes = export_plan.get('export_commodity_codes', [])
     for item in export_commodity_codes:
-        commodity_code = item['commodity_code']
+        hs_tags = item['commodity_code']
 
-    export_countries = request.user.export_plan.get('export_countries', [])
+    export_countries = export_plan.get('export_countries', [])
     for item in export_countries:
         country = item['country_iso2_code']
         region = item['region']
 
-    return commodity_code, country, region
+    return hs_tags, country, region
 
 
 def create_filter_dict(product_code=None, target_area=None):
+    """
+     Helper function to create filter dict based on product and target area
+
+    @param product_code: HS code ( HS6, HS4 or HS2)
+    @param target_area: country_iso or region
+    @return: dict
+    """
+
+
+
     result = dict()
     if product_code:
         result['hs_code_tags__name'] = product_code
@@ -92,16 +153,17 @@ def create_filter_dict(product_code=None, target_area=None):
     return result if result else None
 
 
-def get_personalised_case_study_filter_dict(hs_code=None, country=None, region=None):
+def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, region=None):
     """
     Helper function to generate filter criteria for ORM query to get
-    Personalised Case study
+    personalised case study
 
-    @param product_code: HS code (hs6, hs4 and hs2)
+    @param hs_code: HS code (hs6, hs4 or hs2)
     @param country: country iso2 code
-    @param region: region ( for example 'Asia')
+    @param region: region of the selected country ( for example 'Asia')
     @return: filter dict
     """
+
     filter_args, unique_hs_codes = [], []
     # Removing null item then added None to filter against product_code crieatria
     region_list = [i for i in [country, region] if i] + [None]
@@ -132,34 +194,4 @@ def get_personalised_case_study_filter_dict(hs_code=None, country=None, region=N
     return [i for i in filter_args if i]
 
 
-def get_item_from_list(lst, index):
-    try:
-        return lst[index]
-    except (IndexError, TypeError):
-        return None
 
-
-def get_personalised_choices(export_plan):
-
-    hs_tags, country, region = None, None, None
-
-    if not export_plan:
-        return hs_tags, country, region
-
-    if 'export_commodity_codes' in export_plan.keys():
-        hs_tags = [
-            item['commodity_code'] for item in export_plan['export_commodity_codes']
-        ]
-
-    if 'export_countries' in export_plan.keys():
-        country = [
-            item['country_iso2_code'] for item in export_plan['export_countries']
-        ]
-        region = [item['region'] for item in export_plan['export_countries']]
-
-    # currently UI supporting only one choice of hs_code, country for a user
-    hs_tags = get_item_from_list(hs_tags, 0)
-    country = get_item_from_list(country, 0)
-    region = get_item_from_list(region, 0)
-
-    return hs_tags, country, region

@@ -1,17 +1,35 @@
 {% load wagtailcore_tags %}
 
 {% if case_study %}
-{% comment %} THIS IS ALL PLACEHOLDER MARKUP {% endcomment %}
-
-<div class="box box-no-pointer">
-
-    <h3>CASE STUDY</h3>
-    <p>Company name: {{case_study.company_name}}</p>
-    <p>Summary: {{case_study.summary}}</p>
-
-    {% comment %} Body is a streamfield {% endcomment %}
-    {% for block in case_study.body %}
-        {% include_block block %}
-    {% endfor %}
+<div id="case_study">
+    <div class="case-study p-t-m p-b-s m-b-m">
+        <div class="case-study__content media-block">
+            <i class="fas fa-newspaper"></i>
+            <div>
+                <h3 class="h-m m-b-xs p-0">{{case_study.summary}}</h3>
+                <p class="case-study__company h-s p-0">{{case_study.company_name}}</p>
+                <div class="case-study__media case-study__body">
+                    {% comment %} Body is a streamfield {% endcomment %}
+                    {% for block in case_study.body %}
+                        {% include_block block %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+{% block body_js %}
+    {% comment %} {{ block.super }} {% endcomment %}
+    <script>
+        ditMVP.createCaseStudy({
+            element: document.querySelector("#case_study"),
+            content: {
+                heading: "{{case_study.summary}}",
+                company: "{{case_study.company_name}}",
+                body: document.querySelector("#case_study .case-study__body").innerHTML
+            }
+        })
+    </script>
+{% endblock %}
 {% endif %}
