@@ -96,10 +96,14 @@ HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
  It creates the Great domestic empty homepage and assigns it to the site root.
  It also creates a superuser `test` with password `password`, for local development.
 
+### Wagtail Transfer
+
+We use a third-party app to manage content import from one environment to another. There are specific docs on Wagtail Transer :doc:`here <./wagtail_transfer>`. PLEASE at last read the "GOTCHAS for developers"
+
 
 ### Image storage
 
-Local development uses `django.core.files.storage.FileSystemStorage`
+Local development uses `django.core.files.storage.FileSystemStorage`, but you will be well advised to enable S3 storage if you are testing/using Wagtail Transfer
 
 ### /etc/hosts file entry
 
@@ -157,7 +161,7 @@ Speak to webops or a team mate for the above values.
 ## Load tests
 
 We're using [locust](https://locust.io/) to run load tests against local instance of
-the service and in-memory SQLite.  
+the service and in-memory SQLite.
 See Django [database documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases) for more details.
 
 To run them with default settings use:
