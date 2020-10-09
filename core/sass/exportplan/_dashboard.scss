@@ -1,6 +1,19 @@
 .section-list {
   &__item {
     border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &__disabled {
+    opacity: .6;
+    position: relative;
+  }
+
+  &__coming {
+    border-radius: 12px;
+    left: 20px;
+    position: absolute;
+    top: 120px;
   }
 }
 
