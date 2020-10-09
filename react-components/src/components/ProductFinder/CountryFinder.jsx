@@ -7,7 +7,7 @@ import MessageConfirmation from './MessageConfirmation'
 import RegionToggle from "./RegionToggle";
 
 
-const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
+const suggested = [{'country':'France', 'region':'Europe'}, {'country': 'Spain', 'region':'Europe'}, {'country':'Italy', 'region':'Europe'}, {'country':'Jamaica',  'region':'Latin America and Caribbean'}]
 
 export function CountryFinder(props) {
   let modalContent
@@ -44,12 +44,11 @@ export function CountryFinder(props) {
   const searchChange = (evt) => {
     let searchString = evt.target.value
     setSearchStr(searchString.toUpperCase())
+    setExpandRegion(true)
   }
 
-  const toggleRegion = (evt) => {
+  const toggleRegion = () => {
     setExpandRegion(!expandRegion)
-    evt.preventDefault()
-
   }
 
   const getCountries = () => {
@@ -61,7 +60,7 @@ export function CountryFinder(props) {
         (regions[region] = regions[region] || []).push(country)
       }
       setCountryList(regions)
-    })
+    })  
   }
 
   const saveCountry = (country) => {
@@ -92,22 +91,24 @@ export function CountryFinder(props) {
     })
   }
 
-  let _regions = Object.keys(countryList || {}).map((region) => {
+  let _regions = Object.keys(countryList || {}).map((region, index) => {
     let countryFound = false
     let _countries = (countryList[region] || []).map((country, index) => {
-      if (searchStr && country.name.toUpperCase().indexOf(searchStr) != 0) return ''
       countryFound = true
+      if (searchStr && country.name.toUpperCase().indexOf(searchStr) != 0) return ''
       return (
-        <li key={country.id}>
-          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region}>
-            {country.name}
-          </button>
-        </li>
+        <span className="c-1-5" key={index}>
+          <li>
+            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region}>
+              {country.name}
+            </button>
+          </li>
+        </span>
       )
     })
     return (
       !!_countries.filter((region) => region).length && (
-        <RegionToggle key={region.replace(/[\s,]+/g, '-').toLowerCase()} expandAllRegions={expandRegion} region={region} countries={_countries} />
+        <RegionToggle key={index} expandAllRegions={expandRegion} region={region} countries={_countries} />
       )
     )
   })
@@ -116,10 +117,10 @@ export function CountryFinder(props) {
     _regions = <div className="h-xs">No results found</div>
   }
   const _suggested = []
-  for (const [index, value] of suggested.entries()) {
+  for (const [index, value] of suggested.entries() ){
     _suggested.push(
-      <button key={index} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={value}>
-        {value}
+      <button key={index} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={value.country} data-region={value.region}>
+        {value.country}
       </button>
     )
   }
@@ -181,14 +182,15 @@ export function CountryFinder(props) {
                     defaultValue=""
                     placeholder="Search markets"
                   ></input>
-                  <span className="visually-hidden">Search markets</span>
+                  <span className="visually-hidden">Search markets </span>
                   <i className="fas fa-search"></i>
+                  
                 </div>
               </div>
               <div className="grid">
                 <div className="c-full">
-                  <button key="region-expand" className="region-expand" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
-                    <hr key="region-expand-hr" className="hr m-b-xxs"></hr>
+                  <button type="button" key="region-expand" className="region-expand link" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+                    <hr/>
                   <ul className="country-list" onClick={selectCountry}>
                     {_regions}
                   </ul>

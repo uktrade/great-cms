@@ -108,15 +108,50 @@
     }
   }
 }
+.search-input {
+  i.fa-search {
+   float: right;
+   padding: 10px;
+   color: $grey;
+   position: relative;
+   margin-top: -45px;
+  }
+}
 .region-expand {
   float: right;
+  font-weight: 200;
+  font-size: 15 px;
+  width: fit-content;
+
+  &.icon {
+    font-weight: 900;
+    font-size: 40px;
+    margin-top:-15px;
+  }
+ 
+}
+h2.region-name{
+  line-height: normal;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-size: 20px;
+  margin-bottom: 0px;
+  width: auto;
+}
+.regionSeperator{
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 .countryList{
   flex-wrap: wrap ;
   display: none;
 
   &.open{
-    display: inline-flex;
+    display: block;
   }
+ 
+  ul>span>li>button{
+   font-weight: 100;
+ }
 }
 
