@@ -1,4 +1,6 @@
 {% load video_tags %}
 {% comment %} This exists as a dedicated partial to help with FE styling {% endcomment %}
-
-{% render_video block.value %}
+<div class="media-section m-v-s">
+    {% render_video block.value %}
+    <div class="video-transcript-container"></div>
+</div>
