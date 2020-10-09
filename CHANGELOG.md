@@ -257,5 +257,8 @@
 - noticket add-learning-to-objectives
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
-- GP2-706 - 
+- GP2-706 -
 - ablity-to-disable-export-sections
+- GP2-655 - local development support/skeleton for Wagtail Transfer work
+- GP2-667 - appropriately scoped configuration for Wagtail Transfer when deployed
+- GP2-656 - Make transcript field mandatory for GreatMedia

@@ -6,7 +6,7 @@ export default function RegionToggle(props){
   const [expand, setExpand] = useState(props.expandAllRegions)
 
   const countryListToggle = () => {
-     setExpand(!expand || props.expandAllRegions)
+    setExpand(!expand || props.expandAllRegions)
   }
 
    return (
