@@ -263,3 +263,4 @@
 - GP2-667 - appropriately scoped configuration for Wagtail Transfer when deployed
 - GP2-656 - Make transcript field mandatory for GreatMedia
 - GP2-709 - BE Country add required country signal
+- GP2-744 and GP2-744 - tighten up validation for CaseStudy.body StreamField
