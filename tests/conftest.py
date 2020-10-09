@@ -200,12 +200,10 @@ def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
         'rules_regulations': {'country_code': 'CHN'},
-    }
-    mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)
-
-    mock_get_or_create_export_plan.return_value = {
+        'export_countries': [{'country': 'China', 'country_iso2_code': 'CN'}],
         'timezone': 'Asia/Shanghai',
     }
+    mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)
 
 
 @pytest.fixture

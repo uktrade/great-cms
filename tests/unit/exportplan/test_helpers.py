@@ -364,3 +364,23 @@ def test_get_all_lesson_details(topics_with_lessons):
                 'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': None, 'url': None
             },
     }
+
+
+@pytest.mark.parametrize('export_plan_data, expected', [
+    [{'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]}, None],
+    [{'export_countries': []}, True],
+    [{'export_countries': None}, True],
+])
+@mock.patch.object(helpers, 'get_exportplan')
+def test_get_current_url_country_required(mock_get_exportplan, export_plan_data, expected):
+    mock_get_exportplan.return_value = export_plan_data
+    current_url = helpers.get_current_url(slug='target-markets-research', export_plan=export_plan_data)
+    assert current_url.get('country_required') == expected
+
+
+@mock.patch.object(helpers, 'get_exportplan')
+def test_get_current_url_country_required_not_in_check(mock_get_exportplan):
+    export_plan_data = {'export_countries': []}
+    mock_get_exportplan.return_value = export_plan_data
+    current_url = helpers.get_current_url(slug='about-your-business', export_plan=export_plan_data)
+    assert current_url.get('country_required') is None

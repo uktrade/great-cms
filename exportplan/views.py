@@ -34,7 +34,7 @@ class ExportPlanMixin:
 
     @property
     def current_section(self):
-        return data.SECTIONS.get(self.slug)
+        return helpers.get_current_url(self.slug, self.export_plan)
 
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
