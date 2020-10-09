@@ -2,6 +2,10 @@
   &__item {
     border-radius: 4px;
     overflow: hidden;
+
+    img {
+      height: 172px;
+    }
   }
 
   &__disabled {
