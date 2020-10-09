@@ -59,6 +59,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-707 - Capability design review
 - GP2-669 - CountryFinder added collapsibility for region section
 - GP2-703 - Add new DSM Cards
 - GP2-686 - Product-search End result details
