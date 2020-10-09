@@ -683,13 +683,14 @@ def _high_level_validation(value, error_messages):
     TEXT_BLOCK = 'text'  # noqa N806
     MEDIA_BLOCK = 'media'  # noqa N806
 
-    if set([node.block_type for node in value]) != {
-        TEXT_BLOCK, MEDIA_BLOCK
-    }:
+    # we need to be strict about presence and ordering of these nodes
+    if [node.block_type for node in value] != [
+        MEDIA_BLOCK, TEXT_BLOCK
+    ]:
         error_messages.append(
             (
                 'This block must contain one Media section (with one or '
-                'two items in it) and one Text section.'
+                'two items in it), then one Text section following it.'
             )
         )
 
