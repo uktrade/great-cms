@@ -59,6 +59,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-707 - Capability design review
 - GP2-669 - CountryFinder added collapsibility for region section
 - GP2-703 - Add new DSM Cards
 - GP2-686 - Product-search End result details
@@ -256,8 +257,9 @@
 - noticket add-learning-to-objectives
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
-- GP2-706 - 
+- GP2-706 -
 - ablity-to-disable-export-sections
 - GP2-655 - local development support/skeleton for Wagtail Transfer work
 - GP2-667 - appropriately scoped configuration for Wagtail Transfer when deployed
+- GP2-656 - Make transcript field mandatory for GreatMedia
 - GP2-709 - BE Country add required country signal
