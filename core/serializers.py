@@ -10,6 +10,8 @@ class ProductLookupSerializer(serializers.Serializer):
     q = serializers.CharField(required=False)
     tx_id = serializers.CharField(required=False)
     interraction_id = serializers.CharField(required=False)
+    value_id = serializers.CharField(required=False)
+    value_string = serializers.CharField(required=False)
     values = serializers.JSONField(required=False)
 
 

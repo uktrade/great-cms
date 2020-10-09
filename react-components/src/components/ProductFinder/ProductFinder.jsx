@@ -36,6 +36,7 @@ function ProductFinder(props) {
   const closeModal = () => {
     setIsOpen(false)
     setSearchResults({})
+
   }
 
   const closeConfirmation = () => {
@@ -123,7 +124,7 @@ function ProductFinder(props) {
     if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return ''
     return (
       <section className="p-h-l">
-        <h3 className="h-s p-0">{title}</h3>
+        <h3 className="h-m p-v-xs">{title}</h3>
           {(sectionDetails || []).map((value) => {
             return value.type === 'SELECTION' ? 
               (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
@@ -221,11 +222,11 @@ function ProductFinder(props) {
     const sections = itemChoice ?
       // If the item is ambiguous - supress other sections
       <div>
-        {Section('Please choose your item', itemChoice)}
+        {!searchResults.hsCode && Section('Please choose your item', itemChoice)}
       </div> :
       <div>
-        {Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {questions ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
+        {!searchResults.hsCode && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
+        {(known || questions) ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
         {sectionProductDetails(known)} 
         {sectionAssumptions(assumptions)}
       </div>
@@ -240,7 +241,8 @@ function ProductFinder(props) {
               <p className="h-s center">No results found</p>
             </div>
           )}
-          {searchResults.hsCode ? sectionFound(searchResults) : sections}
+          {searchResults.hsCode && sectionFound(searchResults)}
+          {sections}
         </div>
       </div>
     )
@@ -248,7 +250,7 @@ function ProductFinder(props) {
 
   const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
   const scrollerClass = `scroll-area ${isScrolled ? 'scroll-shadow' : ''}`
-  const headerHeight = '190px'
+  const headerHeight = '210px'
 
   return (
     <span>
@@ -262,11 +264,12 @@ function ProductFinder(props) {
         className="modal max-modal p-v-s p-h-l"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
+        shouldCloseOnOverlayClick={false}
       >
         <form className="product-finder text-blue-deep-80">
           <div style={{height:headerHeight}}>        
             <button id="dialog-close" type="button" aria-label="Close" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
-            <h3 className="h-m p-t-0">Search by name</h3>
+            <h3 className="h-l p-t-0 p-b-xxs">Search by name</h3>
             <div>Find the product you want to export</div>
             <div className="flex-centre m-t-xs search-input">
               <div className="flex-centre">

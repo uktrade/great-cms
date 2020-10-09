@@ -19,16 +19,16 @@ function ValueItem(props) {
   }, [])
 
   return (
-    <label htmlFor={option.id} className='m-b-xxs'>
+    <label htmlFor={option.id} className='m-b-s'>
       <input
         type="number"
         className="form-control"
         id={option.id}
         defaultValue={option.value}
         onChange={changeValue}
-        style={{width:'71px'}}
+        style={{width:'71px',textAlign:'center'}}
       />
-      <span className="text-black-50 m-f-xxs">%</span><span className="m-f-xs">{option.name}</span>
+      <span className="text-black-50 m-f-xxs">%</span><span className="m-f-xs">{capitalize(option.name)}</span>
     </label>
   )
 }
@@ -77,9 +77,9 @@ export default function Interaction(props) {
     <div className="interaction grid m-v-xs" key={attribute.id}>
       <div className="c-fullwidth">
         <div className={`form-group p-v-0 ${mixedContentError ? 'form-group-error' : ''}`}>
-          <span className="interaction-name h-xs p-t-0">{capitalize(attribute.label)}</span>
-          { mixedContentError ? (<span className="error-message p-v-0">Total must equal 100%</span>) : '' }
-          <p className="m-v-xxs">Select the best match for your product.</p>
+          <span className="interaction-name h-s p-t-0">{capitalize(attribute.label)}</span>  
+          <p className="m-t-0 m-b-xs">How much of each item is in your product?</p>
+          { mixedContentError ? (<span className="error-message m-v-xs bold">Total must equal 100%</span>) : '' }
           {options}
         </div>
         <button type="button" className="button button--secondary m-t-xxs" disabled={!buttonEnabled} onClick={clickNext} style={{float:'left',clear:'both'}}>Next</button>
