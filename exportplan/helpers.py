@@ -193,6 +193,6 @@ def get_all_lesson_details():
 def get_current_url(slug, export_plan):
     current_url = data.SECTIONS[slug]
     if slug in data.COUNTRY_REQUIRED:
-        if export_plan['export_countries'] is None or len(export_plan['export_countries']) == 0:
+        if not export_plan['export_countries'] or len(export_plan['export_countries']) == 0:
             current_url['country_required'] = True
     return current_url
