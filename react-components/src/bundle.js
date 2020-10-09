@@ -18,6 +18,7 @@ import { createRouteToMarket, createSpendingAndResources } from '@src/views/sect
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
 import { createObjectivesReasons, createObjectivesList } from '@src/views/sections/Objectives'
+import { createDashboard } from '@src/views/sections/Dashboard'
 import { sectionSidebar } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
 import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
@@ -42,6 +43,7 @@ export default {
   createObjectivesList,
   createObjectivesReasons,
   createVideoTranscript,
+  createDashboard,
   createCaseStudy,
   IndustriesModal,
   LearnIntroduction,
