@@ -2,25 +2,19 @@
 {% load static %}
 {% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs from great_components %}
 {% load pluralize from content_tags %}
 {% load url_map %}
 
 {% block content %}
-    <div class="container">
-        {% breadcrumbs 'Learn how to export' %}
-            <a href="{% url_map 'dashboard' %}" id="breadcrumbs-home">Home</a>
-        {% endbreadcrumbs %}
-    </div>
     <section id="learn-root" class="learn__page learn__categories-page container">
-        <section class="learn__categories-content container m-t-m">
+        <section class="learn__categories-content container m-t-s">
         {% for child in page.get_children.specific.live %}
-            <article class="learn__category grid">
+            <article class="learn__category grid m-b-s">
                 <div class="c-1-2-l">
                     <div class="learn__category-content ">
-                        <h2 class="h-l text-blue-deep-80 learn__category-title">{{ child.title }}</h2>
+                        <h2 class="h-l text-blue-deep-80 learn__category-title p-b-0">{{ child.title }}</h2>
                         <div class="learn__category-details">{{ child.heading | richtext }}</div>
-                        <a class="button button--secondary" href="{% pageurl child %}" title="{{ page.button_label }}">{{ page.button_label }}</a>
+                        <a class="button button--small button--secondary" href="{% pageurl child %}" title="{{ page.button_label }}">{{ page.button_label }}</a>
                     </div>
 
                     <div class="learn__category-entities button--round-corner bg-aqua">

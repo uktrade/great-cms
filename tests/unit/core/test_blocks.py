@@ -1,11 +1,9 @@
-import datetime
 from unittest import mock
 
 import pytest
 from wagtail.core import blocks
 
 from core import blocks as core_blocks
-from core.models import CaseStudy
 from tests.unit.core.factories import (
     CaseStudyFactory,
     ContentModuleFactory,
@@ -74,18 +72,14 @@ def test_basic_render_form_for_media_chooser_block():
 def test_internal_link_structure_value(domestic_homepage):
     page = DetailPageFactory(parent=domestic_homepage)
     block = core_blocks.LinkBlock()
-    value = block.to_python({
-        'internal_link': page.id,
-    })
+    value = block.to_python({'internal_link': page.id})
     assert page.url_path == value.url
 
 
 @pytest.mark.django_db
 def test_external_link_structure_value(domestic_homepage):
     block = core_blocks.LinkBlock()
-    value = block.to_python({
-        'external_link': 'http://great.gov.uk'
-    })
+    value = block.to_python({'external_link': 'http://great.gov.uk'})
     assert value.url == 'http://great.gov.uk'
 
 
@@ -114,7 +108,8 @@ def test_learning_link_component(domestic_site, domestic_homepage):
             'lede_override': override_lede,
             'link': {'internal_link': target_detail_page, 'external_link': ''}
         },
-        context={})
+        context={},
+    )
     assert override_title in result_override
     assert override_lede in result_override
     assert test_detail_title not in result_override
@@ -124,7 +119,8 @@ def test_learning_link_component(domestic_site, domestic_homepage):
             'lede_override': override_lede,
             'link': None
         },
-        context={})
+        context={},
+    )
     assert override_title in result_nolink
     # Provide external link
     result_external_link = link_block.render(
@@ -133,7 +129,8 @@ def test_learning_link_component(domestic_site, domestic_homepage):
             'lede_override': override_lede,
             'link': {'internal_link': None, 'external_link': test_external_link}
         },
-        context={})
+        context={},
+    )
     assert test_external_link in result_external_link
     # Non detail page
     result_list_link = link_block.render(
@@ -148,70 +145,205 @@ def test_learning_link_component(domestic_site, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_case_study(rf):
+def test_case_study_static_block_annotate_with_no_personalisation_selection(rf, user):
     case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('HS123456', 'HS1234')
+    case_study_1.hs_code_tags.add('123456', '1234')
     case_study_1.country_code_tags.add('Europe', 'ES')
     case_study_1.save()
 
     case_study_2 = CaseStudyFactory()
-    case_study_2.hs_code_tags.add('HS334455')
+    case_study_2.hs_code_tags.add('334455')
     case_study_2.country_code_tags.add('Europe', 'DE')
     case_study_2.save()
 
-    # no relevant tags -> no case study
+    # Empty personalisation selection
+    mocked_export_plan = dict()
+
     request = rf.get('/', {})
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        block = core_blocks.CaseStudyStaticBlock()
+        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' not in context
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_only_country_selection(rf, user):
+    case_study_1 = CaseStudyFactory()
+    case_study_1.hs_code_tags.add('123456', '1234')
+    case_study_1.country_code_tags.add('Europe', 'ES')
+    case_study_1.save()
+
+    case_study_2 = CaseStudyFactory()
+    case_study_2.hs_code_tags.add('334455')
+    case_study_2.country_code_tags.add('Asia Pacific')
+    case_study_2.save()
+
+    # country personalisation selection
+    mocked_export_plan = {
+        'export_countries': [
+            {
+                'region': 'Asia Pacific',
+                'country_name': 'Australia',
+                'country_iso2_code': 'AU',
+            }
+        ]
+    }
+
+    request = rf.get('/', {})
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        block = core_blocks.CaseStudyStaticBlock()
+        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' in context
+        assert context['case_study'] == case_study_2
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_only_product_selection(rf, user):
+    case_study_1 = CaseStudyFactory()
+    case_study_1.hs_code_tags.add('123456', '1234')
+    case_study_1.country_code_tags.add('Europe', 'ES')
+    case_study_1.save()
+
+    case_study_2 = CaseStudyFactory()
+    case_study_2.hs_code_tags.add('334455')
+    case_study_2.country_code_tags.add('Europe', 'HU')
+    case_study_2.save()
+
+    # product personalisation selection
+    mocked_export_plan = {
+        'export_commodity_codes': [
+            {'commodity_code': '334455', 'commodity_name': 'Blah'}
+        ]
+    }
+
+    request = rf.get('/', {})
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        block = core_blocks.CaseStudyStaticBlock()
+        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' in context
+        assert context['case_study'] == case_study_2
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_case_study_with_no_tags(rf, user):
+    CaseStudyFactory()
+    CaseStudyFactory()
+
+    # personalised selection exist in export plan
+    mocked_export_plan = {
+        'export_commodity_codes': [
+            {'commodity_code': '123456', 'commodity_name': 'Blah'}
+        ],
+        'export_countries': [
+            {'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}
+        ],
+    }
+
+    request = rf.get('/', {})
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        block = core_blocks.CaseStudyStaticBlock()
+        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' not in context
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_case_study_with_tags_and_personalised_selection(rf, user):
+    case_study_1 = CaseStudyFactory()
+    case_study_1.hs_code_tags.add('123456', '1234')
+    case_study_1.country_code_tags.add('Europe', 'ES')
+    case_study_1.save()
+
+    case_study_2 = CaseStudyFactory()
+    case_study_2.hs_code_tags.add('334455')
+    case_study_2.country_code_tags.add('Europe', 'DE')
+    case_study_2.save()
+
+    mocked_export_plan = {
+        'export_commodity_codes': [
+            {'commodity_code': '123456', 'commodity_name': 'Something'}
+        ],
+        'export_countries': [
+            {'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}
+        ],
+    }
+
+    request = rf.get('/')
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        block = core_blocks.CaseStudyStaticBlock()
+
+        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' in context
+        assert 'case_study' in block.get_context(value=None, parent_context=context)
+        assert context['case_study'] == case_study_1
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(
+    rf, user
+):
+    case_study_1 = CaseStudyFactory()
+    case_study_1.hs_code_tags.add('123456', '1234')
+    case_study_1.country_code_tags.add('Europe', 'ES')
+    case_study_1.save()
+
+    # Another case study with same tags as latest modified
+    case_study_2 = CaseStudyFactory()
+    case_study_2.hs_code_tags.add('123456', '1234')
+    case_study_2.country_code_tags.add('Europe', 'ES')
+    case_study_2.save()
+
+    mocked_export_plan = {
+        'export_commodity_codes': [
+            {'commodity_code': '123456', 'commodity_name': 'Something'}
+        ],
+        'export_countries': [
+            {'region': 'Europe', 'country_name': 'Spain', 'country_iso2_code': 'ES'}
+        ],
+    }
+
+    request = rf.get('/')
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        block = core_blocks.CaseStudyStaticBlock()
+        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' in context
+        assert context['case_study'] == case_study_2
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_no_export_plan(
+    rf, user
+):
+    case_study_1 = CaseStudyFactory()
+    case_study_1.save()
+
+    # Another case study with same tags as latest modified
+    case_study_2 = CaseStudyFactory()
+    case_study_2.save()
+
+    request = rf.get('/')
+    request.user = user
     block = core_blocks.CaseStudyStaticBlock()
     context = {'request': request}
     context = block._annotate_with_case_study(context)
-    'case_study' not in context
-
-    # Show HS tag match
-    request = rf.get('/', {'hs-tag': 'HS123456'})
-    block = core_blocks.CaseStudyStaticBlock()
-    context = {'request': request}
-    context = block._annotate_with_case_study(context)
-    assert context['case_study'] == case_study_1
-
-    request = rf.get('/', {'hs-tag': 'HS334455'})
-    block = core_blocks.CaseStudyStaticBlock()
-    context = {'request': request}
-    context = block._annotate_with_case_study(context)
-    assert context['case_study'] == case_study_2
-
-    # Show country tag match
-    request = rf.get('/', {'country-tag': 'DE'})
-    block = core_blocks.CaseStudyStaticBlock()
-    context = {'request': request}
-    context = block._annotate_with_case_study(context)
-    assert context['case_study'] == case_study_2
-
-    request = rf.get('/', {'country-tag': 'ES'})
-    block = core_blocks.CaseStudyStaticBlock()
-    context = {'request': request}
-    context = block._annotate_with_case_study(context)
-    assert context['case_study'] == case_study_1
-
-    # Show most recently updated is given priority
-    _new_modified_time_for_cs2 = case_study_1.modified + datetime.timedelta(seconds=30)
-    CaseStudy.objects.filter(id=case_study_2.id).update(modified=_new_modified_time_for_cs2)
-    case_study_2.refresh_from_db()
-    assert case_study_2.modified > case_study_1.modified
-
-    request = rf.get('/', {'country-tag': 'Europe'})  # Will find multiple case studies
-    block = core_blocks.CaseStudyStaticBlock()
-    context = {'request': request}
-    context = block._annotate_with_case_study(context)
-    assert context['case_study'] == case_study_2
-
-    _new_modified_time_for_cs1 = case_study_2.modified + datetime.timedelta(seconds=30)
-    CaseStudy.objects.filter(id=case_study_1.id).update(modified=_new_modified_time_for_cs1)
-    case_study_1.refresh_from_db()
-    assert case_study_1.modified > case_study_2.modified
-
-    # re-run the same call now the case study timestamps have changed
-    context = block._annotate_with_case_study(context)
-    assert context['case_study'] == case_study_1
+    assert 'case_study' not in context
 
 
 @pytest.mark.django_db

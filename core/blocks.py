@@ -3,13 +3,10 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
 from core import models
-from core.constants import (
-    COUNTRY_TAG_PARAM_NAME,
-    HS_TAG_PARAM_NAME,
-    RICHTEXT_FEATURES__MINIMAL,
-)
+from core.constants import RICHTEXT_FEATURES__MINIMAL
+
+from core.utils import get_personalised_case_study_orm_filter_args, get_personalised_choices
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -241,30 +238,24 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
 
     def _annotate_with_case_study(self, context):
         """Add the relevant case study, if any, to the context."""
-        # CURRENTLY we get tag values from the querystring, but this will
-        # change when we hook into personalisation. For now, testers will
-        # need to provide `?hs-tag=Y` or `?country-tag=X` to get the case
-        # study logic to work. NOTE THAT `?hs-tag=Y&country-tag=X` does
-        # NOT work, but this will be replaced by a proper algorithm anyway
 
-        hs_tags = context['request'].GET.get(
-            HS_TAG_PARAM_NAME, ''
-        ).split(',')
+        # no export_plan no case_study to display
+        if 'export_plan' not in context.keys():
+            return context
 
-        country_tags = context['request'].GET.get(
-            COUNTRY_TAG_PARAM_NAME, ''
-        ).split(',')
+        hs_code, country, region = get_personalised_choices(context['export_plan'])
 
-        if hs_tags or country_tags:
-
-            hs_tags_q = Q(hs_code_tags__name__in=hs_tags)
-            country_tags_q = Q(country_code_tags__name__in=country_tags)
-
-            case_study = models.CaseStudy.objects.filter(
-                hs_tags_q | country_tags_q
-            ).distinct().first()
-
-            context['case_study'] = case_study
+        filter_args = get_personalised_case_study_orm_filter_args(
+            hs_code=hs_code,
+            country=country,
+            region=region
+        )
+        queryset = models.CaseStudy.objects.all()
+        for filter_arg in filter_args:
+            case_study = queryset.filter(**filter_arg)
+            if case_study.exists():
+                context['case_study'] = case_study.distinct().latest()
+                break
 
         return context
 

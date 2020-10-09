@@ -24,6 +24,7 @@ from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
+from wagtail.contrib.redirects.models import Redirect
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
@@ -41,9 +42,17 @@ from core.utils import PageTopic, get_first_lesson
 from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
 
 
+# If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
+register_snippet(Redirect)
+
+
 class GreatMedia(Media):
 
-    transcript = models.TextField(verbose_name=_('Transcript'), blank=True, null=True)
+    transcript = models.TextField(
+        verbose_name=_('Transcript'),
+        blank=False,
+        null=True  # left null because was an existing field
+    )
 
     admin_form_fields = Media.admin_form_fields + ('transcript', )
 
@@ -489,8 +498,7 @@ class DetailPage(CMSGenericPage):
             # checking if the page should record read progress
             # checking if the page is already marked as read
             list_page = (
-                ListPage.objects
-                .ancestor_of(self)
+                ListPage.objects.ancestor_of(self)
                 .filter(record_read_progress=True)
                 .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
                 .first()
@@ -538,8 +546,8 @@ class DetailPage(CMSGenericPage):
             backlink_path = unquote(backlink_path)
 
             if (
-                backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
-                '://' not in backlink_path
+                    backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
+                    '://' not in backlink_path
             ):
                 # The check for '://' will stop us accepting a backlink which
                 # features a full URL as its OWN querystring param (eg a crafted attack
