@@ -1,0 +1,85 @@
+.pill {
+  border-radius: 1.2em;
+  padding: 5px 15px;
+  margin-right: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Use this when the content should be hidden only on JS enabled site */
+.js-enabled .js-hidden {
+  display: none;
+}
+
+$colours:
+  ($black, black),
+  ($grey, grey),
+  ($mid-grey, mid-grey),
+  ($light-grey, light-grey),
+  ($offwhite, offwhite),
+  ($white, white),
+  (transparent, transparent),
+  ($purple, purple),
+  ($great-blue, great-blue),
+  ($dark-navy, dark-navy),
+  ($mid-blue, mid-blue),
+  ($active-blue, active-blue),
+  ($light-blue, light-blue),
+  ($aqua, aqua),
+  ($teal, teal),
+  ($flag-red, flag-red),
+  ($great-red, great-red),
+  ($focus-yellow, focus-yellow),
+  ($stone-10, stone-10),
+  ($stone-20, stone-20),
+  ($stone-30, stone-30),
+  ($stone-40, stone-40),
+  ($stone-50, stone-50),
+  ($stone-60, stone-60),
+  ($stone-70, stone-70),
+  ($stone-80, stone-80),
+  ($stone-90, stone-90),
+  ($stone, stone);
+
+@each $colour, $name in $colours {
+  .bg-hover-#{$name}:hover {
+    background-color: $colour;
+  }
+}
+
+@each $colour, $name in $colours {
+  .text-hover-#{$name}:hover {
+    color: $colour;
+  }
+}
+
+@each $colour, $name in $colours {
+  .border-hover-#{$name}:hover {
+    border-color: $colour;
+  }
+}
+
+.centre-children {
+  text-align: center;
+
+  > * {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.clearfix:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.relative {
+  position: relative;
+}

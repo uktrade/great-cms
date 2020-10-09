@@ -1,0 +1,174 @@
+{% extends 'core/base.html' %}
+{% load wagtailimages_tags %}
+{% load routablepageurl from wagtailroutablepage_tags %}
+{% load url_map %}
+{% load content_tags %}
+
+{% block content %}
+    <div class="lesson-page">
+        <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--top h-m">
+            <i class="fas fa-arrow-left"></i>
+            <span class="visually-hidden">Back</span>
+        </a>
+        <div class="bg-white">
+            <div class="container">
+                <div class="grid">
+                    <div class="grid p-t-l">
+                        <div class="c-1-4">
+                            <h4 class="h-s">&nbsp;</h4>
+                        </div>
+                        <div class="c-1-2">
+                            <h1 class="h-l" id="lesson-title">{{ page.title }}</h1>
+                            <p class="estimated-time text-blue-deep-80 m-t-xs">
+                                <i class="fas fa-clock m-r-xxs" aria-hidden="true"></i>
+                                <strong>{{ page.estimated_read_duration|format_timedelta }} read</strong>
+                            </p>
+                            <div class="lesson-hero m-t-m m-b-m">
+                                {% include 'learn/hero_media_item.html' %}
+                            </div>
+                            {% include 'core/objectives.html' %}
+                        </div>
+                        <div class="c-1-4">
+                            <h4 class="h-s">&nbsp;</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white">
+            <div class="container">
+                <div class="grid">
+                    <div class="grid">
+                        <div class="c-1-4">
+                            <h4 class="h-s">&nbsp;</h4>
+                        </div>
+                        <div class="c-1-2 p-t-m">
+                            {% include 'core/personalised_body.html' %}
+                            {% include 'learn/step_by_step.html' %}
+                        </div>
+                        <div class="c-1-4 p-t-xs">
+                            {% if backlink and backlink_title %}
+                            <div class="back-to-export-plan p-b-l">
+                                <h4 class="body-l-b m-b-xxs">Update your export plan</h4>
+                                <div class="box box--no-pointer bg-aqua-20 p-b-l">
+                                    <a href="{{backlink}}" class="link link--large link--icon-right p-0">
+                                        <span>{{backlink_title}}</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <h4 class="h-s">&nbsp;</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="bg-blue-deep-80">
+            <div class="container">
+                <div class="grid p-t-m">
+                    <div class="c-1-4">
+                        <h4 class="h-s">&nbsp;</h4>
+                    </div>
+                    <div class="c-1-2">
+                        {% include 'learn/recap.html' %}
+                        <hr class="hr hr--light m-0"/>
+                    </div>
+                    <div class="c-1-4">
+                        <h4 class="h-s">&nbsp;</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="grid">
+                    <div class="grid p-t-s p-b-s">
+                        <div class="c-1-4">
+                            <h4 class="h-s">&nbsp;</h4>
+                        </div>
+                        <div class="c-1-2">
+                            <div id="mark_as_complete" class="bg-blue-deep-80"></div>
+                        </div>
+                        <div class="c-1-4">
+                            <h4 class="h-s">&nbsp;</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if next_lesson %}
+                <div class="container">
+                    <div class="grid p-t-m">
+                        <div class="c-1-12">
+                            <h4 class="h-s">&nbsp;</h4>
+                        </div>
+                        <div class="c-10-12 m-b-xl">
+                            <div class="card card--horizontal">
+                                <div class="card__section">
+                                    <p class="body-l-b m-0">Your next lesson</p>
+                                    <h3 class="h-m p-t-xxs">
+                                        {{ next_lesson.title }}
+                                    </h3>
+                                    {% if next_lesson.estimated_read_duration %}
+                                        <p class="text-blue-deep-80 m-t-0 p-t-0 m-b-xs">
+                                            <i class="fas fa-clock m-r-xxs"></i>
+                                            <strong> {{ next_lesson.estimated_read_duration|format_timedelta }}
+                                                read</strong>
+                                        </p>
+                                    {% endif %}
+                                    {% if next_module %}
+                                        <p class="text-blue-deep-80 m-t-xs m-b-xs">
+                                            Part of your next module:<br/>
+                                            <strong>{{ next_module.title }}</strong>
+                                        </p>
+                                    {% endif %}
+                                    <a href="{{ next_lesson.get_url }}">
+                                        <button class="button button--secondary m-b-xs">
+                                            Continue learning
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="card__section card__section--image">
+                                    <div class="card__image">
+                                        {% comment %}
+                                            If `next_module` is present, we want to use the image from that ahead of `current_module`
+                                        {% endcomment %}
+                                        {% with next_module|default:current_module as appropriate_module %}
+                                            {% image appropriate_module.image original as module_image %}
+                                            <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="c-1-12">
+                            <h4 class="h-s">&nbsp;</h4>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m">
+                <i class="fas fa-arrow-left"></i>
+                <span class="visually-hidden">Back</span>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script>
+      {% if request.user.is_authenticated %}
+      ditMVP.createMarkLessonAsComplete({
+        element: document.querySelector("#mark_as_complete"),
+        endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+      })
+      {% endif %}
+
+      ditMVP.createVideoTranscript({
+        element: document.querySelector("#lesson-hero-video-transcript"),
+        source: document.querySelector(".lesson-hero video source[transcript]")
+      })
+    </script>
+
+{% endblock %}

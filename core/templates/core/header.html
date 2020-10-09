@@ -1,0 +1,35 @@
+{% load static %}
+{% load wagtailcore_tags %}
+{% load url_map %}
+<header class="magna-header bg-blue-deep-80 text-white" id="header" dir="ltr" data-ga-section="header">
+  <nav>
+    <a id="header-logo-link" class="m-h-s m-v-xxs" href="/">
+      <img class="header-logo" src="{% static 'images/exporting-is-great.svg' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
+    </a>
+    <div class="header-links">
+      <ul id="services-area" class="services-area">
+        {% path_match "^\/learn\/" as in_learning %}
+        {% path_match "^\/export-plan\/" as in_exportplan %}
+        {% path_match "^\/find-your-target-market\/" as in_targetmarkets %}
+        <li><a id="header-link-learning" class="link {% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
+        <li><a id="header-link-markets" class="link {% if in_targetmarkets %}active{% endif %}" href="/find-your-target-market/ ">Target a market</a></li>
+        <li><a id="header-link-exporting-plan" class="link {% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Make an export plan</a></li>
+        {% if not request.user.is_authenticated %}
+          <li><a id="header-sign-up-link" href="/signup/" class="button button--primary">Sign up</a></li>
+        {% endif %}
+        <li id="header-link-user-profile" class="m-v-xs m-l-xs m-r-s">
+        </li>
+
+        <script type="text/javascript">
+        ditMVP.ModalMenu({
+          element: document.querySelector("#header-link-user-profile"),
+          avatar: '{{ request.user.profile_image|default:"" }}',
+          user_name: '{{ request.user.first_name|default:"" }}',
+          authenticated: '{{ request.user.is_authenticated }}'
+        })
+        </script>
+
+      </ul>
+    </div>
+  </nav>
+</header>

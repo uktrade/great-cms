@@ -1,0 +1,35 @@
+
+@import 'helpers/colours';
+
+
+.great-mvp-field-input {
+    width: 371px;
+    padding: 10px;
+    border-color: $grey;
+    height: 51px;
+    background-color: $white;
+
+    &[disabled] {
+        background-color: $light-grey;
+    }
+}
+
+body .great-mvp-autocomplete-field__multi-value__remove,
+body .great-mvp-autocomplete-field__multi-value__remove:hover {
+    color: $white;
+    background: $mid-grey;
+    cursor: pointer;
+}
+
+body .great-mvp-autocomplete-field__multi-value {
+    background: $mid-grey;
+}
+
+body .great-mvp-autocomplete-field__multi-value__label {
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    color: $white;
+    font-weight: bold;
+}

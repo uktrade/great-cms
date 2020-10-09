@@ -1,0 +1,104 @@
+
+.export-plan-builder {
+
+  .banner-image {
+    width: 100%;
+  }
+
+  .sidebar {
+    bottom: 0;
+    float: left;
+    width: 260px;
+    background-color: $white;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
+    position: absolute;
+    top: 129px;
+    z-index: 1;
+
+    .sidebar-sticky {
+      position: sticky;
+      top: 0;
+    }
+
+    &__close {
+      left: -210px;
+    }
+
+    &__button {
+      position: absolute;
+      right: -18px;
+      top: 15px;
+    }
+  }
+
+  .intro-content {
+    padding-left: calc(100% / 12 * 3);
+  }
+
+  .sector-chooser {
+    position: relative;
+
+    & > * {
+      display: inline-block;
+    }
+
+    .intro-text {
+      display: block;
+    }
+  }
+
+  .sector-chooser-button {
+    position: relative;
+    top: -5px;
+  }
+
+  .sector-list-tooltip {
+    @include body-medium-bold;
+    @include shadow;
+    position: absolute;
+    top: 0;
+    left: 60px;
+    padding: 2px $space-xs-m;
+    @include desktop {
+      padding: 2px $space-xs;
+    }
+    white-space: nowrap;
+    background-color: $grey;
+    color: $white;
+
+    &:after {
+      display: block;
+      content: '';
+      width: 0;
+      height: 0;
+      border-top: 17px solid transparent;
+      border-right: 16px solid $grey;
+      border-bottom: 17px solid transparent;
+      position: absolute;
+      left: -16px;
+      top: 0;
+    }
+  }
+
+  .sector-list {
+    margin-top: 0;
+    line-height: 1;
+    display: inline-block;
+
+    li {
+      display: inline-block;
+      margin-bottom: $space-xxs-m;
+      @include desktop {
+        margin-bottom: $space-xxs;
+      }
+    }
+
+    .selected {
+      @extend .bg-stone;
+      @extend .text-grey;
+      @extend .border-stone;
+      font-weight: $bold;
+    }
+  }
+
+}

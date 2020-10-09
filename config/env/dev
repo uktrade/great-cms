@@ -1,3 +1,4 @@
+APP_ENVIRONMENT=local
 SECRET_KEY=debug
 DEBUG=true
 SESSION_COOKIE_SECURE=false
@@ -8,9 +9,50 @@ HEALTH_CHECK_TOKEN=debug
 DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
 CSRF_COOKIE_SECURE=false
 EMAIL_BACKEND_CLASS_NAME=console
-FEATURE_DEBUG_TOOLBAR_ENABLED=false
 REDIS_URL=redis://localhost:6379
 FEATURE_ENFORCE_STAFF_SSO_ENABLED=false
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
 DEFAULT_FILE_STORAGE=django.core.files.storage.FileSystemStorage
 BASE_URL=localhost
+SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/
+SSO_SIGNATURE_SECRET=api_signature_debug
+SSO_SESSION_COOKIE=debug_sso_session_cookie
+SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/sso/accounts/login/
+SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/sso/accounts/logout/?next=http://gcms.trade.great:8020/thing/
+SSO_PROXY_PASSWORD_RESET_URL=http://sso.trade.great:8004/sso/accounts/password/reset/
+SSO_PROXY_REDIRECT_FIELD_NAME=next
+SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/thing/
+SSO_OAUTH2_LINKEDIN_URL=http://sso.trade.great:8004/sso/accounts/login/via-linkedin/
+SSO_OAUTH2_GOOGLE_URL=debug
+DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011
+DIRECTORY_FORMS_DEFAULT_TIMEOUT=30
+DIRECTORY_API_CLIENT_BASE_URL=http://api.trade.great:8000
+DIRECTORY_API_CLIENT_API_KEY=debug
+MAXMIND_LICENCE_KEY=debug
+API_CLIENT_BASE_URL=http://api.trade.great:8000
+API_SIGNATURE_SECRET=debug
+DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.trade.great:8004/
+FEATURE_MOCK_CLIENT_IP_ENABLED=True
+API_CACHE_DISABLED=true
+STAFF_SSO_AUTHBROKER_URL=https://www.examole.com
+AUTHBROKER_CLIENT_ID=debug
+AUTHBROKER_CLIENT_SECRET=debug
+FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE=True
+
+#treat it like SECRET_KEY in BETA env. must be a valid Fernet key.hex()
+#BETA_TOKEN=z7445AQ6aGXoPdFxYXQaJPLa3XU6I0zZUuI-Kbar8Jk=
+#BETA_WHITELISTED_ENDPOINTS='/api/create-token/,/favicon.ico,/api/check/,/admin/,/auth/login/,/'
+#BETA_BLACKLISTED_USERS='gAAAAABfCYKVAk3nFrKeV73L5KAf1_IAlLoduFFDMu1XmMqC261RTFDvWzli5UtGRdI5j1033a512xKjx2RWyJGsixfZXCQkEaIWIX1z9WSyFC6COYy1iOw=,gAAAAABfCYKVAk3nFrKeV73L5KAf1_IAlLoduFFDMu1XmMqC261RTFDvWzli5UtGRdI5j1033a512xKjx2RWyJGsixfZXCQkEaIWIX1z9WSyFC6COYy1iOw='
+GOOGLE_TAG_MANAGER_ID=GTM-1234567
+GOOGLE_TAG_MANAGER_ENV=dev
+UTM_COOKIE_DOMAIN=.great
+
+# Needed for Wagtail-Transfer local development. Also see env/config/dev-transfer-target
+WAGTAILTRANSFER_SECRET_KEY=local-one
+WAGTAIL_TRANSFER_LOCAL_DEV=False
+
+# This ONLY takes effect if you also have the storage backend set to S3 in
+# your secrets-do-not-commit file, but needs to be defined here, because it needs to be defined
+# outside of secrets-do-not-commit else the same value will be used for both source and target sites
+# for Wagtail-Transfer. Sorry.
+AWS_STORAGE_BUCKET_NAME=great-local-bucket-one

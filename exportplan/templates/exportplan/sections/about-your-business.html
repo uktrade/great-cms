@@ -1,0 +1,49 @@
+{% extends 'exportplan/section.html' %}
+{% load static %}
+
+{% block banner_image %}
+  {% static 'images/ep-placeholder.svg' %}
+{% endblock %}
+
+{% block intro_title %}About your business{% endblock %}
+{% block intro_description %}You know your business and product inside out. Your bank manager or a potential business partner may need an introduction. Tell them about who you are and what you do.{% endblock %}
+
+{% block main_content %}
+<p class="g-panel">Include anything that’s different or unique about your business that gives customers a reason to choose you over your competitors. </p>
+{% endblock %}
+
+{% block user_input %}
+<section class="container">
+  <div class="grid">
+    <div class="c-1-4 p-0 m-t-s">
+      <div class="lesson__back">
+        {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
+        <div class="m-t-xxl">
+          {% include 'exportplan/includes/lesson_details.html' with lesson_name='quantifying-customer-demand-how-much-might-you-sell' %}
+        </div>
+      </div>
+    </div>
+    <div class="c-1-2">
+      <form class="" action="" method="post" id="about-your-business-form">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="g-button" value="Save">
+      </form>
+    </div>
+    <div class="c-1-4">&nbsp;</div>
+  </div>
+</section>
+{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    var element = document.getElementById('about-your-business-form');
+    ditMVP.aboutYourBusinessForm({
+      element: element,
+      field: 'about_your_business',
+      formData: {{ form_initial|safe }},
+      formFields: {{ form_fields|safe }},
+    })
+  </script>
+{% endblock %}

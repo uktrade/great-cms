@@ -1,7 +1,262 @@
 # Changelog
+- AA-129 - wagtail import export for Beta environment
+- GP2-36 - lesson completed functionality
 
 ## Pre-release
 
+- no ticket - node-fetch module upgrade
+- no ticket - Dependencies upgrade
+
 ### Fixed bugs
+- GP2-596 - Force logout even if token revoke fails
+- GP2-623 - Further update to next lesson feature
+- GP2-76 - adjust aligment of back button
+- GP2-627 - Fix button styling across pages
+- GP2-654 - Next lesson image bugfix
+- GP2-394 - Enter verification code for sign-up
+- No ticket - Fix heading styling
+- GP2-495 - Update headings on lesson pages
+- GP2-514 - Fix alt text
+- GP2-259 - Pros and Cons layout tweaks
+- GP2-386 - Added validation for hero section
+- GP2-267 & GP2-526 Fix page publishing bypassing draft status
+- No ticket - Fix lesson page layout issues after wagtail upgrade
+- GP2-255 - style tweaks after wagtail upgrade
+- GP2-336 - dashboard show lesson progress accumulated to curatedlistpage
+- GP2-382 - fix welcome message
+- No ticket - recap rearrange
+- No ticket - recap field render as rich text
+- No ticket - Fix font awesome font path
+- GP2-438 - lesson font styling tweaks
+- GP2-415 - internal button links
+- GP2-414 - Moving step block to Body field for Detail page
+- GP2-401 - lesson page rich text styling
+- No ticket - Remove css vars and mixins
+- GP2-257 - Added Step fields to Detail Model
+- No ticket - Fixed rendering of lesson in editor mode
+- GP2-36 - mark as complete only for authenticated users
+- GP2-382 - remove email from welcome message
+- GP2-321 - quotes rendering for snippet
+- GP2-314 - onboarding learning modal design tweaks
+- GP2-280 - removal of product selector from dashboard
+- GP-310 - Format time as min rather than mins
+- GP2-247 - image resizing module image
+- GP2-246 - wrong url for learning header link
+- GP-96  - HS Codes saved in DirectoryAPI
+- GP2-176 - Navigation to the next section
+- GP-96 - HS Codes saved in DirectoryAPI
+- GP2-113 - Add objectives list component
+- MVP-431 - Fix percentage amounts in country data component
+- MVP-428 - Fix country data component formatting
+- MVP-402 - Fix Localisation
+- MVP-429 - Add missing country thumbnails for food and drink sector
+- MVP-437 - Show product in lesson page nav bar
+- No ticket - v3 ci pipeline manifest.yml file fix
+- MVP-443 - Use non-GREAT stlye 404 and 500 pages
+- MVP-579 - create export plan cms page
+- GP2-67 - fix backbutton upload logo
+- GP2-170 - business performance
+- GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-669 - CountryFinder added collapsibility for region section
+- GP2-703 - Add new DSM Cards
+- GP2-686 - Product-search End result details
+- GP2-685 - Product-search End result selection
+- GP2-683 - Product-search Things you told us
+- GP2-682 - Product-search "Tell us more"
+- GP2-681 - Product-search assumptions restyle
+- GP2-264 - navigate back to module landing
+- GP2-680 - Restyle product search modal
+- GP2-602 - Use new header on all pages and allow login/logout
+- GP2-331 - Rerouting to login page with error message
+- GP2-413 -  style learn linking component
+- GP2-597 - Name convention
+- GP2-600 - Header menu interraction
+- GP2-601 - Highlight section link in header
+- GP2-76  - Link to learning homepage
+- GP2-599 - Header restyle and header menu
+- GP2-429 - Learning homepage remove old content
+- GP2-426 - Link to export plan (FE)
+- GP2-263 - Next lesson (BE)
+- GP2-260 - Lesson - Choose don't choose
+- GP2-449 - video transcript FE
+- GP2-594, GP2-595 - Updated personalization bar buttons
+- GP2-449 - Extended video model for transcript field
+- GP2-388 - Country selection with full country list
+- GP2-582 - Product search handling multiple item selection
+- GP2-581 & GP2-586 - Product search spinner, 'no results message' and scroll area
+- GP2-528 - Horizontal rule styling updates
+- GP2-208 - Product search and country search modal
+- GP2-535 - Lesson ita quote updated (FE)
+- GP2-259 - Lesson - pros and cons (BE)
+- GP2-208 - Product search modal
+- GP2-259 - Lesson - pros and cons (FE)
+- GP2-336 - Lesson progress on dashboard
+- GP2-386 - Lesson - hero image (FE) - Resize
+- no ticket - rename fiction components to fictional example
+- No ticket - wagtail upgrade 2.10
+- GP2-255 - Lesson ita quote (BE)
+- GP2-453 - Lesson fictional example (BE)
+- GP2-294 - Lesson - recap (BE)
+- GP2-255 - Lesson ita quote (FE)
+- GP2-452 - Lesson fictional example (FE)
+- GP2-293 - Lesson - recap (FE)
+- Gp2-253 - Lesson - text paragraph
+- GP2-386 - Lesson - hero image (FE)
+- GP2-365 - Add Target Market landing page
+- GP2-396 - Lesson - page structure
+- AA-129 -  Beta environment for GREAT.gov
+- GP2-252 - Added objective field to lesson page in CMS
+- GP2-339 - product alterations
+- GP2-335 - Routing logic for dashboard
+- GP2-195 - FE BE integration
+- GP2-337 - adaptation for target market - insights
+- GP2-334 - page struture adaptation for target market page
+- GP2-372 - Lesson -step by step (FE)
+- GP2-241 - rename brand and product page to about your business
+- GP2-279 - Dashboard page made wagtail configurable and added routing block
+- GP2-250 - Lesson - estimated time (FE)
+- GP2-252 - Lesson - objectives (FE)
+- GP2-79 - Lessons - title (FE)
+- GP2-210 - Personalisation bar restyled and moved to core component
+- GP2-159 - learning onboarding - tooltips
+- GP2-160 - learning onboarding - skip walkthrough
+- GP2-156 - learning onboarding - welcome message
+- GP2-307 - Add new form field to the target markets research page
+- GP2-207 - Welcome back message
+- GP2-197 - Export plan navigation to the next section
+- GP2-280 - Removal of product sector selector modal
+- GP2-192 - Marketing approach page structure
+- GP2-23 - Modules - not started
+- GP2-31 - Count of topics and lessons in a module
+- GP2-73 - Module landing page - topics & lessons
+- GP2-72 - Module landing page - overview
+- MVP-392 - Add remove sector functionality
+- GP2-115 - Add objectives business rationale section
+- MVP-452 - Add brand and product page with autosave function
+- MVP-317 - Add dummy pages for all export plan sections
+- MVP-306 - Added sector chooser component
+- MVP-299 - Finalised styling for export plan sections
+- MVP-99 - Added skeleton for export plan dashboard and first page of builder
+- MVP-79 - Add react build tool
+- MVP-52 - Add login and sign up modals
+- MVP-53 - Add login via linked and google
+- MVP-80 - Implement design for modals
+- MVP-174 - Add "welcome" notification
+- MVP-113 - Implement dashboard
+- MVP-111 - Show welcome message to logged in users
+- MVP-125 - Store user's location
+- MVP-102 - select-commodity-code
+- MVP-146 - Question modal
+- MVP-214 - Dummy capability article page
+- MVP-228 - add custom duties url
+- MVP-251 - Connect dashboard exops and events apis to directory-api
+- MVP-216 - Add lesson object
+- MVP-138 - add example browser and load tests
+- MVP-144 - add example BDD browser tests
+- MVP-224 - Implement design for login page
+- no ticket - move tests to dedicated folders: browser, load & unit
+- MVP-40 - Add GA360 context processor
+- MVP-256 - add data services
+- MVP-292 - Add dummy markets page
+- MVP-271 - Add tour to export-plan
+- MVP-297 - Add dummy export opportunies
+- MVP-310 - comtrade data
+- MVP-271 - Add tour to export-plan
+- MVP-297 - Add dummy export opportunies
+- MVP-720 - Add new IDs and more browser tests
+- MVP-293 - Expose social profile image
+- No Ticket - Fix DirectoryAPI Receiving Session ID
+- MVP-297 - Add dummy export opportunies
+- MVP-259 - Content segmentation (wagxperience)
+- MVP-333 - Content segmentation on country of interest
+- MVP-215 - Track lesson read progress
+- MVP-332 - Content segmentation on sector of interest
+- MVP-349 - Adds capabilities landing page under /learn
+- MVP-328 - Sector modal iteration
+- MVP-329 - Country modal iteration
+- MVP-344 - Wagtail cache
+- MVP-356 - marketdata target-markets
+- MVP-357 - Implement new signup modal design
+- MVP-362 - styling and correct HTML for country statistics view
+- MVP-365 - tooltip functionality and dynamic component rendering
+- MVP-289 - add products modal to export plan
+- MVP-360 - multiple markets
+- MVP-382 - add product modal to lesson page
+- MVP-350 - Capabilities learn how to export carousel
+- MVP-385 - Consolidate page models
+- MVP-335 - Add market capture component
+- no ticket - rm redundant CircleCI step setup_remote_docker
+- MVP-388 - add commdity name
+- MVP-350, MVP-351, MVP 352 - add how to export carousel
+- MVP-404 - make all tests use PostgreSQL
+- MVP-380 - add UI test to add multiple countries on target markets page
+- MVP-405 - create initial export plan
+- MVP-407 - refactor Browser tests
+- no-ticket - update export-plan link
+- MVP-406 - hook up remove country
+- MVP-392 - hook up selected industries to be deleted
+- no-ticket make food default when creating export plan
+- MVP-381 - Wagtail media and video block
+- MVP-490 - Add learn how to export landing page
+- MVP-427 - Persist products upon signup
+- MVP-430 - Expand/collapse lesosns on
+- MVP-408 - Add Market research landing (category) page
+- No-Ticket - Change behaviour of users context export plan to 'GET
+- MVP-425 - Updates to Learn homepage
+- MVP-526 - Add Learn introduction page with slider
+- MVP-433 - Fix last step of signin 404
+- no-ticket - Fix images on /learn/categories being hidden
+- GDS-1, GDS-2, GDS-4, GDS-12 - Creates the foundation for Great Design System, Storybook and Web Components
+- MVP-438 - Only view learn interstitials once
+- MVP-464 - Store selected product as expertise
+- MVP-420 - test tooltips for multiple countries on target markets data page
+- MVP-438 - Only view learn interstitials once
+- MVP-458 - Implement signup wizard
+- MVP-450 - update add company logo
+- MVP-460 - Create page types
+- MVP-512 - Handle user requesting generic content
+- MVP-496 - Handle signup from export plan
+- no ticket - Handle dit-cf-security munging cookies
+- no ticket - fix logo
+- no ticket - fix locust's breaking changes
+- MVP-563 - Add time to read
+- MVP-564 - Collect country demographics information from spreadsheets
+- GV2-104 - GP2-121 - Tags and content modules
+- GP2-154 - update country list
+- GP2-100 - Add personalisation bar to export plan
+- GP2-122 - Render modules
+- GP2-120 - Fix numbers on curated list page
+- GP2-163 - Show estimated reading time for lesson
+- no-ticket - Migrate to codecov remove coveralls
+- no-ticket - Bump django version to 2.2.14
+- AA-129 - wagtail import export for Beta environment
+- GP2-270 - Homepage editable
+- GP2-218 - Image and media surfacing from CMS modules
+- No ticket - Wagtail upgrade to 2.9.3
+- GP2-312- integrate population data target audience
+- AA-129 - Beta environment for GREAT.gov
+- AA-129 - wagtail import export for Beta environment
+- GP2-317 - Order of export-plan landing pages and remove target-markets
+- gp2-369 - CHEG tailored link
+- GP2-370 - cia factbook language
+- GP2-393 - adaption fields saving
+- GP2-395 - adaption tm documents API views
+- GP2-424 - remove-links logged out state
+- GP2-362 - factbook-lanuage-display
+- GP2-519 - turn-over-choices
+- GP2-420 - get topic details
+- GP2-540 - EP-make-fields-optional
+- GP2-545 - remove airtable
+- GP2-500 - include video duration in read time for the page
+- GP2-542 - Commodity code and Country store as key/value pairs
+- GP2-426 - Backend support (as GP2-657) for supporting backlinks from lessons to the originating export plan
+- GP2-541 - remove hardcoded country
+- noticket add-learning-to-objectives
+- GP2-513 - Dropdown-changes
+- noticket bug fix lessons details on objectives
+- GP2-706 - 
+- ablity-to-disable-export-sections
+- GP2-655 - local development support/skeleton for Wagtail Transfer work
+- GP2-667 - appropriately scoped configuration for Wagtail Transfer when deployed

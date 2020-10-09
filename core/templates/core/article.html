@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% load breadcrumbs from great_components %}
+{% load url_map %}
+
+{% block content %}
+    <div id="great-hero" class="container p-s">
+        <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
+        {% breadcrumbs article_name %}
+          <a href="{% url_map 'dashboard' %}" id="breadcrumbs-dashboard">Home</a>
+          <a href="http://www.example.com" id="breadcrumbs-{{ topic_name|slugify }}">{{ topic_name }}</a>
+          <a href="http://www.example.com" id="breadcrumbs-{{ chapter_name|slugify }}">{{ chapter_name }}</a>
+        {% endbreadcrumbs %}
+    </div>
+
+    <div class="container">
+        <div class="grid m-b-s">
+            <div class="c-full">
+                {% if not is_read %}
+                    <form class="bg-white p-s great-mvp-success-card" method="post" id="form-mark-as-read">
+                        {% csrf_token %}
+                        <h3 class="h-l pb-xxs w-1-2">{{ article_name|title }}</h3>
+                        <p class="m-b-0 ">{% lorem 5 p %}</p>
+                        <button class="g-button" id="mark-as-read">Mark as read</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+
+        var isOpen = {% if request.user.company.expertise_countries_label %}false{%else %}true{% endif %};
+        ditMVP.CountriesModal({
+            element: element,
+            isOpen: isOpen
+        });
+    </script>
+{% endblock %}

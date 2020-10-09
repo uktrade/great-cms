@@ -1,0 +1,39 @@
+
+.objectives-list {
+
+  .objective {
+    position: relative;
+
+    .form-label {
+      @extend .body-l-b;
+    }
+
+    .form-control {
+      @extend .m-t-0;
+    }
+
+    .hr {
+      @extend .m-0;
+    }
+
+    .button--delete {
+      position: absolute;
+      top: 0;
+      right: -50px;
+
+      &.button--only-icon {
+        border: 1px solid $colour-blue-deep-40;
+
+        i {
+          color: $colour-blue-deep-40;
+        }
+      }
+    }
+  }
+}
+
+#objectives-reasons {
+  .form-label {
+    @extend .h-m;
+  }
+}

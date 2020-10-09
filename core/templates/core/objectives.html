@@ -1,0 +1,19 @@
+{% load  wagtailcore_tags %}
+
+<div class="objectives">
+    {% for block in page.objective %}
+        <div class="rich-text">
+        {% if block.block_type == 'paragraph' %}
+            <p> {{ block.value }}</p>
+        {% endif %}
+        </div>
+    {% endfor %}
+    <ul class="list-dot text-blue-deep-80">
+        {% for block in page.objective %}
+            {% if block.block_type == 'ListItem' %}
+                <li>{{ block.value.item }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <hr class="hr hr--dark m-b-0 m-t-m" />
+</div>

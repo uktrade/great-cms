@@ -1,0 +1,74 @@
+{% extends 'exportplan/section.html' %}
+
+{% block intro_content %}
+<h1 class="h-xl">Target markets</h1>
+<p>Identify the markets that will most likely respond to your product or service. You will learn how to research and assess potential markets from a range of different methods.</p>
+{% endblock %}
+
+{% block main_content %}
+<p>Which countries are you targeting, with which products or services, and why? Use research to identify evidence of both market attractiveness, and ease of operating in the market.</p>
+<p>Some examples of market attractiveness are:</p>
+<ul class="list-bullet">
+  <li>evidence of consumer demand</li>
+  <li>identifying a unique selling point (USP) for your product in 	the market</li>
+</ul>
+<p>Some examples of market ease are:</p>
+<ul class="list-bullet">
+  <li>ease of doing business in the market (World Bank score)</li>
+  <li>the level of adaptation required for your product and 	packaging, or service, to sell it in the market</li>
+</ul>
+<p><a href="#">See examples</a></p>
+{% endblock %}
+
+{% block user_input %}
+<hr>
+
+
+<section class="container section--with-sidebar" id="target-market-countries-component"></section>
+
+<hr class="m-b-0">
+
+<section class="bg-white" id="your-actions">
+  <div class="container">
+    <div class="grid p-v-s">
+      <div class="c-1-4">&nbsp;</div>
+      <div class="c-3-4">
+        <h2 class="h-m m-b-s">Your actions</h2>
+
+        <div class="form-group form-field-container" id="id_action_one-container">
+          <div class="multiple-choice">
+            <input type="checkbox" name="action_one" class=" form-control" id="id_action_one">
+            <label for="id_action_one" id="id_action_one-label">
+              <span class="form-label">Action 1</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group form-field-container" id="id_action_two-container">
+          <div class="multiple-choice">
+            <input type="checkbox" name="action_two" class=" form-control" id="id_action_two">
+            <label for="id_action_two" id="id_action_two-label">
+              <span class="form-label">Action 2</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    var element = document.getElementById('target-market-countries-component');
+    ditMVP.createTargetMarketCountries({
+      element: element,
+      sectorList: {{ sectors|safe }},
+      selectedSectors: {{ selected_sectors|safe }},
+      countryList: {{ country_choices|safe }},
+      selectedCountries: {{ target_markets|safe|default:"[]" }}
+    })
+  </script>
+{% endblock %}

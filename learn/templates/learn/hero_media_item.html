@@ -1,0 +1,6 @@
+{% load include_block from wagtailcore_tags %}
+
+{% for block in page.hero %}
+    {% include_block block %}
+{% endfor %}
+<div id="lesson-hero-video-transcript"></div>

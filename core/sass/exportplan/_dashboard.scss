@@ -1,0 +1,33 @@
+.section-list {
+  &__item {
+    border-radius: 4px;
+  }
+}
+
+.section-upload {
+  border: {
+    color: $colour-blue-deep-20;
+    radius: 4px;
+    style: dashed;
+    width: 1px;
+  }
+  display: block;
+}
+
+.export-plan-dashboard {
+
+  .sub-header-nav {
+    margin-left: 0;
+  }
+
+}
+
+.completion-status {
+  height: 100%;
+  position: absolute;
+  width: 330px;
+
+  .section-upload {
+    font-size: 16px;
+  }
+}

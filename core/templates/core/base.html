@@ -1,0 +1,121 @@
+{% extends 'great_components/base.html' %}
+{% load static %}
+{% load static_absolute from great_components %}
+{% load url_map %}
+
+{% block head_title %}Welcome to great.gov.uk{% endblock %}
+
+{% block head_css %}
+    <link href="{% static 'ditMVP.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block head_js %}
+  {{ block.super }}
+    <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
+{% endblock %}
+
+
+{% block body_header %}
+  {% include 'core/header.html' %}
+  {% if request.user.is_authenticated %}
+    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+  {% endif %}
+{% endblock %}
+
+{% block body_content_container %}
+  <main id="content" class="{% block css_layout_class %}{% endblock %}">
+      {% block content_header %}{% endblock %}
+      {% block content %}{% endblock %}
+  </main>
+{% endblock %}
+
+{% block cookie_notice %}{% endblock %}
+
+{% block body_footer %}
+  <div class="p-v-l">
+    &nbsp;
+  </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+      {% if user.company %}
+      var userCountries ={{ user.company.expertise_countries_value_label_pairs|safe }};
+      var userIndustries = {{ user.company.expertise_industries_value_label_pairs|safe }};
+      var userProducts = {{ user.company.expertise_products_value_label_pairs|safe }};
+      {% else %}
+      var userCountries = [];
+      var userIndustries = [];
+      var userProducts = [];
+      {% endif %}
+      // static values that will not be updated by user interacting with react components
+      ditMVP.setConfig({
+          apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
+          apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
+          apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+          apiCountriesUrl: '{% url "core:api-countries" %}',
+          apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+          apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          apiObjectivesUpdateUrl: '{% url "exportplan:api-objectives-update" %}',
+          apiObjectivesCreateUrl: '{% url "exportplan:api-objectives-create" %}',
+          apiObjectivesDeleteUrl: '{% url "exportplan:api-objectives-delete" %}',
+          apiRouteToMarketCreateUrl: '{% url "exportplan:api-route-to-markets-create" %}',
+          apiRouteToMarketUpdateUrl: '{% url "exportplan:api-route-to-markets-update" %}',
+          apiRouteToMarketDeleteUrl: '{% url "exportplan:api-route-to-markets-delete" %}',
+          countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
+          removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
+          countryDataUrl: '{% url "exportplan:api-country-data" %}',
+          marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
+          countryOptions: {{ javascript_components.country_choices|safe }},
+          csrfToken: '{{ csrf_token }}',
+          dashboardUrl: '{% url_map "dashboard" %}',
+          googleUrl: '{{ javascript_components.google_url }}',
+          industryOptions: {{ javascript_components.industry_options|safe }},
+          linkedInUrl: '{{ javascript_components.linkedin_url }}',
+          loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
+          signupUrl: '{% url "core:signup" %}',
+          passwordResetUrl: '{{ javascript_components.password_reset_url }}',
+          removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
+          termsUrl: '{{ javascript_components.terms_url }}',
+          userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+      });
+
+      // dynamic value that can be updated by user interacting with react components
+      ditMVP.setInitialState({
+        // prevents modals from opening on page load if user dismissed the modal already
+        performSkipFeatureCookieCheck: true,
+        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}',
+        modalIsOpen: {
+          products: false,
+          countries: false,
+          industries: false,
+          login: false,
+          signup: false,
+        },
+        user: {
+          expertise: {
+            countries: userCountries,
+            industries: userIndustries,
+            products: userProducts,
+          },
+        },
+      })
+
+      {% if tour %}
+        var element = document.createElement('div');
+        document.body.appendChild(element);
+        ditMVP.Tour({
+          element: element,
+          isOpenModal: true,
+          steps: {{ tour.steps|safe }},
+          title: '{{ tour.title }}',
+          body: "{% autoescape off %}{{ tour.body }}{% endautoescape %}",
+          buttonText: '{{ tour.button_text }}',
+          disableTourCookieName: 'disable-tour-{{ page.content_type }}'
+        })
+    {% endif %}
+  </script>
+{% endblock %}

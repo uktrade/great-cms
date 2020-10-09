@@ -3,10 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 .sass-cache/
+venv/
 .venv/
 staticfiles
 BrowserStackLocal
 node_modules/
+activate/
 
 # C extensions
 *.so
@@ -15,7 +17,6 @@ node_modules/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -48,12 +49,15 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+results/
+allure_results/
+cms-test-db.db
 
 # Django stuff:
 *.log
 
 # Sphinx documentation
-docs/_build/
+docs/build/
 
 # PyBuilder
 target/
@@ -100,9 +104,21 @@ Temporary Items
 
 # JS
 node_modules/
-package-lock.json
+.vscode/
 
 # Docker
 media
 config/.env
 config/env/secrets-do-not-commit
+
+# Python, we should fix these by not creating them with 'make secrets'
+dev
+config/env/secrets-do-not-commit-e
+
+# localfiles
+.env
+domestic/migrations/__pycache__/__init__.cpython-36.pyc
+
+# InVision Design system manager, ignores logs files
+.dsm
+storybook-static/

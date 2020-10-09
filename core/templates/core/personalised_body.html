@@ -1,0 +1,14 @@
+{% load include_block from wagtailcore_tags %}
+
+{% load add_anchors_to_all_headings add_export_elements_classes from great_components %}
+
+
+{% for block in page.body %}
+    <div class="rich-text">
+    {% filter add_anchors_to_all_headings %}
+        {% filter add_export_elements_classes %}
+            {% include_block block %}
+        {% endfilter %}
+    {% endfilter %}
+    </div>
+{% endfor %}

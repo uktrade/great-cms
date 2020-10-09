@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block body_attributes %}class="body-background-white"{% endblock %}
+
+{% block content %}
+    <section class="container">
+        {% block breadcrumbs %}{% endblock %}
+        <div class="grid-row m-t-l">
+            <div class="c-1-2 p-r-xs">
+                <form action="{% url 'core:set-company-name' %}?{{ request.GET.urlencode }}" method="post" enctype="multipart/form-data" novalidate="novalidate">
+                    {% csrf_token %}
+                    <h2 class="h-l">One last thing. What's your business name?</h2>
+                    <div class="w-2-3" id="form-container">
+                        {{ form }}
+                        <button type="submit" class="great-mvp-wizard-step-button m-b-s">Save and continue</button>
+                    </div>
+                </form>
+            </div>
+
+            <div className='c-1-2'>
+                <img src="{% static 'images/book-chap.png' %}" />
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_footer %}{% endblock %}

@@ -1,0 +1,34 @@
+{% load to_json %}
+<div id="sidebar-content">
+    <nav class="sidebar p-h-s p-b-m">
+        <div class="sidebar-sticky">
+            <div class="centre-children width-full p-t-m">
+                {% if not request.user.company.logo %}
+                    <img src="https://via.placeholder.com/200/dfd5c5?text=Company logo" alt="Add a business logo" class="w-1-2">
+                {% else %}
+                    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}"  class="w-full"/>
+                {% endif %}
+            </div>
+            <ul>
+                {% for section in sections %}
+                    <li class="h-s">
+                        <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+</div>
+
+{% block body_js %}
+    <script type="text/javascript">
+        var element = document.getElementById('sidebar-content');
+        ditMVP.sectionSidebar({
+            element: element,
+            sections: {{ sections|to_json}},
+            current_section: {{ current_section|to_json}},
+            logo: '{{ request.user.company.logo|default_if_none:"" }}',
+            company: '{{ request.user.company.name }}'
+        })
+    </script>
+{% endblock %}

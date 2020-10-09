@@ -1,0 +1,79 @@
+@mixin stretch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.product-finder {
+  .shim {
+    z-index: 3;
+    @include stretch;
+    text-align: center;
+    padding-top: 30%;
+
+    &:before {
+      content: '';
+      @include stretch;
+      background: $black-50;
+      opacity: 0.6;
+    }
+
+    .spinner {
+      height: 50px;
+      width: 50px;
+      border-width: 6px;
+    }
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .search-input {
+    display: flex;
+    align-items: center;
+    min-width: 10em;
+
+    .clear {
+      margin-left: -25px;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+      padding: 0;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.dialog-close {
+  float: right;
+  font-size: 60px;
+  padding: 0;
+  line-height: 0.6;
+  color: $black-50;
+  overflow: hidden;
+
+  &:after {
+    content: '\d7';
+    line-height: 0.6;
+    display: block;
+  }
+}
+
+.scroll-area {
+  @include stretch;
+
+  .scroll-inner {
+    @include stretch;
+    overflow: auto;
+  }
+}
+
+.flex-centre {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,14 @@
+
+@import 'helpers/colours';
+
+.great-mvp-field-input {
+    width: 371px;
+    padding: 10px;
+    border-color: $grey;
+    height: 51px;
+    background-color: $white;
+
+    &[disabled] {
+        background-color: $light-grey;
+    }
+}

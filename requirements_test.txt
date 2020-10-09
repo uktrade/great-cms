@@ -4,107 +4,179 @@
 #
 #    pip-compile requirements_test.in
 #
---no-binary django-pglocks
 --no-binary psycopg2
 
+airtable-python-wrapper==0.13.0  # via -r requirements.in
+alabaster==0.7.12         # via sphinx
+allure-pytest==2.8.18     # via -r requirements_test.in
+allure-python-commons==2.8.18  # via allure-pytest
 appnope==0.1.0            # via ipython
-astroid==2.3.3            # via pylint
-attrs==19.3.0             # via pytest
-backcall==0.1.0           # via ipython
-beautifulsoup4==4.6.0     # via wagtail
-boto3==1.11.6
-botocore==1.14.6          # via boto3, s3transfer
-certifi==2019.11.28       # via requests, sentry-sdk
+astroid==2.4.2            # via pylint
+attrs==20.2.0             # via allure-python-commons, jsonschema, pytest
+babel==2.8.0              # via sphinx
+backcall==0.2.0           # via ipython
+beautifulsoup4==4.8.2     # via -r requirements_test.in, great-components, readtime, wagtail
+boto3==1.11.17            # via -r requirements.in, django-storages
+botocore==1.14.17         # via boto3, s3transfer
+certifi==2020.6.20        # via geventhttpclient, requests, sentry-sdk
+cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
-click==7.0                # via pip-tools
-coverage==4.5.4           # via coveralls, django-coverage-plugin, pytest-cov
-coveralls==1.10.0
-decorator==4.4.1          # via ipython, traitlets
-django-coverage-plugin==1.7.0
-django-debug-toolbar==2.1
-django-environ==0.4.5
-django-extensions==2.2.6
-django-filter==2.2.0
-django-modelcluster==5.0.1  # via wagtail
-django-pglocks==1.0.2
-django-redis==4.10.0
-django-staff-sso-client==1.0.1
-django-storages[boto3]==1.8
-django-taggit==1.2.0      # via wagtail
+click==7.1.2              # via flask, pip-tools
+codecov==2.1.9            # via -r requirements_test.in
+configargparse==1.2.3     # via locust
+coverage==5.3             # via codecov, pytest-cov
+cryptography==2.9.2       # via -r requirements.in, -r requirements_test.in
+cssselect==1.1.0          # via pyquery
+decorator==4.4.2          # via ipython, traitlets
+directory-api-client==22.3.0  # via -r requirements.in
+directory-client-core==6.2.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
+directory-constants==20.16.0  # via -r requirements.in, great-components
+directory-forms-api-client==5.0  # via -r requirements.in
+directory-sso-api-client==6.5.3  # via -r requirements.in
+directory-validators==6.0.3  # via -r requirements.in
+django-debug-toolbar==3.1.1  # via -r requirements_test.in
+django-environ==0.4.5     # via -r requirements.in
+django-extensions==2.2.9  # via -r requirements.in
+django-filter==2.2.0      # via -r requirements.in, wagtail
+django-formtools==2.2     # via -r requirements.in
+django-ipware==2.1.0      # via -r requirements.in
+django-modelcluster==5.1  # via wagtail
+django-redis==4.10.0      # via -r requirements.in
+django-staff-sso-client==1.0.1  # via -r requirements.in
+django-storages[boto3]==1.8  # via -r requirements.in
+django-taggit==1.3.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
-django==2.2.9
-djangorestframework==3.11.0  # via wagtail
-docopt==0.6.2             # via coveralls, notifications-python-client
-docutils==0.15.2          # via botocore
+django==2.2.14            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-debug-toolbar, django-filter, django-formtools, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, djangorestframework, great-components, sigauth, wagtail, wagtailfontawesome
+djangorestframework==3.11.1  # via -r requirements.in, sigauth, wagtail
+docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
-entrypoints==0.3          # via flake8
-factory-boy==2.12.0       # via wagtail-factories
-faker==4.0.0              # via factory-boy
-flake8==3.7.9
-future==0.18.2            # via notifications-python-client
-gunicorn==19.5.0
-html5lib==1.0.1           # via wagtail
-idna==2.8                 # via requests
-importlib-metadata==1.4.0  # via pluggy, pytest
-ipdb==0.12.3
+et-xmlfile==1.0.1         # via openpyxl
+factory-boy==2.12.0       # via -r requirements.in, wagtail-factories
+faker==4.1.3              # via factory-boy
+flake8-blind-except==0.1.1  # via -r requirements_test.in
+flake8-debugger==3.2.1    # via -r requirements_test.in
+flake8-polyfill==1.0.2    # via pep8-naming
+flake8-print==3.1.4       # via -r requirements_test.in
+flake8-quotes==3.2.0      # via -r requirements_test.in
+flake8-string-format==0.3.0  # via -r requirements_test.in
+flake8==3.8.3             # via -r requirements_test.in, flake8-debugger, flake8-polyfill, flake8-print, flake8-quotes, flake8-string-format
+flask-basicauth==0.2.0    # via locust
+flask==1.1.2              # via flask-basicauth, locust
+freezegun==0.1.5          # via -r requirements.in
+geoip2==2.9.0             # via -r requirements.in
+gevent==20.9.0            # via geventhttpclient, locust
+geventhttpclient==1.4.4   # via locust
+great-components==1.1.1   # via -r requirements.in
+greenlet==0.4.17          # via gevent
+gunicorn==19.5.0          # via -r requirements.in
+html5lib==1.1             # via wagtail
+idna==2.10                # via requests
+imagesize==1.2.0          # via sphinx
+importlib-metadata==2.0.0  # via flake8, jsonschema, pluggy, pytest
+ipdb==0.13.3              # via -r requirements_test.in
 ipython-genutils==0.2.0   # via traitlets
-ipython==7.11.1           # via ipdb
-isort==4.3.21             # via pylint
-jedi==0.15.2              # via ipython
-jmespath==0.9.4           # via boto3, botocore
+ipython==7.16.1           # via ipdb
+iso3166==1.0.1            # via -r requirements.in
+isort==5.5.3              # via pylint
+itsdangerous==1.1.0       # via flask
+jdcal==1.4.1              # via openpyxl
+jedi==0.17.2              # via ipython
+jinja2==2.11.2            # via flask, sphinx
+jmespath==0.10.0          # via boto3, botocore
+jsonschema==3.2.0         # via great-components
+l18n==2018.5              # via wagtail
 lazy-object-proxy==1.4.3  # via astroid
+locust==1.2.3             # via -r requirements_test.in
+lxml==4.5.2               # via pyquery
+markdown2==2.3.9          # via -r requirements.in, readtime
+markupsafe==1.1.1         # via jinja2
+maxminddb==2.0.2          # via geoip2
 mccabe==0.6.1             # via flake8, pylint
-monotonic==1.5            # via notifications-python-client
-more-itertools==8.1.0     # via pytest, zipp
-notifications-python-client==5.5.0
+mohawk==1.1.0             # via sigauth
+monotonic==1.5            # via directory-client-core
+more-itertools==8.5.0     # via pytest
+msgpack==1.0.0            # via locust
 oauthlib==3.1.0           # via requests-oauthlib
-packaging==20.0           # via pytest, pytest-sugar
-parso==0.5.2              # via jedi
-pexpect==4.7.0            # via ipython
+olefile==0.46             # via directory-validators
+openpyxl==3.0.5           # via tablib
+packaging==20.4           # via pytest, pytest-sugar, sphinx
+parso==0.7.1              # via jedi
+pep8-naming==0.11.1       # via -r requirements_test.in
+pexpect==4.8.0            # via ipython
 pickleshare==0.7.5        # via ipython
-pillow==6.2.2             # via wagtail
-pip-tools==4.3.0
-pluggy==0.13.1            # via pytest
-prompt-toolkit==3.0.2     # via ipython
-psycopg2==2.8.4
+pillow==7.2.0             # via -r requirements.in, -r requirements_test.in, directory-validators, wagtail
+pip-tools==5.3.1          # via -r requirements_test.in
+pluggy==0.13.1            # via allure-python-commons, pytest
+prompt-toolkit==3.0.7     # via ipython
+psutil==5.7.2             # via locust
+psycopg2==2.8.6           # via -r requirements.in
 ptyprocess==0.6.0         # via pexpect
-py==1.8.1                 # via pytest
-pycodestyle==2.5.0        # via flake8
-pyflakes==2.1.1           # via flake8
-pygments==2.5.2           # via ipython
-pyjwt==1.7.1              # via notifications-python-client
-pylint-django==2.0.13
+py==1.9.0                 # via pytest
+pycodestyle==2.6.0        # via flake8, flake8-debugger, flake8-print
+pycountry==20.7.3         # via wagtail-personalisation
+pycparser==2.20           # via cffi
+pyflakes==2.2.0           # via flake8
+pygments==2.7.1           # via ipython, sphinx
+pylint-django==2.3.0      # via -r requirements_test.in
 pylint-plugin-utils==0.6  # via pylint-django
-pylint==2.4.4             # via pylint-django, pylint-plugin-utils
-pyparsing==2.4.6          # via packaging
-pytest-cov==2.8.1
-pytest-django==3.8.0
-pytest-sugar==0.9.2
-pytest==5.3.4
-python-dateutil==2.6.1    # via botocore, faker
-pytz==2019.3              # via django, django-modelcluster, wagtail
-redis==3.3.11             # via django-redis
+pylint==2.6.0             # via pylint-django, pylint-plugin-utils
+pyparsing==2.4.7          # via packaging
+pyquery==1.4.1            # via readtime
+pyrsistent==0.17.3        # via jsonschema
+pytest-cov==2.10.1        # via -r requirements_test.in
+pytest-django==3.10.0     # via -r requirements_test.in
+pytest-sugar==0.9.4       # via -r requirements_test.in
+pytest==5.3.5             # via -r requirements_test.in, allure-pytest, pytest-cov, pytest-django, pytest-sugar
+python-dateutil==2.8.1    # via botocore, faker, freezegun
+pytz==2019.3              # via babel, directory-validators, django, django-modelcluster, l18n
+pyzmq==19.0.2             # via locust
+readtime==1.1.1           # via -r requirements.in
+redis==3.5.3              # via django-redis
+requests-mock==1.8.0      # via -r requirements_test.in
 requests-oauthlib==1.3.0  # via django-staff-sso-client
-requests==2.22.0          # via coveralls, notifications-python-client, requests-oauthlib, wagtail
-s3transfer==0.3.1         # via boto3
-sentry-sdk==0.13.4
-six==1.14.0               # via astroid, django-coverage-plugin, django-extensions, html5lib, packaging, pip-tools, python-dateutil, traitlets, wagtail
-sqlparse==0.3.0           # via django, django-debug-toolbar
+requests==2.24.0          # via airtable-python-wrapper, codecov, directory-api-client, directory-client-core, geoip2, locust, requests-mock, requests-oauthlib, sphinx, wagtail
+s3transfer==0.3.3         # via boto3
+selenium==3.141.0         # via -r requirements_test.in
+sentry-sdk==0.13.5        # via -r requirements.in
+sigauth==4.2.0            # via directory-client-core
+six==1.15.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, cryptography, django-extensions, flake8-print, geventhttpclient, html5lib, jsonschema, l18n, packaging, pip-tools, python-dateutil, requests-mock, sphinx, traitlets, w3lib
+snowballstemmer==2.0.0    # via sphinx
+soupsieve==2.0.1          # via beautifulsoup4
+sphinx==1.8.5             # via -r requirements.in
+sphinxcontrib-serializinghtml==1.1.4  # via sphinxcontrib-websupport
+sphinxcontrib-websupport==1.2.4  # via sphinx
+sqlparse==0.3.1           # via django, django-debug-toolbar
+tablib[xls,xlsx]==2.0.0   # via wagtail
 termcolor==1.1.0          # via pytest-sugar
 text-unidecode==1.3       # via faker
+toml==0.10.1              # via pylint
 traitlets==4.3.3          # via ipython
 typed-ast==1.4.1          # via astroid
+ua-parser==0.10.0         # via user-agents
 unidecode==1.1.1          # via wagtail
-urllib3==1.25.7           # via botocore, requests, sentry-sdk
-wagtail-factories==2.0.0
-wagtail==2.7.1
-wcwidth==0.1.8            # via prompt-toolkit, pytest
+urllib3==1.25.10          # via botocore, directory-validators, requests, selenium, sentry-sdk
+user-agents==2.2.0        # via wagtail-personalisation
+w3lib==1.22.0             # via directory-client-core
+wagtail-cache==1.0.1      # via -r requirements.in
+wagtail-factories==2.0.0  # via -r requirements.in
+wagtail-personalisation==0.14.0  # via -r requirements.in
+wagtail-transfer==0.5.1   # via -r requirements.in
+wagtail==2.10.2           # via -r requirements.in, wagtail-cache, wagtail-factories, wagtail-personalisation, wagtailfontawesome, wagtailmedia
+wagtailfontawesome==1.2.1  # via -r requirements.in, wagtail-personalisation
+wagtailmedia==0.5.0       # via -r requirements.in
+wcwidth==0.2.5            # via prompt-toolkit, pytest
 webencodings==0.5.1       # via html5lib
-werkzeug==0.16.0
-whitenoise==4.1.2
-willow==1.3               # via wagtail
-wrapt==1.11.2             # via astroid
-zipp==2.0.0               # via importlib-metadata
+werkzeug==1.0.1           # via -r requirements_test.in, flask, locust
+whitenoise==4.1.4         # via -r requirements.in
+willow==1.4               # via wagtail
+wrapt==1.12.1             # via astroid
+xlrd==1.2.0               # via tablib
+xlsxwriter==1.3.6         # via wagtail
+xlwt==1.3.0               # via tablib
+zipp==3.2.0               # via importlib-metadata
+zope.event==4.5.0         # via gevent
+zope.interface==5.1.0     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
+# pip
 # setuptools

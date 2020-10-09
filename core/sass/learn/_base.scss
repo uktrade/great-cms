@@ -1,0 +1,543 @@
+@import 'helpers/colours';
+@import 'helpers/vars';
+
+// Breakpoints
+$mobile: 640px;
+$tablet: 768px;
+$desktop: 1024px;
+
+.breadcrumb {
+  font-size: 12px;
+}
+
+.learn__page {
+  font-family: $brand-font-body;
+
+  .h1 {
+    color: $grey;
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 50px;
+    margin-bottom: 50px;
+  }
+}
+
+.learn__home-page {
+  padding-top: 120px;
+  margin-bottom: 120px;
+
+  .learn__wrapper--paragraph {
+    margin-bottom: 30px;
+  }
+}
+
+.learn__wrapper--paragraph {
+  color: $grey;
+  font-size: 20px;
+  line-height: 30px;
+  margin: 0 0 40px 0;
+}
+
+.learn__carousel {
+  margin: 0 25%;
+  text-align: center;
+}
+
+.learn__introduction-page {
+  margin-bottom: 120px;
+  padding-top: 80px;
+}
+
+.learn__carousel--paragraph {
+  font-size: 19px;
+  font-weight: normal;
+  line-height: 29px;
+}
+
+.learn__introduction {
+  margin: 0 percentage(1 / 4) 60px;
+}
+
+.learn__category-header {
+  padding-top: 80px;
+  margin-bottom: 80px;
+}
+
+.learn__step-block {
+  background: url('/static/img/circle-check-icon.png') no-repeat calc(50% + 15px) 0;
+  padding-top: 88px;
+  text-align: center;
+}
+
+.learn__step-title {
+  color: $grey;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 28px;
+  margin-bottom: 20px;
+}
+
+.learn__category {
+  background-color: $white;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  min-height: 360px;
+  position: relative;
+}
+
+.learn__category-content {
+  padding-bottom: 40px;
+  padding-top: 40px;
+  padding-left: 25px;
+}
+
+.learn__category-title {
+  margin-top: 13px;
+  line-height: 48px;
+}
+
+.learn__category-details {
+  margin: 0 0 40px;
+
+  p {
+    color: $blue-deep-80;
+    margin-top: 16px;
+  }
+}
+
+.learn__category-entities {
+  padding: 8px 17px 7px;
+  color: $white;
+  display: inline-block;
+  white-space: nowrap;
+  position: absolute;
+  top: 35px;
+  right: 0;
+}
+
+.learn__category-image {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  max-width: 50%;
+  max-height: 250px;
+}
+
+.learn__single-category-header-wrapper {
+  padding-top: 40px;
+  position: relative;
+}
+
+.learn__single-category-header-content {
+  margin: 38px 0 0 70px;
+}
+
+.learn__single-category-title.h1 {
+  margin-bottom: 16px;
+}
+
+.learn__single-category-header {
+  background-color: $white;
+}
+
+.learn__single-category-image {
+  margin: 77px 0 52px 10px;
+}
+
+.learn__single-category-header-details {
+  p {
+    color: $blue-deep-80;
+    font-size: 20px;
+    margin-top: 15px;
+  }
+}
+
+.learn__topics-list {
+  margin: 125px 0 0;
+}
+
+.learn__topic-item-title {
+  margin-right: 20px;
+  padding-bottom: 20px;
+}
+
+.learn__topic-item {
+  margin-bottom: 50px;
+  padding-left: 4px;
+}
+
+.learn__topic-duration {
+  color: $grey;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.learn__lessons-list {
+  margin: 0;
+  position: relative;
+}
+
+.learn__lesson-item {
+  background-color: $white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.learn__lesson-item-link {
+  color: $blue-deep-80;
+  display: block;
+  padding: 22px 50px 20px 21px;
+  text-decoration: none;
+  position: relative;
+}
+
+.learn__topic-item-read-time {
+  color: $grey;
+  font-size: 16px;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  margin-top: -14px;
+  right: 60px;
+}
+
+.learn__back-link {
+  color: $blue-deep-80;
+  left: 38px;
+  top: 144px;
+
+  @include tablet {
+    position: absolute;
+  }
+
+  &:visited {
+    color: $blue-deep-80;
+  }
+
+  &--top {
+    top: 144px;
+  }
+
+  &--bottom {
+    color: $white;
+    top: auto;
+    bottom: 168px;
+
+    &:visited {
+      color: $white;
+    }
+  }
+}
+
+#lesson-page {
+  details {
+    summary {
+      font-weight: bold;
+      color: #333;
+
+      h3 {
+        display: inline;
+      }
+    }
+  }
+  li.great-mvp-list-arrow {
+    list-style-type: disclosure-closed;
+    margin-left: 20px;
+    padding-left: 5px;
+  }
+  nav {
+    background: $white;
+
+    .great-mvp-pill-button {
+      margin-left: 5px;
+    }
+  }
+  aside {
+    background: $white;
+    border-right: 1px solid $light-grey;
+    height: 100%;
+    position: sticky;
+    top: 0;
+
+    h3 {
+      padding-top: 20;
+      padding-bottom: 0;
+      a.topic-link {
+        text-decoration: none;
+      }
+    }
+
+    a {
+      color: $grey;
+      font-size: 16px;
+    }
+  }
+  .lesson-next-area {
+    display: inline-block;
+
+    h5 {
+      color: #919191;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .lesson-next-link {
+      color: #3c3c3c;
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .lesson-back-to-learning {
+      color: #3c3c3c;
+      font-size: 19px;
+      font-weight: bold;
+      display: block;
+    }
+  }
+}
+
+.lesson-page {
+  .rich-text {
+    h2, h3, h4 {
+      color: $blue-deep-80;
+      margin-bottom: 30px;
+      padding: 0;
+    }
+
+    h2 {
+      @extend .h-m;
+    }
+
+    h3 {
+      @extend .h-s;
+    }
+
+    h4 {
+      @extend .h-xs;
+    }
+
+    b > i {
+      font-weight: bold;
+    }
+
+    p, li {
+      color: $blue-deep-80;
+    }
+
+    ul {
+      @extend .list-dot;
+
+      li {
+        list-style-type: none;
+      }
+    }
+
+    ol {
+      @extend .list-number;
+      margin-left: 0;
+
+      li {
+        list-style-position: inside;
+        margin-bottom: 11px;
+        padding-left: 0;
+        position: static;
+      }
+    }
+
+    hr {
+      @extend .hr;
+    }
+
+    .choose-dont-choose {
+      h3 {
+        @extend .h-xs;
+        margin-bottom: 10px;
+
+        @include tablet {
+          padding: 0;
+        }
+      }
+    }
+
+    .pros-and-cons {
+      h3 {
+        @extend .h-l;
+        color: $blue-deep-80;
+        padding-bottom: 15px;
+        margin-bottom: 0;
+      }
+
+      ul {
+        @extend .list-arrow;
+
+        li {
+          padding-left: 0;
+
+          &::before {
+            display: none;
+          }
+        }
+      }
+
+      &__pros {
+        @include tablet {
+          margin-left: -82px;
+        }
+      }
+
+      &__cons {
+        @include tablet {
+          margin-right: -82px;
+        }
+      }
+    }
+
+    .case-study {
+      h3 {
+        @extend .h-m;
+        padding-top: 0;
+        margin-bottom: 15px;
+      }
+    }
+  }
+
+  .step-by-step {
+    h2, h3, h4 {
+      color: $blue-deep-80;
+    }
+  
+    > ul {
+      margin: 0;
+    }
+  
+    > ul.list-bullet > li {
+      position: static;
+      padding-left: 0;
+    }
+  }
+  
+  .lesson-hero {
+    img, video {
+      border-radius: 5px;
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+
+    .video-transcript {
+      &__text-area {
+        color: $blue-deep-80;
+        max-height: 200px;
+        overflow-y: scroll;
+      }
+    }
+  }
+
+  .fictional-example {
+    h2, h3, h4 {
+      margin-bottom: 12px;
+    }
+
+    .rich-text > p:first-of-type {
+      margin-top: 0;
+    }
+
+    .rich-text *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .ita-quote {
+    img {
+      margin-top: 5px;
+      width: 40px;
+
+      @include tablet {
+        margin-left: 30px;
+      }
+    }
+
+    &__quote p {
+      font-weight: 700;
+    }
+
+    &__author {
+      margin-top: 12px;
+    }
+  }
+
+  .case-study {
+    position: relative;
+
+    &:before {
+      background: $blue-deep-10;
+      content: '';
+      top: 0;
+      position: absolute;
+      left: -1000px;
+      right: -1000px;
+      bottom: 0;
+    }
+
+    &__content,
+    &__open {
+      position: relative;
+    }
+
+    &__content {
+      padding-top: 30px;
+
+      @include tablet {
+        padding-top: 0;
+      }
+    }
+
+    &__close {
+      background: none;
+      border: 0;
+      color: $blue-deep-80;
+      cursor: pointer;
+      font-size: 33px;
+      position: absolute;
+      top: 10px;
+
+      @include tablet {
+        right: -58px;
+        top: 23px;
+      }
+    }
+
+    &__company {
+      margin-top: 20px;
+    }
+
+    &__media {
+      position: relative;
+
+      img, video {
+        display: block;
+        height: auto;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .block-image:nth-child(2),
+      .block-video + .block-image {
+        img {
+          display: none;
+          position: absolute;
+          top: 0;
+          right: calc(-100% - 30px);
+  
+          @include tablet {
+            display: block;
+          }
+        }
+      }
+
+      .c-full {
+        float: none;
+        margin: 0;
+      }
+    }
+  }
+}

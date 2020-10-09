@@ -1,0 +1,65 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block css_layout_class %}export-plan-builder{% endblock %}
+
+{% block content %}
+
+{% include "exportplan/includes/sidebar.html" %}
+
+<div class="main-section bg-white {{ view.slug }}-content" id="{{ view.slug }}-content">
+
+  <section class="section--intro bg-blue-deep-90">
+    <div class="container">
+      <div class="grid">
+        <div class="c-1-4">&nbsp;</div>
+        <div class="c-1-2 p-t-xl p-b-s text-white">
+          {% block intro_content %}{% endblock %}
+          <h1 class="h-l text-red-80">{% block intro_title %}{% endblock %}</h1>
+          <p>{% block intro_description %}{% endblock %}</p>
+        </div>
+        <div class="c-1-4">&nbsp;</div>
+        <img src={% block banner_image %}{% static 'images/ep-placeholder.svg' %}{% endblock %} alt="" class="section--intro-image m-r-auto m-f-auto" />
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="grid">
+      <div class="c-1-4">&nbsp;</div>
+      <div class="c-1-2 text-blue-deep-80">
+        {% block main_content %}{% endblock %}
+      </div>
+      <div class="c-1-4">&nbsp;</div>
+    </div>
+  </section>
+
+  {% block user_input %}{% endblock %}
+
+  {% block additional_content %}{% endblock %}
+
+  <section class="p-v-m bg-blue-deep-80">
+    <div class="container">
+      <div class="grid">
+        <div class="c-1-4">&nbsp;</div>
+        <div class="c-1-2">
+          {% if next_section %}
+            <p class="h-xs m-b-0 text-white">Next</p>
+            <a class="text-red-80 link" href="{{ next_section.url }}" title="{{ next_section.title }}"><span class="inline-block h-l text-red-80 link--underline p-0 m-b-xs">{{ next_section.title }}</span> <br /><i class="fas fa-arrow-circle-right text-red-80"></i> </a>
+          {% endif %}
+          <div class="m-t-l"><a class="button button--tertiary button--icon" href="/export-plan/dashboard/" title="Back to Export Plan home"><i class="fas fa-arrow-left"></i> Back to Export Plan home</a></div>
+        </div>
+        <div class="c-1-4">&nbsp;</div>
+      </div>
+    </div>
+  </section>
+
+  {% block body_footer %}
+    <div class="p-v-l bg-blue-deep-90">
+      &nbsp;
+    </div>
+  {% endblock %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+
+.magna-header {
+  position: relative;
+  z-index: 2;
+
+  .header-logo {
+    @include desktop {
+      height: 50px + 2*$space-xxs;
+      padding: $space-xxs;
+    }
+  }
+
+  .header-links {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+
+    li {
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-top: auto;
+      margin-bottom: auto;
+
+      &.name-greet {
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      a.link {
+        color: $colour-white-100;
+        padding: $space-xs;
+        border-radius: $space-xs * 3 / 2;
+        text-decoration: none;
+        &.active {
+          background-color: $blue-deep-70;
+        }
+        &:focus {
+          color: $colour-white-100;
+        }
+      }
+    }
+  }
+
+  nav {
+    width: 100%;
+    display: flex;
+
+    .services-area,
+    .user-state-area {
+      li:last-child {
+        padding-right: 30px;
+      }
+    }
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $black-10;
+    position: relative;
+    padding: 0;
+
+    &:focus,
+    &.active {
+      outline: none;
+
+      &:after {
+        content: '';
+        top: -10%;
+        left: -10%;
+        display: block;
+        position: absolute;
+        border: 2px solid $red-80;
+        width: 110%;
+        height: 110%;
+        border-radius: 50%;
+      }
+    }
+    transition: background-color 0.3s;
+    &:hover {
+      background-color: darken($black-10, 5%);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+
+}

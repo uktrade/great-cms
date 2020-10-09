@@ -1,0 +1,205 @@
+version: 2
+
+###############################################################################
+# Variables
+###############################################################################
+
+python: &python
+  image: circleci/python:3.6.6
+
+python_node_browsers: &python_node_browsers
+  image: circleci/python:3.6.6-node-browsers
+
+node: &node
+  image: circleci/node:12
+
+postgres: &postgres
+  - image: circleci/postgres:9.6.16-alpine-ram
+    environment:
+      POSTGRES_USER: debug
+      POSTGRES_PASSWORD: debug
+      POSTGRES_DB: greatcms
+
+postgres_url: &postgres_url
+  DATABASE_URL: postgresql://debug:debug@localhost/greatcms
+
+
+###############################################################################
+# Steps
+###############################################################################
+
+install_postgresql_client: &install_postgresql_client
+  run:
+    name: Install PostgreSQL Client
+    command: |
+      sudo apt-get update
+      sudo apt-get install postgresql-client-9.6
+
+create_virtualenv_and_install_dependencies: &create_virtualenv_and_install_dependencies
+  run:
+    name: Create virtualenv and install dependencies
+    command: |
+      python3 -m venv venv
+      . venv/bin/activate
+      pip install --upgrade pip
+      make install_requirements
+
+setup_secrets: &setup_secrets
+  run:
+    name: Setup Secrets
+    command: |
+      . venv/bin/activate
+      make secrets
+
+setup_db: &setup_db
+  run:
+    name: Database Setup
+    command: |
+      . venv/bin/activate
+      make database
+      make ARGUMENTS=migrate manage
+      make ARGUMENTS=bootstrap_great manage
+
+
+###############################################################################
+# Jobs
+###############################################################################
+
+jobs:
+
+  test:
+    docker:
+      - <<: *python_node_browsers
+      - <<: *postgres
+    environment:
+      *postgres_url
+    steps:
+      - checkout
+      - *install_postgresql_client
+      - restore_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - *create_virtualenv_and_install_dependencies
+      - *setup_secrets
+      - save_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Run Unit tests
+          command: |
+            . venv/bin/activate
+            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=term --junitxml=test-reports/junit.xml
+            codecov
+      - store_test_results:
+          path: ./results/
+
+  test_browser:
+    docker:
+      - <<: *python_node_browsers
+      - <<: *postgres
+    environment:
+      *postgres_url
+    steps:
+      - checkout
+      - *install_postgresql_client
+      - restore_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - run:
+          name: Install Allure CLI
+          when: always
+          command: |
+            wget https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -O allure.zip
+            unzip -q allure.zip
+            find . -maxdepth 1 -type d -name "allure*" -exec mv {} allure \;
+            rm allure.zip
+      - *create_virtualenv_and_install_dependencies
+      - *setup_secrets
+      - save_cache:
+          key: v1-deps-{{ checksum "requirements_test.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Run Browser tests
+          command: |
+            . venv/bin/activate
+            make pytest_browser
+      - store_test_results:
+          path: ./results/
+      - run:
+          name: Generate Allure report
+          when: always
+          command: |
+            export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+            export PATH=$PATH:$HOME/bin:$PATH:$JAVA_HOME/bin:./allure/bin
+            allure generate --clean --output ./allure_report ./allure_results/
+      - store_artifacts:
+          path: ./allure_report/
+          destination: allure_report
+
+  test_load:
+    working_directory: ~/greatcms
+    docker:
+      - <<: *python
+      - <<: *postgres
+    environment:
+      NUM_USERS: 20
+      HATCH_RATE: 3
+      RUN_TIME: 30s
+      <<: *postgres_url
+    steps:
+      - checkout
+      - *install_postgresql_client
+      - *create_virtualenv_and_install_dependencies
+      - *setup_secrets
+      - *setup_db
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            mkdir results
+            make test_load
+      - store_artifacts:
+          path: ./results/
+          destination: locust_results
+
+  test_javascript:
+    docker:
+      - *node
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-deps-{{ checksum "package.json" }}
+      - run:
+          name: Install node modules
+          command: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package.json" }}
+          paths:
+            - "node_modules"
+      - run:
+          name: Run Javascript tests
+          command: npm test
+
+  flake8:
+    docker:
+      - <<: *python
+    steps:
+    - checkout
+    - run:
+        name: Run flake8
+        command: |
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install --upgrade pip
+          pip install --quiet -r requirements_test.txt
+          flake8
+
+workflows:
+  version: 2
+  test_and_flake8:
+    jobs:
+      - test
+      - test_browser
+      - test_javascript
+      - test_load
+      - flake8

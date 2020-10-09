@@ -3,23 +3,30 @@
 # Testing
 # ------------
 Werkzeug
-pytest
+allure-pytest
+pillow>=7.1.0
+selenium
+locust
+pytest==5.3.5
 pytest-cov
 pytest-django
 pytest-sugar
-wagtail-factories
 django-debug-toolbar
+requests-mock
 pip-tools
 ipdb
-django-coverage-plugin
-
+beautifulsoup4
 
 # Code quality
 # -------------
 flake8
+flake8-quotes
+flake8-blind-except
+flake8-debugger
+flake8-print
+flake8-quotes
+flake8-string-format
+pep8-naming
 pylint-django
-coveralls
-
-
-
-
+codecov
+cryptography==2.9.2

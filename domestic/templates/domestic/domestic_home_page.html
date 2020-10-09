@@ -1,1 +1,19 @@
-<h1>Homepage goes here</h1>
+{% extends 'core/page_no_navigation.html' %}
+{% load breadcrumbs from great_components %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% block header_class %} sign-up--header__single {% endblock %}
+{% block inner_content %}
+    <section id="learn-root">
+        <div class="grid">
+            <div class="col-12 col-md-8">
+                <h1 class="h-m text-blue-deep-80 body-l">{{ page.title }}</h1>
+                 {% image page.image width-630%}
+                <p>{{ page.body | richtext }}</p>
+                {% include_block page.button %}
+            </div>
+        </div>
+        <p>Or <a href='/login' class='text-red-80 inline-block m-t-xs'>login</a> to your account</p>
+    </section>
+{% endblock %}

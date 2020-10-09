@@ -1,0 +1,86 @@
+@import 'elements/colours';
+
+label {
+  display: block;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.great-mvp-grey-link {
+  color: $grey;
+  font-size: 16px;
+}
+
+.text-12 {
+  font-size: 12px;
+}
+
+.text-16 {
+  font-size: 16px;
+}
+
+.great-mvp-right-text {
+  text-align: right;
+}
+
+.multiple-choice input {
+  z-index: 0;
+}
+
+.great-mvp-small-checkbox-container {
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .multiple-choice {
+    min-height: 30px;
+  }
+
+  .multiple-choice input:disabled + label {
+    opacity: 1;
+    padding-left: 0;
+  }
+
+  .multiple-choice [type='checkbox'] + label::before,
+  .multiple-choice input {
+    height: 28px;
+    width: 28px;
+    box-sizing: border-box;
+  }
+
+  .multiple-choice input:checked + label::after {
+    width: 14px;
+    height: 6px;
+    top: 6px;
+    left: 4px;
+  }
+}
+
+.section--with-sidebar {
+  padding-left: 300px;
+}
+
+body {
+  background-color: #e9e7ed;
+  overflow-x: hidden;
+
+  &.body-background-white {
+    background-color: $white;
+  }
+
+  #great-hero {
+    background-color: $stone;
+    padding-bottom: 75px;
+    margin-bottom: -75px;
+
+    .g-breadcrumbs ol li::after {
+      border-color: $grey;
+    }
+  }
+}
+
+.br-xs {
+  border-radius: 10px;
+}

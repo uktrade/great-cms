@@ -1,0 +1,48 @@
+
+#discover-new-markets-card {
+ display: inline-block;
+}
+
+#tariffs-and-duties-card {
+  th:last-child {
+    width: 16%;
+  }
+  tbody tr {
+    border-bottom: 1px solid $light-grey;
+  }
+}
+
+
+body {
+
+  .your-progress-card {
+    h3 {
+      padding-top: 0;
+    }
+  }
+
+  .image-stretch > img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .great-dashboard-card {
+    flex-flow: row wrap;
+
+    > h3 {
+      width: 100%;
+    }
+
+    .grid {
+      width: 100%;
+    }
+
+    progress {
+      width: 100%;
+    }
+
+    table th, table td {
+      border-bottom: 0
+    }
+  }
+}

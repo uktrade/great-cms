@@ -1,0 +1,33 @@
+<div class="g-card" id="export_opportunities">
+    <div class="g-card-header">
+        <h3 class="h-s p-t-xxs">Export opportunities</h3>
+    </div>
+    <ul class="m-v-0 c-full">
+        {% for opportunity in export_opportunities %}
+            <li>
+                <a class="g-link m-b-xs" href="{{ opportunity.url }}">{{ opportunity.title }}</a>
+                <div class="grid m-b-s m-v-0 text-16">
+                    {% if opportunity.description %}
+                        <div class="c-2-3 p-v-xxs">{{ opportunity.description }}</div>
+                    {% endif %}
+                    {% if opportunity.source == 'volume_opps' %}
+                        <div class="c-2-3 p-v-xxs">Provided by <strong>OpenOpps</strong></div>
+                    {% endif %}
+                </div>
+                <div class="grid m-b-s m-v-0 text-16">
+                    <div class="c-1-2">
+                        <div><strong>Published:</strong>{{ opportunity.published_date }}</div>
+                    </div>
+                    <div class="c-1-2">
+                        <div><strong>Closing date:</strong>{{ opportunity.closing_date }}</div>
+                    </div>
+                </div>
+                <hr class="grid m-v-xxs m-f-0 bg-light-grey" />
+            </li>
+        {% endfor %}
+        <li class="text-center p-v-xxs">
+            <a class="g-link m-b-xs bold" href="#">View more opportunities</a>
+        </li>
+    </ul>
+
+</div>

@@ -1,0 +1,23 @@
+{% extends 'core/page_no_navigation.html' %}
+{% load breadcrumbs from great_components %}
+{% load url_map %}
+{% load static %}
+
+{% block inner_content %}
+	<div id="sign-up"></div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+		var element = document.getElementById('sign-up');
+		var currentStep = '{% if request.GET.verify %}verification-code{% else %}credentials{% endif %}';
+		var email = '{{ request.GET.verify }}';
+		ditMVP.SignupModal({
+			element: element,
+			currentStep: currentStep,
+			email: email,
+			nextUrl: '{% url_map "dashboard" %}',
+		})
+    </script>
+{% endblock %}

@@ -1,0 +1,36 @@
+@import 'helpers/colours';
+
+.ReactModal__Content.ReactModalCentreScreen {
+    background: white none repeat scroll 0% 0%;
+    border-radius: 10px;
+    border: 1px solid rgb(204, 204, 204);
+    bottom: auto;
+    inset: 50% auto auto 50%;
+    left: 50%;
+    margin-right: -50%;
+    outline: currentcolor none medium;
+    overflow: visible;
+    position: absolute;
+    right: auto;
+    text-align: left;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 570px;
+
+}
+
+.ReactModal__Overlay.ReactModalCentreScreen {
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0px;
+    inset: 0px;
+    left: 0px;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    z-index: 1000;
+}
+
+.ReactModal__Body--open {
+    height: auto;
+    overflow: hidden;
+}
