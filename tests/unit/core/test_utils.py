@@ -1,29 +1,43 @@
 import pytest
+from unittest import mock
+
 from django.http import HttpRequest
 
-from core.utils import PageTopic, get_all_lessons, get_first_lesson
+from core.utils import (
+    PageTopic,
+    get_all_lessons,
+    get_first_lesson,
+    get_personalised_case_study_orm_filter_args,
+    get_personalised_choices,
+)
 from tests.unit.core import factories
 
 
 @pytest.mark.django_db
 def test_lesson_module(domestic_homepage):
-    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage, record_read_progress=True
+    )
     curated_list_page = factories.CuratedListPageFactory(
-        parent=list_page,
-        topics__0__title='Topic 1',
-        topics__1__title='Topic 2'
+        parent=list_page, topics__0__title='Topic 1', topics__1__title='Topic 2'
     )
 
-    detail_page_1 = factories.DetailPageFactory(slug='detail-page-1', parent=curated_list_page)
-    detail_page_2 = factories.DetailPageFactory(slug='detail-page-2', parent=curated_list_page)
-    detail_page_3 = factories.DetailPageFactory(slug='detail-page-3', parent=curated_list_page)
+    detail_page_1 = factories.DetailPageFactory(
+        slug='detail-page-1', parent=curated_list_page
+    )
+    detail_page_2 = factories.DetailPageFactory(
+        slug='detail-page-2', parent=curated_list_page
+    )
+    detail_page_3 = factories.DetailPageFactory(
+        slug='detail-page-3', parent=curated_list_page
+    )
 
-    topic_1 = factories.CuratedTopicBlockfactory(title='Topic 1', pages=[detail_page_1, detail_page_2])
+    topic_1 = factories.CuratedTopicBlockfactory(
+        title='Topic 1', pages=[detail_page_1, detail_page_2]
+    )
     topic_2 = factories.CuratedTopicBlockfactory(title='Topic 2', pages=[detail_page_3])
 
-    curated_list_page.topics = [
-        ('topic', topic_1), ('topic', topic_2)
-    ]
+    curated_list_page.topics = [('topic', topic_1), ('topic', topic_2)]
 
     curated_list_page.save()
     pt_1 = PageTopic(detail_page_1)
@@ -44,38 +58,38 @@ def test_lesson_module(domestic_homepage):
 
 @pytest.mark.django_db
 def test_multiple_modules(domestic_homepage, client, user):
-    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage, record_read_progress=True
+    )
     module_1 = factories.CuratedListPageFactory(
         title='Module 1',
         parent=list_page,
         topics__0__title='Topic 1',
-        topics__1__title='Topic 2'
+        topics__1__title='Topic 2',
     )
 
     module_2 = factories.CuratedListPageFactory(
-        title='Module 2',
-        parent=list_page,
-        topics__0__title='Topic 21',
+        title='Module 2', parent=list_page, topics__0__title='Topic 21'
     )
 
     detail_page_1 = factories.DetailPageFactory(slug='detail-page-11', parent=module_1)
     detail_page_2 = factories.DetailPageFactory(slug='detail-page-12', parent=module_1)
     detail_page_3 = factories.DetailPageFactory(slug='detail-page-13', parent=module_1)
 
-    detail_page_4 = factories.DetailPageFactory(slug='detail-page-4-module-2', parent=module_2)
+    detail_page_4 = factories.DetailPageFactory(
+        slug='detail-page-4-module-2', parent=module_2
+    )
 
-    topic_1 = factories.CuratedTopicBlockfactory(title='Topic 1', pages=[detail_page_1, detail_page_2])
+    topic_1 = factories.CuratedTopicBlockfactory(
+        title='Topic 1', pages=[detail_page_1, detail_page_2]
+    )
     topic_2 = factories.CuratedTopicBlockfactory(title='Topic 2', pages=[detail_page_3])
 
     topic_3 = factories.CuratedTopicBlockfactory(title='Topic 3', pages=[detail_page_4])
 
-    module_1.topics = [
-        ('topic', topic_1), ('topic', topic_2)
-    ]
+    module_1.topics = [('topic', topic_1), ('topic', topic_2)]
 
-    module_2.topics = [
-        ('topic', topic_3),
-    ]
+    module_2.topics = [('topic', topic_3)]
 
     module_1.save()
     module_2.save()
@@ -107,11 +121,15 @@ def test_multiple_modules(domestic_homepage, client, user):
 
     assert page1_response.context_data['next_lesson'].specific == detail_page_2
     assert page1_response.context_data['current_module'].specific == module_1
-    assert page1_response.context_data.get('next_module') is None  # only present for final lesson in module
+    assert (
+        page1_response.context_data.get('next_module') is None
+    )  # only present for final lesson in module
 
     assert page2_response.context_data['next_lesson'].specific == detail_page_3
     assert page2_response.context_data['current_module'].specific == module_1
-    assert page2_response.context_data.get('next_module') is None  # only present for final lesson in module
+    assert (
+        page2_response.context_data.get('next_module') is None
+    )  # only present for final lesson in module
 
     assert page3_response.context_data['next_lesson'].specific == detail_page_4
     assert page3_response.context_data['current_module'].specific == module_1
@@ -119,4 +137,235 @@ def test_multiple_modules(domestic_homepage, client, user):
 
     assert page4_response.context_data.get('next_lesson') is None
     assert page4_response.context_data['current_module'] == module_2
-    assert page4_response.context_data.get('next_module') is None  # no next module, even though final lesson
+    assert (
+        page4_response.context_data.get('next_module') is None
+    )  # no next module, even though final lesson
+
+
+@pytest.mark.parametrize(
+    'hs_code,country,region,expected_length, expected_filter_dict',
+    [
+        (
+            '123456',
+            'IN',
+            'Asia',
+            11,
+            [
+                {
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'IN',
+                },
+                {
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '123456'},
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {
+                    'hs_code_tags__name': '12',
+                    'country_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Asia'},
+            ],
+        ),
+        (
+            '1234',
+            'IN',
+            'Asia',
+            8,
+            [
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {
+                    'hs_code_tags__name': '12',
+                    'country_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Asia'},
+            ],
+        ),
+        (
+            '12',
+            'IN',
+            'Asia',
+            5,
+            [
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {
+                    'hs_code_tags__name': '12',
+                    'country_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Asia'},
+            ],
+        ),
+        (
+            '123456',
+            'IN',
+            None,
+            7,
+            [
+                {
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'IN',
+                },
+                {'hs_code_tags__name': '123456'},
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+            ],
+        ),
+        (
+            '1234',
+            'IN',
+            None,
+            5,
+            [
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+            ],
+        ),
+        (
+            '12',
+            'IN',
+            None,
+            3,
+            [
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+            ],
+        ),
+        (
+            '123456',
+            None,
+            None,
+            3,
+            [
+                {'hs_code_tags__name': '123456'},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12'},
+            ],
+        ),
+        (
+            '1234',
+            None,
+            None,
+            2,
+            [
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12'},
+            ],
+        ),
+        ('12', None, None, 1, [{'hs_code_tags__name': '12'}]),
+        (None, None, None, 0, []),
+    ],
+)
+def test_personalised_filter_condition(
+    hs_code, country, region, expected_length, expected_filter_dict
+):
+    filter_cond = get_personalised_case_study_orm_filter_args(
+        hs_code=hs_code, country=country, region=region
+    )
+
+    assert filter_cond == expected_filter_dict
+    assert len(filter_cond) == expected_length
+
+
+@pytest.mark.parametrize(
+    'mocked_export_plan, expected_commodity_code, expected_country, expected_region',
+    [
+        (
+            {
+                'export_commodity_codes': [
+                    {'commodity_code': '123456', 'commodity_name': 'Something'}
+                ],
+                'export_countries': [
+                    {
+                        'region': 'Europe',
+                        'country_name': 'Spain',
+                        'country_iso2_code': 'ES',
+                    }
+                ],
+            },
+            '123456',
+            'ES',
+            'Europe',
+        ),
+        (
+            {
+                'export_countries': [
+                    {
+                        'region': 'Europe',
+                        'country_name': 'Spain',
+                        'country_iso2_code': 'ES',
+                    }
+                ]
+            },
+            None,
+            'ES',
+            'Europe',
+        ),
+        (
+            {
+                'export_commodity_codes': [
+                    {'commodity_code': '123456', 'commodity_name': 'Something'}
+                ]
+            },
+            '123456',
+            None,
+            None,
+        ),
+        ({}, None, None, None),
+    ],
+)
+@pytest.mark.django_db
+def test_selected_personalised_choices(
+    rf,
+    user,
+    mocked_export_plan,
+    expected_commodity_code,
+    expected_country,
+    expected_region,
+):
+    request = rf.get('/')
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        commodity_code, country, region = get_personalised_choices(mocked_export_plan)
+
+        assert commodity_code == expected_commodity_code
+        assert country == expected_country
+        assert region == expected_region
