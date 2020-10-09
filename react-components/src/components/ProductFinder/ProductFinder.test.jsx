@@ -36,7 +36,7 @@ beforeEach(() => {
   document.body.appendChild(container)
   container.innerHTML = '<span id="set-product-button" data-text="my product"></span>'
   Services.setConfig({apiLookupProductUrl:'/api/lookup-product/'})
-  fetchMock.get(/\/api\/lookup-product\//, mockResponse)
+  fetchMock.post(/\/api\/lookup-product\//, mockResponse)
 })
 
 afterEach(() => {

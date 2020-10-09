@@ -12,6 +12,7 @@ class ProductLookupSerializer(serializers.Serializer):
     interraction_id = serializers.CharField(required=False)
     value_id = serializers.CharField(required=False)
     value_string = serializers.CharField(required=False)
+    values = serializers.JSONField(required=False)
 
 
 class CompanySerializer(serializers.Serializer):

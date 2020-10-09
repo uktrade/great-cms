@@ -235,14 +235,14 @@ def search_commodity_by_term(term):
     return response.json()
 
 
-def search_commodity_refine(interraction_id, tx_id, value_id, value_string):
+def search_commodity_refine(interraction_id, tx_id, values):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_REFINE_URL,
         json={
             'state': 'continue',
             'interractionid': interraction_id,
             'txid': tx_id,
-            'values': [{'first': value_id, 'second': value_string}],
+            'values': values,
         },
         headers={
             'Accept': '*/*',

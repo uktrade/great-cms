@@ -80,11 +80,11 @@ const removeCountryData = function(country) {
 }
 
 const lookupProduct = function({ q }) {
-  return get(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
+  return post(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
 }
 
-const lookupProductRefine = function({ txId, interractionId, valueId, valueString }) {
-  return get(config.apiLookupProductUrl, { tx_id: txId, interraction_id: interractionId, value_id: valueId, value_string: valueString }).then((response) => responseHandler(response).json())
+const lookupProductRefine = function({ txId, interactionId, values }) {
+  return post(config.apiLookupProductUrl, { tx_id: txId, interraction_id: interactionId, values: values }).then((response) => responseHandler(response).json())
 }
 
 const getCountries = function() {
