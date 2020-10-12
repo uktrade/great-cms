@@ -358,33 +358,38 @@ $desktop: 1024px;
 
     .pros-and-cons {
       h3 {
-        @extend .h-l;
+        @extend .h-s;
         color: $blue-deep-80;
         padding-bottom: 15px;
+        padding-top: 0;
         margin-bottom: 0;
       }
 
       ul {
-        @extend .list-arrow;
+        @extend .list-dot;
+        margin-bottom: 0;
 
         li {
-          padding-left: 0;
+          @extend .body-l;
+          position: relative;
+          margin-bottom: 17px;
+          padding-left: 17px;
 
-          &::before {
-            display: none;
+          &:before {
+            left: 0;
           }
         }
       }
 
       &__pros {
-        @include tablet {
-          margin-left: -82px;
+        @include desktop {
+          margin-right: -10px;
         }
       }
 
       &__cons {
-        @include tablet {
-          margin-right: -82px;
+        @include desktop {
+          margin-left: -10px;
         }
       }
     }
