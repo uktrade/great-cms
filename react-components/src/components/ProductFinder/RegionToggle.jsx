@@ -9,7 +9,7 @@ export default function RegionToggle(props){
     setExpand(!expand || props.expandAllRegions)
   }
    return (
-      <section >
+      <section>
           <div className="grid">
               <h2 className="region-name h-xs" onClick={countryListToggle}>{props.region}
                 <button type="button" className="region-expand icon" onClick={countryListToggle}>{(expand || props.expandAllRegions) ? '-' : '+'}</button>
@@ -19,7 +19,7 @@ export default function RegionToggle(props){
               <ul>{props.countries}</ul>
               </span>           
           </div>
-          <hr/>
+          <hr className="regionSeperator"/>
         </section>
   )
 }

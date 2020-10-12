@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-669 - Country Finder - Various defect fixes
 - GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
 - GP2-76 - adjust aligment of back button
@@ -74,6 +75,7 @@
 - GP2-680 - Restyle product search modal
 - GP2-602 - Use new header on all pages and allow login/logout
 - GP2-331 - Rerouting to login page with error message
+- GP2-688 - GTM tags in product search modal
 - GP2-413 -  style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
