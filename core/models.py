@@ -480,14 +480,14 @@ class DetailPage(CMSGenericPage):
             'image',
             core_blocks.ImageBlock(
                 template='core/includes/_image_full_width.html',
-                help_text="Image displayed within a full-page-width block",
+                help_text='Image displayed within a full-page-width block',
             ),
         ),
         (
             'video',
             core_blocks.SimpleVideoBlock(
                 template='core/includes/_video_full_width.html',
-                help_text="Video displayed within a full-page-width block",
+                help_text='Video displayed within a full-page-width block',
             ),
         ),
     ])
