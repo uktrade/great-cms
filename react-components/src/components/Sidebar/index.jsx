@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { ComingSoon } from '@src/components/Sidebar/ComingSoon'
+import { CountryNotSelected } from '@src/components/Sidebar/CountryNotSelected'
 
-export const Sidebar = ({ sections, logo, company }) => {
+export const Sidebar = ({ sections, logo, company, currentSection }) => {
   const [toggle, setToggle] = useState(false)
   const [modal, setModal] = useState(false)
 
@@ -13,7 +14,10 @@ export const Sidebar = ({ sections, logo, company }) => {
         onClick={() => setModal(false)}
         isOpen={modal}
       />
-      <nav className={`sidebar p-h-s p-b-m ${!toggle && 'sidebar__close'}`} id='collapseNav'>
+      <CountryNotSelected
+        isOpen={currentSection.disabled}
+      />
+      <nav className={`sidebar p-h-s p-b-m ${!toggle && 'sidebar__close'}`} id='collapseNav' role="navigation">
         <div className='sidebar-sticky'>
           <button
             aria-expanded={toggle}
@@ -70,7 +74,12 @@ Sidebar.propTypes = {
     })
   ).isRequired,
   logo: PropTypes.string,
-  company: PropTypes.string
+  company: PropTypes.string,
+  currentSection: PropTypes.shape({
+    title: PropTypes.string,
+    url: PropTypes.string,
+    disabled: PropTypes.bool
+  }).isRequired
 }
 
 Sidebar.defaultProps = {

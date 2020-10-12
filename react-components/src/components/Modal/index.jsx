@@ -12,7 +12,7 @@ export const Modal = ({
 }) => {
   return (
     <div className='modal'>
-      <div className={`modal-header  modal-header--${type} radius-top bg-blue-deep-80 p-s`}>
+      <div className={`modal-header ${type ? `modal-header-bg modal-header-bg--${type}` : ''} radius-top bg-blue-deep-80 p-s`}>
         <a href={backUrl} className='link text-white body-m modal-close' title='navigate back'>
           <i className='fas fa-arrow-circle-left m-r-xxs' /> back</a>
       </div>
@@ -44,7 +44,7 @@ export const Modal = ({
 }
 
 Modal.propTypes = {
-  type: PropTypes.oneOf(['2', '3', '']),
+  type: PropTypes.oneOf(['1', '2', '3', '']),
   backUrl: PropTypes.string.isRequired,
   footer: PropTypes.bool,
   header: PropTypes.string.isRequired,
