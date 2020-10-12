@@ -25,7 +25,7 @@ export const Dashboard = ({ sections }) => {
                   <h3 className='h-xs text-blue-deep-80 p-0'>{title}</h3>
                 </div>
               </div> :
-              <a className='w-full link' href={url}>
+              <a className='w-full link' href={url} title={title}>
                 <div className='bg-blue-deep-20'>
                   <img className='w-full p-h-s p-t-m p-b-s' src='/static/images/ep-placeholder.svg' alt={title} />
                 </div>
