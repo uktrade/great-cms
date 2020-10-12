@@ -412,11 +412,13 @@ $desktop: 1024px;
       padding-left: 0;
     }
   }
-  
-  .lesson-hero {
+
+  .lesson-hero,
+  .media-section {
     img, video {
       border-radius: 5px;
       display: block;
+      height: auto;
       margin: 0 auto;
       max-width: 100%;
     }

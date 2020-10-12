@@ -1,0 +1,9 @@
+{% load video_tags %}
+
+{% comment %}
+If your video is not rendering and your block is nested, you may need to just
+use `value` not `block.value` here -- see the difference between this and
+_case_study_video (which uses nested blocks)
+{% endcomment %}
+
+{% render_video block.value %}

@@ -59,6 +59,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-261 - Additional lesson video/image block
 - GP2-707 - Capability design review
 - GP2-684 - Product-search value interaction
 - GP2-669 - CountryFinder added collapsibility for region section

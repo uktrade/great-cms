@@ -23,7 +23,7 @@
                                 <i class="fas fa-clock m-r-xxs" aria-hidden="true"></i>
                                 <strong class="body-l-b">{{ page.estimated_read_duration|format_timedelta }} read</strong>
                             </p>
-                            <div class="lesson-hero m-t-m m-b-m">
+                            <div class="lesson-hero media-section m-t-m m-b-m">
                                 {% include 'learn/hero_media_item.html' %}
                             </div>
                             {% include 'core/objectives.html' %}
@@ -165,9 +165,15 @@
       })
       {% endif %}
 
-      ditMVP.createVideoTranscript({
-        element: document.querySelector("#lesson-hero-video-transcript"),
-        source: document.querySelector(".lesson-hero video source[transcript]")
+      document.querySelectorAll('.media-section').forEach(element => {
+        const transcriptContainer = element.querySelector(".video-transcript-container");
+
+        if (transcriptContainer) {
+            ditMVP.createVideoTranscript({
+                element: transcriptContainer,
+                source: element.querySelector("video source[transcript]")
+            })
+        }
       })
     </script>
 
