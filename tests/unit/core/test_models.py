@@ -291,7 +291,13 @@ _case_study_video_order_error_message = 'The video must come before a still imag
         ([('media', ('video',))], _case_study_top_level_error_message),
         ([], None),
         (['text', 'text'], _case_study_top_level_error_message),
+        (['text', ('media', ('video', 'image'))], _case_study_top_level_error_message),
         ([('media', ('video',)), ('media', ('video',))], _case_study_top_level_error_message),
+        (['text', ('media', ('video', 'image')), 'text'], _case_study_top_level_error_message),
+        (
+            [('media', ('video', 'image')), 'text', ('media', ('video', 'image'))],
+            _case_study_top_level_error_message
+        ),
         ([('media', ('video', 'image')), 'text'], None),
         ([('media', ('video',)), 'text'], None),
         ([('media', ('image',)), 'text'], None),
@@ -310,14 +316,17 @@ _case_study_video_order_error_message = 'The video must come before a still imag
         '2. Top-level check: media node only: not fine',
         '3. Top-level check: no nodes: fine - requirement is done at a higher level',
         '4. Top-level check: two text nodes: not fine',
-        '5. Top-level check: two media nodes: not fine',
+        '5. Top-level check: text before media: not fine',
+        '6. Top-level check: two media nodes: not fine',
+        '7. Top-level check: text, media, text: not fine',
+        '8. Top-level check: media, text, media: not fine',
 
-        '6. media node (video and image) and text node: fine',
-        '7. media node (video only) and text node: fine',
-        '8. media node (image only) and text node: fine',
-        '9. media node (two images) and text node: fine',
-        '10. media node (image before video) and text node: not fine',
-        '11. media node (two videos) and text node: not fine',
+        '9. media node (video and image) and text node: fine',
+        '10. media node (video only) and text node: fine',
+        '11. media node (image only) and text node: fine',
+        '12. media node (two images) and text node: fine',
+        '13. media node (image before video) and text node: not fine',
+        '14. media node (two videos) and text node: not fine',
     )
 )
 def test_case_study_body_validation(block_type_values, exception_message):

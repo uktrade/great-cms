@@ -219,7 +219,7 @@ def test_helper_search_commodity_by_term(requests_mock):
     assert first_response == data
 
     refine_response = helpers.search_commodity_refine(
-        interraction_id=1234, tx_id=1234, value_id=1234, value_string='processed')
+        interraction_id=1234, tx_id=1234, values=[{'first': 1234, 'second': 'processed'}])
     assert refine_response == data
 
 

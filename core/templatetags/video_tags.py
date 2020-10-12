@@ -33,5 +33,6 @@ def render_video(block):
                 {sources}
                 Your browser does not support the video tag.
             </video>
+            <div class="video-transcript-container"></div>
         """
     )

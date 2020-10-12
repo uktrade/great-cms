@@ -424,7 +424,7 @@ class DetailPage(CMSGenericPage):
     ################
     hero = StreamField([
         ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
-        ('Video', core_blocks.SimpleVideoBlock())],
+        ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_hero_video.html'))],
         null=True,
         validators=[hero_singular_validation]
     )
@@ -460,17 +460,36 @@ class DetailPage(CMSGenericPage):
             icon='fa-commenting-o',
         ),),
         ('ITA_Quote', core_blocks.ITAQuoteBlock(icon='fa-quote-left'),),
-        ('pros_cons', blocks.StructBlock([
-            ('pros', blocks.StreamBlock([
-                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
-            )),
-            ('cons', blocks.StreamBlock([
-                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
-            ))
-        ],
-            template='learn/pros_and_cons.html',
-            icon='fa-arrow-right', ),),
+        (
+            'pros_cons',
+            blocks.StructBlock(
+                [
+                    ('pros', blocks.StreamBlock([
+                        ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+                    )),
+                    ('cons', blocks.StreamBlock([
+                        ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+                    ))
+                ],
+                template='learn/pros_and_cons.html',
+                icon='fa-arrow-right',
+            ),
+        ),
         ('choose_do_not_choose', core_blocks.ChooseDoNotChooseBlock()),
+        (
+            'image',
+            core_blocks.ImageBlock(
+                template='core/includes/_image_full_width.html',
+                help_text='Image displayed within a full-page-width block',
+            ),
+        ),
+        (
+            'video',
+            core_blocks.SimpleVideoBlock(
+                template='core/includes/_video_full_width.html',
+                help_text='Video displayed within a full-page-width block',
+            ),
+        ),
     ])
     recap = StreamField([
         ('recap_item', blocks.StructBlock([
@@ -683,13 +702,14 @@ def _high_level_validation(value, error_messages):
     TEXT_BLOCK = 'text'  # noqa N806
     MEDIA_BLOCK = 'media'  # noqa N806
 
-    if set([node.block_type for node in value]) != {
-        TEXT_BLOCK, MEDIA_BLOCK
-    }:
+    # we need to be strict about presence and ordering of these nodes
+    if [node.block_type for node in value] != [
+        MEDIA_BLOCK, TEXT_BLOCK
+    ]:
         error_messages.append(
             (
                 'This block must contain one Media section (with one or '
-                'two items in it) and one Text section.'
+                'two items in it), then one Text section following it.'
             )
         )
 

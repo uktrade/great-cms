@@ -10,8 +10,8 @@ const customStyles = {
     position: 'absolute',
   },
   content: {
-    marginTop: '15px',
-    marginRight: '-29px'
+    marginRight: '-29px',
+    marginTop: '15px'
   }
 }
 
@@ -20,9 +20,9 @@ export function Menu(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
 
   const openModal = (evt) => {
-    let position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
-    let bodyWidth = evt.target.closest('body').clientWidth
-    customStyles.content.top = position.top + position.height + 'px'
+    const position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
+    const bodyWidth = evt.target.closest('body').clientWidth
+    customStyles.content.top = position.top + position.height + window.scrollY + 'px'
     customStyles.content.right = bodyWidth - (position.left + position.right) / 2 + 'px'
 
     setIsOpen(true)
@@ -30,10 +30,12 @@ export function Menu(props) {
 
   const closeModal = () => {
     setIsOpen(false)
+    document.body.style.overflow = '' 
   }
 
   const modalAfterOpen = () => {
     modalContent.style.opacity = '1'
+    document.body.style.overflow = 'auto' 
   }
 
   const logout = () => {

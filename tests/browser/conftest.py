@@ -281,6 +281,7 @@ def mock_get_export_plan():
         'pk': 1,
         'target_markets': [JAPAN],
         'target_markets_research': {'demand': 'high'},
+        'export_countries': [{'country': 'China', 'country_iso2_code': 'CN'}],
     }
     with patch.object(exportplan_helpers, 'get_exportplan', return_value=return_value) as patched:
         yield patched
