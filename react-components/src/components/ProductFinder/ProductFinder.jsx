@@ -30,8 +30,7 @@ function ProductFinder(props) {
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedProduct)
-    setIsOpen(!selectedProduct)
-    addTagging()
+    openProductFinder(!selectedProduct)
   }
 
   const closeModal = () => {
@@ -42,7 +41,7 @@ function ProductFinder(props) {
 
   const closeConfirmation = () => {
     setProductConfirmationRequired(false)
-    setIsOpen(true)
+    openProductFinder(true)
   }
 
   const saveProduct = () => {
@@ -62,13 +61,20 @@ function ProductFinder(props) {
       })
   }
 
-  const addTagging = () => {
-    if (window.dataLayer) {
-      window.dataLayer.push({
+  const openProductFinder = (open) => {
+    setIsOpen(open)
+    if (open) {
+      addTagging({
         'event': 'addProductPageview',
         'virtualPageURL': '/add-product-modal/search_entry',
         'virtualPageTitle': 'Add Product Modal - Search Entry'
-      });
+      })
+    }
+  }
+
+  const addTagging = (tag) => {
+    if (window.dataLayer) {
+      window.dataLayer.push(tag);
     }
   }
 
