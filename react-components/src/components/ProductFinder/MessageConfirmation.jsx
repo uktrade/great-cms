@@ -1,26 +1,32 @@
 import React from 'react'
-import ReactModal from 'react-modal';
+import ReactModal from 'react-modal'
+import PropTypes from 'prop-types'
 
 export function MessageConfirmation(props) {
-  const [modalIsOpen, setIsOpen] = React.useState(props.productConfirmation)
-  const closeModal = () => {
-    setIsOpen(false)
-  }
+
+  const { messageTitle, messageBody, handleButtonClick, productConfirmation, messageButtonText } = props
   return (
     <span>
       <ReactModal 
-        isOpen={props.productConfirmation}
-        onRequestClose={closeModal} 
+        isOpen={productConfirmation}
         className="modal confirmation-modal"
         overlayClassName="modal-overlay center"
         >
-          <div><h2 className="h-s p-t-xxs">{props.messsageTitle}</h2>
-            <p>{props.messageBody}</p>
+          <div><h2 className="h-s p-t-xxs">{messageTitle}</h2>
+            <p>{messageBody}</p>
           </div>
-          <button className="button button--primary" onClick={props.handleButtonClick}>{props.messageButtonText}</button>
+          <button type="button" className="button button--primary" onClick={handleButtonClick}>{messageButtonText}</button>
       </ReactModal>
     </span>
   )
+}
+
+MessageConfirmation.propTypes = {
+  messageTitle: PropTypes.string.isRequired,
+  messageBody: PropTypes.string.isRequired,
+  messageButtonText: PropTypes.string.isRequired,
+  handleButtonClick: PropTypes.func.isRequired,
+  productConfirmation: PropTypes.bool.isRequired, 
 }
 
 export default MessageConfirmation;

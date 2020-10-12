@@ -105,8 +105,8 @@ class ProductLookupView(generics.GenericAPIView):
     serializer_class = serializers.ProductLookupSerializer
     permission_classes = []
 
-    def get(self, request):
-        serializer = self.get_serializer(data=request.query_params)
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if 'tx_id' in serializer.validated_data:
             data = helpers.search_commodity_refine(**serializer.validated_data)
