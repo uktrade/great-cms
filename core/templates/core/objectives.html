@@ -1,6 +1,7 @@
 {% load  wagtailcore_tags %}
 
 <div class="objectives">
+    <h2 class="h-m">Lesson objective</h3>
     {% for block in page.objective %}
         <div class="rich-text">
         {% if block.block_type == 'paragraph' %}
