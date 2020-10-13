@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-756 - Social logout and avatar fix
 - GP2-669 - Country Finder - Various defect fixes
 - GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
