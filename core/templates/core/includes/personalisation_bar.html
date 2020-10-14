@@ -3,24 +3,22 @@
 {% load routablepageurl from wagtailroutablepage_tags %}
 {% with product_name=export_plan.export_commodity_codes.0.commodity_name market=export_plan.export_countries.0 %}
   <nav class="p-t-xxs p-h-xs p-b-xxs bg-blue-deep-70 c-full-width text-white" id="personalisation-bar">
-      <span class="m-f-xs m-r-xxs">I want to learn about exporting</span>
+      <span class="m-f-xs m-r-xxs">I want to export</span>
       <span id="set-product-button" data-text="{{product_name}}">
-        <button class="tag {% if not product_name %}tag--tertiary{% endif %} tag--icon">{{product_name|default:'add product'}}<i class="fas fa-chevron-right"></i></button>
+        <button class="tag {% if not product_name %}tag--tertiary{% endif %} tag--icon">{{product_name|default:'add product'}}<i class="fas {% if product_name %}fa-chevron-edit{% else %}fa-chevron-plus{% endif %}"></i></button>
       </span>
       <span class="m-f-xxs m-r-xxs">to</span>
       <span id="set-country-button" data-text="{{market.country_name}}">
-        <button class="tag {% if not market %}tag--tertiary{% endif %} tag--icon">{{market.country_name|default:'add countries'}}<i class="fas fa-chevron-right"></i></button>
+        <button class="tag {% if not market %}tag--tertiary{% endif %} tag--icon">{{market.country_name|default:'add country'}}<i class="fas {% if market.country_name %}fa-chevron-edit{% else %}fa-chevron-plus{% endif %}"></i></button>
       </span>
   </nav>
 {% endwith %}
 
 <script type="text/javascript">
-    {% if request.user.is_authenticated %}
-      ditMVP.ProductFinder({
-        element: document.querySelector("#set-product-button")
-      })
-      ditMVP.CountryFinder({
-        element: document.querySelector("#set-country-button")
-      })
-    {% endif %}
+  ditMVP.ProductFinder({
+    element: document.querySelector("#set-product-button")
+  })
+  ditMVP.CountryFinder({
+    element: document.querySelector("#set-country-button")
+  })
 </script>
