@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from core import constants
+from config import settings
 
 
 class WagtailAdminExclusivePageMixin:
@@ -34,6 +35,7 @@ class ExportPlanMixin:
         context = super().get_context(request)
         if request.user and hasattr(request.user, 'export_plan'):
             context['export_plan'] = request.user.export_plan
+        context['FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER'] = settings.FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER
         return context
 
 

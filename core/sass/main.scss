@@ -68,7 +68,6 @@ $fa-font-path: '/static/fonts';
 @import 'helpers/mixins';
 @import 'helpers/utils';
 
-@import 'components/header';
 @import 'components/forms';
 @import 'components/statistics';
 @import 'components/progress-wizard';
@@ -77,7 +76,6 @@ $fa-font-path: '/static/fonts';
 @import 'components/target-market-form';
 @import 'components/product-finder';
 @import 'components/sign-up';
-@import 'components/modals';
 @import 'components/route-to-market';
 
 @import 'base';
