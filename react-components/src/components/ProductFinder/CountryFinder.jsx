@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
@@ -9,15 +9,15 @@ import Confirmation from './MessageConfirmation'
 
 const suggested = [{'country':'France', 'region':'Europe'}, {'country': 'Spain', 'region':'Europe'}, {'country':'Italy', 'region':'Europe'}, {'country':'Jamaica',  'region':'Latin America and Caribbean'}]
 
-export function CountryFinder(props) {
+export function CountryFinderModal(props) {
   let modalContent
-  const { text } = props
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [selectedCountry, setSelectedCountry] = useState(text)
+  const { modalIsOpen, setIsOpen, text, addButton } = props
   const [countryList, setCountryList] = useState()
+  const [selectedCountry, setSelectedCountry] = useState(text)
   const [searchStr, setSearchStr] = useState()
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
   const [expandRegion, setExpandRegion] = useState(false)
+
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
@@ -54,7 +54,7 @@ export function CountryFinder(props) {
         return null
       })
       setCountryList(regions)
-    })  
+    })
   }
 
   const modalAfterOpen = () => {
@@ -126,11 +126,13 @@ export function CountryFinder(props) {
   const buttonClass = `tag ${!selectedCountry ? 'tag--tertiary' : ''} tag--icon `
 
   return (
-    <span>
-      <button type="button" className={buttonClass} onClick={openModal}>
-        {selectedCountry || 'add country'}
-        <i className={`fa ${(selectedCountry ? 'fa-edit' : 'fa-plus')}`}/>
-      </button>
+    <>
+      { addButton &&
+        <button type="button" className={buttonClass} onClick={openModal}>
+          {selectedCountry || 'add country'}
+          <i className={`fa ${(selectedCountry ? 'fa-edit' : 'fa-plus')}`}/>
+        </button>
+      }
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -183,7 +185,7 @@ export function CountryFinder(props) {
                   ></input>
                   <span className="visually-hidden">Search markets </span>
                   <i className="fas fa-search"></i>
-                  
+
                 </div>
               </div>
               <div className="grid">
@@ -207,15 +209,42 @@ export function CountryFinder(props) {
         messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time."
         messageButtonText="Got it"
       />
+    </>
+  )
+}
+
+CountryFinderModal.propTypes = {
+  addButton: PropTypes.bool,
+  modalIsOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func.isRequired,
+  text: PropTypes.string
+}
+CountryFinderModal.defaultProps = {
+  addButton: true,
+  modalIsOpen: false,
+  text: '',
+}
+
+export const CountryFinder = ({ text }) => {
+
+  const [modalIsOpen, setIsOpen] = useState(false)
+
+  return (
+    <span>
+      <CountryFinderModal
+        text={text}
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+      />
     </span>
   )
 }
 
 CountryFinder.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
 }
 CountryFinder.defaultProps = {
-  text: null
+  text: '',
 }
 
 export default function createCountryFinder({ ...params }) {
