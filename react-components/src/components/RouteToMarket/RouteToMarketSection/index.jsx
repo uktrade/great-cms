@@ -14,27 +14,30 @@ export const RouteToMarketSection = ({
   field
 }) => {
   return (
-    <div className='route-to-market__table' key={field.pk}>
-      <button type='button' onClick={() => deleteTable(field.pk)} className='button--stone route-to-market__delete'>x</button>
+    <div className='form-table bg-blue-deep-10 radius p-h-s p-b-xxs m-b-s' key={field.pk}>
+      <button type='button' className='button--only-icon button--small button--delete text-blue-deep-40' onClick={() => deleteTable(field.pk)}>
+        <i className='fas fa-trash-alt' />
+      </button>
       {data.map((item) => (
-        <Select
-          key={item.name}
-          label={item.label}
-          update={(x) => update(field.pk, x)}
-          name={item.name}
-          options={item.options}
-          selected={field[item.name] ? item.options.find(x => x.value === field[item.name]).label : ''}
-        />
+        <>
+          <Select
+            key={item.name}
+            label={item.label}
+            update={(x) => update(field.pk, x)}
+            name={item.name}
+            options={item.options}
+            selected={field[item.name] ? item.options.find(x => x.value === field[item.name]).label : ''}
+          />
+          <hr className='hr hr--light' />
+        </>
       ))}
-      <div className='route-to-market__table-cell'>
-        <TextArea
-          label={label}
-          example={example}
-          onChange={(e) => update(field.pk, e)}
-          value={field[name]}
-          id={name}
-        />
-      </div>
+      <TextArea
+        label={label}
+        example={example}
+        onChange={(e) => update(field.pk, e)}
+        value={field[name]}
+        id={name}
+      />
     </div>
   )
 }
