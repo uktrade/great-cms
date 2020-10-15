@@ -11,8 +11,8 @@ let container
 let countriesMock
 
 const mockResponse = [
-  { id: "AL", name: "Albania", region: "Europe", type: "Country" },
   { id: "DZ", name: "Algeria", region: "Africa", type: "Country" },
+  { id: "AL", name: "Albania", region: "Europe", type: "Country" },
   { id: "AT", name: "Austria", region: "Europe", type: "Country" },
 ]
 
@@ -46,7 +46,7 @@ it('Opens and closes country finder', async () => {
   expect(finder).toBeTruthy()
   await waitFor(() => {
     const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Europe+')
+    expect(region.textContent).toEqual('Africa+')
   })
   act(() => {
     Simulate.click(finder.querySelector('button.dialog-close'))
@@ -72,7 +72,7 @@ it('Opens with confirmation', async () => {
   expect(finder).toBeTruthy()
   await waitFor(() => {
     const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Europe+')
+    expect(region.textContent).toEqual('Africa+')
   })
   act(() => {
     Simulate.click(finder.querySelector('button.dialog-close'))
@@ -96,11 +96,11 @@ it('Open country finder and type-ahead filter', async () => {
   expect(finder).toBeTruthy()
   await waitFor(() => {
     const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Europe+')
+    expect(region.textContent).toEqual('Africa+')
   })
   const searchInput = finder.querySelector('.search-input input');
   const europeBlock = finder.querySelector('.country-list ul');
-  expect(finder.querySelector('.country-list ul').textContent).toEqual('AlbaniaAustria')
+  expect(finder.querySelector('.country-list ul').textContent).toEqual('Algeria')
   act(() => {
     searchInput.value = 'au'
     Simulate.change(searchInput)
@@ -110,7 +110,7 @@ it('Open country finder and type-ahead filter', async () => {
     searchInput.value = ''
     Simulate.change(searchInput)
   })
-  expect(finder.querySelector('.country-list ul').textContent).toEqual('AlbaniaAustria')
+  expect(finder.querySelector('.country-list ul').textContent).toEqual('Austria')
   act(() => {
     searchInput.value = 'aub'
     Simulate.change(searchInput)

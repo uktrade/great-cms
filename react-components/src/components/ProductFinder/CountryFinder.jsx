@@ -36,8 +36,10 @@ export function CountryFinderModal(props) {
   }
 
   const searchChange = (evt) => {
-    setSearchStr(evt.target.value.toUpperCase())
-    setExpandRegion(true)
+    if (evt.target.value.length > 0) {
+      setSearchStr(evt.target.value.toUpperCase())
+      setExpandRegion(true)
+    }
   }
 
   const toggleRegion = () => {
@@ -66,6 +68,7 @@ export function CountryFinderModal(props) {
 
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
+
     let result = Services.updateExportPlan({
       export_countries: [
         {
@@ -92,7 +95,7 @@ export function CountryFinderModal(props) {
     })
   }
 
-  let regions = Object.keys(countryList || {}).map((region, index) => {
+  let regions = Object.keys(countryList || {}).sort().map((region, index) => {
     let countries = (countryList[region] || []).map((country, index) => {
       if (searchStr && country.name.toUpperCase().indexOf(searchStr) != 0) return ''
       return (
@@ -170,7 +173,7 @@ export function CountryFinderModal(props) {
               <hr className="bg-black-70"/>
               <h3 className="h-s p-t-0">List of markets</h3>
               <p className="m-v-xs">
-                If you have an idea of where you want to export, choose from the list below. You can change this at any
+                If you have an idea of where you want to export, choose from the list below. <br/>You can change this at any
                 time.
               </p>
               <div className="grid">
@@ -190,9 +193,9 @@ export function CountryFinderModal(props) {
               </div>
               <div className="grid">
                 <div className="c-full">
-                  <button type="button" key="region-expand" className="region-expand link" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+                  <button type="button" key="{index}" className="region-expand link" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
                     <hr/>
-                  <ul className="country-list" onClick={selectCountry}>
+                  <ul className="country-list">
                     {regions}
                   </ul>
                 </div>
