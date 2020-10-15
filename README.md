@@ -139,10 +139,7 @@ export default {
 Make sure to use NodeJS 12.16.1 or greater
 
 ### Code formatting
-We are using eslint with recommended settings and prettier
-
-Are you using Visual Studio Code? Install Prettier plugin for auto formatting of your code:
-https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+We are using eslint with recommended settings
 
 ## Staff SSO
 
