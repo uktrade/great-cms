@@ -39,20 +39,4 @@
             </ol>
         </section>
 </div>
-<div id="coming-soon-modal"></div>
-{% endblock %}
-
-{% block body_js %}
-    {{ block.super }}
-    <script>
-      const modal = ditMVP.createComingSoonModal(document.getElementById('coming-soon-modal'))
-
-      document.querySelectorAll('.learn__lesson-item--placeholder').forEach((el) => {
-        el.addEventListener("click", (e) => {
-            e.preventDefault();
-            modal.render();
-        });
-      })
-    </script>
-
 {% endblock %}
