@@ -38,7 +38,6 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
 
 class MarketingApproachSerializer(serializers.Serializer):
     resources = serializers.CharField(required=False, allow_blank=True)
-    spending = serializers.IntegerField(required=False, allow_null=True)
 
 
 class AdaptationTargetMarketSerializer(serializers.Serializer):
