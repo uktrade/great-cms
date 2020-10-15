@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
-import Services from '../../../../Services'
+import Services from '../../Services'
 
 export const SpendingAndResources = ({
   field,

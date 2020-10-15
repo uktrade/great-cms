@@ -35,7 +35,7 @@ export default function Table({
           <div className="c-1-4">
             <figure className="statistic">
               <figcaption>
-                <p className="statistic__caption">Access to internet</p>
+                <p className="statistic__caption">Access to the internet (total)</p>
               </figcaption>
               <p className="statistic__figure">
                 <span className="statistic__details">
@@ -112,7 +112,7 @@ export default function Table({
             <div className="statistic__group">
               <figure className="statistic">
                 <figcaption>
-                  <p className="statistic__caption">Female in target group</p>
+                  <p className="statistic__caption">Female in your target group</p>
                 </figcaption>
                 <p className="statistic__figure">
                   <span className="statistic__details">{female} m</span>
@@ -120,7 +120,7 @@ export default function Table({
               </figure>
               <figure className="statistic">
                 <figcaption>
-                  <p className="statistic__caption">Male in target group</p>
+                  <p className="statistic__caption">Male in your target group</p>
                 </figcaption>
                 <p className="statistic__figure">
                   <span className="statistic__details">{male} m</span>
@@ -136,7 +136,7 @@ export default function Table({
           <div className="c-1-2">
             <figure className="statistic">
               <figcaption>
-                <p className="statistic__caption">Language</p>
+                <p className="statistic__caption">Languages in your target market</p>
               </figcaption>
               <p className="statistic__figure">
                 <span className="statistic__details">{languages}</span>

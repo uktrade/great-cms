@@ -8,6 +8,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-451 - Case Study layout tweaks
+- GP2-754 - Pros and Cons layout tweaks
 - GP2-707 - Lesson module landing page button size
 - GP2-669 - Country Finder - Various defect fixes
 - GP2-596 - Force logout even if token revoke fails
@@ -61,6 +63,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-759 - Product-search No results + feature flag to allow UR
 - GP2-755 - Add objectives section title
 - GP2-299 - Step by step reduce image size
 - GP2-754 - Pros and Cons updated design

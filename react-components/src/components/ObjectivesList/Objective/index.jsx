@@ -31,7 +31,7 @@ export const Objective = ({
 
   return (
     <>
-      <div className='objective bg-blue-deep-10 radius p-h-s'>
+      <div className='form-table bg-blue-deep-10 radius p-h-s'>
         <div className='grid objective-fields'>
           <div className='c-full'>
             <TextArea

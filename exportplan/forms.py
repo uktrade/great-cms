@@ -328,31 +328,10 @@ class ExportPlanMarketingApproachForm(forms.Form):
                 'example liquor store email marketing campaigns.</p>'
             ),
             'description': (
-                '<p>Write down:</p><ul class="list-bullet"><li>what marketing you can do in-house</li>'
+                '<p class="m-0">To make sure you have the right amount of marketing resources make '
+                'sure you write down:</p><ul class="list-dot"><li>what marketing you can do in-house</li>'
                 '<li>the areas where your business will need support</li><li>external agencies or '
-                'people you’ll work with and what you expect them to do</li>'
+                'people you will work with and what they will be doing</li>'
             )}
-        ),
-    )
-    spending = forms.CharField(
-        label='How much do you think you’ll spend on marketing?',
-        required=False,
-        widget=NumberInput(attrs={
-            'example': (
-                '<p>We think we’ll spend around £13,000 a year in 2021 and 2022 on marketing for Dove Gin’s '
-                'launch in Australia.</p><p>The main costs will be:</p><ul><li>£500 per month for paid search '
-                'for a 6 month campaign late 2021</li><li>£5,000 agency fees</li></ul><p>Remaining budget tbc '
-                'but will need to include giveaways and potential cost of sponsoring launch nights at bars in '
-                'late 2021.</p>'
-            ),
-            'description': (
-                '<p>Explain how your total marketing spend breaks down.</p>'
-            ),
-            'placeholder': (
-                0.00
-            ),
-            'currency': (
-                'GBP'
-            )},
         ),
     )
