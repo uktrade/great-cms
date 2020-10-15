@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { RouteToMarketSection } from '@src/views/sections/MarketingApproach/RouteToMarket/RouteToMarketSection'
-import Services from '../../../../Services'
+import { RouteToMarketSection } from '@src/components/RouteToMarket/RouteToMarketSection'
+import Services from '../../Services'
 
 export const RouteToMarket = ({
   fields,
@@ -45,10 +45,12 @@ export const RouteToMarket = ({
   return (
     <>
       {routes.length >=1 && routes.map((field) => RouteToMarketSection({ ...formData, update, deleteTable, field }))}
-      <div className='button--plus'>
-        <span className='icon--plus' />
-        <button type='button' onClick={addTable} className='button--stone'>Add route to market</button>
-      </div>
+      <button
+        type='button'
+        className='button button--large button--icon'
+        onClick={addTable}>
+        <i className='fas fa-plus-circle' />Add route to market
+      </button>
     </>
   )
 }
