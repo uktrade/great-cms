@@ -28,9 +28,33 @@ class Item(blocks.StructBlock):
     item = blocks.CharBlock(max_length=255)
 
 
+class LessonPlaceholderBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255)
+
+    class Meta:
+        help_text = (
+            'Placeholder block for a lesson which will be shown as "Coming Soon"'
+        )
+        icon = 'fa-expand'
+        template = 'learn/_lesson_placeholder.html'
+
+
 class CuratedTopicBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=255)
-    pages = blocks.ListBlock(blocks.PageChooserBlock(label='Detail page'))
+    pages = blocks.ListBlock(  # WILL BE REMOVED AFTER DATA MIGRATION
+        blocks.PageChooserBlock(label='Detail page')
+    )
+    lessons_and_placeholders = blocks.StreamBlock(
+        [
+            (
+                'lesson', blocks.PageChooserBlock(
+                    target_model='core.DetailPage'
+                )
+            ),
+            ('placeholder', LessonPlaceholderBlock())
+        ],
+        required=False,
+    )
 
     class Meta:
         template = 'core/curated_topic.html'
