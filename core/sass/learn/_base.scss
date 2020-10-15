@@ -177,6 +177,18 @@ $desktop: 1024px;
 .learn__lesson-item {
   background-color: $white;
   border-bottom: 1px solid $blue-deep-20;
+
+  &--placeholder {
+    background-color: rgba($white, .6);
+
+    span {
+      opacity: .6;
+    }
+
+    button {
+      float: right;
+    }
+  }
 }
 
 .learn__lesson-item-link {

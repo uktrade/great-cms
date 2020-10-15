@@ -8,11 +8,20 @@
     </div>
     <ul class="learn__lessons-list c-2-3-l">
         {% for page in value.pages %}
+            {% if False %}
             <li class="learn__lesson-item">
                 <a class="learn__lesson-item-link h-xs" href="{% pageurl page %}" title="{{ page.title }}">
                     {{ page.title }}
                     <div class="learn__topic-item-read-time body-l-b">{{ page.specific.estimated_read_duration|format_timedelta }}</div>
                 </a>
+            </li>
+            {% endif %}
+
+            {% if True %}
+            <li class="learn__lesson-item learn__lesson-item--placeholder">
+                {% include 'learn/_lesson_placeholder.html' %}
+            </li>
+            {% endif %}
             </li>
         {% endfor %}
     </ul>
