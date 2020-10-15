@@ -8,6 +8,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-451 - Case Study layout tweaks
 - GP2-754 - Pros and Cons layout tweaks
 - GP2-707 - Lesson module landing page button size
 - GP2-669 - Country Finder - Various defect fixes
