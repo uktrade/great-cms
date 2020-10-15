@@ -144,7 +144,7 @@ We are using eslint with recommended settings
 ## Staff SSO
 
 On local machine, SSO is turned off by default.
-If you need to enable, set the `FEATURE_ENFORCE_STAFF_SSO_ENABLED` to `true`.
+If you need to enable, set the `ENFORCE_STAFF_SSO_ENABLED` to `true`.
 You also need to set:
 ```
 STAFF_SSO_AUTHBROKER_URL
