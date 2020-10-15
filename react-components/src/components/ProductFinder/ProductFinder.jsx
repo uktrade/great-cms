@@ -57,7 +57,7 @@ function ProductFinder(props) {
         window.location.reload()
       })
       .catch(() => {
-        // TODO: add an error dialogue here
+        closeModal()
       })
   }
 
@@ -193,7 +193,7 @@ function ProductFinder(props) {
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-l">
+      <section className="m-h-l m-b-s">
         <div className="h-m p-b-s">Match for &quot;{_searchResults.currentItemName}&quot;</div>
         <div className="box box--no-pointer">
           <h3 className="h-xs p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
@@ -202,6 +202,28 @@ function ProductFinder(props) {
           <button className="button button--primary" type="button" onClick={saveProduct}>
             Select this product
           </button>
+        </div>
+      </section>
+    )
+  }
+
+  const sectionNoResults = (_searchResults) => {
+    return (
+      <section className="m-h-l">
+        <div className="box box--no-pointer">
+          <h3 className="h-m">No results found for &lsquo;{_searchResults.productDescription}&rsquo;</h3>
+          <h4 className="h-s">Search tips</h4>
+          <ul className="list-dot">
+            <li>Check for spelling mistakes</li>
+            <li>Try a more generic search term for descrcibing your product, like sofa instead of setee</li>
+          </ul>
+          <h4 className="h-s">Example searches</h4>
+          <ul className="list-dot">
+            <li>frozen atlantic salmon</li>
+            <li>strawberries</li>
+            <li>fresh cut snowdrop</li>
+            <li>Woven mens blazer, 75% wool, 25% cotton</li>
+          </ul>
         </div>
       </section>
     )
@@ -221,6 +243,14 @@ function ProductFinder(props) {
     return newBlock.length ? newBlock : null
   }
 
+  const spinner = isLoading ? (
+    <div className="shim">
+      <Spinner text="" />
+    </div>
+  ) : (
+    ''
+  )
+
   const resultsDisplay = (results) => {
     // Build maps of interactions as we don't want any duplicates
     const questions = buildMap([results.currentQuestionInteraction])
@@ -228,20 +258,19 @@ function ProductFinder(props) {
     const known = buildMap(results.knownInteractions)
     const itemChoice = buildMap([results.currentItemInteraction]);
     (itemChoice || {}).isItemChoice = true
-    const spinner = isLoading ? (
-      <div className="shim">
-        <Spinner text="" />
-      </div>
-    ) : (
-      ''
-    )
 
-    const sections = itemChoice ?
+
+    if (searchResults.txId && !questions && !searchResults.hsCode) {
+      return sectionNoResults(searchResults)
+    }
+
+    const sections = itemChoice && !searchResults.hsCode ?
       // If the item is ambiguous - supress other sections
       <div>
-        {!searchResults.hsCode && Section('Please choose your item', itemChoice)}
+        {Section('Please choose your item', itemChoice)}
       </div> :
       <div>
+        {searchResults.hsCode && sectionFound(searchResults)}
         {!searchResults.hsCode && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
         {(known || questions) ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
         {sectionProductDetails(known)} 
@@ -251,16 +280,12 @@ function ProductFinder(props) {
 
     return (
       <div>
-        {spinner}
-        <div className="scroll-inner p-b-m">
           {searchResults.txId && !questions && !searchResults.hsCode && (
             <div className="grid p-t-l">
               <p className="h-s center">No results found</p>
             </div>
           )}
-          {searchResults.hsCode && sectionFound(searchResults)}
           {sections}
-        </div>
       </div>
     )
   }
@@ -282,9 +307,16 @@ function ProductFinder(props) {
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         shouldCloseOnOverlayClick={false}
+        style={{
+          content:{
+            width:'auto',
+            left: '100px',
+            right: '100px',
+          }
+        }}
       >
         <form className="product-finder text-blue-deep-80">
-          <div style={{height:headerHeight}}>        
+          <div style={{height:headerHeight}}>
             <button id="dialog-close" type="button" aria-label="Close" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
             <h3 className="h-l p-t-0 p-b-xxs">Search by name</h3>
             <div>Find the product you want to export</div>
@@ -306,7 +338,10 @@ function ProductFinder(props) {
             </div>
           </div>
           <div className={scrollerClass} style={{marginTop:headerHeight}} onScroll={onScroll}>
-            {resultsDisplay(searchResults)}
+            {spinner}
+            <div className="scroll-inner p-b-m">
+              {resultsDisplay(searchResults)}
+            </div>
           </div>
         </form>
       </ReactModal>

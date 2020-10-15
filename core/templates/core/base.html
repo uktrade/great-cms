@@ -19,6 +19,8 @@
   {% include 'core/header.html' %}
   {% if request.user.is_authenticated %}
     {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+  {% elif FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER %}
+    {% include "core/includes/personalisation_bar.html" %}
   {% endif %}
 {% endblock %}
 
