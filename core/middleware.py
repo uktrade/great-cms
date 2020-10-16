@@ -159,7 +159,7 @@ class TimedAccessMiddleware(MiddlewareMixin):
             return HttpResponseForbidden()
         else:
             # set the cookie to 24 hours and return
-            response.set_cookie('beta-user', encrypted_token, max_age=86400*5)
+            response.set_cookie('beta-user', encrypted_token, max_age=86400 * 5)
             return response
 
 
