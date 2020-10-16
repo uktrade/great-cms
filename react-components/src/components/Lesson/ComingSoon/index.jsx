@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 
 import { Modal } from '@src/components/Modal/index'
 
-export const ComingSoon = ({ title, lessons = [] }) => {
+export const ComingSoon = ({ title }) => {
   const [modal, setModal] = useState(false)
   return (
     <>
@@ -15,41 +15,31 @@ export const ComingSoon = ({ title, lessons = [] }) => {
         contentLabel="Modal"
       >
         <Modal
-          backUrl="/export-plan/dashboard/"
+          backUrl="/learn/categories/market-research/"
           header="This Lesson is coming soon"
-          content="This feature is not available in Beta version of the new great.gov.uk platform."
+          content="This lesson is not available in Beta version of the new great.gov.uk platform."
           onClick={() => setModal(false)}
           buttonText="Ok"
+          type={3}
         />
       </ReactModal>
-      <div className="learn__topic-item-details c-1-3-l">
-        <h2 className="learn__topic-item-title h-m p-t-0">{title}</h2>
-      </div>
-      <ul className="learn__lessons-list c-2-3-l">
-        {lessons.map((lesson) => (
-          <li className={`learn__lesson-item ${lesson.isPlaceholder ? 'learn__lesson-item--placeholder' : ''}`}>
-            <a
-              href={lesson.url}
-              className="learn__lesson-item-link h-xs"
-              onClick={(e) => {
-                if (lesson.isPlaceholder) {
-                  e.preventDefault()
-                  setModal(true)
-                }
-              }}
-            >
-              <span>{lesson.title}</span>
-              {lesson.isPlaceholder && <button className="button button--secondary button--small">Coming soon</button>}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <a
+        href=""
+        className="learn__lesson-item-link h-xs"
+        onClick={(e) => {
+          e.preventDefault()
+          setModal(true)
+        }}
+      >
+        <span>{title}</span>
+        <button className="button button--secondary button--small">Coming soon</button>
+      </a>
     </>
   )
 }
 
-function createComingSoonModal({ element, title, lessons }) {
-  ReactDOM.render(<ComingSoon title={title} lessons={lessons} />, element)
+function createComingSoonModal({ element, title }) {
+  ReactDOM.render(<ComingSoon title={title} />, element)
 }
 
 export { createComingSoonModal }

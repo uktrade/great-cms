@@ -113,3 +113,9 @@
     outline: none;
   }
 }
+
+.modal-close {
+  &:visited {
+    color: $white;
+  }
+}
