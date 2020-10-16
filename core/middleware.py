@@ -1,9 +1,7 @@
 import os
 import logging
-from great_components.helpers import add_next
 
 from django.shortcuts import redirect
-from django.urls import reverse
 
 from core import helpers
 from sso.models import BusinessSSOUser
@@ -40,10 +38,6 @@ class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):
             return redirect('/learn/categories/')
         elif request.path == '/learn/introduction/':
             request.session[self.SESSION_KEY_LEARN] = True
-        elif request.path in ['/export-plan/', '/export-plan/dashboard/']:
-            if request.user.is_authenticated and (not request.user.company or not request.user.company.name):
-                url = add_next(destination_url=reverse('core:set-company-name'), current_url=request.get_full_path())
-                return redirect(url)
 
 
 class StoreUserExpertiseMiddleware(MiddlewareMixin):

@@ -64,23 +64,6 @@ def test_user_specific_redirect_middleware(domestic_site, client):
 
 
 @pytest.mark.django_db
-def test_user_specific_redirect_exportplan_middleware_logged_in(domestic_site, client, user):
-    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
-
-    # Given the user is logged in and has not company
-    client.force_login(user)
-
-    # When the user next goes to /export-plan/ or /export-plan/dasbboard/
-    for page in [exportplan_page, exportplan_dashboard_page]:
-        response = client.get(page.url)
-
-        # Then they should be redirected to /learn/categories/
-        assert response.status_code == 302
-        assert response.url == f'/signup/company-name/?next={page.url}'
-
-
-@pytest.mark.django_db
 def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set(
     domestic_site, client, user, mock_get_company_profile, patch_export_plan
 ):
@@ -99,29 +82,6 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
 
         # Then they should not be redirected
         assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_not_set(
-    domestic_site, client, user, mock_get_company_profile
-):
-    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
-
-    # Given the user is logged in
-    client.force_login(user)
-
-    # And the compay name is set
-
-    mock_get_company_profile.return_value = {}
-
-    # When the user next goes to /export-plan/ or /export-plan/dasbboard/
-    for page in [exportplan_page, exportplan_dashboard_page]:
-        response = client.get(page.url)
-
-        # Then they should be redirected
-        assert response.status_code == 302
-        assert response.url == f'/signup/company-name/?next={page.url}'
 
 
 @pytest.mark.django_db
