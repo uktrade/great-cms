@@ -278,3 +278,4 @@
 - GP2-709 - BE Country add required country signal
 - GP2-744 and GP2-744 - tighten up validation for CaseStudy.body StreamField
 - noticket - hide-next-link
+- GP2-731-content-refresh
