@@ -4,7 +4,11 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from django.core.exceptions import ObjectDoesNotExist
 from core import models
-from core.constants import RICHTEXT_FEATURES__MINIMAL
+from core.constants import (
+    LESSON_BLOCK,
+    PLACEHOLDER_BLOCK,
+    RICHTEXT_FEATURES__MINIMAL
+)
 
 from core.utils import get_personalised_case_study_orm_filter_args, get_personalised_choices
 
@@ -41,17 +45,18 @@ class LessonPlaceholderBlock(blocks.StructBlock):
 
 class CuratedTopicBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=255)
-    pages = blocks.ListBlock(  # WILL BE REMOVED AFTER DATA MIGRATION
-        blocks.PageChooserBlock(label='Detail page')
-    )
     lessons_and_placeholders = blocks.StreamBlock(
         [
             (
-                'lesson', blocks.PageChooserBlock(
+                LESSON_BLOCK,
+                blocks.PageChooserBlock(
                     target_model='core.DetailPage'
                 )
             ),
-            ('placeholder', LessonPlaceholderBlock())
+            (
+                PLACEHOLDER_BLOCK,
+                LessonPlaceholderBlock()
+            )
         ],
         required=False,
     )

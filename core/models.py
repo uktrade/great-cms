@@ -35,7 +35,13 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
-from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
+from core.constants import (
+    BACKLINK_QUERYSTRING_NAME,
+    LESSON_BLOCK,
+    PLACEHOLDER_BLOCK,
+    RICHTEXT_FEATURES__MINIMAL
+)
+
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
@@ -382,7 +388,14 @@ class CuratedListPage(CMSGenericPage):
 
     @cached_property
     def count_detail_pages(self):
-        return sum((len(topic.value['pages']) for topic in self.topics))
+        count = 0
+        for topic in self.topics:
+            for lesson_or_placeholder_block in topic.value.get(
+                'lessons_and_placeholders'
+            ):
+                if lesson_or_placeholder_block.block_type == LESSON_BLOCK:
+                    count += 1
+        return count
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
