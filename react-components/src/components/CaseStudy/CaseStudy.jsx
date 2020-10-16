@@ -29,10 +29,10 @@ const CaseStudy = ({ content: { heading, company, body } }) => {
       <div className="case-study__content media-block">
         <i className="fas fa-newspaper" />
         <div>
-          <h3 className="h-m m-b-xs p-0">{heading}</h3>
+      <h3 className="h-m m-b-xs p-0" dangerouslySetInnerHTML={{ __html: heading }} />
           {isOpen && (
             <>
-              <p className="case-study__company h-s p-0">{company}</p>
+              <p className="case-study__company h-s p-0" dangerouslySetInnerHTML={{ __html: company }} />
               <div className="case-study__media body-l" dangerouslySetInnerHTML={{ __html: body }} />
             </>
           )}

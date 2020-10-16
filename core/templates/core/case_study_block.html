@@ -6,8 +6,8 @@
         <div class="case-study__content media-block">
             <i class="fas fa-newspaper"></i>
             <div>
-                <h3 class="h-m m-b-xs p-0">{{case_study.summary}}</h3>
-                <p class="case-study__company h-xs p-0">{{case_study.company_name}}</p>
+                <h3 class="h-m m-b-xs p-0">{% autoescape off %}{{case_study.summary}}{% endautoescape %}</h3>
+                <p class="case-study__company h-xs p-0">{% autoescape off %}{{case_study.company_name}}{% endautoescape %}</p>
                 <div class="case-study__media case-study__body">
                     {% comment %} Body is a streamfield {% endcomment %}
                     {% for block in case_study.body %}
