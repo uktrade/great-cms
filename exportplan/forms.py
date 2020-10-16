@@ -85,7 +85,8 @@ class ExportPlanAboutYourBusinessForm(forms.Form):
             'example': (
                 'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li>'
                 '<li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>'
-                'Our distribution and delivery boxes are 100% recycled cardboard. Each features our distinctive Dove label.'
+                'Our distribution and delivery boxes are 100% recycled cardboard.'
+                'Each features our distinctive Dove label.'
             )}
         ),
     )
