@@ -1,19 +1,12 @@
 .statistic {
+  @extend .bg-white;
+  @extend .radius;
   display: block;
   margin-bottom: 15px;
+  padding: 20px;
 
   @include tablet {
     margin-bottom: 30px;
-  }
-}
-
-.statistic__details {
-  font-size: $font-size-small-mobile;
-  display: block;
-  font-weight: 600;
-
-  @include tablet {
-    font-size: $font-size-large-desktop;
   }
 }
 
@@ -24,6 +17,10 @@
   @include tablet {
     font-size: $font-size-small-desktop;
   }
+}
+
+.statistic__header {
+  font-size: $font-size-small-desktop;
 }
 
 .statistic__figure {
@@ -41,12 +38,10 @@
 }
 
 .statistic__percentage {
-  background: #c0bdbd;
   height: 4px;
 
   span {
     display: block;
-    background: black;
     height: 4px;
 
     transition: width 1s;

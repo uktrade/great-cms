@@ -26,7 +26,7 @@ export default function Table({
                 <p className="statistic__caption">Total population</p>
               </figcaption>
               <p className="statistic__figure">
-                <span className="statistic__details">{population} million</span>
+                <span className="h-xs">{population} million</span>
               </p>
             </figure>
           </div>
@@ -38,7 +38,7 @@ export default function Table({
                 <p className="statistic__caption">Access to the internet (total)</p>
               </figcaption>
               <p className="statistic__figure">
-                <span className="statistic__details">
+                <span className="h-xs">
                   {internet_percentage}% ({internet_total} million)
                 </span>
               </p>
@@ -57,7 +57,7 @@ export default function Table({
                 />
               </figcaption>
               <p className="statistic__figure">
-                <span className="statistic__details">{cpi}</span>
+                <span className="h-xs">{cpi}</span>
               </p>
             </figure>
           </div>
@@ -69,7 +69,7 @@ export default function Table({
                 <p className="statistic__caption">Target age population</p>
               </figcaption>
               <p className="statistic__figure">
-                <span className="statistic__details">
+                <span className="h-xs">
                   {target_population} million ({target_population_percentage}%)
                 </span>
               </p>
@@ -81,51 +81,67 @@ export default function Table({
       <div className="grid">
         {urban && rural && (
           <div className="c-1-2">
-            <div className="statistic__percentage m-b-xs">
-              <span style={{ width: `${urban}%` }}></span>
-            </div>
-            <div className="statistic__group">
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Living in urban areas</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{urban}%</span>
-                </p>
-              </figure>
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Living in rural areas</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{rural}%</span>
-                </p>
-              </figure>
+            <div className='statistic'>
+              <div className="statistic__group m-b-xs">
+                <figure>
+                  <figcaption>
+                    <p className="statistic__caption">Living in urban areas</p>
+                  </figcaption>
+                </figure>
+                <figure>
+                  <figcaption>
+                    <p className="statistic__caption">Living in rural areas</p>
+                  </figcaption>
+                </figure>
+              </div>
+              <div className="statistic__percentage bg-red-80 radius m-b-xs">
+                <span className='bg-blue-deep-80 radius' style={{ width: `${urban}%` }} />
+              </div>
+              <div className="statistic__group">
+                <figure>
+                  <p className="statistic__figure">
+                    <span className="h-xs">{urban}%</span>
+                  </p>
+                </figure>
+                <figure>
+                  <p className="statistic__figure">
+                    <span className="h-xs">{rural}%</span>
+                  </p>
+                </figure>
+              </div>
             </div>
           </div>
         )}
         {female && male && (
           <div className="c-1-2">
-            <div className="statistic__percentage m-b-xs">
-              <span style={{ width: '51%' }}></span>
-            </div>
-            <div className="statistic__group">
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Female in your target group</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{female} m</span>
-                </p>
-              </figure>
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Male in your target group</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{male} m</span>
-                </p>
-              </figure>
+            <div className='statistic'>
+              <div className="statistic__group m-b-xs">
+                <figure>
+                  <figcaption>
+                    <p className="statistic__caption">Female in your target group</p>
+                  </figcaption>
+                </figure>
+                <figure>
+                  <figcaption>
+                    <p className="statistic__caption">Male in your target group</p>
+                  </figcaption>
+                </figure>
+              </div>
+              <div className="statistic__percentage bg-red-80 radius m-b-xs">
+                <span className='bg-blue-deep-80 radius' style={{ width: '51%' }} />
+              </div>
+              <div className="statistic__group m-t-xs">
+                <figure>
+                  <p className="statistic__figure">
+                    <span className="h-xs">{female} m</span>
+                  </p>
+                </figure>
+                <figure>
+                  <p className="statistic__figure">
+                    <span className="h-xs">{male} m</span>
+                  </p>
+                </figure>
+              </div>
             </div>
           </div>
         )}
@@ -133,13 +149,13 @@ export default function Table({
 
       {languages && (
         <div className="grid">
-          <div className="c-1-2">
+          <div className="c-full">
             <figure className="statistic">
               <figcaption>
                 <p className="statistic__caption">Languages in your target market</p>
               </figcaption>
               <p className="statistic__figure">
-                <span className="statistic__details">{languages}</span>
+                <span className="h-xs">{languages}</span>
               </p>
             </figure>
           </div>
