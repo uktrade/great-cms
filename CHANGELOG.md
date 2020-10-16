@@ -63,6 +63,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-759 - Product search no-header 
 - GP2-759 - Product-search No results + feature flag to allow UR
 - GP2-755 - Add objectives section title
 - GP2-299 - Step by step reduce image size

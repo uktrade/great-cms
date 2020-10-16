@@ -37,11 +37,10 @@ ValueItem.propTypes = {
   option: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
-    value: PropTypes.number,
+    value: PropTypes.string,
   }).isRequired,
   valueChange: PropTypes.func.isRequired
 }
-
 
 export default function Interaction(props) {
   const buttonEnabled = true
@@ -82,7 +81,7 @@ export default function Interaction(props) {
           { mixedContentError ? (<span className="error-message m-v-xs bold">Total must equal 100%</span>) : '' }
           {options}
         </div>
-        <button type="button" className="button button--secondary m-t-xxs" disabled={!buttonEnabled} onClick={clickNext} style={{float:'left',clear:'both'}}>Next</button>
+        <button type="button" className="button button--primary m-t-xxs" disabled={!buttonEnabled} onClick={clickNext} style={{float:'left',clear:'both'}}>Next</button>
       </div>
     </div>
   )
