@@ -86,7 +86,7 @@ export default function Table({
                 </dl>
               </div>
               <div className="statistic__percentage bg-red-80 radius m-b-xs">
-                <span className='bg-blue-deep-80 radius' style={{ width: '51%' }} />
+                <span className='bg-blue-deep-80 radius' style={{ width: `${(female/target_population)*100}%` }} />
               </div>
             </div>
           )}
