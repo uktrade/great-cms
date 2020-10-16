@@ -62,13 +62,13 @@ def test_can_view_lessons_from_different_topics(
     mock_get_lessons_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    topics_with_lessons,
+    topics_with_lessons_and_placeholders,
     server_user_browser_dashboard,
 ):
 
     live_server, user, browser = server_user_browser_dashboard
-    topic_a, topic_a_lessons = topics_with_lessons[0]
-    topic_b, topic_b_lessons = topics_with_lessons[1]
+    topic_a, topic_a_lessons = topics_with_lessons_and_placeholders[0]
+    topic_b, topic_b_lessons = topics_with_lessons_and_placeholders[1]
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
 
@@ -86,12 +86,12 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     mock_get_lesson_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    topics_with_lessons,
+    topics_with_lessons_and_placeholders,
     server_user_browser_dashboard,
     domestic_homepage,
 ):
     live_server, user, browser = server_user_browser_dashboard
-    topic_a, topic_a_lessons = topics_with_lessons[0]
+    topic_a, topic_a_lessons = topics_with_lessons_and_placeholders[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
     lesson_page = DetailPageFactory(parent=module_page, title='test detail page 1')
     DetailPageFactory(parent=module_page, title='test detail page 2')
