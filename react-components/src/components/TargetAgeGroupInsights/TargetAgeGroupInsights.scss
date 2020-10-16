@@ -1,43 +1,7 @@
 .target-age-group-insights {
   .educational-moment--tooltip-container {
-    margin-top: -33px;
+    margin-top: -28px;
     margin-right: -8px;
     float: right;
-  }
-
-  &__select-button {
-    font-size: 24px;
-    font-weight: 600;
-
-    span {
-      margin-right: 10px;
-    }
-  }
-
-  &__source {
-    color: #888;
-    font-size: 12px;
-    margin-top: 16px;
-  }
-
-  label {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 30px;
-    padding-left: 20px;
-  }
-
-  .multiple-choice [type='checkbox'] + label::before {
-    background: #fff;
-    width: 25px;
-    height: 25px;
-  }
-
-  .multiple-choice [type='checkbox'] + label::after {
-    border-width: 0 0 4px 4px;
-    width: 10px;
-    height: 5px;
-    top: 9px;
-    left: 8px;
   }
 }

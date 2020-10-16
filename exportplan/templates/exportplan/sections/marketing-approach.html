@@ -17,13 +17,13 @@
 {% endblock %}
 
 {% block user_input %}
-<section class="bg-blue-deep-10 m-v-l">
+<section class="bg-blue-deep-10 m-t-l m-b-s">
   <div class="container">
     <div class="grid">
-      <div class="c-1-4 p-0 m-t-s">&nbsp;</div>
-      <div class="c-1-2">
-        <h2 class="h-l">Facts and figures about {{ export_plan.export_countries.0.country_name }} to get you started</h2>
-        <div id="target-age-groups" class="m-b-xl">
+      <div class="c-1-4 p-0">&nbsp;</div>
+      <div class="c-2-3">
+        <h2 class="h-xs p-t-l p-b-s">Facts and figures about {{ export_plan.export_countries.0.country_name }} to get you started</h2>
+        <div id="target-age-groups" class="m-b-s">
           {% include "exportplan/includes/insight.html" %}
         </div>
       </div>
@@ -31,6 +31,17 @@
     </div>
   </div>
 </section>
+
+<div class="container m-b-s">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-2-3">
+      <p class="m-0 body-s">Population statistics – United Nations; Access to Internet,Consumer Price Index - World Bank;  Languages -  CIA World Factbook;</p>
+    </div>
+    <div class="c-1-4">&nbsp;</div>
+  </div>
+</div>
+
 <section class="container m-b-l">
   <div class="grid">
     <div class="c-1-4 p-0 m-t-s">
