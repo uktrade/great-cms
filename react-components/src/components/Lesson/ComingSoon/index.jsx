@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 
 import { Modal } from '@src/components/Modal/index'
 
-export const ComingSoon = ({ title }) => {
+export const ComingSoon = ({ title, backUrl }) => {
   const [modal, setModal] = useState(false)
   return (
     <>
@@ -15,7 +15,7 @@ export const ComingSoon = ({ title }) => {
         contentLabel="Modal"
       >
         <Modal
-          backUrl="/learn/categories/market-research/"
+          backUrl={backUrl}
           header="This Lesson is coming soon"
           content="This lesson is not available in Beta version of the new great.gov.uk platform."
           onClick={() => setModal(false)}
@@ -30,6 +30,7 @@ export const ComingSoon = ({ title }) => {
           e.preventDefault()
           setModal(true)
         }}
+        role="button"
       >
         <span>{title}</span>
         <button className="button button--secondary button--small">Coming soon</button>
@@ -38,8 +39,8 @@ export const ComingSoon = ({ title }) => {
   )
 }
 
-function createComingSoonModal({ element, title }) {
-  ReactDOM.render(<ComingSoon title={title} />, element)
+function createComingSoonModal({ element, title, backUrl }) {
+  ReactDOM.render(<ComingSoon title={title} backUrl={backUrl} />, element)
 }
 
 export { createComingSoonModal }

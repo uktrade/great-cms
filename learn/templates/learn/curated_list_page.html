@@ -46,7 +46,8 @@
         document.querySelectorAll('[data-placeholder-title]').forEach(element => {
             ditMVP.createComingSoonModal({
                 element,
-                title: element.getAttribute('data-placeholder-title')
+                title: element.getAttribute('data-placeholder-title'),
+                backUrl: "{{self.url}}"
             })
         })
     </script>
