@@ -40,7 +40,12 @@ def forwards(apps, schema_editor):
 
                     topic_json['value']['lessons_and_placeholders'].append(lesson_dict)
 
-        # now re-insert the stringified topic data back into the page
+                # ALSO drop the old 'pages' value, which is now redundant, but
+                # would be confusing to still see in the DB and would mask any
+                # oversights in the refactor from 'pages' to 'lessons_and_placeholders'
+                del topic_json['value']['pages']
+
+        # Now re-insert the stringified topic data back into the page
         page_json['topics'] = json.dumps(page_topics_json)
 
         logger.info(f"Creating new revision of page {page.id}")
