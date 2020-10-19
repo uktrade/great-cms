@@ -208,6 +208,7 @@ def test_path_match(rf, path, expected):
     match = path_match(context, '^\\/markets\\/')
     assert bool(match) == expected
 
+
 @pytest.mark.django_db
 def test_push(user, rf, domestic_site):
 

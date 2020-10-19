@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="container">
-    <h2 class="h-m m-t-l" id="great-hero-welcome">Welcome{% if visited_already %} back{% endif %}{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %}</h2>
+    <h2 class="h-l m-t-l" id="great-hero-welcome">Welcome{% if visited_already %} back{% endif %}{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %}</h2>
   </div>
     <div class="container">
         {% include "core/includes/routing_bar.html" with routes=routes %}
@@ -11,12 +11,12 @@
           {# if there are lessons in progress, we show two blocks in the first row #}
           {% if lessons_in_progress or ep_in_progress %}
             {% if lessons_in_progress %}
-              <div class="c-1-2 m-b-s">
+              <div class="c-1-2">
                   {% include './dashboard_cards/learning_progress.html' %}
               </div>
             {% endif %}
             {% if ep_in_progress and routes.plan %}
-              <article class="c-1-2 mbs">
+              <article class="c-1-2">
                 {% include_block routes.plan with wide=True button_label_override='View your export plan'%}
               </article>
             {% endif %}
