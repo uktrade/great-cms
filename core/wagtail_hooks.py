@@ -132,9 +132,8 @@ def set_lesson_pages_topic_id(request, page):
             ).exclude(
                 topic_block_id=topic_id
             )
-            for lesson in lesson_to_update:
-                lesson.topic_block_id = topic_id
-                lesson.save()
+            # Update without triggering save() - more efficient
+            lesson_to_update.update(topic_block_id=topic_id)
 
             # Blank the topic to any lessons which have lesson set which aren't in the map
             lesson_to_blank = models.DetailPage.objects.filter(
@@ -142,7 +141,7 @@ def set_lesson_pages_topic_id(request, page):
             ).exclude(
                 id__in=lesson_ids
             )
-            for lesson in lesson_to_blank:
-                lesson.topic_block_id = None
-                lesson.save()
+            # Update without triggering save() - more efficient
+            lesson_to_blank.update(topic_block_id=None)
+
     return page
