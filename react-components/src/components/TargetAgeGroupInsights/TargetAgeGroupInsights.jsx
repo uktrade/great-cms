@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './TargetAgeGroupInsights.scss'
 
 import Table from './Table'
 import Services from '@src/Services'
@@ -62,14 +61,14 @@ class TargetAgeGroupInsights extends React.Component {
 
     const showTable = selectedGroups.length >= 1 && !isOpen
 
-    const buttonText = showTable ? targetGroupLabels.join(', ') : 'Select'
+    const buttonText = showTable ? targetGroupLabels.map(i => <span className='target-age-group-tag body-m-b bg-blue-deep-20'>{i}</span>): 'Select'
 
     return groups ? (
       <div className="target-age-group-insights">
         <h3 className="body-l-b">Select target age groups</h3>
         <button className="m-t-xs" onClick={toggleSelector}>
           <i className="fa fa-chevron-circle-down m-r-xxs" />
-          <span>{buttonText}</span>
+          {buttonText}
         </button>
         {isOpen && (
           <form onSubmit={submitForm}>

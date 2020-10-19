@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-761 - Added autoescape to render apostrophe for case study
 - GP2-754 - Pros and Cons layout tweaks again
 - GP2-451 - Case Study layout tweaks
 - GP2-754 - Pros and Cons layout tweaks
@@ -65,6 +66,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-732 - marketing approach styling and content update
 - GP2-759 - Product search no-header 
 - GP2-759 - Product-search No results + feature flag to allow UR
 - GP2-755 - Add objectives section title
