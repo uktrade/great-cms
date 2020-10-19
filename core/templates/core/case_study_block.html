@@ -6,8 +6,8 @@
         <div class="case-study__content media-block">
             <i class="fas fa-newspaper"></i>
             <div>
-                <h3 class="h-m m-b-xs p-0">{% autoescape off %}{{case_study.summary}}{% endautoescape %}</h3>
-                <p class="case-study__company h-xs p-0">{% autoescape off %}{{case_study.company_name}}{% endautoescape %}</p>
+                <h3 class="h-m m-b-xs p-0">{{case_study.summary|safe}}</h3>
+                <p class="case-study__company h-xs p-0">{{case_study.company_name|safe}}</p>
                 <div class="case-study__media case-study__body">
                     {% comment %} Body is a streamfield {% endcomment %}
                     {% for block in case_study.body %}
@@ -22,12 +22,13 @@
 {% block body_js %}
     {% comment %} {{ block.super }} {% endcomment %}
     <script>
+        let caseStudy = document.querySelector('#case_study')
         ditMVP.createCaseStudy({
-            element: document.querySelector("#case_study"),
+            element: caseStudy,
             content: {
-                heading: "{{case_study.summary}}",
-                company: "{{case_study.company_name}}",
-                body: document.querySelector("#case_study .case-study__body").innerHTML
+                heading: caseStudy.querySelector('h3').innerText,
+                company: caseStudy.querySelector('.case-study__company').innerText,
+                body: caseStudy.querySelector(".case-study__body").innerHTML
             }
         })
     </script>
