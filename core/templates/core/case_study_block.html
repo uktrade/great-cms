@@ -22,12 +22,13 @@
 {% block body_js %}
     {% comment %} {{ block.super }} {% endcomment %}
     <script>
+        let caseStudy = document.querySelector('#case_study')
         ditMVP.createCaseStudy({
-            element: document.querySelector("#case_study"),
+            element: caseStudy,
             content: {
-                heading: "{{case_study.summary}}",
-                company: "{{case_study.company_name}}",
-                body: document.querySelector("#case_study .case-study__body").innerHTML
+                heading: caseStudy.querySelector('h3').innerText,
+                company: caseStudy.querySelector('.case-study__company').innerText,
+                body: caseStudy.querySelector(".case-study__body").innerHTML
             }
         })
     </script>
