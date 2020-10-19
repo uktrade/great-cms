@@ -202,7 +202,6 @@ def topics_with_lessons_and_placeholders(domestic_site_browser_tests):
         }
     )
 
-
     topic_b = CuratedListPageFactory(parent=list_page, title='Lesson topic B', slug='topic-b',)
     lesson_b1 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B1', slug='lesson-b1',)
     lesson_b2 = learn_factories.LessonPageFactory(parent=topic_b, title='Lesson B2', slug='lesson-b2',)
