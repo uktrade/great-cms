@@ -14,7 +14,7 @@ export const ComingSoon = ({ isOpen, onClick }) => (
     <Modal
       backUrl='/export-plan/dashboard/'
       header='This feature is coming soon'
-      content='This feature is not available in Beta version of the new great.gov.uk platform.'
+      content='This feature is not available in the Beta version of the new great.gov.uk platform.'
       onClick={onClick}
       buttonText='Ok'
     />

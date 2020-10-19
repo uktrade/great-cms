@@ -20,7 +20,7 @@ describe('ComingSoon', () => {
   it('Modal should be hidden', () => {
     const { getByText, queryByText } = setup(props)
     expect(getByText('Coming soon')).toBeInTheDocument()
-    expect(queryByText('This Lesson is coming soon')).not.toBeInTheDocument()
+    expect(queryByText('This lesson is coming soon')).not.toBeInTheDocument()
   })
 
   it('Modal should be visible', async () => {
@@ -29,7 +29,7 @@ describe('ComingSoon', () => {
     fireEvent.click(getByText('Example placeholder lesson title'))
 
     await waitFor(() => {
-      expect(getByText('This Lesson is coming soon')).toBeInTheDocument()
+      expect(getByText('This lesson is coming soon')).toBeInTheDocument()
     })
   })
 })
