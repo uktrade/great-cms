@@ -1,6 +1,5 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { forceReRender } from '@storybook/react'
 
 export default function RegionToggle(props) {
   const [expand, setExpand] = useState(props.expandAllRegions)
