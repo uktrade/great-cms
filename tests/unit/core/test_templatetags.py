@@ -207,3 +207,17 @@ def test_path_match(rf, path, expected):
     context = {'request': rf.get(path)}
     match = path_match(context, '^\\/markets\\/')
     assert bool(match) == expected
+
+@pytest.mark.django_db
+def test_push(user, rf, domestic_site):
+
+    template = Template(
+        '{% load set %}'
+        "{% push 'my_variable' 'item1' %}"
+        "{% push 'my_variable' 'item2' %}"
+        'one:{{ my_variable.0 }} '
+        'two:{{ store.my_variable.1 }}'
+    )
+
+    html = template.render(Context({}))
+    assert html == 'one:item1 two:item2'

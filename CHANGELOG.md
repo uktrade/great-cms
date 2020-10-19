@@ -66,6 +66,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-593 - Dashboard tidy up
 - GP2-732 - marketing approach styling and content update
 - GP2-759 - Product search no-header 
 - GP2-759 - Product-search No results + feature flag to allow UR
