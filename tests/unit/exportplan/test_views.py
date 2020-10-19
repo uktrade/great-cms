@@ -11,6 +11,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
 
 from tests.helpers import create_response, reload_urlconf
+from tests.unit.exportplan.factories import ExportPlanDashboardPageFactory
 from exportplan import data, helpers
 from directory_api_client.client import api_client
 
@@ -281,3 +282,16 @@ def test_service_page_context(client, user):
     response = client.get(url)
     assert response.status_code == 200
     assert response.context['sections'] == list(data.SECTIONS.values())
+
+
+@pytest.mark.django_db
+def test_exportplan_dashboard(
+    client,
+    user,
+    domestic_homepage,
+    get_request,
+):
+    client.force_login(user)
+    dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
+    context_data = dashboard.get_context(get_request)
+    assert context_data.get('export_plan').get('id') == 1
