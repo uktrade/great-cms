@@ -13,6 +13,7 @@ from core.models import CMSGenericPage
 from directory_constants import choices
 from domestic.helpers import build_route_context, get_read_progress
 from core import helpers, forms
+from core import constants
 
 
 class DomesticHomePage(
@@ -67,7 +68,7 @@ class DomesticDashboard(
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_read_progress(user, context))
         context['routes'] = build_route_context(user, context)
-        context['routes_wide'] = len(context['routes']) < 3
+        context['ep_in_progress'] = user.has_visited_page(constants.EP_DASHBOARD_URL)
         return context
 
     #########

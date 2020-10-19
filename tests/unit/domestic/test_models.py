@@ -92,7 +92,10 @@ def test_dashboard_page_routing(
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok'})
     context_data = dashboard.get_context(get_request)
     assert len(context_data['routes']) == 3
-    assert context_data['routes'][0].value.get('route_type') == 'learn'
+    assert context_data['routes']['learn'].value.get('route_type') == 'learn'
+    assert context_data['routes']['plan'].value.get('route_type') == 'plan'
+    assert context_data['routes']['plan'].value.get('body') == 'Planning Body Text'
+    assert context_data['lessons_in_progress'] is False
 
     # Build learning pages and set one to 'read'
     topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
@@ -105,5 +108,4 @@ def test_dashboard_page_routing(
 
     # the learning one should vanish
     context_data = dashboard.get_context(get_request)
-    assert len(context_data['routes']) == 2
-    assert context_data['routes'][0].value.get('route_type') == 'target'
+    assert context_data['lessons_in_progress'] is True
