@@ -74,7 +74,7 @@ def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
 def test_dashboard_welcome(
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    topics_with_lessons_and_placeholders,
+    curated_list_pages_with_lessons_and_placeholders,
     server_user_browser_dashboard,
     client,
 ):
