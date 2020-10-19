@@ -386,6 +386,18 @@ class CuratedListPageTests(WagtailPageTests):
         self.assertAllowedSubpageTypes(CuratedListPage, {DetailPage})
 
 
+@pytest.mark.django_db
+def test_curatedlistpage_count_detail_pages(
+    curated_list_pages_with_lessons_and_placeholders
+):
+    data = curated_list_pages_with_lessons_and_placeholders
+    clp_1 = data[0][0]
+    clp_2 = data[1][0]
+
+    assert clp_1.count_detail_pages == 2  # 2 pages, placeholder ignored
+    assert clp_2.count_detail_pages == 1  # 1 page only, no placeholders at all
+
+
 class DetailPageTests(WagtailPageTests):
 
     def test_can_be_created_under_curated_list_page(self):
