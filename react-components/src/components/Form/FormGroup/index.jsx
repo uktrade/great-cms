@@ -28,7 +28,7 @@ export const FormGroup = ({
     {
       example &&
       <dl className='form-group-example bg-blue-deep-10 p-xs m-b-xs'>
-        <dt className='body-l-b'>Fictional example to help you complete this section</dt>
+        <dt className='body-l-b'>A fictional example to help you complete this section</dt>
         <dd className='m-t-xxs body-l' dangerouslySetInnerHTML={{ __html: example }} />
       </dl>
     }

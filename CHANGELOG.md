@@ -1,6 +1,7 @@
 # Changelog
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
+- no ticket - increase token expiration date to 5 days from 1
 
 ## Pre-release
 
@@ -8,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-754 - Pros and Cons layout tweaks again
 - GP2-451 - Case Study layout tweaks
 - GP2-754 - Pros and Cons layout tweaks
 - GP2-707 - Lesson module landing page button size
@@ -277,3 +279,5 @@
 - GP2-709 - BE Country add required country signal
 - GP2-744 and GP2-744 - tighten up validation for CaseStudy.body StreamField
 - noticket - hide-next-link
+- GP2-731 -content-refresh
+- GP2-781 - remove what's your business name prompt
