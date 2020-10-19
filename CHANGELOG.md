@@ -67,6 +67,7 @@
 
 ### Implemented enhancements
 - GP2-593 - Dashboard tidy up
+- GP2-443 - scroll to new route market
 - GP2-732 - marketing approach styling and content update
 - GP2-759 - Product search no-header 
 - GP2-759 - Product-search No results + feature flag to allow UR
@@ -285,3 +286,4 @@
 - GP2-731 -content-refresh
 - GP2-781 - remove what's your business name prompt
 - GP2-699 - swamp route to market constants
+- GP2-743 - remove link on upload
