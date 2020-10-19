@@ -12,4 +12,8 @@
 .lesson__back {
   float: right;
   width: 245px;
+
+  &--bottom {
+    margin-top: 770px;
+  }
 }
