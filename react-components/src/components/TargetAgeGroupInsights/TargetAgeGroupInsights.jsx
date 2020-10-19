@@ -66,32 +66,31 @@ class TargetAgeGroupInsights extends React.Component {
 
     return groups ? (
       <div className="target-age-group-insights">
-        <h3 className="target-age-group-insights__heading">Select target age groups</h3>
-        <button className="target-age-group-insights__select-button m-t-xs" onClick={toggleSelector}>
-          <span className="fa fa-chevron-circle-down"></span>
-          {buttonText}
+        <h3 className="body-l-b">Select target age groups</h3>
+        <button className="m-t-xs" onClick={toggleSelector}>
+          <i className="fa fa-chevron-circle-down m-r-xxs" />
+          <span>{buttonText}</span>
         </button>
         {isOpen && (
           <form onSubmit={submitForm}>
-            <ul className="form-group select-multiple m-b-0">
+            <ul className="form-group m-b-0">
               {groups.map(({ key, label }) => (
-                <li className="multiple-choice" key={key}>
+                <li className="great-checkbox width-full m-b-xs" key={key}>
                   <input
                     id={key}
-                    className="select-multiple"
                     value={key}
                     type="checkbox"
                     onChange={handleChange}
                     checked={selectedGroups.includes(key)}
                   />
-                  <label className="form-label" htmlFor={key}>
+                  <label htmlFor={key}>
                     {label}
                   </label>
                 </li>
               ))}
             </ul>
 
-            <button className="dark-button m-t-s" type="submit">
+            <button className="button button--secondary m-t-s" type="submit">
               Confirm
             </button>
           </form>
