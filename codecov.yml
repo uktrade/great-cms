@@ -1,5 +1,6 @@
 codecov:
   require_ci_to_pass: yes
+  bot: 'magna-bot'
 
 coverage:
   status:
@@ -8,7 +9,8 @@ coverage:
         threshold: 2%
   precision: 2
   round: down
-  range: "70...100"
+  range: "90...100"
+
 
 parsers:
   gcov:
