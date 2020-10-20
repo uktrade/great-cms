@@ -418,6 +418,13 @@ $desktop: 1024px;
     }
   }
 
+  .lesson-body-blocks {
+    .rich-text > h2:first-child,
+    .rich-text > h3:first-child {
+      padding-top: 30px;
+    }
+  }
+
   .step-by-step {
     h2, h3, h4 {
       color: $blue-deep-80;
