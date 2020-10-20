@@ -261,6 +261,7 @@ def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_
 @pytest.mark.django_db
 def test_case_study__str_method():
     case_study = CaseStudyFactory(
+        title='',
         company_name='Test Co'
     )
     assert f'{case_study}' == 'Test Co'
