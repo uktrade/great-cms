@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-444 - select bug fix
 - GP2-761 - Added autoescape to render apostrophe for case study
 - GP2-754 - Pros and Cons layout tweaks again
 - GP2-451 - Case Study layout tweaks
