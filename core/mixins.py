@@ -45,4 +45,5 @@ class AnonymousUserRequired:
 
 
 class AuthenticatedUserRequired:
+    # used by core.wagtail_hooks.authenticated_user_required
     authenticated_user_required_redirect_url = constants.LOGIN_URL
