@@ -69,6 +69,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-593 - Dashboard tidy up
 - GP2-726 - Redirect unauthenticated users on CMS pages to the sign-in page
 - GP2-736 - Support lesson placeholders
 - GP2-443 - scroll to new route market

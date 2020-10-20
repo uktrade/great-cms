@@ -1,16 +1,14 @@
 {% comment %}
-The lessonb progress card.
+The lesson progress card.
 Only show if progress has started
 {% endcomment %}
 {% if lessons_in_progress %}
-<div class="g-card p-b-0" id="your-progress-card">
-    <div class="g-card-header">
-         <h3 class="h-s p-t-xxs">Learn to export</h3>
-    </div>
-    {% for module_page in module_pages %}
+  <div class="g-card p-b-0" id="your-progress-card">
+    {% include "./card_header.html" with title="Learn to export" %}
+      {% for module_page in module_pages %}
         <div class="grid m-h-0 g-card-full">
             {% if forloop.counter > 1 %}
-                <hr class="c-full m-v-0 bg-light-grey" />
+                <hr class="hr hr--light c-full m-v-0" />
             {% endif %}
             <h3 class="c-2-3 p-s" id="topics-{{ module_page.page.title|slugify }}">
                 <a class="link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
@@ -24,6 +22,6 @@ Only show if progress has started
                 {% endif %}
             </div>
         </div>
-    {% endfor %}
-</div>
+      {% endfor %}
+  </div>
 {% endif %}

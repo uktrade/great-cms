@@ -7,7 +7,7 @@ from django.contrib.auth.models import AnonymousUser
 
 from core import helpers, middleware
 from tests.unit.core import factories
-from tests.unit.exportplan.factories import ExportPlanPageFactory, ExportPlanDashboardPageFactory
+from tests.unit.exportplan.factories import ExportPlanPageFactory, ExportPlanPseudoDashboardPageFactory
 from core.middleware import GADataMissingException
 
 
@@ -70,7 +70,7 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     domestic_site, client, user, mock_get_company_profile, patch_export_plan
 ):
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
+    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
 
     # Given the user is logged in
     client.force_login(user)

@@ -1,6 +1,7 @@
 SERVICE_NAME = 'great-cms'
 DASHBOARD_URL = '/dashboard/'
 LOGIN_URL = '/login/'
+EXPORT_PLAN_DASHBOARD_URL = '/export-plan/dashboard/'
 
 VIDEO_DURATION_DATA_ATTR_NAME = 'data-v-duration'
 
