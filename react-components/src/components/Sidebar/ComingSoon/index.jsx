@@ -17,6 +17,7 @@ export const ComingSoon = ({ isOpen, onClick }) => (
       content='This feature is not available in the Beta version of the new great.gov.uk platform.'
       onClick={onClick}
       buttonText='Ok'
+      type={3}
     />
   </ReactModal>
 )

@@ -89,7 +89,7 @@ export default function Interaction(props) {
           <span className="interaction-name h-s p-t-0">{capitalize(attribute.label)}</span>
           <p className="m-v-xs">Select the best match for your product.</p>
           <RadioButtons attribute={attribute} valueChange={valueChange}/>
-          <button type="button" className="button button--secondary m-t-xxs" disabled={!value || !Object.keys(value).length} onClick={clickNext} style={{float:'left',clear:'both'}}>Next</button>
+          <button type="button" className="button button--primary m-t-xxs" disabled={!value || !Object.keys(value).length} onClick={clickNext} style={{float:'left',clear:'both'}}>Next</button>
         </div>
     </div>
   )

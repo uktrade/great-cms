@@ -10,7 +10,12 @@ export const props = {
     { title: 'about us', url: 'section/about-us', disabled: false },
     { title: 'contact us', url: 'section/contact-us', disabled: false },
     { title: 'our blog', url: 'section/our-blog', disabled: false },
-  ]
+  ],
+  currentSection: {
+    title: 'test',
+    url: '/',
+    disabled: false
+  }
 }
 
 const setup = ({...data}) => {
@@ -24,13 +29,12 @@ const setup = ({...data}) => {
 
 describe('Sidebar', () => {
   describe('Should be collapsed', () => {
-    const { container, getAllByRole } = setup(props)
-    const nav = container.firstChild
+    const { getAllByRole, getByRole } = setup(props)
     const buttons = getAllByRole('button')
     const icon = buttons[0].firstChild
 
     it('Should have close class', () => {
-      expect(nav).toHaveClass('sidebar__close')
+      expect(getByRole('navigation')).toHaveClass('sidebar__close')
     })
 
     it('Should have expand icon', () => {
@@ -83,15 +87,14 @@ describe('Sidebar', () => {
 
   describe('Should be expanded', () => {
     it('Should be not have close class and have expanded icon',  async () => {
-      const { container, getAllByRole } = setup(props)
-      const nav = container.firstChild
+      const { getAllByRole, getByRole } = setup(props)
       const buttons = getAllByRole('button')
       const toggleButton = buttons[0]
       const icon = buttons[0].firstChild
       fireEvent.click(toggleButton)
 
       await waitFor(() => {
-        expect(nav).not.toHaveClass('sidebar__close')
+        expect(getByRole('navigation')).not.toHaveClass('sidebar__close')
         expect(icon).toHaveClass('fa-angle-double-left')
       })
     })

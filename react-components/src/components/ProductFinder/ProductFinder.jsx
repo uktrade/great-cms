@@ -20,13 +20,31 @@ const formatPath = (pathstr) => {
 function ProductFinder(props) {
   const { text } = props;
   let searchInput
+  let scrollOuter
   const [modalIsOpen, setIsOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(text)
-  const [searchResults, setSearchResults] = useState([])
+  const [searchResults, setSearchResults] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [searchEnabled, setSearchEnabled] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
+
+  const addTagging = (tag) => {
+    if (window.dataLayer) {
+      window.dataLayer.push(tag);
+    }
+  }
+
+  const openProductFinder = (open) => {
+    setIsOpen(open)
+    if (open) {
+      addTagging({
+        'event': 'addProductPageview',
+        'virtualPageURL': '/add-product-modal/search_entry',
+        'virtualPageTitle': 'Add Product Modal - Search Entry'
+      })
+    }
+  }
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedProduct)
@@ -35,13 +53,39 @@ function ProductFinder(props) {
 
   const closeModal = () => {
     setIsOpen(false)
-    setSearchResults({})
-
+    setSearchResults()
   }
 
   const closeConfirmation = () => {
     setProductConfirmationRequired(false)
     openProductFinder(true)
+  }
+
+  const modalAfterOpen = () => {
+    setIsScrolled({})
+    setSearchTerm('')
+    if (searchInput) {
+      searchInput.focus()
+    }
+  }
+
+  const setScrollShadow = () => {
+    if (scrollOuter) {
+      const bottomOverflow = scrollOuter.scrollHeight - (scrollOuter.scrollTop + scrollOuter.clientHeight)
+      setIsScrolled({ top: scrollOuter.scrollTop > 0, bottom: bottomOverflow > 0 })
+    }
+  }
+
+  const onScroll = (evt) => {
+    scrollOuter = evt.target
+    setScrollShadow()
+  }
+
+  const resetScroll = () => {
+    if (scrollOuter) {
+      scrollOuter.scrollTop = 0;
+      setScrollShadow();
+    }
   }
 
   const saveProduct = () => {
@@ -57,51 +101,36 @@ function ProductFinder(props) {
         window.location.reload()
       })
       .catch(() => {
-        // TODO: add an error dialogue here
+        closeModal()
       })
   }
 
-  const openProductFinder = (open) => {
-    setIsOpen(open)
-    if (open) {
-      addTagging({
-        'event': 'addProductPageview',
-        'virtualPageURL': '/add-product-modal/search_entry',
-        'virtualPageTitle': 'Add Product Modal - Search Entry'
-      })
-    }
-  }
-
-  const addTagging = (tag) => {
-    if (window.dataLayer) {
-      window.dataLayer.push(tag);
-    }
-  }
-
-  const modalAfterOpen = () => {
-    setIsScrolled(false)
-    searchInput.focus()
+  const renderSearchResults = (newSearchResults) => {
+    setLoading(false)
+    setSearchResults(newSearchResults)
+    resetScroll()
   }
 
   const processResponse = (request) => {
     setLoading(true)
     request
       .then((result) => {
-        setLoading(false)
+
         /* eslint-disable no-console */
         console.log('Search result', result) // TODO: Needed during development
         /* eslint-enable no-console */
         if (result && result.data && result.data.txId) {
-          setSearchResults(result.data)
+          renderSearchResults(result.data)
         } else {
-          setSearchResults(searchResults) // force re-render to reset any changed selectors
+          renderSearchResults(searchResults) // force re-render to reset any changed selectors
         }
       })
       .catch(() => {
-        setLoading(false)
-        setSearchResults({})
+        renderSearchResults()
       })
   }
+
+
 
   const search = () => {
     const query = searchInput.value
@@ -118,23 +147,22 @@ function ProductFinder(props) {
   }
 
   const inputChange = (evt) => {
-    setSearchEnabled(!!evt.target.value)
+    setSearchTerm(evt.target.value)
   }
 
   const clearSearchInput = (evt) => {
+    setSearchTerm(evt.target.value)
     const input = evt.target.parentElement.querySelector('input')
-    input.value = ''
     input.focus()
-    setSearchEnabled(false)
-  }
-
-  const onScroll = (evt) => {
-    setIsScrolled(evt.target.scrollTop > 0)
   }
 
   const onChangeClick = (evt) => {
     // TODO: Change handling will be added after UR, but we want the button to be available 
     evt.preventDefault()
+  }
+
+  const backToSearch = () => {
+    renderSearchResults()
   }
 
   const Section = (title, sectionDetails) => {
@@ -193,7 +221,7 @@ function ProductFinder(props) {
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-l">
+      <section className="m-h-l m-b-s">
         <div className="h-m p-b-s">Match for &quot;{_searchResults.currentItemName}&quot;</div>
         <div className="box box--no-pointer">
           <h3 className="h-xs p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
@@ -202,6 +230,28 @@ function ProductFinder(props) {
           <button className="button button--primary" type="button" onClick={saveProduct}>
             Select this product
           </button>
+        </div>
+      </section>
+    )
+  }
+
+  const sectionNoResults = (_searchResults) => {
+    return (
+      <section className="m-h-l">
+        <div className="box box--no-pointer">
+          <h3 className="h-m">No results found for &lsquo;{_searchResults.productDescription}&rsquo;</h3>
+          <h4 className="h-s">Search tips</h4>
+          <ul className="list-dot">
+            <li>Check for spelling mistakes</li>
+            <li>Try a more generic search term for descrcibing your product, like sofa instead of setee</li>
+          </ul>
+          <h4 className="h-s">Example searches</h4>
+          <ul className="list-dot">
+            <li>frozen atlantic salmon</li>
+            <li>strawberries</li>
+            <li>fresh cut snowdrop</li>
+            <li>Woven mens blazer, 75% wool, 25% cotton</li>
+          </ul>
         </div>
       </section>
     )
@@ -221,53 +271,73 @@ function ProductFinder(props) {
     return newBlock.length ? newBlock : null
   }
 
+  const spinner = isLoading ? (
+    <div className="shim">
+      <Spinner text="" />
+    </div>
+  ) : (
+    ''
+  )
+
   const resultsDisplay = (results) => {
     // Build maps of interactions as we don't want any duplicates
     const questions = buildMap([results.currentQuestionInteraction])
     const assumptions = buildMap(results.assumedInteractions)
     const known = buildMap(results.knownInteractions)
-    const itemChoice = buildMap([results.currentItemInteraction]);
+    let itemChoice = buildMap([results.currentItemInteraction]);
     (itemChoice || {}).isItemChoice = true
-    const spinner = isLoading ? (
-      <div className="shim">
-        <Spinner text="" />
-      </div>
-    ) : (
-      ''
-    )
 
-    const sections = itemChoice ?
+    // *********************   Kill item choice so we can just use question 
+    itemChoice = null
+
+    if (searchResults.txId && !questions && !searchResults.hsCode) {
+      return sectionNoResults(searchResults)
+    }
+
+    const sections = itemChoice && !searchResults.hsCode ?
       // If the item is ambiguous - supress other sections
       <div>
-        {!searchResults.hsCode && Section('Please choose your item', itemChoice)}
+        {Section('Please choose your item', itemChoice)}
       </div> :
       <div>
+        {searchResults.hsCode && sectionFound(searchResults)}
         {!searchResults.hsCode && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
         {(known || questions) ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
         {sectionProductDetails(known)} 
         {sectionAssumptions(assumptions)}
       </div>
 
+    return sections
+  }
 
+  const searchBox = () => {
     return (
-      <div>
-        {spinner}
-        <div className="scroll-inner p-b-m">
-          {searchResults.txId && !questions && !searchResults.hsCode && (
-            <div className="grid p-t-l">
-              <p className="h-s center">No results found</p>
+      <div className="p-h-l p-v-l">
+        <h3 className="h-m p-t-0 p-b-xxs">Search by name</h3>
+        <div>Find the product you want to export</div>
+        <div className="flex-centre m-t-xs search-input">
+          <div className="flex-centre">
+            <input
+              className="form-control"
+              type="text"
+              ref={(_searchInput) => {searchInput = _searchInput}}
+              onKeyPress={inputKeypress}
+              onChange={inputChange}
+              value={searchTerm}
+            />
+            <button type="button" aria-label="Clear" className="fa fa-times clear" onClick={clearSearchInput}/>
             </div>
-          )}
-          {searchResults.hsCode && sectionFound(searchResults)}
-          {sections}
+          <button className="search-button button button--small button--only-icon m-f-xs" disabled={!searchTerm} type="button" onClick={search}>
+            <i className="fa fa-arrow-right"/>
+          </button>
         </div>
       </div>
     )
   }
 
   const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
-  const scrollerClass = `scroll-area ${isScrolled ? 'scroll-shadow' : ''}`
-  const headerHeight = '210px'
+  const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
+  const headerHeight = '0px'
 
   return (
     <span>
@@ -282,31 +352,32 @@ function ProductFinder(props) {
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         shouldCloseOnOverlayClick={false}
+        style={{
+          content:{
+            width:'auto',
+            left: '100px',
+            right: '100px',
+          }
+        }}
       >
         <form className="product-finder text-blue-deep-80">
-          <div style={{height:headerHeight}}>        
-            <button id="dialog-close" type="button" aria-label="Close" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
-            <h3 className="h-l p-t-0 p-b-xxs">Search by name</h3>
-            <div>Find the product you want to export</div>
-            <div className="flex-centre m-t-xs search-input">
-              <div className="flex-centre">
-                <input
-                  className="form-control"
-                  type="text"
-                  ref={(_searchInput) => {searchInput = _searchInput}}
-                  onKeyPress={inputKeypress}
-                  onChange={inputChange}
-                  defaultValue=""
-                />
-                <button type="button" aria-label="Clear" className="fa fa-times clear" onClick={clearSearchInput}/>
-                </div>
-              <button className="search-button button button--small button--only-icon m-f-xs" disabled={!searchEnabled} type="button" onClick={search}>
-                <i className="fa fa-arrow-right"/>
-              </button>
-            </div>
+          <div style={{height:headerHeight}}>
+            {/* nothing in the modal header for the time being */}
           </div>
-          <div className={scrollerClass} style={{marginTop:headerHeight}} onScroll={onScroll}>
-            {resultsDisplay(searchResults)}
+          <div 
+            className={scrollerClass} 
+            style={{marginTop:headerHeight}} 
+            onScroll={onScroll}
+          >
+            <button id="dialog-close" type="button" aria-label="Close" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
+            {spinner}
+            <div 
+              className="scroll-inner p-b-m"
+              ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
+            >
+              {!searchResults ? searchBox() : (<button type="button" className="m-f-l m-t-m" onClick={backToSearch} ><i className="fa fa-chevron-left m-r-xs"/>Search again</button>)}
+              {searchResults && resultsDisplay(searchResults)}
+            </div>
           </div>
         </form>
       </ReactModal>

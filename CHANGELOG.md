@@ -1,6 +1,7 @@
 # Changelog
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
+- no ticket - increase token expiration date to 5 days from 1
 
 ## Pre-release
 
@@ -8,6 +9,11 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-761 - Added autoescape to render apostrophe for case study
+- GP2-754 - Pros and Cons layout tweaks again
+- GP2-451 - Case Study layout tweaks
+- GP2-754 - Pros and Cons layout tweaks
+- GP2-707 - Lesson module landing page button size
 - GP2-669 - Country Finder - Various defect fixes
 - GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
@@ -61,6 +67,10 @@
 
 ### Implemented enhancements
 - GP2-736 - Support lesson placeholders
+- GP2-443 - scroll to new route market
+- GP2-732 - marketing approach styling and content update
+- GP2-759 - Product search no-header 
+- GP2-759 - Product-search No results + feature flag to allow UR
 - GP2-755 - Add objectives section title
 - GP2-299 - Step by step reduce image size
 - GP2-754 - Pros and Cons updated design
@@ -273,3 +283,7 @@
 - GP2-709 - BE Country add required country signal
 - GP2-744 and GP2-744 - tighten up validation for CaseStudy.body StreamField
 - noticket - hide-next-link
+- GP2-731 -content-refresh
+- GP2-781 - remove what's your business name prompt
+- GP2-699 - swamp route to market constants
+- GP2-743 - remove link on upload

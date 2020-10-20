@@ -3,34 +3,27 @@
 {% load intcomma from humanize %}
 
 {% block intro_title %}Marketing approach{% endblock %}
-{% block intro_description %}There are many ways to market your product or service. Learn to assess the different options to ensure you find the best one for maximising your business.{% endblock %}
+{% block intro_description %}You have a great product but now you need customers. Research the different ways to sell your product and plan what marketing resources you will need.{% endblock %}
 
 {% block main_content %}
-<div class="text-inset">
-  <p>Ways you can sell your product to customers include:</p>
-  <ul class="list-bullet">
+<div class="g-panel">
+  <p>Some of the ways you can sell your product to customers are:</p>
+  <ul class="list-dot">
     <li>selling direct</li>
     <li>online marketplaces</li>
     <li>licensing or franchising your product</li>
-  </ul>
-  <p>In this section you’ll be able to set out:</p>
-  <ul class="list-bullet">
-    <li>the best ways get your product to customers</li>
-    <li>how you’ll promote your product</li>
-    <li>what help you’ll need with marketing activity</li>
-    <li>how much it’s all going to cost</li>
   </ul>
 </div>
 {% endblock %}
 
 {% block user_input %}
-<section class="bg-blue-deep-10">
+<section class="bg-blue-deep-10 m-t-l m-b-s">
   <div class="container">
     <div class="grid">
-      <div class="c-1-4 p-0 m-t-s">&nbsp;</div>
-      <div class="c-1-2">
-        <h2 class="h-l">Who are the audience for your marketing and communication strategy in the {{ export_plan.export_countries.0.country_name }} ?</h2>
-        <div id="target-age-groups-component" class="m-b-xl">
+      <div class="c-1-4 p-0">&nbsp;</div>
+      <div class="c-2-3">
+        <h2 class="h-xs p-t-l p-b-s">Facts and figures about {{ export_plan.export_countries.0.country_name }} to get you started</h2>
+        <div id="target-age-groups" class="m-b-s">
           {% include "exportplan/includes/insight.html" %}
         </div>
       </div>
@@ -38,15 +31,29 @@
     </div>
   </div>
 </section>
-<section class="container">
+
+<div class="container m-b-s">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-2-3">
+      <p class="m-0 body-s">Population statistics – <a href="https://www.un.org/en/" title="United Nations">United Nations</a>; Access to Internet,Consumer Price Index - <a href="https://www.worldbank.org/" title="World Bank">World Bank</a>;  Languages -  <a href="https://www.cia.gov/library/publications/the-world-factbook/" title="CIA World Factbook">CIA World Factbook</a>;</p>
+    </div>
+    <div class="c-1-4">&nbsp;</div>
+  </div>
+</div>
+
+<section class="container m-b-l">
   <div class="grid">
     <div class="c-1-4 p-0 m-t-s">
-      {% include 'exportplan/includes/lesson_details.html' with lesson_name='how-do-i-choose-a-route-to-market' %}
+      <div class="lesson__back">
+        {% include 'exportplan/includes/lesson_details.html' with lesson_name='how-do-i-choose-a-route-to-market' %}
+      </div>
     </div>
     <div class="c-1-2">
-      <h2 class="h-l">How will you get your product to customers in the {{ export_plan.export_countries.0.country_name }}?</h2>
-      <p>Make a list of the ways you’ll get your product to customers. You can choose more than one option.</p>
-      <div id="route-to-market-component" class="m-b-xl"></div>
+      <h2 class="h-m m-b-xs">How will you get your product to customers in {{ export_plan.export_countries.0.country_name }}?</h2>
+      <p>Make a list of the ways you'll get your product to customers by using the following dropdown list.</p>
+      <p>You can choose more than one option.</p>
+      <div id="route-to-market"></div>
     </div>
     <div class="c-1-4">&nbsp;</div>
   </div>
@@ -55,7 +62,7 @@
   <div class="grid">
     <div class="c-1-4 p-0 m-t-s">&nbsp;</div>
     <div class="c-1-2">
-      <div id="spending-and-resources-component"></div>
+      <div id="resources"></div>
     </div>
     <div class="c-1-4">&nbsp;</div>
   </div>
@@ -65,7 +72,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('target-age-groups-component');
+    var element = document.getElementById('target-age-groups');
     ditMVP.createTargetAgeGroupInsights({
       element,
       groups: [
@@ -81,7 +88,7 @@
       country: '{{ export_plan.export_countries.0.country_name }}'
     })
 
-    element = document.getElementById('spending-and-resources-component');
+    element = document.getElementById('resources');
     ditMVP.createSpendingAndResources({
       element,
       field: 'marketing_approach',
@@ -89,7 +96,7 @@
       formFields: {{ form_fields|safe }},
     })
 
-    element = document.getElementById('route-to-market-component');
+    element = document.getElementById('route-to-market');
     ditMVP.createRouteToMarket({
       element,
       formData: {
@@ -100,7 +107,7 @@
             name: 'route'
           },
           {
-            label: 'How will we promote your product',
+            label: 'How will we promote your product?',
             options: {{ promotional_choices|safe }},
             name: 'promote'
           }
