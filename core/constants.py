@@ -11,3 +11,6 @@ SSO_COOKIE_DOMAIN_NAME_KEY = 'sso_cookie_domain_name'
 
 # Define a strict subset of rich-text features only includes linebreaks
 RICHTEXT_FEATURES__MINIMAL = ()
+
+LESSON_BLOCK = 'lesson'
+PLACEHOLDER_BLOCK = 'placeholder'
