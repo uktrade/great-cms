@@ -10,6 +10,7 @@
 
 ### Fixed bugs
 - GP2-357 - Heading padding below objective section
+- GP2-768 - but fix, dropdown no value
 - GP2-444 - select bug fix
 - GP2-761 - Added autoescape to render apostrophe for case study
 - GP2-754 - Pros and Cons layout tweaks again
