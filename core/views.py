@@ -245,5 +245,5 @@ class CreateTokenView(generics.GenericAPIView):
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
-        response = {'Valid until': plaintext, 'Token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
+        response = {'valid_until': plaintext, 'token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
         return Response(response)
