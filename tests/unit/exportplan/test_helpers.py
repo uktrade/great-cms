@@ -348,7 +348,7 @@ def test_target_market_documents_delete(mock_target_market_documents_delete):
 
 
 @pytest.mark.django_db
-def test_get_all_lesson_details(topics_with_lessons):
+def test_get_all_lesson_details(curated_list_pages_with_lessons_and_placeholders):
     lessons = helpers.get_all_lesson_details()
     assert lessons == {
         'lesson-a1':

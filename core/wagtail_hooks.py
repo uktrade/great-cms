@@ -117,21 +117,31 @@ def set_read_time(request, page):
 def set_lesson_pages_topic_id(request, page):
     if hasattr(page, 'topics'):
         topic_map = {}
-        # build a map of all the topics-lessons for this curated page
+        # build a map of all the topics->lessons for this curated page
         for topic in page.topics:
             topic_map[topic.id] = []
-            for lesson_page in topic.value['pages']:
-                topic_map[topic.id].append(lesson_page.id)
+            for item in topic.value['lessons_and_placeholders']:
+                if item.block_type == constants.LESSON_BLOCK:
+                    lesson_page = item.value
+                    topic_map[topic.id].append(lesson_page.id)
 
         for topic_id, lesson_ids in topic_map.items():
             # Set the topic to any lesson which don't have this topic set
-            lesson_to_update = models.DetailPage.objects.filter(id__in=lesson_ids).exclude(topic_block_id=topic_id)
-            for lesson in lesson_to_update:
-                lesson.topic_block_id = topic_id
-                lesson.save()
+            lesson_to_update = models.DetailPage.objects.filter(
+                id__in=lesson_ids
+            ).exclude(
+                topic_block_id=topic_id
+            )
+            # Update without triggering save() - more efficient
+            lesson_to_update.update(topic_block_id=topic_id)
+
             # Blank the topic to any lessons which have lesson set which aren't in the map
-            lesson_to_blank = models.DetailPage.objects.filter(topic_block_id=topic_id).exclude(id__in=lesson_ids)
-            for lesson in lesson_to_blank:
-                lesson.topic_block_id = None
-                lesson.save()
+            lesson_to_blank = models.DetailPage.objects.filter(
+                topic_block_id=topic_id
+            ).exclude(
+                id__in=lesson_ids
+            )
+            # Update without triggering save() - more efficient
+            lesson_to_blank.update(topic_block_id=None)
+
     return page
