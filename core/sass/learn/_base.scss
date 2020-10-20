@@ -96,6 +96,15 @@ $desktop: 1024px;
   line-height: 48px;
 }
 
+.learn__category-progress {
+  @extend .progress-bar;
+  width: 280px;
+}
+
+.learn__category-link {
+  display: block;
+}
+
 .learn__category-details {
   margin: 0 0 30px;
 
