@@ -43,13 +43,15 @@ def test_stores_user_location_anon_user(mock_store_user_location, rf):
 
 
 @pytest.mark.django_db
-def test_user_specific_redirect_middleware(domestic_site, client):
+def test_user_specific_redirect_middleware(domestic_site, client, user, patch_export_plan):
     learn_page = factories.LandingPageFactory(parent=domestic_site.root_page, slug='learn')
     introduction_page = factories.ListPageFactory(
         parent=learn_page, slug='introduction', template='learn/automated_list_page.html'
     )
     categories_page = factories.CuratedListPageFactory(parent=learn_page, slug='categories')
     # Given the user has gone to /learn/introduction/
+
+    client.force_login(user)  # because unauthed users get redirected
     response = client.get(introduction_page.url)
 
     assert response.status_code == 200
