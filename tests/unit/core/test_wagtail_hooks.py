@@ -11,7 +11,7 @@ from core import wagtail_hooks
 from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.exportplan.factories import (
-    ExportPlanDashboardPageFactory,
+    ExportPlanPseudoDashboardPageFactory,
     ExportPlanPageFactory,
 )
 from tests.unit.learn.factories import LessonPageFactory
@@ -168,7 +168,7 @@ def test_login_required_signup_wizard_handles_authenticated_users(rf, user, dome
 def test_login_required_signup_wizard_exportplan(domestic_site, client, user, rf):
 
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
+    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
 
     for page in [exportplan_page, exportplan_dashboard_page]:
         request = rf.get(page.url)
@@ -189,7 +189,7 @@ def test_login_required_signup_wizard_exportplan(domestic_site, client, user, rf
 def test_login_required_signup_wizard_exportplan_logged_in(domestic_site, user, rf):
 
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
+    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
 
     for page in [exportplan_page, exportplan_dashboard_page]:
 

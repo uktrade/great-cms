@@ -290,8 +290,10 @@ def test_exportplan_dashboard(
     user,
     domestic_homepage,
     get_request,
+    patch_set_user_page_view,
 ):
     client.force_login(user)
     dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
     context_data = dashboard.get_context(get_request)
-    assert context_data.get('export_plan').get('id') == 1
+    assert len(context_data.get('sections')) == 10
+    assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
