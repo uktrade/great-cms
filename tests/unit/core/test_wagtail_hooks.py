@@ -8,6 +8,8 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
+from core.constants import LESSON_BLOCK, PLACEHOLDER_BLOCK
+from core.models import DetailPage
 from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.exportplan.factories import (
@@ -423,41 +425,55 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id(rf, topics_with_lessons):
+def test_set_lesson_pages_topic_id(rf, curated_list_pages_with_lessons_and_placeholders):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
     # Rest the topic_block_id for all lessons
-    curated_page = topics_with_lessons[0][0]
-    for topic in topics_with_lessons[0][1]:
-        topic.topic_block_id = None
-        topic.save()
+    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
+    for lesson_page in curated_list_pages_with_lessons_and_placeholders[0][1]:
+        lesson_page.topic_block_id = None
+        lesson_page.save()
 
-    response = wagtail_hooks.set_lesson_pages_topic_id(
+    page = wagtail_hooks.set_lesson_pages_topic_id(
         page=curated_page,
         request=request
     )
+    page.refresh_from_db()  # IMPORTANT
 
-    for topic in response.topics:
-        for lesson in topic.value['pages']:
-            assert lesson.specific.topic_block_id == topic.id
+    for topic in page.topics:
+        assert topic.value['lessons_and_placeholders']  # should have been set in the fixture
+        for item in topic.value['lessons_and_placeholders']:
+            if item.block_type == LESSON_BLOCK:
+                lesson = item.value
+                assert lesson.specific.topic_block_id == topic.id
+            else:
+                assert item.block_type == PLACEHOLDER_BLOCK
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id_removed(rf, topics_with_lessons):
+def test_set_lesson_pages_topic_id_removed(rf, curated_list_pages_with_lessons_and_placeholders):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    curated_page = topics_with_lessons[0][0]
+    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
+
     # Remove the second lesson from topic
-    topic_page_2 = curated_page.topics[0].value['pages'][1]
-    curated_page.topics[0].value['pages'].remove(topic_page_2)
+    topic_page_2_data = curated_page.topics[0].value['lessons_and_placeholders'].stream_data.pop()
+    curated_page.save()
+    curated_page.refresh_from_db()
+
+    # Show that before the hook runs, the data is right
+    assert DetailPage.objects.get(
+        id=topic_page_2_data['value']
+    ).topic_block_id == curated_page.topics[0].id
 
     wagtail_hooks.set_lesson_pages_topic_id(
         page=curated_page,
         request=request
     )
-
-    assert topic_page_2.specific.topic_block_id is None
+    assert DetailPage.objects.get(
+        id=topic_page_2_data['value']
+    ).topic_block_id is None

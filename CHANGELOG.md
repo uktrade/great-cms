@@ -67,6 +67,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-736 - Support lesson placeholders
 - GP2-443 - scroll to new route market
 - GP2-732 - marketing approach styling and content update
 - GP2-759 - Product search no-header 
