@@ -793,6 +793,11 @@ class CaseStudy(ClusterableModel):
     when the page attempts to render the relevant CaseStudyBlock.
     """
 
+    title = models.CharField(
+        max_length=255,
+        blank=False,
+    )
+
     company_name = models.CharField(
         max_length=255,
         blank=False,
@@ -852,6 +857,7 @@ class CaseStudy(ClusterableModel):
     panels = [
         MultiFieldPanel(
             [
+                FieldPanel('title'),
                 FieldPanel('company_name'),
                 FieldPanel('summary'),
                 StreamFieldPanel('body'),
@@ -868,7 +874,8 @@ class CaseStudy(ClusterableModel):
     ]
 
     def __str__(self):
-        return f'Case Study: {self.company_name}'
+        display_name = self.title if self.title else self.company_name
+        return f'{display_name}'
 
     def save(self, **kwargs):
         self.update_modified = kwargs.pop(
