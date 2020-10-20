@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import Field from '@src/components/Fields/Field'
+import { Input } from '@src/components/Form/Input'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
 const StepCredentials = (props) => {
@@ -10,40 +10,35 @@ const StepCredentials = (props) => {
     <>
       <span className='beta bg-blue-deep-10 text-blue-deep-80'><strong>BETA</strong></span>
       <form onSubmit={event => {event.preventDefault(); props.handleSubmit() }}>
-        { props.showTitle && <legend className="h-m text-blue-deep-80 body-l">Sign up to great.gov.uk</legend> }
-        <a href={Services.config.loginUrl} id="signup-modal-log-in" className='text-red-80 m-b-xs inline-block'>I already have a great.gov.uk account</a>
-
-        <label htmlFor="id_email">Email address</label>
-        <Field
-          id="id_email"
-          type="text"
-          placeholder="Email address"
-          name="email"
+        { props.showTitle && <legend className='h-s text-blue-deep-80'>Sign up to great.gov.uk</legend> }
+        <a href={Services.config.loginUrl} id='signup-modal-log-in' className='text-red-80 m-b-s inline-block'>I already have a great.gov.uk account</a>
+        <Input
+          label='Email address'
+          id='email'
+          placeholder='Email address'
           disabled={props.disabled}
           value={props.email}
-          handleChange={props.handleEmailChange}
-          autofocus={true}
+          onChange={({email}) => props.handleEmailChange(email)}
           errors={props.errors.email || []}
         />
-        <label htmlFor="id_password" className='m-t-s'>Password</label>
-        <Field
-          id="id_password"
-          type="password"
-          placeholder="Password"
-          name="password"
+        <Input
+          label='Password'
+          id='password'
+          type='password'
+          placeholder='Password'
           disabled={props.disabled}
           value={props.password}
-          handleChange={props.handlePasswordChange}
+          onChange={({password}) => props.handlePasswordChange(password)}
           errors={props.errors.password || []}
         />
         <button
-          type="submit"
-          id="signup-modal-submit"
-          className="button button--primary width-full m-v-s"
+          type='submit'
+          id='signup-modal-submit'
+          className='button button--primary width-full m-b-s'
           disabled={props.disabled}
         >Sign up</button>
       </form>
-      <p className='m-0'>By signing up, you agree to our <a href={Services.config.termsUrl} target="_blank" id="signup-modal-t-and-c" rel="noopener noreferrer" className='text-red-80'>user agreement</a> and <a href={Services.config.termsUrl} target="_blank" rel="noopener noreferrer" className='text-red-80'>privacy notice</a></p>
+      <p className='m-0'>By signing up, you agree to our <a href={Services.config.termsUrl} target='_blank' id='signup-modal-t-and-c' rel='noopener noreferrer' className='text-red-80'>user agreement</a> and <a href={Services.config.termsUrl} target='_blank' rel='noopener noreferrer' className='text-red-80'>privacy notice</a></p>
       <div className='vertical-separator'>
         <hr className='bg-blue-deep-10'/>
         <span>or</span>
