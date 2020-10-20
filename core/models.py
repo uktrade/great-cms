@@ -791,6 +791,10 @@ class CaseStudy(ClusterableModel):
 
     The decision about the appropriate Case Study block to show will happen
     when the page attempts to render the relevant CaseStudyBlock.
+
+    Note that this is rendered via Wagtail's ModelAdmin, so appears in the sidebar,
+    but we have to keep it registered as a Snippet to be able to transfer it
+    with Wagtail-Transfer
     """
 
     title = models.CharField(
