@@ -12,6 +12,7 @@ from wagtail.images.tests.utils import get_test_image_file
 from wagtail.tests.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
+from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
     CuratedListPage,
@@ -80,7 +81,13 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
 
 
 @pytest.mark.django_db
-def test_curated_list_page_has_link_in_context_back_to_parent(client, domestic_homepage, domestic_site):
+def test_curated_list_page_has_link_in_context_back_to_parent(
+    client,
+    domestic_homepage,
+    domestic_site,
+    user,
+    patch_export_plan
+):
 
     list_page = factories.ListPageFactory(
         parent=domestic_homepage,
@@ -94,6 +101,8 @@ def test_curated_list_page_has_link_in_context_back_to_parent(client, domestic_h
 
     expected_url = list_page.url
     assert expected_url == '/example-learning-homepage/'
+
+    client.force_login(user)  # because unauthed users get redirected
 
     resp = client.get(curated_list_page.url)
 
@@ -416,6 +425,44 @@ class DetailPageTests(WagtailPageTests):
                 hero=[('Image', ImageFactory()), ('Image', ImageFactory())]
             )
             self.assert_(detail_page, None)
+
+
+@pytest.mark.django_db
+def test_redirection_for_unauthenticated_user(
+    client,
+    domestic_homepage,
+    domestic_site,
+    patch_export_plan,
+    user
+):
+
+    landing_page = factories.LandingPageFactory(parent=domestic_homepage)
+    interstitial_page = factories.InterstitialPageFactory(parent=landing_page)
+    list_page = factories.ListPageFactory(parent=domestic_homepage)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+
+    pages = [
+        landing_page,
+        interstitial_page,
+        list_page,
+        curated_list_page,
+        detail_page,
+    ]
+
+    for page in pages:
+        assert isinstance(page, AuthenticatedUserRequired)
+
+    for page in pages:
+        response = client.get(page.url, follow=False)
+        assert response.status_code == 302
+        assert response._headers['location'] == ('Location', '/login/')
+
+    # Show an authenticated user can still get in there
+    client.force_login(user)
+    for page in pages:
+        response = client.get(page.url, follow=False)
+        assert response.status_code == 200
 
 
 class TestImageAltRendition(TestCase, WagtailTestUtils):

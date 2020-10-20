@@ -205,7 +205,13 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
-class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, mixins.ExportPlanMixin, Page):
+class CMSGenericPage(
+    PersonalisablePageMixin,
+    mixins.EnableTourMixin,
+    mixins.ExportPlanMixin,
+    mixins.AuthenticatedUserRequired,
+    Page
+):
     """
     Generic page, freely inspired by Codered page
     """
