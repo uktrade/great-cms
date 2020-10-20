@@ -67,8 +67,9 @@ class DomesticDashboard(
         context['events'] = helpers.get_dashboard_events(user.session_id)
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_read_progress(user, context))
+        context['export_plan_in_progress'] = user.has_visited_page(constants.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
-        context['ep_in_progress'] = user.has_visited_page(constants.EP_DASHBOARD_URL)
+
         return context
 
     #########

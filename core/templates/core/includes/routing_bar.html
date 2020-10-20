@@ -14,17 +14,9 @@ As seen at the top of the domestic dashboard.
 {% if routes %}
   {% set 'routeList' None %}
   {% for key, component in routes.items %}
-    {% if key == 'target' %}
-      {% if not export_plan.export_countries.0 %}
+      {% if component.value.enabled %}
         {% push 'routeList' component %}
       {% endif %}
-    {% endif %}
-    {% if key == 'learn' and not lessons_in_progress %}
-      {% push 'routeList' component %}
-    {% endif %}
-    {% if key == 'plan' and not ep_in_progress %}
-      {% push 'routeList' component %}
-    {% endif %}
   {% endfor %}
   {% if store.routeList|length < 3 %}
     {% set 'routes_wide' True %}

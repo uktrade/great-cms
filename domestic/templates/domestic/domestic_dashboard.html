@@ -9,13 +9,13 @@
         {% include "core/includes/routing_bar.html" with routes=routes %}
         <div class="grid">
           {# if there are lessons in progress, we show two blocks in the first row #}
-          {% if lessons_in_progress or ep_in_progress %}
+          {% if lessons_in_progress or export_plan_in_progress %}
             {% if lessons_in_progress %}
               <div class="c-1-2">
                   {% include './dashboard_cards/learning_progress.html' %}
               </div>
             {% endif %}
-            {% if ep_in_progress and routes.plan %}
+            {% if export_plan_in_progress and routes.plan %}
               <article class="c-1-2">
                 {% include_block routes.plan with wide=True button_label_override='View your export plan'%}
               </article>

@@ -8,7 +8,16 @@ def build_route_context(user, context={}):
     page_context = context.get('page')
     for component in (page_context and page_context.components) or []:
         if component.block_type == 'route':
+            route_type = component.value.get('route_type')
             routes[component.value.get('route_type')] = component
+            if route_type == 'target':
+                export_plan = context.get('export_plan') or {}
+                component.value['enabled'] = not len(export_plan.get('export_countries', []))
+            if route_type == 'learn':
+                component.value['enabled'] = not context.get('lessons_in_progress')
+            if route_type == 'plan':
+                component.value['enabled'] = not context.get('export_plan_in_progress')
+
     return routes
 
 
