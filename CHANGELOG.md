@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-451 - Remove empty step by step block on lesson page
 - GP2-357 - Heading padding below objective section
 - GP2-768 - but fix, dropdown no value
 - GP2-444 - select bug fix
