@@ -96,6 +96,9 @@ def get_read_progress(user, context={}):
                     detail_page.id
                 )
                 page_map[module_page.id]['completion_count'] += 1
+                # Take care: this next var means 'lessons have been attempted',
+                # not 'lessons are _currently_ in progress', because it doesn't
+                # allow for someone having completed them all
                 lessons_in_progress = True
 
     module_pages = list(page_map.values())
