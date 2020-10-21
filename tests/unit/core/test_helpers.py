@@ -1,12 +1,15 @@
+import pytest
 from unittest import mock
+
+from requests.exceptions import HTTPError
+
 
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-import pytest
-from requests.exceptions import HTTPError
 
 from core import helpers
+from tests.unit.core.factories import CuratedListPageFactory
 from tests.helpers import create_response
 from django.conf import settings
 
@@ -233,3 +236,59 @@ def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
     mock_is_fuzzy.return_value = True
     destinations = helpers.get_popular_export_destinations('Aerospace')
     assert destinations[0] == ('China', 29)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_read_progress')
+def test_get_module_completion_progress(mock_get_read_progress):
+
+    clp_1 = CuratedListPageFactory()
+    clp_2 = CuratedListPageFactory()
+    clp_3 = CuratedListPageFactory()
+
+    mock_user = mock.Mock(name='mock-user')
+
+    clp_1_completion_data = {
+        'total_pages': 7,
+        'completion_count': 4,
+        'page': clp_1,
+        'completed_lesson_pages': {
+            'b7eca1bf-8b43-4737-91e4-913dfeb2c5d8': {10, 26},
+            '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20}
+        }
+    }
+
+    clp_2_completion_data = {
+        'total_pages': 4,
+        'completion_count': 2,
+        'page': clp_2,
+        'completed_lesson_pages': {
+            '786e9140-6ba8-4f1a-970b-0d556013e64d': {14, 22}
+        }
+    }
+
+    mock_get_read_progress.return_value = {
+        'lessons_in_progress': True,
+        'module_pages': [
+            clp_1_completion_data,
+            clp_2_completion_data
+        ],
+    }
+
+    assert helpers.get_module_completion_progress(
+        mock_user, clp_2
+    ) == clp_2_completion_data
+    mock_get_read_progress.assert_called_once_with(mock_user)
+    mock_get_read_progress.reset_mock()
+
+    assert helpers.get_module_completion_progress(
+        mock_user, clp_1
+    ) == clp_1_completion_data
+    mock_get_read_progress.assert_called_once_with(mock_user)
+    mock_get_read_progress.reset_mock()
+
+    assert helpers.get_module_completion_progress(
+        mock_user, clp_3
+    ) == {}  # ie, no match
+    mock_get_read_progress.assert_called_once_with(mock_user)
+    mock_get_read_progress.reset_mock()
