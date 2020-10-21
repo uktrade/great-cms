@@ -211,8 +211,8 @@ def test_dashboard_page_lesson_progress(
     assert context_data['module_pages'][1]['page'].id == module_two.id
     assert context_data['module_pages'][0]['total_pages'] == 2
     assert context_data['module_pages'][1]['total_pages'] == 3
-    assert context_data['module_pages'][0]['read_count'] == 2
-    assert context_data['module_pages'][1]['read_count'] == 0
+    assert context_data['module_pages'][0]['completion_count'] == 2
+    assert context_data['module_pages'][1]['completion_count'] == 0
 
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
         {'lesson': lesson_one.id},
@@ -224,8 +224,8 @@ def test_dashboard_page_lesson_progress(
     # the topics should swap round as two is in progress and has more unread than one
     assert context_data['module_pages'][0]['page'].id == module_two.id
     assert context_data['module_pages'][1]['page'].id == module_one.id
-    assert context_data['module_pages'][0]['read_count'] == 1
-    assert context_data['module_pages'][1]['read_count'] == 2
+    assert context_data['module_pages'][0]['completion_count'] == 1
+    assert context_data['module_pages'][1]['completion_count'] == 2
 
 
 @pytest.mark.django_db

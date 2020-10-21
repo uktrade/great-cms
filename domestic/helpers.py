@@ -38,7 +38,7 @@ def get_read_progress(user, context={}):
 
     def lesson_comparator(lp):
         total = lp.get('total_pages')
-        read = lp.get('read_count')
+        read = lp.get('completion_count')
         return total - read if read else -1
 
     lessons_in_progress = False
@@ -64,7 +64,7 @@ def get_read_progress(user, context={}):
         #     'module_pages': [
         #         {
         #             'total_pages': 7,
-        #             'read_count': 4,
+        #             'completion_count': 4,
         #             'page': <Page: Identify opportunities and research the market>,
         #             'completed_lesson_pages': defaultdict(
         #                 <class 'set'>, {
@@ -83,7 +83,7 @@ def get_read_progress(user, context={}):
             page_map[module_page.id] = (
                 page_map.get(module_page.id) or {
                     'total_pages': 0,
-                    'read_count': 0,
+                    'completion_count': 0,
                     'page': module_page,
                     'completed_lesson_pages': defaultdict(set)
                 }
@@ -95,7 +95,7 @@ def get_read_progress(user, context={}):
                 page_map[module_page.id]['completed_lesson_pages'][topic_id_as_key].add(
                     detail_page.id
                 )
-                page_map[module_page.id]['read_count'] += 1
+                page_map[module_page.id]['completion_count'] += 1
                 lessons_in_progress = True
 
     module_pages = list(page_map.values())
