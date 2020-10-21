@@ -35,23 +35,23 @@ it('Opens and closes country finder', async () => {
   act(() => {
     createCountryFinder({ element: container })
   })
-  expect(document.body.querySelector('.country-chooser')).toBeFalsy()
+  expect(document.body.querySelector('.country-finder')).toBeFalsy()
   const button = container.querySelector('button')
 
   act(() => {
     Simulate.click(button)
   })
-  const finder = document.body.querySelector('.country-chooser');
+  const finder = document.body.querySelector('.country-finder');
   const closeButton = finder.querySelector('button.dialog-close');
   expect(finder).toBeTruthy()
   await waitFor(() => {
     const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Africa+')
+    expect(region.textContent).toEqual('Africa')
   })
   act(() => {
     Simulate.click(finder.querySelector('button.dialog-close'))
   })
-  expect(document.body.querySelector('.country-chooser')).toBeFalsy()
+  expect(document.body.querySelector('.country-finder')).toBeFalsy()
 })
 
 it('Opens with confirmation', async () => {
@@ -67,17 +67,17 @@ it('Opens with confirmation', async () => {
   act(() => {
     Simulate.click(confirmation.querySelector('button'))
   })
-  const finder = document.body.querySelector('.country-chooser');
+  const finder = document.body.querySelector('.country-finder');
   const closeButton = finder.querySelector('button.dialog-close');
   expect(finder).toBeTruthy()
   await waitFor(() => {
     const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Africa+')
+    expect(region.textContent).toEqual('Africa')
   })
   act(() => {
     Simulate.click(finder.querySelector('button.dialog-close'))
   })
-  expect(document.body.querySelector('.country-chooser')).toBeFalsy()
+  expect(document.body.querySelector('.country-finder')).toBeFalsy()
 })
 
 
@@ -85,32 +85,31 @@ it('Open country finder and type-ahead filter', async () => {
   act(() => {
     createCountryFinder({ element: container })
   })
-  expect(document.body.querySelector('.country-chooser')).toBeFalsy()
+  expect(document.body.querySelector('.country-finder')).toBeFalsy()
   const button = container.querySelector('button')
 
   act(() => {
     Simulate.click(button)
   })
-  const finder = document.body.querySelector('.country-chooser');
+  const finder = document.body.querySelector('.country-finder');
   const closeButton = finder.querySelector('button.dialog-close');
   expect(finder).toBeTruthy()
   await waitFor(() => {
     const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Africa+')
+    expect(region.textContent).toEqual('Africa')
   })
   const searchInput = finder.querySelector('.search-input input');
-  const europeBlock = finder.querySelector('.country-list ul');
-  expect(finder.querySelector('.country-list ul').textContent).toEqual('Algeria')
+  expect(finder.querySelector('.country-list .expand-section').textContent).toEqual('Algeria')
   act(() => {
     searchInput.value = 'au'
     Simulate.change(searchInput)
   })
-  expect(finder.querySelector('.country-list ul').textContent).toEqual('Austria')
+  expect(finder.querySelector('ul.country-list .open').textContent).toEqual('Austria')
   act(() => {
     searchInput.value = ''
     Simulate.change(searchInput)
   })
-  expect(finder.querySelector('.country-list ul').textContent).toEqual('Austria')
+  expect(finder.querySelector('ul.country-list .expand-section.open')).toBeFalsy()
   act(() => {
     searchInput.value = 'aub'
     Simulate.change(searchInput)
