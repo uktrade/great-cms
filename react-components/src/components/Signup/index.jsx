@@ -1,19 +1,16 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Services from '@src/Services'
-import StepCredentials from './StepCredentials'
-import StepCode from './StepCode'
-import StepSuccess from './StepSuccess'
-
+import { Form } from '@src/components/Signup/Form'
+import { Confirmation } from '@src/components/Signup/Confirmation'
+import { Complete } from '@src/components/Signup/Complete'
 
 export const STEP_CREDENTIALS = 'credentials'
 export const STEP_VERIFICATION_CODE = 'verification-code'
 export const STEP_COMPLETE = 'complete'
 
 
-export default function Component(props){
+export const Signup = (props) => {
   const asideTitle = (props.products.length > 0 || props.countries.length > 0) ? 'Sign up so we can save your settings' : ''
 
   function getAside() {
@@ -29,9 +26,9 @@ export default function Component(props){
   }
 
   function getStep() {
-    if (props.currentStep == STEP_CREDENTIALS) {
+    if (props.currentStep === STEP_CREDENTIALS) {
       return (
-        <StepCredentials
+        <Form
           errors={props.errors}
           disabled={props.isInProgress}
           handleSubmit={props.handleStepCredentialsSubmit}
@@ -44,9 +41,9 @@ export default function Component(props){
           showTitle={props.showTitle}
         />
       )
-    } else if (props.currentStep == STEP_VERIFICATION_CODE) {
+    } else if (props.currentStep === STEP_VERIFICATION_CODE) {
       return (
-        <StepCode
+        <Confirmation
           errors={props.errors}
           handleSubmit={props.handleStepCodeSubmit}
           disabled={props.isInProgress}
@@ -56,9 +53,9 @@ export default function Component(props){
           showTitle={props.showTitle}
         />
       )
-    } else if (props.currentStep == STEP_COMPLETE) {
+    } else if (props.currentStep === STEP_COMPLETE) {
       return (
-        <StepSuccess nextUrl={props.nextUrl} showTitle={props.showTitle} />
+        <Complete nextUrl={props.nextUrl} showTitle={props.showTitle} />
       )
     }
   }
@@ -75,7 +72,7 @@ export default function Component(props){
   )
 }
 
-Component.propTypes = {
+Signup.propTypes = {
   isInProgress: PropTypes.bool,
   errors: PropTypes.object,
   currentStep: PropTypes.string,
@@ -85,7 +82,7 @@ Component.propTypes = {
 
 }
 
-Component.defaultProps = {
+Signup.defaultProps = {
   isInProgress: false,
   errors: {},
   companySettings: {},

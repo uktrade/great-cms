@@ -4,8 +4,8 @@ import { mount } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import Wizard from '@src/views/LoginModal/Wizard'
-import Step1 from '@src/views/LoginModal/Step1'
+import { Login } from '@src/components/Login'
+import { Form } from '@src/components/Login/Form'
 import Services from '@src/Services'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -52,18 +52,18 @@ describe('LoginModal', () => {
     const errors = { email: ['This field is required'] }
     Services.checkCredentials.mockImplementation(() => Promise.reject(errors))
 
-    const component = mount(<Wizard {...defaultProps} />)
+    const component = mount(<Login {...defaultProps} />)
 
     // when the form is submitted
     act(() => {
-      component.find(Step1).prop('handleSubmit')()
+      component.find(Form).prop('handleSubmit')()
     })
 
     // then an error message is displayed
     setImmediate(() => {
       component.update()
       expect(
-        component.containsMatchingElement(<Step1 disabled={false} email="email" password="password" errors={errors} />)
+        component.containsMatchingElement(<Form disabled={false} email="email" password="password" errors={errors} />)
       ).toEqual(true)
 
       done()
@@ -73,10 +73,10 @@ describe('LoginModal', () => {
   test('good credentials results in next url', (done) => {
     // given the credentials are correct
     Services.checkCredentials.mockImplementation(() => Promise.resolve())
-    const component = mount(<Wizard {...defaultProps} />)
+    const component = mount(<Login {...defaultProps} />)
 
     act(() => {
-      component.find(Step1).prop('handleSubmit')()
+      component.find(Form).prop('handleSubmit')()
     })
 
     setImmediate(() => {

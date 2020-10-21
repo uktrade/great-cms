@@ -1,11 +1,10 @@
-/* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import Services from '@src/Services'
-import Step1 from './Step1'
+import { Form } from '@src/components/Login/Form'
 
-
-export default function Wizard(props){
+export const Login = (props) => {
   const [errors, setErrors] = React.useState(props.errors)
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
   const [email, setEmail] = React.useState(props.email)
@@ -14,12 +13,6 @@ export default function Wizard(props){
   function handleError(error) {
     setErrors(error.message || error)
     setIsInProgress(false)
-  }
-
-  function handleSuccess(nextStep) {
-    setIsInProgress(false)
-    setErrors({})
-    setCurrentStep(nextStep)
   }
 
   function handleSubmit() {
@@ -35,7 +28,7 @@ export default function Wizard(props){
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
   return (
-    <Step1
+    <Form
       disabled={isInProgress}
       errors={errors}
       handlePasswordChange={setPassword}
@@ -47,10 +40,10 @@ export default function Wizard(props){
       googleLoginUrl={googleLoginUrl}
     />
   )
- 
+
 }
 
-Wizard.propTypes = {
+Login.propTypes = {
   isInProgress: PropTypes.bool,
   errors: PropTypes.object,
   email: PropTypes.string,
@@ -58,7 +51,7 @@ Wizard.propTypes = {
   nextUrl: PropTypes.string.isRequired,
 }
 
-Wizard.defaultProps = {
+Login.defaultProps = {
   errors: {},
   isInProgress: false,
   email: '',

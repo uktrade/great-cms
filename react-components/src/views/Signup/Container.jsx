@@ -1,15 +1,11 @@
-/* eslint-disable */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import PropTypes from 'prop-types'
 import { connect, Provider } from 'react-redux'
 
-import Component, { STEP_COMPLETE, STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from './Component'
+import {Signup, STEP_COMPLETE, STEP_VERIFICATION_CODE } from '@src/components/Signup'
 import Services from '@src/Services'
-import actions from '@src/actions'
 import { getCountriesExpertise, getProductsExpertise, getNextUrl } from '@src/reducers'
-
 
 export function Container(props){
 
@@ -48,7 +44,7 @@ export function Container(props){
   }
 
   function onCodeSubmitSuccess() {
-    // company data may have been passed in at the start. Now the user has the 
+    // company data may have been passed in at the start. Now the user has the
     // login cookies the company can be created
     if (props.products.length > 0 || props.countries.length > 0) {
       const data = {
@@ -68,7 +64,7 @@ export function Container(props){
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
   return (
-    <Component
+    <Signup
       {...props}
       errors={errors}
       isInProgress={isInProgress}
