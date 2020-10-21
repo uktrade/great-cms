@@ -25,6 +25,7 @@ import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsi
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
 import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
+import { createComingSoonModal } from '@src/components/Lesson/ComingSoon/index.jsx'
 import LearnIntroduction from '@src/views/LearnIntroduction/LearnIntroduction'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
@@ -37,6 +38,7 @@ export default {
   createRouteToMarket,
   aboutYourBusinessForm,
   adaptToTargetMarketForm,
+  createComingSoonModal,
   createSpendingAndResources,
   createTargetAgeGroupInsights,
   createTargetMarketCountries,

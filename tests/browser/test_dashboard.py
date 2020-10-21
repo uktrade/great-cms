@@ -74,7 +74,7 @@ def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
 def test_dashboard_welcome(
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    topics_with_lessons,
+    curated_list_pages_with_lessons_and_placeholders,
     server_user_browser_dashboard,
     client,
 ):
@@ -84,7 +84,7 @@ def test_dashboard_welcome(
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
         welcome = browser.find_element_by_css_selector('h2#great-hero-welcome')
-        assert welcome.text == 'Welcome TEST USER'
+        assert welcome.text == 'Welcome, TEST USER'
         user.first_name = None
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)

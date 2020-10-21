@@ -1,3 +1,4 @@
+import json
 from importlib import import_module, reload
 import sys
 
@@ -10,6 +11,8 @@ from django.urls import clear_url_caches
 
 from wagtail.core.models import Collection
 from wagtailmedia import models as wagtailmedia_models
+
+from core.models import CuratedListPage
 
 
 def create_response(json_body={}, status_code=200, content=None):
@@ -52,3 +55,82 @@ def make_test_video(
     media.transcript = transcript
 
     return media
+
+
+def add_lessons_and_placeholders_to_curated_list_page(
+    curated_list_page: CuratedListPage,
+    data_for_topics: dict,
+) -> CuratedListPage:
+
+    """Because it's very, very fiddly to set up the factories to populate the
+    `lessons_and_placeholders` StreamBlock with our current modelling, this
+    helper sets them via JSON _and republishes the Page_.
+
+    args:
+        clp: CuratedListPage instance
+        data_for_topics: dict with
+
+            - keys, to be used as indices (ie, array indices for each each block in `topics`)
+
+            - VERY SPECIFIC values (ie, the data structure of data_for_topics doesn't map
+            to the streamfield data, it's about making the data setup easier for tests):
+
+                - id: the id for the TOPIC block, optional
+                - title: the title for the TOPIC block, optional, nested below topic['value']
+                - lessons_and_placeholders: these will be nested below topic['value']
+
+            eg
+
+            {
+                0: {
+                    'id': 'optional string id for the TOPIC here',
+                    'title': 'optional string title for the TOPIC here',
+                    'lessons_and_placeholders': [
+                        {'type': 'lesson', 'value': detail_page_1.id},
+                        {'type': 'lesson', 'value': detail_page_2.id},
+                        {'type': 'placeholder', 'value': {'title': 'Placeholder One'}},
+                    ]
+                },
+                1: {
+                    'id': "optional string id for the TOPIC here",
+                    'title': 'optional string title for the TOPIC here',
+                    'lessons_and_placeholders': [
+                        {'type': 'lesson', 'value': detail_page_3.id},
+                    ],
+                },
+                ...
+            }
+    """
+
+    page_json = json.loads(curated_list_page.to_json())
+    page_topics_json = json.loads(page_json['topics'])
+
+    for idx, data in data_for_topics.items():
+        try:
+            page_topics_json[idx]
+        except IndexError:
+            # No topic data bootstrapped, so need to lay in the basic structure
+            # of a topic block's data
+            page_topics_json.append(
+                {
+                    'type': 'topic',
+                    'value': {}
+                }
+            )
+
+        page_topics_json[idx]['value']['lessons_and_placeholders'] = (
+            data['lessons_and_placeholders']
+        )
+        if data.get('title'):
+            page_topics_json[idx]['value']['title'] = data['title']
+        if data.get('id'):
+            page_topics_json[idx]['id'] = data['id']
+
+    page_json['topics'] = json.dumps(page_topics_json)
+    new_revision = curated_list_page.revisions.create(
+        content_json=json.dumps(page_json)
+    )
+    new_revision.publish()
+    curated_list_page.refresh_from_db()
+
+    return curated_list_page

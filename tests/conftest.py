@@ -64,7 +64,7 @@ def exportplan_homepage(domestic_homepage, domestic_site):
 
 @pytest.fixture
 def exportplan_dashboard(exportplan_homepage):
-    return tests.unit.exportplan.factories.ExportPlanDashboardPageFactory(parent=exportplan_homepage)
+    return tests.unit.exportplan.factories.ExportPlanPseudoDashboardPageFactory(parent=exportplan_homepage)
 
 
 @pytest.fixture

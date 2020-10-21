@@ -3,11 +3,12 @@ def get_all_lessons(module):
     Helper function to get all lesson of a module
     @return: list of lesson objects
     """
+    from core.constants import LESSON_BLOCK
     lessons = [
-        page
-        for topic in module.specific.topics
-        for page in topic.value['pages']
-        if page.live
+        item.value
+        for topic_block in module.specific.topics
+        for item in topic_block.value.get('lessons_and_placeholders', [])
+        if item.block_type == LESSON_BLOCK and item.value.live  # item.value is a Page
     ]
     if lessons:
         return lessons
@@ -38,12 +39,21 @@ class PageTopic:
         self.module_lessons = get_all_lessons(self.module)
 
     def get_page_topic(self):
-        # the `topics` StreamField, so we have to find them this way, rather than via the ORM
-        # The user-facing relationship between lessons and their topics exists only through
-        for topic in self.module.topics:
-            for page in topic.value['pages']:
-                if self.page.id == page.id:
-                    return topic.value
+        # Returns the CuratedTopicBlock from a StreamField that represents the
+        # topic for self.page.
+
+        # The user-facing relationship between lessons and their topics exists
+        # only through the `topics` field on `CuratedListPage`.
+        # We have to find a page's topic this way, rather than via the ORM.
+
+        from core.constants import LESSON_BLOCK
+
+        for topic_block in self.module.topics:
+            for item in topic_block.value.get('lessons_and_placeholders', []):
+                # item could be a lesson page or a placeholder, so we must check
+                if item.block_type == LESSON_BLOCK:
+                    if self.page.id == item.value.id:
+                        return topic_block
 
     def get_module_topics(self):
         return [topic for topic in self.module.topics]
@@ -52,7 +62,7 @@ class PageTopic:
         return len(self.get_module_topics())
 
     def total_module_lessons(self):
-        return len(self.module_lessons)
+        return len(self.module_lessons) if self.module_lessons else 0
 
     def get_next_lesson(self):
         lessons = get_all_lessons(self.module)
