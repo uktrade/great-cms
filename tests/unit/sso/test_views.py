@@ -57,7 +57,9 @@ def test_business_sso_user_create_validation_error(client):
 
 @pytest.mark.django_db
 def test_business_sso_logout(client, requests_mock):
-    requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302)
+    cookie_jar = RequestsCookieJar()
+    cookie_jar.set(settings.SSO_DISPLAY_LOGGED_IN_COOKIE, value='false', domain='.great')
+    requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302, cookies=cookie_jar)
     response = client.post(reverse('sso:business-sso-logout-api'), {})
 
     assert response.status_code == 200

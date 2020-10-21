@@ -23,7 +23,9 @@
         <script type="text/javascript">
         ditMVP.ModalMenu({
           element: document.querySelector("#header-link-user-profile"),
-          avatar: '{{ request.user.profile_image|default:"" }}',
+          {% autoescape off %}
+            avatar: '{{ request.user.profile_image|default:"" }}',
+          {% endautoescape %}
           user_name: '{{ request.user.first_name|default:"" }}',
           authenticated: '{{ request.user.is_authenticated }}'
         })

@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-756 - Social logout and avatar fix
 - GP2-451 - Remove bottom margin from case study React component
 - GP2-451 - Remove empty step by step block on lesson page
 - GP2-357 - Heading padding below objective section
