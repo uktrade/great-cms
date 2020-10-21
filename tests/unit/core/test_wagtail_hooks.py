@@ -10,6 +10,7 @@ from wagtail.core.rich_text import RichText
 from core import wagtail_hooks
 from core.constants import LESSON_BLOCK, PLACEHOLDER_BLOCK
 from core.models import DetailPage
+from core.wagtail_hooks import CaseStudyAdmin
 from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.exportplan.factories import (
@@ -477,3 +478,15 @@ def test_set_lesson_pages_topic_id_removed(rf, curated_list_pages_with_lessons_a
     assert DetailPage.objects.get(
         id=topic_page_2_data['value']
     ).topic_block_id is None
+
+
+@pytest.mark.django_db
+def test_case_study_modeladmin_list_display_methods():
+    admin = CaseStudyAdmin()
+    obj = factories.CaseStudyFactory()
+
+    obj.country_code_tags.add('Europe', 'FR')
+    obj.hs_code_tags.add('HS1234', 'HS123456')
+
+    assert sorted(admin.associated_country_code_tags(obj)) == ['Europe', 'FR']
+    assert sorted(admin.associated_hs_code_tags(obj)) == ['HS1234', 'HS123456']

@@ -157,6 +157,7 @@ class CuratedTopicBlockFactory(wagtail_factories.StructBlockFactory):
 
 
 class CaseStudyFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker('word')
     company_name = factory.Faker('word')
     summary = factory.fuzzy.FuzzyText(length=200)
 
