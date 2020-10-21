@@ -14,11 +14,14 @@ export const RouteToMarket = ({
 
   const addTable = () => {
     Services.createRouteToMarket({ ...formFields })
-      .then((data) => {
+      .then((data) => (
         setRoutes([
-          ...routes,
-          data
-        ])
+        ...routes,
+        data
+      ])))
+      .then(() => {
+        const newElement = document.getElementById(`Route to market ${routes.length+1}`).parentNode
+        newElement.scrollIntoView()
       })
       .catch(() => {})
   }
@@ -44,7 +47,13 @@ export const RouteToMarket = ({
 
   return (
     <>
-      {routes.length >=1 && routes.map((field) => RouteToMarketSection({ ...formData, update, deleteTable, field }))}
+      {routes.length >=1 && routes.map((field, id) => RouteToMarketSection({
+        ...formData,
+        data: formData.data.map((x) => x.name === 'route' ? { ...x, label: `${x.label} ${id+1}`} : x),
+        update,
+        deleteTable,
+        field,
+      }))}
       <button
         type='button'
         className='button button--large button--icon'

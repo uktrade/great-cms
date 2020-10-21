@@ -19,139 +19,96 @@ export default function Table({
   return (
     <div className="target-age-group-insights m-t-m">
       <div className="grid">
+        <h3 className='body-l-b m-b-xs'>Global demographic data</h3>
         {population && (
-          <div className="c-1-4">
-            <figure className="statistic">
-              <figcaption>
-                <p className="statistic__caption">Total population</p>
-              </figcaption>
-              <p className="statistic__figure">
-                <span className="statistic__details">{population} million</span>
-              </p>
-            </figure>
+          <div className="c-1-3">
+            <dl className="statistic">
+              <dt className="statistic__caption">Total population</dt>
+              <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{population} million</dd>
+            </dl>
           </div>
         )}
         {internet_percentage && internet_total && (
-          <div className="c-1-4">
-            <figure className="statistic">
-              <figcaption>
-                <p className="statistic__caption">Access to the internet (total)</p>
-              </figcaption>
-              <p className="statistic__figure">
-                <span className="statistic__details">
-                  {internet_percentage}% ({internet_total} million)
-                </span>
-              </p>
-            </figure>
+          <div className="c-1-3">
+            <dl className="statistic">
+              <dt className="statistic__caption">Access to the internet (total)</dt>
+              <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{internet_percentage}% ({internet_total} million)</dd>
+            </dl>
           </div>
         )}
         {cpi && (
-          <div className="c-1-4">
-            <figure className="statistic">
-              <figcaption>
-                <p className="statistic__caption">Consumer Price Index</p>
-                <EducationalMomentTooltip
-                  id={`corruption-perception-index-tooltip`}
-                  heading="What is the Consumer Price Index?"
-                  description="The CPI measures the average change in prices over time that consumers pay for a basket of goods and services for their household, this is also known as inflation. It is used to estimate the change in total cost of this basket and the effect this has on the purchasing power of the country’s unit of currency."
-                />
-              </figcaption>
-              <p className="statistic__figure">
-                <span className="statistic__details">{cpi}</span>
-              </p>
-            </figure>
-          </div>
-        )}
-        {target_population && target_population_percentage && (
-          <div className="c-1-4">
-            <figure className="statistic">
-              <figcaption>
-                <p className="statistic__caption">Target age population</p>
-              </figcaption>
-              <p className="statistic__figure">
-                <span className="statistic__details">
-                  {target_population} million ({target_population_percentage}%)
-                </span>
-              </p>
-            </figure>
-          </div>
-        )}
-      </div>
-
-      <div className="grid">
-        {urban && rural && (
-          <div className="c-1-2">
-            <div className="statistic__percentage m-b-xs">
-              <span style={{ width: `${urban}%` }}></span>
-            </div>
-            <div className="statistic__group">
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Living in urban areas</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{urban}%</span>
-                </p>
-              </figure>
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Living in rural areas</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{rural}%</span>
-                </p>
-              </figure>
-            </div>
-          </div>
-        )}
-        {female && male && (
-          <div className="c-1-2">
-            <div className="statistic__percentage m-b-xs">
-              <span style={{ width: '51%' }}></span>
-            </div>
-            <div className="statistic__group">
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Female in your target group</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{female} m</span>
-                </p>
-              </figure>
-              <figure className="statistic">
-                <figcaption>
-                  <p className="statistic__caption">Male in your target group</p>
-                </figcaption>
-                <p className="statistic__figure">
-                  <span className="statistic__details">{male} m</span>
-                </p>
-              </figure>
-            </div>
+          <div className="c-1-3">
+            <dl className="statistic">
+              <dt className="statistic__caption">Consumer Price Index</dt>
+              <EducationalMomentTooltip
+                id={`corruption-perception-index-tooltip`}
+                heading="What is the Consumer Price Index?"
+                description="The CPI measures the average change in prices over time that consumers pay for a basket of goods and services for their household, this is also known as inflation. It is used to estimate the change in total cost of this basket and the effect this has on the purchasing power of the country’s unit of currency."
+              />
+            <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{cpi}</dd>
+            </dl>
           </div>
         )}
       </div>
 
       {languages && (
         <div className="grid">
-          <div className="c-1-2">
-            <figure className="statistic">
-              <figcaption>
-                <p className="statistic__caption">Languages in your target market</p>
-              </figcaption>
-              <p className="statistic__figure">
-                <span className="statistic__details">{languages}</span>
-              </p>
-            </figure>
+          <div className="c-full">
+            <dl className="statistic">
+              <dt className="statistic__caption">Languages in your target market</dt>
+              <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{languages}</dd>
+            </dl>
           </div>
         </div>
       )}
+      <div className="grid">
+        <h3 className='body-l-b m-b-xs'>Data specific for you target age group</h3>
+        {target_population && target_population_percentage && (
+          <div className="c-1-3">
+            <dl className="statistic">
+              <dt className="statistic__caption">Target age population</dt>
+              <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{target_population} million</dd>
+            </dl>
+          </div>
+        )}
 
-      <hr className="m-t-0 m-b-0" />
-      <p className="target-age-group-insights__source">
-        Source
-        <br />
-        CIA factbook
-      </p>
+        <div className="c-2-3">
+          {female && male && (
+            <div className='statistic'>
+              <div className="statistic__group">
+                <dl>
+                  <dt className="statistic__caption p-t-xs">Female in your target group</dt>
+                  <dd className="statistic__figure h-xs p-b-0 p-t-s">{female} million</dd>
+                </dl>
+                <dl>
+                  <dt className="statistic__caption p-t-xs">Male in your target group</dt>
+                  <dd className="statistic__figure h-xs p-b-0 p-t-s">{male} million</dd>
+                </dl>
+              </div>
+              <div className="statistic__percentage bg-red-80 radius m-b-xs">
+                <span className='bg-blue-deep-80 radius' style={{ width: `${(female/target_population)*100}%` }} />
+              </div>
+            </div>
+          )}
+          {urban && rural && (
+            <div className='statistic'>
+              <div className="statistic__group">
+                <dl>
+                  <dt className="statistic__caption p-t-xs">Living in urban areas</dt>
+                  <dd className="statistic__figure h-xs p-b-0 p-t-s">{urban}%</dd>
+                </dl>
+                <dl>
+                  <td className="statistic__caption p-t-xs">Living in rural areas</td>
+                  <dd className="statistic__figure h-xs p-b-0 p-t-s">{rural}%</dd>
+                </dl>
+              </div>
+              <div className="statistic__percentage bg-red-80 radius m-b-xs">
+                <span className='bg-blue-deep-80 radius' style={{ width: `${urban}%` }} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

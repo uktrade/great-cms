@@ -14,6 +14,6 @@ export const mapData = ({ cia_factbook_data, country_data, population_data }) =>
     target_population_percentage: Math.floor(
       (population_data.total_target_age_population / population_data.total_population) * 100
     ),
-    languages: cia_factbook_data.languages.language.map(({ name }) => name).join(', ')
+    languages: cia_factbook_data.languages ? cia_factbook_data.languages.language.map(({ name }) => name).join(', ') : ''
   }
 }

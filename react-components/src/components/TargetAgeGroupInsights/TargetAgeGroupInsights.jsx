@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './TargetAgeGroupInsights.scss'
 
 import Table from './Table'
 import Services from '@src/Services'
@@ -62,36 +61,35 @@ class TargetAgeGroupInsights extends React.Component {
 
     const showTable = selectedGroups.length >= 1 && !isOpen
 
-    const buttonText = showTable ? targetGroupLabels.join(', ') : 'Select'
+    const buttonText = showTable ? targetGroupLabels.map(i => <span className='target-age-group-tag body-m-b bg-blue-deep-20'>{i}</span>): 'Select'
 
     return groups ? (
       <div className="target-age-group-insights">
-        <h3 className="target-age-group-insights__heading">Select target age groups</h3>
-        <button className="target-age-group-insights__select-button m-t-xs" onClick={toggleSelector}>
-          <span className="fa fa-chevron-circle-down"></span>
+        <h3 className="body-l-b">Select target age groups</h3>
+        <button className="m-t-xs" onClick={toggleSelector}>
+          <i className="fa fa-chevron-circle-down m-r-xxs" />
           {buttonText}
         </button>
         {isOpen && (
           <form onSubmit={submitForm}>
-            <ul className="form-group select-multiple m-b-0">
+            <ul className="form-group m-b-0">
               {groups.map(({ key, label }) => (
-                <li className="multiple-choice" key={key}>
+                <li className="great-checkbox width-full m-b-xs" key={key}>
                   <input
                     id={key}
-                    className="select-multiple"
                     value={key}
                     type="checkbox"
                     onChange={handleChange}
                     checked={selectedGroups.includes(key)}
                   />
-                  <label className="form-label" htmlFor={key}>
+                  <label htmlFor={key}>
                     {label}
                   </label>
                 </li>
               ))}
             </ul>
 
-            <button className="dark-button m-t-s" type="submit">
+            <button className="button button--secondary m-t-s" type="submit">
               Confirm
             </button>
           </form>

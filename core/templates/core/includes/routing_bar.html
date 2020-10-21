@@ -1,5 +1,6 @@
 
 {% load wagtailcore_tags %}
+{% load set %}
 
 {% comment %}
 ****************
@@ -8,12 +9,23 @@ As seen at the top of the domestic dashboard.
 **************
 {% endcomment %}
 
+
+{# Build a list of valid routing blocks #}
 {% if routes %}
-    <div class="grid" id="pre-journey-routing-component">
-        {% for component in routes  %}
-            <article class="dashboard__routing-block c-1-{{routes|length}}-l {% if routes|length < 3 %}wide{% endif %}">
-                {% include_block component with wide=routes_wide %}
-            </article>
-        {% endfor %}
-    </div>
+  {% set 'routeList' None %}
+  {% for key, component in routes.items %}
+      {% if component.value.enabled %}
+        {% push 'routeList' component %}
+      {% endif %}
+  {% endfor %}
+  {% if store.routeList|length < 3 %}
+    {% set 'routes_wide' True %}
+  {% endif %}
+  <div class="grid" id="pre-journey-routing-component">
+      {% for component in store.routeList  %}
+          <article class="dashboard__routing-block c-1-{{store.routeList|length}}-l {% if routes_wide %}wide{% endif %}">
+            {% include_block component with wide=routes_wide %}
+          </article>
+      {% endfor %}
+  </div>
 {% endif %}
