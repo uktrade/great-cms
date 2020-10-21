@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { FormGroup } from '../FormGroup'
 
 export const TextArea = ({
-  error,
+  errors,
   label,
   disabled,
   id,
@@ -16,7 +16,7 @@ export const TextArea = ({
   example
 }) => (
   <FormGroup
-    error={error}
+    errors={errors}
     label={label}
     description={description}
     tooltip={tooltip}
@@ -36,7 +36,7 @@ export const TextArea = ({
 )
 
 TextArea.propTypes = {
-  error: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.string),
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
@@ -49,7 +49,7 @@ TextArea.propTypes = {
 }
 
 TextArea.defaultProps = {
-  error: false,
+  errors: [],
   disabled: false,
   placeholder: '',
   value: '',

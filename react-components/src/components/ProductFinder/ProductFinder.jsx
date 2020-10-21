@@ -243,7 +243,7 @@ function ProductFinder(props) {
           <h4 className="h-s">Search tips</h4>
           <ul className="list-dot">
             <li>Check for spelling mistakes</li>
-            <li>Try a more generic search term for descrcibing your product, like sofa instead of setee</li>
+            <li>Try a more generic search term for describing your product, like sofa instead of settee</li>
           </ul>
           <h4 className="h-s">Example searches</h4>
           <ul className="list-dot">

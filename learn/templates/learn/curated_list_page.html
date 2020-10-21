@@ -30,13 +30,25 @@
         </div>
     </section>
     <section class="learn__category-lists container" id="topic-lesson-list">
-            <ol class="learn__topics-list">
-                {% for topic in page.topics %}
-                    <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
-                        {% include_block topic %}
-                    </li>
-                {% endfor %}
-            </ol>
-        </section>
+        <ol class="learn__topics-list">
+            {% for topic in page.topics %}
+                <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
+                    {% include_block topic with topic_id=topic.id %}
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
 </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script>
+        document.querySelectorAll('[data-placeholder-title]').forEach(element => {
+            ditMVP.createComingSoonModal({
+                element,
+                title: element.getAttribute('data-placeholder-title'),
+                backUrl: "{{self.url}}"
+            })
+        })
+    </script>
 {% endblock %}

@@ -24,7 +24,7 @@ export default function Component(props){
           { props.products.length > 0 && <p className='p-xxs m-r-m'>{props.products.map((item, i) => <span key={i}>{item.label}</span>) }</p> }
           { props.countries.length > 0 && <p className='p-xxs m-r-m'>{props.countries.map((item, i) => <span key={i}>{item.label}</span>) }</p> }
         </aside>
-      )      
+      )
     }
   }
 

@@ -4,7 +4,11 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from django.core.exceptions import ObjectDoesNotExist
 from core import models
-from core.constants import RICHTEXT_FEATURES__MINIMAL
+from core.constants import (
+    LESSON_BLOCK,
+    PLACEHOLDER_BLOCK,
+    RICHTEXT_FEATURES__MINIMAL
+)
 
 from core.utils import get_personalised_case_study_orm_filter_args, get_personalised_choices
 
@@ -28,9 +32,34 @@ class Item(blocks.StructBlock):
     item = blocks.CharBlock(max_length=255)
 
 
+class LessonPlaceholderBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255)
+
+    class Meta:
+        help_text = (
+            'Placeholder block for a lesson which will be shown as "Coming Soon"'
+        )
+        icon = 'fa-expand'
+        template = 'learn/_lesson_placeholder.html'
+
+
 class CuratedTopicBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=255)
-    pages = blocks.ListBlock(blocks.PageChooserBlock(label='Detail page'))
+    lessons_and_placeholders = blocks.StreamBlock(
+        [
+            (
+                LESSON_BLOCK,
+                blocks.PageChooserBlock(
+                    target_model='core.DetailPage'
+                )
+            ),
+            (
+                PLACEHOLDER_BLOCK,
+                LessonPlaceholderBlock()
+            )
+        ],
+        required=False,
+    )
 
     class Meta:
         template = 'core/curated_topic.html'

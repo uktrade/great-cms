@@ -10,6 +10,11 @@ from great_components.helpers import add_next
 from wagtail.core import hooks
 from wagtail.core.models import Page
 
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin,
+    modeladmin_register
+)
+
 from django.urls import reverse
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import redirect
@@ -19,6 +24,29 @@ from core import constants, mixins, views, models
 
 SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT = 'LESSON_PAGE_SHOW_GENERIC_CONTENT'
 exportplan_templates = ['exportplan/automated_list_page.html', 'exportplan/dashboard_page.html']
+
+
+class CaseStudyAdmin(ModelAdmin):
+    model = models.CaseStudy
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    menu_icon = 'fa-book'
+    list_display = (
+        '__str__',
+        'associated_hs_code_tags',
+        'associated_country_code_tags'
+    )
+    list_filter = ('hs_code_tags', 'country_code_tags',)
+    search_fields = ('title', 'company_name',)
+
+    def associated_hs_code_tags(self, obj):
+        return [str(x) for x in obj.hs_code_tags.all()]
+
+    def associated_country_code_tags(self, obj):
+        return [str(x) for x in obj.country_code_tags.all()]
+
+
+modeladmin_register(CaseStudyAdmin)
 
 
 @hooks.register('before_serve_page')
@@ -117,21 +145,31 @@ def set_read_time(request, page):
 def set_lesson_pages_topic_id(request, page):
     if hasattr(page, 'topics'):
         topic_map = {}
-        # build a map of all the topics-lessons for this curated page
+        # build a map of all the topics->lessons for this curated page
         for topic in page.topics:
             topic_map[topic.id] = []
-            for lesson_page in topic.value['pages']:
-                topic_map[topic.id].append(lesson_page.id)
+            for item in topic.value['lessons_and_placeholders']:
+                if item.block_type == constants.LESSON_BLOCK:
+                    lesson_page = item.value
+                    topic_map[topic.id].append(lesson_page.id)
 
         for topic_id, lesson_ids in topic_map.items():
             # Set the topic to any lesson which don't have this topic set
-            lesson_to_update = models.DetailPage.objects.filter(id__in=lesson_ids).exclude(topic_block_id=topic_id)
-            for lesson in lesson_to_update:
-                lesson.topic_block_id = topic_id
-                lesson.save()
+            lesson_to_update = models.DetailPage.objects.filter(
+                id__in=lesson_ids
+            ).exclude(
+                topic_block_id=topic_id
+            )
+            # Update without triggering save() - more efficient
+            lesson_to_update.update(topic_block_id=topic_id)
+
             # Blank the topic to any lessons which have lesson set which aren't in the map
-            lesson_to_blank = models.DetailPage.objects.filter(topic_block_id=topic_id).exclude(id__in=lesson_ids)
-            for lesson in lesson_to_blank:
-                lesson.topic_block_id = None
-                lesson.save()
+            lesson_to_blank = models.DetailPage.objects.filter(
+                topic_block_id=topic_id
+            ).exclude(
+                id__in=lesson_ids
+            )
+            # Update without triggering save() - more efficient
+            lesson_to_blank.update(topic_block_id=None)
+
     return page
