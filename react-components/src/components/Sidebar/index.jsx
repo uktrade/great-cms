@@ -15,7 +15,7 @@ export const Sidebar = ({ sections, logo, company, currentSection }) => {
         isOpen={modal}
       />
       <CountryNotSelected
-        isOpen={currentSection.disabled}
+        isOpen={currentSection.country_required}
       />
       <nav className={`sidebar p-h-s p-b-m ${!toggle && 'sidebar__close'}`} id='collapseNav' role="navigation">
         <div className='sidebar-sticky'>
@@ -78,7 +78,8 @@ Sidebar.propTypes = {
   currentSection: PropTypes.shape({
     title: PropTypes.string,
     url: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    country_required: PropTypes.bool
   }).isRequired
 }
 

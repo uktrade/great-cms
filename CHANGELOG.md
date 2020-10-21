@@ -69,6 +69,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-735 - Update login/signup flow styling,
+- GP2-737 - Case Study enhancements in the CMS admin
 - GP2-593 - Dashboard tidy up
 - GP2-726 - Redirect unauthenticated users on CMS pages to the sign-in page
 - GP2-736 - Support lesson placeholders
@@ -288,7 +290,7 @@
 - GP2-709 - BE Country add required country signal
 - GP2-744 and GP2-744 - tighten up validation for CaseStudy.body StreamField
 - noticket - hide-next-link
-- GP2-731 -content-refresh
+- GP2-731 - content-refresh
 - GP2-781 - remove what's your business name prompt
 - GP2-699 - swamp route to market constants
 - GP2-743 - remove link on upload

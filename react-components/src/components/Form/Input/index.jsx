@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { FormGroup } from '../FormGroup'
 
 export const Input = ({
-  error,
+  errors,
   label,
   disabled,
   id,
@@ -18,7 +18,7 @@ export const Input = ({
   readOnly
 }) => (
   <FormGroup
-    error={error}
+    errors={errors}
     label={label}
     description={description}
     tooltip={tooltip}
@@ -40,7 +40,7 @@ export const Input = ({
 )
 
 Input.propTypes = {
-  error: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.string),
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
@@ -55,7 +55,7 @@ Input.propTypes = {
 }
 
 Input.defaultProps = {
-  error: false,
+  errors: [],
   disabled: false,
   type: 'text',
   placeholder: '',

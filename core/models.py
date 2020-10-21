@@ -791,7 +791,16 @@ class CaseStudy(ClusterableModel):
 
     The decision about the appropriate Case Study block to show will happen
     when the page attempts to render the relevant CaseStudyBlock.
+
+    Note that this is rendered via Wagtail's ModelAdmin, so appears in the sidebar,
+    but we have to keep it registered as a Snippet to be able to transfer it
+    with Wagtail-Transfer
     """
+
+    title = models.CharField(
+        max_length=255,
+        blank=False,
+    )
 
     company_name = models.CharField(
         max_length=255,
@@ -852,6 +861,7 @@ class CaseStudy(ClusterableModel):
     panels = [
         MultiFieldPanel(
             [
+                FieldPanel('title'),
                 FieldPanel('company_name'),
                 FieldPanel('summary'),
                 StreamFieldPanel('body'),
@@ -868,7 +878,8 @@ class CaseStudy(ClusterableModel):
     ]
 
     def __str__(self):
-        return f'Case Study: {self.company_name}'
+        display_name = self.title if self.title else self.company_name
+        return f'{display_name}'
 
     def save(self, **kwargs):
         self.update_modified = kwargs.pop(

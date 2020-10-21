@@ -84,3 +84,17 @@ body {
 .br-xs {
   border-radius: 10px;
 }
+
+.button {
+  &-linkedin {
+    background-color: #0077b6;
+  }
+
+  &-google {
+    background-color: #4385f4;
+  }
+}
+
+.icon-large {
+  font-size: 40px;
+}
