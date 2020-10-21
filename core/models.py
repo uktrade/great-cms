@@ -403,10 +403,17 @@ class CuratedListPage(CMSGenericPage):
         return count
 
     def get_context(self, request, *args, **kwargs):
+        from core.helpers import get_module_completion_progress
         context = super().get_context(request)
         # Give the template a simple way to link back to the parent
         # learning module (ListPage)
         context['parent_page_url'] = self.get_parent().url
+
+        if request.user.is_authenticated:
+            context['module_completion_progress'] = get_module_completion_progress(
+                user=request.user,
+                module_page=self,
+            )
         return context
 
 
@@ -562,6 +569,7 @@ class DetailPage(CMSGenericPage):
     @cached_property
     def module(self):
         """Gets the learning module this lesson belongs to"""
+        # NB: assumes this page is a child of the correct CuratedListPage
         return self.get_parent().specific
 
     @cached_property

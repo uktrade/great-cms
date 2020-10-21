@@ -1,6 +1,5 @@
 {% load wagtailcore_tags %}
 {% load format_timedelta from content_tags %}
-
 <div class="grid" id="{{topic_id}} test_container">
 
     <div class="learn__topic-item-details c-1-3-l">
@@ -13,7 +12,13 @@
             <li class="learn__lesson-item">
                 <a class="learn__lesson-item-link h-xs" href="{% pageurl page %}" title="{{ page.title }}">
                     {{ page.title }}
+                    {% if page.id in lesson_completion_data %}
+                    <span class="button button--quaternary button--small">
+                        Completed
+                    </span>
+                    {% else %}
                     <div class="learn__topic-item-read-time body-l-b">{{ page.specific.estimated_read_duration|format_timedelta }}</div>
+                    {% endif %}
                 </a>
             </li>
             {% endwith %}
