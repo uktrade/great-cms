@@ -123,3 +123,32 @@
   }
 }
 
+.search-input {
+  i.fa-search {
+   float: right;
+   padding: 10px;
+   color: $grey;
+   position: relative;
+   margin-top: -45px;
+  }
+}
+
+.accordion {
+  > .expander-section {
+    position: relative;
+    .fa {
+      top:8px;
+      position: absolute;
+      right:8px;
+    }
+  }
+  .expand-section {
+    display: none;
+    width: 100%;
+    overflow: hidden;
+    &.open {
+      display: block;
+    }
+  }
+}
+
