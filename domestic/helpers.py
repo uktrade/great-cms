@@ -31,10 +31,27 @@ def get_ancestor(page, ancestor_class):
 
 
 def get_read_progress(user, context={}):
+    """Gets all lesson pages (DetailPages and uses the parental tree to get a list
+    of modules (CuratedListPages), with some filtering-out of DetailPages which
+    are not associated with a CuratedListPage.topics field
 
-    # Gets all lesson pages (DetailPages and uses the parental tree to get a list
-    # of modules (CuratedListPages), with some filtering-out of DetailPages which
-    # are not associated with a CuratedListPage.topics field
+    Example output:
+    {
+        'lessons_in_progress': True,
+        'module_pages': [
+            {
+                'total_pages': 7,
+                'completion_count': 4,
+                'page': <Page: Identify opportunities and research the market>,
+                'completed_lesson_pages': defaultdict(
+                    <class 'set'>, {
+                    'b7eca1bf-8b43-4737-91e4-913dfeb2c5d8': {10, 26},
+                    '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20}}
+                )
+            },
+            ...
+        ]
+    }"""
 
     def lesson_comparator(lp):
         total = lp.get('total_pages')
@@ -57,26 +74,6 @@ def get_read_progress(user, context={}):
 
         # This ALSO means that CuratedListPages with no topics set up, even if
         # they have child DetailPages, will NOT be included in these results.
-
-        # Example output
-        # {
-        #     'lessons_in_progress': True,
-        #     'module_pages': [
-        #         {
-        #             'total_pages': 7,
-        #             'completion_count': 4,
-        #             'page': <Page: Identify opportunities and research the market>,
-        #             'completed_lesson_pages': defaultdict(
-        #                 <class 'set'>, {
-        #                 'b7eca1bf-8b43-4737-91e4-913dfeb2c5d8': {10, 26},
-        #                 '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20}}
-        #             )
-        #         },
-        #         ...
-        #     ]
-        # }
-
-
     ):
         module_page = get_ancestor(detail_page, CuratedListPage)
         if module_page:
