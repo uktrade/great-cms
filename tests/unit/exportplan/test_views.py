@@ -295,5 +295,6 @@ def test_exportplan_dashboard(
     client.force_login(user)
     dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
     context_data = dashboard.get_context(get_request)
+    assert context_data.get('export_plan').get('id') == 1
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
