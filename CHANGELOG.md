@@ -301,3 +301,4 @@
 - GP2-781 - remove what's your business name prompt
 - GP2-699 - swamp route to market constants
 - GP2-743 - remove link on upload
+- No Ticket - fix double country required in next url
