@@ -64,7 +64,7 @@ def response_factory(upstream_response):
     set_cookies_from_cookie_jar(
         cookie_jar=cookie_jar,
         response=response,
-        whitelist=[settings.SSO_SESSION_COOKIE, 'sso_display_logged_in']
+        whitelist=[settings.SSO_SESSION_COOKIE, settings.SSO_DISPLAY_LOGGED_IN_COOKIE]
     )
     return response
 

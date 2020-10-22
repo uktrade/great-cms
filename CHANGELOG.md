@@ -9,6 +9,14 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-357 - Top padding for blocks directly after objectives
+- GP2-836 - Market chooser design modal size
+- GP2-835 - Remove blank region
+- GP2-834 - Link to compare markets
+- GP2-670 - Scrolling in market chooser
+- GP2-756 - Social logout and avatar fix
+- GP2-451 - Remove bottom margin from case study React component
+- GP2-451 - Remove empty step by step block on lesson page
 - GP2-357 - Heading padding below objective section
 - GP2-768 - but fix, dropdown no value
 - GP2-444 - select bug fix
@@ -18,6 +26,7 @@
 - GP2-754 - Pros and Cons layout tweaks
 - GP2-707 - Lesson module landing page button size
 - GP2-669 - Country Finder - Various defect fixes
+- GP2-589 - Fix personalization bar in export plan dashboard page
 - GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
 - GP2-76 - adjust aligment of back button
