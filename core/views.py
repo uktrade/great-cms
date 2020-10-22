@@ -66,7 +66,7 @@ class LoginView(GA360Mixin, TemplateView):
     template_name = 'core/login.html'
 
 
-class SignupView(TemplateView):
+class SignupView(GA360Mixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
