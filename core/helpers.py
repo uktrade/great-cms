@@ -18,7 +18,7 @@ from django.conf import settings
 from core.serializers import parse_opportunities, parse_events
 from core.models import CuratedListPage
 
-from domestic.helpers import get_read_progress
+from domestic.helpers import get_lesson_completion_status
 
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
@@ -270,8 +270,9 @@ def get_popular_export_destinations(sector_label):
 
 
 def get_module_completion_progress(user, module_page: CuratedListPage):
-    read_progress = get_read_progress(user)
-    for module_data in read_progress.get('module_pages', []):
+    # Per-module completion data, with lesson-level detail
+    lesson_completion_status = get_lesson_completion_status(user)
+    for module_data in lesson_completion_status.get('module_pages', []):
         if module_data['page'].id == module_page.id:
             return module_data
 

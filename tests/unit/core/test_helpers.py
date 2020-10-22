@@ -239,8 +239,8 @@ def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_read_progress')
-def test_get_module_completion_progress(mock_get_read_progress):
+@mock.patch.object(helpers, 'get_lesson_completion_status')
+def test_get_module_completion_progress(mock_get_lesson_completion_status):
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
@@ -267,7 +267,7 @@ def test_get_module_completion_progress(mock_get_read_progress):
         }
     }
 
-    mock_get_read_progress.return_value = {
+    mock_get_lesson_completion_status.return_value = {
         'lessons_in_progress': True,
         'module_pages': [
             clp_1_completion_data,
@@ -278,17 +278,17 @@ def test_get_module_completion_progress(mock_get_read_progress):
     assert helpers.get_module_completion_progress(
         mock_user, clp_2
     ) == clp_2_completion_data
-    mock_get_read_progress.assert_called_once_with(mock_user)
-    mock_get_read_progress.reset_mock()
+    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
+    mock_get_lesson_completion_status.reset_mock()
 
     assert helpers.get_module_completion_progress(
         mock_user, clp_1
     ) == clp_1_completion_data
-    mock_get_read_progress.assert_called_once_with(mock_user)
-    mock_get_read_progress.reset_mock()
+    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
+    mock_get_lesson_completion_status.reset_mock()
 
     assert helpers.get_module_completion_progress(
         mock_user, clp_3
     ) == {}  # ie, no match
-    mock_get_read_progress.assert_called_once_with(mock_user)
-    mock_get_read_progress.reset_mock()
+    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
+    mock_get_lesson_completion_status.reset_mock()

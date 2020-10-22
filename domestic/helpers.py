@@ -30,7 +30,7 @@ def get_ancestor(page, ancestor_class):
         page = page.get_parent()
 
 
-def get_read_progress(user, context={}):
+def get_lesson_completion_status(user, context={}):
     """Gets all lesson pages (DetailPages and uses the parental tree to get a list
     of modules (CuratedListPages), with some filtering-out of DetailPages which
     are not associated with a CuratedListPage.topics field
