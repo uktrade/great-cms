@@ -18,7 +18,7 @@ cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==2.9.2       # via -r requirements.in
 cssselect==1.1.0          # via pyquery
-directory-api-client==22.3.0  # via -r requirements.in
+directory-api-client==22.4.0  # via -r requirements.in
 directory-client-core==6.3.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.0  # via -r requirements.in
@@ -94,7 +94,7 @@ tablib[xls,xlsx]==2.0.0   # via wagtail
 text-unidecode==1.3       # via faker
 ua-parser==0.10.0         # via user-agents
 unidecode==1.1.1          # via wagtail
-urllib3==1.25.10          # via botocore, directory-validators, requests, sentry-sdk
+urllib3==1.25.11          # via botocore, directory-validators, requests, sentry-sdk
 user-agents==2.2.0        # via wagtail-personalisation
 w3lib==1.22.0             # via directory-client-core
 wagtail-cache==1.0.1      # via -r requirements.in

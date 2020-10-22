@@ -6,13 +6,13 @@ const StepSuccess = ({
   nextUrl
 }) => {
   return (
-    <div id="signup-modal-success">
-      <i className="fas fa-check-circle" />
-      {showTitle && <h2 className="h-m text-blue-deep-80 body-l">Sign up complete</h2>}
-      <p>Your account has been created.</p>
+    <div id='signup-modal-success'>
+      <i className='fas fa-check-circle text-green-100 icon-large' />
+      {showTitle && <h2 className='h-s text-blue-deep-80'>Sign up complete</h2>}
+      <p className='body-l'>Your account has been created.</p>
       <a
-        id="signup-modal-submit-success"
-        className="button button--primary"
+        id='signup-modal-submit-success'
+        className='button button--primary'
         href={nextUrl}
       >Continue to the dashboard</a>
     </div>

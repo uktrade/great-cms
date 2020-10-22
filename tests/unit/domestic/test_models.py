@@ -7,7 +7,7 @@ from domestic.models import DomesticHomePage, DomesticDashboard
 from directory_sso_api_client import sso_api_client
 from .factories import DomesticHomePageFactory, DomesticDashboardFactory
 from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
-from tests.helpers import create_response
+from tests.helpers import add_lessons_and_placeholders_to_curated_list_page, create_response
 
 from directory_api_client import api_client
 
@@ -50,6 +50,8 @@ class DomesticDashboardTests(WagtailPageTests):
 
 
 @pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'get_user_page_views')
+@mock.patch.object(api_client.exportplan, 'exportplan_list')
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
 @mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
@@ -57,21 +59,22 @@ def test_dashboard_page_routing(
     mock_get_user_lesson_completed,
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
+    mock_exportplan_list,
+    mock_get_user_page_views,
     patch_set_user_page_view,
-    patch_get_user_page_views,
     mock_get_company_profile,
     client,
     user,
     get_request,
     domestic_homepage,
-    domestic_site
+    domestic_site,
 ):
+    mock_exportplan_list.return_value = [{}]
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
-
+    mock_get_user_page_views.return_value = create_response(json_body={'result': 'ok', 'page_views': {}})
     topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
     lesson_one = DetailPageFactory(parent=topic_one, slug='lesson-one')
-
     dashboard = DomesticDashboardFactory(
         parent=domestic_homepage,
         slug='dashboard',
@@ -92,18 +95,60 @@ def test_dashboard_page_routing(
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok'})
     context_data = dashboard.get_context(get_request)
     assert len(context_data['routes']) == 3
-    assert context_data['routes'][0].value.get('route_type') == 'learn'
+    assert context_data['routes']['learn'].value.get('route_type') == 'learn'
+    assert context_data['routes']['plan'].value.get('route_type') == 'plan'
+    assert context_data['routes']['plan'].value.get('body') == 'Planning Body Text'
+    assert context_data['lessons_in_progress'] is False
+    # Check that the lesson route block is enabled
+    assert context_data['routes']['learn'].value.get('enabled') is True
 
-    # Build learning pages and set one to 'read'
+    # Build learning pages and mock one as 'read'
     topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
     section_one = CuratedListPageFactory(parent=topic_one, slug='topic-one-section-one')
-    lesson_one = DetailPageFactory(parent=section_one, slug='lesson-one')
 
+    _topic_id = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
+    lesson_one = DetailPageFactory(
+        parent=section_one,
+        slug='lesson-one',
+        topic_block_id=_topic_id
+    )
+
+    section_one = add_lessons_and_placeholders_to_curated_list_page(
+        curated_list_page=section_one,
+        data_for_topics={
+            0: {
+                'id': _topic_id,
+                'title': 'Module one, first topic block',
+                'lessons_and_placeholders': [
+                    {'type': 'lesson', 'value': lesson_one.id},
+                    {
+                        'type': 'placeholder',
+                        'value': {
+                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
+                        }
+                    },
+                ]
+            },
+        }
+    )
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
         {'lesson': lesson_one.id},
     ]})
 
-    # the learning one should vanish
+    # the learning route should be disabled
     context_data = dashboard.get_context(get_request)
-    assert len(context_data['routes']) == 2
-    assert context_data['routes'][0].value.get('route_type') == 'target'
+    assert context_data['lessons_in_progress'] is True
+    assert context_data['routes']['learn'].value.get('enabled') is False
+
+    # set a country in exportplan and watch plan section disappear
+    assert context_data['routes']['target'].value.get('enabled') is True
+    mock_exportplan_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
+    context_data = dashboard.get_context(get_request)
+    assert context_data['routes']['target'].value.get('enabled') is False
+
+    # page visit on exportplan dashboard should make plan section disappear
+    assert context_data['routes']['plan'].value.get('enabled') is True
+    mock_get_user_page_views.return_value = create_response(
+        json_body={'result': 'ok', 'page_views': {'/export-plan/dashboard/': {'service': 'great-cms'}}})
+    context_data = dashboard.get_context(get_request)
+    assert context_data['routes']['plan'].value.get('enabled') is False

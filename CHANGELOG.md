@@ -9,6 +9,14 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-357 - Top padding for blocks directly after objectives
+- GP2-836 - Market chooser design modal size
+- GP2-835 - Remove blank region
+- GP2-834 - Link to compare markets
+- GP2-670 - Scrolling in market chooser
+- GP2-756 - Social logout and avatar fix
+- GP2-451 - Remove bottom margin from case study React component
+- GP2-451 - Remove empty step by step block on lesson page
 - GP2-357 - Heading padding below objective section
 - GP2-768 - but fix, dropdown no value
 - GP2-444 - select bug fix
@@ -18,6 +26,7 @@
 - GP2-754 - Pros and Cons layout tweaks
 - GP2-707 - Lesson module landing page button size
 - GP2-669 - Country Finder - Various defect fixes
+- GP2-589 - Fix personalization bar in export plan dashboard page
 - GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
 - GP2-76 - adjust aligment of back button
@@ -70,10 +79,15 @@
 
 ### Implemented enhancements
 - GP2-34 - Track module progress (Homepage)
+- GP2-162 - Module-level lesson completion status markers
+- GP2-735 - Update login/signup flow styling,
+- GP2-737 - Case Study enhancements in the CMS admin
+- GP2-593 - Dashboard tidy up
+- GP2-726 - Redirect unauthenticated users on CMS pages to the sign-in page
 - GP2-736 - Support lesson placeholders
 - GP2-443 - scroll to new route market
 - GP2-732 - marketing approach styling and content update
-- GP2-759 - Product search no-header 
+- GP2-759 - Product search no-header
 - GP2-759 - Product-search No results + feature flag to allow UR
 - GP2-755 - Add objectives section title
 - GP2-299 - Step by step reduce image size
@@ -287,7 +301,9 @@
 - GP2-709 - BE Country add required country signal
 - GP2-744 and GP2-744 - tighten up validation for CaseStudy.body StreamField
 - noticket - hide-next-link
-- GP2-731 -content-refresh
+- GP2-731 - content-refresh
 - GP2-781 - remove what's your business name prompt
 - GP2-699 - swamp route to market constants
 - GP2-743 - remove link on upload
+- No Ticket - fix double country required in next url
+- GP2-814 - update lesson link

@@ -205,7 +205,13 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
-class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, mixins.ExportPlanMixin, Page):
+class CMSGenericPage(
+    PersonalisablePageMixin,
+    mixins.EnableTourMixin,
+    mixins.ExportPlanMixin,
+    mixins.AuthenticatedUserRequired,
+    Page
+):
     """
     Generic page, freely inspired by Codered page
     """
@@ -397,10 +403,17 @@ class CuratedListPage(CMSGenericPage):
         return count
 
     def get_context(self, request, *args, **kwargs):
+        from core.helpers import get_module_completion_progress
         context = super().get_context(request)
         # Give the template a simple way to link back to the parent
         # learning module (ListPage)
         context['parent_page_url'] = self.get_parent().url
+
+        if request.user.is_authenticated:
+            context['module_completion_progress'] = get_module_completion_progress(
+                user=request.user,
+                module_page=self,
+            )
         return context
 
 
@@ -556,6 +569,7 @@ class DetailPage(CMSGenericPage):
     @cached_property
     def module(self):
         """Gets the learning module this lesson belongs to"""
+        # NB: assumes this page is a child of the correct CuratedListPage
         return self.get_parent().specific
 
     @cached_property
@@ -613,6 +627,8 @@ class DetailPage(CMSGenericPage):
             page_topic = PageTopic(self)
             next_lesson = page_topic.get_next_lesson()
             context['current_module'] = page_topic.module
+            if page_topic and page_topic.get_page_topic():
+                context['page_topic'] = page_topic.get_page_topic().value['title']
 
             if next_lesson:
                 context['next_lesson'] = next_lesson
@@ -785,7 +801,16 @@ class CaseStudy(ClusterableModel):
 
     The decision about the appropriate Case Study block to show will happen
     when the page attempts to render the relevant CaseStudyBlock.
+
+    Note that this is rendered via Wagtail's ModelAdmin, so appears in the sidebar,
+    but we have to keep it registered as a Snippet to be able to transfer it
+    with Wagtail-Transfer
     """
+
+    title = models.CharField(
+        max_length=255,
+        blank=False,
+    )
 
     company_name = models.CharField(
         max_length=255,
@@ -846,6 +871,7 @@ class CaseStudy(ClusterableModel):
     panels = [
         MultiFieldPanel(
             [
+                FieldPanel('title'),
                 FieldPanel('company_name'),
                 FieldPanel('summary'),
                 StreamFieldPanel('body'),
@@ -862,7 +888,8 @@ class CaseStudy(ClusterableModel):
     ]
 
     def __str__(self):
-        return f'Case Study: {self.company_name}'
+        display_name = self.title if self.title else self.company_name
+        return f'{display_name}'
 
     def save(self, **kwargs):
         self.update_modified = kwargs.pop(

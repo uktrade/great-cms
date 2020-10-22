@@ -16,6 +16,10 @@ from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
 
 from core.serializers import parse_opportunities, parse_events
+from core.models import CuratedListPage
+
+from domestic.helpers import get_read_progress
+
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
@@ -263,3 +267,12 @@ def get_popular_export_destinations(sector_label):
         if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
             export_destinations.update([row['country']])
     return export_destinations.most_common(5)
+
+
+def get_module_completion_progress(user, module_page: CuratedListPage):
+    read_progress = get_read_progress(user)
+    for module_data in read_progress.get('module_pages', []):
+        if module_data['page'].id == module_page.id:
+            return module_data
+
+    return {}

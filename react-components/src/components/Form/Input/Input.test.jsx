@@ -1,15 +1,15 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import props from './TextArea.fixtures'
+import props from '../TextArea/TextArea.fixtures'
 
-import { TextArea } from '.'
+import { Input } from '.'
 
 const setup = ({...data}) => {
   const actions = {
     handleChange: jest.fn()
   }
 
-  const utils = render(<TextArea
+  const utils = render(<Input
     {...data}
     {...actions}
   />)
@@ -20,7 +20,7 @@ const setup = ({...data}) => {
   }
 }
 
-describe('TextArea', () => {
+describe('Input', () => {
   it('Should have a label', () => {
     const { queryByText } = setup(props)
     expect(queryByText(props.label)).toBeInTheDocument()
@@ -62,7 +62,7 @@ describe('TextArea', () => {
 
   describe('Errors', () => {
     it('Should have errors', () => {
-      const { queryByText } = setup({...props, errors: ['an error']})
+      const { queryByText, container } = setup({...props, errors: ['an error']})
       expect(queryByText('an error')).toBeInTheDocument()
     })
   })

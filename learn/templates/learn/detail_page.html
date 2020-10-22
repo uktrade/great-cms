@@ -44,7 +44,6 @@
                         </div>
                         <div class="c-1-2 lesson-body-blocks">
                             {% include 'core/personalised_body.html' %}
-                            {% include 'learn/step_by_step.html' %}
                         </div>
                         <div class="c-1-4 p-t-xs">
                             {% if backlink and backlink_title %}
@@ -159,10 +158,16 @@
     {{ block.super }}
     <script>
       {% if request.user.is_authenticated %}
-      ditMVP.createMarkLessonAsComplete({
-        element: document.querySelector("#mark_as_complete"),
-        endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
-      })
+        dataLayer.push({
+            event:'lessonView',
+            lessonModule: '{{ current_module }}',
+            topicTitle: '{{ page_topic }}',
+            lessonTitle:'{{ page.title }}'
+            });
+        ditMVP.createMarkLessonAsComplete({
+            element: document.querySelector("#mark_as_complete"),
+            endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+          })
       {% endif %}
 
       document.querySelectorAll('.media-section').forEach(element => {

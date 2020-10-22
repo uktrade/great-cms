@@ -40,6 +40,15 @@ class LandingPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
+class InterstitialPageFactory(wagtail_factories.PageFactory):
+    title = 'Interstitial page'
+    template = 'learn/interstitial.html'
+
+    class Meta:
+        model = models.InterstitialPage
+        django_get_or_create = ['slug', 'parent']
+
+
 class ListPageFactory(wagtail_factories.PageFactory):
     title = 'List page'
     live = True
@@ -148,6 +157,7 @@ class CuratedTopicBlockFactory(wagtail_factories.StructBlockFactory):
 
 
 class CaseStudyFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker('word')
     company_name = factory.Faker('word')
     summary = factory.fuzzy.FuzzyText(length=200)
 

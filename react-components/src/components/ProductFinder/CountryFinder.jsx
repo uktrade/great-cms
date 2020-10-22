@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
@@ -10,9 +10,10 @@ import Confirmation from './MessageConfirmation'
 const suggested = [{'country':'France', 'region':'Europe'}, {'country': 'Spain', 'region':'Europe'}, {'country':'Italy', 'region':'Europe'}, {'country':'Jamaica',  'region':'Latin America and Caribbean'}]
 
 export function CountryFinderModal(props) {
-  let modalContent
+  let scrollOuter
   const { modalIsOpen, setIsOpen, text, addButton } = props
   const [countryList, setCountryList] = useState()
+  const [isScrolled, setIsScrolled] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState(text)
   const [searchStr, setSearchStr] = useState()
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
@@ -35,11 +36,21 @@ export function CountryFinderModal(props) {
     setIsOpen(true)
   }
 
-  const searchChange = (evt) => {
-    if (evt.target.value.length > 0) {
-      setSearchStr(evt.target.value.toUpperCase())
-      setExpandRegion(true)
+  const setScrollShadow = () => {
+    if (scrollOuter) {
+      const bottomOverflow = scrollOuter.scrollHeight - (scrollOuter.scrollTop + scrollOuter.clientHeight)
+      setIsScrolled({ top: scrollOuter.scrollTop > 0, bottom: bottomOverflow > 0 })
     }
+  }
+
+  const onScroll = (evt) => {
+    scrollOuter = evt.target
+    setScrollShadow()
+  }
+
+  const searchChange = (evt) => {
+    setExpandRegion(evt.target.value.length > 0)
+    setSearchStr(evt.target.value.toUpperCase())
   }
 
   const toggleRegion = () => {
@@ -60,7 +71,6 @@ export function CountryFinderModal(props) {
   }
 
   const modalAfterOpen = () => {
-    modalContent.style.maxHeight = '700px'
     if (!countryList) {
       getCountries()
     }
@@ -69,7 +79,7 @@ export function CountryFinderModal(props) {
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
 
-    let result = Services.updateExportPlan({
+    Services.updateExportPlan({
       export_countries: [
         {
           country_name: country.name,
@@ -78,7 +88,7 @@ export function CountryFinderModal(props) {
         }
       ]
     })
-      .then((result) => {
+      .then(() => {
         closeModal()
         window.location.reload()
       })
@@ -95,11 +105,11 @@ export function CountryFinderModal(props) {
     })
   }
 
-  let regions = Object.keys(countryList || {}).sort().map((region, index) => {
-    let countries = (countryList[region] || []).map((country, index) => {
-      if (searchStr && country.name.toUpperCase().indexOf(searchStr) != 0) return ''
+  let regions = Object.keys(countryList || {}).sort().map((region) => {
+    const countries = (countryList[region] || []).map((country) => {
+      if ((searchStr && country.name.toUpperCase().indexOf(searchStr) !== 0) || !region) return ''
       return (
-        <span className="c-1-5" key={index}>
+        <span className="c-1-5" key={country.id}>
           <li>
             <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry}>
               {country.name}
@@ -110,7 +120,7 @@ export function CountryFinderModal(props) {
     })
     return (
       !!countries.filter((countryRegion) => countryRegion).length && (
-        <RegionToggle key={index} expandAllRegions={expandRegion} region={region} countries={countries} />
+        <RegionToggle key={region} expandAllRegions={expandRegion} region={region} countries={countries} />
       )
     )
   })
@@ -127,9 +137,10 @@ export function CountryFinderModal(props) {
   })
 
   const buttonClass = `tag ${!selectedCountry ? 'tag--tertiary' : ''} tag--icon `
+  const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
 
   return (
-    <>
+    <span>
       { addButton &&
         <button type="button" className={buttonClass} onClick={openModal}>
           {selectedCountry || 'add country'}
@@ -142,15 +153,26 @@ export function CountryFinderModal(props) {
         className="modal max-modal"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
-        contentRef={(_modalContent) => {modalContent = _modalContent; return null}}
+        style={{
+          content:{
+            width:'auto',
+            left: '100px',
+            right: '100px',
+            top: '50px',
+            bottom: '50px',
+          }
+        }}
       >
-        <form className="country-chooser">
-          <div style={{ height: '100px' }}>
-            <button type="button" className="pull-right m-r-0 dialog-close" aria-label="Close" onClick={closeModal}/>
-            <h2 className="h-m p-v-xs">Choose a target market</h2>
-          </div>
-          <div className="scroll-area" style={{ marginTop: '100px' }}>
-            <div className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs">
+        <form className="country-finder">
+          <div className={`scroll-area m-t-0 ${scrollerClass}`} onScroll={onScroll}>
+                <button type="button" className="f-r m-r-0 dialog-close" aria-label="Close" onClick={closeModal}/>
+            <div 
+              className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs"
+              ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
+            >
+              <div>
+                <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
+              </div>
               <h3 className="h-s">Suggested markets</h3>
               <p className="m-v-xs">
                 These are based on the size of the market for your product, export distance, tariffs and costs.
@@ -158,20 +180,19 @@ export function CountryFinderModal(props) {
               <ul className="m-v-xs">
                 {suggestedList}
               </ul>
-              <hr className="bg-black-70"/>
-
-              <h3 className="h-s p-t-0">Compare markets</h3>
+              <hr className="bg-red-deep-100"/>
+              <h3 className="h-s p-t-xs">Compare markets</h3>
               <div className="grid">
                 <div className="c-full">
-                  <p className="m-v-xs">Compare stats for over 180 markets to find the best place to export.</p>
-                  <a href="/" className="button button--secondary">
-                    Compare markets
-                  </a>
+                  <p className="m-v-xs">Compare stats for over 180 markets to find the best place to target your exports.</p>
+                  <button type="button" className="button button--tertiary" disabled>
+                    Coming soon
+                  </button>
                 </div>
               </div>
 
-              <hr className="bg-black-70"/>
-              <h3 className="h-s p-t-0">List of markets</h3>
+              <hr className="bg-red-deep-100"/>
+              <h3 className="h-s p-t-xs">List of markets</h3>
               <p className="m-v-xs">
                 If you have an idea of where you want to export, choose from the list below. <br/>You can change this at any
                 time.
@@ -182,22 +203,21 @@ export function CountryFinderModal(props) {
                     className="form-control"
                     type="text"
                     onChange={searchChange}
-                    onClick={searchChange}
                     defaultValue=""
                     placeholder="Search markets"
-                  ></input>
+                  />
                   <span className="visually-hidden">Search markets </span>
-                  <i className="fas fa-search"></i>
+                  <i className="fas fa-search"/>
 
                 </div>
               </div>
               <div className="grid">
                 <div className="c-full">
-                  <button type="button" key="{index}" className="region-expand link" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
-                    <hr/>
-                  <ul className="country-list">
+                  <button type="button" key="{index}" className="region-expand link f-r" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+                  <ul className="country-list grid m-v-0">
                     {regions}
                   </ul>
+                  <hr className="hr hr--light m-v-xxs"/>
                 </div>
               </div>
             </div>
@@ -212,7 +232,7 @@ export function CountryFinderModal(props) {
         messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time."
         messageButtonText="Got it"
       />
-    </>
+    </span>
   )
 }
 

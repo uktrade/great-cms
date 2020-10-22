@@ -29,9 +29,9 @@ it('Opens and closes region when expandAll is close', () => {
   })
   
   const button = container.querySelector('button')
-  expect(container.querySelector('.countryList')).toBeTruthy()
+  expect(container.querySelector('.expand-section')).toBeTruthy()
   act(() => {
     Simulate.click(button)
   })
-  expect(container.querySelector('.countryList.open')).toBeTruthy()
+  expect(container.querySelector('.expand-section.open')).toBeTruthy()
 })

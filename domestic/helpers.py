@@ -1,38 +1,29 @@
+from collections import defaultdict
 from sso import helpers as sso_helpers
 from core.models import DetailPage, CuratedListPage
 
 
-def check_route(route_type, context, user_profile):
-    # Check if this route is valid to show given user context
-    if route_type == 'learn':
-        total_read = 0
-        for module_page in context.get('module_pages'):
-            total_read += module_page.get('read_count')
-        return total_read == 0
-
-    elif route_type == 'target':
-        return not user_profile or not user_profile.expertise_countries_labels
-    elif route_type == 'plan':
-        # TODO:
-        # We should add a check to see if export plan is started in here
-        return True
-
-
 def build_route_context(user, context={}):
-    # Find all route compoennts and crate a routes list where blocks are included dependent on state
-
-    routes = []
+    # Find all route components and create a routes list
+    routes = {}
     page_context = context.get('page')
-    user_profile = user.company
     for component in (page_context and page_context.components) or []:
         if component.block_type == 'route':
-            if check_route(component.value.get('route_type'), context, user_profile):
-                routes.append(component)
+            route_type = component.value.get('route_type')
+            routes[component.value.get('route_type')] = component
+            if route_type == 'target':
+                export_plan = context.get('export_plan') or {}
+                component.value['enabled'] = not len(export_plan.get('export_countries', []))
+            if route_type == 'learn':
+                component.value['enabled'] = not context.get('lessons_in_progress')
+            if route_type == 'plan':
+                component.value['enabled'] = not context.get('export_plan_in_progress')
+
     return routes
 
 
 def get_ancestor(page, ancestor_class):
-    # Seek up the tree to fin a page matching class
+    # Seek up the tree to find a page matching class
     while page:
         if isinstance(page.specific, ancestor_class):
             return page
@@ -40,12 +31,31 @@ def get_ancestor(page, ancestor_class):
 
 
 def get_read_progress(user, context={}):
-    # Gets all detail pages and uses the parental tree to get a list of learning
-    # sections with a count of read lessons in each
+    """Gets all lesson pages (DetailPages and uses the parental tree to get a list
+    of modules (CuratedListPages), with some filtering-out of DetailPages which
+    are not associated with a CuratedListPage.topics field
+
+    Example output:
+    {
+        'lessons_in_progress': True,
+        'module_pages': [
+            {
+                'total_pages': 7,
+                'completion_count': 4,
+                'page': <Page: Identify opportunities and research the market>,
+                'completed_lesson_pages': defaultdict(
+                    <class 'set'>, {
+                    'b7eca1bf-8b43-4737-91e4-913dfeb2c5d8': {10, 26},
+                    '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20}}
+                )
+            },
+            ...
+        ]
+    }"""
 
     def lesson_comparator(lp):
         total = lp.get('total_pages')
-        read = lp.get('read_count')
+        read = lp.get('completion_count')
         return total - read if read else -1
 
     lessons_in_progress = False
@@ -53,16 +63,41 @@ def get_read_progress(user, context={}):
     data = sso_helpers.get_lesson_completed(user.session_id)
     for lesson in data.get('lesson_completed', []):
         completed.add(lesson.get('lesson'))
+
     page_map = {}
-    for detail_page in DetailPage.objects.live():
+
+    for detail_page in DetailPage.objects.live().filter(
+        topic_block_id__isnull=False
+        # ie: get ONLY detail pages that are mapped to a topic
+        # (This mapping happens via a wagtail_hook, which sets topic_block_id
+        # on the appopriate DetailPage for each topic in CuratedListPage.topics)
+
+        # This ALSO means that CuratedListPages with no topics set up, even if
+        # they have child DetailPages, will NOT be included in these results.
+    ):
         module_page = get_ancestor(detail_page, CuratedListPage)
         if module_page:
-            page_map[module_page.id] = page_map.get(
-                module_page.id) or {'total_pages': 0, 'read_count': 0, 'page': module_page}
+            page_map[module_page.id] = (
+                page_map.get(module_page.id) or {
+                    'total_pages': 0,
+                    'completion_count': 0,
+                    'page': module_page,
+                    'completed_lesson_pages': defaultdict(set)
+                }
+            )
             page_map[module_page.id]['total_pages'] += 1
+
             if detail_page.id in completed:
-                page_map[module_page.id]['read_count'] += 1
+                topic_id_as_key = detail_page.topic_block_id
+                page_map[module_page.id]['completed_lesson_pages'][topic_id_as_key].add(
+                    detail_page.id
+                )
+                page_map[module_page.id]['completion_count'] += 1
+                # Take care: this next var means 'lessons have been attempted',
+                # not 'lessons are _currently_ in progress', because it doesn't
+                # allow for someone having completed them all
                 lessons_in_progress = True
+
     module_pages = list(page_map.values())
     module_pages.sort(key=lesson_comparator, reverse=True)
     return {
