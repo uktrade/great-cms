@@ -85,8 +85,9 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     client,
     domestic_homepage,
     domestic_site,
+    patch_export_plan,
+    patch_get_user_lesson_completed,
     user,
-    patch_export_plan
 ):
 
     list_page = factories.ListPageFactory(
@@ -440,7 +441,8 @@ def test_redirection_for_unauthenticated_user(
     domestic_homepage,
     domestic_site,
     patch_export_plan,
-    user
+    patch_get_user_lesson_completed,
+    user,
 ):
 
     landing_page = factories.LandingPageFactory(parent=domestic_homepage)
