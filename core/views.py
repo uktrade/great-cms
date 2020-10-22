@@ -115,8 +115,19 @@ class ProductLookupView(generics.GenericAPIView):
 
 
 class CountriesView(generics.GenericAPIView):
+
     def get(self, request):
         return Response(choices.COUNTRIES_AND_TERRITORIES_REGION)
+
+
+class SuggestedCountriesView(generics.GenericAPIView):
+
+    def get(self, request):
+        hs_code = request.GET.get('hs_code')
+        return Response(helpers.get_suggested_countries_by_hs_code(
+            sso_session_id=self.request.user.session_id,
+            hs_code=hs_code
+        ))
 
 
 def handler404(request, *args, **kwargs):
