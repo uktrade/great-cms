@@ -17,7 +17,10 @@
                         Completed
                     </span>
                     {% else %}
-                    <div class="learn__topic-item-read-time body-l-b">{{ page.specific.estimated_read_duration|format_timedelta }}</div>
+                    <div class="learn__topic-item-read-time body-l-b">
+                        <span class="h-s p-t-0 m-r-xs"><i class="fas fa-clock"></i></span>
+                        <span class="f-r">{{ page.specific.estimated_read_duration|format_timedelta }}</span>
+                    </div>
                     {% endif %}
                 </a>
             </li>

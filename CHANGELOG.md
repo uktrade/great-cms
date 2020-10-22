@@ -9,6 +9,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-162 - Fix empty span
+- GP2-162 - Add missing clock icon
 - GP2-357 - Top padding for blocks directly after objectives
 - GP2-836 - Market chooser design modal size
 - GP2-835 - Remove blank region

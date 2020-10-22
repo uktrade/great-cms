@@ -129,7 +129,7 @@ class ExportPlanSectionView(ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
 
