@@ -8,7 +8,7 @@ import IndustriesModal from '@src/views/IndustriesModal/Container'
 import Countries from '@src/views/Countries/Container'
 import ProductLookup from '@src/views/ProductLookup/Container'
 
-import LoginModal from '@src/views/LoginModal/Modal'
+import { createLogin } from '@src/views/Login'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Container'
 import ProductFinder from '@src/components/ProductFinder/ProductFinder'
@@ -53,7 +53,7 @@ export default {
   ProductFinder,
   CountryFinder,
   ModalMenu,
-  LoginModal,
+  createLogin,
   MarketSelectNavbar,
   ProductsModal,
   setConfig: Services.setConfig,

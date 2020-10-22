@@ -59,6 +59,16 @@
       right: 30px;
       top: 25px;
     }
+
+    .form-label {
+      @extend .body-m;
+      @extend .p-t-0;
+      color: $black-100;
+    }
+
+    .form-control {
+      @extend .m-t-0;
+    }
   }
 }
 

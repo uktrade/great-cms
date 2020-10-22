@@ -15,7 +15,7 @@
         var errorMsg = 'This email address is already registered. \
                        Use the social account you signed up with or reset your password.'
         var error = `{% if request.GET.email %}${errorMsg}{% endif %}`;
-        ditMVP.LoginModal({
+        ditMVP.createLogin({
             element: element,
             isOpen: true,
             nextUrl: '{% url_map "dashboard" %}',
