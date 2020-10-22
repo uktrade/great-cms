@@ -1,5 +1,5 @@
+from django.conf import settings
 from django.db import models
-from django.utils import translation
 
 from core import mixins
 
@@ -9,7 +9,6 @@ from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images import get_image_model_string
 
-from great_components import helpers as great_components_helpers
 from great_components.mixins import GA360Mixin
 
 from core import blocks as core_blocks
@@ -51,16 +50,17 @@ class DomesticDashboard(
     mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
     mixins.ExportPlanMixin,
+    mixins.WagtailGA360Mixin,
     GA360Mixin,
     Page,
 ):
+    section = 'dashboard'
 
     components = StreamField([
         ('route', core_blocks.RouteSectionBlock(icon='pick'))
     ], null=True, blank=True)
 
     def get_context(self, request):
-
         user = request.user
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
@@ -75,34 +75,15 @@ class DomesticDashboard(
         context['export_plan_in_progress'] = user.has_visited_page(constants.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
 
-        # TODO: move to init?
         self.set_ga360_payload(  # from GA360Mixin
             page_id=self.id,
-            business_unit="GreatMagna",
-            site_section="DashboardTEST",
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section=self.section,
         )
         self.remap_ga360_context_data_to_payload(request)
         context['ga360'] = self.ga360_payload
 
         return context
-
-    # TODO: move to new mixin?
-    def remap_ga360_context_data_to_payload(self, request):
-        # We can't use GA360Mixin.get_context_data() because that was for a
-        # view not a model, so this is duplicated code :o(
-        user = great_components_helpers.get_user(request)
-        is_logged_in = great_components_helpers.get_is_authenticated(request)
-        self.ga360_payload["login_status"] = is_logged_in
-        self.ga360_payload["user_id"] = user.hashed_uuid if is_logged_in else None
-        self.ga360_payload["site_language"] = translation.get_language()
-
-
-    # def serve(self, request, *args, **kwargs):
-    #     final_response = super().serve(request, *args, **kwargs)
-
-    #     import ipdb; ipdb.set_trace()  # python <3.7  (and needs ipdb installed)
-
-    #     return final_response
 
     #########
     # Panels
