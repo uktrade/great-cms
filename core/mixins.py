@@ -1,6 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import translation
 from core import constants
 from config import settings
+from great_components import helpers as great_components_helpers
 
 
 class WagtailAdminExclusivePageMixin:
@@ -47,3 +49,14 @@ class AnonymousUserRequired:
 class AuthenticatedUserRequired:
     # used by core.wagtail_hooks.authenticated_user_required
     authenticated_user_required_redirect_url = constants.LOGIN_URL
+
+
+class WagtailGA360Mixin:
+    # We can't use GA360Mixin.get_context_data() because that was for a
+    # view not a model, so this is duplicated code :o(
+    def remap_ga360_context_data_to_payload(self, request):
+        user = great_components_helpers.get_user(request)
+        is_logged_in = great_components_helpers.get_is_authenticated(request)
+        self.ga360_payload['login_status'] = is_logged_in
+        self.ga360_payload['user_id'] = user.hashed_uuid if is_logged_in else None
+        self.ga360_payload['site_language'] = translation.get_language()
