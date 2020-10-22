@@ -18,10 +18,18 @@ const CaseStudy = ({ content: { heading, company, body } }) => {
     }
   }, [isOpen])
 
+  const toggleCaseStudy = () => {
+    setIsOpen(!isOpen)
+    dataLayer.push({
+      'event':'openCaseStudy',
+      'caseStudy': heading,
+      });
+  }
+
   return (
     <div className="case-study p-t-m p-b-s">
       {isOpen && (
-        <button className="case-study__close" onClick={() => setIsOpen(false)} autoFocus>
+        <button className="case-study__close" onClick={ toggleCaseStudy } autoFocus>
           <i className="fas fa-times"></i>
           <span className="visually-hidden">Close</span>
         </button>
@@ -39,7 +47,7 @@ const CaseStudy = ({ content: { heading, company, body } }) => {
         </div>
       </div>
       {!isOpen && (
-        <button className="button button--small button--tertiary case-study__open" onClick={() => setIsOpen(true)}>
+        <button className="button button--small button--tertiary case-study__open" onClick={toggleCaseStudy}>
           Open case study
         </button>
       )}

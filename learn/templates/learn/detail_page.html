@@ -158,6 +158,15 @@
     {{ block.super }}
     <script>
       {% if request.user.is_authenticated %}
+        var lessonModule = '{{ current_module }}';
+		var topicTitle = '{{ page_topic }}';
+		var lessonTitle = '{{ page.title }}';
+		dataLayer.push({
+            'event':'lessonView',
+            'lessonModule':lessonModule,
+            'topicTitle': topicTitle,
+            'lessonTitle':lessonTitle
+        });
       ditMVP.createMarkLessonAsComplete({
         element: document.querySelector("#mark_as_complete"),
         endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'

@@ -619,6 +619,7 @@ class DetailPage(CMSGenericPage):
             page_topic = PageTopic(self)
             next_lesson = page_topic.get_next_lesson()
             context['current_module'] = page_topic.module
+            context['page_topic'] = page_topic.get_page_topic().value['title']
 
             if next_lesson:
                 context['next_lesson'] = next_lesson

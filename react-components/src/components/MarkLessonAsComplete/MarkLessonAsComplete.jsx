@@ -14,6 +14,10 @@ const MarkLessonAsComplete = ({ endpoint }) => {
         .then(({ lesson_completed }) => {
           if (lesson_completed.length >= 1) {
             setIsComplete(true)
+            // adding tracking once lesson successfully updated as completed
+            dataLayer.push({
+              'event':'lessonComplete'
+            });
           }
         })
         .then(() => {})
