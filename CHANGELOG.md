@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-357 - Top padding for blocks directly after objectives
 - GP2-836 - Market chooser design modal size
 - GP2-835 - Remove blank region
 - GP2-834 - Link to compare markets
