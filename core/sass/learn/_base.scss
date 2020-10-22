@@ -418,10 +418,10 @@ $desktop: 1024px;
     }
   }
 
-  .lesson-body-blocks {
-    .rich-text > h2:first-child,
-    .rich-text > h3:first-child {
-      padding-top: 30px;
+  .lesson-body-blocks > .rich-text:first-child {
+    > p:first-child {
+      padding-top: 0;
+      margin-top: 0;
     }
   }
 
