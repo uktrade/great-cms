@@ -268,7 +268,7 @@ class CMSGenericPage(
             business_unit=settings.GA360_BUSINESS_UNIT,
             site_section=self.slug,
         )
-        self.remap_ga360_context_data_to_payload(request)
+        self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
 
         provider = get_context_provider(request=request, page=self)

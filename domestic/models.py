@@ -54,7 +54,6 @@ class DomesticDashboard(
     GA360Mixin,
     Page,
 ):
-    section = 'dashboard'
 
     components = StreamField([
         ('route', core_blocks.RouteSectionBlock(icon='pick'))
@@ -78,9 +77,9 @@ class DomesticDashboard(
         self.set_ga360_payload(  # from GA360Mixin
             page_id=self.id,
             business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=self.section,
+            site_section=self.slug,
         )
-        self.remap_ga360_context_data_to_payload(request)
+        self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
 
         return context

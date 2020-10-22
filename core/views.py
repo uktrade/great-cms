@@ -224,8 +224,7 @@ class CompanyNameFormView(GA360Mixin, FormView):
         self.set_ga360_payload(
             page_id='MagnaPage',
             business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
+            site_section='signup-company-name',
         )
     template_name = 'core/company-name-form.html'
     form_class = forms.CompanyNameForm
