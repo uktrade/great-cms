@@ -52,9 +52,32 @@ class AuthenticatedUserRequired:
 
 
 class WagtailGA360Mixin:
-    # We can't use GA360Mixin.get_context_data() because that was for a
-    # view not a model, so this is duplicated code :o(
-    def remap_ga360_context_data_to_payload(self, request):
+    """
+    We can't use GA360Mixin.get_context_data() because that was for a
+    view not a model, so this is duplicated code :o(
+
+    This mixin pulls values relative to GA into the context and it's meant be
+    used along in GA360Mixin inside the model's get_context() method.
+
+    An example setup would look like:
+
+    class DomesticDashboard(mixins.WagtailGA360Mixin, GA360Mixin, Page):
+        ...
+        def get_context(self, request):
+            ...
+            self.set_ga360_payload(
+            page_id=self.id,
+            business_unit=[BUSINESS_UNIT],
+            site_section=[SITE_SECTION],
+            )
+            self.add_ga360_data_to_payload(request)
+            context['ga360'] = self.ga360_payload
+            ...
+            return context
+        ...
+    """
+
+    def add_ga360_data_to_payload(self, request):
         user = great_components_helpers.get_user(request)
         is_logged_in = great_components_helpers.get_is_authenticated(request)
         self.ga360_payload['login_status'] = is_logged_in
