@@ -292,3 +292,98 @@ def test_get_module_completion_progress(mock_get_lesson_completion_status):
     ) == {}  # ie, no match
     mock_get_lesson_completion_status.assert_called_once_with(mock_user)
     mock_get_lesson_completion_status.reset_mock()
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_lesson_completion_status')
+def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
+
+    clp_1 = CuratedListPageFactory()
+    clp_2 = CuratedListPageFactory()
+    clp_3 = CuratedListPageFactory()
+    clp_4 = CuratedListPageFactory()
+    clp_5 = CuratedListPageFactory()
+
+    mock_user = mock.Mock(name='mock-user')
+
+    clp_1_completion_data = {
+        'total_pages': 7,
+        'completion_count': 4,
+        'page': clp_1,
+        'completed_lesson_pages': {
+            'b7eca1bf-8b43-4737-91e4-913dfeb2c5d8': {10, 26},
+            '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20}
+        }
+    }
+
+    clp_2_completion_data = {
+        'total_pages': 4,
+        'completion_count': 2,
+        'page': clp_2,
+        'completed_lesson_pages': {
+            '786e9140-6ba8-4f1a-970b-0d556013e64d': {14, 22}
+        }
+    }
+
+    clp_3_completion_data = {
+        'total_pages': 9,
+        'completion_count': 9,
+        'page': clp_3,
+        'completed_lesson_pages': {
+            '444e9140-6ba8-4f1a-970b-0d556013e64d': {111, 222, 333},
+            '555e9140-6ba8-4f1a-970b-0d556013e64d': {211, 322, 433},
+            '666e9140-6ba8-4f1a-970b-0d556013e64d': {311, 422, 533},
+        }
+    }
+
+    # this is unhappy-path data: no lessons, should trigger Zero division
+    clp_4_completion_data = {
+        'total_pages': 0,
+        'completion_count': 0,
+        'page': clp_4,
+        'completed_lesson_pages': {}
+    }
+
+    # this is unhappy-path data: missing keys that we expect
+    clp_5_completion_data = {
+        'page': clp_5,
+    }
+
+    mock_get_lesson_completion_status.return_value = {
+        'lessons_in_progress': True,
+        'module_pages': [
+            clp_1_completion_data,
+            clp_2_completion_data,
+            clp_3_completion_data,
+            clp_4_completion_data,
+            clp_5_completion_data,
+        ],
+    }
+
+    assert helpers.get_high_level_completion_progress(user=mock_user) == {
+        clp_1.id: {
+            'total_pages': 7,
+            'completion_count': 4,
+            'completion_percentage': 57,
+        },
+        clp_2.id: {
+            'total_pages': 4,
+            'completion_count': 2,
+            'completion_percentage': 50,
+        },
+        clp_3.id: {
+            'total_pages': 9,
+            'completion_count': 9,
+            'completion_percentage': 100,
+        },
+        clp_4.id: {
+            'total_pages': 0,
+            'completion_count': 0,
+            'completion_percentage': 0,
+        },
+        clp_5.id: {
+            'total_pages': 0,
+            'completion_count': 0,
+            'completion_percentage': 0,
+        }
+    }
