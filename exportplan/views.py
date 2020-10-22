@@ -165,7 +165,7 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         return context
 
 
-class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
