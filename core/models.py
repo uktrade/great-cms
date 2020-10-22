@@ -350,14 +350,24 @@ class ListPage(CMSGenericPage):
         ('learn/automated_list_page.html', 'Learn'),
     )
 
-    class Meta:
-        verbose_name = 'Automated list page'
-        verbose_name_plural = 'Automated list pages'
-
     record_read_progress = models.BooleanField(
         default=False,
         help_text='Should we record when a user views a page in this collection?',
     )
+
+    class Meta:
+        verbose_name = 'Automated list page'
+        verbose_name_plural = 'Automated list pages'
+
+    def get_context(self, request, *args, **kwargs):
+        from core.helpers import get_high_level_completion_progress
+        context = super().get_context(request)
+
+        if request.user.is_authenticated:
+            context['module_completion_progress'] = get_high_level_completion_progress(
+                user=request.user,
+            )
+        return context
 
     ################
     # Content fields

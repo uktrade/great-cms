@@ -5,10 +5,11 @@ import pytest
 from django.template import Context, Template
 from datetime import timedelta
 
-from core.templatetags.personalised_blocks import render_video_block
-from core.templatetags.video_tags import render_video
 from core.templatetags.content_tags import get_backlinked_url
+from core.templatetags.object_tags import get_item
+from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.url_map import path_match
+from core.templatetags.video_tags import render_video
 
 
 def test_render_personalised_video_block_tag():
@@ -222,3 +223,19 @@ def test_push(user, rf, domestic_site):
 
     html = template.render(Context({}))
     assert html == 'one:item1 two:item2'
+
+
+@pytest.mark.parametrize(
+    'data,key,expected',
+    (
+        ({'foo': 'bar'}, 'foo', 'bar'),
+        ({'foo': 'bar'}, 'bam', None),
+        ({1: 'bar'}, 1, 'bar'),
+        ({'1': 'bar'}, 1, None),
+        ({1: 'bar'}, '1', None),
+        ('a string has no get attr', 'foo', ''),
+        ({'foo': 'bar'}, 'FOO', 'bar'),
+    )
+)
+def test_get_item(data, key, expected):
+    assert get_item(data, key) == expected

@@ -14,7 +14,7 @@ from great_components.mixins import GA360Mixin
 from core import blocks as core_blocks
 from core.models import CMSGenericPage
 from directory_constants import choices
-from domestic.helpers import build_route_context, get_read_progress
+from domestic.helpers import build_route_context, get_lesson_completion_status
 from core import helpers, forms
 from core import constants
 
@@ -70,7 +70,7 @@ class DomesticDashboard(
         context['industry_options'] = [{'value': key, 'label': label} for key, label in choices.SECTORS]
         context['events'] = helpers.get_dashboard_events(user.session_id)
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
-        context.update(get_read_progress(user, context))
+        context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(constants.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
 
