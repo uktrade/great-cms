@@ -309,3 +309,4 @@
 - GP2-743 - remove link on upload
 - No Ticket - fix double country required in next url
 - GP2-814 - update lesson link
+- GP2-377 - GA tracking on all page views
