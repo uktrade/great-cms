@@ -20,6 +20,7 @@ const CaseStudy = ({ content: { heading, company, body } }) => {
 
   const toggleCaseStudy = () => {
     setIsOpen(!isOpen)
+    let dataLayer = window.dataLayer || []
     dataLayer.push({
       'event':'openCaseStudy',
       'caseStudy': heading,
