@@ -3,6 +3,8 @@
 {% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
 {% load pluralize from content_tags %}
+{% load get_item from object_tags %}
+
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
     <a href="{{parent_page_url}}" class="learn__back-link h-m">
@@ -32,9 +34,11 @@
     <section class="learn__category-lists container" id="topic-lesson-list">
         <ol class="learn__topics-list">
             {% for topic in page.topics %}
+                {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as completion_data_for_topic %}
                 <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
-                    {% include_block topic with topic_id=topic.id %}
+                    {% include_block topic with topic_id=topic.id lesson_completion_data=completion_data_for_topic %}
                 </li>
+                {% endwith %}
             {% endfor %}
         </ol>
     </section>

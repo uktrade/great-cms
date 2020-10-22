@@ -78,6 +78,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-162 - Module-level lesson completion status markers
 - GP2-735 - Update login/signup flow styling,
 - GP2-737 - Case Study enhancements in the CMS admin
 - GP2-593 - Dashboard tidy up

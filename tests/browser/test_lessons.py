@@ -15,6 +15,7 @@ from tests.browser.common_selectors import (
 )
 from tests.browser.steps import should_see_all_elements, should_not_see_any_element, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
+from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
 from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
 from core import constants
 from sso import helpers as sso_helpers
@@ -93,14 +94,44 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     live_server, user, browser = server_user_browser_dashboard
     clp_a, clp_a_lessons = curated_list_pages_with_lessons_and_placeholders[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
-    lesson_page = DetailPageFactory(parent=module_page, title='test detail page 1')
-    DetailPageFactory(parent=module_page, title='test detail page 2')
+    _topic_id = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
+    lesson_one = DetailPageFactory(
+        parent=module_page,
+        title='test detail page 1',
+        topic_block_id=_topic_id,
+    )
+    lesson_two = DetailPageFactory(
+        parent=module_page,
+        title='test detail page 2',
+        topic_block_id=_topic_id,
+
+    )
+
+    module_page = add_lessons_and_placeholders_to_curated_list_page(
+        curated_list_page=module_page,
+        data_for_topics={
+            0: {
+                'id': _topic_id,
+                'title': 'Module one, first topic block',
+                'lessons_and_placeholders': [
+                    {
+                        'type': 'placeholder',
+                        'value': {
+                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
+                        }
+                    },
+                    {'type': 'lesson', 'value': lesson_one.id},
+                    {'type': 'lesson', 'value': lesson_two.id},
+                ]
+            },
+        }
+    )
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
     should_not_see_any_element(browser, DashboardReadingProgress)
     # Setting a lesson complete should show progress card with 1/1 complete
     mock_get_lesson_completed.return_value = {'result': 'ok', 'lesson_completed': [
-        {'lesson': lesson_page.id}
+        {'lesson': lesson_one.id}
     ]}
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
