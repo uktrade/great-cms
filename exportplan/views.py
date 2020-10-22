@@ -129,7 +129,7 @@ class ExportPlanSectionView(ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
 
@@ -165,7 +165,7 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         return context
 
 
-class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
 
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
