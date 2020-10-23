@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-851 - fix educational tooltip position and styling
 - GP2-854 - Fix product and country modals on export plan dashboard page
 - GP2-867 - Temporarily hide module-level topic completion stats
 - GP2-736 - Various UI fixes
