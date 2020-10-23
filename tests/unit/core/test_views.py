@@ -564,6 +564,21 @@ def test_get_countries(client):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'get_suggested_countries_by_hs_code')
+def test_get_suggested_countries(mock_get_suggested_countries_by_hs_code, client, user):
+    data = [
+        {'hs_code': 4, 'country_name': 'Sweden', 'country_iso2': 'SE', 'region': 'Europe'},
+        {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'}
+    ]
+    mock_get_suggested_countries_by_hs_code.return_value = data
+
+    client.force_login(user)
+    response = client.get(reverse('core:api-suggested-countries'), data={'hs_code': '20'})
+    assert response.status_code == 200
+    assert response.json() == data
+
+
+@pytest.mark.django_db
 def test_list_page_uses_right_template(domestic_homepage, rf, user):
     request = rf.get('/')
     request.user = user
