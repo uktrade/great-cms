@@ -266,7 +266,7 @@ class CMSGenericPage(
         self.set_ga360_payload(
             page_id=self.id,
             business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=self.slug,
+            site_section=str(self.url or '/').split('/')[1],
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
