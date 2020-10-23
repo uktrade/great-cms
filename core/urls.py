@@ -21,22 +21,22 @@ def anonymous_user_required(function):
 urlpatterns = [
     path(
         'markets/',
-        skip_ga360(core.views.MarketsView.as_view()),
+        core.views.MarketsView.as_view(),
         name='markets'
     ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
-        login_required(skip_ga360(core.views.ArticleView.as_view()), login_url=LOGIN_URL),
+        login_required(core.views.ArticleView.as_view(), login_url=LOGIN_URL),
         name='capability-article'
     ),
     path(
         'login/',
-        anonymous_user_required(skip_ga360(core.views.LoginView.as_view())),
+        anonymous_user_required(core.views.LoginView.as_view()),
         name='login'
     ),
     path(
         'signup/',
-        anonymous_user_required(skip_ga360(core.views.SignupView.as_view())),
+        anonymous_user_required(core.views.SignupView.as_view()),
         name='signup'
     ),
     path(

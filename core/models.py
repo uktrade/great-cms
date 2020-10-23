@@ -2,6 +2,7 @@ import hashlib
 import mimetypes
 from urllib.parse import unquote
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
@@ -43,6 +44,8 @@ from core.constants import (
 
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
+
+from great_components.mixins import GA360Mixin
 
 from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
 
@@ -210,6 +213,8 @@ class CMSGenericPage(
     mixins.EnableTourMixin,
     mixins.ExportPlanMixin,
     mixins.AuthenticatedUserRequired,
+    mixins.WagtailGA360Mixin,
+    GA360Mixin,
     Page
 ):
     """
@@ -257,6 +262,15 @@ class CMSGenericPage(
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
+
+        self.set_ga360_payload(
+            page_id=self.id,
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section=str(self.url or '/').split('/')[1],
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
+
         provider = get_context_provider(request=request, page=self)
         if provider:
             context.update(provider.get_context_data(request=request, page=self))
