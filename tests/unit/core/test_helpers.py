@@ -387,3 +387,8 @@ def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
             'completion_percentage': 0,
         }
     }
+
+
+def test_get_suggested_markets(patch_get_suggested_markets):
+    markets = helpers.get_suggested_countries_by_hs_code('1234', '56')
+    assert markets[0].get('country_name') == 'Sweden'
