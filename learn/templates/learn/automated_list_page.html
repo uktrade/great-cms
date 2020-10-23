@@ -9,6 +9,23 @@
 {% block content %}
     <section id="learn-root" class="learn__page learn__categories-page container">
         <section class="learn__categories-content container m-t-s">
+            <div class="grid">
+                <div class="c-1-4">
+                    <span class="h-s">&nbsp;</span>
+                </div>
+                <div class="c-1-2">
+                    <div class="media-block media-block--round-image m-b-m m-t-xs m-f-n-s">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="g-panel g-panel--horizontal-mobile">
+                            <h3 class="h-xs text-blue-deep-80 p-t-xs">Some lessons aren’t available yet</h3>
+                            <p class="text-blue-deep-80 m-t-xxs">This Beta version is limited</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-1-4">
+                    <span class="h-s">&nbsp;</span>
+                </div>
+            </div>
         {% for learning_module in page.get_children.specific.live %}
         {% with module_completion_progress|get_item:learning_module.id as module_completion_data %}
         <a href="{% pageurl learning_module %}" title="{{ page.button_label }}" class="learn__category-link">
