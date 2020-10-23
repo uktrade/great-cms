@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-859 - Underline links in lesson body copy
 - GP2-852 - button on the Facts and figure element
 - GP2-162 - Fix empty span
 - GP2-162 - Add missing clock icon

@@ -366,6 +366,10 @@ $desktop: 1024px;
       @extend .hr;
     }
 
+    a.link {
+      text-decoration: underline;
+    }
+
     .choose-dont-choose {
       h3 {
         @extend .h-xs;
