@@ -242,7 +242,6 @@ class CreateTokenView(generics.GenericAPIView):
         plaintext = str(datetime.datetime.now() + datetime.timedelta(days=5))
         base_url = settings.BASE_URL
         # TODO: logging
-        # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
         link = f'{base_url}/login?enc={ciphertext}'
