@@ -91,6 +91,10 @@ const getCountries = function() {
   return get(config.apiCountriesUrl, {}).then((response) => responseHandler(response).json())
 }
 
+const getSuggestedCountries = function(hs_code) {
+  return get(config.apiSuggestedCountriesUrl, { hs_code }).then((response) => responseHandler(response).json())
+}
+
 const createUser = function({ email, password }) {
   return post(config.apiSignupUrl, { email, password }).then(responseHandler)
 }
@@ -191,6 +195,7 @@ const setConfig = function({
   apiSignupUrl,
   apiLookupProductUrl,
   apiCountriesUrl,
+  apiSuggestedCountriesUrl,
   apiUpdateCompanyUrl,
   countryOptions,
   csrfToken,
@@ -223,6 +228,7 @@ const setConfig = function({
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
   config.apiCountriesUrl = apiCountriesUrl
+  config.apiSuggestedCountriesUrl = apiSuggestedCountriesUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
   config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
@@ -266,6 +272,7 @@ export default {
   lookupProduct,
   lookupProductRefine,
   getCountries,
+  getSuggestedCountries,
   setConfig,
   getLessonComplete,
   setLessonComplete,

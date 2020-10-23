@@ -89,10 +89,11 @@ function ProductFinder(props) {
   }
 
   const saveProduct = () => {
-    setSelectedProduct(searchResults.currentItemName)
+    const productName = capitalize(searchResults.currentItemName)
+    setSelectedProduct(productName)
     Services.updateExportPlan({
         export_commodity_codes: [{
-          commodity_name: searchResults.currentItemName,
+          commodity_name: productName,
           commodity_code: searchResults.hsCode
         }]
       })
@@ -357,6 +358,7 @@ function ProductFinder(props) {
             width:'auto',
             left: '100px',
             right: '100px',
+            overflow: 'hidden',
           }
         }}
       >
