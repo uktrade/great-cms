@@ -142,7 +142,6 @@ export function CountryFinderModal(props) {
   let suggestedSection = (<div>
       <h3 className="h-s">Suggested markets</h3>
       <p className="m-v-xs">Add a product so that we can suggest export markets.</p>
-      <button type="button" className="button button--secondary">Add a product</button>
   </div>)
   if (commodityCode) {
     const suggestedList = suggestedCountries.map((country) => {
