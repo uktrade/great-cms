@@ -27,18 +27,20 @@
         <div class="m-t-s m-b-m">
             <a href="#" class="link link--underline">Add your business name</a>
         </div>
-        <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-            <i class="fas fa-download"></i>
-            <span class="body-m text-white">Save your plan as a PDF</span>
-        </button>
-        <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-            <i class="fas fa-share"></i>
-            <span class="body-m text-white">Share your plan</span>
-        </button>
-        <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-            <i class="fas fa-globe"></i>
-            <span class="body-m text-white">Find your target market</span>
-        </button>
+        <div id="buttons-disabled">
+            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+                <i class="fas fa-download"></i>
+                <span class="body-m text-white">Save your plan as a PDF</span>
+            </button>
+            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+                <i class="fas fa-share"></i>
+                <span class="body-m text-white">Share your plan</span>
+            </button>
+            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+                <i class="fas fa-globe"></i>
+                <span class="body-m text-white">Find your target market</span>
+            </button>
+        </div>
     </aside>
     <div class="container">
         <div class="grid">
@@ -79,13 +81,17 @@
 
 {% block body_js %}
   {{ block.super }}
-  
-  <script type="text/javascript">
-      var element = document.getElementById('dashboard');
-      ditMVP.createDashboard({
-          element: element,
-          sections: {{ sections|to_json}},
-          current_section: {{ current_section|to_json}},
-      })
-  </script>
+    <script type="text/javascript">
+        var element = document.getElementById('dashboard');
+        ditMVP.createDashboard({
+            element: element,
+            sections: {{ sections|to_json}},
+            current_section: {{ current_section|to_json}},
+        })
+
+        var buttonsDisabled = document.getElementById('buttons-disabled');
+        ditMVP.createDisabledButton({
+            element: buttonsDisabled,
+        })
+    </script>
 {% endblock %}
