@@ -18,14 +18,14 @@ import { createRouteToMarket, createSpendingAndResources } from '@src/views/sect
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
 import { createObjectivesReasons, createObjectivesList } from '@src/views/sections/Objectives'
-import { createDashboard } from '@src/views/sections/Dashboard'
+import { createDashboard, createDisabledButton } from '@src/views/sections/Dashboard'
 import { sectionSidebar } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
 import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
 import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
-import { createComingSoonModal } from '@src/components/Lesson/ComingSoon/index.jsx'
+import { createComingSoonModal } from '@src/components/Lesson/ComingSoon'
 import LearnIntroduction from '@src/views/LearnIntroduction/LearnIntroduction'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
@@ -46,6 +46,7 @@ export default {
   createObjectivesReasons,
   createVideoTranscript,
   createDashboard,
+  createDisabledButton,
   createCaseStudy,
   IndustriesModal,
   LearnIntroduction,

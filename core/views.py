@@ -40,8 +40,7 @@ class ArticleView(GA360Mixin, FormView):
         self.set_ga360_payload(
             page_id='MagnaPage',
             business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
+            site_section='capability',
         )
     template_name = 'core/article.html'
     success_url = constants.DASHBOARD_URL
@@ -62,13 +61,19 @@ class LoginView(GA360Mixin, TemplateView):
         self.set_ga360_payload(
             page_id='MagnaPage',
             business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
+            site_section='login',
         )
     template_name = 'core/login.html'
 
 
-class SignupView(TemplateView):
+class SignupView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='signup',
+        )
     template_name = 'core/signup.html'
 
 
@@ -78,8 +83,7 @@ class MarketsView(GA360Mixin, TemplateView):
         self.set_ga360_payload(
             page_id='Markets',
             business_unit='MarketsUnit',
-            site_section='MarketsSection',
-            site_subsection='MarketPage',
+            site_section='markets',
         )
 
     template_name = 'core/markets.html'
@@ -115,8 +119,19 @@ class ProductLookupView(generics.GenericAPIView):
 
 
 class CountriesView(generics.GenericAPIView):
+
     def get(self, request):
         return Response(choices.COUNTRIES_AND_TERRITORIES_REGION)
+
+
+class SuggestedCountriesView(generics.GenericAPIView):
+
+    def get(self, request):
+        hs_code = request.GET.get('hs_code')
+        return Response(helpers.get_suggested_countries_by_hs_code(
+            sso_session_id=self.request.user.session_id,
+            hs_code=hs_code
+        ))
 
 
 def handler404(request, *args, **kwargs):
@@ -220,8 +235,7 @@ class CompanyNameFormView(GA360Mixin, FormView):
         self.set_ga360_payload(
             page_id='MagnaPage',
             business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
+            site_section='signup-company-name',
         )
     template_name = 'core/company-name-form.html'
     form_class = forms.CompanyNameForm

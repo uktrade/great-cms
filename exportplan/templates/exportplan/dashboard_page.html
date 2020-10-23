@@ -27,18 +27,20 @@
         <div class="m-t-s m-b-m">
             <a href="#" class="link link--underline">Add your business name</a>
         </div>
-        <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-            <i class="fas fa-download"></i>
-            <span class="body-m text-white">Save your plan as a PDF</span>
-        </button>
-        <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-            <i class="fas fa-share"></i>
-            <span class="body-m text-white">Share your plan</span>
-        </button>
-        <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-            <i class="fas fa-globe"></i>
-            <span class="body-m text-white">Find your target market</span>
-        </button>
+        <div id="buttons-disabled">
+            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+                <i class="fas fa-download"></i>
+                <span class="body-m text-white">Save your plan as a PDF</span>
+            </button>
+            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+                <i class="fas fa-share"></i>
+                <span class="body-m text-white">Share your plan</span>
+            </button>
+            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+                <i class="fas fa-globe"></i>
+                <span class="body-m text-white">Find your target market</span>
+            </button>
+        </div>
     </aside>
     <div class="container">
         <div class="grid">
@@ -48,8 +50,8 @@
                     <div class="media-block media-block--round-image m-b-l m-t-s m-f-n-s">
                         <i class="fas fa-info-circle"></i>
                         <div class="g-panel g-panel--horizontal-mobile">
-                            <h3 class="h-xs text-blue-deep-80 p-t-xs">This is Beta version of Export Plan service</h3>
-                            <p class="text-blue-deep-80 m-t-xxs">Some features are not available yet</p>
+                            <h3 class="h-xs text-blue-deep-80 p-t-xs">Some sections aren’t available yet</h3>
+                            <p class="text-blue-deep-80 m-t-xxs">This Beta version is limited</p>
                         </div>
                     </div>
                     <div class="flex-grid" id="dashboard">
@@ -78,12 +80,18 @@
 {% endblock %}
 
 {% block body_js %}
+  {{ block.super }}
     <script type="text/javascript">
         var element = document.getElementById('dashboard');
         ditMVP.createDashboard({
             element: element,
             sections: {{ sections|to_json}},
             current_section: {{ current_section|to_json}},
+        })
+
+        var buttonsDisabled = document.getElementById('buttons-disabled');
+        ditMVP.createDisabledButton({
+            element: buttonsDisabled,
         })
     </script>
 {% endblock %}
