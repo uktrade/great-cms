@@ -98,12 +98,7 @@ class ExportPlanAboutYourBusinessForm(forms.Form):
             'description': (
                 'What is the annual turnover of your business?'
             ),
-            'tooltip': (
-                'Give a summary of the past 3 to 5 years. You could include sales and profit figures '
-                'or percentages, together with a brief description of any significant events.'
-            ),
-        }
-        ),
+        }),
     )
 
 

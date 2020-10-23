@@ -319,3 +319,5 @@
 - No Ticket - fix double country required in next url
 - GP2-814 - update lesson link
 - GP2-377 - GA tracking on all page views
+- GP2-850 - remove tool tip from business performance
+- GP2-725 - update forgotton password link
