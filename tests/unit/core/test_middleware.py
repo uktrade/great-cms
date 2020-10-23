@@ -43,7 +43,13 @@ def test_stores_user_location_anon_user(mock_store_user_location, rf):
 
 
 @pytest.mark.django_db
-def test_user_specific_redirect_middleware(domestic_site, client, user, patch_export_plan):
+def test_user_specific_redirect_middleware(
+    domestic_site,
+    client,
+    user,
+    patch_export_plan,
+    patch_get_user_lesson_completed,
+):
     learn_page = factories.LandingPageFactory(parent=domestic_site.root_page, slug='learn')
     introduction_page = factories.ListPageFactory(
         parent=learn_page, slug='introduction', template='learn/automated_list_page.html'
@@ -67,7 +73,12 @@ def test_user_specific_redirect_middleware(domestic_site, client, user, patch_ex
 
 @pytest.mark.django_db
 def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set(
-    domestic_site, client, user, mock_get_company_profile, patch_export_plan
+    domestic_site,
+    client,
+    user,
+    mock_get_company_profile,
+    patch_export_plan,
+    patch_get_user_lesson_completed,
 ):
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
     exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')

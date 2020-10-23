@@ -18,7 +18,7 @@ from django.conf import settings
 from core.serializers import parse_opportunities, parse_events
 from core.models import CuratedListPage
 
-from domestic.helpers import get_read_progress
+from domestic.helpers import get_lesson_completion_status
 
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
@@ -270,9 +270,49 @@ def get_popular_export_destinations(sector_label):
 
 
 def get_module_completion_progress(user, module_page: CuratedListPage):
-    read_progress = get_read_progress(user)
-    for module_data in read_progress.get('module_pages', []):
+    """Returns per-module completion data, with lesson-level detail."""
+
+    lesson_completion_status = get_lesson_completion_status(user)
+    for module_data in lesson_completion_status.get('module_pages', []):
         if module_data['page'].id == module_page.id:
             return module_data
 
     return {}
+
+
+def _percent_completion_for_module(module_data: dict) -> int:
+    """Produce a rough, integer-rounded completion percentage for the
+    given module."""
+
+    try:
+        pc = module_data['completion_count'] / module_data['total_pages'] * 100
+        return round(pc)
+    except (KeyError, ZeroDivisionError):
+        pass
+
+    return 0  # Fallback: nothing can be completed if the above data isn't valid
+
+
+def get_high_level_completion_progress(user):
+    """Return a dictionary of overall completion data for each
+    module/CuratedListPage, with module-level stats, but no details
+    on specific lessons."""
+
+    lesson_completion_status = get_lesson_completion_status(user)
+    # Transform list of modules from a list into a dict so we can get them
+    # more easily, plus add in a completion percentage
+    repackaged_output = {}
+    for module_data in lesson_completion_status.get('module_pages', []):
+        repackaged_output[module_data['page'].id] = {
+            'total_pages': module_data.get('total_pages', 0),
+            'completion_count': module_data.get('completion_count', 0),
+            'completion_percentage': _percent_completion_for_module(module_data),
+        }
+
+    return repackaged_output
+
+
+def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
+    response = api_client.personalisation.suggested_countries_by_hs_code(sso_session_id=sso_session_id, hs_code=hs_code)
+    response.raise_for_status()
+    return response.json()

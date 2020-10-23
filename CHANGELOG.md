@@ -9,6 +9,11 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-854 - Fix product and country modals on export plan dashboard page
+- GP2-867 - Temporarily hide module-level topic completion stats
+- GP2-736 - Various UI fixes
+- GP2-859 - Underline links in lesson body copy
+- GP2-852 - button on the Facts and figure element
 - GP2-162 - Fix empty span
 - GP2-162 - Add missing clock icon
 - GP2-357 - Top padding for blocks directly after objectives
@@ -80,6 +85,10 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-739 - Add beta banner to learning landing page
+- GP2-853 - Coming soon functionality for CTA displayed on the Export plan landing page
+- GP2-502 - Suggested markets in country selection modal
+- GP2-34 - Track module progress (Homepage)
 - GP2-162 - Module-level lesson completion status markers
 - GP2-735 - Update login/signup flow styling,
 - GP2-737 - Case Study enhancements in the CMS admin
@@ -308,6 +317,6 @@
 - GP2-743 - remove link on upload
 - No Ticket - fix double country required in next url
 - GP2-814 - update lesson link
+- GP2-377 - GA tracking on all page views
 - GP2-850 - remove tool tip from business performance
 - GP2-725 - update forgotton password link
-

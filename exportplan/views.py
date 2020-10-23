@@ -10,6 +10,7 @@ from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES, MARKET_ROUTE_CHOICES, PRODUCT_PROMOTIONAL_CHOICES
 from directory_api_client.client import api_client
+from great_components.mixins import GA360Mixin
 from exportplan import data, helpers, forms
 
 
@@ -120,7 +121,15 @@ class FormContextMixin:
         return context
 
 
-class ExportPlanSectionView(ExportPlanMixin, TemplateView):
+class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
     @property
     def slug(self, **kwargs):
         return self.kwargs['slug']
@@ -204,8 +213,14 @@ class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, Expo
     success_url = reverse_lazy('exportplan:about-your-business')
 
 
-class BaseFormView(FormView):
-
+class BaseFormView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
     success_url = '/export-plan/dashboard/'
 
     def get_initial(self):
@@ -248,7 +263,14 @@ class LogoFormView(BaseFormView):
     success_message = 'Logo updated'
 
 
-class ExportPlanServicePage(TemplateView):
+class ExportPlanServicePage(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
     template_name = 'exportplan/service_page.html'
 
     def get_context_data(self, **kwargs):

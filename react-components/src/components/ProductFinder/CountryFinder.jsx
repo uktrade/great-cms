@@ -6,13 +6,11 @@ import Services from '@src/Services'
 import RegionToggle from './RegionToggle'
 import Confirmation from './MessageConfirmation'
 
-
-const suggested = [{'country':'France', 'region':'Europe'}, {'country': 'Spain', 'region':'Europe'}, {'country':'Italy', 'region':'Europe'}, {'country':'Jamaica',  'region':'Latin America and Caribbean'}]
-
 export function CountryFinderModal(props) {
   let scrollOuter
-  const { modalIsOpen, setIsOpen, text, addButton } = props
+  const { modalIsOpen, setIsOpen, text, addButton, commodityCode } = props
   const [countryList, setCountryList] = useState()
+  const [suggestedCountries, setSuggestedCountries] = useState([])
   const [isScrolled, setIsScrolled] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState(text)
   const [searchStr, setSearchStr] = useState()
@@ -57,6 +55,17 @@ export function CountryFinderModal(props) {
     setExpandRegion(!expandRegion)
   }
 
+  const getSuggestedCountries = () => {
+    if(commodityCode) {
+      const hs2 = commodityCode.substr(0,2)
+      Services.getSuggestedCountries(hs2).then((result) => {
+        setSuggestedCountries(result);
+      }).catch(() => {
+          closeModal()
+      })
+    }
+  }
+
   const getCountries = () => {
     Services.getCountries().then((result) => {
       // map regions
@@ -74,6 +83,7 @@ export function CountryFinderModal(props) {
     if (!countryList) {
       getCountries()
     }
+    getSuggestedCountries()
   }
 
   const saveCountry = (country) => {
@@ -128,13 +138,26 @@ export function CountryFinderModal(props) {
   if (!regions.filter((region) => region).length) {
     regions = <div className="h-xs">No results found</div>
   }
-  const suggestedList = suggested.map((value) => {
-    return (
-      <button key={`suggested_${value.country}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={value.country}  data-region={value.region} onClick={selectCountry}>
-        {value.country}
-      </button>
-    )
-  })
+
+  let suggestedSection = (<div>
+      <h3 className="h-s">Suggested markets</h3>
+      <p className="m-v-xs">Add a product so that we can suggest export markets.</p>
+  </div>)
+  if (commodityCode) {
+    const suggestedList = suggestedCountries.map((country) => {
+      return (
+        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry}>
+          {country.country_name}
+          <i className="fa fa-plus"/>
+        </button>
+      )
+    })
+    suggestedSection = (<div>
+      <h3 className="h-s">Suggested markets</h3>
+      <p className="m-v-xs">These are based on the size of the market for your product, export distance, tariffs and costs.</p>
+      <ul className="m-v-xs">{suggestedList}</ul>
+  </div>)
+  }
 
   const buttonClass = `tag ${!selectedCountry ? 'tag--tertiary' : ''} tag--icon `
   const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
@@ -160,6 +183,7 @@ export function CountryFinderModal(props) {
             right: '100px',
             top: '50px',
             bottom: '50px',
+            overflow: 'hidden',
           }
         }}
       >
@@ -173,13 +197,7 @@ export function CountryFinderModal(props) {
               <div>
                 <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
               </div>
-              <h3 className="h-s">Suggested markets</h3>
-              <p className="m-v-xs">
-                These are based on the size of the market for your product, export distance, tariffs and costs.
-              </p>
-              <ul className="m-v-xs">
-                {suggestedList}
-              </ul>
+              {suggestedSection}
               <hr className="bg-red-deep-100"/>
               <h3 className="h-s p-t-xs">Compare markets</h3>
               <div className="grid">
@@ -240,15 +258,17 @@ CountryFinderModal.propTypes = {
   addButton: PropTypes.bool,
   modalIsOpen: PropTypes.bool,
   setIsOpen: PropTypes.func.isRequired,
-  text: PropTypes.string
+  text: PropTypes.string,
+  commodityCode: PropTypes.string,
 }
 CountryFinderModal.defaultProps = {
   addButton: true,
   modalIsOpen: false,
   text: '',
+  commodityCode: '',
 }
 
-export const CountryFinder = ({ text }) => {
+export const CountryFinder = ({ text, commodityCode }) => {
 
   const [modalIsOpen, setIsOpen] = useState(false)
 
@@ -258,6 +278,7 @@ export const CountryFinder = ({ text }) => {
         text={text}
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
+        commodityCode={commodityCode}
       />
     </span>
   )
@@ -265,9 +286,11 @@ export const CountryFinder = ({ text }) => {
 
 CountryFinder.propTypes = {
   text: PropTypes.string,
+  commodityCode: PropTypes.string,
 }
 CountryFinder.defaultProps = {
   text: '',
+  commodityCode: '',
 }
 
 export default function createCountryFinder({ ...params }) {
@@ -275,5 +298,6 @@ export default function createCountryFinder({ ...params }) {
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
   const text = params.element.getAttribute('data-text')
-  ReactDOM.render(<CountryFinder text={text}/>, params.element)
+  const commodityCode = params.element.getAttribute('data-commodity-code')
+  ReactDOM.render(<CountryFinder text={text} commodityCode={commodityCode}/>, params.element)
 }
