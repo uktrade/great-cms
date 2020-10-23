@@ -308,3 +308,6 @@
 - GP2-743 - remove link on upload
 - No Ticket - fix double country required in next url
 - GP2-814 - update lesson link
+- GP2-850 - remove tool tip from business performance
+- GP2-725 - update forgotton password link
+

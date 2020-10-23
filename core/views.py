@@ -7,7 +7,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from django.template.response import TemplateResponse
+from django.template.response import TemplateResponse, HttpResponse
 from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
@@ -245,5 +245,6 @@ class CreateTokenView(generics.GenericAPIView):
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
-        response = {'valid_until': plaintext, 'token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
-        return Response(response)
+        link = f'{base_url}/login?enc={ciphertext}'
+        response = f'valid_until:{plaintext}<br>token: {ciphertext}<br>CLIENT URL: {link}</a>'
+        return HttpResponse(response)
