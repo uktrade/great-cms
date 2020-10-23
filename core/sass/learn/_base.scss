@@ -89,11 +89,24 @@ $desktop: 1024px;
   padding-bottom: 40px;
   padding-top: 40px;
   padding-left: 25px;
+
+  .button {
+    display: inline-block;
+  }
 }
 
 .learn__category-title {
   margin-top: 13px;
   line-height: 48px;
+}
+
+.learn__category-progress {
+  @extend .progress-bar;
+  width: 280px;
+}
+
+.learn__category-link {
+  display: block;
 }
 
 .learn__category-details {
@@ -181,7 +194,8 @@ $desktop: 1024px;
   &--placeholder {
     background-color: rgba($white, .6);
 
-    span {
+    span,
+    button {
       opacity: .6;
     }
 
@@ -201,6 +215,16 @@ $desktop: 1024px;
   &:visited {
     color: $blue-deep-80;
   }
+
+  .button {
+    position: relative;
+    top: -4px;
+  }
+}
+
+.learn__lesson-item-link-text {
+  display: inline-block;
+  max-width: 75%;
 }
 
 .learn__topic-item-read-time {
@@ -355,6 +379,10 @@ $desktop: 1024px;
 
     hr {
       @extend .hr;
+    }
+
+    a.link {
+      text-decoration: underline;
     }
 
     .choose-dont-choose {

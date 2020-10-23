@@ -296,3 +296,15 @@ def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
+
+
+@pytest.fixture
+def patch_get_suggested_markets():
+    body = [
+        {'hs_code': 4, 'country_name': 'Sweden', 'country_iso2': 'SE', 'region': 'Europe'},
+        {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'},
+    ]
+    yield mock.patch(
+        'directory_api_client.api_client.personalisation.suggested_countries_by_hs_code',
+        return_value=create_response(status_code=200, json_body=body)
+    ).start()

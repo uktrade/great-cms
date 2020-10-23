@@ -32,7 +32,7 @@ export const ComingSoon = ({ title, backUrl }) => {
         }}
         role="button"
       >
-        <span>{title}</span>
+        <span className="learn__lesson-item-link-text">{title}</span>
         <button className="button button--secondary button--small">Coming soon</button>
       </a>
     </>

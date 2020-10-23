@@ -2,29 +2,69 @@
 {% load static %}
 {% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
+{% load get_item from object_tags %}
 {% load pluralize from content_tags %}
 {% load url_map %}
 
 {% block content %}
     <section id="learn-root" class="learn__page learn__categories-page container">
         <section class="learn__categories-content container m-t-s">
-        {% for child in page.get_children.specific.live %}
+            <div class="grid">
+                <div class="c-1-4">
+                    <span class="h-s">&nbsp;</span>
+                </div>
+                <div class="c-1-2">
+                    <div class="media-block media-block--round-image m-b-m m-t-xs m-f-n-s">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="g-panel g-panel--horizontal-mobile">
+                            <h3 class="h-xs text-blue-deep-80 p-t-xs">Some lessons aren’t available yet</h3>
+                            <p class="text-blue-deep-80 m-t-xxs">This Beta version is limited</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-1-4">
+                    <span class="h-s">&nbsp;</span>
+                </div>
+            </div>
+        {% for learning_module in page.get_children.specific.live %}
+        {% with module_completion_progress|get_item:learning_module.id as module_completion_data %}
+        <a href="{% pageurl learning_module %}" title="{{ page.button_label }}" class="learn__category-link">
             <article class="learn__category grid m-b-s">
                 <div class="c-1-2-l">
                     <div class="learn__category-content ">
-                        <h2 class="h-l text-blue-deep-80 learn__category-title p-b-0">{{ child.title }}</h2>
-                        <div class="learn__category-details">{{ child.heading | richtext }}</div>
-                        <a class="button button--secondary" href="{% pageurl child %}" title="{{ page.button_label }}">{{ page.button_label }}</a>
+                        <h2 class="h-l text-blue-deep-80 learn__category-title p-b-0">{{ learning_module.title }}</h2>
+                        <div class="learn__category-details">{{ learning_module.heading | richtext }}</div>
+
+                    {% comment %} GP2-867: TEMPORARILY always show the button {% endcomment %}
+                        <span class="button button--secondary" title="{{ page.button_label }}">{{ page.button_label }}</span>
+
+                    {% comment %} GP2-867: TEMPORARILY keep the completion score visible in the template source, for monitoring {% endcomment %}
+                        <!--{{module_completion_data.completion_count}} / {{module_completion_data.total_pages}}-->
+
+                    {% comment 'TEMPORARILY DISABLED: GP2-867' %}
+                    {% if not module_completion_data.completion_count %}
+                        <span class="button button--secondary" title="{{ page.button_label }}">{{ page.button_label }}</span>
+                    {% else %}
+                        <div class="learn__category-progress"><span style="width: {{module_completion_data.completion_percentage}}%"></span></div>
+                        <p class="body-m-b m-t-xxs m-b-0">
+                        {{module_completion_data.completion_count}}
+                        /
+                        {{module_completion_data.total_pages}}
+                        lessons complete</p>
+                    {% endif %}
+                    {% endcomment %}
+
                     </div>
 
                     <div class="learn__category-entities button--round-corner bg-aqua">
-                        <span class="learn__category-topics">{{ child.count_topics }} topic{% pluralize child.count_topics %}, </span>
-                        <span class="learn__category-lessons">{{ child.count_detail_pages }} lesson{% pluralize child.count_detail_pages %}</span>
+                        <span class="learn__category-topics">{{ learning_module.count_topics }} topic{% pluralize learning_module.count_topics %}, </span>
+                        <span class="learn__category-lessons">{{ learning_module.count_detail_pages }} lesson{% pluralize learning_module.count_detail_pages %}</span>
                     </div>
                 </div>
-                {% image child.image width-600 class="learn__category-image" %}
-                
+                {% image learning_module.image width-600 class="learn__category-image" %}
             </article>
+        </a>
+        {% endwith %}
         {% endfor %}
         </section>
     </section>

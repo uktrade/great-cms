@@ -6,5 +6,7 @@ register = template.Library()
 @register.filter
 def get_item(dict, key):
     if hasattr(dict, 'get'):
-        return dict.get(key.lower())
+        if isinstance(key, int):
+            return dict.get(key)
+        return dict.get(key.lower())  # FIXME: Do we need to lower-case this?
     return ''
