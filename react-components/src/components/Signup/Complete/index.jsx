@@ -13,7 +13,7 @@ export const Complete = ({
       id='signup-modal-submit-success'
       className='button button--primary'
       href={nextUrl}
-    >Continue to the dashboard</a>
+    >Continue</a>
   </div>
 )
 
