@@ -146,7 +146,7 @@ export function CountryFinderModal(props) {
   if (commodityCode) {
     const suggestedList = suggestedCountries.map((country) => {
       return (
-        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} onClick={selectCountry}>
+        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry}>
           {country.country_name}
           <i className="fa fa-plus"/>
         </button>
