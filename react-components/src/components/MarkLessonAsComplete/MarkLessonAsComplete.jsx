@@ -29,7 +29,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   const markCompleted = () => {
     if(!isComplete) {
-      const dataLayer = window.dataLayer || []
+      const dataLayer = (window.dataLayer = (window.dataLayer || []))
       // adding tracking once lesson successfully updated as completed
       dataLayer.push({
         'event': 'lessonComplete'
