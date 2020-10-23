@@ -78,12 +78,14 @@
 {% endblock %}
 
 {% block body_js %}
-    <script type="text/javascript">
-        var element = document.getElementById('dashboard');
-        ditMVP.createDashboard({
-            element: element,
-            sections: {{ sections|to_json}},
-            current_section: {{ current_section|to_json}},
-        })
-    </script>
+  {{ block.super }}
+  
+  <script type="text/javascript">
+      var element = document.getElementById('dashboard');
+      ditMVP.createDashboard({
+          element: element,
+          sections: {{ sections|to_json}},
+          current_section: {{ current_section|to_json}},
+      })
+  </script>
 {% endblock %}

@@ -11,7 +11,7 @@
             {% with item.value as page %}
             <li class="learn__lesson-item">
                 <a class="learn__lesson-item-link h-xs" href="{% pageurl page %}" title="{{ page.title }}">
-                    {{ page.title }}
+                    <span class="learn__lesson-item-link-text">{{ page.title }}</span>
                     {% if page.id in lesson_completion_data %}
                     <span class="button button--quaternary button--small f-r">
                         Completed

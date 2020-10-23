@@ -9,6 +9,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-854 - Fix product and country modals on export plan dashboard page
+- GP2-736 - Various UI fixes
 - GP2-859 - Underline links in lesson body copy
 - GP2-852 - button on the Facts and figure element
 - GP2-162 - Fix empty span
