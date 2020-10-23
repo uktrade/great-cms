@@ -2,7 +2,6 @@
   @extend .bg-white;
   @extend .radius;
   display: block;
-  position: relative;
   padding: 10px 20px;
 
   @include tablet {
@@ -26,13 +25,14 @@
 .statistic__group {
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 
 .statistic__percentage {
   height: 4px;
   position: absolute;
   top: 54px;
-  width: 92%;
+  width: 100%;
 
   span {
     display: block;

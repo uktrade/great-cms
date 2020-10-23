@@ -84,9 +84,9 @@ export default function Table({
                   <dt className="statistic__caption p-t-xs">Male in your target group</dt>
                   <dd className="statistic__figure h-xs p-b-0 p-t-s">{male} million</dd>
                 </dl>
-              </div>
-              <div className="statistic__percentage bg-red-80 radius m-b-xs">
-                <span className='bg-blue-deep-80 radius' style={{ width: `${(female/target_population)*100}%` }} />
+                <div className="statistic__percentage bg-red-80 radius m-b-xs">
+                  <span className='bg-blue-deep-80 radius' style={{ width: `${(female/target_population)*100}%` }} />
+                </div>
               </div>
             </div>
           )}
@@ -101,9 +101,9 @@ export default function Table({
                   <td className="statistic__caption p-t-xs">Living in rural areas</td>
                   <dd className="statistic__figure h-xs p-b-0 p-t-s">{rural}%</dd>
                 </dl>
-              </div>
-              <div className="statistic__percentage bg-red-80 radius m-b-xs">
-                <span className='bg-blue-deep-80 radius' style={{ width: `${urban}%` }} />
+                <div className="statistic__percentage bg-red-80 radius m-b-xs">
+                  <span className='bg-blue-deep-80 radius' style={{ width: `${urban}%` }} />
+                </div>
               </div>
             </div>
           )}
