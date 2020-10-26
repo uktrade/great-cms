@@ -12,8 +12,17 @@
 {% block head_js %}
   {{ block.super }}
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
-{% endblock %}
 
+    <script type="text/javascript">
+      var product = '{{ export_plan.export_commodity_codes.0 }}';
+      var country = '{{ export_plan.export_countries.0.country_name }}';
+      var dataLayer = window.dataLayer || []
+      dataLayer.push({
+        'productAdded': product || "False",
+        'marketAdded': country || "False",
+      });
+    </script>
+{% endblock %}
 
 {% block body_header %}
   {% include 'core/header.html' %}
