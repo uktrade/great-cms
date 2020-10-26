@@ -90,6 +90,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-690 - Analytics target market open
 - GP2-739 - Add beta banner to learning landing page
 - GP2-853 - Coming soon functionality for CTA displayed on the Export plan landing page
 - GP2-502 - Suggested markets in country selection modal
