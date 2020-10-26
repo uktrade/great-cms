@@ -1,4 +1,5 @@
 # Changelog
+- GA2-691 - Added GA code for target market
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
 - no ticket - increase token expiration date to 5 days from 1

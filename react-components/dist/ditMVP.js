@@ -80672,6 +80672,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _RegionToggle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RegionToggle */ "./react-components/src/components/ProductFinder/RegionToggle.jsx");
 /* harmony import */ var _MessageConfirmation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MessageConfirmation */ "./react-components/src/components/ProductFinder/MessageConfirmation.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -80685,6 +80686,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -80819,7 +80821,12 @@ function CountryFinderModal(props) {
     }).then(function () {
       closeModal();
       window.location.reload();
-    })["catch"](function () {// TODO: Add error confirmation here
+    }).then(Object(_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
+      'event': 'addMarketSuccess',
+      'suggestMarket': country.suggested === 'true' ? country.name : '',
+      'listMarket': country.suggested === 'false' ? country.name : '',
+      'marketAdded': country.name
+    }))["catch"](function () {// TODO: Add error confirmation here
     });
   };
 
@@ -80827,7 +80834,8 @@ function CountryFinderModal(props) {
     saveCountry({
       name: evt.target.getAttribute('data-country'),
       id: evt.target.getAttribute('data-id'),
-      region: evt.target.getAttribute('data-region')
+      region: evt.target.getAttribute('data-region'),
+      suggested: evt.target.getAttribute('data-suggested')
     });
   };
 
@@ -80843,7 +80851,8 @@ function CountryFinderModal(props) {
         "data-country": country.name,
         "data-id": country.id,
         "data-region": country.region,
-        onClick: selectCountry
+        onClick: selectCountry,
+        "data-suggested": false
       }, country.name)));
     });
     return !!countries.filter(function (countryRegion) {
@@ -80879,7 +80888,8 @@ function CountryFinderModal(props) {
         "data-country": country.country_name,
         "data-region": country.region,
         "data-id": country.country_iso2,
-        onClick: selectCountry
+        onClick: selectCountry,
+        "data-suggested": true
       }, country.country_name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-plus"
       }));

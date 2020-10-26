@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import RegionToggle from './RegionToggle'
 import Confirmation from './MessageConfirmation'
+import {analytics} from "../../Helpers";
+
 
 export function CountryFinderModal(props) {
   let scrollOuter
@@ -102,6 +104,14 @@ export function CountryFinderModal(props) {
         closeModal()
         window.location.reload()
       })
+      .then(
+        analytics({
+          'event':'addMarketSuccess',
+          'suggestMarket': country.suggested === 'true' ? country.name : '',
+          'listMarket': country.suggested === 'false' ? country.name: '',
+          'marketAdded': country.name
+        })
+    )
       .catch(() => {
         // TODO: Add error confirmation here
       })
@@ -111,7 +121,8 @@ export function CountryFinderModal(props) {
     saveCountry({
       name: evt.target.getAttribute('data-country'),
       id: evt.target.getAttribute('data-id'),
-      region: evt.target.getAttribute('data-region')
+      region: evt.target.getAttribute('data-region'),
+      suggested: evt.target.getAttribute('data-suggested'),
     })
   }
 
@@ -121,7 +132,7 @@ export function CountryFinderModal(props) {
       return (
         <span className="c-1-5" key={country.id}>
           <li>
-            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry}>
+            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry} data-suggested={false}>
               {country.name}
             </button>
           </li>
@@ -146,7 +157,7 @@ export function CountryFinderModal(props) {
   if (commodityCode) {
     const suggestedList = suggestedCountries.map((country) => {
       return (
-        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry}>
+        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry} data-suggested={true}>
           {country.country_name}
           <i className="fa fa-plus"/>
         </button>
