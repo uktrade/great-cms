@@ -10,6 +10,7 @@ from core.templatetags.object_tags import get_item
 from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.url_map import path_match
 from core.templatetags.video_tags import render_video
+from core.templatetags.progress_bar import progress_bar
 
 
 def test_render_personalised_video_block_tag():
@@ -239,3 +240,18 @@ def test_push(user, rf, domestic_site):
 )
 def test_get_item(data, key, expected):
     assert get_item(data, key) == expected
+
+
+@pytest.mark.parametrize(
+    'total,complete,percentage',
+    (
+        (10, 0, '0%'),
+        (10, 5, '50%'),
+        (10, 10, '100%'),
+        (0, 0, '0%'),
+    )
+)
+def test_progress_bar(total, complete, percentage):
+    html = progress_bar(total, complete)
+    check = f'style="width:{percentage}"'
+    assert html.find(check) > 0

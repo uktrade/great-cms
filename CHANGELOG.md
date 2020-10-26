@@ -9,6 +9,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-878 - Dashboard progress bar to match lesson styling
 - GP2-796 - Header styling tweaks
 - GP2-851 - fix educational tooltip position and styling
 - GP2-854 - Fix product and country modals on export plan dashboard page
