@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import RegionToggle from './RegionToggle'
 import Confirmation from './MessageConfirmation'
-import {analytics} from "../../Helpers";
+import { analytics } from '../../Helpers'
+
 
 
 export function CountryFinderModal(props) {
@@ -19,10 +20,19 @@ export function CountryFinderModal(props) {
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
   const [expandRegion, setExpandRegion] = useState(false)
 
+  const openCountryFinder = (open) => {
+    setIsOpen(open)
+    setSearchStr('')
+    analytics({
+      'event': 'addMarketPageview',
+      'virtualPageUrl': '/choose-target-market-modal',
+      'virtualPageTitle': 'Choose Target Market Modal'
+    })
+  }
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
-    setIsOpen(!selectedCountry)
+    openCountryFinder(!selectedCountry)
     setSearchStr('')
   }
 
@@ -33,7 +43,7 @@ export function CountryFinderModal(props) {
 
   const closeConfirmation = () => {
     setProductConfirmationRequired(false)
-    setIsOpen(true)
+    openCountryFinder(true)
   }
 
   const setScrollShadow = () => {
@@ -58,12 +68,12 @@ export function CountryFinderModal(props) {
   }
 
   const getSuggestedCountries = () => {
-    if(commodityCode) {
-      const hs2 = commodityCode.substr(0,2)
+    if (commodityCode) {
+      const hs2 = commodityCode.substr(0, 2)
       Services.getSuggestedCountries(hs2).then((result) => {
         setSuggestedCountries(result);
       }).catch(() => {
-          closeModal()
+        closeModal()
       })
     }
   }
@@ -92,26 +102,24 @@ export function CountryFinderModal(props) {
     setSelectedCountry(country.name)
 
     Services.updateExportPlan({
-      export_countries: [
-        {
+        export_countries: [{
           country_name: country.name,
           country_iso2_code: country.id,
           region: country.region
-        }
-      ]
-    })
+        }]
+      })
       .then(() => {
         closeModal()
         window.location.reload()
       })
       .then(
         analytics({
-          'event':'addMarketSuccess',
+          'event': 'addMarketSuccess',
           'suggestMarket': country.suggested === 'true' ? country.name : '',
-          'listMarket': country.suggested === 'false' ? country.name: '',
+          'listMarket': country.suggested === 'false' ? country.name : '',
           'marketAdded': country.name
         })
-    )
+      )
       .catch(() => {
         // TODO: Add error confirmation here
       })
@@ -132,7 +140,7 @@ export function CountryFinderModal(props) {
       return (
         <span className="c-1-5" key={country.id}>
           <li>
-            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry} data-suggested={false}>
+            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry}>
               {country.name}
             </button>
           </li>
@@ -157,7 +165,7 @@ export function CountryFinderModal(props) {
   if (commodityCode) {
     const suggestedList = suggestedCountries.map((country) => {
       return (
-        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry} data-suggested={true}>
+        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry} data-suggested>
           {country.country_name}
           <i className="fa fa-plus"/>
         </button>
