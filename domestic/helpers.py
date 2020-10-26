@@ -30,6 +30,16 @@ def get_ancestor(page, ancestor_class):
         page = page.get_parent()
 
 
+def module_has_lesson_configured_in_topic(
+    module_page: CuratedListPage,
+    lesson_page: DetailPage
+) -> bool:
+    for topic_block in module_page.topics:
+        if topic_block.id == lesson_page.topic_block_id:
+            return True
+    return False
+
+
 def get_lesson_completion_status(user, context={}):
     """Gets all lesson pages (DetailPages and uses the parental tree to get a list
     of modules (CuratedListPages), with some filtering-out of DetailPages which
@@ -70,7 +80,7 @@ def get_lesson_completion_status(user, context={}):
         topic_block_id__isnull=False
         # ie: get ONLY detail pages that are mapped to a topic
         # (This mapping happens via a wagtail_hook, which sets topic_block_id
-        # on the appopriate DetailPage for each topic in CuratedListPage.topics)
+        # on the appropriate DetailPage for each topic in CuratedListPage.topics)
 
         # This ALSO means that CuratedListPages with no topics set up, even if
         # they have child DetailPages, will NOT be included in these results.
@@ -85,6 +95,14 @@ def get_lesson_completion_status(user, context={}):
                     'completed_lesson_pages': defaultdict(set)
                 }
             )
+
+            # Only proceeed with `detail_page` if it is CURRENTLY configured in a topic
+            if not module_has_lesson_configured_in_topic(
+                module_page=module_page.specific,
+                lesson_page=detail_page.specific
+            ):
+                continue
+
             page_map[module_page.id]['total_pages'] += 1
 
             if detail_page.id in completed:
