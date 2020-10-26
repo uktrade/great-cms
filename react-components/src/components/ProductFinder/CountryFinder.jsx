@@ -115,8 +115,8 @@ export function CountryFinderModal(props) {
       .then(
         analytics({
           'event': 'addMarketSuccess',
-          'suggestMarket': country.suggested === 'true' ? country.name : '',
-          'listMarket': country.suggested === 'false' ? country.name : '',
+          'suggestMarket': country.suggested ? country.name : '',
+          'listMarket': country.suggested ? '' : country.name,
           'marketAdded': country.name
         })
       )
