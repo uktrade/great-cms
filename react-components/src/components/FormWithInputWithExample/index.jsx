@@ -54,6 +54,15 @@ export class FormWithInputWithExample extends Component {
   }
 
   handleUpdateSuccess() {
+    // const dataLayer = (window.dataLayer = window.dataLayer || [])
+    console.log(this.props.field);
+    console.log(this.props.formData);
+    console.log(this.props.formFields);
+    // dataLayer.push({
+    //   'event':'planSectionSaved',
+    //   'sectionTitle':this.props.field,
+    //   'sectionFormField':this.props.field.name
+    //   });
     this.setState({
       isLoading: false,
       showSavedMessage: true,
