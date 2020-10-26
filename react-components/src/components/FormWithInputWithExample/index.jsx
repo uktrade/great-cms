@@ -30,6 +30,13 @@ export class FormWithInputWithExample extends Component {
       this.setState({ isLoading: true }, () => {
         Services.updateExportPlan(this.formatData(data))
           .then(this.handleUpdateSuccess)
+          .then(() => {
+            const dataLayer = (window.dataLayer = window.dataLayer || [])
+            dataLayer.push({
+              'event': 'planSectionSaved',
+              'sectionTitle': this.props.field
+            })
+          })
           .catch(this.handleUpdateError)
       })
     })
