@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { RouteToMarketSection } from '@src/components/RouteToMarket/RouteToMarketSection'
 import Services from '../../Services'
 
+import { analytics } from '@src/Helpers'
+
 export const RouteToMarket = ({
   fields,
   formData,
@@ -41,7 +43,12 @@ export const RouteToMarket = ({
     setRoutes(updatedRoutes)
 
     Services.updateRouteToMarket({ ...field, ...selected  })
-      .then(() => {})
+      .then(
+        analytics({
+              'event': 'planSectionSaved',
+              'sectionTitle': 'route-to-market'
+            })
+      )
       .catch(() => {})
   }
 

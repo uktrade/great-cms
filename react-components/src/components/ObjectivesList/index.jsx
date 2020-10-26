@@ -7,6 +7,7 @@ import { debounceTime, delay } from 'rxjs/operators'
 import ErrorList from '@src/components/ErrorList'
 import { Objective } from './Objective'
 import Services from '../../Services'
+import { analytics } from '@src/Helpers'
 
 export class ObjectivesList extends Component {
 
@@ -37,6 +38,12 @@ export class ObjectivesList extends Component {
       }, () => {
         Services.updateObjective(data.data)
           .then(this.handleUpdateSuccess)
+          .then(() => {
+            analytics({
+              'event': 'planSectionSaved',
+              'sectionTitle': 'Objectives'
+            })
+          })
           .catch((err) => this.handleError(err, data.data.pk))
       })
     })

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { TextArea } from '@src/components/Form/TextArea'
 import Services from '../../Services'
 
+import { analytics } from '@src/Helpers'
+
 export const SpendingAndResources = ({
   field,
   formFields,
@@ -15,7 +17,12 @@ export const SpendingAndResources = ({
   const update = (e) => {
     setInput({ ...e })
     Services.updateExportPlan({ [field]: { ...e }})
-      .then(() => {})
+      .then(
+         analytics({
+              'event': 'planSectionSaved',
+              'sectionTitle': field
+            })
+      )
       .catch(() => {})
   }
 
