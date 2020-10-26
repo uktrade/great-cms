@@ -9,7 +9,7 @@ import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
-
+import { analytics } from '@src/Helpers'
 
 export class FormWithInputWithExample extends Component {
   constructor(props) {
@@ -31,8 +31,7 @@ export class FormWithInputWithExample extends Component {
         Services.updateExportPlan(this.formatData(data))
           .then(this.handleUpdateSuccess)
           .then(() => {
-            const dataLayer = (window.dataLayer = window.dataLayer || [])
-            dataLayer.push({
+            analytics({
               'event': 'planSectionSaved',
               'sectionTitle': this.props.field
             })

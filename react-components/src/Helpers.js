@@ -16,9 +16,14 @@ const capitalize = (str, enable = true) => {
   return enable ? strWithSpaces.charAt(0).toUpperCase() + strWithSpaces.slice(1) : strWithSpaces
 }
 
+const analytics = function(data) {
+  const dataLayer = (window.dataLayer = window.dataLayer || [])
+  dataLayer.push(data)
+}
 
 export {
   slugify,
   addItemToList,
   capitalize,
+  analytics
 }
