@@ -10,6 +10,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-877 - add logo form styling
 - GP2-878 - Dashboard progress bar to match lesson styling
 - GP2-796 - Header styling tweaks
 - GP2-851 - fix educational tooltip position and styling
