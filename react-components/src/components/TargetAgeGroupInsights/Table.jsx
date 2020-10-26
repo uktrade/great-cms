@@ -41,7 +41,7 @@ export default function Table({
                 heading="What is the Consumer Price Index?"
                 description="The CPI measures the average change in prices over time that consumers pay for a basket of goods and services for their household, this is also known as inflation. It is used to estimate the change in total cost of this basket and the effect this has on the purchasing power of the country’s unit of currency."
               />
-            <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{cpi && notAvailable }</dd>
+            <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{cpi || notAvailable }</dd>
             </dl>
           </div>
       </div>
@@ -50,7 +50,7 @@ export default function Table({
         <div className="c-full">
           <dl className="statistic">
             <dt className="statistic__caption">Languages in your target market</dt>
-            <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{languages && notAvailable }</dd>
+            <dd className="statistic__figure h-xs p-b-0 p-t-xxs">{languages || notAvailable }</dd>
           </dl>
         </div>
       </div>
