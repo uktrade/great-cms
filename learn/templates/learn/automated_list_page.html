@@ -29,7 +29,7 @@
         {% for learning_module in page.get_children.specific.live %}
         {% with module_completion_progress|get_item:learning_module.id as module_completion_data %}
         <a href="{% pageurl learning_module %}" title="{{ page.button_label }}" class="learn__category-link">
-            <article class="learn__category grid m-b-s">
+            <article class="learn__category m-b-s">
                 <div class="c-1-2-l">
                     <div class="learn__category-content ">
                         <h2 class="h-l text-blue-deep-80 learn__category-title p-b-0">{{ learning_module.title }}</h2>

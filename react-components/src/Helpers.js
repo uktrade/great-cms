@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-const slugify = function(string) {
+const slugify = (string) => {
   return string.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 }
 
@@ -16,7 +16,7 @@ const capitalize = (str, enable = true) => {
   return enable ? strWithSpaces.charAt(0).toUpperCase() + strWithSpaces.slice(1) : strWithSpaces
 }
 
-const analytics = function(data) {
+const analytics = (data) => {
   const dataLayer = (window.dataLayer = window.dataLayer || [])
   dataLayer.push(data)
 }
