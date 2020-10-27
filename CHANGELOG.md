@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-920 - Video appears smaller on initial load of a lesson
 - GP2-886 - bug fix, display not available for missing data
 - GP2-883 - Module selection Container is not highlighted fully
 - GP2-877 - add logo form styling
