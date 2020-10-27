@@ -1,4 +1,5 @@
 # Changelog
+- GA2-691 - Added GA code for target market
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
 - no ticket - increase token expiration date to 5 days from 1
@@ -9,7 +10,10 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-- GP2-878 - Dashboard progress bar to match lesson styling
+- GP2-886 - bug fix, display not available for missing data
+- GP2-883 - Module selection Container is not highlighted fully
+- GP2-877 - add logo form styling
+- GP2-869 - Dashboard progress bar to match lesson styling
 - GP2-796 - Header styling tweaks
 - GP2-851 - fix educational tooltip position and styling
 - GP2-854 - Fix product and country modals on export plan dashboard page
@@ -88,6 +92,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-690 - Analytics target market open
 - GP2-739 - Add beta banner to learning landing page
 - GP2-853 - Coming soon functionality for CTA displayed on the Export plan landing page
 - GP2-502 - Suggested markets in country selection modal
