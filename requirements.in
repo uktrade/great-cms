@@ -46,6 +46,6 @@ iso3166==1.0.1
 freezegun==0.1.5
 sphinx==1.8.*
 readtime==1.*
-cryptography==2.9.*
+cryptography==3.2
 pillow>=7.1.0
 factory-boy==2.12.*
