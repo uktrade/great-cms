@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 # Constants
 ABOUT_YOUR_BUSINESS = 'About your business'
-OBJECTIVES = 'Objectives'
+OBJECTIVES = 'Business objectives'
 TARGET_MARKETS_RESEARCH = 'Target markets research'
 ADAPTATION_TARGET_MARKET = 'Adaptation for your target market'
 MARKETING_APPROACH = 'Marketing approach'

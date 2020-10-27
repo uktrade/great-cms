@@ -185,7 +185,7 @@ class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionVie
 
 class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanBusinessObjectivesForm
-    success_url = reverse_lazy('exportplan:objectives')
+    success_url = reverse_lazy('exportplan:business-objectives')
 
     def form_valid(self, form):
         helpers.update_exportplan(

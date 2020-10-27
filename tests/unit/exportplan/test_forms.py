@@ -148,7 +148,7 @@ def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, obje
         **objectives_form_data,
         'company_objectives': [],
     }
-    url = reverse('exportplan:objectives')
+    url = reverse('exportplan:business-objectives')
     client.force_login(user)
     response = client.get(url)
 
@@ -161,7 +161,7 @@ def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, obje
 def test_objectives_form_view_submission(
     mock_get_export_plan, mock_update_exportplan, objectives_form_data, client, user
 ):
-    url = reverse('exportplan:objectives')
+    url = reverse('exportplan:business-objectives')
     client.force_login(user)
     response = client.post(url, objectives_form_data)
 

@@ -76,7 +76,7 @@ export function Menu(props) {
           <li>
             <a href="/export-plan/dashboard/" className="link">
               <i className="fa fa-folder" />
-              <span>Make an export plan</span>
+              <span>Build an export plan</span>
             </a>
           </li>
           <hr className="m-v-xxs" />

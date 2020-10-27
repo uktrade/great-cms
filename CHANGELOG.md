@@ -334,3 +334,4 @@
 - GP2-725 - update forgotton password link
 - GP2-701 - Add variables to Universal Data Object
 - GP2-876 - update signout
+- GP2-902 - content-changes

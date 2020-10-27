@@ -31,10 +31,10 @@ urlpatterns = [
         name='target-markets-research'
     ),
     path(
-        'section/objectives/',
+        'section/business-objectives/',
         login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=LOGIN_URL),
-        {'slug': 'objectives'},
-        name='objectives'
+        {'slug': 'business-objectives'},
+        name='business-objectives'
     ),
     path(
         'section/<slug:slug>/',
