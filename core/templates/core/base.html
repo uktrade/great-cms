@@ -14,7 +14,7 @@
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
 
     <script type="text/javascript">
-      var product = '{{ export_plan.export_commodity_codes.0 }}';
+      var product = '{{ export_plan.export_commodity_codes.0.commodity_code }}';
       var country = '{{ export_plan.export_countries.0.country_name }}';
       var dataLayer = window.dataLayer || []
       dataLayer.push({
