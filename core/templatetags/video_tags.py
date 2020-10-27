@@ -8,6 +8,12 @@ from core.constants import VIDEO_DURATION_DATA_ATTR_NAME
 register = template.Library()
 
 
+def _get_poster_attribute(video):
+    if video and video.thumbnail:
+        return f'poster="{video.thumbnail.url}" '  # trailing space is deliberate
+    return ''
+
+
 @register.simple_tag
 def render_video(block):
     """Renders a video block (eg in a lesson hero or a case study).
@@ -26,10 +32,13 @@ def render_video(block):
     video_duration = getattr(block['video'], 'duration', 0)
     # The default, above, _should_ never be needed because field is mandatory in the CMS
 
-    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in block['video'].sources])
+    video = block['video']
+
+    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in video.sources])
+
     return format_html(
         f"""
-            <video controls {VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
+            <video controls {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
                 {sources}
                 Your browser does not support the video tag.
             </video>
