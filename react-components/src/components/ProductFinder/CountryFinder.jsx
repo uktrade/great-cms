@@ -39,6 +39,7 @@ export function CountryFinderModal(props) {
   const closeModal = () => {
     setProductConfirmationRequired(false)
     setIsOpen(false)
+    window.location.reload()
   }
 
   const closeConfirmation = () => {
@@ -209,7 +210,7 @@ export function CountryFinderModal(props) {
         <form className="country-finder">
           <div className={`scroll-area m-t-0 ${scrollerClass}`} onScroll={onScroll}>
                 <button type="button" className="f-r m-r-0 dialog-close" aria-label="Close" onClick={closeModal}/>
-            <div 
+            <div
               className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs"
               ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
             >

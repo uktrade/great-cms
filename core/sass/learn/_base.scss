@@ -484,6 +484,10 @@ $desktop: 1024px;
       max-width: 100%;
     }
 
+    video {
+      width: 100%;
+    }
+
     .video-transcript {
       &__text-area {
         color: $blue-deep-80;
