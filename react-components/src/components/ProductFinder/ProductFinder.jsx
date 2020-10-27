@@ -9,6 +9,7 @@ import Confirmation from './MessageConfirmation'
 import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
+import { analytics } from '../../Helpers'
 
 
 const formatPath = (pathstr) => {
@@ -29,16 +30,11 @@ function ProductFinder(props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
 
-  const addTagging = (tag) => {
-    if (window.dataLayer) {
-      window.dataLayer.push(tag);
-    }
-  }
 
   const openProductFinder = (open) => {
     setIsOpen(open)
     if (open) {
-      addTagging({
+      analytics({
         'event': 'addProductPageview',
         'virtualPageURL': '/add-product-modal/search_entry',
         'virtualPageTitle': 'Add Product Modal - Search Entry'
@@ -91,6 +87,12 @@ function ProductFinder(props) {
   const saveProduct = () => {
     const productName = capitalize(searchResults.currentItemName)
     setSelectedProduct(productName)
+    analytics({
+      event: 'addProductSuccess',
+      productKeyword: productName,
+      productCode: searchResults.hsCode
+    })
+
     Services.updateExportPlan({
         export_commodity_codes: [{
           commodity_name: productName,
@@ -112,6 +114,18 @@ function ProductFinder(props) {
     resetScroll()
   }
 
+  const responseAnalytics = (result) => {
+    if (result.hsCode) {
+      analytics({
+        event: 'addProductPageview',
+        virtualPageUrl: '/add-product-modal/product-found',
+        virtualPageTitle: 'Add Product Modal - Product Found',
+        productKeyword: capitalize(result.currentItemName),
+        productCode: result.hsCode
+      })
+    }
+  }
+
   const processResponse = (request) => {
     setLoading(true)
     request
@@ -121,6 +135,7 @@ function ProductFinder(props) {
         console.log('Search result', result) // TODO: Needed during development
         /* eslint-enable no-console */
         if (result && result.data && result.data.txId) {
+          responseAnalytics(result.data)
           renderSearchResults(result.data)
         } else {
           renderSearchResults(searchResults) // force re-render to reset any changed selectors
