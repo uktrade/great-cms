@@ -54,7 +54,7 @@ urlpatterns = [
     ),
     path(
         'signup/export-plan/<str:step>/',
-        anonymous_user_required(
+        login_required(
             skip_ga360(core.views.SignupForExportPlanWizardView.as_view(url_name='core:signup-wizard-export-plan'))
         ),
         name='signup-wizard-export-plan'

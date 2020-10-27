@@ -329,3 +329,4 @@
 - GP2-850 - remove tool tip from business performance
 - GP2-725 - update forgotton password link
 - GP2-701 - Add variables to Universal Data Object
+- GP2-876 - update signout

@@ -168,27 +168,6 @@ def test_login_required_signup_wizard_handles_authenticated_users(rf, user, dome
 
 
 @pytest.mark.django_db
-def test_login_required_signup_wizard_exportplan(domestic_site, client, user, rf):
-
-    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
-
-    for page in [exportplan_page, exportplan_dashboard_page]:
-        request = rf.get(page.url)
-        request.user = AnonymousUser()
-
-        response = wagtail_hooks.login_required_signup_wizard(
-            page=page,
-            request=request,
-            serve_args=[],
-            serve_kwargs={},
-        )
-
-        assert response.status_code == 302
-        assert response.url == f'/signup/export-plan/start/?next={page.url}'
-
-
-@pytest.mark.django_db
 def test_login_required_signup_wizard_exportplan_logged_in(domestic_site, user, rf):
 
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')

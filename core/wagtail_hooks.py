@@ -76,11 +76,6 @@ def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
             url = add_next(destination_url=signup_url, current_url=request.get_full_path())
             return redirect(url)
 
-    elif page.template in exportplan_templates and request.user.is_anonymous:
-        signup_url = reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_START})
-        url = add_next(destination_url=signup_url, current_url=request.get_full_path())
-        return redirect(url)
-
 
 def _update_data_for_appropriate_version(page: Page, data_to_update: dict) -> None:
     """For a given Page instance, use the provided data to update either:
