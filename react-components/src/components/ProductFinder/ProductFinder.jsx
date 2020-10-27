@@ -254,15 +254,15 @@ function ProductFinder(props) {
   const sectionNoResults = (_searchResults) => {
     return (
       <section className="m-h-l">
-        <div className="box box--no-pointer">
-          <h3 className="h-m">No results found for &lsquo;{_searchResults.productDescription}&rsquo;</h3>
-          <h4 className="h-s">Search tips</h4>
-          <ul className="list-dot">
+        <div className="box box--no-pointer p-h-s p-t-s p-b-xs m-t-xs">
+          <h3 className="h-m p-t-xxs">No results found for &lsquo;{_searchResults.productDescription}&rsquo;</h3>
+          <h4 className="h-xs">Search tips</h4>
+          <ul className="list-dot m-v-xxs p-f-xs">
             <li>Check for spelling mistakes</li>
             <li>Try a more generic search term for describing your product, like sofa instead of settee</li>
           </ul>
-          <h4 className="h-s">Example searches</h4>
-          <ul className="list-dot">
+          <h4 className="h-xs">Example searches</h4>
+          <ul className="list-dot m-v-xxs p-f-xs">
             <li>frozen atlantic salmon</li>
             <li>strawberries</li>
             <li>fresh cut snowdrop</li>
