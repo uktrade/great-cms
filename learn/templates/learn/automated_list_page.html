@@ -35,13 +35,6 @@
                         <h2 class="h-l text-blue-deep-80 learn__category-title p-b-0">{{ learning_module.title }}</h2>
                         <div class="learn__category-details">{{ learning_module.heading | richtext }}</div>
 
-                    {% comment %} GP2-867: TEMPORARILY always show the button {% endcomment %}
-                        <span class="button button--secondary" title="{{ page.button_label }}">{{ page.button_label }}</span>
-
-                    {% comment %} GP2-867: TEMPORARILY keep the completion score visible in the template source, for monitoring {% endcomment %}
-                        <!--{{module_completion_data.completion_count}} / {{module_completion_data.total_pages}}-->
-
-                    {% comment 'TEMPORARILY DISABLED: GP2-867' %}
                     {% if not module_completion_data.completion_count %}
                         <span class="button button--secondary" title="{{ page.button_label }}">{{ page.button_label }}</span>
                     {% else %}
@@ -52,7 +45,6 @@
                         {{module_completion_data.total_pages}}
                         lessons complete</p>
                     {% endif %}
-                    {% endcomment %}
 
                     </div>
 
