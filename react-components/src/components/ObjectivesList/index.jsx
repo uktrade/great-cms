@@ -173,7 +173,7 @@ export class ObjectivesList extends Component {
               type='button'
               className='button button--large button--icon'
               onClick={this.createObjective}>
-                <i className='fas fa-plus-circle' />Add objective {objectives.length+1} of 5
+                <i className='fas fa-plus-circle' />Add goal {objectives.length+1} of 5
             </button>
           }
           <ErrorList errors={errors.__all__ || []} className='m-0' />

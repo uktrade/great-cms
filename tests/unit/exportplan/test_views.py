@@ -218,8 +218,8 @@ def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, us
 @pytest.mark.parametrize(
     'slug, next_slug',
     (
-        ('about-your-business', 'objectives'),
-        ('objectives', 'target-markets-research'),
+        ('about-your-business', 'business-objectives'),
+        ('business-objectives', 'target-markets-research'),
         ('target-markets-research', 'adaptation-for-your-target-market'),
         ('adaptation-for-your-target-market', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
