@@ -12,6 +12,7 @@
 
 ### Fixed bugs
 - GP2-831 - Product not found styling
+- GP2-921 - statistics displaying 0 for some countries
 - GP2-920 - Video appears smaller on initial load of a lesson
 - GP2-880 - fix/patch to reopen modal if country is not selected
 - GP2-34 - bug fix/defence against bad data in progress counters
