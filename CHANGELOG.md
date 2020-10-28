@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-929 - Fix logout issues in firefox and probably other browsers
 - GP2-690 - Analytics target market modal - one push only
 - GP2-940 - Deletion of Add your business name
 - GP2-912 - Back button in Learn not accessible
