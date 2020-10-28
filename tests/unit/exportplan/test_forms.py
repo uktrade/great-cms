@@ -28,9 +28,7 @@ def target_markets_research_data():
 
 @pytest.fixture
 def objectives_form_data():
-    return {
-        'rationale': 'Lorem ipsum',
-    }
+    return {'objectives': {'rationale': 'Lorem ipsum', }}
 
 
 def test_about_your_business_form_valid(about_your_business_form_data):
@@ -106,7 +104,11 @@ def test_about_your_business_form_view(mock_get_export_plan, about_your_business
 @pytest.mark.django_db
 @patch.object(helpers, 'get_or_create_export_plan')
 def test_market_markets_research_form_view(mock_get_export_plan, target_markets_research_data, client, user):
-    mock_get_export_plan.return_value = {'pk': 1, 'target_markets_research': target_markets_research_data}
+    mock_get_export_plan.return_value = {
+        'pk': 1,
+        'target_markets_research': target_markets_research_data,
+        'export_countries': [],
+    }
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
     response = client.get(url)
@@ -146,7 +148,7 @@ def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, obje
         **objectives_form_data,
         'company_objectives': [],
     }
-    url = reverse('exportplan:objectives')
+    url = reverse('exportplan:business-objectives')
     client.force_login(user)
     response = client.get(url)
 
@@ -159,7 +161,7 @@ def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, obje
 def test_objectives_form_view_submission(
     mock_get_export_plan, mock_update_exportplan, objectives_form_data, client, user
 ):
-    url = reverse('exportplan:objectives')
+    url = reverse('exportplan:business-objectives')
     client.force_login(user)
     response = client.post(url, objectives_form_data)
 

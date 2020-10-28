@@ -9,42 +9,48 @@ LOGIN_URL = reverse_lazy('core:login')
 app_name = 'exportplan'
 
 urlpatterns = [
-    path('section/marketing-approach/', login_required(skip_ga360(views.ExportPlanMarketingApproachView.as_view())),
+    path('section/marketing-approach/', login_required(views.ExportPlanMarketingApproachView.as_view()),
          name='marketing-approach'),
-    path('logo', login_required(skip_ga360(views.LogoFormView.as_view())), name='add-logo'),
+    path('logo', login_required(views.LogoFormView.as_view()), name='add-logo'),
     path(
         'section/adaptation-for-your-target-market/',
-        login_required(skip_ga360(views.ExportPlanAdaptationForTargetMarketView.as_view()), login_url=LOGIN_URL),
+        login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=LOGIN_URL),
         {'slug': 'adaptation-for-your-target-market'},
         name='adaptation-for-your-target-market'
     ),
     path(
         'section/about-your-business/',
-        login_required(skip_ga360(views.ExportPlanAboutYourBusinessView.as_view()), login_url=LOGIN_URL),
+        login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=LOGIN_URL),
         {'slug': 'about-your-business'},
         name='about-your-business'
     ),
     path(
         'section/target-markets-research/',
-        login_required(skip_ga360(views.ExportPlanTargetMarketsResearchView.as_view()), login_url=LOGIN_URL),
+        login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=LOGIN_URL),
         {'slug': 'target-markets-research'},
         name='target-markets-research'
     ),
     path(
-        'section/objectives/',
-        login_required(skip_ga360(views.ExportPlanBusinessObjectivesView.as_view()), login_url=LOGIN_URL),
-        {'slug': 'objectives'},
-        name='objectives'
+        'section/business-objectives/',
+        login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'business-objectives'},
+        name='business-objectives'
     ),
     path(
         'section/<slug:slug>/',
-        login_required(skip_ga360(views.ExportPlanSectionView.as_view()), login_url=LOGIN_URL),
+        login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
         name='section'
     ),
     path(
         'logo',
-        login_required(skip_ga360(views.LogoFormView.as_view()), login_url=LOGIN_URL),
+        login_required(views.LogoFormView.as_view(), login_url=LOGIN_URL),
         name='add-logo'
+    ),
+    path(
+        'service-page/',
+        login_required(views.ExportPlanServicePage.as_view(),
+                       login_url=LOGIN_URL),
+        name='service-page'
     ),
     path(
         'api/recommended-countries/',

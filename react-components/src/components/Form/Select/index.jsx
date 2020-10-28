@@ -35,7 +35,7 @@ export const Select = ({
         tooltip={tooltip}
         example={example}
       />
-      <button className='select__button text-blue-deep-20 bg-white' type='button' aria-haspopup='listbox' onClick={() => setIsOpen(!isOpen)}>
+      <button className={`select__button text-blue-deep-20 ${isOpen ? 'select__button--close' : ''}`} type='button' role='button' aria-haspopup='listbox' onClick={() => setIsOpen(!isOpen)}>
         <i className={`fas ${isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'}`} />
       </button>
       { isOpen &&

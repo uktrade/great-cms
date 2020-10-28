@@ -6,6 +6,10 @@
 
 {% block content %}
     <div class="lesson-page">
+        <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--top h-m">
+            <i class="fas fa-arrow-left"></i>
+            <span class="visually-hidden">Back</span>
+        </a>
         <div class="bg-white">
             <div class="container">
                 <div class="grid">
@@ -14,12 +18,12 @@
                             <h4 class="h-s">&nbsp;</h4>
                         </div>
                         <div class="c-1-2">
-                            <h1 class="h-l" id="lesson-title">{{ self.title }}</h1>
-                            <p class="estimated-time text-blue-deep-80 m-t-xs">
+                            <h1 class="h-l" id="lesson-title">{{ page.title }}</h1>
+                            <p class="estimated-time text-blue-deep-80 h-xs p-t-0 p-b-0">
                                 <i class="fas fa-clock m-r-xxs" aria-hidden="true"></i>
-                                <strong>{{ page.estimated_read_duration|format_timedelta }} read</strong>
+                                <strong class="body-l-b">{{ page.estimated_read_duration|format_timedelta }} read</strong>
                             </p>
-                            <div class="lesson-hero m-t-m m-b-m">
+                            <div class="lesson-hero media-section m-t-m m-b-m">
                                 {% include 'learn/hero_media_item.html' %}
                             </div>
                             {% include 'core/objectives.html' %}
@@ -38,9 +42,8 @@
                         <div class="c-1-4">
                             <h4 class="h-s">&nbsp;</h4>
                         </div>
-                        <div class="c-1-2 p-t-m">
+                        <div class="c-1-2 lesson-body-blocks">
                             {% include 'core/personalised_body.html' %}
-                            {% include 'learn/step_by_step.html' %}
                         </div>
                         <div class="c-1-4 p-t-xs">
                             {% if backlink and backlink_title %}
@@ -99,8 +102,8 @@
                             <h4 class="h-s">&nbsp;</h4>
                         </div>
                         <div class="c-10-12 m-b-xl">
-                            <div class="g-card g-card--with-image">
-                                <div class="g-card--with-image__content">
+                            <div class="card card--horizontal">
+                                <div class="card__section">
                                     <p class="body-l-b m-0">Your next lesson</p>
                                     <h3 class="h-m p-t-xxs">
                                         {{ next_lesson.title }}
@@ -123,17 +126,18 @@
                                             Continue learning
                                         </button>
                                     </a>
-
                                 </div>
-                                {% comment %}
-                                    If `next_module` is present, we want to use the image from that ahead of `current_module`
-                                {% endcomment %}
-                            {% with next_module|default:current_module as appropriate_module %}
-                                <div class="g-card--with-image__image">
-                                    {% image appropriate_module.image original as module_image %}
-                                    <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
+                                <div class="card__section card__section--image">
+                                    <div class="card__image">
+                                        {% comment %}
+                                            If `next_module` is present, we want to use the image from that ahead of `current_module`
+                                        {% endcomment %}
+                                        {% with next_module|default:current_module as appropriate_module %}
+                                            {% image appropriate_module.image original as module_image %}
+                                            <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
+                                        {% endwith %}
+                                    </div>
                                 </div>
-                            {% endwith %}
                             </div>
                         </div>
                         <div class="c-1-12">
@@ -142,6 +146,10 @@
                     </div>
                 </div>
             {% endif %}
+            <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m">
+                <i class="fas fa-arrow-left"></i>
+                <span class="visually-hidden">Back</span>
+            </a>
         </div>
     </div>
 {% endblock %}
@@ -150,15 +158,27 @@
     {{ block.super }}
     <script>
       {% if request.user.is_authenticated %}
-      ditMVP.createMarkLessonAsComplete({
-        element: document.querySelector("#mark_as_complete"),
-        endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
-      })
+        dataLayer.push({
+            event:'lessonView',
+            lessonModule: '{{ current_module }}',
+            topicTitle: '{{ page_topic }}',
+            lessonTitle:'{{ page.title }}'
+            });
+        ditMVP.createMarkLessonAsComplete({
+            element: document.querySelector("#mark_as_complete"),
+            endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
+          })
       {% endif %}
 
-      ditMVP.createVideoTranscript({
-        element: document.querySelector("#lesson-hero-video-transcript"),
-        source: document.querySelector(".lesson-hero video source[transcript]")
+      document.querySelectorAll('.media-section').forEach(element => {
+        const transcriptContainer = element.querySelector(".video-transcript-container");
+
+        if (transcriptContainer) {
+            ditMVP.createVideoTranscript({
+                element: transcriptContainer,
+                source: element.querySelector("video source[transcript]")
+            })
+        }
       })
     </script>
 

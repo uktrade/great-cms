@@ -45,11 +45,12 @@ flake8:
 manage:
 	ENV_FILES='secrets-do-not-commit,dev' ./manage.py $(ARGUMENTS)
 
+
 ENV_FILES?='secrets-do-not-commit,dev'
 check_migrations:
 	yes n | ENV_FILES=$(ENV_FILES) ./manage.py migrate --plan
 
-webserver:
+webserver:  # runs on 8020
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 $(ARGUMENTS)
 
 LOCUST_FILE?=tests/load/mvp_home.py

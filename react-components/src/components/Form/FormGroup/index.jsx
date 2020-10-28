@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EducationalMomentTooltip from '../../EducationalMomentTooltip'
+import ErrorList from '../../ErrorList'
 
 export const FormGroup = ({
   children,
-  error,
+  errors,
   tooltip,
   id,
   label,
@@ -12,7 +13,7 @@ export const FormGroup = ({
   example
 }) => (
   <div
-    className={`form-group ${error ? 'form-group-error' : ''}`}
+    className={`form-group ${errors.length > 0 ? 'form-group-error' : ''}`}
   >
     {
       tooltip &&
@@ -28,17 +29,20 @@ export const FormGroup = ({
     {
       example &&
       <dl className='form-group-example bg-blue-deep-10 p-xs m-b-xs'>
-        <dt className='body-l-b'>Fictional example to help you complete this section</dt>
+        <dt className='body-l-b'>A fictional example to help you complete this section</dt>
         <dd className='m-t-xxs body-l' dangerouslySetInnerHTML={{ __html: example }} />
       </dl>
     }
+    <ErrorList
+      errors={errors}
+    />
     {children}
   </div>
 )
 
 FormGroup.propTypes = {
   children: PropTypes.element.isRequired,
-  error: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.string),
   tooltip: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -47,7 +51,7 @@ FormGroup.propTypes = {
 }
 
 FormGroup.defaultProps = {
-  error: false,
+  errors: [],
   description: '',
   tooltip: '',
   example: ''

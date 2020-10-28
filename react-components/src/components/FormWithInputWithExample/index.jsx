@@ -9,7 +9,7 @@ import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
-
+import { analytics } from '@src/Helpers'
 
 export class FormWithInputWithExample extends Component {
   constructor(props) {
@@ -30,6 +30,12 @@ export class FormWithInputWithExample extends Component {
       this.setState({ isLoading: true }, () => {
         Services.updateExportPlan(this.formatData(data))
           .then(this.handleUpdateSuccess)
+          .then(() => {
+            analytics({
+              'event': 'planSectionSaved',
+              'sectionTitle': this.props.field
+            })
+          })
           .catch(this.handleUpdateError)
       })
     })
@@ -102,7 +108,7 @@ export class FormWithInputWithExample extends Component {
               update={this.handleChange}
               name={field.name}
               options={field.choices}
-              selected={Object.keys(formData).length > 0 ? field.choices.find(x => x.value === formData[field.name]).label: ''}
+              selected={field[field.name] ? field.choices.find(x => x.value === formData[field.name]).label: ''}
               example={field.example}
               description={field.description}
               tooltip={field.tooltip}

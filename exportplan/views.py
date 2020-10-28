@@ -6,19 +6,21 @@ from django.views.generic import TemplateView, FormView
 from django.utils.functional import cached_property
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-
 from requests.exceptions import RequestException
 
 from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES, MARKET_ROUTE_CHOICES, PRODUCT_PROMOTIONAL_CHOICES
 from directory_api_client.client import api_client
+from great_components.mixins import GA360Mixin
 from exportplan import data, helpers, forms
 
 
 class ExportPlanMixin:
 
     def dispatch(self, request, *args, **kwargs):
-        if self.slug not in data.SECTION_SLUGS:
+        if self.slug not in data.SECTIONS:
             raise Http404()
+        elif data.SECTIONS[self.slug]['disabled']:
+            return redirect('exportplan:service-page')
         return super().dispatch(request, *args, **kwargs)
 
     @cached_property
@@ -29,20 +31,11 @@ class ExportPlanMixin:
     def next_section(self):
         if self.slug == data.SECTION_SLUGS[-1]:
             return None
-
-        index = data.SECTION_SLUGS.index(self.slug)
-        return {
-            'title': data.SECTION_TITLES[index + 1],
-            'url': data.SECTION_URLS[index + 1],
-        }
+        return data.SECTIONS[data.SECTION_SLUGS[data.SECTION_SLUGS.index(self.slug) + 1]]
 
     @property
     def current_section(self):
-        index = data.SECTION_SLUGS.index(self.slug)
-        return {
-            'title': data.SECTION_TITLES[index],
-            'url': data.SECTION_URLS[index],
-        }
+        return helpers.get_current_url(self.slug, self.export_plan)
 
     def get_context_data(self, **kwargs):
         industries = [name for _, name in INDUSTRIES]
@@ -50,7 +43,7 @@ class ExportPlanMixin:
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
-            sections=data.SECTION_TITLES_URLS,
+            sections=data.SECTION_URLS,
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
@@ -128,7 +121,15 @@ class FormContextMixin:
         return context
 
 
-class ExportPlanSectionView(ExportPlanMixin, TemplateView):
+class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
     @property
     def slug(self, **kwargs):
         return self.kwargs['slug']
@@ -137,7 +138,7 @@ class ExportPlanSectionView(ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanMarketingApproachView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
 
@@ -184,7 +185,7 @@ class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionVie
 
 class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanBusinessObjectivesForm
-    success_url = reverse_lazy('exportplan:objectives')
+    success_url = reverse_lazy('exportplan:business-objectives')
 
     def form_valid(self, form):
         helpers.update_exportplan(
@@ -200,8 +201,7 @@ class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, Exp
         return context
 
     def get_initial(self):
-        # Required as this is a single value textbox with no form so underlying field is a string not a JSON
-        return {'rationale': self.export_plan['rationale']}
+        return self.export_plan['objectives']
 
 
 class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
@@ -213,8 +213,14 @@ class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, Expo
     success_url = reverse_lazy('exportplan:about-your-business')
 
 
-class BaseFormView(FormView):
-
+class BaseFormView(GA360Mixin, FormView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
     success_url = '/export-plan/dashboard/'
 
     def get_initial(self):
@@ -255,3 +261,20 @@ class LogoFormView(BaseFormView):
     form_class = forms.LogoForm
     template_name = 'exportplan/logo-form.html'
     success_message = 'Logo updated'
+
+
+class ExportPlanServicePage(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+    template_name = 'exportplan/service_page.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            sections=data.SECTION_URLS,
+            **kwargs
+        )

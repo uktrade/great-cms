@@ -12,13 +12,24 @@
 {% block head_js %}
   {{ block.super }}
     <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
-{% endblock %}
 
+    <script type="text/javascript">
+      var product = '{{ export_plan.export_commodity_codes.0.commodity_code }}';
+      var country = '{{ export_plan.export_countries.0.country_name }}';
+      var dataLayer = window.dataLayer || []
+      dataLayer.push({
+        'productAdded': product || "False",
+        'marketAdded': country || "False",
+      });
+    </script>
+{% endblock %}
 
 {% block body_header %}
   {% include 'core/header.html' %}
   {% if request.user.is_authenticated %}
     {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+  {% elif FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER %}
+    {% include "core/includes/personalisation_bar.html" %}
   {% endif %}
 {% endblock %}
 
@@ -55,6 +66,7 @@
           apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
           apiCountriesUrl: '{% url "core:api-countries" %}',
+          apiSuggestedCountriesUrl: '{% url "core:api-suggested-countries" %}',
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',

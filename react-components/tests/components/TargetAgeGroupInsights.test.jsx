@@ -48,15 +48,15 @@ describe('TargetAgeGroupInsights', () => {
   })
 
   test('renders heading and select button initially', () => {
-    expect(wrapper.find('.target-age-group-insights__heading').length).toEqual(1)
-    expect(wrapper.find('.target-age-group-insights__select-button').length).toEqual(1)
+    expect(wrapper.find('h3').length).toEqual(1)
+    expect(wrapper.find('.target-age-group-insights button').length).toEqual(1)
     expect(wrapper.find('form').length).toEqual(0)
     expect(wrapper.find('Table').length).toEqual(0)
   })
 
   test('renders form', () => {
     expect(wrapper.instance().state.isOpen).toBe(false)
-    wrapper.find('.target-age-group-insights__select-button').simulate('click', { type: 'click' })
+    wrapper.find('.target-age-group-insights button').simulate('click', { type: 'click' })
     expect(wrapper.instance().state.isOpen).toBe(true)
     expect(wrapper.find('form').length).toEqual(1)
     expect(wrapper.find('Table').length).toEqual(0)
@@ -68,7 +68,7 @@ describe('TargetAgeGroupInsights', () => {
     })
     fetchMock.get(Services.config.getMarketingCountryData, mockResponse)
 
-    wrapper.find('.target-age-group-insights__select-button').simulate('click', { type: 'click' })
+    wrapper.find('.target-age-group-insights button').simulate('click', { type: 'click' })
     wrapper
       .find('form input')
       .first()

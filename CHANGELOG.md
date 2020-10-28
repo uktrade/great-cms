@@ -1,6 +1,9 @@
 # Changelog
+- GA2-746 - Added GA code for EP sections
+- GA2-691 - Added GA code for target market
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
+- no ticket - increase token expiration date to 5 days from 1
 
 ## Pre-release
 
@@ -8,6 +11,44 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-912 - Back button in Learn not accessible
+- GP2-831 - Product not found styling
+- GP2-921 - statistics displaying 0 for some countries
+- GP2-920 - Video appears smaller on initial load of a lesson
+- GP2-880 - fix/patch to reopen modal if country is not selected
+- GP2-34 - bug fix/defence against bad data in progress counters
+- GP2-886 - bug fix, display not available for missing data
+- GP2-883 - Module selection Container is not highlighted fully
+- GP2-877 - add logo form styling
+- GP2-869 - Dashboard progress bar to match lesson styling
+- GP2-796 - Header styling tweaks
+- GP2-851 - fix educational tooltip position and styling
+- GP2-854 - Fix product and country modals on export plan dashboard page
+- GP2-867 - Temporarily hide module-level topic completion stats
+- GP2-736 - Various UI fixes
+- GP2-859 - Underline links in lesson body copy
+- GP2-852 - button on the Facts and figure element
+- GP2-162 - Fix empty span
+- GP2-162 - Add missing clock icon
+- GP2-357 - Top padding for blocks directly after objectives
+- GP2-836 - Market chooser design modal size
+- GP2-835 - Remove blank region
+- GP2-834 - Link to compare markets
+- GP2-670 - Scrolling in market chooser
+- GP2-756 - Social logout and avatar fix
+- GP2-451 - Remove bottom margin from case study React component
+- GP2-451 - Remove empty step by step block on lesson page
+- GP2-357 - Heading padding below objective section
+- GP2-768 - but fix, dropdown no value
+- GP2-444 - select bug fix
+- GP2-761 - Added autoescape to render apostrophe for case study
+- GP2-754 - Pros and Cons layout tweaks again
+- GP2-451 - Case Study layout tweaks
+- GP2-754 - Pros and Cons layout tweaks
+- GP2-707 - Lesson module landing page button size
+- GP2-669 - Country Finder - Various defect fixes
+- GP2-589 - Fix personalization bar in export plan dashboard page
+- GP2-596 - Force logout even if token revoke fails
 - GP2-623 - Further update to next lesson feature
 - GP2-76 - adjust aligment of back button
 - GP2-627 - Fix button styling across pages
@@ -58,8 +99,41 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-748 - Analytics product classifier - match found
+- GP2-689 - Analytics product classifier - product selected
+- GP2-690 - Analytics target market open
+- GP2-739 - Add beta banner to learning landing page
+- GP2-853 - Coming soon functionality for CTA displayed on the Export plan landing page
+- GP2-502 - Suggested markets in country selection modal
+- GP2-34 - Track module progress (Homepage)
+- GP2-162 - Module-level lesson completion status markers
+- GP2-735 - Update login/signup flow styling,
+- GP2-737 - Case Study enhancements in the CMS admin
+- GP2-593 - Dashboard tidy up
+- GP2-726 - Redirect unauthenticated users on CMS pages to the sign-in page
+- GP2-736 - Support lesson placeholders
+- GP2-443 - scroll to new route market
+- GP2-732 - marketing approach styling and content update
+- GP2-759 - Product search no-header
+- GP2-759 - Product-search No results + feature flag to allow UR
+- GP2-755 - Add objectives section title
+- GP2-299 - Step by step reduce image size
+- GP2-754 - Pros and Cons updated design
+- GP2-261 - Additional lesson video/image block
+- GP2-707 - Capability design review
+- GP2-684 - Product-search value interaction
+- GP2-669 - CountryFinder added collapsibility for region section
+- GP2-703 - Add new DSM Cards
+- GP2-686 - Product-search End result details
+- GP2-685 - Product-search End result selection
+- GP2-683 - Product-search Things you told us
+- GP2-682 - Product-search "Tell us more"
+- GP2-681 - Product-search assumptions restyle
+- GP2-264 - navigate back to module landing
+- GP2-680 - Restyle product search modal
 - GP2-602 - Use new header on all pages and allow login/logout
 - GP2-331 - Rerouting to login page with error message
+- GP2-688 - GTM tags in product search modal
 - GP2-413 -  style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
@@ -246,4 +320,23 @@
 - noticket add-learning-to-objectives
 - GP2-513 - Dropdown-changes
 - noticket bug fix lessons details on objectives
-- GP2-706 - 
+- GP2-706 -
+- ablity-to-disable-export-sections
+- GP2-655 - local development support/skeleton for Wagtail Transfer work
+- GP2-667 - appropriately scoped configuration for Wagtail Transfer when deployed
+- GP2-656 - Make transcript field mandatory for GreatMedia
+- GP2-709 - BE Country add required country signal
+- GP2-744 and GP2-744 - tighten up validation for CaseStudy.body StreamField
+- noticket - hide-next-link
+- GP2-731 - content-refresh
+- GP2-781 - remove what's your business name prompt
+- GP2-699 - swamp route to market constants
+- GP2-743 - remove link on upload
+- No Ticket - fix double country required in next url
+- GP2-814 - update lesson link
+- GP2-377 - GA tracking on all page views
+- GP2-850 - remove tool tip from business performance
+- GP2-725 - update forgotton password link
+- GP2-701 - Add variables to Universal Data Object
+- GP2-876 - update signout
+- GP2-902 - content-changes

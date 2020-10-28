@@ -3,33 +3,22 @@
 {% load pageurl from wagtailcore_tags %}
 
 {% block content %}
-  <section>
-    <div class="container">
-      Go to <a href="/export-plan/dashboard/">your dashboard</a>.
-      <h1 class="h-l m-t-xl" id="topic-title">{{ page.title }}</h1>
-      {% include 'core/personalised_body.html' %}
-    </div>
-  </section>
     <div class="container">
        <div class="grid-row">
             <div class="column-one-half">
                 {% block form_contents %}
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" class="m-t-m" enctype="multipart/form-data">
                         {% block form %}
                         {% csrf_token %}
                           {{ form }}
                         {% endblock %}
                         {% block form_button %}
-                            <button class="button">Save and continue</button>
+                            <button class="button m-v-s">Save and continue</button>
                         {% endblock %}
-                        <div>
-                            <br>
-                            <br>
-                            {% block back_link %}
-                                <a class="link" href="/export-plan/dashboard/">Back</a>
-                            {% endblock %}
-                        </div>
                      </form>
+                {% endblock %}
+                {% block back_link %}
+                    <a class="link" href="/export-plan/dashboard/">Back</a>
                 {% endblock %}
             </div>
         </div>

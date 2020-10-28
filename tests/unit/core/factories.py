@@ -40,6 +40,15 @@ class LandingPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
+class InterstitialPageFactory(wagtail_factories.PageFactory):
+    title = 'Interstitial page'
+    template = 'learn/interstitial.html'
+
+    class Meta:
+        model = models.InterstitialPage
+        django_get_or_create = ['slug', 'parent']
+
+
 class ListPageFactory(wagtail_factories.PageFactory):
     title = 'List page'
     live = True
@@ -63,9 +72,8 @@ class CuratedListPageFactory(wagtail_factories.PageFactory):
     topics = wagtail_factories.StreamFieldFactory(
         {
             'title': wagtail_factories.CharBlockFactory,
-            'pages': wagtail_factories.ListBlockFactory(
-                wagtail_factories.PageFactory
-            ),
+            # lessons_and_placeholders need to be added not via the factory, for now.
+            # See tests.helpers.add_lessons_and_placeholders_to_curated_list_page
         }
     )
 
@@ -80,6 +88,7 @@ class DetailPageFactory(wagtail_factories.PageFactory):
     body = factory.fuzzy.FuzzyText(length=200)
     template = factory.fuzzy.FuzzyChoice(models.DetailPage.template_choices, getter=lambda choice: choice[0])
     parent = factory.SubFactory(CuratedListPageFactory)
+    # topic_block_id should ONLY be set explicitly and manually
 
     class Meta:
         model = models.DetailPage
@@ -140,9 +149,23 @@ class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
         model = blocks.SimpleVideoBlock
 
 
-class CuratedTopicBlockfactory(wagtail_factories.StructBlockFactory):
+class CuratedTopicBlockFactory(wagtail_factories.StructBlockFactory):
     title = factory.fuzzy.FuzzyText(length=255)
-    pages = factory.SubFactory(DetailPageFactory)
+    # lessons_and_placeholders need to be added via a helper, not via the factory, for
+    # now - see tests.helpers.add_lessons_and_placeholders_to_curated_list_page
 
     class Meta:
         model = blocks.CuratedTopicBlock
+
+
+class CaseStudyFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker('word')
+    company_name = factory.Faker('word')
+    summary = factory.fuzzy.FuzzyText(length=200)
+
+    # Not bootstrapped:
+    # body is a streamfield
+    # hs_code_tags and country_code_tags use ClusterTaggableManager
+
+    class Meta:
+        model = models.CaseStudy

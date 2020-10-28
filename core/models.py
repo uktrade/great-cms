@@ -2,14 +2,16 @@ import hashlib
 import mimetypes
 from urllib.parse import unquote
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from modelcluster.models import ClusterableModel, ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, TagBase, ItemBase
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -23,6 +25,7 @@ from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
+from wagtail.contrib.redirects.models import Redirect
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
@@ -33,16 +36,31 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
-from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.constants import (
+    BACKLINK_QUERYSTRING_NAME,
+    LESSON_BLOCK,
+    RICHTEXT_FEATURES__MINIMAL
+)
+
 from core.context import get_context_provider
 from core.utils import PageTopic, get_first_lesson
 
-from exportplan.data import SECTION_TITLES_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+from great_components.mixins import GA360Mixin
+
+from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+
+
+# If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
+register_snippet(Redirect)
 
 
 class GreatMedia(Media):
 
-    transcript = models.TextField(verbose_name=_('Transcript'), blank=True, null=True)
+    transcript = models.TextField(
+        verbose_name=_('Transcript'),
+        blank=False,
+        null=True  # left null because was an existing field
+    )
 
     admin_form_fields = Media.admin_form_fields + ('transcript', )
 
@@ -190,7 +208,15 @@ class TimeStampedModel(models.Model):
 
 # Content models
 
-class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, mixins.ExportPlanMixin, Page):
+class CMSGenericPage(
+    PersonalisablePageMixin,
+    mixins.EnableTourMixin,
+    mixins.ExportPlanMixin,
+    mixins.AuthenticatedUserRequired,
+    mixins.WagtailGA360Mixin,
+    GA360Mixin,
+    Page
+):
     """
     Generic page, freely inspired by Codered page
     """
@@ -236,6 +262,15 @@ class CMSGenericPage(PersonalisablePageMixin, mixins.EnableTourMixin, mixins.Exp
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
+
+        self.set_ga360_payload(
+            page_id=self.id,
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section=str(self.url or '/').split('/')[1],
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
+
         provider = get_context_provider(request=request, page=self)
         if provider:
             context.update(provider.get_context_data(request=request, page=self))
@@ -315,14 +350,24 @@ class ListPage(CMSGenericPage):
         ('learn/automated_list_page.html', 'Learn'),
     )
 
-    class Meta:
-        verbose_name = 'Automated list page'
-        verbose_name_plural = 'Automated list pages'
-
     record_read_progress = models.BooleanField(
         default=False,
         help_text='Should we record when a user views a page in this collection?',
     )
+
+    class Meta:
+        verbose_name = 'Automated list page'
+        verbose_name_plural = 'Automated list pages'
+
+    def get_context(self, request, *args, **kwargs):
+        from core.helpers import get_high_level_completion_progress
+        context = super().get_context(request)
+
+        if request.user.is_authenticated:
+            context['module_completion_progress'] = get_high_level_completion_progress(
+                user=request.user,
+            )
+        return context
 
     ################
     # Content fields
@@ -372,13 +417,27 @@ class CuratedListPage(CMSGenericPage):
 
     @cached_property
     def count_detail_pages(self):
-        return sum((len(topic.value['pages']) for topic in self.topics))
+        count = 0
+        for topic in self.topics:
+            for lesson_or_placeholder_block in topic.value.get(
+                'lessons_and_placeholders'
+            ):
+                if lesson_or_placeholder_block.block_type == LESSON_BLOCK:
+                    count += 1
+        return count
 
     def get_context(self, request, *args, **kwargs):
+        from core.helpers import get_module_completion_progress
         context = super().get_context(request)
         # Give the template a simple way to link back to the parent
         # learning module (ListPage)
         context['parent_page_url'] = self.get_parent().url
+
+        if request.user.is_authenticated:
+            context['module_completion_progress'] = get_module_completion_progress(
+                user=request.user,
+                module_page=self,
+            )
         return context
 
 
@@ -414,7 +473,7 @@ class DetailPage(CMSGenericPage):
     ################
     hero = StreamField([
         ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
-        ('Video', core_blocks.SimpleVideoBlock())],
+        ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_hero_video.html'))],
         null=True,
         validators=[hero_singular_validation]
     )
@@ -437,7 +496,12 @@ class DetailPage(CMSGenericPage):
                 icon='fa-play'
             )
         ),
-        ('content_module', core_blocks.ModularContentStaticBlock()),
+        (
+            'case_study',
+            core_blocks.CaseStudyStaticBlock(
+                icon='fa-book'
+            )
+        ),
         ('Step', core_blocks.StepByStepBlock(icon='cog'),),
         ('fictional_example', blocks.StructBlock(
             [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
@@ -445,17 +509,36 @@ class DetailPage(CMSGenericPage):
             icon='fa-commenting-o',
         ),),
         ('ITA_Quote', core_blocks.ITAQuoteBlock(icon='fa-quote-left'),),
-        ('pros_cons', blocks.StructBlock([
-            ('pros', blocks.StreamBlock([
-                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
-            )),
-            ('cons', blocks.StreamBlock([
-                ('item', core_blocks.Item(icon='fa-arrow-right'),)]
-            ))
-        ],
-            template='learn/pros_and_cons.html',
-            icon='fa-arrow-right', ),),
+        (
+            'pros_cons',
+            blocks.StructBlock(
+                [
+                    ('pros', blocks.StreamBlock([
+                        ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+                    )),
+                    ('cons', blocks.StreamBlock([
+                        ('item', core_blocks.Item(icon='fa-arrow-right'),)]
+                    ))
+                ],
+                template='learn/pros_and_cons.html',
+                icon='fa-arrow-right',
+            ),
+        ),
         ('choose_do_not_choose', core_blocks.ChooseDoNotChooseBlock()),
+        (
+            'image',
+            core_blocks.ImageBlock(
+                template='core/includes/_image_full_width.html',
+                help_text='Image displayed within a full-page-width block',
+            ),
+        ),
+        (
+            'video',
+            core_blocks.SimpleVideoBlock(
+                template='core/includes/_video_full_width.html',
+                help_text='Video displayed within a full-page-width block',
+            ),
+        ),
     ])
     recap = StreamField([
         ('recap_item', blocks.StructBlock([
@@ -483,8 +566,7 @@ class DetailPage(CMSGenericPage):
             # checking if the page should record read progress
             # checking if the page is already marked as read
             list_page = (
-                ListPage.objects
-                .ancestor_of(self)
+                ListPage.objects.ancestor_of(self)
                 .filter(record_read_progress=True)
                 .exclude(page_views_list__sso_id=request.user.pk, page_views_list__page=self)
                 .first()
@@ -511,6 +593,7 @@ class DetailPage(CMSGenericPage):
     @cached_property
     def module(self):
         """Gets the learning module this lesson belongs to"""
+        # NB: assumes this page is a child of the correct CuratedListPage
         return self.get_parent().specific
 
     @cached_property
@@ -532,8 +615,8 @@ class DetailPage(CMSGenericPage):
             backlink_path = unquote(backlink_path)
 
             if (
-                backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
-                '://' not in backlink_path
+                    backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
+                    '://' not in backlink_path
             ):
                 # The check for '://' will stop us accepting a backlink which
                 # features a full URL as its OWN querystring param (eg a crafted attack
@@ -568,6 +651,8 @@ class DetailPage(CMSGenericPage):
             page_topic = PageTopic(self)
             next_lesson = page_topic.get_next_lesson()
             context['current_module'] = page_topic.module
+            if page_topic and page_topic.get_page_topic():
+                context['page_topic'] = page_topic.get_page_topic().value['title']
 
             if next_lesson:
                 context['next_lesson'] = next_lesson
@@ -590,10 +675,12 @@ class PageView(TimeStampedModel):
         unique_together = ['page', 'sso_id']
 
 
+# TODO: deprecate and remove
 class ContentModuleTag(TaggedItemBase):
     content_object = ParentalKey('core.ContentModule', on_delete=models.CASCADE, related_name='tagged_items')
 
 
+# TODO: deprecate and remove
 @register_snippet
 class ContentModule(ClusterableModel):
     title = models.CharField(max_length=255)
@@ -608,3 +695,234 @@ class ContentModule(ClusterableModel):
 
     def __str__(self):
         return self.title
+
+
+class PersonalisationHSCodeTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be a HS6, HS4 or HS2 code"""
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'HS Code tag for personalisation'
+        verbose_name_plural = 'HS Code tags for personalisation'
+
+
+class PersonalisationCountryTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be an ISO-2 Country code ('DE')
+    _OR_ a geographical string ('Europe')
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Country tag for personalisation'
+        verbose_name_plural = 'Country tags for personalisation'
+
+
+# If you're wondering what's going on here:
+# https://docs.wagtail.io/en/stable/reference/pages/model_recipes.html#custom-tag-models
+
+class HSCodeTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationHSCodeTag,
+        related_name='hscode_tagged_case_studies',
+        on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to='core.CaseStudy',
+        on_delete=models.CASCADE,
+        related_name='hs_code_tagged_items'
+    )
+
+
+class CountryTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationCountryTag,
+        related_name='country_tagged_case_studies',
+        on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to='core.CaseStudy',
+        on_delete=models.CASCADE,
+        related_name='country_tagged_items'
+    )
+
+
+def _high_level_validation(value, error_messages):
+    TEXT_BLOCK = 'text'  # noqa N806
+    MEDIA_BLOCK = 'media'  # noqa N806
+
+    # we need to be strict about presence and ordering of these nodes
+    if [node.block_type for node in value] != [
+        MEDIA_BLOCK, TEXT_BLOCK
+    ]:
+        error_messages.append(
+            (
+                'This block must contain one Media section (with one or '
+                'two items in it), then one Text section following it.'
+            )
+        )
+
+    return error_messages
+
+
+def _low_level_validation(value, error_messages):
+    # Check content of media node, which should be present here
+
+    MEDIA_BLOCK = 'media'  # noqa N806
+    VIDEO_BLOCK = 'video'  # noqa N806
+
+    for node in value:
+        if node.block_type == MEDIA_BLOCK:
+            subnode_block_types = [subnode.block_type for subnode in node.value]
+            if len(subnode_block_types) == 2:
+                if set(subnode_block_types) == {VIDEO_BLOCK}:
+                    # Two videos: not allowed
+                    error_messages.append(
+                        'Only one video may be used in a case study.'
+                    )
+                elif subnode_block_types[1] == VIDEO_BLOCK:
+                    # implicitly, [0] must be an image
+                    # video after image: not allowed
+                    error_messages.append(
+                        'The video must come before a still image.'
+                    )
+
+    return error_messages
+
+
+def case_study_body_validation(value):
+    """Ensure the case study has exactly both a media node and a text node
+    and that the media node has the following content:
+        * One image, only
+        * One video, only
+        * One video + One image
+            * (video must comes first so that it is displayed first)
+        * Two images
+    """
+
+    error_messages = []
+
+    if value:
+        error_messages = _high_level_validation(value, error_messages)
+        error_messages = _low_level_validation(value, error_messages)
+
+        if error_messages:
+            raise StreamBlockValidationError(
+                non_block_errors=ValidationError(
+                    '; '.join(error_messages),
+                    code='invalid'
+                ),
+            )
+
+
+@register_snippet
+class CaseStudy(ClusterableModel):
+    """Dedicated snippet for use as a case study. Supports personalised
+    selection via its tags.
+
+    The decision about the appropriate Case Study block to show will happen
+    when the page attempts to render the relevant CaseStudyBlock.
+
+    Note that this is rendered via Wagtail's ModelAdmin, so appears in the sidebar,
+    but we have to keep it registered as a Snippet to be able to transfer it
+    with Wagtail-Transfer
+    """
+
+    title = models.CharField(
+        max_length=255,
+        blank=False,
+    )
+
+    company_name = models.CharField(
+        max_length=255,
+        blank=False,
+    )
+    summary = models.TextField(  # Deliberately not rich-text / no formatting
+        blank=False
+    )
+    body = StreamField(
+        [
+            (
+                'media',
+                blocks.StreamBlock(
+                    [
+                        (
+                            'video',
+                            core_blocks.SimpleVideoBlock(
+                                template='core/includes/_case_study_video.html'
+                            )
+                        ),
+                        ('image', core_blocks.ImageBlock()),
+                    ],
+                    min_num=1,
+                    max_num=2,
+                )
+            ),
+            (
+                'text',
+                blocks.RichTextBlock(
+                    features=RICHTEXT_FEATURES__MINIMAL,
+                ),
+            ),
+        ],
+        validators=[case_study_body_validation],
+        help_text=(
+            'This block must contain one Media section '
+            '(with one or two items in it) and one Text section.'
+        )
+    )
+
+    # We are keeping the personalisation-relevant tags in separate
+    # fields to aid lookup and make the UX easier for editors
+    hs_code_tags = ClusterTaggableManager(
+        through='core.HSCodeTaggedCaseStudy',
+        blank=True,
+        verbose_name='HS-code tags'
+    )
+
+    country_code_tags = ClusterTaggableManager(
+        through='core.CountryTaggedCaseStudy',
+        blank=True,
+        verbose_name='Country tags'
+    )
+
+    created = CreationDateTimeField('created', null=True)
+    modified = ModificationDateTimeField('modified', null=True)
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('title'),
+                FieldPanel('company_name'),
+                FieldPanel('summary'),
+                StreamFieldPanel('body'),
+            ],
+            heading='Case Study content',
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('hs_code_tags'),
+                FieldPanel('country_code_tags')
+            ],
+            heading='Case Study tags for Personalisation'
+        ),
+    ]
+
+    def __str__(self):
+        display_name = self.title if self.title else self.company_name
+        return f'{display_name}'
+
+    def save(self, **kwargs):
+        self.update_modified = kwargs.pop(
+            'update_modified',
+            getattr(self, 'update_modified', True)
+        )
+        super().save(**kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Case studies'
+        get_latest_by = 'modified'
+        ordering = ('-modified', '-created',)

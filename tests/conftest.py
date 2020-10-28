@@ -64,7 +64,7 @@ def exportplan_homepage(domestic_homepage, domestic_site):
 
 @pytest.fixture
 def exportplan_dashboard(exportplan_homepage):
-    return tests.unit.exportplan.factories.ExportPlanDashboardPageFactory(parent=exportplan_homepage)
+    return tests.unit.exportplan.factories.ExportPlanPseudoDashboardPageFactory(parent=exportplan_homepage)
 
 
 @pytest.fixture
@@ -200,12 +200,10 @@ def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
         'rules_regulations': {'country_code': 'CHN'},
-    }
-    mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)
-
-    mock_get_or_create_export_plan.return_value = {
+        'export_countries': [{'country': 'China', 'country_iso2_code': 'CN'}],
         'timezone': 'Asia/Shanghai',
     }
+    mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)
 
 
 @pytest.fixture
@@ -298,3 +296,15 @@ def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
+
+
+@pytest.fixture
+def patch_get_suggested_markets():
+    body = [
+        {'hs_code': 4, 'country_name': 'Sweden', 'country_iso2': 'SE', 'region': 'Europe'},
+        {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'},
+    ]
+    yield mock.patch(
+        'directory_api_client.api_client.personalisation.suggested_countries_by_hs_code',
+        return_value=create_response(status_code=200, json_body=body)
+    ).start()

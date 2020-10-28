@@ -8,10 +8,13 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
+from core.constants import LESSON_BLOCK, PLACEHOLDER_BLOCK
+from core.models import DetailPage
+from core.wagtail_hooks import CaseStudyAdmin
 from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.exportplan.factories import (
-    ExportPlanDashboardPageFactory,
+    ExportPlanPseudoDashboardPageFactory,
     ExportPlanPageFactory,
 )
 from tests.unit.learn.factories import LessonPageFactory
@@ -165,31 +168,10 @@ def test_login_required_signup_wizard_handles_authenticated_users(rf, user, dome
 
 
 @pytest.mark.django_db
-def test_login_required_signup_wizard_exportplan(domestic_site, client, user, rf):
-
-    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
-
-    for page in [exportplan_page, exportplan_dashboard_page]:
-        request = rf.get(page.url)
-        request.user = AnonymousUser()
-
-        response = wagtail_hooks.login_required_signup_wizard(
-            page=page,
-            request=request,
-            serve_args=[],
-            serve_kwargs={},
-        )
-
-        assert response.status_code == 302
-        assert response.url == f'/signup/export-plan/start/?next={page.url}'
-
-
-@pytest.mark.django_db
 def test_login_required_signup_wizard_exportplan_logged_in(domestic_site, user, rf):
 
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanDashboardPageFactory(parent=exportplan_page, slug='dashboard')
+    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
 
     for page in [exportplan_page, exportplan_dashboard_page]:
 
@@ -233,7 +215,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=151)
+    expected_duration = timedelta(seconds=152)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -284,7 +266,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=152 + 123)  # reading + watching
+    expected_duration = timedelta(seconds=153 + 123)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -331,7 +313,7 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=3 + 123)  # reading + watching
+    expected_duration = timedelta(seconds=4 + 123)  # reading + watching
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -361,7 +343,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    video_for_hero = make_test_video(duration=123)
+    video_for_hero = make_test_video(duration=124)
     video_for_hero.save()
 
     detail_page = factories.DetailPageFactory(
@@ -391,7 +373,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=1)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=2)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
@@ -419,45 +401,71 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
     # NOTE: for a reason unrelated to the point of _this_ test, the readtime
     # of the published page CAN BE calculated as slightly longer than the draft.
     # This may be in part due to the page having a very small amount of content.
-    assert detail_page.estimated_read_duration == timedelta(seconds=2)
+    assert detail_page.estimated_read_duration == timedelta(seconds=3)
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id(rf, topics_with_lessons):
+def test_set_lesson_pages_topic_id(rf, curated_list_pages_with_lessons_and_placeholders):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
     # Rest the topic_block_id for all lessons
-    curated_page = topics_with_lessons[0][0]
-    for topic in topics_with_lessons[0][1]:
-        topic.topic_block_id = None
-        topic.save()
+    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
+    for lesson_page in curated_list_pages_with_lessons_and_placeholders[0][1]:
+        lesson_page.topic_block_id = None
+        lesson_page.save()
 
-    response = wagtail_hooks.set_lesson_pages_topic_id(
+    page = wagtail_hooks.set_lesson_pages_topic_id(
         page=curated_page,
         request=request
     )
+    page.refresh_from_db()  # IMPORTANT
 
-    for topic in response.topics:
-        for lesson in topic.value['pages']:
-            assert lesson.specific.topic_block_id == topic.id
+    for topic in page.topics:
+        assert topic.value['lessons_and_placeholders']  # should have been set in the fixture
+        for item in topic.value['lessons_and_placeholders']:
+            if item.block_type == LESSON_BLOCK:
+                lesson = item.value
+                assert lesson.specific.topic_block_id == topic.id
+            else:
+                assert item.block_type == PLACEHOLDER_BLOCK
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id_removed(rf, topics_with_lessons):
+def test_set_lesson_pages_topic_id_removed(rf, curated_list_pages_with_lessons_and_placeholders):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    curated_page = topics_with_lessons[0][0]
+    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
+
     # Remove the second lesson from topic
-    topic_page_2 = curated_page.topics[0].value['pages'][1]
-    curated_page.topics[0].value['pages'].remove(topic_page_2)
+    topic_page_2_data = curated_page.topics[0].value['lessons_and_placeholders'].stream_data.pop()
+    curated_page.save()
+    curated_page.refresh_from_db()
+
+    # Show that before the hook runs, the data is right
+    assert DetailPage.objects.get(
+        id=topic_page_2_data['value']
+    ).topic_block_id == curated_page.topics[0].id
 
     wagtail_hooks.set_lesson_pages_topic_id(
         page=curated_page,
         request=request
     )
+    assert DetailPage.objects.get(
+        id=topic_page_2_data['value']
+    ).topic_block_id is None
 
-    assert topic_page_2.specific.topic_block_id is None
+
+@pytest.mark.django_db
+def test_case_study_modeladmin_list_display_methods():
+    admin = CaseStudyAdmin()
+    obj = factories.CaseStudyFactory()
+
+    obj.country_code_tags.add('Europe', 'FR')
+    obj.hs_code_tags.add('HS1234', 'HS123456')
+
+    assert sorted(admin.associated_country_code_tags(obj)) == ['Europe', 'FR']
+    assert sorted(admin.associated_hs_code_tags(obj)) == ['HS1234', 'HS123456']

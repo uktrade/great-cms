@@ -29,10 +29,8 @@ class CreateUserException(APIException):
 
 
 def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
-    cookie_domain = ''
     for cookie in cookie_jar:
         if cookie.name in whitelist:
-            cookie_domain = cookie_domain or cookie.domain
             response.set_cookie(
                 cookie.name,
                 cookie.value,
@@ -66,7 +64,7 @@ def response_factory(upstream_response):
     set_cookies_from_cookie_jar(
         cookie_jar=cookie_jar,
         response=response,
-        whitelist=[settings.SSO_SESSION_COOKIE, 'sso_display_logged_in']
+        whitelist=[settings.SSO_SESSION_COOKIE, settings.SSO_DISPLAY_LOGGED_IN_COOKIE]
     )
     return response
 

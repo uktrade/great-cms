@@ -96,10 +96,14 @@ HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
  It creates the Great domestic empty homepage and assigns it to the site root.
  It also creates a superuser `test` with password `password`, for local development.
 
+### Wagtail Transfer
+
+We use a third-party app to manage content import from one environment to another. There are specific docs on Wagtail Transer :doc:`here <./wagtail_transfer>`. PLEASE at last read the "GOTCHAS for developers"
+
 
 ### Image storage
 
-Local development uses `django.core.files.storage.FileSystemStorage`
+Local development uses `django.core.files.storage.FileSystemStorage`, but you will be well advised to enable S3 storage if you are testing/using Wagtail Transfer
 
 ### /etc/hosts file entry
 
@@ -135,15 +139,12 @@ export default {
 Make sure to use NodeJS 12.16.1 or greater
 
 ### Code formatting
-We are using eslint with recommended settings and prettier
-
-Are you using Visual Studio Code? Install Prettier plugin for auto formatting of your code:
-https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+We are using eslint with recommended settings
 
 ## Staff SSO
 
 On local machine, SSO is turned off by default.
-If you need to enable, set the `FEATURE_ENFORCE_STAFF_SSO_ENABLED` to `true`.
+If you need to enable, set the `ENFORCE_STAFF_SSO_ENABLED` to `true`.
 You also need to set:
 ```
 STAFF_SSO_AUTHBROKER_URL
@@ -157,7 +158,7 @@ Speak to webops or a team mate for the above values.
 ## Load tests
 
 We're using [locust](https://locust.io/) to run load tests against local instance of
-the service and in-memory SQLite.  
+the service and in-memory SQLite.
 See Django [database documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases) for more details.
 
 To run them with default settings use:

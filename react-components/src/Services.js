@@ -80,15 +80,19 @@ const removeCountryData = function(country) {
 }
 
 const lookupProduct = function({ q }) {
-  return get(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
+  return post(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
 }
 
-const lookupProductRefine = function({ txId, interractionId, valueId, valueString }) {
-  return get(config.apiLookupProductUrl, { tx_id: txId, interraction_id: interractionId, value_id: valueId, value_string: valueString }).then((response) => responseHandler(response).json())
+const lookupProductRefine = function({ txId, interactionId, values }) {
+  return post(config.apiLookupProductUrl, { tx_id: txId, interraction_id: interactionId, values: values }).then((response) => responseHandler(response).json())
 }
 
 const getCountries = function() {
   return get(config.apiCountriesUrl, {}).then((response) => responseHandler(response).json())
+}
+
+const getSuggestedCountries = function(hs_code) {
+  return get(config.apiSuggestedCountriesUrl, { hs_code }).then((response) => responseHandler(response).json())
 }
 
 const createUser = function({ email, password }) {
@@ -191,6 +195,7 @@ const setConfig = function({
   apiSignupUrl,
   apiLookupProductUrl,
   apiCountriesUrl,
+  apiSuggestedCountriesUrl,
   apiUpdateCompanyUrl,
   countryOptions,
   csrfToken,
@@ -223,6 +228,7 @@ const setConfig = function({
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
   config.apiCountriesUrl = apiCountriesUrl
+  config.apiSuggestedCountriesUrl = apiSuggestedCountriesUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
   config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl
   config.apiObjectivesCreateUrl = apiObjectivesCreateUrl
@@ -266,6 +272,7 @@ export default {
   lookupProduct,
   lookupProductRefine,
   getCountries,
+  getSuggestedCountries,
   setConfig,
   getLessonComplete,
   setLessonComplete,

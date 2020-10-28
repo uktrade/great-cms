@@ -1,6 +1,5 @@
 import abc
 import datetime
-import json
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -41,8 +40,7 @@ class ArticleView(GA360Mixin, FormView):
         self.set_ga360_payload(
             page_id='MagnaPage',
             business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
+            site_section='capability',
         )
     template_name = 'core/article.html'
     success_url = constants.DASHBOARD_URL
@@ -63,13 +61,19 @@ class LoginView(GA360Mixin, TemplateView):
         self.set_ga360_payload(
             page_id='MagnaPage',
             business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
+            site_section='login',
         )
     template_name = 'core/login.html'
 
 
-class SignupView(TemplateView):
+class SignupView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='signup',
+        )
     template_name = 'core/signup.html'
 
 
@@ -79,8 +83,7 @@ class MarketsView(GA360Mixin, TemplateView):
         self.set_ga360_payload(
             page_id='Markets',
             business_unit='MarketsUnit',
-            site_section='MarketsSection',
-            site_subsection='MarketPage',
+            site_section='markets',
         )
 
     template_name = 'core/markets.html'
@@ -105,8 +108,8 @@ class ProductLookupView(generics.GenericAPIView):
     serializer_class = serializers.ProductLookupSerializer
     permission_classes = []
 
-    def get(self, request):
-        serializer = self.get_serializer(data=request.query_params)
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if 'tx_id' in serializer.validated_data:
             data = helpers.search_commodity_refine(**serializer.validated_data)
@@ -116,8 +119,19 @@ class ProductLookupView(generics.GenericAPIView):
 
 
 class CountriesView(generics.GenericAPIView):
+
     def get(self, request):
         return Response(choices.COUNTRIES_AND_TERRITORIES_REGION)
+
+
+class SuggestedCountriesView(generics.GenericAPIView):
+
+    def get(self, request):
+        hs_code = request.GET.get('hs_code')
+        return Response(helpers.get_suggested_countries_by_hs_code(
+            sso_session_id=self.request.user.session_id,
+            hs_code=hs_code
+        ))
 
 
 def handler404(request, *args, **kwargs):
@@ -221,8 +235,7 @@ class CompanyNameFormView(GA360Mixin, FormView):
         self.set_ga360_payload(
             page_id='MagnaPage',
             business_unit='MagnaUnit',
-            site_section='MagnaSection',
-            site_subsection='MagnaSubsection',
+            site_section='signup-company-name',
         )
     template_name = 'core/company-name-form.html'
     form_class = forms.CompanyNameForm
@@ -239,12 +252,12 @@ class CreateTokenView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, request):
-        # expire access @ now() in msec + 1 day
-        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=1))
+        # expire access @ now() in msec + 5 days
+        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=5))
         base_url = settings.BASE_URL
         # TODO: logging
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
-        response = {'valid_until': plaintext, 'url': f'{base_url}/markets?enc={ciphertext}', 'token': ciphertext}
-        return Response(json.dumps(response))
+        response = {'valid_until': plaintext, 'token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
+        return Response(response)

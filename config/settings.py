@@ -6,6 +6,8 @@ import sentry_sdk
 from django.urls import reverse_lazy
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from .utils import get_wagtail_transfer_configuration
+
 ROOT_DIR = (environ.Path(__file__) - 2)
 
 env = environ.Env()
@@ -38,12 +40,12 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
     'wagtail.contrib.routable_page',
-    'wagtailimportexport',
 
     'wagtailmedia',
     'wagtailcache',
     'wagtail_personalisation',
     'wagtailfontawesome',
+    'wagtail_transfer',
     'modelcluster',
     'taggit',
     'storages',
@@ -188,10 +190,9 @@ STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = str(ROOT_DIR('media'))
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'  # NB: this is overriden later, if/when AWS is set up
 
-
-# Wagtail set
+# Wagtail settings
 
 WAGTAIL_SITE_NAME = 'Great CMS MVP'
 WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
@@ -342,6 +343,19 @@ AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
 
+USER_MEDIA_ON_S3 = (
+    DEFAULT_FILE_STORAGE == 'storages.backends.s3boto3.S3Boto3Storage'
+)
+# Wagtail-Transfer needs MEDIA_URL set to reference cloud storage
+if USER_MEDIA_ON_S3 and (
+    AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN
+):
+    if AWS_S3_CUSTOM_DOMAIN:  # eg cdn.example.com
+        hostname = AWS_S3_CUSTOM_DOMAIN
+    else:
+        hostname = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}'
+    MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}//{hostname}/'
+
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
@@ -377,6 +391,7 @@ SSO_PROFILE_URL = ''
 SSO_PROXY_PASSWORD_RESET_URL = env.str('SSO_PROXY_PASSWORD_RESET_URL')
 SSO_PROXY_REDIRECT_FIELD_NAME = env.str('SSO_PROXY_REDIRECT_FIELD_NAME')
 SSO_SESSION_COOKIE = env.str('SSO_SESSION_COOKIE')
+SSO_DISPLAY_LOGGED_IN_COOKIE = env.str('SSO_DISPLAY_LOGGED_IN_COOKIE', 'sso_display_logged_in')
 SSO_OAUTH2_LINKEDIN_URL = env.str('SSO_OAUTH2_LINKEDIN_URL')
 SSO_OAUTH2_GOOGLE_URL = env.str('SSO_OAUTH2_GOOGLE_URL')
 AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
@@ -456,10 +471,29 @@ VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int(
     'VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024
 )
 
+# Wagtail-transfer configuration
+
+WAGTAILTRANSFER_SOURCES = get_wagtail_transfer_configuration()
+
+WAGTAILTRANSFER_SECRET_KEY = env.str('WAGTAILTRANSFER_SECRET_KEY')
+WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
+    'wagtailimages.image',
+    'wagtaildocs',
+    'wagtailmedia',
+    'taggit',
+    'core.AltTextImage',
+    'core.CaseStudy',
+    'core.ContentModule',
+    'core.Tour',
+    'core.TourStep',
+]
+
 # dit_helpdesk
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
 
 FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE', False)
+FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = env.str('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED', False)
+FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER = env.bool('FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER', False)
 
 BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')
 

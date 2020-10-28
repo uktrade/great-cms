@@ -15,6 +15,7 @@ from tests.browser.common_selectors import (
 )
 from tests.browser.steps import should_see_all_elements, should_not_see_any_element, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
+from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
 from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
 from core import constants
 from sso import helpers as sso_helpers
@@ -55,30 +56,30 @@ def check_topic_read_progress(browser: WebDriver, topic: ListPageFactory, lesson
     attach_jpg_screenshot(browser, 'Topics reading progress', selector=DashboardReadingProgress.YOUR_PROGRESS_CARD)
     count_element = browser.find_element_by_css_selector('#your-progress-card .topics-read-text')
     count_text = count_element.text
-    assert count_text == '1/2 complete'
+    assert count_text == '1 / 2 lessons complete'
 
 
 def test_can_view_lessons_from_different_topics(
     mock_get_lessons_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    topics_with_lessons,
+    curated_list_pages_with_lessons_and_placeholders,
     server_user_browser_dashboard,
 ):
 
     live_server, user, browser = server_user_browser_dashboard
-    topic_a, topic_a_lessons = topics_with_lessons[0]
-    topic_b, topic_b_lessons = topics_with_lessons[1]
+    clp_a, clp_a_lessons = curated_list_pages_with_lessons_and_placeholders[0]
+    clp_b, clp_b_lessons = curated_list_pages_with_lessons_and_placeholders[1]
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
 
-    visit_lesson_listing_page(live_server, browser, 'Topic A', topic_a.url)
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', topic_a_lessons[0].url)
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A2', topic_a_lessons[1].url)
+    visit_lesson_listing_page(live_server, browser, 'Topic A', clp_a.url)
+    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', clp_a_lessons[0].url)
+    visit_lesson_page(live_server, browser, 'Topic A - Lesson A2', clp_a_lessons[1].url)
 
-    visit_lesson_listing_page(live_server, browser, 'Topic B', topic_b.url)
-    visit_lesson_page(live_server, browser, 'Topic B - Lesson B1', topic_b_lessons[0].url)
-    visit_lesson_page(live_server, browser, 'Topic B - Lesson B2', topic_b_lessons[1].url)
+    visit_lesson_listing_page(live_server, browser, 'Topic B', clp_b.url)
+    visit_lesson_page(live_server, browser, 'Topic B - Lesson B1', clp_b_lessons[0].url)
+    visit_lesson_page(live_server, browser, 'Topic B - Lesson B2', clp_b_lessons[1].url)
 
 
 @mock.patch.object(sso_helpers, 'get_lesson_completed')
@@ -86,24 +87,54 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     mock_get_lesson_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    topics_with_lessons,
+    curated_list_pages_with_lessons_and_placeholders,
     server_user_browser_dashboard,
     domestic_homepage,
 ):
     live_server, user, browser = server_user_browser_dashboard
-    topic_a, topic_a_lessons = topics_with_lessons[0]
+    clp_a, clp_a_lessons = curated_list_pages_with_lessons_and_placeholders[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
-    lesson_page = DetailPageFactory(parent=module_page, title='test detail page 1')
-    DetailPageFactory(parent=module_page, title='test detail page 2')
+    _topic_id = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
+    lesson_one = DetailPageFactory(
+        parent=module_page,
+        title='test detail page 1',
+        topic_block_id=_topic_id,
+    )
+    lesson_two = DetailPageFactory(
+        parent=module_page,
+        title='test detail page 2',
+        topic_block_id=_topic_id,
+
+    )
+
+    module_page = add_lessons_and_placeholders_to_curated_list_page(
+        curated_list_page=module_page,
+        data_for_topics={
+            0: {
+                'id': _topic_id,
+                'title': 'Module one, first topic block',
+                'lessons_and_placeholders': [
+                    {
+                        'type': 'placeholder',
+                        'value': {
+                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
+                        }
+                    },
+                    {'type': 'lesson', 'value': lesson_one.id},
+                    {'type': 'lesson', 'value': lesson_two.id},
+                ]
+            },
+        }
+    )
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
     should_not_see_any_element(browser, DashboardReadingProgress)
     # Setting a lesson complete should show progress card with 1/1 complete
     mock_get_lesson_completed.return_value = {'result': 'ok', 'lesson_completed': [
-        {'lesson': lesson_page.id}
+        {'lesson': lesson_one.id}
     ]}
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
     should_see_all_elements(browser, DashboardReadingProgress)
 
-    check_topic_read_progress(browser, topic_a, topic_a_lessons)
+    check_topic_read_progress(browser, clp_a, clp_a_lessons)

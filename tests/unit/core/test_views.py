@@ -1,20 +1,22 @@
 import json
+import pytest
+
 from urllib.parse import urlencode
 from unittest import mock
 from unittest.mock import patch, Mock
 
+from django.urls import reverse
+from django.http.cookie import SimpleCookie
+
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from formtools.wizard.views import normalize_name
-import pytest
-
-from django.urls import reverse
 
 from core import forms, helpers, serializers, views, constants
-from tests.helpers import create_response
+
+from tests.helpers import add_lessons_and_placeholders_to_curated_list_page, create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
 from tests.unit.learn.factories import LessonPageFactory
-from django.http.cookie import SimpleCookie
 from tests.unit.domestic.factories import DomesticDashboardFactory
 
 BETA_AUTH_TOKEN_PAST = 'gAAAAABfCpH53lJcM0TiiXTqD7X18yRoZHOjy-rbSogRxB0v011FMb6rCkMeizffou-z80D9DPL1PWRA7sn9NBrUS' \
@@ -174,6 +176,7 @@ def test_dashboard_page_lesson_progress(
     mock_events_by_location_list,
     patch_set_user_page_view,
     patch_get_user_page_views,
+    patch_export_plan,
     mock_get_company_profile,
     client,
     user,
@@ -188,14 +191,97 @@ def test_dashboard_page_lesson_progress(
     # given the user has read some lessons
     section_one = ListPageFactory(parent=domestic_homepage, slug='section-one', record_read_progress=True)
     section_two = ListPageFactory(parent=domestic_homepage, slug='section-two', record_read_progress=True)
+
     module_one = CuratedListPageFactory(parent=section_one, slug='section-one-module-one')
     module_two = CuratedListPageFactory(parent=section_two, slug='section-two-module-one')
     CuratedListPageFactory(parent=section_two, slug='section-two-module-two')
-    lesson_one = DetailPageFactory(parent=module_one, slug='lesson-one')
-    lesson_two = DetailPageFactory(parent=module_one, slug='lesson-two')
-    DetailPageFactory(parent=module_two, slug='lesson-three',)
-    DetailPageFactory(parent=module_two, slug='lesson-four')
-    lesson_five = DetailPageFactory(parent=module_two, slug='lesson-five')
+
+    _topic_block_id_module_one_block_0 = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
+    _topic_block_id_module_one_block_1 = '88888888-1f68-4c9f-8728-aa8c62cf3a2a'
+    _topic_block_id_module_two_block_0 = '77777777-1f68-4c9f-8728-aa8c62cf3a2a'
+    _topic_block_id_module_two_block_1 = '66666666-1f68-4c9f-8728-aa8c62cf3a2a'
+
+    lesson_one = DetailPageFactory(
+        parent=module_one,
+        slug='lesson-one',
+        topic_block_id=_topic_block_id_module_one_block_0
+    )
+    lesson_two = DetailPageFactory(
+        parent=module_one,
+        slug='lesson-two',
+        topic_block_id=_topic_block_id_module_one_block_1
+    )
+    lesson_three = DetailPageFactory(
+        parent=module_two,
+        slug='lesson-three',
+        topic_block_id=_topic_block_id_module_two_block_0
+    )
+    lesson_four = DetailPageFactory(
+        parent=module_two,
+        slug='lesson-four',
+        topic_block_id=_topic_block_id_module_two_block_0  # ie, in same topic block as one above
+    )
+    lesson_five = DetailPageFactory(
+        parent=module_two,
+        slug='lesson-five',
+        topic_block_id=_topic_block_id_module_two_block_1
+    )
+
+    # We need to map the lesson pages to the modules/CuratedListPage's
+    # `topics` fields so that it matches each page's `topic_block_id` values.
+    module_one = add_lessons_and_placeholders_to_curated_list_page(
+        curated_list_page=module_one,
+        data_for_topics={
+            0: {
+                'id': _topic_block_id_module_one_block_0,
+                'title': 'Module one, first topic block',
+                'lessons_and_placeholders': [
+                    {'type': 'lesson', 'value': lesson_one.id},
+                    {
+                        'type': 'placeholder',
+                        'value': {
+                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
+                        }
+                    },
+                ]
+            },
+            1: {
+                'id': _topic_block_id_module_one_block_1,
+                'title': 'Module one, second topic block',
+                'lessons_and_placeholders': [
+                    {'type': 'lesson', 'value': lesson_two.id},
+                ]
+            }
+        }
+    )
+
+    module_two = add_lessons_and_placeholders_to_curated_list_page(
+        curated_list_page=module_two,
+        data_for_topics={
+            0: {
+                'id': _topic_block_id_module_two_block_0,
+                'title': 'Module two, first topic block',
+                'lessons_and_placeholders': [
+                    {'type': 'lesson', 'value': lesson_three.id},
+                    {'type': 'lesson', 'value': lesson_four.id},
+                ]
+            },
+            1: {
+                'id': _topic_block_id_module_two_block_1,
+                'title': 'Module two, second topic block',
+                'lessons_and_placeholders': [
+                    {
+                        'type': 'placeholder',
+                        'value': {
+                            'title': 'Another Placeholder To Show They Do Not Interfere With Counts'
+                        }
+                    },
+                    {'type': 'lesson', 'value': lesson_five.id},
+                ]
+            }
+        }
+    )
+
     # create dashboard
     dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
 
@@ -211,8 +297,13 @@ def test_dashboard_page_lesson_progress(
     assert context_data['module_pages'][1]['page'].id == module_two.id
     assert context_data['module_pages'][0]['total_pages'] == 2
     assert context_data['module_pages'][1]['total_pages'] == 3
-    assert context_data['module_pages'][0]['read_count'] == 2
-    assert context_data['module_pages'][1]['read_count'] == 0
+    assert context_data['module_pages'][0]['completion_count'] == 2
+    assert context_data['module_pages'][0]['completed_lesson_pages'] == {
+        _topic_block_id_module_one_block_0: set([lesson_one.id]),
+        _topic_block_id_module_one_block_1: set([lesson_two.id]),
+    }
+    assert context_data['module_pages'][1]['completion_count'] == 0
+    assert context_data['module_pages'][1]['completed_lesson_pages'] == {}
 
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
         {'lesson': lesson_one.id},
@@ -221,11 +312,19 @@ def test_dashboard_page_lesson_progress(
     ]})
 
     context_data = dashboard.get_context(get_request)
-    # the topics should swap round as two is in progress and has more unread than one
+    # WARNING! The topics should swap round as two is in progress
+    # and has more unread than one
     assert context_data['module_pages'][0]['page'].id == module_two.id
     assert context_data['module_pages'][1]['page'].id == module_one.id
-    assert context_data['module_pages'][0]['read_count'] == 1
-    assert context_data['module_pages'][1]['read_count'] == 2
+    assert context_data['module_pages'][0]['completion_count'] == 1
+    assert context_data['module_pages'][0]['completed_lesson_pages'] == {
+        _topic_block_id_module_two_block_1: set([lesson_five.id]),
+    }
+    assert context_data['module_pages'][1]['completion_count'] == 2
+    assert context_data['module_pages'][1]['completed_lesson_pages'] == {
+        _topic_block_id_module_one_block_0: set([lesson_one.id]),
+        _topic_block_id_module_one_block_1: set([lesson_two.id]),
+    }
 
 
 @pytest.mark.django_db
@@ -428,7 +527,7 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     ]
     term = 'some term'
 
-    response = client.get(reverse('core:api-lookup-product'), {'q': term})
+    response = client.post(reverse('core:api-lookup-product'), {'q': term})
 
     assert response.status_code == 200
     assert response.json() == data
@@ -444,7 +543,7 @@ def test_refine_commodity(mock_search_commodity_refine, client):
         {'value': '223323', 'label': 'some other description'},
     ]
 
-    response = client.get(reverse('core:api-lookup-product'), {
+    response = client.post(reverse('core:api-lookup-product'), {
         'interraction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
     })
 
@@ -462,6 +561,21 @@ def test_get_countries(client):
     assert 'id' in countries[0]
     assert 'name' in countries[0]
     assert 'region' in countries[0]
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_suggested_countries_by_hs_code')
+def test_get_suggested_countries(mock_get_suggested_countries_by_hs_code, client, user):
+    data = [
+        {'hs_code': 4, 'country_name': 'Sweden', 'country_iso2': 'SE', 'region': 'Europe'},
+        {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'}
+    ]
+    mock_get_suggested_countries_by_hs_code.return_value = data
+
+    client.force_login(user)
+    response = client.get(reverse('core:api-suggested-countries'), data={'hs_code': '20'})
+    assert response.status_code == 200
+    assert response.json() == data
 
 
 @pytest.mark.django_db
@@ -575,88 +689,6 @@ def test_signup_wizard_for_tailored_content_next_url(
 
 
 @pytest.mark.django_db
-def test_signup_wizard_for_export_plan_success(
-    submit_signup_export_plan_wizard_step, signup_wizard_steps_data, client
-):
-    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_START])
-    assert response.status_code == 302
-
-    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_WHAT_SELLING])
-    assert response.status_code == 302
-
-    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH])
-    assert response.status_code == 302
-
-    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_SIGN_UP])
-    assert response.status_code == 302
-
-    # note that the react component handles the logging in, so no need to submit the last step here,
-    with pytest.raises(NotImplementedError):
-        client.get(response.url)
-
-
-@pytest.mark.django_db
-def test_signup_wizard_for_export_plan_step_labels_exposed(client):
-
-    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_START}))
-    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
-
-    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_WHAT_SELLING}))
-    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
-
-    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_PRODUCT_SEARCH}))
-    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
-
-    response = client.get(reverse('core:signup-wizard-export-plan', kwargs={'step': views.STEP_SIGN_UP}))
-    assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
-
-
-@pytest.mark.django_db
-def test_signup_wizard_for_export_plan_exposes_product_on_final_step(
-    submit_signup_export_plan_wizard_step, signup_wizard_steps_data, client
-):
-    search_data = signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH]
-
-    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_START])
-    assert response.status_code == 302
-
-    response = submit_signup_export_plan_wizard_step(signup_wizard_steps_data[views.STEP_WHAT_SELLING])
-    assert response.status_code == 302
-
-    response = submit_signup_export_plan_wizard_step(search_data)
-    assert response.status_code == 302
-
-    response = client.get(response.url)
-    assert response.context_data['product_search_data'] == search_data
-
-
-@pytest.mark.django_db
-def test_signup_wizard_for_export_plan_next_url(
-    submit_signup_export_plan_wizard_step, signup_wizard_steps_data
-):
-    response = submit_signup_export_plan_wizard_step(
-        data=signup_wizard_steps_data[views.STEP_START],
-        params={'next': '/foo/bar/'},
-    )
-    assert response.status_code == 302
-    assert response.url == '/signup/export-plan/what-are-you-selling/?next=%2Ffoo%2Fbar%2F'
-
-    response = submit_signup_export_plan_wizard_step(
-        data=signup_wizard_steps_data[views.STEP_WHAT_SELLING],
-        params={'next': '/foo/bar/'},
-    )
-    assert response.status_code == 302
-    assert response.url == '/signup/export-plan/product-search/?next=%2Ffoo%2Fbar%2F'
-
-    response = submit_signup_export_plan_wizard_step(
-        data=signup_wizard_steps_data[views.STEP_PRODUCT_SEARCH],
-        params={'next': '/foo/bar/'},
-    )
-    assert response.status_code == 302
-    assert response.url == '/signup/export-plan/sign-up/?next=%2Ffoo%2Fbar%2F'
-
-
-@pytest.mark.django_db
 @mock.patch.object(helpers, 'update_company_profile')
 def test_set_company_name_success(mock_update_company_profile, mock_get_company_profile, client, user):
     mock_update_company_profile.return_value = create_response()
@@ -696,7 +728,7 @@ def test_create_api_token(client, rf):
 @pytest.mark.django_db
 def test_auth_with_url(client, rf):
     response = client.get('/api/create-token/')
-    token = json.loads(response.data)['token']
+    token = response.data['token']
 
     response_2 = client.get(f'/markets/?enc={token}')
     assert response_2.status_code == 200
@@ -705,7 +737,7 @@ def test_auth_with_url(client, rf):
 @pytest.mark.django_db
 def test_auth_with_cookie(client, rf):
     response = client.get('/api/create-token/')
-    token = json.loads(response.data)['token']
+    token = response.data['token']
 
     response_2 = client.get(f'/markets/?enc={token}')
     assert response_2.status_code == 200

@@ -59,4 +59,11 @@ describe('TextArea', () => {
       expect(queryByRole('tooltip')).not.toBeInTheDocument()
     })
   })
+
+  describe('Errors', () => {
+    it('Should have errors', () => {
+      const { queryByText } = setup({...props, errors: ['an error']})
+      expect(queryByText('an error')).toBeInTheDocument()
+    })
+  })
 })

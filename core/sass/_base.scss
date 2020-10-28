@@ -1,9 +1,5 @@
 @import 'elements/colours';
 
-button {
-  @include button-reset;
-}
-
 label {
   display: block;
 }
@@ -68,6 +64,7 @@ label {
 
 body {
   background-color: #e9e7ed;
+  overflow-x: hidden;
 
   &.body-background-white {
     background-color: $white;
@@ -86,4 +83,18 @@ body {
 
 .br-xs {
   border-radius: 10px;
+}
+
+.button {
+  &-linkedin {
+    background-color: #0077b6;
+  }
+
+  &-google {
+    background-color: #4385f4;
+  }
+}
+
+.icon-large {
+  font-size: 40px;
 }

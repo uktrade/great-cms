@@ -1,14 +1,18 @@
+import time
+
 from unittest import mock
 
 import pytest
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.tests.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
+from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
     CuratedListPage,
@@ -16,12 +20,14 @@ from core.models import (
     InterstitialPage,
     LandingPage,
     ListPage,
+    case_study_body_validation,
 )
+
 from domestic.models import DomesticDashboard, DomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
 from tests.unit.core import factories
 from tests.helpers import make_test_video
-from .factories import DetailPageFactory
+from .factories import CaseStudyFactory, DetailPageFactory
 
 
 def test_object_hash():
@@ -75,7 +81,14 @@ def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, dom
 
 
 @pytest.mark.django_db
-def test_curated_list_page_has_link_in_context_back_to_parent(client, domestic_homepage, domestic_site):
+def test_curated_list_page_has_link_in_context_back_to_parent(
+    client,
+    domestic_homepage,
+    domestic_site,
+    patch_export_plan,
+    patch_get_user_lesson_completed,
+    user,
+):
 
     list_page = factories.ListPageFactory(
         parent=domestic_homepage,
@@ -89,6 +102,8 @@ def test_curated_list_page_has_link_in_context_back_to_parent(client, domestic_h
 
     expected_url = list_page.url
     assert expected_url == '/example-learning-homepage/'
+
+    client.force_login(user)  # because unauthed users get redirected
 
     resp = client.get(curated_list_page.url)
 
@@ -197,7 +212,7 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         (None, None),
         ('', None),
         ('/export-plan/section/about-your-business/', 'About your business'),
-        ('/export-plan/section/objectives/', 'Objectives'),
+        ('/export-plan/section/business-objectives/', 'Business objectives'),
         ('/export-plan/section/target-markets-research/', 'Target markets research'),
         ('/export-plan/section/adaptation-for-your-target-market/', 'Adaptation for your target market'),
         ('/export-plan/section/marketing-approach/', 'Marketing approach'),
@@ -223,7 +238,7 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         'no backlink',
         'empty string backlink',
         'Seeking: About your business',
-        'Seeking: Objectives',
+        'Seeking: Business objectives',
         'Seeking: Target markets research',
         'Seeking: Adaptation for your target market',
         'Seeking: Marketing approach',
@@ -242,6 +257,121 @@ def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_
         template='learn/detail_page.html'
     )
     assert detail_page._get_backlink_title(backlink_path) == expected
+
+
+@pytest.mark.django_db
+def test_case_study__str_method():
+    case_study = CaseStudyFactory(
+        title='',
+        company_name='Test Co'
+    )
+    assert f'{case_study}' == 'Test Co'
+
+    case_study = CaseStudyFactory(
+        title='Alice and Bob export to every continent',
+        company_name='Test Co'
+    )
+    assert f'{case_study}' == 'Alice and Bob export to every continent'
+
+
+@pytest.mark.django_db
+def test_case_study__timestamps():
+    case_study = CaseStudyFactory(
+        company_name='Test Co'
+    )
+    created = case_study.created
+    modified = case_study.created
+    assert created == modified
+
+    time.sleep(1)  # Forgive this - we need to have a real, later save
+    case_study.save()
+    case_study.refresh_from_db()
+
+    assert case_study.created == created
+    assert case_study.modified > modified
+
+
+_case_study_top_level_error_message = (
+    'This block must contain one Media section (with one or '
+    'two items in it) and one Text section.'
+)
+
+_case_study_one_video_only_error_message = 'Only one video may be used in a case study.'
+_case_study_video_order_error_message = 'The video must come before a still image.'
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'block_type_values,exception_message',
+    (
+        (['text'], _case_study_top_level_error_message),
+        ([('media', ('video',))], _case_study_top_level_error_message),
+        ([], None),
+        (['text', 'text'], _case_study_top_level_error_message),
+        (['text', ('media', ('video', 'image'))], _case_study_top_level_error_message),
+        ([('media', ('video',)), ('media', ('video',))], _case_study_top_level_error_message),
+        (['text', ('media', ('video', 'image')), 'text'], _case_study_top_level_error_message),
+        (
+            [('media', ('video', 'image')), 'text', ('media', ('video', 'image'))],
+            _case_study_top_level_error_message
+        ),
+        ([('media', ('video', 'image')), 'text'], None),
+        ([('media', ('video',)), 'text'], None),
+        ([('media', ('image',)), 'text'], None),
+        ([('media', ('image', 'image')), 'text'], None),
+        (
+            [('media', ('image', 'video')), 'text'],
+            _case_study_video_order_error_message
+        ),
+        (
+            [('media', ('video', 'video')), 'text'],
+            _case_study_one_video_only_error_message
+        ),
+    ),
+    ids=(
+        '1. Top-level check: text node only: not fine',
+        '2. Top-level check: media node only: not fine',
+        '3. Top-level check: no nodes: fine - requirement is done at a higher level',
+        '4. Top-level check: two text nodes: not fine',
+        '5. Top-level check: text before media: not fine',
+        '6. Top-level check: two media nodes: not fine',
+        '7. Top-level check: text, media, text: not fine',
+        '8. Top-level check: media, text, media: not fine',
+
+        '9. media node (video and image) and text node: fine',
+        '10. media node (video only) and text node: fine',
+        '11. media node (image only) and text node: fine',
+        '12. media node (two images) and text node: fine',
+        '13. media node (image before video) and text node: not fine',
+        '14. media node (two videos) and text node: not fine',
+    )
+)
+def test_case_study_body_validation(block_type_values, exception_message):
+
+    def _create_block(block_type):
+        mock_block = mock.Mock()
+        mock_block.block_type = block_type
+        return mock_block
+
+    value = []
+    for block_spec in block_type_values:
+        if type(block_spec) == tuple:
+            parent_block = _create_block(block_spec[0])
+            children = []
+            for subblock_spec in block_spec[1]:
+                children.append(_create_block(subblock_spec))
+            parent_block.value = children
+            value.append(parent_block)
+        else:
+            value.append(_create_block(block_spec))
+
+    if exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            case_study_body_validation(value)
+            assert ctx.message == exception_message
+    else:
+        # should not blow up
+        case_study_body_validation(value)
 
 
 class LandingPageTests(WagtailPageTests):
@@ -273,6 +403,18 @@ class CuratedListPageTests(WagtailPageTests):
         self.assertAllowedSubpageTypes(CuratedListPage, {DetailPage})
 
 
+@pytest.mark.django_db
+def test_curatedlistpage_count_detail_pages(
+    curated_list_pages_with_lessons_and_placeholders
+):
+    data = curated_list_pages_with_lessons_and_placeholders
+    clp_1 = data[0][0]
+    clp_2 = data[1][0]
+
+    assert clp_1.count_detail_pages == 2  # 2 pages, placeholder ignored
+    assert clp_2.count_detail_pages == 1  # 1 page only, no placeholders at all
+
+
 class DetailPageTests(WagtailPageTests):
 
     def test_can_be_created_under_curated_list_page(self):
@@ -291,6 +433,45 @@ class DetailPageTests(WagtailPageTests):
                 hero=[('Image', ImageFactory()), ('Image', ImageFactory())]
             )
             self.assert_(detail_page, None)
+
+
+@pytest.mark.django_db
+def test_redirection_for_unauthenticated_user(
+    client,
+    domestic_homepage,
+    domestic_site,
+    patch_export_plan,
+    patch_get_user_lesson_completed,
+    user,
+):
+
+    landing_page = factories.LandingPageFactory(parent=domestic_homepage)
+    interstitial_page = factories.InterstitialPageFactory(parent=landing_page)
+    list_page = factories.ListPageFactory(parent=domestic_homepage)
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+
+    pages = [
+        landing_page,
+        interstitial_page,
+        list_page,
+        curated_list_page,
+        detail_page,
+    ]
+
+    for page in pages:
+        assert isinstance(page, AuthenticatedUserRequired)
+
+    for page in pages:
+        response = client.get(page.url, follow=False)
+        assert response.status_code == 302
+        assert response._headers['location'] == ('Location', '/login/')
+
+    # Show an authenticated user can still get in there
+    client.force_login(user)
+    for page in pages:
+        response = client.get(page.url, follow=False)
+        assert response.status_code == 200
 
 
 class TestImageAltRendition(TestCase, WagtailTestUtils):

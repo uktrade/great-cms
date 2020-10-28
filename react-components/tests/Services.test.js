@@ -72,20 +72,23 @@ describe('Services', () => {
 
   test('lookupProduct passes params', (done) => {
     // given the form submission will result in success.getDOMNodeful login
-    fetchMock.get('http://localhost/lookup/?q=foo', 200)
+    fetchMock.post(Services.config.apiLookupProductUrl, 200)
 
     Services.lookupProduct({ q: 'foo' })
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
       expect(calls.length).toEqual(1)
+      console.log('')
       expect(calls[0][1]).toEqual({
-        method: 'get',
+        method: 'post',
         headers: {
           Accept: 'application/json',
+          'Content-Type': 'application/json',
           'X-CSRFToken': Services.config.csrfToken,
           'X-Requested-With': 'XMLHttpRequest',
         },
+        body: "{\"q\":\"foo\"}",
       })
       done()
     })

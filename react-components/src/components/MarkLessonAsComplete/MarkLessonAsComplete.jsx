@@ -27,6 +27,17 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   const labelText = isComplete && isChecked ? 'Great! Progress saved' : 'Yes'
 
+  const markCompleted = () => {
+    if(!isComplete) {
+      const dataLayer = (window.dataLayer = (window.dataLayer || []))
+      // adding tracking once lesson successfully updated as completed
+      dataLayer.push({
+        'event': 'lessonComplete'
+      });
+    }
+    setIsChecked(true)
+  }
+
   return (
     <div className="mark-lesson-as-complete">
       <h3 className="h-m text-white p-b-s">Lesson complete?</h3>
@@ -37,7 +48,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
           onChange={() => {
             setIsComplete(!isComplete)
           }}
-          onClick={() => setIsChecked(true)}
+          onClick={ markCompleted }
           checked={Boolean(isComplete)}
         />
         <label htmlFor="markascomplete_checkbox">{labelText}</label>

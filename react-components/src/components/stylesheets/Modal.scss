@@ -1,9 +1,8 @@
 @import 'helpers/colours';
 
-.ReactModal__Content.ReactModalCentreScreen {  
+.ReactModal__Content.ReactModalCentreScreen {
     background: white none repeat scroll 0% 0%;
     border-radius: 10px;
-    border: 1px solid rgb(204, 204, 204);
     bottom: auto;
     inset: 50% auto auto 50%;
     left: 50%;
@@ -17,6 +16,9 @@
     transform: translate(-50%, -50%);
     width: 570px;
 
+    .modal-close:visited {
+        color: $white;
+    }
 }
 
 .ReactModal__Overlay.ReactModalCentreScreen {
@@ -30,3 +32,7 @@
     z-index: 1000;
 }
 
+.ReactModal__Body--open {
+    height: auto;
+    overflow: hidden;
+}

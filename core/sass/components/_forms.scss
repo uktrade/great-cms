@@ -59,5 +59,54 @@
       right: 30px;
       top: 25px;
     }
+
+    .form-label {
+      @extend .body-m;
+      @extend .p-t-0;
+      color: $black-100;
+    }
+
+    .form-control {
+      @extend .m-t-0;
+    }
+  }
+}
+
+.form-table {
+  position: relative;
+  background: red;
+
+  .form-label {
+    @extend .body-l-b;
+  }
+
+  .form-control {
+    @extend .m-t-0;
+  }
+
+  .hr {
+    @extend .m-0;
+  }
+
+  .select {
+    margin-bottom: 20px;
+  }
+
+  .form-group-example {
+    background-color: $white;
+  }
+
+  .button--delete {
+    position: absolute;
+    top: 0;
+    right: -50px;
+
+    &.button--only-icon {
+      border: 1px solid $colour-blue-deep-40;
+
+      i {
+        color: $colour-blue-deep-40;
+      }
+    }
   }
 }

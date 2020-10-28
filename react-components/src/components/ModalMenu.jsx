@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
+import PropTypes from 'prop-types'
 
 const customStyles = {
   overlay: {
@@ -10,96 +11,99 @@ const customStyles = {
     position: 'absolute',
   },
   content: {
-    marginTop: '15px',
-    marginRight: '-29px'
+    marginRight: '-29px',
+    marginTop: '15px'
   }
 }
 
 export function Menu(props) {
   let modalContent
-  const [modalIsOpen, setIsOpen] = React.useState(false)
+  const {avatar, authenticated, userName} = props
+  const [modalIsOpen, setIsOpen] = useState(false)
 
   const openModal = (evt) => {
-    let position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
-    let bodyWidth = evt.target.closest('body').clientWidth
-    customStyles.content.top = position.top + position.height + 'px'
-    customStyles.content.right = bodyWidth - (position.left + position.right) / 2 + 'px'
+    const position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
+    const bodyWidth = evt.target.closest('body').clientWidth
+    customStyles.content.top = `${position.top + position.height + window.scrollY}px`
+    customStyles.content.right = `${bodyWidth - (position.left + position.right) / 2}px`
 
     setIsOpen(true)
   }
 
   const closeModal = () => {
     setIsOpen(false)
+    document.body.style.overflow = '' 
   }
 
   const modalAfterOpen = () => {
     modalContent.style.opacity = '1'
+    document.body.style.overflow = 'auto' 
   }
 
   const logout = () => {
-    Services.logout().then((response) => {
+    Services.logout().then(() => {
       window.location.reload()
     }).catch(
       window.location.reload()
     )
   }
+  let avatarElement = (authenticated ? <i className="fas fa-user text-blue-deep-80"/> : <i className="fas fa-caret-down text-blue-deep-80" style={{fontSize:'30px'}}/>)
+  avatarElement = avatar ? <img src={avatar} alt="User avatar" /> : avatarElement
 
-  let avatar = props.avatar ? <img src={props.avatar} /> : (props.authenticated ? <i className="fas fa-user text-blue-deep-80"></i> : <i className="fas fa-caret-down text-blue-deep-80" style={{fontSize:'30px'}}></i>)
+  const greeting = authenticated ? (<div className="h-xs p-t-xxs">Hi {userName || 'there'}</div>) : ''
 
-  let greeting = props.authenticated ? (<div className="h-xs p-t-xxs">Hi {props.user_name || 'there'}</div>) : ''
-
-  let menu = {
+  const menu = {
     authenticated: (
       <ul className="menu-items">
           <li>
             <a href="/dashboard/" className="link">
-              <i className="fa fa-tachometer-alt"></i>
+              <i className="fa fa-tachometer-alt" />
               <span>Dashboard</span>
             </a>
           </li>
           <li>
             <a href="/learn/categories/" className="link">
-              <i className="fa fa-book"></i>
+              <i className="fa fa-book" />
               <span>Learn to export</span>
             </a>
           </li>
           <li>
             <a href="/find-your-target-market/" className="link">
-              <i className="fa fa-map-marker-alt"></i>
+              <i className="fa fa-map-marker-alt" />
               <span>Target a market</span>
             </a>
           </li>
           <li>
             <a href="/export-plan/dashboard/" className="link">
-              <i className="fa fa-folder"></i>
-              <span>Make an export plan</span>
+              <i className="fa fa-folder" />
+              <span>Build an export plan</span>
             </a>
           </li>
-          <hr className="m-v-xxs"></hr>
+          <hr className="m-v-xxs" />
           <li>
-            <a href="https://www.great.gov.uk/contact/feedback/" target="_blank" className="link">
-              <i className="fa fa-comment"></i>
+            <a href="https://www.great.gov.uk/contact/feedback/" target="_blank" rel="noopener noreferrer" className="link">
+              <i className="fa fa-comment" />
               <span>Send a feedback email</span>
             </a>
           </li>
           <li>
-            <a href="#" className="link" onClick={logout}>
-              <i className="fa fa-arrow-right"></i>
+            <button type="button" className="link" onClick={logout}>
+              <i className="fa fa-arrow-right" />
               <span>Sign out</span>
-            </a>
+            </button>
           </li>
         </ul>),
     non_authenticated: (
       <ul className="menu-items">
           <li>
-            <a href="https://www.great.gov.uk/contact/feedback/" target="_blank" className="link">
-              <i className="fa fa-comment"></i>
+            <a href="https://www.great.gov.uk/contact/feedback/" target="_blank" rel="noopener noreferrer" className="link">
+              <i className="fa fa-comment" />
               <span>Send a feedback email</span>
             </a>
           </li>
           <li>
             <a href="/login/" className="link">
-              <i className="fa fa-pencil-alt"></i>
+              <i className="fa fa-pencil-alt" />
               <span>Sign up / Log in</span>
             </a>
           </li>
@@ -109,27 +113,34 @@ export function Menu(props) {
 
   return (
     <div style={{ lineHeight: 0 }}>
-      <button className={'avatar' + (modalIsOpen ? ' active' : '')} onClick={openModal}>
-        {avatar}
+      <button type="button" className={`avatar${  modalIsOpen ? ' active' : ''}`} onClick={openModal}>
+        {avatarElement}
       </button>
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
         onAfterOpen={modalAfterOpen}
-        contentRef={(_modalContent) => (modalContent = _modalContent)}
+        contentRef={(_modalContent) => {modalContent = _modalContent; return modalContent}}
         className="modal-menu"
       > 
         {greeting}
-        {menu[props.authenticated ? 'authenticated' : 'non_authenticated']}
+        {menu[authenticated ? 'authenticated' : 'non_authenticated']}
       </ReactModal>
     </div>
   )
 }
 
-export default function({ ...params }) {
+Menu.propTypes = {
+  avatar: PropTypes.string.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  userName: PropTypes.string.isRequired,
+}
+
+
+export default function createMenu({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  ReactDOM.render(<Menu avatar={params.avatar} user_name={params.user_name} authenticated={params.authenticated == 'True'}></Menu>, params.element)
+  ReactDOM.render(<Menu avatar={params.avatar} userName={params.user_name} authenticated={params.authenticated === 'True'} />, params.element)
 }

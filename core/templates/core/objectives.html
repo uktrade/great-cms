@@ -1,6 +1,7 @@
 {% load  wagtailcore_tags %}
 
 <div class="objectives">
+    <h2 class="h-m">Lesson objective</h2>
     {% for block in page.objective %}
         <div class="rich-text">
         {% if block.block_type == 'paragraph' %}
@@ -15,5 +16,5 @@
             {% endif %}
         {% endfor %}
     </ul>
-    <hr class="hr hr--dark m-b-0 m-t-m" />
+    <hr class="hr hr--dark m-b-m m-t-m" />
 </div>

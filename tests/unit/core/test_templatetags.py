@@ -5,10 +5,12 @@ import pytest
 from django.template import Context, Template
 from datetime import timedelta
 
-from core.templatetags.personalised_blocks import render_video_block
-from core.templatetags.video_tags import render_video
 from core.templatetags.content_tags import get_backlinked_url
+from core.templatetags.object_tags import get_item
+from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.url_map import path_match
+from core.templatetags.video_tags import render_video
+from core.templatetags.progress_bar import progress_bar
 
 
 def test_render_personalised_video_block_tag():
@@ -207,3 +209,49 @@ def test_path_match(rf, path, expected):
     context = {'request': rf.get(path)}
     match = path_match(context, '^\\/markets\\/')
     assert bool(match) == expected
+
+
+@pytest.mark.django_db
+def test_push(user, rf, domestic_site):
+
+    template = Template(
+        '{% load set %}'
+        "{% push 'my_variable' 'item1' %}"
+        "{% push 'my_variable' 'item2' %}"
+        'one:{{ my_variable.0 }} '
+        'two:{{ store.my_variable.1 }}'
+    )
+
+    html = template.render(Context({}))
+    assert html == 'one:item1 two:item2'
+
+
+@pytest.mark.parametrize(
+    'data,key,expected',
+    (
+        ({'foo': 'bar'}, 'foo', 'bar'),
+        ({'foo': 'bar'}, 'bam', None),
+        ({1: 'bar'}, 1, 'bar'),
+        ({'1': 'bar'}, 1, None),
+        ({1: 'bar'}, '1', None),
+        ('a string has no get attr', 'foo', ''),
+        ({'foo': 'bar'}, 'FOO', 'bar'),
+    )
+)
+def test_get_item(data, key, expected):
+    assert get_item(data, key) == expected
+
+
+@pytest.mark.parametrize(
+    'total,complete,percentage',
+    (
+        (10, 0, '0%'),
+        (10, 5, '50%'),
+        (10, 10, '100%'),
+        (0, 0, '0%'),
+    )
+)
+def test_progress_bar(total, complete, percentage):
+    html = progress_bar(total, complete)
+    check = f'style="width:{percentage}"'
+    assert html.find(check) > 0

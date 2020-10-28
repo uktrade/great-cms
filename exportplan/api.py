@@ -137,19 +137,17 @@ class ObjectivesCreateAPIView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-
         if serializer.is_valid(raise_exception=True):
             response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
             return Response(response)
 
 
 class ObjectivesUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.ObjectiveSerializer
+    serializer_class = serializers.CompanyObjectiveSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-
         if serializer.is_valid(raise_exception=True):
             response = helpers.update_objective(self.request.user.session_id, serializer.validated_data)
             return Response(response)

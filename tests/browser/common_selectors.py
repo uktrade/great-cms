@@ -114,7 +114,7 @@ class DashboardContentsOnSuccess(SelectorsEnum):
 class DashboardReadingProgress(SelectorsEnum):
     YOUR_PROGRESS_CARD = Selector(By.ID, 'your-progress-card')
     TOPICS_HEADERS = Selector(By.CSS_SELECTOR, '#your-progress-card h3[id^=topics-]')
-    TOPICS_READ_PROGRESS = Selector(By.CSS_SELECTOR, '#your-progress-card progress[id^=topics-read-]')
+    TOPICS_READ_PROGRESS = Selector(By.CSS_SELECTOR, '#your-progress-card .topics-read-text')
 
 
 class SignUpModal(SelectorsEnum):

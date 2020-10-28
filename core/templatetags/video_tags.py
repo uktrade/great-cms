@@ -10,7 +10,7 @@ register = template.Library()
 
 @register.simple_tag
 def render_video(block):
-    """Renders a non-personalised video block (eg a hero video)
+    """Renders a video block (eg in a lesson hero or a case study).
 
     Includes a custom attribute on the video element so we can estimate
     page view time in our post-save hook, without clashing with the automatically
@@ -33,5 +33,6 @@ def render_video(block):
                 {sources}
                 Your browser does not support the video tag.
             </video>
+            <div class="video-transcript-container"></div>
         """
     )

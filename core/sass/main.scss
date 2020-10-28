@@ -35,6 +35,8 @@ $fa-font-path: '/static/fonts';
 @import 'elements/spacing';
 @import 'elements/box';
 @import 'elements/icons';
+@import 'elements/card';
+@import 'elements/progress-bar';
 
 // Components
 @import 'components/card/base';
@@ -67,8 +69,6 @@ $fa-font-path: '/static/fonts';
 @import 'helpers/mixins';
 @import 'helpers/utils';
 
-@import 'components/header';
-@import 'components/buttons';
 @import 'components/forms';
 @import 'components/statistics';
 @import 'components/progress-wizard';
@@ -77,8 +77,7 @@ $fa-font-path: '/static/fonts';
 @import 'components/target-market-form';
 @import 'components/product-finder';
 @import 'components/sign-up';
-@import 'components/modals';
-@import 'components/route-to-market';
+@import 'components/target_age_group_insights';
 
 @import 'base';
 @import 'overrides';

@@ -85,8 +85,8 @@ export default class EducationalMomentTooltip extends React.Component {
               id={id}>
                 <div className="educational-moment educational-moment--tooltip">
                     <div className="educational-moment__tooltip">
-                        <h3 className="tooltip__heading h-m">{heading}</h3>
-                        <p className="tooltip__paragraph">{description}</p>
+                        <h3 className="body-l-b m-b-0">{heading}</h3>
+                        <p className="m-t-xs m-b-0">{description}</p>
                     </div>
                 </div>
             </div>

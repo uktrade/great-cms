@@ -1,187 +1,238 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import { getModalIsOpen, getProductsExpertise } from '@src/reducers'
+import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import MessageConfirmation from './MessageConfirmation'
+import RegionToggle from './RegionToggle'
+import Confirmation from './MessageConfirmation'
+import { analytics } from '../../Helpers'
 
-const customStyles = {
-  content: {
-    top: '10%',
-    left: '10%',
-    width: '80%',
-    border: 'none',
-    height: '80%',
-    padding: '40px 60px',
-    overflow: 'none'
-  },
-  overlay: {
-    background: 'rgb(45 45 45 / 45%)',
-    zIndex: '3'
-  }
-}
 
-const suggested = ['France', 'Spain', 'Italy', 'Jamaica']
 
-export function CountryFinder(props) {
-  let modalContent
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [selectedCountry, setSelectedCountry] = useState(props.text)
+export function CountryFinderModal(props) {
+  let scrollOuter
+  const { modalIsOpen, setIsOpen, text, addButton, commodityCode } = props
   const [countryList, setCountryList] = useState()
+  const [suggestedCountries, setSuggestedCountries] = useState([])
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState(text)
   const [searchStr, setSearchStr] = useState()
   const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
+  const [expandRegion, setExpandRegion] = useState(false)
+
+  const openCountryFinder = (open) => {
+    setIsOpen(open)
+    setSearchStr('')
+    analytics({
+      'event': 'addMarketPageview',
+      'virtualPageUrl': '/choose-target-market-modal',
+      'virtualPageTitle': 'Choose Target Market Modal'
+    })
+  }
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
-    setIsOpen(!selectedCountry)
+    openCountryFinder(!selectedCountry)
     setSearchStr('')
   }
 
   const closeModal = () => {
     setProductConfirmationRequired(false)
     setIsOpen(false)
+    window.location.reload()
   }
 
   const closeConfirmation = () => {
     setProductConfirmationRequired(false)
-    setIsOpen(true)
+    openCountryFinder(true)
   }
 
-  const modalAfterOpen = () => {
-    modalContent.style.maxHeight = '700px'
-    if (!countryList) {
-      getCountries()
+  const setScrollShadow = () => {
+    if (scrollOuter) {
+      const bottomOverflow = scrollOuter.scrollHeight - (scrollOuter.scrollTop + scrollOuter.clientHeight)
+      setIsScrolled({ top: scrollOuter.scrollTop > 0, bottom: bottomOverflow > 0 })
     }
   }
 
+  const onScroll = (evt) => {
+    scrollOuter = evt.target
+    setScrollShadow()
+  }
+
   const searchChange = (evt) => {
-    let searchString = evt.target.value
-    setSearchStr(searchString.toUpperCase())
+    setExpandRegion(evt.target.value.length > 0)
+    setSearchStr(evt.target.value.toUpperCase())
+  }
+
+  const toggleRegion = () => {
+    setExpandRegion(!expandRegion)
+  }
+
+  const getSuggestedCountries = () => {
+    if (commodityCode) {
+      const hs2 = commodityCode.substr(0, 2)
+      Services.getSuggestedCountries(hs2).then((result) => {
+        setSuggestedCountries(result);
+      }).catch(() => {
+        closeModal()
+      })
+    }
   }
 
   const getCountries = () => {
     Services.getCountries().then((result) => {
       // map regions
-      let regions = {}
-      for (const [index, country] of result.entries()) {
-        let region = country.region
-        ;(regions[region] = regions[region] || []).push(country)
-      }
+      const regions = {}
+      result.map((country) => {
+        const { region } = country;
+        (regions[region] = regions[region] || []).push(country)
+        return null
+      })
       setCountryList(regions)
     })
   }
 
+  const modalAfterOpen = () => {
+    if (!countryList) {
+      getCountries()
+    }
+    getSuggestedCountries()
+  }
+
   const saveCountry = (country) => {
     setSelectedCountry(country.name)
-    let result = Services.updateExportPlan({
-      export_countries: [
-        {
+
+    Services.updateExportPlan({
+        export_countries: [{
           country_name: country.name,
-          country_iso2_code: country.id
-        }
-      ]
-    })
-      .then((result) => {
-        closeModal()
+          country_iso2_code: country.id,
+          region: country.region
+        }]
       })
-      .catch((result) => {
+      .then(() => {
+        closeModal()
+        window.location.reload()
+      })
+      .then(
+        analytics({
+          'event': 'addMarketSuccess',
+          'suggestMarket': country.suggested ? country.name : '',
+          'listMarket': country.suggested ? '' : country.name,
+          'marketAdded': country.name
+        })
+      )
+      .catch(() => {
         // TODO: Add error confirmation here
       })
   }
 
   const selectCountry = (evt) => {
-    let targetCountry = evt.target.getAttribute('data-country')
     saveCountry({
       name: evt.target.getAttribute('data-country'),
-      id: evt.target.getAttribute('data-id')
+      id: evt.target.getAttribute('data-id'),
+      region: evt.target.getAttribute('data-region'),
+      suggested: evt.target.getAttribute('data-suggested'),
     })
   }
 
-  let _regions = Object.keys(countryList || {}).map((region) => {
-    let countryFound = false
-    let _countries = (countryList[region] || []).map((country, index) => {
-      if (searchStr && country.name.toUpperCase().indexOf(searchStr) != 0) return ''
-      countryFound = true
+  let regions = Object.keys(countryList || {}).sort().map((region) => {
+    const countries = (countryList[region] || []).map((country) => {
+      if ((searchStr && country.name.toUpperCase().indexOf(searchStr) !== 0) || !region) return ''
       return (
-        <li key={country.id}>
-          <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id}>
-            {country.name}
-          </button>
-        </li>
+        <span className="c-1-5" key={country.id}>
+          <li>
+            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry}>
+              {country.name}
+            </button>
+          </li>
+        </span>
       )
     })
     return (
-      !!_countries.filter((region) => region).length && (
-        <section key={region}>
-          <div className="grid">
-            <div className="c-full-width">
-              <h2 className="region-name h-xs">{region}</h2>
-              <ul style={{ display: 'flex', flexWrap: 'wrap' }}>{_countries}</ul>
-              <hr className="hr m-b-xxs"></hr>
-            </div>
-          </div>
-        </section>
+      !!countries.filter((countryRegion) => countryRegion).length && (
+        <RegionToggle key={region} expandAllRegions={expandRegion} region={region} countries={countries} />
       )
     )
   })
 
-  if (!_regions.filter((region) => region).length) {
-    _regions = <div className="h-xs">No results found</div>
+  if (!regions.filter((region) => region).length) {
+    regions = <div className="h-xs">No results found</div>
   }
-  const _suggested = []
-  for (const [index, value] of suggested.entries()) {
-    _suggested.push(
-      <button key={index} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={value}>
-        {value}
-      </button>
-    )
+
+  let suggestedSection = (<div>
+      <h3 className="h-s">Suggested markets</h3>
+      <p className="m-v-xs">Add a product so that we can suggest export markets.</p>
+  </div>)
+  if (commodityCode) {
+    const suggestedList = suggestedCountries.map((country) => {
+      return (
+        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry} data-suggested>
+          {country.country_name}
+          <i className="fa fa-plus"/>
+        </button>
+      )
+    })
+    suggestedSection = (<div>
+      <h3 className="h-s">Suggested markets</h3>
+      <p className="m-v-xs">These are based on the size of the market for your product, export distance, tariffs and costs.</p>
+      <ul className="m-v-xs">{suggestedList}</ul>
+  </div>)
   }
-  let buttonClass = 'tag ' + (!selectedCountry ? 'tag--tertiary' : '') + ' tag--icon '
+
+  const buttonClass = `tag ${!selectedCountry ? 'tag--tertiary' : ''} tag--icon `
+  const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
 
   return (
     <span>
-      <button className={buttonClass} onClick={openModal}>
-        {selectedCountry || 'add country'}
-        <i className="fas fa-chevron-right"></i>
-      </button>
+      { addButton &&
+        <button type="button" className={buttonClass} onClick={openModal}>
+          {selectedCountry || 'add country'}
+          <i className={`fa ${(selectedCountry ? 'fa-edit' : 'fa-plus')}`}/>
+        </button>
+      }
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         className="modal max-modal"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
-        contentRef={(_modalContent) => (modalContent = _modalContent)}
+        style={{
+          content:{
+            width:'auto',
+            left: '100px',
+            right: '100px',
+            top: '50px',
+            bottom: '50px',
+            overflow: 'hidden',
+          }
+        }}
       >
-        <form className="country-chooser">
-          <div className="modal-header" style={{ height: '100px' }}>
-            <button className="pull-right m-r-0 dialog-close" onClick={closeModal}></button>
-            <h2 className="h-m p-v-xs">Choose a target market</h2>
-          </div>
-          <div className="scroll-area" style={{ marginTop: '100px' }}>
-            <div className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs">
-              <h3 className="h-s">Suggested markets</h3>
-              <p className="m-v-xs">
-                These are based on the size of the market for your product, export distance, tariffs and costs.
-              </p>
-              <ul className="m-v-xs" onClick={selectCountry}>
-                {_suggested}
-              </ul>
-              <hr className="bg-black-70"></hr>
-
-              <h3 className="h-s p-t-0">Compare markets</h3>
+        <form className="country-finder">
+          <div className={`scroll-area m-t-0 ${scrollerClass}`} onScroll={onScroll}>
+                <button type="button" className="f-r m-r-0 dialog-close" aria-label="Close" onClick={closeModal}/>
+            <div
+              className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs"
+              ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
+            >
+              <div>
+                <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
+              </div>
+              {suggestedSection}
+              <hr className="bg-red-deep-100"/>
+              <h3 className="h-s p-t-xs">Compare markets</h3>
               <div className="grid">
                 <div className="c-full">
-                  <p className="m-v-xs">Compare stats for over 180 markets to find the best place to export.</p>
-                  <a href="#" className="button button--secondary">
-                    Compare markets
-                  </a>
+                  <p className="m-v-xs">Compare stats for over 180 markets to find the best place to target your exports.</p>
+                  <button type="button" className="button button--tertiary" disabled>
+                    Coming soon
+                  </button>
                 </div>
               </div>
 
-              <hr className="bg-black-70"></hr>
-              <h3 className="h-s p-t-0">List of markets</h3>
+              <hr className="bg-red-deep-100"/>
+              <h3 className="h-s p-t-xs">List of markets</h3>
               <p className="m-v-xs">
-                If you have an idea of where you want to export, choose from the list below. You can change this at any
+                If you have an idea of where you want to export, choose from the list below. <br/>You can change this at any
                 time.
               </p>
               <div className="grid">
@@ -190,30 +241,32 @@ export function CountryFinder(props) {
                     className="form-control"
                     type="text"
                     onChange={searchChange}
-                    onClick={searchChange}
                     defaultValue=""
                     placeholder="Search markets"
-                  ></input>
-                  <span className="visually-hidden">Search markets</span>
-                  <i className="fas fa-search"></i>
+                  />
+                  <span className="visually-hidden">Search markets </span>
+                  <i className="fas fa-search"/>
+
                 </div>
               </div>
               <div className="grid">
                 <div className="c-full">
-                  <ul className="country-list" onClick={selectCountry}>
-                    {_regions}
+                  <button type="button" key="{index}" className="region-expand link f-r" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+                  <ul className="country-list grid m-v-0">
+                    {regions}
                   </ul>
+                  <hr className="hr hr--light m-v-xxs"/>
                 </div>
               </div>
             </div>
           </div>
         </form>
       </ReactModal>
-      <MessageConfirmation
+      <Confirmation
         buttonClass={buttonClass}
         productConfirmation={productConfirmationRequired}
         handleButtonClick={closeConfirmation}
-        messsageTitle="Changing target market?"
+        messageTitle="Changing target market?"
         messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time."
         messageButtonText="Got it"
       />
@@ -221,10 +274,50 @@ export function CountryFinder(props) {
   )
 }
 
-export default function({ ...params }) {
+CountryFinderModal.propTypes = {
+  addButton: PropTypes.bool,
+  modalIsOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func.isRequired,
+  text: PropTypes.string,
+  commodityCode: PropTypes.string,
+}
+CountryFinderModal.defaultProps = {
+  addButton: true,
+  modalIsOpen: false,
+  text: '',
+  commodityCode: '',
+}
+
+export const CountryFinder = ({ text, commodityCode }) => {
+
+  const [modalIsOpen, setIsOpen] = useState(false)
+
+  return (
+    <span>
+      <CountryFinderModal
+        text={text}
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        commodityCode={commodityCode}
+      />
+    </span>
+  )
+}
+
+CountryFinder.propTypes = {
+  text: PropTypes.string,
+  commodityCode: PropTypes.string,
+}
+CountryFinder.defaultProps = {
+  text: '',
+  commodityCode: '',
+}
+
+export default function createCountryFinder({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  let text = params.element.getAttribute('data-text')
-  ReactDOM.render(<CountryFinder text={text}></CountryFinder>, params.element)
+  const text = params.element.getAttribute('data-text')
+  const commodityCode = params.element.getAttribute('data-commodity-code')
+  ReactDOM.render(<CountryFinder text={text} commodityCode={commodityCode}/>, params.element)
 }

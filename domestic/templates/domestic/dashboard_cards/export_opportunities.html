@@ -1,7 +1,10 @@
 <div class="g-card" id="export_opportunities">
-    <div class="g-card-header">
-        <h3 class="h-s p-t-xxs">Export opportunities</h3>
-    </div>
+    {% include "./card_header.html" with title="Export opportunities" %}
+    <p>View suggested export sales leads and pitch your company to overseas buyers who are looking for products and services like yours.</p>
+    <button class="button button--tertiary" disabled>Coming soon</button>
+    {% comment %}
+    <!--
+    THIS EXOPS LIST SECTION REMOVED FOR BETA
     <ul class="m-v-0 c-full">
         {% for opportunity in export_opportunities %}
             <li>
@@ -29,5 +32,7 @@
             <a class="g-link m-b-xs bold" href="#">View more opportunities</a>
         </li>
     </ul>
+  -->
+    {% endcomment %}
 
 </div>

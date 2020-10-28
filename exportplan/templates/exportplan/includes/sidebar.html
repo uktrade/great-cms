@@ -1,3 +1,4 @@
+{% load to_json %}
 <div id="sidebar-content">
     <nav class="sidebar p-h-s p-b-m">
         <div class="sidebar-sticky">
@@ -11,7 +12,7 @@
             <ul>
                 {% for section in sections %}
                     <li class="h-s">
-                        <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section }}</a>
+                        <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -24,8 +25,8 @@
         var element = document.getElementById('sidebar-content');
         ditMVP.sectionSidebar({
             element: element,
-            sections: {{ sections|safe}},
-            current_section: {{ current_section|safe}},
+            sections: {{ sections|to_json}},
+            currentSection: {{ current_section|to_json}},
             logo: '{{ request.user.company.logo|default_if_none:"" }}',
             company: '{{ request.user.company.name }}'
         })
