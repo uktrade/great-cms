@@ -66,7 +66,7 @@ class TargetAgeGroupInsights extends React.Component {
         <h3 className="body-l-b">Select target age groups</h3>
         <button className="button button--secondary button--icon m-t-xs m-r-xs" onClick={toggleSelector}>
           <i className="fa fa-chevron-circle-down" />
-          <span>Search</span>
+          <span>Open</span>
         </button>
         {targetGroupLabels.map(i => <span className='target-age-group-tag body-m-b bg-blue-deep-20'>{i}</span>)}
 
