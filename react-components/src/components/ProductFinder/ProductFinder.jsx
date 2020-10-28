@@ -36,7 +36,7 @@ function ProductFinder(props) {
     if (open) {
       analytics({
         'event': 'addProductPageview',
-        'virtualPageURL': '/add-product-modal/search_entry',
+        'virtualPageUrl': '/add-product-modal/search_entry',
         'virtualPageTitle': 'Add Product Modal - Search Entry'
       })
     }
