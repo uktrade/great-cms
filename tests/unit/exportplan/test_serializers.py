@@ -178,3 +178,11 @@ def test_objectives_serializer():
     serializer = serializers.ObjectiveSerializer(data=data)
     assert serializer.is_valid()
     assert serializer.data == data
+
+
+def test_json_script_exploit():
+    script_exploit = '<script>alert("CGI \\ \\XSS")</script><svg/onload=alert(document.cookie)>'
+    data = {'story': script_exploit}
+
+    serializer = serializers.AboutYourBuinessSerializer(data=data)
+    assert serializer.is_valid() is False

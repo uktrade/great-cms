@@ -41,12 +41,9 @@ export function Menu(props) {
   }
 
   const logout = () => {
-    Services.logout().then(() => {
-      window.location.reload()
-    }).catch(
-      window.location.reload()
-    )
+    Services.logout().finally(() => {window.location.reload()})
   }
+
   let avatarElement = (authenticated ? <i className="fas fa-user text-blue-deep-80"/> : <i className="fas fa-caret-down text-blue-deep-80" style={{fontSize:'30px'}}/>)
   avatarElement = avatar ? <img src={avatar} alt="User avatar" /> : avatarElement
 
@@ -115,6 +112,7 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button type="button" className={`avatar${  modalIsOpen ? ' active' : ''}`} onClick={openModal}>
         {avatarElement}
+        <span className="visually-hidden" >User menu</span>
       </button>
       <ReactModal
         isOpen={modalIsOpen}

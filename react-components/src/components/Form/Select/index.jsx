@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
+import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
 
 export const Select = ({
   label,
@@ -15,6 +16,7 @@ export const Select = ({
 
   const [input, setInput] = useState(selected)
   const [isOpen, setIsOpen] = useState(false)
+  const [element] = useOnOutsideClick(() => setIsOpen(false))
 
   const selectOption = (item) => {
     setInput(item.label)
@@ -35,11 +37,11 @@ export const Select = ({
         tooltip={tooltip}
         example={example}
       />
-      <button className={`select__button text-blue-deep-20 ${isOpen ? 'select__button--close' : ''}`} type='button' role='button' aria-haspopup='listbox' onClick={() => setIsOpen(!isOpen)}>
-        <i className={`fas ${isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'}`} />
+      <button className={`select__button text-blue-deep-20 button--toggle ${isOpen ? 'select__button--close' : ''}`} type='button' role='button' aria-haspopup='listbox' onClick={() => setIsOpen(!isOpen)}>
+        <i className={`fas button--toggle ${isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'}`} />
       </button>
       { isOpen &&
-      <ul role='listbox' className='select__list body-l bg-white radius'>
+      <ul role='listbox' className='select__list body-l bg-white radius' ref={element}>
         <li>Select one</li>
         {options.map((item) =>
           <li
