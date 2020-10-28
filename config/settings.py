@@ -106,6 +106,7 @@ TEMPLATES = [
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.javascript_components',
+                'core.context_processors.env_vars',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -506,3 +507,5 @@ if sys.argv[0:1][0].find('pytest') != -1:
     TESTING = True
 else:
     TESTING = False
+
+GREAT_SUPPORT_EMAIL = env.str('GREAT_SUPPORT_EMAIL', 'great.support@trade.gov.uk')
