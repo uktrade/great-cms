@@ -23,17 +23,18 @@ export function CountryFinderModal(props) {
   const openCountryFinder = (open) => {
     setIsOpen(open)
     setSearchStr('')
-    analytics({
-      'event': 'addMarketPageview',
-      'virtualPageUrl': '/choose-target-market-modal',
-      'virtualPageTitle': 'Choose Target Market Modal'
-    })
+    if(open) {
+      analytics({
+        'event': 'addMarketPageview',
+        'virtualPageUrl': '/choose-target-market-modal',
+        'virtualPageTitle': 'Choose Target Market Modal'
+      })
+    }
   }
 
   const openModal = () => {
     setProductConfirmationRequired(!!selectedCountry)
     openCountryFinder(!selectedCountry)
-    setSearchStr('')
   }
 
   const closeModal = () => {
