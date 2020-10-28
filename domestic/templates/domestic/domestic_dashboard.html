@@ -50,4 +50,21 @@
     </div>
 {% endblock %}
 
+{% block body_js %}
+  {% if not visited_already %}
+    <script type="text/javascript">
+      var signUpMethod = {
+        'google': 'Google',
+        'linkedin_oauth2': 'LinkedIn',
+      }['{{request.user.user_profile.user_profile.social_account}}'];
+      (window.dataLayer = window.dataLayer || []).push({
+        event: 'accountCreated',
+        signUpMethod: signUpMethod || 'Email'
+      });
+    </script>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+
+
 {% block feedback_reporter %}{% endblock %}
