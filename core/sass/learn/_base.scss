@@ -239,10 +239,11 @@ $desktop: 1024px;
 .learn__back-link {
   color: $blue-deep-80;
   left: 38px;
-  top: 144px;
+  top: 158px;
 
   @include tablet {
     position: absolute;
+    z-index: 1;
   }
 
   &:visited {
@@ -250,7 +251,7 @@ $desktop: 1024px;
   }
 
   &--top {
-    top: 144px;
+    top: 158px;
   }
 
   &--bottom {

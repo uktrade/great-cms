@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-912 - Back button in Learn not accessible
 - GP2-831 - Product not found styling
 - GP2-921 - statistics displaying 0 for some countries
 - GP2-920 - Video appears smaller on initial load of a lesson
