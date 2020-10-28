@@ -345,3 +345,4 @@
 - GP2-876 - update signout
 - GP2-902 - content-changes
 - GP2-937 - content-changes
+- GP2-950 - prevent scripts ep json fields

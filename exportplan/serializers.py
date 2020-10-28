@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from directory_validators.string import no_html
 
 
 class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
@@ -17,40 +18,40 @@ class PopulationDataSerializer(serializers.Serializer):
 
 
 class AboutYourBuinessSerializer(serializers.Serializer):
-    story = serializers.CharField(required=False, allow_blank=True)
-    location = serializers.CharField(required=False, allow_blank=True)
-    processes = serializers.CharField(required=False, allow_blank=True)
-    packaging = serializers.CharField(required=False, allow_blank=True)
-    performance = serializers.CharField(required=False, allow_blank=True)
+    story = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    location = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    processes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    packaging = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    performance = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
 
 class ObjectiveSerializer(serializers.Serializer):
-    rationale = serializers.CharField(required=False, allow_blank=True)
+    rationale = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
 
 class TargetMarketsResearchSerializer(serializers.Serializer):
-    demand = serializers.CharField(required=False, allow_blank=True)
-    competitors = serializers.CharField(required=False, allow_blank=True)
-    trend = serializers.CharField(required=False, allow_blank=True)
-    unqiue_selling_proposition = serializers.CharField(required=False, allow_blank=True)
-    average_price = serializers.IntegerField(required=False, allow_null=True)
+    demand = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    competitors = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    trend = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    unqiue_selling_proposition = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    average_price = serializers.IntegerField(required=False, allow_null=True,)
 
 
 class MarketingApproachSerializer(serializers.Serializer):
-    resources = serializers.CharField(required=False, allow_blank=True)
+    resources = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
 
 class AdaptationTargetMarketSerializer(serializers.Serializer):
-    labelling = serializers.CharField(required=False, allow_blank=True)
-    packaging = serializers.CharField(required=False, allow_null=True)
-    size = serializers.CharField(required=False, allow_null=True)
-    standards = serializers.CharField(required=False, allow_null=True)
-    translations = serializers.CharField(required=False, allow_null=True)
-    other_changes = serializers.CharField(required=False, allow_null=True)
-    certificate_of_origin = serializers.CharField(required=False, allow_null=True)
-    insurance_certificate = serializers.CharField(required=False, allow_null=True)
-    commercial_invoice = serializers.CharField(required=False, allow_null=True)
-    uk_customs_declaration = serializers.CharField(required=False, allow_null=True)
+    labelling = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    packaging = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    size = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    standards = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    translations = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    other_changes = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    certificate_of_origin = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    insurance_certificate = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    commercial_invoice = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    uk_customs_declaration = serializers.CharField(required=False, allow_null=True, validators=[no_html])
 
 
 class ExportPlanCountrySerializer(serializers.Serializer):
@@ -79,9 +80,9 @@ class ExportPlanSerializer(serializers.Serializer):
 
 
 class CompanyObjectiveSerializer(serializers.Serializer):
-    description = serializers.CharField(required=False, allow_blank=True)
-    planned_reviews = serializers.CharField(required=False, allow_blank=True)
-    owner = serializers.CharField(required=False, allow_blank=True)
+    description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     companyexportplan = serializers.IntegerField()
@@ -100,16 +101,16 @@ class CompanyObjectiveSerializer(serializers.Serializer):
 
 
 class RouteToMarketSerializer(serializers.Serializer):
-    route = serializers.CharField(required=False, allow_blank=True)
-    promote = serializers.CharField(required=False, allow_blank=True)
-    market_promotional_channel = serializers.CharField(required=False, allow_blank=True)
+    route = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    promote = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    market_promotional_channel = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
 
 class TargetMarketDocumentSerializer(serializers.Serializer):
-    document_name = serializers.CharField(required=False, allow_blank=True)
-    note = serializers.CharField(required=False, allow_blank=True)
+    document_name = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
