@@ -83,8 +83,8 @@ class CompanyObjectiveSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
-    end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
+    end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
