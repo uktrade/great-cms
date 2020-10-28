@@ -17,3 +17,9 @@ def javascript_components(request):
         'country_choices': [{'value': key, 'label': label} for key, label in choices.COUNTRY_CHOICES],
     }
     return {'javascript_components': data}
+
+
+def env_vars(request):
+    data = dict()
+    data['great_support_email'] = settings.GREAT_SUPPORT_EMAIL
+    return data

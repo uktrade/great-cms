@@ -74,7 +74,7 @@ export default function Table({
                 <dt className="statistic__caption p-t-xs">Male in your target group</dt>
                 <dd className="statistic__figure h-xs p-b-0 p-t-s">{female ? `${male} million`: '' }</dd>
               </dl>
-              { female &&
+              { !!(female && female !== 0) &&
                 <div className="statistic__percentage bg-red-80 radius m-b-xs">
                   <span className='bg-blue-deep-80 radius' style={{ width: `${(female/target_population)*100}%` }} />
                 </div>
@@ -92,7 +92,7 @@ export default function Table({
                 <td className="statistic__caption p-t-xs">Living in rural areas</td>
                 <dd className="statistic__figure h-xs p-b-0 p-t-s">{urban ? `${rural}%`: '' }</dd>
               </dl>
-              { urban &&
+              { !!(urban && urban !== 0) &&
                 <div className="statistic__percentage bg-red-80 radius m-b-xs">
                   <span className='bg-blue-deep-80 radius' style={{ width: `${urban}%` }} />
                 </div>
