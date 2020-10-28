@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-690 - Analytics target market modal - one push only
 - GP2-940 - Deletion of Add your business name
 - GP2-912 - Back button in Learn not accessible
 - GP2-831 - Product not found styling
@@ -342,3 +343,4 @@
 - GP2-701 - Add variables to Universal Data Object
 - GP2-876 - update signout
 - GP2-902 - content-changes
+- GP2-937 - content-changes
