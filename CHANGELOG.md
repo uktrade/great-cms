@@ -102,6 +102,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-868 - Update coming soon modal copy
 - GP2-763 - Analytics - first sign-in
 - GP2-748 - Analytics product classifier - match found
 - GP2-689 - Analytics product classifier - product selected

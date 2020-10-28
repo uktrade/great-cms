@@ -7,16 +7,16 @@ import { Modal } from '@src/components/Modal/index'
 export const ComingSoon = ({ isOpen, onClick }) => (
   <ReactModal
     isOpen={isOpen}
-    className='ReactModal__Content ReactModalCentreScreen'
-    overlayClassName='ReactModal__Overlay ReactModalCentreScreen'
-    contentLabel='Modal'
+    className="ReactModal__Content ReactModalCentreScreen"
+    overlayClassName="ReactModal__Overlay ReactModalCentreScreen"
+    contentLabel="Modal"
   >
     <Modal
-      backUrl='/export-plan/dashboard/'
-      header='This feature is coming soon'
-      content='This feature is not available in the Beta version of the new great.gov.uk platform.'
+      backUrl="/export-plan/dashboard/"
+      header="Some sections aren’t available yet"
+      content="This Beta version is limited"
       onClick={onClick}
-      buttonText='Ok'
+      buttonText="Ok"
       type={3}
     />
   </ReactModal>
