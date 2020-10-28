@@ -16,8 +16,8 @@ export const ComingSoon = ({ title, backUrl }) => {
       >
         <Modal
           backUrl={backUrl}
-          header="This lesson is coming soon"
-          content="This lesson is not available in the Beta version of the new great.gov.uk platform."
+          header="Some lessons aren’t available yet"
+          content="This Beta version is limited"
           onClick={() => setModal(false)}
           buttonText="Ok"
           type={3}
