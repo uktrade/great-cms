@@ -112,6 +112,7 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button type="button" className={`avatar${  modalIsOpen ? ' active' : ''}`} onClick={openModal}>
         {avatarElement}
+        <span className="visually-hidden" >User menu</span>
       </button>
       <ReactModal
         isOpen={modalIsOpen}

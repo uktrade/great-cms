@@ -3,7 +3,7 @@
 {% load url_map %}
 <header class="magna-header bg-blue-deep-90 text-white" id="header" dir="ltr" data-ga-section="header">
   <nav>
-    <a id="header-logo-link" class="m-h-s m-v-xxs" href="/">
+    <a id="header-logo-link" href="/">
       <img class="header-logo" src="{% static 'images/logo.svg' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
     </a>
     <div class="header-links">
@@ -17,7 +17,7 @@
         {% if not request.user.is_authenticated %}
           <li><a id="header-sign-up-link" href="/signup/" class="button button--primary">Sign up</a></li>
         {% endif %}
-        <li id="header-link-user-profile" class="m-v-xs m-h-s">
+        <li id="header-link-user-profile">
         </li>
 
         <script type="text/javascript">

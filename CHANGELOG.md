@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-949 - Header style tweaks
 - GP2-929 - Fix logout issues in firefox and probably other browsers
 - GP2-690 - Analytics target market modal - one push only
 - GP2-940 - Deletion of Add your business name
@@ -102,6 +103,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-868 - Update coming soon modal copy
 - GP2-763 - Analytics - first sign-in
 - GP2-748 - Analytics product classifier - match found
 - GP2-689 - Analytics product classifier - product selected
