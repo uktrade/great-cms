@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
-from core import forms, helpers, serializers, constants, mixins
+from core import forms, helpers, serializers, constants
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -104,7 +104,7 @@ class MarketsView(GA360Mixin, TemplateView):
         )
 
 
-class TargetMarketView(GA360Mixin, TemplateView, mixins.ExportPlanMixin):
+class TargetMarketView(GA360Mixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
