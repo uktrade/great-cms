@@ -24,6 +24,10 @@ urlpatterns = [
         core.views.MarketsView.as_view(),
         name='markets'
     ),
+    path('find-your-target-market/',
+         login_required(core.views.TargetMarketView.as_view(), login_url=LOGIN_URL),
+         name='target-market'
+         ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
         login_required(core.views.ArticleView.as_view(), login_url=LOGIN_URL),

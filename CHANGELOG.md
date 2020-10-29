@@ -104,6 +104,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-917 - Target_market_page
 - GP2-868 - Update coming soon modal copy
 - GP2-763 - Analytics - first sign-in
 - GP2-748 - Analytics product classifier - match found
@@ -349,3 +350,4 @@
 - GP2-902 - content-changes
 - GP2-937 - content-changes
 - GP2-950 - prevent scripts ep json fields
+- GP2-876 - fix logged out
