@@ -108,6 +108,13 @@ export default function ProductFinderModal(props) {
         productKeyword: capitalize(result.currentItemName),
         productCode: result.hsCode
       })
+    } else if (result.currentQuestionInteraction) {
+      analytics({
+        event: 'addProductPageview',
+        virtualPageUrl: '/add-product-modal/tell-us-more',
+        virtualPageTitle: 'Add Product Modal - Tell Us More',
+        productKeyword: capitalize(result.currentItemName)
+      })
     }
   }
 
