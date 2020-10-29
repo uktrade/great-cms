@@ -1,0 +1,27 @@
+{% extends 'exportplan/section.html' %}
+{% load static %}
+
+{% block banner_image %}
+  {% static 'images/ep-placeholder.svg' %}
+{% endblock %}
+
+{% block intro_title %}Find your target market{% endblock %}
+{% block intro_description %}Finding the right market is crucial to successful exporting. We’ll help you explore the pros and cons of different countries and choose the best market for your business.{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block main_content %}
+  <div class="g-panel">
+    <p>Where’s the biggest demand for your product?</p>
+    <p>It’s time to do your homework.</p>
+    <p>For each country you’ll find data and insights relevant to your sector. Use this data to back up your own research and understand:</p>
+    <ul class="list-dot">
+      <li>the appetite for your product in different countries</li>
+      <li>economic and cultural factors</li>
+      <li>any challenges you could encounter</li>
+    </ul>
+    <p>You can then start making an informed decision about where to expand your business.</p>
+  </div>
+  <button class="button button--primary button--icon m-v-xl"><i class="fa fa-plus-square"></i>Select product</button>
+  <div class="p-v-l"></div>
+{% endblock %}

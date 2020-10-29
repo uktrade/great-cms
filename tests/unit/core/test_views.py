@@ -763,3 +763,11 @@ def test_bad_auth_with_cookie(client):
 def test_bad_auth_with_enc_token(client):
     response = client.get(f'/markets/?enc={BETA_AUTH_TOKEN_PAST}')
     assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_target_market_page(patch_export_plan, client, user):
+    client.force_login(user)
+
+    response = client.get('/find-your-target-market/')
+    assert response.status_code == 200

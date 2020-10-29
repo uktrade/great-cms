@@ -104,6 +104,23 @@ class MarketsView(GA360Mixin, TemplateView):
         )
 
 
+class TargetMarketView(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='TargetMarkets',
+            business_unit='MagnaUnit',
+            site_section='target markets',
+        )
+    template_name = 'core/target_markets.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user and hasattr(self.request.user, 'export_plan'):
+            context['export_plan'] = self.request.user.export_plan
+        return context
+
+
 class ProductLookupView(generics.GenericAPIView):
     serializer_class = serializers.ProductLookupSerializer
     permission_classes = []
