@@ -17,8 +17,10 @@
                         <div class="c-1-4">
                             <div class="m-t-xl p-h-xs">
                                 <p class="body-l p-t-s m-v-0">You're in:</p>
-                                <!-- TODO: replace below with topic name -->
-                                <p class="body-l-b m-v-0">Evaluating<br /> opportunities</p>
+                                {% get_topic_title_for_lesson page as topic_title %}
+                                {% if topic_title %}
+                                <p class="body-l-b m-v-0">{{topic_title}}</p>
+                                {% endif %}
                                 <a href="{{page.get_parent.url}}" class="button button--secondary button--small m-t-xs">View all lessons</a>
                             </div>
                         </div>
