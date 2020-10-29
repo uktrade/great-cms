@@ -24,7 +24,7 @@ function ProductFinderButton(props) {
 
   let triggerButton = (
     <button type="button" 
-      className="button button--primary button--icon m-v-xl"
+      className="button button--primary button--icon"
       onClick={openModal}>
         <i className="fa fa-plus-square"/>
       Select product

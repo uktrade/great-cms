@@ -28,9 +28,14 @@
       ditMVP.ProductFinderButton({
       element: document.querySelector("#open-product-finder")
       })
-  </script>
+    </script>
   {% else %}
-
+    <div id="open-market-chooser" class="m-v-xl">
+      <button type="button" class="button button--primary button--icon">
+        <i class="fa fa-plus-square"></i>
+        Add market 1 of 3
+      </button>
+    </div>
   {% endif %}
   <div class="p-v-l"></div>
 {% endblock %}
