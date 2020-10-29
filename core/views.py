@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
-from core import forms, helpers, serializers, constants
+from core import forms, helpers, serializers, constants, mixins
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -102,6 +102,23 @@ class MarketsView(GA360Mixin, TemplateView):
             most_popular_countries=self.get_most_popular_countries(),
             **kwargs
         )
+
+
+class TargetMarketView(GA360Mixin, TemplateView, mixins.ExportPlanMixin):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='TargetMarkets',
+            business_unit='MagnaUnit',
+            site_section='target markets',
+        )
+    template_name = 'core/target_markets.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user and hasattr(self.request.user, 'export_plan'):
+            context['export_plan'] = self.request.user.export_plan
+        return context
 
 
 class ProductLookupView(generics.GenericAPIView):

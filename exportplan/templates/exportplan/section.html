@@ -5,7 +5,7 @@
 
 {% block content %}
 
-{% include "exportplan/includes/sidebar.html" %}
+{% block sidebar %}{% include "exportplan/includes/sidebar.html" %}{% endblock %}
 
 <div class="main-section bg-white text-blue-deep-80 {{ view.slug }}-content" id="{{ view.slug }}-content">
 
