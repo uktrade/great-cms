@@ -11,7 +11,7 @@ import ProductLookup from '@src/views/ProductLookup/Container'
 import { createLogin } from '@src/views/Login'
 import MarketSelectNavbar from '@src/views/MarketSelectNavbar/Container'
 import Tour from '@src/views/Tour/Container'
-import ProductFinder from '@src/components/ProductFinder/ProductFinder'
+import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinder from '@src/components/ProductFinder/CountryFinder'
 import ModalMenu from '@src/components/ModalMenu'
 import { createRouteToMarket, createSpendingAndResources } from '@src/views/sections/MarketingApproach'
@@ -51,7 +51,7 @@ export default {
   IndustriesModal,
   LearnIntroduction,
   ProductLookup,
-  ProductFinder,
+  ProductFinderButton,
   CountryFinder,
   ModalMenu,
   createLogin,

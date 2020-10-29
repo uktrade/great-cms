@@ -22,6 +22,15 @@
     </ul>
     <p>You can then start making an informed decision about where to expand your business.</p>
   </div>
-  <button class="button button--primary button--icon m-v-xl"><i class="fa fa-plus-square"></i>Select product</button>
+  {% if not export_plan.export_commodity_codes.0 %}
+    <div id="open-product-finder" class="m-v-xl"></div>
+    <script>
+      ditMVP.ProductFinderButton({
+      element: document.querySelector("#open-product-finder")
+      })
+  </script>
+  {% else %}
+
+  {% endif %}
   <div class="p-v-l"></div>
 {% endblock %}
