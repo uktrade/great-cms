@@ -485,7 +485,7 @@ def test_login_page_logged_in(client, user):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == constants.LOGIN_URL
+    assert response.url == constants.DASHBOARD_URL
 
 
 @pytest.mark.django_db
