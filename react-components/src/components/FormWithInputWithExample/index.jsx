@@ -108,7 +108,7 @@ export class FormWithInputWithExample extends Component {
               update={this.handleChange}
               name={field.name}
               options={field.choices}
-              selected={field[field.name] ? field.choices.find(x => x.value === formData[field.name]).label: ''}
+              selected={field.name ? field.choices.find(x => x.value === formData[field.name]).label: ''}
               example={field.example}
               description={field.description}
               tooltip={field.tooltip}
