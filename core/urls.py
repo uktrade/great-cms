@@ -13,6 +13,7 @@ LOGIN_URL = reverse_lazy('core:login')
 def anonymous_user_required(function):
     inner = user_passes_test(
         lambda user: bool(user.is_anonymous),
+        # redirect if the user DOES NOT pass the test
         constants.DASHBOARD_URL,
         None
     )
