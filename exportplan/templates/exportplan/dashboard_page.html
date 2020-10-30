@@ -16,8 +16,8 @@
             <a id="add-image" href="{% url 'exportplan:add-logo' %}" class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
                 <i class="fas fa-upload"></i>
                 <h3 class="m-v-xs bold">Upload your logo</h3>
-                <p class="m-0">Drag and drop a file or click here.</p>
-                <p class="m-0">PNG, GIF or JPG, 270x170 pixels</p>
+                <p class="m-0">Click here.</p>
+                <p class="m-0">PNG or JPG, 270x170 pixels</p>
             </a>
         {% else %}
             <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full"/>
