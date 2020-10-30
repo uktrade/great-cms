@@ -108,11 +108,12 @@
 
 ### Implemented enhancements
 - GP2-955 - Target-market-page - disable and coming soon
+- GP2-748 - Analytics product classifier - tell us more
 - GP2-913 - Target_market_page - trigger product selector
 - GP2-917 - Target_market_page
 - GP2-868 - Update coming soon modal copy
 - GP2-763 - Analytics - first sign-in
-- GP2-748 - Analytics product classifier - match found
+- GP2-764 - Analytics product classifier - match found
 - GP2-689 - Analytics product classifier - product selected
 - GP2-690 - Analytics target market open
 - GP2-739 - Add beta banner to learning landing page
