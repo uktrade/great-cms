@@ -1,3 +1,4 @@
+from core import constants
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -12,7 +13,7 @@ LOGIN_URL = reverse_lazy('core:login')
 def anonymous_user_required(function):
     inner = user_passes_test(
         lambda user: bool(user.is_anonymous),
-        reverse_lazy('core:login'),
+        constants.DASHBOARD_URL,
         None
     )
     return inner(function)
