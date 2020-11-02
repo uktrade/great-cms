@@ -1,5 +1,5 @@
 from django import template
-from core import constants
+from core import cms_slugs
 import re
 
 register = template.Library()
@@ -8,7 +8,9 @@ register = template.Library()
 @register.simple_tag()
 def url_map(key):
     url_mapping = {
-        'DASHBOARD': constants.DASHBOARD_URL
+        'DASHBOARD': cms_slugs.DASHBOARD_URL,
+        'c': cms_slugs.PRIVACY_NOTICE_URL,
+        'TERMS': cms_slugs.TERMS_URL,
     }
 
     return url_mapping.get(key.upper())
