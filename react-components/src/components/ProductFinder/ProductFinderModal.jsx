@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
 import { capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
-import Confirmation from './MessageConfirmation'
 import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
@@ -18,43 +16,30 @@ const formatPath = (pathstr) => {
   })
 }
 
-function ProductFinder(props) {
-  const { text } = props;
+export default function ProductFinderModal(props) {
+  const { modalIsOpen, setIsOpen, setSelectedProduct } = props;
+
   let searchInput
   let scrollOuter
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(text)
+
   const [searchResults, setSearchResults] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
 
-
-  const openProductFinder = (open) => {
-    setIsOpen(open)
-    if (open) {
+  useEffect(() => {
+    if (modalIsOpen) {
       analytics({
         'event': 'addProductPageview',
-        'virtualPageURL': '/add-product-modal/search_entry',
+        'virtualPageUrl': '/add-product-modal/search_entry',
         'virtualPageTitle': 'Add Product Modal - Search Entry'
       })
     }
-  }
-
-  const openModal = () => {
-    setProductConfirmationRequired(!!selectedProduct)
-    openProductFinder(!selectedProduct)
-  }
+  }, [modalIsOpen])
 
   const closeModal = () => {
     setIsOpen(false)
     setSearchResults()
-  }
-
-  const closeConfirmation = () => {
-    setProductConfirmationRequired(false)
-    openProductFinder(true)
   }
 
   const modalAfterOpen = () => {
@@ -351,16 +336,11 @@ function ProductFinder(props) {
     )
   }
 
-  const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
   const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
   const headerHeight = '0px'
 
   return (
     <span>
-      <button type="button" className={buttonClass} onClick={openModal}>
-        {selectedProduct || 'add product'}
-        <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`}/>
-      </button>
       <ReactModal 
         isOpen={modalIsOpen} 
         onRequestClose={closeModal} 
@@ -398,30 +378,12 @@ function ProductFinder(props) {
           </div>
         </form>
       </ReactModal>
-      <Confirmation
-        buttonClass={buttonClass}
-        productConfirmation={productConfirmationRequired}
-        handleButtonClick={closeConfirmation}
-        messageTitle="Changing product?"
-        messageBody="if you've created an export plan, make sure you update it to reflect your new product. you can change product at any time."
-        messageButtonText="Got it"
-      />
     </span>
   )
 }
 
-ProductFinder.propTypes = {
-  text: PropTypes.string,
-}
-
-ProductFinder.defaultProps = {
-  text: '',
-}
-
-export default function createProductFinder({ ...params }) {
-  const mainElement = document.createElement('span')
-  document.body.appendChild(mainElement)
-  ReactModal.setAppElement(mainElement)
-  const text = params.element.getAttribute('data-text')
-  ReactDOM.render(<ProductFinder text={text}/>, params.element)
+ProductFinderModal.propTypes = {
+  modalIsOpen: PropTypes.bool.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  setSelectedProduct: PropTypes.func.isRequired,
 }

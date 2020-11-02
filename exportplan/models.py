@@ -9,6 +9,7 @@ from great_components.mixins import GA360Mixin
 
 
 class ExportPlanDashboardPage(
+    mixins.AuthenticatedUserRequired,
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
     mixins.ExportPlanMixin,

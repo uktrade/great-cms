@@ -1,3 +1,4 @@
+from core import constants
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -12,7 +13,8 @@ LOGIN_URL = reverse_lazy('core:login')
 def anonymous_user_required(function):
     inner = user_passes_test(
         lambda user: bool(user.is_anonymous),
-        reverse_lazy('core:login'),
+        # redirect if the user DOES NOT pass the test
+        constants.DASHBOARD_URL,
         None
     )
     return inner(function)
@@ -24,6 +26,10 @@ urlpatterns = [
         core.views.MarketsView.as_view(),
         name='markets'
     ),
+    path('find-your-target-market/',
+         login_required(core.views.TargetMarketView.as_view(), login_url=LOGIN_URL),
+         name='target-market'
+         ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
         login_required(core.views.ArticleView.as_view(), login_url=LOGIN_URL),

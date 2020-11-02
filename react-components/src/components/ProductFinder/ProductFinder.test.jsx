@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { act, Simulate } from 'react-dom/test-utils'
-import ProductFinder from '@src/components/ProductFinder/ProductFinder'
+import ProductFinder from '@src/components/ProductFinder/ProductFinderButton'
 import Services from '@src/Services'
 import fetchMock from 'fetch-mock'
 import { waitFor } from '@testing-library/react'
