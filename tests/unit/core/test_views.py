@@ -12,7 +12,7 @@ from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from formtools.wizard.views import normalize_name
 
-from core import forms, helpers, serializers, views, constants, cms_slugs
+from core import forms, helpers, serializers, views, cms_slugs
 
 from tests.helpers import add_lessons_and_placeholders_to_curated_list_page, create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
