@@ -73,8 +73,8 @@ def test_dashboard_page_routing(
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     mock_get_user_page_views.return_value = create_response(json_body={'result': 'ok', 'page_views': {}})
-    topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
-    lesson_one = DetailPageFactory(parent=topic_one, slug='lesson-one')
+    list_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
+    lesson_one = DetailPageFactory(parent=list_one, slug='lesson-one')
     dashboard = DomesticDashboardFactory(
         parent=domestic_homepage,
         slug='dashboard',

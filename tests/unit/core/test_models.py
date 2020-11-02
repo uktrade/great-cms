@@ -51,7 +51,8 @@ def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_
 
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
-    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     client.get(detail_page.url)
 
@@ -67,7 +68,8 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
     client.force_login(user)
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
-    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     client.get(detail_page.url)
 
@@ -191,8 +193,9 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         record_read_progress=False
     )
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
     detail_page = factories.DetailPageFactory(
-        parent=curated_list_page,
+        parent=topic_page,
         template='learn/detail_page.html'
     )
 
@@ -522,7 +525,6 @@ class DetailPageTests(WagtailPageTests):
         )
 
     def test_detail_page_creation_for_single_hero_image(self):
-
         detail_page = DetailPageFactory(
             hero=[('Image', ImageFactory())]
         )
@@ -550,7 +552,8 @@ def test_redirection_for_unauthenticated_user(
     interstitial_page = factories.InterstitialPageFactory(parent=landing_page)
     list_page = factories.ListPageFactory(parent=domestic_homepage)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
-    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     pages = [
         landing_page,

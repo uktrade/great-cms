@@ -101,8 +101,8 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
 def test_user_product_expertise_middleware(domestic_site, client, mock_update_company_profile, user):
     client.force_login(user)
 
-    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
-    lesson_page = factories.DetailPageFactory(parent=topic_page)
+    list_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=list_page)
 
     response = client.get(
         lesson_page.url,
@@ -126,8 +126,8 @@ def test_user_product_expertise_middleware_no_company(
     mock_get_company_profile.return_value = None
     client.force_login(user)
 
-    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
-    lesson_page = factories.DetailPageFactory(parent=topic_page)
+    list_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=list_page)
 
     response = client.get(
         lesson_page.url,
@@ -146,8 +146,8 @@ def test_user_product_expertise_middleware_no_company(
 
 @pytest.mark.skip(reason='All DetailPage templates require login. Reinstate for template that allows anon user')
 def test_user_product_expertise_middleware_not_logged_in(domestic_site, client, mock_update_company_profile):
-    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
-    lesson_page = factories.DetailPageFactory(parent=topic_page)
+    list_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=list_page)
 
     response = client.get(
         lesson_page.url,
@@ -162,8 +162,8 @@ def test_user_product_expertise_middleware_not_logged_in(domestic_site, client, 
 def test_user_product_expertise_middleware_not_store(domestic_site, client, mock_update_company_profile, user):
     client.force_login(user)
 
-    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
-    lesson_page = factories.DetailPageFactory(parent=topic_page)
+    list_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=list_page)
 
     response = client.get(
         lesson_page.url,
@@ -179,8 +179,8 @@ def test_user_product_expertise_middleware_not_store_idempotent(
 ):
     client.force_login(user)
 
-    topic_page = factories.ListPageFactory(parent=domestic_site.root_page)
-    lesson_page = factories.DetailPageFactory(parent=topic_page)
+    list_page = factories.ListPageFactory(parent=domestic_site.root_page)
+    lesson_page = factories.DetailPageFactory(parent=list_page)
 
     response = client.get(
         lesson_page.url,
