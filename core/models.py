@@ -5,6 +5,7 @@ from urllib.parse import unquote
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.http import HttpResponseRedirect
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
@@ -386,7 +387,10 @@ class ListPage(CMSGenericPage):
 
 class CuratedListPage(CMSGenericPage):
     parent_page_types = ['core.ListPage']
-    subpage_types = ['core.DetailPage']
+    subpage_types = [
+        'core.TopicPage',
+        'core.DetailPage',
+    ]
     template_choices = (
         ('learn/curated_list_page.html', 'Learn'),
     )
@@ -462,12 +466,76 @@ def hero_singular_validation(value):
         )
 
 
+class TopicPage(
+    mixins.AuthenticatedUserRequired,
+    Page
+):
+    """Structural page to allow for cleaner mapping of lessons (`DetailPage`s)
+    to modules (`CuratedListPage`s).
+
+    Not intented to be viewed by end users, so will redirect to the parent
+    module if accessed.
+
+    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin
+    are not used."""
+
+    parent_page_types = ['core.CuratedListPage']
+    subpage_types = [
+        'core.DetailPage',
+        'core.LessonPlaceholderPage',
+    ]
+
+    # `title` comes from Page superclass and that's all we need here
+
+    def _redirect_to_parent_module(self):
+        return HttpResponseRedirect(self.get_parent().url)
+
+    def serve_preview(self, request):
+        return self._redirect_to_parent_module()
+
+    def serve(self, request):
+        return self._redirect_to_parent_module()
+
+
+class LessonPlaceholderPage(
+    mixins.AuthenticatedUserRequired,
+    Page
+):
+
+    """Structural page to allow for configuring and representing very simple
+    to modules (`CuratedListPage`s).
+
+    Not intented to be viewed by end users, so will redirect to the parent
+    module if accessed.
+
+    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin
+    are not used."""
+
+    parent_page_types = ['core.TopicPage']
+    subpage_types = []  # No child pages allowed for placeholders
+
+    # `title` comes from Page superclass and that's all we need here
+
+    def _redirect_to_parent_module(self):
+        dest = CuratedListPage.objects.ancestor_of(self).first().url
+        return HttpResponseRedirect(dest)
+
+    def serve_preview(self, request):
+        return self._redirect_to_parent_module()
+
+    def serve(self, request):
+        return self._redirect_to_parent_module()
+
+
 class DetailPage(CMSGenericPage):
     estimated_read_duration = models.DurationField(
         null=True,
         blank=True
     )
-    parent_page_types = ['core.CuratedListPage']
+    parent_page_types = [
+        'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
+        'core.TopicPage'
+    ]
     template_choices = (
         ('exportplan/dashboard_page.html', 'Export plan dashboard'),
         ('learn/detail_page.html', 'Learn'),
@@ -476,8 +544,8 @@ class DetailPage(CMSGenericPage):
     topic_block_id = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Personalisable detail page'
-        verbose_name_plural = 'Personalisable detail pages'
+        verbose_name = 'Detail page'
+        verbose_name_plural = 'Detail pages'
 
     ################
     # Content fields
