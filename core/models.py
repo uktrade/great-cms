@@ -665,11 +665,7 @@ class DetailPage(CMSGenericPage):
 
     @cached_property
     def topic_title(self):
-        if self.topic_block_id:
-            topic_pages = self.get_parent()
-            for topic in topic_pages.specific.topics:
-                if topic.id == self.topic_block_id:
-                    return topic.value['title']
+        return self.get_parent().title
 
     @cached_property
     def module(self):
