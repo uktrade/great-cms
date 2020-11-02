@@ -1,7 +1,13 @@
 import pytest
 
 from tests.unit.learn import factories
-from tests.unit.core.factories import CuratedListPageFactory, TourFactory, ListPageFactory, DetailPageFactory
+from tests.unit.core.factories import (
+    CuratedListPageFactory,
+    DetailPageFactory,
+    ListPageFactory,
+    TopicPageFactory,
+    TourFactory,
+)
 
 
 @pytest.mark.django_db
@@ -35,7 +41,8 @@ def test_tour_page(client, domestic_homepage, domestic_site, user):
 
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     curated_list_page = CuratedListPageFactory(parent=list_page)
-    detail_page = DetailPageFactory(parent=curated_list_page)
+    topic_page = TopicPageFactory(parent=curated_list_page)
+    detail_page = DetailPageFactory(parent=topic_page)
 
     tour = TourFactory(page=detail_page, title='Tour title')
     assert tour.__str__() == 'Detail page'
