@@ -16,7 +16,14 @@ from tests.browser.common_selectors import (
 from tests.browser.steps import should_see_all_elements, should_not_see_any_element, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
 from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
-from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
+from tests.unit.core.factories import (
+    CuratedListPageFactory,
+    DetailPageFactory,
+    LessonPlaceholderPageFactory,
+    ListPageFactory,
+    TopicPageFactory,
+)
+
 from core import constants
 from sso import helpers as sso_helpers
 
@@ -63,13 +70,13 @@ def test_can_view_lessons_from_different_topics(
     mock_get_lessons_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    curated_list_pages_with_lessons_and_placeholders,
+    curated_list_pages_with_lessons,
     server_user_browser_dashboard,
 ):
 
     live_server, user, browser = server_user_browser_dashboard
-    clp_a, clp_a_lessons = curated_list_pages_with_lessons_and_placeholders[0]
-    clp_b, clp_b_lessons = curated_list_pages_with_lessons_and_placeholders[1]
+    clp_a, clp_a_lessons = curated_list_pages_with_lessons[0]
+    clp_b, clp_b_lessons = curated_list_pages_with_lessons[1]
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
 
@@ -87,44 +94,26 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     mock_get_lesson_completed,
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    curated_list_pages_with_lessons_and_placeholders,
+    curated_list_pages_with_lessons,
     server_user_browser_dashboard,
     domestic_homepage,
 ):
     live_server, user, browser = server_user_browser_dashboard
-    clp_a, clp_a_lessons = curated_list_pages_with_lessons_and_placeholders[0]
+    clp_a, clp_a_lessons = curated_list_pages_with_lessons[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
-    _topic_id = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
+    topic_page = TopicPageFactory(parent=module_page, title="Module one, first topic")
+
+    LessonPlaceholderPageFactory(
+        title='Placeholder To Show They Do Not Interfere With Counts',
+        parent=topic_page,
+    )
     lesson_one = DetailPageFactory(
-        parent=module_page,
+        parent=topic_page,
         title='test detail page 1',
-        topic_block_id=_topic_id,
     )
-    lesson_two = DetailPageFactory(
-        parent=module_page,
+    DetailPageFactory(
+        parent=topic_page,
         title='test detail page 2',
-        topic_block_id=_topic_id,
-
-    )
-
-    module_page = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=module_page,
-        data_for_topics={
-            0: {
-                'id': _topic_id,
-                'title': 'Module one, first topic block',
-                'lessons_and_placeholders': [
-                    {
-                        'type': 'placeholder',
-                        'value': {
-                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
-                        }
-                    },
-                    {'type': 'lesson', 'value': lesson_one.id},
-                    {'type': 'lesson', 'value': lesson_two.id},
-                ]
-            },
-        }
     )
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
