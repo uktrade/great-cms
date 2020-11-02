@@ -107,8 +107,7 @@ class DetailPageFactory(wagtail_factories.PageFactory):
     live = True
     body = factory.fuzzy.FuzzyText(length=200)
     template = factory.fuzzy.FuzzyChoice(models.DetailPage.template_choices, getter=lambda choice: choice[0])
-    parent = factory.SubFactory(CuratedListPageFactory)
-    # topic_block_id should ONLY be set explicitly and manually
+    parent = factory.SubFactory(TopicPageFactory)
 
     class Meta:
         model = models.DetailPage

@@ -417,19 +417,21 @@ class CuratedListPage(CMSGenericPage):
         StreamFieldPanel('topics')
     ]
 
+    def get_topics(self, live=True) -> models.QuerySet:
+        qs = TopicPage.objects.descendant_of(self)
+        if live:
+            qs = qs.live()
+        return qs
+
     @cached_property
     def count_topics(self):
-        return len(self.topics)
+        return self.get_topics().count()
 
     @cached_property
     def count_detail_pages(self):
         count = 0
-        for topic in self.topics:
-            for lesson_or_placeholder_block in topic.value.get(
-                'lessons_and_placeholders'
-            ):
-                if lesson_or_placeholder_block.block_type == LESSON_BLOCK:
-                    count += 1
+        for topic in self.get_topics():
+            count += DetailPage.objects.descendant_of(topic).count()
         return count
 
     def get_context(self, request, *args, **kwargs):

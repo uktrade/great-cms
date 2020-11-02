@@ -405,14 +405,14 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id(rf, curated_list_pages_with_lessons_and_placeholders):
+def test_set_lesson_pages_topic_id(rf, curated_list_pages_with_lessons):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
     # Rest the topic_block_id for all lessons
-    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
-    for lesson_page in curated_list_pages_with_lessons_and_placeholders[0][1]:
+    curated_page = curated_list_pages_with_lessons[0][0]
+    for lesson_page in curated_list_pages_with_lessons[0][1]:
         lesson_page.topic_block_id = None
         lesson_page.save()
 
@@ -433,12 +433,12 @@ def test_set_lesson_pages_topic_id(rf, curated_list_pages_with_lessons_and_place
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id_removed(rf, curated_list_pages_with_lessons_and_placeholders):
+def test_set_lesson_pages_topic_id_removed(rf, curated_list_pages_with_lessons):
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
+    curated_page = curated_list_pages_with_lessons[0][0]
 
     # Remove the second lesson from topic
     topic_page_2_data = curated_page.topics[0].value['lessons_and_placeholders'].stream_data.pop()
