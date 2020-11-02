@@ -82,6 +82,26 @@ class CuratedListPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
+class TopicPageFactory(wagtail_factories.PageFactory):
+    title = 'Topic page'
+    live = True
+    parent = factory.SubFactory(CuratedListPageFactory)
+
+    class Meta:
+        model = models.TopicPage
+        django_get_or_create = ['slug', 'parent']
+
+
+class LessonPlaceholderPageFactory(wagtail_factories.PageFactory):
+    title = 'Placeholder'
+    live = True
+    parent = factory.SubFactory(TopicPageFactory)
+
+    class Meta:
+        model = models.LessonPlaceholderPage
+        django_get_or_create = ['slug', 'parent']
+
+
 class DetailPageFactory(wagtail_factories.PageFactory):
     title = 'Detail page'
     live = True
