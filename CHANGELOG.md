@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-966 - bug fix - select no values
 - GP2-954 - Require anonymous user on certain pages
 - GP2-926 -  update copy
 - GP2-949 - Header style tweaks
