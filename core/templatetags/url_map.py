@@ -9,7 +9,7 @@ register = template.Library()
 def url_map(key):
     url_mapping = {
         'DASHBOARD': cms_slugs.DASHBOARD_URL,
-        'c': cms_slugs.PRIVACY_NOTICE_URL,
+        'PRIVACY': cms_slugs.PRIVACY_NOTICE_URL,
         'TERMS': cms_slugs.TERMS_URL,
     }
 
