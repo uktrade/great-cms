@@ -173,8 +173,9 @@ export default function ProductFinderModal(props) {
         <h3 className="h-m p-v-xs">{title}</h3>
           {(sectionDetails || []).map((value) => {
             return value.type === 'SELECTION' ? 
-              (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
+              (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse} isFirstQuestion={searchResults.knownInteractions.length == 0} searchQuery={searchResults.productDescription}/>) : 
               (<ValueInteraction txId={searchResults.txId} key={value.id} attribute={value} processResponse={processResponse} mixedContentError={searchResults.mixedContentError}/>)
+
           })}
       </section>
     )
