@@ -71,13 +71,14 @@ export default function ProductFinderModal(props) {
 
   const saveProduct = () => {
     const productName = capitalize(searchResults.currentItemName)
+    const searchQuery = capitalize(searchResults.productDescription)
     setSelectedProduct({
       name: productName,
       code: searchResults.hsCode
     })
     analytics({
       event: 'addProductSuccess',
-      productKeyword: productName,
+      productKeyword: searchQuery,
       productCode: searchResults.hsCode
     })
 
@@ -103,13 +104,33 @@ export default function ProductFinderModal(props) {
   }
 
   const responseAnalytics = (result) => {
+    const searchQuery = capitalize(result.productDescription);
     if (result.hsCode) {
+      // product found
       analytics({
         event: 'addProductPageview',
         virtualPageUrl: '/add-product-modal/product-found',
         virtualPageTitle: 'Add Product Modal - Product Found',
-        productKeyword: capitalize(result.currentItemName),
+        productKeyword: searchQuery,
         productCode: result.hsCode
+      })
+    } else if (result.currentQuestionInteraction) {
+      if (result.knownInteractions.length == 0) {
+        // 'tell us more', first response
+        analytics({
+          event: 'addProductPageview',
+          virtualPageUrl: '/add-product-modal/tell-us-more',
+          virtualPageTitle: 'Add Product Modal - Tell Us More',
+          productKeyword: searchQuery
+        })
+      }
+    } else {
+      // product not found
+      analytics({
+        event: 'addProductPageview',
+        virtualPageUrl: '/add-product-modal/no-results',
+        virtualPageTitle: 'Add Product Modal - No Results',
+        productKeyword: searchQuery
       })
     }
   }
@@ -176,7 +197,7 @@ export default function ProductFinderModal(props) {
         <h3 className="h-m p-v-xs">{title}</h3>
           {(sectionDetails || []).map((value) => {
             return value.type === 'SELECTION' ? 
-              (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse} isFirstQuestion={searchResults.knownInteractions.length == 0} searchQuery={searchResults.productDescription}/>) : 
+              (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
               (<ValueInteraction txId={searchResults.txId} key={value.id} attribute={value} processResponse={processResponse} mixedContentError={searchResults.mixedContentError}/>)
 
           })}
