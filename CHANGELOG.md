@@ -112,6 +112,7 @@
 - GP2-917 - Target_market_page
 - GP2-868 - Update coming soon modal copy
 - GP2-763 - Analytics - first sign-in
+- GP2-924 - Support thumbnails as `poster` images for <video> nodes
 - GP2-748 - Analytics product classifier - match found
 - GP2-689 - Analytics product classifier - product selected
 - GP2-690 - Analytics target market open
