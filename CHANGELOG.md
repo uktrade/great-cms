@@ -110,6 +110,7 @@
 ### Implemented enhancements
 - GP2-751 - Add link back to module, featuring topic name
 - GP2-955 - Target-market-page - disable and coming soon
+- GP2-164 - Add topic-level progress counters to module page (one per topic block)
 - GP2-913 - Target_market_page - trigger product selector
 - GP2-917 - Target_market_page
 - GP2-868 - Update coming soon modal copy
