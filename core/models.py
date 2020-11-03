@@ -360,12 +360,14 @@ class ListPage(CMSGenericPage):
         verbose_name_plural = 'Automated list pages'
 
     def get_context(self, request, *args, **kwargs):
+        from domestic.helpers import get_lesson_completion_status
         from core.helpers import get_high_level_completion_progress
         context = super().get_context(request)
 
         if request.user.is_authenticated:
-            context['module_completion_progress'] = get_high_level_completion_progress(
-                user=request.user,
+            completion_status = get_lesson_completion_status(request.user)
+            context['high_level_completion_progress'] = get_high_level_completion_progress(
+                completion_status=completion_status,
             )
         return context
 
@@ -427,16 +429,25 @@ class CuratedListPage(CMSGenericPage):
         return count
 
     def get_context(self, request, *args, **kwargs):
-        from core.helpers import get_module_completion_progress
+        from domestic.helpers import get_lesson_completion_status
+        from core.helpers import (
+            get_high_level_completion_progress,
+            get_module_completion_progress
+        )
         context = super().get_context(request)
         # Give the template a simple way to link back to the parent
         # learning module (ListPage)
         context['parent_page_url'] = self.get_parent().url
 
         if request.user.is_authenticated:
+            # get this once, so we don't waste the network call to get the data twice
+            completion_status = get_lesson_completion_status(request.user)
             context['module_completion_progress'] = get_module_completion_progress(
-                user=request.user,
+                completion_status=completion_status,
                 module_page=self,
+            )
+            context['high_level_completion_progress'] = get_high_level_completion_progress(
+                completion_status=completion_status,
             )
         return context
 

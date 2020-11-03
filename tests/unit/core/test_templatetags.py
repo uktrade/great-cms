@@ -5,12 +5,18 @@ import pytest
 from django.template import Context, Template
 from datetime import timedelta
 
-from core.templatetags.content_tags import get_backlinked_url
+from core.templatetags.content_tags import (
+    get_backlinked_url,
+    get_topic_title_for_lesson,
+)
 from core.templatetags.object_tags import get_item
 from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.url_map import path_match
 from core.templatetags.video_tags import render_video
 from core.templatetags.progress_bar import progress_bar
+
+from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
+from tests.unit.core import factories
 
 
 def test_render_personalised_video_block_tag__with_thumbnail():
@@ -297,3 +303,96 @@ def test_progress_bar(total, complete, percentage):
     html = progress_bar(total, complete)
     check = f'style="width:{percentage}"'
     assert html.find(check) > 0
+
+
+@pytest.mark.django_db
+def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
+
+    # Lots of setup, alas
+
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage, record_read_progress=True
+    )
+    module_1 = factories.CuratedListPageFactory(
+        title='Module 1',
+        parent=list_page,
+    )
+
+    module_2 = factories.CuratedListPageFactory(
+        title='Module 2', parent=list_page,
+    )
+
+    detail_page_1 = factories.DetailPageFactory(slug='detail-page-1-1', parent=module_1)
+    detail_page_2 = factories.DetailPageFactory(slug='detail-page-1-2', parent=module_1)
+    detail_page_3 = factories.DetailPageFactory(slug='detail-page-1-3', parent=module_1)
+    detail_page_4 = factories.DetailPageFactory(slug='detail-page-4-2', parent=module_2)
+    # page 5 is not going to be mapped to a topic below
+    detail_page_5 = factories.DetailPageFactory(slug='detail-page-5-0', parent=module_2)
+    # page 6 is going to be a child of a totally new module AND not be mapped to a topic
+    detail_page_6 = factories.DetailPageFactory(slug='detail-page-6-0')
+
+    topic_1 = factories.CuratedTopicBlockFactory(
+        title='Topic 1',
+        # We add detail_page_1 and detail_page_2 to
+        # lessons_and_placeholder data FOR MODULE 1 via JSON below
+    )
+    topic_2 = factories.CuratedTopicBlockFactory(
+        title='Topic 2',
+        # We add detail_page_3 to lessons_and_placeholder data FOR MODULE 1 via JSON below
+    )
+    topic_3 = factories.CuratedTopicBlockFactory(
+        title='Topic 3',
+        # We add detail_page_4 to lessons_and_placeholder data FOR MODULE 2 via JSON below
+    )
+
+    module_1.topics = [('topic', topic_1), ('topic', topic_2)]
+    module_2.topics = [('topic', topic_3)]
+    module_1.save()
+    module_2.save()
+
+    lessons_for_topic_1 = [  # used in module 1
+        {'type': 'lesson', 'value': detail_page_1.id},
+        {'type': 'placeholder', 'value': {'title': 'Topic One: Placeholder One'}},
+        {'type': 'lesson', 'value': detail_page_2.id},
+        {'type': 'placeholder', 'value': {'title': 'Topic One: Placeholder Two'}},
+    ]
+    lessons_for_topic_2 = [  # used in module 1
+        {'type': 'lesson', 'value': detail_page_3.id},
+        {'type': 'placeholder', 'value': {'title': 'Topic Two: Placeholder One'}},
+        {'type': 'placeholder', 'value': {'title': 'Topic Two: Placeholder Two'}},
+        {'type': 'placeholder', 'value': {'title': 'Topic Two: Placeholder Three'}},
+    ]
+    lessons_for_topic_3 = [  # used in module 2
+        {'type': 'placeholder', 'value': {'title': 'Topic Three: Placeholder One'}},
+        {'type': 'lesson', 'value': detail_page_4.id},
+        {'type': 'placeholder', 'value': {'title': 'Topic Three: Placeholder Two'}},
+    ]
+
+    module_1 = add_lessons_and_placeholders_to_curated_list_page(
+        curated_list_page=module_1,
+        data_for_topics={
+            0: {
+                'lessons_and_placeholders': lessons_for_topic_1,
+            },
+            1: {
+                'lessons_and_placeholders': lessons_for_topic_2,
+            },
+        }
+
+    )
+    module_2 = add_lessons_and_placeholders_to_curated_list_page(
+        curated_list_page=module_2,
+        data_for_topics={
+            0: {
+                'lessons_and_placeholders': lessons_for_topic_3,
+            },
+        }
+    )
+
+    # Finally, to the test:
+    assert get_topic_title_for_lesson(detail_page_1) == 'Topic 1'
+    assert get_topic_title_for_lesson(detail_page_2) == 'Topic 1'
+    assert get_topic_title_for_lesson(detail_page_3) == 'Topic 2'
+    assert get_topic_title_for_lesson(detail_page_4) == 'Topic 3'
+    assert get_topic_title_for_lesson(detail_page_5) == ''
+    assert get_topic_title_for_lesson(detail_page_6) == ''
