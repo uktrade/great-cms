@@ -1,10 +1,19 @@
 {% load wagtailcore_tags %}
 {% load format_timedelta from content_tags %}
+{% load get_lesson_progress_for_topic from content_tags %}
+
+{% comment %} `lesson_completion_data` is the lesson completion data FOR THE TOPIC BEING RENDERED HERE {% endcomment %}
+
 <div class="grid" id="{{topic_id}} test_container">
 
     <div class="learn__topic-item-details c-1-3-l">
         <h2 class="learn__topic-item-title h-m p-b-xxs p-t-0">{{ value.title }}</h2>
-        <!-- <p class="body-m-b m-t-xxs m-b-0">1 / 23 lessons complete</p> -->
+        {% get_lesson_progress_for_topic lesson_completion_data value.lessons_and_placeholders as topic_progress_data %}
+        {% if topic_progress_data %}
+        <p class="body-m-b m-t-xxs m-b-0">
+            {{topic_progress_data.lessons_completed}} / {{topic_progress_data.lessons_available}} lessons complete
+        </p>
+        {% endif %}
     </div>
     <ul class="learn__lessons-list c-2-3-l">
         {% for item in value.lessons_and_placeholders %}
