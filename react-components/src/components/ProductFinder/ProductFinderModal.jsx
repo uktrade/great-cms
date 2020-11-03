@@ -71,7 +71,10 @@ export default function ProductFinderModal(props) {
 
   const saveProduct = () => {
     const productName = capitalize(searchResults.currentItemName)
-    setSelectedProduct(productName)
+    setSelectedProduct({
+      name: productName,
+      code: searchResults.hsCode
+    })
     analytics({
       event: 'addProductSuccess',
       productKeyword: productName,

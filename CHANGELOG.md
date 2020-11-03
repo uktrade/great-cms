@@ -109,6 +109,11 @@
 
 ### Implemented enhancements
 - GP2-751 - Add link back to module, featuring topic name
+- GP2-387 - Link to target market page
+- GP2-911 - Target-market-page - Persist state
+- GP2-923 - Target-market-page - Empty state
+- GP2-919 - Target-market-page - Remove markets
+- GP2-922 - Target-market-page - Select markets to compare
 - GP2-955 - Target-market-page - disable and coming soon
 - GP2-748 - Analytics product classifier - tell us more
 - GP2-164 - Add topic-level progress counters to module page (one per topic block)

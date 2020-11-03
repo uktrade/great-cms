@@ -8,10 +8,9 @@ import Confirmation from './MessageConfirmation'
 import { analytics } from '../../Helpers'
 
 
-
 export function CountryFinderModal(props) {
   let scrollOuter
-  const { modalIsOpen, setIsOpen, text, addButton, commodityCode } = props
+  const { modalIsOpen, setIsOpen, text, addButton, commodityCode, selectCountry } = props
   const [countryList, setCountryList] = useState()
   const [suggestedCountries, setSuggestedCountries] = useState([])
   const [isScrolled, setIsScrolled] = useState(false)
@@ -23,7 +22,7 @@ export function CountryFinderModal(props) {
   const openCountryFinder = (open) => {
     setIsOpen(open)
     setSearchStr('')
-    if(open) {
+    if (open) {
       analytics({
         'event': 'addMarketPageview',
         'virtualPageUrl': '/choose-target-market-modal',
@@ -40,7 +39,6 @@ export function CountryFinderModal(props) {
   const closeModal = () => {
     setProductConfirmationRequired(false)
     setIsOpen(false)
-    window.location.reload()
   }
 
   const closeConfirmation = () => {
@@ -74,8 +72,6 @@ export function CountryFinderModal(props) {
       const hs2 = commodityCode.substr(0, 2)
       Services.getSuggestedCountries(hs2).then((result) => {
         setSuggestedCountries(result);
-      }).catch(() => {
-        closeModal()
       })
     }
   }
@@ -100,7 +96,7 @@ export function CountryFinderModal(props) {
     getSuggestedCountries()
   }
 
-  const saveCountry = (country) => {
+  const saveToExportPlan = (country) => {
     setSelectedCountry(country.name)
 
     Services.updateExportPlan({
@@ -127,13 +123,19 @@ export function CountryFinderModal(props) {
       })
   }
 
-  const selectCountry = (evt) => {
-    saveCountry({
+  const clickCountry = (evt) => {
+    const country = {
       name: evt.target.getAttribute('data-country'),
       id: evt.target.getAttribute('data-id'),
       region: evt.target.getAttribute('data-region'),
       suggested: evt.target.getAttribute('data-suggested'),
-    })
+    }
+    if (selectCountry) {
+      selectCountry(country)
+      closeModal()
+    } else {
+      saveToExportPlan(country)
+    }
   }
 
   let regions = Object.keys(countryList || {}).sort().map((region) => {
@@ -142,7 +144,7 @@ export function CountryFinderModal(props) {
       return (
         <span className="c-1-5" key={country.id}>
           <li>
-            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={selectCountry}>
+            <button type="button" className="link m-r-s m-b-xs" data-country={country.name} data-id={country.id} data-region={country.region} onClick={clickCountry}>
               {country.name}
             </button>
           </li>
@@ -160,6 +162,7 @@ export function CountryFinderModal(props) {
     regions = <div className="h-xs">No results found</div>
   }
 
+  /*   Suggested markets section  */
   let suggestedSection = (<div>
       <h3 className="h-s">Suggested markets</h3>
       <p className="m-v-xs">Add a product so that we can suggest export markets.</p>
@@ -167,18 +170,34 @@ export function CountryFinderModal(props) {
   if (commodityCode) {
     const suggestedList = suggestedCountries.map((country) => {
       return (
-        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={selectCountry} data-suggested>
+        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={clickCountry} data-suggested>
           {country.country_name}
           <i className="fa fa-plus"/>
         </button>
       )
     })
-    suggestedSection = (<div>
+    suggestedSection = (<div className="suggested-markets">
       <h3 className="h-s">Suggested markets</h3>
       <p className="m-v-xs">These are based on the size of the market for your product, export distance, tariffs and costs.</p>
       <ul className="m-v-xs">{suggestedList}</ul>
   </div>)
   }
+
+  /*   Compare markets section  */
+  const compareMarketsSection = !selectCountry && (
+    <div>
+      <hr className="bg-red-deep-100"/>
+      <h3 className="h-s p-t-xs">Compare markets</h3>
+      <div className="grid">
+        <div className="c-full">
+          <p className="m-v-xs">Compare stats for over 180 markets to find the best place to target your exports.</p>
+          <a href="/find-your-target-market/" className="button button--secondary">
+            Compare Markets
+          </a>
+        </div>
+      </div>
+    </div>
+  )
 
   const buttonClass = `tag ${!selectedCountry ? 'tag--tertiary' : ''} tag--icon `
   const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
@@ -219,17 +238,7 @@ export function CountryFinderModal(props) {
                 <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
               </div>
               {suggestedSection}
-              <hr className="bg-red-deep-100"/>
-              <h3 className="h-s p-t-xs">Compare markets</h3>
-              <div className="grid">
-                <div className="c-full">
-                  <p className="m-v-xs">Compare stats for over 180 markets to find the best place to target your exports.</p>
-                  <button type="button" className="button button--tertiary" disabled>
-                    Coming soon
-                  </button>
-                </div>
-              </div>
-
+              {compareMarketsSection}
               <hr className="bg-red-deep-100"/>
               <h3 className="h-s p-t-xs">List of markets</h3>
               <p className="m-v-xs">
@@ -281,12 +290,14 @@ CountryFinderModal.propTypes = {
   setIsOpen: PropTypes.func.isRequired,
   text: PropTypes.string,
   commodityCode: PropTypes.string,
+  selectCountry: PropTypes.func,
 }
 CountryFinderModal.defaultProps = {
   addButton: true,
   modalIsOpen: false,
   text: '',
   commodityCode: '',
+  selectCountry: null
 }
 
 export const CountryFinder = ({ text, commodityCode }) => {
