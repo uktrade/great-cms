@@ -307,7 +307,7 @@ export default function ProductFinderModal(props) {
       <div>
         {searchResults.hsCode && sectionFound(searchResults)}
         {!searchResults.hsCode && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {(known || questions) ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
+        {(known || questions) ? (<hr className="hr bg-red-deep-100 m-h-l"/>) : ''}
         {sectionProductDetails(known)} 
         {sectionAssumptions(assumptions)}
       </div>
