@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-957 - Remove territories from marklety selector
 - No ticket - Fix updated great-styles path
 - GP2-966 - bug fix - select no values
 - GP2-954 - Require anonymous user on certain pages
