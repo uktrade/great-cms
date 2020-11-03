@@ -10,6 +10,9 @@
 - no ticket - node-fetch module upgrade
 - no ticket - Dependencies upgrade
 
+### Hotfixes
+- GP2-966 - bug fix - select no values
+
 ### Fixed bugs
 - GP2-954 - Require anonymous user on certain pages
 - GP2-926 -  update copy
