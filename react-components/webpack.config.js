@@ -73,7 +73,7 @@ module.exports = {
               sourceMap: true,
               sassOptions: {
                 outputStyle: 'compressed',
-                includePaths: ['./node_modules/great-styles/src/']
+                includePaths: ['./node_modules/great-styles/src/scss/']
               }
             }
           }
