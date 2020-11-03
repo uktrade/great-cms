@@ -17,7 +17,7 @@ from core.models import Tour
 from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
-from tests.helpers import create_response, add_lessons_and_placeholders_to_curated_list_page
+from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     ListPageFactory,
@@ -180,7 +180,7 @@ def curated_list_pages_with_lessons(domestic_site_browser_tests):
     domestic_homepage = domestic_site_browser_tests.root_page
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     clp_a = CuratedListPageFactory(parent=list_page, title='Lesson module A', slug='module-a',)
-    topic_for_clp_a = TopicPageFactory(parent=clp_a, title="Some title")
+    topic_for_clp_a = TopicPageFactory(parent=clp_a, title='Some title')
     lesson_a1 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_a,
         title='Lesson A1',
@@ -193,7 +193,7 @@ def curated_list_pages_with_lessons(domestic_site_browser_tests):
     )
 
     clp_b = CuratedListPageFactory(parent=list_page, title='Lesson topic B', slug='topic-b',)
-    topic_for_clp_b = TopicPageFactory(parent=clp_b, title="Some title", slug="topic-b")
+    topic_for_clp_b = TopicPageFactory(parent=clp_b, title='Some title', slug='topic-b')
     lesson_b1 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B1', slug='lesson-b1',)
     lesson_b2 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B2', slug='lesson-b2',)
 

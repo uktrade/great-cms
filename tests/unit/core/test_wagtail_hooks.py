@@ -8,8 +8,6 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
-from core.constants import LESSON_BLOCK, PLACEHOLDER_BLOCK
-from core.models import DetailPage
 from core.wagtail_hooks import CaseStudyAdmin
 from tests.helpers import make_test_video
 from tests.unit.core import factories

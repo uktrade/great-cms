@@ -174,39 +174,39 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
     # Topic One's children
     detail_page_1 = factories.DetailPageFactory(slug='detail-page-11', parent=topic_1)
     factories.LessonPlaceholderPageFactory(
-        title="Topic One: Placeholder One",
+        title='Topic One: Placeholder One',
         parent=topic_1
     )
     detail_page_2 = factories.DetailPageFactory(slug='detail-page-12', parent=topic_1)
     factories.LessonPlaceholderPageFactory(
-        title="Topic One: Placeholder Two",
+        title='Topic One: Placeholder Two',
         parent=topic_1
     )
 
     # Topic Two's children
     detail_page_3 = factories.DetailPageFactory(slug='detail-page-13', parent=topic_2)
     factories.LessonPlaceholderPageFactory(
-        title="Topic Two: Placeholder One",
+        title='Topic Two: Placeholder One',
         parent=topic_2
     )
     factories.LessonPlaceholderPageFactory(
-        title="Topic Two: Placeholder Two",
+        title='Topic Two: Placeholder Two',
         parent=topic_2
     )
 
     factories.LessonPlaceholderPageFactory(
-        title="Topic Two: Placeholder Three",
+        title='Topic Two: Placeholder Three',
         parent=topic_2
     )
 
     # Topic Three's children
     factories.LessonPlaceholderPageFactory(
-        title="Topic Three: Placeholder one",
+        title='Topic Three: Placeholder one',
         parent=topic_3
     )
     detail_page_4 = factories.DetailPageFactory(slug='detail-page-24', parent=topic_3)
     factories.LessonPlaceholderPageFactory(
-        title="Topic Three: Placeholder Two",
+        title='Topic Three: Placeholder Two',
         parent=topic_3
     )
 
