@@ -15,7 +15,6 @@ from tests.browser.common_selectors import (
 )
 from tests.browser.steps import should_see_all_elements, should_not_see_any_element, visit_page
 from tests.browser.util import attach_jpg_screenshot, selenium_action
-from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
@@ -101,7 +100,7 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     live_server, user, browser = server_user_browser_dashboard
     clp_a, clp_a_lessons = curated_list_pages_with_lessons[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
-    topic_page = TopicPageFactory(parent=module_page, title="Module one, first topic")
+    topic_page = TopicPageFactory(parent=module_page, title='Module one, first topic')
 
     LessonPlaceholderPageFactory(
         title='Placeholder To Show They Do Not Interfere With Counts',

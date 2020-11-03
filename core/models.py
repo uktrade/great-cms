@@ -39,7 +39,6 @@ from wagtailmedia.models import Media
 from core import blocks as core_blocks, mixins
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
-    LESSON_BLOCK,
     RICHTEXT_FEATURES__MINIMAL
 )
 
