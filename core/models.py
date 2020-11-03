@@ -44,7 +44,7 @@ from core.constants import (
 )
 
 from core.context import get_context_provider
-from core.utils import PageTopic, get_first_lesson
+from core.utils import PageTopicHelper, get_first_lesson
 
 from great_components.mixins import GA360Mixin
 
@@ -670,8 +670,7 @@ class DetailPage(CMSGenericPage):
     @cached_property
     def module(self):
         """Gets the learning module this lesson belongs to"""
-        # NB: assumes this page is a child of the correct CuratedListPage
-        return self.get_parent().specific
+        return CuratedListPage.objects.ancestor_of(self).specific().first()
 
     @cached_property
     def _export_plan_url_map(self):
@@ -724,12 +723,14 @@ class DetailPage(CMSGenericPage):
             context['backlink'] = _backlink
             context['backlink_title'] = self._get_backlink_title(_backlink)
 
-        if hasattr(self.get_parent().specific, 'topics'):
-            page_topic = PageTopic(self)
-            next_lesson = page_topic.get_next_lesson()
-            context['current_module'] = page_topic.module
-            if page_topic and page_topic.get_page_topic():
-                context['page_topic'] = page_topic.get_page_topic().value['title']
+        if isinstance(self.get_parent(), TopicPage):
+            page_topic_helper = PageTopicHelper(self)
+            next_lesson = page_topic_helper.get_next_lesson()
+            context['current_module'] = page_topic_helper.module
+            if page_topic_helper:
+                topic_page = page_topic_helper.get_page_topic()
+                if topic_page:
+                    context['page_topic'] = topic_page.title
 
             if next_lesson:
                 context['next_lesson'] = next_lesson
