@@ -227,7 +227,7 @@ export function CountryFinderModal(props) {
           }
         }}
       >
-        <form className="country-finder">
+        <div className="country-finder">
           <div className={`scroll-area m-t-0 ${scrollerClass}`} onScroll={onScroll}>
                 <button type="button" className="f-r m-r-0 dialog-close" aria-label="Close" onClick={closeModal}/>
             <div
@@ -270,7 +270,7 @@ export function CountryFinderModal(props) {
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </ReactModal>
       <Confirmation
         buttonClass={buttonClass}
