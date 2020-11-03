@@ -239,14 +239,11 @@ def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_lesson_completion_status')
-def test_get_module_completion_progress(mock_get_lesson_completion_status):
+def test_get_module_completion_progress():
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
     clp_3 = CuratedListPageFactory()
-
-    mock_user = mock.Mock(name='mock-user')
 
     clp_1_completion_data = {
         'total_pages': 7,
@@ -267,7 +264,7 @@ def test_get_module_completion_progress(mock_get_lesson_completion_status):
         }
     }
 
-    mock_get_lesson_completion_status.return_value = {
+    mock_get_lesson_completion_status_return_value = {
         'lessons_in_progress': True,
         'module_pages': [
             clp_1_completion_data,
@@ -276,35 +273,29 @@ def test_get_module_completion_progress(mock_get_lesson_completion_status):
     }
 
     assert helpers.get_module_completion_progress(
-        mock_user, clp_2
+        mock_get_lesson_completion_status_return_value,
+        clp_2
     ) == clp_2_completion_data
-    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
-    mock_get_lesson_completion_status.reset_mock()
 
     assert helpers.get_module_completion_progress(
-        mock_user, clp_1
+        mock_get_lesson_completion_status_return_value,
+        clp_1
     ) == clp_1_completion_data
-    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
-    mock_get_lesson_completion_status.reset_mock()
 
     assert helpers.get_module_completion_progress(
-        mock_user, clp_3
+        mock_get_lesson_completion_status_return_value,
+        clp_3
     ) == {}  # ie, no match
-    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
-    mock_get_lesson_completion_status.reset_mock()
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_lesson_completion_status')
-def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
+def test_get_high_level_completion_progress():
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
     clp_3 = CuratedListPageFactory()
     clp_4 = CuratedListPageFactory()
     clp_5 = CuratedListPageFactory()
-
-    mock_user = mock.Mock(name='mock-user')
 
     clp_1_completion_data = {
         'total_pages': 7,
@@ -349,7 +340,7 @@ def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
         'page': clp_5,
     }
 
-    mock_get_lesson_completion_status.return_value = {
+    mock_get_lesson_completion_status_return_value = {
         'lessons_in_progress': True,
         'module_pages': [
             clp_1_completion_data,
@@ -360,7 +351,9 @@ def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
         ],
     }
 
-    assert helpers.get_high_level_completion_progress(user=mock_user) == {
+    assert helpers.get_high_level_completion_progress(
+        mock_get_lesson_completion_status_return_value
+    ) == {
         clp_1.id: {
             'total_pages': 7,
             'completion_count': 4,
