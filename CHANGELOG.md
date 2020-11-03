@@ -16,7 +16,7 @@
 - GP2-926 -  update copy
 - GP2-949 - Header style tweaks
 - GP2-929 - Fix logout issues in firefox and probably other browsers
-- GP2-941 - the user can use two drop-downs at the same time 
+- GP2-941 - the user can use two drop-downs at the same time
 - GP2-690 - Analytics target market modal - one push only
 - GP2-940 - Deletion of Add your business name
 - GP2-912 - Back button in Learn not accessible
@@ -107,6 +107,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-751 - Add link back to module, featuring topic name
 - GP2-955 - Target-market-page - disable and coming soon
 - GP2-913 - Target_market_page - trigger product selector
 - GP2-917 - Target_market_page

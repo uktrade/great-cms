@@ -6,7 +6,9 @@ import datetime
 
 from urllib.parse import urlparse
 
-from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.constants import BACKLINK_QUERYSTRING_NAME, LESSON_BLOCK
+from core.models import CuratedListPage, DetailPage
+
 
 logger = logging.getLogger(__name__)
 
@@ -54,3 +56,22 @@ def get_backlinked_url(context, outbound_url):
         outbound_url += f'{delimiter}{backlink}'
 
     return outbound_url
+
+
+@register.simple_tag
+def get_topic_title_for_lesson(detail_page: DetailPage) -> str:
+    """For the given lesson, find the topic it belongs to and return that topic's title"""
+
+    # Get the module this page belongs to, if we can
+    clp = CuratedListPage.objects.live().ancestor_of(detail_page).first()
+    if not clp:
+        return ''
+
+    # Find the topic this detailpage is referenced in
+    for topic_block in clp.specific.topics:
+        for lesson_or_placeholder in topic_block.value.get('lessons_and_placeholders', []):
+            if lesson_or_placeholder.block_type == LESSON_BLOCK:
+                if lesson_or_placeholder.value == detail_page:
+                    return topic_block.value.get('title')
+
+    return ''
