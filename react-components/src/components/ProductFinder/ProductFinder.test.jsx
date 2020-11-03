@@ -10,6 +10,7 @@ let container
 const mockResponse = {
   data:{
     txId: '123456',
+    knownInteractions: [],
     currentQuestionInteraction: {
       id:'question_id',
       label: 'item_to_select',
