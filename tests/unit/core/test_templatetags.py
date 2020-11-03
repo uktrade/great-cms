@@ -8,6 +8,7 @@ from datetime import timedelta
 from core.templatetags.content_tags import (
     get_backlinked_url,
     get_topic_title_for_lesson,
+    get_lesson_progress_for_topic,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.personalised_blocks import render_video_block
@@ -396,3 +397,122 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
     assert get_topic_title_for_lesson(detail_page_4) == 'Topic 3'
     assert get_topic_title_for_lesson(detail_page_5) == ''
     assert get_topic_title_for_lesson(detail_page_6) == ''
+
+
+@pytest.mark.parametrize(
+    'lesson_completion_data,lessons_and_placeholders_data,expected',
+    (
+        (
+            {3},
+            {'lesson_ids': [1, 3], 'placeholders': []},
+            {
+                'lessons_completed': 1,
+                'lessons_available': 2
+            }
+        ),
+        (
+            {1, 3, 5, 7},
+            {'lesson_ids': [1, 3, 5, 7], 'placeholders': []},
+            {
+                'lessons_completed': 4,
+                'lessons_available': 4
+            }
+        ),
+        (
+            {},
+            {'lesson_ids': [1, 3, 5, 7], 'placeholders': []},
+            {
+                'lessons_completed': 0,
+                'lessons_available': 4
+            }
+        ),
+        (
+            {3},
+            {'lesson_ids': [1, 3], 'placeholders': ['one']},
+            {
+                'lessons_completed': 1,
+                'lessons_available': 2
+            }
+        ),
+        (
+            {1, 3, 5, 7},
+            {'lesson_ids': [1, 3, 5, 7], 'placeholders': ['one', 'two']},
+            {
+                'lessons_completed': 4,
+                'lessons_available': 4
+            }
+        ),
+        (
+            {},
+            {'lesson_ids': [1, 3, 5, 7], 'placeholders': ['one', 'two', 'three']},
+            {
+                'lessons_completed': 0,
+                'lessons_available': 4
+            }
+        ),
+        (
+            {},
+            {'lesson_ids': [], 'placeholders': []},
+            {
+                'lessons_completed': 0,
+                'lessons_available': 0
+            }
+        ),
+        (
+            {1, 2},
+            {'lesson_ids': [], 'placeholders': []},
+            {}
+        ),
+        (
+            {1, 2},
+            {'lesson_ids': [1, 3, 4], 'placeholders': []},
+            {}
+        ),
+    ),
+    ids=(
+        'two lessons, one completed',
+        'four lessons, all completed',
+        'four lessons, none completed',
+        'two lessons, placeholders, one completed lesson',
+        'four lessons, placeholders, all completed',
+        'four lessons, placeholders, none completed',
+        'no lessons, none completed',
+        (
+            'bad data: two lessons completed but not '
+            'mentioned in lessons_and_placeholders'
+        ),
+        (
+            'bad data: two lessons completed but not a '
+            'subset of those in lessons_and_placeholders'
+        ),
+    )
+)
+def test_get_lesson_progress_for_topic(
+    lesson_completion_data,
+    lessons_and_placeholders_data,
+    expected
+):
+    def _build_lessons_and_placeholders(data):
+        # Close-enough-for-unit-test mocks of the
+        # lessons_and_placeholders streamfield content
+        output = []
+        for lesson_id in data['lesson_ids']:
+            mock_block = mock.Mock(name='mock-lesson-block')
+            mock_block.block_type = 'lesson'
+            mock_block.value.id = lesson_id
+            output.append(mock_block)
+        for placeholder_title in data['placeholders']:
+            mock_block = mock.Mock(name='mock-placeholder-block')
+            mock_block.block_type = 'placeholder'
+            mock_block.value = placeholder_title
+            output.append(mock_block)
+        return output
+
+    lessons_and_placeholders = _build_lessons_and_placeholders(
+        lessons_and_placeholders_data
+    )
+
+    assert get_lesson_progress_for_topic(
+        lesson_completion_data,
+        lessons_and_placeholders
+    ) == expected
