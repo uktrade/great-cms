@@ -19,9 +19,30 @@ from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
 from tests.unit.core import factories
 
 
-def test_render_personalised_video_block_tag():
+def test_render_personalised_video_block_tag__with_thumbnail():
+    mock_thumbnail = mock.Mock(name='thumbnail')
+    mock_thumbnail.url = 'https://example.com/thumb.png'
     video_mock = mock.Mock(
-        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}]
+        name='video_mock',
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        thumbnail=mock_thumbnail,
+    )
+    block = dict(
+        width=20,
+        height=20,
+        video=video_mock
+    )
+    html = render_video_block(block)
+
+    assert '<video poster="https://example.com/thumb.png" width="20" height="20" controls>' in html
+    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    assert 'Your browser does not support the video tag.' in html
+
+
+def test_render_personalised_video_block_tag__without_thumbnail():
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        thumbnail=None,
     )
     block = dict(
         width=20,
@@ -35,10 +56,31 @@ def test_render_personalised_video_block_tag():
     assert 'Your browser does not support the video tag.' in html
 
 
-def test_general_render_video_tag():
+def test_general_render_video_tag__with_thumbnail():
+    mock_thumbnail = mock.Mock(name='thumbnail')
+    mock_thumbnail.url = 'https://example.com/thumb.png'
+
+    video_mock = mock.Mock(
+        name='video_mock',
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
+        thumbnail=mock_thumbnail
+    )
+    block = dict(
+        video=video_mock
+    )
+    html = render_video(block)
+
+    assert '<video controls poster="https://example.com/thumb.png" data-v-duration="120">' in html
+    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    assert 'Your browser does not support the video tag.' in html
+
+
+def test_general_render_video_tag__without_thumbnail():
     video_mock = mock.Mock(
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
+        thumbnail=None,
     )
     block = dict(
         video=video_mock
