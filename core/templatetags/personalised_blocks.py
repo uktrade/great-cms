@@ -7,6 +7,12 @@ from django.utils.html import format_html_join, format_html
 register = template.Library()
 
 
+def _get_poster_attribute(video):
+    if video and video.thumbnail:
+        return f'poster="{video.thumbnail.url}" '  # Trailing final space is deliberate
+    return ''
+
+
 @register.simple_tag
 def render_video_block(block):
     """Renders a video specifically added via a PersonalisedStructBlock
@@ -19,11 +25,12 @@ def render_video_block(block):
 
     if not block:
         return ''
-    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in block['video'].sources])
+    video = block['video']
+    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in video.sources])
     return format_html(
         f"""
                 <div>
-                    <video width="{block['width']}" height="{block['height']}" controls>
+                    <video {_get_poster_attribute(video)}width="{block['width']}" height="{block['height']}" controls>
                         {sources}
                         Your browser does not support the video tag.
                     </video>
