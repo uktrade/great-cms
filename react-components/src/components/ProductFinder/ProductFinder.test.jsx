@@ -10,6 +10,7 @@ let container
 const mockResponse = {
   data:{
     txId: '123456',
+    productDescription: 'description',
     knownInteractions: [],
     currentQuestionInteraction: {
       id:'question_id',
