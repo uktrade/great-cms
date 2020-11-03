@@ -4,14 +4,12 @@ export const useOnOutsideClick = (outsideClick) => {
   const element = useRef()
 
   const onClick = (event) => {
-    if (element.current && !element.current.contains(event.target)) {
+    if (!event.target.classList.contains('button--toggle') && (element.current && !element.current.contains(event.target))) {
       outsideClick()
-      event.stopPropagation()
     }
   }
 
   useEffect(() => {
-
     document.addEventListener('click', onClick, true)
     return () => {
       document.removeEventListener('click', onClick, true)
