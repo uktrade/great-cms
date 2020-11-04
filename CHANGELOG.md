@@ -11,6 +11,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-434 - Dashboard routing blocks alignment
 - GP2-681 - HR colour in product finder 
 - GP2-957 - Remove territories from marklety selector
 - GP2-963 - Pressing 'return' in market modal search, reloads page 
