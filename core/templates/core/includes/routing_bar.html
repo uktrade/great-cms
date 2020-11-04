@@ -29,6 +29,7 @@ As seen at the top of the domestic dashboard.
       {% endfor %}
   </div>
   <script>
+    // set the blocks in the routing bar to the height of the largest
     (() => {
       const blockList = document.body.querySelectorAll('#pre-journey-routing-component .dashboard__routing-block .g-card')
       const fixHeights = () => {
@@ -41,9 +42,10 @@ As seen at the top of the domestic dashboard.
           block.style.height = height+'px';
         })
       }
-
-      window.addEventListener('resize', fixHeights)
-      fixHeights();
+      if(blockList.length > 1) { // no point if there is only one
+        window.addEventListener('resize', fixHeights)
+        fixHeights();
+      }
     })()
   </script>
 {% endif %}
