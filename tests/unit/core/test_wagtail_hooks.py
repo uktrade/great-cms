@@ -371,7 +371,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=3)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
