@@ -20,8 +20,6 @@ def test_lesson_module(domestic_homepage):
     )
     curated_list_page = factories.CuratedListPageFactory(
         parent=list_page,
-        topics__0__title='Topic 1',
-        topics__1__title='Topic 2'
     )
     topic_one = factories.TopicPageFactory(
         title='Topic 1',
@@ -68,11 +66,10 @@ def test_multiple_modules(domestic_homepage, client, user):
     module_1 = factories.CuratedListPageFactory(
         title='Module 1',
         parent=list_page,
-        topics__0__title='Topic 1',
-        topics__1__title='Topic 2',
     )
     module_2 = factories.CuratedListPageFactory(
-        title='Module 2', parent=list_page, topics__0__title='Topic 21'
+        title='Module 2',
+        parent=list_page,
     )
 
     topic_1 = factories.TopicPageFactory(
@@ -152,11 +149,10 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
     module_1 = factories.CuratedListPageFactory(
         title='Module 1',
         parent=list_page,
-        topics__0__title='Topic 1',
-        topics__1__title='Topic 2',
     )
     module_2 = factories.CuratedListPageFactory(
-        title='Module 2', parent=list_page, topics__0__title='Topic 21'
+        title='Module 2',
+        parent=list_page,
     )
     topic_1 = factories.TopicPageFactory(
         title='Topic 1',
