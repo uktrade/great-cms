@@ -204,7 +204,10 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
         title='Topic Three: Placeholder one',
         parent=topic_3
     )
-    detail_page_4 = factories.DetailPageFactory(slug='detail-page-24', parent=topic_3)
+    detail_page_4 = factories.DetailPageFactory(
+        slug='detail-page-24',
+        parent=topic_3
+    )
     factories.LessonPlaceholderPageFactory(
         title='Topic Three: Placeholder Two',
         parent=topic_3

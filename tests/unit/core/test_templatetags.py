@@ -5,6 +5,7 @@ import pytest
 from django.template import Context, Template
 from datetime import timedelta
 
+from core.models import DetailPage
 from core.templatetags.content_tags import (
     get_backlinked_url,
     get_topic_title_for_lesson,
@@ -16,7 +17,6 @@ from core.templatetags.url_map import path_match
 from core.templatetags.video_tags import render_video
 from core.templatetags.progress_bar import progress_bar
 
-from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
 from tests.unit.core import factories
 
 
@@ -318,76 +318,72 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
         title='Module 1',
         parent=list_page,
     )
-
     module_2 = factories.CuratedListPageFactory(
-        title='Module 2', parent=list_page,
+        title='Module 2',
+        parent=list_page,
     )
 
-    detail_page_1 = factories.DetailPageFactory(slug='detail-page-1-1', parent=module_1)
-    detail_page_2 = factories.DetailPageFactory(slug='detail-page-1-2', parent=module_1)
-    detail_page_3 = factories.DetailPageFactory(slug='detail-page-1-3', parent=module_1)
-    detail_page_4 = factories.DetailPageFactory(slug='detail-page-4-2', parent=module_2)
-    # page 5 is not going to be mapped to a topic below
-    detail_page_5 = factories.DetailPageFactory(slug='detail-page-5-0', parent=module_2)
-    # page 6 is going to be a child of a totally new module AND not be mapped to a topic
-    detail_page_6 = factories.DetailPageFactory(slug='detail-page-6-0')
-
-    topic_1 = factories.CuratedTopicBlockFactory(
+    topic_page_1 = factories.TopicPageFactory(
         title='Topic 1',
-        # We add detail_page_1 and detail_page_2 to
-        # lessons_and_placeholder data FOR MODULE 1 via JSON below
+        parent=module_1
     )
-    topic_2 = factories.CuratedTopicBlockFactory(
+    topic_page_2 = factories.TopicPageFactory(
         title='Topic 2',
-        # We add detail_page_3 to lessons_and_placeholder data FOR MODULE 1 via JSON below
+        parent=module_1
     )
-    topic_3 = factories.CuratedTopicBlockFactory(
+    topic_page_3 = factories.TopicPageFactory(
         title='Topic 3',
-        # We add detail_page_4 to lessons_and_placeholder data FOR MODULE 2 via JSON below
+        parent=module_2
     )
 
-    module_1.topics = [('topic', topic_1), ('topic', topic_2)]
-    module_2.topics = [('topic', topic_3)]
-    module_1.save()
-    module_2.save()
-
-    lessons_for_topic_1 = [  # used in module 1
-        {'type': 'lesson', 'value': detail_page_1.id},
-        {'type': 'placeholder', 'value': {'title': 'Topic One: Placeholder One'}},
-        {'type': 'lesson', 'value': detail_page_2.id},
-        {'type': 'placeholder', 'value': {'title': 'Topic One: Placeholder Two'}},
-    ]
-    lessons_for_topic_2 = [  # used in module 1
-        {'type': 'lesson', 'value': detail_page_3.id},
-        {'type': 'placeholder', 'value': {'title': 'Topic Two: Placeholder One'}},
-        {'type': 'placeholder', 'value': {'title': 'Topic Two: Placeholder Two'}},
-        {'type': 'placeholder', 'value': {'title': 'Topic Two: Placeholder Three'}},
-    ]
-    lessons_for_topic_3 = [  # used in module 2
-        {'type': 'placeholder', 'value': {'title': 'Topic Three: Placeholder One'}},
-        {'type': 'lesson', 'value': detail_page_4.id},
-        {'type': 'placeholder', 'value': {'title': 'Topic Three: Placeholder Two'}},
-    ]
-
-    module_1 = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=module_1,
-        data_for_topics={
-            0: {
-                'lessons_and_placeholders': lessons_for_topic_1,
-            },
-            1: {
-                'lessons_and_placeholders': lessons_for_topic_2,
-            },
-        }
-
+    # Topic One children
+    detail_page_1 = factories.DetailPageFactory(
+        slug='detail-page-1-1',
+        parent=topic_page_1
     )
-    module_2 = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=module_2,
-        data_for_topics={
-            0: {
-                'lessons_and_placeholders': lessons_for_topic_3,
-            },
-        }
+    factories.LessonPlaceholderPageFactory(
+        title='Topic One: Placeholder One',
+        parent=topic_page_1
+    )
+    detail_page_2 = factories.DetailPageFactory(
+        slug='detail-page-1-2',
+        parent=topic_page_1
+    )
+    factories.LessonPlaceholderPageFactory(
+        title='Topic One: Placeholder Two',
+        parent=topic_page_1
+    )
+
+    # Topic Two children
+    detail_page_3 = factories.DetailPageFactory(
+        slug='detail-page-1-3',
+        parent=topic_page_2
+    )
+    factories.LessonPlaceholderPageFactory(
+        title='Topic Two: Placeholder Two',
+        parent=topic_page_2
+    )
+    factories.LessonPlaceholderPageFactory(
+        title='Topic Two: Placeholder Two',
+        parent=topic_page_2
+    )
+    factories.LessonPlaceholderPageFactory(
+        title='Topic Two: Placeholder Three',
+        parent=topic_page_2
+    )
+
+    # Topic Three children
+    factories.LessonPlaceholderPageFactory(
+        title='Topic Three: Placeholder One',
+        parent=topic_page_3
+    )
+    detail_page_4 = factories.DetailPageFactory(
+        slug='detail-page-4-2',
+        parent=topic_page_3
+    )
+    factories.LessonPlaceholderPageFactory(
+        title='Topic Three: Placeholder Two',
+        parent=topic_page_3
     )
 
     # Finally, to the test:
@@ -395,77 +391,129 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
     assert get_topic_title_for_lesson(detail_page_2) == 'Topic 1'
     assert get_topic_title_for_lesson(detail_page_3) == 'Topic 2'
     assert get_topic_title_for_lesson(detail_page_4) == 'Topic 3'
-    assert get_topic_title_for_lesson(detail_page_5) == ''
-    assert get_topic_title_for_lesson(detail_page_6) == ''
 
 
+def _build_lessons_and_placeholders(data, topic_page):
+    for lesson_id in range(data['lessons_to_create']):
+        factories.DetailPageFactory.create(
+            parent=topic_page,
+            slug=f'lesson-{lesson_id}',
+            title=f'Lesson {lesson_id}'
+        )
+
+    for placeholder_title in data['placeholders']:
+        factories.LessonPlaceholderPageFactory.create(
+            parent=topic_page,
+            title=placeholder_title
+        )
+
+
+def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less complex than it looks
+    if spec == 'all':
+        return set(DetailPage.objects.all().values_list('id', flat=True))
+
+    elif spec == 'none':
+        return set()
+
+    elif spec == 'subset':
+        return set(DetailPage.objects.all().values_list('id', flat=True)[:1])
+
+    elif spec == 'different':
+        retval = set()
+        for lesson_id in range(100, 102):
+            factories.DetailPageFactory.create(
+                parent=topic_page,
+                slug=f'lesson-{lesson_id}',
+                title=f'Lesson {lesson_id}'
+            )
+            retval.add(lesson_id)
+        return retval
+
+    elif spec == 'partial_overlap':
+        # get a real page to include in completion stats
+        retval = set(DetailPage.objects.all().values_list('id', flat=True)[:1])
+
+        # and two uknown pages to include in completion stats
+        for lesson_id in range(100, 101):
+            factories.DetailPageFactory.create(
+                parent=topic_page,
+                slug=f'lesson-{lesson_id}',
+                title=f'Lesson {lesson_id}'
+            )
+            retval.add(lesson_id)
+        return retval
+
+    assert False, 'Misconfigured test data'
+
+
+@pytest.mark.django_db
 @pytest.mark.parametrize(
-    'lesson_completion_data,lessons_and_placeholders_data,expected',
+    'lesson_completion_data_spec,lessons_and_placeholders_data,expected',
     (
         (
-            {3},
-            {'lesson_ids': [1, 3], 'placeholders': []},
+            'subset',
+            {'lessons_to_create': 2, 'placeholders': []},
             {
                 'lessons_completed': 1,
                 'lessons_available': 2
             }
         ),
         (
-            {1, 3, 5, 7},
-            {'lesson_ids': [1, 3, 5, 7], 'placeholders': []},
+            'all',
+            {'lessons_to_create': 4, 'placeholders': []},
             {
                 'lessons_completed': 4,
                 'lessons_available': 4
             }
         ),
         (
-            {},
-            {'lesson_ids': [1, 3, 5, 7], 'placeholders': []},
+            'none',
+            {'lessons_to_create': 4, 'placeholders': []},
             {
                 'lessons_completed': 0,
                 'lessons_available': 4
             }
         ),
         (
-            {3},
-            {'lesson_ids': [1, 3], 'placeholders': ['one']},
+            'subset',  # eg {3},
+            {'lessons_to_create': 2, 'placeholders': ['one']},
             {
                 'lessons_completed': 1,
                 'lessons_available': 2
             }
         ),
         (
-            {1, 3, 5, 7},
-            {'lesson_ids': [1, 3, 5, 7], 'placeholders': ['one', 'two']},
+            'all',
+            {'lessons_to_create': 4, 'placeholders': ['one', 'two']},
             {
                 'lessons_completed': 4,
                 'lessons_available': 4
             }
         ),
         (
-            {},
-            {'lesson_ids': [1, 3, 5, 7], 'placeholders': ['one', 'two', 'three']},
+            'none',
+            {'lessons_to_create': 4, 'placeholders': ['one', 'two', 'three']},
             {
                 'lessons_completed': 0,
                 'lessons_available': 4
             }
         ),
         (
-            {},
-            {'lesson_ids': [], 'placeholders': []},
+            'none',
+            {'lessons_to_create': 0, 'placeholders': []},
             {
                 'lessons_completed': 0,
                 'lessons_available': 0
             }
         ),
         (
-            {1, 2},
-            {'lesson_ids': [], 'placeholders': []},
+            'different',
+            {'lessons_to_create': 0, 'placeholders': []},
             {}
         ),
         (
-            {1, 2},
-            {'lesson_ids': [1, 3, 4], 'placeholders': []},
+            'partial_overlap',
+            {'lessons_to_create': 3, 'placeholders': []},
             {}
         ),
     ),
@@ -483,36 +531,35 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
         ),
         (
             'bad data: two lessons completed but not a '
-            'subset of those in lessons_and_placeholders'
+            'subset of those in lessons_and_placeholders - partial overlap'
         ),
     )
 )
 def test_get_lesson_progress_for_topic(
-    lesson_completion_data,
+    lesson_completion_data_spec,
     lessons_and_placeholders_data,
     expected
 ):
-    def _build_lessons_and_placeholders(data):
-        # Close-enough-for-unit-test mocks of the
-        # lessons_and_placeholders streamfield content
-        output = []
-        for lesson_id in data['lesson_ids']:
-            mock_block = mock.Mock(name='mock-lesson-block')
-            mock_block.block_type = 'lesson'
-            mock_block.value.id = lesson_id
-            output.append(mock_block)
-        for placeholder_title in data['placeholders']:
-            mock_block = mock.Mock(name='mock-placeholder-block')
-            mock_block.block_type = 'placeholder'
-            mock_block.value = placeholder_title
-            output.append(mock_block)
-        return output
-
-    lessons_and_placeholders = _build_lessons_and_placeholders(
-        lessons_and_placeholders_data
+    topic_page = factories.TopicPageFactory(
+        title='test-topic'
     )
+
+    _build_lessons_and_placeholders(
+        lessons_and_placeholders_data,
+        topic_page
+    )
+
+    lesson_completion_data = _build_lesson_completion_data(
+        lesson_completion_data_spec,
+        topic_page
+    )
+
+    # Uncomment these lines to help if you're refactoring/extending these tests
+    # print('\nlessons_and_placeholders_data', lessons_and_placeholders_data)
+    # print('lesson_completion_data', lesson_completion_data)
+    # print('actual page IDs', DetailPage.objects.all().values_list('id', flat=True))
 
     assert get_lesson_progress_for_topic(
         lesson_completion_data,
-        lessons_and_placeholders
+        topic_page.id
     ) == expected
