@@ -69,13 +69,6 @@ class CuratedListPageFactory(wagtail_factories.PageFactory):
     heading = factory.fuzzy.FuzzyText(length=200)
     template = factory.fuzzy.FuzzyChoice(models.CuratedListPage.template_choices, getter=lambda choice: choice[0])
     parent = factory.SubFactory(ListPageFactory)
-    topics = wagtail_factories.StreamFieldFactory(
-        {
-            'title': wagtail_factories.CharBlockFactory,
-            # lessons_and_placeholders need to be added not via the factory, for now.
-            # See tests.helpers.add_lessons_and_placeholders_to_curated_list_page
-        }
-    )
 
     class Meta:
         model = models.CuratedListPage
@@ -166,15 +159,6 @@ class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
 
     class Meta:
         model = blocks.SimpleVideoBlock
-
-
-class CuratedTopicBlockFactory(wagtail_factories.StructBlockFactory):
-    title = factory.fuzzy.FuzzyText(length=255)
-    # lessons_and_placeholders need to be added via a helper, not via the factory, for
-    # now - see tests.helpers.add_lessons_and_placeholders_to_curated_list_page
-
-    class Meta:
-        model = blocks.CuratedTopicBlock
 
 
 class CaseStudyFactory(factory.django.DjangoModelFactory):

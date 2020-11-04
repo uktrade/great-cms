@@ -14,7 +14,7 @@ from tests.unit.core.factories import (
 
 @pytest.mark.django_db
 @mock.patch('sso.helpers.get_lesson_completed')
-def test_get_lesson_completion_status__correct_config(mock_get_lesson_completed):
+def test_get_lesson_completion_status(mock_get_lesson_completed):
 
     clp_correct_config = CuratedListPageFactory.create()
 

@@ -5,11 +5,18 @@ import pytest
 from django.template import Context, Template
 from datetime import timedelta
 
-from core.models import DetailPage
+from core.models import (
+    CuratedListPage,
+    DetailPage,
+    LessonPlaceholderPage,
+    TopicPage,
+)
 from core.templatetags.content_tags import (
     get_backlinked_url,
     get_topic_title_for_lesson,
     get_lesson_progress_for_topic,
+    is_lesson_page,
+    is_placeholder_page,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.personalised_blocks import render_video_block
@@ -563,3 +570,29 @@ def test_get_lesson_progress_for_topic(
         lesson_completion_data,
         topic_page.id
     ) == expected
+
+
+@pytest.mark.parametrize(
+    'klass,expected',
+    (
+        (DetailPage, True),
+        (LessonPlaceholderPage, False),
+        (CuratedListPage, False),
+        (TopicPage, False),
+    )
+)
+def test_is_lesson_page(klass, expected):
+    assert is_lesson_page(klass()) == expected
+
+
+@pytest.mark.parametrize(
+    'klass,expected',
+    (
+        (DetailPage, False),
+        (LessonPlaceholderPage, True),
+        (CuratedListPage, False),
+        (TopicPage, False),
+    )
+)
+def test_is_placeholder_page(klass, expected):
+    assert is_placeholder_page(klass()) == expected
