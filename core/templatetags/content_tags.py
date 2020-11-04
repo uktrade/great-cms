@@ -7,8 +7,11 @@ import datetime
 from urllib.parse import urlparse
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
-from core.models import DetailPage, TopicPage
-
+from core.models import (
+    DetailPage,
+    LessonPlaceholderPage,
+    TopicPage,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -93,3 +96,13 @@ def get_lesson_progress_for_topic(
         'lessons_completed': lessons_completed,
         'lessons_available': lessons_available
     }
+
+
+@register.filter
+def is_lesson_page(page):
+    return isinstance(page.specific, DetailPage)
+
+
+@register.filter
+def is_placeholder_page(page):
+    return isinstance(page.specific, LessonPlaceholderPage)
