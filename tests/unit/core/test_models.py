@@ -80,8 +80,9 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
 @pytest.mark.django_db
 def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site):
     # given the user has not read a lesson
-    list_page = factories.CuratedListPageFactory(parent=domestic_homepage)
-    detail_page = factories.DetailPageFactory(parent=list_page)
+    clp = factories.CuratedListPageFactory(parent=domestic_homepage)
+    topic_page = factories.TopicPageFactory(parent=clp)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     client.get(detail_page.url)
 

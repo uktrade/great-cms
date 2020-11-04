@@ -269,7 +269,8 @@ def get_popular_export_destinations(sector_label):
 
 
 def get_module_completion_progress(completion_status, module_page: CuratedListPage):
-    """Returns per-module completion data, with lesson-level detail.
+    """Returns per-module completion data, with lesson-level detail. Completed
+    lessons are grouped by the topic they belong to.
 
     `completion_status` is the output of from domestic.helpers.get_lesson_completion_status
 
