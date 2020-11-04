@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import { analytics } from '@src/Helpers'
 import { capitalize } from '@src/Helpers'
 
 function RadioButtons(props) {
@@ -62,7 +61,7 @@ RadioButtons.propTypes = {
 
 
 export default function Interaction(props) {
-  const { txId, attribute, isItemChoice, processResponse, isFirstQuestion, searchQuery } = props
+  const { txId, attribute, isItemChoice, processResponse } = props
 
   const [value, setValue] = useState()
 
@@ -70,14 +69,6 @@ export default function Interaction(props) {
     if (isItemChoice) {
       processResponse(Services.lookupProduct({ q: value.name }))
     } else {
-      if (isFirstQuestion) {
-        analytics({
-          event: 'addProductPageview',
-          virtualPageUrl: '/add-product-modal/tell-us-more',
-          virtualPageTitle: 'Add Product Modal - Tell Us More',
-          productKeyword: capitalize(searchQuery)
-        })
-      }
       processResponse(
         Services.lookupProductRefine({
           txId,
