@@ -28,4 +28,22 @@ As seen at the top of the domestic dashboard.
           </article>
       {% endfor %}
   </div>
+  <script>
+    (() => {
+      const blockList = document.body.querySelectorAll('#pre-journey-routing-component .dashboard__routing-block .g-card')
+      const fixHeights = () => {
+        let height = 0;
+        blockList.forEach((block) => {
+          block.style.height = 'auto';
+          height = Math.max(height,block.offsetHeight);
+        })
+        blockList.forEach((block) => {
+          block.style.height = height+'px';
+        })
+      }
+
+      window.addEventListener('resize', fixHeights)
+      fixHeights();
+    })()
+  </script>
 {% endif %}
