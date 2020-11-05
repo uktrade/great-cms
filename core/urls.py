@@ -90,5 +90,10 @@ urlpatterns = [
         skip_ga360(core.views.CreateTokenView.as_view()),
         name='api-create-token'
     ),
+    path(
+        'api/check/',
+        skip_ga360(core.views.CheckView.as_view()),
+        name='api-check'
+    ),
 
 ]

@@ -1,8 +1,10 @@
 import abc
 import datetime
+import requests
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
+from rest_framework import status
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -278,3 +280,12 @@ class CreateTokenView(generics.GenericAPIView):
         ciphertext = fern.encrypt(plaintext)
         response = {'valid_until': plaintext, 'token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
         return Response(response)
+
+
+class CheckView(generics.GenericAPIView):
+    def get(self, request):
+        response = requests.get(settings.COMMODITY_SEARCH_URL)
+        if response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED:
+            return Response(status.HTTP_200_OK)
+        else:
+            return Response(status.HTTP_503_SERVICE_UNAVAILABLE)
