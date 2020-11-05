@@ -12,9 +12,9 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-- GP2-681 - HR colour in product finder 
+- GP2-681 - HR colour in product finder
 - GP2-957 - Remove territories from marklety selector
-- GP2-963 - Pressing 'return' in market modal search, reloads page 
+- GP2-963 - Pressing 'return' in market modal search, reloads page
 - GP2-863 - Drop Down selection is controlling the whole page
 - No ticket - Fix updated great-styles path
 - GP2-966 - bug fix - select no values
@@ -119,6 +119,7 @@
 - GP2-923 - Target-market-page - Empty state
 - GP2-919 - Target-market-page - Remove markets
 - GP2-922 - Target-market-page - Select markets to compare
+- GP2-962 - Data migration for topics restructure
 - GP2-884 - Model-layer updates for topics restructure
 - GP2-955 - Target-market-page - disable and coming soon
 - GP2-748 - Analytics product classifier - tell us more
