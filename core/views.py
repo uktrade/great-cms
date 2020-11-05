@@ -303,7 +303,7 @@ class ContactUsHelpFormView(FormView):
         country_code = helpers.get_location(self.request)
         sender = Sender(
             email_address=form.cleaned_data['email'],
-            country_code=(country_code.get('country') if country_code else None),
+            country_code=country_code.get('country') if country_code else None,
             ip_address=helpers.get_sender_ip_address(self.request),
         )
         response = form.save(
