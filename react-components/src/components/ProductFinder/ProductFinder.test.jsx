@@ -10,6 +10,8 @@ let container
 const mockResponse = {
   data:{
     txId: '123456',
+    productDescription: 'description',
+    knownInteractions: [],
     currentQuestionInteraction: {
       id:'question_id',
       label: 'item_to_select',
@@ -34,7 +36,7 @@ const mockResponse = {
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)
-  container.innerHTML = '<span id="set-product-button" data-text="my product"></span>'
+  container.innerHTML = '<span id="set-product-button" data-productname="my product" data-productcode="123456"></span>'
   Services.setConfig({apiLookupProductUrl:'/api/lookup-product/'})
   fetchMock.post(/\/api\/lookup-product\//, mockResponse)
 })
