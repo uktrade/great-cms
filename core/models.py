@@ -417,7 +417,7 @@ class CuratedListPage(CMSGenericPage):
     ]
 
     def get_topics(self, live=True) -> models.QuerySet:
-        qs = TopicPage.objects.descendant_of(self)
+        qs = TopicPage.objects.live().specific().descendant_of(self)
         if live:
             qs = qs.live()
         return qs
@@ -430,7 +430,7 @@ class CuratedListPage(CMSGenericPage):
     def count_detail_pages(self):
         count = 0
         for topic in self.get_topics():
-            count += DetailPage.objects.descendant_of(topic).count()
+            count += DetailPage.objects.live().descendant_of(topic).count()
         return count
 
     def get_context(self, request, *args, **kwargs):
@@ -669,7 +669,7 @@ class DetailPage(CMSGenericPage):
     @cached_property
     def module(self):
         """Gets the learning module this lesson belongs to"""
-        return CuratedListPage.objects.ancestor_of(self).specific().first()
+        return CuratedListPage.objects.live().specific().ancestor_of(self).first()
 
     @cached_property
     def _export_plan_url_map(self):
@@ -723,6 +723,8 @@ class DetailPage(CMSGenericPage):
             context['backlink_title'] = self._get_backlink_title(_backlink)
 
         if isinstance(self.get_parent(), TopicPage):
+            # In a conditional because a DetailPage currently MAY be used as
+            # a child of another page type...
             page_topic_helper = PageTopicHelper(self)
             next_lesson = page_topic_helper.get_next_lesson()
             context['current_module'] = page_topic_helper.module

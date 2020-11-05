@@ -400,7 +400,7 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
     assert get_topic_title_for_lesson(detail_page_4) == 'Topic 3'
 
 
-def _build_lessons_and_placeholders(data, topic_page):
+def _build_lesson_and_placeholder_spec(data, topic_page):
     for lesson_id in range(data['lessons_to_create']):
         factories.DetailPageFactory.create(
             parent=topic_page,
@@ -455,7 +455,7 @@ def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less co
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    'lesson_completion_data_spec,lessons_and_placeholders_data,expected',
+    'lesson_completion_data_spec,lesson_and_placeholder_spec_data,expected',
     (
         (
             'subset',
@@ -534,25 +534,25 @@ def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less co
         'no lessons, none completed',
         (
             'bad data: two lessons completed but not '
-            'mentioned in lessons_and_placeholders'
+            'mentioned in lesson_and_placeholder_spec'
         ),
         (
             'bad data: two lessons completed but not a '
-            'subset of those in lessons_and_placeholders - partial overlap'
+            'subset of those in lesson_and_placeholder_spec - partial overlap'
         ),
     )
 )
 def test_get_lesson_progress_for_topic(
     lesson_completion_data_spec,
-    lessons_and_placeholders_data,
+    lesson_and_placeholder_spec_data,
     expected
 ):
     topic_page = factories.TopicPageFactory(
         title='test-topic'
     )
 
-    _build_lessons_and_placeholders(
-        lessons_and_placeholders_data,
+    _build_lesson_and_placeholder_spec(
+        lesson_and_placeholder_spec_data,
         topic_page
     )
 
@@ -562,7 +562,7 @@ def test_get_lesson_progress_for_topic(
     )
 
     # Uncomment these lines to help if you're refactoring/extending these tests
-    # print('\nlessons_and_placeholders_data', lessons_and_placeholders_data)
+    # print('\nlesson_and_placeholder_spec_data', lesson_and_placeholder_spec_data)
     # print('lesson_completion_data', lesson_completion_data)
     # print('actual page IDs', DetailPage.objects.all().values_list('id', flat=True))
 

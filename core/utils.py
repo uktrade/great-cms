@@ -7,7 +7,7 @@ def get_all_lessons(module):
     @returns: QuerySet of DetailPage objects (lessons)
     """
     from core.models import DetailPage
-    return DetailPage.objects.descendant_of(module).specific()
+    return DetailPage.objects.live().specific().descendant_of(module)
 
 
 def get_first_lesson(module):
@@ -37,7 +37,7 @@ class PageTopicHelper:
 
     def get_page_topic(self):
         from core.models import TopicPage
-        return TopicPage.objects.ancestor_of(self.page).specific().first()
+        return TopicPage.objects.live().ancestor_of(self.page).specific().first()
 
     def get_module_topics(self):
         return self.module.get_topics()
