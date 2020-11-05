@@ -1,4 +1,5 @@
 # Changelog
+- no ticket - upgraded directory-validators lib
 - GA2-746 - Added GA code for EP sections
 - GA2-691 - Added GA code for target market
 - AA-129 - wagtail import export for Beta environment
@@ -12,6 +13,10 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-681 - HR colour in product finder 
+- GP2-957 - Remove territories from marklety selector
+- GP2-963 - Pressing 'return' in market modal search, reloads page 
+- GP2-863 - Drop Down selection is controlling the whole page
 - No ticket - Fix updated great-styles path
 - GP2-966 - bug fix - select no values
 - GP2-954 - Require anonymous user on certain pages
@@ -110,13 +115,20 @@
 
 ### Implemented enhancements
 - GP2-751 - Add link back to module, featuring topic name
+- GP2-387 - Link to target market page
+- GP2-911 - Target-market-page - Persist state
+- GP2-923 - Target-market-page - Empty state
+- GP2-919 - Target-market-page - Remove markets
+- GP2-922 - Target-market-page - Select markets to compare
 - GP2-955 - Target-market-page - disable and coming soon
+- GP2-748 - Analytics product classifier - tell us more
+- GP2-164 - Add topic-level progress counters to module page (one per topic block)
 - GP2-913 - Target_market_page - trigger product selector
 - GP2-917 - Target_market_page
 - GP2-868 - Update coming soon modal copy
 - GP2-763 - Analytics - first sign-in
+- GP2-764 - Analytics product classifier - match found
 - GP2-924 - Support thumbnails as `poster` images for <video> nodes
-- GP2-748 - Analytics product classifier - match found
 - GP2-689 - Analytics product classifier - product selected
 - GP2-690 - Analytics target market open
 - GP2-739 - Add beta banner to learning landing page

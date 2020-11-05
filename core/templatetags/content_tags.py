@@ -75,3 +75,24 @@ def get_topic_title_for_lesson(detail_page: DetailPage) -> str:
                     return topic_block.value.get('title')
 
     return ''
+
+
+@register.simple_tag
+def get_lesson_progress_for_topic(lesson_completion_data, lessons_and_placeholders) -> dict:
+    # Computes simple stats from the data structures passed in, doing a light safety check along the way
+    lesson_ids = [
+        x.value.id for x in lessons_and_placeholders
+        if x.block_type == LESSON_BLOCK
+    ]
+
+    # Watch out for zany data, such as more items completed than currently available
+    if lesson_completion_data and not lesson_completion_data.issubset(set(lesson_ids)):
+        return {}
+
+    lessons_completed = len(lesson_completion_data) if lesson_completion_data else 0
+    lessons_available = len(lesson_ids)
+
+    return {
+        'lessons_completed': lessons_completed,
+        'lessons_available': lessons_available
+    }

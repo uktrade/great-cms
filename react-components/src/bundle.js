@@ -14,6 +14,7 @@ import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinder from '@src/components/ProductFinder/CountryFinder'
 import ModalMenu from '@src/components/ModalMenu'
+import CompareMarkets from '@src/components/CompareMarkets'
 import { createRouteToMarket, createSpendingAndResources } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
@@ -53,6 +54,7 @@ export default {
   ProductLookup,
   ProductFinderButton,
   CountryFinder,
+  CompareMarkets,
   ModalMenu,
   createLogin,
   MarketSelectNavbar,
