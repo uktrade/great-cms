@@ -30,7 +30,9 @@ class PageTopicHelper:
 
     def __init__(self, page):
         self.page = page
-        self.module = self.page.get_parent().get_parent()  # slightly risky
+        # This is slightly assumptive of the hierarchy, but we can't
+        # import CuratedListPage here:
+        self.module = self.page.get_parent().get_parent()
         self.page_topic = self.get_page_topic()
         self.module_topics = self.get_module_topics()
         self.module_lessons = get_all_lessons(self.module)
@@ -40,7 +42,7 @@ class PageTopicHelper:
         return TopicPage.objects.live().ancestor_of(self.page).specific().first()
 
     def get_module_topics(self):
-        return self.module.get_topics()
+        return self.module.specific.get_topics()
 
     def total_module_topics(self):
         return self.get_module_topics().count()

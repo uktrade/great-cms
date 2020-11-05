@@ -722,7 +722,7 @@ class DetailPage(CMSGenericPage):
             context['backlink'] = _backlink
             context['backlink_title'] = self._get_backlink_title(_backlink)
 
-        if isinstance(self.get_parent(), TopicPage):
+        if isinstance(self.get_parent().specific, TopicPage):
             # In a conditional because a DetailPage currently MAY be used as
             # a child of another page type...
             page_topic_helper = PageTopicHelper(self)
