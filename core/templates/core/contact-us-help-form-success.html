@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block body_attributes %}class="body-background-white"{% endblock %}
+
+{% block content %}
+    <section class="container">
+        {% block breadcrumbs %}{% endblock %}
+        <div class="grid-row m-t-l">
+            <div class="c-1-2 p-r-xs">
+                <h2 class="h-l">Thank you your form has been submitted</h2>
+                <p>Somebody will be in touch shortly</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_footer %}{% endblock %}

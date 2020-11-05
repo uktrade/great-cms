@@ -1,4 +1,10 @@
+from django.forms import Textarea
+from django.utils.html import mark_safe
+
 from great_components import forms
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 
 
 def build_checkbox(label):
@@ -42,6 +48,30 @@ class WhatAreYouSellingForm(forms.Form):
         widget=forms.RadioSelect(),
         choices=CHOICES,
     )
+
+
+TERMS_LABEL = mark_safe(
+    'Tick this box to accept the '
+    '<a href="" target="_blank">terms and '
+    'conditions</a> of the great.gov.uk service.'
+)
+
+
+class ContactUsHelpForm(GovNotifyEmailActionMixin, forms.Form):
+    comment = forms.CharField(
+        label='Please give us as much detail as you can',
+        widget=Textarea,
+    )
+    given_name = forms.CharField(label='First name')
+    family_name = forms.CharField(label='Last name')
+    email = forms.EmailField()
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+
+    )
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
 class ProductSearchForm(forms.Form):

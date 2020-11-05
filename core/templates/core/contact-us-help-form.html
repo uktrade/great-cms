@@ -9,18 +9,14 @@
         {% block breadcrumbs %}{% endblock %}
         <div class="grid-row m-t-l">
             <div class="c-1-2 p-r-xs">
-                <form action="{% url 'core:set-company-name' %}?{{ request.GET.urlencode }}" method="post" enctype="multipart/form-data" novalidate="novalidate">
+                <form action="{% url 'core:contact-us-help' %}?{{ request.GET.urlencode }}" method="post" enctype="multipart/form-data" novalidate="novalidate">
                     {% csrf_token %}
-                    <h2 class="h-l">One last thing. What's your business name?</h2>
+                    <h2 class="h-l">Tell us how we can help</h2>
                     <div class="w-2-3" id="form-container">
                         {{ form }}
-                        <button type="submit" class="great-mvp-wizard-step-button m-b-s">Save and continue</button>
+                        <button type="submit" class="great-mvp-wizard-step-button m-b-s">Submit</button>
                     </div>
                 </form>
-            </div>
-
-            <div className='c-1-2'>
-                <img src="{% static 'images/book-chap.png' %}" />
             </div>
         </div>
     </section>
