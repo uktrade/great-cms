@@ -152,8 +152,9 @@ class TimedAccessMiddleware(MiddlewareMixin):
         if date_time_obj < datetime.now():
             return HttpResponseForbidden()
         else:
-            # set the cookie to 5 days and return
-            response.set_cookie('beta-user', encrypted_token, max_age=86400 * 5)
+            # set the cookie to BETA_TOKEN_EXPIRATION_DAYS days and return
+            response.set_cookie('beta-user', encrypted_token, max_age=86400 * settings.BETA_TOKEN_EXPIRATION_DAYS)
+
             return response
 
 
