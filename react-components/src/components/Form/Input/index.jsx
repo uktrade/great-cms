@@ -15,7 +15,8 @@ export const Input = ({
   description,
   tooltip,
   example,
-  readOnly
+  readOnly,
+  tabIndex
 }) => (
   <FormGroup
     errors={errors}
@@ -35,6 +36,7 @@ export const Input = ({
       placeholder={placeholder}
       value={value}
       readOnly={readOnly}
+      tabIndex={tabIndex}
     />
 </FormGroup>
 )
@@ -52,6 +54,7 @@ Input.propTypes = {
   tooltip: PropTypes.string,
   example: PropTypes.string,
   readOnly: PropTypes.bool,
+  tabIndex: PropTypes.string
 }
 
 Input.defaultProps = {
@@ -63,5 +66,6 @@ Input.defaultProps = {
   description: '',
   tooltip: '',
   example: '',
-  readOnly: false
+  readOnly: false,
+  tabIndex: ''
 }
