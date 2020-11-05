@@ -413,7 +413,7 @@ class CuratedListPage(CMSGenericPage):
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('heading'),
         ImageChooserPanel('image'),
-        StreamFieldPanel('topics')
+        # StreamFieldPanel('topics')  # TODO: remove me with the field
     ]
 
     def get_topics(self, live=True) -> models.QuerySet:
