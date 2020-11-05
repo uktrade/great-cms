@@ -34,7 +34,7 @@ directory-constants==20.17.*
 directory-forms-api-client==5.0.*
 directory-sso-api-client>=6.5.*
 django-staff-sso-client==1.0.*
-directory-validators==6.0.3
+directory-validators==6.0.4
 
 whitenoise==4.1.*
 psycopg2==2.8.* --no-binary psycopg2
