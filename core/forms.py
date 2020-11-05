@@ -1,10 +1,12 @@
 from django.forms import Textarea
 from django.utils.html import mark_safe
 
-from great_components import forms
-from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
+
+from great_components import forms
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from core.cms_slugs import TERMS_URL
 
 
 def build_checkbox(label):
@@ -52,7 +54,7 @@ class WhatAreYouSellingForm(forms.Form):
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
-    '<a href="" target="_blank">terms and '
+    f'<a href="{TERMS_URL}" target="_blank">terms and '
     'conditions</a> of the great.gov.uk service.'
 )
 

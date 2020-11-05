@@ -799,10 +799,14 @@ def test_contact_us_form_prepopualate(client, user):
     }
 
 
+@pytest.mark.parametrize('get_location_value', [{'country': 'UK'}, None])
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'get_location')
 @mock.patch.object(views.ContactUsHelpFormView.form_class, 'save')
-def test_contact_us_help_notify_save_success(mock_save, client, contact_form_data):
-
+def test_contact_us_help_notify_save_success(
+        mock_save, mock_get_location, client, get_location_value, contact_form_data
+):
+    mock_get_location.return_value = get_location_value
     url = reverse('core:contact-us-help')
     response = client.post(url, contact_form_data)
 
@@ -815,7 +819,7 @@ def test_contact_us_help_notify_save_success(mock_save, client, contact_form_dat
             form_url='/contact-us/help/',
             sender={
                 'email_address': contact_form_data['email'],
-                'country_code': None,
+                'country_code': get_location_value['country'] if get_location_value else None,
                 'ip_address': '127.0.0.1'
             },
             template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID

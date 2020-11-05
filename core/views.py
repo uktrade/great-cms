@@ -300,8 +300,10 @@ class ContactUsHelpFormView(FormView):
         return form_kwargs
 
     def send_support_message(self, form):
+        country_code = helpers.get_location(self.request)
         sender = Sender(
             email_address=form.cleaned_data['email'],
+            country_code=(country_code.get('country') if country_code else None),
             ip_address=helpers.get_sender_ip_address(self.request),
         )
         response = form.save(
