@@ -5,7 +5,7 @@
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
 - no ticket - increase token expiration date to 5 days from 1
-
+- no ticket - increase token expiration date to 30 days from 5
 ## Pre-release
 
 - no ticket - node-fetch module upgrade
