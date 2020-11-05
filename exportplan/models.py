@@ -2,7 +2,7 @@ from django.conf import settings
 from wagtail.core.models import Page
 
 from core import mixins
-from core import constants
+from core import cms_slugs
 from exportplan import data
 
 from great_components.mixins import GA360Mixin
@@ -21,7 +21,7 @@ class ExportPlanDashboardPage(
     template = 'exportplan/dashboard_page.html'
 
     def get_context(self, request):
-        request.user.set_page_view(constants.EXPORT_PLAN_DASHBOARD_URL)
+        request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context = super().get_context(request)
         context['sections'] = list(data.SECTIONS.values())
 
