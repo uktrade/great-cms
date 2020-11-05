@@ -138,7 +138,7 @@ class ProductLookupView(generics.GenericAPIView):
 class CountriesView(generics.GenericAPIView):
 
     def get(self, request):
-        return Response(choices.COUNTRIES_AND_TERRITORIES_REGION)
+        return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
 class SuggestedCountriesView(generics.GenericAPIView):

@@ -27,7 +27,7 @@
                 </div>
             </div>
         {% for learning_module in page.get_children.specific.live %}
-        {% with module_completion_progress|get_item:learning_module.id as module_completion_data %}
+        {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
         <a href="{% pageurl learning_module %}" title="{{ page.button_label }}" class="learn__category-link">
             <article class="learn__category m-b-s">
                 <div class="c-1-2-l">
@@ -38,12 +38,7 @@
                     {% if not module_completion_data.completion_count %}
                         <span class="button button--secondary" title="{{ page.button_label }}">{{ page.button_label }}</span>
                     {% else %}
-                        <div class="learn__category-progress"><span style="width: {{module_completion_data.completion_percentage}}%"></span></div>
-                        <p class="body-m-b m-t-xxs m-b-0">
-                        {{module_completion_data.completion_count}}
-                        /
-                        {{module_completion_data.total_pages}}
-                        lessons complete</p>
+                        {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
                     {% endif %}
 
                     </div>
