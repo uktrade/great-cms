@@ -1,4 +1,4 @@
-from core import constants
+from core import cms_slugs
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -14,7 +14,7 @@ def anonymous_user_required(function):
     inner = user_passes_test(
         lambda user: bool(user.is_anonymous),
         # redirect if the user DOES NOT pass the test
-        constants.DASHBOARD_URL,
+        cms_slugs.DASHBOARD_URL,
         None
     )
     return inner(function)

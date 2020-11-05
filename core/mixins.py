@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import translation
-from core import constants
+from core import cms_slugs
 from config import settings
 from great_components import helpers as great_components_helpers
 
@@ -43,12 +43,12 @@ class ExportPlanMixin:
 
 class AnonymousUserRequired:
     # used by core.wagtail_hooks.anonymous_user_required
-    anonymous_user_required_redirect_url = constants.DASHBOARD_URL
+    anonymous_user_required_redirect_url = cms_slugs.DASHBOARD_URL
 
 
 class AuthenticatedUserRequired:
     # used by core.wagtail_hooks.authenticated_user_required
-    authenticated_user_required_redirect_url = constants.LOGIN_URL
+    authenticated_user_required_redirect_url = cms_slugs.LOGIN_URL
 
 
 class WagtailGA360Mixin:

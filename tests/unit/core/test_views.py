@@ -13,7 +13,7 @@ from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from formtools.wizard.views import normalize_name
 
-from core import forms, helpers, serializers, views, constants
+from core import forms, helpers, serializers, views, cms_slugs
 
 from tests.helpers import add_lessons_and_placeholders_to_curated_list_page, create_response
 from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
@@ -163,7 +163,7 @@ def test_dashboard_page_logged_in(
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
-    response = client.get(constants.DASHBOARD_URL)
+    response = client.get(cms_slugs.DASHBOARD_URL)
     assert response.status_code == 200
 
 
@@ -174,9 +174,9 @@ def test_dashboard_page_not_logged_in(
     client,
     user
 ):
-    response = client.get(constants.DASHBOARD_URL)
+    response = client.get(cms_slugs.DASHBOARD_URL)
     assert response.status_code == 302
-    assert response.url == constants.LOGIN_URL
+    assert response.url == cms_slugs.LOGIN_URL
 
 
 @pytest.mark.django_db
@@ -478,7 +478,7 @@ def test_capability_article_not_logged_in(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == f'{constants.LOGIN_URL}?next={url}'
+    assert response.url == f'{cms_slugs.LOGIN_URL}?next={url}'
 
 
 @pytest.mark.django_db
@@ -498,7 +498,7 @@ def test_login_page_logged_in(client, user):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == constants.DASHBOARD_URL
+    assert response.url == cms_slugs.DASHBOARD_URL
 
 
 @pytest.mark.django_db
@@ -710,7 +710,7 @@ def test_set_company_name_success(mock_update_company_profile, mock_get_company_
 
     response = client.post(reverse('core:set-company-name'), {'name': 'Example corp'})
     assert response.status_code == 302
-    assert response.url == constants.DASHBOARD_URL
+    assert response.url == cms_slugs.DASHBOARD_URL
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         data={'name': 'Example corp'},
