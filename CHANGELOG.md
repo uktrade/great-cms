@@ -1,5 +1,6 @@
 # Changelog
 
+- no ticket - upgraded directory-validators lib
 - GA2-746 - Added GA code for EP sections
 - GA2-691 - Added GA code for target market
 - AA-129 - wagtail import export for Beta environment
