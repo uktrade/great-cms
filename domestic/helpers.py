@@ -24,7 +24,7 @@ def build_route_context(user, context={}):
 
 def get_ancestor(page, ancestor_class):
     # Seek up the tree to find a page matching class
-    return ancestor_class.objects.ancestor_of(page).specific().first()
+    return ancestor_class.objects.live().ancestor_of(page).specific().first()
 
 
 def module_has_lesson_configured_in_topic(
@@ -32,16 +32,16 @@ def module_has_lesson_configured_in_topic(
     lesson_page: DetailPage
 ) -> bool:
     lesson_topic_page = lesson_page.get_parent().specific
-    for topic_page in module_page.get_topics():
+    for topic_page in module_page.get_topics().live():
         if topic_page == lesson_topic_page:
             return True
     return False
 
 
 def get_lesson_completion_status(user, context={}):
-    """Gets all lesson pages (DetailPages and uses the parental tree to get a list
-    of modules (CuratedListPages), with some filtering-out of DetailPages which
-    are not associated with a CuratedListPage.topics field
+    """Gets all lesson pages (DetailPages) and uses the parental tree to get a list
+    of modules (CuratedListPages), with some grouping of DetailPages by their parent
+    TopicPage (which itself is a child of CuratedListPage)
 
     Example output:
     {
