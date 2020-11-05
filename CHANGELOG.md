@@ -8,6 +8,7 @@
 - no ticket - increase token expiration date to 5 days from 1
 - AA-155 - healthcheck endpoint to wrap CCCE API request
 - GP2-933 - contact us
+- no ticket - increase token expiration date to 30 days from 5
 
 ## Pre-release
 
