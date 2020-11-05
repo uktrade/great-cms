@@ -28,7 +28,7 @@ coverage==5.3             # via codecov, pytest-cov
 cryptography==3.2         # via -r requirements.in, -r requirements_test.in
 cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
-directory-api-client==22.4.0  # via -r requirements.in
+directory-api-client==22.6.0  # via -r requirements.in
 directory-client-core==6.3.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.3.0  # via -r requirements.in

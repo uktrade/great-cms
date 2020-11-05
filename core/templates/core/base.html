@@ -21,6 +21,41 @@
         'productAdded': product || "False",
         'marketAdded': country || "False",
       });
+       // static values that will not be updated by user interacting with react components
+      ditMVP.setConfig({
+          apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
+          apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
+          apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
+          apiCountriesUrl: '{% url "core:api-countries" %}',
+          apiSuggestedCountriesUrl: '{% url "core:api-suggested-countries" %}',
+          apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+          apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
+          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          apiObjectivesUpdateUrl: '{% url "exportplan:api-objectives-update" %}',
+          apiObjectivesCreateUrl: '{% url "exportplan:api-objectives-create" %}',
+          apiObjectivesDeleteUrl: '{% url "exportplan:api-objectives-delete" %}',
+          apiRouteToMarketCreateUrl: '{% url "exportplan:api-route-to-markets-create" %}',
+          apiRouteToMarketUpdateUrl: '{% url "exportplan:api-route-to-markets-update" %}',
+          apiRouteToMarketDeleteUrl: '{% url "exportplan:api-route-to-markets-delete" %}',
+          countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
+          removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
+          countryDataUrl: '{% url "exportplan:api-country-data" %}',
+          populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
+          marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
+          countryOptions: {{ javascript_components.country_choices|safe }},
+          csrfToken: '{{ csrf_token }}',
+          dashboardUrl: '{% url_map "dashboard" %}',
+          googleUrl: '{{ javascript_components.google_url }}',
+          industryOptions: {{ javascript_components.industry_options|safe }},
+          linkedInUrl: '{{ javascript_components.linkedin_url }}',
+          loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
+          signupUrl: '{% url "core:signup" %}',
+          passwordResetUrl: '{{ javascript_components.password_reset_url }}',
+          removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
+          termsUrl: '{{ javascript_components.terms_url }}',
+          userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+      });
     </script>
 {% endblock %}
 
@@ -58,40 +93,6 @@
       var userIndustries = [];
       var userProducts = [];
       {% endif %}
-      // static values that will not be updated by user interacting with react components
-      ditMVP.setConfig({
-          apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
-          apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
-          apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
-          apiCountriesUrl: '{% url "core:api-countries" %}',
-          apiSuggestedCountriesUrl: '{% url "core:api-suggested-countries" %}',
-          apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
-          apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
-          apiObjectivesUpdateUrl: '{% url "exportplan:api-objectives-update" %}',
-          apiObjectivesCreateUrl: '{% url "exportplan:api-objectives-create" %}',
-          apiObjectivesDeleteUrl: '{% url "exportplan:api-objectives-delete" %}',
-          apiRouteToMarketCreateUrl: '{% url "exportplan:api-route-to-markets-create" %}',
-          apiRouteToMarketUpdateUrl: '{% url "exportplan:api-route-to-markets-update" %}',
-          apiRouteToMarketDeleteUrl: '{% url "exportplan:api-route-to-markets-delete" %}',
-          countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
-          removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
-          countryDataUrl: '{% url "exportplan:api-country-data" %}',
-          marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
-          countryOptions: {{ javascript_components.country_choices|safe }},
-          csrfToken: '{{ csrf_token }}',
-          dashboardUrl: '{% url_map "dashboard" %}',
-          googleUrl: '{{ javascript_components.google_url }}',
-          industryOptions: {{ javascript_components.industry_options|safe }},
-          linkedInUrl: '{{ javascript_components.linkedin_url }}',
-          loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
-          signupUrl: '{% url "core:signup" %}',
-          passwordResetUrl: '{{ javascript_components.password_reset_url }}',
-          removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
-          termsUrl: '{{ javascript_components.terms_url }}',
-          userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-          verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-      });
 
       // dynamic value that can be updated by user interacting with react components
       ditMVP.setInitialState({

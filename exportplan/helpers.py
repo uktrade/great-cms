@@ -64,6 +64,13 @@ def get_comtrade_historical_import_data(commodity_code, country):
     return response.json()
 
 
+def get_population_data_by_country(countries):
+    # TODO: Amend argument to plural. need to make change in directory-api and directory-api-client
+    response = api_client.dataservices.get_population_data_by_country(country=countries)
+    response.raise_for_status()
+    return response.json()
+
+
 def get_recommended_countries(sso_session_id, sectors):
     response = api_client.personalisation.recommended_countries_by_sector(sso_session_id=sso_session_id, sector=sectors)
     response.raise_for_status()

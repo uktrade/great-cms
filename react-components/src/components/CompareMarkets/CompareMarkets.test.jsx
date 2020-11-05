@@ -23,6 +23,10 @@ const suggestedResponse = [
   {"hs_code":4,"country_name":"Sweden","country_iso2":"SE","region":"Europe"}
 ]
 
+const populationByCountryApiResponse = [
+  {"country":"Germany","internet_usage":{"value":"74.39","year":2018},"rural_population_total":17125,"rural_population_percentage_formatted":"28.32% (17.12 million)","urban_population_total":42007,"urban_population_percentage_formatted":"69.48% (42.01 million)","total_population":"60.46 million","cpi":{"value":"110.62","year":2019}}
+  ]
+
 beforeAll(() => {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
@@ -33,9 +37,14 @@ beforeEach(() => {
   container = document.createElement('div')
   container.innerHTML = '<span id="compare-market-container" data-productname="my product" data-productcode="123456"></span>'
   document.body.appendChild(container)
-  Services.setConfig({ apiCountriesUrl: '/api/countries/', apiSuggestedCountriesUrl: '/api/suggestedcountries/' })
+  Services.setConfig({
+    apiCountriesUrl: '/api/countries/',
+    apiSuggestedCountriesUrl: '/api/suggestedcountries/',
+    populationByCountryUrl: '/export-plan/api/country-data/'
+  })
   countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
   fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
+  fetchMock.get(/\/export-plan\/api\/country-data\//, populationByCountryApiResponse)
 })
 
 afterEach(() => {
@@ -65,7 +74,7 @@ xit('Forces product chooser when no product', () => {
   expect(document.body.querySelector('.product-finder')).toBeFalsy()
 })
 
-it('Allows selection of markets when product selected', async () => {
+it('Allows selection of markets and fetch data when product selected', async () => {
   container.innerHTML = '<span id="compare-market-container" data-productname="my product" data-productcode="123456"></span>'
   act(() => {
     CompareMarkets({element:container.querySelector('span')})
@@ -92,7 +101,14 @@ it('Allows selection of markets when product selected', async () => {
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch('Select market 2 of 3')
   })
-  expect(container.querySelector('.market-details').textContent).toMatch('Germany')
+
+  // check mock directory api data
+  expect(container.querySelector('#market-Germany').textContent).toMatch('Germany')
+  expect(container.querySelector('#market-total-population-Germany').textContent).toMatch('60.46 million')
+  expect(container.querySelector('#market-internet-usage-Germany').textContent).toMatch('74.39 %')
+  expect(container.querySelector('#market-urban-population-Germany').textContent).toMatch('69.48% (42.01 million)')
+  expect(container.querySelector('#market-rural-population-Germany').textContent).toMatch('28.32% (17.12 million)')
+
   // remove the country
   act(() => {
     Simulate.click(container.querySelector('.market-details button'))
