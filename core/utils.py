@@ -51,7 +51,7 @@ class PageTopicHelper:
         return self.module.specific.get_topics()
 
     def total_module_topics(self):
-        return len(self.get_module_topics())
+        return self.get_module_topics().count()
 
     def total_module_lessons(self):
         return len(self.module_lessons) if self.module_lessons else 0
