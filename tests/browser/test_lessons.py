@@ -82,8 +82,8 @@ def test_can_view_lessons_from_different_topics(
     visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
 
     visit_lesson_listing_page(live_server, browser, 'Topic A', clp_a.url)
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', clp_a_lessons[0].url)
-    visit_lesson_page(live_server, browser, 'Topic A - Lesson A2', clp_a_lessons[1].url)
+    visit_lesson_page(live_server, browser, 'Module A - Topic A - Lesson A1', clp_a_lessons[0].url)
+    visit_lesson_page(live_server, browser, 'Module A - Topic A - Lesson A2', clp_a_lessons[1].url)
 
     visit_lesson_listing_page(live_server, browser, 'Topic B', clp_b.url)
     visit_lesson_page(live_server, browser, 'Topic B - Lesson B1', clp_b_lessons[0].url)
@@ -103,7 +103,6 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     clp_a, clp_a_lessons = curated_list_pages_with_lessons[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
     topic_page = TopicPageFactory(parent=module_page, title='Module one, first topic')
-
     LessonPlaceholderPageFactory(
         title='Placeholder To Show They Do Not Interfere With Counts',
         parent=topic_page,
@@ -111,10 +110,12 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     lesson_one = DetailPageFactory(
         parent=topic_page,
         title='test detail page 1',
+        slug='test-detail-page-1',
     )
     DetailPageFactory(
         parent=topic_page,
         title='test detail page 2',
+        slug='test-detail-page-2',
     )
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)

@@ -14,8 +14,14 @@ from formtools.wizard.views import normalize_name
 
 from core import forms, helpers, serializers, views, cms_slugs
 
-from tests.helpers import add_lessons_and_placeholders_to_curated_list_page, create_response
-from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
+from tests.helpers import create_response
+from tests.unit.core.factories import (
+    CuratedListPageFactory,
+    DetailPageFactory,
+    LessonPlaceholderPageFactory,
+    ListPageFactory,
+    TopicPageFactory,
+)
 from tests.unit.learn.factories import LessonPageFactory
 from tests.unit.domestic.factories import DomesticDashboardFactory
 
@@ -196,90 +202,46 @@ def test_dashboard_page_lesson_progress(
     module_two = CuratedListPageFactory(parent=section_two, slug='section-two-module-one')
     CuratedListPageFactory(parent=section_two, slug='section-two-module-two')
 
-    _topic_block_id_module_one_block_0 = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
-    _topic_block_id_module_one_block_1 = '88888888-1f68-4c9f-8728-aa8c62cf3a2a'
-    _topic_block_id_module_two_block_0 = '77777777-1f68-4c9f-8728-aa8c62cf3a2a'
-    _topic_block_id_module_two_block_1 = '66666666-1f68-4c9f-8728-aa8c62cf3a2a'
+    topic_1_1 = TopicPageFactory(parent=module_one, title='Module one, first topic block')
+    topic_1_2 = TopicPageFactory(parent=module_one, title='Module one, second topic block')
 
+    topic_2_1 = TopicPageFactory(parent=module_two, title='Module two, first topic block')
+    topic_2_2 = TopicPageFactory(parent=module_two, title='Module two, second topic block')
+
+    # Section 1 Module 1 Topic 1 gets two children
     lesson_one = DetailPageFactory(
-        parent=module_one,
+        parent=topic_1_1,
         slug='lesson-one',
-        topic_block_id=_topic_block_id_module_one_block_0
     )
+    LessonPlaceholderPageFactory(
+        title='Placeholder To Show They Do Not Interfere With Counts',
+        parent=topic_1_1,
+    )
+
+    # Section 1 Module 1 Topic 2 gets one child
     lesson_two = DetailPageFactory(
-        parent=module_one,
+        parent=topic_1_2,
         slug='lesson-two',
-        topic_block_id=_topic_block_id_module_one_block_1
     )
-    lesson_three = DetailPageFactory(
-        parent=module_two,
+
+    # Section 1 Module 2 Topic 1 gets two children
+    DetailPageFactory(
+        parent=topic_2_1,
         slug='lesson-three',
-        topic_block_id=_topic_block_id_module_two_block_0
     )
-    lesson_four = DetailPageFactory(
-        parent=module_two,
+    DetailPageFactory(
+        parent=topic_2_1,  # ie, in same topic block as one above
         slug='lesson-four',
-        topic_block_id=_topic_block_id_module_two_block_0  # ie, in same topic block as one above
+    )
+
+    # Section 1 Module 2 Topic 2 children
+    LessonPlaceholderPageFactory(
+        title='Another Placeholder To Show They Do Not Interfere With Counts',
+        parent=topic_2_2,
     )
     lesson_five = DetailPageFactory(
-        parent=module_two,
+        parent=topic_2_2,  # correct
         slug='lesson-five',
-        topic_block_id=_topic_block_id_module_two_block_1
-    )
-
-    # We need to map the lesson pages to the modules/CuratedListPage's
-    # `topics` fields so that it matches each page's `topic_block_id` values.
-    module_one = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=module_one,
-        data_for_topics={
-            0: {
-                'id': _topic_block_id_module_one_block_0,
-                'title': 'Module one, first topic block',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_one.id},
-                    {
-                        'type': 'placeholder',
-                        'value': {
-                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
-                        }
-                    },
-                ]
-            },
-            1: {
-                'id': _topic_block_id_module_one_block_1,
-                'title': 'Module one, second topic block',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_two.id},
-                ]
-            }
-        }
-    )
-
-    module_two = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=module_two,
-        data_for_topics={
-            0: {
-                'id': _topic_block_id_module_two_block_0,
-                'title': 'Module two, first topic block',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_three.id},
-                    {'type': 'lesson', 'value': lesson_four.id},
-                ]
-            },
-            1: {
-                'id': _topic_block_id_module_two_block_1,
-                'title': 'Module two, second topic block',
-                'lessons_and_placeholders': [
-                    {
-                        'type': 'placeholder',
-                        'value': {
-                            'title': 'Another Placeholder To Show They Do Not Interfere With Counts'
-                        }
-                    },
-                    {'type': 'lesson', 'value': lesson_five.id},
-                ]
-            }
-        }
     )
 
     # create dashboard
@@ -299,8 +261,8 @@ def test_dashboard_page_lesson_progress(
     assert context_data['module_pages'][1]['total_pages'] == 3
     assert context_data['module_pages'][0]['completion_count'] == 2
     assert context_data['module_pages'][0]['completed_lesson_pages'] == {
-        _topic_block_id_module_one_block_0: set([lesson_one.id]),
-        _topic_block_id_module_one_block_1: set([lesson_two.id]),
+        topic_1_1.id: set([lesson_one.id]),
+        topic_1_2.id: set([lesson_two.id]),
     }
     assert context_data['module_pages'][1]['completion_count'] == 0
     assert context_data['module_pages'][1]['completed_lesson_pages'] == {}
@@ -318,12 +280,12 @@ def test_dashboard_page_lesson_progress(
     assert context_data['module_pages'][1]['page'].id == module_one.id
     assert context_data['module_pages'][0]['completion_count'] == 1
     assert context_data['module_pages'][0]['completed_lesson_pages'] == {
-        _topic_block_id_module_two_block_1: set([lesson_five.id]),
+        topic_2_2.id: set([lesson_five.id]),
     }
     assert context_data['module_pages'][1]['completion_count'] == 2
     assert context_data['module_pages'][1]['completed_lesson_pages'] == {
-        _topic_block_id_module_one_block_0: set([lesson_one.id]),
-        _topic_block_id_module_one_block_1: set([lesson_two.id]),
+        topic_1_1.id: set([lesson_one.id]),
+        topic_1_2.id: set([lesson_two.id]),
     }
 
 
