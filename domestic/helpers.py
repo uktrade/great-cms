@@ -32,7 +32,7 @@ def module_has_lesson_configured_in_topic(
     lesson_page: DetailPage
 ) -> bool:
     lesson_topic_page = lesson_page.get_parent().specific
-    for topic_page in module_page.get_topics().live():
+    for topic_page in module_page.get_topics():  # get_topics includes .live() by default
         if topic_page == lesson_topic_page:
             return True
     return False
