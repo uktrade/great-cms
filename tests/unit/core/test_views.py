@@ -766,6 +766,18 @@ def test_bad_auth_with_enc_token(client):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, "search_commodity_by_term")
+def test_ccce_ok(mock_search_commodity_by_term, client):
+    mock_search_commodity_by_term.get.content.return_value = {"data": {"hsCode": "040690"}, "elapsed": {"total_seconds":13}}
+
+    res = client.get(f"/api/check/")
+
+    assert res['data']['hsCode'] == '040690'
+    assert mock_search_commodity_by_term.call_count == 1
+    # assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_target_market_page(patch_export_plan, client, user):
     client.force_login(user)
 
