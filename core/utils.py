@@ -1,13 +1,16 @@
-
-def get_all_lessons(module):
+def get_all_lessons(module) -> list:
     """
-    Helper function to get all lessons of a module (CuratedListPage),
-    regardless of the TopicPages between the module and the lessons
+    Helper function to get all lessons of a module (CuratedListPage) that have
+    TopicPages between the module and the lessons.
 
-    @returns: QuerySet of DetailPage objects (lessons)
+    @returns: List of DetailPage objects (lessons)
     """
-    from core.models import DetailPage
-    return DetailPage.objects.live().specific().descendant_of(module)
+    from core.models import DetailPage, TopicPage
+    return [
+        lesson for lesson in
+        DetailPage.objects.live().specific().descendant_of(module)
+        if isinstance(lesson.get_parent().specific, TopicPage)
+    ]
 
 
 def get_first_lesson(module):
@@ -15,7 +18,10 @@ def get_first_lesson(module):
     Helper function to get first lesson of a module
     @returns: a single DetailPage objects (lesson)
     """
-    return get_all_lessons(module).first()
+    try:
+        return get_all_lessons(module)[0]
+    except IndexError:
+        return None
 
 
 class PageTopicHelper:
@@ -45,7 +51,7 @@ class PageTopicHelper:
         return self.module.specific.get_topics()
 
     def total_module_topics(self):
-        return self.get_module_topics().count()
+        return len(self.get_module_topics())
 
     def total_module_lessons(self):
         return len(self.module_lessons) if self.module_lessons else 0
