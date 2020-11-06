@@ -17,7 +17,7 @@ from tests.browser.steps import should_see_all_elements, should_not_see_any_elem
 from tests.browser.util import attach_jpg_screenshot, selenium_action
 from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
 from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
-from core import constants
+from core import cms_slugs
 from sso import helpers as sso_helpers
 
 pytestmark = [
@@ -71,7 +71,7 @@ def test_can_view_lessons_from_different_topics(
     clp_a, clp_a_lessons = curated_list_pages_with_lessons_and_placeholders[0]
     clp_b, clp_b_lessons = curated_list_pages_with_lessons_and_placeholders[1]
 
-    visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
+    visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
 
     visit_lesson_listing_page(live_server, browser, 'Topic A', clp_a.url)
     visit_lesson_page(live_server, browser, 'Topic A - Lesson A1', clp_a_lessons[0].url)
@@ -127,14 +127,14 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
         }
     )
 
-    visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
+    visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
     should_not_see_any_element(browser, DashboardReadingProgress)
     # Setting a lesson complete should show progress card with 1/1 complete
     mock_get_lesson_completed.return_value = {'result': 'ok', 'lesson_completed': [
         {'lesson': lesson_one.id}
     ]}
 
-    visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
+    visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
     should_see_all_elements(browser, DashboardReadingProgress)
 
     check_topic_read_progress(browser, clp_a, clp_a_lessons)
