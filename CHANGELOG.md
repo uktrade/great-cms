@@ -15,6 +15,7 @@
 
 ### Fixed bugs
 
+- GP2-959 - Backlink from lessons needs to go to module without going via topic redirect
 - GP2-681 - HR colour in product finder
 - GP2-434 - Dashboard routing blocks align
 - GP2-952 - Update tertiary button hover/active styles
