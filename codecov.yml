@@ -8,8 +8,8 @@ coverage:
       default:
         target: 90%
         threshold: 2%
-  precision: 2
-  round: down
+  precision: 0
+  round: up
   range: "90...100"
 
 
