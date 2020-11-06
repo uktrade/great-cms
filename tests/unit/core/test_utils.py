@@ -64,6 +64,18 @@ def test_lesson_module(domestic_homepage):
 
 
 @pytest.mark.django_db
+def test_lesson_module__get_first_lesson__unhappy_path(domestic_homepage):
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage,
+        record_read_progress=True
+    )
+    empty_module = factories.CuratedListPageFactory(
+        parent=list_page,
+    )
+    assert get_first_lesson(empty_module) is None
+
+
+@pytest.mark.django_db
 def test_multiple_modules(domestic_homepage, client, user):
     list_page = factories.ListPageFactory(
         parent=domestic_homepage, record_read_progress=True
