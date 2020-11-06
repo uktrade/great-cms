@@ -41,6 +41,11 @@ def test_lesson_module(domestic_homepage):
         slug='detail-page-3',
         parent=topic_two
     )
+    detail_page_4__not_configured_in_topic_so_should_be_skipped = factories.DetailPageFactory(
+        slug='detail-page-3',
+        parent=curated_list_page  # This will become impossible but worth testing for now
+    )
+    assert detail_page_4__not_configured_in_topic_so_should_be_skipped.get_parent() == curated_list_page
 
     pt_1 = PageTopicHelper(detail_page_1)
 
