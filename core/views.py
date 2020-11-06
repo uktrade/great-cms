@@ -1,11 +1,12 @@
 import abc
 import datetime
-import requests
+import logging
+import math
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
-from rest_framework import status
 from rest_framework import generics
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -15,6 +16,8 @@ from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
 from core import forms, helpers, serializers, cms_slugs
+
+logger = logging.getLogger(__name__)
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -284,8 +287,10 @@ class CreateTokenView(generics.GenericAPIView):
 
 class CheckView(generics.GenericAPIView):
     def get(self, request):
-        response = requests.get(settings.COMMODITY_SEARCH_URL)
-        if response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED:
-            return Response(status.HTTP_200_OK)
-        else:
-            return Response(status.HTTP_503_SERVICE_UNAVAILABLE)
+        response = helpers.search_commodity_by_term(term='feta', json=False)
+        try:
+            response_code = response.json()['data']['hsCode']
+            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': status.HTTP_200_OK, 'response_body': response_code, 'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000)}})
+        except Exception as e:
+            logger.exception(e)
+            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': status.HTTP_503_SERVICE_UNAVAILABLE}})
