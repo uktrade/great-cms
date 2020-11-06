@@ -1,8 +1,11 @@
+from unittest import mock
 import pytest
+
 
 from tests.unit.core.factories import ListPageFactory, CuratedListPageFactory
 from tests.unit.learn import factories as learn_factories
 from tests.helpers import add_lessons_and_placeholders_to_curated_list_page
+from captcha.client import RecaptchaResponse
 
 
 @pytest.mark.django_db(transaction=True)
@@ -73,3 +76,19 @@ def curated_list_pages_with_lessons_and_placeholders(domestic_homepage):
     )
 
     return [(clp_a, [lesson_a1, lesson_a2]), (clp_b, [lesson_b1])]
+
+
+@pytest.fixture(autouse=True)
+def mock_captcha_clean():
+    patch = mock.patch('captcha.fields.ReCaptchaField.clean', return_value='PASS')
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=True)
+def captcha_stub():
+    stub = mock.patch('captcha.fields.client.submit')
+    stub.return_value = RecaptchaResponse(is_valid=False, extra_data={'score': 1.0})
+    stub.start()
+    yield 'PASSED'
+    stub.stop()

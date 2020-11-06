@@ -1,17 +1,16 @@
 import pytest
 from unittest import mock
-
 from requests.exceptions import HTTPError
-
+from django.http import HttpRequest
+from django.conf import settings
 
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-
 from core import helpers
+
 from tests.unit.core.factories import CuratedListPageFactory
 from tests.helpers import create_response
-from django.conf import settings
 
 
 @mock.patch.object(helpers, 'get_client_ip')
@@ -385,3 +384,15 @@ def test_get_high_level_completion_progress():
 def test_get_suggested_markets(patch_get_suggested_markets):
     markets = helpers.get_suggested_countries_by_hs_code('1234', '56')
     assert markets[0].get('country_name') == 'Sweden'
+
+
+def test_get_sender_ip():
+    request = HttpRequest()
+    request.META = {'REMOTE_ADDR': '192.168.93.2'}
+    ip_address = helpers.get_sender_ip_address(request)
+    assert ip_address == '192.168.93.2'
+
+
+def test_get_sender_no_ip():
+    request = HttpRequest()
+    assert helpers.get_sender_ip_address(request) is None

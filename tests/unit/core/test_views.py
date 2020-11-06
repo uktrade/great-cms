@@ -7,6 +7,7 @@ from unittest.mock import patch, Mock
 
 from django.urls import reverse
 from django.http.cookie import SimpleCookie
+from django.conf import settings
 
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
@@ -64,6 +65,18 @@ def company_data():
     return {
         'expertise_industries': json.dumps(['Science']),
         'expertise_countries': json.dumps(['USA']),
+    }
+
+
+@pytest.fixture
+def contact_form_data(captcha_stub):
+    return {
+        'given_name': 'Test',
+        'family_name': 'Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
     }
 
 
@@ -771,3 +784,49 @@ def test_target_market_page(patch_export_plan, client, user):
 
     response = client.get('/find-your-target-market/')
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_contact_us_form_prepopualate(client, user):
+    client.force_login(user)
+    url = reverse('core:contact-us-help')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': user.email,
+        'family_name': user.last_name,
+        'given_name': user.first_name,
+    }
+
+
+@pytest.mark.parametrize('get_location_value', [{'country': 'UK'}, None])
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_location')
+@mock.patch.object(views.ContactUsHelpFormView.form_class, 'save')
+def test_contact_us_help_notify_save_success(
+        mock_save, mock_get_location, client, get_location_value, contact_form_data
+):
+    mock_get_location.return_value = get_location_value
+    url = reverse('core:contact-us-help')
+    response = client.post(url, contact_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('core:contact-us-success')
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            email_address=settings.GREAT_SUPPORT_EMAIL,
+            form_url='/contact-us/help/',
+            sender={
+                'email_address': contact_form_data['email'],
+                'country_code': get_location_value['country'] if get_location_value else None,
+                'ip_address': '127.0.0.1'
+            },
+            template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID
+        ),
+        mock.call(
+            email_address=contact_form_data['email'],
+            form_url='/contact-us/help/',
+            template_id=settings.CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID
+        )
+    ]
