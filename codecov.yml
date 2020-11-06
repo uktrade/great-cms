@@ -7,8 +7,8 @@ coverage:
     project:
       default:
         target: 90%
-        threshold: 2%
-  precision: 0
+        threshold: 5%
+  precision: 2
   round: up
   range: "90...100"
 
