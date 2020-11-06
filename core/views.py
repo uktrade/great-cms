@@ -15,6 +15,9 @@ from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
+
+from django.urls import reverse_lazy
+from directory_forms_api_client.helpers import Sender
 from core import forms, helpers, serializers, cms_slugs
 
 logger = logging.getLogger(__name__)
@@ -296,3 +299,51 @@ class CheckView(generics.GenericAPIView):
         except Exception as e:
             logger.exception(e)
             return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': status.HTTP_503_SERVICE_UNAVAILABLE}})
+
+class ContactUsHelpFormView(FormView):
+    form_class = forms.ContactUsHelpForm
+    template_name = 'core/contact-us-help-form.html'
+    success_url = reverse_lazy('core:contact-us-success')
+
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        if self.request.user.is_authenticated:
+            form_kwargs['initial'] = {
+                'email': self.request.user.email,
+                'given_name': self.request.user.first_name,
+                'family_name': self.request.user.last_name,
+            }
+        return form_kwargs
+
+    def send_support_message(self, form):
+        location = helpers.get_location(self.request)
+        sender = Sender(
+            email_address=form.cleaned_data['email'],
+            country_code=location.get('country') if location else None,
+            ip_address=helpers.get_sender_ip_address(self.request),
+        )
+        response = form.save(
+            template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID,
+            email_address=settings.GREAT_SUPPORT_EMAIL,
+            form_url=self.request.get_full_path(),
+            sender=sender,
+        )
+        response.raise_for_status()
+
+    def send_user_message(self, form):
+        # no need to set `sender` as this is just a confirmation email.
+        response = form.save(
+            template_id=settings.CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID,
+            email_address=form.cleaned_data['email'],
+            form_url=self.request.get_full_path(),
+        )
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.send_support_message(form)
+        self.send_user_message(form)
+        return super().form_valid(form)
+
+
+class ContactUsHelpSuccessView(TemplateView):
+    template_name = 'core/contact-us-help-form-success.html'

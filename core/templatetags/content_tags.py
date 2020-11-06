@@ -6,9 +6,12 @@ import datetime
 
 from urllib.parse import urlparse
 
-from core.constants import BACKLINK_QUERYSTRING_NAME, LESSON_BLOCK
-from core.models import CuratedListPage, DetailPage
-
+from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.models import (
+    DetailPage,
+    LessonPlaceholderPage,
+    TopicPage,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -60,39 +63,46 @@ def get_backlinked_url(context, outbound_url):
 
 @register.simple_tag
 def get_topic_title_for_lesson(detail_page: DetailPage) -> str:
-    """For the given lesson, find the topic it belongs to and return that topic's title"""
-
-    # Get the module this page belongs to, if we can
-    clp = CuratedListPage.objects.live().ancestor_of(detail_page).first()
-    if not clp:
-        return ''
-
-    # Find the topic this detailpage is referenced in
-    for topic_block in clp.specific.topics:
-        for lesson_or_placeholder in topic_block.value.get('lessons_and_placeholders', []):
-            if lesson_or_placeholder.block_type == LESSON_BLOCK:
-                if lesson_or_placeholder.value == detail_page:
-                    return topic_block.value.get('title')
-
-    return ''
+    """For the given lesson, find the topic it belongs to and
+    return that topic's title"""
+    return detail_page.get_parent().title
 
 
 @register.simple_tag
-def get_lesson_progress_for_topic(lesson_completion_data, lessons_and_placeholders) -> dict:
+def get_lesson_progress_for_topic(
+    completed_lessons: set,
+    topic_id: int,
+) -> dict:
     # Computes simple stats from the data structures passed in, doing a light safety check along the way
-    lesson_ids = [
-        x.value.id for x in lessons_and_placeholders
-        if x.block_type == LESSON_BLOCK
-    ]
+
+    topic_page = TopicPage.objects.live().specific().filter(id=topic_id).first()
+
+    lesson_ids = (
+        DetailPage.objects
+        .live()
+        .specific()
+        .descendant_of(topic_page)
+        .values_list('id', flat=True)
+    )
 
     # Watch out for zany data, such as more items completed than currently available
-    if lesson_completion_data and not lesson_completion_data.issubset(set(lesson_ids)):
+    if completed_lessons and not completed_lessons.issubset(set(lesson_ids)):
         return {}
 
-    lessons_completed = len(lesson_completion_data) if lesson_completion_data else 0
+    lessons_completed = len(completed_lessons) if completed_lessons else 0
     lessons_available = len(lesson_ids)
 
     return {
         'lessons_completed': lessons_completed,
         'lessons_available': lessons_available
     }
+
+
+@register.filter
+def is_lesson_page(page):
+    return isinstance(page.specific, DetailPage)
+
+
+@register.filter
+def is_placeholder_page(page):
+    return isinstance(page.specific, LessonPlaceholderPage)

@@ -66,6 +66,16 @@ urlpatterns = [
         name='signup-wizard-export-plan'
     ),
     path(
+        'contact-us/help/',
+        skip_ga360(core.views.ContactUsHelpFormView.as_view()),
+        name='contact-us-help'
+    ),
+    path(
+        'contact-us/success/',
+        skip_ga360(core.views.ContactUsHelpSuccessView.as_view()),
+        name='contact-us-success'
+    ),
+    path(
         'api/update-company/',
         skip_ga360(core.views.UpdateCompanyAPIView.as_view()),
         name='api-update-company'
