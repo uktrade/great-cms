@@ -269,6 +269,10 @@ def test_create_topics_and_reparent_lessons(domestic_homepage, domestic_site):
     assert module_1_topic_2.title == 'Module 1 Topic 2'
     assert module_1_topic_3.title == 'Module 1 Topic 3'
 
+    assert module_1_topic_1.live is True
+    assert module_1_topic_2.live is True
+    assert module_1_topic_3.live is True
+
     m1_t1_children = module_1_topic_1.get_children().specific()
     assert len(m1_t1_children) == 4
     assert m1_t1_children[0] == get_lesson(title='module_1_topic_1_lesson_1')
@@ -312,6 +316,12 @@ def test_create_topics_and_reparent_lessons(domestic_homepage, domestic_site):
     assert module_2_topic_4.title == 'Module 2 Topic 4'
     assert module_2_topic_5.title == 'Module 2 Topic 5'
 
+    assert module_2_topic_1.live is True
+    assert module_2_topic_2.live is True
+    assert module_2_topic_3.live is True
+    assert module_2_topic_4.live is True
+    assert module_2_topic_5.live is True
+
     assert len(module_2_topic_1.get_children().specific()) == 1
     assert module_2_topic_1.get_children().specific()[0] == get_lesson(title='module_2_topic_1_lesson_1')
     assert len(module_2_topic_2.get_children().specific()) == 1
@@ -332,6 +342,9 @@ def test_create_topics_and_reparent_lessons(domestic_homepage, domestic_site):
 
     assert module_3_topic_1.title == 'Module 3 Topic 1'
     assert module_3_topic_2.title == 'Module 3 Topic 2'
+
+    assert module_3_topic_1.live is True
+    assert module_3_topic_2.live is True
 
     assert len(module_3_topic_1.get_children().specific()) == 3
 
