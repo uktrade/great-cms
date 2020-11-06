@@ -7,9 +7,15 @@ coverage:
     project:
       default:
         target: 90%
-        threshold: 5%
+        threshold: 2%
+        base: auto
+    patch:
+      default:
+        target: 90%
+        threshold: 2%
+        base: auto
   precision: 2
-  round: up
+  round: down
   range: "90...100"
 
 
