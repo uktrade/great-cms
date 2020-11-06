@@ -127,6 +127,7 @@
 - GP2-923 - Target-market-page - Empty state
 - GP2-919 - Target-market-page - Remove markets
 - GP2-922 - Target-market-page - Select markets to compare
+- GP2-960 - Fix up links from EP to lessons, post-refactor
 - GP2-962 - Data migration for topics restructure
 - GP2-884 - Model-layer updates for topics restructure
 - GP2-955 - Target-market-page - disable and coming soon
