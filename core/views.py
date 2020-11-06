@@ -290,7 +290,9 @@ class CheckView(generics.GenericAPIView):
         response = helpers.search_commodity_by_term(term='feta', json=False)
         try:
             response_code = response.json()['data']['hsCode']
-            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': status.HTTP_200_OK, 'response_body': response_code, 'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000)}})
+            return Response({'status': status.HTTP_200_OK,
+                             'CCCE_API': {'status': status.HTTP_200_OK, 'response_body': response_code,
+                                          'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000)}})
         except Exception as e:
             logger.exception(e)
             return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': status.HTTP_503_SERVICE_UNAVAILABLE}})

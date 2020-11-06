@@ -1,6 +1,5 @@
 import json
 import pytest
-import requests
 
 from urllib.parse import urlencode
 from unittest import mock
@@ -8,7 +7,6 @@ from unittest.mock import patch, Mock
 
 from django.urls import reverse
 from django.http.cookie import SimpleCookie
-from django.conf import settings as sett
 
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
@@ -769,12 +767,12 @@ def test_bad_auth_with_enc_token(client):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, "search_commodity_by_term")
+@mock.patch.object(helpers, 'search_commodity_by_term')
 def test_check_view(mock_search_commodity_by_term, client):
     # mock the API response with the wrong hs code. Make sure we dont hit the actual API endpoint in every test run.
-    mock_search_commodity_by_term.return_value = create_response(json_body={"data": {"hsCode": "923311"}})
+    mock_search_commodity_by_term.return_value = create_response(json_body={'data': {'hsCode': '923311'}})
 
-    res = client.get(f"/api/check/").json()
+    res = client.get('/api/check/').json()
 
     assert res['CCCE_API']['response_body'] == '923311'
     assert res['CCCE_API']['status'] == status.HTTP_200_OK
@@ -783,12 +781,12 @@ def test_check_view(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, "search_commodity_by_term")
+@mock.patch.object(helpers, 'search_commodity_by_term')
 def test_check_view_error(mock_search_commodity_by_term, client):
     # the API is down
-    mock_search_commodity_by_term.return_value = create_response(json_body={"error": "service unavailable"})
+    mock_search_commodity_by_term.return_value = create_response(json_body={'error': 'service unavailable'})
 
-    res = client.get(f"/api/check/").json()
+    res = client.get('/api/check/').json()
 
     assert res['CCCE_API']['status'] == status.HTTP_503_SERVICE_UNAVAILABLE
     assert res['status'] == status.HTTP_200_OK
