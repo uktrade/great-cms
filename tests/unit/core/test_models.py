@@ -415,9 +415,9 @@ class CuratedListPageTests(WagtailPageTests):
 
 @pytest.mark.django_db
 def test_curatedlistpage_count_detail_pages(
-    curated_list_pages_with_lessons_and_placeholders
+    curated_list_pages_with_lessons
 ):
-    data = curated_list_pages_with_lessons_and_placeholders
+    data = curated_list_pages_with_lessons
     clp_1 = data[0][0]
     clp_2 = data[1][0]
 
