@@ -16,13 +16,13 @@ from captcha.client import RecaptchaResponse
 def curated_list_pages_with_lessons(domestic_homepage):
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     clp_a = CuratedListPageFactory(parent=list_page, title='Lesson topic A', slug='topic-a',)
-    topic_for_clp_a = TopicPageFactory(parent=clp_a, title="Some title")
+    topic_for_clp_a = TopicPageFactory(parent=clp_a, title='Some title')
     lesson_a1 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_a,
         title='Lesson A1',
         slug='lesson-a1',
     )
-    LessonPlaceholderPageFactory(parent=topic_for_clp_a, title="Placeholder One")
+    LessonPlaceholderPageFactory(parent=topic_for_clp_a, title='Placeholder One')
     lesson_a2 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_a,
         title='Lesson A2',
@@ -30,7 +30,7 @@ def curated_list_pages_with_lessons(domestic_homepage):
     )
 
     clp_b = CuratedListPageFactory(parent=list_page, title='Lesson topic b', slug='topic-b',)
-    topic_for_clp_b = TopicPageFactory(parent=clp_b, title="Some title b")
+    topic_for_clp_b = TopicPageFactory(parent=clp_b, title='Some title b')
     lesson_b1 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_b,
         title='Lesson b1',

@@ -102,7 +102,7 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     live_server, user, browser = server_user_browser_dashboard
     clp_a, clp_a_lessons = curated_list_pages_with_lessons[0]
     module_page = CuratedListPageFactory(parent=domestic_homepage, title='Test module page')
-    topic_page = TopicPageFactory(parent=module_page, title="Module one, first topic")
+    topic_page = TopicPageFactory(parent=module_page, title='Module one, first topic')
 
     LessonPlaceholderPageFactory(
         title='Placeholder To Show They Do Not Interfere With Counts',
