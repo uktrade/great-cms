@@ -19,7 +19,9 @@ from core.models import (
     DetailPage,
     InterstitialPage,
     LandingPage,
+    LessonPlaceholderPage,
     ListPage,
+    TopicPage,
     case_study_body_validation,
 )
 
@@ -27,7 +29,12 @@ from domestic.models import DomesticDashboard, DomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
 from tests.unit.core import factories
 from tests.helpers import make_test_video
-from .factories import CaseStudyFactory, DetailPageFactory
+from .factories import (
+    CaseStudyFactory,
+    DetailPageFactory,
+    LessonPlaceholderPageFactory,
+    TopicPageFactory,
+)
 
 
 def test_object_hash():
@@ -44,7 +51,8 @@ def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_
 
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
-    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     client.get(detail_page.url)
 
@@ -60,7 +68,8 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
     client.force_login(user)
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
-    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     client.get(detail_page.url)
 
@@ -71,8 +80,9 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
 @pytest.mark.django_db
 def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site):
     # given the user has not read a lesson
-    list_page = factories.CuratedListPageFactory(parent=domestic_homepage)
-    detail_page = factories.DetailPageFactory(parent=list_page)
+    clp = factories.CuratedListPageFactory(parent=domestic_homepage)
+    topic_page = factories.TopicPageFactory(parent=clp)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     client.get(detail_page.url)
 
@@ -184,8 +194,9 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         record_read_progress=False
     )
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
     detail_page = factories.DetailPageFactory(
-        parent=curated_list_page,
+        parent=topic_page,
         template='learn/detail_page.html'
     )
 
@@ -400,14 +411,17 @@ class CuratedListPageTests(WagtailPageTests):
         self.assertAllowedParentPageTypes(CuratedListPage, {ListPage})
 
     def test_allowed_subtypes(self):
-        self.assertAllowedSubpageTypes(CuratedListPage, {DetailPage})
+        self.assertAllowedSubpageTypes(CuratedListPage, {
+            TopicPage,
+            DetailPage,  # TEMPORARY: remove after topics refactor migration has run
+        })
 
 
 @pytest.mark.django_db
 def test_curatedlistpage_count_detail_pages(
-    curated_list_pages_with_lessons_and_placeholders
+    curated_list_pages_with_lessons
 ):
-    data = curated_list_pages_with_lessons_and_placeholders
+    data = curated_list_pages_with_lessons
     clp_1 = data[0][0]
     clp_2 = data[1][0]
 
@@ -415,13 +429,103 @@ def test_curatedlistpage_count_detail_pages(
     assert clp_2.count_detail_pages == 1  # 1 page only, no placeholders at all
 
 
+class TopicPageTests(WagtailPageTests):
+
+    def test_parent_page_types(self):
+        self.assertAllowedParentPageTypes(TopicPage, {CuratedListPage})
+
+    def test_allowed_subtypes(self):
+        self.assertAllowedSubpageTypes(
+            TopicPage,
+            {
+                DetailPage,
+                LessonPlaceholderPage,
+            }
+        )
+
+
+@pytest.mark.django_db
+def test_topic_page_redirects_to_module(
+    rf,
+    domestic_homepage,
+    domestic_site,
+):
+    # The topic pages should never render their own content - they are basically
+    # scaffolding to give us a sensible page tree. As such they shouldn't be
+    # rendered
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage,
+        record_read_progress=False
+    )
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    topic_page = TopicPageFactory(
+        parent=curated_list_page,
+    )
+
+    # Check that we have the page tree set up correctly, else this is None
+    assert curated_list_page.url is not None
+
+    for page_method in ('serve', 'serve_preview'):
+
+        request = rf.get(topic_page.url)
+
+        resp = getattr(topic_page, page_method)(request)
+
+        assert resp._headers['location'] == ('Location', curated_list_page.url)
+
+
+class LessonPlaceholderPageTests(WagtailPageTests):
+
+    def test_parent_page_types(self):
+        self.assertAllowedParentPageTypes(LessonPlaceholderPage, {TopicPage})
+
+    def test_allowed_subtypes(self):
+        self.assertAllowedSubpageTypes(LessonPlaceholderPage, {})
+
+
+@pytest.mark.django_db
+def test_placeholder_page_redirects_to_module(
+    rf,
+    domestic_homepage,
+    domestic_site,
+):
+    # The topic pages should never render their own content and instead redirect
+    list_page = factories.ListPageFactory(
+        parent=domestic_homepage,
+        record_read_progress=False
+    )
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    topic_page = TopicPageFactory(
+        parent=curated_list_page,
+    )
+    placeholder_page = LessonPlaceholderPageFactory(
+        parent=topic_page
+    )
+
+    # Check that we have the page tree set up correctly, else this is None
+    assert curated_list_page.url is not None
+
+    for page_method in ('serve', 'serve_preview'):
+
+        request = rf.get(placeholder_page.url)
+
+        resp = getattr(placeholder_page, page_method)(request)
+
+        assert resp._headers['location'] == ('Location', curated_list_page.url)
+
+
 class DetailPageTests(WagtailPageTests):
 
-    def test_can_be_created_under_curated_list_page(self):
-        self.assertAllowedParentPageTypes(DetailPage, {CuratedListPage})
+    def test_parent_page_types(self):
+        self.assertAllowedParentPageTypes(
+            DetailPage,
+            {
+                CuratedListPage,  # TEMPORARY: remove after topics refactor migration has run
+                TopicPage
+            }
+        )
 
     def test_detail_page_creation_for_single_hero_image(self):
-
         detail_page = DetailPageFactory(
             hero=[('Image', ImageFactory())]
         )
@@ -449,7 +553,8 @@ def test_redirection_for_unauthenticated_user(
     interstitial_page = factories.InterstitialPageFactory(parent=landing_page)
     list_page = factories.ListPageFactory(parent=domestic_homepage)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
-    detail_page = factories.DetailPageFactory(parent=curated_list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    detail_page = factories.DetailPageFactory(parent=topic_page)
 
     pages = [
         landing_page,
