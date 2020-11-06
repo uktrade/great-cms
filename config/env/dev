@@ -56,3 +56,5 @@ WAGTAIL_TRANSFER_LOCAL_DEV=False
 # outside of secrets-do-not-commit else the same value will be used for both source and target sites
 # for Wagtail-Transfer. Sorry.
 AWS_STORAGE_BUCKET_NAME=great-local-bucket-one
+RECAPTCHA_PUBLIC_KEY=test_key
+RECAPTCHA_PRIVATE_KEY=test_key

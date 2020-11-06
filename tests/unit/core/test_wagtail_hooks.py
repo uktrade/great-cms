@@ -8,8 +8,6 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
-from core.constants import LESSON_BLOCK, PLACEHOLDER_BLOCK
-from core.models import DetailPage
 from core.wagtail_hooks import CaseStudyAdmin
 from tests.helpers import make_test_video
 from tests.unit.core import factories
@@ -373,7 +371,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=3)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
@@ -402,61 +400,6 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
     # of the published page CAN BE calculated as slightly longer than the draft.
     # This may be in part due to the page having a very small amount of content.
     assert detail_page.estimated_read_duration == timedelta(seconds=4)
-
-
-@pytest.mark.django_db
-def test_set_lesson_pages_topic_id(rf, curated_list_pages_with_lessons_and_placeholders):
-
-    request = rf.get('/')
-    request.user = AnonymousUser()
-
-    # Rest the topic_block_id for all lessons
-    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
-    for lesson_page in curated_list_pages_with_lessons_and_placeholders[0][1]:
-        lesson_page.topic_block_id = None
-        lesson_page.save()
-
-    page = wagtail_hooks.set_lesson_pages_topic_id(
-        page=curated_page,
-        request=request
-    )
-    page.refresh_from_db()  # IMPORTANT
-
-    for topic in page.topics:
-        assert topic.value['lessons_and_placeholders']  # should have been set in the fixture
-        for item in topic.value['lessons_and_placeholders']:
-            if item.block_type == LESSON_BLOCK:
-                lesson = item.value
-                assert lesson.specific.topic_block_id == topic.id
-            else:
-                assert item.block_type == PLACEHOLDER_BLOCK
-
-
-@pytest.mark.django_db
-def test_set_lesson_pages_topic_id_removed(rf, curated_list_pages_with_lessons_and_placeholders):
-
-    request = rf.get('/')
-    request.user = AnonymousUser()
-
-    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
-
-    # Remove the second lesson from topic
-    topic_page_2_data = curated_page.topics[0].value['lessons_and_placeholders'].stream_data.pop()
-    curated_page.save()
-    curated_page.refresh_from_db()
-
-    # Show that before the hook runs, the data is right
-    assert DetailPage.objects.get(
-        id=topic_page_2_data['value']
-    ).topic_block_id == curated_page.topics[0].id
-
-    wagtail_hooks.set_lesson_pages_topic_id(
-        page=curated_page,
-        request=request
-    )
-    assert DetailPage.objects.get(
-        id=topic_page_2_data['value']
-    ).topic_block_id is None
 
 
 @pytest.mark.django_db

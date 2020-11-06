@@ -69,16 +69,29 @@ class CuratedListPageFactory(wagtail_factories.PageFactory):
     heading = factory.fuzzy.FuzzyText(length=200)
     template = factory.fuzzy.FuzzyChoice(models.CuratedListPage.template_choices, getter=lambda choice: choice[0])
     parent = factory.SubFactory(ListPageFactory)
-    topics = wagtail_factories.StreamFieldFactory(
-        {
-            'title': wagtail_factories.CharBlockFactory,
-            # lessons_and_placeholders need to be added not via the factory, for now.
-            # See tests.helpers.add_lessons_and_placeholders_to_curated_list_page
-        }
-    )
 
     class Meta:
         model = models.CuratedListPage
+        django_get_or_create = ['slug', 'parent']
+
+
+class TopicPageFactory(wagtail_factories.PageFactory):
+    title = 'Topic page'
+    live = True
+    parent = factory.SubFactory(CuratedListPageFactory)
+
+    class Meta:
+        model = models.TopicPage
+        django_get_or_create = ['slug', 'parent']
+
+
+class LessonPlaceholderPageFactory(wagtail_factories.PageFactory):
+    title = 'Placeholder'
+    live = True
+    parent = factory.SubFactory(TopicPageFactory)
+
+    class Meta:
+        model = models.LessonPlaceholderPage
         django_get_or_create = ['slug', 'parent']
 
 
@@ -87,8 +100,7 @@ class DetailPageFactory(wagtail_factories.PageFactory):
     live = True
     body = factory.fuzzy.FuzzyText(length=200)
     template = factory.fuzzy.FuzzyChoice(models.DetailPage.template_choices, getter=lambda choice: choice[0])
-    parent = factory.SubFactory(CuratedListPageFactory)
-    # topic_block_id should ONLY be set explicitly and manually
+    parent = factory.SubFactory(TopicPageFactory)
 
     class Meta:
         model = models.DetailPage
@@ -147,15 +159,6 @@ class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
 
     class Meta:
         model = blocks.SimpleVideoBlock
-
-
-class CuratedTopicBlockFactory(wagtail_factories.StructBlockFactory):
-    title = factory.fuzzy.FuzzyText(length=255)
-    # lessons_and_placeholders need to be added via a helper, not via the factory, for
-    # now - see tests.helpers.add_lessons_and_placeholders_to_curated_list_page
-
-    class Meta:
-        model = blocks.CuratedTopicBlock
 
 
 class CaseStudyFactory(factory.django.DjangoModelFactory):
