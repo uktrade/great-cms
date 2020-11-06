@@ -180,7 +180,7 @@ def get_check_duties_link(exportplan):
 
 def get_all_lesson_details():
     lessons = {}
-    for lesson in models.DetailPage.objects.live():
+    for lesson in models.DetailPage.objects.live().specific():
         lessons[lesson.slug] = {
             'topic_name': lesson.topic_title,
             'title': lesson.title,
