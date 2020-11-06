@@ -16,6 +16,8 @@
 ### Fixed bugs
 
 - GP2-681 - HR colour in product finder
+- GP2-952 - Update tertiary button hover/active styles
+- GP2-681 - HR colour in product finder 
 - GP2-957 - Remove territories from marklety selector
 - GP2-963 - Pressing 'return' in market modal search, reloads page
 - GP2-863 - Drop Down selection is controlling the whole page
