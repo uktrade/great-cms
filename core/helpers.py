@@ -2,11 +2,11 @@ from collections import Counter
 from difflib import SequenceMatcher
 from logging import getLogger
 from io import StringIO
+from ipware import get_client_ip
 
 import csv
 import functools
 import requests
-from ipware import get_client_ip
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
@@ -320,3 +320,8 @@ def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
     response = api_client.personalisation.suggested_countries_by_hs_code(sso_session_id=sso_session_id, hs_code=hs_code)
     response.raise_for_status()
     return response.json()
+
+
+def get_sender_ip_address(request):
+    ip, is_routable = get_client_ip(request)
+    return ip or None
