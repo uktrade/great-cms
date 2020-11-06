@@ -1,4 +1,5 @@
 # Changelog
+
 - no ticket - upgraded directory-validators lib
 - GA2-746 - Added GA code for EP sections
 - GA2-691 - Added GA code for target market
@@ -13,16 +14,18 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+
+- GP2-681 - HR colour in product finder
 - GP2-434 - Dashboard routing blocks align
 - GP2-952 - Update tertiary button hover/active styles
 - GP2-681 - HR colour in product finder 
 - GP2-957 - Remove territories from marklety selector
-- GP2-963 - Pressing 'return' in market modal search, reloads page 
+- GP2-963 - Pressing 'return' in market modal search, reloads page
 - GP2-863 - Drop Down selection is controlling the whole page
 - No ticket - Fix updated great-styles path
 - GP2-966 - bug fix - select no values
 - GP2-954 - Require anonymous user on certain pages
-- GP2-926 -  update copy
+- GP2-926 - update copy
 - GP2-949 - Header style tweaks
 - GP2-929 - Fix logout issues in firefox and probably other browsers
 - GP2-941 - the user can use two drop-downs at the same time
@@ -99,7 +102,7 @@
 - GP-310 - Format time as min rather than mins
 - GP2-247 - image resizing module image
 - GP2-246 - wrong url for learning header link
-- GP-96  - HS Codes saved in DirectoryAPI
+- GP-96 - HS Codes saved in DirectoryAPI
 - GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
@@ -116,6 +119,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+
+- GP2-857 - Shared components - site footer
 - GP2-751 - Add link back to module, featuring topic name
 - GP2-387 - Link to target market page
 - GP2-911 - Target-market-page - Persist state
@@ -165,11 +170,11 @@
 - GP2-602 - Use new header on all pages and allow login/logout
 - GP2-331 - Rerouting to login page with error message
 - GP2-688 - GTM tags in product search modal
-- GP2-413 -  style learn linking component
+- GP2-413 - style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
 - GP2-601 - Highlight section link in header
-- GP2-76  - Link to learning homepage
+- GP2-76 - Link to learning homepage
 - GP2-599 - Header restyle and header menu
 - GP2-429 - Learning homepage remove old content
 - GP2-426 - Link to export plan (FE)
@@ -201,7 +206,7 @@
 - GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
-- AA-129 -  Beta environment for GREAT.gov
+- AA-129 - Beta environment for GREAT.gov
 - GP2-252 - Added objective field to lesson page in CMS
 - GP2-339 - product alterations
 - GP2-335 - Routing logic for dashboard
