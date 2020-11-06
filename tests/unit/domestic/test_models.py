@@ -6,8 +6,14 @@ from core import mixins
 from domestic.models import DomesticHomePage, DomesticDashboard
 from directory_sso_api_client import sso_api_client
 from .factories import DomesticHomePageFactory, DomesticDashboardFactory
-from tests.unit.core.factories import DetailPageFactory, ListPageFactory, CuratedListPageFactory
-from tests.helpers import add_lessons_and_placeholders_to_curated_list_page, create_response
+from tests.unit.core.factories import (
+    CuratedListPageFactory,
+    DetailPageFactory,
+    LessonPlaceholderPageFactory,
+    ListPageFactory,
+    TopicPageFactory,
+)
+from tests.helpers import create_response
 
 from directory_api_client import api_client
 
@@ -103,34 +109,19 @@ def test_dashboard_page_routing(
     assert context_data['routes']['learn'].value.get('enabled') is True
 
     # Build learning pages and mock one as 'read'
-    topic_one = ListPageFactory(parent=domestic_homepage, slug='topic-one', record_read_progress=True)
-    section_one = CuratedListPageFactory(parent=topic_one, slug='topic-one-section-one')
+    list_page_one = ListPageFactory(parent=domestic_homepage, slug='list-page-one', record_read_progress=True)
+    section_one = CuratedListPageFactory(parent=list_page_one, slug='list-page-one-module-one')
+    topic_one = TopicPageFactory(parent=section_one, title='Module one, first topic block')
 
-    _topic_id = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
     lesson_one = DetailPageFactory(
-        parent=section_one,
+        parent=topic_one,
         slug='lesson-one',
-        topic_block_id=_topic_id
+    )
+    LessonPlaceholderPageFactory(
+        parent=topic_one,
+        title='Placeholder To Show They Do Not Interfere With Counts'
     )
 
-    section_one = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=section_one,
-        data_for_topics={
-            0: {
-                'id': _topic_id,
-                'title': 'Module one, first topic block',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_one.id},
-                    {
-                        'type': 'placeholder',
-                        'value': {
-                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
-                        }
-                    },
-                ]
-            },
-        }
-    )
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
         {'lesson': lesson_one.id},
     ]})

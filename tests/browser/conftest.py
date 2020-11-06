@@ -179,8 +179,12 @@ def server_user_browser_dashboard(
 def curated_list_pages_with_lessons(domestic_site_browser_tests):
     domestic_homepage = domestic_site_browser_tests.root_page
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
-    clp_a = CuratedListPageFactory(parent=list_page, title='Lesson module A', slug='module-a',)
-    topic_for_clp_a = TopicPageFactory(parent=clp_a, title='Some title')
+    clp_a = CuratedListPageFactory(
+        parent=list_page,
+        title='Lesson module A',
+        slug='module-a',
+    )
+    topic_for_clp_a = TopicPageFactory(parent=clp_a, title='Topic A')
     lesson_a1 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_a,
         title='Lesson A1',
@@ -192,8 +196,12 @@ def curated_list_pages_with_lessons(domestic_site_browser_tests):
         slug='lesson-a2',
     )
 
-    clp_b = CuratedListPageFactory(parent=list_page, title='Lesson topic B', slug='topic-b',)
-    topic_for_clp_b = TopicPageFactory(parent=clp_b, title='Some title', slug='topic-b')
+    clp_b = CuratedListPageFactory(
+        parent=list_page,
+        title='Lesson topic B',
+        slug='topic-b',
+    )
+    topic_for_clp_b = TopicPageFactory(parent=clp_b, title='Topic B', slug='topic-b')
     lesson_b1 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B1', slug='lesson-b1',)
     lesson_b2 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B2', slug='lesson-b2',)
 
