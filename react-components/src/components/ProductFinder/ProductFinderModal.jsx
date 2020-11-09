@@ -32,7 +32,9 @@ export default function ProductFinderModal(props) {
       analytics({
         'event': 'addProductPageview',
         'virtualPageUrl': '/add-product-modal/search_entry',
-        'virtualPageTitle': 'Add Product Modal - Search Entry'
+        'virtualPageTitle': 'Add Product Modal - Search Entry',
+        productKeyword: null,
+        productCode: null
       })
     }
   }, [modalIsOpen])
