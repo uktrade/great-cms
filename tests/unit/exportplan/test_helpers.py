@@ -393,5 +393,5 @@ def test_get_population_data_by_country(mock_population_data_by_country):
     mock_population_data_by_country.return_value = create_response(data)
     response = helpers.get_population_data_by_country(countries='United Kingdom')
     assert mock_population_data_by_country.call_count == 1
-    assert mock_population_data_by_country.call_args == mock.call(country='United Kingdom')
+    assert mock_population_data_by_country.call_args == mock.call(countries='United Kingdom')
     assert response == data

@@ -102,7 +102,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
     expect(container.querySelector('button.add-market').textContent).toMatch('Select market 2 of 3')
   })
 
-  // check mock directory api data
+  // check mock directory api data...
   expect(container.querySelector('#market-Germany').textContent).toMatch('Germany')
   expect(container.querySelector('#market-total-population-Germany').textContent).toMatch('60.46 million')
   expect(container.querySelector('#market-internet-usage-Germany').textContent).toMatch('74.39 %')

@@ -31,7 +31,7 @@ useEffect(() => {
       })
      Services.getPopulationByCountryData(countries).then((result) => {
        setPopulationData(Object.entries(result))
-     }).catch((error) => {
+       }).finally(() => {
      })
    }
 }, [cookies.comparisonMarkets]);
@@ -39,7 +39,7 @@ useEffect(() => {
 
   const getCountryData = (country) => {
     if (populationData && populationData.length) {
-      let country_data =  Object.values(populationData).find(x => x[1].country === country)
+      const country_data =  Object.values(populationData).find(x => x[1].country === country)
       return country_data ? country_data[1] : []
     }
   }

@@ -77822,7 +77822,7 @@ function CompareMarkets(props) {
       });
       _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].getPopulationByCountryData(countries).then(function (result) {
         setPopulationData(Object.entries(result));
-      })["catch"](function (error) {});
+      })["finally"](function () {});
     }
   }, [cookies.comparisonMarkets]);
 

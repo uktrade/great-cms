@@ -10,7 +10,6 @@ airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
 allure-pytest==2.8.19     # via -r requirements_test.in
 allure-python-commons==2.8.19  # via allure-pytest
-appnope==0.1.0            # via ipython
 astroid==2.4.2            # via pylint
 attrs==20.3.0             # via allure-python-commons, jsonschema, pytest
 babel==2.8.0              # via sphinx
@@ -18,7 +17,7 @@ backcall==0.2.0           # via ipython
 beautifulsoup4==4.8.2     # via -r requirements_test.in, great-components, readtime, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
-certifi==2020.6.20        # via geventhttpclient, requests, sentry-sdk
+certifi==2020.11.8        # via geventhttpclient, requests, sentry-sdk
 cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
 click==7.1.2              # via flask, pip-tools
@@ -28,7 +27,7 @@ coverage==5.3             # via codecov, pytest-cov
 cryptography==3.2         # via -r requirements.in, -r requirements_test.in
 cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
-directory-api-client==22.6.0  # via -r requirements.in
+directory-api-client==22.7.0  # via -r requirements.in
 directory-client-core==6.3.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.3.0  # via -r requirements.in
