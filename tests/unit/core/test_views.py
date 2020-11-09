@@ -757,13 +757,14 @@ def test_check_view(mock_search_commodity_by_term, client):
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'search_commodity_by_term')
-def test_check_view_error(mock_search_commodity_by_term, client):
-    # the API is down
-    mock_search_commodity_by_term.return_value = create_response(json_body={'error': 'service unavailable'})
+def test_check_view_external_error(mock_search_commodity_by_term, client):
+    test_http_error = status.HTTP_504_GATEWAY_TIMEOUT
+    # the external API is down
+    mock_search_commodity_by_term.return_value = create_response(status_code=test_http_error)
 
     res = client.get('/api/check/').json()
 
-    assert res['CCCE_API']['status'] == status.HTTP_503_SERVICE_UNAVAILABLE
+    assert res['CCCE_API']['status'] == test_http_error
     assert res['status'] == status.HTTP_200_OK
     assert mock_search_commodity_by_term.call_count == 1
 

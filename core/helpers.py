@@ -235,10 +235,7 @@ def search_commodity_by_term(term, json=True):
     )
 
     response.raise_for_status()
-    if json:
-        return response.json()
-    else:
-        return response
+    return response.json() if json else response
 
 
 def search_commodity_refine(interraction_id, tx_id, values):
