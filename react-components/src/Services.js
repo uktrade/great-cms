@@ -67,6 +67,10 @@ const getCountryData = function(country) {
   return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
+const getPopulationByCountryData = function(countries) {
+  return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
+}
+
 const getMarketingCountryData = function(data) {
   return get(config.marketingCountryData, data).then((response) => responseHandler(response).json())
 }
@@ -216,7 +220,8 @@ const setConfig = function({
   apiRouteToMarketDeleteUrl,
   apiRouteToMarketUpdateUrl,
   exportPlanTargetMarketsUrl,
-  signupUrl
+  signupUrl,
+  populationByCountryUrl
 }) {
   config.countryDataUrl = countryDataUrl
   config.marketingCountryData = marketingCountryData
@@ -250,6 +255,7 @@ const setConfig = function({
   config.userIsAuthenticated = userIsAuthenticated
   config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl
   config.signupUrl = signupUrl
+  config.populationByCountryUrl = populationByCountryUrl
 }
 
 export default {
@@ -261,6 +267,7 @@ export default {
   store: store,
   updateCompany,
   getCountryData,
+  getPopulationByCountryData,
   getMarketingCountryData,
   removeCountryData,
   removeSector,
