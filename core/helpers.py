@@ -224,7 +224,6 @@ def search_commodity_by_term(term, json=True):
         url=settings.COMMODITY_SEARCH_URL,
         json={
             'proddesc': term,
-            'destination': 'GB',
         },
         headers={
             'Accept': '*/*',

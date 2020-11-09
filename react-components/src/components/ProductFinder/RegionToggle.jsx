@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 export default function RegionToggle(props) {
@@ -8,6 +8,12 @@ export default function RegionToggle(props) {
   const countryListToggle = () => {
     setExpand(!expand)
   }
+
+  useEffect(() => {
+    if(expandAllRegions) {
+      setExpand(false)
+    }
+  }, [expandAllRegions])
 
   return (
     <section className="accordion c-full">

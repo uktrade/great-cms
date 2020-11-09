@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import RegionToggle from './RegionToggle'
 import Confirmation from './MessageConfirmation'
+import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
 
@@ -21,7 +22,6 @@ export function CountryFinderModal(props) {
 
   const openCountryFinder = (open) => {
     setIsOpen(open)
-    setSearchStr('')
     if (open) {
       analytics({
         'event': 'addMarketPageview',
@@ -38,6 +38,8 @@ export function CountryFinderModal(props) {
 
   const closeModal = () => {
     setProductConfirmationRequired(false)
+    setSearchStr('')
+    setExpandRegion(false)
     setIsOpen(false)
   }
 
@@ -58,9 +60,9 @@ export function CountryFinderModal(props) {
     setScrollShadow()
   }
 
-  const searchChange = (evt) => {
-    setExpandRegion(evt.target.value.length > 0)
-    setSearchStr(evt.target.value.toUpperCase())
+  const searchChange = (value) => {
+    setExpandRegion(value.length > 0)
+    setSearchStr(value.toUpperCase())
   }
 
   const toggleRegion = () => {
@@ -170,7 +172,7 @@ export function CountryFinderModal(props) {
   if (commodityCode) {
     const suggestedList = suggestedCountries.map((country) => {
       return (
-        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={clickCountry} data-suggested>
+        <button key={`suggested_${country.country_iso2}`} type="button" className="tag tag--tertiary tag--icon m-r-s m-v-xxs" data-country={country.country_name}  data-region={country.region} data-id={country.country_iso2} onClick={clickCountry} data-suggested>
           {country.country_name}
           <i className="fa fa-plus"/>
         </button>
@@ -186,7 +188,7 @@ export function CountryFinderModal(props) {
   /*   Compare markets section  */
   const compareMarketsSection = !selectCountry && (
     <div>
-      <hr className="bg-red-deep-100"/>
+      <hr className="hr bg-red-deep-100"/>
       <h3 className="h-s p-t-xs">Compare markets</h3>
       <div className="grid">
         <div className="c-full">
@@ -239,7 +241,7 @@ export function CountryFinderModal(props) {
               </div>
               {suggestedSection}
               {compareMarketsSection}
-              <hr className="bg-red-deep-100"/>
+              <hr className="hr bg-red-deep-100"/>
               <h3 className="h-s p-t-xs">List of markets</h3>
               <p className="m-v-xs">
                 If you have an idea of where you want to export, choose from the list below. <br/>You can change this at any
@@ -247,16 +249,9 @@ export function CountryFinderModal(props) {
               </p>
               <div className="grid">
                 <div className="c-1-3 search-input">
-                  <input
-                    className="form-control"
-                    type="text"
+                  <SearchInput
                     onChange={searchChange}
-                    defaultValue=""
-                    placeholder="Search markets"
                   />
-                  <span className="visually-hidden">Search markets </span>
-                  <i className="fas fa-search"/>
-
                 </div>
               </div>
               <div className="grid">
