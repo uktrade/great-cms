@@ -336,8 +336,12 @@ $desktop: 1024px;
   .rich-text {
     h2, h3, h4 {
       color: $blue-deep-80;
-      margin-bottom: 30px;
+      margin-bottom: 18px;
       padding: 0;
+
+      @include tablet {
+        margin-bottom: 30px;
+      }
     }
 
     h2 {
@@ -358,6 +362,16 @@ $desktop: 1024px;
 
     p, li {
       color: $blue-deep-80;
+    }
+
+    p {
+      margin-top: 18px;
+      margin-bottom: 18px;
+
+      @include tablet {
+        margin-top: 22px;
+        margin-bottom: 22px;
+      }
     }
 
     ul {
@@ -498,6 +512,30 @@ $desktop: 1024px;
     }
   }
 
+  .lesson-hero {
+    margin: 0 0 20px;
+
+    @include tablet {
+      margin: 30px 0;
+    }
+  }
+
+  .objectives {
+    padding-bottom: 40px;
+
+    @include tablet {
+      padding-bottom: 0;
+    }
+
+    hr {
+      margin-bottom: 0;
+
+      @include tablet {
+        margin-bottom: 45px;
+      }
+    }
+  }
+
   .fictional-example {
     h2, h3, h4 {
       margin-bottom: 12px;
@@ -608,6 +646,12 @@ $desktop: 1024px;
   }
 
   .estimated-time {
+    margin-bottom: 12px;
+
+    @include tablet {
+      margin-bottom: 22px;
+    }
+
     strong {
       height: 24px;
       display: inline-block;
