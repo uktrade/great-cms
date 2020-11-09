@@ -38,7 +38,7 @@ class PageTopicHelper:
         self.page = page
         # This is slightly assumptive of the hierarchy, but we can't
         # import CuratedListPage here:
-        self.module = self.page.get_parent().get_parent()
+        self.module = self.page.get_parent().get_parent().specific
         self.page_topic = self.get_page_topic()
         self.module_topics = self.get_module_topics()
         self.module_lessons = get_all_lessons(self.module)
