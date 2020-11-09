@@ -516,6 +516,7 @@ if BETA_ENVIRONMENT != '':
     MIDDLEWARE = (['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE)
     BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS', default=None)
     BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS', default=None)
+    BETA_TOKEN_EXPIRATION_DAYS = env.int('BETA_TOKEN_EXPIRATION_DAYS', default=30)
 
 if sys.argv[0:1][0].find('pytest') != -1:
     TESTING = True

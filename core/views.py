@@ -277,14 +277,19 @@ class CreateTokenView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, request):
-        # expire access @ now() in msec + 5 days
-        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=5))
+        # expire access @ now() in msec + BETA_TOKEN_EXPIRATION_DAYS days
+        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=settings.BETA_TOKEN_EXPIRATION_DAYS))
         base_url = settings.BASE_URL
+        # ability to edit target URL by using path param
+        extra_url_params = 'signup'
+        if request.GET.get('path'):
+            extra_url_params = request.GET.get('path')
         # TODO: logging
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
-        response = {'valid_until': plaintext, 'token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
+        response = {'valid_until': plaintext, 'token': ciphertext,
+                    'CLIENT URL': f'{base_url}/{extra_url_params}?enc={ciphertext}'}
         return Response(response)
 
 
