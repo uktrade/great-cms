@@ -15,6 +15,7 @@
 
 ### Fixed bugs
 
+- GP2-1021 - Fix missing image in next-lesson panel when next lesson is in the same module
 - GP2-959 - Backlink from lessons needs to go to module without going via topic redirect
 - GP2-681 - HR colour in product finder
 - GP2-434 - Dashboard routing blocks align
