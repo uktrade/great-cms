@@ -6,7 +6,9 @@
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
 - no ticket - increase token expiration date to 5 days from 1
+- AA-155 - healthcheck endpoint to wrap CCCE API request
 - GP2-933 - contact us
+- no ticket - increase token expiration date to 30 days from 5
 
 ## Pre-release
 
@@ -15,10 +17,11 @@
 
 ### Fixed bugs
 
+- GP2-1021 - Fix missing image in next-lesson panel when next lesson is in the same module
+- GP2-959 - Backlink from lessons needs to go to module without going via topic redirect
 - GP2-681 - HR colour in product finder
 - GP2-434 - Dashboard routing blocks align
 - GP2-952 - Update tertiary button hover/active styles
-- GP2-681 - HR colour in product finder 
 - GP2-957 - Remove territories from marklety selector
 - GP2-963 - Pressing 'return' in market modal search, reloads page
 - GP2-863 - Drop Down selection is controlling the whole page
@@ -121,6 +124,7 @@
 ### Implemented enhancements
 
 - GP2-980 - Mobile lesson page
+- GP2-619 - Insight component
 - GP2-857 - Shared components - site footer
 - GP2-751 - Add link back to module, featuring topic name
 - GP2-387 - Link to target market page
@@ -128,6 +132,9 @@
 - GP2-923 - Target-market-page - Empty state
 - GP2-919 - Target-market-page - Remove markets
 - GP2-922 - Target-market-page - Select markets to compare
+- GP2-960 - Fix up links from EP to lessons, post-refactor
+- GP2-962 - Data migration for topics restructure
+- GP2-884 - Model-layer updates for topics restructure
 - GP2-955 - Target-market-page - disable and coming soon
 - GP2-748 - Analytics product classifier - tell us more
 - GP2-164 - Add topic-level progress counters to module page (one per topic block)

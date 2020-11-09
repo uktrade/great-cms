@@ -1,65 +1,57 @@
-def get_all_lessons(module):
+def get_all_lessons(module) -> list:
     """
-    Helper function to get all lesson of a module
-    @return: list of lesson objects
+    Helper function to get all lessons of a module (CuratedListPage) that have
+    TopicPages between the module and the lessons.
+
+    @returns: List of DetailPage objects (lessons)
     """
-    from core.constants import LESSON_BLOCK
-    lessons = [
-        item.value
-        for topic_block in module.specific.topics
-        for item in topic_block.value.get('lessons_and_placeholders', [])
-        if item.block_type == LESSON_BLOCK and item.value.live  # item.value is a Page
+    from core.models import DetailPage, TopicPage
+    return [
+        lesson for lesson in
+        DetailPage.objects.live().specific().descendant_of(module)
+        if isinstance(lesson.get_parent().specific, TopicPage)
     ]
-    if lessons:
-        return lessons
 
 
 def get_first_lesson(module):
     """
     Helper function to get first lesson of a module
-    @return: lesson object
+    @returns: a single DetailPage objects (lesson)
     """
-    lessons = get_all_lessons(module)
-    if lessons:
-        return lessons[0]
+    try:
+        return get_all_lessons(module)[0]
+    except IndexError:
+        return None
 
 
-class PageTopic:
+class PageTopicHelper:
     """
-    Utility class for Page's topic. Helper class gather all info regarding topic specific for relevant page.
-    For example given page it calculate next lesson of topic.
+    Utility class for Page's topic.
+    Helper class gathers all info regarding the topic specific
+    for the relevant page.
+    For example, given a page it calculate the next lesson
+    of its topic.
 
     """
 
     def __init__(self, page):
         self.page = page
-        self.module = page.get_parent().specific
+        # This is slightly assumptive of the hierarchy, but we can't
+        # import CuratedListPage here:
+        self.module = self.page.get_parent().get_parent().specific
         self.page_topic = self.get_page_topic()
         self.module_topics = self.get_module_topics()
         self.module_lessons = get_all_lessons(self.module)
 
     def get_page_topic(self):
-        # Returns the CuratedTopicBlock from a StreamField that represents the
-        # topic for self.page.
-
-        # The user-facing relationship between lessons and their topics exists
-        # only through the `topics` field on `CuratedListPage`.
-        # We have to find a page's topic this way, rather than via the ORM.
-
-        from core.constants import LESSON_BLOCK
-
-        for topic_block in self.module.topics:
-            for item in topic_block.value.get('lessons_and_placeholders', []):
-                # item could be a lesson page or a placeholder, so we must check
-                if item.block_type == LESSON_BLOCK:
-                    if self.page.id == item.value.id:
-                        return topic_block
+        from core.models import TopicPage
+        return TopicPage.objects.live().ancestor_of(self.page).specific().first()
 
     def get_module_topics(self):
-        return [topic for topic in self.module.topics]
+        return self.module.specific.get_topics()
 
     def total_module_topics(self):
-        return len(self.get_module_topics())
+        return self.get_module_topics().count()
 
     def total_module_lessons(self):
         return len(self.module_lessons) if self.module_lessons else 0
@@ -68,8 +60,8 @@ class PageTopic:
         lessons = get_all_lessons(self.module)
         if not lessons:
             return
-        for i, item in enumerate(lessons):
-            if self.page.id == item.id:
+        for i, lesson in enumerate(lessons):
+            if self.page.id == lesson.id:
                 try:
                     next_lesson = lessons[i + 1]
                     return next_lesson.specific
