@@ -7,6 +7,7 @@ import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
+import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
 
@@ -19,7 +20,6 @@ const formatPath = (pathstr) => {
 export default function ProductFinderModal(props) {
   const { modalIsOpen, setIsOpen, setSelectedProduct } = props;
 
-  let searchInput
   let scrollOuter
 
   const [searchResults, setSearchResults] = useState()
@@ -47,9 +47,6 @@ export default function ProductFinderModal(props) {
   const modalAfterOpen = () => {
     setIsScrolled({})
     setSearchTerm('')
-    if (searchInput) {
-      searchInput.focus()
-    }
   }
 
   const setScrollShadow = () => {
@@ -117,7 +114,7 @@ export default function ProductFinderModal(props) {
         productCode: result.hsCode
       })
     } else if (result.currentQuestionInteraction) {
-      if (result.knownInteractions.length == 0) {
+      if (result.knownInteractions.length === 0) {
         // 'tell us more', first response
         analytics({
           event: 'addProductPageview',
@@ -157,30 +154,11 @@ export default function ProductFinderModal(props) {
       })
   }
 
-
-
   const search = () => {
-    const query = searchInput.value
+    const query = searchTerm
     if (query) {
       processResponse(Services.lookupProduct({ q: query }))
     }
-  }
-
-  const inputKeypress = (evt) => {
-    if (evt.key === 'Enter') {
-      evt.preventDefault()
-      search()
-    }
-  }
-
-  const inputChange = (evt) => {
-    setSearchTerm(evt.target.value)
-  }
-
-  const clearSearchInput = (evt) => {
-    setSearchTerm(evt.target.value)
-    const input = evt.target.parentElement.querySelector('input')
-    input.focus()
   }
 
   const onChangeClick = (evt) => {
@@ -344,17 +322,11 @@ export default function ProductFinderModal(props) {
         <h3 className="h-m p-t-0 p-b-xxs">Search by name</h3>
         <div>Find the product you want to export</div>
         <div className="flex-centre m-t-xs search-input">
-          <div className="flex-centre">
-            <input
-              className="form-control"
-              type="text"
-              ref={(_searchInput) => {searchInput = _searchInput}}
-              onKeyPress={inputKeypress}
-              onChange={inputChange}
-              value={searchTerm}
+            <SearchInput
+              onChange={setSearchTerm}
+              onKeyReturn={search}
+              autoFocus
             />
-            <button type="button" aria-label="Clear" className="fa fa-times clear" onClick={clearSearchInput}/>
-            </div>
           <button className="search-button button button--small button--only-icon m-f-xs" disabled={!searchTerm} type="button" onClick={search}>
             <i className="fa fa-arrow-right"/>
           </button>

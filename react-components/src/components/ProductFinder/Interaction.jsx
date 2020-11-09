@@ -37,8 +37,9 @@ function RadioButtons(props) {
           name={attribute.id}
           value={option.id}
           data-label={option.name}
-          defaultChecked={checked}
+          checked={checked}
           aria-label={option.name}
+          onChange={changeVal}
         />
         {/* eslint-disable jsx-a11y/label-has-associated-control */}
         <label htmlFor={option.id}/>
@@ -47,7 +48,7 @@ function RadioButtons(props) {
       </label>
     )
   })
-  return <div className="m-b-xs" onChange={changeVal}>{buttons}</div>
+  return <div className="m-b-xs" >{buttons}</div>
 }
 
 RadioButtons.propTypes = {
