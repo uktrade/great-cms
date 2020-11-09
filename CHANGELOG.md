@@ -1,9 +1,13 @@
 # Changelog
+
+- no ticket - upgraded directory-validators lib
 - GA2-746 - Added GA code for EP sections
 - GA2-691 - Added GA code for target market
 - AA-129 - wagtail import export for Beta environment
 - GP2-36 - lesson completed functionality
 - no ticket - increase token expiration date to 5 days from 1
+- AA-155 - healthcheck endpoint to wrap CCCE API request
+- GP2-933 - contact us
 - no ticket - increase token expiration date to 30 days from 5
 
 ## Pre-release
@@ -12,11 +16,22 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+
+- GP2-1021 - Fix missing image in next-lesson panel when next lesson is in the same module
+- GP2-959 - Backlink from lessons needs to go to module without going via topic redirect
+- GP2-681 - HR colour in product finder
+- GP2-434 - Dashboard routing blocks align
+- GP2-952 - Update tertiary button hover/active styles
+- GP2-957 - Remove territories from marklety selector
+- GP2-963 - Pressing 'return' in market modal search, reloads page
+- GP2-863 - Drop Down selection is controlling the whole page
+- No ticket - Fix updated great-styles path
+- GP2-966 - bug fix - select no values
 - GP2-954 - Require anonymous user on certain pages
-- GP2-926 -  update copy
+- GP2-926 - update copy
 - GP2-949 - Header style tweaks
 - GP2-929 - Fix logout issues in firefox and probably other browsers
-- GP2-941 - the user can use two drop-downs at the same time 
+- GP2-941 - the user can use two drop-downs at the same time
 - GP2-690 - Analytics target market modal - one push only
 - GP2-940 - Deletion of Add your business name
 - GP2-912 - Back button in Learn not accessible
@@ -90,7 +105,7 @@
 - GP-310 - Format time as min rather than mins
 - GP2-247 - image resizing module image
 - GP2-246 - wrong url for learning header link
-- GP-96  - HS Codes saved in DirectoryAPI
+- GP-96 - HS Codes saved in DirectoryAPI
 - GP2-176 - Navigation to the next section
 - GP-96 - HS Codes saved in DirectoryAPI
 - GP2-113 - Add objectives list component
@@ -107,12 +122,26 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+
+- GP2-857 - Shared components - site footer
+- GP2-751 - Add link back to module, featuring topic name
+- GP2-387 - Link to target market page
+- GP2-911 - Target-market-page - Persist state
+- GP2-923 - Target-market-page - Empty state
+- GP2-919 - Target-market-page - Remove markets
+- GP2-922 - Target-market-page - Select markets to compare
+- GP2-960 - Fix up links from EP to lessons, post-refactor
+- GP2-962 - Data migration for topics restructure
+- GP2-884 - Model-layer updates for topics restructure
 - GP2-955 - Target-market-page - disable and coming soon
+- GP2-748 - Analytics product classifier - tell us more
+- GP2-164 - Add topic-level progress counters to module page (one per topic block)
 - GP2-913 - Target_market_page - trigger product selector
 - GP2-917 - Target_market_page
 - GP2-868 - Update coming soon modal copy
 - GP2-763 - Analytics - first sign-in
-- GP2-748 - Analytics product classifier - match found
+- GP2-764 - Analytics product classifier - match found
+- GP2-924 - Support thumbnails as `poster` images for <video> nodes
 - GP2-689 - Analytics product classifier - product selected
 - GP2-690 - Analytics target market open
 - GP2-739 - Add beta banner to learning landing page
@@ -147,11 +176,11 @@
 - GP2-602 - Use new header on all pages and allow login/logout
 - GP2-331 - Rerouting to login page with error message
 - GP2-688 - GTM tags in product search modal
-- GP2-413 -  style learn linking component
+- GP2-413 - style learn linking component
 - GP2-597 - Name convention
 - GP2-600 - Header menu interraction
 - GP2-601 - Highlight section link in header
-- GP2-76  - Link to learning homepage
+- GP2-76 - Link to learning homepage
 - GP2-599 - Header restyle and header menu
 - GP2-429 - Learning homepage remove old content
 - GP2-426 - Link to export plan (FE)
@@ -183,7 +212,7 @@
 - GP2-386 - Lesson - hero image (FE)
 - GP2-365 - Add Target Market landing page
 - GP2-396 - Lesson - page structure
-- AA-129 -  Beta environment for GREAT.gov
+- AA-129 - Beta environment for GREAT.gov
 - GP2-252 - Added objective field to lesson page in CMS
 - GP2-339 - product alterations
 - GP2-335 - Routing logic for dashboard

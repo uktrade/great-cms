@@ -31,10 +31,11 @@ sentry-sdk==0.13.*
 great-components==1.1.*
 directory-api-client==22.4.*
 directory-constants==20.17.*
-directory-forms-api-client==5.0.*
+directory-forms-api-client==5.3.*
 directory-sso-api-client>=6.5.*
 django-staff-sso-client==1.0.*
-directory-validators==6.0.3
+directory-validators==6.0.4
+django-recaptcha==2.0.6
 
 whitenoise==4.1.*
 psycopg2==2.8.* --no-binary psycopg2

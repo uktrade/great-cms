@@ -43,6 +43,7 @@ class LessonPlaceholderBlock(blocks.StructBlock):
         template = 'learn/_lesson_placeholder.html'
 
 
+# TODO: remove this, because it's deprecated
 class CuratedTopicBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=255)
     lessons_and_placeholders = blocks.StreamBlock(

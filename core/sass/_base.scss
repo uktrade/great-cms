@@ -1,5 +1,23 @@
 @import 'elements/colours';
 
+// Start sticky footer
+// Stick footer to bottom when content is short.
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+// Fill space
+main {
+  flex: 1;
+}
+// End Sticky footer
+
 label {
   display: block;
 }
@@ -97,4 +115,8 @@ body {
 
 .icon-large {
   font-size: 40px;
+}
+
+.no-scoll {
+  overflow: hidden ;
 }

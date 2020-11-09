@@ -32,7 +32,9 @@ export default function ProductFinderModal(props) {
       analytics({
         'event': 'addProductPageview',
         'virtualPageUrl': '/add-product-modal/search_entry',
-        'virtualPageTitle': 'Add Product Modal - Search Entry'
+        'virtualPageTitle': 'Add Product Modal - Search Entry',
+        productKeyword: null,
+        productCode: null
       })
     }
   }, [modalIsOpen])
@@ -71,10 +73,14 @@ export default function ProductFinderModal(props) {
 
   const saveProduct = () => {
     const productName = capitalize(searchResults.currentItemName)
-    setSelectedProduct(productName)
+    const searchQuery = capitalize(searchResults.productDescription)
+    setSelectedProduct({
+      name: productName,
+      code: searchResults.hsCode
+    })
     analytics({
       event: 'addProductSuccess',
-      productKeyword: productName,
+      productKeyword: searchQuery,
       productCode: searchResults.hsCode
     })
 
@@ -100,13 +106,33 @@ export default function ProductFinderModal(props) {
   }
 
   const responseAnalytics = (result) => {
+    const searchQuery = capitalize(result.productDescription);
     if (result.hsCode) {
+      // product found
       analytics({
         event: 'addProductPageview',
         virtualPageUrl: '/add-product-modal/product-found',
         virtualPageTitle: 'Add Product Modal - Product Found',
-        productKeyword: capitalize(result.currentItemName),
+        productKeyword: searchQuery,
         productCode: result.hsCode
+      })
+    } else if (result.currentQuestionInteraction) {
+      if (result.knownInteractions.length == 0) {
+        // 'tell us more', first response
+        analytics({
+          event: 'addProductPageview',
+          virtualPageUrl: '/add-product-modal/tell-us-more',
+          virtualPageTitle: 'Add Product Modal - Tell Us More',
+          productKeyword: searchQuery
+        })
+      }
+    } else {
+      // product not found
+      analytics({
+        event: 'addProductPageview',
+        virtualPageUrl: '/add-product-modal/no-results',
+        virtualPageTitle: 'Add Product Modal - No Results',
+        productKeyword: searchQuery
       })
     }
   }
@@ -175,6 +201,7 @@ export default function ProductFinderModal(props) {
             return value.type === 'SELECTION' ? 
               (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
               (<ValueInteraction txId={searchResults.txId} key={value.id} attribute={value} processResponse={processResponse} mixedContentError={searchResults.mixedContentError}/>)
+
           })}
       </section>
     )
@@ -303,7 +330,7 @@ export default function ProductFinderModal(props) {
       <div>
         {searchResults.hsCode && sectionFound(searchResults)}
         {!searchResults.hsCode && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {(known || questions) ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
+        {(known || questions) ? (<hr className="hr bg-red-deep-100 m-h-l"/>) : ''}
         {sectionProductDetails(known)} 
         {sectionAssumptions(assumptions)}
       </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import ReactModal from 'react-modal'
 import Confirmation from './MessageConfirmation'
 import ProductFinderModal from './ProductFinderModal'
 
@@ -22,22 +21,13 @@ function ProductFinderButton(props) {
     setIsOpen(true)
   }
 
-  let triggerButton = (
-    <button type="button" 
-      className="button button--primary button--icon"
-      onClick={openModal}>
-        <i className="fa fa-plus-square"/>
-      Select product
-    </button>)
   const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
-  if (selectedProduct !== null) {
-    triggerButton = (
-      <button type="button" className={buttonClass} onClick={openModal}>
-        {selectedProduct || 'add product'}
-        <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`}/>
-      </button>
-    )
-  }
+  const triggerButton = (
+    <button type="button" className={buttonClass} onClick={openModal}>
+      {(selectedProduct && selectedProduct.name) || 'add product'}
+      <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`}/>
+    </button>
+  )
 
   return (
     <span>
@@ -60,14 +50,20 @@ function ProductFinderButton(props) {
 }
 
 ProductFinderButton.propTypes = {
-  product: PropTypes.string,
+  product: PropTypes.shape({
+    name: PropTypes.string,
+    code: PropTypes.string
+  })
 }
 
 ProductFinderButton.defaultProps = {
-  product: '',
+  product: {},
 }
 
 export default function createProductFinder({ ...params }) {
-  const product = params.element.getAttribute('data-text')
-  ReactDOM.render(<ProductFinderButton product={product} />, params.element)
+  const product = {
+    name: params.element.getAttribute('data-productname'),
+    code: params.element.getAttribute('data-productcode')
+  }
+  ReactDOM.render(<ProductFinderButton product={product.name && product} />, params.element)
 }

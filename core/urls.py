@@ -1,4 +1,4 @@
-from core import constants
+from core import cms_slugs
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -14,7 +14,7 @@ def anonymous_user_required(function):
     inner = user_passes_test(
         lambda user: bool(user.is_anonymous),
         # redirect if the user DOES NOT pass the test
-        constants.DASHBOARD_URL,
+        cms_slugs.DASHBOARD_URL,
         None
     )
     return inner(function)
@@ -66,6 +66,16 @@ urlpatterns = [
         name='signup-wizard-export-plan'
     ),
     path(
+        'contact-us/help/',
+        skip_ga360(core.views.ContactUsHelpFormView.as_view()),
+        name='contact-us-help'
+    ),
+    path(
+        'contact-us/success/',
+        skip_ga360(core.views.ContactUsHelpSuccessView.as_view()),
+        name='contact-us-success'
+    ),
+    path(
         'api/update-company/',
         skip_ga360(core.views.UpdateCompanyAPIView.as_view()),
         name='api-update-company'
@@ -89,6 +99,11 @@ urlpatterns = [
         'api/create-token/',
         skip_ga360(core.views.CreateTokenView.as_view()),
         name='api-create-token'
+    ),
+    path(
+        'api/check/',
+        skip_ga360(core.views.CheckView.as_view()),
+        name='api-check'
     ),
 
 ]

@@ -11,14 +11,18 @@ import environ
 import pytest
 
 from core import helpers as core_helpers
-from core import constants
+from core import cms_slugs
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
-from tests.helpers import create_response, add_lessons_and_placeholders_to_curated_list_page
-from tests.unit.core.factories import CuratedListPageFactory, ListPageFactory
+from tests.helpers import create_response
+from tests.unit.core.factories import (
+    CuratedListPageFactory,
+    ListPageFactory,
+    TopicPageFactory,
+)
 from tests.unit.learn import factories as learn_factories
 
 
@@ -157,7 +161,7 @@ def server_user_browser_dashboard(
 ):
     live_server, user, browser = server_user_browser
 
-    browser.get(f'{live_server.url}{constants.DASHBOARD_URL}')
+    browser.get(f'{live_server.url}{cms_slugs.DASHBOARD_URL}')
 
     browser.add_cookie({'name': settings.SSO_SESSION_COOKIE, 'value': user.session_id, 'path': '/'})
     browser.refresh()
@@ -172,62 +176,34 @@ def server_user_browser_dashboard(
 
 @pytest.mark.django_db(transaction=True)
 @pytest.fixture
-def curated_list_pages_with_lessons_and_placeholders(domestic_site_browser_tests):
+def curated_list_pages_with_lessons(domestic_site_browser_tests):
     domestic_homepage = domestic_site_browser_tests.root_page
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
-    clp_a = CuratedListPageFactory(parent=list_page, title='Lesson topic A', slug='topic-a',)
-    lesson_a1 = learn_factories.LessonPageFactory(parent=clp_a, title='Lesson A1', slug='lesson-a1',)
-    lesson_a2 = learn_factories.LessonPageFactory(parent=clp_a, title='Lesson A2', slug='lesson-a2',)
-
-    # clp_a.topics.is_lazy = True
-    # clp_a.topics.stream_data = [
-    #     {
-    #         'type': 'topic',
-    #         'value': {'title': 'Some title', 'pages': [lesson_a1.pk, lesson_a2.pk]},
-    #         'id': '495856f0-37ae-496b-a7c4-cd010a6e7011',
-    #     }
-    # ]
-    clp_a.save()
-    clp_a = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=clp_a,
-        data_for_topics={
-            0: {
-                'id': '495856f0-37ae-496b-a7c4-cd010a6e7011',
-                'title': 'Some title',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_a1.pk},
-                    {'type': 'lesson', 'value': lesson_a2.pk},
-                ]
-            }
-        }
+    clp_a = CuratedListPageFactory(
+        parent=list_page,
+        title='Lesson module A',
+        slug='module-a',
+    )
+    topic_for_clp_a = TopicPageFactory(parent=clp_a, title='Topic A')
+    lesson_a1 = learn_factories.LessonPageFactory(
+        parent=topic_for_clp_a,
+        title='Lesson A1',
+        slug='lesson-a1',
+    )
+    lesson_a2 = learn_factories.LessonPageFactory(
+        parent=topic_for_clp_a,
+        title='Lesson A2',
+        slug='lesson-a2',
     )
 
-    clp_b = CuratedListPageFactory(parent=list_page, title='Lesson topic B', slug='topic-b',)
-    lesson_b1 = learn_factories.LessonPageFactory(parent=clp_b, title='Lesson B1', slug='lesson-b1',)
-    lesson_b2 = learn_factories.LessonPageFactory(parent=clp_b, title='Lesson B2', slug='lesson-b2',)
-
-    # clp_b.topics.is_lazy = True
-    # clp_b.topics.stream_data = [
-    #     {
-    #         'type': 'topic',
-    #         'value': {'title': 'Some title', 'pages': [lesson_b1.pk, lesson_b2.pk]},
-    #         'id': '395856f0-37ae-496b-a7c4-cd010a6e7011'
-    #     }
-    # ]
-    clp_b.save()
-    clp_b = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=clp_b,
-        data_for_topics={
-            0: {
-                'id': '395856f0-37ae-496b-a7c4-cd010a6e7011',
-                'title': 'Some title',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_b1.pk},
-                    {'type': 'lesson', 'value': lesson_b2.pk},
-                ]
-            }
-        }
+    clp_b = CuratedListPageFactory(
+        parent=list_page,
+        title='Lesson topic B',
+        slug='topic-b',
     )
+    topic_for_clp_b = TopicPageFactory(parent=clp_b, title='Topic B', slug='topic-b')
+    lesson_b1 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B1', slug='lesson-b1',)
+    lesson_b2 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B2', slug='lesson-b2',)
 
     return [(clp_a, [lesson_a1, lesson_a2]), (clp_b, [lesson_b1, lesson_b2])]
 

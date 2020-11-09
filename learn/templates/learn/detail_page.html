@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="lesson-page">
-        <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--top h-m">
+        <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--top h-m">
             <i class="fas fa-arrow-left"></i>
             <span class="visually-hidden">Back</span>
         </a>
@@ -15,7 +15,14 @@
                 <div class="grid">
                     <div class="grid p-t-l">
                         <div class="c-1-4">
-                            <h4 class="h-s">&nbsp;</h4>
+                            <div class="m-t-xl p-h-xs">
+                                <p class="body-l p-t-s m-v-0">You're in:</p>
+                                {% get_topic_title_for_lesson page as topic_title %}
+                                {% if topic_title %}
+                                <p class="body-l-b m-v-0">{{topic_title}}</p>
+                                {% endif %}
+                                <a href="{{page.get_parent.get_parent.url}}" class="button button--secondary button--small m-t-xs">View all lessons</a>
+                            </div>
                         </div>
                         <div class="c-1-2">
                             <h1 class="h-l" id="lesson-title">{{ page.title }}</h1>
@@ -29,7 +36,7 @@
                             {% include 'core/objectives.html' %}
                         </div>
                         <div class="c-1-4">
-                            <h4 class="h-s">&nbsp;</h4>
+                            <span class="h-s">&nbsp;</span>
                         </div>
                     </div>
                 </div>
@@ -40,7 +47,7 @@
                 <div class="grid">
                     <div class="grid">
                         <div class="c-1-4">
-                            <h4 class="h-s">&nbsp;</h4>
+                            <span class="h-s">&nbsp;</span>
                         </div>
                         <div class="c-1-2 lesson-body-blocks">
                             {% include 'core/personalised_body.html' %}
@@ -57,7 +64,7 @@
                                 </div>
                             </div>
                             {% else %}
-                            <h4 class="h-s">&nbsp;</h4>
+                            <span class="h-s">&nbsp;</span>
                             {% endif %}
                         </div>
                     </div>
@@ -69,14 +76,14 @@
             <div class="container">
                 <div class="grid p-t-m">
                     <div class="c-1-4">
-                        <h4 class="h-s">&nbsp;</h4>
+                        <span class="h-s">&nbsp;</span>
                     </div>
                     <div class="c-1-2">
                         {% include 'learn/recap.html' %}
                         <hr class="hr hr--light m-0"/>
                     </div>
                     <div class="c-1-4">
-                        <h4 class="h-s">&nbsp;</h4>
+                        <span class="h-s">&nbsp;</span>
                     </div>
                 </div>
             </div>
@@ -84,13 +91,13 @@
                 <div class="grid">
                     <div class="grid p-t-s p-b-s">
                         <div class="c-1-4">
-                            <h4 class="h-s">&nbsp;</h4>
+                            <span class="h-s">&nbsp;</span>
                         </div>
                         <div class="c-1-2">
                             <div id="mark_as_complete" class="bg-blue-deep-80"></div>
                         </div>
                         <div class="c-1-4">
-                            <h4 class="h-s">&nbsp;</h4>
+                            <span class="h-s">&nbsp;</span>
                         </div>
                     </div>
                 </div>
@@ -99,7 +106,7 @@
                 <div class="container">
                     <div class="grid p-t-m">
                         <div class="c-1-12">
-                            <h4 class="h-s">&nbsp;</h4>
+                            <span class="h-s">&nbsp;</span>
                         </div>
                         <div class="c-10-12 m-b-xl">
                             <div class="card card--horizontal">
@@ -141,12 +148,12 @@
                             </div>
                         </div>
                         <div class="c-1-12">
-                            <h4 class="h-s">&nbsp;</h4>
+                            <span class="h-s">&nbsp;</span>
                         </div>
                     </div>
                 </div>
             {% endif %}
-            <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m">
+            <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m">
                 <i class="fas fa-arrow-left"></i>
                 <span class="visually-hidden">Back</span>
             </a>

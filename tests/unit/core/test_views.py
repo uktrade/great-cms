@@ -7,15 +7,23 @@ from unittest.mock import patch, Mock
 
 from django.urls import reverse
 from django.http.cookie import SimpleCookie
+from django.conf import settings
 
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from formtools.wizard.views import normalize_name
+from rest_framework import status
 
-from core import forms, helpers, serializers, views, constants
+from core import forms, helpers, serializers, views, cms_slugs
 
-from tests.helpers import add_lessons_and_placeholders_to_curated_list_page, create_response
-from tests.unit.core.factories import CuratedListPageFactory, DetailPageFactory, ListPageFactory
+from tests.helpers import create_response
+from tests.unit.core.factories import (
+    CuratedListPageFactory,
+    DetailPageFactory,
+    LessonPlaceholderPageFactory,
+    ListPageFactory,
+    TopicPageFactory,
+)
 from tests.unit.learn.factories import LessonPageFactory
 from tests.unit.domestic.factories import DomesticDashboardFactory
 
@@ -64,6 +72,18 @@ def company_data():
     return {
         'expertise_industries': json.dumps(['Science']),
         'expertise_countries': json.dumps(['USA']),
+    }
+
+
+@pytest.fixture
+def contact_form_data(captcha_stub):
+    return {
+        'given_name': 'Test',
+        'family_name': 'Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
     }
 
 
@@ -150,7 +170,7 @@ def test_dashboard_page_logged_in(
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     client.force_login(user)
-    response = client.get(constants.DASHBOARD_URL)
+    response = client.get(cms_slugs.DASHBOARD_URL)
     assert response.status_code == 200
 
 
@@ -161,9 +181,9 @@ def test_dashboard_page_not_logged_in(
     client,
     user
 ):
-    response = client.get(constants.DASHBOARD_URL)
+    response = client.get(cms_slugs.DASHBOARD_URL)
     assert response.status_code == 302
-    assert response.url == constants.LOGIN_URL
+    assert response.url == cms_slugs.LOGIN_URL
 
 
 @pytest.mark.django_db
@@ -196,90 +216,46 @@ def test_dashboard_page_lesson_progress(
     module_two = CuratedListPageFactory(parent=section_two, slug='section-two-module-one')
     CuratedListPageFactory(parent=section_two, slug='section-two-module-two')
 
-    _topic_block_id_module_one_block_0 = '99999999-1f68-4c9f-8728-aa8c62cf3a2a'
-    _topic_block_id_module_one_block_1 = '88888888-1f68-4c9f-8728-aa8c62cf3a2a'
-    _topic_block_id_module_two_block_0 = '77777777-1f68-4c9f-8728-aa8c62cf3a2a'
-    _topic_block_id_module_two_block_1 = '66666666-1f68-4c9f-8728-aa8c62cf3a2a'
+    topic_1_1 = TopicPageFactory(parent=module_one, title='Module one, first topic block')
+    topic_1_2 = TopicPageFactory(parent=module_one, title='Module one, second topic block')
 
+    topic_2_1 = TopicPageFactory(parent=module_two, title='Module two, first topic block')
+    topic_2_2 = TopicPageFactory(parent=module_two, title='Module two, second topic block')
+
+    # Section 1 Module 1 Topic 1 gets two children
     lesson_one = DetailPageFactory(
-        parent=module_one,
+        parent=topic_1_1,
         slug='lesson-one',
-        topic_block_id=_topic_block_id_module_one_block_0
     )
+    LessonPlaceholderPageFactory(
+        title='Placeholder To Show They Do Not Interfere With Counts',
+        parent=topic_1_1,
+    )
+
+    # Section 1 Module 1 Topic 2 gets one child
     lesson_two = DetailPageFactory(
-        parent=module_one,
+        parent=topic_1_2,
         slug='lesson-two',
-        topic_block_id=_topic_block_id_module_one_block_1
     )
-    lesson_three = DetailPageFactory(
-        parent=module_two,
+
+    # Section 1 Module 2 Topic 1 gets two children
+    DetailPageFactory(
+        parent=topic_2_1,
         slug='lesson-three',
-        topic_block_id=_topic_block_id_module_two_block_0
     )
-    lesson_four = DetailPageFactory(
-        parent=module_two,
+    DetailPageFactory(
+        parent=topic_2_1,  # ie, in same topic block as one above
         slug='lesson-four',
-        topic_block_id=_topic_block_id_module_two_block_0  # ie, in same topic block as one above
+    )
+
+    # Section 1 Module 2 Topic 2 children
+    LessonPlaceholderPageFactory(
+        title='Another Placeholder To Show They Do Not Interfere With Counts',
+        parent=topic_2_2,
     )
     lesson_five = DetailPageFactory(
-        parent=module_two,
+        parent=topic_2_2,  # correct
         slug='lesson-five',
-        topic_block_id=_topic_block_id_module_two_block_1
-    )
-
-    # We need to map the lesson pages to the modules/CuratedListPage's
-    # `topics` fields so that it matches each page's `topic_block_id` values.
-    module_one = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=module_one,
-        data_for_topics={
-            0: {
-                'id': _topic_block_id_module_one_block_0,
-                'title': 'Module one, first topic block',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_one.id},
-                    {
-                        'type': 'placeholder',
-                        'value': {
-                            'title': 'Placeholder To Show They Do Not Interfere With Counts'
-                        }
-                    },
-                ]
-            },
-            1: {
-                'id': _topic_block_id_module_one_block_1,
-                'title': 'Module one, second topic block',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_two.id},
-                ]
-            }
-        }
-    )
-
-    module_two = add_lessons_and_placeholders_to_curated_list_page(
-        curated_list_page=module_two,
-        data_for_topics={
-            0: {
-                'id': _topic_block_id_module_two_block_0,
-                'title': 'Module two, first topic block',
-                'lessons_and_placeholders': [
-                    {'type': 'lesson', 'value': lesson_three.id},
-                    {'type': 'lesson', 'value': lesson_four.id},
-                ]
-            },
-            1: {
-                'id': _topic_block_id_module_two_block_1,
-                'title': 'Module two, second topic block',
-                'lessons_and_placeholders': [
-                    {
-                        'type': 'placeholder',
-                        'value': {
-                            'title': 'Another Placeholder To Show They Do Not Interfere With Counts'
-                        }
-                    },
-                    {'type': 'lesson', 'value': lesson_five.id},
-                ]
-            }
-        }
     )
 
     # create dashboard
@@ -299,8 +275,8 @@ def test_dashboard_page_lesson_progress(
     assert context_data['module_pages'][1]['total_pages'] == 3
     assert context_data['module_pages'][0]['completion_count'] == 2
     assert context_data['module_pages'][0]['completed_lesson_pages'] == {
-        _topic_block_id_module_one_block_0: set([lesson_one.id]),
-        _topic_block_id_module_one_block_1: set([lesson_two.id]),
+        topic_1_1.id: set([lesson_one.id]),
+        topic_1_2.id: set([lesson_two.id]),
     }
     assert context_data['module_pages'][1]['completion_count'] == 0
     assert context_data['module_pages'][1]['completed_lesson_pages'] == {}
@@ -318,12 +294,12 @@ def test_dashboard_page_lesson_progress(
     assert context_data['module_pages'][1]['page'].id == module_one.id
     assert context_data['module_pages'][0]['completion_count'] == 1
     assert context_data['module_pages'][0]['completed_lesson_pages'] == {
-        _topic_block_id_module_two_block_1: set([lesson_five.id]),
+        topic_2_2.id: set([lesson_five.id]),
     }
     assert context_data['module_pages'][1]['completion_count'] == 2
     assert context_data['module_pages'][1]['completed_lesson_pages'] == {
-        _topic_block_id_module_one_block_0: set([lesson_one.id]),
-        _topic_block_id_module_one_block_1: set([lesson_two.id]),
+        topic_1_1.id: set([lesson_one.id]),
+        topic_1_2.id: set([lesson_two.id]),
     }
 
 
@@ -465,7 +441,7 @@ def test_capability_article_not_logged_in(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == f'{constants.LOGIN_URL}?next={url}'
+    assert response.url == f'{cms_slugs.LOGIN_URL}?next={url}'
 
 
 @pytest.mark.django_db
@@ -485,7 +461,7 @@ def test_login_page_logged_in(client, user):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == constants.DASHBOARD_URL
+    assert response.url == cms_slugs.DASHBOARD_URL
 
 
 @pytest.mark.django_db
@@ -557,7 +533,7 @@ def test_get_countries(client):
     response = client.get(reverse('core:api-countries'))
     countries = response.json()
     assert response.status_code == 200
-    assert len(countries) > 200
+    assert len(countries) > 190
     assert 'id' in countries[0]
     assert 'name' in countries[0]
     assert 'region' in countries[0]
@@ -697,7 +673,7 @@ def test_set_company_name_success(mock_update_company_profile, mock_get_company_
 
     response = client.post(reverse('core:set-company-name'), {'name': 'Example corp'})
     assert response.status_code == 302
-    assert response.url == constants.DASHBOARD_URL
+    assert response.url == cms_slugs.DASHBOARD_URL
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         data={'name': 'Example corp'},
@@ -766,8 +742,82 @@ def test_bad_auth_with_enc_token(client):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'search_commodity_by_term')
+def test_check_view(mock_search_commodity_by_term, client):
+    # mock the API response with the wrong hs code. Make sure we dont hit the actual API endpoint in every test run.
+    mock_search_commodity_by_term.return_value = create_response(json_body={'data': {'hsCode': '923311'}})
+
+    res = client.get('/api/check/').json()
+
+    assert res['CCCE_API']['response_body'] == '923311'
+    assert res['CCCE_API']['status'] == status.HTTP_200_OK
+    assert res['status'] == status.HTTP_200_OK
+    assert mock_search_commodity_by_term.call_count == 1
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'search_commodity_by_term')
+def test_check_view_external_error(mock_search_commodity_by_term, client):
+    test_http_error = status.HTTP_504_GATEWAY_TIMEOUT
+    # the external API is down
+    mock_search_commodity_by_term.return_value = create_response(status_code=test_http_error)
+
+    res = client.get('/api/check/').json()
+
+    assert res['CCCE_API']['status'] == test_http_error
+    assert res['status'] == status.HTTP_200_OK
+    assert mock_search_commodity_by_term.call_count == 1
+
+
+@pytest.mark.django_db
 def test_target_market_page(patch_export_plan, client, user):
     client.force_login(user)
 
     response = client.get('/find-your-target-market/')
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_contact_us_form_prepopualate(client, user):
+    client.force_login(user)
+    url = reverse('core:contact-us-help')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': user.email,
+        'family_name': user.last_name,
+        'given_name': user.first_name,
+    }
+
+
+@pytest.mark.parametrize('get_location_value', [{'country': 'UK'}, None])
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_location')
+@mock.patch.object(views.ContactUsHelpFormView.form_class, 'save')
+def test_contact_us_help_notify_save_success(
+        mock_save, mock_get_location, client, get_location_value, contact_form_data
+):
+    mock_get_location.return_value = get_location_value
+    url = reverse('core:contact-us-help')
+    response = client.post(url, contact_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('core:contact-us-success')
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            email_address=settings.GREAT_SUPPORT_EMAIL,
+            form_url='/contact-us/help/',
+            sender={
+                'email_address': contact_form_data['email'],
+                'country_code': get_location_value['country'] if get_location_value else None,
+                'ip_address': '127.0.0.1'
+            },
+            template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID
+        ),
+        mock.call(
+            email_address=contact_form_data['email'],
+            form_url='/contact-us/help/',
+            template_id=settings.CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID
+        )
+    ]

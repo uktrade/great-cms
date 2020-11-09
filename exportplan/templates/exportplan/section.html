@@ -7,7 +7,7 @@
 
 {% block sidebar %}{% include "exportplan/includes/sidebar.html" %}{% endblock %}
 
-<div class="main-section bg-white text-blue-deep-80 {{ view.slug }}-content" id="{{ view.slug }}-content">
+<div class="main-section {% block mainclasses %}bg-white text-blue-deep-80 {% endblock %} {{ view.slug }}-content" id="{{ view.slug }}-content">
 
   <section class="section--intro bg-blue-deep-90">
     <div class="container">
@@ -55,12 +55,6 @@
       </div>
     </div>
   </section>
-
-  {% block body_footer %}
-    <div class="p-v-l bg-blue-deep-90">
-      &nbsp;
-    </div>
-  {% endblock %}
 
 </div>
 

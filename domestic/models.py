@@ -16,7 +16,7 @@ from core.models import CMSGenericPage
 from directory_constants import choices
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from core import helpers, forms
-from core import constants
+from core import cms_slugs
 
 
 class DomesticHomePage(
@@ -71,7 +71,7 @@ class DomesticDashboard(
         context['events'] = helpers.get_dashboard_events(user.session_id)
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_lesson_completion_status(user, context))
-        context['export_plan_in_progress'] = user.has_visited_page(constants.EXPORT_PLAN_DASHBOARD_URL)
+        context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
 
         self.set_ga360_payload(  # from GA360Mixin

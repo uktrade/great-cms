@@ -1,24 +1,23 @@
 from collections import Counter
 from difflib import SequenceMatcher
 from logging import getLogger
-import csv
 from io import StringIO
-import functools
-
-from directory_api_client import api_client
-import great_components.helpers
-from directory_constants import choices
-from directory_sso_api_client import sso_api_client
 from ipware import get_client_ip
+
+import csv
+import functools
 import requests
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.conf import settings
 
+import great_components.helpers
+from directory_api_client import api_client
+from directory_constants import choices
+from directory_sso_api_client import sso_api_client
+
 from core.serializers import parse_opportunities, parse_events
 from core.models import CuratedListPage
-
-from domestic.helpers import get_lesson_completion_status
 
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
@@ -220,7 +219,7 @@ def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
 
 
-def search_commodity_by_term(term):
+def search_commodity_by_term(term, json=True):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
         json={
@@ -236,7 +235,7 @@ def search_commodity_by_term(term):
     )
 
     response.raise_for_status()
-    return response.json()
+    return response.json() if json else response
 
 
 def search_commodity_refine(interraction_id, tx_id, values):
@@ -269,11 +268,15 @@ def get_popular_export_destinations(sector_label):
     return export_destinations.most_common(5)
 
 
-def get_module_completion_progress(user, module_page: CuratedListPage):
-    """Returns per-module completion data, with lesson-level detail."""
+def get_module_completion_progress(completion_status, module_page: CuratedListPage):
+    """Returns per-module completion data, with lesson-level detail. Completed
+    lessons are grouped by the topic they belong to.
 
-    lesson_completion_status = get_lesson_completion_status(user)
-    for module_data in lesson_completion_status.get('module_pages', []):
+    `completion_status` is the output of from domestic.helpers.get_lesson_completion_status
+
+    """
+
+    for module_data in completion_status.get('module_pages', []):
         if module_data['page'].id == module_page.id:
             return module_data
 
@@ -293,16 +296,18 @@ def _percent_completion_for_module(module_data: dict) -> int:
     return 0  # Fallback: nothing can be completed if the above data isn't valid
 
 
-def get_high_level_completion_progress(user):
+def get_high_level_completion_progress(completion_status):
     """Return a dictionary of overall completion data for each
     module/CuratedListPage, with module-level stats, but no details
-    on specific lessons."""
+    on specific lessons.
 
-    lesson_completion_status = get_lesson_completion_status(user)
+    `completion_status` is the output of from domestic.helpers.get_lesson_completion_status
+    """
+
     # Transform list of modules from a list into a dict so we can get them
     # more easily, plus add in a completion percentage
     repackaged_output = {}
-    for module_data in lesson_completion_status.get('module_pages', []):
+    for module_data in completion_status.get('module_pages', []):
         repackaged_output[module_data['page'].id] = {
             'total_pages': module_data.get('total_pages', 0),
             'completion_count': module_data.get('completion_count', 0),
@@ -316,3 +321,8 @@ def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
     response = api_client.personalisation.suggested_countries_by_hs_code(sso_session_id=sso_session_id, hs_code=hs_code)
     response.raise_for_status()
     return response.json()
+
+
+def get_sender_ip_address(request):
+    ip, is_routable = get_client_ip(request)
+    return ip or None

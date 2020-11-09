@@ -66,7 +66,8 @@ INSTALLED_APPS = [
     'domestic',
     'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
-    'learn.apps.LearnConfig'
+    'learn.apps.LearnConfig',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ MIDDLEWARE = [
     'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
-    'core.middleware.CheckGATags'
+    'core.middleware.CheckGATags',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -412,6 +413,12 @@ REST_FRAMEWORK = {
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
 WAGTAILMEDIA_MEDIA_MODEL = 'core.GreatMedia'
 
+# Google captcha
+RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_REQUIRED_SCORE = env.int('RECAPTCHA_REQUIRED_SCORE', 0.5)
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
 # directory forms api client
 DIRECTORY_FORMS_API_BASE_URL = env.str('DIRECTORY_FORMS_API_BASE_URL')
 DIRECTORY_FORMS_API_API_KEY = env.str('DIRECTORY_FORMS_API_API_KEY')
@@ -425,7 +432,14 @@ CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.str(
     'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
 )
 ENROLMENT_WELCOME_TEMPLATE_ID = env.str('ENROLMENT_WELCOME_TEMPLATE_ID', '0a4ae7a9-7f67-4f5d-a536-54df2dee42df')
-
+CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.str(
+    'ENQURIES_CONTACTUS_TEMPLATE_ID',
+    '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'
+)
+CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.str(
+    'CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID',
+    '68030d40-4574-4aa1-b3ff-941320929964'
+)
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')

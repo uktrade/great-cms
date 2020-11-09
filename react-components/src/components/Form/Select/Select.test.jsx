@@ -54,11 +54,6 @@ describe('Select', () => {
 
   describe('Dropdown', () => {
 
-    it('Should not show dropdown', () => {
-      const { queryByRole } = setup({...props})
-      expect(queryByRole('listbox')).not.toBeInTheDocument()
-    })
-
     it('Should show dropdown and 2 items', async () => {
       const { queryByRole, getByText, getByRole } = setup({...props})
 

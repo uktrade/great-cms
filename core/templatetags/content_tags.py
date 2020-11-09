@@ -7,6 +7,11 @@ import datetime
 from urllib.parse import urlparse
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.models import (
+    DetailPage,
+    LessonPlaceholderPage,
+    TopicPage,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -54,3 +59,50 @@ def get_backlinked_url(context, outbound_url):
         outbound_url += f'{delimiter}{backlink}'
 
     return outbound_url
+
+
+@register.simple_tag
+def get_topic_title_for_lesson(detail_page: DetailPage) -> str:
+    """For the given lesson, find the topic it belongs to and
+    return that topic's title"""
+    return detail_page.get_parent().title
+
+
+@register.simple_tag
+def get_lesson_progress_for_topic(
+    completed_lessons: set,
+    topic_id: int,
+) -> dict:
+    # Computes simple stats from the data structures passed in, doing a light safety check along the way
+
+    topic_page = TopicPage.objects.live().specific().filter(id=topic_id).first()
+
+    lesson_ids = (
+        DetailPage.objects
+        .live()
+        .specific()
+        .descendant_of(topic_page)
+        .values_list('id', flat=True)
+    )
+
+    # Watch out for zany data, such as more items completed than currently available
+    if completed_lessons and not completed_lessons.issubset(set(lesson_ids)):
+        return {}
+
+    lessons_completed = len(completed_lessons) if completed_lessons else 0
+    lessons_available = len(lesson_ids)
+
+    return {
+        'lessons_completed': lessons_completed,
+        'lessons_available': lessons_available
+    }
+
+
+@register.filter
+def is_lesson_page(page):
+    return isinstance(page.specific, DetailPage)
+
+
+@register.filter
+def is_placeholder_page(page):
+    return isinstance(page.specific, LessonPlaceholderPage)

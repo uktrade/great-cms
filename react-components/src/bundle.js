@@ -14,14 +14,15 @@ import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinder from '@src/components/ProductFinder/CountryFinder'
 import ModalMenu from '@src/components/ModalMenu'
-import { createRouteToMarket, createSpendingAndResources } from '@src/views/sections/MarketingApproach'
+import CompareMarkets from '@src/components/CompareMarkets'
+import { createRouteToMarket, createSpendingAndResources, createTargetAgeGroupInsights } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
+import { createTargetMarketResearchForm, createDataSnapShot } from '@src/views/sections/TargetMarketResearch'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
 import { createObjectivesReasons, createObjectivesList } from '@src/views/sections/Objectives'
 import { createDashboard, createDisabledButton } from '@src/views/sections/Dashboard'
 import { sectionSidebar } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
-import { createTargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
 import { createTargetMarketCountries } from '@src/components/TargetMarketCountries'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
 import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
@@ -37,6 +38,8 @@ export default {
   createMarkLessonAsComplete,
   createRouteToMarket,
   aboutYourBusinessForm,
+  createTargetMarketResearchForm,
+  createDataSnapShot,
   adaptToTargetMarketForm,
   createComingSoonModal,
   createSpendingAndResources,
@@ -53,6 +56,7 @@ export default {
   ProductLookup,
   ProductFinderButton,
   CountryFinder,
+  CompareMarkets,
   ModalMenu,
   createLogin,
   MarketSelectNavbar,
