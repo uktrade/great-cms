@@ -491,7 +491,8 @@ class TopicPage(
     def _redirect_to_parent_module(self):
         return HttpResponseRedirect(self.get_parent().url)
 
-    def serve_preview(self, request):
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always redirect
         return self._redirect_to_parent_module()
 
     def serve(self, request):
@@ -521,7 +522,8 @@ class LessonPlaceholderPage(
         dest = CuratedListPage.objects.ancestor_of(self).first().url
         return HttpResponseRedirect(dest)
 
-    def serve_preview(self, request):
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always redirect
         return self._redirect_to_parent_module()
 
     def serve(self, request):
