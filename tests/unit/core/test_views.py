@@ -12,6 +12,7 @@ from django.conf import settings
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from formtools.wizard.views import normalize_name
+from rest_framework import status
 
 from core import forms, helpers, serializers, views, cms_slugs
 
@@ -738,6 +739,34 @@ def test_bad_auth_with_cookie(client):
 def test_bad_auth_with_enc_token(client):
     response = client.get(f'/markets/?enc={BETA_AUTH_TOKEN_PAST}')
     assert response.status_code == 403
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'search_commodity_by_term')
+def test_check_view(mock_search_commodity_by_term, client):
+    # mock the API response with the wrong hs code. Make sure we dont hit the actual API endpoint in every test run.
+    mock_search_commodity_by_term.return_value = create_response(json_body={'data': {'hsCode': '923311'}})
+
+    res = client.get('/api/check/').json()
+
+    assert res['CCCE_API']['response_body'] == '923311'
+    assert res['CCCE_API']['status'] == status.HTTP_200_OK
+    assert res['status'] == status.HTTP_200_OK
+    assert mock_search_commodity_by_term.call_count == 1
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'search_commodity_by_term')
+def test_check_view_external_error(mock_search_commodity_by_term, client):
+    test_http_error = status.HTTP_504_GATEWAY_TIMEOUT
+    # the external API is down
+    mock_search_commodity_by_term.return_value = create_response(status_code=test_http_error)
+
+    res = client.get('/api/check/').json()
+
+    assert res['CCCE_API']['status'] == test_http_error
+    assert res['status'] == status.HTTP_200_OK
+    assert mock_search_commodity_by_term.call_count == 1
 
 
 @pytest.mark.django_db

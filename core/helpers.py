@@ -219,7 +219,7 @@ def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
 
 
-def search_commodity_by_term(term):
+def search_commodity_by_term(term, json=True):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
         json={
@@ -235,7 +235,7 @@ def search_commodity_by_term(term):
     )
 
     response.raise_for_status()
-    return response.json()
+    return response.json() if json else response
 
 
 def search_commodity_refine(interraction_id, tx_id, values):
