@@ -122,7 +122,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-
+- GP2-619 - Insight component
 - GP2-857 - Shared components - site footer
 - GP2-751 - Add link back to module, featuring topic name
 - GP2-387 - Link to target market page

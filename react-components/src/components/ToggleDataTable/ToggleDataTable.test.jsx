@@ -1,8 +1,8 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import fetchMock from 'fetch-mock'
-import { TargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights'
-import { mapData } from '@src/components/TargetAgeGroupInsights/utils'
+import { ToggleDataTable } from '@src/components/ToggleDataTable'
+import { mapData } from '@src/components/ToggleDataTable/utils'
 import Services from '@src/Services'
 import { act } from 'react-dom/test-utils'
 
@@ -39,9 +39,10 @@ const mockResponse = {
   }
 }
 
-describe('TargetAgeGroupInsights', () => {
+describe('ToggleDataTable', () => {
+
   beforeEach(() => {
-    wrapper = mount(<TargetAgeGroupInsights groups={mockGroups} country="netherlands" />)
+    wrapper = mount(<ToggleDataTable groups={mockGroups} country="netherlands"><div className='table'>test</div></ToggleDataTable>)
   })
 
   afterEach(() => {
@@ -50,15 +51,15 @@ describe('TargetAgeGroupInsights', () => {
 
   test('renders heading and select button initially', () => {
     expect(wrapper.find('h3').length).toEqual(1)
-    expect(wrapper.find('.target-age-group-insights button').length).toEqual(1)
+    expect(wrapper.find('.button--icon').length).toEqual(1)
     expect(wrapper.find('form').length).toEqual(0)
-    expect(wrapper.find('.target-age-group-insights.table').length).toEqual(0)
+    expect(wrapper.find('.table').length).toEqual(0)
   })
 
   test('renders form', () => {
-    wrapper.find('.target-age-group-insights button').simulate('click', { type: 'click' })
+    wrapper.find('.button--icon').simulate('click', { type: 'click' })
     expect(wrapper.find('form').length).toEqual(1)
-    expect(wrapper.find('.target-age-group-insights.table').length).toEqual(0)
+    expect(wrapper.find('.table').length).toEqual(0)
   })
 
   test('renders table', async () => {
@@ -67,7 +68,7 @@ describe('TargetAgeGroupInsights', () => {
     })
     fetchMock.get(Services.config.getMarketingCountryData, mockResponse)
 
-    wrapper.find('.target-age-group-insights button.button--icon').simulate('click', { type: 'click' })
+    wrapper.find('.button--icon').simulate('click', { type: 'click' })
     wrapper
       .find('form input')
       .first()
@@ -80,7 +81,7 @@ describe('TargetAgeGroupInsights', () => {
     wrapper.update()
 
     expect(wrapper.find('form').length).toEqual(0)
-    expect(wrapper.find('.target-age-group-insights.table').length).toEqual(1)
+    expect(wrapper.find('.table').length).toEqual(1)
   })
 })
 
