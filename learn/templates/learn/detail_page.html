@@ -105,7 +105,7 @@
             {% if next_lesson %}
                 <div class="container">
                     <div class="grid p-t-m">
-                        <div class="c-1-12">
+                        <div class="c-1-12 hide-on-mobile">
                             <span>&nbsp;</span>
                         </div>
                         <div class="c-10-12 m-b-xl">
@@ -153,7 +153,7 @@
                     </div>
                 </div>
             {% endif %}
-            <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m">
+            <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m hide-on-mobile">
                 <i class="fas fa-arrow-left"></i>
                 <span class="visually-hidden">Back</span>
             </a>

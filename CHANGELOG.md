@@ -120,6 +120,7 @@
 
 ### Implemented enhancements
 
+- GP2-980 - Mobile lesson page
 - GP2-857 - Shared components - site footer
 - GP2-751 - Add link back to module, featuring topic name
 - GP2-387 - Link to target market page
