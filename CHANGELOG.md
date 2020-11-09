@@ -19,6 +19,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+
+- GP2-652 - Handle expired staff SSO token that causes a 500
 - GP2-1024 - Fix capability back button positioning
 - GP2-956 - Dashboard spacing
 - GP2-922 - Various styling and behaviour fixes to country selector
