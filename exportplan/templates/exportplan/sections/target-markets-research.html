@@ -57,7 +57,7 @@
   {{ block.super }}
   <script type="text/javascript">
     var element = document.getElementById('target-markets-research');
-    ditMVP.createTargetMarketResearchForm({
+    magna.createTargetMarketResearchForm({
       element: element,
       field: 'target_markets_research',
       formData: {{ form_initial|safe }},
@@ -65,7 +65,7 @@
     })
 
     element = document.getElementById('target-age-groups');
-    ditMVP.createDataSnapShot({
+    magna.createDataSnapShot({
       element,
       groups: [
           {key: "0-14", label: '0-14 year olds'},

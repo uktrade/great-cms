@@ -22,10 +22,10 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-        ditMVP.setInitialState({
+        magna.setInitialState({
             nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}?product={{ product_search_data.products }}&remember-expertise-products-services=true'
         })
-        ditMVP.Signup({
+        magna.Signup({
             element: document.getElementById('signup-app-root'),
             name: 'product-search-products',
             showTitle: false
