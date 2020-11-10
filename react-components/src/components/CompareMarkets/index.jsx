@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie';
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import { CountryFinderModal } from '../ProductFinder/CountryFinder'
+import Services from '@src/Services'
 
 
 const maxSelectedLength = 3
@@ -14,11 +15,35 @@ function CompareMarkets(props) {
   const [selectedProduct, setSelectedProduct] = useState(product)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const [cookies, setCookie] = useCookies(['comparisonMarkets']);
+  const [populationData, setPopulationData] = useState([])
 
   const openModal = () => {
     setProductModalIsOpen(!selectedProduct)
     setMarketModalIsOpen(!!selectedProduct)
   }
+
+
+
+useEffect(() => {
+   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+       const countries = Object.values(comparisonMarkets).map(function (key) {
+        return key.name
+      })
+     Services.getPopulationByCountryData(countries).then((result) => {
+       setPopulationData(Object.entries(result))
+       }).finally(() => {
+     })
+   }
+}, [cookies.comparisonMarkets]);
+
+
+  const getCountryData = (country) => {
+    if (populationData && populationData.length) {
+      const country_data =  Object.values(populationData).find(x => x[1].country === country)
+      return country_data ? country_data[1] : []
+    }
+  }
+
 
   const addCountry = (country) => {
     const comparisonMarkets = cookies.comparisonMarkets || {}
@@ -57,16 +82,24 @@ function CompareMarkets(props) {
   }
 
   let dataTable
-
   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+
     const tableBody = Object.values(comparisonMarkets).map(market => {
+      let populationCountryData = getCountryData(market.name)
       return (<tr key={`market-${market.id}`}>
-        <td><span className="body-l-b">{market.name}</span><button type="button" onClick={removeMarket} data-id={market.id} aria-label={`Remove ${market.name}`}><i className="fa fa-times-circle"/></button></td>
-      </tr>)
+        <td><span className="body-l-b" id={`market-${market.name}`}>{market.name}</span><button type="button" onClick={removeMarket} data-id={market.id} aria-label={`Remove ${market.name}`}><i className="fa fa-times-circle"/></button></td>
+        <td id={`market-total-population-${market.name}`}>{populationCountryData ? populationCountryData.total_population : ''}</td>
+        <td id={`market-internet-usage-${market.name}`}>{populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + ' %' : 'NA'}</td>
+        <td id={`market-urban-population-${market.name}`}><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>
+        <td id={`market-rural-population-${market.name}`}><h1>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</h1></td>
+      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'}</td></tr>)
     })
     dataTable = (
       <div className="table market-details m-h-m bg-white p-v-xs p-h-s radius">
         <table>
+          <thead>
+          <tr><th></th><th>Total Population</th><th>Access to internet</th><th>Living in urban areas</th><th>Living in rural areas</th><th>Consumer Price Index</th></tr>
+          </thead>
           <tbody>
             {tableBody}
           </tbody>

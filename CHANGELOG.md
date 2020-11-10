@@ -1,5 +1,6 @@
 # Changelog
 
+- GP2-918 - Added Data fetch for target market
 - no ticket - upgraded directory-validators lib
 - GA2-746 - Added GA code for EP sections
 - GA2-691 - Added GA code for target market
