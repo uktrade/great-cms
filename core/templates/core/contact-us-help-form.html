@@ -5,21 +5,24 @@
 {% block body_attributes %}class="body-background-white"{% endblock %}
 
 {% block content %}
-    <section class="container">
-        {% block breadcrumbs %}{% endblock %}
-        <div class="grid-row m-t-l">
-            <div class="c-1-2 p-r-xs">
-                <form action="{% url 'core:contact-us-help' %}?{{ request.GET.urlencode }}" method="post" enctype="multipart/form-data" novalidate="novalidate">
-                    {% csrf_token %}
-                    <h2 class="h-l">Tell us how we can help</h2>
-                    <div class="w-2-3" id="form-container">
-                        {{ form }}
-                        <button type="submit" class="great-mvp-wizard-step-button m-b-s">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+<section class="container">
+  {% block breadcrumbs %}{% endblock %}
+  <div class="grid">
+    <div class="grid-row m-t-l">
+      <div class="c-1-2 p-r-xs">
+        <form action="{% url 'core:contact-us-help' %}?{{ request.GET.urlencode }}" method="post"
+          enctype="multipart/form-data" novalidate="novalidate">
+          {% csrf_token %}
+          <h2 class="h-m">Tell us how we can help</h2>
+          <div class="w-2-3" id="form-container">
+            {{ form }}
+            <button type="submit" class="button button--large">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
 
 {% block body_footer %}{% endblock %}
