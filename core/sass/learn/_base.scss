@@ -239,7 +239,7 @@ $desktop: 1024px;
 .learn__back-link {
   color: $blue-deep-80;
   left: 38px;
-  top: 158px;
+  top: 15px;
 
   @include tablet {
     position: absolute;
@@ -251,13 +251,13 @@ $desktop: 1024px;
   }
 
   &--top {
-    top: 158px;
+    top: 15px;
   }
 
   &--bottom {
     color: $white;
     top: auto;
-    bottom: 168px;
+    bottom: 20px;
 
     &:visited {
       color: $white;
@@ -517,6 +517,10 @@ $desktop: 1024px;
     > ul.list-bullet > li {
       position: static;
       padding-left: 0;
+
+      &:before {
+        display: none;
+      }
     }
 
     img {
