@@ -1,0 +1,10 @@
+@import 'helpers/colours';
+.market-details {
+  button.iconic {
+    color: $blue-deep-30;
+    transition: color 0.1s;
+    &:hover {
+      color: $blue-deep-40;
+    }
+  }
+}
