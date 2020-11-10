@@ -1,5 +1,6 @@
 # Changelog
 
+- GP2-918 - Added Data fetch for target market
 - no ticket - upgraded directory-validators lib
 - GA2-746 - Added GA code for EP sections
 - GA2-691 - Added GA code for target market
@@ -16,7 +17,8 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-
+- GP2-956 - Dashboard spacing
+- GP2-922 - Various styling and behaviour fixes to country selector
 - GP2-1021 - Fix missing image in next-lesson panel when next lesson is in the same module
 - GP2-959 - Backlink from lessons needs to go to module without going via topic redirect
 - GP2-681 - HR colour in product finder
