@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './RecommendedCountry.scss'
-import { slugify } from '../../Helpers'
-import Figure from '../Figure/Figure'
+import { slugify } from '../../react-components/src/Helpers'
+import Figure from '../../react-components/src/components/Figure/Figure'
 
 export default class RecommendedCountry extends React.Component {
   constructor(props) {

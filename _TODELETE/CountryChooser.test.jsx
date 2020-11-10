@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { act, Simulate } from 'react-dom/test-utils'
-import CountryChooser from '@src/components/CountryChooser'
+import CountryChooser from './CountryChooser'
 
 let container
 

@@ -5,8 +5,8 @@ import CountryData from '@src/components/CountryData'
 import ErrorList from '@src/components/ErrorList'
 import SectorChooser from './SectorChooser'
 import CountryChooser from './CountryChooser'
-import { slugify } from '../Helpers'
-import Services from '../Services'
+import { slugify } from '../react-components/src/Helpers'
+import Services from '../react-components/src/Services'
 
 class TargetMarketCountries extends React.Component {
   constructor(props) {

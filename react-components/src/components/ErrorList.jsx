@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './stylesheets/ErrorList.scss'
-
-
 export default function ErrorList(props){
   if (props.errors.length === 0) {
     return null

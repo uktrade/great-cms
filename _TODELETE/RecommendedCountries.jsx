@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { slugify } from '../Helpers'
+import { slugify } from '../react-components/src/Helpers'
 import RecommendedCountry from './RecommendedCountry/RecommendedCountry'
 
 export default class RecommendedCountries extends React.Component {

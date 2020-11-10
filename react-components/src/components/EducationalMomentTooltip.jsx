@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EducationalMomentIcon from './EducationalMomentIcon/EducationalMomentIcon'
-import './stylesheets/EducationalMomentTooltip.scss'
-
 
 export default class EducationalMomentTooltip extends React.Component {
     constructor(props) {
