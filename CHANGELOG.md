@@ -11,6 +11,7 @@
 - GP2-933 - contact us
 - no ticket - increase token expiration date to 30 days from 5
 - gp2-693 - hide footer login
+- GP2-1022 - hide footer sign-up
 
 ## Pre-release
 
