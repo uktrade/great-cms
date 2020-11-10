@@ -10,6 +10,7 @@
 - AA-155 - healthcheck endpoint to wrap CCCE API request
 - GP2-933 - contact us
 - no ticket - increase token expiration date to 30 days from 5
+- gp2-693 - hide footer login
 
 ## Pre-release
 
