@@ -5,8 +5,6 @@ import ReactModal from 'react-modal'
 
 import Services from '@src/Services'
 
-import './stylesheets/Tour.scss'
-
 const modalStyles = {
   content: {
     background: '#fff',

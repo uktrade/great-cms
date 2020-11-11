@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import { slugify } from '../Helpers'
-import Spinner from './Spinner/Spinner'
-import ErrorList from './ErrorList'
-import Sector from './Sector'
+import { slugify } from '../react-components/src/Helpers'
+import Spinner from '../react-components/src/components/Spinner/Spinner'
+import ErrorList from '../react-components/src/components/ErrorList'
+import Sector from '../react-components/src/components/Sector'
 import RecommendedCountries from './RecommendedCountries'
 
 export default class SectorChooser extends React.Component {

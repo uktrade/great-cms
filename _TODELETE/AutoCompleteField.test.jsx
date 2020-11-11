@@ -6,7 +6,7 @@ import Adapter from 'enzyme-adapter-react-16'
 import Select from 'react-select'
 import AsyncSelect from 'react-select/async'
 
-import AutoCompleteField from '@src/components/AutoCompleteField'
+import AutoCompleteField from './AutoCompleteField'
 import ErrorList from '@src/components/ErrorList'
 
 Enzyme.configure({ adapter: new Adapter() })
