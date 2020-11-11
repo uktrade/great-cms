@@ -74,7 +74,7 @@ describe('Services', () => {
     // given the form submission will result in success.getDOMNodeful login
     fetchMock.post(Services.config.apiLookupProductUrl, 200)
 
-    Services.lookupProduct({ q: 'foo' })
+    Services.lookupProduct({ proddesc: 'foo' })
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
@@ -88,7 +88,7 @@ describe('Services', () => {
           'X-CSRFToken': Services.config.csrfToken,
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: "{\"q\":\"foo\"}",
+        body: "{\"proddesc\":\"foo\"}",
       })
       done()
     })
