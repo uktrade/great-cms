@@ -136,6 +136,8 @@
 - GP2-934 - Contact us success page
 - GP2-933 - Contact us form page
 - GP2-932 - Link to DIT on GOV.UK
+- GP2-1027 - Product search backtracking
+- GP2-1023 - Product search multi-item error
 - GP2-980 - Mobile lesson page
 - GP2-619 - Insight component
 - GP2-857 - Shared components - site footer
