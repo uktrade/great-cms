@@ -1,5 +1,3 @@
-import '../../core/sass/main.scss'
-
 import Signup from '@src/views/Signup/Container'
 import SignupModal from '@src/views/SignupModal/Container'
 import ProductsModal from '@src/views/ProductsModal/Container'

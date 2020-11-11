@@ -21,7 +21,7 @@
         </li>
 
         <script type="text/javascript">
-        ditMVP.ModalMenu({
+        magna.ModalMenu({
           element: document.querySelector("#header-link-user-profile"),
           {% autoescape off %}
             avatar: '{{ request.user.profile_image|default:"" }}',

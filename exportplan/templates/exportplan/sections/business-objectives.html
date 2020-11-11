@@ -53,14 +53,14 @@
   {{ block.super }}
   <script type="text/javascript">
     var rationale = document.getElementById('objectives-reasons');
-    ditMVP.createObjectivesReasons({
+    magna.createObjectivesReasons({
       element: rationale,
       field: 'objectives',
       formData: {{ form_initial|safe }},
       formFields: {{ form_fields|safe }},
     })
     var objectives = document.getElementById('objectives-form--objectives');
-    ditMVP.createObjectivesList({
+    magna.createObjectivesList({
       element: objectives,
       objectives: {{ objectives|safe }},
       exportPlanID: {{ export_plan.pk }}

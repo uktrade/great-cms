@@ -6,12 +6,12 @@
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
 {% block head_css %}
-    <link href="{% static 'ditMVP.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'styles.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 
 {% block head_js %}
   {{ block.super }}
-    <script type="text/javascript" src="{% static 'ditMVP.js' %}"></script>
+    <script type="text/javascript" src="{% static 'magna.js' %}"></script>
 
     <script type="text/javascript">
       var product = '{{ export_plan.export_commodity_codes.0.commodity_code }}';
@@ -22,7 +22,7 @@
         'marketAdded': country || "False",
       });
        // static values that will not be updated by user interacting with react components
-      ditMVP.setConfig({
+      magna.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
@@ -95,7 +95,7 @@
       {% endif %}
 
       // dynamic value that can be updated by user interacting with react components
-      ditMVP.setInitialState({
+      magna.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
         performSkipFeatureCookieCheck: true,
         nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}',
@@ -118,7 +118,7 @@
       {% if tour %}
         var element = document.createElement('div');
         document.body.appendChild(element);
-        ditMVP.Tour({
+        magna.Tour({
           element: element,
           isOpenModal: true,
           steps: {{ tour.steps|safe }},

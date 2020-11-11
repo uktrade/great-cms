@@ -7,7 +7,8 @@ const nodeSass = require('node-sass')
 module.exports = {
   devtool: 'source-map',
   entry: {
-    ditMVP: './react-components/src/bundle.js',
+    magna: './react-components/src/bundle.js',
+    styles: './core/sass/main.scss',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -27,12 +28,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   enforce: "pre",
-      //   test: /\.jsx?$/,
-      //   exclude: /node_modules/,
-      //   loader: "eslint-loader",
-      // },
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
@@ -90,7 +85,9 @@ module.exports = {
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
     new CopyWebpackPlugin([
       { from: './node_modules/great-styles/static/images', to: 'images' },
       { from: './node_modules/great-styles/static/fonts', to: '../../core/static/fonts/' },
@@ -101,6 +98,6 @@ module.exports = {
       // copy assets needed by CSS files as they are not automatically moved to dist foler by React
       { from: 'react-components/assets/stylesheet-assets/', to: '../../core/static/img/' },
     ]),
-    new RemovePlugin({ after: { include: ['./react-components/dist/img/', './react-components/dist/fonts/'] } }),
+    new RemovePlugin({ after: { include: ['./react-components/dist/img/', './react-components/dist/fonts/', './react-components/dist/styles.js','./react-components/dist/styles.js.map', './react-components/dist/magna.css', './react-components/dist/magna.css.map'] } }),
   ],
 }

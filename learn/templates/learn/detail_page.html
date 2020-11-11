@@ -171,7 +171,7 @@
             topicTitle: '{{ page_topic }}',
             lessonTitle:'{{ page.title }}'
             });
-        ditMVP.createMarkLessonAsComplete({
+        magna.createMarkLessonAsComplete({
             element: document.querySelector("#mark_as_complete"),
             endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
           })
@@ -181,7 +181,7 @@
         const transcriptContainer = element.querySelector(".video-transcript-container");
 
         if (transcriptContainer) {
-            ditMVP.createVideoTranscript({
+            magna.createVideoTranscript({
                 element: transcriptContainer,
                 source: element.querySelector("video source[transcript]")
             })
