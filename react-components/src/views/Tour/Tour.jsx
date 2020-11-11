@@ -2,7 +2,6 @@
 import React from 'react'
 import ReactTour from 'reactour'
 
-import './stylesheets/Tour.scss'
 import { slugify } from '../../Helpers'
 
 export default function Tour(props) {

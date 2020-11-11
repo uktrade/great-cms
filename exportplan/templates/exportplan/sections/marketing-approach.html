@@ -74,7 +74,7 @@
   {{ block.super }}
   <script type="text/javascript">
     var element = document.getElementById('target-age-groups');
-    ditMVP.createTargetAgeGroupInsights({
+    magna.createTargetAgeGroupInsights({
       element,
       groups: [
           {key: "0-14", label: '0-14 year olds'},
@@ -90,7 +90,7 @@
     })
 
     element = document.getElementById('resources');
-    ditMVP.createSpendingAndResources({
+    magna.createSpendingAndResources({
       element,
       field: 'marketing_approach',
       formData: {{ form_initial|safe }},
@@ -98,7 +98,7 @@
     })
 
     element = document.getElementById('route-to-market');
-    ditMVP.createRouteToMarket({
+    magna.createRouteToMarket({
       element,
       formData: {
         data: [

@@ -133,7 +133,7 @@ export default {
 ```
 
 3. Run `npm run build`
-4. The new component is now available on window.ditMVP.myFile
+4. The new component is now available on window.magna.myFile
 
 ### Node version
 Make sure to use NodeJS 12.16.1 or greater

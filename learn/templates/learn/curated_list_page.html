@@ -51,7 +51,7 @@
     {{ block.super }}
     <script>
         document.querySelectorAll('[data-placeholder-title]').forEach(element => {
-            ditMVP.createComingSoonModal({
+            magna.createComingSoonModal({
                 element,
                 title: element.getAttribute('data-placeholder-title'),
                 backUrl: "{{self.url}}"

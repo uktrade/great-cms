@@ -80,14 +80,14 @@
   {{ block.super }}
     <script type="text/javascript">
         var element = document.getElementById('dashboard');
-        ditMVP.createDashboard({
+        magna.createDashboard({
             element: element,
             sections: {{ sections|to_json}},
             current_section: {{ current_section|to_json}},
         })
 
         var buttonsDisabled = document.getElementById('buttons-disabled');
-        ditMVP.createDisabledButton({
+        magna.createDisabledButton({
             element: buttonsDisabled,
         })
     </script>
