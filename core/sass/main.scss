@@ -8,6 +8,9 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
+// Helpers
+@import 'helpers/breakpoints';
+
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
@@ -69,7 +72,7 @@ $fa-font-path: '/static/fonts';
 @import 'helpers/mixins';
 @import 'helpers/utils';
 
-@import 'components/forms';
+// @import 'components/forms';
 @import 'components/statistics';
 @import 'components/progress-wizard';
 @import 'components/field-with-example';
