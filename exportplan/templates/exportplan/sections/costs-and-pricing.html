@@ -1,15 +1,59 @@
 {% extends 'exportplan/section.html' %}
 
-{% block intro_content %}
-<h1 class="h-xl">Costs and pricing</h1>
-<p>Create a detailed plan of the funding that you will need in place in preparation for exporting your goods or service. This will keep you organised and mitigate any unwanted surprises.</p>
-{% endblock %}
+{% block intro_title %}Costs and pricing{% endblock %}
+
+{% block intro_description %}To avoid any unwanted surprises, stay organised by creating a detailed plan of all the costs involved with getting your product to market.{% endblock %}
 
 {% block main_content %}
-<p>Calculate and record the funding you’ll need to fulfil orders. List the costs associated with bringing the product to market, and when they need to be paid. When will you be paid for orders? Will there be gaps between costs and payment?</p>
-<p>Decide if you need finance to bridge any gaps, and research the type of finance you might need.</p>
-<p><a href="#">See examples</a></p>
+<div class="g-panel">
+  <p>Include anything different about your company or product that makes you stand out from the competition.</p>
+  <p>This section will help you to:</p>
+  <ul class="list-dot">
+    <li>work out the costs of bringing a product to market</li>
+    <li>calculate your final cost per unit</li>
+    <li>find out the average price per unit for similar products in your chosen market</li>
+    <li>decide on a final price for your product </li>
+    <li>outline what you will pay in taxes and duties</li>
+  </ul>
+</div>
 {% endblock %}
 
 {% block user_input %}
+<section class="container">
+  <div class="grid">
+  <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-2">
+      <h2 class="h-xs p-t-l p-b-0">Direct costs</h2>
+      <p>These are the costs that go directly into building your product into something sellable. It is important you know your direct costs so you don't end up selling your product for less than you paid to make it.</p>
+      <p>Record all of your direct costs in the table to calculate your total.</p>
+
+      <h2 class="h-xs p-t-l p-b-0">Overhead costs</h2>
+      <p>These are the ongoing costs associated with running your whole business operation. These costs are important to know as it will help you determine how much you charge for your product in order to make a profit.</p>
+      <p>Record all of your overhead costs in the table to calculate your total.</p>
+
+      <h2 class="h-xs p-t-l p-b-0">Total costs and price</h2>
+      <p>Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don't worry, we will tell you what you need to do.</p>
+
+      <h2 class="h-xs p-t-l p-b-0">Number of units you want to export</h2>
+      <p>The first thing you can do is record how many units of your product you want to export in the following tool.</p>
+      <p>Try to be as accurate as possible, this will help make your plan stronger.</p>
+
+      <h2 class="h-xs p-t-l p-b-0">Your final cost per unit</h2>
+      <p>Your final cost per unit is how much it costs your business to create one unit of your product.</p>
+
+      <p>To work this out you will need to use 3 pieces of information you recorded earlier:</p>
+
+      <ul class="list-dot">
+        <li>how many units of your product you want to export</li>
+        <li>your direct costs final total</li>
+        <li>your overhead costs final total</li>
+      </ul>
+
+      <p>You will then be able to calculate this using the tool in the next section.</p>
+
+    </div>
+    <div class="c-1-4">&nbsp;</div>
+  </div>
+</section>
 {% endblock %}
+
