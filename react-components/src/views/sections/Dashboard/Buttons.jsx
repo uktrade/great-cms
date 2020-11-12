@@ -22,17 +22,17 @@ export const Buttons = () => {
         isOpen={modal}
       />
       <button type='button' className="button button--secondary button--full-width button--icon m-b-xs button--disabled" onClick={openComingSoonModal}
-        data-sectiontitle="Save your plan as a PDF">
+              data-sectiontitle="Save your plan as a PDF">
         <i className="fas fa-download" />
         <span className="body-m text-white">Save your plan as a PDF</span>
       </button>
       <button type='button' className="button button--secondary button--full-width button--icon m-b-xs button--disabled" onClick={openComingSoonModal}
-        data-sectiontitle="Share your plan">
+              data-sectiontitle="Share your plan">
         <i className="fas fa-share" />
         <span className="body-m text-white">Share your plan</span>
       </button>
       <button type='button' className="button button--secondary button--full-width button--icon m-b-xs button--disabled" onClick={openComingSoonModal}
-        data-sectiontitle="Find your target market">>
+              data-sectiontitle="Find your target market">
         <i className="fas fa-globe" />
         <span className="body-m text-white">Find your target market</span>
       </button>
