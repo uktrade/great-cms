@@ -60,6 +60,23 @@ def get_wagtail_transfer_configuration() -> dict:
     elif (
         active_environment == LOCAL and env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False)
     ):
+        # Local needs to know about Dev and Staging and Beta to import FROM them
+        for env_suffix in [
+            DEV,
+            STAGING,
+            BETA,
+        ]:
+            url_var_name = f'WAGTAILTRANSFER_BASE_URL_{env_suffix}'
+            key_var_name = f'WAGTAILTRANSFER_SECRET_KEY_{env_suffix}'
+
+            if env.str(url_var_name, None) and env.str(key_var_name, None):
+                config.update({
+                    env_suffix: {
+                        'BASE_URL': env.str(url_var_name),
+                        'SECRET_KEY': env.str(key_var_name)
+                    }
+                })
+
         config.update({
             # Safe to hard-code these ones for local dev
             'local_one_on_8020': {  # ie, `make webserver`
