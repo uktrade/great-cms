@@ -1,11 +1,35 @@
+from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
+
+from django.conf import settings
+
 from django.contrib import auth
-import django.contrib.auth.middleware
+from django.contrib.auth.middleware import (
+    AuthenticationMiddleware as DjangoAuthenticationMiddleware
+)
+from django.http import HttpResponseRedirect
+from django.urls import resolve, reverse
 
 
-class AuthenticationMiddleware(django.contrib.auth.middleware.AuthenticationMiddleware):
+class AuthenticationMiddleware(DjangoAuthenticationMiddleware):
 
     def process_request(self, request):
-        user = auth.authenticate(request)
+        try:
+            user = auth.authenticate(request)
+        except TokenExpiredError:
+            resolver_match = resolve(request.path)
+            if (
+                # Covers Django admin
+                resolver_match and resolver_match.namespace == 'admin'
+            ):
+                return HttpResponseRedirect(reverse('admin:index'))
+            elif (
+                # Covers our use of Wagtail admin
+                request.path_info.startswith('/admin/')
+            ):
+                return HttpResponseRedirect(settings.LOGIN_URL)
+            else:
+                return HttpResponseRedirect(settings.WAGTAIL_FRONTEND_LOGIN_URL)
+
         if user:
             request.user = user
             if user.is_anonymous:
