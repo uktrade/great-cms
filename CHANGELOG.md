@@ -11,7 +11,7 @@
 - AA-155 - healthcheck endpoint to wrap CCCE API request
 - GP2-933 - contact us
 - no ticket - increase token expiration date to 30 days from 5
-- gp2-693 - hide footer login
+- GP2-693 - hide footer login
 - GP2-1022 - hide footer sign-up
 
 ## Pre-release
@@ -133,6 +133,11 @@
 
 ### Implemented enhancements
 
+- GP2-934 - Contact us success page
+- GP2-933 - Contact us form page
+- GP2-932 - Link to DIT on GOV.UK
+- GP2-1027 - Product search backtracking
+- GP2-1023 - Product search multi-item error
 - GP2-980 - Mobile lesson page
 - GP2-619 - Insight component
 - GP2-857 - Shared components - site footer
