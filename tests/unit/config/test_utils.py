@@ -14,31 +14,36 @@ from config.utils import get_wagtail_transfer_configuration
         (
             'beta',  # can pull from staging,
             False,
-            {
-                'staging': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
-                },
-            }
+            # TEMPORARILY DISABLED until we're fully rolled out
+            # {
+            #     'staging': {
+            #         'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
+            #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
+            #     },
+            # }
+            {}
         ),
         (
             'staging',  # can pull from beta
             False,
-            {
-                'beta': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
-                },
-            }
+            # TEMPORARILY DISABLED until we're fully rolled out
+            # {
+            #     'beta': {
+            #         'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
+            #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
+            #     },
+            # }
+            {}
         ),
         (
             'dev',  # can pull from beta or staging
             False,
             {
-                'beta': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
-                },
+                # TEMPORARILY DISABLED until we're fully rolled out
+                # 'beta': {
+                #     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
+                #     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
+                # },
                 'staging': {
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
@@ -46,13 +51,14 @@ from config.utils import get_wagtail_transfer_configuration
             }
         ),
         (
-            'local',  # can pull between local:8020 and local:8030
+            'local',  # can pull between local:8020 and local:8030 and from deployed sites
             True,
             {
-                'beta': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
-                },
+                # TEMPORARILY DISABLED until we're fully rolled out
+                # 'beta': {
+                #     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
+                #     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
+                # },
                 'staging': {
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
@@ -79,12 +85,14 @@ from config.utils import get_wagtail_transfer_configuration
         (
             'staging',  # can pull from beta
             True,  # Danger! - or thankfully not... we won't act on this unless the env is `local`
-            {
-                'beta': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
-                },
-            }
+            # TEMPORARILY DISABLED until we're fully rolled out
+            # {
+            #     'beta': {
+            #         'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
+            #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
+            #     },
+            # }
+            {}
         ),
 
     ),
