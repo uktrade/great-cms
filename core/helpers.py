@@ -223,7 +223,11 @@ def search_commodity_by_term(term, json=True):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
         json={
+            'origin': 'GB',
             'proddesc': term,
+            'state': 'start',
+            'stopAtHS6': 'Y',
+            'schedule': 'import/export',
         },
         headers={
             'Accept': '*/*',
@@ -237,13 +241,15 @@ def search_commodity_by_term(term, json=True):
     return response.json() if json else response
 
 
-def search_commodity_refine(interraction_id, tx_id, values):
+def search_commodity_refine(interaction_id, tx_id, values):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_REFINE_URL,
         json={
+            'origin': 'GB',
             'state': 'continue',
-            'interractionid': interraction_id,
+            'stopAtHS6': 'Y',
             'txid': tx_id,
+            'interactionid': interaction_id,
             'values': values,
         },
         headers={

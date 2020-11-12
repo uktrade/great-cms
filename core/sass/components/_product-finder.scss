@@ -35,6 +35,21 @@
   button[disabled]:hover {
     background: $colour-red-80;
   }
+
+  button.back-button {
+    i {
+      font-size: 30px;
+      position: relative;
+      top: 5px;
+      transition: color 0.2s;
+    }
+
+    &:hover {
+      i {
+        color: $blue-deep-100;
+      }
+    }
+  }
 }
 
 .dialog-close {
@@ -63,6 +78,8 @@
     background-color: $black-10;
   }
 }
+
+
 
 .scroll-area {
   @include stretch;
@@ -112,17 +129,21 @@
   display: flex;
   align-items: center;
   min-width: 10em;
+
   input {
     padding-right: 30px;
+
     &:focus {
       padding-right: 28px;
     }
   }
+
   .input-icon {
     margin: 8px 0 0 -30px;
     float: left;
     width: 25px;
     height: 100%;
+
     .clear {
       opacity: 0.5;
       transition: opacity 0.3s;
@@ -137,21 +158,23 @@
 }
 
 .accordion {
-  > .expander-section {
+  >.expander-section {
     position: relative;
+
     .fa {
-      top:8px;
+      top: 8px;
       position: absolute;
-      right:8px;
+      right: 8px;
     }
   }
+
   .expand-section {
     display: none;
     width: 100%;
     overflow: hidden;
+
     &.open {
       display: block;
     }
   }
 }
-

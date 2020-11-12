@@ -27,7 +27,7 @@ function RadioButtons(props) {
 
   const buttons = (attribute.attrs || []).map((option) => {
     const checked = option.id === (selection && selection.id)
-    const optionName = (<span>{(option.isPart ? <span className="text-black-50">Part of </span> : '')}{capitalize(option.name, !option.isPart)}</span>)
+    const optionName = (<span className="m-f-xs">{(option.isPart ? <span className="text-black-50">Part of </span> : '')}{capitalize(option.name, !option.isPart)}</span>)
     return (
       <label key={option.id} htmlFor={option.id} className="multiple-choice p-f-m m-v-xxs">
         <input

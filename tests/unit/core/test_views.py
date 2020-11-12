@@ -503,7 +503,7 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     ]
     term = 'some term'
 
-    response = client.post(reverse('core:api-lookup-product'), {'q': term})
+    response = client.post(reverse('core:api-lookup-product'), {'proddesc': term})
 
     assert response.status_code == 200
     assert response.json() == data
@@ -520,7 +520,7 @@ def test_refine_commodity(mock_search_commodity_refine, client):
     ]
 
     response = client.post(reverse('core:api-lookup-product'), {
-        'interraction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
+        'interaction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
     })
 
     assert response.status_code == 200
