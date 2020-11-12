@@ -21,7 +21,7 @@ export default function RegionToggle(props) {
         <div className="expander-section">
           <button type="button" className="region-expand icon p-h-0" onClick={countryListToggle}>
             <h2 className="region-name h-xs p-v-0">{region}</h2>
-              {(expand || expandAllRegions) ? <i className="fa fa-minus"/> : <i className="fa fa-plus"/>}
+              {(expand || expandAllRegions) ? <i className="fa fa-minus text-blue-deep-80"/> : <i className="fa fa-plus text-blue-deep-80"/>}
           </button>
         </div>
         <div className={`p-t-s ${(expand || expandAllRegions) ? 'expand-section open': 'expand-section'}`}>
