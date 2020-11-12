@@ -8,8 +8,6 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
-// Helpers
-@import 'helpers/breakpoints';
 
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
@@ -41,6 +39,11 @@ $fa-font-path: '/static/fonts';
 @import 'elements/card';
 @import 'elements/progress-bar';
 
+@import 'helpers/mixins';
+@import 'helpers/utils';
+@import 'helpers/vars';
+@import 'helpers/breakpoints';
+
 // Components
 @import 'components/card/base';
 @import 'components/header-footer/base';
@@ -68,9 +71,6 @@ $fa-font-path: '/static/fonts';
 
 // MVP styles
 // ===================================================
-
-@import 'helpers/mixins';
-@import 'helpers/utils';
 
 @import 'components/forms';
 @import 'components/progress-wizard';
