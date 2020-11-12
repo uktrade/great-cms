@@ -13,12 +13,12 @@ babel==2.8.0              # via sphinx
 beautifulsoup4==4.8.2     # via great-components, readtime, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
-certifi==2020.6.20        # via requests, sentry-sdk
+certifi==2020.11.8        # via requests, sentry-sdk
 cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==3.2         # via -r requirements.in
 cssselect==1.1.0          # via pyquery
-directory-api-client==22.4.0  # via -r requirements.in
+directory-api-client==22.7.0  # via -r requirements.in
 directory-client-core==6.3.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.3.0  # via -r requirements.in

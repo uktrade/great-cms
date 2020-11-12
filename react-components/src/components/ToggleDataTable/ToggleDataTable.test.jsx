@@ -1,9 +1,10 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import fetchMock from 'fetch-mock'
-import { TargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights/TargetAgeGroupInsights'
-import { mapData } from '@src/components/TargetAgeGroupInsights/utils'
+import { ToggleDataTable } from '@src/components/ToggleDataTable'
+import { mapData } from '@src/components/ToggleDataTable/utils'
 import Services from '@src/Services'
+import { act } from 'react-dom/test-utils'
 
 let wrapper
 
@@ -38,9 +39,10 @@ const mockResponse = {
   }
 }
 
-describe('TargetAgeGroupInsights', () => {
+describe('ToggleDataTable', () => {
+
   beforeEach(() => {
-    wrapper = shallow(<TargetAgeGroupInsights groups={mockGroups} country="netherlands" />)
+    wrapper = mount(<ToggleDataTable groups={mockGroups} country="netherlands"><div className='table'>test</div></ToggleDataTable>)
   })
 
   afterEach(() => {
@@ -49,36 +51,37 @@ describe('TargetAgeGroupInsights', () => {
 
   test('renders heading and select button initially', () => {
     expect(wrapper.find('h3').length).toEqual(1)
-    expect(wrapper.find('.target-age-group-insights button').length).toEqual(1)
+    expect(wrapper.find('.button--icon').length).toEqual(1)
     expect(wrapper.find('form').length).toEqual(0)
-    expect(wrapper.find('Table').length).toEqual(0)
+    expect(wrapper.find('.table').length).toEqual(0)
   })
 
   test('renders form', () => {
-    expect(wrapper.instance().state.isOpen).toBe(false)
-    wrapper.find('.target-age-group-insights button').simulate('click', { type: 'click' })
-    expect(wrapper.instance().state.isOpen).toBe(true)
+    wrapper.find('.button--icon').simulate('click', { type: 'click' })
     expect(wrapper.find('form').length).toEqual(1)
-    expect(wrapper.find('Table').length).toEqual(0)
+    expect(wrapper.find('.table').length).toEqual(0)
   })
 
-  test('renders table', () => {
+  test('renders table', async () => {
     Services.setConfig({
       marketingCountryData: '/api/marketing-country-data'
     })
     fetchMock.get(Services.config.getMarketingCountryData, mockResponse)
 
-    wrapper.find('.target-age-group-insights button').simulate('click', { type: 'click' })
+    wrapper.find('.button--icon').simulate('click', { type: 'click' })
     wrapper
       .find('form input')
       .first()
       .simulate('change', { type: 'change', target: { value: mockGroups[0]['key'] } })
 
-    wrapper.find('form').simulate('submit', { preventDefault: () => {} })
+    await act(async () => {
+      wrapper.find('form').simulate('submit', { preventDefault: () => {} })
+    })
 
-    expect(wrapper.instance().state.isOpen).toBe(false)
+    wrapper.update()
+
     expect(wrapper.find('form').length).toEqual(0)
-    expect(wrapper.find('Table').length).toEqual(1)
+    expect(wrapper.find('.table').length).toEqual(1)
   })
 })
 
@@ -91,10 +94,9 @@ describe('utils', () => {
       rural: 60,
       female: 0.1,
       male: 0.2,
-      internet_percentage: 80,
-      internet_total: 0.2,
-      target_population: 1,
-      target_population_percentage: 500,
+      internetPercentage: 80,
+      internetTotal: 0.2,
+      targetPopulation: 1,
       languages: 'English, French, Spanish'
     })
   })

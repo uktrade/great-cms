@@ -1,5 +1,6 @@
 import json
 
+from unittest import mock
 from datetime import timedelta
 
 import pytest
@@ -8,8 +9,6 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
-from core.constants import LESSON_BLOCK, PLACEHOLDER_BLOCK
-from core.models import DetailPage
 from core.wagtail_hooks import CaseStudyAdmin
 from tests.helpers import make_test_video
 from tests.unit.core import factories
@@ -220,7 +219,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
 
-    wagtail_hooks.set_read_time(
+    wagtail_hooks._set_read_time(
         page=detail_page,
         request=request
     )
@@ -271,7 +270,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
 
-    wagtail_hooks.set_read_time(
+    wagtail_hooks._set_read_time(
         page=detail_page,
         request=request
     )
@@ -318,7 +317,7 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
 
-    wagtail_hooks.set_read_time(
+    wagtail_hooks._set_read_time(
         page=detail_page,
         request=request
     )
@@ -331,8 +330,6 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
 def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
     rf, domestic_homepage
 ):
-    # This test ensures that all paths are walked for
-    # wagtail_hooks._update_data_for_appropriate_version()
 
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
     # your changeset has slightly increased the size of the HTML page, which
@@ -366,14 +363,14 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    wagtail_hooks.set_read_time(
+    wagtail_hooks._set_read_time(
         page=detail_page,
         request=request
     )
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=3)  # NB just the read time of a skeleton DetailPage
+    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
@@ -390,7 +387,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    wagtail_hooks.set_read_time(
+    wagtail_hooks._set_read_time(
         page=detail_page,
         request=request
     )
@@ -405,58 +402,145 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id(rf, curated_list_pages_with_lessons_and_placeholders):
+def test_estimated_read_time_calculation__forced_update_of_live(
+    rf, domestic_homepage
+):
+    # This test is a variant of test_estimated_read_time_calculation__updates_only_draft_if_appropriate
+
+    # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
+    # your changeset has slightly increased the size of the HTML page, which
+    # may have slightly pushed up the default/empty-page readtime (either in
+    # real terms or just in terms of elements that affect the calculation). If
+    # so, pushing up the expected time variables in the test is OK to do.
 
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    # Rest the topic_block_id for all lessons
-    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
-    for lesson_page in curated_list_pages_with_lessons_and_placeholders[0][1]:
-        lesson_page.topic_block_id = None
-        lesson_page.save()
+    video_for_hero = make_test_video(duration=124)
+    video_for_hero.save()
 
-    page = wagtail_hooks.set_lesson_pages_topic_id(
-        page=curated_page,
-        request=request
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        body=[],
     )
-    page.refresh_from_db()  # IMPORTANT
+    assert detail_page.live is True
 
-    for topic in page.topics:
-        assert topic.value['lessons_and_placeholders']  # should have been set in the fixture
-        for item in topic.value['lessons_and_placeholders']:
-            if item.block_type == LESSON_BLOCK:
-                lesson = item.value
-                assert lesson.specific.topic_block_id == topic.id
-            else:
-                assert item.block_type == PLACEHOLDER_BLOCK
+    original_live_read_duration = detail_page.estimated_read_duration
+    assert original_live_read_duration is None
+
+    # Make a revision, so we have both draft and live in existence
+    revision = detail_page.save_revision()
+    assert json.loads(revision.content_json)['estimated_read_duration'] == original_live_read_duration
+
+    detail_page.refresh_from_db()
+
+    wagtail_hooks._set_read_time(
+        page=detail_page,
+        request=request,
+        is_post_creation=True  # THIS will mean the live page is updated at the same time as the draft
+    )
+
+    detail_page.refresh_from_db()
+
+    expected_duration = timedelta(seconds=4)  # NB just the read time of a skeleton DetailPage
+
+    # show the live version is updated yet
+    assert detail_page.estimated_read_duration == expected_duration
+    assert detail_page.has_unpublished_changes is True
+
+    # and the draft is updated too
+    latest_rev = detail_page.get_latest_revision()
+    assert revision == latest_rev
+    assert json.loads(latest_rev.content_json)['estimated_read_duration'] == str(expected_duration)
+
+
+@pytest.mark.parametrize('is_post_creation_val', (True, False))
+@pytest.mark.django_db
+def test__set_read_time__passes_through_is_post_creation(
+    rf,
+    domestic_homepage,
+    is_post_creation_val,
+):
+    request = rf.get('/')
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        body=[],
+    )
+    with mock.patch(
+        'core.wagtail_hooks._update_data_for_appropriate_version'
+    ) as mocked_update_data_for_appropriate_version:
+
+        wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
+
+    expected_seconds = 4
+    mocked_update_data_for_appropriate_version.assert_called_once_with(
+        page=detail_page,
+        force_page_update=is_post_creation_val,
+        data_to_update={'estimated_read_duration': timedelta(seconds=expected_seconds)}
+    )
 
 
 @pytest.mark.django_db
-def test_set_lesson_pages_topic_id_removed(rf, curated_list_pages_with_lessons_and_placeholders):
-
+@pytest.mark.parametrize('force_update', (False, True))
+def test__update_data_for_appropriate_version(domestic_homepage, rf, force_update):
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    curated_page = curated_list_pages_with_lessons_and_placeholders[0][0]
-
-    # Remove the second lesson from topic
-    topic_page_2_data = curated_page.topics[0].value['lessons_and_placeholders'].stream_data.pop()
-    curated_page.save()
-    curated_page.refresh_from_db()
-
-    # Show that before the hook runs, the data is right
-    assert DetailPage.objects.get(
-        id=topic_page_2_data['value']
-    ).topic_block_id == curated_page.topics[0].id
-
-    wagtail_hooks.set_lesson_pages_topic_id(
-        page=curated_page,
-        request=request
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        body=[],
     )
-    assert DetailPage.objects.get(
-        id=topic_page_2_data['value']
-    ).topic_block_id is None
+    assert detail_page.live is True
+    # Make a revision, so we have both draft and live in existence
+    revision = detail_page.save_revision()
+    assert detail_page.get_latest_revision() == revision
+
+    assert detail_page.title != 'Dummy Title'
+    assert json.loads(revision.content_json)['title'] == detail_page.title
+
+    wagtail_hooks._update_data_for_appropriate_version(
+        page=detail_page,
+        force_page_update=force_update,
+        data_to_update={'title': 'Dummy Title'}
+    )
+
+    revision.refresh_from_db()
+    assert json.loads(revision.content_json)['title'] == 'Dummy Title'
+
+    detail_page.refresh_from_db()
+    if force_update:
+        assert detail_page.title == 'Dummy Title'
+    else:
+        assert detail_page.title != 'Dummy Title'
+
+
+@pytest.mark.django_db
+def test_set_read_time__after_create_page(domestic_homepage, rf):
+    request = rf.get('/')
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        body=[],
+    )
+    with mock.patch('core.wagtail_hooks._set_read_time') as mock__set_read_time:
+        wagtail_hooks.set_read_time__after_create_page(request, detail_page)
+    mock__set_read_time.assert_called_once_with(request, detail_page, is_post_creation=True)
+
+
+@pytest.mark.django_db
+def test_set_read_time__after_edit_page(domestic_homepage, rf):
+    request = rf.get('/')
+    detail_page = factories.DetailPageFactory(
+        parent=domestic_homepage,
+        template='learn/detail_page.html',
+        body=[],
+    )
+    with mock.patch('core.wagtail_hooks._set_read_time') as mock__set_read_time:
+        wagtail_hooks.set_read_time__after_edit_page(request, detail_page)
+    mock__set_read_time.assert_called_once_with(request, detail_page)
 
 
 @pytest.mark.django_db

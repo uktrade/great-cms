@@ -31,22 +31,7 @@
     text-align: center;
   }
 
-  .search-input {
-    display: flex;
-    align-items: center;
-    min-width: 10em;
 
-    .clear {
-      margin-left: -25px;
-      opacity: 0.5;
-      transition: opacity 0.3s;
-      padding: 0;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
   button[disabled]:hover {
     background: $colour-red-80;
   }
@@ -61,7 +46,7 @@
   background: transparent;
   padding: 0;
   line-height: 0.6;
-  color: $black-50;
+  color: $blue-deep-60;
   overflow: hidden;
   border-radius: 50%;
   padding: 3px;
@@ -74,7 +59,7 @@
   }
 
   &:hover {
-    color: $black-90;
+    color: $blue-deep-60;
     background-color: $black-10;
   }
 }
@@ -124,13 +109,31 @@
 }
 
 .search-input {
-  i.fa-search {
-   float: right;
-   padding: 10px;
-   color: $grey;
-   position: relative;
-   margin-top: -45px;
+  display: flex;
+  align-items: center;
+  min-width: 10em;
+  input {
+    padding-right: 30px;
+    &:focus {
+      padding-right: 28px;
+    }
   }
+  .input-icon {
+    margin: 8px 0 0 -30px;
+    float: left;
+    width: 25px;
+    height: 100%;
+    .clear {
+      opacity: 0.5;
+      transition: opacity 0.3s;
+      padding: 0;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
 }
 
 .accordion {

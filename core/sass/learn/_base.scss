@@ -239,7 +239,7 @@ $desktop: 1024px;
 .learn__back-link {
   color: $blue-deep-80;
   left: 38px;
-  top: 158px;
+  top: 15px;
 
   @include tablet {
     position: absolute;
@@ -251,13 +251,13 @@ $desktop: 1024px;
   }
 
   &--top {
-    top: 158px;
+    top: 15px;
   }
 
   &--bottom {
     color: $white;
     top: auto;
-    bottom: 168px;
+    bottom: 20px;
 
     &:visited {
       color: $white;
@@ -336,8 +336,12 @@ $desktop: 1024px;
   .rich-text {
     h2, h3, h4 {
       color: $blue-deep-80;
-      margin-bottom: 30px;
+      margin-bottom: 18px;
       padding: 0;
+
+      @include tablet {
+        margin-bottom: 30px;
+      }
     }
 
     h2 {
@@ -358,6 +362,16 @@ $desktop: 1024px;
 
     p, li {
       color: $blue-deep-80;
+    }
+
+    p {
+      margin-top: 18px;
+      margin-bottom: 18px;
+
+      @include tablet {
+        margin-top: 22px;
+        margin-bottom: 22px;
+      }
     }
 
     ul {
@@ -397,6 +411,41 @@ $desktop: 1024px;
           padding: 0;
         }
       }
+
+      i {
+        margin-bottom: 0;
+
+        @include tablet {
+          margin-bottom: 20px;
+        }
+      }
+
+      .g-panel {
+        &:before {
+          display: none;
+
+          @include tablet {
+            display: block;
+          }
+        }
+
+        h3 {
+          margin-bottom: 0;
+
+          @include tablet {
+            margin-bottom: 10px;
+          }
+        }
+
+        p {
+          margin: 0;
+
+          @include tablet {
+            margin-bottom: 18px;
+            margin-top: 18px;
+          }
+        }
+      }
     }
 
     .pros-and-cons {
@@ -425,7 +474,7 @@ $desktop: 1024px;
       }
 
       &__pros {
-        margin-bottom: 30px;
+        margin-bottom: 10px;
 
         @include desktop {
           margin-right: -10px;
@@ -468,6 +517,10 @@ $desktop: 1024px;
     > ul.list-bullet > li {
       position: static;
       padding-left: 0;
+
+      &:before {
+        display: none;
+      }
     }
 
     img {
@@ -494,6 +547,30 @@ $desktop: 1024px;
         color: $blue-deep-80;
         max-height: 200px;
         overflow-y: scroll;
+      }
+    }
+  }
+
+  .lesson-hero {
+    margin: 0 0 20px;
+
+    @include tablet {
+      margin: 30px 0;
+    }
+  }
+
+  .objectives {
+    padding-bottom: 40px;
+
+    @include tablet {
+      padding-bottom: 0;
+    }
+
+    hr {
+      margin-bottom: 0;
+
+      @include tablet {
+        margin-bottom: 45px;
       }
     }
   }
@@ -528,6 +605,31 @@ $desktop: 1024px;
 
     &__author {
       margin-top: 12px;
+    }
+
+    .g-panel {
+      padding-left: 0;
+
+      &:before {
+        display: none;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      @include tablet {
+        padding-left: 30px;
+
+        &:before {
+          display: block;
+        }
+
+        p {
+          margin-top: 18px;
+          margin-bottom: 18px;
+        }
+      }
     }
   }
 
@@ -608,6 +710,12 @@ $desktop: 1024px;
   }
 
   .estimated-time {
+    margin-bottom: 12px;
+
+    @include tablet {
+      margin-bottom: 22px;
+    }
+
     strong {
       height: 24px;
       display: inline-block;

@@ -219,12 +219,11 @@ def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
 
 
-def search_commodity_by_term(term):
+def search_commodity_by_term(term, json=True):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
         json={
             'proddesc': term,
-            'destination': 'GB',
         },
         headers={
             'Accept': '*/*',
@@ -235,7 +234,7 @@ def search_commodity_by_term(term):
     )
 
     response.raise_for_status()
-    return response.json()
+    return response.json() if json else response
 
 
 def search_commodity_refine(interraction_id, tx_id, values):
@@ -269,7 +268,8 @@ def get_popular_export_destinations(sector_label):
 
 
 def get_module_completion_progress(completion_status, module_page: CuratedListPage):
-    """Returns per-module completion data, with lesson-level detail.
+    """Returns per-module completion data, with lesson-level detail. Completed
+    lessons are grouped by the topic they belong to.
 
     `completion_status` is the output of from domestic.helpers.get_lesson_completion_status
 

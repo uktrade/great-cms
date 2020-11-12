@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="lesson-page">
-        <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--top h-m">
+        <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--top h-m hide-on-mobile">
             <i class="fas fa-arrow-left"></i>
             <span class="visually-hidden">Back</span>
         </a>
@@ -15,13 +15,13 @@
                 <div class="grid">
                     <div class="grid p-t-l">
                         <div class="c-1-4">
-                            <div class="m-t-xl p-h-xs">
+                            <div class="m-t-xl p-h-xs hide-on-mobile">
                                 <p class="body-l p-t-s m-v-0">You're in:</p>
                                 {% get_topic_title_for_lesson page as topic_title %}
                                 {% if topic_title %}
                                 <p class="body-l-b m-v-0">{{topic_title}}</p>
                                 {% endif %}
-                                <a href="{{page.get_parent.url}}" class="button button--secondary button--small m-t-xs">View all lessons</a>
+                                <a href="{{page.get_parent.get_parent.url}}" class="button button--secondary button--small m-t-xs">View all lessons</a>
                             </div>
                         </div>
                         <div class="c-1-2">
@@ -30,13 +30,13 @@
                                 <i class="fas fa-clock m-r-xxs" aria-hidden="true"></i>
                                 <strong class="body-l-b">{{ page.estimated_read_duration|format_timedelta }} read</strong>
                             </p>
-                            <div class="lesson-hero media-section m-t-m m-b-m">
+                            <div class="lesson-hero media-section">
                                 {% include 'learn/hero_media_item.html' %}
                             </div>
                             {% include 'core/objectives.html' %}
                         </div>
-                        <div class="c-1-4">
-                            <span class="h-s">&nbsp;</span>
+                        <div class="c-1-4 hide-on-mobile">
+                            <span>&nbsp;</span>
                         </div>
                     </div>
                 </div>
@@ -46,8 +46,8 @@
             <div class="container">
                 <div class="grid">
                     <div class="grid">
-                        <div class="c-1-4">
-                            <span class="h-s">&nbsp;</span>
+                        <div class="c-1-4 hide-on-mobile">
+                            <span>&nbsp;</span>
                         </div>
                         <div class="c-1-2 lesson-body-blocks">
                             {% include 'core/personalised_body.html' %}
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             {% else %}
-                            <span class="h-s">&nbsp;</span>
+                            <span>&nbsp;</span>
                             {% endif %}
                         </div>
                     </div>
@@ -75,29 +75,29 @@
         <div class="bg-blue-deep-80">
             <div class="container">
                 <div class="grid p-t-m">
-                    <div class="c-1-4">
-                        <span class="h-s">&nbsp;</span>
+                    <div class="c-1-4 hide-on-mobile">
+                        <span>&nbsp;</span>
                     </div>
                     <div class="c-1-2">
                         {% include 'learn/recap.html' %}
                         <hr class="hr hr--light m-0"/>
                     </div>
-                    <div class="c-1-4">
-                        <span class="h-s">&nbsp;</span>
+                    <div class="c-1-4 hide-on-mobile">
+                        <span>&nbsp;</span>
                     </div>
                 </div>
             </div>
             <div class="container">
                 <div class="grid">
                     <div class="grid p-t-s p-b-s">
-                        <div class="c-1-4">
-                            <span class="h-s">&nbsp;</span>
+                        <div class="c-1-4 hide-on-mobile">
+                            <span>&nbsp;</span>
                         </div>
                         <div class="c-1-2">
                             <div id="mark_as_complete" class="bg-blue-deep-80"></div>
                         </div>
-                        <div class="c-1-4">
-                            <span class="h-s">&nbsp;</span>
+                        <div class="c-1-4 hide-on-mobile">
+                            <span>&nbsp;</span>
                         </div>
                     </div>
                 </div>
@@ -105,8 +105,8 @@
             {% if next_lesson %}
                 <div class="container">
                     <div class="grid p-t-m">
-                        <div class="c-1-12">
-                            <span class="h-s">&nbsp;</span>
+                        <div class="c-1-12 hide-on-mobile">
+                            <span>&nbsp;</span>
                         </div>
                         <div class="c-10-12 m-b-xl">
                             <div class="card card--horizontal">
@@ -148,12 +148,12 @@
                             </div>
                         </div>
                         <div class="c-1-12">
-                            <span class="h-s">&nbsp;</span>
+                            <span>&nbsp;</span>
                         </div>
                     </div>
                 </div>
             {% endif %}
-            <a href="{{page.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m">
+            <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m hide-on-mobile">
                 <i class="fas fa-arrow-left"></i>
                 <span class="visually-hidden">Back</span>
             </a>
@@ -171,7 +171,7 @@
             topicTitle: '{{ page_topic }}',
             lessonTitle:'{{ page.title }}'
             });
-        ditMVP.createMarkLessonAsComplete({
+        magna.createMarkLessonAsComplete({
             element: document.querySelector("#mark_as_complete"),
             endpoint: '{% url "sso:lesson-completed" lesson=page.id %}'
           })
@@ -181,7 +181,7 @@
         const transcriptContainer = element.querySelector(".video-transcript-container");
 
         if (transcriptContainer) {
-            ditMVP.createVideoTranscript({
+            magna.createVideoTranscript({
                 element: transcriptContainer,
                 source: element.querySelector("video source[transcript]")
             })

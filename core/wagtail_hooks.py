@@ -77,19 +77,27 @@ def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
             return redirect(url)
 
 
-def _update_data_for_appropriate_version(page: Page, data_to_update: dict) -> None:
+def _update_data_for_appropriate_version(
+    page: Page,
+    force_page_update: bool,
+    data_to_update: dict
+) -> None:
     """For a given Page instance, use the provided data to update either:
-        * its latest revision ONLY, if there are unpublished changes (ie, its a Draft)
+        * its latest revision ONLY, if there are ONLY unpublished changes
+        (ie, its a Draft)
         or
-        * the latest revision AND the live page, if the revision is the one that became
-        the live page. (We update the revision for consistency and history.)
-    """
+        * the latest revision AND the live page, if the revision is the one
+        that became the live page (ie the Live page does NOT have unpublished
+        changes)
+        or
+        * we're forcing updates to the actual Page and not its revision JSON
+        (eg, because the Live page has just been created so has no
+        unpublished changes, but we still want to update it with data_to_update)
 
+    """
     latest_revision = page.get_latest_revision()
     latest_revision_json = json.loads(latest_revision.content_json)
 
-    # 1. Update the revision, whether it's for the latest Draft or the
-    # revision which created the current Live page
     for key, value in data_to_update.items():
         # We need to watch out for the timedelta, because it serialises to
         # a different format (PxDTxxHxxMxxS) by default
@@ -100,19 +108,26 @@ def _update_data_for_appropriate_version(page: Page, data_to_update: dict) -> No
     latest_revision.content_json = json.dumps(latest_revision_json, cls=DjangoJSONEncoder)
     latest_revision.save()
 
-    if not page.has_unpublished_changes:
-        # 2. The live version is based on the latest revision, which means
-        # we also need to update the live page, because it won't automatically
-        # reflect the chages we made to that revision.
-
+    if force_page_update or (not page.has_unpublished_changes):
         # This update()-based approach is awkward but we want to update the
         # Page record without any side effects via save() etc
         queryset_for_page = type(page).objects.filter(id=page.id)
         queryset_for_page.update(**data_to_update)
 
 
+@hooks.register('after_create_page')
+def set_read_time__after_create_page(request, page):
+    # Runs after a page is created, whether draft or published
+    _set_read_time(request, page, is_post_creation=True)
+
+
 @hooks.register('after_edit_page')
-def set_read_time(request, page):
+def set_read_time__after_edit_page(request, page):
+    # Runs after a page is edited, whether draft or published
+    _set_read_time(request, page)
+
+
+def _set_read_time(request, page, is_post_creation=False):
     if hasattr(page, 'estimated_read_duration'):
         html = render_to_string(page.template, {'page': page, 'request': request})
         soup = BeautifulSoup(html, 'html.parser')
@@ -132,39 +147,6 @@ def set_read_time(request, page):
 
         _update_data_for_appropriate_version(
             page=page,
+            force_page_update=is_post_creation,
             data_to_update={'estimated_read_duration': timedelta(seconds=seconds)}
         )
-
-
-@hooks.register('after_edit_page')
-def set_lesson_pages_topic_id(request, page):
-    if hasattr(page, 'topics'):
-        topic_map = {}
-        # build a map of all the topics->lessons for this curated page
-        for topic in page.topics:
-            topic_map[topic.id] = []
-            for item in topic.value['lessons_and_placeholders']:
-                if item.block_type == constants.LESSON_BLOCK:
-                    lesson_page = item.value
-                    topic_map[topic.id].append(lesson_page.id)
-
-        for topic_id, lesson_ids in topic_map.items():
-            # Set the topic to any lesson which don't have this topic set
-            lesson_to_update = models.DetailPage.objects.filter(
-                id__in=lesson_ids
-            ).exclude(
-                topic_block_id=topic_id
-            )
-            # Update without triggering save() - more efficient
-            lesson_to_update.update(topic_block_id=topic_id)
-
-            # Blank the topic to any lessons which have lesson set which aren't in the map
-            lesson_to_blank = models.DetailPage.objects.filter(
-                topic_block_id=topic_id
-            ).exclude(
-                id__in=lesson_ids
-            )
-            # Update without triggering save() - more efficient
-            lesson_to_blank.update(topic_block_id=None)
-
-    return page

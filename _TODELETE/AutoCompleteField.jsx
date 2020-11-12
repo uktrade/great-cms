@@ -2,8 +2,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ErrorList from './ErrorList'
-import FlagIcon from './FlagIcon'
+import ErrorList from '../react-components/src/components/ErrorList'
+import FlagIcon from '../react-components/src/components/FlagIcon'
 
 import Select, { components } from 'react-select'
 import AsyncSelect from 'react-select/async';
@@ -47,7 +47,7 @@ export default function AutoCompleteField(props){
     </div>
   )
 }
-  
+
 
 AutoCompleteField.propTypes = {
   placeholder: PropTypes.string.isRequired,

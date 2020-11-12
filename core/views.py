@@ -1,9 +1,12 @@
 import abc
 import datetime
+import logging
+import math
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
 from rest_framework import generics
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -17,6 +20,7 @@ from django.urls import reverse_lazy
 from directory_forms_api_client.helpers import Sender
 from core import forms, helpers, serializers, cms_slugs
 
+logger = logging.getLogger(__name__)
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -273,15 +277,33 @@ class CreateTokenView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, request):
-        # expire access @ now() in msec + 5 days
-        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=5))
+        # expire access @ now() in msec + BETA_TOKEN_EXPIRATION_DAYS days
+        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=settings.BETA_TOKEN_EXPIRATION_DAYS))
         base_url = settings.BASE_URL
+        # ability to edit target URL by using path param
+        extra_url_params = 'signup'
+        if request.GET.get('path'):
+            extra_url_params = request.GET.get('path')
         # TODO: logging
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
-        response = {'valid_until': plaintext, 'token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
+        response = {'valid_until': plaintext, 'token': ciphertext,
+                    'CLIENT URL': f'{base_url}/{extra_url_params}?enc={ciphertext}'}
         return Response(response)
+
+
+class CheckView(generics.GenericAPIView):
+    def get(self, request):
+        try:
+            response = helpers.search_commodity_by_term(term='feta', json=False)
+            response_code = response.json()['data']['hsCode']
+            return Response({'status': status.HTTP_200_OK,
+                             'CCCE_API': {'status': status.HTTP_200_OK, 'response_body': response_code,
+                                          'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000)}})
+        except Exception as e:
+            logger.exception(e)
+            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': response.status_code}})
 
 
 class ContactUsHelpFormView(FormView):
