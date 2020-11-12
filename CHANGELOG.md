@@ -133,6 +133,7 @@
 
 ### Implemented enhancements
 
+- GP2-978 - Mobile learning homepage
 - GP2-934 - Contact us success page
 - GP2-933 - Contact us form page
 - GP2-932 - Link to DIT on GOV.UK
