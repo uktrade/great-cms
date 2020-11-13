@@ -13,7 +13,7 @@ const MESSAGE_BAD_REQUEST_ERROR = { __all__: ['Bad request'] }
 export const store = createStore(reducers)
 
 const setInitialState = function(state) {
-  store.dispatch(actions.setInitialState(state))
+  store.dispatch(actions.setInitialState(state, {market:{name:'belgium'}}))
 }
 
 const post = function(url, data) {

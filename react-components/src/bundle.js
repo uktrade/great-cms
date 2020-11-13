@@ -7,6 +7,7 @@ import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButt
 import CountryFinder from '@src/components/ProductFinder/CountryFinder'
 import ModalMenu from '@src/components/ModalMenu'
 import CompareMarkets from '@src/components/CompareMarkets'
+import SelectComparisonMarket from '@src/components/CompareMarkets/SelectMarket'
 import { createRouteToMarket, createSpendingAndResources, createTargetAgeGroupInsights } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { createTargetMarketResearchForm, createDataSnapShot } from '@src/views/sections/TargetMarketResearch'
@@ -43,6 +44,7 @@ export default {
   ProductFinderButton,
   CountryFinder,
   CompareMarkets,
+  SelectComparisonMarket,
   ModalMenu,
   createLogin,
   setConfig: Services.setConfig,

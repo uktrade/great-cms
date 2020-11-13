@@ -5,6 +5,8 @@ import {
   SET_COUNTRIES_EXPERTISE,
   SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
   SET_NEXT_URL,
+  SET_PRODUCT,
+  SET_MARKET,
 } from '@src/actions'
 
 const initialState = {
@@ -26,13 +28,15 @@ const initialState = {
       products: [],
     }
   },
+  products: [],
+  markets: [],
 }
 
  
 // todo: replace with ImmutableJS
 const cloneState = state => JSON.parse(JSON.stringify(state))
 
-function setModalIsOpen(state, payload) {
+/* function setModalIsOpen(state, payload) {
   let newState = cloneState(state)
   // should have only one modal open at a time
   newState.modalIsOpen ={
@@ -58,19 +62,7 @@ function setCountriesExpertise(state, payload) {
   return newState
 }
 
-function setInitialState(state, {modalIsOpen, user, nextUrl}) {
-  let newState = cloneState(state)
-  if (modalIsOpen) {
-    Object.assign(newState.modalIsOpen, modalIsOpen)
-  }
-  if (user) {
-    Object.assign(newState.user, user)
-  }
-  if (nextUrl) {
-    newState.nextUrl = nextUrl
-  }
-  return newState
-}
+
 
 function setPerformFeatureSKipCookieCheck(state, payload) {
   let newState = cloneState(state)
@@ -83,13 +75,29 @@ function setNextUrl(state, payload) {
   newState.nextUrl = payload
   return newState
 }
+*/
+function setProduct(state, product) {
+  let newState = cloneState(state)
+  newState.products = [product]
+}
 
+function setMarket(state, market) {
+  let newState = cloneState(state)
+  newState.markets = [market]
+}
+
+function setInitialState(state, payload) {
+  console.log('set initial sate ***** ', payload)
+  let newState = cloneState(state)
+  newState.markets = [payload.market]
+  return newState
+}
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case SET_INITIAL_STATE:
       return setInitialState(state, action.payload)
-    case SET_MODAL_IS_OPEN:
+    /*case SET_MODAL_IS_OPEN:
       return setModalIsOpen(state, action.payload)
     case SET_PRODUCTS_EXPERTISE:
       return setProductsExpertise(state, action.payload)
@@ -98,16 +106,22 @@ export default function rootReducer(state = initialState, action) {
     case SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK:
       return setPerformFeatureSKipCookieCheck(state, action.payload)
     case SET_NEXT_URL:
-      return setNextUrl(state, action.payload)
+      return setNextUrl(state, action.payload) */
+    case SET_PRODUCT:
+      return setProduct(state, action.payload)
+    case SET_MARKET:
+      return setMarket(state, action.payload)
     default:
       return state
   }
 }
 
 
-export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
+/*export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
 export const getCountriesExpertise = state => state.user.expertise.countries
 export const getProductsExpertise = state => state.user.expertise.products
 export const getIndustriesExpertise = state => state.user.expertise.industries
 export const getPerformFeatureSKipCookieCheck = state => state.performSkipFeatureCookieCheck
-export const getNextUrl = state => state.nextUrl
+export const getNextUrl = state => state.nextUrl*/
+export const getProducts = state => state.products
+export const getMarkets = state => state.markets

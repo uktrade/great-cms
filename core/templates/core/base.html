@@ -2,6 +2,7 @@
 {% load static %}
 {% load static_absolute from great_components %}
 {% load url_map %}
+{% load to_json %}
 
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
@@ -113,6 +114,8 @@
             products: userProducts,
           },
         },
+        products: {{export_plan.export_commodity_codes|to_json}},
+        markets: {{export_plan.export_countries|to_json }}
       })
 
       {% if tour %}
