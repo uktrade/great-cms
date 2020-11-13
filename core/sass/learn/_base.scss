@@ -201,12 +201,22 @@ $desktop: 1024px;
 }
 
 .learn__single-category-header-wrapper {
-  padding-top: 40px;
+  padding-top: 80px;
   position: relative;
+
+  @include tablet {
+    padding-top: 40px;
+  }
+
+  .learn__category-entities {
+    margin-left: 0;
+  }
 }
 
 .learn__single-category-header-content {
-  margin: 38px 0 0 70px;
+  @include tablet {
+    margin: 38px 0 0 70px;
+  }
 }
 
 .learn__single-category-title.h1 {
@@ -225,6 +235,11 @@ $desktop: 1024px;
   }
 }
 
+.learn__single-category-image {
+  max-width: 100%;
+  height: auto;
+}
+
 .learn__topics-list {
   margin: 40px 0 0;
 }
@@ -232,6 +247,14 @@ $desktop: 1024px;
 .learn__topic-item-title {
   margin-right: 20px;
   padding-bottom: 20px;
+}
+
+.learn__topic-item-count {
+  margin-bottom: 10px;
+
+  @include tablet {
+    margin-bottom: 0;
+  }
 }
 
 .learn__topic-item {
@@ -263,7 +286,9 @@ $desktop: 1024px;
     }
 
     button {
-      float: right;
+      @include tablet {
+        float: right;
+      }
     }
   }
 }
@@ -280,21 +305,33 @@ $desktop: 1024px;
   }
 
   .button {
-    position: relative;
-    top: -4px;
+    @include tablet {
+      position: relative;
+      top: -4px;
+    }
   }
 }
 
 .learn__lesson-item-link-text {
-  display: inline-block;
-  max-width: 75%;
+  display: block;
+  margin-bottom: 10px;
+
+  @include tablet {
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 75%;
+  }
 }
 
 .learn__topic-item-read-time {
-  position: absolute;
-  top: 50%;
-  margin-top: -14px;
-  right: 22px;
+  display: inline-block;
+
+  @include tablet {
+    position: absolute;
+    top: 50%;
+    margin-top: -14px;
+    right: 22px;
+  }
 }
 
 .learn__back-link {

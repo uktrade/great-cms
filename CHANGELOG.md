@@ -133,6 +133,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-979 - Mobile learning module page
 - GP2-914 - Responsive header
 - GP2-978 - Mobile learning homepage
 - GP2-934 - Contact us success page
