@@ -11,9 +11,9 @@
         {% path_match "^\/learn\/" as in_learning %}
         {% path_match "^\/export-plan\/" as in_exportplan %}
         {% path_match "^\/find-your-target-market\/" as in_targetmarkets %}
-        <li><a id="header-link-learning" class="button button--secondary {% if not in_learning %}bg-blue-deep-90{% endif %} {% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
-        <li><a id="header-link-markets" class="button button--secondary {% if in_targetmarkets %}active{% endif %}" href="/find-your-target-market/ ">Target a market</a></li>
-        <li><a id="header-link-exporting-plan" class="button button--secondary {% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Build an export plan</a></li>
+        <li class="lg-only"><a id="header-link-learning" class="button button--secondary {% if not in_learning %}bg-blue-deep-90{% endif %} {% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
+        <li class="lg-only"><a id="header-link-markets" class="button button--secondary {% if in_targetmarkets %}active{% endif %}" href="/find-your-target-market/ ">Target a market</a></li>
+        <li class="lg-only"><a id="header-link-exporting-plan" class="button button--secondary {% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Build an export plan</a></li>
         {% if not request.user.is_authenticated %}
           <li><a id="header-sign-up-link" href="/signup/" class="button button--primary">Sign up</a></li>
         {% endif %}
