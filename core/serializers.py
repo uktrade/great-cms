@@ -7,12 +7,12 @@ from rest_framework import serializers
 
 
 class ProductLookupSerializer(serializers.Serializer):
-    q = serializers.CharField(required=False)
     tx_id = serializers.CharField(required=False)
-    interraction_id = serializers.CharField(required=False)
+    interaction_id = serializers.CharField(required=False)
     value_id = serializers.CharField(required=False)
     value_string = serializers.CharField(required=False)
     values = serializers.JSONField(required=False)
+    proddesc = serializers.CharField(required=False)
 
 
 class CompanySerializer(serializers.Serializer):

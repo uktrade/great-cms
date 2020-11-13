@@ -87,18 +87,25 @@ useEffect(() => {
     const tableBody = Object.values(comparisonMarkets).map(market => {
       let populationCountryData = getCountryData(market.name)
       return (<tr key={`market-${market.id}`}>
-        <td><span className="body-l-b" id={`market-${market.name}`}>{market.name}</span><button type="button" onClick={removeMarket} data-id={market.id} aria-label={`Remove ${market.name}`}><i className="fa fa-times-circle"/></button></td>
+        <td className="p-b-xs p-v-xs"><span className="body-l-b" id={`market-${market.name}`}>{market.name}</span><button type="button" className="iconic" onClick={removeMarket} data-id={market.id} aria-label={`Remove ${market.name}`}><i className="fa fa-times-circle"/></button></td>
         <td id={`market-total-population-${market.name}`}>{populationCountryData ? populationCountryData.total_population : ''}</td>
-        <td id={`market-internet-usage-${market.name}`}>{populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + ' %' : 'NA'}</td>
-        <td id={`market-urban-population-${market.name}`}><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>
-        <td id={`market-rural-population-${market.name}`}><h1>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</h1></td>
-      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'}</td></tr>)
+        <td id={`market-internet-usage-${market.name}`}>{populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + '%' : 'Data not available'}</td>
+        <td id={`market-urban-population-${market.name}`}>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</td>
+        <td id={`market-rural-population-${market.name}`}>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</td>
+      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'}</td></tr>)
     })
     dataTable = (
-      <div className="table market-details m-h-m bg-white p-v-xs p-h-s radius">
+      <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
         <table>
           <thead>
-          <tr><th></th><th>Total Population</th><th>Access to internet</th><th>Living in urban areas</th><th>Living in rural areas</th><th>Consumer Price Index</th></tr>
+          <tr>
+            <th></th>
+            <th>Total population</th>
+            <th>Access to internet</th>
+            <th>Living in urban areas</th>
+            <th>Living in rural areas</th>
+            <th>Consumer Price Index</th>
+          </tr>
           </thead>
           <tbody>
             {tableBody}

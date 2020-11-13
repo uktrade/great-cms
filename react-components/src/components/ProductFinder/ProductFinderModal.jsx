@@ -26,6 +26,7 @@ export default function ProductFinderModal(props) {
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [showingInteraction, setShowingInteraction] = useState()
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -138,10 +139,7 @@ export default function ProductFinderModal(props) {
     setLoading(true)
     request
       .then((result) => {
-
-        /* eslint-disable no-console */
-        console.log('Search result', result) // TODO: Needed during development
-        /* eslint-enable no-console */
+        setShowingInteraction()
         if (result && result.data && result.data.txId) {
           responseAnalytics(result.data)
           renderSearchResults(result.data)
@@ -157,13 +155,12 @@ export default function ProductFinderModal(props) {
   const search = () => {
     const query = searchTerm
     if (query) {
-      processResponse(Services.lookupProduct({ q: query }))
+      processResponse(Services.lookupProduct({ proddesc: query }))
     }
   }
 
-  const onChangeClick = (evt) => {
-    // TODO: Change handling will be added after UR, but we want the button to be available 
-    evt.preventDefault()
+  const onChangeClick = (interaction) => {
+    setShowingInteraction(interaction)
   }
 
   const backToSearch = () => {
@@ -177,7 +174,7 @@ export default function ProductFinderModal(props) {
         <h3 className="h-m p-v-xs">{title}</h3>
           {(sectionDetails || []).map((value) => {
             return value.type === 'SELECTION' ? 
-              (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
+              (<Interaction txId={searchResults.txId} proddesc={searchResults.proddesc} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
               (<ValueInteraction txId={searchResults.txId} key={value.id} attribute={value} processResponse={processResponse} mixedContentError={searchResults.mixedContentError}/>)
 
           })}
@@ -194,7 +191,7 @@ export default function ProductFinderModal(props) {
             <p className="m-v-xxs">
               {capitalize(interaction.selectedString)} 
               {interaction.selectedString === 'other' ? ` than ${interaction.unselectedString}` : ''}
-              {' '}<button type="button" className="link link--underline body-m" onClick={onChangeClick}>Change</button>
+              {' '}<button type="button" className="change-known-button link link--underline body-m" onClick={() => onChangeClick(interaction)}>Change</button>
             </p>
            </div>
         </div>)
@@ -262,6 +259,18 @@ export default function ProductFinderModal(props) {
       </section>
     )
   }
+  const sectionMultiItem = () => {
+    return (
+      <section className="m-h-l">
+        <div className="box box--no-pointer p-h-s p-v-xs m-t-xs">
+          <p>
+            The item you are classifying is considered a complex item (or set) which normally requires each component to be classified separately. 
+            Alternatively, you may request a binding classification ruling for your complex item (or set) from Customs in the country of import.
+          </p>
+        </div>
+      </section>
+    )
+  }
 
   const buildMap = (block) => {
     // build an interaction block, removing any duplicates from previous
@@ -287,7 +296,11 @@ export default function ProductFinderModal(props) {
 
   const resultsDisplay = (results) => {
     // Build maps of interactions as we don't want any duplicates
-    const questions = buildMap([results.currentQuestionInteraction])
+
+    let questions = buildMap([results.currentQuestionInteraction])
+    if (showingInteraction) {
+      questions = [showingInteraction]
+    }
     const assumptions = buildMap(results.assumedInteractions)
     const known = buildMap(results.knownInteractions)
     let itemChoice = buildMap([results.currentItemInteraction]);
@@ -295,6 +308,10 @@ export default function ProductFinderModal(props) {
 
     // *********************   Kill item choice so we can just use question 
     itemChoice = null
+
+    if (searchResults.multiItemError) {
+      return sectionMultiItem(searchResults)
+    }
 
     if (searchResults.txId && !questions && !searchResults.hsCode) {
       return sectionNoResults(searchResults)
@@ -306,11 +323,11 @@ export default function ProductFinderModal(props) {
         {Section('Please choose your item', itemChoice)}
       </div> :
       <div>
-        {searchResults.hsCode && sectionFound(searchResults)}
-        {!searchResults.hsCode && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {(known || questions) ? (<hr className="hr bg-red-deep-100 m-h-l"/>) : ''}
-        {sectionProductDetails(known)} 
-        {sectionAssumptions(assumptions)}
+        {!showingInteraction && searchResults.hsCode && sectionFound(searchResults)}
+        {(!searchResults.hsCode || showingInteraction) && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
+        {((known || questions) && !showingInteraction ) ? (<hr className="hr bg-red-deep-100 m-h-l"/>) : ''}
+        {!showingInteraction && sectionProductDetails(known)} 
+        {!showingInteraction && sectionAssumptions(assumptions)}
       </div>
 
     return sections
@@ -371,7 +388,7 @@ export default function ProductFinderModal(props) {
               className="scroll-inner p-b-m"
               ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
             >
-              {!searchResults ? searchBox() : (<button type="button" className="m-f-l m-t-m" onClick={backToSearch} ><i className="fa fa-chevron-left m-r-xs"/>Search again</button>)}
+              {!searchResults ? searchBox() : (<button type="button" className="back-button m-f-l m-t-m" onClick={backToSearch} ><i className="fa fa-arrow-circle-left m-r-xs"/>Search again</button>)}
               {searchResults && resultsDisplay(searchResults)}
             </div>
           </div>

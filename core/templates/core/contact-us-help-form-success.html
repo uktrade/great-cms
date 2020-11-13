@@ -1,19 +1,23 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
+{% load url_map %}
 
 {% block body_attributes %}class="body-background-white"{% endblock %}
 
 {% block content %}
-    <section class="container">
-        {% block breadcrumbs %}{% endblock %}
-        <div class="grid-row m-t-l">
-            <div class="c-1-2 p-r-xs">
-                <h2 class="h-l">Thank you. Your message has been sent.</h2>
-                <p>Somebody will be in touch shortly.</p>
-            </div>
+<section class="container m-b-l height-60">
+  {% block breadcrumbs %}{% endblock %}
+  <div class="grid flex-grid">
+    <div class="grid-row m-t-l">
+      <div class="c-3-4 c-1-2-xl m-h-auto flex-direction-column m-t-s">
+        <div class="border-green-100 border-thicker p-s m-b-l">
+          <h2 class="h-s p-t-0">We have received your enquiry. Thank you.</h2>
+          <p class="body-l m-b-0">Our team will have a look at what you need and will come back to you soon.</p>
         </div>
-    </section>
+        <a href="{% url_map 'dashboard' %}">Continue to Dashboard</a>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
-
-{% block body_footer %}{% endblock %}

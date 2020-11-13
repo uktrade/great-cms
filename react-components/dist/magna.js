@@ -65074,9 +65074,9 @@ var removeCountryData = function removeCountryData(country) {
 };
 
 var lookupProduct = function lookupProduct(_ref) {
-  var q = _ref.q;
+  var proddesc = _ref.proddesc;
   return post(config.apiLookupProductUrl, {
-    q: q
+    proddesc: proddesc
   }).then(function (response) {
     return responseHandler(response).json();
   });
@@ -65088,7 +65088,7 @@ var lookupProductRefine = function lookupProductRefine(_ref2) {
       values = _ref2.values;
   return post(config.apiLookupProductUrl, {
     tx_id: txId,
-    interraction_id: interactionId,
+    interaction_id: interactionId,
     values: values
   }).then(function (response) {
     return responseHandler(response).json();
@@ -65746,11 +65746,14 @@ function CompareMarkets(props) {
       var populationCountryData = getCountryData(market.name);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: "market-".concat(market.id)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "p-b-xs p-v-xs"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "body-l-b",
         id: "market-".concat(market.name)
       }, market.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
+        className: "iconic",
         onClick: removeMarket,
         "data-id": market.id,
         "aria-label": "Remove ".concat(market.name)
@@ -65760,15 +65763,15 @@ function CompareMarkets(props) {
         id: "market-total-population-".concat(market.name)
       }, populationCountryData ? populationCountryData.total_population : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         id: "market-internet-usage-".concat(market.name)
-      }, populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + ' %' : 'NA'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + '%' : 'Data not available'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         id: "market-urban-population-".concat(market.name)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, populationCountryData ? populationCountryData.urban_population_percentage_formatted : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         id: "market-rural-population-".concat(market.name)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, populationCountryData ? populationCountryData.rural_population_percentage_formatted : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'));
+      }, populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'));
     });
     dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table market-details m-h-m bg-white p-v-xs p-h-s radius"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total Population"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Access to internet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in urban areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in rural areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Consumer Price Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)), triggerButton);
+      className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total population"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Access to internet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in urban areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in rural areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Consumer Price Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)), triggerButton);
   } else {
     dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
       className: "container"
@@ -68681,6 +68684,7 @@ function RadioButtons(props) {
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    ;
     (attribute.attrs || []).map(function (_ref) {
       var value = _ref.value,
           name = _ref.name,
@@ -68693,7 +68697,7 @@ function RadioButtons(props) {
         });
       }
 
-      return null; // for eslint only 
+      return null; // for eslint only
     });
   }, []);
 
@@ -69047,6 +69051,11 @@ function ProductFinderModal(props) {
       searchTerm = _useState8[0],
       setSearchTerm = _useState8[1];
 
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState10 = _slicedToArray(_useState9, 2),
+      showingInteraction = _useState10[0],
+      setShowingInteraction = _useState10[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (modalIsOpen) {
       Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
@@ -69158,10 +69167,7 @@ function ProductFinderModal(props) {
   var processResponse = function processResponse(request) {
     setLoading(true);
     request.then(function (result) {
-      /* eslint-disable no-console */
-      console.log('Search result', result); // TODO: Needed during development
-
-      /* eslint-enable no-console */
+      setShowingInteraction();
 
       if (result && result.data && result.data.txId) {
         responseAnalytics(result.data);
@@ -69179,14 +69185,13 @@ function ProductFinderModal(props) {
 
     if (query) {
       processResponse(_src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].lookupProduct({
-        q: query
+        proddesc: query
       }));
     }
   };
 
-  var onChangeClick = function onChangeClick(evt) {
-    // TODO: Change handling will be added after UR, but we want the button to be available 
-    evt.preventDefault();
+  var onChangeClick = function onChangeClick(interaction) {
+    setShowingInteraction(interaction);
   };
 
   var backToSearch = function backToSearch() {
@@ -69202,6 +69207,7 @@ function ProductFinderModal(props) {
     }, title), (sectionDetails || []).map(function (value) {
       return value.type === 'SELECTION' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_6__["default"], {
         txId: searchResults.txId,
+        proddesc: searchResults.proddesc,
         key: value.id,
         attribute: value,
         isItemChoice: sectionDetails.isItemChoice,
@@ -69229,8 +69235,10 @@ function ProductFinderModal(props) {
         className: "m-v-xxs"
       }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["capitalize"])(interaction.selectedString), interaction.selectedString === 'other' ? " than ".concat(interaction.unselectedString) : '', ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        className: "link link--underline body-m",
-        onClick: onChangeClick
+        className: "change-known-button link link--underline body-m",
+        onClick: function onClick() {
+          return onChangeClick(interaction);
+        }
       }, "Change"))));
     });
     return content;
@@ -69297,6 +69305,14 @@ function ProductFinderModal(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "frozen atlantic salmon"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "strawberries"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "fresh cut snowdrop"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Woven mens blazer, 75% wool, 25% cotton"))));
   };
 
+  var sectionMultiItem = function sectionMultiItem() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      className: "m-h-l"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "box box--no-pointer p-h-s p-v-xs m-t-xs"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The item you are classifying is considered a complex item (or set) which normally requires each component to be classified separately. Alternatively, you may request a binding classification ruling for your complex item (or set) from Customs in the country of import.")));
+  };
+
   var buildMap = function buildMap(block) {
     // build an interaction block, removing any duplicates from previous
     var newBlock = [];
@@ -69323,12 +69339,21 @@ function ProductFinderModal(props) {
   var resultsDisplay = function resultsDisplay(results) {
     // Build maps of interactions as we don't want any duplicates
     var questions = buildMap([results.currentQuestionInteraction]);
+
+    if (showingInteraction) {
+      questions = [showingInteraction];
+    }
+
     var assumptions = buildMap(results.assumedInteractions);
     var known = buildMap(results.knownInteractions);
     var itemChoice = buildMap([results.currentItemInteraction]);
     (itemChoice || {}).isItemChoice = true; // *********************   Kill item choice so we can just use question 
 
     itemChoice = null;
+
+    if (searchResults.multiItemError) {
+      return sectionMultiItem(searchResults);
+    }
 
     if (searchResults.txId && !questions && !searchResults.hsCode) {
       return sectionNoResults(searchResults);
@@ -69337,9 +69362,9 @@ function ProductFinderModal(props) {
     var sections = itemChoice && !searchResults.hsCode ?
     /*#__PURE__*/
     // If the item is ambiguous - supress other sections
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Section('Please choose your item', itemChoice)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, searchResults.hsCode && sectionFound(searchResults), !searchResults.hsCode && Section("Tell us more about \"".concat(searchResults.currentItemName, "\""), questions), known || questions ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Section('Please choose your item', itemChoice)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, !showingInteraction && searchResults.hsCode && sectionFound(searchResults), (!searchResults.hsCode || showingInteraction) && Section("Tell us more about \"".concat(searchResults.currentItemName, "\""), questions), (known || questions) && !showingInteraction ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "hr bg-red-deep-100 m-h-l"
-    }) : '', sectionProductDetails(known), sectionAssumptions(assumptions));
+    }) : '', !showingInteraction && sectionProductDetails(known), !showingInteraction && sectionAssumptions(assumptions));
     return sections;
   };
 
@@ -69406,10 +69431,10 @@ function ProductFinderModal(props) {
     }
   }, !searchResults ? searchBox() : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
-    className: "m-f-l m-t-m",
+    className: "back-button m-f-l m-t-m",
     onClick: backToSearch
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-chevron-left m-r-xs"
+    className: "fa fa-arrow-circle-left m-r-xs"
   }), "Search again"), searchResults && resultsDisplay(searchResults))))));
 }
 ProductFinderModal.propTypes = {
@@ -69480,9 +69505,9 @@ function RegionToggle(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "region-name h-xs p-v-0"
   }, region), expand || expandAllRegions ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-minus"
+    className: "fa fa-minus text-blue-deep-80"
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-plus"
+    className: "fa fa-plus text-blue-deep-80"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "p-t-s ".concat(expand || expandAllRegions ? 'expand-section open' : 'expand-section')
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, countries)));
@@ -69580,7 +69605,7 @@ function SearchInput(props) {
     className: "fa fa-times clear",
     onClick: clearSearchInput
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-search"
+    className: "fas fa-search text-blue-deep-60"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "visually-hidden"
   }, "Search markets "));
@@ -72215,6 +72240,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_Sidebar_ComingSoon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Sidebar/ComingSoon */ "./react-components/src/components/Sidebar/ComingSoon/index.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Helpers */ "./react-components/src/Helpers.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -72229,11 +72255,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Buttons = function Buttons() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       modal = _useState2[0],
       setModal = _useState2[1];
+
+  var openComingSoonModal = function openComingSoonModal(e) {
+    setModal(true); // record click on disable section
+
+    Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["analytics"])({
+      'event': 'ctaFeature',
+      'featureTitle': e.target.dataset.sectiontitle
+    });
+  };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Sidebar_ComingSoon__WEBPACK_IMPORTED_MODULE_1__["ComingSoon"], {
     onClick: function onClick() {
@@ -72243,33 +72279,36 @@ var Buttons = function Buttons() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button button--secondary button--full-width button--icon m-b-xs button--disabled",
-    onClick: function onClick() {
-      return setModal(true);
-    }
+    onClick: openComingSoonModal,
+    "data-sectiontitle": "Save your plan as a PDF"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-download"
+    className: "fas fa-download",
+    "data-sectiontitle": "Save your plan as a PDF"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "body-m text-white"
+    className: "body-m text-white",
+    "data-sectiontitle": "Save your plan as a PDF"
   }, "Save your plan as a PDF")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button button--secondary button--full-width button--icon m-b-xs button--disabled",
-    onClick: function onClick() {
-      return setModal(true);
-    }
+    onClick: openComingSoonModal,
+    "data-sectiontitle": "Share your plan"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-share"
+    className: "fas fa-share",
+    "data-sectiontitle": "Share your plan"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "body-m text-white"
+    className: "body-m text-white",
+    "data-sectiontitle": "Share your plan"
   }, "Share your plan")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button button--secondary button--full-width button--icon m-b-xs button--disabled",
-    onClick: function onClick() {
-      return setModal(true);
-    }
+    onClick: openComingSoonModal,
+    "data-sectiontitle": "Find your target market"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-globe"
+    className: "fas fa-globe",
+    "data-sectiontitle": "Find your target market"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "body-m text-white"
+    className: "body-m text-white",
+    "data-sectiontitle": "Find your target market"
   }, "Find your target market")));
 };
 

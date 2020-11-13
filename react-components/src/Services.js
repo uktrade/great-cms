@@ -83,12 +83,12 @@ const removeCountryData = function(country) {
   return get(config.removeCountryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
-const lookupProduct = function({ q }) {
-  return post(config.apiLookupProductUrl, { q }).then((response) => responseHandler(response).json())
+const lookupProduct = function({ proddesc }) {
+  return post(config.apiLookupProductUrl, { proddesc }).then((response) => responseHandler(response).json())
 }
 
 const lookupProductRefine = function({ txId, interactionId, values }) {
-  return post(config.apiLookupProductUrl, { tx_id: txId, interraction_id: interactionId, values: values }).then((response) => responseHandler(response).json())
+  return post(config.apiLookupProductUrl, { tx_id: txId, interaction_id: interactionId, values: values }).then((response) => responseHandler(response).json())
 }
 
 const getCountries = function() {
