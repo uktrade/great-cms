@@ -105,7 +105,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
   // check mock directory api data...
   expect(container.querySelector('#market-Germany').textContent).toMatch('Germany')
   expect(container.querySelector('#market-total-population-Germany').textContent).toMatch('60.46 million')
-  expect(container.querySelector('#market-internet-usage-Germany').textContent).toMatch('74.39 %')
+  expect(container.querySelector('#market-internet-usage-Germany').textContent).toMatch('74.39%')
   expect(container.querySelector('#market-urban-population-Germany').textContent).toMatch('69.48% (42.01 million)')
   expect(container.querySelector('#market-rural-population-Germany').textContent).toMatch('28.32% (17.12 million)')
 
