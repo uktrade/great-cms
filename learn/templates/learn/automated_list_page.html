@@ -10,19 +10,19 @@
     <section id="learn-root" class="learn__page learn__categories-page container">
         <section class="learn__categories-content container m-t-s">
             <div class="grid">
-                <div class="c-1-4">
+                <div class="c-1-4 hide-on-mobile">
                     <span>&nbsp;</span>
                 </div>
                 <div class="c-1-2">
-                    <div class="media-block media-block--round-image m-b-m m-t-xs m-f-n-s">
+                    <div class="learn__beta-banner media-block media-block--round-image m-b-m m-t-xs m-f-n-s">
                         <i class="fas fa-info-circle"></i>
-                        <div class="g-panel g-panel--horizontal-mobile">
+                        <div class="g-panel">
                             <h3 class="h-xs text-blue-deep-80 p-t-xs">Some lessons aren’t available yet</h3>
                             <p class="text-blue-deep-80 m-t-xxs">This Beta version is limited</p>
                         </div>
                     </div>
                 </div>
-                <div class="c-1-4">
+                <div class="c-1-4 hide-on-mobile">
                     <span>&nbsp;</span>
                 </div>
             </div>
@@ -31,9 +31,9 @@
         <a href="{% pageurl learning_module %}" title="{{ page.button_label }}" class="learn__category-link">
             <article class="learn__category m-b-s">
                 <div class="c-1-2-l">
-                    <div class="learn__category-content ">
+                    <div class="learn__category-content {% if module_completion_data.completion_count %}learn__category-content--progress-bar{% endif %}">
                         <h2 class="h-l text-blue-deep-80 learn__category-title p-b-0">{{ learning_module.title }}</h2>
-                        <div class="learn__category-details">{{ learning_module.heading | richtext }}</div>
+                        <div class="learn__category-details body-l">{{ learning_module.heading | richtext }}</div>
 
                     {% if not module_completion_data.completion_count %}
                         <span class="button button--secondary" title="{{ page.button_label }}">{{ page.button_label }}</span>

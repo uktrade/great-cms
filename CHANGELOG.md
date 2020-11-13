@@ -1,5 +1,6 @@
 # Changelog
 
+- no ticket - Added dynamic year for footer
 - GP2-977 - Added analytics for export plan's coming soon section
 - GP2-918 - Added Data fetch for target market
 - no ticket - upgraded directory-validators lib
@@ -11,7 +12,7 @@
 - AA-155 - healthcheck endpoint to wrap CCCE API request
 - GP2-933 - contact us
 - no ticket - increase token expiration date to 30 days from 5
-- gp2-693 - hide footer login
+- GP2-693 - hide footer login
 - GP2-1022 - hide footer sign-up
 - GP2-695 - select product modal
 - GP2-695 - select product modal
@@ -23,9 +24,12 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-- GP2-1024 - Fix capability back button positioning
-- GP2-956 - Dashboard spacing
 
+- No ticket - fix flex-grid child cols and GDS multiple-choices
+- GP2-652 - Handle expired staff SSO token that causes a 500
+- GP2-1024 - Fix capability back button positioning
+- GP2-919 - Market finder delete button
+- GP2-956 - Dashboard spacing
 - GP2-816 - Set readtime on initial page publish, not only on subsequent publish
 - GP2-922 - Various styling and behaviour fixes to country selector
 - GP2-1021 - Fix missing image in next-lesson panel when next lesson is in the same module
@@ -134,6 +138,13 @@
 
 ### Implemented enhancements
 
+- GP2-914 - Responsive header
+- GP2-978 - Mobile learning homepage
+- GP2-934 - Contact us success page
+- GP2-933 - Contact us form page
+- GP2-932 - Link to DIT on GOV.UK
+- GP2-1027 - Product search backtracking
+- GP2-1023 - Product search multi-item error
 - GP2-980 - Mobile lesson page
 - GP2-619 - Insight component
 - GP2-857 - Shared components - site footer

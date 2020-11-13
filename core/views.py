@@ -139,7 +139,7 @@ class ProductLookupView(generics.GenericAPIView):
         if 'tx_id' in serializer.validated_data:
             data = helpers.search_commodity_refine(**serializer.validated_data)
         else:
-            data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
+            data = helpers.search_commodity_by_term(term=serializer.validated_data['proddesc'])
         return Response(data)
 
 

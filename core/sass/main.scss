@@ -8,6 +8,7 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
+
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
@@ -38,6 +39,11 @@ $fa-font-path: '/static/fonts';
 @import 'elements/card';
 @import 'elements/progress-bar';
 
+@import 'helpers/mixins';
+@import 'helpers/utils';
+@import 'helpers/vars';
+@import 'helpers/breakpoints';
+
 // Components
 @import 'components/card/base';
 @import 'components/header-footer/base';
@@ -66,9 +72,6 @@ $fa-font-path: '/static/fonts';
 // MVP styles
 // ===================================================
 
-@import 'helpers/mixins';
-@import 'helpers/utils';
-
 @import 'components/forms';
 @import 'components/progress-wizard';
 @import 'components/field-with-example';
@@ -82,7 +85,6 @@ $fa-font-path: '/static/fonts';
 
 @import 'base';
 @import 'overrides';
-@import 'dashboard';
 
 // Pages
 @import 'exportplan/target-market-form';
@@ -91,4 +93,5 @@ $fa-font-path: '/static/fonts';
 @import 'exportplan/sections';
 @import 'exportplan/objectives';
 @import 'learn/base';
+@import 'learn/market-finder';
 @import 'exportplan/builder';
