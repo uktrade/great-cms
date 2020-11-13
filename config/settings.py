@@ -494,14 +494,39 @@ WAGTAILTRANSFER_SECRET_KEY = env.str('WAGTAILTRANSFER_SECRET_KEY')
 WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'wagtailimages.image',
     'wagtaildocs',
-    'wagtailmedia',
+    'wagtailmedia.media',
     'taggit',
     'core.AltTextImage',
+    'core.GreatMedia',
+    'core.PersonalisationHSCodeTag',
+    'core.PersonalisationCountryTag',
+    'core.CountryTaggedCaseStudy',
+    'core.HSTaggedCaseStudy',
     'core.CaseStudy',
     'core.ContentModule',
     'core.Tour',
     'core.TourStep',
 ]
+
+# Give W-T a little more time than the default 5 secs to do things
+WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT = env.int(
+    'WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT',
+    10
+)
+
+WAGTAILTRANSFER_FOLLOWED_REVERSE_RELATIONS = [
+    # (model, reverse_relationship_name, track_deletions)
+    ('wagtailimages.image', 'tagged_items', True),
+    ('core.alttextimage', 'tagged_items', True),
+    ('wagtailmedia.media', 'tagged_items', True),  # MTI Base of core.GreatMedia
+    ('core.greatmedia', 'tagged_items', True),
+]
+
+WAGTAILTRANSFER_LOOKUP_FIELDS = {
+    'taggit.tag': ['slug'],
+    'core.personalisationhscodetag': ['slug'],
+    'core.personalisationcountrytag': ['slug'],
+}
 
 # dit_helpdesk
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
