@@ -135,6 +135,7 @@
 
 ### Implemented enhancements
 
+- GP2-741 - Update Wagtail-Transfer version and configuration
 - GP2-914 - Responsive header
 - GP2-978 - Mobile learning homepage
 - GP2-934 - Contact us success page
