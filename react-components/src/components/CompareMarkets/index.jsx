@@ -87,7 +87,7 @@ useEffect(() => {
     const tableBody = Object.values(comparisonMarkets).map(market => {
       let populationCountryData = getCountryData(market.name)
       return (<tr key={`market-${market.id}`}>
-        <td><span className="body-l-b" id={`market-${market.name}`}>{market.name}</span><button type="button" onClick={removeMarket} data-id={market.id} aria-label={`Remove ${market.name}`}><i className="fa fa-times-circle"/></button></td>
+        <td><span className="body-l-b" id={`market-${market.name}`}>{market.name}</span><button type="button" class="iconic" onClick={removeMarket} data-id={market.id} aria-label={`Remove ${market.name}`}><i className="fa fa-times-circle"/></button></td>
         <td id={`market-total-population-${market.name}`}>{populationCountryData ? populationCountryData.total_population : ''}</td>
         <td id={`market-internet-usage-${market.name}`}>{populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + ' %' : 'NA'}</td>
         <td id={`market-urban-population-${market.name}`}><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>

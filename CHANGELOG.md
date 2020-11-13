@@ -25,6 +25,7 @@
 - No ticket - fix flex-grid child cols and GDS multiple-choices
 - GP2-652 - Handle expired staff SSO token that causes a 500
 - GP2-1024 - Fix capability back button positioning
+- GP2-919 - Market finder delete button
 - GP2-956 - Dashboard spacing
 - GP2-816 - Set readtime on initial page publish, not only on subsequent publish
 - GP2-922 - Various styling and behaviour fixes to country selector
