@@ -41,6 +41,18 @@ COUNTRY_REQUIRED = [
     slugify(TRAVEL_AND_BUSINESS_POLICIES),
 ]
 
+# This maintains a collection of which pages require a country to be selected
+PRODUCT_REQUIRED = [
+    slugify(TARGET_MARKETS_RESEARCH),
+    slugify(ADAPTATION_TARGET_MARKET),
+    slugify(MARKETING_APPROACH),
+    slugify(COSTS_AND_PRICING),
+    slugify(FINANCE),
+    slugify(PAYMENT_METHODS),
+    slugify(TRAVEL_AND_BUSINESS_POLICIES),
+    slugify(BUSINESS_RISK),
+]
+
 SECTIONS = OrderedDict({
     slugify(ABOUT_YOUR_BUSINESS): {
         'title': ABOUT_YOUR_BUSINESS,
