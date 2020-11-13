@@ -7,4 +7,11 @@
       color: $blue-deep-40;
     }
   }
+  table td,
+  table th {
+    border-bottom: 1px solid $blue-deep-20;
+  }
+  button {
+    color: $white;
+  }
 }
