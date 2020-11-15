@@ -16,4 +16,4 @@ def test_export_plan_about_your_business_page(
 ):
     live_server, _, browser = server_user_browser_dashboard
 
-    visit_page(live_server, browser, 'exportplan:target-markets-research', 'Target markets research')
+    visit_page(live_server, browser, 'exportplan:about-your-business', 'about your business')
