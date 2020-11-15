@@ -136,7 +136,7 @@ def mock_export_plan_requests(
     mock_get_last_year_import_data,
     mock_get_export_plan_market_data,
 ):
-    data = [{'export_countries': [{'country_name': 'UK'}], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
+    data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
     mock_export_plan_list.return_value = create_response(data)
 
     ease_of_doing_business_data = {
