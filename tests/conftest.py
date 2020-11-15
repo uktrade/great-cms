@@ -136,7 +136,7 @@ def mock_export_plan_requests(
     mock_get_last_year_import_data,
     mock_get_export_plan_market_data,
 ):
-    data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
+    data = [{'export_countries': [{'country_name': 'UK'}], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
     mock_export_plan_list.return_value = create_response(data)
 
     ease_of_doing_business_data = {
@@ -173,7 +173,7 @@ def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
         'rules_regulations': {'country_code': 'CHN'},
-        'export_countries': [{'country': 'China', 'country_iso2_code': 'CN'}],
+        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
     }
