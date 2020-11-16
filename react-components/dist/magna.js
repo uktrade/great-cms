@@ -69938,6 +69938,11 @@ var RouteToMarket = function RouteToMarket(_ref) {
       routes = _useState2[0],
       setRoutes = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      pushedAnalytic = _useState4[0],
+      setPushedAnalytic = _useState4[1];
+
   var addTable = function addTable() {
     _Services__WEBPACK_IMPORTED_MODULE_3__["default"].createRouteToMarket(_objectSpread({}, formFields)).then(function (data) {
       return setRoutes([].concat(_toConsumableArray(routes), [data]));
@@ -69955,6 +69960,18 @@ var RouteToMarket = function RouteToMarket(_ref) {
     })["catch"](function () {});
   };
 
+  var pushAnalytics = function pushAnalytics() {
+    // function to make sure we pushed analytics only once as per Andy Wong requirement
+    // The way component build it trigger save on every key stroke which floods the analytics
+    if (!pushedAnalytic) {
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
+        'event': 'planSectionSaved',
+        'sectionTitle': 'route-to-market'
+      });
+      setPushedAnalytic(true);
+    }
+  };
+
   var update = function update(id, selected) {
     var field = routes.find(function (x) {
       return x.pk === id;
@@ -69963,10 +69980,7 @@ var RouteToMarket = function RouteToMarket(_ref) {
       return x.pk === id ? _objectSpread(_objectSpread({}, x), selected) : x;
     });
     setRoutes(updatedRoutes);
-    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateRouteToMarket(_objectSpread(_objectSpread({}, field), selected)).then(Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
-      'event': 'planSectionSaved',
-      'sectionTitle': 'route-to-market'
-    }))["catch"](function () {});
+    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateRouteToMarket(_objectSpread(_objectSpread({}, field), selected)).then()["finally"](pushAnalytics)["catch"](function () {});
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, routes.length >= 1 && routes.map(function (field, id) {
@@ -70726,7 +70740,7 @@ var SpendingAndResources = function SpendingAndResources(_ref) {
 
   var update = function update(e) {
     setInput(_objectSpread({}, e));
-    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateExportPlan(_defineProperty({}, field, _objectSpread({}, e))).then(pushAnalytics)["catch"](function () {});
+    _Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateExportPlan(_defineProperty({}, field, _objectSpread({}, e))).then()["finally"](pushAnalytics)["catch"](function () {});
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formFields.map(function (item) {

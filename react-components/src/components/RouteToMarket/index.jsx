@@ -13,6 +13,7 @@ export const RouteToMarket = ({
 }) => {
 
   const [routes, setRoutes] = useState(fields)
+  const [pushedAnalytic, setPushedAnalytic] = useState(false)
 
   const addTable = () => {
     Services.createRouteToMarket({ ...formFields })
@@ -36,6 +37,18 @@ export const RouteToMarket = ({
       .catch(() => {})
   }
 
+    const pushAnalytics = () => {
+    // function to make sure we pushed analytics only once as per Andy Wong requirement
+    // The way component build it trigger save on every key stroke which floods the analytics
+    if (!pushedAnalytic) {
+      analytics({
+        'event': 'planSectionSaved',
+        'sectionTitle': 'route-to-market'
+      })
+      setPushedAnalytic(true)
+    }
+  }
+
   const update = (id, selected) => {
     const field = routes.find(x => x.pk === id)
     const updatedRoutes = routes.map( x => x.pk === id ? { ...x, ...selected} : x )
@@ -43,12 +56,8 @@ export const RouteToMarket = ({
     setRoutes(updatedRoutes)
 
     Services.updateRouteToMarket({ ...field, ...selected  })
-      .then(
-        analytics({
-              'event': 'planSectionSaved',
-              'sectionTitle': 'route-to-market'
-            })
-      )
+      .then()
+      .finally(pushAnalytics)
       .catch(() => {})
   }
 

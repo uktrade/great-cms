@@ -31,7 +31,8 @@ export const SpendingAndResources = ({
   const update = (e) => {
     setInput({ ...e })
     Services.updateExportPlan({ [field]: { ...e }})
-      .then(pushAnalytics)
+      .then()
+      .finally(pushAnalytics)
       .catch(() => {})
   }
 
