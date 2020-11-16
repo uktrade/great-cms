@@ -60,17 +60,16 @@ const initialState = {
 
 //const cloneState = state => JSON.parse(JSON.stringify(state))
 
-/* function setModalIsOpen(state, payload) {
-  let newState = cloneState(state)
+function setModalIsOpen(state, payload) {
   // should have only one modal open at a time
-  newState.modalIsOpen ={
+  const newState = {
     products: false,
     countries: false,
     industries: false,
     login: false,
     signup: false,
   }
-  newState.modalIsOpen[payload.modalID] = payload.isOpen
+  newState[payload.modalID] = payload.isOpen
   return newState
 }
 
@@ -87,7 +86,6 @@ function setCountriesExpertise(state, payload) {
 }
 
 
-
 function setPerformFeatureSKipCookieCheck(state, payload) {
   let newState = cloneState(state)
   newState.performSkipFeatureCookieCheck = payload
@@ -99,7 +97,7 @@ function setNextUrl(state, payload) {
   newState.nextUrl = payload
   return newState
 }
-*/
+
 
 const exportPlanReducer = (state, action) => {
   let newState = Object.assign({}, state);
@@ -124,21 +122,19 @@ const setInitialStateReducer = (state, action) => {
   return state
 }
 
-
-
-/*export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
+export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
 export const getCountriesExpertise = state => state.user.expertise.countries
 export const getProductsExpertise = state => state.user.expertise.products
 export const getIndustriesExpertise = state => state.user.expertise.industries
 export const getPerformFeatureSKipCookieCheck = state => state.performSkipFeatureCookieCheck
 export const getNextUrl = state => state.nextUrl
-*/
+
 export const getProducts = state => ((state.exportPlan && state.exportPlan.products) || [])[0]
 export const getMarkets = state => ((state.exportPlan && state.exportPlan.markets) || [])[0]
 
 const rootReducer = (state, action) => {
   const state1 = setInitialStateReducer(state, action)
-  return combineReducers({exportPlan: exportPlanReducer})(state1, action)
+  return combineReducers({exportPlan: exportPlanReducer, modalIsOpen: setModalIsOpen})(state1, action)
 } 
 
 export default rootReducer

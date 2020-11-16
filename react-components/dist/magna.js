@@ -71568,11 +71568,17 @@ var useOnOutsideClick = function useOnOutsideClick(outsideClick) {
 /*!******************************************!*\
   !*** ./react-components/src/reducers.js ***!
   \******************************************/
-/*! exports provided: getProducts, getMarkets, default */
+/*! exports provided: getModalIsOpen, getCountriesExpertise, getProductsExpertise, getIndustriesExpertise, getPerformFeatureSKipCookieCheck, getNextUrl, getProducts, getMarkets, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getModalIsOpen", function() { return getModalIsOpen; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesExpertise", function() { return getCountriesExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProductsExpertise", function() { return getProductsExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getIndustriesExpertise", function() { return getIndustriesExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPerformFeatureSKipCookieCheck", function() { return getPerformFeatureSKipCookieCheck; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNextUrl", function() { return getNextUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProducts", function() { return getProducts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMarkets", function() { return getMarkets; });
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
@@ -71622,46 +71628,42 @@ var initialState = {
   markets: []
 }; //const cloneState = state => JSON.parse(JSON.stringify(state))
 
-/* function setModalIsOpen(state, payload) {
-  let newState = cloneState(state)
+function setModalIsOpen(state, payload) {
   // should have only one modal open at a time
-  newState.modalIsOpen ={
+  var newState = {
     products: false,
     countries: false,
     industries: false,
     login: false,
-    signup: false,
-  }
-  newState.modalIsOpen[payload.modalID] = payload.isOpen
-  return newState
+    signup: false
+  };
+  newState[payload.modalID] = payload.isOpen;
+  return newState;
 }
 
 function setProductsExpertise(state, payload) {
-  let newState = cloneState(state)
-  newState.user.expertise.products = payload
-  return newState
+  var newState = cloneState(state);
+  newState.user.expertise.products = payload;
+  return newState;
 }
 
 function setCountriesExpertise(state, payload) {
-  let newState = cloneState(state)
-  newState.user.expertise.countries = payload
-  return newState
+  var newState = cloneState(state);
+  newState.user.expertise.countries = payload;
+  return newState;
 }
 
-
-
 function setPerformFeatureSKipCookieCheck(state, payload) {
-  let newState = cloneState(state)
-  newState.performSkipFeatureCookieCheck = payload
-  return newState
+  var newState = cloneState(state);
+  newState.performSkipFeatureCookieCheck = payload;
+  return newState;
 }
 
 function setNextUrl(state, payload) {
-  let newState = cloneState(state)
-  newState.nextUrl = payload
-  return newState
+  var newState = cloneState(state);
+  newState.nextUrl = payload;
+  return newState;
 }
-*/
 
 var exportPlanReducer = function exportPlanReducer(state, action) {
   var newState = Object.assign({}, state);
@@ -71689,15 +71691,25 @@ var setInitialStateReducer = function setInitialStateReducer(state, action) {
 
   return state;
 };
-/*export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
-export const getCountriesExpertise = state => state.user.expertise.countries
-export const getProductsExpertise = state => state.user.expertise.products
-export const getIndustriesExpertise = state => state.user.expertise.industries
-export const getPerformFeatureSKipCookieCheck = state => state.performSkipFeatureCookieCheck
-export const getNextUrl = state => state.nextUrl
-*/
 
-
+var getModalIsOpen = function getModalIsOpen(state, name) {
+  return state.modalIsOpen[name];
+};
+var getCountriesExpertise = function getCountriesExpertise(state) {
+  return state.user.expertise.countries;
+};
+var getProductsExpertise = function getProductsExpertise(state) {
+  return state.user.expertise.products;
+};
+var getIndustriesExpertise = function getIndustriesExpertise(state) {
+  return state.user.expertise.industries;
+};
+var getPerformFeatureSKipCookieCheck = function getPerformFeatureSKipCookieCheck(state) {
+  return state.performSkipFeatureCookieCheck;
+};
+var getNextUrl = function getNextUrl(state) {
+  return state.nextUrl;
+};
 var getProducts = function getProducts(state) {
   return (state.exportPlan && state.exportPlan.products || [])[0];
 };
@@ -71708,7 +71720,8 @@ var getMarkets = function getMarkets(state) {
 var rootReducer = function rootReducer(state, action) {
   var state1 = setInitialStateReducer(state, action);
   return Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
-    exportPlan: exportPlanReducer
+    exportPlan: exportPlanReducer,
+    modalIsOpen: setModalIsOpen
   })(state1, action);
 };
 
