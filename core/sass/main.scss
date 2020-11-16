@@ -85,7 +85,6 @@ $fa-font-path: '/static/fonts';
 
 @import 'base';
 @import 'overrides';
-@import 'dashboard';
 
 // Pages
 @import 'exportplan/target-market-form';
@@ -94,4 +93,5 @@ $fa-font-path: '/static/fonts';
 @import 'exportplan/sections';
 @import 'exportplan/objectives';
 @import 'learn/base';
+@import 'learn/market-finder';
 @import 'exportplan/builder';

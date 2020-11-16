@@ -1,6 +1,6 @@
 # Changelog
 
-- no ticket - Added dynamic year for footer 
+- no ticket - Added dynamic year for footer
 - GP2-977 - Added analytics for export plan's coming soon section
 - GP2-918 - Added Data fetch for target market
 - no ticket - upgraded directory-validators lib
@@ -22,10 +22,11 @@
 
 ### Fixed bugs
 
+- No ticket - fix flex-grid child cols and GDS multiple-choices
 - GP2-652 - Handle expired staff SSO token that causes a 500
 - GP2-1024 - Fix capability back button positioning
+- GP2-919 - Market finder delete button
 - GP2-956 - Dashboard spacing
-
 - GP2-816 - Set readtime on initial page publish, not only on subsequent publish
 - GP2-922 - Various styling and behaviour fixes to country selector
 - GP2-1021 - Fix missing image in next-lesson panel when next lesson is in the same module
@@ -134,6 +135,7 @@
 
 ### Implemented enhancements
 - GP2-979 - Mobile learning module page
+- GP2-741 - Update Wagtail-Transfer version and configuration
 - GP2-914 - Responsive header
 - GP2-978 - Mobile learning homepage
 - GP2-934 - Contact us success page
