@@ -22,4 +22,5 @@ def javascript_components(request):
 def env_vars(request):
     data = dict()
     data['great_support_email'] = settings.GREAT_SUPPORT_EMAIL
+    data['dit_on_govuk'] = settings.DIT_ON_GOVUK
     return data
