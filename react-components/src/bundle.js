@@ -4,7 +4,7 @@ import SignupModal from '@src/views/SignupModal/Container'
 import { createLogin } from '@src/views/Login'
 import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
-import CountryFinder from '@src/components/ProductFinder/CountryFinder'
+import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
 import ModalMenu from '@src/components/ModalMenu'
 import CompareMarkets from '@src/components/CompareMarkets'
 import SelectComparisonMarket from '@src/components/CompareMarkets/SelectMarket'
@@ -42,7 +42,7 @@ export default {
   createCaseStudy,
   createCostsAndPricing,
   ProductFinderButton,
-  CountryFinder,
+  CountryFinderButton,
   CompareMarkets,
   SelectComparisonMarket,
   ModalMenu,

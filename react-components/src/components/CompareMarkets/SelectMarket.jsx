@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie';
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
-import { CountryFinderModal } from '../ProductFinder/CountryFinder'
+import { CountryFinderModal } from '../ProductFinder/CountryFinderModal'
 import Services from '@src/Services'
 import { analytics } from '../../Helpers'
 
@@ -16,43 +16,17 @@ function SelectMarket(props) {
   const { market, setMarket } = props;
   const [cookies, setCookie] = useCookies(['comparisonMarkets']);
 
-  const saveToExportPlan = (country) => {
-    setMarket(country)
-    Services.updateExportPlan({
-        export_countries: [{
-          country_name: country.name,
-          country_iso2_code: country.id,
-          region: country.region
-        }]
-      })
-      .then(() => {
-        closeModal()
-        window.location.reload()
-      })
-      .then(
-        analytics({
-          'event': 'addMarketSuccess',
-          'suggestMarket': country.suggested ? country.name : '',
-          'listMarket': country.suggested ? '' : country.name,
-          'marketAdded': country.name
-        })
-      )
-      .catch(() => {
-        // TODO: Add error confirmation here
-      })
-  }
-
   const clickMarket = (market) => {
-    saveToExportPlan(market)
+    setMarket(market)
   }
 
-  console.log('market from redux', market)
-  console.log('markets', cookies.comparisonMarkets || {})
-  const marketList = Object.values(cookies.comparisonMarkets || {}).map((market) => {
+  const marketList = Object.values(cookies.comparisonMarkets || {}).map((mapMarket) => {
+    const isSelected = (market && market.country_iso2_code) === mapMarket.country_iso2_code
+    const buttonClass = ((market && market.country_iso2_code) === mapMarket.country_iso2_code) ? 'tag--primary' : 'tag--tertiary'
     return (
-      <li key={market.id} className="m-b-xs">
-        <button type="button" className="tag tag--tertiary tag--icon" data-name={market.name} data-id={market.id} data-region={market.region} data-suggested={market.suggested} onClick={() => clickMarket(market)}>
-          {market.name}<i className="fa fa-plus"/>
+      <li key={mapMarket.country_iso2_code} className="m-b-xs">
+        <button type="button" className={`tag tag--icon ${isSelected ? 'tag--primary' : 'tag--tertiary'}`} onClick={() => clickMarket(mapMarket)}>
+          {mapMarket.country_name}<i className={`fa ${isSelected ? 'fa-check' :'fa-plus'}`}/>
         </button>
       </li>)
   })
@@ -73,7 +47,6 @@ function SelectMarket(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log('mmap state to props', state)
   return {
     market: getMarkets(state)
   }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
 import { Modal } from '@src/components/Modal/index'
-import { CountryFinderModal } from '../../ProductFinder/CountryFinder'
+import { CountryFinderModal } from '../../ProductFinder/CountryFinderModal'
 
 export const CountryNotSelected = ({ isOpen }) => {
 

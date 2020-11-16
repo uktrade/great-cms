@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { act, Simulate } from 'react-dom/test-utils'
 import { waitFor } from '@testing-library/react'
-import createCountryFinder from '@src/components/ProductFinder/CountryFinder'
+import createCountryFinder from '@src/components/ProductFinder/CountryFinderButton'
 import Services from '@src/Services'
 import fetchMock from 'fetch-mock'
 

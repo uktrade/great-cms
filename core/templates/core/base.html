@@ -85,16 +85,6 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-      {% if user.company %}
-      var userCountries ={{ user.company.expertise_countries_value_label_pairs|safe }};
-      var userIndustries = {{ user.company.expertise_industries_value_label_pairs|safe }};
-      var userProducts = {{ user.company.expertise_products_value_label_pairs|safe }};
-      {% else %}
-      var userCountries = [];
-      var userIndustries = [];
-      var userProducts = [];
-      {% endif %}
-
       // dynamic value that can be updated by user interacting with react components
       magna.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
@@ -107,15 +97,10 @@
           login: false,
           signup: false,
         },
-        user: {
-          expertise: {
-            countries: userCountries,
-            industries: userIndustries,
-            products: userProducts,
-          },
+        exportPlan:{
+          products: {{export_plan.export_commodity_codes|to_json}},
+          markets: {{export_plan.export_countries|to_json }}
         },
-        products: {{export_plan.export_commodity_codes|to_json}},
-        markets: {{export_plan.export_countries|to_json }}
       })
 
       {% if tour %}

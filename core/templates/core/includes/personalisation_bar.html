@@ -8,7 +8,7 @@
         <button class="tag {% if not product %}tag--tertiary{% endif %} tag--icon">{{product.commodity_name|default:'add product'}}<i class="fas {% if product %}fa-chevron-edit{% else %}fa-chevron-plus{% endif %}"></i></button>
       </span>
       <span class="m-f-xxs m-r-xxs">to</span>
-      <span id="set-country-button" data-text="{{market.country_name}}" data-commodity-code="{{product.commodity_code}}">
+      <span id="set-country-button" data-commodity-code="{{product.commodity_code}}">
         <button class="tag {% if not market %}tag--tertiary{% endif %} tag--icon">{{market.country_name|default:'add country'}}<i class="fas {% if market.country_name %}fa-chevron-edit{% else %}fa-chevron-plus{% endif %}"></i></button>
       </span>
   </nav>
@@ -18,7 +18,7 @@
   magna.ProductFinderButton({
     element: document.querySelector("#set-product-button")
   })
-  magna.CountryFinder({
+  magna.CountryFinderButton({
     element: document.querySelector("#set-country-button")
   })
 </script>

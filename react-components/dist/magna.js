@@ -65005,11 +65005,14 @@ var MESSAGE_BAD_REQUEST_ERROR = {
 var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_src_reducers__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 var setInitialState = function setInitialState(state) {
-  store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_2__["default"].setInitialState(state, {
-    market: {
-      name: 'belgium'
-    }
-  }));
+  console.log('*****  in services.js setinitialState', state);
+  store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_2__["default"].setInitialState(state));
+  /*if(state.exportPlan && state.exportPlan.products && state.exportPlan.products[0]) {
+    store.dispatch(actions.setProduct(state.exportPlan.products[0]))
+  }
+  if(state.exportPlan && state.exportPlan.markets && state.exportPlan.markets[0]) {
+    store.dispatch(actions.setMarket(state.exportPlan.markets[0]))
+  }*/
 };
 
 var post = function post(url, data) {
@@ -65477,7 +65480,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/Login */ "./react-components/src/views/Login/index.jsx");
 /* harmony import */ var _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/Tour/Container */ "./react-components/src/views/Tour/Container.jsx");
 /* harmony import */ var _src_components_ProductFinder_ProductFinderButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ProductFinder/ProductFinderButton */ "./react-components/src/components/ProductFinder/ProductFinderButton.jsx");
-/* harmony import */ var _src_components_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ProductFinder/CountryFinder */ "./react-components/src/components/ProductFinder/CountryFinder.jsx");
+/* harmony import */ var _src_components_ProductFinder_CountryFinderButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ProductFinder/CountryFinderButton */ "./react-components/src/components/ProductFinder/CountryFinderButton.jsx");
 /* harmony import */ var _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/ModalMenu */ "./react-components/src/components/ModalMenu.jsx");
 /* harmony import */ var _src_components_CompareMarkets__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/components/CompareMarkets */ "./react-components/src/components/CompareMarkets/index.jsx");
 /* harmony import */ var _src_components_CompareMarkets_SelectMarket__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/components/CompareMarkets/SelectMarket */ "./react-components/src/components/CompareMarkets/SelectMarket.jsx");
@@ -65536,7 +65539,7 @@ __webpack_require__.r(__webpack_exports__);
   createDisabledButton: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_14__["createDisabledButton"],
   createCaseStudy: _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_18__["createCaseStudy"],
   ProductFinderButton: _src_components_ProductFinder_ProductFinderButton__WEBPACK_IMPORTED_MODULE_4__["default"],
-  CountryFinder: _src_components_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_5__["default"],
+  CountryFinderButton: _src_components_ProductFinder_CountryFinderButton__WEBPACK_IMPORTED_MODULE_5__["default"],
   CompareMarkets: _src_components_CompareMarkets__WEBPACK_IMPORTED_MODULE_7__["default"],
   SelectComparisonMarket: _src_components_CompareMarkets_SelectMarket__WEBPACK_IMPORTED_MODULE_8__["default"],
   ModalMenu: _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_6__["default"],
@@ -65676,7 +65679,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
 /* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
-/* harmony import */ var _ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/CountryFinder */ "./react-components/src/components/ProductFinder/CountryFinder.jsx");
+/* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -65717,48 +65720,24 @@ function SelectMarket(props) {
       cookies = _useCookies2[0],
       setCookie = _useCookies2[1];
 
-  var saveToExportPlan = function saveToExportPlan(country) {
-    setMarket(country);
-    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateExportPlan({
-      export_countries: [{
-        country_name: country.name,
-        country_iso2_code: country.id,
-        region: country.region
-      }]
-    }).then(function () {
-      closeModal();
-      window.location.reload();
-    }).then(Object(_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
-      'event': 'addMarketSuccess',
-      'suggestMarket': country.suggested ? country.name : '',
-      'listMarket': country.suggested ? '' : country.name,
-      'marketAdded': country.name
-    }))["catch"](function () {// TODO: Add error confirmation here
-    });
-  };
-
   var clickMarket = function clickMarket(market) {
-    saveToExportPlan(market);
+    setMarket(market);
   };
 
-  console.log('market from redux', market);
-  console.log('markets', cookies.comparisonMarkets || {});
-  var marketList = Object.values(cookies.comparisonMarkets || {}).map(function (market) {
+  var marketList = Object.values(cookies.comparisonMarkets || {}).map(function (mapMarket) {
+    var isSelected = (market && market.country_iso2_code) === mapMarket.country_iso2_code;
+    var buttonClass = (market && market.country_iso2_code) === mapMarket.country_iso2_code ? 'tag--primary' : 'tag--tertiary';
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      key: market.id,
+      key: mapMarket.country_iso2_code,
       className: "m-b-xs"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
-      className: "tag tag--tertiary tag--icon",
-      "data-name": market.name,
-      "data-id": market.id,
-      "data-region": market.region,
-      "data-suggested": market.suggested,
+      className: "tag tag--icon ".concat(isSelected ? 'tag--primary' : 'tag--tertiary'),
       onClick: function onClick() {
-        return clickMarket(market);
+        return clickMarket(mapMarket);
       }
-    }, market.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fa fa-plus"
+    }, mapMarket.country_name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa ".concat(isSelected ? 'fa-check' : 'fa-plus')
     })));
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -65773,7 +65752,6 @@ function SelectMarket(props) {
 }
 
 var mapStateToProps = function mapStateToProps(state) {
-  console.log('mmap state to props', state);
   return {
     market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_10__["getMarkets"])(state)
   };
@@ -65816,7 +65794,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
 /* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
-/* harmony import */ var _ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/CountryFinder */ "./react-components/src/components/ProductFinder/CountryFinder.jsx");
+/* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -65876,8 +65854,8 @@ function CompareMarkets(props) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
-      var countries = Object.values(comparisonMarkets).map(function (key) {
-        return key.name;
+      var countries = Object.values(comparisonMarkets).map(function (country) {
+        return country.country_name;
       });
       _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].getPopulationByCountryData(countries).then(function (result) {
         setPopulationData(Object.entries(result));
@@ -65896,7 +65874,7 @@ function CompareMarkets(props) {
 
   var addCountry = function addCountry(country) {
     var comparisonMarkets = cookies.comparisonMarkets || {};
-    comparisonMarkets[country.id] = country;
+    comparisonMarkets[country.country_iso2_code] = country;
     setCookie('comparisonMarkets', comparisonMarkets);
   };
 
@@ -65933,29 +65911,29 @@ function CompareMarkets(props) {
 
   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
     var tableBody = Object.values(comparisonMarkets).map(function (market) {
-      var populationCountryData = getCountryData(market.name);
+      var populationCountryData = getCountryData(market.country_name);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: "market-".concat(market.id)
+        key: "market-".concat(market.country_iso2_code)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "p-v-xs"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "body-l-b",
-        id: "market-".concat(market.name)
-      }, market.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        id: "market-".concat(market.country_iso2_code)
+      }, market.country_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         onClick: removeMarket,
-        "data-id": market.id,
-        "aria-label": "Remove ".concat(market.name)
+        "data-id": market.country_iso2_code,
+        "aria-label": "Remove ".concat(market.country_name)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-times-circle"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-total-population-".concat(market.name)
+        id: "market-total-population-".concat(market.country_name)
       }, populationCountryData ? populationCountryData.total_population : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-internet-usage-".concat(market.name)
+        id: "market-internet-usage-".concat(market.country_name)
       }, populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + ' %' : 'NA'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-urban-population-".concat(market.name)
+        id: "market-urban-population-".concat(market.country_name)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, populationCountryData ? populationCountryData.urban_population_percentage_formatted : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-rural-population-".concat(market.name)
+        id: "market-rural-population-".concat(market.country_name)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, populationCountryData ? populationCountryData.rural_population_percentage_formatted : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'));
     });
     dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -65979,11 +65957,10 @@ function CompareMarkets(props) {
     modalIsOpen: productModalIsOpen,
     setIsOpen: setProductModalIsOpen,
     setSelectedProduct: setSelectedProduct
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_5__["CountryFinderModal"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     modalIsOpen: marketModalIsOpen,
     setIsOpen: setMarketModalIsOpen,
     commodityCode: selectedProduct && selectedProduct.code,
-    addButton: false,
     selectCountry: addCountry
   }));
 }
@@ -68322,18 +68299,17 @@ ObjectivesList.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/ProductFinder/CountryFinder.jsx":
-/*!*************************************************************************!*\
-  !*** ./react-components/src/components/ProductFinder/CountryFinder.jsx ***!
-  \*************************************************************************/
-/*! exports provided: CountryFinderModal, CountryFinder, default */
+/***/ "./react-components/src/components/ProductFinder/CountryFinderButton.jsx":
+/*!*******************************************************************************!*\
+  !*** ./react-components/src/components/ProductFinder/CountryFinderButton.jsx ***!
+  \*******************************************************************************/
+/*! exports provided: CountryFinderButton, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CountryFinderModal", function() { return CountryFinderModal; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CountryFinder", function() { return CountryFinder; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createCountryFinder; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CountryFinderButton", function() { return CountryFinderButton; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createCountryFinderButton; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -68342,11 +68318,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _RegionToggle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RegionToggle */ "./react-components/src/components/ProductFinder/RegionToggle.jsx");
-/* harmony import */ var _MessageConfirmation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MessageConfirmation */ "./react-components/src/components/ProductFinder/MessageConfirmation.jsx");
-/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _MessageConfirmation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./MessageConfirmation */ "./react-components/src/components/ProductFinder/MessageConfirmation.jsx");
+/* harmony import */ var _CountryFinderModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -68370,11 +68347,141 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+var CountryFinderButton = function CountryFinderButton(props) {
+  var commodityCode = props.commodityCode,
+      market = props.market,
+      setMarket = props.setMarket;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      modalIsOpen = _useState2[0],
+      setIsOpen = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      confirmationRequired = _useState4[0],
+      setConfirmationRequired = _useState4[1];
+
+  var openModal = function openModal() {
+    setConfirmationRequired(!!market);
+    setIsOpen(!market);
+  };
+
+  var closeConfirmation = function closeConfirmation() {
+    setConfirmationRequired(false);
+    setIsOpen(true);
+  };
+
+  var buttonClass = "tag ".concat(!market ? 'tag--tertiary' : '', " tag--icon ");
+  var triggerButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: buttonClass,
+    onClick: openModal
+  }, market && market.country_name || 'add country', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa ".concat(market ? 'fa-edit' : 'fa-plus')
+  }));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, triggerButton, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CountryFinderModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    modalIsOpen: modalIsOpen,
+    setIsOpen: setIsOpen,
+    commodityCode: commodityCode,
+    selectCountry: setMarket
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageConfirmation__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    buttonClass: buttonClass,
+    productConfirmation: confirmationRequired,
+    handleButtonClick: closeConfirmation,
+    messageTitle: "Changing target market?",
+    messageBody: "if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time.",
+    messageButtonText: "Got it"
+  }));
+};
+CountryFinderButton.propTypes = {
+  commodityCode: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
+  market: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.shape({
+    country_name: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
+    country_iso2_code: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
+    region: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string
+  }),
+  setMarket: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func.isRequired
+};
+CountryFinderButton.defaultProps = {
+  commodityCode: ''
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_6__["getMarkets"])(state)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setMarket: function setMarket(market) {
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_5__["default"].setMarket(market));
+    }
+  };
+};
+
+var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(CountryFinderButton);
+function createCountryFinderButton(_ref) {
+  var params = _extends({}, _ref);
+
+  var mainElement = document.createElement('span');
+  document.body.appendChild(mainElement);
+  react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(mainElement);
+  var commodityCode = params.element.getAttribute('data-commodity-code');
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_4__["Provider"], {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].store
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, {
+    commodityCode: commodityCode
+  })), params.element);
+}
+
+/***/ }),
+
+/***/ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx":
+/*!******************************************************************************!*\
+  !*** ./react-components/src/components/ProductFinder/CountryFinderModal.jsx ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CountryFinderModal; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _RegionToggle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./RegionToggle */ "./react-components/src/components/ProductFinder/RegionToggle.jsx");
+/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
 function CountryFinderModal(props) {
   var scrollOuter;
   var modalIsOpen = props.modalIsOpen,
       setIsOpen = props.setIsOpen,
-      text = props.text,
       addButton = props.addButton,
       commodityCode = props.commodityCode,
       selectCountry = props.selectCountry;
@@ -68394,31 +68501,26 @@ function CountryFinderModal(props) {
       isScrolled = _useState6[0],
       setIsScrolled = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(text),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState8 = _slicedToArray(_useState7, 2),
-      selectedCountry = _useState8[0],
-      setSelectedCountry = _useState8[1];
+      searchStr = _useState8[0],
+      setSearchStr = _useState8[1];
 
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState10 = _slicedToArray(_useState9, 2),
-      searchStr = _useState10[0],
-      setSearchStr = _useState10[1];
+      productConfirmationRequired = _useState10[0],
+      setProductConfirmationRequired = _useState10[1];
 
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState12 = _slicedToArray(_useState11, 2),
-      productConfirmationRequired = _useState12[0],
-      setProductConfirmationRequired = _useState12[1];
-
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState14 = _slicedToArray(_useState13, 2),
-      expandRegion = _useState14[0],
-      setExpandRegion = _useState14[1];
+      expandRegion = _useState12[0],
+      setExpandRegion = _useState12[1];
 
   var openCountryFinder = function openCountryFinder(open) {
     setIsOpen(open);
 
     if (open) {
-      Object(_Helpers__WEBPACK_IMPORTED_MODULE_8__["analytics"])({
+      Object(_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
         'event': 'addMarketPageview',
         'virtualPageUrl': '/choose-target-market-modal',
         'virtualPageTitle': 'Choose Target Market Modal'
@@ -68426,21 +68528,11 @@ function CountryFinderModal(props) {
     }
   };
 
-  var openModal = function openModal() {
-    setProductConfirmationRequired(!!selectedCountry);
-    openCountryFinder(!selectedCountry);
-  };
-
   var closeModal = function closeModal() {
     setProductConfirmationRequired(false);
     setSearchStr('');
     setExpandRegion(false);
     setIsOpen(false);
-  };
-
-  var closeConfirmation = function closeConfirmation() {
-    setProductConfirmationRequired(false);
-    openCountryFinder(true);
   };
 
   var setScrollShadow = function setScrollShadow() {
@@ -68470,14 +68562,14 @@ function CountryFinderModal(props) {
   var getSuggestedCountries = function getSuggestedCountries() {
     if (commodityCode) {
       var hs2 = commodityCode.substr(0, 2);
-      _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].getSuggestedCountries(hs2).then(function (result) {
+      _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].getSuggestedCountries(hs2).then(function (result) {
         setSuggestedCountries(result);
       });
     }
   };
 
   var getCountries = function getCountries() {
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].getCountries().then(function (result) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].getCountries().then(function (result) {
       // map regions
       var regions = {};
       result.map(function (country) {
@@ -68497,40 +68589,15 @@ function CountryFinderModal(props) {
     getSuggestedCountries();
   };
 
-  var saveToExportPlan = function saveToExportPlan(country) {
-    setSelectedCountry(country.name);
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateExportPlan({
-      export_countries: [{
-        country_name: country.name,
-        country_iso2_code: country.id,
-        region: country.region
-      }]
-    }).then(function () {
-      closeModal();
-      window.location.reload();
-    }).then(Object(_Helpers__WEBPACK_IMPORTED_MODULE_8__["analytics"])({
-      'event': 'addMarketSuccess',
-      'suggestMarket': country.suggested ? country.name : '',
-      'listMarket': country.suggested ? '' : country.name,
-      'marketAdded': country.name
-    }))["catch"](function () {// TODO: Add error confirmation here
-    });
-  };
-
   var clickCountry = function clickCountry(evt) {
     var country = {
-      name: evt.target.getAttribute('data-country'),
-      id: evt.target.getAttribute('data-id'),
+      country_name: evt.target.getAttribute('data-country'),
+      country_iso2_code: evt.target.getAttribute('data-id'),
       region: evt.target.getAttribute('data-region'),
       suggested: evt.target.getAttribute('data-suggested')
     };
-
-    if (selectCountry) {
-      selectCountry(country);
-      closeModal();
-    } else {
-      saveToExportPlan(country);
-    }
+    selectCountry(country);
+    closeModal();
   };
 
   var regions = Object.keys(countryList || {}).sort().map(function (region) {
@@ -68550,7 +68617,7 @@ function CountryFinderModal(props) {
     });
     return !!countries.filter(function (countryRegion) {
       return countryRegion;
-    }).length && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RegionToggle__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }).length && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RegionToggle__WEBPACK_IMPORTED_MODULE_4__["default"], {
       key: region,
       expandAllRegions: expandRegion,
       region: region,
@@ -68616,15 +68683,8 @@ function CountryFinderModal(props) {
     href: "/find-your-target-market/",
     className: "button button--secondary"
   }, "Compare Markets"))));
-  var buttonClass = "tag ".concat(!selectedCountry ? 'tag--tertiary' : '', " tag--icon ");
   var scrollerClass = "scroll-area ".concat(isScrolled && isScrolled.top ? 'scroll-shadow-top' : '', " ").concat(isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : '');
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, addButton && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: buttonClass,
-    onClick: openModal
-  }, selectedCountry || 'add country', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa ".concat(selectedCountry ? 'fa-edit' : 'fa-plus')
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_1___default.a, {
     isOpen: modalIsOpen,
     onRequestClose: closeModal,
     className: "modal max-modal",
@@ -68667,7 +68727,7 @@ function CountryFinderModal(props) {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3 search-input"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_5__["default"], {
     onChange: searchChange
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
@@ -68682,67 +68742,21 @@ function CountryFinderModal(props) {
     className: "country-list grid m-v-0"
   }, regions), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr hr--light m-v-xxs"
-  }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageConfirmation__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    buttonClass: buttonClass,
-    productConfirmation: productConfirmationRequired,
-    handleButtonClick: closeConfirmation,
-    messageTitle: "Changing target market?",
-    messageBody: "if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time.",
-    messageButtonText: "Got it"
-  }));
+  }))))))));
 }
 CountryFinderModal.propTypes = {
-  addButton: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
-  modalIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
-  setIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func.isRequired,
-  text: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
-  commodityCode: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
-  selectCountry: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func
+  addButton: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.bool,
+  modalIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.bool,
+  setIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
+  commodityCode: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
+  selectCountry: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func
 };
 CountryFinderModal.defaultProps = {
   addButton: true,
   modalIsOpen: false,
-  text: '',
   commodityCode: '',
   selectCountry: null
 };
-var CountryFinder = function CountryFinder(_ref) {
-  var text = _ref.text,
-      commodityCode = _ref.commodityCode;
-
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState16 = _slicedToArray(_useState15, 2),
-      modalIsOpen = _useState16[0],
-      setIsOpen = _useState16[1];
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CountryFinderModal, {
-    text: text,
-    modalIsOpen: modalIsOpen,
-    setIsOpen: setIsOpen,
-    commodityCode: commodityCode
-  }));
-};
-CountryFinder.propTypes = {
-  text: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
-  commodityCode: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string
-};
-CountryFinder.defaultProps = {
-  text: '',
-  commodityCode: ''
-};
-function createCountryFinder(_ref2) {
-  var params = _extends({}, _ref2);
-
-  var mainElement = document.createElement('span');
-  document.body.appendChild(mainElement);
-  react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(mainElement);
-  var text = params.element.getAttribute('data-text');
-  var commodityCode = params.element.getAttribute('data-commodity-code');
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CountryFinder, {
-    text: text,
-    commodityCode: commodityCode
-  }), params.element);
-}
 
 /***/ }),
 
@@ -70237,7 +70251,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _src_components_Modal_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Modal/index */ "./react-components/src/components/Modal/index.jsx");
-/* harmony import */ var _ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../ProductFinder/CountryFinder */ "./react-components/src/components/ProductFinder/CountryFinder.jsx");
+/* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -70285,7 +70299,7 @@ var CountryNotSelected = function CountryNotSelected(_ref) {
     onClick: openCountryFinder,
     buttonText: "Add a target market",
     type: 1
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_4__["CountryFinderModal"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_4__["CountryFinderModal"], {
     modalIsOpen: modalIsOpen,
     setIsOpen: setIsOpen,
     addButton: false
@@ -71554,15 +71568,36 @@ var useOnOutsideClick = function useOnOutsideClick(outsideClick) {
 /*!******************************************!*\
   !*** ./react-components/src/reducers.js ***!
   \******************************************/
-/*! exports provided: default, getProducts, getMarkets */
+/*! exports provided: getProducts, getMarkets, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rootReducer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProducts", function() { return getProducts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMarkets", function() { return getMarkets; });
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+
+
+
+var saveToExportPlan = function saveToExportPlan(country) {
+  _src_Services__WEBPACK_IMPORTED_MODULE_0__["default"].updateExportPlan({
+    export_countries: [country]
+  }).then(function () {
+    closeModal();
+    window.location.reload();
+  }).then(Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["analytics"])({
+    'event': 'addMarketSuccess',
+    'suggestMarket': country.suggested ? country.name : '',
+    'listMarket': country.suggested ? '' : country.name,
+    'marketAdded': country.name
+  }))["catch"](function () {// TODO: Add error confirmation here
+  });
+};
+
+
 
 var initialState = {
   // prevents modals from opening on page load if user dismissed the modal already
@@ -71585,11 +71620,8 @@ var initialState = {
   },
   products: [],
   markets: []
-}; // todo: replace with ImmutableJS
+}; //const cloneState = state => JSON.parse(JSON.stringify(state))
 
-var cloneState = function cloneState(state) {
-  return JSON.parse(JSON.stringify(state));
-};
 /* function setModalIsOpen(state, payload) {
   let newState = cloneState(state)
   // should have only one modal open at a time
@@ -71631,66 +71663,56 @@ function setNextUrl(state, payload) {
 }
 */
 
-
-function setProduct(state, product) {
-  var newState = cloneState(state);
-  newState.products = [product];
-}
-
-function setMarket(state, market) {
-  var newState = cloneState(state);
-  newState.markets = [market];
-}
-
-function setInitialState(state, payload) {
-  console.log('set initial sate ***** ', payload);
-  var newState = cloneState(state);
-  newState.markets = [payload.market];
-  return newState;
-}
-
-function rootReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+var exportPlanReducer = function exportPlanReducer(state, action) {
+  var newState = Object.assign({}, state);
 
   switch (action.type) {
-    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_INITIAL_STATE"]:
-      return setInitialState(state, action.payload);
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_PRODUCT"]:
+      newState.products = [action.payload];
+      break;
 
-    /*case SET_MODAL_IS_OPEN:
-      return setModalIsOpen(state, action.payload)
-    case SET_PRODUCTS_EXPERTISE:
-      return setProductsExpertise(state, action.payload)
-    case SET_COUNTRIES_EXPERTISE:
-      return setCountriesExpertise(state, action.payload)
-    case SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK:
-      return setPerformFeatureSKipCookieCheck(state, action.payload)
-    case SET_NEXT_URL:
-      return setNextUrl(state, action.payload) */
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_MARKET"]:
+      console.log('Set market', newState.markets && newState.markets[0], action.payload);
+      saveToExportPlan(action.payload); //let newMarket = {country_name:action.payload.name}
 
-    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_PRODUCT"]:
-      return setProduct(state, action.payload);
-
-    case _src_actions__WEBPACK_IMPORTED_MODULE_0__["SET_MARKET"]:
-      return setMarket(state, action.payload);
-
-    default:
-      return state;
+      newState.markets = [action.payload];
   }
-}
+
+  return newState;
+};
+
+var setInitialStateReducer = function setInitialStateReducer(state, action) {
+  if (action.type === _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_INITIAL_STATE"]) {
+    console.log('set initial sate ***** ', action.payload);
+    state = action.payload;
+  }
+
+  return state;
+};
 /*export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
 export const getCountriesExpertise = state => state.user.expertise.countries
 export const getProductsExpertise = state => state.user.expertise.products
 export const getIndustriesExpertise = state => state.user.expertise.industries
 export const getPerformFeatureSKipCookieCheck = state => state.performSkipFeatureCookieCheck
-export const getNextUrl = state => state.nextUrl*/
+export const getNextUrl = state => state.nextUrl
+*/
+
 
 var getProducts = function getProducts(state) {
-  return state.products;
+  return (state.exportPlan && state.exportPlan.products || [])[0];
 };
 var getMarkets = function getMarkets(state) {
-  return state.markets;
+  return (state.exportPlan && state.exportPlan.markets || [])[0];
 };
+
+var rootReducer = function rootReducer(state, action) {
+  var state1 = setInitialStateReducer(state, action);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
+    exportPlan: exportPlanReducer
+  })(state1, action);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (rootReducer);
 
 /***/ }),
 

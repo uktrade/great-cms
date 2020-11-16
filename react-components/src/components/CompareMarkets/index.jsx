@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie';
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
-import { CountryFinderModal } from '../ProductFinder/CountryFinder'
+import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import Services from '@src/Services'
 
 
@@ -22,12 +22,10 @@ function CompareMarkets(props) {
     setMarketModalIsOpen(!!selectedProduct)
   }
 
-
-
 useEffect(() => {
    if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
-       const countries = Object.values(comparisonMarkets).map(function (key) {
-        return key.name
+       const countries = Object.values(comparisonMarkets).map(function (country) {
+        return country.country_name
       })
      Services.getPopulationByCountryData(countries).then((result) => {
        setPopulationData(Object.entries(result))
@@ -47,7 +45,7 @@ useEffect(() => {
 
   const addCountry = (country) => {
     const comparisonMarkets = cookies.comparisonMarkets || {}
-    comparisonMarkets[country.id] = country
+    comparisonMarkets[country.country_iso2_code] = country
     setCookie('comparisonMarkets', comparisonMarkets)
   }
 
@@ -85,14 +83,14 @@ useEffect(() => {
   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
 
     const tableBody = Object.values(comparisonMarkets).map(market => {
-      let populationCountryData = getCountryData(market.name)
-      return (<tr key={`market-${market.id}`}>
-        <td className="p-b-xs p-v-xs"><span className="body-l-b" id={`market-${market.name}`}>{market.name}</span><button type="button" className="iconic" onClick={removeMarket} data-id={market.id} aria-label={`Remove ${market.name}`}><i className="fa fa-times-circle"/></button></td>
-        <td id={`market-total-population-${market.name}`}>{populationCountryData ? populationCountryData.total_population : ''}</td>
-        <td id={`market-internet-usage-${market.name}`}>{populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + '%' : 'Data not available'}</td>
-        <td id={`market-urban-population-${market.name}`}>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</td>
-        <td id={`market-rural-population-${market.name}`}>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</td>
-      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'}</td></tr>)
+      let populationCountryData = getCountryData(market.country_name)
+      return (<tr key={`market-${market.country_iso2_code}`}>
+        <td className="p-v-xs"><span className="body-l-b" id={`market-${market.country_iso2_code}`}>{market.country_name}</span><button type="button" onClick={removeMarket} data-id={market.country_iso2_code} aria-label={`Remove ${market.country_name}`}><i className="fa fa-times-circle"/></button></td>
+        <td id={`market-total-population-${market.country_name}`}>{populationCountryData ? populationCountryData.total_population : ''}</td>
+        <td id={`market-internet-usage-${market.country_name}`}>{populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + ' %' : 'NA'}</td>
+        <td id={`market-urban-population-${market.country_name}`}><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>
+        <td id={`market-rural-population-${market.country_name}`}><h1>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</h1></td>
+      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'}</td></tr>)
     })
     dataTable = (
       <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
@@ -140,7 +138,6 @@ useEffect(() => {
         modalIsOpen={ marketModalIsOpen }
         setIsOpen={ setMarketModalIsOpen }
         commodityCode={ selectedProduct && selectedProduct.code }
-        addButton={false}
         selectCountry={ addCountry }
       />
     </span>
