@@ -13,16 +13,26 @@ export const SpendingAndResources = ({
 }) => {
 
   const [input, setInput] = useState(formData)
+  const [pushedAnalytic, setPushedAnalytic] = useState(false)
+
+
+  const pushAnalytics = () => {
+    // function to make sure we pushed analytics only once as per Andy Wong requirement
+    // The way component build it trigger save on every key stroke which floods the analytics
+    if (!pushedAnalytic) {
+      analytics({
+        'event': 'planSectionSaved',
+        'sectionTitle': 'marketing-approach'
+      })
+      setPushedAnalytic(true)
+    }
+  }
 
   const update = (e) => {
     setInput({ ...e })
     Services.updateExportPlan({ [field]: { ...e }})
-      .then(
-         analytics({
-              'event': 'planSectionSaved',
-              'sectionTitle': field
-            })
-      )
+      .then()
+      .finally(pushAnalytics)
       .catch(() => {})
   }
 

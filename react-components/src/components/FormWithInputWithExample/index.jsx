@@ -9,7 +9,8 @@ import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
-import { analytics } from '@src/Helpers'
+import { analytics, sectionQuestionMapping } from '@src/Helpers'
+
 
 export class FormWithInputWithExample extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ export class FormWithInputWithExample extends Component {
       errors: {},
       isLoading: false,
       showSavedMessage: false,
-      formData: props.formData
+      formData: props.formData,
+      currentChangeFormField: null,
     }
 
     this.inputToSave$ = new Subject()
@@ -31,9 +33,11 @@ export class FormWithInputWithExample extends Component {
         Services.updateExportPlan(this.formatData(data))
           .then(this.handleUpdateSuccess)
           .then(() => {
+           const currentItem = this.state.currentChangeFormField
             analytics({
               'event': 'planSectionSaved',
-              'sectionTitle': this.props.field
+              'sectionTitle': this.props.field,
+              'sectionFormField': sectionQuestionMapping[currentItem]
             })
           })
           .catch(this.handleUpdateError)
@@ -83,6 +87,7 @@ export class FormWithInputWithExample extends Component {
     this.setState({ formData: data }, () => {
       this.inputToSave$.next(data)
     })
+    this.setState( { currentChangeFormField: Object.keys(e)[0]})
   }
 
   render() {
