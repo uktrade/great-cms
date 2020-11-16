@@ -32,11 +32,11 @@ export const CountryNotSelected = ({ isOpen }) => {
           type={1}
         />
       </ReactModal>
-      <CountryFinderModal
-        modalIsOpen={modalIsOpen}
-        setIsOpen={setIsOpen}
-        addButton={false}
-      />
+      {/*<CountryFinderModal
+        modalIsOpen={false}
+        setIsOpen={(state) => {}}
+        setMarket={(market) => {}}
+      />*/}
     </>
   )
 }

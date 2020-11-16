@@ -9,7 +9,7 @@ import { analytics } from '../../Helpers'
 
 export default function CountryFinderModal(props) {
   let scrollOuter
-  const { modalIsOpen, setIsOpen, addButton, commodityCode, selectCountry } = props
+  const { modalIsOpen, setIsOpen, commodityCode, selectCountry } = props
   const [countryList, setCountryList] = useState()
   const [suggestedCountries, setSuggestedCountries] = useState([])
   const [isScrolled, setIsScrolled] = useState(false)
@@ -221,14 +221,12 @@ export default function CountryFinderModal(props) {
 }
 
 CountryFinderModal.propTypes = {
-  addButton: PropTypes.bool,
   modalIsOpen: PropTypes.bool,
   setIsOpen: PropTypes.func.isRequired,
   commodityCode: PropTypes.string,
   selectCountry: PropTypes.func,
 }
 CountryFinderModal.defaultProps = {
-  addButton: true,
   modalIsOpen: false,
   commodityCode: '',
   selectCountry: null
