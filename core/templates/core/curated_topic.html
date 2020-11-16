@@ -22,7 +22,7 @@
                 <a class="learn__lesson-item-link h-xs" href="{% pageurl page %}" title="{{ page.title }}">
                     <span class="learn__lesson-item-link-text">{{ page.title }}</span>
                     {% if page.id in completed_lessons %}
-                    <span class="button button--quaternary button--small f-r">
+                    <span class="button button--quaternary button--small learn__lesson-item-link--completed">
                         Completed
                     </span>
                     {% else %}
