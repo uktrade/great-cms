@@ -10,7 +10,7 @@
         <h2 class="learn__topic-item-title h-m p-b-xxs p-t-0">{{ topic.title }}</h2>
         {% get_lesson_progress_for_topic completed_lessons topic.id as topic_progress_data %}
         {% if topic_progress_data %}
-        <p class="body-m-b m-t-xxs m-b-0">
+        <p class="learn__topic-item-count body-m-b m-t-xxs m-b-0">
             {{topic_progress_data.lessons_completed}} / {{topic_progress_data.lessons_available}} lessons complete
         </p>
         {% endif %}
