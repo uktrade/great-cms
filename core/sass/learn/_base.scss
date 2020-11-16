@@ -201,21 +201,27 @@ $desktop: 1024px;
 }
 
 .learn__single-category-header-wrapper {
-  padding-top: 80px;
+  padding-top: 40px;
   position: relative;
-
-  @include tablet {
-    padding-top: 40px;
-  }
 
   .learn__category-entities {
     margin-left: 0;
   }
 }
 
-.learn__single-category-header-content {
+.learn__single-category-header-wrapper--progress-bar-top {
+  padding-top: 80px;
+
   @include tablet {
-    margin: 38px 0 0 70px;
+    padding-top: 40px;
+  }
+}
+
+.learn__single-category-header-content {
+  margin-bottom: 10px;
+
+  @include tablet {
+    margin: 38px 0 30px 70px;
   }
 }
 
@@ -227,11 +233,13 @@ $desktop: 1024px;
   background-color: $white;
 }
 
-.learn__single-category-header-details {
-  p {
-    color: $blue-deep-80;
+.learn__single-category-header-details p {
+  @extend .body-m;
+  color: $blue-deep-80;
+  margin-top: 15px;
+
+  @include tablet {
     font-size: 20px;
-    margin-top: 15px;
   }
 }
 
@@ -296,9 +304,13 @@ $desktop: 1024px;
 .learn__lesson-item-link {
   color: $blue-deep-80;
   display: block;
-  padding: 22px 20px 20px 21px;
+  padding: 18px 20px 20px;
   text-decoration: none;
   position: relative;
+
+  @include tablet {
+    padding: 22px 20px 20px 21px;
+  }
 
   &:visited {
     color: $blue-deep-80;
