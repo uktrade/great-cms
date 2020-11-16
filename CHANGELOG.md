@@ -14,6 +14,8 @@
 - no ticket - increase token expiration date to 30 days from 5
 - GP2-693 - hide footer login
 - GP2-1022 - hide footer sign-up
+- GP2-695 - select product modal
+- GP2-1049 - country name in target market research page
 
 ## Pre-release
 
