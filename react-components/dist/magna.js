@@ -65367,68 +65367,66 @@ var setConfig = function setConfig(_ref7) {
 /*!*****************************************!*\
   !*** ./react-components/src/actions.js ***!
   \*****************************************/
-/*! exports provided: SET_INITIAL_STATE, SET_PRODUCT, SET_MARKET, default */
+/*! exports provided: SET_MODAL_IS_OPEN, SET_PRODUCTS_EXPERTISE, SET_COUNTRIES_EXPERTISE, SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK, SET_NEXT_URL, SET_INITIAL_STATE, SET_PRODUCT, SET_MARKET, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MODAL_IS_OPEN", function() { return SET_MODAL_IS_OPEN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PRODUCTS_EXPERTISE", function() { return SET_PRODUCTS_EXPERTISE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_COUNTRIES_EXPERTISE", function() { return SET_COUNTRIES_EXPERTISE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK", function() { return SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_NEXT_URL", function() { return SET_NEXT_URL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_INITIAL_STATE", function() { return SET_INITIAL_STATE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PRODUCT", function() { return SET_PRODUCT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MARKET", function() { return SET_MARKET; });
 // action types
-
-/*export const SET_MODAL_IS_OPEN = 'SET_MODAL_IS_OPEN'
-export const SET_PRODUCTS_EXPERTISE = 'SET_PRODUCTS_EXPERTISE'
-export const SET_COUNTRIES_EXPERTISE = 'SET_COUNTRIES_EXPERTISE'
-export const SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK = 'SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK'
-export const SET_NEXT_URL = 'SET_NEXT_URL'
-*/
+var SET_MODAL_IS_OPEN = 'SET_MODAL_IS_OPEN';
+var SET_PRODUCTS_EXPERTISE = 'SET_PRODUCTS_EXPERTISE';
+var SET_COUNTRIES_EXPERTISE = 'SET_COUNTRIES_EXPERTISE';
+var SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK = 'SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK';
+var SET_NEXT_URL = 'SET_NEXT_URL';
 var SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 var SET_PRODUCT = 'SET_PRODUCT';
 var SET_MARKET = 'SET_MARKET'; // action creators
 
-/*
-const setProductsExpertise = function(payload) {
+var setProductsExpertise = function setProductsExpertise(payload) {
   return {
     type: SET_PRODUCTS_EXPERTISE,
-    payload: payload,
-  }
-}
+    payload: payload
+  };
+};
 
-
-const setCountriesExpertise = function(payload) {
+var setCountriesExpertise = function setCountriesExpertise(payload) {
   return {
     type: SET_COUNTRIES_EXPERTISE,
-    payload: payload,
-  }
-}
+    payload: payload
+  };
+};
 
-
-
-
-
-const toggleModalIsOpen = function(modalID, isOpen) {
+var toggleModalIsOpen = function toggleModalIsOpen(modalID, isOpen) {
   return {
     type: SET_MODAL_IS_OPEN,
-    payload: {modalID, isOpen},
-  }
-}
+    payload: {
+      modalID: modalID,
+      isOpen: isOpen
+    }
+  };
+};
 
-
-const skipFeatureCookieCheck = function() {
+var skipFeatureCookieCheck = function skipFeatureCookieCheck() {
   return {
     type: SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
-    payload: false,
-  }
-}
+    payload: false
+  };
+};
 
-const setNextUrl = function(nextUrl) {
+var setNextUrl = function setNextUrl(nextUrl) {
   return {
     type: SET_NEXT_URL,
-    payload: nextUrl,
-  }
-}
-*/
+    payload: nextUrl
+  };
+};
 
 var setInitialState = function setInitialState(payload) {
   console.log('In set intitial state action payload:', payload);
@@ -65453,12 +65451,11 @@ var setMarket = function setMarket(market) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  /*  setInitialState,
-    toggleModalIsOpen,
-    setProductsExpertise,
-    setCountriesExpertise,
-    skipFeatureCookieCheck,
-    setNextUrl, */
+  toggleModalIsOpen: toggleModalIsOpen,
+  setProductsExpertise: setProductsExpertise,
+  setCountriesExpertise: setCountriesExpertise,
+  skipFeatureCookieCheck: skipFeatureCookieCheck,
+  setNextUrl: setNextUrl,
   setInitialState: setInitialState,
   setProduct: setProduct,
   setMarket: setMarket
@@ -71588,6 +71585,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var saveToExportPlan = function saveToExportPlan(country) {
   _src_Services__WEBPACK_IMPORTED_MODULE_0__["default"].updateExportPlan({
     export_countries: [country]
@@ -71602,8 +71601,6 @@ var saveToExportPlan = function saveToExportPlan(country) {
   }))["catch"](function () {// TODO: Add error confirmation here
   });
 };
-
-
 
 var initialState = {
   // prevents modals from opening on page load if user dismissed the modal already
@@ -71665,6 +71662,31 @@ function setNextUrl(state, payload) {
   return newState;
 }
 
+var oldReducers = function oldReducers() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_MODAL_IS_OPEN"]:
+      return setModalIsOpen(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_PRODUCTS_EXPERTISE"]:
+      return setProductsExpertise(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_COUNTRIES_EXPERTISE"]:
+      return setCountriesExpertise(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK"]:
+      return setPerformFeatureSKipCookieCheck(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_NEXT_URL"]:
+      return setNextUrl(state, action.payload);
+
+    default:
+      return state;
+  }
+};
+
 var exportPlanReducer = function exportPlanReducer(state, action) {
   var newState = Object.assign({}, state);
 
@@ -71696,13 +71718,13 @@ var getModalIsOpen = function getModalIsOpen(state, name) {
   return state.modalIsOpen[name];
 };
 var getCountriesExpertise = function getCountriesExpertise(state) {
-  return state.user.expertise.countries;
+  return state.user && state.user.expertise && state.user.expertise.countries;
 };
 var getProductsExpertise = function getProductsExpertise(state) {
-  return state.user.expertise.products;
+  return state.user && state.user.expertise && state.user.expertise.products;
 };
 var getIndustriesExpertise = function getIndustriesExpertise(state) {
-  return state.user.expertise.industries;
+  return state.user && state.user.expertise && state.user.expertise.industries;
 };
 var getPerformFeatureSKipCookieCheck = function getPerformFeatureSKipCookieCheck(state) {
   return state.performSkipFeatureCookieCheck;
@@ -71718,11 +71740,12 @@ var getMarkets = function getMarkets(state) {
 };
 
 var rootReducer = function rootReducer(state, action) {
-  var state1 = setInitialStateReducer(state, action);
+  var state1 = oldReducers(state, action);
+  var state2 = setInitialStateReducer(state1, action);
   return Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen
-  })(state1, action);
+  })(state2, action);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (rootReducer);

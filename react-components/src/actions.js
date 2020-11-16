@@ -1,18 +1,16 @@
 // action types
 
-/*export const SET_MODAL_IS_OPEN = 'SET_MODAL_IS_OPEN'
+export const SET_MODAL_IS_OPEN = 'SET_MODAL_IS_OPEN'
 export const SET_PRODUCTS_EXPERTISE = 'SET_PRODUCTS_EXPERTISE'
 export const SET_COUNTRIES_EXPERTISE = 'SET_COUNTRIES_EXPERTISE'
 export const SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK = 'SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK'
 export const SET_NEXT_URL = 'SET_NEXT_URL'
-*/
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE'
 export const SET_PRODUCT = 'SET_PRODUCT'
 export const SET_MARKET = 'SET_MARKET'
 
 // action creators
 
-/*
 const setProductsExpertise = function(payload) {
   return {
     type: SET_PRODUCTS_EXPERTISE,
@@ -27,9 +25,6 @@ const setCountriesExpertise = function(payload) {
     payload: payload,
   }
 }
-
-
-
 
 
 const toggleModalIsOpen = function(modalID, isOpen) {
@@ -53,7 +48,6 @@ const setNextUrl = function(nextUrl) {
     payload: nextUrl,
   }
 }
-*/
 
 const setInitialState = function(payload) {
   console.log('In set intitial state action payload:', payload)
@@ -78,12 +72,11 @@ const setMarket = function(market) {
 }
 
 export default {
-  /*  setInitialState,
-    toggleModalIsOpen,
-    setProductsExpertise,
-    setCountriesExpertise,
-    skipFeatureCookieCheck,
-    setNextUrl, */
+  toggleModalIsOpen,
+  setProductsExpertise,
+  setCountriesExpertise,
+  skipFeatureCookieCheck,
+  setNextUrl,
   setInitialState,
   setProduct,
   setMarket,
