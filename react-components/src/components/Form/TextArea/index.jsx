@@ -13,7 +13,8 @@ export const TextArea = ({
   onChange,
   description,
   tooltip,
-  example
+  example,
+  hideLabel
 }) => (
   <FormGroup
     errors={errors}
@@ -22,6 +23,7 @@ export const TextArea = ({
     tooltip={tooltip}
     example={example}
     id={id}
+    hideLabel={hideLabel}
   >
     <textarea
       className='form-control'
@@ -46,6 +48,7 @@ TextArea.propTypes = {
   description: PropTypes.string,
   tooltip: PropTypes.string,
   example: PropTypes.string,
+  hideLabel: PropTypes.bool
 }
 
 TextArea.defaultProps = {
@@ -55,5 +58,6 @@ TextArea.defaultProps = {
   value: '',
   description: '',
   tooltip: '',
-  example: ''
+  example: '',
+  hideLabel: false
 }

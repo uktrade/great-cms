@@ -12,6 +12,7 @@ import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { createTargetMarketResearchForm, createDataSnapShot } from '@src/views/sections/TargetMarketResearch'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
 import { createObjectivesReasons, createObjectivesList } from '@src/views/sections/Objectives'
+import { createCostsAndPricing } from '@src/views/sections/CostsAndPricing'
 import { createDashboard, createDisabledButton } from '@src/views/sections/Dashboard'
 import { sectionSidebar } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
@@ -38,6 +39,7 @@ export default {
   createDashboard,
   createDisabledButton,
   createCaseStudy,
+  createCostsAndPricing,
   ProductFinderButton,
   CountryFinder,
   CompareMarkets,
