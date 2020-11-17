@@ -83,7 +83,7 @@ function CompareMarkets(props) {
     const tableBody = Object.values(comparisonMarkets).map(market => {
       const populationCountryData = getCountryData(market.country_name)
       return (<tr key={`market-${market.country_iso2_code}`} id={`market-${market.country_name}`}>
-        <td className="p-v-xs name"><span className="body-l-b" id={`market-${market.country_name}`}>{market.country_name}</span><button type="button" onClick={removeMarket} data-id={market.country_iso2_code} aria-label={`Remove ${market.country_name}`}><i className="fa fa-times-circle"/></button></td>
+        <td className="p-v-xs name"><span className="body-l-b" id={`market-${market.country_name}`}>{market.country_name}</span><button type="button" onClick={removeMarket} class="iconic" data-id={market.country_iso2_code} aria-label={`Remove ${market.country_name}`}><i className="fa fa-times-circle"/></button></td>
         <td className="total-population">{populationCountryData ? populationCountryData.total_population : ''}</td>
         <td className="internet-usage">{populationCountryData && populationCountryData.internet_usage ? `${populationCountryData.internet_usage.value}%` : 'NA'}</td>
         <td className="urban-population"><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>

@@ -13,12 +13,16 @@
 {% block mainclasses %}text-blue-deep-80 {% endblock %}
 
 {% block main_content %}
-  {% set 'page_disabled' True %}
-  <div class="g-panel">
-    {% if page_disabled %}
+  {% if not data_tabs_enabled %}
+    <div class="g-panel">
       <p>This section isn’t available yet</p>
       <p>This Beta version is limited</p>
-    {% else %}
+    </div>
+    <div class="m-v-xl">
+      <button class="button button--tertiary" disabled>Coming soon</button>
+    </div>
+  {% else %}
+    <div class="g-panel">
       <p>Where’s the biggest demand for your product?</p>
       <p>It’s time to do your homework.</p>
       <p>For each country you’ll find data and insights relevant to your sector. Use this data to back up your own research and understand:</p>
@@ -27,14 +31,13 @@
         <li>economic and cultural factors</li>
         <li>any challenges you could encounter</li>
       </ul>
-    <p>You can then start making an informed decision about where to expand your business.</p>
-  </div>
+      <p>You can then start making an informed decision about where to expand your business.</p>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block additional_content %}
-  {% if page_disabled %}
-    <div class="m-v-xl"><button class="button button--tertiary" disabled>Coming soon</button></div>
-  {% else %}
+  {% if data_tabs_enabled %}
     <div id="open-product-finder" class="m-v-l" data-productname="{{export_plan.export_commodity_codes.0.commodity_name}}" data-productcode="{{export_plan.export_commodity_codes.0.commodity_code}}"></div>
     <script>
       magna.CompareMarkets({
