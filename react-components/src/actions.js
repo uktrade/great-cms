@@ -50,7 +50,6 @@ const setNextUrl = function(nextUrl) {
 }
 
 const setInitialState = function(payload) {
-  console.log('In set intitial state action payload:', payload)
   return {
     type: SET_INITIAL_STATE,
     payload: payload,

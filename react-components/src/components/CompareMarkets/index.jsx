@@ -82,12 +82,12 @@ function CompareMarkets(props) {
 
     const tableBody = Object.values(comparisonMarkets).map(market => {
       const populationCountryData = getCountryData(market.country_name)
-      return (<tr key={`market-${market.country_iso2_code}`}>
-        <td className="p-v-xs"><span className="body-l-b" id={`market-${market.country_iso2_code}`}>{market.country_name}</span><button type="button" onClick={removeMarket} data-id={market.country_iso2_code} aria-label={`Remove ${market.country_name}`}><i className="fa fa-times-circle"/></button></td>
-        <td id={`market-total-population-${market.country_name}`}>{populationCountryData ? populationCountryData.total_population : ''}</td>
-        <td id={`market-internet-usage-${market.country_name}`}>{populationCountryData && populationCountryData.internet_usage ? `${populationCountryData.internet_usage.value}%` : 'NA'}</td>
-        <td id={`market-urban-population-${market.country_name}`}><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>
-        <td id={`market-rural-population-${market.country_name}`}><h1>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</h1></td>
+      return (<tr key={`market-${market.country_iso2_code}`} id={`market-${market.country_name}`}>
+        <td className="p-v-xs name"><span className="body-l-b" id={`market-${market.country_name}`}>{market.country_name}</span><button type="button" onClick={removeMarket} data-id={market.country_iso2_code} aria-label={`Remove ${market.country_name}`}><i className="fa fa-times-circle"/></button></td>
+        <td className="total-population">{populationCountryData ? populationCountryData.total_population : ''}</td>
+        <td className="internet-usage">{populationCountryData && populationCountryData.internet_usage ? `${populationCountryData.internet_usage.value}%` : 'NA'}</td>
+        <td className="urban-population"><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>
+        <td className="rural-population"><h1>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</h1></td>
       <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'}</td></tr>)
     })
     dataTable = (

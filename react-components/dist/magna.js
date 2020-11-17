@@ -64981,38 +64981,20 @@ var analytics = function analytics(data) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
 /* eslint-disable */
 
 
 
-var MESSAGE_UNEXPECTED_ERROR = {
-  __all__: ['Unexpected Error']
-};
-var MESSAGE_PERMISSION_DENIED = {
-  __all__: ['You do not have permission to perform this action']
-};
-var MESSAGE_NOT_FOUND_ERROR = {
-  __all__: ['Not found']
-};
-var MESSAGE_TIMEOUT_ERROR = {
-  __all__: ['Request timed out']
-};
-var MESSAGE_BAD_REQUEST_ERROR = {
-  __all__: ['Bad request']
-};
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_src_reducers__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_src_reducers__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
 var setInitialState = function setInitialState(state) {
-  console.log('*****  in services.js setinitialState', state);
-  store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_2__["default"].setInitialState(state));
-  /*if(state.exportPlan && state.exportPlan.products && state.exportPlan.products[0]) {
-    store.dispatch(actions.setProduct(state.exportPlan.products[0]))
-  }
-  if(state.exportPlan && state.exportPlan.markets && state.exportPlan.markets[0]) {
-    store.dispatch(actions.setMarket(state.exportPlan.markets[0]))
-  }*/
+  store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_3__["default"].setInitialState(state));
 };
 
 var post = function post(url, data) {
@@ -65021,20 +65003,7 @@ var post = function post(url, data) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'X-CSRFToken': config.csrfToken,
-      'X-Requested-With': 'XMLHttpRequest'
-    },
-    body: JSON.stringify(data)
-  });
-};
-
-var httpDelete = function httpDelete(url, data) {
-  return fetch(url, {
-    method: 'delete',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': config.csrfToken,
+      'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_1__["config"].csrfToken,
       'X-Requested-With': 'XMLHttpRequest'
     },
     body: JSON.stringify(data)
@@ -65049,147 +65018,58 @@ var get = function get(url, params) {
     method: 'get',
     headers: {
       Accept: 'application/json',
-      'X-CSRFToken': config.csrfToken,
+      'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_1__["config"].csrfToken,
       'X-Requested-With': 'XMLHttpRequest'
     }
   });
 };
 
 var getCountriesDataBySectors = function getCountriesDataBySectors(sectors) {
-  return get(config.countriesBySectorsDataUrl, {
+  return get(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].countriesBySectorsDataUrl, {
     sectors: sectors
   }).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var getCountryData = function getCountryData(country) {
-  return get(config.countryDataUrl, {
-    country: country
-  }).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var getPopulationByCountryData = function getPopulationByCountryData(countries) {
-  return get(config.populationByCountryUrl, {
-    countries: countries
-  }).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var getMarketingCountryData = function getMarketingCountryData(data) {
-  return get(config.marketingCountryData, data).then(function (response) {
-    return responseHandler(response).json();
+    return _src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler(response).json();
   });
 };
 
 var removeSector = function removeSector() {
-  return get(config.removeSectorUrl, {}).then(function (response) {
-    return responseHandler(response).json();
+  return get(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].removeSectorUrl, {}).then(function (response) {
+    return _src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler(response).json();
   });
 };
 
 var removeCountryData = function removeCountryData(country) {
-  return get(config.removeCountryDataUrl, {
+  return get(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].removeCountryDataUrl, {
     country: country
   }).then(function (response) {
-    return responseHandler(response).json();
+    return _src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler(response).json();
   });
 };
 
-var lookupProduct = function lookupProduct(_ref) {
-  var proddesc = _ref.proddesc;
-  return post(config.apiLookupProductUrl, {
-    proddesc: proddesc
-  }).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var lookupProductRefine = function lookupProductRefine(_ref2) {
-  var txId = _ref2.txId,
-      interactionId = _ref2.interactionId,
-      values = _ref2.values;
-  return post(config.apiLookupProductUrl, {
-    tx_id: txId,
-    interaction_id: interactionId,
-    values: values
-  }).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var getCountries = function getCountries() {
-  return get(config.apiCountriesUrl, {}).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var getSuggestedCountries = function getSuggestedCountries(hs_code) {
-  return get(config.apiSuggestedCountriesUrl, {
-    hs_code: hs_code
-  }).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var createUser = function createUser(_ref3) {
-  var email = _ref3.email,
-      password = _ref3.password;
-  return post(config.apiSignupUrl, {
+var createUser = function createUser(_ref) {
+  var email = _ref.email,
+      password = _ref.password;
+  return post(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].apiSignupUrl, {
     email: email,
     password: password
-  }).then(responseHandler);
+  }).then(_src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler);
 };
 
-var updateExportPlan = function updateExportPlan(data) {
-  return post(config.apiUpdateExportPlanUrl, data).then(responseHandler);
-};
-
-var createObjective = function createObjective(data) {
-  return post(config.apiObjectivesCreateUrl, data).then(responseHandler);
-};
-
-var deleteObjective = function deleteObjective(pk) {
-  return httpDelete(config.apiObjectivesDeleteUrl, {
-    pk: pk
-  }).then(responseHandler);
-};
-
-var updateObjective = function updateObjective(data) {
-  return post(config.apiObjectivesUpdateUrl, data).then(responseHandler);
-};
-
-var checkVerificationCode = function checkVerificationCode(_ref4) {
-  var email = _ref4.email,
-      code = _ref4.code;
-  return post(config.verifyCodeUrl, {
+var checkVerificationCode = function checkVerificationCode(_ref2) {
+  var email = _ref2.email,
+      code = _ref2.code;
+  return post(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].verifyCodeUrl, {
     email: email,
     code: code
-  }).then(responseHandler);
+  }).then(_src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler);
 };
 
-var checkCredentials = function checkCredentials(_ref5) {
-  var email = _ref5.email,
-      password = _ref5.password;
-  return post(config.apiLoginUrl, {
-    email: email,
-    password: password
-  }).then(responseHandler);
-};
-
-var logout = function logout() {
-  return post(config.apiLogoutUrl).then(responseHandler);
-};
-
-var updateCompany = function updateCompany(_ref6) {
-  var company_name = _ref6.company_name,
-      expertise_industries = _ref6.expertise_industries,
-      expertise_countries = _ref6.expertise_countries,
-      first_name = _ref6.first_name,
-      last_name = _ref6.last_name;
+var updateCompany = function updateCompany(_ref3) {
+  var company_name = _ref3.company_name,
+      expertise_industries = _ref3.expertise_industries,
+      expertise_countries = _ref3.expertise_countries,
+      first_name = _ref3.first_name,
+      last_name = _ref3.last_name;
   var data = {
     company_name: company_name,
     expertise_industries: expertise_industries,
@@ -65197,169 +65077,22 @@ var updateCompany = function updateCompany(_ref6) {
     first_name: first_name,
     last_name: last_name
   };
-  return post(config.apiUpdateCompanyUrl, data).then(responseHandler);
+  return post(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].apiUpdateCompanyUrl, data).then(_src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler);
 };
 
-var getLessonComplete = function getLessonComplete(endpoint) {
-  return get(endpoint).then(responseHandler);
-};
-
-var setLessonComplete = function setLessonComplete(endpoint) {
-  return post(endpoint).then(responseHandler);
-};
-
-var setLessonIncomplete = function setLessonIncomplete(endpoint) {
-  return httpDelete(endpoint).then(responseHandler);
-};
-
-var createRouteToMarket = function createRouteToMarket(data) {
-  return post(config.apiRouteToMarketCreateUrl, data).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var deleteRouteToMarket = function deleteRouteToMarket(pk) {
-  return httpDelete(config.apiRouteToMarketDeleteUrl, {
-    pk: pk
-  }).then(responseHandler);
-};
-
-var updateRouteToMarket = function updateRouteToMarket(data) {
-  return post(config.apiRouteToMarketUpdateUrl, data).then(function (response) {
-    return responseHandler(response).json();
-  });
-};
-
-var responseHandler = function responseHandler(response) {
-  if (response.status == 400) {
-    return response.json().then(function (error) {
-      throw error;
-    });
-  } else if (response.status == 403) {
-    throw MESSAGE_PERMISSION_DENIED;
-  } else if (response.status == 404) {
-    throw MESSAGE_NOT_FOUND_ERROR;
-  } else if (response.status == 504) {
-    throw MESSAGE_TIMEOUT_ERROR;
-  } else if (response.status == 400) {
-    throw MESSAGE_BAD_REQUEST_ERROR;
-  } else if (response.status != 200) {
-    throw MESSAGE_UNEXPECTED_ERROR;
-  } else {
-    return response;
-  }
-}; // static values that will not change during execution of the code
-
-
-var config = {};
-
-var setConfig = function setConfig(_ref7) {
-  var countryDataUrl = _ref7.countryDataUrl,
-      marketingCountryData = _ref7.marketingCountryData,
-      removeSectorUrl = _ref7.removeSectorUrl,
-      removeCountryDataUrl = _ref7.removeCountryDataUrl,
-      countriesBySectorsDataUrl = _ref7.countriesBySectorsDataUrl,
-      apiLoginUrl = _ref7.apiLoginUrl,
-      apiLogoutUrl = _ref7.apiLogoutUrl,
-      apiSignupUrl = _ref7.apiSignupUrl,
-      apiLookupProductUrl = _ref7.apiLookupProductUrl,
-      apiCountriesUrl = _ref7.apiCountriesUrl,
-      apiSuggestedCountriesUrl = _ref7.apiSuggestedCountriesUrl,
-      apiUpdateCompanyUrl = _ref7.apiUpdateCompanyUrl,
-      countryOptions = _ref7.countryOptions,
-      csrfToken = _ref7.csrfToken,
-      dashboardUrl = _ref7.dashboardUrl,
-      googleUrl = _ref7.googleUrl,
-      industryOptions = _ref7.industryOptions,
-      linkedInUrl = _ref7.linkedInUrl,
-      loginUrl = _ref7.loginUrl,
-      passwordResetUrl = _ref7.passwordResetUrl,
-      termsUrl = _ref7.termsUrl,
-      verifyCodeUrl = _ref7.verifyCodeUrl,
-      userIsAuthenticated = _ref7.userIsAuthenticated,
-      apiUpdateExportPlanUrl = _ref7.apiUpdateExportPlanUrl,
-      apiObjectivesCreateUrl = _ref7.apiObjectivesCreateUrl,
-      apiObjectivesDeleteUrl = _ref7.apiObjectivesDeleteUrl,
-      apiObjectivesUpdateUrl = _ref7.apiObjectivesUpdateUrl,
-      apiRouteToMarketCreateUrl = _ref7.apiRouteToMarketCreateUrl,
-      apiRouteToMarketDeleteUrl = _ref7.apiRouteToMarketDeleteUrl,
-      apiRouteToMarketUpdateUrl = _ref7.apiRouteToMarketUpdateUrl,
-      exportPlanTargetMarketsUrl = _ref7.exportPlanTargetMarketsUrl,
-      signupUrl = _ref7.signupUrl,
-      populationByCountryUrl = _ref7.populationByCountryUrl;
-  config.countryDataUrl = countryDataUrl;
-  config.marketingCountryData = marketingCountryData;
-  config.removeSectorUrl = removeSectorUrl;
-  config.removeCountryDataUrl = removeCountryDataUrl;
-  config.countriesBySectorsDataUrl = countriesBySectorsDataUrl;
-  config.apiLoginUrl = apiLoginUrl;
-  config.apiLogoutUrl = apiLogoutUrl;
-  config.apiSignupUrl = apiSignupUrl;
-  config.apiLookupProductUrl = apiLookupProductUrl;
-  config.apiCountriesUrl = apiCountriesUrl;
-  config.apiSuggestedCountriesUrl = apiSuggestedCountriesUrl;
-  config.apiUpdateCompanyUrl = apiUpdateCompanyUrl;
-  config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl;
-  config.apiObjectivesCreateUrl = apiObjectivesCreateUrl;
-  config.apiObjectivesDeleteUrl = apiObjectivesDeleteUrl;
-  config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl;
-  config.apiRouteToMarketCreateUrl = apiRouteToMarketCreateUrl;
-  config.apiRouteToMarketDeleteUrl = apiRouteToMarketDeleteUrl;
-  config.apiRouteToMarketUpdateUrl = apiRouteToMarketUpdateUrl;
-  config.countryOptions = countryOptions;
-  config.csrfToken = csrfToken;
-  config.dashboardUrl = dashboardUrl;
-  config.googleUrl = googleUrl;
-  config.industryOptions = industryOptions;
-  config.linkedInUrl = linkedInUrl;
-  config.loginUrl = loginUrl;
-  config.passwordResetUrl = passwordResetUrl;
-  config.termsUrl = termsUrl;
-  config.verifyCodeUrl = verifyCodeUrl;
-  config.userIsAuthenticated = userIsAuthenticated;
-  config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl;
-  config.signupUrl = signupUrl;
-  config.populationByCountryUrl = populationByCountryUrl;
-};
-
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (Object.assign({}, _src_api__WEBPACK_IMPORTED_MODULE_4__["default"], {
   createUser: createUser,
-  checkCredentials: checkCredentials,
-  logout: logout,
   checkVerificationCode: checkVerificationCode,
   get: get,
   store: store,
   updateCompany: updateCompany,
-  getCountryData: getCountryData,
-  getPopulationByCountryData: getPopulationByCountryData,
-  getMarketingCountryData: getMarketingCountryData,
   removeCountryData: removeCountryData,
   removeSector: removeSector,
   getCountriesDataBySectors: getCountriesDataBySectors,
-  updateExportPlan: updateExportPlan,
-  createObjective: createObjective,
-  deleteObjective: deleteObjective,
-  updateObjective: updateObjective,
-  lookupProduct: lookupProduct,
-  lookupProductRefine: lookupProductRefine,
-  getCountries: getCountries,
-  getSuggestedCountries: getSuggestedCountries,
-  setConfig: setConfig,
-  getLessonComplete: getLessonComplete,
-  setLessonComplete: setLessonComplete,
-  setLessonIncomplete: setLessonIncomplete,
-  config: config,
-  createRouteToMarket: createRouteToMarket,
-  deleteRouteToMarket: deleteRouteToMarket,
-  updateRouteToMarket: updateRouteToMarket,
-  setInitialState: setInitialState,
-  messages: {
-    MESSAGE_UNEXPECTED_ERROR: MESSAGE_UNEXPECTED_ERROR,
-    MESSAGE_PERMISSION_DENIED: MESSAGE_PERMISSION_DENIED,
-    MESSAGE_NOT_FOUND_ERROR: MESSAGE_NOT_FOUND_ERROR,
-    MESSAGE_TIMEOUT_ERROR: MESSAGE_TIMEOUT_ERROR
-  }
-});
+  config: _src_config__WEBPACK_IMPORTED_MODULE_1__["config"],
+  setConfig: _src_config__WEBPACK_IMPORTED_MODULE_1__["setConfig"],
+  setInitialState: setInitialState
+}));
 
 /***/ }),
 
@@ -65429,7 +65162,6 @@ var setNextUrl = function setNextUrl(nextUrl) {
 };
 
 var setInitialState = function setInitialState(payload) {
-  console.log('In set intitial state action payload:', payload);
   return {
     type: SET_INITIAL_STATE,
     payload: payload
@@ -65459,6 +65191,207 @@ var setMarket = function setMarket(market) {
   setInitialState: setInitialState,
   setProduct: setProduct,
   setMarket: setMarket
+});
+
+/***/ }),
+
+/***/ "./react-components/src/api.js":
+/*!*************************************!*\
+  !*** ./react-components/src/api.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* eslint-disable */
+
+var MESSAGE_UNEXPECTED_ERROR = {
+  __all__: ['Unexpected Error']
+};
+var MESSAGE_PERMISSION_DENIED = {
+  __all__: ['You do not have permission to perform this action']
+};
+var MESSAGE_NOT_FOUND_ERROR = {
+  __all__: ['Not found']
+};
+var MESSAGE_TIMEOUT_ERROR = {
+  __all__: ['Request timed out']
+};
+var MESSAGE_BAD_REQUEST_ERROR = {
+  __all__: ['Bad request']
+};
+
+var post = function post(url, data) {
+  console.log('******************* post', url);
+  return fetch(url, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_0__["config"].csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify(data)
+  });
+};
+
+var httpDelete = function httpDelete(url, data) {
+  return fetch(url, {
+    method: 'delete',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_0__["config"].csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify(data)
+  });
+};
+
+var get = function get(url, params) {
+  var parsedUrl = new URL("".concat(location.origin).concat(url));
+  var parsedParams = new URLSearchParams(params).toString();
+  parsedUrl.search = parsedParams;
+  return fetch(parsedUrl, {
+    method: 'get',
+    headers: {
+      Accept: 'application/json',
+      'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_0__["config"].csrfToken,
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  });
+};
+
+var responseHandler = function responseHandler(response) {
+  if (response.status == 400) {
+    return response.json().then(function (error) {
+      throw error;
+    });
+  } else if (response.status == 403) {
+    throw MESSAGE_PERMISSION_DENIED;
+  } else if (response.status == 404) {
+    throw MESSAGE_NOT_FOUND_ERROR;
+  } else if (response.status == 504) {
+    throw MESSAGE_TIMEOUT_ERROR;
+  } else if (response.status == 400) {
+    throw MESSAGE_BAD_REQUEST_ERROR;
+  } else if (response.status != 200) {
+    throw MESSAGE_UNEXPECTED_ERROR;
+  } else {
+    return response;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  responseHandler: responseHandler,
+  checkCredentials: function checkCredentials(_ref) {
+    var email = _ref.email,
+        password = _ref.password;
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiLoginUrl, {
+      email: email,
+      password: password
+    }).then(responseHandler);
+  },
+  logout: function logout() {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiLogoutUrl).then(responseHandler);
+  },
+  updateExportPlan: function updateExportPlan(data) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiUpdateExportPlanUrl, data).then(responseHandler);
+  },
+  getCountries: function getCountries() {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiCountriesUrl, {}).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  getSuggestedCountries: function getSuggestedCountries(hs_code) {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiSuggestedCountriesUrl, {
+      hs_code: hs_code
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  getCountryData: function getCountryData(country) {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].countryDataUrl, {
+      country: country
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  getPopulationByCountryData: function getPopulationByCountryData(countries) {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].populationByCountryUrl, {
+      countries: countries
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  getMarketingCountryData: function getMarketingCountryData(data) {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].marketingCountryData, data).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  lookupProduct: function lookupProduct(_ref2) {
+    var proddesc = _ref2.proddesc;
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiLookupProductUrl, {
+      proddesc: proddesc
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  lookupProductRefine: function lookupProductRefine(_ref3) {
+    var txId = _ref3.txId,
+        interactionId = _ref3.interactionId,
+        values = _ref3.values;
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiLookupProductUrl, {
+      tx_id: txId,
+      interaction_id: interactionId,
+      values: values
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  getLessonComplete: function getLessonComplete(endpoint) {
+    return get(endpoint).then(responseHandler);
+  },
+  setLessonComplete: function setLessonComplete(endpoint) {
+    return post(endpoint).then(responseHandler);
+  },
+  setLessonIncomplete: function setLessonIncomplete(endpoint) {
+    return httpDelete(endpoint).then(responseHandler);
+  },
+  createRouteToMarket: function createRouteToMarket(data) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiRouteToMarketCreateUrl, data).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  deleteRouteToMarket: function deleteRouteToMarket(pk) {
+    return httpDelete(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiRouteToMarketDeleteUrl, {
+      pk: pk
+    }).then(responseHandler);
+  },
+  updateRouteToMarket: function updateRouteToMarket(data) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiRouteToMarketUpdateUrl, data).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  createObjective: function createObjective(data) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiObjectivesCreateUrl, data).then(responseHandler);
+  },
+  deleteObjective: function deleteObjective(pk) {
+    return httpDelete(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiObjectivesDeleteUrl, {
+      pk: pk
+    }).then(responseHandler);
+  },
+  updateObjective: function updateObjective(data) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiObjectivesUpdateUrl, data).then(responseHandler);
+  },
+  messages: {
+    MESSAGE_UNEXPECTED_ERROR: MESSAGE_UNEXPECTED_ERROR,
+    MESSAGE_PERMISSION_DENIED: MESSAGE_PERMISSION_DENIED,
+    MESSAGE_NOT_FOUND_ERROR: MESSAGE_NOT_FOUND_ERROR,
+    MESSAGE_TIMEOUT_ERROR: MESSAGE_TIMEOUT_ERROR
+  }
 });
 
 /***/ }),
@@ -65494,8 +65427,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_Lesson_ComingSoon__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/components/Lesson/ComingSoon */ "./react-components/src/components/Lesson/ComingSoon/index.jsx");
 /* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_23__);
+
 
 
 
@@ -65541,7 +65476,7 @@ __webpack_require__.r(__webpack_exports__);
   SelectComparisonMarket: _src_components_CompareMarkets_SelectMarket__WEBPACK_IMPORTED_MODULE_8__["default"],
   ModalMenu: _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_6__["default"],
   createLogin: _src_views_Login__WEBPACK_IMPORTED_MODULE_2__["createLogin"],
-  setConfig: _src_Services__WEBPACK_IMPORTED_MODULE_21__["default"].setConfig,
+  setConfig: _src_config__WEBPACK_IMPORTED_MODULE_22__["setConfig"],
   setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_21__["default"].setInitialState,
   Signup: _src_views_Signup_Container__WEBPACK_IMPORTED_MODULE_0__["default"],
   SignupModal: _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -65721,7 +65656,7 @@ function SelectMarket(props) {
       className: "m-b-xs"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
-      className: "tag tag--icon ".concat(isSelected ? 'tag--primary' : 'tag--tertiary'),
+      className: "tag tag--icon ".concat(isSelected ? 'tag--primary' : 'tag--tertiary', " market-").concat(mapMarket.country_iso2_code),
       onClick: function onClick() {
         return clickMarket(mapMarket);
       }
@@ -65917,12 +65852,13 @@ function CompareMarkets(props) {
     var tableBody = Object.values(comparisonMarkets).map(function (market) {
       var populationCountryData = getCountryData(market.country_name);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: "market-".concat(market.country_iso2_code)
+        key: "market-".concat(market.country_iso2_code),
+        id: "market-".concat(market.country_name)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "p-v-xs"
+        className: "p-v-xs name"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "body-l-b",
-        id: "market-".concat(market.country_iso2_code)
+        id: "market-".concat(market.country_name)
       }, market.country_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         onClick: removeMarket,
@@ -65931,13 +65867,13 @@ function CompareMarkets(props) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-times-circle"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-total-population-".concat(market.country_name)
+        className: "total-population"
       }, populationCountryData ? populationCountryData.total_population : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-internet-usage-".concat(market.country_name)
+        className: "internet-usage"
       }, populationCountryData && populationCountryData.internet_usage ? "".concat(populationCountryData.internet_usage.value, "%") : 'NA'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-urban-population-".concat(market.country_name)
+        className: "urban-population"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, populationCountryData ? populationCountryData.urban_population_percentage_formatted : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-rural-population-".concat(market.country_name)
+        className: "rural-population"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, populationCountryData ? populationCountryData.rural_population_percentage_formatted : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'));
     });
     dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -68409,7 +68345,8 @@ CountryFinderButton.propTypes = {
   setMarket: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func.isRequired
 };
 CountryFinderButton.defaultProps = {
-  commodityCode: ''
+  commodityCode: '',
+  market: null
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -68511,28 +68448,20 @@ function CountryFinderModal(props) {
 
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState10 = _slicedToArray(_useState9, 2),
-      productConfirmationRequired = _useState10[0],
-      setProductConfirmationRequired = _useState10[1];
+      expandRegion = _useState10[0],
+      setExpandRegion = _useState10[1];
 
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState12 = _slicedToArray(_useState11, 2),
-      expandRegion = _useState12[0],
-      setExpandRegion = _useState12[1];
-
-  var openCountryFinder = function openCountryFinder(open) {
-    setIsOpen(open);
-
-    if (open) {
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (modalIsOpen) {
       Object(_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
         'event': 'addMarketPageview',
         'virtualPageUrl': '/choose-target-market-modal',
         'virtualPageTitle': 'Choose Target Market Modal'
       });
     }
-  };
+  }, [modalIsOpen]);
 
   var closeModal = function closeModal() {
-    setProductConfirmationRequired(false);
     setSearchStr('');
     setExpandRegion(false);
     setIsOpen(false);
@@ -71561,6 +71490,91 @@ var useOnOutsideClick = function useOnOutsideClick(outsideClick) {
 
 /***/ }),
 
+/***/ "./react-components/src/config.js":
+/*!****************************************!*\
+  !*** ./react-components/src/config.js ***!
+  \****************************************/
+/*! exports provided: config, setConfig */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return config; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setConfig", function() { return setConfig; });
+// static values that will not change during execution of the code
+// These are set within the base template
+var config = {};
+var setConfig = function setConfig(_ref) {
+  var countryDataUrl = _ref.countryDataUrl,
+      marketingCountryData = _ref.marketingCountryData,
+      removeSectorUrl = _ref.removeSectorUrl,
+      removeCountryDataUrl = _ref.removeCountryDataUrl,
+      countriesBySectorsDataUrl = _ref.countriesBySectorsDataUrl,
+      apiLoginUrl = _ref.apiLoginUrl,
+      apiLogoutUrl = _ref.apiLogoutUrl,
+      apiSignupUrl = _ref.apiSignupUrl,
+      apiLookupProductUrl = _ref.apiLookupProductUrl,
+      apiCountriesUrl = _ref.apiCountriesUrl,
+      apiSuggestedCountriesUrl = _ref.apiSuggestedCountriesUrl,
+      apiUpdateCompanyUrl = _ref.apiUpdateCompanyUrl,
+      countryOptions = _ref.countryOptions,
+      csrfToken = _ref.csrfToken,
+      dashboardUrl = _ref.dashboardUrl,
+      googleUrl = _ref.googleUrl,
+      industryOptions = _ref.industryOptions,
+      linkedInUrl = _ref.linkedInUrl,
+      loginUrl = _ref.loginUrl,
+      passwordResetUrl = _ref.passwordResetUrl,
+      termsUrl = _ref.termsUrl,
+      verifyCodeUrl = _ref.verifyCodeUrl,
+      userIsAuthenticated = _ref.userIsAuthenticated,
+      apiUpdateExportPlanUrl = _ref.apiUpdateExportPlanUrl,
+      apiObjectivesCreateUrl = _ref.apiObjectivesCreateUrl,
+      apiObjectivesDeleteUrl = _ref.apiObjectivesDeleteUrl,
+      apiObjectivesUpdateUrl = _ref.apiObjectivesUpdateUrl,
+      apiRouteToMarketCreateUrl = _ref.apiRouteToMarketCreateUrl,
+      apiRouteToMarketDeleteUrl = _ref.apiRouteToMarketDeleteUrl,
+      apiRouteToMarketUpdateUrl = _ref.apiRouteToMarketUpdateUrl,
+      exportPlanTargetMarketsUrl = _ref.exportPlanTargetMarketsUrl,
+      signupUrl = _ref.signupUrl,
+      populationByCountryUrl = _ref.populationByCountryUrl;
+  config.countryDataUrl = countryDataUrl;
+  config.marketingCountryData = marketingCountryData;
+  config.removeSectorUrl = removeSectorUrl;
+  config.removeCountryDataUrl = removeCountryDataUrl;
+  config.countriesBySectorsDataUrl = countriesBySectorsDataUrl;
+  config.apiLoginUrl = apiLoginUrl;
+  config.apiLogoutUrl = apiLogoutUrl;
+  config.apiSignupUrl = apiSignupUrl;
+  config.apiLookupProductUrl = apiLookupProductUrl;
+  config.apiCountriesUrl = apiCountriesUrl;
+  config.apiSuggestedCountriesUrl = apiSuggestedCountriesUrl;
+  config.apiUpdateCompanyUrl = apiUpdateCompanyUrl;
+  config.apiUpdateExportPlanUrl = apiUpdateExportPlanUrl;
+  config.apiObjectivesCreateUrl = apiObjectivesCreateUrl;
+  config.apiObjectivesDeleteUrl = apiObjectivesDeleteUrl;
+  config.apiObjectivesUpdateUrl = apiObjectivesUpdateUrl;
+  config.apiRouteToMarketCreateUrl = apiRouteToMarketCreateUrl;
+  config.apiRouteToMarketDeleteUrl = apiRouteToMarketDeleteUrl;
+  config.apiRouteToMarketUpdateUrl = apiRouteToMarketUpdateUrl;
+  config.countryOptions = countryOptions;
+  config.csrfToken = csrfToken;
+  config.dashboardUrl = dashboardUrl;
+  config.googleUrl = googleUrl;
+  config.industryOptions = industryOptions;
+  config.linkedInUrl = linkedInUrl;
+  config.loginUrl = loginUrl;
+  config.passwordResetUrl = passwordResetUrl;
+  config.termsUrl = termsUrl;
+  config.verifyCodeUrl = verifyCodeUrl;
+  config.userIsAuthenticated = userIsAuthenticated;
+  config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl;
+  config.signupUrl = signupUrl;
+  config.populationByCountryUrl = populationByCountryUrl;
+};
+
+/***/ }),
+
 /***/ "./react-components/src/reducers.js":
 /*!******************************************!*\
   !*** ./react-components/src/reducers.js ***!
@@ -71578,7 +71592,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNextUrl", function() { return getNextUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProducts", function() { return getProducts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMarkets", function() { return getMarkets; });
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
@@ -71588,41 +71602,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var saveToExportPlan = function saveToExportPlan(country) {
-  _src_Services__WEBPACK_IMPORTED_MODULE_0__["default"].updateExportPlan({
+  _src_api__WEBPACK_IMPORTED_MODULE_0__["default"].updateExportPlan({
     export_countries: [country]
   }).then(function () {
-    closeModal();
-    window.location.reload();
-  }).then(Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["analytics"])({
-    'event': 'addMarketSuccess',
-    'suggestMarket': country.suggested ? country.name : '',
-    'listMarket': country.suggested ? '' : country.name,
-    'marketAdded': country.name
-  }))["catch"](function () {// TODO: Add error confirmation here
+    var name = country.country_name;
+    Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["analytics"])({
+      'event': 'addMarketSuccess',
+      'suggestMarket': country.suggested ? name : '',
+      'listMarket': country.suggested ? '' : name,
+      'marketAdded': name
+    });
+  })["catch"](function () {// TODO: Add error confirmation here
   });
 };
 
 var initialState = {
   // prevents modals from opening on page load if user dismissed the modal already
-  performSkipFeatureCookieCheck: true,
-  // place to send user on successful completion of certain forms
-  nextUrl: undefined,
   modalIsOpen: {
     products: false,
     countries: false,
     industries: false,
     login: false,
     signup: false
-  },
-  user: {
-    expertise: {
-      countries: [],
-      industries: [],
-      products: []
-    }
-  },
-  products: [],
-  markets: []
+  }
 }; //const cloneState = state => JSON.parse(JSON.stringify(state))
 
 function setModalIsOpen(state, payload) {
@@ -71662,7 +71664,7 @@ function setNextUrl(state, payload) {
   return newState;
 }
 
-var oldReducers = function oldReducers() {
+var baseReducers = function baseReducers() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
@@ -71696,9 +71698,7 @@ var exportPlanReducer = function exportPlanReducer(state, action) {
       break;
 
     case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_MARKET"]:
-      console.log('Set market', newState.markets && newState.markets[0], action.payload);
-      saveToExportPlan(action.payload); //let newMarket = {country_name:action.payload.name}
-
+      saveToExportPlan(action.payload);
       newState.markets = [action.payload];
   }
 
@@ -71707,7 +71707,6 @@ var exportPlanReducer = function exportPlanReducer(state, action) {
 
 var setInitialStateReducer = function setInitialStateReducer(state, action) {
   if (action.type === _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_INITIAL_STATE"]) {
-    console.log('set initial sate ***** ', action.payload);
     state = action.payload;
   }
 
@@ -71740,12 +71739,12 @@ var getMarkets = function getMarkets(state) {
 };
 
 var rootReducer = function rootReducer(state, action) {
-  var state1 = oldReducers(state, action);
-  var state2 = setInitialStateReducer(state1, action);
+  state = baseReducers(state, action);
+  state = setInitialStateReducer(state, action);
   return Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen
-  })(state2, action);
+  })(state, action);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (rootReducer);

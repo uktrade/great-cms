@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
@@ -14,22 +14,20 @@ export default function CountryFinderModal(props) {
   const [suggestedCountries, setSuggestedCountries] = useState([])
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchStr, setSearchStr] = useState()
-  const [productConfirmationRequired, setProductConfirmationRequired] = useState(false)
   const [expandRegion, setExpandRegion] = useState(false)
 
-  const openCountryFinder = (open) => {
-    setIsOpen(open)
-    if (open) {
+  useEffect(() => {
+    if (modalIsOpen) {
       analytics({
         'event': 'addMarketPageview',
         'virtualPageUrl': '/choose-target-market-modal',
         'virtualPageTitle': 'Choose Target Market Modal'
       })
     }
-  }
+
+  },[modalIsOpen])
 
   const closeModal = () => {
-    setProductConfirmationRequired(false)
     setSearchStr('')
     setExpandRegion(false)
     setIsOpen(false)

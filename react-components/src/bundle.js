@@ -22,6 +22,7 @@ import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
 import { createComingSoonModal } from '@src/components/Lesson/ComingSoon'
 import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
+import { setConfig } from '@src/config'
 import '@babel/polyfill'
 
 export default {
@@ -47,7 +48,7 @@ export default {
   SelectComparisonMarket,
   ModalMenu,
   createLogin,
-  setConfig: Services.setConfig,
+  setConfig: setConfig,
   setInitialState: Services.setInitialState,
   Signup,
   SignupModal,

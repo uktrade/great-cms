@@ -21,7 +21,7 @@ function SelectMarket(props) {
     const isSelected = (market && market.country_iso2_code) === mapMarket.country_iso2_code
     return (
       <li key={mapMarket.country_iso2_code} className="m-b-xs">
-        <button type="button" className={`tag tag--icon ${isSelected ? 'tag--primary' : 'tag--tertiary'}`} onClick={() => clickMarket(mapMarket)}>
+        <button type="button" className={`tag tag--icon ${isSelected ? 'tag--primary' : 'tag--tertiary'} market-${mapMarket.country_iso2_code}`} onClick={() => clickMarket(mapMarket)}>
           {mapMarket.country_name}<i className={`fa ${isSelected ? 'fa-check' :'fa-plus'}`}/>
         </button>
       </li>)

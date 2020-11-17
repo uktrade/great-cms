@@ -63,11 +63,12 @@ CountryFinderButton.propTypes = {
     country_name: PropTypes.string,
     country_iso2_code: PropTypes.string,
     region: PropTypes.string
-  }), 
+  }),
   setMarket: PropTypes.func.isRequired
 }
 CountryFinderButton.defaultProps = {
   commodityCode: '',
+  market: null
 }
 
 const mapStateToProps = (state) => {
@@ -92,7 +93,8 @@ export default function createCountryFinderButton({ ...params }) {
   ReactDOM.render(
     (<Provider store={Services.store}>
         <ConnectedContainer 
-        commodityCode={commodityCode}/>
+          commodityCode={commodityCode}
+        />
       </Provider>), params.element
   )
 }
