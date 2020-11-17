@@ -101,7 +101,9 @@ def test_update_export_plan(mock_exportplan_update):
 
 
 @mock.patch.object(helpers, 'get_exportplan')
-def test_get_or_create_export_plan_existing(mock_get_exportplan, user):
+def test_get_or_create_export_plan_existing(mock_get_exportplan, patch_get_create_export_plan, user):
+    # Lets stop higher level function auto fixture so we can test inner functions
+    patch_get_create_export_plan.stop()
     mock_get_exportplan.return_value = create_response(status_code=200, json_body={'export_plan'})
 
     export_plan = helpers.get_or_create_export_plan(user)
@@ -149,8 +151,10 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
 @mock.patch.object(helpers, 'get_exportplan')
 @mock.patch.object(helpers, 'create_export_plan')
 def test_get_or_create_export_plan_created(
-        mock_create_export_plan, mock_get_exportplan, user
+        mock_create_export_plan, mock_get_exportplan, patch_get_create_export_plan, user
 ):
+    # Lets stop higher level function auto fixture so we can test inner functions
+    patch_get_create_export_plan.stop()
     mock_get_exportplan.return_value = None
 
     mock_create_export_plan.return_value = {'export_plan_created'}

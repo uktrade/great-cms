@@ -163,21 +163,44 @@ def mock_export_plan_requests(
 
 
 @pytest.fixture
-@pytest.mark.django_db(transaction=True)
-@mock.patch.object(exportplan_helpers, 'get_or_create_export_plan')
-def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
-
-    explan_plan_data = {
+def export_plan_data():
+    return {
         'country': 'Australia',
         'commodity_code': '220.850',
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
-        'rules_regulations': {'country_code': 'CHN'},
+        'target_markets_research': '',
+        'ui_options': {'target_ages': ['25-29', '47-49']},
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
+        'about_your_business': '',
+        'adaptation_target_market': [],
+        'target_market_documents': {'document_name': 'test'},
+        'route_to_markets': {'route': 'test'},
+        'marketing_approach': {'resources': 'xyz'},
+        'company_objectives': {},
+        'objectives': {'rationale': 'business rationale'},
     }
-    mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)
+
+
+@pytest.fixture
+def patch_get_create_export_plan(export_plan_data):
+    yield mock.patch.object(
+        exportplan_helpers,
+        'get_or_create_export_plan',
+        return_value=export_plan_data
+    )
+
+
+@pytest.fixture(autouse=True)
+def mock_get_create_export_plan(patch_get_create_export_plan):
+    yield patch_get_create_export_plan.start()
+    try:
+        patch_get_create_export_plan.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
 
 
 @pytest.fixture

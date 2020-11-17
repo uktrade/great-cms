@@ -151,6 +151,7 @@ class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, Expo
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
         context['promotional_choices'] = promotional_choices
+        context['target_ages'] = self.export_plan['ui_options'].get('target_ages')
         return context
 
 

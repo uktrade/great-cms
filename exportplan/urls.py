@@ -67,6 +67,8 @@ urlpatterns = [
          name='api-population-data-by-country'),
     path('api/marketing-country-data/', skip_ga360(api.RetrieveMarketingCountryData.as_view()),
          name='api-marketing-country-data'),
+    path('api/marketing-country-age-group-data/', skip_ga360(api.RetrieveMarketingTargetAgeData.as_view()),
+         name='api-marketing-country-age-group-data'),
     path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
     path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),
     path('api/objectives/delete/', skip_ga360(api.ObjectivesDestroyAPIView.as_view()), name='api-objectives-delete'),

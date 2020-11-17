@@ -113,14 +113,26 @@ class RetrieveMarketingCountryData(APIView):
     def get(self, request):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
-        target_age_groups = serializer.validated_data['target_age_groups']
         country = serializer.validated_data['country']
 
-        population_data = helpers.get_population_data(country=country, target_ages=target_age_groups)
         country_data = helpers.get_country_data(country)
         factbook_data = helpers.get_cia_world_factbook_data(country=country, key='people,languages')
-        data = {**population_data, **country_data, **factbook_data}
+        data = {**country_data, **factbook_data}
         return Response(data)
+
+
+class RetrieveMarketingTargetAgeData(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.CountryTargetAgeDataSerializer
+
+    def get(self, request):
+        serializer = self.serializer_class(data=self.request.GET)
+        serializer.is_valid(raise_exception=True)
+        target_ages = serializer.validated_data['target_age_groups']
+        country = serializer.validated_data['country']
+
+        population_data = helpers.get_population_data(country=country, target_ages=target_ages)
+        return Response(population_data)
 
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):

@@ -34,33 +34,6 @@ def company_profile_data():
 
 
 @pytest.fixture(autouse=True)
-def export_plan_data():
-    return {
-        'about_your_business': '',
-        'target_markets_research': '',
-        'adaptation_target_market': [],
-        'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': {'route': 'test'},
-        'marketing_approach': {'resources': 'xyz'},
-        'company_objectives': {},
-        'objectives': {'rationale': 'business rationale'},
-        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]
-    }
-
-
-@pytest.fixture(autouse=True)
-def mock_get_create_export_plan(export_plan_data):
-    patch = mock.patch.object(
-        helpers,
-        'get_or_create_export_plan',
-        return_value=export_plan_data
-    )
-
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=True)
 def mock_cia_factbook_data():
     patch = mock.patch.object(
         helpers,
@@ -232,7 +205,6 @@ def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, us
 )
 def test_export_plan_mixin(export_plan_data, slug, next_slug, client, user):
     client.force_login(user)
-
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200

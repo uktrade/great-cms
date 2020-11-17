@@ -10,6 +10,10 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
 
 
 class PopulationDataSerializer(serializers.Serializer):
+    country = serializers.CharField()
+
+
+class CountryTargetAgeDataSerializer(serializers.Serializer):
     target_age_groups = serializers.ListField(child=serializers.CharField())
     country = serializers.CharField()
 
@@ -65,6 +69,10 @@ class ExportPlanCommodityCodeSerializer(serializers.Serializer):
     commodity_code = serializers.CharField(required=True)
 
 
+class UiOptions(serializers.Serializer):
+    target_ages = serializers.ListField(child=serializers.CharField())
+
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -74,6 +82,7 @@ class ExportPlanSerializer(serializers.Serializer):
     target_markets_research = TargetMarketsResearchSerializer(required=False)
     marketing_approach = MarketingApproachSerializer(required=False)
     adaptation_target_market = AdaptationTargetMarketSerializer(required=False)
+    ui_option = UiOptions(required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
