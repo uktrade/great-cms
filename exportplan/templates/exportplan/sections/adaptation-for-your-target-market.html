@@ -1,15 +1,22 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
 
-{% block intro_content %}
-<h1 class="h-xl">Adaptation for your target market</h1>
-<p>Different markets will have different rules you have to follow when it comes to selling your product. It is likely you will have to modify your product to make it fit with regulatory and cultural requirements.</p>
-<p>Create a clear strategy for the modifications you will have to make in order to successfully expand your business in your target market.</p>
+{% block intro_title %}Adaptation for your target market{%endblock %}
+{% block intro_description %}
+Different markets will have different rules you have to follow when it comes
+to selling your product. It is likely you will have to modify your product to make it fit with regulatory and cultural
+requirements.
+<br />
+<br />
+Create a clear strategy for the modifications you will have to make in order to successfully expand your business in
+your target market.
 {% endblock %}
-
 {% block main_content %}
 <div class="g-panel">
-  <p>Create a high level plan and record all the changes you have to make to your product to sell in your chosen market. This will help you stay on top of what needs changing and where.</p>
+  <p>
+    Create a high level plan and record all the changes you have to make to your product to sell in your chosen market.
+    This will help you stay on top of what needs changing and where.
+  </p>
   <p>Some of the things you will want to consider are:</p>
   <ul class="list-bullet">
     <li>regulations and standards</li>
@@ -19,67 +26,78 @@
     <li>relevant export certificates</li>
   </ul>
 </div>
-
-<section class="container bg-black-20  m-b-m m-t-l">
-  <div class="insight-section insight-section--border">
-    <h3>Facts about the Netherlands to get you started</h3>
-  </div>
-<div class="insight-section insight-section--border">
-    <p class="m-0">The main languages in your chosen market are:</p>
-    <p>
-      {{ language_data.cia_factbook_data.languages.note }}
-    </p>
-    <ul class="h-m p-0 m-0">
-      {% for language in language_data.cia_factbook_data.languages.language %}
-        <li class="inline-block">
-          {{language.name}}
-            {% if language.note == 'official' and language.percent %}
-              (official: {{language.percent}}%)
-            {% elif language.note == 'official' %}
-              (Official)
-            {% elif language.percent %}
-            ({{language.percent}}%)
-          {% endif %}
-          {% if not forloop.last %} , {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div class="insight-section">
-    <p class="m-0">To find out what product alterations and documents you might need visit  <a href="{{ check_duties_link }}">Check how to export goods</a> and choose the commodity code that best matches your product.</p>
-  </div>
-</section>
 {% endblock %}
 
 {% block user_input %}
+<section class="bg-blue-deep-10 m-t-l m-b-s">
+  <div class="container">
+    <div class="grid flex-grid">
+      <div class="c-1-2 m-h-auto">
+        <h2 class="h-xs p-t-l p-b-0">
+          Data Snapshot: exporting {{ export_plan.export_commodity_codes.0.commodity_name }} to
+          {{ export_plan.export_countries.0.country_name }}
+        </h2>
+        <div class="insight-section insight-section--border">
+          <p class="m-0">The main languages in your chosen market are:</p>
+          <p>
+            {{ language_data.cia_factbook_data.languages.note }}
+          </p>
+          <ul class="h-m p-0 m-0">
+            {% for language in language_data.cia_factbook_data.languages.language %}
+            <li class="inline-block">
+              {{language.name}} {% if language.note == 'official' and language.percent %} (official:
+              {{language.percent}}%) {% elif language.note == 'official' %} (Official) {% elif language.percent %}
+              ({{language.percent}}%) {% endif %} {% if not forloop.last %} , {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="insight-section">
+          <p class="m-0">
+            To find out what product alterations and documents you might need visit
+            <a href="{{ check_duties_link }}">Check how to export goods</a> and choose the commodity code that best
+            matches your product.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="container m-b-m">
-  <div class="grid">
-    <div class="c-1-3">&nbsp;</div>
-    <div class="c-1-2">
+  <div class="grid flex-grid">
+    <div class="c-1-2 m-h-auto">
       <h3 class="h-l">Changing your product to adapt to your target market</h3>
-      <p>It is likely that you will have to make changes to your product so you can successfully sell it in your tarket market. You will have to do your own research to find out what changes need to be made.</p>
+      <p>
+        It is likely that you will have to make changes to your product so you can successfully sell it in your tarket
+        market. You will have to do your own research to find out what changes need to be made.
+      </p>
       <p>Record all these changes in the following table.</p>
       <div class="">
         <form class="" action="" method="post" id="adapt-to-target-market">
-          {% csrf_token %}
-          {{ form }}
-          <input type="submit" class="g-button" value="Save">
+          {% csrf_token %} {{ form }}
+          <input type="submit" class="g-button" value="Save" />
         </form>
       </div>
     </div>
   </div>
 </section>
-{% endblock %}
-
-{% block body_js %}
-  {{ block.super }}
-  <script type="text/javascript">
-    var element = document.getElementById('adapt-to-target-market');
-    magna.adaptToTargetMarketForm({
-      element: element,
-      field: 'adaptation_target_market',
-      formData: {{ form_initial|safe }},
-      formFields: {{ form_fields|safe }},
-    })
-  </script>
+{% endblock %} {% block body_js %} {{ block.super }}
+<script type="text/javascript">
+  var element = document.getElementById('adapt-to-target-market');
+  magna.adaptToTargetMarketForm({
+    element: element,
+    field: 'adaptation_target_market',
+    formData: {
+      {
+        form_initial | safe
+      }
+    },
+    formFields: {
+      {
+        form_fields | safe
+      }
+    },
+  })
+</script>
 {% endblock %}
