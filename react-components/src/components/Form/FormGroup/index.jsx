@@ -10,7 +10,8 @@ export const FormGroup = ({
   id,
   label,
   description,
-  example
+  example,
+  hideLabel
 }) => (
   <div
     className={`form-group ${errors.length > 0 ? 'form-group-error' : ''}`}
@@ -24,7 +25,7 @@ export const FormGroup = ({
         type='LEFT'
       />
     }
-    <label className='form-label' htmlFor={id}>{label}</label>
+    <label className={`form-label ${hideLabel ? 'visually-hidden': ''}`} htmlFor={id}>{label}</label>
     { description && <div className='text-blue-deep-80 p-t-xs p-b-xxs' dangerouslySetInnerHTML={{ __html: description }} /> }
     {
       example &&
@@ -48,11 +49,13 @@ FormGroup.propTypes = {
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
   example: PropTypes.string,
+  hideLabel: PropTypes.bool,
 }
 
 FormGroup.defaultProps = {
   errors: [],
   description: '',
   tooltip: '',
-  example: ''
+  example: '',
+  hideLabel: false
 }

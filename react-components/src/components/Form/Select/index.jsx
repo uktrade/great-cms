@@ -17,7 +17,8 @@ export const Select = ({
   options,
   description,
   tooltip,
-  example
+  example,
+  hideLabel
 }) => {
 
   const [input, setInput] = useState(selected)
@@ -81,6 +82,7 @@ export const Select = ({
         tooltip={tooltip}
         example={example}
         tabIndex='-1'
+        hideLabel={hideLabel}
       />
       <button
         className={`select__button text-blue-deep-20 button--toggle ${isOpen ? 'select__button--close' : ''}`}
@@ -124,11 +126,13 @@ Select.propTypes = {
   description: PropTypes.string,
   tooltip: PropTypes.string,
   example: PropTypes.string,
+  hideLabel: PropTypes.bool,
 }
 
 Select.defaultProps = {
   selected: '',
   description: '',
   tooltip: '',
-  example: ''
+  example: '',
+  hideLabel: false
 }
