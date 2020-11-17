@@ -11,7 +11,7 @@
         {% get_lesson_progress_for_topic completed_lessons topic.id as topic_progress_data %}
         {% if topic_progress_data %}
         <p class="learn__topic-item-count body-m-b m-t-xxs m-b-0">
-            {{topic_progress_data.lessons_completed}} / {{topic_progress_data.lessons_available}} lessons complete
+            {{topic_progress_data.lessons_completed}} / {{topic_progress_data.lessons_available}} lesson{{topic_progress_data.lessons_available|pluralize}} completed
         </p>
         {% endif %}
     </div>

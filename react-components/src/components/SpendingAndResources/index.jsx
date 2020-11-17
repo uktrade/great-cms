@@ -13,16 +13,20 @@ export const SpendingAndResources = ({
 }) => {
 
   const [input, setInput] = useState(formData)
+  const [pushedAnalytic, setPushedAnalytic] = useState(false)
 
   const update = (e) => {
     setInput({ ...e })
     Services.updateExportPlan({ [field]: { ...e }})
-      .then(
-         analytics({
-              'event': 'planSectionSaved',
-              'sectionTitle': field
-            })
-      )
+      .then( () => {
+        if (!pushedAnalytic) {
+          analytics({
+            'event': 'planSectionSaved',
+            'sectionTitle': 'marketing-approach'
+          })
+          setPushedAnalytic(true)
+        }
+      })
       .catch(() => {})
   }
 

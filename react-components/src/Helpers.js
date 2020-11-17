@@ -21,9 +21,24 @@ const analytics = (data) => {
   dataLayer.push(data)
 }
 
+const sectionQuestionMapping =  {
+ 'story': 'How you started',
+ 'location': 'Where you\'re based',
+ 'processes': 'How you make your products',
+ 'packaging': 'Your product packaging',
+ 'performance' : 'Your business performance',
+ 'rationale': 'Why you want to export',
+ 'demand': 'Describe the consumer demand for your product in the selected country',
+ 'competitors': 'Who are your competitors in the selected country?',
+ 'trend': 'What are the product trends in the selected country?',
+ 'unqiue_selling_proposition': 'What’s your unique selling proposition for the selected country?',
+ 'average_price': 'What’s the avg price for your product in the selected country?'
+}
+
 export {
   slugify,
   addItemToList,
   capitalize,
-  analytics
+  analytics,
+  sectionQuestionMapping
 }
