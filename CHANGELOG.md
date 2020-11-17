@@ -136,6 +136,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-1034 - Update lesson progress bar wording
 - GP2-979 - Mobile learning module page
 - GP2-741 - Update Wagtail-Transfer version and configuration
 - GP2-914 - Responsive header
