@@ -64996,99 +64996,25 @@ var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_src_reduc
 var setInitialState = function setInitialState(state) {
   store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_3__["default"].setInitialState(state));
 };
+/* Unused 
+const getCountriesDataBySectors = function(sectors) {
+  return api.get(config.countriesBySectorsDataUrl, { sectors: sectors }).then((response) =>
+    api.responseHandler(response).json()
+  )
+}
 
-var post = function post(url, data) {
-  return fetch(url, {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_1__["config"].csrfToken,
-      'X-Requested-With': 'XMLHttpRequest'
-    },
-    body: JSON.stringify(data)
-  });
-};
+const removeSector = function() {
+  return api.get(config.removeSectorUrl, {}).then((response) => api.responseHandler(response).json())
+}
 
-var get = function get(url, params) {
-  var parsedUrl = new URL("".concat(location.origin).concat(url));
-  var parsedParams = new URLSearchParams(params).toString();
-  parsedUrl.search = parsedParams;
-  return fetch(parsedUrl, {
-    method: 'get',
-    headers: {
-      Accept: 'application/json',
-      'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_1__["config"].csrfToken,
-      'X-Requested-With': 'XMLHttpRequest'
-    }
-  });
-};
+const removeCountryData = function(country) {
+  return api.get(config.removeCountryDataUrl, { country: country }).then((response) => api.responseHandler(response).json())
+}
+*/
 
-var getCountriesDataBySectors = function getCountriesDataBySectors(sectors) {
-  return get(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].countriesBySectorsDataUrl, {
-    sectors: sectors
-  }).then(function (response) {
-    return _src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler(response).json();
-  });
-};
-
-var removeSector = function removeSector() {
-  return get(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].removeSectorUrl, {}).then(function (response) {
-    return _src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler(response).json();
-  });
-};
-
-var removeCountryData = function removeCountryData(country) {
-  return get(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].removeCountryDataUrl, {
-    country: country
-  }).then(function (response) {
-    return _src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler(response).json();
-  });
-};
-
-var createUser = function createUser(_ref) {
-  var email = _ref.email,
-      password = _ref.password;
-  return post(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].apiSignupUrl, {
-    email: email,
-    password: password
-  }).then(_src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler);
-};
-
-var checkVerificationCode = function checkVerificationCode(_ref2) {
-  var email = _ref2.email,
-      code = _ref2.code;
-  return post(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].verifyCodeUrl, {
-    email: email,
-    code: code
-  }).then(_src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler);
-};
-
-var updateCompany = function updateCompany(_ref3) {
-  var company_name = _ref3.company_name,
-      expertise_industries = _ref3.expertise_industries,
-      expertise_countries = _ref3.expertise_countries,
-      first_name = _ref3.first_name,
-      last_name = _ref3.last_name;
-  var data = {
-    company_name: company_name,
-    expertise_industries: expertise_industries,
-    expertise_countries: expertise_countries,
-    first_name: first_name,
-    last_name: last_name
-  };
-  return post(_src_config__WEBPACK_IMPORTED_MODULE_1__["config"].apiUpdateCompanyUrl, data).then(_src_api__WEBPACK_IMPORTED_MODULE_4__["default"].responseHandler);
-};
 
 /* harmony default export */ __webpack_exports__["default"] = (Object.assign({}, _src_api__WEBPACK_IMPORTED_MODULE_4__["default"], {
-  createUser: createUser,
-  checkVerificationCode: checkVerificationCode,
-  get: get,
   store: store,
-  updateCompany: updateCompany,
-  removeCountryData: removeCountryData,
-  removeSector: removeSector,
-  getCountriesDataBySectors: getCountriesDataBySectors,
   config: _src_config__WEBPACK_IMPORTED_MODULE_1__["config"],
   setConfig: _src_config__WEBPACK_IMPORTED_MODULE_1__["setConfig"],
   setInitialState: setInitialState
@@ -65224,7 +65150,6 @@ var MESSAGE_BAD_REQUEST_ERROR = {
 };
 
 var post = function post(url, data) {
-  console.log('******************* post', url);
   return fetch(url, {
     method: 'post',
     headers: {
@@ -65285,7 +65210,7 @@ var responseHandler = function responseHandler(response) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  responseHandler: responseHandler,
+  get: get,
   checkCredentials: function checkCredentials(_ref) {
     var email = _ref.email,
         password = _ref.password;
@@ -65385,6 +65310,37 @@ var responseHandler = function responseHandler(response) {
   },
   updateObjective: function updateObjective(data) {
     return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiObjectivesUpdateUrl, data).then(responseHandler);
+  },
+  createUser: function createUser(_ref4) {
+    var email = _ref4.email,
+        password = _ref4.password;
+    return api.post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiSignupUrl, {
+      email: email,
+      password: password
+    }).then(api.responseHandler);
+  },
+  checkVerificationCode: function checkVerificationCode(_ref5) {
+    var email = _ref5.email,
+        code = _ref5.code;
+    return api.post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].verifyCodeUrl, {
+      email: email,
+      code: code
+    }).then(api.responseHandler);
+  },
+  updateCompany: function updateCompany(_ref6) {
+    var company_name = _ref6.company_name,
+        expertise_industries = _ref6.expertise_industries,
+        expertise_countries = _ref6.expertise_countries,
+        first_name = _ref6.first_name,
+        last_name = _ref6.last_name;
+    var data = {
+      company_name: company_name,
+      expertise_industries: expertise_industries,
+      expertise_countries: expertise_countries,
+      first_name: first_name,
+      last_name: last_name
+    };
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiUpdateCompanyUrl, data).then(api.responseHandler);
   },
   messages: {
     MESSAGE_UNEXPECTED_ERROR: MESSAGE_UNEXPECTED_ERROR,

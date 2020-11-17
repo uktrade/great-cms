@@ -8,7 +8,6 @@ const MESSAGE_TIMEOUT_ERROR = { __all__: ['Request timed out'] }
 const MESSAGE_BAD_REQUEST_ERROR = { __all__: ['Bad request'] }
 
 const post = function(url, data) {
-      console.log('******************* post', url)
   return fetch(url, {
     method: 'post',
     headers: {
@@ -70,7 +69,7 @@ const responseHandler = function(response) {
 }
 
 export default {
-  responseHandler,
+  get,
 
   checkCredentials: ({ email, password }) => {
     return post(config.apiLoginUrl, { email, password }).then(responseHandler)
@@ -147,6 +146,26 @@ export default {
   updateObjective: (data) => {
     return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
   },
+
+  createUser: ({ email, password }) => {
+    return api.post(config.apiSignupUrl, { email, password }).then(api.responseHandler)
+  },
+
+  checkVerificationCode: ({ email, code }) => {
+    return api.post(config.verifyCodeUrl, { email, code }).then(api.responseHandler)
+  },
+
+  updateCompany: ({ company_name, expertise_industries, expertise_countries, first_name, last_name }) => {
+    const data = {
+      company_name,
+      expertise_industries,
+      expertise_countries,
+      first_name,
+      last_name
+    }
+    return post(config.apiUpdateCompanyUrl, data).then(api.responseHandler)
+  },
+
   messages: {
     MESSAGE_UNEXPECTED_ERROR,
     MESSAGE_PERMISSION_DENIED,
