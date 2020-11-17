@@ -148,11 +148,11 @@ export default {
   },
 
   createUser: ({ email, password }) => {
-    return api.post(config.apiSignupUrl, { email, password }).then(api.responseHandler)
+    return post(config.apiSignupUrl, { email, password }).then(responseHandler)
   },
 
   checkVerificationCode: ({ email, code }) => {
-    return api.post(config.verifyCodeUrl, { email, code }).then(api.responseHandler)
+    return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
   },
 
   updateCompany: ({ company_name, expertise_industries, expertise_countries, first_name, last_name }) => {
@@ -163,7 +163,7 @@ export default {
       first_name,
       last_name
     }
-    return post(config.apiUpdateCompanyUrl, data).then(api.responseHandler)
+    return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
   },
 
   messages: {

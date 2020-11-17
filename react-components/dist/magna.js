@@ -65314,18 +65314,18 @@ var responseHandler = function responseHandler(response) {
   createUser: function createUser(_ref4) {
     var email = _ref4.email,
         password = _ref4.password;
-    return api.post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiSignupUrl, {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiSignupUrl, {
       email: email,
       password: password
-    }).then(api.responseHandler);
+    }).then(responseHandler);
   },
   checkVerificationCode: function checkVerificationCode(_ref5) {
     var email = _ref5.email,
         code = _ref5.code;
-    return api.post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].verifyCodeUrl, {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].verifyCodeUrl, {
       email: email,
       code: code
-    }).then(api.responseHandler);
+    }).then(responseHandler);
   },
   updateCompany: function updateCompany(_ref6) {
     var company_name = _ref6.company_name,
@@ -65340,7 +65340,7 @@ var responseHandler = function responseHandler(response) {
       first_name: first_name,
       last_name: last_name
     };
-    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiUpdateCompanyUrl, data).then(api.responseHandler);
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiUpdateCompanyUrl, data).then(responseHandler);
   },
   messages: {
     MESSAGE_UNEXPECTED_ERROR: MESSAGE_UNEXPECTED_ERROR,
