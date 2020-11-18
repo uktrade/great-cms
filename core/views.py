@@ -126,7 +126,8 @@ class TargetMarketView(GA360Mixin, TemplateView):
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
-        context['data_tabs_enabled'] = {'population': True}
+        # Set to {'population':True} to enable page
+        context['data_tabs_enabled'] = {}
         return context
 
 
