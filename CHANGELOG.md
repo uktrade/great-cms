@@ -1,5 +1,6 @@
 # Changelog
 
+- no ticket - Reimplement old flex-grid
 - no ticket - Added dynamic year for footer
 - GP2-977 - Added analytics for export plan's coming soon section
 - GP2-918 - Added Data fetch for target market
