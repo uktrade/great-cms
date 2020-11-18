@@ -1,5 +1,6 @@
 # Changelog
 
+- no ticket - Reimplement old flex-grid
 - no ticket - Added dynamic year for footer
 - GP2-977 - Added analytics for export plan's coming soon section
 - GP2-918 - Added Data fetch for target market
@@ -136,6 +137,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-984 - Compare markets selector and redux global state managememt
+- GP2-1034 - Update lesson progress bar wording
 - GP2-979 - Mobile learning module page
 - GP2-741 - Update Wagtail-Transfer version and configuration
 - GP2-914 - Responsive header
