@@ -12,7 +12,7 @@
 {% block mainclasses %}text-blue-deep-80 {% endblock %}
 
 {% block main_content %}
-  {% set 'page_disabled' True %}
+  {% set 'page_disabled' False %}
   <div class="g-panel">
 
     {% if page_disabled %}
@@ -35,21 +35,15 @@
   {% if page_disabled %}
     <div class="m-v-xl"><button class="button button--tertiary" disabled>Coming soon</button></div>
   {% else %}
-    {% if not export_plan.export_commodity_codes.0 %}
-      <div id="open-product-finder" class="m-v-xl"></div>
+      <div id="open-product-finder" class="m-v-xl"
+           data-productname="{{export_plan.export_commodity_codes.0.commodity_name}}"
+           data-productcode="{{export_plan.export_commodity_codes.0.commodity_code}}">
+      </div>
       <script>
         magna.CompareMarkets({
         element: document.querySelector("#open-product-finder")
         })
       </script>
-    {% else %}
-      <div id="open-market-chooser" class="m-v-xl">
-        <button type="button" class="button button--primary button--icon">
-          <i class="fa fa-plus-square"></i>
-          Add market 1 of 3
-        </button>
-      </div>
-    {% endif %}
   {% endif %}
   <div class="p-v-l"></div>
 {% endblock %}
