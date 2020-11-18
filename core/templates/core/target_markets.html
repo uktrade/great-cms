@@ -39,14 +39,11 @@
 {% block additional_content %}
   {% if data_tabs_enabled %}
     <div id="open-product-finder" class="m-v-l" data-productname="{{export_plan.export_commodity_codes.0.commodity_name}}" data-productcode="{{export_plan.export_commodity_codes.0.commodity_code}}"></div>
+    <div id="comparison-market-selector" class="p-v-l m-v-l"/>
     <script>
       magna.CompareMarkets({
       element: document.querySelector("#open-product-finder")
       })
-    </script>
-
-    <div id="comparison-market-selector" class="p-v-l m-v-l"/>
-    <script>
       magna.SelectComparisonMarket({
       element: document.querySelector("#comparison-market-selector")
       })
