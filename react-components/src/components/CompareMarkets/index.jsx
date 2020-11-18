@@ -4,7 +4,10 @@ import PropTypes from 'prop-types'
 import {useCookies} from 'react-cookie';
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import {CountryFinderModal} from '../ProductFinder/CountryFinder'
-import TargetMarketData from "./TargetMarketData";
+import PopulationData from "./PopulationData";
+import EconomicData from "./EconomicData";
+import Tabs from "./Tabs";
+
 
 const maxSelectedLength = 3
 
@@ -57,14 +60,36 @@ function CompareMarkets(props) {
     )
   }
 
+  const showTab = (e) => {
+    console.log(e.target.dataset.id)
+  }
+
   return (
     <span>
-       <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
-          <TargetMarketData
+      <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
+      <div>
+
+      <Tabs>
+        <div label="Population">
+          population...
+           <PopulationData
             comparisonMarkets={comparisonMarkets}
             removeMarket={removeMarket}/>
-         {triggerButton}
-       </div>
+        </div>
+        <div label="Economic">
+          economics..
+            <EconomicData
+            comparisonMarkets={comparisonMarkets}
+            removeMarket={removeMarket}/>
+        </div>
+
+      </Tabs>
+    </div>
+
+
+
+        {triggerButton}
+        </div>
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
         setIsOpen={setProductModalIsOpen}

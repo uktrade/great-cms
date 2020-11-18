@@ -65625,16 +65625,16 @@ function createCaseStudy(_ref2) {
 
 /***/ }),
 
-/***/ "./react-components/src/components/CompareMarkets/TargetMarketData.jsx":
-/*!*****************************************************************************!*\
-  !*** ./react-components/src/components/CompareMarkets/TargetMarketData.jsx ***!
-  \*****************************************************************************/
+/***/ "./react-components/src/components/CompareMarkets/EconomicData.jsx":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/EconomicData.jsx ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TargetMarketData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EconomicData; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
@@ -65652,7 +65652,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function TargetMarketData(props) {
+function EconomicData(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
       populationData = _useState2[0],
@@ -65716,6 +65716,300 @@ function TargetMarketData(props) {
 
 /***/ }),
 
+/***/ "./react-components/src/components/CompareMarkets/PopulationData.jsx":
+/*!***************************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/PopulationData.jsx ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PopulationData; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function PopulationData(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      populationData = _useState2[0],
+      setPopulationData = _useState2[1];
+
+  var getCountryData = function getCountryData(country) {
+    if (populationData && populationData.length) {
+      var country_data = Object.values(populationData).find(function (x) {
+        return x[1].country === country;
+      });
+      return country_data ? country_data[1] : [];
+    }
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+      var countries = Object.values(comparisonMarkets).map(function (key) {
+        return key.name;
+      });
+      _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getPopulationByCountryData(countries).then(function (result) {
+        setPopulationData(Object.entries(result));
+      })["finally"](function () {});
+    }
+  }, [props]);
+  var comparisonMarkets = props.comparisonMarkets;
+  var dataTable;
+
+  if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+    var tableBody = Object.values(comparisonMarkets).map(function (market) {
+      var populationCountryData = getCountryData(market.name);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: "market-".concat(market.id)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "p-b-xs p-v-xs"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "body-l-b",
+        id: "market-".concat(market.name)
+      }, market.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "iconic",
+        onClick: props.removeMarket,
+        "data-id": market.id,
+        "aria-label": "Remove ".concat(market.name)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-times-circle"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-total-population-".concat(market.name)
+      }, populationCountryData ? populationCountryData.total_population : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-internet-usage-".concat(market.name)
+      }, populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + '%' : 'Data not available'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-urban-population-".concat(market.name)
+      }, populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-rural-population-".concat(market.name)
+      }, populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'));
+    });
+    dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total population"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Access to internet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in urban areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in rural areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Consumer Price Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)));
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, dataTable);
+}
+
+/***/ }),
+
+/***/ "./react-components/src/components/CompareMarkets/Tab.jsx":
+/*!****************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/Tab.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var Tab = /*#__PURE__*/function (_Component) {
+  _inherits(Tab, _Component);
+
+  var _super = _createSuper(Tab);
+
+  function Tab() {
+    var _this;
+
+    _classCallCheck(this, Tab);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "onClick", function () {
+      var _this$props = _this.props,
+          label = _this$props.label,
+          onClick = _this$props.onClick;
+      onClick(label);
+    });
+
+    return _this;
+  }
+
+  _createClass(Tab, [{
+    key: "render",
+    value: function render() {
+      var onClick = this.onClick,
+          _this$props2 = this.props,
+          activeTab = _this$props2.activeTab,
+          label = _this$props2.label;
+      var className = "tab-list-item";
+
+      if (activeTab === label) {
+        className += " tab-list-active";
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: className,
+        onClick: onClick
+      }, label);
+    }
+  }]);
+
+  return Tab;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+_defineProperty(Tab, "propTypes", {
+  activeTab: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  onClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+});
+
+/* harmony default export */ __webpack_exports__["default"] = (Tab);
+
+/***/ }),
+
+/***/ "./react-components/src/components/CompareMarkets/Tabs.jsx":
+/*!*****************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/Tabs.jsx ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Tab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Tab */ "./react-components/src/components/CompareMarkets/Tab.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var Tabs = /*#__PURE__*/function (_Component) {
+  _inherits(Tabs, _Component);
+
+  var _super = _createSuper(Tabs);
+
+  function Tabs(props) {
+    var _this;
+
+    _classCallCheck(this, Tabs);
+
+    _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "onClickTabItem", function (tab) {
+      _this.setState({
+        activeTab: tab
+      });
+    });
+
+    _this.state = {
+      activeTab: _this.props.children[0].props.label
+    };
+    return _this;
+  }
+
+  _createClass(Tabs, [{
+    key: "render",
+    value: function render() {
+      var onClickTabItem = this.onClickTabItem,
+          children = this.props.children,
+          activeTab = this.state.activeTab;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tabs"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+        className: "tab-list"
+      }, children.map(function (child) {
+        var label = child.props.label;
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tab__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          activeTab: activeTab,
+          key: label,
+          label: label,
+          onClick: onClickTabItem
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-content"
+      }, children.map(function (child) {
+        if (child.props.label !== activeTab) return undefined;
+        return child.props.children;
+      })));
+    }
+  }]);
+
+  return Tabs;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+_defineProperty(Tabs, "propTypes", {
+  children: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.instanceOf(Array).isRequired
+});
+
+/* harmony default export */ __webpack_exports__["default"] = (Tabs);
+
+/***/ }),
+
 /***/ "./react-components/src/components/CompareMarkets/index.jsx":
 /*!******************************************************************!*\
   !*** ./react-components/src/components/CompareMarkets/index.jsx ***!
@@ -65735,7 +66029,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
 /* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
 /* harmony import */ var _ProductFinder_CountryFinder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/CountryFinder */ "./react-components/src/components/ProductFinder/CountryFinder.jsx");
-/* harmony import */ var _TargetMarketData__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TargetMarketData */ "./react-components/src/components/CompareMarkets/TargetMarketData.jsx");
+/* harmony import */ var _PopulationData__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PopulationData */ "./react-components/src/components/CompareMarkets/PopulationData.jsx");
+/* harmony import */ var _EconomicData__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./EconomicData */ "./react-components/src/components/CompareMarkets/EconomicData.jsx");
+/* harmony import */ var _Tabs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Tabs */ "./react-components/src/components/CompareMarkets/Tabs.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -65749,6 +66045,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -65822,12 +66120,23 @@ function CompareMarkets(props) {
     }), "Select market ", selectedLength + 1, " of 3");
   }
 
+  var showTab = function showTab(e) {
+    console.log(e.target.dataset.id);
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TargetMarketData__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tabs__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    label: "Population"
+  }, "population...", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PopulationData__WEBPACK_IMPORTED_MODULE_6__["default"], {
     comparisonMarkets: comparisonMarkets,
     removeMarket: removeMarket
-  }), triggerButton), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    label: "Economic"
+  }, "economics..", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EconomicData__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    comparisonMarkets: comparisonMarkets,
+    removeMarket: removeMarket
+  })))), triggerButton), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
     modalIsOpen: productModalIsOpen,
     setIsOpen: setProductModalIsOpen,
     setSelectedProduct: setSelectedProduct

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Services from '@src/Services'
 
 
-export default function TargetMarketData(props) {
+export default function EconomicData(props) {
   const [populationData, setPopulationData] = useState([])
 
   const getCountryData = (country) => {
