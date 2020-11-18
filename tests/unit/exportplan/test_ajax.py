@@ -168,7 +168,7 @@ def test_recommended_countries_no_country(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_country_data')
+@mock.patch.object(helpers, 'get_population_data_by_country')
 @mock.patch.object(helpers, 'get_cia_world_factbook_data')
 def test_retrieve_marketing_country_data(mock_factbook_data, mock_country_data, client, user):
     client.force_login(user)
@@ -184,7 +184,7 @@ def test_retrieve_marketing_country_data(mock_factbook_data, mock_country_data, 
 
     assert mock_factbook_data.call_args == mock.call(country='Canada', key='people,languages')
 
-    assert mock_country_data.call_args == mock.call('Canada')
+    assert mock_country_data.call_args == mock.call(['Canada'])
     assert response.json() == {
         'cia_factbook_data': {'languages': ['English']},
         'country_data': {'cpi': 100},
@@ -384,6 +384,28 @@ def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
         data=OrderedDict([('target_markets', [{'country': 'China'}, {'country': 'India'}])]),
+        id=1,
+        sso_session_id='123'
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_exportplan')
+@mock.patch.object(helpers, 'get_or_create_export_plan', return_value={'pk': 1, 'target_markets': []})
+def test_update_export_plan_ui_option_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
+    client.force_login(user)
+    mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
+
+    url = reverse('exportplan:api-update-export-plan')
+
+    response = client.post(url, {'ui_options': {'target_ages': ['25-34, 35-44']}}, content_type='application/json')
+    assert mock_get_or_create_export_plan.call_count == 1
+    assert mock_get_or_create_export_plan.call_args == mock.call(user)
+    assert response.status_code == 200
+
+    assert mock_update_exportplan.call_count == 1
+    assert mock_update_exportplan.call_args == mock.call(
+        data=OrderedDict([('ui_options', OrderedDict([('target_ages', ['25-34', ' 35-44'])]))]),
         id=1,
         sso_session_id='123'
     )

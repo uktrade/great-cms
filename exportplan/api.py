@@ -115,7 +115,7 @@ class RetrieveMarketingCountryData(APIView):
         serializer.is_valid(raise_exception=True)
         country = serializer.validated_data['country']
 
-        country_data = helpers.get_country_data(country)
+        country_data = helpers.get_population_data_by_country([country])
         factbook_data = helpers.get_cia_world_factbook_data(country=country, key='people,languages')
         data = {**country_data, **factbook_data}
         return Response(data)
