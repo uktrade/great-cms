@@ -13,6 +13,7 @@ export const RouteToMarket = ({
 }) => {
 
   const [routes, setRoutes] = useState(fields)
+  const [pushedAnalytic, setPushedAnalytic] = useState(false)
 
   const addTable = () => {
     Services.createRouteToMarket({ ...formFields })
@@ -43,12 +44,15 @@ export const RouteToMarket = ({
     setRoutes(updatedRoutes)
 
     Services.updateRouteToMarket({ ...field, ...selected  })
-      .then(
-        analytics({
-              'event': 'planSectionSaved',
-              'sectionTitle': 'route-to-market'
-            })
-      )
+      .then(() => {
+        if (!pushedAnalytic) {
+          analytics({
+            'event': 'planSectionSaved',
+            'sectionTitle': 'route-to-market'
+          })
+          setPushedAnalytic(true)
+        }
+      })
       .catch(() => {})
   }
 
