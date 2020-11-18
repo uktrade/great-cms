@@ -75,29 +75,23 @@ your target market.
       <p>Record all these changes in the following table.</p>
       <div class="">
         <form class="" action="" method="post" id="adapt-to-target-market">
-          {% csrf_token %} {{ form }}
+          {% csrf_token %}
+          {{ form }}
           <input type="submit" class="g-button" value="Save" />
         </form>
       </div>
     </div>
   </div>
 </section>
-{% endblock %} {% block body_js %} {{ block.super }}
+{% endblock %}
+
+{% block body_js %}
+{{ block.super }}
 <script type="text/javascript">
   var element = document.getElementById('adapt-to-target-market');
   magna.adaptToTargetMarketForm({
     element: element,
     field: 'adaptation_target_market',
-    formData: {
-      {
-        form_initial | safe
-      }
-    },
-    formFields: {
-      {
-        form_fields | safe
-      }
-    },
   })
 </script>
 {% endblock %}

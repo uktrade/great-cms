@@ -1,15 +1,2 @@
 .target-market-form {
-  @extend .bg-white;
-  @extend .p-t-xxs;
-
-  .field-with-example {
-    @extend .p-h-m;
-    border-bottom: 1px solid $light-grey;
-  }
-
-  label,
-  .educational-moment--tooltip-container {
-    display: inline-block;
-    float: none;
-  }
 }
