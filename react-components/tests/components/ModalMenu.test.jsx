@@ -11,7 +11,7 @@ beforeEach(() => {
   document.body.appendChild(container)
   container.innerHTML = '<li id="header-link-user-profile"></li>'
   act(() => {
-    ModalMenu({ element: container })
+    ModalMenu({ element: container, avatar:'', authenticated:true, user_name:'Noman' })
   })
   button = container.querySelector('button')
 })

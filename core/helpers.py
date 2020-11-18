@@ -206,10 +206,6 @@ class CompanyParser(great_components.helpers.CompanyParser):
     def expertise_products_services(self):
         return self.data['expertise_products_services'].get('other', [])
 
-    @property
-    def expertise_products_value_label_pairs(self):
-        return [{'value': item, 'label': item} for item in self.expertise_products_services]
-
 
 def values_to_labels(values, choices):
     return [choices.get(item) for item in values if item in choices]
