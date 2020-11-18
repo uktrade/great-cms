@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
 import { Modal } from '@src/components/Modal/index'
-import { CountryFinderModal } from '../../ProductFinder/CountryFinder'
+import CountryFinderModal from '../../ProductFinder/CountryFinderModal'
+import Services from '@src/Services'
+import actions from '@src/actions'
 
 export const CountryNotSelected = ({ isOpen }) => {
 
@@ -13,6 +15,10 @@ export const CountryNotSelected = ({ isOpen }) => {
   const openCountryFinder = () => {
     setIsOpen(true)
     setModal(false)
+  }
+
+  const selectCountry = (market) => {
+    Services.store.dispatch(actions.setMarket(market))
   }
 
   return (
@@ -35,7 +41,7 @@ export const CountryNotSelected = ({ isOpen }) => {
       <CountryFinderModal
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
-        addButton={false}
+        selectCountry={selectCountry}
       />
     </>
   )

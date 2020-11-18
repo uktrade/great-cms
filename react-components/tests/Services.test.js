@@ -79,7 +79,6 @@ describe('Services', () => {
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
       expect(calls.length).toEqual(1)
-      console.log('')
       expect(calls[0][1]).toEqual({
         method: 'post',
         headers: {
