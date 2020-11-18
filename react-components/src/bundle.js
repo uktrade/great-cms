@@ -48,7 +48,7 @@ export default {
   SelectComparisonMarket,
   ModalMenu,
   createLogin,
-  setConfig: setConfig,
+  setConfig,
   setInitialState: Services.setInitialState,
   Signup,
   SignupModal,

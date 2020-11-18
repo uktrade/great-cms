@@ -14,9 +14,9 @@ export const Sidebar = ({ sections, logo, company, currentSection }) => {
         onClick={() => setModal(false)}
         isOpen={modal}
       />
-      {<CountryNotSelected
+      <CountryNotSelected
         isOpen={currentSection.country_required}
-      />}
+      />
       <nav className={`sidebar p-h-s p-b-m ${!toggle && 'sidebar__close'}`} id='collapseNav' role="navigation">
         <div className='sidebar-sticky'>
           <button

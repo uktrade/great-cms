@@ -1,11 +1,6 @@
 /* eslint-disable */
 import { config } from '@src/config'
-
-const MESSAGE_UNEXPECTED_ERROR = { __all__: ['Unexpected Error'] }
-const MESSAGE_PERMISSION_DENIED = { __all__: ['You do not have permission to perform this action'] }
-const MESSAGE_NOT_FOUND_ERROR = { __all__: ['Not found'] }
-const MESSAGE_TIMEOUT_ERROR = { __all__: ['Request timed out'] }
-const MESSAGE_BAD_REQUEST_ERROR = { __all__: ['Bad request'] }
+import { messages } from '@src/constants'
 
 const post = function(url, data) {
   return fetch(url, {
@@ -54,15 +49,15 @@ const responseHandler = function(response) {
       throw error
     })
   } else if (response.status == 403) {
-    throw MESSAGE_PERMISSION_DENIED
+    throw messages.MESSAGE_PERMISSION_DENIED
   } else if (response.status == 404) {
-    throw MESSAGE_NOT_FOUND_ERROR
+    throw messages.MESSAGE_NOT_FOUND_ERROR
   } else if (response.status == 504) {
-    throw MESSAGE_TIMEOUT_ERROR
+    throw messages.MESSAGE_TIMEOUT_ERROR
   } else if (response.status == 400) {
-    throw MESSAGE_BAD_REQUEST_ERROR
+    throw messages.MESSAGE_BAD_REQUEST_ERROR
   } else if (response.status != 200) {
-    throw MESSAGE_UNEXPECTED_ERROR
+    throw messages.MESSAGE_UNEXPECTED_ERROR
   } else {
     return response
   }
@@ -70,6 +65,7 @@ const responseHandler = function(response) {
 
 export default {
   get,
+  messages,
 
   checkCredentials: ({ email, password }) => {
     return post(config.apiLoginUrl, { email, password }).then(responseHandler)
@@ -165,11 +161,4 @@ export default {
     }
     return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
   },
-
-  messages: {
-    MESSAGE_UNEXPECTED_ERROR,
-    MESSAGE_PERMISSION_DENIED,
-    MESSAGE_NOT_FOUND_ERROR,
-    MESSAGE_TIMEOUT_ERROR
-  }
 }
