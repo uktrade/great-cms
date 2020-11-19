@@ -4,9 +4,9 @@ export const useNoScroll = (show) => {
 
   useEffect(() => {
     if (show) {
-      document.documentElement.classList.add('no-scoll')
+      document.body.classList.add('no-scoll')
     } else {
-      document.documentElement.classList.remove('no-scoll')
+      document.body.classList.remove('no-scoll')
     }
   }, [show])
 }

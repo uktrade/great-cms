@@ -9,7 +9,7 @@
 - AA-155 - healthcheck endpoint to wrap CCCE API request
 - GP2-933 - contact us
 - no ticket - increase token expiration date to 30 days from 5
-
+- no ticket - beta patch fix to staging do not back port to dev
 ## Pre-release
 
 - no ticket - node-fetch module upgrade
