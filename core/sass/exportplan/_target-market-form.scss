@@ -1,2 +1,25 @@
+.objective-fields {
+  position: relative;
+  width: 100%;
+}
+
 .target-market-form {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .form-group {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+    border-bottom: 2px solid #D2D0DA;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .tooltip {
+    margin-right: 0;
+    right: 0;
+    max-width: unset;
+  }
 }
