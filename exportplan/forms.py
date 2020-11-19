@@ -187,6 +187,7 @@ class ExportPlanAdaptationForTargetMarketForm(forms.Form):
         ),
     )
 
+
 class ExportPlanDocumentsForTargetMarketForm(forms.Form):
     labelling = forms.CharField(
         label='Certificate of origin',
