@@ -187,6 +187,56 @@ class ExportPlanAdaptationForTargetMarketForm(forms.Form):
         ),
     )
 
+class ExportPlanDocumentsForTargetMarketForm(forms.Form):
+    labelling = forms.CharField(
+        label='Certificate of origin',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Certificate of origin'
+            ),
+            'placeholder': (
+                'Add notes'
+            )}
+        ),
+    )
+    packaging = forms.CharField(
+        label='Insurance certificate',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Insurance certificate'
+            ),
+            'placeholder': (
+                'Add note'
+            )}
+        ),
+    )
+    size = forms.CharField(
+        label='Commercial invoice',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'Commercial invoice'
+            ),
+            'placeholder': (
+                'Add note'
+            )}
+        ),
+    )
+    standards = forms.CharField(
+        label='UK customs declaration',
+        required=False,
+        widget=Textarea(attrs={
+            'tooltip': (
+                'UK customs declaration'
+            ),
+            'placeholder': (
+                'Add note'
+            )}
+        ),
+    )
+
 
 class ExportPlanTargetMarketsResearchForm(forms.Form):
 
