@@ -66436,7 +66436,7 @@ function EducationalMomentIcon(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "visually-hidden"
   }, hiddenText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "educational-moment__button-icon fas fa-book text-blue-deep-40"
+    className: "educational-moment__button-icon fas fa-book text-blue-deep-30"
   }));
 }
 EducationalMomentIcon.propTypes = {
@@ -71314,13 +71314,15 @@ __webpack_require__.r(__webpack_exports__);
 var Stats = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var header = _ref.header,
       data = _ref.data,
-      children = _ref.children;
+      children = _ref.children,
+      className = _ref.className,
+      descriptionClassName = _ref.descriptionClassName;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "statistic"
+    className: "statistic ".concat(className)
   }, children, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", {
     className: "statistic__caption"
   }, header), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", {
-    className: "statistic__figure h-xs p-b-0 p-t-xxs"
+    className: "statistic__figure h-xs p-b-0 p-t-xxs ".concat(descriptionClassName)
   }, data)));
 });
 Stats.propTypes = {
@@ -73051,6 +73053,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Table = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var languages = _ref.languages,
+      infoMomenent = _ref.infoMomenent,
       tooltip = _ref.tooltip;
   var heading = tooltip.heading,
       description = tooltip.description;
@@ -73071,7 +73074,12 @@ var Table = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     description: description
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr hr--light"
-  })))));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_4__["Stats"], {
+    data: infoMomenent || _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_5__["notAvailable"],
+    descriptionClassName: "body-l"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "fas fa-lg fa-info-circle text-blue-deep-30"
+  }))))));
 });
 Table.defaultProps = {
   tooltip: {
@@ -73081,6 +73089,7 @@ Table.defaultProps = {
 };
 Table.propTypes = {
   languages: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  infoMomenent: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     heading: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired

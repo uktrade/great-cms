@@ -29,10 +29,11 @@ your target market.
 {% endblock %}
 
 {% block user_input %}
-<section class="bg-blue-deep-10 m-t-l">
+<section class="bg-blue-deep-10 m-t-l p-b-m">
   <div class="container">
-    <div class="grid flex-grid">
-      <div class="c-1-2 m-h-auto">
+    <div class="grid">
+      <div class="c-1-4">&nbsp;</div>
+      <div class="c-1-2">
         <h2 class="h-xs p-t-l p-b-s">
           Data Snapshot: exporting {{ export_plan.export_commodity_codes.0.commodity_name }} to
           {{ export_plan.export_countries.0.country_name }}
@@ -131,6 +132,7 @@ your target market.
   magna.statsForYourTargetMarket({
     element: element,
     languages: 'Japanese, English (business)',
+    infoMomenent: "To find out what product alterations and documents you might need visit Check how to export goods and choose the commodity code that best matches your product.",
     tooltip: {
       heading: "Tooltip title",
       description: "Lorem ipsum dolar mit amet"
