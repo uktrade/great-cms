@@ -165,15 +165,17 @@ export default function CountryFinderModal(props) {
         time.
       </p>
       <div className="grid">
-        <div className="c-1-3 search-input">
+        <div className="c-1-3 m-b-xxs">
           <SearchInput
             onChange={searchChange}
           />
         </div>
       </div>
       <div className="grid">
-        <div className="c-full">
+        <div className="c-full clearfix">
           <button type="button" key="{index}" className="region-expand link f-r" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+        </div>
+        <div className="c-full">
           <ul className="country-list grid m-v-0">
             {regions}
           </ul>

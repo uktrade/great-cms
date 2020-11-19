@@ -129,6 +129,9 @@
   display: flex;
   align-items: center;
   min-width: 10em;
+  @include breakpoint(md_lt) {
+    width: 100%;
+  }
 
   input {
     padding-right: 30px;

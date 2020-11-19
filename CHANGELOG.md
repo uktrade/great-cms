@@ -137,6 +137,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-1033 - Country chooser mobile
 - GP2-1051 - Compare markets feature flag
 - GP2-984 - Compare markets selector and redux global state managememt
 - GP2-1034 - Update lesson progress bar wording
