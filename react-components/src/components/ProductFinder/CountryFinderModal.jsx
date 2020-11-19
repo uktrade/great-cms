@@ -15,6 +15,7 @@ export default function CountryFinderModal(props) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchStr, setSearchStr] = useState()
   const [expandRegion, setExpandRegion] = useState(false)
+  const [mobilePage, setMobilePage] = useState('initial')
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -31,6 +32,7 @@ export default function CountryFinderModal(props) {
     setSearchStr('')
     setExpandRegion(false)
     setIsOpen(false)
+    setMobilePage('initial')
   }
 
   const setScrollShadow = () => {
@@ -140,9 +142,8 @@ export default function CountryFinderModal(props) {
   }
 
   /*   Compare markets section  */
-  const compareMarketsSection = !selectCountry && (
+  const compareMarketsSection = (
     <div>
-      <hr className="hr bg-red-deep-100"/>
       <h3 className="h-s p-t-xs">Compare markets</h3>
       <div className="grid">
         <div className="c-full">
@@ -155,6 +156,52 @@ export default function CountryFinderModal(props) {
     </div>
   )
 
+  /* Filtered list of markets */
+  const marketListSection = (
+    <div>
+      <h3 className="h-s p-t-xs">List of markets</h3>
+      <p className="m-v-xs">
+        If you have an idea of where you want to export, choose from the list below. <br/>You can change this at any
+        time.
+      </p>
+      <div className="grid">
+        <div className="c-1-3 m-b-xxs">
+          <SearchInput
+            onChange={searchChange}
+          />
+        </div>
+      </div>
+      <div className="grid">
+        <div className="c-full clearfix">
+          <button type="button" key="{index}" className="region-expand link f-r" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
+        </div>
+        <div className="c-full">
+          <ul className="country-list grid m-v-0">
+            {regions}
+          </ul>
+          <hr className="hr hr--light m-v-xxs"/>
+        </div>
+      </div>
+    </div>
+  )
+
+  const mobileSection = {
+    initial: (
+      <div className="only-mobile">
+        <div>
+          <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
+        </div>
+        <p>There are 3 ways to choose a target export market</p>
+        <button type="button" className="button button--secondary button--full-width m-b-s" onClick={() => setMobilePage('suggested')}>Suggested markets</button>
+        <button type="button" className="button button--secondary button--full-width m-b-s" onClick={() => setMobilePage('compare')}>Compare markets</button>
+        <button type="button" className="button button--secondary button--full-width m-b-s" onClick={() => setMobilePage('list')}>List of markets</button>
+      </div>
+    ),
+    suggested: suggestedSection,
+    compare: compareMarketsSection,
+    list: marketListSection,
+  }
+
   const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
 
   return (
@@ -162,19 +209,9 @@ export default function CountryFinderModal(props) {
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        className="modal max-modal"
+        className="modal large-modal-content"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
-        style={{
-          content:{
-            width:'auto',
-            left: '100px',
-            right: '100px',
-            top: '50px',
-            bottom: '50px',
-            overflow: 'hidden',
-          }
-        }}
       >
         <div className="country-finder">
           <div className={`scroll-area m-t-0 ${scrollerClass}`} onScroll={onScroll}>
@@ -183,32 +220,27 @@ export default function CountryFinderModal(props) {
               className="scroll-inner scroll-inner p-f-l p-r-l p-b-l p-t-xxs"
               ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
             >
-              <div>
-                <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
-              </div>
-              {suggestedSection}
-              {compareMarketsSection}
-              <hr className="hr bg-red-deep-100"/>
-              <h3 className="h-s p-t-xs">List of markets</h3>
-              <p className="m-v-xs">
-                If you have an idea of where you want to export, choose from the list below. <br/>You can change this at any
-                time.
-              </p>
-              <div className="grid">
-                <div className="c-1-3 search-input">
-                  <SearchInput
-                    onChange={searchChange}
-                  />
+              {/* Desktop rendering with all sections available */}
+              <div className="only-desktop">
+                <div>
+                  <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
                 </div>
+                {suggestedSection}
+                <hr className="hr bg-red-deep-100"/>
+                {compareMarketsSection}
+                <hr className="hr bg-red-deep-100"/>
+                {marketListSection}
               </div>
-              <div className="grid">
-                <div className="c-full">
-                  <button type="button" key="{index}" className="region-expand link f-r" onClick={toggleRegion}>{expandRegion ? 'Collapse all' : 'Expand all' }</button>
-                  <ul className="country-list grid m-v-0">
-                    {regions}
-                  </ul>
-                  <hr className="hr hr--light m-v-xxs"/>
-                </div>
+              {/* Mobile section rendering with buttons to choose which section to show */}
+              <div className="only-mobile">
+                <button
+                  type="button" 
+                  className={`pull-left m-t-s button button--secondary button--icon ${mobilePage === 'initial' ? 'hidden' : ''}`} 
+                  onClick={() => setMobilePage('initial')}>
+                  <i className="fa fa-arrow-left m-r-xxs"/>
+                  Back
+                </button>
+                {mobileSection[mobilePage]}
               </div>
             </div>
           </div>
@@ -222,10 +254,9 @@ CountryFinderModal.propTypes = {
   modalIsOpen: PropTypes.bool,
   setIsOpen: PropTypes.func.isRequired,
   commodityCode: PropTypes.string,
-  selectCountry: PropTypes.func,
+  selectCountry: PropTypes.func.isRequired,
 }
 CountryFinderModal.defaultProps = {
   modalIsOpen: false,
-  commodityCode: '',
-  selectCountry: null
+  commodityCode: ''
 }

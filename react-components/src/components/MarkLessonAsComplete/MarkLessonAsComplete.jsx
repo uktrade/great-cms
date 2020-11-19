@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 
 import Services from '../../Services'
 
 const MarkLessonAsComplete = ({ endpoint }) => {
   const [isComplete, setIsComplete] = useState(undefined)
+  const [persistedIsComplete, setPersistedIsComplete] = useState()
   const [isChecked, setIsChecked] = useState(false)
 
   useEffect(() => {
@@ -13,14 +15,17 @@ const MarkLessonAsComplete = ({ endpoint }) => {
         .then((response) => response.json())
         .then(({ lesson_completed }) => {
           if (lesson_completed.length >= 1) {
+            setPersistedIsComplete(true)
             setIsComplete(true)
           }
         })
         .then(() => {})
         .catch(() => {})
-    } else {
+    } else if (persistedIsComplete !== isComplete) {
       Services[isComplete ? 'setLessonComplete' : 'setLessonIncomplete'](endpoint)
-        .then(() => {})
+        .then(() => {
+          setPersistedIsComplete(isComplete)
+        })
         .catch(() => {})
     }
   }, [isComplete])
@@ -55,6 +60,10 @@ const MarkLessonAsComplete = ({ endpoint }) => {
       </div>
     </div>
   )
+}
+
+MarkLessonAsComplete.propTypes = {
+  endpoint: PropTypes.string.isRequired
 }
 
 function createMarkLessonAsComplete({ element, endpoint }) {

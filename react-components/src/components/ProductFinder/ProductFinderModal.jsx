@@ -190,7 +190,7 @@ export default function ProductFinderModal(props) {
             <span className="bold p-t-0">{capitalize(interaction.label)}</span>
             <p className="m-v-xxs">
               {capitalize(interaction.selectedString)} 
-              {interaction.selectedString === 'other' ? ` than ${interaction.unselectedString}` : ''}
+              {interaction.selectedString === 'other' ? ` ${interaction.unselectedString}` : ''}
               {' '}<button type="button" className="change-known-button link link--underline body-m" onClick={() => onChangeClick(interaction)}>Change</button>
             </p>
            </div>

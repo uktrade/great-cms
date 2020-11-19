@@ -24,7 +24,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-
+- GP2-856 - Prevent lesson-read resend
 - No ticket - fix flex-grid child cols and GDS multiple-choices
 - GP2-652 - Handle expired staff SSO token that causes a 500
 - GP2-1024 - Fix capability back button positioning
@@ -137,6 +137,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-1033 - Country chooser mobile
+- GP2-1051 - Compare markets feature flag
 - GP2-984 - Compare markets selector and redux global state managememt
 - GP2-1034 - Update lesson progress bar wording
 - GP2-979 - Mobile learning module page
