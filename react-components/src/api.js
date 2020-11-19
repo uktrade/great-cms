@@ -88,15 +88,15 @@ export default {
   },
 
   getCountryData: (country) => {
-    return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
+    return get(config.countryDataUrl, { country_name: country }).then((response) => responseHandler(response).json())
   },
 
   getPopulationByCountryData: (countries) => {
     return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
   },
 
-  getMarketingCountryData: (data) => {
-    return get(config.marketingCountryData, data).then((response) => responseHandler(response).json())
+  getCountryDataByAge: (data) => {
+    return get(config.countryAgeGroupDataUrl, data).then((response) => responseHandler(response).json())
   },
 
   lookupProduct: ({ proddesc }) => {

@@ -41,6 +41,7 @@
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
           countryDataUrl: '{% url "exportplan:api-country-data" %}',
+          countryAgeGroupDataUrl: '{% url "exportplan:api-marketing-country-age-group-data" %}',
           populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
           marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},

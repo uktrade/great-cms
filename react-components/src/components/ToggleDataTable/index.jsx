@@ -2,7 +2,7 @@ import React, { memo, useState, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import { mapData } from '@src/components/TargetAgeGroupInsights/utils'
+import { mapData } from '@src/components/ToggleDataTable/utils'
 
 export const ToggleDataTable = memo(({
   country,
@@ -22,10 +22,10 @@ export const ToggleDataTable = memo(({
     event.preventDefault()
     setIsOPen(!isOpen)
 
-    Services.getMarketingCountryData({ country, target_age_groups: selectedGroups })
-      .then((d) =>
-        setData(mapData(d))
-      )
+    Services.getCountryDataByAge({ country, target_age_groups: selectedGroups })
+      .then(({ population_data }) => {
+        setData(mapData(population_data))
+      })
       .catch((error) => console.log(error))
   }
 

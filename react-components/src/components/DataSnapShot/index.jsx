@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
 import { Table } from './Table'
-import { ProductData } from './ProductData'
+import { CountryData } from './CountryData'
 
 export const DataSnapShot = memo(({
   country,
@@ -15,7 +15,9 @@ export const DataSnapShot = memo(({
     <>
       { toggle &&
         <div className='m-t-s'>
-            <ProductData />
+            <CountryData
+              country={country}
+            />
             <ToggleDataTable
               country={country}
               groups={groups}
