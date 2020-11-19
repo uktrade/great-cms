@@ -29,42 +29,48 @@ your target market.
 {% endblock %}
 
 {% block user_input %}
-<section class="bg-blue-deep-10 m-t-l m-b-s">
+<section class="bg-blue-deep-10 m-t-l">
   <div class="container">
     <div class="grid flex-grid">
       <div class="c-1-2 m-h-auto">
-        <h2 class="h-xs p-t-l p-b-0">
+        <h2 class="h-xs p-t-l p-b-s">
           Data Snapshot: exporting {{ export_plan.export_commodity_codes.0.commodity_name }} to
           {{ export_plan.export_countries.0.country_name }}
         </h2>
-        <div class="insight-section insight-section--border">
-          <p class="m-0">The main languages in your chosen market are:</p>
-          <p>
-            {{ language_data.cia_factbook_data.languages.note }}
-          </p>
-          <ul class="h-m p-0 m-0">
-            {% for language in language_data.cia_factbook_data.languages.language %}
-            <li class="inline-block">
-              {{language.name}} {% if language.note == 'official' and language.percent %} (official:
-              {{language.percent}}%) {% elif language.note == 'official' %} (Official) {% elif language.percent %}
-              ({{language.percent}}%) {% endif %} {% if not forloop.last %} , {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="insight-section">
-          <p class="m-0">
-            To find out what product alterations and documents you might need visit
-            <a href="{{ check_duties_link }}">Check how to export goods</a> and choose the commodity code that best
-            matches your product.
-          </p>
+        <div id="stats-for-target-market">
+          <div class="statistic">
+            <dl>
+              <dt class="statistic__caption">The main languages in your chosen market are:</dt>
+              <dd>
+                <ul class="h-m p-0 m-0">
+                  {% for language in language_data.cia_factbook_data.languages.language %}
+                  <li class="inline-block">
+                    {{language.name}} {% if language.note == 'official' and language.percent %} (official:
+                    {{language.percent}}%) {% elif language.note == 'official' %} (Official) {% elif language.percent %}
+                    ({{language.percent}}%) {% endif %} {% if not forloop.last %} , {% endif %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </dd>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<section class="container m-b-l">
 
-<section class="container m-b-m">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-2 c-3-4-xl">
+      <small class="body-s text-blue-deep-50">Population statistics – <a href="#">United Nations</a>; Access to
+        Internet,Consumer Price Index - <a href="#">World Bank</a>; Languages - <a href="#">CIA World
+          Factbook</a>;</small>
+    </div>
+  </div>
+
+</section>
+<section class="container m-b-xl">
   <div class="grid flex-grid">
     <div class="c-1-2 m-h-auto">
       <h3 class="h-l">Changing your product to adapt to your target market</h3>
@@ -74,7 +80,28 @@ your target market.
       </p>
       <p>Record all these changes in the following table.</p>
       <div class="">
-        <form class="" action="" method="post" id="adapt-to-target-market">
+        <form class="width-full" action="" method="post" id="adapt-to-target-market">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" class="g-button" value="Save" />
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container m-b-xl">
+  <div class="grid flex-grid">
+    <div class="c-1-2 m-h-auto">
+      <h3 class="h-l">Documents you need to provide to meet the requirements for your target market</h3>
+      <p>
+        Having the correct paperwork avoids delays and minimises the risk of running into issues.
+      </p>
+      <p>
+        Record all the paperwork you need to export your product to your target market in the following table.
+      </p>
+      <div class="">
+        <form class="width-full" action="" method="post" id="documents-for-target-market">
           {% csrf_token %}
           {{ form }}
           <input type="submit" class="g-button" value="Save" />
@@ -92,6 +119,22 @@ your target market.
   magna.adaptToTargetMarketForm({
     element: element,
     field: 'adaptation_target_market',
+  })
+
+  element = document.getElementById('documents-for-target-market');
+  magna.documentsForTargetMarketForm({
+    element: element,
+    field: 'documents_for_target_market',
+  })
+
+  element = document.getElementById('stats-for-target-market');
+  magna.statsForYourTargetMarket({
+    element: element,
+    languages: 'Japanese, English (business)',
+    tooltip: {
+      heading: "Tooltip title",
+      description: "Lorem ipsum dolar mit amet"
+    }
   })
 </script>
 {% endblock %}
