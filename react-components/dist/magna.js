@@ -64875,19 +64875,6 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "./react-components/assets/open-book-icon.png":
-/*!****************************************************!*\
-  !*** ./react-components/assets/open-book-icon.png ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAoCAYAAAC4h3lxAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAMKADAAQAAAABAAAAKAAAAACLp7BPAAADPElEQVRYCe1ZS2tTQRRuokkkXbiXdOUyIIqrFkHrrj4QwQeKBPPAJIK4EDf+AFe6UUoekESyEEQpiNgui2sXRaG4UTcWN64UGkxCE78v3gM3t3PjzHVICWQgPXPP4zvfmTNzQyczMxM+Qir+1Wp1qdfrVfv9fkJl99OFQqGfsL2JRqMPMpnMN7dfvV6f63Q6D6E7D9yDbtu/5sDdCofDtzDWvL5hr4LPQcgzjsTwuQGin8rl8m3qODinjjZT8oxHTIKcOPeO/V4FnxlAWSwWlR2iTTVqtdqhbrf7CPHXYF8G8VP0w/NlSozn6M79bDb7/e+j3t9SqQQI9W4YFIBEb+FwBq1aLRQKZ/Vgd3s5xK4DbwV4NXyE+C9gZ4H9aneUmcbLdbCFSN6B6ZvBqb1JNBKJHBcr5zbICx6lcB46A0hyzu30P/NcLvdZ4t1z0QWV4Di0Q4YKCAq6l3HTAvZy9Zlb+RpVkZLTr7KJTuctZgtHctreQlbeYiCnjaPdAe/plxUwlbZwJK/tDgju2OTEF6C9hWwdPls40mLbHdA+fELAR2rjaHfA1uGzhSOF2+6A4I5NTnwB2lvI1uGzhSMttt0B7cMnBHykNo52B2wdPls4UrjtDgju2OS0gLEttU+iaQd8FmZs6onvgPZrNMiS8l9MxGm/04PkUBaAxFu4OErwSs8EFHHbiPuAi9iXuIh9gufBHQ50YXwD3wXWJeiO4jlugktfclLFKAvgTXCQC14Qm0WSBcQuVCqVK7iRvsCkmL+GmOccPhRGg+TJSRWkLMC5xp5TBYzSNZvN2VardRIkn+IzjxvpdfpjnoT4CiJ34vH4u1QqtT0Kx8SmLMAEwO3rEFvFyr8neYc427+JW+lF/Gbww+1vYz4ogC1CMuM97yYAjB1gfESr74HoOrpxGt1YoQ/IXyR5bKVFbK/H8D0C333ueNM5OTNmUEDQPe9O6hA6BoJrIJpEN77AfkJ8oDtMG55j8BV1IEnyciaMfsAYla3RaBxot9vPQO4qEryIxWI30+n0b8aMso3C1LFZK4DJnFXexDTmk7yNlUvm83l2x8qw+k1MYiC4BGYb6MKOMHTmG7TZJC/4Ey3/AC+FjOfypq/qAAAAAElFTkSuQmCC");
-
-/***/ }),
-
 /***/ "./react-components/src/Helpers.js":
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
@@ -65380,6 +65367,8 @@ __webpack_require__.r(__webpack_exports__);
   createTargetMarketResearchForm: _src_views_sections_TargetMarketResearch__WEBPACK_IMPORTED_MODULE_11__["createTargetMarketResearchForm"],
   createDataSnapShot: _src_views_sections_TargetMarketResearch__WEBPACK_IMPORTED_MODULE_11__["createDataSnapShot"],
   adaptToTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_12__["adaptToTargetMarketForm"],
+  documentsForTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_12__["documentsForTargetMarketForm"],
+  statsForYourTargetMarket: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_12__["statsForYourTargetMarket"],
   createComingSoonModal: _src_components_Lesson_ComingSoon__WEBPACK_IMPORTED_MODULE_20__["createComingSoonModal"],
   createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_9__["createSpendingAndResources"],
   createTargetAgeGroupInsights: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_9__["createTargetAgeGroupInsights"],
@@ -66459,8 +66448,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _assets_open_book_icon_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @assets/open-book-icon.png */ "./react-components/assets/open-book-icon.png");
-
 
 
 function EducationalMomentIcon(props) {
@@ -66472,10 +66459,8 @@ function EducationalMomentIcon(props) {
     "aria-describedby": ariaDescribedBy
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "visually-hidden"
-  }, hiddenText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "educational-moment__button-image",
-    src: _assets_open_book_icon_png__WEBPACK_IMPORTED_MODULE_2__["default"],
-    alt: ""
+  }, hiddenText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "educational-moment__button-icon fas fa-book text-blue-deep-40"
   }));
 }
 EducationalMomentIcon.propTypes = {
@@ -72829,7 +72814,68 @@ var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
     }]
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-table bg-blue-deep-10 radius p-h-s"
+    className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "objective-fields"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "target-market-form"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_1__["FormWithInputWithExample"], data))));
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/AdaptationForYourTargetMarket/documentsForTargetMarketForm/index.jsx":
+/*!******************************************************************************************************************!*\
+  !*** ./react-components/src/views/sections/AdaptationForYourTargetMarket/documentsForTargetMarketForm/index.jsx ***!
+  \******************************************************************************************************************/
+/*! exports provided: DocumentsForTargetMarketForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentsForTargetMarketForm", function() { return DocumentsForTargetMarketForm; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/FormWithInputWithExample */ "./react-components/src/components/FormWithInputWithExample/index.jsx");
+
+
+var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params) {
+  var data = {
+    field: 'documents_for_target_market',
+    formData: {
+      certOrigin: 'Some note text added',
+      certInsurance: '',
+      commercialInvoice: '',
+      customsDeclaration: ''
+    },
+    formFields: [{
+      name: 'certOrigin',
+      label: 'Certificate of origin',
+      field_type: 'Textarea',
+      placeholder: 'Add note',
+      tooltip: 'Certificate of origin'
+    }, {
+      name: 'certInsurance',
+      label: 'Insurance certificate',
+      field_type: 'Textarea',
+      placeholder: 'Add note',
+      tooltip: 'Insurance certificate'
+    }, {
+      name: 'commercialInvoice',
+      label: 'Commercial invoice',
+      field_type: 'Textarea',
+      placeholder: 'Add note',
+      tooltip: 'Commercial invoice'
+    }, {
+      name: 'customsDeclaration',
+      label: 'UK customs declaration',
+      field_type: 'Textarea',
+      placeholder: 'Add note',
+      tooltip: 'UK customs declaration'
+    }]
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "objective-fields"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72843,20 +72889,26 @@ var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
 /*!*************************************************************************************!*\
   !*** ./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx ***!
   \*************************************************************************************/
-/*! exports provided: adaptToTargetMarketForm */
+/*! exports provided: adaptToTargetMarketForm, documentsForTargetMarketForm, statsForYourTargetMarket */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "adaptToTargetMarketForm", function() { return adaptToTargetMarketForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "documentsForTargetMarketForm", function() { return documentsForTargetMarketForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "statsForYourTargetMarket", function() { return statsForYourTargetMarket; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket_adaptToTargetMarketForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket/adaptToTargetMarketForm */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/adaptToTargetMarketForm/index.jsx");
+/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket_documentsForTargetMarketForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket/documentsForTargetMarketForm */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/documentsForTargetMarketForm/index.jsx");
+/* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket_statsForYourTargetMarket__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket/statsForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/statsForYourTargetMarket/index.jsx");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
 
 
 
@@ -72866,6 +72918,79 @@ var adaptToTargetMarketForm = function adaptToTargetMarketForm(_ref) {
       params = _objectWithoutProperties(_ref, ["element"]);
 
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_sections_AdaptationForYourTargetMarket_adaptToTargetMarketForm__WEBPACK_IMPORTED_MODULE_2__["AdaptToTargetMarketForm"], params), element);
+};
+var documentsForTargetMarketForm = function documentsForTargetMarketForm(_ref2) {
+  var element = _ref2.element,
+      params = _objectWithoutProperties(_ref2, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_sections_AdaptationForYourTargetMarket_documentsForTargetMarketForm__WEBPACK_IMPORTED_MODULE_3__["DocumentsForTargetMarketForm"], params), element);
+};
+var statsForYourTargetMarket = function statsForYourTargetMarket(_ref3) {
+  var element = _ref3.element,
+      params = _objectWithoutProperties(_ref3, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_sections_AdaptationForYourTargetMarket_statsForYourTargetMarket__WEBPACK_IMPORTED_MODULE_4__["Table"], params), element);
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/AdaptationForYourTargetMarket/statsForYourTargetMarket/index.jsx":
+/*!**************************************************************************************************************!*\
+  !*** ./react-components/src/views/sections/AdaptationForYourTargetMarket/statsForYourTargetMarket/index.jsx ***!
+  \**************************************************************************************************************/
+/*! exports provided: Table */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Table", function() { return Table; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/EducationalMomentTooltip */ "./react-components/src/components/EducationalMomentTooltip.jsx");
+/* harmony import */ var _src_components_Stats__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Stats */ "./react-components/src/components/Stats/index.jsx");
+/* harmony import */ var _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Stats/StatsGroup */ "./react-components/src/components/Stats/StatsGroup/index.jsx");
+/* eslint-disable import/prefer-default-export */
+
+
+
+
+
+var Table = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var languages = _ref.languages,
+      tooltip = _ref.tooltip;
+  var heading = tooltip.heading,
+      description = tooltip.description;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "width-full"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-full"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_3__["Stats"], {
+    header: "The main languages in your chosen market are:",
+    data: languages || _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_4__["notAvailable"]
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    id: "languages-in-target-market-tooltip",
+    heading: heading,
+    description: description
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "hr hr--light"
+  }))));
+});
+Table.defaultProps = {
+  tooltip: {
+    heading: 'Tooltip',
+    description: 'Educational moment description'
+  }
+};
+Table.propTypes = {
+  languages: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    heading: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  })
 };
 
 /***/ }),
