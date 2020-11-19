@@ -27,7 +27,7 @@ function SelectMarket(props) {
       </li>)
   })
 
-  return (
+  return Object.keys(marketList).length ? (
     <section className="grid bg-blue-deep-80 text-white">
       <div className="c-1-4">&nbsp;</div>
       <div className="c-1-2 p-v-m">
@@ -39,7 +39,7 @@ function SelectMarket(props) {
         </ul>
       </div>
     </section>
-  )
+  ) : ''
 }
 
 SelectMarket.propTypes = {
