@@ -3,26 +3,29 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import EducationalMomentTooltip from '@src/components/EducationalMomentTooltip'
+import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
 
 export const Table = memo(({ languages, tooltip }) => {
   const { heading, description } = tooltip
   return (
-    <div className="width-full">
-      <div className="grid">
-        <div className="c-full">
-          <Stats header="The main languages in your chosen market are:" data={languages || notAvailable}>
-            <EducationalMomentTooltip
-              id="languages-in-target-market-tooltip"
-              heading={heading}
-              description={description}
-            />
-          </Stats>
-          <hr className="hr hr--light" />
+    <ToggleSnapshot isOpen={false}>
+      <div className="width-full">
+        <div className="grid">
+          <div className="c-full">
+            <Stats header="The main languages in your chosen market are:" data={languages || notAvailable}>
+              <EducationalMomentTooltip
+                id="languages-in-target-market-tooltip"
+                heading={heading}
+                description={description}
+              />
+            </Stats>
+            <hr className="hr hr--light" />
+          </div>
         </div>
       </div>
-    </div>
+    </ToggleSnapshot>
   )
 })
 
