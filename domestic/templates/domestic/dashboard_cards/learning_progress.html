@@ -15,9 +15,9 @@ Only show if progress has started
           {% endif %}
           <div class="{% if module_page.completion_count %}flex-center{%endif%}">
 
-            <h2 class="c-2-3 p-f-0 p-r-s p-v-s" id="topics-{{ module_page.page.title|slugify }}">
+            <h3 class="c-2-3 p-f-0 p-r-s p-v-s" id="topics-{{ module_page.page.title|slugify }}">
                 <a class="link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
-            </h2>
+            </h3>
             <div class="c-1-3 p-f-0 p-r-s p-v-s">
                 {% if module_page.completion_count %}
                     {% progress_bar  module_page.total_pages module_page.completion_count %}
