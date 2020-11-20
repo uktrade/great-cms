@@ -24,6 +24,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- GP2-635 - Dashboard styling
 - GP2-856 - Prevent lesson-read resend
 - No ticket - fix flex-grid child cols and GDS multiple-choices
 - GP2-652 - Handle expired staff SSO token that causes a 500

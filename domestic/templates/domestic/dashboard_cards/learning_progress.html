@@ -13,17 +13,17 @@ Only show if progress has started
           {% if forloop.counter > 1 %}
             <hr class="hr hr--light c-full m-v-0" />
           {% endif %}
-          <div class="flex-center">
+          <div class="{% if module_page.completion_count %}flex-center{%endif%}">
 
-            <h3 class="c-2-3 p-v-s p-h-0" id="topics-{{ module_page.page.title|slugify }}">
+            <h2 class="c-2-3 p-f-0 p-r-s p-v-s" id="topics-{{ module_page.page.title|slugify }}">
                 <a class="link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
-            </h3>
-            <div class="c-1-3 p-v-s p-f-0 p-r-s lh-1">
+            </h2>
+            <div class="c-1-3 p-f-0 p-r-s p-v-s">
                 {% if module_page.completion_count %}
                     {% progress_bar  module_page.total_pages module_page.completion_count %}
                     <p class="topics-read-text body-m-b m-t-xxs m-b-0">{{ module_page.completion_count }} / {{ module_page.total_pages }} lesson{{module_page.total_pages|pluralize}} completed</p>
                 {% else %}
-                    <span class="body-small">Not yet started</span>
+                    <span class="body-m text-blue-deep-60">Not yet started</span>
                 {% endif %}
             </div>
           </div>
