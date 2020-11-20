@@ -20,6 +20,7 @@ from great_components.mixins import GA360Mixin
 from django.urls import reverse_lazy
 from directory_forms_api_client.helpers import Sender
 from core import forms, helpers, serializers, cms_slugs
+from domestic.models import DomesticDashboard
 
 logger = logging.getLogger(__name__)
 
@@ -124,10 +125,13 @@ class TargetMarketView(GA360Mixin, TemplateView):
     template_name = 'core/target_markets.html'
 
     def get_context_data(self, **kwargs):
+        dashboard_objects = DomesticDashboard.objects.all()
+        dashboard = dashboard_objects.count() and dashboard_objects[0]
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
             context['data_tabs_enabled'] = json.loads(settings.FEATURE_COMPARE_MARKETS_TABS)
+            context['dashboard_components'] = dashboard.components if dashboard else None
         return context
 
 
