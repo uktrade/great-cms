@@ -1,7 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react'
-
-import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
+import { AddDocumentTypeForm } from '@src/components/AddDocumentTypeForm'
 
 export const DocumentsForTargetMarketForm = (params) => {
   const { formData } = params
@@ -43,7 +42,7 @@ export const DocumentsForTargetMarketForm = (params) => {
     <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
       <div className="objective-fields">
         <div className="target-market-form">
-          <FormWithInputWithExample {...data} />
+          <AddDocumentTypeForm {...data} />
         </div>
       </div>
     </div>
