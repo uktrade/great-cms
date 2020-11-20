@@ -106,30 +106,25 @@ class ExportPlanRecommendedCountriesDataView(APIView):
         return Response(data)
 
 
-class RetrieveMarketingCountryData(APIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = serializers.PopulationDataSerializer
-
-    def get(self, request):
-        serializer = self.serializer_class(data=self.request.GET)
-        serializer.is_valid(raise_exception=True)
-        country = serializer.validated_data['country']
-
-        country_data = helpers.get_population_data_by_country([country])
-        factbook_data = helpers.get_cia_world_factbook_data(country=country, key='people,languages')
-        data = {**country_data, **factbook_data}
-        return Response(data)
-
-
-class RetrieveMarketingTargetAgeData(APIView):
+class TargetMarketMarketingAgeData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 
     def get(self, request):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
-        target_ages = serializer.validated_data['target_age_groups']
         country = serializer.validated_data['country']
+
+        # target_ages = serializer.validated_data['target_age_groups']
+        # Uncomment above line and remove below once we have this passed in
+        target_ages = ['35--39', '25-40']
+        # Lets save the target age against Export Plan
+
+        helpers.update_ui_options_target_ages(
+            sso_session_id=self.request.user.session_id,
+            target_ages=target_ages,
+            export_plan=self.request.user.export_plan
+        )
 
         population_data = helpers.get_population_data(country=country, target_ages=target_ages)
         return Response(population_data)

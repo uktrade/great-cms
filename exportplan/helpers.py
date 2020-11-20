@@ -166,6 +166,12 @@ def get_country_data(country):
     return response.json()
 
 
+def get_global_demographic_data(country):
+    country_data = get_country_data(country)
+    factbook_data = get_cia_world_factbook_data(country=country, key='people,languages')
+    return {**country_data, **factbook_data}
+
+
 def get_cia_world_factbook_data(country, key):
     response = api_client.dataservices.get_cia_world_factbook_data(country=country, data_key=key)
     response.raise_for_status()
@@ -207,3 +213,12 @@ def get_current_url(slug, export_plan):
         if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
             current_url['product_required'] = True
     return current_url
+
+
+def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, ):
+    if export_plan['ui_options'].get('target_ages') != target_ages:
+        update_exportplan(
+            sso_session_id= sso_session_id,
+            id=export_plan['pk'],
+            data={'ui_options': {'target_ages': target_ages}},
+        )
