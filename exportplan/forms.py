@@ -186,10 +186,7 @@ class ExportPlanAdaptationForTargetMarketForm(forms.Form):
             )}
         ),
     )
-
-
-class ExportPlanDocumentsForTargetMarketForm(forms.Form):
-    labelling = forms.CharField(
+    certificate_of_origin = forms.CharField(
         label='Certificate of origin',
         required=False,
         widget=Textarea(attrs={
@@ -201,7 +198,7 @@ class ExportPlanDocumentsForTargetMarketForm(forms.Form):
             )}
         ),
     )
-    packaging = forms.CharField(
+    insurance_certificate = forms.CharField(
         label='Insurance certificate',
         required=False,
         widget=Textarea(attrs={
@@ -213,7 +210,7 @@ class ExportPlanDocumentsForTargetMarketForm(forms.Form):
             )}
         ),
     )
-    size = forms.CharField(
+    commercial_invoice = forms.CharField(
         label='Commercial invoice',
         required=False,
         widget=Textarea(attrs={
@@ -225,7 +222,7 @@ class ExportPlanDocumentsForTargetMarketForm(forms.Form):
             )}
         ),
     )
-    standards = forms.CharField(
+    uk_customs_declaration = forms.CharField(
         label='UK customs declaration',
         required=False,
         widget=Textarea(attrs={
