@@ -7,7 +7,7 @@ import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
 
-export const Table = memo(({ languages, tooltip }) => {
+export const Table = memo(({ languages, infoMomenent, tooltip }) => {
   const { heading, description } = tooltip
   return (
     <ToggleSnapshot isOpen={false}>
@@ -22,6 +22,9 @@ export const Table = memo(({ languages, tooltip }) => {
               />
             </Stats>
             <hr className="hr hr--light" />
+            <Stats data={infoMomenent || notAvailable} descriptionClassName="body-l">
+              <div className="fas fa-lg fa-info-circle text-blue-deep-30" />
+            </Stats>
           </div>
         </div>
       </div>
@@ -38,6 +41,7 @@ Table.defaultProps = {
 
 Table.propTypes = {
   languages: PropTypes.string.isRequired,
+  infoMomenent: PropTypes.string.isRequired,
   tooltip: PropTypes.shape({
     heading: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
