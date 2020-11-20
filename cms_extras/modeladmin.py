@@ -12,7 +12,7 @@ class CaseStudyAdminButtonHelper(ButtonHelper):
     view_button_classnames = ['button-small', 'icon', 'icon-doc']
 
     def view_button(self, obj):
-        "Button to trigger a standalone view of the relevant CaseStudy"
+        """Button to trigger a standalone view of the relevant CaseStudy"""
         text = f'View {self.verbose_name}'
         return {
             'classname': self.finalise_classname(self.view_button_classnames),
