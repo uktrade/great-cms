@@ -783,7 +783,7 @@ def test_target_market_page(
 
     # Check that the page renders even if there is no dashboard definition in wagtail
     assert response.status_code == 200
-    assert response.context_data['dashboard_components'] == None
+    assert response.context_data['dashboard_components'] is None
 
     # Populate dashboard with a couple of routes and check context
     DomesticDashboardFactory(
