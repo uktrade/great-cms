@@ -60,7 +60,6 @@ your target market.
   </div>
 </section>
 <section class="container m-b-l">
-
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-2 c-3-4-xl">
@@ -69,7 +68,6 @@ your target market.
           Factbook</a>;</small>
     </div>
   </div>
-
 </section>
 <section class="container m-b-xl">
   <div class="grid flex-grid">
@@ -120,12 +118,14 @@ your target market.
   magna.adaptToTargetMarketForm({
     element: element,
     field: 'adaptation_target_market',
+    formData: {{ form_initial|safe }},
   })
 
   element = document.getElementById('documents-for-target-market');
   magna.documentsForTargetMarketForm({
     element: element,
-    field: 'documents_for_target_market',
+    field: 'adaptation_target_market',
+    formData: {{ form_initial|safe }},
   })
 
   element = document.getElementById('stats-for-target-market');
