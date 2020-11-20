@@ -152,8 +152,8 @@ class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, Expo
         context['route_choices'] = route_choices
         context['promotional_choices'] = promotional_choices
         context['target_ages'] = self.export_plan['ui_options'].get('target_ages')
-        context['country_data'] = helpers.get_country_data(
-            country=self.export_plan['export_countries'][0]['country_name']
+        context['country_data'] = helpers.get_population_data_by_country(
+            countries=[self.export_plan['export_countries'][0]['country_name']]
         )
         return context
 
