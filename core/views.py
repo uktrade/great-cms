@@ -125,8 +125,7 @@ class TargetMarketView(GA360Mixin, TemplateView):
     template_name = 'core/target_markets.html'
 
     def get_context_data(self, **kwargs):
-        dashboard_objects = DomesticDashboard.objects.all()
-        dashboard = dashboard_objects.count() and dashboard_objects[0]
+        dashboard = DomesticDashboard.objects.live().first()
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
