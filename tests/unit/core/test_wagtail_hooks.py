@@ -9,7 +9,6 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
-from core.wagtail_hooks import CaseStudyAdmin
 from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.exportplan.factories import (
@@ -541,15 +540,3 @@ def test_set_read_time__after_edit_page(domestic_homepage, rf):
     with mock.patch('core.wagtail_hooks._set_read_time') as mock__set_read_time:
         wagtail_hooks.set_read_time__after_edit_page(request, detail_page)
     mock__set_read_time.assert_called_once_with(request, detail_page)
-
-
-@pytest.mark.django_db
-def test_case_study_modeladmin_list_display_methods():
-    admin = CaseStudyAdmin()
-    obj = factories.CaseStudyFactory()
-
-    obj.country_code_tags.add('Europe', 'FR')
-    obj.hs_code_tags.add('HS1234', 'HS123456')
-
-    assert sorted(admin.associated_country_code_tags(obj)) == ['Europe', 'FR']
-    assert sorted(admin.associated_hs_code_tags(obj)) == ['HS1234', 'HS123456']

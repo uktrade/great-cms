@@ -140,6 +140,7 @@
 ### Implemented enhancements
 - GP2-1047 - page structure and components for costs and pricing page  
 - GP2-1028 - Target-market routing feature
+- GP2-901 - Add Case Study view support to CMS
 - GP2-1033 - Country chooser mobile
 - GP2-1051 - Compare markets feature flag
 - GP2-984 - Compare markets selector and redux global state managememt
