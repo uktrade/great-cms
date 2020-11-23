@@ -36,7 +36,7 @@ def test_casestudyadminbuttonhelper(rf, django_user_model):
 
     mock_view = mock.Mock(name='mock_view')
     mock_view.model = CaseStudy
-    mock_view.url_helper.get_action_url.return_value = '/mock-url/path/'
+    mock_view.url_helper.get_action_url.return_value = '/admin/mock-url/path/'
 
     helper = CaseStudyAdminButtonHelper(
         request=mock_request,
@@ -47,7 +47,7 @@ def test_casestudyadminbuttonhelper(rf, django_user_model):
         'classname': 'button button-small icon icon-doc',
         'label': 'View case study',
         'title': 'View case study',
-        'url': f'/cms-extras/case-study/{obj.id}/',
+        'url': f'/admin/cms-extras/case-study/{obj.id}/',
     }
 
     assert helper.get_buttons_for_obj(obj) == [
@@ -55,24 +55,24 @@ def test_casestudyadminbuttonhelper(rf, django_user_model):
             'classname': 'button',
             'label': 'Inspect',
             'title': 'Inspect this case study',
-            'url': '/mock-url/path/'
+            'url': '/admin/mock-url/path/'
         },
         {
             'classname': 'button',
             'label': 'Edit',
             'title': 'Edit this case study',
-            'url': '/mock-url/path/'
+            'url': '/admin/mock-url/path/'
         },
         {
             'classname': 'button no',
             'label': 'Delete',
             'title': 'Delete this case study',
-            'url': '/mock-url/path/'
+            'url': '/admin/mock-url/path/'
         },
         {
             'classname': 'button button-small icon icon-doc',
             'label': 'View case study',
             'title': 'View case study',
-            'url': f'/cms-extras/case-study/{obj.id}/'
+            'url': f'/admin/cms-extras/case-study/{obj.id}/'
         },
     ]
