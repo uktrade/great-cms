@@ -27,8 +27,8 @@ if settings.ENFORCE_STAFF_SSO_ENABLED:
 urlpatterns += [
     path('django-admin/', admin.site.urls),
     path('admin/wagtail-transfer/', include(wagtailtransfer_urls)),  # Has to come before main /admin/ else will fail
+    path('admin/cms-extras/', include(cms_extras.urls, namespace='cms_extras')),
     path('admin/', include(wagtailadmin_urls)),
-    path('cms-extras/', include(cms_extras.urls, namespace='cms_extras')),
     path('documents/', include(wagtaildocs_urls)),
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),

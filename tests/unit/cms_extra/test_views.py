@@ -51,4 +51,6 @@ def test_case_study_view__access(django_user_model, client, is_staff):
         assert resp.status_code == 200
     else:
         assert resp.status_code == 302
-        assert resp._headers['location'][1] == f'/django-admin/login/?next=/cms-extras/case-study/{case_study.id}/'
+        assert resp._headers['location'][1] == (
+            f'/django-admin/login/?next=/admin/cms-extras/case-study/{case_study.id}/'
+        )
