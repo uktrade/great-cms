@@ -38,6 +38,8 @@ $fa-font-path: '/static/fonts';
 @import 'elements/card';
 @import 'elements/progress-bar';
 
+@import 'helpers/breakpoints';
+
 // Components
 @import 'components/card/base';
 @import 'components/header-footer/base';
