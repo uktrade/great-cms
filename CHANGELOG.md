@@ -143,6 +143,7 @@
 - GP2-901 - Add Case Study view support to CMS
 - GP2-1033 - Country chooser mobile
 - GP2-1051 - Compare markets feature flag
+- GP2-661 - Main work to support S3-to-S3 copying when using Wagtail Transfer
 - GP2-984 - Compare markets selector and redux global state managememt
 - GP2-1034 - Update lesson progress bar wording
 - GP2-979 - Mobile learning module page
