@@ -1,5 +1,6 @@
 # Changelog
 
+- GP2-746 - Pushing section title has hypenated to GA
 - no ticket - Reimplement old flex-grid
 - no ticket - Added dynamic year for footer
 - GP2-977 - Added analytics for export plan's coming soon section
