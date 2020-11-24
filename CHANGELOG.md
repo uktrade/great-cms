@@ -421,3 +421,4 @@
 - GP2-937 - content-changes
 - GP2-950 - prevent scripts ep json fields
 - GP2-876 - fix logged out
+- GBAU-869 - Terminate SSO session on logout
