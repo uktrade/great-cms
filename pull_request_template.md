@@ -16,7 +16,7 @@ _Tick or delete as appropriate:_
 
 ### Housekeeping
 
- - [ ] Added any new environment variables to Vault.
+ - [ ] Added all new environment variables to Vault.
  - [ ] Cleaned up old feature flags
  - [ ] Upgraded any vulnerable dependencies.
  - [ ] I have updated security dependencies
