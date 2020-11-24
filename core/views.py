@@ -2,6 +2,7 @@ import abc
 import datetime
 import logging
 import math
+import json
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -125,6 +126,7 @@ class TargetMarketView(GA360Mixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
+            context['data_tabs_enabled'] = json.loads(settings.FEATURE_COMPARE_MARKETS_TABS)
             context['export_plan'] = self.request.user.export_plan
         return context
 
