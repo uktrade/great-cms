@@ -151,9 +151,6 @@ class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, Expo
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
         context['promotional_choices'] = promotional_choices
-        context['country_data'] = helpers.get_population_data_by_country(
-            countries=[self.export_plan['export_countries'][0]['country_name']]
-        )
         return context
 
 
@@ -187,8 +184,21 @@ class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, ExportPlanSectionV
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
-        context['target_ages'] = self.export_plan['ui_options'].get('target_ages')
         return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        # To do pass lanaguage from export_plan object rather then  hardcoded
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.export_plan['export_countries'][0]['country_name'], key='people,languages'
+        )
+        context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
+        context['target_ages'] = self.export_plan['ui_options'].get('target_ages')
+        context['country_data'] = helpers.get_population_data_by_country(
+            countries=[self.export_plan['export_countries'][0]['country_name']]
+        )
+        return context
 
 
 class ExportPlanBusinessObjectivesView(LessonDetailsMixin, ExportPlanSectionView, FormView, FormContextMixin):
