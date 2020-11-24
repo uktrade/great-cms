@@ -194,10 +194,10 @@ class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, ExportPlanSectionV
             country=self.export_plan['export_countries'][0]['country_name'], key='people,languages'
         )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
-        context['target_ages'] = self.export_plan['ui_options'].get('target_ages')
-        context['country_data'] = helpers.get_population_data_by_country(
+        context['target_ages'] = json.dumps(self.export_plan['ui_options'].get('target_ages'))
+        context['country_data'] = json.dumps(helpers.get_population_data_by_country(
             countries=[self.export_plan['export_countries'][0]['country_name']]
-        )
+        ))
         return context
 
 
