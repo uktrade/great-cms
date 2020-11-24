@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% load static wagtailcore_tags %}
+
+{% block head_title %}Viewing Case Study: {{case_study.title}}{% endblock head_title %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'magna.js' %}"></script>
+{% endblock %}
+
+{% block body_header %}
+{% endblock %}
+
+{% block content %}
+
+<div class='bg-white'>
+    <div class="lesson-page">
+        <div class="container">
+            <div class="p-s">
+                <h2>
+                    Viewing
+                    <span class="body-l-b">
+                        {{case_study.title}}
+                    </span>
+                </h2>
+                <a href="{{backlink}}">Back to list</a>
+            </div>
+            <div class="grid">
+                <div class="c-1-4 hide-on-mobile">
+                    <span>&nbsp;</span>
+                </div>
+                <div class="c-1-2 lesson-body-blocks">
+                    {% include 'core/case_study_block.html' with case_study=case_study only %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block cookie_notice %}{% endblock %}
+
+{% block body_footer %}
+{% endblock %}
