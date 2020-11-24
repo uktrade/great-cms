@@ -151,7 +151,6 @@ class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, Expo
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
         context['promotional_choices'] = promotional_choices
-        context['target_ages'] = self.export_plan['ui_options'].get('target_ages')
         context['country_data'] = helpers.get_population_data_by_country(
             countries=[self.export_plan['export_countries'][0]['country_name']]
         )
@@ -188,6 +187,7 @@ class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, ExportPlanSectionV
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
+        context['target_ages'] = self.export_plan['ui_options'].get('target_ages')
         return kwargs
 
 
