@@ -23,3 +23,16 @@
     max-width: unset;
   }
 }
+
+.target-market-documents-form {
+  .form-group {
+    border-bottom: none;
+    &:nth-of-type(2n) {
+      border-bottom: 2px solid #D2D0DA;
+    }
+  }
+  .button--delete {
+    right: -85px;
+    top: 15px;
+  }
+}

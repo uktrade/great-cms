@@ -13,42 +13,49 @@ export const AdaptToTargetMarketForm = (params) => {
         label: 'Labelling',
         field_type: 'Textarea',
         placeholder: 'Describe alterations',
-        tooltip: 'Labelling tooltip',
+        tooltip: `Labelling is used to inform the consumer about the product you are selling to them.
+        Labelling will need to be changed to fit into the market you are selling to. For example some pictures and colours may not be appropriate for certain markets.
+        You will have to research what the requirements are so your products have the correct labels for your target market.`,
       },
       {
         name: 'packaging',
         label: 'Packaging',
         field_type: 'Textarea',
         placeholder: 'Describe alterations',
-        tooltip: 'Packaging tooltip',
+        tooltip: `Packaging provides protection for your product and prepares your product to be safely stored and transported.
+        The information you need to include on your packaging will change depending on the market.
+        You will have to research packaging requirements for your target market to avoid your products becoming damaged, lost or rejected.`,
       },
       {
         name: 'size',
         label: 'Size',
         field_type: 'Textarea',
         placeholder: 'Describe alterations',
-        tooltip: 'Size tooltip',
+        tooltip: `Standard product sizes vary by country depending on factors like buying habits in each market. 
+        You will have to research the size of products sold in this market so you meet customer needs for your target market.`,
       },
       {
         name: 'standards',
         label: 'Product changes to comply with standards',
         field_type: 'Textarea',
         placeholder: 'Describe alterations',
-        tooltip: 'Product changes to comply with standards tooltip',
+        tooltip: `Your product will have to comply with local standards, if it does not comply it will not be allowed to be sold.
+        You will have to research standards relevant to your product to make sure they are compliant.`,
       },
       {
         name: 'translations',
         label: 'Translations',
         field_type: 'Textarea',
         placeholder: 'Describe alterations',
-        tooltip: 'Translations tooltip',
+        tooltip: `Some markets will require you by law to label and package your products in the local language. 
+        You will have to research the language requirements for your market so your product labels comply with language requirements.`,
       },
       {
         name: 'other_changes',
         label: 'Other changes',
         field_type: 'Textarea',
         placeholder: 'Describe alterations',
-        tooltip: 'Other changes tooltip',
+        tooltip: null,
       },
     ],
     formData: { ...formData },

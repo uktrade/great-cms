@@ -65397,6 +65397,218 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./react-components/src/components/AddDocumentTypeForm/index.jsx":
+/*!***********************************************************************!*\
+  !*** ./react-components/src/components/AddDocumentTypeForm/index.jsx ***!
+  \***********************************************************************/
+/*! exports provided: AddDocumentTypeForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddDocumentTypeForm", function() { return AddDocumentTypeForm; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
+/* harmony import */ var _src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FormWithInputWithExample */ "./react-components/src/components/FormWithInputWithExample/index.jsx");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+/* eslint-disable react/button-has-type */
+
+/* eslint-disable jsx-a11y/label-has-associated-control */
+
+/* eslint-disable import/prefer-default-export */
+
+
+
+
+
+var DocumentList = function DocumentList(props) {
+  var documents = props.documents,
+      deleteDocument = props.deleteDocument,
+      updateDocument = props.updateDocument;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "target-market-documents-form"
+  }, documents.length > 0 ? documents.map(function (document) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      key: document.name,
+      style: {
+        position: 'relative'
+      },
+      onBlur: function onBlur() {
+        updateDocument(document);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "button button--delete button--small button--only-icon button--tertiary",
+      onClick: function onClick(e) {
+        return deleteDocument(e, document.name);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
+      label: "Document name",
+      id: document.name,
+      placeholder: "Add document name here",
+      value: document.label,
+      onChange: function onChange() {
+        return null;
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
+      onChange: function onChange() {
+        return null;
+      },
+      key: document.name,
+      label: "Notes",
+      id: document.name,
+      value: document.description,
+      placeholder: "Add notes",
+      currency: document.currency,
+      tag: Number.isInteger(document.placeholder) ? 'number' : 'text'
+    }));
+  }) : '');
+};
+
+var AddNewDocument = function AddNewDocument(props) {
+  var initialFormState = {
+    name: '',
+    label: '',
+    description: ''
+  };
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialFormState),
+      _useState2 = _slicedToArray(_useState, 2),
+      document = _useState2[0],
+      setDocument = _useState2[1];
+
+  var handleInputChange = function handleInputChange(event) {
+    var _event$target = event.target,
+        name = _event$target.name,
+        value = _event$target.value;
+    setDocument(_objectSpread(_objectSpread({}, document), {}, _defineProperty({}, name, value)));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: function onSubmit(event) {
+      event.preventDefault();
+      if (!document.name || !document.description) return;
+      props.addDocument(document);
+      setDocument(initialFormState);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "form-label",
+    htmlFor: "name"
+  }, "Document name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "name",
+    type: "text",
+    name: "name",
+    value: document.name,
+    placeholder: "Add document name here",
+    onChange: handleInputChange,
+    className: "form-control"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "form-label",
+    htmlFor: "description"
+  }, "Notes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+    type: "text",
+    id: "description",
+    name: "description",
+    value: document.description,
+    placeholder: "Add notes",
+    onChange: handleInputChange,
+    className: "form-control"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--small button--secondary button--icon m-t-s"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-plus-circle"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add another document"))));
+};
+
+var AddDocumentTypeForm = function AddDocumentTypeForm(params) {
+  var documentsData = [{
+    name: 'export_certificate_1',
+    label: 'Export certificate',
+    description: 'Some description data here'
+  }, {
+    name: 'food_standards_certificate_1',
+    label: 'Food standards certificate',
+    description: 'Some description data here'
+  }, {
+    name: 'duty_calculation_1',
+    label: 'Duty calculation',
+    description: 'Some description data here'
+  }];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(documentsData),
+      _useState4 = _slicedToArray(_useState3, 2),
+      documents = _useState4[0],
+      setDocuments = _useState4[1]; // useEffect(() => {
+  //   effect
+  //   return () => {
+  //     cleanup
+  //   }
+  // }, [])
+
+
+  var addDocument = function addDocument(document) {
+    var name = document.name;
+    document.label = name;
+    document.name = name.replace(/\s/g, '_').toLowerCase();
+    setDocuments([].concat(_toConsumableArray(documents), [document]));
+  };
+
+  var deleteDocument = function deleteDocument(event, name) {
+    event.preventDefault();
+    setDocuments(documents.filter(function (document) {
+      return document.name !== name;
+    }));
+  };
+
+  var updateDocument = function updateDocument(document) {
+    console.log(document); // const { name, value } = event.target
+
+    setDocuments(documents.map(function (item) {
+      return item.name === document.name ? document : item;
+    }));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_3__["FormWithInputWithExample"], params), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DocumentList, {
+    documents: documents,
+    deleteDocument: deleteDocument,
+    updateDocument: updateDocument
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AddNewDocument, {
+    addDocument: addDocument
+  }));
+};
+
+/***/ }),
+
 /***/ "./react-components/src/components/CaseStudy/CaseStudy.jsx":
 /*!*****************************************************************!*\
   !*** ./react-components/src/components/CaseStudy/CaseStudy.jsx ***!
@@ -67151,6 +67363,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+/* eslint-disable import/prefer-default-export */
 
 
 
@@ -67190,9 +67403,9 @@ var FormWithInputWithExample = /*#__PURE__*/function (_Component) {
         _src_Services__WEBPACK_IMPORTED_MODULE_7__["default"].updateExportPlan(_this.formatData(data)).then(_this.handleUpdateSuccess).then(function () {
           var currentItem = _this.state.currentChangeFormField;
           Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_9__["analytics"])({
-            'event': 'planSectionSaved',
-            'sectionTitle': _this.props.field,
-            'sectionFormField': _src_Helpers__WEBPACK_IMPORTED_MODULE_9__["sectionQuestionMapping"][currentItem]
+            event: 'planSectionSaved',
+            sectionTitle: _this.props.field,
+            sectionFormField: _src_Helpers__WEBPACK_IMPORTED_MODULE_9__["sectionQuestionMapping"][currentItem]
           });
         })["catch"](_this.handleUpdateError);
       });
@@ -71309,6 +71522,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* eslint-disable import/prefer-default-export */
 
 
 var Stats = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
@@ -71328,9 +71542,13 @@ var Stats = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
 Stats.propTypes = {
   header: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  descriptionClassName: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   children: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.element])
 };
 Stats.defaultProps = {
+  className: '',
+  descriptionClassName: '',
   children: ''
 };
 
@@ -71559,6 +71777,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+/* eslint-disable import/prefer-default-export */
 
 
 
@@ -72831,79 +73050,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/FormWithInputWithExample */ "./react-components/src/components/FormWithInputWithExample/index.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* eslint-disable import/prefer-default-export */
 
 
 var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
+  var formData = params.formData;
   var data = {
     field: 'adaptation_target_market',
-    formData: {
-      size: 'uuu',
-      labelling: 'sdsd',
-      packaging: 'dddd',
-      standards: 'yyy',
-      translations: 'd'
-    },
     formFields: [{
       name: 'labelling',
       label: 'Labelling',
       field_type: 'Textarea',
       placeholder: 'Describe alterations',
-      tooltip: 'Labelling is used to inform the consumer about the product you are selling to them. Labelling will need to be changed to fit into the market you are selling to. For example some pictures and colours may not be appropriate for certain markets. You will have to research what the requirements are so your products have the correct labels for your target market.',
-      example: '',
-      description: '',
-      currency: '',
-      choices: ''
+      tooltip: "Labelling is used to inform the consumer about the product you are selling to them.\n        Labelling will need to be changed to fit into the market you are selling to. For example some pictures and colours may not be appropriate for certain markets.\n        You will have to research what the requirements are so your products have the correct labels for your target market."
     }, {
       name: 'packaging',
       label: 'Packaging',
       field_type: 'Textarea',
       placeholder: 'Describe alterations',
-      tooltip: 'Packaging provides protection for your product and prepares your product to be safely stored and transported. The information you need to include on your packaging will change depending on the market.You will have to research packaging requirements for your target market to avoid your products becoming damaged, lost or rejected.',
-      example: '',
-      description: '',
-      currency: '',
-      choices: ''
+      tooltip: "Packaging provides protection for your product and prepares your product to be safely stored and transported.\n        The information you need to include on your packaging will change depending on the market.\n        You will have to research packaging requirements for your target market to avoid your products becoming damaged, lost or rejected."
     }, {
       name: 'size',
       label: 'Size',
       field_type: 'Textarea',
       placeholder: 'Describe alterations',
-      tooltip: 'Standard product sizes vary by country depending on factors like buying habits in each market. Consumers who buy less may want larger products to last them longer between shopping trips. You will have to research the size of products sold in this market so you meet customer needs for your target market.',
-      example: '',
-      description: '',
-      currency: '',
-      choices: ''
+      tooltip: "Standard product sizes vary by country depending on factors like buying habits in each market. \n        You will have to research the size of products sold in this market so you meet customer needs for your target market."
     }, {
       name: 'standards',
       label: 'Product changes to comply with standards',
       field_type: 'Textarea',
       placeholder: 'Describe alterations',
-      tooltip: 'Your product will have to comply with local standards, if it does not comply it will not be allowed to be sold. For example you may have to change the voltage of electrical products in order to comply with safety regulations in that market. You will have to research standards relevant to your product to make sure they are compliant.',
-      example: '',
-      description: '',
-      currency: '',
-      choices: ''
+      tooltip: "Your product will have to comply with local standards, if it does not comply it will not be allowed to be sold.\n        You will have to research standards relevant to your product to make sure they are compliant."
     }, {
       name: 'translations',
       label: 'Translations',
       field_type: 'Textarea',
       placeholder: 'Describe alterations',
-      tooltip: 'Translations',
-      example: '',
-      description: '',
-      currency: '',
-      choices: ''
+      tooltip: "Some markets will require you by law to label and package your products in the local language. \n        You will have to research the language requirements for your market so your product labels comply with language requirements."
     }, {
       name: 'other_changes',
       label: 'Other changes',
       field_type: 'Textarea',
       placeholder: 'Describe alterations',
-      tooltip: 'Other changes',
-      example: '',
-      description: '',
-      currency: '',
-      choices: ''
-    }]
+      tooltip: null
+    }],
+    formData: _objectSpread({}, formData)
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
@@ -72928,43 +73125,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentsForTargetMarketForm", function() { return DocumentsForTargetMarketForm; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/FormWithInputWithExample */ "./react-components/src/components/FormWithInputWithExample/index.jsx");
+/* harmony import */ var _src_components_AddDocumentTypeForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/AddDocumentTypeForm */ "./react-components/src/components/AddDocumentTypeForm/index.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* eslint-disable import/prefer-default-export */
 
 
 var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params) {
+  var formData = params.formData;
   var data = {
-    field: 'documents_for_target_market',
-    formData: {
-      certOrigin: 'Some note text added',
-      certInsurance: '',
-      commercialInvoice: '',
-      customsDeclaration: ''
-    },
+    field: 'adaptation_target_market',
     formFields: [{
-      name: 'certOrigin',
+      name: 'certificate_of_origin',
       label: 'Certificate of origin',
       field_type: 'Textarea',
       placeholder: 'Add note',
-      tooltip: 'Certificate of origin'
+      tooltip: "The certificate of origin is a document that declares which country a product comes from and where it is going. \n        It helps customs officials decide if a product can be imported or if it is subject to duties costs."
     }, {
-      name: 'certInsurance',
+      name: 'insurance_certificate',
       label: 'Insurance certificate',
       field_type: 'Textarea',
       placeholder: 'Add note',
-      tooltip: 'Insurance certificate'
+      tooltip: "Export insurance insures an exporter against the risk of not being paid or not being able to recover costs of a contract.\n        You will have to research exporter insurance to find out what insurance is best for you and your product."
     }, {
-      name: 'commercialInvoice',
+      name: 'commercial_invoice',
       label: 'Commercial invoice',
       field_type: 'Textarea',
       placeholder: 'Add note',
-      tooltip: 'Commercial invoice'
+      tooltip: "A commercial invoice is a document that contains information about:\n\n        The goods you are exporting, tariff codes, the value of your goods, the country of origin, incoterms and transaction numbers.\n        \n        It is one of the main documents used by customs officials to calculate duties and taxes and it also makes sure you get paid on time."
     }, {
-      name: 'customsDeclaration',
+      name: 'uk_customs_declaration',
       label: 'UK customs declaration',
       field_type: 'Textarea',
       placeholder: 'Add note',
-      tooltip: 'UK customs declaration'
-    }]
+      tooltip: "An export declaration is a form submitted at the port when goods are leaving the country. The form has details about the goods and where they are heading.\n\n        It is needed on all goods that are being exported outside the EU."
+    }],
+    formData: _objectSpread({}, formData)
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
@@ -72972,7 +73172,7 @@ var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params)
     className: "objective-fields"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "target-market-form"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormWithInputWithExample__WEBPACK_IMPORTED_MODULE_1__["FormWithInputWithExample"], data))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_AddDocumentTypeForm__WEBPACK_IMPORTED_MODULE_1__["AddDocumentTypeForm"], data))));
 };
 
 /***/ }),
