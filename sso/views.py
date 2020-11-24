@@ -35,7 +35,7 @@ class SSOBusinessUserLogoutView(generics.GenericAPIView):
 
     def post(self, request):
         # Construct a cookie with the session key.
-        session_cookie = {'session_key': request.user.session_id}
+        session_cookie = {'session_key': request.COOKIES.get(settings.SSO_SESSION_COOKIE)}
         # Call logout on directory_sso to flush the session.
         upstream_response = requests.post(
             url=settings.SSO_PROXY_LOGOUT_URL, cookies=session_cookie, allow_redirects=False)
