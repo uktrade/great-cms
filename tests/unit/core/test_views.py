@@ -503,7 +503,7 @@ def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     ]
     term = 'some term'
 
-    response = client.post(reverse('core:api-lookup-product'), {'q': term})
+    response = client.post(reverse('core:api-lookup-product'), {'proddesc': term})
 
     assert response.status_code == 200
     assert response.json() == data
@@ -520,7 +520,7 @@ def test_refine_commodity(mock_search_commodity_refine, client):
     ]
 
     response = client.post(reverse('core:api-lookup-product'), {
-        'interraction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
+        'interaction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
     })
 
     assert response.status_code == 200
@@ -770,11 +770,38 @@ def test_check_view_external_error(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-def test_target_market_page(patch_export_plan, client, user):
+def test_target_market_page(
+    patch_export_plan,
+    domestic_homepage,
+    client,
+    user
+):
     client.force_login(user)
+    url = reverse('core:target-market')
 
-    response = client.get('/find-your-target-market/')
+    response = client.get(url)
+
+    # Check that the page renders even if there is no dashboard definition in wagtail
     assert response.status_code == 200
+    assert response.context_data['dashboard_components'] is None
+
+    # Populate dashboard with a couple of routes and check context
+    DomesticDashboardFactory(
+        parent=domestic_homepage,
+        slug='dashboard',
+        components__0__route__route_type='learn',
+        components__0__route__title='Learning title',
+        components__0__route__body='Learning Body Text',
+        components__0__route__button={'label': 'Start learning'},
+        components__1__route__route_type='plan',
+        components__1__route__title='Planning title',
+        components__1__route__body='Planning Body Text',
+        components__1__route__button={'label': 'Start planning'}
+    )
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context_data['dashboard_components'][0].value['route_type'] == 'learn'
+    assert response.context_data['dashboard_components'][1].value['route_type'] == 'plan'
 
 
 @pytest.mark.django_db

@@ -1,8 +1,6 @@
 from great_components import forms
 from django.forms import ImageField, Textarea, NumberInput, Select
 
-import directory_validators.url
-import directory_validators.string
 import directory_validators.file
 from directory_constants.choices import TURNOVER_CHOICES
 
@@ -191,8 +189,31 @@ class ExportPlanAdaptationForTargetMarketForm(forms.Form):
 
 
 class ExportPlanTargetMarketsResearchForm(forms.Form):
+
+    def __init__(self, country_name=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if country_name:
+            self.set_country_specific_text(country_name)
+
+    def set_country_specific_text(self, country_name):
+        self.country_name = country_name
+        self.fields['demand'].label = f'Describe the consumer demand for your product in the {country_name}'
+        self.fields['competitors'].label = f'Who are your competitors in the {country_name}?'
+        self.fields['trend'].label = f'What are the product trends in the {country_name}?'
+        self.fields['unqiue_selling_proposition'].label = (
+            f'What’s your unique selling proposition for the {country_name}?'
+        )
+        self.fields['average_price'].label = f'What’s the avg price for your product in the {country_name}?'
+        self.fields['trend'].widget.attrs['description'] = (
+            f'Describe what you know about the product market in the {country_name}. '
+            'What’s popular right now? Are there new products on the market? Where do people buy it?'
+        )
+        self.fields['unqiue_selling_proposition'].widget.attrs['description'] = (
+            f'Explain your product’s particular appeal to consumers in the {country_name}. '
+            'Why would they buy it rather than another brand?'
+        )
+
     demand = forms.CharField(
-        label='Describe the consumer demand for your product in the Netherlands',
         required=False,
         widget=Textarea(attrs={
             'example': (
@@ -214,8 +235,8 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
             )}
         ),
     )
+
     competitors = forms.CharField(
-        label='Who are your competitors in the Netherlands?',
         required=False,
         widget=Textarea(attrs={
             'example': (
@@ -229,7 +250,6 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
         ),
     )
     trend = forms.CharField(
-        label='What are the product trends in the Netherlands?',
         required=False,
         widget=Textarea(attrs={
             'example': (
@@ -238,29 +258,19 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
                 'flavours.</p> <p>The market is fairly similar to the UK in terms of consumption and age. Gin '
                 'bars are on the increase in the main cities. Online gin clubs that offer monthly gin '
                 'subscriptions to their members are also popular.</p>'
-            ),
-            'description': (
-                'Describe what you know about the product market in the Netherlands. What’s popular right '
-                'now? Are there new products on the market? Where do people buy it?'
             )}
         ),
     )
     unqiue_selling_proposition = forms.CharField(
-        label='What’s your unique selling proposition for the Netherlands?',
         required=False,
         widget=Textarea(attrs={
             'example': (
                 'Dove Gin’s historic backstory is definitely appealing and will make us stand out from '
                 'the competition. We also know our product design is very appealing and unique.'
             ),
-            'description': (
-                'Explain your product’s particular appeal to consumers in the Netherlands. Why would they '
-                'buy it rather than another brand?'
-            )}
-        ),
+        }),
     )
     average_price = forms.CharField(
-        label='What’s the avg price for your product in the Netherlands?',
         required=False,
         widget=NumberInput(attrs={
             'placeholder': (

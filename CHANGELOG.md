@@ -1,5 +1,10 @@
 # Changelog
 
+- GP2-746 - Pushing section title has hypenated to GA
+- no ticket - Reimplement old flex-grid
+- no ticket - Added dynamic year for footer
+- GP2-977 - Added analytics for export plan's coming soon section
+- GP2-918 - Added Data fetch for target market
 - no ticket - upgraded directory-validators lib
 - GA2-746 - Added GA code for EP sections
 - GA2-691 - Added GA code for target market
@@ -9,6 +14,11 @@
 - AA-155 - healthcheck endpoint to wrap CCCE API request
 - GP2-933 - contact us
 - no ticket - increase token expiration date to 30 days from 5
+- GP2-693 - hide footer login
+- GP2-1022 - hide footer sign-up
+- GP2-695 - select product modal
+- GP2-1049 - country name in target market research page
+- GP2-1146 - fix broken forms
 
 ## Pre-release
 
@@ -16,7 +26,15 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
-
+- GP2-635 - Dashboard styling
+- GP2-856 - Prevent lesson-read resend
+- No ticket - fix flex-grid child cols and GDS multiple-choices
+- GP2-652 - Handle expired staff SSO token that causes a 500
+- GP2-1024 - Fix capability back button positioning
+- GP2-919 - Market finder delete button
+- GP2-956 - Dashboard spacing
+- GP2-816 - Set readtime on initial page publish, not only on subsequent publish
+- GP2-922 - Various styling and behaviour fixes to country selector
 - GP2-1021 - Fix missing image in next-lesson panel when next lesson is in the same module
 - GP2-959 - Backlink from lessons needs to go to module without going via topic redirect
 - GP2-681 - HR colour in product finder
@@ -122,7 +140,25 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-
+- GP2-1047 - page structure and components for costs and pricing page  
+- GP2-1028 - Target-market routing feature
+- GP2-901 - Add Case Study view support to CMS
+- GP2-1033 - Country chooser mobile
+- GP2-1051 - Compare markets feature flag
+- GP2-661 - Main work to support S3-to-S3 copying when using Wagtail Transfer
+- GP2-984 - Compare markets selector and redux global state managememt
+- GP2-1034 - Update lesson progress bar wording
+- GP2-979 - Mobile learning module page
+- GP2-741 - Update Wagtail-Transfer version and configuration
+- GP2-914 - Responsive header
+- GP2-978 - Mobile learning homepage
+- GP2-934 - Contact us success page
+- GP2-933 - Contact us form page
+- GP2-932 - Link to DIT on GOV.UK
+- GP2-1027 - Product search backtracking
+- GP2-1023 - Product search multi-item error
+- GP2-980 - Mobile lesson page
+- GP2-619 - Insight component
 - GP2-857 - Shared components - site footer
 - GP2-751 - Add link back to module, featuring topic name
 - GP2-387 - Link to target market page

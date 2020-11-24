@@ -8,7 +8,7 @@ export const Table = memo(({
   population,
   targetPopulation,
 }) => (
-  <div className='target-age-group-insights table m-t-s'>
+  <div className='m-t-s'>
     <div className='grid'>
       <div className='c-1-2'>
         <Stats

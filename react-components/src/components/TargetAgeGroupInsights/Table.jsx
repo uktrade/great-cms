@@ -17,7 +17,7 @@ export const Table = memo(({
   targetPopulation,
   languages
 }) => (
-  <div className='target-age-group-insights table m-t-m'>
+  <div className='m-t-m'>
     <div className='grid'>
       <h3 className='body-l-b m-b-xs'>Global demographic data</h3>
       <div className='c-1-3'>

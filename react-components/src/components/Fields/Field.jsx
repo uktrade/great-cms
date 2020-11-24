@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import ErrorList from '../ErrorList'
 
-import '../stylesheets/Field.scss'
-
 export function TextInput(props) {
   return (
     <input

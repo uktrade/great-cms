@@ -31,24 +31,24 @@
     text-align: center;
   }
 
-  .search-input {
-    display: flex;
-    align-items: center;
-    min-width: 10em;
 
-    .clear {
-      margin-left: -25px;
-      opacity: 0.5;
-      transition: opacity 0.3s;
-      padding: 0;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
   button[disabled]:hover {
     background: $colour-red-80;
+  }
+
+  button.back-button {
+    i {
+      font-size: 30px;
+      position: relative;
+      top: 5px;
+      transition: color 0.2s;
+    }
+
+    &:hover {
+      i {
+        color: $blue-deep-100;
+      }
+    }
   }
 }
 
@@ -61,7 +61,7 @@
   background: transparent;
   padding: 0;
   line-height: 0.6;
-  color: $black-50;
+  color: $blue-deep-60;
   overflow: hidden;
   border-radius: 50%;
   padding: 3px;
@@ -74,10 +74,12 @@
   }
 
   &:hover {
-    color: $black-90;
+    color: $blue-deep-60;
     background-color: $black-10;
   }
 }
+
+
 
 .scroll-area {
   @include stretch;
@@ -124,31 +126,85 @@
 }
 
 .search-input {
-  i.fa-search {
-   float: right;
-   padding: 10px;
-   color: $grey;
-   position: relative;
-   margin-top: -45px;
+  display: flex;
+  align-items: center;
+  min-width: 10em;
+  @include breakpoint(md_lt) {
+    width: 100%;
   }
+
+  input {
+    padding-right: 30px;
+
+    &:focus {
+      padding-right: 28px;
+    }
+  }
+
+  .input-icon {
+    margin: 8px 0 0 -30px;
+    float: left;
+    width: 25px;
+    height: 100%;
+
+    .clear {
+      opacity: 0.5;
+      transition: opacity 0.3s;
+      padding: 0;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
 }
 
 .accordion {
-  > .expander-section {
+  >.expander-section {
     position: relative;
+
     .fa {
-      top:8px;
+      top: 8px;
       position: absolute;
-      right:8px;
+      right: 8px;
     }
   }
+
   .expand-section {
     display: none;
     width: 100%;
     overflow: hidden;
+
     &.open {
       display: block;
     }
   }
 }
 
+.modal.large-modal-content {
+  width: auto;
+  left: 100px;
+  right: 100px;
+  top: 50px;
+  bottom: 50px;
+  overflow: hidden;
+  @include breakpoint(md_lt) {
+    left: 0;
+    right:0;
+    bottom: 0;
+    top: 0;
+    border-radius: 0;
+  }
+
+  .only-mobile {
+    @include breakpoint(md) {
+      display: none;
+    }
+  }
+  .only-desktop {
+    @include breakpoint(md_lt) {
+      display: none;
+    }
+  }
+}

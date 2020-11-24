@@ -6,7 +6,7 @@ import pytest
 
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
-from airtable import Airtable
+
 from directory_api_client import api_client
 from exportplan import helpers as exportplan_helpers
 from sso.models import BusinessSSOUser
@@ -115,33 +115,6 @@ def client(client, auth_backend, settings):
 
 
 @pytest.fixture(autouse=True)
-def mock_airtable_rules_regs():
-    airtable_data = [
-        {
-            'id': '1',
-            'fields': {
-                'country': 'India',
-                'export_duty': 1.5,
-                'commodity_code': '2208.50.12',
-                'commodity_name': 'Gin and Geneva 2l',
-            },
-        },
-        {
-            'id': '2',
-            'fields': {
-                'country': 'China',
-                'export_duty': 1.5,
-                'commodity_code': '2208.50.13',
-                'commodity_name': 'Gin and Geneva',
-            },
-        },
-    ]
-    patch = mock.patch.object(Airtable, 'get_all', return_value=airtable_data)
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=True)
 def mock_user_location_create():
     response = create_response()
     stub = mock.patch.object(api_client.personalisation, 'user_location_create', return_value=response)
@@ -200,7 +173,8 @@ def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
         'rules_regulations': {'country_code': 'CHN'},
-        'export_countries': [{'country': 'China', 'country_iso2_code': 'CN'}],
+        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
+        'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
     }
     mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)

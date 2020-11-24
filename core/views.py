@@ -2,6 +2,7 @@ import abc
 import datetime
 import logging
 import math
+import json
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -19,6 +20,7 @@ from great_components.mixins import GA360Mixin
 from django.urls import reverse_lazy
 from directory_forms_api_client.helpers import Sender
 from core import forms, helpers, serializers, cms_slugs
+from domestic.models import DomesticDashboard
 
 logger = logging.getLogger(__name__)
 
@@ -123,9 +125,12 @@ class TargetMarketView(GA360Mixin, TemplateView):
     template_name = 'core/target_markets.html'
 
     def get_context_data(self, **kwargs):
+        dashboard = DomesticDashboard.objects.live().first()
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
+            context['data_tabs_enabled'] = json.loads(settings.FEATURE_COMPARE_MARKETS_TABS)
+            context['dashboard_components'] = dashboard.components if dashboard else None
         return context
 
 
@@ -139,7 +144,7 @@ class ProductLookupView(generics.GenericAPIView):
         if 'tx_id' in serializer.validated_data:
             data = helpers.search_commodity_refine(**serializer.validated_data)
         else:
-            data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
+            data = helpers.search_commodity_by_term(term=serializer.validated_data['proddesc'])
         return Response(data)
 
 

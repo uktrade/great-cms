@@ -23,7 +23,7 @@
 {% block body_js %}
     <script type="text/javascript">
         var element = document.getElementById('sidebar-content');
-        ditMVP.sectionSidebar({
+        magna.sectionSidebar({
             element: element,
             sections: {{ sections|to_json}},
             currentSection: {{ current_section|to_json}},

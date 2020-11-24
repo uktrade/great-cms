@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Spinner.scss'
 
 export default class Spinner extends React.Component {
   constructor(props) {

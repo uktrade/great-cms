@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './EducationalMomentIcon.scss'
 import OpenBookIcon from '@assets/open-book-icon.png'
 
 export default function EducationalMomentIcon(props) {

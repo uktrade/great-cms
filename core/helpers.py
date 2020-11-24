@@ -206,10 +206,6 @@ class CompanyParser(great_components.helpers.CompanyParser):
     def expertise_products_services(self):
         return self.data['expertise_products_services'].get('other', [])
 
-    @property
-    def expertise_products_value_label_pairs(self):
-        return [{'value': item, 'label': item} for item in self.expertise_products_services]
-
 
 def values_to_labels(values, choices):
     return [choices.get(item) for item in values if item in choices]
@@ -223,8 +219,11 @@ def search_commodity_by_term(term, json=True):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
         json={
+            'origin': 'GB',
             'proddesc': term,
-            'destination': 'GB',
+            'state': 'start',
+            'stopAtHS6': 'Y',
+            'schedule': 'import/export',
         },
         headers={
             'Accept': '*/*',
@@ -238,13 +237,15 @@ def search_commodity_by_term(term, json=True):
     return response.json() if json else response
 
 
-def search_commodity_refine(interraction_id, tx_id, values):
+def search_commodity_refine(interaction_id, tx_id, values):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_REFINE_URL,
         json={
+            'origin': 'GB',
             'state': 'continue',
-            'interractionid': interraction_id,
+            'stopAtHS6': 'Y',
             'txid': tx_id,
+            'interactionid': interaction_id,
             'values': values,
         },
         headers={

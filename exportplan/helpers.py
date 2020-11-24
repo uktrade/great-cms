@@ -64,6 +64,12 @@ def get_comtrade_historical_import_data(commodity_code, country):
     return response.json()
 
 
+def get_population_data_by_country(countries):
+    response = api_client.dataservices.get_population_data_by_country(countries=countries)
+    response.raise_for_status()
+    return response.json()
+
+
 def get_recommended_countries(sso_session_id, sectors):
     response = api_client.personalisation.recommended_countries_by_sector(sso_session_id=sso_session_id, sector=sectors)
     response.raise_for_status()
@@ -193,7 +199,11 @@ def get_all_lesson_details():
 def get_current_url(slug, export_plan):
     current_url = data.SECTIONS[slug]
     current_url.pop('country_required', None)
+    current_url.pop('product_required', None)
     if slug in data.COUNTRY_REQUIRED:
-        if not export_plan['export_countries'] or len(export_plan['export_countries']) == 0:
+        if not export_plan.get('export_countries') or len(export_plan['export_countries']) == 0:
             current_url['country_required'] = True
+    if slug in data.PRODUCT_REQUIRED:
+        if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
+            current_url['product_required'] = True
     return current_url

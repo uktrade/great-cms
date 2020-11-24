@@ -1,28 +1,3 @@
-.multiple-choice {
-  min-height: 20px;
-  padding: 0 0 0 20px;
-
-  [type="radio"] + label::before {
-    width: 20px;
-    height: 20px;
-  }
-
-  [type="radio"] + label::after {
-    top: 6px;
-    left: 6px;
-    border: 6px solid;
-  }
-
-  label {
-    line-height: 20px;
-  }
-
-  input {
-    width: 20px;
-    height: 20px;
-  }
-}
-
 .form {
   &--sign-up {
     bottom:0;
@@ -108,5 +83,11 @@
         color: $colour-blue-deep-40;
       }
     }
+  }
+}
+
+.great-mvp-error-list {
+  li.error-message {
+    text-align: left;
   }
 }

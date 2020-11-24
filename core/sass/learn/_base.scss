@@ -58,6 +58,16 @@ $desktop: 1024px;
   margin: 0 percentage(1 / 4) 60px;
 }
 
+.learn__categories-content {
+  margin-left: 0;
+  margin-right: 0;
+
+  @include tablet {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
 .learn__category-header {
   padding-top: 80px;
   margin-bottom: 80px;
@@ -80,26 +90,46 @@ $desktop: 1024px;
 .learn__category {
   background-color: $white;
   border-radius: 10px;
-  margin-bottom: 40px;
-  min-height: 360px;
+  margin-bottom: 30px;
   position: relative;
-  padding-left: 30px;
   overflow: hidden;
+
+  @include tablet {
+    padding-left: 30px;
+    min-height: 360px;
+    margin-bottom: 40px;
+  }
 }
 
 .learn__category-content {
-  padding-bottom: 40px;
-  padding-top: 40px;
-  padding-left: 25px;
+  padding: 20px 20px 0;
+
+  @include tablet {
+    padding: 40px 20px 40px 25px;
+  }
 
   .button {
-    display: inline-block;
+    display: none;
+
+    @include tablet {
+      display: inline-block;
+    }
+  }
+}
+
+.learn__category-content--progress-bar {
+  padding-top: 80px;
+
+  @include tablet {
+    padding-top: 40px;
   }
 }
 
 .learn__category-title {
-  margin-top: 13px;
-  line-height: 48px;
+  @include tablet {
+    margin-top: 13px;
+    line-height: 48px;
+  }
 }
 
 .learn__category-progress {
@@ -107,12 +137,26 @@ $desktop: 1024px;
   width: 280px;
 }
 
+.learn__category-progress-container {
+  position: absolute;
+  top: 20px;
+
+  @include tablet {
+    position: static;
+  }
+}
+
 .learn__category-link {
   display: block;
+  text-decoration: none;
 }
 
 .learn__category-details {
-  margin: 0 0 30px;
+  margin: 0 0 20px;
+
+  @include tablet {
+    margin: 0 0 30px;
+  }
 
   p {
     color: $blue-deep-80;
@@ -121,31 +165,64 @@ $desktop: 1024px;
 }
 
 .learn__category-entities {
-  padding: 8px 17px 4px;
+  @extend .body-m-b;
+  padding: 8px 17px 7px;
   color: $white;
   display: inline-block;
   white-space: nowrap;
-  position: absolute;
   top: 35px;
   right: 0;
+  margin-left: 20px;
+
+  @include tablet {
+    font-family: $brand-font-body;
+    padding: 13px 17px 9px;
+    margin-left: 0;
+    position: absolute;
+    font-weight: normal;
+    font-size: 19px;
+  }
 }
 
-.learn__category-image {
-  bottom: 0;
+.learn__category-image { 
   border-bottom-right-radius: 10px;
-  position: absolute;
-  right: 0;
-  max-width: 50%;
-  max-height: 250px;
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+
+  @include tablet {
+    position: absolute;
+    margin-top: 0;
+    max-width: 50%;
+    max-height: 250px;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 .learn__single-category-header-wrapper {
   padding-top: 40px;
   position: relative;
+
+  .learn__category-entities {
+    margin-left: 0;
+  }
+}
+
+.learn__single-category-header-wrapper--progress-bar-top {
+  padding-top: 80px;
+
+  @include tablet {
+    padding-top: 40px;
+  }
 }
 
 .learn__single-category-header-content {
-  margin: 38px 0 0 70px;
+  margin-bottom: 10px;
+
+  @include tablet {
+    margin: 38px 0 30px 70px;
+  }
 }
 
 .learn__single-category-title.h1 {
@@ -156,12 +233,19 @@ $desktop: 1024px;
   background-color: $white;
 }
 
-.learn__single-category-header-details {
-  p {
-    color: $blue-deep-80;
+.learn__single-category-header-details p {
+  @extend .body-m;
+  color: $blue-deep-80;
+  margin-top: 15px;
+
+  @include tablet {
     font-size: 20px;
-    margin-top: 15px;
   }
+}
+
+.learn__single-category-image {
+  max-width: 100%;
+  height: auto;
 }
 
 .learn__topics-list {
@@ -171,6 +255,14 @@ $desktop: 1024px;
 .learn__topic-item-title {
   margin-right: 20px;
   padding-bottom: 20px;
+}
+
+.learn__topic-item-count {
+  margin-bottom: 10px;
+
+  @include tablet {
+    margin-bottom: 0;
+  }
 }
 
 .learn__topic-item {
@@ -202,7 +294,9 @@ $desktop: 1024px;
     }
 
     button {
-      float: right;
+      @include tablet {
+        float: right;
+      }
     }
   }
 }
@@ -210,36 +304,60 @@ $desktop: 1024px;
 .learn__lesson-item-link {
   color: $blue-deep-80;
   display: block;
-  padding: 22px 20px 20px 21px;
+  padding: 18px 20px 20px;
   text-decoration: none;
   position: relative;
+
+  @include tablet {
+    padding: 22px 20px 20px 21px;
+  }
 
   &:visited {
     color: $blue-deep-80;
   }
 
   .button {
-    position: relative;
-    top: -4px;
+    @include tablet {
+      position: relative;
+      top: -4px;
+    }
   }
 }
 
 .learn__lesson-item-link-text {
+  display: block;
+  margin-bottom: 10px;
+
+  @include tablet {
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 75%;
+  }
+}
+
+.learn__lesson-item-link--completed {
   display: inline-block;
-  max-width: 75%;
+  
+  @include tablet {
+    float: right;
+  }
 }
 
 .learn__topic-item-read-time {
-  position: absolute;
-  top: 50%;
-  margin-top: -14px;
-  right: 22px;
+  display: inline-block;
+
+  @include tablet {
+    position: absolute;
+    top: 50%;
+    margin-top: -14px;
+    right: 22px;
+  }
 }
 
 .learn__back-link {
   color: $blue-deep-80;
   left: 38px;
-  top: 158px;
+  top: 15px;
 
   @include tablet {
     position: absolute;
@@ -251,19 +369,57 @@ $desktop: 1024px;
   }
 
   &--top {
-    top: 158px;
+    top: 15px;
   }
 
   &--bottom {
     color: $white;
     top: auto;
-    bottom: 168px;
+    bottom: 20px;
 
     &:visited {
       color: $white;
     }
   }
 }
+
+.learn__beta-banner {
+  flex-direction: row;
+
+  > i {
+    width: 35px;
+
+    &:before {
+      font-size: 26px;
+    }
+  }
+
+  .g-panel {
+    padding: 0 0 0 25px;
+
+    h3 {
+      margin-top: -10px;
+    }
+
+    @include tablet {
+      padding: 10px 0 10px 30px;
+
+      h3 {
+        margin-top: 0;
+      }
+    }
+  }
+  
+  @include tablet {
+    > i {
+      width: 70px;
+  
+      &:before {
+        font-size: 40px;
+      }
+    }
+  }
+} 
 
 #lesson-page {
   details {
@@ -336,8 +492,12 @@ $desktop: 1024px;
   .rich-text {
     h2, h3, h4 {
       color: $blue-deep-80;
-      margin-bottom: 30px;
+      margin-bottom: 18px;
       padding: 0;
+
+      @include tablet {
+        margin-bottom: 30px;
+      }
     }
 
     h2 {
@@ -358,6 +518,16 @@ $desktop: 1024px;
 
     p, li {
       color: $blue-deep-80;
+    }
+
+    p {
+      margin-top: 18px;
+      margin-bottom: 18px;
+
+      @include tablet {
+        margin-top: 22px;
+        margin-bottom: 22px;
+      }
     }
 
     ul {
@@ -397,6 +567,41 @@ $desktop: 1024px;
           padding: 0;
         }
       }
+
+      i {
+        margin-bottom: 0;
+
+        @include tablet {
+          margin-bottom: 20px;
+        }
+      }
+
+      .g-panel {
+        &:before {
+          display: none;
+
+          @include tablet {
+            display: block;
+          }
+        }
+
+        h3 {
+          margin-bottom: 0;
+
+          @include tablet {
+            margin-bottom: 10px;
+          }
+        }
+
+        p {
+          margin: 0;
+
+          @include tablet {
+            margin-bottom: 18px;
+            margin-top: 18px;
+          }
+        }
+      }
     }
 
     .pros-and-cons {
@@ -425,7 +630,7 @@ $desktop: 1024px;
       }
 
       &__pros {
-        margin-bottom: 30px;
+        margin-bottom: 10px;
 
         @include desktop {
           margin-right: -10px;
@@ -468,6 +673,10 @@ $desktop: 1024px;
     > ul.list-bullet > li {
       position: static;
       padding-left: 0;
+
+      &:before {
+        display: none;
+      }
     }
 
     img {
@@ -494,6 +703,30 @@ $desktop: 1024px;
         color: $blue-deep-80;
         max-height: 200px;
         overflow-y: scroll;
+      }
+    }
+  }
+
+  .lesson-hero {
+    margin: 0 0 20px;
+
+    @include tablet {
+      margin: 30px 0;
+    }
+  }
+
+  .objectives {
+    padding-bottom: 40px;
+
+    @include tablet {
+      padding-bottom: 0;
+    }
+
+    hr {
+      margin-bottom: 0;
+
+      @include tablet {
+        margin-bottom: 45px;
       }
     }
   }
@@ -528,6 +761,31 @@ $desktop: 1024px;
 
     &__author {
       margin-top: 12px;
+    }
+
+    .g-panel {
+      padding-left: 0;
+
+      &:before {
+        display: none;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      @include tablet {
+        padding-left: 30px;
+
+        &:before {
+          display: block;
+        }
+
+        p {
+          margin-top: 18px;
+          margin-bottom: 18px;
+        }
+      }
     }
   }
 
@@ -608,6 +866,12 @@ $desktop: 1024px;
   }
 
   .estimated-time {
+    margin-bottom: 12px;
+
+    @include tablet {
+      margin-bottom: 22px;
+    }
+
     strong {
       height: 24px;
       display: inline-block;

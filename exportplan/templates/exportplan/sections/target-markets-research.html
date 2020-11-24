@@ -14,7 +14,7 @@
     <div class="grid">
       <div class="c-1-4 p-0">&nbsp;</div>
       <div class="c-2-3">
-        <h2 class="h-xs p-t-l p-b-s">Data Snapshot: {{ export_plan.export_countries.0.country_name }}</h2>
+        <h2 class="h-xs p-t-l p-b-0">Data Snapshot: {{ export_plan.export_countries.0.country_name }}</h2>
         <div id="target-age-groups" class="m-b-s">
           {% include "exportplan/includes/insight.html" %}
         </div>
@@ -57,7 +57,7 @@
   {{ block.super }}
   <script type="text/javascript">
     var element = document.getElementById('target-markets-research');
-    ditMVP.createTargetMarketResearchForm({
+    magna.createTargetMarketResearchForm({
       element: element,
       field: 'target_markets_research',
       formData: {{ form_initial|safe }},
@@ -65,7 +65,7 @@
     })
 
     element = document.getElementById('target-age-groups');
-    ditMVP.createDataSnapShot({
+    magna.createDataSnapShot({
       element,
       groups: [
           {key: "0-14", label: '0-14 year olds'},
