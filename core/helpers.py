@@ -6,6 +6,7 @@ from ipware import get_client_ip
 
 import csv
 import functools
+import math
 import requests
 
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
@@ -331,3 +332,12 @@ def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
 def get_sender_ip_address(request):
     ip, is_routable = get_client_ip(request)
     return ip or None
+
+
+def millify(n):
+    n = float(n)
+    mill_names = ['', ' thousand', ' million', ' billion', ' trillion']
+    mill_idx = max(0, min(len(mill_names) - 1,
+                          int(math.floor(0 if n == 0 else math.log10(abs(n)) / 3))))
+
+    return '{:.2f}{}'.format(n / 10 ** (3 * mill_idx), mill_names[mill_idx])

@@ -60,36 +60,32 @@ function CompareMarkets(props) {
     )
   }
 
-  const showTab = (e) => {
-    console.log(e.target.dataset.id)
-  }
-
   return (
     <span>
-      <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
-      <div>
+       <Tabs>
 
-      <Tabs>
-        <div label="Population">
-          population...
-           <PopulationData
-            comparisonMarkets={comparisonMarkets}
-            removeMarket={removeMarket}/>
-        </div>
-        <div label="Economic">
-          economics..
+
+        <div label="ECONOMY" className="button button--small button--tertiary">
+          <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
             <EconomicData
-            comparisonMarkets={comparisonMarkets}
-            removeMarket={removeMarket}/>
+              comparisonMarkets={comparisonMarkets}
+              removeMarket={removeMarket}
+              selectedProduct={selectedProduct}/>
+            {triggerButton}
+        </div>
+        </div>
+         <div label="POPULATION" className="button button--small button--tertiary">
+          <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
+           <PopulationData
+             comparisonMarkets={comparisonMarkets}
+             removeMarket={removeMarket}/>
+            {triggerButton}
+        </div>
         </div>
 
-      </Tabs>
-    </div>
 
+  </Tabs>
 
-
-        {triggerButton}
-        </div>
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
         setIsOpen={setProductModalIsOpen}
@@ -102,7 +98,9 @@ function CompareMarkets(props) {
         addButton={false}
         selectCountry={addCountry}
       />
+
     </span>
+
   )
 }
 

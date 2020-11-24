@@ -67,6 +67,10 @@ const getCountryData = function(country) {
   return get(config.countryDataUrl, { country: country }).then((response) => responseHandler(response).json())
 }
 
+const getComTradeData = function(countries, commodity_code) {
+  return get(config.apiComTradeDataUrl, { countries: countries, commodity_code: commodity_code }).then((response) => responseHandler(response).json())
+}
+
 const getPopulationByCountryData = function(countries) {
   return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
 }
@@ -221,7 +225,8 @@ const setConfig = function({
   apiRouteToMarketUpdateUrl,
   exportPlanTargetMarketsUrl,
   signupUrl,
-  populationByCountryUrl
+  populationByCountryUrl,
+  apiComTradeDataUrl
 }) {
   config.countryDataUrl = countryDataUrl
   config.marketingCountryData = marketingCountryData
@@ -256,6 +261,7 @@ const setConfig = function({
   config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl
   config.signupUrl = signupUrl
   config.populationByCountryUrl = populationByCountryUrl
+  config.apiComTradeDataUrl = apiComTradeDataUrl
 }
 
 export default {
@@ -280,6 +286,7 @@ export default {
   lookupProductRefine,
   getCountries,
   getSuggestedCountries,
+  getComTradeData,
   setConfig,
   getLessonComplete,
   setLessonComplete,

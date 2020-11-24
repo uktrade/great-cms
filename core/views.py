@@ -1,24 +1,17 @@
 import abc
-import datetime
 import logging
-import math
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
-from rest_framework import generics
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 from django.template.response import TemplateResponse
 from django.views.generic import TemplateView, FormView
-from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
 
 from django.urls import reverse_lazy
 from directory_forms_api_client.helpers import Sender
-from core import forms, helpers, serializers, cms_slugs
+from core import forms, helpers, cms_slugs
 
 logger = logging.getLogger(__name__)
 
@@ -26,20 +19,6 @@ STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
 STEP_PRODUCT_SEARCH = 'product-search'
 STEP_SIGN_UP = 'sign-up'
-
-
-class UpdateCompanyAPIView(generics.GenericAPIView):
-    serializer_class = serializers.CompanySerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        data = {key: value for key, value in serializer.validated_data.items() if value}
-        if not self.request.user.company:
-            data['name'] = f'unnamed sso-{self.request.user.id} company'
-        helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=data)
-        return Response(status=200)
 
 
 class ArticleView(GA360Mixin, FormView):
@@ -127,36 +106,6 @@ class TargetMarketView(GA360Mixin, TemplateView):
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
         return context
-
-
-class ProductLookupView(generics.GenericAPIView):
-    serializer_class = serializers.ProductLookupSerializer
-    permission_classes = []
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        if 'tx_id' in serializer.validated_data:
-            data = helpers.search_commodity_refine(**serializer.validated_data)
-        else:
-            data = helpers.search_commodity_by_term(term=serializer.validated_data['proddesc'])
-        return Response(data)
-
-
-class CountriesView(generics.GenericAPIView):
-
-    def get(self, request):
-        return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
-
-
-class SuggestedCountriesView(generics.GenericAPIView):
-
-    def get(self, request):
-        hs_code = request.GET.get('hs_code')
-        return Response(helpers.get_suggested_countries_by_hs_code(
-            sso_session_id=self.request.user.session_id,
-            hs_code=hs_code
-        ))
 
 
 def handler404(request, *args, **kwargs):
@@ -271,39 +220,6 @@ class CompanyNameFormView(GA360Mixin, FormView):
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
         return super().form_valid(form)
-
-
-class CreateTokenView(generics.GenericAPIView):
-    permission_classes = []
-
-    def get(self, request):
-        # expire access @ now() in msec + BETA_TOKEN_EXPIRATION_DAYS days
-        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=settings.BETA_TOKEN_EXPIRATION_DAYS))
-        base_url = settings.BASE_URL
-        # ability to edit target URL by using path param
-        extra_url_params = 'signup'
-        if request.GET.get('path'):
-            extra_url_params = request.GET.get('path')
-        # TODO: logging
-        # print(f'token valid until {plaintext}')
-        fern = Fern()
-        ciphertext = fern.encrypt(plaintext)
-        response = {'valid_until': plaintext, 'token': ciphertext,
-                    'CLIENT URL': f'{base_url}/{extra_url_params}?enc={ciphertext}'}
-        return Response(response)
-
-
-class CheckView(generics.GenericAPIView):
-    def get(self, request):
-        try:
-            response = helpers.search_commodity_by_term(term='feta', json=False)
-            response_code = response.json()['data']['hsCode']
-            return Response({'status': status.HTTP_200_OK,
-                             'CCCE_API': {'status': status.HTTP_200_OK, 'response_body': response_code,
-                                          'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000)}})
-        except Exception as e:
-            logger.exception(e)
-            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': response.status_code}})
 
 
 class ContactUsHelpFormView(FormView):

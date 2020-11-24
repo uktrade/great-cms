@@ -65059,6 +65059,15 @@ var getCountryData = function getCountryData(country) {
   });
 };
 
+var getComTradeData = function getComTradeData(countries, commodity_code) {
+  return get(config.apiComTradeDataUrl, {
+    countries: countries,
+    commodity_code: commodity_code
+  }).then(function (response) {
+    return responseHandler(response).json();
+  });
+};
+
 var getPopulationByCountryData = function getPopulationByCountryData(countries) {
   return get(config.populationByCountryUrl, {
     countries: countries
@@ -65274,7 +65283,8 @@ var setConfig = function setConfig(_ref7) {
       apiRouteToMarketUpdateUrl = _ref7.apiRouteToMarketUpdateUrl,
       exportPlanTargetMarketsUrl = _ref7.exportPlanTargetMarketsUrl,
       signupUrl = _ref7.signupUrl,
-      populationByCountryUrl = _ref7.populationByCountryUrl;
+      populationByCountryUrl = _ref7.populationByCountryUrl,
+      apiComTradeDataUrl = _ref7.apiComTradeDataUrl;
   config.countryDataUrl = countryDataUrl;
   config.marketingCountryData = marketingCountryData;
   config.removeSectorUrl = removeSectorUrl;
@@ -65308,6 +65318,7 @@ var setConfig = function setConfig(_ref7) {
   config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl;
   config.signupUrl = signupUrl;
   config.populationByCountryUrl = populationByCountryUrl;
+  config.apiComTradeDataUrl = apiComTradeDataUrl;
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -65332,6 +65343,7 @@ var setConfig = function setConfig(_ref7) {
   lookupProductRefine: lookupProductRefine,
   getCountries: getCountries,
   getSuggestedCountries: getSuggestedCountries,
+  getComTradeData: getComTradeData,
   setConfig: setConfig,
   getLessonComplete: getLessonComplete,
   setLessonComplete: setLessonComplete,
@@ -65634,7 +65646,7 @@ function createCaseStudy(_ref2) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EconomicData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EconomyData; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
@@ -65652,16 +65664,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function EconomicData(props) {
+function EconomyData(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
-      populationData = _useState2[0],
-      setPopulationData = _useState2[1];
+      economyData = _useState2[0],
+      setEconomyData = _useState2[1];
 
   var getCountryData = function getCountryData(country) {
-    if (populationData && populationData.length) {
-      var country_data = Object.values(populationData).find(function (x) {
-        return x[1].country === country;
+    if (economyData && economyData.length) {
+      var country_data = Object.values(economyData).find(function (x) {
+        return x[0] === country;
       });
       return country_data ? country_data[1] : [];
     }
@@ -65672,17 +65684,18 @@ function EconomicData(props) {
       var countries = Object.values(comparisonMarkets).map(function (key) {
         return key.name;
       });
-      _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getPopulationByCountryData(countries).then(function (result) {
-        setPopulationData(Object.entries(result));
+      _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getComTradeData(countries, props.selectedProduct.code).then(function (result) {
+        setEconomyData(Object.entries(result));
       })["finally"](function () {});
     }
   }, [props]);
   var comparisonMarkets = props.comparisonMarkets;
+  var DATA_NA = 'Data not available';
   var dataTable;
 
   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
     var tableBody = Object.values(comparisonMarkets).map(function (market) {
-      var populationCountryData = getCountryData(market.name);
+      var data = getCountryData(market.name);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: "market-".concat(market.id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -65700,15 +65713,21 @@ function EconomicData(props) {
         className: "fa fa-times-circle"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         id: "market-total-population-".concat(market.name)
-      }, populationCountryData ? populationCountryData.total_population : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-internet-usage-".concat(market.name)
-      }, populationCountryData && populationCountryData.internet_usage ? populationCountryData.internet_usage.value + '%' : 'Data not available'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-urban-population-".concat(market.name)
-      }, populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        id: "market-rural-population-".concat(market.name)
-      }, populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'));
+      }, data && data.import_from_world ? data.import_from_world.trade_value : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-total-population-".concat(market.name)
+      }, data && data.import_from_world && data.import_from_world.year_on_year_change ? data.import_from_world.year_on_year_change + '%' : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-total-population-".concat(market.name)
+      }, data && data.import_data_from_uk ? data.import_data_from_uk.trade_value : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-total-population-".concat(market.name)
+      }, DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-total-population-".concat(market.name)
+      }, DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-total-population-".concat(market.name)
+      }, data && data.country_data ? data.country_data.ease_of_doing_bussiness.year_2019 : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        id: "market-total-population-".concat(market.name)
+      }, data && data.corruption_perceptions_index ? data.country_data.corruption_perceptions_index.rank : DATA_NA));
     });
-    dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total population"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Access to internet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in urban areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in rural areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Consumer Price Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)));
+    dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total ", props.selectedProduct.name.toLowerCase(), " import value (USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year-to-year ", props.selectedProduct.name.toLowerCase(), " import value change"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, props.selectedProduct.name, " import value from the UK (USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "GDP per capita(USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Avg income(USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Ease of doing business rank"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Corruption Perceptions Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)));
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, dataTable);
@@ -66120,23 +66139,24 @@ function CompareMarkets(props) {
     }), "Select market ", selectedLength + 1, " of 3");
   }
 
-  var showTab = function showTab(e) {
-    console.log(e.target.dataset.id);
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tabs__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    label: "ECONOMY",
+    className: "button button--small button--tertiary"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tabs__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    label: "Population"
-  }, "population...", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PopulationData__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EconomicData__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    comparisonMarkets: comparisonMarkets,
+    removeMarket: removeMarket,
+    selectedProduct: selectedProduct
+  }), triggerButton)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    label: "POPULATION",
+    className: "button button--small button--tertiary"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PopulationData__WEBPACK_IMPORTED_MODULE_6__["default"], {
     comparisonMarkets: comparisonMarkets,
     removeMarket: removeMarket
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    label: "Economic"
-  }, "economics..", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EconomicData__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    comparisonMarkets: comparisonMarkets,
-    removeMarket: removeMarket
-  })))), triggerButton), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), triggerButton))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
     modalIsOpen: productModalIsOpen,
     setIsOpen: setProductModalIsOpen,
     setSelectedProduct: setSelectedProduct
