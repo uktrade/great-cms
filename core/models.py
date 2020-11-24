@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
@@ -1002,6 +1003,9 @@ class CaseStudy(ClusterableModel):
             getattr(self, 'update_modified', True)
         )
         super().save(**kwargs)
+
+    def get_cms_standalone_view_url(self):
+        return reverse('cms_extras:case-study-view', args=[self.id])
 
     class Meta:
         verbose_name_plural = 'Case studies'

@@ -63,6 +63,7 @@ INSTALLED_APPS = [
 
     'sso',
     'core.apps.CoreConfig',
+    'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
