@@ -173,7 +173,7 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         return context
 
 
-class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, ExportPlanSectionView, FormContextMixin, FormView):
+class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
@@ -187,7 +187,7 @@ class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, ExportPlanSectionV
         return kwargs
 
 
-class ExportPlanBusinessObjectivesView(LessonDetailsMixin, ExportPlanSectionView, FormView, FormContextMixin):
+class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
     form_class = forms.ExportPlanBusinessObjectivesForm
     success_url = reverse_lazy('exportplan:business-objectives')
 
