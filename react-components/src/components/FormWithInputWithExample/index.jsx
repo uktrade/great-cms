@@ -36,7 +36,7 @@ export class FormWithInputWithExample extends Component {
            const currentItem = this.state.currentChangeFormField
             analytics({
               'event': 'planSectionSaved',
-              'sectionTitle': this.props.field,
+              'sectionTitle': this.props.field.replace(/_/g,'-'),
               'sectionFormField': sectionQuestionMapping[currentItem]
             })
           })

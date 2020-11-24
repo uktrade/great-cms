@@ -1,5 +1,6 @@
 # Changelog
 
+- GP2-746 - Pushing section title has hypenated to GA
 - no ticket - Reimplement old flex-grid
 - no ticket - Added dynamic year for footer
 - GP2-977 - Added analytics for export plan's coming soon section
@@ -139,8 +140,12 @@
 
 ### Implemented enhancements
 - GP2-981 - Responsive support for Case Study component
+- GP2-1047 - page structure and components for costs and pricing page  
+- GP2-1028 - Target-market routing feature
+- GP2-901 - Add Case Study view support to CMS
 - GP2-1033 - Country chooser mobile
 - GP2-1051 - Compare markets feature flag
+- GP2-661 - Main work to support S3-to-S3 copying when using Wagtail Transfer
 - GP2-984 - Compare markets selector and redux global state managememt
 - GP2-1034 - Update lesson progress bar wording
 - GP2-979 - Mobile learning module page
