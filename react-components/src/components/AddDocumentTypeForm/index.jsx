@@ -6,6 +6,7 @@ import { Input } from '@src/components/Form/Input'
 import { TextArea } from '@src/components/Form/TextArea'
 import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
 
+// List the user defined other documents
 const DocumentList = (props) => {
   const { documents, deleteDocument, updateDocument } = props
   return (
@@ -51,7 +52,9 @@ const DocumentList = (props) => {
   )
 }
 
+// Add a new document to the list
 const AddNewDocument = (props) => {
+  const { addDocument } = props
   const initialFormState = { name: '', label: '', description: '' }
   const [document, setDocument] = useState(initialFormState)
 
@@ -66,7 +69,7 @@ const AddNewDocument = (props) => {
         event.preventDefault()
         if (!document.name || !document.description) return
 
-        props.addDocument(document)
+        addDocument(document)
         setDocument(initialFormState)
       }}
     >
@@ -104,7 +107,8 @@ const AddNewDocument = (props) => {
   )
 }
 
-export const AddDocumentTypeForm = (params) => {
+// The parent component
+export const AddDocumentTypeForm = (props) => {
   const documentsData = [
     { name: 'export_certificate_1', label: 'Export certificate', description: 'Some description data here' },
     {
@@ -116,13 +120,6 @@ export const AddDocumentTypeForm = (params) => {
   ]
 
   const [documents, setDocuments] = useState(documentsData)
-
-  // useEffect(() => {
-  //   effect
-  //   return () => {
-  //     cleanup
-  //   }
-  // }, [])
 
   const addDocument = (document) => {
     const { name } = document
@@ -148,7 +145,7 @@ export const AddDocumentTypeForm = (params) => {
 
   return (
     <>
-      <FormWithInputWithExample {...params} />
+      <FormWithInputWithExample {...props} />
       <DocumentList documents={documents} deleteDocument={deleteDocument} updateDocument={updateDocument} />
       <AddNewDocument addDocument={addDocument} />
     </>
