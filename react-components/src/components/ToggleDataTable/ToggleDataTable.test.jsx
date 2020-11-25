@@ -1,10 +1,11 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import fetchMock from 'fetch-mock'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
 import { mapData } from '@src/components/ToggleDataTable/utils'
 import Services from '@src/Services'
 import { act } from 'react-dom/test-utils'
+
+jest.mock('@src/Services')
 
 let wrapper
 
@@ -42,11 +43,14 @@ const mockResponse = {
 describe('ToggleDataTable', () => {
 
   beforeEach(() => {
+    Services.getCountryAgeGroupData.mockImplementation(() => Promise.resolve())
     wrapper = mount(<ToggleDataTable groups={mockGroups} country="netherlands"><div className='table'>test</div></ToggleDataTable>)
   })
 
   afterEach(() => {
     wrapper = null
+    Services.setConfig({})
+    jest.clearAllMocks()
   })
 
   test('renders heading and select button initially', () => {
@@ -63,10 +67,7 @@ describe('ToggleDataTable', () => {
   })
 
   test('renders table', async () => {
-    Services.setConfig({
-      marketingCountryData: '/api/marketing-country-data'
-    })
-    fetchMock.get(Services.config.getMarketingCountryData, mockResponse)
+    Services.getCountryAgeGroupData.mockImplementation(() => Promise.resolve(mockResponse))
 
     wrapper.find('.button--icon').simulate('click', { type: 'click' })
     wrapper
@@ -87,17 +88,13 @@ describe('ToggleDataTable', () => {
 
 describe('utils', () => {
   test('mapData', () => {
-    expect(mapData(mockResponse)).toEqual({
+    expect(mapData(mockResponse.population_data)).toEqual({
       population: 0.2,
-      cpi: '123.00',
       urban: 40,
       rural: 60,
       female: 0.1,
       male: 0.2,
-      internetPercentage: 80,
-      internetTotal: 0.2,
       targetPopulation: 1,
-      languages: 'English, French, Spanish'
     })
   })
 })
