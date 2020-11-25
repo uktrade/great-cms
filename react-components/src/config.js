@@ -2,7 +2,6 @@
 // These are set within the base template
 export let config = {}
 export const setConfig = function({
-  countryDataUrl,
   marketingCountryData,
   removeSectorUrl,
   removeCountryDataUrl,
@@ -37,7 +36,6 @@ export const setConfig = function({
   populationByCountryUrl,
   countryAgeGroupDataUrl
 }) {
-  config.countryDataUrl = countryDataUrl
   config.marketingCountryData = marketingCountryData
   config.removeSectorUrl = removeSectorUrl
   config.removeCountryDataUrl = removeCountryDataUrl

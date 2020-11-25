@@ -87,10 +87,6 @@ export default {
     return get(config.apiSuggestedCountriesUrl, { hs_code }).then((response) => responseHandler(response).json())
   },
 
-  getCountryData: (country) => {
-    return get(config.countryDataUrl, { country_name: country }).then((response) => responseHandler(response).json())
-  },
-
   getPopulationByCountryData: (countries) => {
     return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
   },

@@ -40,7 +40,6 @@
           apiRouteToMarketDeleteUrl: '{% url "exportplan:api-route-to-markets-delete" %}',
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
-          countryDataUrl: '{% url "exportplan:api-country-data" %}',
           countryAgeGroupDataUrl: '{% url "exportplan:api-target-market-country-age-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
