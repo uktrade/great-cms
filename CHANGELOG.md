@@ -18,6 +18,7 @@
 - GP2-1022 - hide footer sign-up
 - GP2-695 - select product modal
 - GP2-1049 - country name in target market research page
+- GP2-1146 - fix broken forms
 
 ## Pre-release
 
@@ -421,3 +422,4 @@
 - GP2-937 - content-changes
 - GP2-950 - prevent scripts ep json fields
 - GP2-876 - fix logged out
+- GBAU-869 - Terminate SSO session on logout

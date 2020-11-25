@@ -34,8 +34,11 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
 class SSOBusinessUserLogoutView(generics.GenericAPIView):
 
     def post(self, request):
-        # Call logout on directory_sso to kill the token.
-        upstream_response = requests.post(url=settings.SSO_PROXY_LOGOUT_URL, allow_redirects=False)
+        # Construct a cookie with the session key.
+        session_cookie = {'session_key': request.COOKIES.get(settings.SSO_SESSION_COOKIE)}
+        # Call logout on directory_sso to flush the session.
+        upstream_response = requests.post(
+            url=settings.SSO_PROXY_LOGOUT_URL, cookies=session_cookie, allow_redirects=False)
         # Nothing we can do if that fails so carry on.
         # Kill our Django session
         auth.logout(request=request)
