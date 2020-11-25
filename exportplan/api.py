@@ -115,9 +115,8 @@ class TargetMarketMarketingAgeData(APIView):
         serializer.is_valid(raise_exception=True)
         country = serializer.validated_data['country']
 
-        # target_ages = serializer.validated_data['target_age_groups']
+        target_ages = serializer.validated_data['target_age_groups']
         # Uncomment above line and remove below once we have this passed in
-        target_ages = ['35--39', '25-40']
         # Lets save the target age against Export Plan
 
         helpers.update_ui_options_target_ages(

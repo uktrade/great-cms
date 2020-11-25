@@ -1,17 +1,11 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
-import Services from '@src/Services'
 import { Stats } from '@src/components/Stats'
 
 export const CountryData = memo(({
   country
 }) => {
-
-  useEffect(() => {
-    Services.getCountryData(country)
-      .then((data) => { console.log(data)})
-  }, [country])
 
   return (
     <>

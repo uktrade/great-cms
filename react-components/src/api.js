@@ -95,7 +95,7 @@ export default {
     return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
   },
 
-  getCountryDataByAge: (data) => {
+  getCountryAgeGroupData: (data) => {
     return get(config.countryAgeGroupDataUrl, data).then((response) => responseHandler(response).json())
   },
 

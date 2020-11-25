@@ -7,25 +7,27 @@ import { CountryData } from './CountryData'
 
 export const DataSnapShot = memo(({
   country,
-  groups
+  groups,
+  selectedGroups,
+  countryData
 }) => {
   const [toggle, setToggle] = useState(false)
 
   return (
     <>
-      { toggle &&
-        <div className='m-t-s'>
-            <CountryData
-              country={country}
-            />
-            <ToggleDataTable
-              country={country}
-              groups={groups}
-            >
-              <Table />
-            </ToggleDataTable>
-        </div>
-      }
+      <div className={`m-t-s ${ toggle ? '' : 'hidden'}`}>
+          <CountryData
+            country={country}
+          />
+          <ToggleDataTable
+            country={country}
+            groups={groups}
+            selectedGroups={selectedGroups}
+            countryData={countryData}
+          >
+            <Table />
+          </ToggleDataTable>
+      </div>
       <div className='m-t-s'>
         <button
           className='button button--tertiary button--icon'
@@ -45,8 +47,12 @@ DataSnapShot.propTypes = {
     key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired
   })),
+  selectedGroups: PropTypes.arrayOf(PropTypes.string.isRequired),
+  countryData: PropTypes.arrayOf(PropTypes.string.isRequired)
 }
 
 DataSnapShot.defaultProps = {
-  groups: []
+  groups: [],
+  selectedGroups: [],
+  countryData: []
 }

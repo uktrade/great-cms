@@ -1,4 +1,4 @@
-import React, { memo, useState, cloneElement } from 'react'
+import React, { memo, useState, cloneElement, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
@@ -7,26 +7,34 @@ import { mapData } from '@src/components/ToggleDataTable/utils'
 export const ToggleDataTable = memo(({
   country,
   groups,
+  selectedGroups: selected,
   children
 }) => {
 
   const [isOpen, setIsOPen] = useState(false)
-  const [selectedGroups, setSelectedGroups] = useState([])
+  const [selectedGroups, setSelectedGroups] = useState(selected)
   const [data, setData] = useState({})
   const targetGroupLabels = groups
     .filter((group) => selectedGroups.includes(group.key))
     .map((group) => group.label)
   const showTable = Object.keys(data).length >= 1 && !isOpen
 
-  const submitForm = (event) => {
-    event.preventDefault()
-    setIsOPen(!isOpen)
-
-    Services.getCountryDataByAge({ country, target_age_groups: selectedGroups })
+  const getCountryData = () => {
+    Services.getCountryAgeGroupData({ country, target_age_groups: selectedGroups })
       .then(({ population_data }) => {
         setData(mapData(population_data))
       })
       .catch((error) => console.log(error))
+  }
+
+  useEffect(() => {
+    getCountryData()
+  }, [])
+
+  const submitForm = (event) => {
+    event.preventDefault()
+    setIsOPen(!isOpen)
+    getCountryData()
   }
 
   const handleChange = (event) => {
@@ -83,9 +91,11 @@ ToggleDataTable.propTypes = {
     key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired
   })),
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  selectedGroups: PropTypes.arrayOf(PropTypes.string.isRequired)
 }
 
 ToggleDataTable.defaultProps = {
-  groups: []
+  groups: [],
+  selectedGroups: []
 }
