@@ -35,14 +35,6 @@ export function Container(props){
       .catch(handleError)
   }
 
-  function handleStepCodeSubmit(){
-    setErrors({})
-    setIsInProgress(true)
-    Services.checkVerificationCode({email, code})
-      .then(onCodeSubmitSuccess)
-      .catch(handleError)
-  }
-
   function onCodeSubmitSuccess() {
     // company data may have been passed in at the start. Now the user has the
     // login cookies the company can be created
@@ -57,6 +49,14 @@ export function Container(props){
     } else {
       handleSuccess(STEP_COMPLETE)
     }
+  }
+
+  function handleStepCodeSubmit(){
+    setErrors({})
+    setIsInProgress(true)
+    Services.checkVerificationCode({email, code})
+      .then(onCodeSubmitSuccess)
+      .catch(handleError)
   }
 
   const next = encodeURIComponent(`${location.origin}${props.nextUrl}`);
