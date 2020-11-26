@@ -13,8 +13,7 @@ export const Direct = memo(({
   return (
     <>
       <h2 className='h-m p-v-s'>Direct costs</h2>
-      <p>These are the costs that go directly into building your product into something sellable. It is important you
-        know your direct costs so you don't end up selling your product for less than you paid to make it.</p>
+      <p>These are the costs that go directly into building your product into something sellable. It is important you know your direct costs so you don't end up selling your product for less than you paid to make it.</p>
       <p>Record all of your direct costs in the table to calculate your total.</p>
       <Costs
         currency={perUnit}
@@ -22,7 +21,7 @@ export const Direct = memo(({
       />
       <Total
         total={total}
-        label='Direct total cost'
+        label='Direct costs total'
         currency={perUnit}
       />
     </>

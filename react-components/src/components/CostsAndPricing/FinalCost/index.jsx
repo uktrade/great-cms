@@ -10,7 +10,7 @@ export const FinalCost = memo(() => {
       <p>To work this out you will need to use 3 pieces of information you recorded earlier:</p>
       <ul className='list-dot'>
         <li>how many units of your product you want to export</li>
-        <li>your direct costs per unit final total</li>
+        <li>your direct costs final total</li>
         <li>your overhead costs final total</li>
       </ul>
       <p>You will then be able to calculate this using the tool in the next section.</p>
