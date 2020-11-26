@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
+import PropTypes from 'prop-types'
 import { connect, Provider } from 'react-redux'
 
 import {Signup, STEP_COMPLETE, STEP_VERIFICATION_CODE } from '@src/components/Signup'
@@ -107,4 +108,15 @@ export default function({ element, ...params }) {
     </Provider>,
     element
   )
+}
+
+Container.propTypes = {
+  products: PropTypes.array,
+  countries: PropTypes.array,
+
+}
+
+Container.defaultProps = {
+  products: [],
+  countries: [],
 }
