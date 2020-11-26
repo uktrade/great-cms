@@ -405,7 +405,6 @@ class CuratedListPage(CMSGenericPage):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    topics = StreamField([('topic', core_blocks.CuratedTopicBlock(icon='plus'))], null=True, blank=True)
 
     ########
     # Panels
@@ -413,7 +412,6 @@ class CuratedListPage(CMSGenericPage):
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('heading'),
         ImageChooserPanel('image'),
-        # StreamFieldPanel('topics')  # TODO: remove me with the field
     ]
 
     def get_topics(self, live=True) -> models.QuerySet:
@@ -543,8 +541,6 @@ class DetailPage(CMSGenericPage):
         ('exportplan/dashboard_page.html', 'Export plan dashboard'),
         ('learn/detail_page.html', 'Learn'),
     )
-
-    topic_block_id = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Detail page'
