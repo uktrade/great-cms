@@ -389,7 +389,6 @@ class CuratedListPage(CMSGenericPage):
     parent_page_types = ['core.ListPage']
     subpage_types = [
         'core.TopicPage',
-        'core.DetailPage',
     ]
     template_choices = (
         ('learn/curated_list_page.html', 'Learn'),
