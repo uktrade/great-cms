@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import PropTypes from 'prop-types'
 import { connect, Provider } from 'react-redux'
 
 import {Signup, STEP_COMPLETE, STEP_VERIFICATION_CODE } from '@src/components/Signup'
@@ -36,27 +35,11 @@ export function Container(props){
       .catch(handleError)
   }
 
-  function onCodeSubmitSuccess() {
-    // company data may have been passed in at the start. Now the user has the
-    // login cookies the company can be created
-    if (props.products.length > 0 || props.countries.length > 0) {
-      const data = {
-          expertise_products_services: {other: props.products.map(item => item.value)},
-          expertise_countries: props.countries.map(item => item.value),
-      }
-      Services.updateCompany(data)
-        .then(() => handleSuccess(STEP_COMPLETE))
-        .catch(handleError)
-    } else {
-      handleSuccess(STEP_COMPLETE)
-    }
-  }
-
   function handleStepCodeSubmit(){
     setErrors({})
     setIsInProgress(true)
     Services.checkVerificationCode({email, code})
-      .then(onCodeSubmitSuccess)
+      .then(() => handleSuccess(STEP_COMPLETE))
       .catch(handleError)
   }
 
@@ -85,10 +68,8 @@ export function Container(props){
   )
 }
 
-
 const mapStateToProps = state => {
   return {
-    nextUrl: getNextUrl(state),
     products: getProductsExpertise(state),
     countries: getCountriesExpertise(state),
   }
@@ -108,15 +89,4 @@ export default function({ element, ...params }) {
     </Provider>,
     element
   )
-}
-
-Container.propTypes = {
-  products: PropTypes.array,
-  countries: PropTypes.array,
-
-}
-
-Container.defaultProps = {
-  products: [],
-  countries: [],
 }

@@ -72526,12 +72526,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _src_components_Signup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Signup */ "./react-components/src/components/Signup/index.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _src_components_Signup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Signup */ "./react-components/src/components/Signup/index.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
@@ -72549,7 +72547,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -72603,49 +72600,29 @@ function Container(props) {
   function handleStepCredentialsSubmit() {
     setErrors({});
     setIsInProgress(true);
-    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].createUser({
+    _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].createUser({
       email: email,
       password: password
     }).then(function () {
-      return handleSuccess(_src_components_Signup__WEBPACK_IMPORTED_MODULE_5__["STEP_VERIFICATION_CODE"]);
+      return handleSuccess(_src_components_Signup__WEBPACK_IMPORTED_MODULE_4__["STEP_VERIFICATION_CODE"]);
     })["catch"](handleError);
-  }
-
-  function onCodeSubmitSuccess() {
-    // company data may have been passed in at the start. Now the user has the
-    // login cookies the company can be created
-    if (props.products.length > 0 || props.countries.length > 0) {
-      var data = {
-        expertise_products_services: {
-          other: props.products.map(function (item) {
-            return item.value;
-          })
-        },
-        expertise_countries: props.countries.map(function (item) {
-          return item.value;
-        })
-      };
-      _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateCompany(data).then(function () {
-        return handleSuccess(_src_components_Signup__WEBPACK_IMPORTED_MODULE_5__["STEP_COMPLETE"]);
-      })["catch"](handleError);
-    } else {
-      handleSuccess(_src_components_Signup__WEBPACK_IMPORTED_MODULE_5__["STEP_COMPLETE"]);
-    }
   }
 
   function handleStepCodeSubmit() {
     setErrors({});
     setIsInProgress(true);
-    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].checkVerificationCode({
+    _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].checkVerificationCode({
       email: email,
       code: code
-    }).then(onCodeSubmitSuccess)["catch"](handleError);
+    }).then(function () {
+      return handleSuccess(_src_components_Signup__WEBPACK_IMPORTED_MODULE_4__["STEP_COMPLETE"]);
+    })["catch"](handleError);
   }
 
   var next = encodeURIComponent("".concat(location.origin).concat(props.nextUrl));
-  var linkedinLoginUrl = "".concat(_src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.linkedInUrl, "?next=").concat(next);
-  var googleLoginUrl = "".concat(_src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].config.googleUrl, "?next=").concat(next);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Signup__WEBPACK_IMPORTED_MODULE_5__["Signup"], _extends({}, props, {
+  var linkedinLoginUrl = "".concat(_src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].config.linkedInUrl, "?next=").concat(next);
+  var googleLoginUrl = "".concat(_src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].config.googleUrl, "?next=").concat(next);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Signup__WEBPACK_IMPORTED_MODULE_4__["Signup"], _extends({}, props, {
     errors: errors,
     isInProgress: isInProgress,
     currentStep: currentStep,
@@ -72665,9 +72642,8 @@ function Container(props) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    nextUrl: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_7__["getNextUrl"])(state),
-    products: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_7__["getProductsExpertise"])(state),
-    countries: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_7__["getCountriesExpertise"])(state)
+    products: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_6__["getProductsExpertise"])(state),
+    countries: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_6__["getCountriesExpertise"])(state)
   };
 };
 
@@ -72675,24 +72651,16 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {};
 };
 
-var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(Container);
+var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(Container);
 /* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
   react_modal__WEBPACK_IMPORTED_MODULE_2___default.a.setAppElement(element);
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_4__["Provider"], {
-    store: _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].store
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].store
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, params)), element);
 });
-Container.propTypes = {
-  products: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.array,
-  countries: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.array
-};
-Container.defaultProps = {
-  products: [],
-  countries: []
-};
 
 /***/ }),
 
