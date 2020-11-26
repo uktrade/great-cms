@@ -10,6 +10,7 @@ import {
   SET_PRODUCT,
   SET_MARKET,
 } from '@src/actions'
+import { config } from '@src/config'
 import { combineReducers, reduceReducers } from 'redux'
 
 const saveToExportPlan = (country) => {
@@ -106,6 +107,9 @@ const exportPlanReducer = (state, action) => {
     case SET_MARKET:
       saveToExportPlan(action.payload)
       newState.markets = [action.payload]
+      if (config.refreshOnMarketChange) {
+        window.location.reload()
+      }
   }
   return newState
 }
