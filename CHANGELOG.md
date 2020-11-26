@@ -26,6 +26,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+- No ticket Restore refresh on market change except for compare markets page
 - GP2-635 - Dashboard styling
 - GP2-856 - Prevent lesson-read resend
 - No ticket - fix flex-grid child cols and GDS multiple-choices

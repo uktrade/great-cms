@@ -131,6 +131,7 @@ class TargetMarketView(GA360Mixin, TemplateView):
             context['export_plan'] = self.request.user.export_plan
             context['data_tabs_enabled'] = json.loads(settings.FEATURE_COMPARE_MARKETS_TABS)
             context['dashboard_components'] = dashboard.components if dashboard else None
+            context['no_refresh_on_market_change'] = True
         return context
 
 
