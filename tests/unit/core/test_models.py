@@ -411,10 +411,7 @@ class CuratedListPageTests(WagtailPageTests):
         self.assertAllowedParentPageTypes(CuratedListPage, {ListPage})
 
     def test_allowed_subtypes(self):
-        self.assertAllowedSubpageTypes(CuratedListPage, {
-            TopicPage,
-            DetailPage,  # TEMPORARY: remove after topics refactor migration has run
-        })
+        self.assertAllowedSubpageTypes(CuratedListPage, {TopicPage})
 
 
 @pytest.mark.django_db
@@ -517,13 +514,7 @@ def test_placeholder_page_redirects_to_module(
 class DetailPageTests(WagtailPageTests):
 
     def test_parent_page_types(self):
-        self.assertAllowedParentPageTypes(
-            DetailPage,
-            {
-                CuratedListPage,  # TEMPORARY: remove after topics refactor migration has run
-                TopicPage
-            }
-        )
+        self.assertAllowedParentPageTypes(DetailPage, {TopicPage})
 
     def test_detail_page_creation_for_single_hero_image(self):
         detail_page = DetailPageFactory(
