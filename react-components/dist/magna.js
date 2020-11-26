@@ -72221,7 +72221,8 @@ var setConfig = function setConfig(_ref) {
       apiRouteToMarketUpdateUrl = _ref.apiRouteToMarketUpdateUrl,
       exportPlanTargetMarketsUrl = _ref.exportPlanTargetMarketsUrl,
       signupUrl = _ref.signupUrl,
-      populationByCountryUrl = _ref.populationByCountryUrl;
+      populationByCountryUrl = _ref.populationByCountryUrl,
+      refreshOnMarketChange = _ref.refreshOnMarketChange;
   config.countryDataUrl = countryDataUrl;
   config.marketingCountryData = marketingCountryData;
   config.removeSectorUrl = removeSectorUrl;
@@ -72255,6 +72256,7 @@ var setConfig = function setConfig(_ref) {
   config.exportPlanTargetMarketsUrl = exportPlanTargetMarketsUrl;
   config.signupUrl = signupUrl;
   config.populationByCountryUrl = populationByCountryUrl;
+  config.refreshOnMarketChange = refreshOnMarketChange;
 };
 
 /***/ }),
@@ -72322,7 +72324,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+
 
 
 
@@ -72427,6 +72431,11 @@ var exportPlanReducer = function exportPlanReducer(state, action) {
     case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_MARKET"]:
       saveToExportPlan(action.payload);
       newState.markets = [action.payload];
+
+      if (_src_config__WEBPACK_IMPORTED_MODULE_3__["config"].refreshOnMarketChange) {
+        window.location.reload();
+      }
+
   }
 
   return newState;
@@ -72468,7 +72477,7 @@ var getMarkets = function getMarkets(state) {
 var rootReducer = function rootReducer(state, action) {
   state = baseReducers(state, action);
   state = setInitialStateReducer(state, action);
-  return Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
+  return Object(redux__WEBPACK_IMPORTED_MODULE_4__["combineReducers"])({
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen
   })(state, action);
