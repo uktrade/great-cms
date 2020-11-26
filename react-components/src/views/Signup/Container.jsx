@@ -39,24 +39,8 @@ export function Container(props){
     setErrors({})
     setIsInProgress(true)
     Services.checkVerificationCode({email, code})
-      .then(onCodeSubmitSuccess)
+      .then(() => handleSuccess(STEP_COMPLETE))
       .catch(handleError)
-  }
-
-  function onCodeSubmitSuccess() {
-    // company data may have been passed in at the start. Now the user has the
-    // login cookies the company can be created
-    if (props.products.length > 0 || props.countries.length > 0) {
-      const data = {
-          expertise_products_services: {other: props.products.map(item => item.value)},
-          expertise_countries: props.countries.map(item => item.value),
-      }
-      Services.updateCompany(data)
-        .then(() => handleSuccess(STEP_COMPLETE))
-        .catch(handleError)
-    } else {
-      handleSuccess(STEP_COMPLETE)
-    }
   }
 
   const next = encodeURIComponent(`${location.origin}${props.nextUrl}`);
@@ -84,10 +68,8 @@ export function Container(props){
   )
 }
 
-
 const mapStateToProps = state => {
   return {
-    nextUrl: getNextUrl(state),
     products: getProductsExpertise(state),
     countries: getCountriesExpertise(state),
   }
