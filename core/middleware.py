@@ -1,16 +1,19 @@
 import os
 import logging
 
+from datetime import datetime
+
+from django.conf import settings
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
+from django.utils.deprecation import MiddlewareMixin
+
+from great_components.mixins import GA360Mixin
 
 from core import helpers
 from sso.models import BusinessSSOUser
-from datetime import datetime
-from django.http import HttpResponseForbidden
 from core.fern import Fern
-from django.conf import settings
-from django.utils.deprecation import MiddlewareMixin
-from great_components.mixins import GA360Mixin
+
 import jsonschema as jsonschema
 from jsonschema import ValidationError
 
