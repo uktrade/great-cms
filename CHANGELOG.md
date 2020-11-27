@@ -142,6 +142,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+- GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
 - GP2-1020 - Cleanup of redundant code following topics refactor
 - GP2-1047 - page structure and components for costs and pricing page
 - GP2-1028 - Target-market routing feature
