@@ -1,14 +1,15 @@
 from unittest import mock
-from django.http import HttpResponse
-
 import pytest
 
+from django.test import override_settings
+from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from django.http import HttpResponse
 
 from core import helpers, middleware
 from tests.unit.core import factories
 from tests.unit.exportplan.factories import ExportPlanPageFactory, ExportPlanPseudoDashboardPageFactory
-from core.middleware import GADataMissingException
+from core.middleware import GADataMissingException, TimedAccessMiddleware
 
 
 @pytest.fixture(autouse=True)
@@ -267,3 +268,41 @@ def test_check_ga_360_allows_null_values_for_nullable_fields():
     processed_response = instance.process_response({}, response)
 
     assert processed_response is not None
+
+
+@mock.patch('core.middleware.TimedAccessMiddleware.try_cookie')
+@override_settings(TESTING=False, BETA_WHITELISTED_ENDPOINTS='/foo/,/admin/,/test/')
+def test_timed_access_middleware__whitelisted_paths(mock_try_cookie, rf):
+
+    # In _this_ test, we don't care what happens if we get at or below
+    # self.try_cookie(), so let's just give it a useul fake response
+    mock_response_for_not_whitelisted = mock.Mock(name='mock_response_for_not_whitelisted')
+    mock_try_cookie.return_value = mock_response_for_not_whitelisted
+
+    # Similarly, we can mock a default response from get_response to know
+    # if we've short-circuited and returned early
+    mock_response_for_whitelisted = mock.Mock(name='mock_response_for_whitelisted')
+    fake_get_response = mock.Mock(name='Fake get_response')
+    fake_get_response.return_value = mock_response_for_whitelisted
+
+    middleware = TimedAccessMiddleware(fake_get_response)
+
+    for path in ['/foo/', '/foo/bar/baz/', '/admin/', '/admin/auth.user', '/test/']:
+        fake_request = rf.get(path)
+        mock_try_cookie.reset_mock()
+        output = middleware(fake_request)
+        assert mock_try_cookie.call_count == 0
+        assert output == mock_response_for_whitelisted  # because a skippable path
+
+    for path in ['/foo-bar-baz/', '/other-admin/']:
+        fake_request = rf.get(path)
+        mock_try_cookie.reset_mock()
+        output = middleware(fake_request)
+        assert mock_try_cookie.call_count == 1
+        assert output == mock_response_for_not_whitelisted
+
+    # Show that '/' is skippable / is whitelisted / is not blocked
+    assert '/' not in settings.BETA_WHITELISTED_ENDPOINTS.split(',')
+    fake_request = rf.get('/')
+    output = middleware(fake_request)
+    assert output == mock_response_for_whitelisted
