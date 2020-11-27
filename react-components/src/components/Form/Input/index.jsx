@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { FormGroup } from '../FormGroup'
 
-export const Input = ({
+export const Input = memo(({
   errors,
   label,
   disabled,
@@ -17,9 +17,10 @@ export const Input = ({
   example,
   readOnly,
   tabIndex,
-  hideLabel
+  hideLabel,
+  lesson
 }) => (
-  <FormGroup
+<FormGroup
     errors={errors}
     label={label}
     description={description}
@@ -27,6 +28,7 @@ export const Input = ({
     example={example}
     id={id}
     hideLabel={hideLabel}
+    lesson={lesson}
   >
     <input
       className='form-control'
@@ -40,8 +42,8 @@ export const Input = ({
       readOnly={readOnly}
       tabIndex={tabIndex}
     />
-</FormGroup>
-)
+  </FormGroup>
+))
 
 Input.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
@@ -57,7 +59,13 @@ Input.propTypes = {
   example: PropTypes.string,
   readOnly: PropTypes.bool,
   tabIndex: PropTypes.string,
-  hideLabel: PropTypes.bool
+  hideLabel: PropTypes.bool,
+  lesson: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string
+  }),
 }
 
 Input.defaultProps = {
@@ -71,5 +79,6 @@ Input.defaultProps = {
   example: '',
   readOnly: false,
   tabIndex: '',
-  hideLabel: false
+  hideLabel: false,
+  lesson: {}
 }

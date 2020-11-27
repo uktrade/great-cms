@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo} from 'react'
 import PropTypes from 'prop-types'
 
 import { FormGroup } from '../FormGroup'
 
-export const TextArea = ({
+export const TextArea = memo(({
   errors,
   label,
   disabled,
@@ -14,7 +14,8 @@ export const TextArea = ({
   description,
   tooltip,
   example,
-  hideLabel
+  hideLabel,
+  lesson
 }) => (
   <FormGroup
     errors={errors}
@@ -24,6 +25,7 @@ export const TextArea = ({
     example={example}
     id={id}
     hideLabel={hideLabel}
+    lesson={lesson}
   >
     <textarea
       className='form-control'
@@ -35,7 +37,7 @@ export const TextArea = ({
       value={value}
     />
   </FormGroup>
-)
+))
 
 TextArea.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
@@ -48,7 +50,13 @@ TextArea.propTypes = {
   description: PropTypes.string,
   tooltip: PropTypes.string,
   example: PropTypes.string,
-  hideLabel: PropTypes.bool
+  hideLabel: PropTypes.bool,
+  lesson: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string
+  }),
 }
 
 TextArea.defaultProps = {
@@ -59,5 +67,6 @@ TextArea.defaultProps = {
   description: '',
   tooltip: '',
   example: '',
-  hideLabel: false
+  hideLabel: false,
+  lesson: {}
 }
