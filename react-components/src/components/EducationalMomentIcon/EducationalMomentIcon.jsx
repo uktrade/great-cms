@@ -1,20 +1,18 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import OpenBookIcon from '@assets/open-book-icon.png'
 
-export default function EducationalMomentIcon(props) {
-  const { ariaDescribedBy, hiddenText } = props
-
-  return (
-      <button type="button" className="educational-moment__button" aria-describedby={ariaDescribedBy}>
-          <span className="visually-hidden">{hiddenText}</span>
-          <img className="educational-moment__button-image" src={OpenBookIcon} alt="" />
-      </button>
-  )
-
-}
+const EducationalMomentIcon = memo(({
+  ariaDescribedBy,
+  hiddenText
+}) => (
+  <button type='button' className='button button--small button--only-icon button--tertiary' aria-describedby={ariaDescribedBy}>
+    <i className='fas fa-book'><span className="visually-hidden">{hiddenText}</span></i>
+  </button>
+))
 
 EducationalMomentIcon.propTypes = {
   ariaDescribedBy: PropTypes.string.isRequired,
   hiddenText: PropTypes.string.isRequired,
 }
+
+export default EducationalMomentIcon
