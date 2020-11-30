@@ -36,7 +36,7 @@ export const FormGroup = memo(({
             setToggleLesson(false)
           }}
         >
-          <i className='fas fa-chevron-up m-r-xxs' />Example
+          <i className={`fas fa-chevron-${toggleExample ? 'up' : 'down'} m-r-xxs`} />Example
         </button>
       }
       { hasLesson &&
@@ -48,7 +48,7 @@ export const FormGroup = memo(({
             setToggleExample(false)
           }}
         >
-          <i className='fas fa-chevron-up m-r-xxs' />Lesson
+          <i className={`fas fa-chevron-${toggleLesson ? 'up' : 'down'} m-r-xxs`} />Lesson
         </button>
       }
       {
