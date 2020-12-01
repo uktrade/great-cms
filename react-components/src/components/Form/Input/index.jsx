@@ -18,9 +18,10 @@ export const Input = memo(({
   readOnly,
   tabIndex,
   hideLabel,
-  lesson
+  lesson,
+  prepend
 }) => (
-<FormGroup
+  <FormGroup
     errors={errors}
     label={label}
     description={description}
@@ -29,20 +30,23 @@ export const Input = memo(({
     id={id}
     hideLabel={hideLabel}
     lesson={lesson}
-  >
-    <input
-      className='form-control'
-      id={id}
-      type={type}
-      name={id}
-      disabled={disabled}
-      onChange={(e) => onChange({[id]: e.target.value})}
-      placeholder={placeholder}
-      value={value}
-      readOnly={readOnly}
-      tabIndex={tabIndex}
-    />
-  </FormGroup>
+    >
+    <div className='flex-center'>
+      {prepend && <span className='bg-blue-deep-10 text-blue-deep-60 bold prepend'>{prepend}</span>}
+      <input
+        className={`form-control ${prepend ? 'form-control-prepend': ''}`}
+        id={id}
+        type={type}
+        name={id}
+        disabled={disabled}
+        onChange={(e) => onChange({[id]: e.target.value})}
+        placeholder={placeholder}
+        value={value}
+        readOnly={readOnly}
+        tabIndex={tabIndex}
+      />
+      </div>
+    </FormGroup>
 ))
 
 Input.propTypes = {
@@ -66,6 +70,7 @@ Input.propTypes = {
     category: PropTypes.string,
     duration: PropTypes.string
   }),
+  prepend: PropTypes.string
 }
 
 Input.defaultProps = {
@@ -80,5 +85,6 @@ Input.defaultProps = {
   readOnly: false,
   tabIndex: '',
   hideLabel: false,
-  lesson: {}
+  lesson: {},
+  prepend: ''
 }

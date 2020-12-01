@@ -20,7 +20,14 @@ export const FinalCost = memo(() => {
         <p className='m-b-0'>Input these into the following tool:</p>
         <p className='m-v-0'>0 + (0 / 0)</p>
       </div>
-      <Input onChange={() => {}} id='asdasd' label='test' hideLabel />
+      <Input
+        onChange={() => {}}
+        id='asdasd'
+        label='test'
+        hideLabel
+        type='number'
+        prepend='GBP'
+      />
     </>
   )
 })

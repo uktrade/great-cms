@@ -1,58 +1,62 @@
 .costs {
   border-radius: 20px 20px 0 0;
   display: block;
-  width: 670px;
   padding: 0 20px;
 
   td {
-    border-bottom: 2px solid $blue-deep-20;
-    padding: 15px 5px;
+    border: 0;
+    padding: 15px 5px 20px;
+    position: relative;
+    width: 50%;
+
+    @include breakpoint(lg_lt) {
+      display: block;
+      width: 100%;
+    }
   }
 
   tr {
+    border-bottom: 2px solid $blue-deep-20;
+
     &:last-child {
-      td {
-        border-bottom: 0;
-      }
+      border: 0;
     }
   }
 
   .form-group {
-    align-items: center;
-    display: flex;
-    margin: 0;
-  }
+    position: absolute;
+    right: 0;
+    top: 26px;
 
-  .form-control,
-  .form-label {
-    margin: 0;
-  }
+    @include breakpoint(lg_lt) {
+      position: relative;
+      right: auto;
+      top: auto;
+    }
 
-  .form-label {
-    padding: 0;
+    input {
+      text-align: right;
+      width: 100%;
+
+      @include tablet {
+        width: 140px;
+      }
+    }
   }
 
   .form-label {
     @extend .body-l-b;
-    width: 240px;
-  }
-
-  .form-control {
-    width: 193px;
   }
 
   &--total {
     border-radius: 0 0 20px 20px;
+
     .form-label {
       color: $white;
     }
 
-    td {
-      border: 0;
-    }
-
-    .costs-label {
-      width: 63%;
+    .total {
+      text-align: right;
     }
   }
 }
