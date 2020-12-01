@@ -2,10 +2,6 @@
   &__item {
     border-radius: 4px;
     overflow: hidden;
-
-    img {
-      height: 172px;
-    }
   }
 
   &__disabled {
@@ -32,19 +28,63 @@
 }
 
 .export-plan-dashboard {
-
   .sub-header-nav {
     margin-left: 0;
   }
-
 }
 
-.completion-status {
-  height: 100%;
-  position: absolute;
-  width: 330px;
-
-  .section-upload {
-    font-size: 16px;
+  .export-plan-dashboard__section {
+    display: flex;
+    flex-direction: row-reverse;
   }
+
+    .section-list__link {
+      width: 100%;
+    }
+
+    .section-list__image-container {
+      display: flex;
+      flex-flow: column;
+    }
+
+  .export-plan-dashboard__sidebar {
+    display: none;
+    @include breakpoint(md) {
+      flex: 0 0 300px;
+      display: unset;
+    }
+
+    .section-upload {
+      font-size: 16px;
+    }
+  }
+
+
+.media {
+  display: flex;
+  align-items: flex-start;
+
+  &--reverse {
+    flex-direction: row-reverse;
+  }
+  
+  &--top {
+    align-items: flex-start;
+  }
+
+  &--middle {
+    align-items: center;
+  }
+
+  &--bottom {
+    align-items: flex-end;
+  }
+}
+
+.media__figure {
+  margin-right: 1em;
+}
+
+.media__body {
+  flex: 1;
 }
