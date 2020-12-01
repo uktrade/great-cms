@@ -27,9 +27,10 @@ export const FormGroup = memo(({
       <label className={`form-label ${hideLabel ? 'visually-hidden': ''}`} htmlFor={id}>{label}</label>
       { description && <div className='text-blue-deep-80 p-t-xs p-b-xs' dangerouslySetInnerHTML={{ __html: description }} /> }
 
-      { example &&
+      <div className='m-b-xs'>
+        { example &&
         <button
-          className='button-example button button--small button--tertiary m-r-xxs m-b-s'
+          className='button-example button button--small button--tertiary m-r-xxs'
           type='button'
           onClick={() => {
             setToggleExample(!toggleExample)
@@ -38,10 +39,10 @@ export const FormGroup = memo(({
         >
           <i className={`fas fa-chevron-${toggleExample ? 'up' : 'down'} m-r-xxs`} />Example
         </button>
-      }
-      { hasLesson &&
+        }
+        { hasLesson &&
         <button
-          className='button-lesson button button--small button--tertiary m-b-s m-r-xxs'
+          className='button-lesson button button--small button--tertiary m-r-xxs'
           type='button'
           onClick={() => {
             setToggleLesson(!toggleLesson)
@@ -50,16 +51,18 @@ export const FormGroup = memo(({
         >
           <i className={`fas fa-chevron-${toggleLesson ? 'up' : 'down'} m-r-xxs`} />Lesson
         </button>
-      }
-      {
-        tooltip &&
-        <EducationalMomentTooltip
-          heading=''
-          description={tooltip}
-          id={id}
-          type='LEFT'
-        />
-      }
+        }
+        {
+          tooltip &&
+          <EducationalMomentTooltip
+            heading=''
+            description={tooltip}
+            id={id}
+            type='LEFT'
+          />
+        }
+      </div>
+
       {
         example &&
         <dl className={`form-group-example bg-blue-deep-10 p-xs m-b-xs ${toggleExample ? '' : 'hidden'}`}>
