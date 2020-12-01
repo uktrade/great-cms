@@ -279,6 +279,6 @@ def patch_get_suggested_markets():
         {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'},
     ]
     yield mock.patch(
-        'directory_api_client.api_client.personalisation.suggested_countries_by_hs_code',
+        'directory_api_client.api_client.dataservices.suggested_countries_by_hs_code',
         return_value=create_response(status_code=200, json_body=body)
     ).start()

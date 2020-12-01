@@ -1,5 +1,6 @@
 # Changelog
 
+- GP2-1063 - Bumped direction-api-client and updated suggested countries helper method
 - GP2-746 - Pushing section title has hypenated to GA
 - no ticket - Reimplement old flex-grid
 - no ticket - Added dynamic year for footer
