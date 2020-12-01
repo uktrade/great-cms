@@ -319,7 +319,7 @@ def get_high_level_completion_progress(completion_status):
 
 
 def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
-    response = api_client.personalisation.suggested_countries_by_hs_code(sso_session_id=sso_session_id, hs_code=hs_code)
+    response = api_client.dataservices.suggested_countries_by_hs_code(hs_code=hs_code)
     response.raise_for_status()
     return response.json()
 
