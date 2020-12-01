@@ -29,7 +29,7 @@ export const FormGroup = memo(({
 
       { example &&
         <button
-          className='button button--small button--tertiary m-r-xxs m-b-s'
+          className='button-example button button--small button--tertiary m-r-xxs m-b-s'
           type='button'
           onClick={() => {
             setToggleExample(!toggleExample)
@@ -41,7 +41,7 @@ export const FormGroup = memo(({
       }
       { hasLesson &&
         <button
-          className='button button--small button--tertiary m-b-s m-r-xxs'
+          className='button-lesson button button--small button--tertiary m-b-s m-r-xxs'
           type='button'
           onClick={() => {
             setToggleLesson(!toggleLesson)
