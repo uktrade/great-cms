@@ -1,5 +1,6 @@
 # Changelog
 
+- GP2-1124 - Average price prepend for NumberInput
 - GP2-1063 - Bumped direction-api-client and updated suggested countries helper method
 - GP2-746 - Pushing section title has hypenated to GA
 - no ticket - Reimplement old flex-grid
@@ -27,6 +28,7 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+
 - No ticket Restore refresh on market change except for compare markets page
 - GP2-1158 - Verification Code modal
 - GP2-635 - Dashboard styling
@@ -143,6 +145,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+
 - GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths
 - GP2-1020 - Cleanup of redundant code following topics refactor
 - GP2-1047 - page structure and components for costs and pricing page
