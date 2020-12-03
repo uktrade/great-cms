@@ -14,7 +14,7 @@ pytest-sugar
 django-debug-toolbar
 requests-mock
 pip-tools
-ipdb
+ipdb==0.13.4
 beautifulsoup4
 
 # Code quality

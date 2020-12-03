@@ -51,7 +51,7 @@ gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.1             # via wagtail
 idna==2.10                # via requests
 imagesize==1.2.0          # via sphinx
-importlib-metadata==3.1.0  # via jsonschema
+importlib-metadata==3.1.1  # via jsonschema
 iso3166==1.0.1            # via -r requirements.in
 jdcal==1.4.1              # via openpyxl
 jinja2==2.11.2            # via sphinx

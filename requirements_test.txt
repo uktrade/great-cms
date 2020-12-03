@@ -8,7 +8,6 @@
 
 airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
-appnope==0.1.0            # via ipython
 allure-pytest==2.8.22     # via -r requirements_test.in
 allure-python-commons==2.8.22  # via allure-pytest
 astroid==2.4.2            # via pylint
@@ -34,7 +33,7 @@ directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.3.0  # via -r requirements.in
 directory-sso-api-client==6.5.3  # via -r requirements.in
 directory-validators==6.0.4  # via -r requirements.in
-django-debug-toolbar==3.1.1  # via -r requirements_test.in
+django-debug-toolbar==3.2  # via -r requirements_test.in
 django-decorator-include==3.0  # via -r requirements.in
 django-environ==0.4.5     # via -r requirements.in
 django-extensions==2.2.9  # via -r requirements.in
@@ -74,7 +73,7 @@ gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.1             # via wagtail
 idna==2.10                # via requests
 imagesize==1.2.0          # via sphinx
-importlib-metadata==3.1.0  # via flake8, jsonschema, pluggy, pytest
+importlib-metadata==3.1.1  # via flake8, jsonschema, pluggy, pytest
 iniconfig==1.1.1          # via pytest
 ipdb==0.13.4              # via -r requirements_test.in
 ipython-genutils==0.2.0   # via traitlets
