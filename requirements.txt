@@ -24,6 +24,7 @@ directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.3.0  # via -r requirements.in
 directory-sso-api-client==6.5.3  # via -r requirements.in
 directory-validators==6.0.4  # via -r requirements.in
+django-decorator-include==3.0  # via -r requirements.in
 django-environ==0.4.5     # via -r requirements.in
 django-extensions==2.2.9  # via -r requirements.in
 django-filter==2.2.0      # via -r requirements.in, wagtail
@@ -36,7 +37,7 @@ django-staff-sso-client==1.0.1  # via -r requirements.in
 django-storages[boto3]==1.8  # via -r requirements.in
 django-taggit==1.3.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
-django==2.2.14            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-filter, django-formtools, django-recaptcha, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, djangorestframework, great-components, sigauth, wagtail, wagtailfontawesome
+django==2.2.14            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-decorator-include, django-filter, django-formtools, django-recaptcha, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, djangorestframework, great-components, sigauth, wagtail, wagtailfontawesome
 djangorestframework==3.11.2  # via -r requirements.in, sigauth, wagtail
 docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
@@ -50,7 +51,7 @@ gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.1             # via wagtail
 idna==2.10                # via requests
 imagesize==1.2.0          # via sphinx
-importlib-metadata==3.1.0  # via jsonschema
+importlib-metadata==3.1.1  # via jsonschema
 iso3166==1.0.1            # via -r requirements.in
 jdcal==1.4.1              # via openpyxl
 jinja2==2.11.2            # via sphinx
