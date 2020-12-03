@@ -6,8 +6,9 @@ import { Costs } from '../Costs'
 
 export const Direct = memo(({
   costs,
-  total,
-  currency
+  currency,
+  data,
+  update
 }) => {
   const perUnit = `${currency} per unit`
   return (
@@ -19,9 +20,11 @@ export const Direct = memo(({
       <Costs
         currency={perUnit}
         costs={costs}
+        data={data}
+        update={update}
       />
       <Total
-        total={total}
+        total={data.direct_total}
         label='Direct costs total'
         currency={perUnit}
       />
@@ -36,7 +39,8 @@ Direct.propTypes = {
     heading: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   })).isRequired,
-  total: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired
+  currency: PropTypes.string.isRequired,
+  data: PropTypes.objectOf(PropTypes.number).isRequired,
+  update: PropTypes.func.isRequired,
 }
 

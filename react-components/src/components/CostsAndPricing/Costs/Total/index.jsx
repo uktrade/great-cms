@@ -24,5 +24,5 @@ export const Total = memo(({
 Total.propTypes = {
   total: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
 }

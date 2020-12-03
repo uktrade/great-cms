@@ -6,8 +6,9 @@ import { Costs } from '../Costs'
 
 export const Overhead = memo(({
   costs,
-  total,
-  currency
+  currency,
+  data,
+  update
 }) => {
   return (
     <>
@@ -18,9 +19,11 @@ export const Overhead = memo(({
       <Costs
         costs={costs}
         currency={currency}
+        data={data}
+        update={update}
       />
       <Total
-        total={total}
+        total={data.overhead_total}
         label='Overhead costs total'
         currency={currency}
       />
@@ -35,7 +38,8 @@ Overhead.propTypes = {
     heading: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   })).isRequired,
-  total: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired
+  currency: PropTypes.string.isRequired,
+  data: PropTypes.objectOf(PropTypes.number).isRequired,
+  update: PropTypes.func.isRequired,
 }
 
