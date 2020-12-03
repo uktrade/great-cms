@@ -8,9 +8,9 @@
 
 airtable-python-wrapper==0.13.0  # via -r requirements.in
 alabaster==0.7.12         # via sphinx
-allure-pytest==2.8.21     # via -r requirements_test.in
-allure-python-commons==2.8.21  # via allure-pytest
 appnope==0.1.0            # via ipython
+allure-pytest==2.8.22     # via -r requirements_test.in
+allure-python-commons==2.8.22  # via allure-pytest
 astroid==2.4.2            # via pylint
 attrs==20.3.0             # via allure-python-commons, jsonschema, pytest
 babel==2.9.0              # via sphinx
@@ -28,7 +28,7 @@ coverage==5.3             # via codecov, pytest-cov
 cryptography==3.2         # via -r requirements.in, -r requirements_test.in
 cssselect==1.1.0          # via pyquery
 decorator==4.4.2          # via ipython, traitlets
-directory-api-client==22.7.0  # via -r requirements.in
+directory-api-client==22.9.0  # via -r requirements.in
 directory-client-core==6.3.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.3.0  # via -r requirements.in
@@ -54,11 +54,11 @@ docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
 et-xmlfile==1.0.1         # via openpyxl
 factory-boy==2.12.0       # via -r requirements.in, wagtail-factories
-faker==4.17.1             # via factory-boy
+faker==4.18.0             # via factory-boy
 flake8-blind-except==0.1.1  # via -r requirements_test.in
-flake8-debugger==3.2.1    # via -r requirements_test.in
+flake8-debugger==4.0.0    # via -r requirements_test.in
 flake8-polyfill==1.0.2    # via pep8-naming
-flake8-print==3.1.4       # via -r requirements_test.in
+flake8-print==4.0.0       # via -r requirements_test.in
 flake8-quotes==3.2.0      # via -r requirements_test.in
 flake8-string-format==0.3.0  # via -r requirements_test.in
 flake8==3.8.4             # via -r requirements_test.in, flake8-debugger, flake8-polyfill, flake8-print, flake8-quotes, flake8-string-format
@@ -101,7 +101,7 @@ msgpack==1.0.0            # via locust
 oauthlib==3.1.0           # via requests-oauthlib
 olefile==0.46             # via directory-validators
 openpyxl==3.0.5           # via tablib
-packaging==20.4           # via pytest, pytest-sugar, sphinx
+packaging==20.7           # via pytest, pytest-sugar, sphinx
 parso==0.7.1              # via jedi
 pep8-naming==0.11.1       # via -r requirements_test.in
 pexpect==4.8.0            # via ipython
@@ -141,7 +141,7 @@ s3transfer==0.3.3         # via boto3
 selenium==3.141.0         # via -r requirements_test.in
 sentry-sdk==0.13.5        # via -r requirements.in
 sigauth==4.3.0            # via directory-client-core
-six==1.15.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, cryptography, django-extensions, flake8-print, geventhttpclient, html5lib, jsonschema, l18n, packaging, pip-tools, python-dateutil, requests-mock, sphinx, traitlets, w3lib
+six==1.15.0               # via airtable-python-wrapper, allure-pytest, allure-python-commons, astroid, cryptography, django-extensions, flake8-debugger, flake8-print, geventhttpclient, html5lib, jsonschema, l18n, pip-tools, python-dateutil, requests-mock, sphinx, traitlets, w3lib
 snowballstemmer==2.0.0    # via sphinx
 soupsieve==2.0.1          # via beautifulsoup4
 sphinx==1.8.5             # via -r requirements.in
