@@ -15,22 +15,22 @@
 {% block user_input %}
 <section class="container">
   <div class="grid">
-    <div class="c-1-4 p-0 m-t-s">
+    <div class="c-1-4-l">
       <div class="lesson__back">
         {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
-        <div class="lesson__back--bottom">
+        <div class="lesson__back lesson__back--bottom">
           {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
         </div>
       </div>
     </div>
-    <div class="c-1-2">
+    <div class="c-1-2-l">
       <form class="" action="" method="post" id="about-your-business-form">
         {% csrf_token %}
         {{ form }}
         <input type="submit" class="g-button" value="Save">
       </form>
     </div>
-    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-4-1">&nbsp;</div>
   </div>
 </section>
 {% endblock %}

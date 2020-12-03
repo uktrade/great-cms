@@ -1,5 +1,7 @@
 # Changelog
 
+- GP2-1124 - Average price prepend for NumberInput
+- GP2-1063 - Bumped direction-api-client and updated suggested countries helper method
 - GP2-746 - Pushing section title has hypenated to GA
 - no ticket - Reimplement old flex-grid
 - no ticket - Added dynamic year for footer
@@ -26,6 +28,9 @@
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
+
+- No ticket Restore refresh on market change except for compare markets page
+- GP2-1158 - Verification Code modal
 - GP2-635 - Dashboard styling
 - GP2-856 - Prevent lesson-read resend
 - No ticket - fix flex-grid child cols and GDS multiple-choices
@@ -140,7 +145,10 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-- GP2-1047 - page structure and components for costs and pricing page  
+
+- GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths
+- GP2-1020 - Cleanup of redundant code following topics refactor
+- GP2-1047 - page structure and components for costs and pricing page
 - GP2-1028 - Target-market routing feature
 - GP2-901 - Add Case Study view support to CMS
 - GP2-1033 - Country chooser mobile
@@ -421,3 +429,4 @@
 - GP2-937 - content-changes
 - GP2-950 - prevent scripts ep json fields
 - GP2-876 - fix logged out
+- GBAU-869 - Terminate SSO session on logout

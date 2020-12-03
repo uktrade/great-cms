@@ -12,22 +12,21 @@ export const Cost = memo(({
   description
 }) => {
   return (
-    <>
-      <tr>
-        <td>
-          <Input
-            label={label}
-            id={id}
-          />
-        </td>
-        <td>
-          <span className='body-l'>{currency}</span>
-        </td>
-        <td>
-          <EducationalMomentTooltip heading={heading} description={description} id='name' type='LEFT' />
-        </td>
-      </tr>
-    </>
+    <tr>
+      <td>
+        <label className='form-label p-b-xs' htmlFor={id}>{label}</label>
+        <EducationalMomentTooltip heading={heading} description={description} id='name' type='LEFT' />
+      </td>
+      <td>
+        <Input
+          label={label}
+          id={id}
+          hideLabel
+          type='number'
+          prepend={currency}
+        />
+      </td>
+    </tr>
   )
 })
 
