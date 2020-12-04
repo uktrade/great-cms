@@ -74,6 +74,7 @@
     "postcss-loader": "3.0.0",
     "postcss-nested": "4.2.1",
     "postcss-preset-env": "6.7.0",
+    "postcss-scss": "^3.0.4",
     "postcss-url": "8.0.0",
     "prettier": "latest",
     "react-test-renderer": "16.12.0",
