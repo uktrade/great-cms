@@ -8,7 +8,11 @@ import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButt
 import ModalMenu from '@src/components/ModalMenu'
 import CompareMarkets from '@src/components/CompareMarkets'
 import SelectComparisonMarket from '@src/components/CompareMarkets/SelectMarket'
-import { createRouteToMarket, createSpendingAndResources, createTargetAgeGroupInsights } from '@src/views/sections/MarketingApproach'
+import {
+  createRouteToMarket,
+  createSpendingAndResources,
+  createTargetAgeGroupInsights,
+} from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { createTargetMarketResearchForm, createDataSnapShot } from '@src/views/sections/TargetMarketResearch'
 import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
@@ -55,5 +59,5 @@ export default {
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
   Tour,
-  sectionSidebar
+  sectionSidebar,
 }
