@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
+import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 
-export const LocalTaxes = () => {
+export const LocalTaxes = memo(({
+  country
+}) => {
   return (
     <Input
       onChange={() => {}}
@@ -12,9 +15,12 @@ export const LocalTaxes = () => {
       type='number'
       prepend='GBP'
       example='<p>Value added tax (VAT) standard rate: 21%</p><p>Value added tax (VAT) reduced rate: 6%</p>'
-      description='<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the Netherlands</h2><p class="m-t-xs">You will need to pay taxes on your exports and these rates will change depending on which market you are selling in.</p><p>The following box displays the rate of tax you need to pay based on your chosen market.</p>'
+      description={`<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the ${country}</h2><p class="m-t-xs">You will need to pay taxes on your exports and these rates will change depending on which market you are selling in.</p><p>The following box displays the rate of tax you need to pay based on your chosen market.</p>`}
       tooltip='asd asda sd'
     />
   )
-}
+})
 
+LocalTaxes.propTypes = {
+  country: PropTypes.string.isRequired
+}
