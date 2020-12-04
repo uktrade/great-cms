@@ -12,9 +12,10 @@ export const Direct = memo(({
   const perUnit = `${currency} per unit`
   return (
     <>
-      <h2 className='h-m p-v-s'>Direct costs</h2>
+      <h2 className='h-m p-b-xs p-t-l'>Direct costs</h2>
       <p>These are the costs that go directly into building your product into something sellable. It is important you know your direct costs so you don't end up selling your product for less than you paid to make it.</p>
       <p>Record all of your direct costs in the table to calculate your total.</p>
+      <p className='g-panel'>You can enter up to 10 digits long value in each row in the table below.</p>
       <Costs
         currency={perUnit}
         costs={costs}

@@ -10,67 +10,69 @@
 
 {% block content %}
 
-<section class="bg-blue-deep-10">
-	<aside class="completion-status p-v-m p-r-s p-f-s text-center bg-white">
-       {% if not request.user.company.logo %}
-            <a id="add-image" href="{% url 'exportplan:add-logo' %}" class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
-                <i class="fas fa-upload"></i>
-                <h3 class="m-v-xs bold">Upload your logo</h3>
-                <p class="m-0">Click here.</p>
-                <p class="m-0">PNG or JPG, 270x170 pixels</p>
-            </a>
-        {% else %}
-            <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full"/>
-            <a id="edit-image"  href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
-        {% endif %}
+<section class="export-plan-dashboard__section bg-blue-deep-10">
+  <aside class="export-plan-dashboard__sidebar p-v-m p-r-s p-f-s text-center bg-white">
+    {% if not request.user.company.logo %}
+    <a id="add-image" href="{% url 'exportplan:add-logo' %}"
+      class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
+      <i class="fas fa-upload"></i>
+      <h3 class="m-v-xs bold">Upload your logo</h3>
+      <p class="m-0">Click here.</p>
+      <p class="m-0">PNG or JPG, 270x170 pixels</p>
+    </a>
+    {% else %}
+    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
+    <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
+    {% endif %}
 
-        <div id="buttons-disabled" class="m-t-m">
-            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-                <i class="fas fa-download"></i>
-                <span class="body-m text-white">Save your plan as a PDF</span>
-            </button>
-            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-                <i class="fas fa-share"></i>
-                <span class="body-m text-white">Share your plan</span>
-            </button>
-            <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-                <i class="fas fa-globe"></i>
-                <span class="body-m text-white">Find your target market</span>
-            </button>
+    <div id="buttons-disabled" class="m-t-m">
+      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+        <i class="fas fa-download"></i>
+        <span class="body-m text-white">Save your plan as a PDF</span>
+      </button>
+      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+        <i class="fas fa-share"></i>
+        <span class="body-m text-white">Share your plan</span>
+      </button>
+      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+        <i class="fas fa-globe"></i>
+        <span class="body-m text-white">Find your target market</span>
+      </button>
+    </div>
+  </aside>
+  <div class="export-plan-dashboard__container container">
+    <div class="section-list p-v-m p-h-s" id="section-list">
+      <div class="media media--middle m-b-l">
+        <div class="media__figure">
+          <i class="fas fa-info-circle fa-lg text-blue-deep-90"></i>
         </div>
-    </aside>
-    <div class="container">
-        <div class="grid">
-            <div class="c-1-4-l">&nbsp;</div>
-            <div class="c-3-4-l">
-                <div class="p-v-m p-h-s" id="section-list">
-                    <div class="media-block media-block--round-image m-b-l m-t-s m-f-n-s">
-                        <i class="fas fa-info-circle"></i>
-                        <div class="g-panel g-panel--horizontal-mobile">
-                            <h3 class="h-xs text-blue-deep-80 p-t-xs">Some sections of Export Plan aren't available.</h3>
-                            <p class="text-blue-deep-80 m-t-xxs">This Beta is limited</p>
-                        </div>
-                    </div>
-                    <div class="flex-grid" id="dashboard">
-                        {% for section in sections %}
-                            <div class="c-1-3">
-                                <div class="bg-white m-b-s section-list__item">
-                                    <a class="w-full link" href="{% url 'exportplan:section' slug=section.title|slugify %}" id="{{ section.title|slugify }}">
-                                        <div className='bg-blue-deep-20'>
-                                            <img class="w-full p-h-s p-t-m p-b-s" src="{% static 'images/ep-placeholder.svg' %}" alt="{{ section.title }}">
-                                        </div>
-                                        <div class="p-v-s p-h-xs">
-                                            <h3 class="bold body-l-b text-blue-deep-80">{{ section.title }}</h3>
-                                        </div>
-                                      </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+        <div class="media__body">
+          <div class="g-panel">
+            <h3 class="h-xs text-blue-deep-80 p-t-xs">Some sections of Export Plan aren't available.</h3>
+            <p class="text-blue-deep-80 m-t-xxs">This Beta is limited</p>
+          </div>
         </div>
-	</div>
+      </div>
+      <div class="section-list__grid flex-grid" id="export-plan-dashboard">
+        {% for section in sections %}
+        <div class="c-1-3-xl c-1-2-m">
+          <div class="section-list__item bg-white m-b-s">
+            <a class="section-list__link w-1-1 link" href="{% url 'exportplan:section' slug=section.title|slugify %}"
+              id="{{ section.title|slugify }}">
+              <div class="bg-blue-deep-20 section-list__image-container">
+                <img class="w-full p-h-s p-t-m p-b-s" src="{% static 'images/ep-placeholder.svg' %}"
+                  alt="{{ section.title }}">
+              </div>
+              <div class="p-v-s p-h-xs">
+                <h3 class="bold body-l-b text-blue-deep-80">{{ section.title }}</h3>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 
 </section>
 
@@ -78,17 +80,17 @@
 
 {% block body_js %}
   {{ block.super }}
-    <script type="text/javascript">
-        var element = document.getElementById('dashboard');
-        magna.createDashboard({
-            element: element,
-            sections: {{ sections|to_json}},
-            current_section: {{ current_section|to_json}},
-        })
+  <script type="text/javascript">
+    var element = document.getElementById('dashboard');
+    magna.createDashboard({
+      element: element,
+      sections: {{ sections|to_json}},
+      current_section: {{ current_section|to_json}},
+    })
 
-        var buttonsDisabled = document.getElementById('buttons-disabled');
-        magna.createDisabledButton({
-            element: buttonsDisabled,
-        })
-    </script>
+    var buttonsDisabled = document.getElementById('buttons-disabled');
+    magna.createDisabledButton({
+      element: buttonsDisabled,
+    })
+  </script>
 {% endblock %}
