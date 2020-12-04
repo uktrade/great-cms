@@ -1,6 +1,7 @@
 # Changelog
 
 - GP2-1145 - Export plan landing page responsive retrofit
+- GP2-1124 - Average price prepend for NumberInput
 - GP2-1063 - Bumped direction-api-client and updated suggested countries helper method
 - GP2-746 - Pushing section title has hypenated to GA
 - no ticket - Reimplement old flex-grid
@@ -146,6 +147,7 @@
 
 ### Implemented enhancements
 
+- GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
 - GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths
 - GP2-1020 - Cleanup of redundant code following topics refactor
 - GP2-1047 - page structure and components for costs and pricing page
