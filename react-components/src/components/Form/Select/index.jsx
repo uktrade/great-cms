@@ -18,7 +18,8 @@ export const Select = ({
   description,
   tooltip,
   example,
-  hideLabel
+  hideLabel,
+  placeholder
 }) => {
 
   const [input, setInput] = useState(selected)
@@ -77,7 +78,7 @@ export const Select = ({
         name={label}
         readOnly
         value={input}
-        placeholder='Select one'
+        placeholder={placeholder}
         description={description}
         tooltip={tooltip}
         example={example}
@@ -96,7 +97,7 @@ export const Select = ({
         <i className={`fas button--toggle ${isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'}`} />
       </button>
       <ul role='listbox' className={`select__list body-l bg-white radius ${isOpen ? '' : 'hidden'}`} aria-expanded={isOpen} ref={element}>
-        <li>Select one</li>
+        <li>{placeholder}</li>
         {options.map((item, i) =>
           <li
             tabIndex='0'
@@ -127,6 +128,7 @@ Select.propTypes = {
   tooltip: PropTypes.string,
   example: PropTypes.string,
   hideLabel: PropTypes.bool,
+  placeholder: PropTypes.string,
 }
 
 Select.defaultProps = {
@@ -134,5 +136,6 @@ Select.defaultProps = {
   description: '',
   tooltip: '',
   example: '',
-  hideLabel: false
+  hideLabel: false,
+  placeholder: 'Select one'
 }
