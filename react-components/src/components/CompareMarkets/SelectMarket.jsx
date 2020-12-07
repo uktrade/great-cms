@@ -42,7 +42,7 @@ function SelectMarket(props) {
 
   return Object.keys(marketList).length ? (
     <div>
-      <section className="grid bg-blue-deep-80 text-white">
+      <section className="grid bg-blue-deep-100 text-white">
         <div className="c-1-4">&nbsp;</div>
         <div className="c-1-2 p-v-m">
           <h2 className="h-m text-white">Ready to choose a country?</h2>
