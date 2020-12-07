@@ -29,6 +29,7 @@
 - GP2-966 - bug fix - select no values
 
 ### Fixed bugs
+- GP2-1158 - Verification Code modal
 - GP2-635 - Dashboard styling
 - GP2-856 - Prevent lesson-read resend
 - No ticket - fix flex-grid child cols and GDS multiple-choices
