@@ -9,7 +9,9 @@ export const Cost = memo(({
   id,
   currency,
   heading,
-  description
+  description,
+  value,
+  update
 }) => {
   return (
     <tr>
@@ -24,6 +26,8 @@ export const Cost = memo(({
           hideLabel
           type='number'
           prepend={currency}
+          value={value}
+          onChange={(field) => update(field)}
         />
       </td>
     </tr>
@@ -36,4 +40,6 @@ Cost.propTypes = {
   currency: PropTypes.string.isRequired,
   heading: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  update: PropTypes.func.isRequired,
 }

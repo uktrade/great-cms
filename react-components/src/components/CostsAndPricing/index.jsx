@@ -8,11 +8,13 @@ import { NetPrice } from './NetPrice'
 import { LocalTaxes } from './LocalTaxes'
 import { Duty } from './Duty'
 import { GrossPrice } from './GrossPrice'
+import { direct, overhead} from './constants'
 
 export const CostsAndPricing = memo(({
   currency,
-  direct,
-  overhead
+  country,
+  data,
+  update
 }) => {
   return (
     <>
@@ -20,13 +22,23 @@ export const CostsAndPricing = memo(({
         <div className='grid'>
           <div className='c-1-4'>&nbsp;</div>
           <div className='c-1-2'>
-            <Direct {...direct} currency={currency} />
-            <Overhead {...overhead} currency={currency} />
+            <Direct
+              costs={direct}
+              currency={currency}
+              data={data}
+              update={update}
+            />
+            <Overhead
+              costs={overhead}
+              currency={currency}
+              data={data}
+              update={update}
+            />
             <Units />
             <FinalCost />
-            <AveragePrice />
-            <NetPrice />
-            <LocalTaxes />
+            <AveragePrice country={country} />
+            <NetPrice country={country} />
+            <LocalTaxes country={country} />
             <Duty />
           </div>
           <div className='c-1-4'>&nbsp;</div>
@@ -38,7 +50,7 @@ export const CostsAndPricing = memo(({
             <div className='c-1-4 p-0'>&nbsp;</div>
             <div className='c-1-2'>
               <GrossPrice
-                country='Netherlands'
+                country={country}
                 countryGrossUnit='GBP 0'
                 currencyGrossUnit='GBP 0'
                 potentialPerUnit='GBP 0'
