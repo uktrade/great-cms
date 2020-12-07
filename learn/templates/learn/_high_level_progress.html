@@ -1,0 +1,10 @@
+{% if module_completion_data.completion_count and module_completion_data.total_pages %}
+<div class="learn__category-progress-container">
+    <div class="learn__category-progress"><span style="width: {{module_completion_data.completion_percentage}}%"></span></div>
+    <p class="body-m-b m-t-xxs m-b-0">
+    {{module_completion_data.completion_count}}
+    /
+    {{module_completion_data.total_pages}}
+    lesson{{ module_completion_data.total_pages|pluralize}} completed</p>
+</div>
+{% endif %}

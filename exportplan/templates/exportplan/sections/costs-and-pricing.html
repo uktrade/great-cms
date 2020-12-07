@@ -1,15 +1,55 @@
 {% extends 'exportplan/section.html' %}
 
-{% block intro_content %}
-<h1 class="h-xl">Costs and pricing</h1>
-<p>Create a detailed plan of the funding that you will need in place in preparation for exporting your goods or service. This will keep you organised and mitigate any unwanted surprises.</p>
-{% endblock %}
+{% block intro_title %}Costs and pricing{% endblock %}
+
+{% block intro_description %}To avoid any unwanted surprises, stay organised by creating a detailed plan of all the costs involved with getting your product to market.{% endblock %}
 
 {% block main_content %}
-<p>Calculate and record the funding you’ll need to fulfil orders. List the costs associated with bringing the product to market, and when they need to be paid. When will you be paid for orders? Will there be gaps between costs and payment?</p>
-<p>Decide if you need finance to bridge any gaps, and research the type of finance you might need.</p>
-<p><a href="#">See examples</a></p>
+<div class="g-panel">
+  <p>Include anything different about your company or product that makes you stand out from the competition.</p>
+  <p>This section will help you to:</p>
+  <ul class="list-dot">
+    <li>work out the costs of bringing a product to market</li>
+    <li>calculate your final cost per unit</li>
+    <li>find out the average price per unit for similar products in your chosen market</li>
+    <li>decide on a final price for your product </li>
+    <li>outline what you will pay in taxes and duties</li>
+  </ul>
+</div>
 {% endblock %}
 
 {% block user_input %}
+<div id="cost-and-pricing"></div>
 {% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    magna.createCostsAndPricing({
+      element: document.getElementById('cost-and-pricing'),
+      currency: 'GBP',
+      direct: {
+        total: '0.0',
+        costs: [
+          {label: 'Agent and distributor fees', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Labour cost', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Other direct costs', id: 'asdasd', heading: 'heading', description: 'deasasd asd '}
+        ]
+      },
+      overhead: {
+        total: '0.0',
+        costs: [
+          {label: 'Product adaptation', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Packaging and labelling', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Freight and logistics', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Agent and distributor fees', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Marketing', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Insurance', id: 'asdasd', heading: 'heading', description: 'deasasd asd '},
+          {label: 'Other overhead costs', id: 'asdasd', heading: 'heading', description: 'deasasd asd '}
+        ]
+      }
+    })
+  </script>
+{% endblock %}
+
+

@@ -348,7 +348,7 @@ def test_target_market_documents_delete(mock_target_market_documents_delete):
 
 
 @pytest.mark.django_db
-def test_get_all_lesson_details(curated_list_pages_with_lessons_and_placeholders):
+def test_get_all_lesson_details(curated_list_pages_with_lessons):
     lessons = helpers.get_all_lesson_details()
     assert lessons == {
         'lesson-a1':
@@ -384,3 +384,34 @@ def test_get_current_url_country_required_not_in_check(mock_get_exportplan):
     mock_get_exportplan.return_value = export_plan_data
     current_url = helpers.get_current_url(slug='about-your-business', export_plan=export_plan_data)
     assert current_url.get('country_required') is None
+
+
+@pytest.mark.parametrize('export_plan_data, expected', [
+    [{'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}]}, None],
+    [{'export_commodity_codes': []}, True],
+    [{'export_commodity_codes': None}, True],
+])
+@mock.patch.object(helpers, 'get_exportplan')
+def test_get_current_url_product_required(mock_get_exportplan, export_plan_data, expected):
+    mock_get_exportplan.return_value = export_plan_data
+    current_url = helpers.get_current_url(slug='target-markets-research', export_plan=export_plan_data)
+    assert current_url.get('product_required') == expected
+
+
+@mock.patch.object(helpers, 'get_exportplan')
+def test_get_current_url_product_required_not_in_check(mock_get_exportplan):
+    export_plan_data = {'export_commodity_codes': []}
+    mock_get_exportplan.return_value = export_plan_data
+    current_url = helpers.get_current_url(slug='about-your-business', export_plan=export_plan_data)
+    assert current_url.get('product_required') is None
+
+
+@mock.patch.object(api_client.dataservices, 'get_population_data_by_country')
+def test_get_population_data_by_country(mock_population_data_by_country):
+    data = {'country': 'United Kingdom', 'population_data': {'target_population': 10000}}
+
+    mock_population_data_by_country.return_value = create_response(data)
+    response = helpers.get_population_data_by_country(countries='United Kingdom')
+    assert mock_population_data_by_country.call_count == 1
+    assert mock_population_data_by_country.call_args == mock.call(countries='United Kingdom')
+    assert response == data

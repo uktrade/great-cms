@@ -7,17 +7,19 @@
 
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
-    <a href="{{parent_page_url}}" class="learn__back-link h-m">
+    <a href="{{parent_page_url}}" class="learn__back-link h-m hide-on-mobile">
         <i class="fas fa-arrow-left"></i>
         <span class="visually-hidden">Back</span>
     </a>
+    {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
     <section class="learn__single-category-header">
-        <div class="learn__single-category-header-wrapper container">
+        <div class="learn__single-category-header-wrapper container {% if module_completion_data.completion_count and module_completion_data.total_pages %}learn__single-category-header-wrapper--progress-bar-top{% endif %}">
             <div class="grid">
                 <div class="c-1-2-l">
                     <div class="learn__single-category-header-content">
                         <h1 class="learn__single-category-title h-l p-b-0" id="topic-title">{{ page.title }}</h1>
                         <div class="learn__single-category-header-details">{{ page.heading | richtext }}</div>
+                            {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
                     </div>
                     <div class="learn__category-entities button--round-corner bg-aqua">
                         <span class="learn__category-topics">{{ page.count_topics }} topic{% pluralize page.count_topics %}, </span>
@@ -31,12 +33,13 @@
             </div>
         </div>
     </section>
+    {% endwith %}
     <section class="learn__category-lists container" id="topic-lesson-list">
         <ol class="learn__topics-list">
-            {% for topic in page.topics %}
-                {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as completion_data_for_topic %}
+            {% for topic in page.get_topics %}
+                {% with module_completion_progress.completed_lesson_pages|get_item:topic.id as lesson_completion_data_for_topic %}
                 <li class="learn__topic-item"  id="lesson-{{ topic.slug }}">
-                    {% include_block topic with topic_id=topic.id lesson_completion_data=completion_data_for_topic %}
+                    {% include 'core/curated_topic.html' with topic=topic completed_lessons=lesson_completion_data_for_topic %}
                 </li>
                 {% endwith %}
             {% endfor %}
@@ -48,7 +51,7 @@
     {{ block.super }}
     <script>
         document.querySelectorAll('[data-placeholder-title]').forEach(element => {
-            ditMVP.createComingSoonModal({
+            magna.createComingSoonModal({
                 element,
                 title: element.getAttribute('data-placeholder-title'),
                 backUrl: "{{self.url}}"

@@ -7,6 +7,7 @@ import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
+import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
 
@@ -19,20 +20,22 @@ const formatPath = (pathstr) => {
 export default function ProductFinderModal(props) {
   const { modalIsOpen, setIsOpen, setSelectedProduct } = props;
 
-  let searchInput
   let scrollOuter
 
   const [searchResults, setSearchResults] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [showingInteraction, setShowingInteraction] = useState()
 
   useEffect(() => {
     if (modalIsOpen) {
       analytics({
         'event': 'addProductPageview',
         'virtualPageUrl': '/add-product-modal/search_entry',
-        'virtualPageTitle': 'Add Product Modal - Search Entry'
+        'virtualPageTitle': 'Add Product Modal - Search Entry',
+        productKeyword: null,
+        productCode: null
       })
     }
   }, [modalIsOpen])
@@ -45,9 +48,6 @@ export default function ProductFinderModal(props) {
   const modalAfterOpen = () => {
     setIsScrolled({})
     setSearchTerm('')
-    if (searchInput) {
-      searchInput.focus()
-    }
   }
 
   const setScrollShadow = () => {
@@ -71,10 +71,14 @@ export default function ProductFinderModal(props) {
 
   const saveProduct = () => {
     const productName = capitalize(searchResults.currentItemName)
-    setSelectedProduct(productName)
+    const searchQuery = capitalize(searchResults.productDescription)
+    setSelectedProduct({
+      name: productName,
+      code: searchResults.hsCode
+    })
     analytics({
       event: 'addProductSuccess',
-      productKeyword: productName,
+      productKeyword: searchQuery,
       productCode: searchResults.hsCode
     })
 
@@ -100,13 +104,33 @@ export default function ProductFinderModal(props) {
   }
 
   const responseAnalytics = (result) => {
+    const searchQuery = capitalize(result.productDescription);
     if (result.hsCode) {
+      // product found
       analytics({
         event: 'addProductPageview',
         virtualPageUrl: '/add-product-modal/product-found',
         virtualPageTitle: 'Add Product Modal - Product Found',
-        productKeyword: capitalize(result.currentItemName),
+        productKeyword: searchQuery,
         productCode: result.hsCode
+      })
+    } else if (result.currentQuestionInteraction) {
+      if (result.knownInteractions.length === 0) {
+        // 'tell us more', first response
+        analytics({
+          event: 'addProductPageview',
+          virtualPageUrl: '/add-product-modal/tell-us-more',
+          virtualPageTitle: 'Add Product Modal - Tell Us More',
+          productKeyword: searchQuery
+        })
+      }
+    } else {
+      // product not found
+      analytics({
+        event: 'addProductPageview',
+        virtualPageUrl: '/add-product-modal/no-results',
+        virtualPageTitle: 'Add Product Modal - No Results',
+        productKeyword: searchQuery
       })
     }
   }
@@ -115,10 +139,7 @@ export default function ProductFinderModal(props) {
     setLoading(true)
     request
       .then((result) => {
-
-        /* eslint-disable no-console */
-        console.log('Search result', result) // TODO: Needed during development
-        /* eslint-enable no-console */
+        setShowingInteraction()
         if (result && result.data && result.data.txId) {
           responseAnalytics(result.data)
           renderSearchResults(result.data)
@@ -131,35 +152,15 @@ export default function ProductFinderModal(props) {
       })
   }
 
-
-
   const search = () => {
-    const query = searchInput.value
+    const query = searchTerm
     if (query) {
-      processResponse(Services.lookupProduct({ q: query }))
+      processResponse(Services.lookupProduct({ proddesc: query }))
     }
   }
 
-  const inputKeypress = (evt) => {
-    if (evt.key === 'Enter') {
-      evt.preventDefault()
-      search()
-    }
-  }
-
-  const inputChange = (evt) => {
-    setSearchTerm(evt.target.value)
-  }
-
-  const clearSearchInput = (evt) => {
-    setSearchTerm(evt.target.value)
-    const input = evt.target.parentElement.querySelector('input')
-    input.focus()
-  }
-
-  const onChangeClick = (evt) => {
-    // TODO: Change handling will be added after UR, but we want the button to be available 
-    evt.preventDefault()
+  const onChangeClick = (interaction) => {
+    setShowingInteraction(interaction)
   }
 
   const backToSearch = () => {
@@ -173,8 +174,9 @@ export default function ProductFinderModal(props) {
         <h3 className="h-m p-v-xs">{title}</h3>
           {(sectionDetails || []).map((value) => {
             return value.type === 'SELECTION' ? 
-              (<Interaction txId={searchResults.txId} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
+              (<Interaction txId={searchResults.txId} proddesc={searchResults.proddesc} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
               (<ValueInteraction txId={searchResults.txId} key={value.id} attribute={value} processResponse={processResponse} mixedContentError={searchResults.mixedContentError}/>)
+
           })}
       </section>
     )
@@ -188,8 +190,8 @@ export default function ProductFinderModal(props) {
             <span className="bold p-t-0">{capitalize(interaction.label)}</span>
             <p className="m-v-xxs">
               {capitalize(interaction.selectedString)} 
-              {interaction.selectedString === 'other' ? ` than ${interaction.unselectedString}` : ''}
-              {' '}<button type="button" className="link link--underline body-m" onClick={onChangeClick}>Change</button>
+              {interaction.selectedString === 'other' ? ` ${interaction.unselectedString}` : ''}
+              {' '}<button type="button" className="change-known-button link link--underline body-m" onClick={() => onChangeClick(interaction)}>Change</button>
             </p>
            </div>
         </div>)
@@ -257,6 +259,18 @@ export default function ProductFinderModal(props) {
       </section>
     )
   }
+  const sectionMultiItem = () => {
+    return (
+      <section className="m-h-l">
+        <div className="box box--no-pointer p-h-s p-v-xs m-t-xs">
+          <p>
+            The item you are classifying is considered a complex item (or set) which normally requires each component to be classified separately. 
+            Alternatively, you may request a binding classification ruling for your complex item (or set) from Customs in the country of import.
+          </p>
+        </div>
+      </section>
+    )
+  }
 
   const buildMap = (block) => {
     // build an interaction block, removing any duplicates from previous
@@ -282,7 +296,11 @@ export default function ProductFinderModal(props) {
 
   const resultsDisplay = (results) => {
     // Build maps of interactions as we don't want any duplicates
-    const questions = buildMap([results.currentQuestionInteraction])
+
+    let questions = buildMap([results.currentQuestionInteraction])
+    if (showingInteraction) {
+      questions = [showingInteraction]
+    }
     const assumptions = buildMap(results.assumedInteractions)
     const known = buildMap(results.knownInteractions)
     let itemChoice = buildMap([results.currentItemInteraction]);
@@ -290,6 +308,10 @@ export default function ProductFinderModal(props) {
 
     // *********************   Kill item choice so we can just use question 
     itemChoice = null
+
+    if (searchResults.multiItemError) {
+      return sectionMultiItem(searchResults)
+    }
 
     if (searchResults.txId && !questions && !searchResults.hsCode) {
       return sectionNoResults(searchResults)
@@ -301,11 +323,11 @@ export default function ProductFinderModal(props) {
         {Section('Please choose your item', itemChoice)}
       </div> :
       <div>
-        {searchResults.hsCode && sectionFound(searchResults)}
-        {!searchResults.hsCode && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {(known || questions) ? (<hr className="hr hr--dark bg-deep-red-100 m-h-l"/>) : ''}
-        {sectionProductDetails(known)} 
-        {sectionAssumptions(assumptions)}
+        {!showingInteraction && searchResults.hsCode && sectionFound(searchResults)}
+        {(!searchResults.hsCode || showingInteraction) && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
+        {((known || questions) && !showingInteraction ) ? (<hr className="hr bg-red-deep-100 m-h-l"/>) : ''}
+        {!showingInteraction && sectionProductDetails(known)} 
+        {!showingInteraction && sectionAssumptions(assumptions)}
       </div>
 
     return sections
@@ -317,17 +339,11 @@ export default function ProductFinderModal(props) {
         <h3 className="h-m p-t-0 p-b-xxs">Search by name</h3>
         <div>Find the product you want to export</div>
         <div className="flex-centre m-t-xs search-input">
-          <div className="flex-centre">
-            <input
-              className="form-control"
-              type="text"
-              ref={(_searchInput) => {searchInput = _searchInput}}
-              onKeyPress={inputKeypress}
-              onChange={inputChange}
-              value={searchTerm}
+            <SearchInput
+              onChange={setSearchTerm}
+              onKeyReturn={search}
+              autoFocus
             />
-            <button type="button" aria-label="Clear" className="fa fa-times clear" onClick={clearSearchInput}/>
-            </div>
           <button className="search-button button button--small button--only-icon m-f-xs" disabled={!searchTerm} type="button" onClick={search}>
             <i className="fa fa-arrow-right"/>
           </button>
@@ -372,7 +388,7 @@ export default function ProductFinderModal(props) {
               className="scroll-inner p-b-m"
               ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
             >
-              {!searchResults ? searchBox() : (<button type="button" className="m-f-l m-t-m" onClick={backToSearch} ><i className="fa fa-chevron-left m-r-xs"/>Search again</button>)}
+              {!searchResults ? searchBox() : (<button type="button" className="back-button m-f-l m-t-m" onClick={backToSearch} ><i className="fa fa-arrow-circle-left m-r-xs"/>Search again</button>)}
               {searchResults && resultsDisplay(searchResults)}
             </div>
           </div>

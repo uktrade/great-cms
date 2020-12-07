@@ -63,10 +63,12 @@ INSTALLED_APPS = [
 
     'sso',
     'core.apps.CoreConfig',
+    'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
-    'learn.apps.LearnConfig'
+    'learn.apps.LearnConfig',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +87,7 @@ MIDDLEWARE = [
     'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
-    'core.middleware.CheckGATags'
+    'core.middleware.CheckGATags',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -412,6 +414,12 @@ REST_FRAMEWORK = {
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
 WAGTAILMEDIA_MEDIA_MODEL = 'core.GreatMedia'
 
+# Google captcha
+RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_REQUIRED_SCORE = env.int('RECAPTCHA_REQUIRED_SCORE', 0.5)
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
 # directory forms api client
 DIRECTORY_FORMS_API_BASE_URL = env.str('DIRECTORY_FORMS_API_BASE_URL')
 DIRECTORY_FORMS_API_API_KEY = env.str('DIRECTORY_FORMS_API_API_KEY')
@@ -425,7 +433,14 @@ CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.str(
     'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
 )
 ENROLMENT_WELCOME_TEMPLATE_ID = env.str('ENROLMENT_WELCOME_TEMPLATE_ID', '0a4ae7a9-7f67-4f5d-a536-54df2dee42df')
-
+CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.str(
+    'ENQURIES_CONTACTUS_TEMPLATE_ID',
+    '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'
+)
+CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.str(
+    'CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID',
+    '68030d40-4574-4aa1-b3ff-941320929964'
+)
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
@@ -480,14 +495,39 @@ WAGTAILTRANSFER_SECRET_KEY = env.str('WAGTAILTRANSFER_SECRET_KEY')
 WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'wagtailimages.image',
     'wagtaildocs',
-    'wagtailmedia',
+    'wagtailmedia.media',
     'taggit',
     'core.AltTextImage',
+    'core.GreatMedia',
+    'core.PersonalisationHSCodeTag',
+    'core.PersonalisationCountryTag',
+    'core.CountryTaggedCaseStudy',
+    'core.HSTaggedCaseStudy',
     'core.CaseStudy',
     'core.ContentModule',
     'core.Tour',
     'core.TourStep',
 ]
+
+# Give W-T a little more time than the default 5 secs to do things
+WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT = env.int(
+    'WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT',
+    10
+)
+
+WAGTAILTRANSFER_FOLLOWED_REVERSE_RELATIONS = [
+    # (model, reverse_relationship_name, track_deletions)
+    ('wagtailimages.image', 'tagged_items', True),
+    ('core.alttextimage', 'tagged_items', True),
+    ('wagtailmedia.media', 'tagged_items', True),  # MTI Base of core.GreatMedia
+    ('core.greatmedia', 'tagged_items', True),
+]
+
+WAGTAILTRANSFER_LOOKUP_FIELDS = {
+    'taggit.tag': ['slug'],
+    'core.personalisationhscodetag': ['slug'],
+    'core.personalisationcountrytag': ['slug'],
+}
 
 # dit_helpdesk
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
@@ -495,6 +535,7 @@ DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
 FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE', False)
 FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = env.str('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED', False)
 FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER = env.bool('FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER', False)
+FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
 
 BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')
 
@@ -502,6 +543,7 @@ if BETA_ENVIRONMENT != '':
     MIDDLEWARE = (['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE)
     BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS', default=None)
     BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS', default=None)
+    BETA_TOKEN_EXPIRATION_DAYS = env.int('BETA_TOKEN_EXPIRATION_DAYS', default=30)
 
 if sys.argv[0:1][0].find('pytest') != -1:
     TESTING = True
@@ -509,3 +551,4 @@ else:
     TESTING = False
 
 GREAT_SUPPORT_EMAIL = env.str('GREAT_SUPPORT_EMAIL', 'great.support@trade.gov.uk')
+DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-international-trade')

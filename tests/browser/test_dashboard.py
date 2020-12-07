@@ -6,7 +6,7 @@ from typing import List
 import pytest
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
-from core import constants
+from core import cms_slugs
 
 import allure
 from directory_constants import choices
@@ -74,7 +74,7 @@ def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
 def test_dashboard_welcome(
     mock_dashboard_profile_events_opportunities,
     mock_export_plan_requests,
-    curated_list_pages_with_lessons_and_placeholders,
+    curated_list_pages_with_lessons,
     server_user_browser_dashboard,
     client,
 ):
@@ -82,12 +82,12 @@ def test_dashboard_welcome(
     try:
         user.first_name = 'TEST USER'
         client.force_login(user)
-        visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
+        visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
         welcome = browser.find_element_by_css_selector('h2#great-hero-welcome')
         assert welcome.text == 'Welcome, TEST USER'
         user.first_name = None
         client.force_login(user)
-        visit_page(live_server, browser, None, 'Dashboard', endpoint=constants.DASHBOARD_URL)
+        visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
         welcome = browser.find_element_by_css_selector('h2#great-hero-welcome')
         assert welcome.text == 'Welcome'
 

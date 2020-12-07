@@ -5,6 +5,8 @@ from urllib.parse import unquote
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
@@ -38,12 +40,11 @@ from wagtailmedia.models import Media
 from core import blocks as core_blocks, mixins
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
-    LESSON_BLOCK,
     RICHTEXT_FEATURES__MINIMAL
 )
 
 from core.context import get_context_provider
-from core.utils import PageTopic, get_first_lesson
+from core.utils import PageTopicHelper, get_first_lesson
 
 from great_components.mixins import GA360Mixin
 
@@ -360,12 +361,14 @@ class ListPage(CMSGenericPage):
         verbose_name_plural = 'Automated list pages'
 
     def get_context(self, request, *args, **kwargs):
+        from domestic.helpers import get_lesson_completion_status
         from core.helpers import get_high_level_completion_progress
         context = super().get_context(request)
 
         if request.user.is_authenticated:
-            context['module_completion_progress'] = get_high_level_completion_progress(
-                user=request.user,
+            completion_status = get_lesson_completion_status(request.user)
+            context['high_level_completion_progress'] = get_high_level_completion_progress(
+                completion_status=completion_status,
             )
         return context
 
@@ -384,7 +387,10 @@ class ListPage(CMSGenericPage):
 
 class CuratedListPage(CMSGenericPage):
     parent_page_types = ['core.ListPage']
-    subpage_types = ['core.DetailPage']
+    subpage_types = [
+        'core.TopicPage',
+        'core.DetailPage',
+    ]
     template_choices = (
         ('learn/curated_list_page.html', 'Learn'),
     )
@@ -408,35 +414,46 @@ class CuratedListPage(CMSGenericPage):
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('heading'),
         ImageChooserPanel('image'),
-        StreamFieldPanel('topics')
+        # StreamFieldPanel('topics')  # TODO: remove me with the field
     ]
+
+    def get_topics(self, live=True) -> models.QuerySet:
+        qs = TopicPage.objects.live().specific().descendant_of(self)
+        if live:
+            qs = qs.live()
+        return qs
 
     @cached_property
     def count_topics(self):
-        return len(self.topics)
+        return self.get_topics().count()
 
     @cached_property
     def count_detail_pages(self):
         count = 0
-        for topic in self.topics:
-            for lesson_or_placeholder_block in topic.value.get(
-                'lessons_and_placeholders'
-            ):
-                if lesson_or_placeholder_block.block_type == LESSON_BLOCK:
-                    count += 1
+        for topic in self.get_topics():
+            count += DetailPage.objects.live().descendant_of(topic).count()
         return count
 
     def get_context(self, request, *args, **kwargs):
-        from core.helpers import get_module_completion_progress
+        from domestic.helpers import get_lesson_completion_status
+        from core.helpers import (
+            get_high_level_completion_progress,
+            get_module_completion_progress
+        )
         context = super().get_context(request)
         # Give the template a simple way to link back to the parent
         # learning module (ListPage)
         context['parent_page_url'] = self.get_parent().url
 
         if request.user.is_authenticated:
+            # get this once, so we don't waste the network call to get the data twice
+            completion_status = get_lesson_completion_status(request.user)
             context['module_completion_progress'] = get_module_completion_progress(
-                user=request.user,
+                completion_status=completion_status,
                 module_page=self,
+            )
+            context['high_level_completion_progress'] = get_high_level_completion_progress(
+                completion_status=completion_status,
             )
         return context
 
@@ -451,12 +468,78 @@ def hero_singular_validation(value):
         )
 
 
+class TopicPage(
+    mixins.AuthenticatedUserRequired,
+    Page
+):
+    """Structural page to allow for cleaner mapping of lessons (`DetailPage`s)
+    to modules (`CuratedListPage`s).
+
+    Not intented to be viewed by end users, so will redirect to the parent
+    module if accessed.
+
+    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin
+    are not used."""
+
+    parent_page_types = ['core.CuratedListPage']
+    subpage_types = [
+        'core.DetailPage',
+        'core.LessonPlaceholderPage',
+    ]
+
+    # `title` comes from Page superclass and that's all we need here
+
+    def _redirect_to_parent_module(self):
+        return HttpResponseRedirect(self.get_parent().url)
+
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always redirect
+        return self._redirect_to_parent_module()
+
+    def serve(self, request):
+        return self._redirect_to_parent_module()
+
+
+class LessonPlaceholderPage(
+    mixins.AuthenticatedUserRequired,
+    Page
+):
+
+    """Structural page to allow for configuring and representing very simple
+    to modules (`CuratedListPage`s).
+
+    Not intented to be viewed by end users, so will redirect to the parent
+    module if accessed.
+
+    Also, for the above reason, mixins.WagtailGA360Mixin and GA360Mixin
+    are not used."""
+
+    parent_page_types = ['core.TopicPage']
+    subpage_types = []  # No child pages allowed for placeholders
+
+    # `title` comes from Page superclass and that's all we need here
+
+    def _redirect_to_parent_module(self):
+        dest = CuratedListPage.objects.ancestor_of(self).first().url
+        return HttpResponseRedirect(dest)
+
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always redirect
+        return self._redirect_to_parent_module()
+
+    def serve(self, request):
+        return self._redirect_to_parent_module()
+
+
 class DetailPage(CMSGenericPage):
     estimated_read_duration = models.DurationField(
         null=True,
         blank=True
     )
-    parent_page_types = ['core.CuratedListPage']
+    parent_page_types = [
+        'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
+        'core.TopicPage'
+    ]
     template_choices = (
         ('exportplan/dashboard_page.html', 'Export plan dashboard'),
         ('learn/detail_page.html', 'Learn'),
@@ -465,8 +548,8 @@ class DetailPage(CMSGenericPage):
     topic_block_id = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Personalisable detail page'
-        verbose_name_plural = 'Personalisable detail pages'
+        verbose_name = 'Detail page'
+        verbose_name_plural = 'Detail pages'
 
     ################
     # Content fields
@@ -584,17 +667,12 @@ class DetailPage(CMSGenericPage):
 
     @cached_property
     def topic_title(self):
-        if self.topic_block_id:
-            topic_pages = self.get_parent()
-            for topic in topic_pages.specific.topics:
-                if topic.id == self.topic_block_id:
-                    return topic.value['title']
+        return self.get_parent().title
 
     @cached_property
     def module(self):
         """Gets the learning module this lesson belongs to"""
-        # NB: assumes this page is a child of the correct CuratedListPage
-        return self.get_parent().specific
+        return CuratedListPage.objects.live().specific().ancestor_of(self).first()
 
     @cached_property
     def _export_plan_url_map(self):
@@ -647,12 +725,16 @@ class DetailPage(CMSGenericPage):
             context['backlink'] = _backlink
             context['backlink_title'] = self._get_backlink_title(_backlink)
 
-        if hasattr(self.get_parent().specific, 'topics'):
-            page_topic = PageTopic(self)
-            next_lesson = page_topic.get_next_lesson()
-            context['current_module'] = page_topic.module
-            if page_topic and page_topic.get_page_topic():
-                context['page_topic'] = page_topic.get_page_topic().value['title']
+        if isinstance(self.get_parent().specific, TopicPage):
+            # In a conditional because a DetailPage currently MAY be used as
+            # a child of another page type...
+            page_topic_helper = PageTopicHelper(self)
+            next_lesson = page_topic_helper.get_next_lesson()
+            context['current_module'] = page_topic_helper.module
+            if page_topic_helper:
+                topic_page = page_topic_helper.get_page_topic()
+                if topic_page:
+                    context['page_topic'] = topic_page.title
 
             if next_lesson:
                 context['next_lesson'] = next_lesson
@@ -921,6 +1003,9 @@ class CaseStudy(ClusterableModel):
             getattr(self, 'update_modified', True)
         )
         super().save(**kwargs)
+
+    def get_cms_standalone_view_url(self):
+        return reverse('cms_extras:case-study-view', args=[self.id])
 
     class Meta:
         verbose_name_plural = 'Case studies'

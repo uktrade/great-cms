@@ -68,39 +68,40 @@ class LessonDetailsMixin:
 class FormContextMixin:
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        form_field_values = self.get_form().fields.values()
 
         field_names = list(self.form_class.base_fields.keys())
 
-        field_labels = [field.label for field in self.form_class.base_fields.values()]
+        field_labels = [field.label for field in form_field_values]
 
         field_placeholders = [
-            field.widget.attrs.get('placeholder', '') for field in self.form_class.base_fields.values()
+            field.widget.attrs.get('placeholder', '') for field in form_field_values
         ]
 
         field_tooltip = [
-            field.widget.attrs.get('tooltip', '') for field in self.form_class.base_fields.values()
+            field.widget.attrs.get('tooltip', '') for field in form_field_values
         ]
 
         field_example = [
-            field.widget.attrs.get('example', '') for field in self.form_class.base_fields.values()
+            field.widget.attrs.get('example', '') for field in form_field_values
         ]
 
         field_description = [
-            field.widget.attrs.get('description', '') for field in self.form_class.base_fields.values()
+            field.widget.attrs.get('description', '') for field in form_field_values
         ]
 
         field_currency = [
-            field.widget.attrs.get('currency', '') for field in self.form_class.base_fields.values()
+            field.widget.attrs.get('currency', '') for field in form_field_values
         ]
 
         field_choices = [
             [
                 {'value': key, 'label': label} for key, label in field.choices
-            ] if hasattr(field, 'choices') else '' for field in self.form_class.base_fields.values()
+            ] if hasattr(field, 'choices') else '' for field in form_field_values
         ]
 
         field_types = [
-            type(field.widget).__name__ for field in self.form_class.base_fields.values()
+            type(field.widget).__name__ for field in form_field_values
         ]
 
         form_fields = [
@@ -114,10 +115,8 @@ class FormContextMixin:
                 field_example, field_description,
                 field_currency, field_choices)
         ]
-
         context['form_initial'] = json.dumps(context['form'].initial)
         context['form_fields'] = json.dumps(form_fields)
-
         return context
 
 
@@ -174,13 +173,18 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         return context
 
 
-class ExportPlanTargetMarketsResearchView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
 
     def get_initial(self):
         return self.export_plan['target_markets_research']
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
+        return kwargs
 
 
 class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):

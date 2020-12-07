@@ -1,17 +1,16 @@
 import pytest
 from unittest import mock
-
 from requests.exceptions import HTTPError
-
+from django.http import HttpRequest
+from django.conf import settings
 
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-
 from core import helpers
+
 from tests.unit.core.factories import CuratedListPageFactory
 from tests.helpers import create_response
-from django.conf import settings
 
 
 @mock.patch.object(helpers, 'get_client_ip')
@@ -222,7 +221,7 @@ def test_helper_search_commodity_by_term(requests_mock):
     assert first_response == data
 
     refine_response = helpers.search_commodity_refine(
-        interraction_id=1234, tx_id=1234, values=[{'first': 1234, 'second': 'processed'}])
+        interaction_id=1234, tx_id=1234, values=[{'first': 1234, 'second': 'processed'}])
     assert refine_response == data
 
 
@@ -239,14 +238,11 @@ def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_lesson_completion_status')
-def test_get_module_completion_progress(mock_get_lesson_completion_status):
+def test_get_module_completion_progress():
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
     clp_3 = CuratedListPageFactory()
-
-    mock_user = mock.Mock(name='mock-user')
 
     clp_1_completion_data = {
         'total_pages': 7,
@@ -267,7 +263,7 @@ def test_get_module_completion_progress(mock_get_lesson_completion_status):
         }
     }
 
-    mock_get_lesson_completion_status.return_value = {
+    mock_get_lesson_completion_status_return_value = {
         'lessons_in_progress': True,
         'module_pages': [
             clp_1_completion_data,
@@ -276,35 +272,29 @@ def test_get_module_completion_progress(mock_get_lesson_completion_status):
     }
 
     assert helpers.get_module_completion_progress(
-        mock_user, clp_2
+        mock_get_lesson_completion_status_return_value,
+        clp_2
     ) == clp_2_completion_data
-    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
-    mock_get_lesson_completion_status.reset_mock()
 
     assert helpers.get_module_completion_progress(
-        mock_user, clp_1
+        mock_get_lesson_completion_status_return_value,
+        clp_1
     ) == clp_1_completion_data
-    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
-    mock_get_lesson_completion_status.reset_mock()
 
     assert helpers.get_module_completion_progress(
-        mock_user, clp_3
+        mock_get_lesson_completion_status_return_value,
+        clp_3
     ) == {}  # ie, no match
-    mock_get_lesson_completion_status.assert_called_once_with(mock_user)
-    mock_get_lesson_completion_status.reset_mock()
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_lesson_completion_status')
-def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
+def test_get_high_level_completion_progress():
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
     clp_3 = CuratedListPageFactory()
     clp_4 = CuratedListPageFactory()
     clp_5 = CuratedListPageFactory()
-
-    mock_user = mock.Mock(name='mock-user')
 
     clp_1_completion_data = {
         'total_pages': 7,
@@ -349,7 +339,7 @@ def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
         'page': clp_5,
     }
 
-    mock_get_lesson_completion_status.return_value = {
+    mock_get_lesson_completion_status_return_value = {
         'lessons_in_progress': True,
         'module_pages': [
             clp_1_completion_data,
@@ -360,7 +350,9 @@ def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
         ],
     }
 
-    assert helpers.get_high_level_completion_progress(user=mock_user) == {
+    assert helpers.get_high_level_completion_progress(
+        mock_get_lesson_completion_status_return_value
+    ) == {
         clp_1.id: {
             'total_pages': 7,
             'completion_count': 4,
@@ -392,3 +384,15 @@ def test_get_high_level_completion_progress(mock_get_lesson_completion_status):
 def test_get_suggested_markets(patch_get_suggested_markets):
     markets = helpers.get_suggested_countries_by_hs_code('1234', '56')
     assert markets[0].get('country_name') == 'Sweden'
+
+
+def test_get_sender_ip():
+    request = HttpRequest()
+    request.META = {'REMOTE_ADDR': '192.168.93.2'}
+    ip_address = helpers.get_sender_ip_address(request)
+    assert ip_address == '192.168.93.2'
+
+
+def test_get_sender_no_ip():
+    request = HttpRequest()
+    assert helpers.get_sender_ip_address(request) is None

@@ -1,9 +1,13 @@
 import abc
 import datetime
+import logging
+import math
+import json
 
 from directory_constants import choices
 from formtools.wizard.views import NamedUrlSessionWizardView
 from rest_framework import generics
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -12,7 +16,13 @@ from django.views.generic import TemplateView, FormView
 from core.fern import Fern
 from django.conf import settings
 from great_components.mixins import GA360Mixin
-from core import forms, helpers, serializers, constants
+
+from django.urls import reverse_lazy
+from directory_forms_api_client.helpers import Sender
+from core import forms, helpers, serializers, cms_slugs
+from domestic.models import DomesticDashboard
+
+logger = logging.getLogger(__name__)
 
 STEP_START = 'start'
 STEP_WHAT_SELLING = 'what-are-you-selling'
@@ -43,7 +53,7 @@ class ArticleView(GA360Mixin, FormView):
             site_section='capability',
         )
     template_name = 'core/article.html'
-    success_url = constants.DASHBOARD_URL
+    success_url = cms_slugs.DASHBOARD_URL
     form_class = forms.NoOperationForm
 
     def get_context_data(self):
@@ -115,9 +125,12 @@ class TargetMarketView(GA360Mixin, TemplateView):
     template_name = 'core/target_markets.html'
 
     def get_context_data(self, **kwargs):
+        dashboard = DomesticDashboard.objects.live().first()
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
+            context['data_tabs_enabled'] = json.loads(settings.FEATURE_COMPARE_MARKETS_TABS)
+            context['dashboard_components'] = dashboard.components if dashboard else None
         return context
 
 
@@ -131,14 +144,14 @@ class ProductLookupView(generics.GenericAPIView):
         if 'tx_id' in serializer.validated_data:
             data = helpers.search_commodity_refine(**serializer.validated_data)
         else:
-            data = helpers.search_commodity_by_term(term=serializer.validated_data['q'])
+            data = helpers.search_commodity_by_term(term=serializer.validated_data['proddesc'])
         return Response(data)
 
 
 class CountriesView(generics.GenericAPIView):
 
     def get(self, request):
-        return Response(choices.COUNTRIES_AND_TERRITORIES_REGION)
+        return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
 class SuggestedCountriesView(generics.GenericAPIView):
@@ -258,7 +271,7 @@ class CompanyNameFormView(GA360Mixin, FormView):
     form_class = forms.CompanyNameForm
 
     def get_success_url(self):
-        return self.request.GET.get('next', constants.DASHBOARD_URL)
+        return self.request.GET.get('next', cms_slugs.DASHBOARD_URL)
 
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
@@ -269,12 +282,79 @@ class CreateTokenView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, request):
-        # expire access @ now() in msec + 5 days
-        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=5))
+        # expire access @ now() in msec + BETA_TOKEN_EXPIRATION_DAYS days
+        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=settings.BETA_TOKEN_EXPIRATION_DAYS))
         base_url = settings.BASE_URL
+        # ability to edit target URL by using path param
+        extra_url_params = 'signup'
+        if request.GET.get('path'):
+            extra_url_params = request.GET.get('path')
         # TODO: logging
         # print(f'token valid until {plaintext}')
         fern = Fern()
         ciphertext = fern.encrypt(plaintext)
-        response = {'valid_until': plaintext, 'token': ciphertext, 'CLIENT URL': f'{base_url}/login?enc={ciphertext}'}
+        response = {'valid_until': plaintext, 'token': ciphertext,
+                    'CLIENT URL': f'{base_url}/{extra_url_params}?enc={ciphertext}'}
         return Response(response)
+
+
+class CheckView(generics.GenericAPIView):
+    def get(self, request):
+        try:
+            response = helpers.search_commodity_by_term(term='feta', json=False)
+            response_code = response.json()['data']['hsCode']
+            return Response({'status': status.HTTP_200_OK,
+                             'CCCE_API': {'status': status.HTTP_200_OK, 'response_body': response_code,
+                                          'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000)}})
+        except Exception as e:
+            logger.exception(e)
+            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': response.status_code}})
+
+
+class ContactUsHelpFormView(FormView):
+    form_class = forms.ContactUsHelpForm
+    template_name = 'core/contact-us-help-form.html'
+    success_url = reverse_lazy('core:contact-us-success')
+
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        if self.request.user.is_authenticated:
+            form_kwargs['initial'] = {
+                'email': self.request.user.email,
+                'given_name': self.request.user.first_name,
+                'family_name': self.request.user.last_name,
+            }
+        return form_kwargs
+
+    def send_support_message(self, form):
+        location = helpers.get_location(self.request)
+        sender = Sender(
+            email_address=form.cleaned_data['email'],
+            country_code=location.get('country') if location else None,
+            ip_address=helpers.get_sender_ip_address(self.request),
+        )
+        response = form.save(
+            template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID,
+            email_address=settings.GREAT_SUPPORT_EMAIL,
+            form_url=self.request.get_full_path(),
+            sender=sender,
+        )
+        response.raise_for_status()
+
+    def send_user_message(self, form):
+        # no need to set `sender` as this is just a confirmation email.
+        response = form.save(
+            template_id=settings.CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID,
+            email_address=form.cleaned_data['email'],
+            form_url=self.request.get_full_path(),
+        )
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.send_support_message(form)
+        self.send_user_message(form)
+        return super().form_valid(form)
+
+
+class ContactUsHelpSuccessView(TemplateView):
+    template_name = 'core/contact-us-help-form-success.html'

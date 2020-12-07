@@ -1,21 +1,30 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 
-<div class="p-xs bg-white g-card">
-	<div class="grid">
-		<div class="m-b-s {% if wide %}c-1-2{% else %}c-full{% endif %}">
-			<div class="m-b-s">
-			    <h3 class="h-m p-t-xxs">{{value.title|default:'Learn'}}</h3>
-			    <p class="">{{value.body|linebreaksbr}}</p>
+<div class="bg-white g-card">
+	<div class="grid m-h-0">
+		<div class="{% if wide %}c-1-2{% else %}c-full{% endif %} p-h-0">
+			<div>
+		    <h3 class="h-m p-t-xxs">{{value.title|default:'Learn'}}</h3>
+		    <p class="m-b-xs">{{value.body|linebreaksbr}}</p>
 			</div>
-		    <a class="button button--secondary --button-large" icon="" theme="secondary" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
+      {% if not wide %}
+		    <a class="button button--secondary button--small" icon="" theme="secondary" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
 		      {{button_label_override|default:value.button.label}}
 		    </a>
+      {% endif %}
 		</div>
 		<div class="{% if wide %}c-1-2{% else %}c-full{% endif %}">
 			<div class="g-card-image">
 				{% image value.image max-700x300 %}
 			</div>
 		</div>
+    {% if wide %}
+      <div class="c-full p-h-0">
+        <a class="button button--secondary button--small" icon="" theme="secondary" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
+          {{button_label_override|default:value.button.label}}
+        </a>
+      </div>
+    {% endif %}
 	</div>
 </div>

@@ -1,0 +1,58 @@
+.costs {
+  border-radius: 20px 20px 0 0;
+  display: block;
+  width: 670px;
+  padding: 0 20px;
+
+  td {
+    border-bottom: 2px solid $blue-deep-20;
+    padding: 15px 5px;
+  }
+
+  tr {
+    &:last-child {
+      td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .form-group {
+    align-items: center;
+    display: flex;
+    margin: 0;
+  }
+
+  .form-control,
+  .form-label {
+    margin: 0;
+  }
+
+  .form-label {
+    padding: 0;
+  }
+
+  .form-label {
+    @extend .body-l-b;
+    width: 240px;
+  }
+
+  .form-control {
+    width: 193px;
+  }
+
+  &--total {
+    border-radius: 0 0 20px 20px;
+    .form-label {
+      color: $white;
+    }
+
+    td {
+      border: 0;
+    }
+
+    .costs-label {
+      width: 63%;
+    }
+  }
+}
