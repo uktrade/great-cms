@@ -12,16 +12,17 @@ export const Costs = memo(({
   return (
     <div className='costs bg-blue-deep-10'>
       <table className='m-b-0'>
-        {costs.map(({ label, id, heading, description}) => (
+        {costs.map(({ label, id, placeholder, tooltip, type}) => (
           <Cost
             key={id}
             label={label}
             id={id}
             currency={currency}
-            heading={heading}
-            description={description}
+            placeholder={placeholder}
+            tooltip={tooltip}
             value={data[id]}
             update={update}
+            type={type}
           />
         ))}
       </table>
@@ -33,8 +34,9 @@ Costs.propTypes = {
   costs: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    heading: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    tooltip: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
   })).isRequired,
   currency: PropTypes.string.isRequired,
   data: PropTypes.objectOf(PropTypes.number).isRequired,
