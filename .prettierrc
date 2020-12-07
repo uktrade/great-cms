@@ -3,12 +3,10 @@
   "bracketSpacing": true,
   "htmlWhitespaceSensitivity": "css",
   "jsxBracketSameLine": false,
-  "printWidth": 100,
   "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5",
   "useTabs": false,
-  "overrides": [],
-  "jsx-max-props-per-line": [2, { "maximum": 2, "when": "always" }]
+  "overrides": []
 }

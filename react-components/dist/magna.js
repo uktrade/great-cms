@@ -66105,43 +66105,6 @@ function createCompareMarkets(_ref) {
 
 /***/ }),
 
-/***/ "./react-components/src/components/CostsAndPricing/AveragePrice/index.jsx":
-/*!********************************************************************************!*\
-  !*** ./react-components/src/components/CostsAndPricing/AveragePrice/index.jsx ***!
-  \********************************************************************************/
-/*! exports provided: AveragePrice */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AveragePrice", function() { return AveragePrice; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-
-
-
-var AveragePrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var country = _ref.country;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
-    onChange: function onChange() {},
-    id: "asdasd",
-    label: "test",
-    hideLabel: true,
-    type: "number",
-    prepend: "GBP",
-    description: "<h2 class=\"h-xs p-t-xs p-b-0\">Average price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">To find the average price for your product in your target market you will have to do some research using:</p><ul class=\"list-dot\"><li>online retailers</li><li>web searches</li><li>supermarket prices</li></ul><p class=\"m-b-0\">These will give you a good idea of prices in your target market.</p>"),
-    tooltip: "adasda sda asd"
-  });
-});
-AveragePrice.propTypes = {
-  country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-};
-
-/***/ }),
-
 /***/ "./react-components/src/components/CostsAndPricing/Costs/Cost/index.jsx":
 /*!******************************************************************************!*\
   !*** ./react-components/src/components/CostsAndPricing/Costs/Cost/index.jsx ***!
@@ -66166,37 +66129,39 @@ var Cost = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var label = _ref.label,
       id = _ref.id,
       currency = _ref.currency,
-      heading = _ref.heading,
-      description = _ref.description,
+      placeholder = _ref.placeholder,
+      tooltip = _ref.tooltip,
       value = _ref.value,
-      update = _ref.update;
+      update = _ref.update,
+      type = _ref.type;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "form-label p-b-xs",
     htmlFor: id
   }, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_EducationalMomentTooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    heading: heading,
-    description: description,
+    description: tooltip,
     id: "name",
     type: "LEFT"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
     label: label,
     id: id,
     hideLabel: true,
-    type: "number",
+    type: type,
     prepend: currency,
     value: value,
     onChange: function onChange(field) {
       return update(field);
-    }
+    },
+    placeholder: placeholder
   })));
 });
 Cost.propTypes = {
   label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  heading: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
 
@@ -66272,17 +66237,19 @@ var Costs = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   }, costs.map(function (_ref2) {
     var label = _ref2.label,
         id = _ref2.id,
-        heading = _ref2.heading,
-        description = _ref2.description;
+        placeholder = _ref2.placeholder,
+        tooltip = _ref2.tooltip,
+        type = _ref2.type;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cost__WEBPACK_IMPORTED_MODULE_2__["Cost"], {
       key: id,
       label: label,
       id: id,
       currency: currency,
-      heading: heading,
-      description: description,
+      placeholder: placeholder,
+      tooltip: tooltip,
       value: data[id],
-      update: update
+      update: update,
+      type: type
     });
   })));
 });
@@ -66290,8 +66257,9 @@ Costs.propTypes = {
   costs: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    heading: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
   })).isRequired,
   currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number).isRequired,
@@ -66355,66 +66323,6 @@ Direct.propTypes = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/CostsAndPricing/Duty/index.jsx":
-/*!************************************************************************!*\
-  !*** ./react-components/src/components/CostsAndPricing/Duty/index.jsx ***!
-  \************************************************************************/
-/*! exports provided: Duty */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Duty", function() { return Duty; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-
-
-var Duty = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function () {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
-    onChange: function onChange() {},
-    id: "asdasd",
-    label: "test",
-    hideLabel: true,
-    type: "number",
-    prepend: "GBP",
-    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Duty per unit</h2><p class=\"m-t-xs m-b-0\">The Withdrawal Agreement between the EU and the UK entered into force on 1 February 2020. The UK has entered a transition period until 31 December 2020. During the transition period, there will continue to be no duty charged on UK exports by EU member states.</p>",
-    tooltip: "asdasd asd "
-  }));
-});
-
-/***/ }),
-
-/***/ "./react-components/src/components/CostsAndPricing/FinalCost/index.jsx":
-/*!*****************************************************************************!*\
-  !*** ./react-components/src/components/CostsAndPricing/FinalCost/index.jsx ***!
-  \*****************************************************************************/
-/*! exports provided: FinalCost */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FinalCost", function() { return FinalCost; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-
-
-var FinalCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function () {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
-    onChange: function onChange() {},
-    id: "asdasd",
-    label: "test",
-    hideLabel: true,
-    type: "number",
-    prepend: "GBP",
-    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Your final cost per unit</h2><p class=\"m-t-xs\">Your final cost per unit is how much it costs your business to create one unit of your product.</p><p>To work this out you will need to use 3 pieces of information you recorded earlier:</p><ul class=\"list-dot\"><li>how many units of your product you want to export</li><li>your direct costs final total</li><li>your overhead costs final total</li></ul><p class=\"m-b-0\">You will then be able to calculate this using the tool in the next section.</p>",
-    example: "<p class=\"m-b-0 m-t-xs\">For the first step you must divide your overhead costs total by the number of units you are exporting. You must then add this total you have just worked out to your direct cost total you worked out in the table earlier.</p><p class=\"m-b-0\">Input these into the following tool:</p><p class=\"m-v-0\">0 + (0 / 0)</p>"
-  });
-});
-
-/***/ }),
-
 /***/ "./react-components/src/components/CostsAndPricing/GrossPrice/index.jsx":
 /*!******************************************************************************!*\
   !*** ./react-components/src/components/CostsAndPricing/GrossPrice/index.jsx ***!
@@ -66439,9 +66347,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var country = _ref.country,
-      countryGrossUnit = _ref.countryGrossUnit,
+      currency = _ref.currency,
+      GrossPriceUnit = _ref.GrossPriceUnit,
       profitPerUnit = _ref.profitPerUnit,
-      potentialPerUnit = _ref.potentialPerUnit;
+      potentialPerUnit = _ref.potentialPerUnit,
+      _update = _ref.update,
+      input = _ref.input,
+      select = _ref.select;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "bg-white radius p-xs c-full m-b-s gross-price"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -66452,7 +66364,7 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
     className: "m-t-xxs m-b-0"
   }, "Gross price per unit for the ", country), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-s p-t-0 p-b-0"
-  }, countryGrossUnit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+  }, currency, " ", GrossPriceUnit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr--light m-v-xs"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: ""
@@ -66467,16 +66379,25 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-6 m-r-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
-    label: "select unit",
-    update: function update() {},
-    name: "test",
-    options: [],
-    hideLabel: true
+    label: select.label,
+    update: function update(item) {
+      return _update(select.id, item);
+    },
+    name: select.name,
+    options: select.options,
+    selected: select.value,
+    hideLabel: true,
+    placeholder: select.placeholder
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
-    label: "number of units",
-    hideLabel: true
+    onChange: _update,
+    label: input.label,
+    id: input.id,
+    hideLabel: true,
+    type: input.type,
+    value: input.value,
+    placeholder: input.placeholder
   })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -66489,7 +66410,7 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
     className: "m-t-xxs m-b-0"
   }, "Your profit per unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-s p-t-0 p-b-0"
-  }, profitPerUnit))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, currency, " ", profitPerUnit))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "bg-white radius p-xs"
@@ -66499,89 +66420,33 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
     className: "m-t-xxs m-b-0"
   }, "Your potential per unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-s p-t-0 p-b-0"
-  }, potentialPerUnit)))));
+  }, currency, " ", potentialPerUnit)))));
 });
 GrossPrice.propTypes = {
   country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  countryGrossUnit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  GrossPriceUnit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   profitPerUnit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  potentialPerUnit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-};
-
-/***/ }),
-
-/***/ "./react-components/src/components/CostsAndPricing/LocalTaxes/index.jsx":
-/*!******************************************************************************!*\
-  !*** ./react-components/src/components/CostsAndPricing/LocalTaxes/index.jsx ***!
-  \******************************************************************************/
-/*! exports provided: LocalTaxes */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LocalTaxes", function() { return LocalTaxes; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-
-
-
-var LocalTaxes = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var country = _ref.country;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
-    onChange: function onChange() {},
-    id: "asdasd",
-    label: "test",
-    hideLabel: true,
-    type: "number",
-    prepend: "GBP",
-    example: "<p>Value added tax (VAT) standard rate: 21%</p><p>Value added tax (VAT) reduced rate: 6%</p>",
-    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Local taxes and charges in the ".concat(country, "</h2><p class=\"m-t-xs\">You will need to pay taxes on your exports and these rates will change depending on which market you are selling in.</p><p>The following box displays the rate of tax you need to pay based on your chosen market.</p>"),
-    tooltip: "asd asda sd"
-  });
-});
-LocalTaxes.propTypes = {
-  country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-};
-
-/***/ }),
-
-/***/ "./react-components/src/components/CostsAndPricing/NetPrice/index.jsx":
-/*!****************************************************************************!*\
-  !*** ./react-components/src/components/CostsAndPricing/NetPrice/index.jsx ***!
-  \****************************************************************************/
-/*! exports provided: NetPrice */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NetPrice", function() { return NetPrice; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-
-
-
-var NetPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var country = _ref.country;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
-    onChange: function onChange() {},
-    id: "asdasd",
-    label: "test",
-    hideLabel: true,
-    type: "number",
-    prepend: "GBP",
-    tooltip: "asdad",
-    example: "<p>To decide a final price for Dove gin we thought about:</p><ul><li>how much it cost to make one bottle of our gin</li><li>the average price for a bottle of gin in Australia</li></ul><p>This helped us decide where our product would sit in the market.</p><p>A bottle of our gin costs \xA315 to make, so to make a profit we had to charge over \xA315. Looking at Australian prices we decided on \xA325 a bottle in line with the market prices there. This gives us a profit margin of \xA310 on every unit sold.</p>",
-    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Your net price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Deciding on what price your product will be sold for in retailers can be a difficult decision.</p><p class=\"m-b-0\">You want to make sure you sell your product for more than it cost to make it, this way you make a profit on every unit sold.</p>")
-  });
-});
-NetPrice.propTypes = {
-  country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  potentialPerUnit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  input: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  select: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf({
+      value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    }).isRequired
+  }).isRequired
 };
 
 /***/ }),
@@ -66652,12 +66517,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Units", function() { return Units; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
 
 
 
-var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function () {
+
+var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var _update = _ref.update,
+      input = _ref.input,
+      select = _ref.select;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m p-b-xs p-t-m"
   }, "Total costs and price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don't worry, we will tell you what you need to do."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -66672,19 +66543,49 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function () {
     className: "w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-6 m-r-xs"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
-    label: "number of units",
-    hideLabel: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
+    onChange: _update,
+    label: input.label,
+    id: input.id,
+    hideLabel: true,
+    type: input.type,
+    value: input.value,
+    placeholder: input.placeholder
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_2__["Select"], {
-    label: "select unit",
-    update: function update() {},
-    name: "test",
-    options: [],
-    hideLabel: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
+    label: select.label,
+    update: function update(item) {
+      return _update(select.id, item);
+    },
+    name: select.name,
+    options: select.options,
+    selected: select.value,
+    hideLabel: true,
+    placeholder: select.placeholder
   })))));
 });
+Units.propTypes = {
+  input: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  select: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf({
+      value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    }).isRequired
+  }).isRequired,
+  update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
 
 /***/ }),
 
@@ -66692,7 +66593,7 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function () {
 /*!**********************************************************************!*\
   !*** ./react-components/src/components/CostsAndPricing/constants.js ***!
   \**********************************************************************/
-/*! exports provided: direct, overhead, costPerUnit */
+/*! exports provided: direct, overhead, costPerUnit, averagePrice, netPrice, localTaxes, duty, unitsToExport, exportUnits, grossPriceCurrency, grossPriceUnitSelect */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66700,41 +66601,166 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "direct", function() { return direct; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overhead", function() { return overhead; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "costPerUnit", function() { return costPerUnit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "averagePrice", function() { return averagePrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "netPrice", function() { return netPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "localTaxes", function() { return localTaxes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "duty", function() { return duty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unitsToExport", function() { return unitsToExport; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exportUnits", function() { return exportUnits; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grossPriceCurrency", function() { return grossPriceCurrency; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grossPriceUnitSelect", function() { return grossPriceUnitSelect; });
 var direct = [{
   label: 'Product cost',
-  id: 'product'
+  id: 'product',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Labour cost',
-  id: 'labour'
+  id: 'labour',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Additional margin',
-  id: 'additional_margin'
+  id: 'additional_margin',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }];
 var overhead = [{
   label: 'Product adaptation',
-  id: 'adaptation'
+  id: 'adaptation',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Packaging and labelling',
-  id: 'packaging'
+  id: 'packaging',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Freight and logistics',
-  id: 'freight'
+  id: 'freight',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Agent and distributor fees',
-  id: 'agent'
+  id: 'agent',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Marketing',
-  id: 'marketing'
+  id: 'marketing',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Insurance',
-  id: 'insurance'
+  id: 'insurance',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }, {
   label: 'Other overhead costs',
-  id: 'other_overhead'
+  id: 'other_overhead',
+  placeholder: 0,
+  tooltip: 'tooltip',
+  type: 'number'
 }];
 var costPerUnit = {
   label: 'Cost per unit',
-  id: 'cost_per_unit'
+  id: 'cost_per_unit',
+  placeholder: 0,
+  type: 'number',
+  description: '<h2 class="h-xs p-t-0 p-b-0">Your final cost per unit</h2><p class="m-t-xs">Your final cost per unit is how much it costs your business to create one unit of your product.</p><p>To work this out you will need to use 3 pieces of information you recorded earlier:</p><ul class="list-dot"><li>how many units of your product you want to export</li><li>your direct costs final total</li><li>your overhead costs final total</li></ul><p class="m-b-0">You will then be able to calculate this using the tool in the next section.</p>',
+  example: '<p class="m-b-0 m-t-xs">For the first step you must divide your overhead costs total by the number of units you are exporting. You must then add this total you have just worked out to your direct cost total you worked out in the table earlier.</p><p class="m-b-0">Input these into the following tool:</p><p class="m-v-0">0 + (0 / 0)</p>'
+};
+var averagePrice = {
+  label: 'Average Price',
+  id: 'average_price',
+  tooltip: 'tooltip',
+  placeholder: 0,
+  type: 'number'
+};
+var netPrice = {
+  label: 'Net Price',
+  id: 'net_price',
+  tooltip: 'tooltip',
+  type: 'number',
+  placeholder: 0,
+  example: '<p>To decide a final price for Dove gin we thought about:</p><ul><li>how much it cost to make one bottle of our gin</li><li>the average price for a bottle of gin in Australia</li></ul><p>This helped us decide where our product would sit in the market.</p><p>A bottle of our gin costs £15 to make, so to make a profit we had to charge over £15. Looking at Australian prices we decided on £25 a bottle in line with the market prices there. This gives us a profit margin of £10 on every unit sold.</p>'
+};
+var localTaxes = {
+  label: 'local Taxes',
+  id: 'local_taxes',
+  tooltip: 'tooltip',
+  type: 'number',
+  placeholder: 0,
+  example: '<p>Value added tax (VAT) standard rate: 21%</p><p>Value added tax (VAT) reduced rate: 6%</p>'
+};
+var duty = {
+  label: 'Duty',
+  id: 'duty',
+  tooltip: 'tooltip',
+  type: 'number',
+  placeholder: 0,
+  example: '<p>Value added tax (VAT) standard rate: 21%</p><p>Value added tax (VAT) reduced rate: 6%</p>',
+  description: '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">The Withdrawal Agreement between the EU and the UK entered into force on 1 February 2020. The UK has entered a transition period until 31 December 2020. During the transition period, there will continue to be no duty charged on UK exports by EU member states.</p>'
+};
+var unitsToExport = {
+  label: 'Number of units to exports',
+  id: 'units_to_export',
+  placeholder: 0,
+  type: 'number'
+};
+var exportUnits = {
+  id: 'export_units',
+  label: 'select unit',
+  name: 'select units',
+  placeholder: 'Select unit',
+  options: [{
+    value: 'metre',
+    label: 'metre (s)'
+  }, {
+    value: 'gram',
+    label: 'gram (s)'
+  }, {
+    value: 'kilogram',
+    label: 'kilogram (s)'
+  }, {
+    value: 'piece',
+    label: 'piece (s)'
+  }, {
+    value: 'set',
+    label: 'set (s)'
+  }, {
+    value: 'pack',
+    label: 'pack (s)'
+  }]
+};
+var grossPriceCurrency = {
+  label: 'Gross Price currency',
+  id: 'gross_price_per_unit_invoicing',
+  tooltip: 'tooltip',
+  placeholder: 0,
+  type: 'number'
+};
+var grossPriceUnitSelect = {
+  id: 'gross_price_per_unit_currency',
+  label: 'select unit',
+  name: 'select units',
+  placeholder: 'Select unit',
+  options: [{
+    value: 'item_one',
+    label: 'item one'
+  }, {
+    value: 'item_two',
+    label: 'item two'
+  }]
 };
 
 /***/ }),
@@ -66808,18 +66834,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CostsAndPricing", function() { return CostsAndPricing; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Direct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Direct */ "./react-components/src/components/CostsAndPricing/Direct/index.jsx");
-/* harmony import */ var _Overhead__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Overhead */ "./react-components/src/components/CostsAndPricing/Overhead/index.jsx");
-/* harmony import */ var _Units__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Units */ "./react-components/src/components/CostsAndPricing/Units/index.jsx");
-/* harmony import */ var _FinalCost__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FinalCost */ "./react-components/src/components/CostsAndPricing/FinalCost/index.jsx");
-/* harmony import */ var _AveragePrice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AveragePrice */ "./react-components/src/components/CostsAndPricing/AveragePrice/index.jsx");
-/* harmony import */ var _NetPrice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NetPrice */ "./react-components/src/components/CostsAndPricing/NetPrice/index.jsx");
-/* harmony import */ var _LocalTaxes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./LocalTaxes */ "./react-components/src/components/CostsAndPricing/LocalTaxes/index.jsx");
-/* harmony import */ var _Duty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Duty */ "./react-components/src/components/CostsAndPricing/Duty/index.jsx");
-/* harmony import */ var _GrossPrice__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./GrossPrice */ "./react-components/src/components/CostsAndPricing/GrossPrice/index.jsx");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./constants */ "./react-components/src/components/CostsAndPricing/constants.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _Direct__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Direct */ "./react-components/src/components/CostsAndPricing/Direct/index.jsx");
+/* harmony import */ var _Overhead__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Overhead */ "./react-components/src/components/CostsAndPricing/Overhead/index.jsx");
+/* harmony import */ var _Units__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Units */ "./react-components/src/components/CostsAndPricing/Units/index.jsx");
+/* harmony import */ var _GrossPrice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GrossPrice */ "./react-components/src/components/CostsAndPricing/GrossPrice/index.jsx");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./constants */ "./react-components/src/components/CostsAndPricing/constants.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -66842,23 +66871,53 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     className: "c-1-4"
   }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Direct__WEBPACK_IMPORTED_MODULE_1__["Direct"], {
-    costs: _constants__WEBPACK_IMPORTED_MODULE_10__["direct"],
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Direct__WEBPACK_IMPORTED_MODULE_3__["Direct"], {
+    costs: _constants__WEBPACK_IMPORTED_MODULE_7__["direct"],
     currency: currency,
     data: data,
     update: update
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Overhead__WEBPACK_IMPORTED_MODULE_2__["Overhead"], {
-    costs: _constants__WEBPACK_IMPORTED_MODULE_10__["overhead"],
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Overhead__WEBPACK_IMPORTED_MODULE_4__["Overhead"], {
+    costs: _constants__WEBPACK_IMPORTED_MODULE_7__["overhead"],
     currency: currency,
     data: data,
     update: update
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_3__["Units"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FinalCost__WEBPACK_IMPORTED_MODULE_4__["FinalCost"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AveragePrice__WEBPACK_IMPORTED_MODULE_5__["AveragePrice"], {
-    country: country
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NetPrice__WEBPACK_IMPORTED_MODULE_6__["NetPrice"], {
-    country: country
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocalTaxes__WEBPACK_IMPORTED_MODULE_7__["LocalTaxes"], {
-    country: country
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Duty__WEBPACK_IMPORTED_MODULE_8__["Duty"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_5__["Units"], {
+    update: update,
+    input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["unitsToExport"]), {}, {
+      value: data.units_to_export
+    }),
+    select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["exportUnits"]), {}, {
+      value: data.export_units
+    })
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
+    onChange: update,
+    value: data.cost_per_unit,
+    hideLabel: true,
+    prepend: currency
+  }, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
+    onChange: update,
+    value: data.average_price,
+    hideLabel: true,
+    prepend: currency,
+    description: "<h2 class=\"h-xs p-t-xs p-b-0\">Average price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">To find the average price for your product in your target market you will have to do some research using:</p><ul class=\"list-dot\"><li>online retailers</li><li>web searches</li><li>supermarket prices</li></ul><p class=\"m-b-0\">These will give you a good idea of prices in your target market.</p>")
+  }, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
+    onChange: update,
+    value: data.net_price,
+    hideLabel: true,
+    prepend: currency,
+    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Your net price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Deciding on what price your product will be sold for in retailers can be a difficult decision.</p><p class=\"m-b-0\">You want to make sure you sell your product for more than it cost to make it, this way you make a profit on every unit sold.</p>")
+  }, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
+    onChange: update,
+    value: data.local_taxes,
+    hideLabel: true,
+    prepend: currency,
+    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Local taxes and charges in the ".concat(country, "</h2><p class=\"m-t-xs\">You will need to pay taxes on your exports and these rates will change depending on which market you are selling in.</p><p>The following box displays the rate of tax you need to pay based on your chosen market.</p>")
+  }, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
+    onChange: update,
+    value: data.duty,
+    hideLabel: true,
+    prepend: currency
+  }, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"]))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-4"
   }, "\xA0"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "bg-blue-deep-10 m-t-l p-v-s"
@@ -66870,16 +66929,29 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     className: "c-1-4 p-0"
   }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_GrossPrice__WEBPACK_IMPORTED_MODULE_9__["GrossPrice"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_GrossPrice__WEBPACK_IMPORTED_MODULE_6__["GrossPrice"], {
     country: country,
-    countryGrossUnit: "GBP 0",
-    currencyGrossUnit: "GBP 0",
-    potentialPerUnit: "GBP 0",
-    profitPerUnit: "GBP 0"
+    currency: currency,
+    GrossPriceUnit: data.gross_price_per_unit,
+    potentialPerUnit: data.potential_per_unit,
+    profitPerUnit: data.profit_per_unit,
+    update: update,
+    input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["grossPriceCurrency"]), {}, {
+      value: data.gross_price_per_unit_invoicing
+    }),
+    select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["grossPriceUnitSelect"]), {}, {
+      value: data.gross_price_per_unit_currency
+    })
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-4"
   }, "\xA0")))));
 });
+CostsAndPricing.propTypes = {
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string]).isRequired,
+  update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
 
 /***/ }),
 
@@ -67695,7 +67767,8 @@ var Select = function Select(_ref) {
       description = _ref.description,
       tooltip = _ref.tooltip,
       example = _ref.example,
-      hideLabel = _ref.hideLabel;
+      hideLabel = _ref.hideLabel,
+      placeholder = _ref.placeholder;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(selected),
       _useState2 = _slicedToArray(_useState, 2),
@@ -67773,7 +67846,7 @@ var Select = function Select(_ref) {
     name: label,
     readOnly: true,
     value: input,
-    placeholder: "Select one",
+    placeholder: placeholder,
     description: description,
     tooltip: tooltip,
     example: example,
@@ -67796,7 +67869,7 @@ var Select = function Select(_ref) {
     className: "select__list body-l bg-white radius ".concat(isOpen ? '' : 'hidden'),
     "aria-expanded": isOpen,
     ref: element
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Select one"), options.map(function (item, i) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, placeholder), options.map(function (item, i) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       tabIndex: "0",
       className: "select__list--item",
@@ -67827,14 +67900,16 @@ Select.propTypes = {
   description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  hideLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+  hideLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 Select.defaultProps = {
   selected: '',
   description: '',
   tooltip: '',
   example: '',
-  hideLabel: false
+  hideLabel: false,
+  placeholder: 'Select one'
 };
 
 /***/ }),
@@ -72856,7 +72931,20 @@ var initialState = {
   insurance: '',
   other_overhead: '',
   direct_total: '0.00',
-  overhead_total: '0.00'
+  overhead_total: '0.00',
+  cost_per_unit: '',
+  average_price: '',
+  net_price: '',
+  local_taxes: '',
+  duty: '',
+  gross_price_per_unit: '0',
+  potential_per_unit: '0',
+  gross_price_per_unit_invoicing: '',
+  gross_price_per_unit_currency: '',
+  profit_per_unit: '0',
+  price_per_unit: '',
+  units_to_export: '',
+  export_units: ''
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
