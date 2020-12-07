@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { FormGroup } from '../FormGroup'
 
-export const Input = ({
+export const Input = memo(({
   errors,
   label,
   disabled,
@@ -17,7 +17,9 @@ export const Input = ({
   example,
   readOnly,
   tabIndex,
-  hideLabel
+  hideLabel,
+  lesson,
+  prepend
 }) => (
   <FormGroup
     errors={errors}
@@ -27,21 +29,25 @@ export const Input = ({
     example={example}
     id={id}
     hideLabel={hideLabel}
-  >
-    <input
-      className='form-control'
-      id={id}
-      type={type}
-      name={id}
-      disabled={disabled}
-      onChange={(e) => onChange({[id]: e.target.value})}
-      placeholder={placeholder}
-      value={value}
-      readOnly={readOnly}
-      tabIndex={tabIndex}
-    />
-</FormGroup>
-)
+    lesson={lesson}
+    >
+    <div className='flex-center'>
+      {prepend && <span className='bg-blue-deep-10 text-blue-deep-60 bold prepend'>{prepend}</span>}
+      <input
+        className={`form-control ${prepend ? 'form-control-prepend': ''}`}
+        id={id}
+        type={type}
+        name={id}
+        disabled={disabled}
+        onChange={(e) => onChange({[id]: e.target.value})}
+        placeholder={placeholder}
+        value={value}
+        readOnly={readOnly}
+        tabIndex={tabIndex}
+      />
+      </div>
+    </FormGroup>
+))
 
 Input.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
@@ -57,7 +63,14 @@ Input.propTypes = {
   example: PropTypes.string,
   readOnly: PropTypes.bool,
   tabIndex: PropTypes.string,
-  hideLabel: PropTypes.bool
+  hideLabel: PropTypes.bool,
+  lesson: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string
+  }),
+  prepend: PropTypes.string
 }
 
 Input.defaultProps = {
@@ -71,5 +84,7 @@ Input.defaultProps = {
   example: '',
   readOnly: false,
   tabIndex: '',
-  hideLabel: false
+  hideLabel: false,
+  lesson: {},
+  prepend: ''
 }

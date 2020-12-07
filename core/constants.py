@@ -7,9 +7,6 @@ BACKLINK_QUERYSTRING_NAME = 'return-link'
 # Define a strict subset of rich-text features only includes linebreaks
 RICHTEXT_FEATURES__MINIMAL = ()
 
-LESSON_BLOCK = 'lesson'
-PLACEHOLDER_BLOCK = 'placeholder'
-
 AWS_S3_MAIN_HOSTNAME_OPTIONS = [
     # https://docs.aws.amazon.com/general/latest/gr/s3.html
     's3.amazonaws.com',  # most likely

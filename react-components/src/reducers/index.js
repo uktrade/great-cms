@@ -10,7 +10,9 @@ import {
   SET_PRODUCT,
   SET_MARKET,
 } from '@src/actions'
+import { config } from '@src/config'
 import { combineReducers, reduceReducers } from 'redux'
+import costAndPricing from '@src/reducers/costsAndPricing'
 
 const saveToExportPlan = (country) => {
   api.updateExportPlan({
@@ -106,6 +108,9 @@ const exportPlanReducer = (state, action) => {
     case SET_MARKET:
       saveToExportPlan(action.payload)
       newState.markets = [action.payload]
+      if (config.refreshOnMarketChange) {
+        window.location.reload()
+      }
   }
   return newState
 }
@@ -130,7 +135,7 @@ export const getMarkets = state => ((state.exportPlan && state.exportPlan.market
 const rootReducer = (state, action) => {
   state = baseReducers(state, action)
   state = setInitialStateReducer(state, action)
-  return combineReducers({ exportPlan: exportPlanReducer, modalIsOpen: setModalIsOpen })(state, action)
+  return combineReducers({ exportPlan: exportPlanReducer, modalIsOpen: setModalIsOpen, costAndPricing })(state, action)
 }
 
 export default rootReducer

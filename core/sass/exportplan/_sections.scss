@@ -10,10 +10,14 @@
 }
 
 .lesson__back {
-  float: right;
-  width: 245px;
+  margin-top: 30px;
 
-  &--bottom {
-    margin-top: 770px;
+  @include breakpoint(lg){
+    float: right;
+    width: 245px;
+
+    &--bottom {
+      margin-top: 770px;
+    }
   }
 }

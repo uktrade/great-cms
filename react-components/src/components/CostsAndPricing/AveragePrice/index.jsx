@@ -1,20 +1,25 @@
 import React, { memo } from 'react'
+import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 
-export const AveragePrice = memo(() => {
+export const AveragePrice = memo(({
+  country
+}) => {
   return (
-    <>
-      <h2 className='h-xs p-t-l p-b-0'>Average price per unit in the Netherlands</h2>
-      <p>To find the average price for your product in your target market you will have to do some research using:</p>
-      <ul className='list-dot'>
-        <li>online retailers</li>
-        <li>web searches</li>
-        <li>supermarket prices</li>
-      </ul>
-
-      <p className='m-b-0'>These will give you a good idea of prices in your target market.</p>
-      <Input onChange={() => {}} id='asdasd' label='test' hideLabel />
-    </>
+    <Input
+      onChange={() => {}}
+      id='asdasd'
+      label='test'
+      hideLabel
+      type='number'
+      prepend='GBP'
+      description={`<h2 class="h-xs p-t-xs p-b-0">Average price per unit in the ${country}</h2><p class="m-t-xs">To find the average price for your product in your target market you will have to do some research using:</p><ul class="list-dot"><li>online retailers</li><li>web searches</li><li>supermarket prices</li></ul><p class="m-b-0">These will give you a good idea of prices in your target market.</p>`}
+      tooltip='adasda sda asd'
+    />
   )
 })
+
+AveragePrice.propTypes = {
+  country: PropTypes.string.isRequired
+}

@@ -1,16 +1,19 @@
 import os
 import logging
 
+from datetime import datetime
+
+from django.conf import settings
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
+from django.utils.deprecation import MiddlewareMixin
+
+from great_components.mixins import GA360Mixin
 
 from core import helpers
 from sso.models import BusinessSSOUser
-from datetime import datetime
-from django.http import HttpResponseForbidden
 from core.fern import Fern
-from django.conf import settings
-from django.utils.deprecation import MiddlewareMixin
-from great_components.mixins import GA360Mixin
+
 import jsonschema as jsonschema
 from jsonschema import ValidationError
 
@@ -99,10 +102,19 @@ class TimedAccessMiddleware(MiddlewareMixin):
     def __call__(self, request):
 
         response = self.get_response(request)
-        # need to whitelist the endpoint, to be able to generate tokens
-        # == '/api/create-token/' or request.path == '/favicon.ico':
-        if request.path in settings.BETA_WHITELISTED_ENDPOINTS:
+
+        # Always allow the homepage to be accessed without a token
+        if request.path == '/':
             return response
+
+        # Need to whitelist certain endpoints, eg to generate tokens
+        # == '/api/create-token/' or request.path == '/favicon.ico'.
+        # Note that we now support sub-paths of the whitelisted endpoints,
+        # not just the absolute endpoint paths, so we can serve statics without
+        # BETA_WHITELISTED_ENDPOINTS having to include every valid filepath.
+        for whitelisted_path in settings.BETA_WHITELISTED_ENDPOINTS.split(','):
+            if request.path.startswith(whitelisted_path):
+                return response
 
         # ignore every other test when running
         # TODO: alternatively, write a cookie during tests, so that they authenticate

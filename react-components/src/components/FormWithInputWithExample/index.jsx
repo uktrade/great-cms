@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/prefer-default-export */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -8,6 +9,7 @@ import { debounceTime, delay } from 'rxjs/operators'
 import ErrorList from '@src/components/ErrorList'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
+import { Input } from '@src/components/Form/Input'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
 import { analytics, sectionQuestionMapping } from '@src/Helpers'
@@ -117,6 +119,17 @@ export class FormWithInputWithExample extends Component {
               example={field.example}
               description={field.description}
               tooltip={field.tooltip}
+            />
+          ) : field.field_type === 'NumberInput' ? (
+            <Input
+              id={field.name}
+              key={field.name}
+              label={field.label}
+              prepend={field.currency ? field.currency : null}
+              placeholder={field.placeholder}
+              onChange={this.handleChange}
+              value={formData[field.name]}
+              type="number"
             />
           ) : (
             <TextArea

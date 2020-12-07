@@ -10,10 +10,10 @@ export const Total = memo(({
     <div className='costs costs--total bg-blue-deep-80 text-white'>
       <table className='m-t-0'>
         <tr>
-          <td className='costs-label'>{label}</td>
-          <td>
-            <span className='body-l-b text-white m-r-s'>{total}</span>
-            <span className='body-l-b text-white'>{currency}</span>
+          <td>{label}</td>
+          <td className='total'>
+            <span className='text-white m-r-s'>{currency}</span>
+            <span className='body-l-b text-white'>{total}</span>
           </td>
         </tr>
       </table>
@@ -24,5 +24,5 @@ export const Total = memo(({
 Total.propTypes = {
   total: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
 }

@@ -5,7 +5,9 @@ import { Cost } from './Cost'
 
 export const Costs = memo(({
   costs,
-  currency
+  currency,
+  data,
+  update
 }) => {
   return (
     <div className='costs bg-blue-deep-10'>
@@ -18,6 +20,8 @@ export const Costs = memo(({
             currency={currency}
             heading={heading}
             description={description}
+            value={data[id]}
+            update={update}
           />
         ))}
       </table>
@@ -33,4 +37,6 @@ Costs.propTypes = {
     description: PropTypes.string.isRequired,
   })).isRequired,
   currency: PropTypes.string.isRequired,
+  data: PropTypes.objectOf(PropTypes.number).isRequired,
+  update: PropTypes.func.isRequired,
 }
