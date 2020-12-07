@@ -1,5 +1,16 @@
 # Changelog
 
+## Pre-release
+
+### Implemented enhancements
+
+### Fixed bugs
+
+## [1.0.0](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
+[Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
+
+### Implemented enhancements
+
 - GP2-1059 - Prettier config
 - GP2-1145 - Export plan landing page responsive retrofit
 - GP2-1124 - Average price prepend for NumberInput
@@ -23,14 +34,12 @@
 - GP2-695 - select product modal
 - GP2-1049 - country name in target market research page
 - GP2-1146 - fix broken forms
-
-## Pre-release
-
 - no ticket - node-fetch module upgrade
 - no ticket - Dependencies upgrade
 
 ### Fixed bugs
 
+- GP2-966 - bug fix - select no values
 - No ticket Restore refresh on market change except for compare markets page
 - GP2-1158 - Verification Code modal
 - GP2-635 - Dashboard styling
