@@ -25,6 +25,9 @@
 - no ticket - node-fetch module upgrade
 - no ticket - Dependencies upgrade
 
+### Hotfixes
+- GP2-966 - bug fix - select no values
+
 ### Fixed bugs
 - GP2-635 - Dashboard styling
 - GP2-856 - Prevent lesson-read resend
