@@ -164,5 +164,8 @@ FormWithInputWithExample.propTypes = {
     })
   ).isRequired,
   field: PropTypes.string.isRequired,
-  formData: PropTypes.objectOf(PropTypes.string).isRequired,
+  formData: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
 }

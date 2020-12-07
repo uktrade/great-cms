@@ -84,6 +84,7 @@ export const Select = ({
         example={example}
         tabIndex='-1'
         hideLabel={hideLabel}
+        onChange={() => {}}
       />
       <button
         className={`select__button text-blue-deep-20 button--toggle ${isOpen ? 'select__button--close' : ''}`}
@@ -102,7 +103,7 @@ export const Select = ({
           <li
             tabIndex='0'
             className='select__list--item'
-            key={item}
+            key={item.label}
             onClick={() => selectOption(item)}
             onKeyDown={(e) => focusNext(e, i, item)}
             aria-selected={item.label === input}
@@ -120,10 +121,12 @@ Select.propTypes = {
   update: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   selected: PropTypes.string,
-  options: PropTypes.arrayOf({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  }).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
   description: PropTypes.string,
   tooltip: PropTypes.string,
   example: PropTypes.string,
