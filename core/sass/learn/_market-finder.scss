@@ -9,7 +9,8 @@
   }
   table td,
   table th {
-    border-bottom: 1px solid $blue-deep-20;
+    text-align: right !important;
+    border-bottom: 1px solid $blue-deep-20 !important;
   }
   button {
     color: $white;

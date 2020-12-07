@@ -12,6 +12,7 @@
 ### Implemented enhancements
 
 - GP2-1059 - Prettier config
+- GP2-1093 - Enhancements to Target Market service population table
 - GP2-1145 - Export plan landing page responsive retrofit
 - GP2-1124 - Average price prepend for NumberInput
 - GP2-1063 - Bumped direction-api-client and updated suggested countries helper method

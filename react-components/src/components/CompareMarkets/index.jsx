@@ -99,26 +99,26 @@ function CompareMarkets(props) {
       return (<tr key={`market-${market.country_iso2_code}`} id={`market-${market.country_name}`}>
         <td className="p-v-xs name">
           <div style={{whiteSpace:'nowrap'}}>
-            <span className="body-l-b" id={`market-${market.country_name}`}>{market.country_name}</span>
             <button type="button" 
               onClick={removeMarket} 
               className="iconic" 
               data-id={market.country_iso2_code} 
               aria-label={`Remove ${market.country_name}`}>
-              <i className="fa fa-times-circle"/>
+              <i className="fa fa-trash-alt icon--border"/>
             </button>
+            <span className="body-l-b" id={`market-${market.country_name}`}>{market.country_name}</span>
           </div>
         </td>
-        <td className="total-population" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.total_population) : ''}</td>
-        <td className="internet-usage" style={{textAlign: 'right'}}>{populationCountryData && populationCountryData.internet_usage ? normalisePopulationValues(`${populationCountryData.internet_usage.value}%`) : 'Data not available'}</td>
-        <td className="urban-population" style={{textAlign: 'right'}}>
+        <td className="total-population">{populationCountryData ? normalisePopulationValues(populationCountryData.total_population) : ''}</td>
+        <td className="internet-usage">{populationCountryData && populationCountryData.internet_usage ? normalisePopulationValues(`${populationCountryData.internet_usage.value}%`) : 'Data not available'}</td>
+        <td className="urban-population">
           <h1>{populationCountryData ? normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[0] : ''}</h1>
-          <span className="body-m" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[1] : ''}</span>
+          <span className="body-m">{populationCountryData ? normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[1] : ''}</span>
         </td>
-        <td className="rural-population" style={{textAlign: 'right'}}>
+        <td className="rural-population">
           <h1>{populationCountryData ? normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[0] : ''}</h1>
 
-          <span className="body-m" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[1] : ''}</span>
+          <span className="body-m">{populationCountryData ? normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[1] : ''}</span>
         </td>
       <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'}</td></tr>)
     })
