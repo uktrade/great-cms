@@ -65872,6 +65872,9 @@ function CompareMarkets(props) {
       var values = str.replace(/\d+(\.\d+)?/g, function ($0) {
         return Math.round(parseFloat($0) * 10) / 10;
       });
+      values = values.replace(/\d+(\.\d+)?(?=\%)/g, function ($0) {
+        return Math.round($0);
+      });
       return values.split(/\(([^)]+)\)/);
     } else {
       return 'Data not available';
@@ -65913,7 +65916,7 @@ function CompareMarkets(props) {
         style: {
           textAlign: 'right'
         }
-      }, populationCountryData && populationCountryData.internet_usage ? "".concat(populationCountryData.internet_usage.value, "%") : 'Data not available'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, populationCountryData && populationCountryData.internet_usage ? normalisePopulationValues("".concat(populationCountryData.internet_usage.value, "%")) : 'Data not available'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "urban-population",
         style: {
           textAlign: 'right'

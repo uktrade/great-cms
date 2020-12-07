@@ -82,6 +82,9 @@ function CompareMarkets(props) {
       var values = str.replace(/\d+(\.\d+)?/g, ($0) => {
         return Math.round(parseFloat($0) * 10) / 10;
       })
+      values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
+        return Math.round($0);
+      })
       return values.split(/\(([^)]+)\)/);
     } else {
       return 'Data not available';
@@ -107,7 +110,7 @@ function CompareMarkets(props) {
           </div>
         </td>
         <td className="total-population" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.total_population) : ''}</td>
-        <td className="internet-usage" style={{textAlign: 'right'}}>{populationCountryData && populationCountryData.internet_usage ? `${populationCountryData.internet_usage.value}%` : 'Data not available'}</td>
+        <td className="internet-usage" style={{textAlign: 'right'}}>{populationCountryData && populationCountryData.internet_usage ? normalisePopulationValues(`${populationCountryData.internet_usage.value}%`) : 'Data not available'}</td>
         <td className="urban-population" style={{textAlign: 'right'}}>
           <h1>{populationCountryData ? normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[0] : ''}</h1>
           <span className="body-m" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[1] : ''}</span>
