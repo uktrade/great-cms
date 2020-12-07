@@ -64964,8 +64964,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
 /* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
 /* eslint-disable */
 
@@ -64988,17 +64988,6 @@ var setInitialState = function setInitialState(state) {
 
 /***/ }),
 
-/***/ "./react-components/src/actions.js":
-/*!*****************************************!*\
-  !*** ./react-components/src/actions.js ***!
-  \*****************************************/
-/*! exports provided: SET_MODAL_IS_OPEN, SET_PRODUCTS_EXPERTISE, SET_COUNTRIES_EXPERTISE, SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK, SET_NEXT_URL, SET_INITIAL_STATE, SET_PRODUCT, SET_MARKET, default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/jake/Dev/work/dit/great-cms/react-components/src/actions.js'");
-
-/***/ }),
-
 /***/ "./react-components/src/actions/costsAndPricing/index.js":
 /*!***************************************************************!*\
   !*** ./react-components/src/actions/costsAndPricing/index.js ***!
@@ -65017,6 +65006,105 @@ var updateField = function updateField(payload) {
     payload: payload
   };
 };
+
+/***/ }),
+
+/***/ "./react-components/src/actions/index.js":
+/*!***********************************************!*\
+  !*** ./react-components/src/actions/index.js ***!
+  \***********************************************/
+/*! exports provided: SET_MODAL_IS_OPEN, SET_PRODUCTS_EXPERTISE, SET_COUNTRIES_EXPERTISE, SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK, SET_NEXT_URL, SET_INITIAL_STATE, SET_PRODUCT, SET_MARKET, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MODAL_IS_OPEN", function() { return SET_MODAL_IS_OPEN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PRODUCTS_EXPERTISE", function() { return SET_PRODUCTS_EXPERTISE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_COUNTRIES_EXPERTISE", function() { return SET_COUNTRIES_EXPERTISE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK", function() { return SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_NEXT_URL", function() { return SET_NEXT_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_INITIAL_STATE", function() { return SET_INITIAL_STATE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PRODUCT", function() { return SET_PRODUCT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MARKET", function() { return SET_MARKET; });
+// action types
+var SET_MODAL_IS_OPEN = 'SET_MODAL_IS_OPEN';
+var SET_PRODUCTS_EXPERTISE = 'SET_PRODUCTS_EXPERTISE';
+var SET_COUNTRIES_EXPERTISE = 'SET_COUNTRIES_EXPERTISE';
+var SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK = 'SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK';
+var SET_NEXT_URL = 'SET_NEXT_URL';
+var SET_INITIAL_STATE = 'SET_INITIAL_STATE';
+var SET_PRODUCT = 'SET_PRODUCT';
+var SET_MARKET = 'SET_MARKET'; // action creators
+
+var setProductsExpertise = function setProductsExpertise(payload) {
+  return {
+    type: SET_PRODUCTS_EXPERTISE,
+    payload: payload
+  };
+};
+
+var setCountriesExpertise = function setCountriesExpertise(payload) {
+  return {
+    type: SET_COUNTRIES_EXPERTISE,
+    payload: payload
+  };
+};
+
+var toggleModalIsOpen = function toggleModalIsOpen(modalID, isOpen) {
+  return {
+    type: SET_MODAL_IS_OPEN,
+    payload: {
+      modalID: modalID,
+      isOpen: isOpen
+    }
+  };
+};
+
+var skipFeatureCookieCheck = function skipFeatureCookieCheck() {
+  return {
+    type: SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
+    payload: false
+  };
+};
+
+var setNextUrl = function setNextUrl(nextUrl) {
+  return {
+    type: SET_NEXT_URL,
+    payload: nextUrl
+  };
+};
+
+var setInitialState = function setInitialState(payload) {
+  return {
+    type: SET_INITIAL_STATE,
+    payload: payload
+  };
+};
+
+var setProduct = function setProduct(product) {
+  return {
+    type: SET_PRODUCT,
+    payload: product
+  };
+};
+
+var setMarket = function setMarket(market) {
+  return {
+    type: SET_MARKET,
+    payload: market
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  toggleModalIsOpen: toggleModalIsOpen,
+  setProductsExpertise: setProductsExpertise,
+  setCountriesExpertise: setCountriesExpertise,
+  skipFeatureCookieCheck: skipFeatureCookieCheck,
+  setNextUrl: setNextUrl,
+  setInitialState: setInitialState,
+  setProduct: setProduct,
+  setMarket: setMarket
+});
 
 /***/ }),
 
@@ -65390,17 +65478,8 @@ var DocumentList = function DocumentList(props) {
   }, documents.length > 0 ? documents.map(function (document) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
       key: document.name,
-      style: {
-        position: 'relative'
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "button button--delete button--small button--only-icon button--tertiary",
-      onClick: function onClick(e) {
-        return deleteDocument(document.name, e);
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fas fa-trash-alt"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
+      className: "user-form-group"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
       label: "Document name",
       id: document.document_name,
       placeholder: "Add document name here",
@@ -65423,8 +65502,18 @@ var DocumentList = function DocumentList(props) {
       placeholder: "Add notes",
       currency: document.currency,
       tag: Number.isInteger(document.placeholder) ? 'number' : 'text'
-    }));
-  }) : '');
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "form-delete m-b-xs"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      title: "Click to delete this document and its notes.",
+      className: "button button--delete button--small button--only-icon button--tertiary",
+      onClick: function onClick(e) {
+        return deleteDocument(document.name, e);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    }))));
+  }) : null);
 }; // Add a new document to the list
 
 
@@ -65672,8 +65761,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -66916,23 +67005,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_Stats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Stats */ "./react-components/src/components/Stats/index.jsx");
+/* eslint-disable import/prefer-default-export */
 
 
 var ProductData = function ProductData() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-3"
+    className: "c-1-3-l c-1-1-m"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
     header: "Total product import value in 2018 (USD)",
     data: "47.7 million"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-3"
+    className: "c-1-3-l c-1-1-m"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
     header: "Total product import value from the UK in 2018 (USD)",
     data: "11.0 million"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-3"
+    className: "c-1-3-l c-1-1-m"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
     header: "Year-to-year product import value change",
     data: "+25.1%"
@@ -69237,8 +69327,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _MessageConfirmation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./MessageConfirmation */ "./react-components/src/components/ProductFinder/MessageConfirmation.jsx");
 /* harmony import */ var _CountryFinderModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
@@ -71210,7 +71300,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_Modal_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Modal/index */ "./react-components/src/components/Modal/index.jsx");
 /* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -72736,14 +72826,236 @@ var messages = {
 
 /***/ }),
 
-/***/ "./react-components/src/reducers.js":
-/*!******************************************!*\
-  !*** ./react-components/src/reducers.js ***!
-  \******************************************/
-/*! exports provided: getModalIsOpen, getCountriesExpertise, getProductsExpertise, getIndustriesExpertise, getPerformFeatureSKipCookieCheck, getNextUrl, getProducts, getMarkets, default */
-/***/ (function(module, exports) {
+/***/ "./react-components/src/reducers/costsAndPricing/index.js":
+/*!****************************************************************!*\
+  !*** ./react-components/src/reducers/costsAndPricing/index.js ***!
+  \****************************************************************/
+/*! exports provided: initialState, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/jake/Dev/work/dit/great-cms/react-components/src/reducers.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
+/* harmony import */ var _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/actions/costsAndPricing */ "./react-components/src/actions/costsAndPricing/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var initialState = {
+  product: '',
+  labour: '',
+  additional_margin: '',
+  adaptation: '',
+  packaging: '',
+  freight: '',
+  agent: '',
+  marketing: '',
+  insurance: '',
+  other_overhead: '',
+  direct_total: '0.00',
+  overhead_total: '0.00'
+};
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__["UPDATE_FIELD"]:
+      return _objectSpread(_objectSpread({}, state), action.payload);
+
+    default:
+      return state;
+  }
+});
+
+/***/ }),
+
+/***/ "./react-components/src/reducers/index.js":
+/*!************************************************!*\
+  !*** ./react-components/src/reducers/index.js ***!
+  \************************************************/
+/*! exports provided: getModalIsOpen, getCountriesExpertise, getProductsExpertise, getIndustriesExpertise, getPerformFeatureSKipCookieCheck, getNextUrl, getProducts, getMarkets, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getModalIsOpen", function() { return getModalIsOpen; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesExpertise", function() { return getCountriesExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProductsExpertise", function() { return getProductsExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getIndustriesExpertise", function() { return getIndustriesExpertise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPerformFeatureSKipCookieCheck", function() { return getPerformFeatureSKipCookieCheck; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNextUrl", function() { return getNextUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProducts", function() { return getProducts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMarkets", function() { return getMarkets; });
+/* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _src_reducers_costsAndPricing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/reducers/costsAndPricing */ "./react-components/src/reducers/costsAndPricing/index.js");
+
+
+
+
+
+
+
+var saveToExportPlan = function saveToExportPlan(country) {
+  _src_api__WEBPACK_IMPORTED_MODULE_0__["default"].updateExportPlan({
+    export_countries: [country]
+  }).then(function () {
+    var name = country.country_name;
+    Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["analytics"])({
+      'event': 'addMarketSuccess',
+      'suggestMarket': country.suggested ? name : '',
+      'listMarket': country.suggested ? '' : name,
+      'marketAdded': name
+    });
+  })["catch"](function () {// TODO: Add error confirmation here
+  });
+};
+
+var initialState = {
+  // prevents modals from opening on page load if user dismissed the modal already
+  modalIsOpen: {
+    products: false,
+    countries: false,
+    industries: false,
+    login: false,
+    signup: false
+  }
+}; //const cloneState = state => JSON.parse(JSON.stringify(state))
+
+function setModalIsOpen(state, payload) {
+  // should have only one modal open at a time
+  var newState = {
+    products: false,
+    countries: false,
+    industries: false,
+    login: false,
+    signup: false
+  };
+  newState[payload.modalID] = payload.isOpen;
+  return newState;
+}
+
+function setProductsExpertise(state, payload) {
+  var newState = cloneState(state);
+  newState.user.expertise.products = payload;
+  return newState;
+}
+
+function setCountriesExpertise(state, payload) {
+  var newState = cloneState(state);
+  newState.user.expertise.countries = payload;
+  return newState;
+}
+
+function setPerformFeatureSKipCookieCheck(state, payload) {
+  var newState = cloneState(state);
+  newState.performSkipFeatureCookieCheck = payload;
+  return newState;
+}
+
+function setNextUrl(state, payload) {
+  var newState = cloneState(state);
+  newState.nextUrl = payload;
+  return newState;
+}
+
+var baseReducers = function baseReducers() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_MODAL_IS_OPEN"]:
+      return setModalIsOpen(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_PRODUCTS_EXPERTISE"]:
+      return setProductsExpertise(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_COUNTRIES_EXPERTISE"]:
+      return setCountriesExpertise(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK"]:
+      return setPerformFeatureSKipCookieCheck(state, action.payload);
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_NEXT_URL"]:
+      return setNextUrl(state, action.payload);
+
+    default:
+      return state;
+  }
+};
+
+var exportPlanReducer = function exportPlanReducer(state, action) {
+  var newState = Object.assign({}, state);
+
+  switch (action.type) {
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_PRODUCT"]:
+      newState.products = [action.payload];
+      break;
+
+    case _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_MARKET"]:
+      saveToExportPlan(action.payload);
+      newState.markets = [action.payload];
+
+      if (_src_config__WEBPACK_IMPORTED_MODULE_3__["config"].refreshOnMarketChange) {
+        window.location.reload();
+      }
+
+  }
+
+  return newState;
+};
+
+var setInitialStateReducer = function setInitialStateReducer(state, action) {
+  if (action.type === _src_actions__WEBPACK_IMPORTED_MODULE_2__["SET_INITIAL_STATE"]) {
+    state = action.payload;
+  }
+
+  return state;
+};
+
+var getModalIsOpen = function getModalIsOpen(state, name) {
+  return state.modalIsOpen[name];
+};
+var getCountriesExpertise = function getCountriesExpertise(state) {
+  return state.user && state.user.expertise && state.user.expertise.countries;
+};
+var getProductsExpertise = function getProductsExpertise(state) {
+  return state.user && state.user.expertise && state.user.expertise.products;
+};
+var getIndustriesExpertise = function getIndustriesExpertise(state) {
+  return state.user && state.user.expertise && state.user.expertise.industries;
+};
+var getPerformFeatureSKipCookieCheck = function getPerformFeatureSKipCookieCheck(state) {
+  return state.performSkipFeatureCookieCheck;
+};
+var getNextUrl = function getNextUrl(state) {
+  return state.nextUrl;
+};
+var getProducts = function getProducts(state) {
+  return (state.exportPlan && state.exportPlan.products || [])[0];
+};
+var getMarkets = function getMarkets(state) {
+  return (state.exportPlan && state.exportPlan.markets || [])[0];
+};
+
+var rootReducer = function rootReducer(state, action) {
+  state = baseReducers(state, action);
+  state = setInitialStateReducer(state, action);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_4__["combineReducers"])({
+    exportPlan: exportPlanReducer,
+    modalIsOpen: setModalIsOpen,
+    costAndPricing: _src_reducers_costsAndPricing__WEBPACK_IMPORTED_MODULE_5__["default"]
+  })(state, action);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (rootReducer);
 
 /***/ }),
 
@@ -72798,7 +73110,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _src_components_Signup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Signup */ "./react-components/src/components/Signup/index.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
@@ -72979,8 +73291,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Component */ "./react-components/src/views/SignupModal/Component.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }

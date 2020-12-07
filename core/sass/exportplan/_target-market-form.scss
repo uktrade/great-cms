@@ -11,7 +11,7 @@
   .form-group {
     padding-bottom: 20px;
     margin-bottom: 0;
-    border-bottom: 2px solid #D2D0DA;
+    border-bottom: 2px solid #d2d0da;
     &:last-child {
       border-bottom: none;
     }
@@ -27,12 +27,10 @@
 .target-market-documents-form {
   .form-group {
     border-bottom: none;
-    &:nth-of-type(2n) {
-      border-bottom: 2px solid #D2D0DA;
-    }
+  }
+  .user-form-group {
+    border-bottom: 2px solid #d2d0da;
   }
   .button--delete {
-    right: -85px;
-    top: 15px;
   }
 }

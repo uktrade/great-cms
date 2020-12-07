@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Input } from '@src/components/Form/Input'
 import { TextArea } from '@src/components/Form/TextArea'
 import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
@@ -14,27 +14,20 @@ const DocumentList = (props) => {
     <div className="target-market-documents-form">
       {documents.length > 0
         ? documents.map((document) => (
-            <form
-              key={document.name}
-              style={{
-                position: 'relative',
-              }}
-            >
-              <button
-                className="button button--delete button--small button--only-icon button--tertiary"
-                onClick={(e) => deleteDocument(document.name, e)}
-              >
-                <i className="fas fa-trash-alt" />
-              </button>
+            <form key={document.name} className="user-form-group">
               <Input
                 label="Document name"
                 id={document.document_name}
                 placeholder="Add document name here"
                 value={document.label}
-                onChange={(e) => updateDocument(document.label, { label: e[document.document_name] })}
+                onChange={(e) =>
+                  updateDocument(document.label, { label: e[document.document_name] })
+                }
               />
               <TextArea
-                onChange={(e) => updateDocument(document.label, { description: e[document.document_notes] })}
+                onChange={(e) =>
+                  updateDocument(document.label, { description: e[document.document_notes] })
+                }
                 key={document.name}
                 label="Notes"
                 id={document.document_notes}
@@ -43,9 +36,18 @@ const DocumentList = (props) => {
                 currency={document.currency}
                 tag={Number.isInteger(document.placeholder) ? 'number' : 'text'}
               />
+              <div className="form-delete m-b-xs">
+                <button
+                  title="Click to delete this document and its notes."
+                  className="button button--delete button--small button--only-icon button--tertiary"
+                  onClick={(e) => deleteDocument(document.name, e)}
+                >
+                  <i className="fas fa-trash-alt" />
+                </button>
+              </div>
             </form>
           ))
-        : ''}
+        : null}
     </div>
   )
 }
@@ -156,7 +158,11 @@ export const AddDocumentTypeForm = (props) => {
   return (
     <>
       <FormWithInputWithExample {...props} />
-      <DocumentList documents={documents} deleteDocument={deleteDocument} updateDocument={updateDocument} />
+      <DocumentList
+        documents={documents}
+        deleteDocument={deleteDocument}
+        updateDocument={updateDocument}
+      />
       <AddNewDocument addDocument={addDocument} />
     </>
   )

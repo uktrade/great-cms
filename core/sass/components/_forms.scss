@@ -1,11 +1,11 @@
 .form {
   &--sign-up {
-    bottom:0;
-    left:0;
+    bottom: 0;
+    left: 0;
     margin: auto;
-    position:absolute;
-    right:0;
-    top:150px;
+    position: absolute;
+    right: 0;
+    top: 150px;
     width: 430px;
 
     .vertical-separator {
@@ -70,19 +70,12 @@
   .form-group-example {
     background-color: $white;
   }
+}
 
-  .button--delete {
-    position: absolute;
-    top: 0;
-    right: -50px;
-
-    &.button--only-icon {
-      border: 1px solid $colour-blue-deep-40;
-
-      i {
-        color: $colour-blue-deep-40;
-      }
-    }
+.form-delete {
+  display: flex;
+  button {
+    margin: 0 auto;
   }
 }
 

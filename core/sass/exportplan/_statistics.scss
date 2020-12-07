@@ -4,9 +4,7 @@
   display: block;
   padding: 10px 20px;
   position: relative;
-  @include tablet {
-    margin-bottom: 30px;
-  }
+  margin-bottom: 30px;
 
   .educational-moment--tooltip-container {
     margin-right: -8px;
@@ -18,7 +16,6 @@
     margin-right: 10px;
     padding: 5px 10px;
   }
-
 }
 
 .statistic__caption {
