@@ -77,6 +77,17 @@ function CompareMarkets(props) {
     )
   }
 
+  const normalisePopulationValues = (str) => {
+    if (str) {
+      var values = str.replace(/\d+(\.\d+)?/g, ($0) => {
+        return Math.round(parseFloat($0) * 10) / 10;
+      })
+      return values.split(/\(([^)]+)\)/);
+    } else {
+      return 'Data not available';
+    }
+  }
+
   let dataTable
   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
 
@@ -95,11 +106,18 @@ function CompareMarkets(props) {
             </button>
           </div>
         </td>
-        <td className="total-population">{populationCountryData ? populationCountryData.total_population : ''}</td>
-        <td className="internet-usage">{populationCountryData && populationCountryData.internet_usage ? `${populationCountryData.internet_usage.value}%` : 'NA'}</td>
-        <td className="urban-population"><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>
-        <td className="rural-population"><h1>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</h1></td>
-      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'}</td></tr>)
+        <td className="total-population" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.total_population) : ''}</td>
+        <td className="internet-usage" style={{textAlign: 'right'}}>{populationCountryData && populationCountryData.internet_usage ? `${populationCountryData.internet_usage.value}%` : 'Data not available'}</td>
+        <td className="urban-population" style={{textAlign: 'right'}}>
+          <h1>{populationCountryData ? normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[0] : ''}</h1>
+          <span className="body-m" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[1] : ''}</span>
+        </td>
+        <td className="rural-population" style={{textAlign: 'right'}}>
+          <h1>{populationCountryData ? normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[0] : ''}</h1>
+
+          <span className="body-m" style={{textAlign: 'right'}}>{populationCountryData ? normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[1] : ''}</span>
+        </td>
+      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'}</td></tr>)
     })
     dataTable = (
       <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
