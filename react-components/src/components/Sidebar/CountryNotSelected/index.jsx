@@ -35,7 +35,7 @@ export const CountryNotSelected = ({ isOpen }) => {
           content='You will need to choose a target market before you can complete this section'
           onClick={openCountryFinder}
           buttonText='Add a target market'
-          type={1}
+          type='1'
         />
       </ReactModal>
       <CountryFinderModal
