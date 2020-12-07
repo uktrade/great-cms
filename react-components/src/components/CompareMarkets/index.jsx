@@ -126,7 +126,7 @@ function CompareMarkets(props) {
       <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
         <table>
           <thead>
-            <tr>
+            <tr className="body-l-b">
               <th>&nbsp;</th>
               <th>Total Population</th>
               <th>Access to internet</th>
