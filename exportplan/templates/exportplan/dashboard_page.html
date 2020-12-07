@@ -1,3 +1,4 @@
+
 {% extends "core/base.html" %}
 
 {% load to_json %}
@@ -29,14 +30,6 @@
       <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
         <i class="fas fa-download"></i>
         <span class="body-m text-white">Save your plan as a PDF</span>
-      </button>
-      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-        <i class="fas fa-share"></i>
-        <span class="body-m text-white">Share your plan</span>
-      </button>
-      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-        <i class="fas fa-globe"></i>
-        <span class="body-m text-white">Find your target market</span>
       </button>
     </div>
   </aside>
@@ -81,7 +74,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('dashboard');
+    var element = document.getElementById('export-plan-dashboard');
     magna.createDashboard({
       element: element,
       sections: {{ sections|to_json}},

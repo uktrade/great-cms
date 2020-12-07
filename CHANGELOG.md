@@ -7,6 +7,7 @@
 ### Fixed bugs
 
 ## [1.0.0](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
@@ -39,6 +40,7 @@
 
 ### Fixed bugs
 
+- GP2-1192 - Landing page menu on right - react component updates.
 - GP2-966 - bug fix - select no values
 - No ticket Restore refresh on market change except for compare markets page
 - GP2-1158 - Verification Code modal
