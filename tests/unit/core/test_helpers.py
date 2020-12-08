@@ -384,3 +384,18 @@ def test_get_sender_ip():
 def test_get_sender_no_ip():
     request = HttpRequest()
     assert helpers.get_sender_ip_address(request) is None
+
+
+@pytest.mark.parametrize(
+    'amount,expected',
+    [
+        [12, '12.00'],
+        [1200, '1.20 thousand'],
+        [120000, '120.00 thousand'],
+        [1200000, '1.20 million'],
+        [1200000000, '1.20 billion'],
+    ],
+)
+def test_millify(amount, expected):
+    amount = helpers.millify(amount)
+    assert amount == expected

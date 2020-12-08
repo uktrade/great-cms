@@ -35,7 +35,8 @@ export const setConfig = function({
   exportPlanTargetMarketsUrl,
   signupUrl,
   populationByCountryUrl,
-  refreshOnMarketChange
+  refreshOnMarketChange,
+  apiComTradeDataUrl
 }) {
   config.countryDataUrl = countryDataUrl
   config.marketingCountryData = marketingCountryData
@@ -71,4 +72,5 @@ export const setConfig = function({
   config.signupUrl = signupUrl
   config.populationByCountryUrl = populationByCountryUrl
   config.refreshOnMarketChange = refreshOnMarketChange
+  config.apiComTradeDataUrl = apiComTradeDataUrl
 }

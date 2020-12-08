@@ -1,4 +1,4 @@
-import Signup from '@src/views/Signup/Container'
+import Signup from '@src/views/Signup/Container"
 import SignupModal from '@src/views/SignupModal/Container'
 
 import { createLogin } from '@src/views/Login'

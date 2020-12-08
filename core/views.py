@@ -1,8 +1,6 @@
 import abc
-import datetime
 import json
 import logging
-import math
 
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
@@ -11,12 +9,11 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from formtools.wizard.views import NamedUrlSessionWizardView
 from great_components.mixins import GA360Mixin
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core import cms_slugs, forms, helpers, serializers
-from core.fern import Fern
 from directory_constants import choices
 from domestic.models import DomesticDashboard
 
@@ -129,7 +126,7 @@ class TargetMarketView(GA360Mixin, TemplateView):
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
-            context['data_tabs_enabled'] = json.loads(settings.FEATURE_COMPARE_MARKETS_TABS)
+            context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
             context['dashboard_components'] = dashboard.components if dashboard else None
             context['no_refresh_on_market_change'] = True
         return context
@@ -265,49 +262,6 @@ class CompanyNameFormView(GA360Mixin, FormView):
     def form_valid(self, form):
         helpers.update_company_profile(sso_session_id=self.request.user.session_id, data=form.cleaned_data)
         return super().form_valid(form)
-
-
-class CreateTokenView(generics.GenericAPIView):
-    permission_classes = []
-
-    def get(self, request):
-        # expire access @ now() in msec + BETA_TOKEN_EXPIRATION_DAYS days
-        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=settings.BETA_TOKEN_EXPIRATION_DAYS))
-        base_url = settings.BASE_URL
-        # ability to edit target URL by using path param
-        extra_url_params = 'signup'
-        if request.GET.get('path'):
-            extra_url_params = request.GET.get('path')
-        # TODO: logging
-        # print(f'token valid until {plaintext}')
-        fern = Fern()
-        ciphertext = fern.encrypt(plaintext)
-        response = {
-            'valid_until': plaintext,
-            'token': ciphertext,
-            'CLIENT URL': f'{base_url}/{extra_url_params}?enc={ciphertext}',
-        }
-        return Response(response)
-
-
-class CheckView(generics.GenericAPIView):
-    def get(self, request):
-        try:
-            response = helpers.search_commodity_by_term(term='feta', json=False)
-            response_code = response.json()['data']['hsCode']
-            return Response(
-                {
-                    'status': status.HTTP_200_OK,
-                    'CCCE_API': {
-                        'status': status.HTTP_200_OK,
-                        'response_body': response_code,
-                        'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000),
-                    },
-                }
-            )
-        except Exception as e:
-            logger.exception(e)
-            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': response.status_code}})
 
 
 class ContactUsHelpFormView(FormView):
