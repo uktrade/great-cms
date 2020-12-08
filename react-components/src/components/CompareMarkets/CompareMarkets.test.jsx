@@ -29,7 +29,7 @@ const suggestedResponse = [
   { hs_code: 4, country_name: 'Sweden', country_iso2: 'SE', region: 'Europe' },
 ]
 
-const populationByCountryApiResponse = [
+const populationApiResponse = [
   {
     country: 'Germany',
     internet_usage: { value: '74.39', year: 2018 },
@@ -42,6 +42,54 @@ const populationByCountryApiResponse = [
   },
 ]
 
+const economyApiResponse = {
+  Germany: {
+    import_from_world: {
+      year: '2017',
+      trade_value: '21.67 thousand',
+      country_name: 'Germany',
+      year_on_year_change: '2.751',
+    },
+    import_data_from_uk: {
+      year: '2019',
+      trade_value: '135.15 thousand',
+      country_name: 'Germany',
+      year_on_year_change: '0.736',
+    },
+    country_data: {
+      consumer_price_index: {
+        country_name: 'Germany',
+        country_code: 'DEU',
+        value: '112.855',
+        year: 2019,
+      },
+      internet_usage: {
+        country_name: 'Germany',
+        country_code: 'DEU',
+        value: '89.739',
+        year: 2018,
+      },
+      corruption_perceptions_index: {
+        country_name: 'Germany',
+        country_code: 'DEU',
+        cpi_score_2019: 80,
+        rank: 9,
+      },
+      ease_of_doing_bussiness: {
+        total: 264,
+        country_name: 'Germany',
+        country_code: 'DEU',
+        year_2019: 22,
+      },
+      gdp_per_capita: {
+        country_name: 'Germany',
+        country_code: 'DEU',
+        year_2019: '46258.878',
+      },
+    },
+  },
+}
+
 beforeAll(() => {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
@@ -51,20 +99,19 @@ beforeAll(() => {
 beforeEach(() => {
   container = document.createElement('div')
   container.innerHTML =
-    '<span id="compare-market-container" data-productname="my product" data-productcode="123456" ></span>'
+    '<span id="compare-market-container" data-productname="my product" data-productcode="080450" ></span>'
   document.body.appendChild(container)
   Services.setConfig({
     csrfToken: '12345',
     apiCountriesUrl: '/api/countries/',
     apiSuggestedCountriesUrl: '/api/suggestedcountries/',
     populationByCountryUrl: '/export-plan/api/country-data/',
+    apiComTradeDataUrl: '/api/data-service/comtrade/',
   })
   countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
   fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
-  fetchMock.get(
-    /\/export-plan\/api\/country-data\//,
-    populationByCountryApiResponse
-  )
+  fetchMock.get(/\/export-plan\/api\/country-data\//, populationApiResponse)
+  fetchMock.get(/\/api\/data-service\/comtrade\//, economyApiResponse)
 })
 
 afterEach(() => {
@@ -148,6 +195,37 @@ it('Allows selection of markets and fetch data when product selected', async () 
     '28% 17.1 million'
   )
 
+  // check economy data
+  const economy_tab = container.querySelector('.tab-list-item:nth-of-type(2)')
+  expect(economy_tab.textContent).toMatch('ECONOMY')
+  act(() => {
+    Simulate.click(economy_tab)
+  })
+  await waitFor(() => {
+    const rowEconomyGermany = container.querySelector('#market-Germany')
+    expect(rowEconomyGermany.querySelector('.name').textContent).toMatch(
+      'Germany'
+    )
+    expect(
+      rowEconomyGermany.querySelector('.world-import-value').textContent
+    ).toMatch('21.67 thousand')
+    expect(
+      rowEconomyGermany.querySelector('.year-on-year-change').textContent
+    ).toMatch('2.751%')
+    expect(
+      rowEconomyGermany.querySelector('.uk-import-value').textContent
+    ).toMatch('135.15 thousand')
+    expect(rowEconomyGermany.querySelector('.gdp').textContent).toMatch(
+      '46258.9'
+    )
+    expect(rowEconomyGermany.querySelector('.avg-income').textContent).toMatch(
+      'Data not available'
+    )
+    expect(
+      rowEconomyGermany.querySelector('.eod-business').textContent
+    ).toMatch('22')
+    expect(rowEconomyGermany.querySelector('.cpi').textContent).toMatch('9')
+  })
   // remove the country
   act(() => {
     Simulate.click(container.querySelector('.market-details button'))
