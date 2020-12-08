@@ -69,11 +69,11 @@ export const Objective = ({
           <div className='c-full'>
             <hr className='hr hr--light' />
             <Input
-              id='owner'
+              id={`owner-${id}`}
               placeholder='Add an owner'
               label='Owner'
               value={data.owner}
-              onChange={onChange}
+              onChange={(item) => onChange({ owner: item[`owner-${id}`]})}
               errors={[]}
             />
           </div>

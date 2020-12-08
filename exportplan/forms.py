@@ -322,7 +322,7 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
         required=False,
         widget=NumberInput(attrs={
             'placeholder': (
-                0.00
+                '0.00'
             ),
             'currency': (
                 'GBP'
