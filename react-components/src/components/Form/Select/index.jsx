@@ -18,7 +18,8 @@ export const Select = ({
   description,
   tooltip,
   example,
-  hideLabel
+  hideLabel,
+  placeholder
 }) => {
 
   const [input, setInput] = useState(selected)
@@ -77,12 +78,13 @@ export const Select = ({
         name={label}
         readOnly
         value={input}
-        placeholder='Select one'
+        placeholder={placeholder}
         description={description}
         tooltip={tooltip}
         example={example}
         tabIndex='-1'
         hideLabel={hideLabel}
+        onChange={() => {}}
       />
       <button
         className={`select__button text-blue-deep-20 button--toggle ${isOpen ? 'select__button--close' : ''}`}
@@ -96,12 +98,12 @@ export const Select = ({
         <i className={`fas button--toggle ${isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'}`} />
       </button>
       <ul role='listbox' className={`select__list body-l bg-white radius ${isOpen ? '' : 'hidden'}`} aria-expanded={isOpen} ref={element}>
-        <li>Select one</li>
+        <li>{placeholder}</li>
         {options.map((item, i) =>
           <li
             tabIndex='0'
             className='select__list--item'
-            key={item}
+            key={item.label}
             onClick={() => selectOption(item)}
             onKeyDown={(e) => focusNext(e, i, item)}
             aria-selected={item.label === input}
@@ -119,14 +121,17 @@ Select.propTypes = {
   update: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   selected: PropTypes.string,
-  options: PropTypes.arrayOf({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  }).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
   description: PropTypes.string,
   tooltip: PropTypes.string,
   example: PropTypes.string,
   hideLabel: PropTypes.bool,
+  placeholder: PropTypes.string,
 }
 
 Select.defaultProps = {
@@ -134,5 +139,6 @@ Select.defaultProps = {
   description: '',
   tooltip: '',
   example: '',
-  hideLabel: false
+  hideLabel: false,
+  placeholder: 'Select one'
 }

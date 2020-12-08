@@ -19,22 +19,6 @@ def test_link_block():
     assert type(child_blocks['external_link']) is blocks.CharBlock
 
 
-def test_curated_topic_block():
-    assert issubclass(core_blocks.CuratedTopicBlock, blocks.StructBlock)
-    child_blocks = core_blocks.CuratedTopicBlock().child_blocks
-    assert type(child_blocks['title']) is blocks.CharBlock
-
-    assert type(child_blocks['lessons_and_placeholders']) is blocks.StreamBlock
-
-    assert type(
-        child_blocks['lessons_and_placeholders'].child_blocks['lesson']
-    ) is blocks.PageChooserBlock
-
-    assert type(
-        child_blocks['lessons_and_placeholders'].child_blocks['placeholder']
-    ) is core_blocks.LessonPlaceholderBlock
-
-
 def test_button_block():
     assert issubclass(core_blocks.ButtonBlock, blocks.StructBlock)
     child_blocks = core_blocks.ButtonBlock().child_blocks

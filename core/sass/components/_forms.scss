@@ -48,8 +48,6 @@
 }
 
 .form-table {
-  position: relative;
-  background: red;
 
   .form-label {
     @extend .body-l-b;
@@ -71,16 +69,19 @@
     background-color: $white;
   }
 
+  .button--add {
+    @include breakpoint(lg_lt) {
+      width: 100%;
+    }
+  }
+
   .button--delete {
-    position: absolute;
-    top: 0;
-    right: -50px;
 
     &.button--only-icon {
-      border: 1px solid $colour-blue-deep-40;
+      border: 2px solid $colour-blue-deep-80;
 
       i {
-        color: $colour-blue-deep-40;
+        color: $colour-blue-deep-80;
       }
     }
   }

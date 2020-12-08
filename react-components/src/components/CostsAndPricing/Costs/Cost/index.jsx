@@ -8,26 +8,32 @@ export const Cost = memo(({
   label,
   id,
   currency,
-  heading,
-  description
+  placeholder,
+  tooltip,
+  value,
+  update,
+  type
 }) => {
   return (
-    <>
-      <tr>
-        <td>
-          <Input
-            label={label}
-            id={id}
-          />
-        </td>
-        <td>
-          <span className='body-l'>{currency}</span>
-        </td>
-        <td>
-          <EducationalMomentTooltip heading={heading} description={description} id='name' type='LEFT' />
-        </td>
-      </tr>
-    </>
+    <tr>
+      <td>
+        <label className='form-label p-b-xs' htmlFor={id}>{label}</label>
+        <EducationalMomentTooltip description={tooltip} id='name' type='LEFT' />
+      </td>
+      <td>
+        <Input
+          label={label}
+          id={id}
+          hideLabel
+          type={type}
+          prepend={currency}
+          value={value}
+          onChange={(field) => update(field)}
+          placeholder={placeholder}
+
+        />
+      </td>
+    </tr>
   )
 })
 
@@ -35,6 +41,9 @@ Cost.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  heading: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  tooltip: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  update: PropTypes.func.isRequired,
 }

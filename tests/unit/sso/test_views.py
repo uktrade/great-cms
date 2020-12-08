@@ -59,6 +59,7 @@ def test_business_sso_user_create_validation_error(client):
 def test_business_sso_logout(client, requests_mock):
     cookie_jar = RequestsCookieJar()
     cookie_jar.set(settings.SSO_DISPLAY_LOGGED_IN_COOKIE, value='false', domain='.great')
+    cookie_jar.set(settings.SSO_SESSION_COOKIE, value='123', domain='.great')
     requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302, cookies=cookie_jar)
     response = client.post(reverse('sso:business-sso-logout-api'), {})
 

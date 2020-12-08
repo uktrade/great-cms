@@ -12,16 +12,15 @@ export const Objective = ({
   id,
   showSavedMessage,
   errors,
-  data
+  data,
 }) => {
-
   const onChange = (item) => {
     handleChange({
       data: {
         ...data,
         ...item,
       },
-      id
+      id,
     })
   }
 
@@ -31,71 +30,78 @@ export const Objective = ({
 
   return (
     <>
-      <div className='form-table bg-blue-deep-10 radius p-h-s'>
-        <div className='grid objective-fields'>
-          <div className='c-full'>
+      <div className="bg-blue-deep-10 radius p-h-s">
+        <div className="grid">
+          <div className="c-full">
             <TextArea
-              id='description'
-              placeholder='Add some text'
+              id="description"
+              placeholder="Add some text"
               label={`Objective ${number}`}
               value={data.description}
               onChange={onChange}
               errors={[]}
             />
-            <hr className='hr hr--light' />
+            <hr className="hr hr--light" />
           </div>
-          <div className='grid m-r-xl'>
-            <div className='c-1-2'>
+          <div className="grid">
+            <div className="c-1-2">
               <Input
-                id='start_date'
-                type='date'
-                label='Start date'
+                id="start_date"
+                type="date"
+                label="Start date"
                 value={data.start_date}
                 onChange={onChange}
                 errors={[]}
               />
             </div>
-            <div className='c-1-2'>
+            <div className="c-1-2">
               <Input
-                id='end_date'
-                type='date'
-                label='End date'
+                id="end_date"
+                type="date"
+                label="End date"
                 value={data.end_date}
                 onChange={onChange}
                 errors={[]}
               />
             </div>
           </div>
-          <div className='c-full'>
-            <hr className='hr hr--light' />
+          <div className="c-full">
+            <hr className="hr hr--light" />
             <Input
-              id='owner'
-              placeholder='Add an owner'
-              label='Owner'
+              id={`owner-${id}`}
+              placeholder="Add an owner"
+              label="Owner"
               value={data.owner}
-              onChange={onChange}
+              onChange={(item) => onChange({ owner: item[`owner-${id}`] })}
               errors={[]}
             />
           </div>
-          <div className='c-full'>
-            <hr className='hr hr--light' />
+          <div className="c-full">
+            <hr className="hr hr--light" />
             <TextArea
-              id='planned_reviews'
-              placeholder='Add some text'
-              label='Planned reviews'
+              id="planned_reviews"
+              placeholder="Add some text"
+              label="Planned reviews"
               value={data.planned_reviews}
               onChange={onChange}
               errors={[]}
             />
           </div>
         </div>
-        <button type='button' className='button--only-icon button--small button--delete text-blue-deep-40' onClick={onDelete}>
-          <i className='fas fa-trash-alt' />
-        </button>
+        <div className="text-center">
+          <hr className="hr hr--light" />
+          <button
+            type="button"
+            className="button--only-icon button button--small button--delete bg-white m-v-xs"
+            onClick={onDelete}
+          >
+            <i className="fas fa-trash-alt" />
+          </button>
+        </div>
       </div>
-      {showSavedMessage && <p id='objective-saved-message'>Changes saved.</p>}
+      {showSavedMessage && <p id="objective-saved-message">Changes saved.</p>}
       <ErrorList errors={errors.__all__ || []} />
-      <hr/>
+      <hr />
     </>
   )
 }
@@ -117,10 +123,10 @@ Objective.propTypes = {
     end_date: PropTypes.string,
     companyexportplan: PropTypes.number.isRequired,
     pk: PropTypes.number.isRequired,
-  }).isRequired
+  }).isRequired,
 }
 
 Objective.defaultProps = {
-  errors: {__all__: []},
+  errors: { __all__: [] },
   showSavedMessage: false,
 }

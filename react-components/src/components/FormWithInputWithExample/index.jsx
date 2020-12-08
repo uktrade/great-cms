@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Subject } from 'rxjs'
-import { debounceTime, delay } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators'
 
 import ErrorList from '@src/components/ErrorList'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
+import { Input } from '@src/components/Form/Input'
 import Services from '@src/Services'
 import Spinner from '@src/components/Spinner/Spinner'
 import { analytics, sectionQuestionMapping } from '@src/Helpers'
-
 
 export class FormWithInputWithExample extends Component {
   constructor(props) {
@@ -28,16 +28,16 @@ export class FormWithInputWithExample extends Component {
 
     const saveInput$ = this.inputToSave$.pipe(debounceTime(1000 * 2))
 
-    saveInput$.subscribe(data => {
+    saveInput$.subscribe((data) => {
       this.setState({ isLoading: true }, () => {
         Services.updateExportPlan(this.formatData(data))
           .then(this.handleUpdateSuccess)
           .then(() => {
-           const currentItem = this.state.currentChangeFormField
+            const currentItem = this.state.currentChangeFormField
             analytics({
-              'event': 'planSectionSaved',
-              'sectionTitle': this.props.field.replace(/_/g,'-'),
-              'sectionFormField': sectionQuestionMapping[currentItem]
+              event: 'planSectionSaved',
+              sectionTitle: this.props.field.replace(/_/g, '-'),
+              sectionFormField: sectionQuestionMapping[currentItem],
             })
           })
           .catch(this.handleUpdateError)
@@ -54,7 +54,7 @@ export class FormWithInputWithExample extends Component {
   }
 
   formatData(data) {
-    return { [this.props.field] : data }
+    return { [this.props.field]: data }
   }
 
   bindEvents() {
@@ -67,7 +67,7 @@ export class FormWithInputWithExample extends Component {
     this.setState({
       isLoading: false,
       showSavedMessage: true,
-      errors: {}
+      errors: {},
     })
   }
 
@@ -82,21 +82,21 @@ export class FormWithInputWithExample extends Component {
     const { formData } = this.state
     const data = {
       ...formData,
-      ...e
+      ...e,
     }
     this.setState({ formData: data }, () => {
       this.inputToSave$.next(data)
     })
-    this.setState( { currentChangeFormField: Object.keys(e)[0]})
+    this.setState({ currentChangeFormField: Object.keys(e)[0] })
   }
 
   render() {
     const { formFields } = this.props
     const { formData, isLoading, showSavedMessage, errors } = this.state
 
-    let saveIndicator;
+    let saveIndicator
     if (isLoading) {
-      saveIndicator = <Spinner text="Saving..."/>
+      saveIndicator = <Spinner text="Saving..." />
     } else if (showSavedMessage) {
       saveIndicator = 'Changes saved.'
     } else {
@@ -105,19 +105,36 @@ export class FormWithInputWithExample extends Component {
 
     return (
       <>
-        {formFields.map(field => (
-          field.field_type === 'Select' ?
+        {formFields.map((field) =>
+          field.field_type === 'Select' ? (
             <Select
               key={field.name}
               label={field.label}
               update={this.handleChange}
               name={field.name}
               options={field.choices}
-              selected={formData[field.name] ? field.choices.find(x => x.value === formData[field.name]).label: ''}
+              selected={
+                formData[field.name]
+                  ? field.choices.find((x) => x.value === formData[field.name])
+                      .label
+                  : ''
+              }
               example={field.example}
               description={field.description}
               tooltip={field.tooltip}
-            />:
+            />
+          ) : field.field_type === 'NumberInput' ? (
+            <Input
+              id={field.name}
+              key={field.name}
+              label={field.label}
+              prepend={field.currency ? field.currency : null}
+              placeholder={field.placeholder}
+              onChange={this.handleChange}
+              value={formData[field.name]}
+              type="number"
+            />
+          ) : (
             <TextArea
               key={field.name}
               tooltip={field.tooltip}
@@ -131,7 +148,8 @@ export class FormWithInputWithExample extends Component {
               tag={Number.isInteger(field.placeholder) ? 'number' : 'text'}
               onChange={this.handleChange}
             />
-        ))}
+          )
+        )}
         {saveIndicator}
         <ErrorList errors={errors.__all__ || []} className="m-0" />
       </>
@@ -140,12 +158,16 @@ export class FormWithInputWithExample extends Component {
 }
 
 FormWithInputWithExample.propTypes = {
-  formFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
-    field_type: PropTypes.string.isRequired
-  })).isRequired,
+  formFields: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      placeholder: PropTypes.string.isRequired,
+      field_type: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   field: PropTypes.string.isRequired,
-  formData: PropTypes.objectOf(PropTypes.string).isRequired,
+  formData: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
 }
