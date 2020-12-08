@@ -6,6 +6,18 @@
 
 ### Fixed bugs
 
+- GP2-1192 - Landing page menu on right - react component updates.
+
+## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.0.0...1.0.1)
+
+### Implemented enhancements
+
+### Fixed bugs
+
+- GP2-1158 - Verification Code modal
+
 ## [1.0.0](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
@@ -13,6 +25,7 @@
 ### Implemented enhancements
 
 - GP2-1059 - Prettier config
+- GP2-1093 - Enhancements to Target Market service population table
 - GP2-1145 - Export plan landing page responsive retrofit
 - GP2-1124 - Average price prepend for NumberInput
 - GP2-1063 - Bumped direction-api-client and updated suggested countries helper method
@@ -40,7 +53,6 @@
 
 ### Fixed bugs
 
-- GP2-1192 - Landing page menu on right - react component updates.
 - GP2-966 - bug fix - select no values
 - No ticket Restore refresh on market change except for compare markets page
 - GP2-1158 - Verification Code modal
