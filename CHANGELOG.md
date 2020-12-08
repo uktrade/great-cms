@@ -6,8 +6,10 @@
 
 ### Fixed bugs
 
+- GP2-1192 - Landing page menu on right - react component updates.
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.0.0...1.0.1)
 
 ### Implemented enhancements
@@ -17,6 +19,7 @@
 - GP2-1158 - Verification Code modal
 
 ## [1.0.0](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
