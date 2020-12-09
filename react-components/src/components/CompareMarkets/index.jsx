@@ -160,7 +160,7 @@ function CompareMarkets(props) {
           &nbsp;CC BY 3.0 IGO. Urban and Rural Populations:&nbsp;
           <a href="https://population.un.org/wup/Download/">United Nations</a>
           &nbsp;CC BY 3.0 IGO. ICT Indicators Edition 2019/2:&nbsp;
-          <a href="https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en#:~:text=The%20World%20Telecommunication%2FICT%20Indicators,source%20for%20global%20ICT%20statistics.">ITU (2020)</a>
+          <a href="https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en">ITU (2020)</a>
         </p>
         {triggerButton}
       </div>

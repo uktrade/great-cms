@@ -65867,7 +65867,7 @@ function CompareMarkets(props) {
     }, "United Nations"), "\xA0CC BY 3.0 IGO. Urban and Rural Populations:\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       href: "https://population.un.org/wup/Download/"
     }, "United Nations"), "\xA0CC BY 3.0 IGO. ICT Indicators Edition 2019/2:\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en#:~:text=The%20World%20Telecommunication%2FICT%20Indicators,source%20for%20global%20ICT%20statistics."
+      href: "https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en"
     }, "ITU (2020)")), triggerButton);
   } else {
     dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
