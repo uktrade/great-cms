@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 
+- GP2-1029 - Population data sources attributions and links
+
 ### Fixed bugs
 
 - GP2-1192 - Landing page menu on right - react component updates.
