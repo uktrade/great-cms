@@ -155,6 +155,13 @@ function CompareMarkets(props) {
             {tableBody}
           </tbody>
         </table>
+        <p className="body-s">
+          Population data: <a href="https://population.un.org/wpp/Download/Standard/Population/">United Nations</a>
+          &nbsp;CC BY 3.0 IGO. Urban and Rural Populations:&nbsp;
+          <a href="https://population.un.org/wup/Download/">United Nations</a>
+          &nbsp;CC BY 3.0 IGO. ICT Indicators Edition 2019/2:&nbsp;
+          <a href="https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en">ITU (2020)</a>
+        </p>
         {triggerButton}
       </div>
     )
