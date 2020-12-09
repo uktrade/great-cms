@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 
+- GP2-1111 - EP responsive marketing approach changes
+
 ### Fixed bugs
 
 - GP2-1192 - Landing page menu on right - react component updates.
