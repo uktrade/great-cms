@@ -339,6 +339,7 @@ class ExportPlanMarketingApproachForm(forms.Form):
             ),
             'tooltip': (
                 'What marketing resources do you need tooltip'
-            ),},
-        ),
-    )
+            ),
+        },
+    ),
+),
