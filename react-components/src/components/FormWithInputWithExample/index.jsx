@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable import/prefer-default-export */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -115,7 +113,12 @@ export class FormWithInputWithExample extends Component {
               update={this.handleChange}
               name={field.name}
               options={field.choices}
-              selected={formData[field.name] ? field.choices.find((x) => x.value === formData[field.name]).label : ''}
+              selected={
+                formData[field.name]
+                  ? field.choices.find((x) => x.value === formData[field.name])
+                      .label
+                  : ''
+              }
               example={field.example}
               description={field.description}
               tooltip={field.tooltip}
@@ -164,8 +167,7 @@ FormWithInputWithExample.propTypes = {
     })
   ).isRequired,
   field: PropTypes.string.isRequired,
-  formData: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
+  formData: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
 }

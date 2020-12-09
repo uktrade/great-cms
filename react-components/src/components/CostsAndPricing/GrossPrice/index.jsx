@@ -57,14 +57,14 @@ export const GrossPrice = memo(({
       </div>
     </div>
     <div className='grid'>
-      <div className='c-1-2'>
+      <div className='c-1-2 m-b-s'>
         <div className='bg-white radius p-xs'>
           <i className='fas fa-pound-sign text-blue-deep-60 fa-lg' />
           <p className='m-t-xxs m-b-0'>Your profit per unit</p>
           <h3 className='h-s p-t-0 p-b-0'>{currency} {profitPerUnit}</h3>
         </div>
       </div>
-      <div className='c-1-2'>
+      <div className='c-1-2 m-b-s'>
         <div className='bg-white radius p-xs'>
           <i className='fas fa-pound-sign text-blue-deep-60 fa-lg' />
           <p className='m-t-xxs m-b-0'>Your potential per unit</p>
