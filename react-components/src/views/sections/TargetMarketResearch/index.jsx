@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
+import { FormElements } from '@src/components/FormElements'
 import { DataSnapShot } from '@src/components/DataSnapShot'
 
 export const createTargetMarketResearchForm = ({ element, ...params }) => {
-  ReactDOM.render(<FormWithInputWithExample {...params} />, element)
+  ReactDOM.render(<FormElements {...params} />, element)
 }
 
 export const createDataSnapShot = ({ element, ...params }) => {

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
+import { FormElements } from '@src/components/FormElements'
 
 export const AdaptToTargetMarketForm = (params) => (
   <div className='target-market-form'>
-    <FormWithInputWithExample {...params} />
+    <FormElements {...params} />
   </div>
 )
