@@ -1,8 +1,6 @@
 from django import template
 from django.forms.utils import flatatt
-
-from django.utils.html import format_html_join, format_html
-
+from django.utils.html import format_html, format_html_join
 
 register = template.Library()
 

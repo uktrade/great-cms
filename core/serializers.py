@@ -1,7 +1,7 @@
 from datetime import datetime
+
 import markdown2
 from bs4 import BeautifulSoup
-
 from django.utils.text import Truncator
 from rest_framework import serializers
 
@@ -40,20 +40,17 @@ def parse_opportunities(results):
             'source': result['source'],
             'url': result['url'],
             'published_date': _date_format(result['published_date']),
-            'closing_date': _date_format(result['closing_date'])
+            'closing_date': _date_format(result['closing_date']),
         }
         for result in results
     ]
 
 
 def parse_events(results):
-
     def description(result):
         content = result.get('content', '')
         html = markdown2.markdown(content)
-        stripped_content = ''.join(
-            BeautifulSoup(html, 'html.parser').findAll(text=True)
-        ).rstrip()
+        stripped_content = ''.join(BeautifulSoup(html, 'html.parser').findAll(text=True)).rstrip()
         return Truncator(stripped_content).chars(40)
 
     def location(result):
@@ -74,7 +71,7 @@ def parse_events(results):
             'description': description(result),
             'url': result['url'],
             'location': location(result),
-            'date': date(result)
+            'date': date(result),
         }
         for result in results
     ]

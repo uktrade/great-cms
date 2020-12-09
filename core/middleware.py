@@ -1,22 +1,18 @@
-import os
 import logging
-
+import os
 from datetime import datetime
 
+import jsonschema as jsonschema
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
-
 from great_components.mixins import GA360Mixin
-
-from core import helpers
-from sso.models import BusinessSSOUser
-from core.fern import Fern
-
-import jsonschema as jsonschema
 from jsonschema import ValidationError
 
+from core import helpers
+from core.fern import Fern
+from sso.models import BusinessSSOUser
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +40,6 @@ class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):
 
 
 class StoreUserExpertiseMiddleware(MiddlewareMixin):
-
     def should_set_product_expertise(self, request):
         if request.user.is_anonymous or 'remember-expertise-products-services' not in request.GET:
             return False
@@ -63,10 +58,7 @@ class StoreUserExpertiseMiddleware(MiddlewareMixin):
             hs_codes = request.GET.getlist('hs_codes')
             helpers.update_company_profile(
                 sso_session_id=request.user.session_id,
-                data={
-                    'expertise_products_services': {'other': products},
-                    'hs_codes': hs_codes
-                }
+                data={'expertise_products_services': {'other': products}, 'hs_codes': hs_codes},
             )
             # invalidating the cached property
             try:
@@ -82,12 +74,14 @@ def test_not_beta_access() -> bool:
         current_test = os.environ['PYTEST_CURRENT_TEST']
     else:
         current_test = ''
-    for test_name in ['test_create_api_token',
-                      'test_auth_with_url',
-                      'test_auth_with_cookie',
-                      'test_bad_auth_with_url',
-                      'test_bad_auth_with_cookie',
-                      'test_bad_auth_with_enc_token']:
+    for test_name in [
+        'test_create_api_token',
+        'test_auth_with_url',
+        'test_auth_with_cookie',
+        'test_bad_auth_with_url',
+        'test_bad_auth_with_cookie',
+        'test_bad_auth_with_enc_token',
+    ]:
         if current_test.find(test_name) != -1:
             return False
     return True
@@ -152,9 +146,11 @@ class TimedAccessMiddleware(MiddlewareMixin):
         # user has a cookie
         if beta_user_timestamp_enc is not None:
             beta_user_timestamp = self.decrypt(beta_user_timestamp_enc)
-            return self.compare_date(response=response,
-                                     date_time_obj=datetime.strptime(beta_user_timestamp, '%Y-%m-%d %H:%M:%S.%f'),
-                                     encrypted_token=beta_user_timestamp_enc)
+            return self.compare_date(
+                response=response,
+                date_time_obj=datetime.strptime(beta_user_timestamp, '%Y-%m-%d %H:%M:%S.%f'),
+                encrypted_token=beta_user_timestamp_enc,
+            )
 
     @staticmethod
     def decrypt(ciphertext):
@@ -186,10 +182,12 @@ class CheckGATags(MiddlewareMixin):
             return response
         context_data = response.context_data
         if 'ga360' not in context_data:
-            logger.error('No Google Analytics data found on the response. '
-                         'You should either set this using the GA360Mixin, '
-                         "or use the 'skip_ga360' decorator to indicate that this page "
-                         'does not require analytics')
+            logger.error(
+                'No Google Analytics data found on the response. '
+                'You should either set this using the GA360Mixin, '
+                "or use the 'skip_ga360' decorator to indicate that this page "
+                'does not require analytics'
+            )
             return response
 
         ga_data = context_data['ga360']
@@ -198,7 +196,8 @@ class CheckGATags(MiddlewareMixin):
         except ValidationError as exception:
             raise GADataMissingException(
                 'A field required for Google Analytics is missing or has '
-                'the incorrect type. Details: %s' % exception.message)
+                'the incorrect type. Details: %s' % exception.message
+            )
 
         return response
 
@@ -223,5 +222,5 @@ ga_schema = {
         'login_status',
         'site_language',
         'user_id',
-    ]
+    ],
 }

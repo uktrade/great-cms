@@ -1,12 +1,14 @@
+from django.core.exceptions import ObjectDoesNotExist
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
-from django.core.exceptions import ObjectDoesNotExist
 from core import models
 from core.constants import RICHTEXT_FEATURES__MINIMAL
-
-from core.utils import get_personalised_case_study_orm_filter_args, get_personalised_choices
+from core.utils import (
+    get_personalised_case_study_orm_filter_args,
+    get_personalised_choices,
+)
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -32,9 +34,7 @@ class LessonPlaceholderBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=255)
 
     class Meta:
-        help_text = (
-            'Placeholder block for a lesson which will be shown as "Coming Soon"'
-        )
+        help_text = 'Placeholder block for a lesson which will be shown as "Coming Soon"'
         icon = 'fa-expand'
         template = 'learn/_lesson_placeholder.html'
 
@@ -43,6 +43,7 @@ class LinkStructValue(blocks.StructValue):
     """
     Generates a URL for blocks with multiple link choices.
     """
+
     @property
     def url(self):
         page = self.get('internal_link')
@@ -112,11 +113,14 @@ class ButtonBlock(blocks.StructBlock):
 
 class RouteSectionBlock(blocks.StructBlock):
     # One of the three intro blocks at the top of the domestic dashboard
-    route_type = blocks.ChoiceBlock(choices=[
-        ('learn', 'Learning'),
-        ('plan', 'Export plan'),
-        ('target', 'Target market'),
-    ], icon='redirect')
+    route_type = blocks.ChoiceBlock(
+        choices=[
+            ('learn', 'Learning'),
+            ('plan', 'Export plan'),
+            ('target', 'Target market'),
+        ],
+        icon='redirect',
+    )
     title = blocks.CharBlock(max_length=255)
     body = blocks.TextBlock(max_length=4096)
     image = ImageChooserBlock()
@@ -141,7 +145,7 @@ class SidebarLinkBlock(blocks.StructBlock):
             value['target_title'] = internal_link.title
             # If it's a detail page, get the read duration
             if isinstance(internal_link.specific, models.DetailPage):
-                detail_page = (internal_link.specific.__class__.objects.get(id=internal_link.id))
+                detail_page = internal_link.specific.__class__.objects.get(id=internal_link.id)
                 value['read_time'] = getattr(detail_page, 'estimated_read_duration')
         except (ObjectDoesNotExist, KeyError, TypeError, AttributeError):
             pass
@@ -179,7 +183,6 @@ class SectionBlock(blocks.StreamBlock):
 
 
 class ModularContentStaticBlock(blocks.StaticBlock):
-
     class Meta:
         admin_text = 'Content modules will be automatically displayed, no configuration needed.'
         icon = 'fa-archive'
@@ -220,16 +223,12 @@ class ChooseDoNotChooseBlock(blocks.StructBlock):
     do_not_choose_body = blocks.RichTextBlock(features=RICHTEXT_FEATURES__MINIMAL)
 
     class Meta:
-        help_text = (
-            'A pair of custom rich-text areas with titles, '
-            'one for Choose and the other for Do Not Choose'
-        )
+        help_text = 'A pair of custom rich-text areas with titles, one for Choose and the other for Do Not Choose'
         icon = 'fa-question-circle'
         template = 'learn/choose_do_not_choose.html'
 
 
 class CaseStudyStaticBlock(blocks.StaticBlock):
-
     class Meta:
         admin_text = (
             'Case Studies are automatically displayed based on '
@@ -248,11 +247,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
 
         hs_code, country, region = get_personalised_choices(context['export_plan'])
 
-        filter_args = get_personalised_case_study_orm_filter_args(
-            hs_code=hs_code,
-            country=country,
-            region=region
-        )
+        filter_args = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
         queryset = models.CaseStudy.objects.all()
         for filter_arg in filter_args:
             case_study = queryset.filter(**filter_arg)
@@ -263,9 +258,6 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         return context
 
     def get_context(self, value, parent_context=None):
-        context = super().get_context(
-            value,
-            parent_context=parent_context
-        )
+        context = super().get_context(value, parent_context=parent_context)
         context = self._annotate_with_case_study(context)
         return context
