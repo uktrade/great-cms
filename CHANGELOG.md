@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1111 - EP responsive marketing approach changes
 - GP2-1029 - Population data sources attributions and links
 
 ### Fixed bugs

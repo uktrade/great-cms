@@ -1,3 +1,5 @@
+/* eslint-disable react/no-danger */
+
 import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
