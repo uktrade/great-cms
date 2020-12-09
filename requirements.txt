@@ -13,7 +13,7 @@ babel==2.9.0              # via sphinx
 beautifulsoup4==4.8.2     # via great-components, readtime, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
-certifi==2020.11.8        # via requests, sentry-sdk
+certifi==2020.12.5        # via requests, sentry-sdk
 cffi==1.14.4              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==3.2         # via -r requirements.in
@@ -43,7 +43,7 @@ docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
 et-xmlfile==1.0.1         # via openpyxl
 factory-boy==2.12.0       # via -r requirements.in, wagtail-factories
-faker==4.18.0             # via factory-boy
+faker==5.0.1              # via factory-boy
 freezegun==0.1.5          # via -r requirements.in
 geoip2==2.9.0             # via -r requirements.in
 great-components==1.1.1   # via -r requirements.in
@@ -72,7 +72,7 @@ pillow==7.2.0             # via -r requirements.in, directory-validators, wagtai
 psycopg2==2.8.6           # via -r requirements.in
 pycountry==20.7.3         # via wagtail-personalisation
 pycparser==2.20           # via cffi
-pygments==2.7.2           # via sphinx
+pygments==2.7.3           # via sphinx
 pyparsing==2.4.7          # via packaging
 pyquery==1.4.3            # via readtime
 pyrsistent==0.17.3        # via jsonschema
@@ -92,7 +92,7 @@ sphinx==1.8.5             # via -r requirements.in
 sphinxcontrib-serializinghtml==1.1.4  # via sphinxcontrib-websupport
 sphinxcontrib-websupport==1.2.4  # via sphinx
 sqlparse==0.4.1           # via django
-tablib[xls,xlsx]==2.0.0   # via wagtail
+tablib[xls,xlsx]==3.0.0   # via wagtail
 text-unidecode==1.3       # via faker
 ua-parser==0.10.0         # via user-agents
 unidecode==1.1.1          # via wagtail
