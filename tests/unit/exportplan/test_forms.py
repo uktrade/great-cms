@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from django.urls import reverse
 
 from exportplan import forms, helpers
@@ -28,13 +29,15 @@ def target_markets_research_data():
 
 @pytest.fixture
 def objectives_form_data():
-    return {'objectives': {'rationale': 'Lorem ipsum', }}
+    return {
+        'objectives': {
+            'rationale': 'Lorem ipsum',
+        }
+    }
 
 
 def test_about_your_business_form_valid(about_your_business_form_data):
-    form = forms.ExportPlanAboutYourBusinessForm(
-        data=about_your_business_form_data
-    )
+    form = forms.ExportPlanAboutYourBusinessForm(data=about_your_business_form_data)
     assert form.is_valid()
 
 
@@ -61,9 +64,7 @@ def test_about_your_business_form_empty_fields():
 
 
 def test_target_markets_research_form_valid(target_markets_research_data):
-    form = forms.ExportPlanAboutYourBusinessForm(
-        data=target_markets_research_data
-    )
+    form = forms.ExportPlanAboutYourBusinessForm(data=target_markets_research_data)
     assert form.is_valid()
 
 
@@ -121,16 +122,12 @@ def test_market_markets_research_form_view(mock_get_export_plan, target_markets_
 
 
 def test_objectives_form_valid(objectives_form_data):
-    form = forms.ExportPlanBusinessObjectivesForm(
-        data=objectives_form_data
-    )
+    form = forms.ExportPlanBusinessObjectivesForm(data=objectives_form_data)
     assert form.is_valid()
 
 
 def test_objectives_form_missing_fields():
-    form = forms.ExportPlanBusinessObjectivesForm(
-        data={}
-    )
+    form = forms.ExportPlanBusinessObjectivesForm(data={})
     assert form.is_valid()
 
 
