@@ -155,7 +155,7 @@ function CompareMarkets(props) {
             {tableBody}
           </tbody>
         </table>
-        <p className="body-s">
+        <p className="source-attribution body-s">
           Population data: <a href="https://population.un.org/wpp/Download/Standard/Population/">United Nations</a>
           &nbsp;CC BY 3.0 IGO. Urban and Rural Populations:&nbsp;
           <a href="https://population.un.org/wup/Download/">United Nations</a>
