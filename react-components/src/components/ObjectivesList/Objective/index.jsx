@@ -1,9 +1,10 @@
+/* eslint-disable import/prefer-default-export */
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ErrorList from '../../ErrorList'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Input } from '@src/components/Form/Input'
+import ErrorList from '../../ErrorList'
 
 export const Objective = ({
   handleChange,

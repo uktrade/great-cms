@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
