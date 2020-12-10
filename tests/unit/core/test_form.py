@@ -17,7 +17,8 @@ def test_contact_us_form_empty_fields():
         'given_name': ['This field is required.'],
         'family_name': ['This field is required.'],
         'email': ['This field is required.'],
-        'terms_agreed': ['This field is required.']}
+        'terms_agreed': ['This field is required.'],
+    }
 
 
 def test_contact_us_form_non_empty_fields():

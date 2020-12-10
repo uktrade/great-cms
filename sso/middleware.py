@@ -1,17 +1,14 @@
-from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
-
 from django.conf import settings
-
 from django.contrib import auth
 from django.contrib.auth.middleware import (
-    AuthenticationMiddleware as DjangoAuthenticationMiddleware
+    AuthenticationMiddleware as DjangoAuthenticationMiddleware,
 )
 from django.http import HttpResponseRedirect
 from django.urls import resolve, reverse
+from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
 
 
 class AuthenticationMiddleware(DjangoAuthenticationMiddleware):
-
     def process_request(self, request):
         try:
             user = auth.authenticate(request)
@@ -19,7 +16,8 @@ class AuthenticationMiddleware(DjangoAuthenticationMiddleware):
             resolver_match = resolve(request.path)
             if (
                 # Covers Django admin
-                resolver_match and resolver_match.namespace == 'admin'
+                resolver_match
+                and resolver_match.namespace == 'admin'
             ):
                 return HttpResponseRedirect(reverse('admin:index'))
             elif (

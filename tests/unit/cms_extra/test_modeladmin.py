@@ -2,7 +2,6 @@ from unittest import mock
 
 import pytest
 
-
 from cms_extras.modeladmin import CaseStudyAdmin, CaseStudyAdminButtonHelper
 from core.models import CaseStudy
 from tests.unit.core import factories
@@ -25,11 +24,7 @@ def test_casestudyadminbuttonhelper(rf, django_user_model):
 
     obj = factories.CaseStudyFactory()
 
-    user = django_user_model.objects.create_user(
-        username='username',
-        password='password',
-        is_staff=True
-    )
+    user = django_user_model.objects.create_user(username='username', password='password', is_staff=True)
 
     mock_request = rf.get('/')
     mock_request.user = user
@@ -51,28 +46,18 @@ def test_casestudyadminbuttonhelper(rf, django_user_model):
     }
 
     assert helper.get_buttons_for_obj(obj) == [
-        {
-            'classname': 'button',
-            'label': 'Inspect',
-            'title': 'Inspect this case study',
-            'url': '/admin/mock-url/path/'
-        },
-        {
-            'classname': 'button',
-            'label': 'Edit',
-            'title': 'Edit this case study',
-            'url': '/admin/mock-url/path/'
-        },
+        {'classname': 'button', 'label': 'Inspect', 'title': 'Inspect this case study', 'url': '/admin/mock-url/path/'},
+        {'classname': 'button', 'label': 'Edit', 'title': 'Edit this case study', 'url': '/admin/mock-url/path/'},
         {
             'classname': 'button no',
             'label': 'Delete',
             'title': 'Delete this case study',
-            'url': '/admin/mock-url/path/'
+            'url': '/admin/mock-url/path/',
         },
         {
             'classname': 'button button-small icon icon-doc',
             'label': 'View case study',
             'title': 'View case study',
-            'url': f'/admin/cms-extras/case-study/{obj.id}/'
+            'url': f'/admin/cms-extras/case-study/{obj.id}/',
         },
     ]

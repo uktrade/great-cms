@@ -1,14 +1,13 @@
-import pytest
 from io import StringIO
+
+import pytest
 from django.core.management import call_command
 
 from core import models
 
 
 @pytest.mark.django_db
-def test_create_tours(
-    client, domestic_homepage, exportplan_dashboard, domestic_site, user, mock_get_company_profile
-):
+def test_create_tours(client, domestic_homepage, exportplan_dashboard, domestic_site, user, mock_get_company_profile):
     mock_get_company_profile.return_value = {'name': 'Example company'}
 
     call_command('create_tours', stdout=StringIO())

@@ -1,12 +1,10 @@
 from django.contrib.auth.models import AbstractUser
-
 from django.db import models
 from django.utils.functional import cached_property
 
 from core.helpers import CompanyParser
-
-from sso import helpers
 from exportplan.helpers import get_exportplan
+from sso import helpers
 
 
 class BusinessSSOUser(AbstractUser):
