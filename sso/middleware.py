@@ -14,16 +14,11 @@ class AuthenticationMiddleware(DjangoAuthenticationMiddleware):
             user = auth.authenticate(request)
         except TokenExpiredError:
             resolver_match = resolve(request.path)
-            if (
+            if resolver_match and resolver_match.namespace == 'admin':
                 # Covers Django admin
-                resolver_match
-                and resolver_match.namespace == 'admin'
-            ):
                 return HttpResponseRedirect(reverse('admin:index'))
-            elif (
+            elif request.path_info.startswith('/admin/'):
                 # Covers our use of Wagtail admin
-                request.path_info.startswith('/admin/')
-            ):
                 return HttpResponseRedirect(settings.LOGIN_URL)
             else:
                 return HttpResponseRedirect(settings.WAGTAIL_FRONTEND_LOGIN_URL)

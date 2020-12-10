@@ -357,7 +357,10 @@ def test_dashboard_apis_ok(
                         'results': [
                             {
                                 'title': 'French sardines required',
-                                'url': 'http://exops.trade.great:3001/export-opportunities/opportunities/french-sardines-required',
+                                'url': (
+                                    'http://exops.trade.great:3001/export-opportunities/'
+                                    'opportunities/french-sardines-required'
+                                ),
                                 'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
                                 'published_date': '2020-01-14T15:26:45.334Z',
                                 'closing_date': '2020-06-06',

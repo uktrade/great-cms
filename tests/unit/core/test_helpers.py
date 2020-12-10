@@ -269,18 +269,18 @@ def test_get_module_completion_progress():
         'module_pages': [clp_1_completion_data, clp_2_completion_data],
     }
 
-    assert (
-        helpers.get_module_completion_progress(mock_get_lesson_completion_status_return_value, clp_2)
-        == clp_2_completion_data
+    assert clp_2_completion_data == helpers.get_module_completion_progress(
+        mock_get_lesson_completion_status_return_value,
+        clp_2,
     )
 
-    assert (
-        helpers.get_module_completion_progress(mock_get_lesson_completion_status_return_value, clp_1)
-        == clp_1_completion_data
+    assert clp_1_completion_data == helpers.get_module_completion_progress(
+        mock_get_lesson_completion_status_return_value, clp_1
     )
 
-    assert (
-        helpers.get_module_completion_progress(mock_get_lesson_completion_status_return_value, clp_3) == {}
+    assert {} == helpers.get_module_completion_progress(
+        mock_get_lesson_completion_status_return_value,
+        clp_3,
     )  # ie, no match
 
 
