@@ -5,16 +5,21 @@
 
 {% block content_header %}
     <div class="bg-blue-deep-10">
-        <div class="bg-blue-deep-80 sign-up--header {% block header_class %}{% endblock %}">
-            <img class="m-f-auto m-r-auto auto p-t-m" src="{% static 'images/logo.svg' %}" alt="Exporting is Great" id="header-logo-exporting-is-great" width="135">
-            <div class="sign-up--wrapper">
-                <div class='form--sign-up text-16'>
-                    <div class='sign-up--inner bg-white p-v-s p-h-s'>
-                            {% block inner_content %}<div id="sign-up"></div>{% endblock %}
-                    </div>
-                    <p class='g-panel'>For any questions, queries or feedback please get in touch with <a class='text-red-80' href="mailto:{{ great_support_email }}" target="_blank" rel="noopener noreferrer">{{ great_support_email }}</a></p>
-                </div>
+      <div class="bg-blue-deep-80 sign-up--header {% block header_class %}{% endblock %}">
+        <img class="m-f-auto m-r-auto auto p-t-m" src="{% static 'images/logo.svg' %}" alt="Exporting is Great"
+          id="header-logo-exporting-is-great" width="135">
+        <div class="sign-up--wrapper">
+          <div class='form--sign-up text-16'>
+            <div class='sign-up--inner bg-white p-v-s p-h-s'>
+              {% block inner_content %}<div id="sign-up"></div>{% endblock %}
             </div>
+            <p class='g-panel'>For any questions, queries or feedback please get in touch with <a class='text-red-80'
+                href="mailto:{{ great_support_email }}" target="_blank"
+                rel="noopener noreferrer">{{ great_support_email }}</a></p>
+          </div>
         </div>
+      </div>
     </div>
 {% endblock %}
+
+{% block body_footer %}{% endblock %}
