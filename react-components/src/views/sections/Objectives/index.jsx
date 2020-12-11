@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
+import { FormElements } from '@src/components/FormElements'
 import { ObjectivesList } from '@src/components/ObjectivesList'
 
 export const createObjectivesReasons = ({ element, ...params }) => {
-  ReactDOM.render(<FormWithInputWithExample {...params} />, element)
+  ReactDOM.render(<FormElements {...params} />, element)
 }
 
 export const createObjectivesList = ({ element, ...params }) => {
