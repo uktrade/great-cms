@@ -1,22 +1,16 @@
 from django.conf import settings
 from django.db import models
-
-from core import mixins
-
-from wagtail.core.models import Page
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.images import get_image_model_string
-
 from great_components.mixins import GA360Mixin
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Page
+from wagtail.images import get_image_model_string
+from wagtail.images.edit_handlers import ImageChooserPanel
 
-from core import blocks as core_blocks
+from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
 from core.models import CMSGenericPage
 from directory_constants import choices
 from domestic.helpers import build_route_context, get_lesson_completion_status
-from core import helpers, forms
-from core import cms_slugs
 
 
 class DomesticHomePage(
@@ -28,11 +22,7 @@ class DomesticHomePage(
     body = RichTextField(null=True, blank=True)
     button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
     image = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
+        get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
 
     #########
@@ -41,7 +31,7 @@ class DomesticHomePage(
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('body'),
         StreamFieldPanel('button'),
-        ImageChooserPanel('image')
+        ImageChooserPanel('image'),
     ]
 
 
@@ -55,9 +45,7 @@ class DomesticDashboard(
     Page,
 ):
 
-    components = StreamField([
-        ('route', core_blocks.RouteSectionBlock(icon='pick'))
-    ], null=True, blank=True)
+    components = StreamField([('route', core_blocks.RouteSectionBlock(icon='pick'))], null=True, blank=True)
 
     def get_context(self, request):
         user = request.user
@@ -87,6 +75,4 @@ class DomesticDashboard(
     #########
     # Panels
     #########
-    content_panels = CMSGenericPage.content_panels + [
-        StreamFieldPanel('components')
-    ]
+    content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]

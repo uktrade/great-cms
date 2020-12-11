@@ -10,7 +10,7 @@ RICHTEXT_FEATURES__MINIMAL = ()
 AWS_S3_MAIN_HOSTNAME_OPTIONS = [
     # https://docs.aws.amazon.com/general/latest/gr/s3.html
     's3.amazonaws.com',  # most likely
-    's3.eu-west-2.amazonaws.com',   # London
+    's3.eu-west-2.amazonaws.com',  # London
     's3.dualstack.eu-west-2.amazonaws.com',  # London IPv4 + IPv6
     # 'account-id.s3-control.eu-west-2.amazonaws.com',  # inviable for us
     # 'account-id.s3-control.dualstack.eu-west-2.amazonaws.com',   # inviable for us

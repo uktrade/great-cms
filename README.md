@@ -50,17 +50,16 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make pytest -- -k foo         | Run the test called foo |
 | make pytest -- <foo>          | Run arbitrary pytest command |
 | make test_load                | Run load tests |
-| make flake8                   | Run linting |
+| make flake8                   | Run flake8 linting only |
+| make checks                   | Run black, isort and flake8 in check mode |
+| make autoformat               | Run black and isort in file-editing mode |
 | make manage <foo>             | Run arbitrary management command |
 | make webserver                | Run the development web server |
 | make requirements             | Compile the requirements file |
 | make install_requirements     | Installed the compile requirements file |
 | make css                      | Compile scss to css |
 | make secrets                  | Create your secret env var file |
-| make recreate                 | Runs following command in one go |
-|                               | **make database**: Drop and recrete the database |
-|                               | **make bootstrap_great**: Create required database records so the CMS works |
-|                               | **make create_tours** |
+
 
 ### Setting up the local database
 

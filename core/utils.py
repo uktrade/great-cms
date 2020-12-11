@@ -6,9 +6,10 @@ def get_all_lessons(module) -> list:
     @returns: List of DetailPage objects (lessons)
     """
     from core.models import DetailPage, TopicPage
+
     return [
-        lesson for lesson in
-        DetailPage.objects.live().specific().descendant_of(module)
+        lesson
+        for lesson in DetailPage.objects.live().specific().descendant_of(module)
         if isinstance(lesson.get_parent().specific, TopicPage)
     ]
 
@@ -45,6 +46,7 @@ class PageTopicHelper:
 
     def get_page_topic(self):
         from core.models import TopicPage
+
         return TopicPage.objects.live().ancestor_of(self.page).specific().first()
 
     def get_module_topics(self):
@@ -134,19 +136,11 @@ def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, regi
 
     if unique_hs_codes and is_region:
         filter_args = [
-            create_filter_dict(product_code=code, target_area=area)
-            for code in unique_hs_codes
-            for area in region_list
+            create_filter_dict(product_code=code, target_area=area) for code in unique_hs_codes for area in region_list
         ]
     elif unique_hs_codes:
-        filter_args = [
-            create_filter_dict(product_code=code, target_area=None)
-            for code in unique_hs_codes
-        ]
+        filter_args = [create_filter_dict(product_code=code, target_area=None) for code in unique_hs_codes]
     if is_region:
-        filter_args = filter_args + [
-            create_filter_dict(product_code=None, target_area=area)
-            for area in region_list
-        ]
+        filter_args = filter_args + [create_filter_dict(product_code=None, target_area=area) for area in region_list]
 
     return [i for i in filter_args if i]

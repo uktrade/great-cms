@@ -1,8 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import translation
-from core import cms_slugs
-from config import settings
 from great_components import helpers as great_components_helpers
+
+from config import settings
+from core import cms_slugs
 
 
 class WagtailAdminExclusivePageMixin:
@@ -24,7 +25,7 @@ class EnableTourMixin:
                 'title': self.tour.title,
                 'body': self.tour.body,
                 'button_text': self.tour.button_text,
-                'steps': list(self.tour.steps.values('title', 'body', 'position', 'selector'))
+                'steps': list(self.tour.steps.values('title', 'body', 'position', 'selector')),
             }
         except ObjectDoesNotExist:
             pass

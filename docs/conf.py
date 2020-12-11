@@ -38,11 +38,7 @@ release = ''
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.autodoc'
-]
+extensions = ['sphinx.ext.intersphinx', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -113,15 +109,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -131,8 +124,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'GreatCMS.tex', 'Great CMS Documentation',
-     'DIT Great.gov.uk CMS team', 'manual'),
+    (master_doc, 'GreatCMS.tex', 'Great CMS Documentation', 'DIT Great.gov.uk CMS team', 'manual'),
 ]
 
 
@@ -140,10 +132,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'greatcms', 'Great CMS Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, 'greatcms', 'Great CMS Documentation', [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -152,9 +141,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'GreatCMS', 'Great CMS Documentation',
-     author, 'GreatCMS', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        'GreatCMS',
+        'Great CMS Documentation',
+        author,
+        'GreatCMS',
+        'One line description of project.',
+        'Miscellaneous',
+    ),
 ]
 
 
@@ -185,5 +180,5 @@ intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
     'django': ('https://docs.djangoproject.com/en/stable/', 'https://docs.djangoproject.com/en/stable/_objects/'),
     'wagtail': ('https://docs.wagtail.io/en/stable/', None),
-    'wagxperience': ('https://wagtail-personalisation.readthedocs.io/en/latest/', None)
+    'wagxperience': ('https://wagtail-personalisation.readthedocs.io/en/latest/', None),
 }

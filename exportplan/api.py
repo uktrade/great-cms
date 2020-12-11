@@ -1,13 +1,12 @@
 from datetime import datetime
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from . import helpers
 from exportplan import serializers
+from . import helpers
 
 
 class ExportPlanCountryDataView(APIView):
@@ -23,9 +22,7 @@ class ExportPlanCountryDataView(APIView):
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
         data = {'target_markets': export_plan['target_markets'] + [{'country_name': country}]}
         export_plan = helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=export_plan['pk'],
-            data=data
+            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=data
         )
         data = {
             'target_markets': export_plan['target_markets'],
@@ -47,9 +44,7 @@ class ExportPlanRemoveCountryDataView(APIView):
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
         data = [item for item in export_plan['target_markets'] if item['country_name'] != country]
         export_plan = helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=export_plan['pk'],
-            data={'target_markets': data}
+            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'target_markets': data}
         )
         data = {
             'target_markets': export_plan['target_markets'],
@@ -65,9 +60,7 @@ class ExportPlanRemoveSectorView(APIView):
     def get(self, request):
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
         updated_export_plan = helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=export_plan['pk'],
-            data={'sectors': []}
+            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'sectors': []}
         )
         data = {'sectors': updated_export_plan['sectors']}
         return Response(data)
@@ -93,16 +86,15 @@ class ExportPlanRecommendedCountriesDataView(APIView):
         # To make more efficient by removing get export plan
         export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
         helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=export_plan['pk'],
-            data={'sectors': sectors}
+            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'sectors': sectors}
         )
         recommended_countries = helpers.get_recommended_countries(
-            sso_session_id=self.request.user.session_id,
-            sectors=','.join(sectors)
+            sso_session_id=self.request.user.session_id, sectors=','.join(sectors)
         )
 
-        data = {'countries': recommended_countries, }
+        data = {
+            'countries': recommended_countries,
+        }
         return Response(data)
 
 
@@ -132,9 +124,7 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             export_plan = helpers.get_or_create_export_plan(self.request.user)
             helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id,
-                id=export_plan['pk'],
-                data=serializer.validated_data
+                sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.validated_data
             )
             return Response(serializer.validated_data)
 

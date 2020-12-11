@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import allure
 import pytest
 
-import allure
-from tests.browser.util import (
-    find_element,
-    try_alternative_click_on_exception,
-)
+from tests.browser.util import find_element, try_alternative_click_on_exception
 
 pytestmark = [
     pytest.mark.browser,

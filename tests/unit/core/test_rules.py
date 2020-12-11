@@ -1,5 +1,4 @@
 import pytest
-
 from django.contrib.auth.models import AnonymousUser
 
 from . import factories
@@ -87,9 +86,7 @@ def test_not_match_country_of_interest(rf, user):
 @pytest.mark.django_db
 def test_match_country_of_interest(rf, user, mock_get_company_profile):
     mock_get_company_profile.return_value = {'expertise_countries': ['AU']}
-    rule = factories.MatchFirstCountryOfInterestFactory(
-        country=factories.CountryFactory(name='Australia')
-    )
+    rule = factories.MatchFirstCountryOfInterestFactory(country=factories.CountryFactory(name='Australia'))
     request = rf.get('/')
     request.user = user
     assert rule.test_user(request=request) is True

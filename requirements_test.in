@@ -19,7 +19,13 @@ beautifulsoup4
 
 # Code quality
 # -------------
-flake8
+# Pinned because pre-commit features specific versions
+black==20.8b1
+blacken-docs==1.6.0
+isort==5.6.4
+flake8==3.8.4
+pre-commit-hooks==3.3.0
+
 flake8-quotes
 flake8-blind-except
 flake8-debugger
@@ -29,4 +35,3 @@ flake8-string-format
 pep8-naming
 pylint-django
 codecov
-cryptography==3.2

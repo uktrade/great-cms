@@ -1,17 +1,13 @@
+import datetime
 import logging
 import math
-from django import template
-from django.utils.http import urlencode
-import datetime
-
 from urllib.parse import urlparse
 
+from django import template
+from django.utils.http import urlencode
+
 from core.constants import BACKLINK_QUERYSTRING_NAME
-from core.models import (
-    DetailPage,
-    LessonPlaceholderPage,
-    TopicPage,
-)
+from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
 
@@ -77,13 +73,7 @@ def get_lesson_progress_for_topic(
 
     topic_page = TopicPage.objects.live().specific().filter(id=topic_id).first()
 
-    lesson_ids = (
-        DetailPage.objects
-        .live()
-        .specific()
-        .descendant_of(topic_page)
-        .values_list('id', flat=True)
-    )
+    lesson_ids = DetailPage.objects.live().specific().descendant_of(topic_page).values_list('id', flat=True)
 
     # Watch out for zany data, such as more items completed than currently available
     if completed_lessons and not completed_lessons.issubset(set(lesson_ids)):
@@ -92,10 +82,7 @@ def get_lesson_progress_for_topic(
     lessons_completed = len(completed_lessons) if completed_lessons else 0
     lessons_available = len(lesson_ids)
 
-    return {
-        'lessons_completed': lessons_completed,
-        'lessons_available': lessons_available
-    }
+    return {'lessons_completed': lessons_completed, 'lessons_available': lessons_available}
 
 
 @register.filter

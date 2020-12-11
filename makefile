@@ -6,6 +6,17 @@ clean:
 	-rm -fr ./allure_report/
 	-rm -fr ./allure_results/
 
+# configuration for black and isort is in pyproject.toml
+autoformat:
+	isort $(PWD)
+	black $(PWD)
+
+checks:
+	isort $(PWD) --check
+	black $(PWD) --check --verbose
+	flake8 .
+
+
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
@@ -96,4 +107,4 @@ recreate:
 	$(MAKE) ARGUMENTS=bootstrap_great manage
 	$(MAKE) ARGUMENTS=create_tours manage
 
-.PHONY: clean pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database recreate
+.PHONY: clean autoformat checks pytest test_load flake8 manage webserver requirements install_requirements css worker secrets check_migrations database recreate

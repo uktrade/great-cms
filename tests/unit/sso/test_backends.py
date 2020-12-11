@@ -1,13 +1,12 @@
 from unittest import mock
 
-from directory_sso_api_client import sso_api_client
 import pytest
-
 from django.contrib.auth import authenticate
 
+from core import cms_slugs
+from directory_sso_api_client import sso_api_client
 from sso import models
 from tests.helpers import reload_urlconf
-from core import cms_slugs
 
 
 @pytest.fixture
@@ -34,8 +33,8 @@ def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
                 'job_title': 'Dev',
                 'mobile_phone_number': '555',
                 'profile_image': 'htts://image.com/image.png',
-            }
-        }
+            },
+        },
     )
 
     user = authenticate(sso_request)
@@ -56,11 +55,14 @@ def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
 @pytest.mark.django_db
 @mock.patch('authbroker_client.backends.AuthbrokerBackend.authenticate')
 @mock.patch('directory_sso_api_client.backends.SSOUserBackend.authenticate')
-@pytest.mark.parametrize('url,expected_staff_call_count,expected_business_call_count', (
-    ('/django-admin/', 1, 0),
-    ('/admin/', 1, 0),
-    (cms_slugs.DASHBOARD_URL, 0, 1),
-))
+@pytest.mark.parametrize(
+    'url,expected_staff_call_count,expected_business_call_count',
+    (
+        ('/django-admin/', 1, 0),
+        ('/admin/', 1, 0),
+        (cms_slugs.DASHBOARD_URL, 0, 1),
+    ),
+)
 def test_sso_backends_admin_url_handling(
     mock_business_auth, mock_staff_auth, url, expected_staff_call_count, expected_business_call_count, settings, rf
 ):
