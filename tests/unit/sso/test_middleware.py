@@ -1,8 +1,8 @@
-import pytest
 from unittest import mock
 
-from django.urls import reverse
+import pytest
 from django.test import override_settings
+from django.urls import reverse
 from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
 
 from sso.middleware import AuthenticationMiddleware
@@ -16,7 +16,7 @@ from sso.middleware import AuthenticationMiddleware
         (reverse('wagtailadmin_home'), '/test/login/url/'),  # Wagtail admin
         ('/django-admin/auth/user/', reverse('admin:index')),  # Django admin
         (reverse('core:contact-us-help'), reverse('core:login')),
-    )
+    ),
 )
 def test_authentication_middleware__token_expiry(rf, path, expected_redirect_dest):
 

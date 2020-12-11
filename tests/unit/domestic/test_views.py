@@ -1,4 +1,5 @@
 import pytest
+
 from core import cms_slugs
 
 

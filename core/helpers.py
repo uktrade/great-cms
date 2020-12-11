@@ -1,24 +1,21 @@
-from collections import Counter
-from difflib import SequenceMatcher
-from logging import getLogger
-from io import StringIO
-from ipware import get_client_ip
-
 import csv
 import functools
-import requests
-
-from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
-from django.conf import settings
+from collections import Counter
+from difflib import SequenceMatcher
+from io import StringIO
+from logging import getLogger
 
 import great_components.helpers
+import requests
+from django.conf import settings
+from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
+from ipware import get_client_ip
+
+from core.models import CuratedListPage
+from core.serializers import parse_events, parse_opportunities
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-
-from core.serializers import parse_opportunities, parse_events
-from core.models import CuratedListPage
-
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
@@ -103,8 +100,7 @@ def store_user_location(request):
     location = get_location(request)
     if location:
         response = api_client.personalisation.user_location_create(
-            sso_session_id=request.user.session_id,
-            data=location
+            sso_session_id=request.user.session_id, data=location
         )
         if not response.ok:
             logger.error(USER_LOCATION_CREATE_ERROR)
@@ -124,7 +120,7 @@ def create_user_profile(data, sso_session_id):
 
 def get_dashboard_events(sso_session_id):
     results = api_client.personalisation.events_by_location_list(sso_session_id)
-    if (results.status_code == 200):
+    if results.status_code == 200:
         return parse_events(results.json()['results'])
     return []
 
@@ -133,7 +129,7 @@ def get_dashboard_export_opportunities(sso_session_id, company):
     sectors = company.expertise_industries_labels if company else []
     search_term = ' '.join(sectors)
     results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id, search_term)
-    if (results.status_code == 200):
+    if results.status_code == 200:
         return parse_opportunities(results.json()['results'])
     return []
 
@@ -186,9 +182,11 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     @property
     def expertise_countries_labels(self):
-        return values_to_labels(
-            values=self.data['expertise_countries'], choices=self.COUNTRIES
-        ) if self.data.get('expertise_countries') else []
+        return (
+            values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
+            if self.data.get('expertise_countries')
+            else []
+        )
 
     @property
     def expertise_countries_value_label_pairs(self):
@@ -230,7 +228,7 @@ def search_commodity_by_term(term, json=True):
             'Accept-Encoding': 'gzip, deflate',
             'Content-Type': 'application/json',
             'Authorization': settings.COMMODITY_SEARCH_TOKEN,
-        }
+        },
     )
 
     response.raise_for_status()
@@ -253,7 +251,7 @@ def search_commodity_refine(interaction_id, tx_id, values):
             'Accept-Encoding': 'gzip, deflate',
             'Content-Type': 'application/json',
             'Authorization': settings.COMMODITY_SEARCH_TOKEN,
-        }
+        },
     )
     response.raise_for_status()
     return response.json()

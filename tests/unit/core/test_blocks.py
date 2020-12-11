@@ -44,7 +44,7 @@ def test_modular_content_static_block_render():
     block = core_blocks.ModularContentStaticBlock()
     context = {'request': request}
     html = block.render(context=context, value=module.content)
-    expected_html = '\n<div class="modules">\n\n     <p class="m-b-0 ">{}</p>\n\n</div>\n'.format(module.content)  # noqa
+    expected_html = f'\n<div class="modules">\n\n     <p class="m-b-0 ">{module.content}</p>\n\n</div>\n'
     assert html == expected_html
 
 
@@ -83,7 +83,8 @@ def test_learning_link_component(domestic_site, domestic_homepage):
     override_lede = 'Overidden lede'
     test_external_link = 'external/link'
     target_detail_page = DetailPageFactory(
-        parent=domestic_homepage, title=test_detail_title, estimated_read_duration='0:02:30')
+        parent=domestic_homepage, title=test_detail_title, estimated_read_duration='0:02:30'
+    )
     target_list_page = ListPageFactory(parent=domestic_homepage, title=test_list_title)
 
     link_block = core_blocks.SidebarLinkBlock()
@@ -98,7 +99,7 @@ def test_learning_link_component(domestic_site, domestic_homepage):
         value={
             'title_override': override_title,
             'lede_override': override_lede,
-            'link': {'internal_link': target_detail_page, 'external_link': ''}
+            'link': {'internal_link': target_detail_page, 'external_link': ''},
         },
         context={},
     )
@@ -106,11 +107,7 @@ def test_learning_link_component(domestic_site, domestic_homepage):
     assert override_lede in result_override
     assert test_detail_title not in result_override
     result_nolink = link_block.render(
-        value={
-            'title_override': override_title,
-            'lede_override': override_lede,
-            'link': None
-        },
+        value={'title_override': override_title, 'lede_override': override_lede, 'link': None},
         context={},
     )
     assert override_title in result_nolink
@@ -119,7 +116,7 @@ def test_learning_link_component(domestic_site, domestic_homepage):
         value={
             'title_override': override_title,
             'lede_override': override_lede,
-            'link': {'internal_link': None, 'external_link': test_external_link}
+            'link': {'internal_link': None, 'external_link': test_external_link},
         },
         context={},
     )
@@ -129,9 +126,10 @@ def test_learning_link_component(domestic_site, domestic_homepage):
         value={
             'title_override': override_title,
             'lede_override': override_lede,
-            'link': {'internal_link': target_list_page, 'external_link': test_external_link}
+            'link': {'internal_link': target_list_page, 'external_link': test_external_link},
         },
-        context={})
+        context={},
+    )
     assert 'Go' in result_list_link
     assert target_list_page.get_url() in result_list_link
 
@@ -208,11 +206,7 @@ def test_case_study_static_block_annotate_with_only_product_selection(rf, user):
     case_study_2.save()
 
     # product personalisation selection
-    mocked_export_plan = {
-        'export_commodity_codes': [
-            {'commodity_code': '334455', 'commodity_name': 'Blah'}
-        ]
-    }
+    mocked_export_plan = {'export_commodity_codes': [{'commodity_code': '334455', 'commodity_name': 'Blah'}]}
 
     request = rf.get('/', {})
     request.user = user
@@ -232,12 +226,8 @@ def test_case_study_static_block_annotate_with_case_study_with_no_tags(rf, user)
 
     # personalised selection exist in export plan
     mocked_export_plan = {
-        'export_commodity_codes': [
-            {'commodity_code': '123456', 'commodity_name': 'Blah'}
-        ],
-        'export_countries': [
-            {'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}
-        ],
+        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Blah'}],
+        'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
     }
 
     request = rf.get('/', {})
@@ -263,12 +253,8 @@ def test_case_study_static_block_annotate_with_case_study_with_tags_and_personal
     case_study_2.save()
 
     mocked_export_plan = {
-        'export_commodity_codes': [
-            {'commodity_code': '123456', 'commodity_name': 'Something'}
-        ],
-        'export_countries': [
-            {'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}
-        ],
+        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
+        'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
     }
 
     request = rf.get('/')
@@ -285,9 +271,7 @@ def test_case_study_static_block_annotate_with_case_study_with_tags_and_personal
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(
-    rf, user
-):
+def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(rf, user):
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')
     case_study_1.country_code_tags.add('Europe', 'ES')
@@ -300,12 +284,8 @@ def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(
     case_study_2.save()
 
     mocked_export_plan = {
-        'export_commodity_codes': [
-            {'commodity_code': '123456', 'commodity_name': 'Something'}
-        ],
-        'export_countries': [
-            {'region': 'Europe', 'country_name': 'Spain', 'country_iso2_code': 'ES'}
-        ],
+        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
+        'export_countries': [{'region': 'Europe', 'country_name': 'Spain', 'country_iso2_code': 'ES'}],
     }
 
     request = rf.get('/')
@@ -320,9 +300,7 @@ def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_no_export_plan(
-    rf, user
-):
+def test_case_study_static_block_annotate_with_no_export_plan(rf, user):
     case_study_1 = CaseStudyFactory()
     case_study_1.save()
 
@@ -340,9 +318,7 @@ def test_case_study_static_block_annotate_with_no_export_plan(
 
 @pytest.mark.django_db
 def test_case_study_static_block_get_context():
-    with mock.patch(
-        'core.blocks.CaseStudyStaticBlock._annotate_with_case_study'
-    ) as mock_annotate_with_case_study:
+    with mock.patch('core.blocks.CaseStudyStaticBlock._annotate_with_case_study') as mock_annotate_with_case_study:
 
         mocked_returned_context = mock.Mock('Annotated context')
         mock_annotate_with_case_study.return_value = mocked_returned_context

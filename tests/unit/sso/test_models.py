@@ -1,7 +1,8 @@
 from unittest import mock
+
 from directory_sso_api_client import sso_api_client
-from tests.helpers import create_response
 from sso import models
+from tests.helpers import create_response
 
 
 def get_user():

@@ -1,11 +1,9 @@
 from django.conf import settings
+from great_components.mixins import GA360Mixin
 from wagtail.core.models import Page
 
-from core import mixins
-from core import cms_slugs
+from core import cms_slugs, mixins
 from exportplan import data
-
-from great_components.mixins import GA360Mixin
 
 
 class ExportPlanDashboardPage(

@@ -1,8 +1,8 @@
 import pytest
 
+from core.context import get_context_provider
 from tests.unit.core.factories import CuratedListPageFactory
 from tests.unit.learn import factories
-from core.context import get_context_provider
 
 
 @pytest.mark.django_db

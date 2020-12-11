@@ -1,5 +1,7 @@
 from unittest import mock
+
 import pytest
+from captcha.client import RecaptchaResponse
 
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -8,14 +10,17 @@ from tests.unit.core.factories import (
     TopicPageFactory,
 )
 from tests.unit.learn import factories as learn_factories
-from captcha.client import RecaptchaResponse
 
 
 @pytest.mark.django_db(transaction=True)
 @pytest.fixture
 def curated_list_pages_with_lessons(domestic_homepage):
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
-    clp_a = CuratedListPageFactory(parent=list_page, title='Lesson topic A', slug='topic-a',)
+    clp_a = CuratedListPageFactory(
+        parent=list_page,
+        title='Lesson topic A',
+        slug='topic-a',
+    )
     topic_for_clp_a = TopicPageFactory(parent=clp_a, title='Some title')
     lesson_a1 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_a,
@@ -29,7 +34,11 @@ def curated_list_pages_with_lessons(domestic_homepage):
         slug='lesson-a2',
     )
 
-    clp_b = CuratedListPageFactory(parent=list_page, title='Lesson topic b', slug='topic-b',)
+    clp_b = CuratedListPageFactory(
+        parent=list_page,
+        title='Lesson topic b',
+        slug='topic-b',
+    )
     topic_for_clp_b = TopicPageFactory(parent=clp_b, title='Some title b')
     lesson_b1 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_b,

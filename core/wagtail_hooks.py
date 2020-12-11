@@ -1,14 +1,11 @@
 import datetime
 import json
 import logging
-import readtime
-
 from urllib.parse import urlparse
 
 import boto3
+import readtime
 from bs4 import BeautifulSoup
-from great_components.helpers import add_next
-
 from django.conf import settings
 from django.core.files.storage import DefaultStorage
 from django.core.serializers.json import DjangoJSONEncoder
@@ -16,11 +13,11 @@ from django.db import models as django_models
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
-
+from great_components.helpers import add_next
 from wagtail.core import hooks
 from wagtail.core.models import Page
-from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.field_adapters import FieldAdapter
+from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
 
 from core import constants, mixins, views
@@ -62,22 +59,18 @@ def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
             return redirect(url)
 
 
-def _update_data_for_appropriate_version(
-    page: Page,
-    force_page_update: bool,
-    data_to_update: dict
-) -> None:
+def _update_data_for_appropriate_version(page: Page, force_page_update: bool, data_to_update: dict) -> None:
     """For a given Page instance, use the provided data to update either:
-        * its latest revision ONLY, if there are ONLY unpublished changes
-        (ie, its a Draft)
-        or
-        * the latest revision AND the live page, if the revision is the one
-        that became the live page (ie the Live page does NOT have unpublished
-        changes)
-        or
-        * we're forcing updates to the actual Page and not its revision JSON
-        (eg, because the Live page has just been created so has no
-        unpublished changes, but we still want to update it with data_to_update)
+    * its latest revision ONLY, if there are ONLY unpublished changes
+    (ie, its a Draft)
+    or
+    * the latest revision AND the live page, if the revision is the one
+    that became the live page (ie the Live page does NOT have unpublished
+    changes)
+    or
+    * we're forcing updates to the actual Page and not its revision JSON
+    (eg, because the Live page has just been created so has no
+    unpublished changes, but we still want to update it with data_to_update)
     """
 
     latest_revision = page.get_latest_revision()
@@ -120,20 +113,14 @@ def _set_read_time(request, page, is_post_creation=False):
             tag.decompose()
         # Get the readtime of the main content section of the page (excluding header/footer)
         reading_seconds = readtime.of_html(str(soup.find('main'))).seconds
-        video_nodes = soup.find_all(
-            'video', attrs={
-                constants.VIDEO_DURATION_DATA_ATTR_NAME: True
-            }
-        )
-        watching_seconds = sum([
-            int(node.get(constants.VIDEO_DURATION_DATA_ATTR_NAME, 0)) for node in video_nodes
-        ])
+        video_nodes = soup.find_all('video', attrs={constants.VIDEO_DURATION_DATA_ATTR_NAME: True})
+        watching_seconds = sum([int(node.get(constants.VIDEO_DURATION_DATA_ATTR_NAME, 0)) for node in video_nodes])
         seconds = reading_seconds + watching_seconds
 
         _update_data_for_appropriate_version(
             page=page,
             force_page_update=is_post_creation,
-            data_to_update={'estimated_read_duration': datetime.timedelta(seconds=seconds)}
+            data_to_update={'estimated_read_duration': datetime.timedelta(seconds=seconds)},
         )
 
 
@@ -142,12 +129,7 @@ class S3WagtailTransferFile(WTFile):
     S3 to S3 copy"""
 
     def __init__(self, local_filename, size, hash_, source_url, **kwargs):
-        super().__init__(
-            local_filename=local_filename,
-            size=size,
-            hash=hash_,
-            source_url=source_url
-        )
+        super().__init__(local_filename=local_filename, size=size, hash=hash_, source_url=source_url)
 
         self.source_bucket = kwargs['source_bucket']
         self.source_key = kwargs['source_key']
@@ -155,17 +137,10 @@ class S3WagtailTransferFile(WTFile):
     def transfer(self):
 
         # NB: This will only work if the source file is publicly readable
-        copy_source = {
-            'Bucket': self.source_bucket,
-            'Key': self.source_key
-        }
+        copy_source = {'Bucket': self.source_bucket, 'Key': self.source_key}
 
         try:
-            s3.meta.client.copy(
-                copy_source,
-                settings.AWS_STORAGE_BUCKET_NAME,
-                self.local_filename
-            )
+            s3.meta.client.copy(copy_source, settings.AWS_STORAGE_BUCKET_NAME, self.local_filename)
         except (
             boto3.exceptions.RetriesExceededError,
             boto3.exceptions.S3UploadFailedError,
@@ -201,10 +176,7 @@ class S3FileFieldAdapter(FieldAdapter):
             field_value.storage.bucket.name,  # bucket
             field_value.name,  # key
         )
-        return {
-            'size': _object_summary.size,
-            'hash': self._get_file_hash(_object_summary)
-        }
+        return {'size': _object_summary.size, 'hash': self._get_file_hash(_object_summary)}
 
     def _get_file_hash(self, object_summary) -> str:
         """Uses the object's eTag as a hash, avoiding the need to
@@ -290,9 +262,7 @@ class S3FileFieldAdapter(FieldAdapter):
                     return
 
             # Generate a safe, new filename for the destination bucket, so avoid overwrites
-            source_bucket, source_key = self._get_imported_file_bucket_and_key(
-                source_file_url
-            )
+            source_bucket, source_key = self._get_imported_file_bucket_and_key(source_file_url)
 
             target_filename = DefaultStorage().get_available_name(source_key)
 
@@ -329,8 +299,10 @@ def register_s3_media_file_adapter():
     extra_adapters = {}
 
     if settings.USER_MEDIA_ON_S3:
-        extra_adapters.update({
-            django_models.FileField: S3FileFieldAdapter,
-        })
+        extra_adapters.update(
+            {
+                django_models.FileField: S3FileFieldAdapter,
+            }
+        )
 
     return extra_adapters
