@@ -177,6 +177,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+
 - GP2-981 - Responsive support for Case Study component
 - GP2-1047 - page structure and components for costs and pricing page  
 - GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
