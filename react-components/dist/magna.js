@@ -53057,10 +53057,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -53084,6 +53085,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function SelectMarket(props) {
   var market = props.market,
       setMarket = props.setMarket;
@@ -53092,12 +53094,24 @@ function SelectMarket(props) {
       _useCookies2 = _slicedToArray(_useCookies, 1),
       cookies = _useCookies2[0];
 
+  var comparisonMarkets = Object.values(cookies.comparisonMarkets) || {};
+
   var clickMarket = function clickMarket(clickedMarket) {
+    var marketNames = comparisonMarkets.map(function (v) {
+      return v.country_name;
+    });
     setMarket(clickedMarket);
+    Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
+      'event': 'addFindMarketSuccess',
+      'market1': marketNames[0] || '',
+      'market2': marketNames[1] || '',
+      'market3': marketNames[2] || '',
+      'findMarket': clickedMarket.country_name
+    });
   };
 
   var isComparisonMarketSelected;
-  var marketList = Object.values(cookies.comparisonMarkets || {}).map(function (mapMarket) {
+  var marketList = comparisonMarkets.map(function (mapMarket) {
     var isSelected = (market && market.country_iso2_code) === mapMarket.country_iso2_code;
     isComparisonMarketSelected = isComparisonMarketSelected || isSelected;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -53154,24 +53168,24 @@ SelectMarket.defaultProps = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_7__["getMarkets"])(state)
+    market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getMarkets"])(state)
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     setMarket: function setMarket(market) {
-      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_6__["default"].setMarket(market));
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].setMarket(market));
     }
   };
 };
 
-var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(SelectMarket);
+var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(mapStateToProps, mapDispatchToProps)(SelectMarket);
 function createSelectMarket(_ref) {
   var params = _extends({}, _ref);
 
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
-    store: _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].store
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_6__["Provider"], {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].store
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, null)), params.element);
 }
 
