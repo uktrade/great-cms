@@ -412,6 +412,11 @@ class LessonPlaceholderPageTests(WagtailPageTests):
 
 
 @pytest.mark.django_db
+def test_context_cms_generic_page(rf, domestic_homepage):
+    assert 'page' in domestic_homepage.get_context(rf)
+
+
+@pytest.mark.django_db
 def test_placeholder_page_redirects_to_module(
     rf,
     domestic_homepage,

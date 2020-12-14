@@ -52398,7 +52398,7 @@ module.exports = function(originalModule) {
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
   \*****************************************/
-/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping */
+/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -52408,6 +52408,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "capitalize", function() { return capitalize; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "analytics", function() { return analytics; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionQuestionMapping", function() { return sectionQuestionMapping; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normaliseValues", function() { return normaliseValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isObject", function() { return isObject; });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -52444,7 +52446,7 @@ var addItemToList = function addItemToList() {
 
 var capitalize = function capitalize(str) {
   var enable = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  // Capitalize the first lettter and replace underscores with spaces 
+  // Capitalize the first lettter and replace underscores with spaces
   var strWithSpaces = str.replace(/_/g, ' ');
   return enable ? strWithSpaces.charAt(0).toUpperCase() + strWithSpaces.slice(1) : strWithSpaces;
 };
@@ -52454,18 +52456,36 @@ var analytics = function analytics(data) {
   dataLayer.push(data);
 };
 
+var normaliseValues = function normaliseValues(str) {
+  if (str) {
+    var values = str.replace(/\d+(\.\d+)?/g, function ($0) {
+      return Math.round(parseFloat($0) * 10) / 10;
+    });
+    values = values.replace(/\d+(\.\d+)?(?=\%)/g, function ($0) {
+      return Math.round($0);
+    });
+    return values.split(/\(([^)]+)\)/);
+  } else {
+    return 'Data not available';
+  }
+};
+
+var isObject = function isObject(obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+};
+
 var sectionQuestionMapping = {
-  'story': 'How you started',
-  'location': 'Where you\'re based',
-  'processes': 'How you make your products',
-  'packaging': 'Your product packaging',
-  'performance': 'Your business performance',
-  'rationale': 'Why you want to export',
-  'demand': 'Describe the consumer demand for your product in the selected country',
-  'competitors': 'Who are your competitors in the selected country?',
-  'trend': 'What are the product trends in the selected country?',
-  'unqiue_selling_proposition': 'What’s your unique selling proposition for the selected country?',
-  'average_price': 'What’s the avg price for your product in the selected country?'
+  story: 'How you started',
+  location: "Where you're based",
+  processes: 'How you make your products',
+  packaging: 'Your product packaging',
+  performance: 'Your business performance',
+  rationale: 'Why you want to export',
+  demand: 'Describe the consumer demand for your product in the selected country',
+  competitors: 'Who are your competitors in the selected country?',
+  trend: 'What are the product trends in the selected country?',
+  unqiue_selling_proposition: 'What’s your unique selling proposition for the selected country?',
+  average_price: 'What’s the avg price for your product in the selected country?'
 };
 
 
@@ -52741,6 +52761,14 @@ var responseHandler = function responseHandler(response) {
   getPopulationByCountryData: function getPopulationByCountryData(countries) {
     return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].populationByCountryUrl, {
       countries: countries
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  getComTradeData: function getComTradeData(countries, commodity_code) {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiComTradeDataUrl, {
+      countries: countries,
+      commodity_code: commodity_code
     }).then(function (response) {
       return responseHandler(response).json();
     });
@@ -53040,6 +53068,240 @@ function createCaseStudy(_ref2) {
 
 /***/ }),
 
+/***/ "./react-components/src/components/CompareMarkets/EconomyData.jsx":
+/*!************************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/EconomyData.jsx ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EconomyData; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+function EconomyData(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      economyData = _useState2[0],
+      setEconomyData = _useState2[1];
+
+  var getCountryData = function getCountryData(country) {
+    if (economyData && economyData.length) {
+      var country_data = Object.values(economyData).find(function (x) {
+        return x[0] === country;
+      });
+      return country_data ? country_data[1] : [];
+    }
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+      var countries = Object.values(comparisonMarkets).map(function (country) {
+        return country.country_name;
+      });
+      _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getComTradeData(countries, props.selectedProduct.code).then(function (result) {
+        setEconomyData(Object.entries(result));
+      })["finally"](function () {});
+    }
+  }, [props]);
+  var comparisonMarkets = props.comparisonMarkets;
+  var DATA_NA = 'Data not available';
+  var dataTable;
+
+  if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+    var tableBody = Object.values(comparisonMarkets).map(function (market) {
+      var data = getCountryData(market.country_name);
+      var dataRow;
+
+      if (data) {
+        dataRow = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "world-import-value"
+        }, data && data.import_from_world ? data.import_from_world.trade_value : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "year-on-year-change"
+        }, data && data.import_from_world && data.import_from_world.year_on_year_change ? data.import_from_world.year_on_year_change + '%' : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "uk-import-value"
+        }, data && data.import_data_from_uk ? data.import_data_from_uk.trade_value : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "gdp"
+        }, data && data.country_data && data.country_data.gdp_per_capita ? Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(data.country_data.gdp_per_capita.year_2019) : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "avg-income"
+        }, DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "eod-business"
+        }, data && data.country_data && data.country_data.ease_of_doing_bussiness ? data.country_data.ease_of_doing_bussiness.year_2019 : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "cpi"
+        }, data && data.country_data && data.country_data.corruption_perceptions_index ? data.country_data.corruption_perceptions_index.rank : DATA_NA));
+      } else {
+        dataRow = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          colSpan: "5",
+          className: "no-data"
+        }, "No data currently available for this country");
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: "market-".concat(market.country_name),
+        id: "market-".concat(market.country_name)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "p-v-xs name"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          whiteSpace: 'nowrap'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        onClick: props.removeMarket,
+        className: "iconic",
+        "data-id": market.country_iso2_code,
+        "aria-label": "Remove ".concat(market.country_name)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-trash-alt icon--border"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "market-".concat(market.country_name) + ' ' + 'body-l-b'
+      }, market.country_name))), dataRow);
+    });
+    dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "body-l-b"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total ", props.selectedProduct.name.toLowerCase(), " import value (USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year-to-year ", props.selectedProduct.name.toLowerCase(), " import value change"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, props.selectedProduct.name, " import value from the UK (USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "GDP per capita(USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Avg income(USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Ease of doing business rank"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Corruption Perceptions Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)));
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, dataTable);
+}
+
+/***/ }),
+
+/***/ "./react-components/src/components/CompareMarkets/PopulationData.jsx":
+/*!***************************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/PopulationData.jsx ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PopulationData; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+function PopulationData(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      populationData = _useState2[0],
+      setPopulationData = _useState2[1];
+
+  var getCountryData = function getCountryData(country) {
+    if (populationData && populationData.length) {
+      var country_data = Object.values(populationData).find(function (x) {
+        return x[1].country === country;
+      });
+      return country_data ? country_data[1] : [];
+    }
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+      var countries = Object.values(comparisonMarkets).map(function (country) {
+        return country.country_name;
+      });
+      _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getPopulationByCountryData(countries).then(function (result) {
+        setPopulationData(Object.entries(result));
+      })["finally"](function () {});
+    }
+  }, [props]);
+  var comparisonMarkets = props.comparisonMarkets;
+  var dataTable;
+
+  if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
+    var tableBody = Object.values(comparisonMarkets).map(function (market) {
+      var populationCountryData = getCountryData(market.country_name);
+      var populationCountryRow;
+
+      if (populationCountryData) {
+        populationCountryRow = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "total-population"
+        }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["normaliseValues"])(populationCountryData.total_population)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "internet-usage"
+        }, populationCountryData.internet_usage ? Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["normaliseValues"])("".concat(populationCountryData.internet_usage.value, "%")) : 'Data not available'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "urban-population"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["normaliseValues"])(populationCountryData.urban_population_percentage_formatted)[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "body-m"
+        }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["normaliseValues"])(populationCountryData.urban_population_percentage_formatted)[1])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "rural-population"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["normaliseValues"])(populationCountryData.rural_population_percentage_formatted)[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "body-m"
+        }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["normaliseValues"])(populationCountryData.rural_population_percentage_formatted)[1])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'));
+      } else {
+        populationCountryRow = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          colSpan: "5",
+          className: "no-data"
+        }, "No data currently available for this country");
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: "market-".concat(market.country_iso2_code),
+        id: "market-".concat(market.country_name)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "p-v-xs name"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          whiteSpace: 'nowrap'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        onClick: props.removeMarket,
+        className: "iconic",
+        "data-id": market.country_iso2_code,
+        "aria-label": "Remove ".concat(market.country_name)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-trash-alt icon--border"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "body-l-b",
+        id: "market-".concat(market.country_name)
+      }, market.country_name))), populationCountryRow);
+    });
+    dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "body-l-b"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total Population "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Access to internet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in urban areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in rural areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Consumer Price Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)));
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, dataTable);
+}
+
+/***/ }),
+
 /***/ "./react-components/src/components/CompareMarkets/SelectMarket.jsx":
 /*!*************************************************************************!*\
   !*** ./react-components/src/components/CompareMarkets/SelectMarket.jsx ***!
@@ -53103,9 +53365,9 @@ function SelectMarket(props) {
     setMarket(clickedMarket);
     Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
       'event': 'addFindMarketSuccess',
-      'market1': marketNames[0] || 'None',
-      'market2': marketNames[1] || 'None',
-      'market3': marketNames[2] || 'None',
+      'market1': marketNames[0] || '',
+      'market2': marketNames[1] || '',
+      'market3': marketNames[2] || '',
       'findMarket': clickedMarket.country_name
     });
   };
@@ -53191,6 +53453,136 @@ function createSelectMarket(_ref) {
 
 /***/ }),
 
+/***/ "./react-components/src/components/CompareMarkets/Tab.jsx":
+/*!****************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/Tab.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+function Tab(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('tab-list-item'),
+      _useState2 = _slicedToArray(_useState, 2),
+      cssClassName = _useState2[0],
+      setCssClassName = _useState2[1];
+
+  var onClick = function onClick() {
+    var label = props.label,
+        onClick = props.onClick;
+    onClick(label);
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (props.activeTab === props.label) {
+      setCssClassName('tab-list-item tab-list-active');
+    } else {
+      setCssClassName('tab-list-item');
+    }
+  }, [props]);
+  Tab.propTypes = {
+    activeTab: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    onClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: cssClassName,
+    onClick: onClick
+  }, props.label);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Tab);
+
+/***/ }),
+
+/***/ "./react-components/src/components/CompareMarkets/Tabs.jsx":
+/*!*****************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/Tabs.jsx ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Tab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Tab */ "./react-components/src/components/CompareMarkets/Tab.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+function Tabs(props) {
+  Tabs.propTypes = {
+    children: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.instanceOf(Array).isRequired
+  };
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.children[0].props.label),
+      _useState2 = _slicedToArray(_useState, 2),
+      activeTab = _useState2[0],
+      setActiveTab = _useState2[1];
+
+  var onClickTabItem = function onClickTabItem(tab) {
+    setActiveTab(tab);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "tabs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+    className: "tab-list"
+  }, props.children.map(function (child) {
+    var label = child.props.label;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tab__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      activeTab: activeTab,
+      key: label,
+      label: label,
+      onClick: onClickTabItem
+    });
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "tab-content"
+  }, props.children.map(function (child) {
+    if (child.props.label !== activeTab) return undefined;
+    return child.props.children;
+  })));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Tabs);
+
+/***/ }),
+
 /***/ "./react-components/src/components/CompareMarkets/index.jsx":
 /*!******************************************************************!*\
   !*** ./react-components/src/components/CompareMarkets/index.jsx ***!
@@ -53209,9 +53601,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
 /* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
-/* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
+/* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
+/* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
+/* harmony import */ var _PopulationData__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PopulationData */ "./react-components/src/components/CompareMarkets/PopulationData.jsx");
+/* harmony import */ var _EconomyData__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./EconomyData */ "./react-components/src/components/CompareMarkets/EconomyData.jsx");
+/* harmony import */ var _Tabs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Tabs */ "./react-components/src/components/CompareMarkets/Tabs.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -53225,6 +53619,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
 
 
 
@@ -53259,11 +53656,6 @@ function CompareMarkets(props) {
       cookies = _useCookies2[0],
       setCookie = _useCookies2[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState8 = _slicedToArray(_useState7, 2),
-      populationData = _useState8[0],
-      setPopulationData = _useState8[1];
-
   var openModal = function openModal() {
     setProductModalIsOpen(!selectedProduct);
     setMarketModalIsOpen(!!selectedProduct);
@@ -53271,38 +53663,16 @@ function CompareMarkets(props) {
 
   var comparisonMarkets = cookies.comparisonMarkets || {};
   var selectedLength = Object.keys(comparisonMarkets).length || 0;
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
-      var countries = Object.values(comparisonMarkets).map(function (country) {
-        return country.country_name;
-      });
-      _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].getPopulationByCountryData(countries).then(function (result) {
-        setPopulationData(Object.entries(result));
-      })["finally"](function () {});
-    }
-  }, [cookies.comparisonMarkets]);
-
-  var getCountryData = function getCountryData(country) {
-    var countryData;
-
-    if (populationData && populationData.length) {
-      countryData = Object.values(populationData).find(function (x) {
-        return x[1].country === country;
-      });
-    }
-
-    return countryData ? countryData[1] : [];
-  };
 
   var pushAnalytics = function pushAnalytics(markets) {
     var marketNames = Object.values(markets).map(function (v) {
       return v.country_name;
     });
     Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
-      'event': 'findMarketView',
-      'market1': marketNames[0] || '',
-      'market2': marketNames[1] || '',
-      'market3': marketNames[2] || ''
+      event: 'findMarketView',
+      market1: marketNames[0] || '',
+      market2: marketNames[1] || '',
+      market3: marketNames[2] || ''
     });
   };
 
@@ -53341,105 +53711,68 @@ function CompareMarkets(props) {
     }), "Select market ", selectedLength + 1, " of 3");
   }
 
-  var normalisePopulationValues = function normalisePopulationValues(str) {
-    if (str) {
-      var values = str.replace(/\d+(\.\d+)?/g, function ($0) {
-        return Math.round(parseFloat($0) * 10) / 10;
-      });
-      values = values.replace(/\d+(\.\d+)?(?=\%)/g, function ($0) {
-        return Math.round($0);
-      });
-      return values.split(/\(([^)]+)\)/);
-    } else {
-      return 'Data not available';
+  var populationDiv;
+  populationDiv = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PopulationData__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    comparisonMarkets: comparisonMarkets,
+    removeMarket: removeMarket
+  }), triggerButton);
+  var economyDiv;
+  economyDiv = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EconomyData__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    comparisonMarkets: comparisonMarkets,
+    removeMarket: removeMarket,
+    selectedProduct: selectedProduct
+  }), triggerButton);
+  var tabsContainer;
+
+  if (selectedProduct) {
+    var tabs = JSON.parse(props.tabs);
+
+    if (!Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["isObject"])(tabs)) {
+      tabs = JSON.parse(tabs);
     }
-  };
 
-  var dataTable;
+    var listOfTabs;
 
-  if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
-    var tableBody = Object.values(comparisonMarkets).map(function (market) {
-      var populationCountryData = getCountryData(market.country_name);
-      var populationCountryRow;
+    if (tabs && Object.keys(tabs).length > 0) {
+      listOfTabs = Object.keys(tabs).filter(function (key) {
+        return tabs[key];
+      });
+    }
 
-      if (populationCountryData) {
-        populationCountryRow = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-          className: "total-population"
-        }, normalisePopulationValues(populationCountryData.total_population)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-          className: "internet-usage"
-        }, populationCountryData.internet_usage ? normalisePopulationValues("".concat(populationCountryData.internet_usage.value, "%")) : 'Data not available'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-          className: "urban-population"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "body-m"
-        }, normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[1])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-          className: "rural-population"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "body-m"
-        }, normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[1])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'));
-      } else {
-        populationCountryRow = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-          colspan: "5",
-          className: "no-data"
-        }, "Data is not currently available for this country");
-      }
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: "market-".concat(market.country_iso2_code),
-        id: "market-".concat(market.country_name)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "p-v-xs name"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          whiteSpace: 'nowrap'
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "button",
-        onClick: removeMarket,
-        className: "iconic",
-        "data-id": market.country_iso2_code,
-        "aria-label": "Remove ".concat(market.country_name)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-trash-alt icon--border"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "body-l-b",
-        id: "market-".concat(market.country_name)
-      }, market.country_name))), populationCountryRow);
-    });
-    dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      className: "body-l-b"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Total Population"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Access to internet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in urban areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Living in rural areas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Consumer Price Index"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "source-attribution body-s"
-    }, "Population data: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "https://population.un.org/wpp/Download/Standard/Population/"
-    }, "United Nations"), "\xA0CC BY 3.0 IGO. Urban and Rural Populations:\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "https://population.un.org/wup/Download/"
-    }, "United Nations"), "\xA0CC BY 3.0 IGO. ICT Indicators Edition 2019/2:\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en"
-    }, "ITU (2020)")), triggerButton);
+    if (listOfTabs && listOfTabs.length > 1) {
+      tabsContainer = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tabs__WEBPACK_IMPORTED_MODULE_9__["default"], null, listOfTabs.map(function (item) {
+        var Component;
+        Component = eval(item + 'Div');
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: item,
+          label: item.toUpperCase(),
+          className: "button button--small button--tertiary"
+        }, Component);
+      }));
+    } else if (listOfTabs) {
+      tabsContainer = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, listOfTabs.map(function (item) {
+        return eval(item + 'Div');
+      }));
+    }
   } else {
-    dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-      className: "container"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "grid"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-4"
-    }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-2"
-    }, triggerButton), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-4"
-    }, "\xA0")));
+    tabsContainer = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
+    }, triggerButton);
   }
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, dataTable, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, tabsContainer, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     modalIsOpen: productModalIsOpen,
     setIsOpen: setProductModalIsOpen,
     setSelectedProduct: setSelectedProduct
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     modalIsOpen: marketModalIsOpen,
     setIsOpen: setMarketModalIsOpen,
     commodityCode: selectedProduct && selectedProduct.code,
+    addButton: false,
     selectCountry: addCountry
   }));
 }
@@ -53465,8 +53798,10 @@ function createCompareMarkets(_ref) {
     product = null;
   }
 
+  var tabs = params.element.getAttribute('data-tabs');
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CompareMarkets, {
-    product: product
+    product: product,
+    tabs: tabs
   }), params.element);
 }
 
@@ -60036,7 +60371,8 @@ var setConfig = function setConfig(_ref) {
       exportPlanTargetMarketsUrl = _ref.exportPlanTargetMarketsUrl,
       signupUrl = _ref.signupUrl,
       populationByCountryUrl = _ref.populationByCountryUrl,
-      refreshOnMarketChange = _ref.refreshOnMarketChange;
+      refreshOnMarketChange = _ref.refreshOnMarketChange,
+      apiComTradeDataUrl = _ref.apiComTradeDataUrl;
   config.countryDataUrl = countryDataUrl;
   config.marketingCountryData = marketingCountryData;
   config.removeSectorUrl = removeSectorUrl;
@@ -60071,6 +60407,7 @@ var setConfig = function setConfig(_ref) {
   config.signupUrl = signupUrl;
   config.populationByCountryUrl = populationByCountryUrl;
   config.refreshOnMarketChange = refreshOnMarketChange;
+  config.apiComTradeDataUrl = apiComTradeDataUrl;
 };
 
 /***/ }),
