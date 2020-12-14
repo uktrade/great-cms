@@ -179,7 +179,6 @@
 
 ### Implemented enhancements
 
-- GP2-1047 - page structure and components for costs and pricing page  
 - GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
 - GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths
 - GP2-1020 - Cleanup of redundant code following topics refactor
