@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-981 - Responsive support for Case Study component
 - GP2-1068 - Autoformat Python code with black and isort
 - GP2-1111 - EP responsive marketing approach changes
 - GP2-1029 - Population data sources attributions and links
@@ -178,7 +179,6 @@
 
 ### Implemented enhancements
 
-- GP2-981 - Responsive support for Case Study component
 - GP2-1047 - page structure and components for costs and pricing page  
 - GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
 - GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths
