@@ -13163,8 +13163,13 @@ function withSideEffect(reducePropsToState, handleStateChangeOnClient) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var universal_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! universal-cookie */ "./node_modules/universal-cookie/es6/index.js");
+<<<<<<< HEAD
 
 /* harmony default export */ __webpack_exports__["default"] = (universal_cookie__WEBPACK_IMPORTED_MODULE_0__["default"]);
+=======
+
+/* harmony default export */ __webpack_exports__["default"] = (universal_cookie__WEBPACK_IMPORTED_MODULE_0__["default"]);
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -13183,11 +13188,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Cookies__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Cookies */ "./node_modules/react-cookie/es6/Cookies.js");
+<<<<<<< HEAD
 
 
 var CookiesContext = react__WEBPACK_IMPORTED_MODULE_0__["createContext"](new _Cookies__WEBPACK_IMPORTED_MODULE_1__["default"]());
 var Provider = CookiesContext.Provider, Consumer = CookiesContext.Consumer;
 /* harmony default export */ __webpack_exports__["default"] = (CookiesContext);
+=======
+
+
+var CookiesContext = react__WEBPACK_IMPORTED_MODULE_0__["createContext"](new _Cookies__WEBPACK_IMPORTED_MODULE_1__["default"]());
+var Provider = CookiesContext.Provider, Consumer = CookiesContext.Consumer;
+/* harmony default export */ __webpack_exports__["default"] = (CookiesContext);
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -13205,6 +13218,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var universal_cookie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! universal-cookie */ "./node_modules/universal-cookie/es6/index.js");
 /* harmony import */ var _CookiesContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CookiesContext */ "./node_modules/react-cookie/es6/CookiesContext.js");
+<<<<<<< HEAD
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13239,6 +13253,42 @@ var CookiesProvider = /** @class */ (function (_super) {
     return CookiesProvider;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
 /* harmony default export */ __webpack_exports__["default"] = (CookiesProvider);
+=======
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+var CookiesProvider = /** @class */ (function (_super) {
+    __extends(CookiesProvider, _super);
+    function CookiesProvider(props) {
+        var _this = _super.call(this, props) || this;
+        if (props.cookies) {
+            _this.cookies = props.cookies;
+        }
+        else {
+            _this.cookies = new universal_cookie__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        }
+        return _this;
+    }
+    CookiesProvider.prototype.render = function () {
+        return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_CookiesContext__WEBPACK_IMPORTED_MODULE_2__["Provider"], { value: this.cookies }, this.props.children);
+    };
+    return CookiesProvider;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
+/* harmony default export */ __webpack_exports__["default"] = (CookiesProvider);
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -13264,10 +13314,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _useCookies__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./useCookies */ "./node_modules/react-cookie/es6/useCookies.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCookies", function() { return _useCookies__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
+<<<<<<< HEAD
 
 
 
 
+=======
+
+
+
+
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -13285,6 +13342,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _CookiesContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CookiesContext */ "./node_modules/react-cookie/es6/CookiesContext.js");
+<<<<<<< HEAD
 
 
 function useCookies(dependencies) {
@@ -13324,6 +13382,47 @@ function shouldUpdate(dependencies, newCookies, oldCookies) {
     }
     return false;
 }
+=======
+
+
+function useCookies(dependencies) {
+    var cookies = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_CookiesContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    if (!cookies) {
+        throw new Error('Missing <CookiesProvider>');
+    }
+    var initialCookies = cookies.getAll();
+    var _a = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialCookies), allCookies = _a[0], setCookies = _a[1];
+    var previousCookiesRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(allCookies);
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+        function onChange() {
+            var newCookies = cookies.getAll();
+            if (shouldUpdate(dependencies || null, newCookies, previousCookiesRef.current)) {
+                setCookies(newCookies);
+            }
+            previousCookiesRef.current = newCookies;
+        }
+        cookies.addChangeListener(onChange);
+        return function () {
+            cookies.removeChangeListener(onChange);
+        };
+    }, [cookies]);
+    var setCookie = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () { return cookies.set.bind(cookies); }, [cookies]);
+    var removeCookie = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () { return cookies.remove.bind(cookies); }, [cookies]);
+    return [allCookies, setCookie, removeCookie];
+}
+function shouldUpdate(dependencies, newCookies, oldCookies) {
+    if (!dependencies) {
+        return true;
+    }
+    for (var _i = 0, dependencies_1 = dependencies; _i < dependencies_1.length; _i++) {
+        var dependency = dependencies_1[_i];
+        if (newCookies[dependency] !== oldCookies[dependency]) {
+            return true;
+        }
+    }
+    return false;
+}
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -13341,6 +13440,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _CookiesContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CookiesContext */ "./node_modules/react-cookie/es6/CookiesContext.js");
+<<<<<<< HEAD
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13427,6 +13527,94 @@ function withCookies(WrappedComponent) {
     ForwardedComponent.WrappedComponent = CookieWrapper.WrappedComponent;
     return hoistStatics(ForwardedComponent, WrappedComponent);
 }
+=======
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+
+// Only way to make function modules work with both TypeScript and Rollup
+var hoistStatics = __webpack_require__(/*! hoist-non-react-statics */ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js");
+function withCookies(WrappedComponent) {
+    // @ts-ignore
+    var name = WrappedComponent.displayName || WrappedComponent.name;
+    var CookieWrapper = /** @class */ (function (_super) {
+        __extends(CookieWrapper, _super);
+        function CookieWrapper() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.onChange = function () {
+                // Make sure to update children with new values
+                _this.forceUpdate();
+            };
+            return _this;
+        }
+        CookieWrapper.prototype.listen = function () {
+            this.props.cookies.addChangeListener(this.onChange);
+        };
+        CookieWrapper.prototype.unlisten = function (cookies) {
+            (cookies || this.props.cookies).removeChangeListener(this.onChange);
+        };
+        CookieWrapper.prototype.componentDidMount = function () {
+            this.listen();
+        };
+        CookieWrapper.prototype.componentDidUpdate = function (prevProps) {
+            if (prevProps.cookies !== this.props.cookies) {
+                this.unlisten(prevProps.cookies);
+                this.listen();
+            }
+        };
+        CookieWrapper.prototype.componentWillUnmount = function () {
+            this.unlisten();
+        };
+        CookieWrapper.prototype.render = function () {
+            var _a = this.props, forwardedRef = _a.forwardedRef, cookies = _a.cookies, restProps = __rest(_a, ["forwardedRef", "cookies"]);
+            var allCookies = cookies.getAll();
+            return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](WrappedComponent, __assign({}, restProps, { ref: forwardedRef, cookies: cookies, allCookies: allCookies })));
+        };
+        CookieWrapper.displayName = "withCookies(" + name + ")";
+        CookieWrapper.WrappedComponent = WrappedComponent;
+        return CookieWrapper;
+    }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
+    var ForwardedComponent = react__WEBPACK_IMPORTED_MODULE_0__["forwardRef"](function (props, ref) {
+        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_CookiesContext__WEBPACK_IMPORTED_MODULE_1__["Consumer"], null, function (cookies) { return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](CookieWrapper, __assign({ cookies: cookies }, props, { forwardedRef: ref }))); }));
+    });
+    ForwardedComponent.displayName = CookieWrapper.displayName;
+    ForwardedComponent.WrappedComponent = CookieWrapper.WrappedComponent;
+    return hoistStatics(ForwardedComponent, WrappedComponent);
+}
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -38009,7 +38197,11 @@ function injectIntoDevTools(devToolsConfig) {
     // Enables DevTools to append owner stacks to error messages in DEV mode.
     getCurrentFiber:  function () {
       return current;
+<<<<<<< HEAD
     } 
+=======
+    }
+>>>>>>> Track country selection from comparison list
   }));
 }
 var IsSomeRendererActing$1 = ReactSharedInternals.IsSomeRendererActing;
@@ -41343,6 +41535,7 @@ var initStateUpdates = function initStateUpdates() {
 };
 
 function connectAdvanced(
+<<<<<<< HEAD
 /*
   selectorFactory is a func that is responsible for returning the selector function used to
   compute new props from state, props, and dispatch. For example:
@@ -41356,6 +41549,21 @@ function connectAdvanced(
     Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
   props. Do not use connectAdvanced directly without memoizing results between calls to your
   selector, otherwise the Connect component will re-render on every state or props change.
+=======
+/*
+  selectorFactory is a func that is responsible for returning the selector function used to
+  compute new props from state, props, and dispatch. For example:
+      export default connectAdvanced((dispatch, options) => (state, props) => ({
+      thing: state.things[props.thingId],
+      saveThing: fields => dispatch(actionCreators.saveThing(props.thingId, fields)),
+    }))(YourComponent)
+    Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
+  outside of their selector as an optimization. Options passed to connectAdvanced are passed to
+  the selectorFactory, along with displayName and WrappedComponent, as the second argument.
+    Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
+  props. Do not use connectAdvanced directly without memoizing results between calls to your
+  selector, otherwise the Connect component will re-render on every state or props change.
+>>>>>>> Track country selection from comparison list
 */
 selectorFactory, // options object:
 _ref) {
@@ -41615,6 +41823,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+<<<<<<< HEAD
 /*
   connect is a facade over connectAdvanced. It turns its args into a compatible
   selectorFactory, which has the signature:
@@ -41630,6 +41839,23 @@ __webpack_require__.r(__webpack_exports__);
 
   The resulting final props selector is called by the Connect component instance whenever
   it receives new props or store state.
+=======
+/*
+  connect is a facade over connectAdvanced. It turns its args into a compatible
+  selectorFactory, which has the signature:
+
+    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
+
+  connect passes its args to connectAdvanced as options, which will in turn pass them to
+  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
+
+  selectorFactory returns a final props selector from its mapStateToProps,
+  mapStateToPropsFactories, mapDispatchToProps, mapDispatchToPropsFactories, mergeProps,
+  mergePropsFactories, and pure args.
+
+  The resulting final props selector is called by the Connect component instance whenever
+  it receives new props or store state.
+>>>>>>> Track country selection from comparison list
  */
 
 function match(arg, factories, name) {
@@ -42052,11 +42278,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _useStore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useStore */ "./node_modules/react-redux/es/hooks/useStore.js");
 
 
+<<<<<<< HEAD
 /**
  * Hook factory, which creates a `useDispatch` hook bound to a given context.
  *
  * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
  * @returns {Function} A `useDispatch` hook bound to the specified context.
+=======
+/**
+ * Hook factory, which creates a `useDispatch` hook bound to a given context.
+ *
+ * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
+ * @returns {Function} A `useDispatch` hook bound to the specified context.
+>>>>>>> Track country selection from comparison list
  */
 
 function createDispatchHook(context) {
@@ -42070,6 +42304,7 @@ function createDispatchHook(context) {
     return store.dispatch;
   };
 }
+<<<<<<< HEAD
 /**
  * A hook to access the redux `dispatch` function.
  *
@@ -42090,6 +42325,28 @@ function createDispatchHook(context) {
  *     </div>
  *   )
  * }
+=======
+/**
+ * A hook to access the redux `dispatch` function.
+ *
+ * @returns {any|function} redux store's `dispatch` function
+ *
+ * @example
+ *
+ * import React, { useCallback } from 'react'
+ * import { useDispatch } from 'react-redux'
+ *
+ * export const CounterComponent = ({ value }) => {
+ *   const dispatch = useDispatch()
+ *   const increaseCounter = useCallback(() => dispatch({ type: 'increase-counter' }), [])
+ *   return (
+ *     <div>
+ *       <span>{value}</span>
+ *       <button onClick={increaseCounter}>Increase counter</button>
+ *     </div>
+ *   )
+ * }
+>>>>>>> Track country selection from comparison list
  */
 
 var useDispatch =
@@ -42113,6 +42370,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Context */ "./node_modules/react-redux/es/components/Context.js");
 
 
+<<<<<<< HEAD
 /**
  * A hook to access the value of the `ReactReduxContext`. This is a low-level
  * hook that you should usually not need to call directly.
@@ -42128,6 +42386,23 @@ __webpack_require__.r(__webpack_exports__);
  *   const { store } = useReduxContext()
  *   return <div>{store.getState()}</div>
  * }
+=======
+/**
+ * A hook to access the value of the `ReactReduxContext`. This is a low-level
+ * hook that you should usually not need to call directly.
+ *
+ * @returns {any} the value of the `ReactReduxContext`
+ *
+ * @example
+ *
+ * import React from 'react'
+ * import { useReduxContext } from 'react-redux'
+ *
+ * export const CounterComponent = ({ value }) => {
+ *   const { store } = useReduxContext()
+ *   return <div>{store.getState()}</div>
+ * }
+>>>>>>> Track country selection from comparison list
  */
 
 function useReduxContext() {
@@ -42232,11 +42507,19 @@ function useSelectorWithStoreAndSubscription(selector, equalityFn, store, contex
   }, [store, subscription]);
   return selectedState;
 }
+<<<<<<< HEAD
 /**
  * Hook factory, which creates a `useSelector` hook bound to a given context.
  *
  * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
  * @returns {Function} A `useSelector` hook bound to the specified context.
+=======
+/**
+ * Hook factory, which creates a `useSelector` hook bound to a given context.
+ *
+ * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
+ * @returns {Function} A `useSelector` hook bound to the specified context.
+>>>>>>> Track country selection from comparison list
  */
 
 
@@ -42264,6 +42547,7 @@ function createSelectorHook(context) {
     return useSelectorWithStoreAndSubscription(selector, equalityFn, store, contextSub);
   };
 }
+<<<<<<< HEAD
 /**
  * A hook to access the redux store's state. This hook takes a selector function
  * as an argument. The selector is called with the store state.
@@ -42286,6 +42570,30 @@ function createSelectorHook(context) {
  *   const counter = useSelector(state => state.counter)
  *   return <div>{counter}</div>
  * }
+=======
+/**
+ * A hook to access the redux store's state. This hook takes a selector function
+ * as an argument. The selector is called with the store state.
+ *
+ * This hook takes an optional equality comparison function as the second parameter
+ * that allows you to customize the way the selected state is compared to determine
+ * whether the component needs to be re-rendered.
+ *
+ * @param {Function} selector the selector function
+ * @param {Function=} equalityFn the function that will be used to determine equality
+ *
+ * @returns {any} the selected state
+ *
+ * @example
+ *
+ * import React from 'react'
+ * import { useSelector } from 'react-redux'
+ *
+ * export const CounterComponent = () => {
+ *   const counter = useSelector(state => state.counter)
+ *   return <div>{counter}</div>
+ * }
+>>>>>>> Track country selection from comparison list
  */
 
 var useSelector =
@@ -42312,11 +42620,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+<<<<<<< HEAD
 /**
  * Hook factory, which creates a `useStore` hook bound to a given context.
  *
  * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
  * @returns {Function} A `useStore` hook bound to the specified context.
+=======
+/**
+ * Hook factory, which creates a `useStore` hook bound to a given context.
+ *
+ * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
+ * @returns {Function} A `useStore` hook bound to the specified context.
+>>>>>>> Track country selection from comparison list
  */
 
 function createStoreHook(context) {
@@ -42334,6 +42650,7 @@ function createStoreHook(context) {
     return store;
   };
 }
+<<<<<<< HEAD
 /**
  * A hook to access the redux store.
  *
@@ -42348,6 +42665,22 @@ function createStoreHook(context) {
  *   const store = useStore()
  *   return <div>{store.getState()}</div>
  * }
+=======
+/**
+ * A hook to access the redux store.
+ *
+ * @returns {any} the redux store
+ *
+ * @example
+ *
+ * import React from 'react'
+ * import { useStore } from 'react-redux'
+ *
+ * export const ExampleComponent = () => {
+ *   const store = useStore()
+ *   return <div>{store.getState()}</div>
+ * }
+>>>>>>> Track country selection from comparison list
  */
 
 var useStore =
@@ -42590,9 +42923,15 @@ var getBatch = function getBatch() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isPlainObject; });
+<<<<<<< HEAD
 /**
  * @param {any} obj The object to inspect.
  * @returns {boolean} True if the argument appears to be a plain object.
+=======
+/**
+ * @param {any} obj The object to inspect.
+ * @returns {boolean} True if the argument appears to be a plain object.
+>>>>>>> Track country selection from comparison list
  */
 function isPlainObject(obj) {
   if (typeof obj !== 'object' || obj === null) return false;
@@ -42724,11 +43063,19 @@ function verifyPlainObject(value, displayName, methodName) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return warning; });
+<<<<<<< HEAD
 /**
  * Prints a warning in the console if it exists.
  *
  * @param {String} message The warning message.
  * @returns {void}
+=======
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+>>>>>>> Track country selection from comparison list
  */
 function warning(message) {
   /* eslint-disable no-console */
@@ -49156,7 +49503,11 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var interleave = (function (strings, interpolations) {
   var result = [strings[0]];
 
@@ -49167,38 +49518,66 @@ var interleave = (function (strings, interpolations) {
   return result;
 });
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var isPlainObject = (function (x) {
   return typeof x === 'object' && x.constructor === Object;
 });
 
+<<<<<<< HEAD
 // 
 var EMPTY_ARRAY = Object.freeze([]);
 var EMPTY_OBJECT = Object.freeze({});
 
 // 
+=======
+//
+var EMPTY_ARRAY = Object.freeze([]);
+var EMPTY_OBJECT = Object.freeze({});
+
+//
+>>>>>>> Track country selection from comparison list
 function isFunction(test) {
   return typeof test === 'function';
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function getComponentName(target) {
   return ( true ? typeof target === 'string' && target : undefined) || // $FlowFixMe
   target.displayName || // $FlowFixMe
   target.name || 'Component';
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function isStatelessFunction(test) {
   return typeof test === 'function' && !(test.prototype && test.prototype.isReactComponent);
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function isStyledComponent(target) {
   return target && typeof target.styledComponentId === 'string';
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var SC_ATTR = typeof process !== 'undefined' && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || 'data-styled';
 var SC_ATTR_ACTIVE = 'active';
 var SC_ATTR_VERSION = 'data-styled-version';
@@ -49208,7 +49587,11 @@ var DISABLE_SPEEDY = typeof SC_DISABLE_SPEEDY === 'boolean' && SC_DISABLE_SPEEDY
 
 var STATIC_EXECUTION_CONTEXT = {};
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 /* eslint-disable camelcase, no-undef */
 var getNonce = function getNonce() {
@@ -49235,7 +49618,11 @@ var errorMap = {
   "17": "CSSStyleSheet could not be found on HTMLStyleElement.\nHas styled-components' style tag been unmounted or altered by another script?\n"
 };
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var ERRORS =  true ? errorMap : undefined;
 /**
  * super basic version of sprintf
@@ -49270,7 +49657,11 @@ function throwStyledComponentsError(code) {
   }
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var ELEMENT_TYPE = 1;
 /* Node.ELEMENT_TYPE */
 
@@ -49328,7 +49719,11 @@ var getSheet = function getSheet(tag) {
   return undefined;
 };
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 /** Create a CSSStyleSheet-like tag depending on the environment */
 
 var makeTag = function makeTag(_ref) {
@@ -49462,7 +49857,11 @@ function () {
   return VirtualTag;
 }();
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 /** Create a GroupedTag with an underlying Tag implementation */
 
 var makeGroupedTag = function makeGroupedTag(tag) {
@@ -49558,7 +49957,11 @@ function () {
   return DefaultGroupedTag;
 }();
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var MAX_SMI = 1 << 31 - 1;
 var groupIDRegister = new Map();
 var reverseRegister = new Map();
@@ -49590,7 +49993,11 @@ var setGroupForId = function setGroupForId(id, group) {
   reverseRegister.set(group, id);
 };
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var SELECTOR = "style[" + SC_ATTR + "][" + SC_ATTR_VERSION + "=\"" + SC_VERSION + "\"]";
 var RULE_RE = /(?:\s*)?(.*?){((?:{[^}]*}|(?!{).*?)*)}/g;
 var MARKER_RE = new RegExp("^" + SC_ATTR + "\\.g(\\d+)\\[id=\"([\\w\\d-]+)\"\\]");
@@ -49790,7 +50197,11 @@ function () {
   return StyleSheet;
 }();
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 /* eslint-disable */
 var SEED = 5381; // When we have separate strings it's useful to run a progressive
@@ -49968,7 +50379,11 @@ function createStylisInstance(_temp) {
   return stringifyRules;
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var StyleSheetContext = react__WEBPACK_IMPORTED_MODULE_1___default.a.createContext();
 var StyleSheetConsumer = StyleSheetContext.Consumer;
 var StylisContext = react__WEBPACK_IMPORTED_MODULE_1___default.a.createContext();
@@ -50025,7 +50440,11 @@ function StyleSheetManager(props) {
   },  true ? react__WEBPACK_IMPORTED_MODULE_1___default.a.Children.only(props.children) : undefined));
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 var Keyframes =
 /*#__PURE__*/
@@ -50057,7 +50476,11 @@ function () {
   return Keyframes;
 }();
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 /**
  * inlined version of
@@ -50086,7 +50509,11 @@ function hyphenateStyleName(string) {
   return string.replace(uppercasePattern, '-$1').toLowerCase().replace(msPattern, '-ms-');
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 function addUnitIfNeeded(name, value) {
   // https://github.com/amilajack/eslint-plugin-flowtype-errors/issues/133
@@ -50102,7 +50529,11 @@ function addUnitIfNeeded(name, value) {
   return String(value).trim();
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 /**
  * It's falsish not falsy because 0 is allowed.
  */
@@ -50180,7 +50611,11 @@ function flatten(chunk, executionContext, styleSheet) {
   return isPlainObject(chunk) ? objToCssArray(chunk) : chunk.toString();
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function css(styles) {
   for (var _len = arguments.length, interpolations = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     interpolations[_key - 1] = arguments[_key];
@@ -50299,7 +50734,11 @@ function mixinDeep(target) {
   return target;
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 /* eslint-disable no-bitwise */
 var AD_REPLACER_R = /(a)(d)/gi;
@@ -50327,7 +50766,11 @@ function generateAlphabeticName(code) {
   return (getAlphabeticChar(x % charsLength) + name).replace(AD_REPLACER_R, '$1-$2');
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function isStaticRules(rules) {
   for (var i = 0; i < rules.length; i += 1) {
     var rule = rules[i];
@@ -50342,7 +50785,11 @@ function isStaticRules(rules) {
   return true;
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 /*
  ComponentStyle is all the CSS-specific stuff, not
  the React-specific stuff.
@@ -50421,7 +50868,11 @@ function () {
   return ComponentStyle;
 }();
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var LIMIT = 200;
 var createWarnTooManyClasses = (function (displayName, componentId) {
   var generatedClasses = {};
@@ -50443,7 +50894,11 @@ var createWarnTooManyClasses = (function (displayName, componentId) {
   };
 });
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var invalidHookCallRe = /invalid hook call/i;
 var seen = new Set();
 var checkDynamicCreation = function checkDynamicCreation(displayName, componentId) {
@@ -50473,7 +50928,11 @@ var checkDynamicCreation = function checkDynamicCreation(displayName, componentI
   }
 };
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var determineTheme = (function (props, providedTheme, defaultProps) {
   if (defaultProps === void 0) {
     defaultProps = EMPTY_OBJECT;
@@ -50482,7 +50941,11 @@ var determineTheme = (function (props, providedTheme, defaultProps) {
   return props.theme !== defaultProps.theme && props.theme || providedTheme || defaultProps.theme;
 });
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var escapeRegex = /[[\].#*$><+~=|^:(),"'`-]+/g;
 var dashesAtEnds = /(^-|-$)/g;
 /**
@@ -50496,18 +50959,30 @@ function escape(str) {
   .replace(dashesAtEnds, '');
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function isTag(target) {
   return typeof target === 'string' && ( true ? target.charAt(0) === target.charAt(0).toLowerCase() : undefined);
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function generateDisplayName(target) {
   // $FlowFixMe
   return isTag(target) ? "styled." + target : "Styled(" + getComponentName(target) + ")";
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var generateComponentId = (function (str) {
   return generateAlphabeticName(hash(str) >>> 0);
 });
@@ -50764,12 +51239,20 @@ function createStyledComponent(target, options, rules) {
   return WrappedStyledComponent;
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 // Thanks to ReactDOMFactories for this handy list!
 var domElements = ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'data', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'var', 'video', 'wbr', // SVG
 'circle', 'clipPath', 'defs', 'ellipse', 'foreignObject', 'g', 'image', 'line', 'linearGradient', 'marker', 'mask', 'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect', 'stop', 'svg', 'text', 'tspan'];
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 var styled = function styled(tag) {
   return constructWithOptions(createStyledComponent, tag);
@@ -50780,7 +51263,11 @@ domElements.forEach(function (domElement) {
   styled[domElement] = styled(domElement);
 });
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 var GlobalStyle =
 /*#__PURE__*/
@@ -50873,7 +51360,11 @@ function createGlobalStyle(strings) {
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.memo(GlobalStyleComponent);
 }
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 function keyframes(strings) {
   /* Warning if you've used keyframes on React Native */
   if ( true && typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
@@ -50996,19 +51487,31 @@ var withTheme = (function (Component) {
   return WithTheme;
 });
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 
 var useTheme = function useTheme() {
   return Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(ThemeContext);
 };
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 var __PRIVATE__ = {
   StyleSheet: StyleSheet,
   masterSheet: masterSheet
 };
 
+<<<<<<< HEAD
 // 
+=======
+//
+>>>>>>> Track country selection from comparison list
 /* Define bundle version for export */
 
 var version = "5.0.1";
@@ -51135,6 +51638,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__importDefault", function() { return __importDefault; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldGet", function() { return __classPrivateFieldGet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldSet", function() { return __classPrivateFieldSet; });
+<<<<<<< HEAD
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -51353,6 +51857,226 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
     privateMap.set(receiver, value);
     return value;
 }
+=======
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function __exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -51369,6 +52093,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cookie */ "./node_modules/cookie/index.js");
 /* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(cookie__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./node_modules/universal-cookie/es6/utils.js");
+<<<<<<< HEAD
 
 
 // We can't please Rollup and TypeScript at the same time
@@ -51444,6 +52169,83 @@ var Cookies = /** @class */ (function () {
     return Cookies;
 }());
 /* harmony default export */ __webpack_exports__["default"] = (Cookies);
+=======
+
+
+// We can't please Rollup and TypeScript at the same time
+// Only way to make both of them work
+var objectAssign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
+var Cookies = /** @class */ (function () {
+    function Cookies(cookies, options) {
+        var _this = this;
+        this.changeListeners = [];
+        this.HAS_DOCUMENT_COOKIE = false;
+        this.cookies = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseCookies"])(cookies, options);
+        new Promise(function () {
+            _this.HAS_DOCUMENT_COOKIE = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["hasDocumentCookie"])();
+        }).catch(function () { });
+    }
+    Cookies.prototype._updateBrowserValues = function (parseOptions) {
+        if (!this.HAS_DOCUMENT_COOKIE) {
+            return;
+        }
+        this.cookies = cookie__WEBPACK_IMPORTED_MODULE_0__["parse"](document.cookie, parseOptions);
+    };
+    Cookies.prototype._emitChange = function (params) {
+        for (var i = 0; i < this.changeListeners.length; ++i) {
+            this.changeListeners[i](params);
+        }
+    };
+    Cookies.prototype.get = function (name, options, parseOptions) {
+        if (options === void 0) { options = {}; }
+        this._updateBrowserValues(parseOptions);
+        return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["readCookie"])(this.cookies[name], options);
+    };
+    Cookies.prototype.getAll = function (options, parseOptions) {
+        if (options === void 0) { options = {}; }
+        this._updateBrowserValues(parseOptions);
+        var result = {};
+        for (var name_1 in this.cookies) {
+            result[name_1] = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["readCookie"])(this.cookies[name_1], options);
+        }
+        return result;
+    };
+    Cookies.prototype.set = function (name, value, options) {
+        var _a;
+        if (typeof value === 'object') {
+            value = JSON.stringify(value);
+        }
+        this.cookies = objectAssign({}, this.cookies, (_a = {}, _a[name] = value, _a));
+        if (this.HAS_DOCUMENT_COOKIE) {
+            document.cookie = cookie__WEBPACK_IMPORTED_MODULE_0__["serialize"](name, value, options);
+        }
+        this._emitChange({ name: name, value: value, options: options });
+    };
+    Cookies.prototype.remove = function (name, options) {
+        var finalOptions = (options = objectAssign({}, options, {
+            expires: new Date(1970, 1, 1, 0, 0, 1),
+            maxAge: 0
+        }));
+        this.cookies = objectAssign({}, this.cookies);
+        delete this.cookies[name];
+        if (this.HAS_DOCUMENT_COOKIE) {
+            document.cookie = cookie__WEBPACK_IMPORTED_MODULE_0__["serialize"](name, '', finalOptions);
+        }
+        this._emitChange({ name: name, value: undefined, options: options });
+    };
+    Cookies.prototype.addChangeListener = function (callback) {
+        this.changeListeners.push(callback);
+    };
+    Cookies.prototype.removeChangeListener = function (callback) {
+        var idx = this.changeListeners.indexOf(callback);
+        if (idx >= 0) {
+            this.changeListeners.splice(idx, 1);
+        }
+    };
+    return Cookies;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Cookies);
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -51458,8 +52260,13 @@ var Cookies = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Cookies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Cookies */ "./node_modules/universal-cookie/es6/Cookies.js");
+<<<<<<< HEAD
 
 /* harmony default export */ __webpack_exports__["default"] = (_Cookies__WEBPACK_IMPORTED_MODULE_0__["default"]);
+=======
+
+/* harmony default export */ __webpack_exports__["default"] = (_Cookies__WEBPACK_IMPORTED_MODULE_0__["default"]);
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -51480,6 +52287,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readCookie", function() { return readCookie; });
 /* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cookie */ "./node_modules/cookie/index.js");
 /* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(cookie__WEBPACK_IMPORTED_MODULE_0__);
+<<<<<<< HEAD
 
 function hasDocumentCookie() {
     // Can we get/set cookies on document.cookie?
@@ -51533,6 +52341,61 @@ function cleanupCookieValue(value) {
     }
     return value;
 }
+=======
+
+function hasDocumentCookie() {
+    // Can we get/set cookies on document.cookie?
+    return typeof document === 'object' && typeof document.cookie === 'string';
+}
+function cleanCookies() {
+    document.cookie.split(';').forEach(function (c) {
+        document.cookie = c
+            .replace(/^ +/, '')
+            .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+    });
+}
+function parseCookies(cookies, options) {
+    if (typeof cookies === 'string') {
+        return cookie__WEBPACK_IMPORTED_MODULE_0__["parse"](cookies, options);
+    }
+    else if (typeof cookies === 'object' && cookies !== null) {
+        return cookies;
+    }
+    else {
+        return {};
+    }
+}
+function isParsingCookie(value, doNotParse) {
+    if (typeof doNotParse === 'undefined') {
+        // We guess if the cookie start with { or [, it has been serialized
+        doNotParse =
+            !value || (value[0] !== '{' && value[0] !== '[' && value[0] !== '"');
+    }
+    return !doNotParse;
+}
+function readCookie(value, options) {
+    if (options === void 0) { options = {}; }
+    var cleanValue = cleanupCookieValue(value);
+    if (isParsingCookie(cleanValue, options.doNotParse)) {
+        try {
+            return JSON.parse(cleanValue);
+        }
+        catch (e) {
+            // At least we tried
+        }
+    }
+    // Ignore clean value if we failed the deserialization
+    // It is not relevant anymore to trim those values
+    return value;
+}
+function cleanupCookieValue(value) {
+    // express prepend j: before serializing a cookie
+    if (value && value[0] === 'j' && value[1] === ':') {
+        return value.substr(2);
+    }
+    return value;
+}
+>>>>>>> Track country selection from comparison list
 
 
 /***/ }),
@@ -52444,7 +53307,11 @@ var addItemToList = function addItemToList() {
 
 var capitalize = function capitalize(str) {
   var enable = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+<<<<<<< HEAD
   // Capitalize the first lettter and replace underscores with spaces 
+=======
+  // Capitalize the first lettter and replace underscores with spaces
+>>>>>>> Track country selection from comparison list
   var strWithSpaces = str.replace(/_/g, ' ');
   return enable ? strWithSpaces.charAt(0).toUpperCase() + strWithSpaces.slice(1) : strWithSpaces;
 };
@@ -53057,10 +53924,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
+<<<<<<< HEAD
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
 /* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
+=======
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
+>>>>>>> Track country selection from comparison list
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -53084,6 +53959,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Track country selection from comparison list
 function SelectMarket(props) {
   var market = props.market,
       setMarket = props.setMarket;
@@ -53092,12 +53971,33 @@ function SelectMarket(props) {
       _useCookies2 = _slicedToArray(_useCookies, 1),
       cookies = _useCookies2[0];
 
+<<<<<<< HEAD
   var clickMarket = function clickMarket(clickedMarket) {
     setMarket(clickedMarket);
   };
 
   var isComparisonMarketSelected;
   var marketList = Object.values(cookies.comparisonMarkets || {}).map(function (mapMarket) {
+=======
+  var comparisonMarkets = Object.values(cookies.comparisonMarkets) || {};
+
+  var clickMarket = function clickMarket(clickedMarket) {
+    var marketNames = comparisonMarkets.map(function (v) {
+      return v.country_name;
+    });
+    setMarket(clickedMarket);
+    Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
+      'event': 'addFindMarketSuccess',
+      'market1': marketNames[0] || '',
+      'market2': marketNames[1] || '',
+      'market3': marketNames[2] || '',
+      'findMarket': clickedMarket.country_name
+    });
+  };
+
+  var isComparisonMarketSelected;
+  var marketList = comparisonMarkets.map(function (mapMarket) {
+>>>>>>> Track country selection from comparison list
     var isSelected = (market && market.country_iso2_code) === mapMarket.country_iso2_code;
     isComparisonMarketSelected = isComparisonMarketSelected || isSelected;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -53154,24 +54054,41 @@ SelectMarket.defaultProps = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
+<<<<<<< HEAD
     market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_7__["getMarkets"])(state)
+=======
+    market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getMarkets"])(state)
+>>>>>>> Track country selection from comparison list
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     setMarket: function setMarket(market) {
+<<<<<<< HEAD
       dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_6__["default"].setMarket(market));
+=======
+      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].setMarket(market));
+>>>>>>> Track country selection from comparison list
     }
   };
 };
 
+<<<<<<< HEAD
 var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(SelectMarket);
 function createSelectMarket(_ref) {
   var params = _extends({}, _ref);
 
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
     store: _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].store
+=======
+var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(mapStateToProps, mapDispatchToProps)(SelectMarket);
+function createSelectMarket(_ref) {
+  var params = _extends({}, _ref);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_6__["Provider"], {
+    store: _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].store
+>>>>>>> Track country selection from comparison list
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, null)), params.element);
 }
 
@@ -53194,10 +54111,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
+<<<<<<< HEAD
 /* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
 /* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
+=======
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
+/* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
+>>>>>>> Track country selection from comparison list
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -53219,7 +54142,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Track country selection from comparison list
 var maxSelectedLength = 3;
 
 function CompareMarkets(props) {
@@ -53262,7 +54188,11 @@ function CompareMarkets(props) {
       var countries = Object.values(comparisonMarkets).map(function (country) {
         return country.country_name;
       });
+<<<<<<< HEAD
       _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].getPopulationByCountryData(countries).then(function (result) {
+=======
+      _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].getPopulationByCountryData(countries).then(function (result) {
+>>>>>>> Track country selection from comparison list
         setPopulationData(Object.entries(result));
       })["finally"](function () {});
     }
@@ -53280,6 +54210,7 @@ function CompareMarkets(props) {
     return countryData ? countryData[1] : [];
   };
 
+<<<<<<< HEAD
   var pushAnalytics = function pushAnalytics(markets) {
     var marketNames = Object.values(markets).map(function (v) {
       return v.country_name;
@@ -53292,11 +54223,16 @@ function CompareMarkets(props) {
     });
   };
 
+=======
+>>>>>>> Track country selection from comparison list
   var addCountry = function addCountry(country) {
     var newComparisonMarkets = cookies.comparisonMarkets || {};
     newComparisonMarkets[country.country_iso2_code] = country;
     setCookie('comparisonMarkets', newComparisonMarkets);
+<<<<<<< HEAD
     pushAnalytics(newComparisonMarkets);
+=======
+>>>>>>> Track country selection from comparison list
   };
 
   var removeMarket = function removeMarket(evt) {
@@ -53304,7 +54240,10 @@ function CompareMarkets(props) {
     var tmpMarkets = cookies.comparisonMarkets || {};
     delete tmpMarkets[id];
     setCookie('comparisonMarkets', tmpMarkets);
+<<<<<<< HEAD
     pushAnalytics(tmpMarkets);
+=======
+>>>>>>> Track country selection from comparison list
   };
 
   var triggerButton;
@@ -53418,11 +54357,19 @@ function CompareMarkets(props) {
     }, "\xA0")));
   }
 
+<<<<<<< HEAD
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, dataTable, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     modalIsOpen: productModalIsOpen,
     setIsOpen: setProductModalIsOpen,
     setSelectedProduct: setSelectedProduct
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+=======
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, dataTable, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    modalIsOpen: productModalIsOpen,
+    setIsOpen: setProductModalIsOpen,
+    setSelectedProduct: setSelectedProduct
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+>>>>>>> Track country selection from comparison list
     modalIsOpen: marketModalIsOpen,
     setIsOpen: setMarketModalIsOpen,
     commodityCode: selectedProduct && selectedProduct.code,
@@ -57814,7 +58761,11 @@ function ProductFinderModal(props) {
     var assumptions = buildMap(results.assumedInteractions);
     var known = buildMap(results.knownInteractions);
     var itemChoice = buildMap([results.currentItemInteraction]);
+<<<<<<< HEAD
     (itemChoice || {}).isItemChoice = true; // *********************   Kill item choice so we can just use question 
+=======
+    (itemChoice || {}).isItemChoice = true; // *********************   Kill item choice so we can just use question
+>>>>>>> Track country selection from comparison list
 
     itemChoice = null;
 
