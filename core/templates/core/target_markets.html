@@ -52,27 +52,6 @@
         {% endfor %}
     </div>
     {% if data_tabs_enabled %}
-        <style>
-            .tab-list {
-            {#border-bottom: 1px solid #ccc;#} padding-left: 50px;
-            }
-
-            .tab-list-item {
-                display: inline-block;
-                padding: 0.5rem 1rem;
-                cursor: pointer;
-                font-size: 80%;
-            }
-
-            .tab-list-active {
-                border-radius: 25px 25px 25px 25px;
-                background-color: white;
-                border: solid #ccc;
-                border-width: 1px 1px 1px 1px;
-                margin: 20px;
-
-            }
-        </style>
         <div id="open-product-finder" class="m-v-l"
              data-productname="{{ export_plan.export_commodity_codes.0.commodity_name }}"
              data-productcode="{{ export_plan.export_commodity_codes.0.commodity_code }}"

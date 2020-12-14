@@ -82,7 +82,7 @@ export default function EconomyData(props) {
       } else {
         dataRow = (
           <td colSpan="5" className="no-data">
-            Data is not currently available for this country
+            No data currently available for this country
           </td>
         )
       }
