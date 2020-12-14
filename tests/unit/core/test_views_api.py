@@ -28,16 +28,6 @@ def test_com_trade_data_view(mock_country_data, mock_uk_data, mock_world_data, c
     res2._content = b"""{"last_year_data": {"year": 2019,"trade_value": 127250000,"country_name": "Germany","year_on_year_change": 1.126}}"""  # noqa
     mock_uk_data.return_value = res2
 
-    # res3 = Response()
-    # res2.status_code = 200
-    # res3._content_consumed = True
-    # res3._content =b"""{"consumer_price_index": {"country_name": "Germany","country_code": "DEU","value": "112.855","year": 2019,},"internet_usage": {"country_name": "Germany","country_code": "DEU","value": "89.739","year": 2018,},"corruption_perceptions_index": {"country_name": "Germany","country_code": "DEU","cpi_score_2019": 80,"rank": 9,},"ease_of_doing_bussiness": {"total": 264,"country_name": "Germany","country_code": "DEU","year_2019": 22,},"gdp_per_capita": {"country_name": "Germany", "country_code": "DEU", "year_2019": "46258.878"},}""" # noqa
-    #
-    # res3 = {
-    #     "test": 2
-    # }
-    # mock_country_data.return_data = res3
-
     response = client.get(url + '?countries=Germany,&commodity_code=123456')
     json_response = response.json()
 
