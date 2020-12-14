@@ -1,10 +1,10 @@
 from unittest import mock
 
-from directory_api_client import api_client
 import pytest
 
-from tests.helpers import create_response
+from directory_api_client import api_client
 from exportplan import helpers
+from tests.helpers import create_response
 
 
 @mock.patch.object(api_client.exportplan, 'exportplan_create')
@@ -15,8 +15,7 @@ def test_create_export_plan(mock_exportplan_create):
 
     assert mock_exportplan_create.call_count == 1
     assert mock_exportplan_create.call_args == mock.call(
-        data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}},
-        sso_session_id=123
+        data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}, sso_session_id=123
     )
 
 
@@ -95,8 +94,7 @@ def test_update_export_plan(mock_exportplan_update):
 
     assert mock_exportplan_update.call_count == 1
     assert mock_exportplan_update.call_args == mock.call(
-        data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}},
-        id=1, sso_session_id=123
+        data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}, id=1, sso_session_id=123
     )
 
 
@@ -138,9 +136,7 @@ def test_serialize_exportplan_data(user):
 
 
 def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company_profile):
-    mock_get_company_profile.return_value = {
-        'expertise_countries': ['CN']
-    }
+    mock_get_company_profile.return_value = {'expertise_countries': ['CN']}
 
     exportplan_data = helpers.serialize_exportplan_data(user)
     assert exportplan_data == {'target_markets': [{'country': 'China'}]}
@@ -148,9 +144,7 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
 
 @mock.patch.object(helpers, 'get_exportplan')
 @mock.patch.object(helpers, 'create_export_plan')
-def test_get_or_create_export_plan_created(
-        mock_create_export_plan, mock_get_exportplan, user
-):
+def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exportplan, user):
     mock_get_exportplan.return_value = None
 
     mock_create_export_plan.return_value = {'export_plan_created'}
@@ -161,10 +155,7 @@ def test_get_or_create_export_plan_created(
     assert mock_get_exportplan.call_args == mock.call('123')
 
     assert mock_create_export_plan.call_count == 1
-    assert mock_create_export_plan.call_args == mock.call(
-        exportplan_data={},
-        sso_session_id='123'
-    )
+    assert mock_create_export_plan.call_args == mock.call(exportplan_data={}, sso_session_id='123')
 
     assert export_plan == {'export_plan_created'}
 
@@ -178,7 +169,7 @@ def test_objective_create(mock_create_objective):
         'start_date': '2020-03-01',
         'end_date': '2020-12-23',
         'companyexportplan': 1,
-        'pk': 1
+        'pk': 1,
     }
     mock_create_objective.return_value = create_response(data)
 
@@ -198,7 +189,7 @@ def test_objective_update(mock_update_objective):
         'start_date': '2020-03-01',
         'end_date': '2020-12-23',
         'companyexportplan': 1,
-        'pk': 1
+        'pk': 1,
     }
     mock_update_objective.return_value = create_response(data)
 
@@ -228,7 +219,7 @@ def test_route_to_markets_create(mock_route_to_market_create):
         'promote': 'Biscuits',
         'market_promotional_channel': 'News',
         'companyexportplan': 1,
-        'pk': 1
+        'pk': 1,
     }
     mock_route_to_market_create.return_value = create_response(data)
 
@@ -246,7 +237,7 @@ def test_route_to_markets_update(mock_route_to_market_update):
         'promote': 'Biscuits',
         'market_promotional_channel': 'News',
         'companyexportplan': 1,
-        'pk': 1
+        'pk': 1,
     }
     mock_route_to_market_update.return_value = create_response(data)
 
@@ -303,12 +294,7 @@ def test_get_population_data(mock_get_population_data):
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_create')
 def test_target_market_documentss_create(mock_target_market_documents_create):
-    data = {
-        'document_name': 'doc1',
-        'note': 'my notes',
-        'companyexportplan': 1,
-        'pk': 1
-    }
+    data = {'document_name': 'doc1', 'note': 'my notes', 'companyexportplan': 1, 'pk': 1}
     mock_target_market_documents_create.return_value = create_response(data)
 
     response = helpers.create_target_market_documents(123, data)
@@ -320,12 +306,7 @@ def test_target_market_documentss_create(mock_target_market_documents_create):
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_update')
 def test_target_market_documentss_update(mock_target_market_documents_update):
-    data = {
-        'document_name': 'doc1',
-        'note': 'my notes',
-        'companyexportplan': 1,
-        'pk': 1
-    }
+    data = {'document_name': 'doc1', 'note': 'my notes', 'companyexportplan': 1, 'pk': 1}
     mock_target_market_documents_update.return_value = create_response(data)
 
     response = helpers.update_target_market_documents(123, data)
@@ -351,26 +332,20 @@ def test_target_market_documents_delete(mock_target_market_documents_delete):
 def test_get_all_lesson_details(curated_list_pages_with_lessons):
     lessons = helpers.get_all_lesson_details()
     assert lessons == {
-        'lesson-a1':
-            {
-                'topic_name': 'Some title', 'title': 'Lesson A1', 'estimated_read_duration': None, 'url': None
-            },
-        'lesson-a2':
-            {
-                'topic_name': 'Some title', 'title': 'Lesson A2', 'estimated_read_duration': None, 'url': None
-            },
-        'lesson-b1':
-            {
-                'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': None, 'url': None
-            },
+        'lesson-a1': {'topic_name': 'Some title', 'title': 'Lesson A1', 'estimated_read_duration': None, 'url': None},
+        'lesson-a2': {'topic_name': 'Some title', 'title': 'Lesson A2', 'estimated_read_duration': None, 'url': None},
+        'lesson-b1': {'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': None, 'url': None},
     }
 
 
-@pytest.mark.parametrize('export_plan_data, expected', [
-    [{'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]}, None],
-    [{'export_countries': []}, True],
-    [{'export_countries': None}, True],
-])
+@pytest.mark.parametrize(
+    'export_plan_data, expected',
+    [
+        [{'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]}, None],
+        [{'export_countries': []}, True],
+        [{'export_countries': None}, True],
+    ],
+)
 @mock.patch.object(helpers, 'get_exportplan')
 def test_get_current_url_country_required(mock_get_exportplan, export_plan_data, expected):
     mock_get_exportplan.return_value = export_plan_data
@@ -386,11 +361,14 @@ def test_get_current_url_country_required_not_in_check(mock_get_exportplan):
     assert current_url.get('country_required') is None
 
 
-@pytest.mark.parametrize('export_plan_data, expected', [
-    [{'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}]}, None],
-    [{'export_commodity_codes': []}, True],
-    [{'export_commodity_codes': None}, True],
-])
+@pytest.mark.parametrize(
+    'export_plan_data, expected',
+    [
+        [{'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}]}, None],
+        [{'export_commodity_codes': []}, True],
+        [{'export_commodity_codes': None}, True],
+    ],
+)
 @mock.patch.object(helpers, 'get_exportplan')
 def test_get_current_url_product_required(mock_get_exportplan, export_plan_data, expected):
     mock_get_exportplan.return_value = export_plan_data

@@ -1,0 +1,8 @@
+{
+  "folders": [],
+  "settings": {},
+  "syntax_override": {
+    "\\.js$": ["Babel", "JavaScript (Babel)"],
+    "\\.jsx$": ["Babel", "JavaScript (Babel)"]
+  }
+}

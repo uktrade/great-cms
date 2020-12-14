@@ -1,5 +1,4 @@
 import time
-
 from unittest import mock
 
 import pytest
@@ -24,11 +23,10 @@ from core.models import (
     TopicPage,
     case_study_body_validation,
 )
-
 from domestic.models import DomesticDashboard, DomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
-from tests.unit.core import factories
 from tests.helpers import make_test_video
+from tests.unit.core import factories
 from .factories import (
     CaseStudyFactory,
     DetailPageFactory,
@@ -101,14 +99,9 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
 ):
 
     list_page = factories.ListPageFactory(
-        parent=domestic_homepage,
-        record_read_progress=False,
-        slug='example-learning-homepage'
+        parent=domestic_homepage, record_read_progress=False, slug='example-learning-homepage'
     )
-    curated_list_page = factories.CuratedListPageFactory(
-        parent=list_page,
-        slug='example-module'
-    )
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page, slug='example-module')
 
     expected_url = list_page.url
     assert expected_url == '/example-learning-homepage/'
@@ -128,45 +121,35 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     'querystring_to_add,expected_backlink_value',
     (
         ('', None),
-        (
-            '?return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F',
-            '/export-plan/section/about-your-business/'
-        ),
+        ('?return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F', '/export-plan/section/about-your-business/'),
         (
             '?return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
-            '/export-plan/section/about-your-business/?foo=bar'
+            '/export-plan/section/about-your-business/?foo=bar',
         ),
         (
             '?bam=baz&return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
-            '/export-plan/section/about-your-business/?foo=bar'  # NB: bam=baz should not be here
+            '/export-plan/section/about-your-business/?foo=bar',  # NB: bam=baz should not be here
         ),
-        (
-            '?bam=baz&return-link=example%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
-            None
-        ),
+        ('?bam=baz&return-link=example%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar', None),
         (
             (
                 '?bam=baz&return-link=https%3A%2F%2Fphishing.example.com'
                 '%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar'
             ),
-            None
+            None,
         ),
         (
             (
                 '?bam=baz&return-link=%3A%2F%2Fphishing.example.com'
                 '%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar'
             ),
-            None
+            None,
         ),
-        (
-            '?bam=baz',
-            None
-        ),
+        ('?bam=baz', None),
         (
             '?bam=baz&return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
-            '/export-plan/section/about-your-business/?foo=bar'
+            '/export-plan/section/about-your-business/?foo=bar',
         ),
-
     ),
     ids=(
         'no backlink querystring present',
@@ -178,27 +161,16 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
         'backlink querystring present WITH bad payload - path is a URL with flexible proto',
         'backlink querystring NOT present BUT another querystring is',
         'backlink querystring present WITH OTHER QUERYSTRING TOO',
-    )
+    ),
 )
 def test_detail_page_get_context_handles_backlink_querystring_appropriately(
-    rf,
-    domestic_homepage,
-    domestic_site,
-    user,
-    querystring_to_add,
-    expected_backlink_value
+    rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value
 ):
 
-    list_page = factories.ListPageFactory(
-        parent=domestic_homepage,
-        record_read_progress=False
-    )
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
     topic_page = factories.TopicPageFactory(parent=curated_list_page)
-    detail_page = factories.DetailPageFactory(
-        parent=topic_page,
-        template='learn/detail_page.html'
-    )
+    detail_page = factories.DetailPageFactory(parent=topic_page, template='learn/detail_page.html')
 
     lesson_page_url = detail_page.url
     if querystring_to_add:
@@ -232,18 +204,9 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         ('/export-plan/section/payment-methods/', 'Payment methods'),
         ('/export-plan/section/travel-and-business-policies/', 'Travel and business policies'),
         ('/export-plan/section/business-risk/', 'Business risk'),
-        (
-            '/export-plan/section/adaptation-for-your-target-market/?foo=bar',
-            'Adaptation for your target market'
-        ),
-        (
-            '/export-plan/',
-            None
-        ),
-        (
-            '/path/that/will/not/match/anything/',
-            None
-        ),
+        ('/export-plan/section/adaptation-for-your-target-market/?foo=bar', 'Adaptation for your target market'),
+        ('/export-plan/', None),
+        ('/path/that/will/not/match/anything/', None),
     ),
     ids=(
         'no backlink',
@@ -261,35 +224,25 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         'Valid backlink with querystring does not break name lookup',
         'backlink for real page that is not an export plan step',
         'backlink for a non-existent page',
-    )
+    ),
 )
 def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_path, expected):
-    detail_page = factories.DetailPageFactory(
-        template='learn/detail_page.html'
-    )
+    detail_page = factories.DetailPageFactory(template='learn/detail_page.html')
     assert detail_page._get_backlink_title(backlink_path) == expected
 
 
 @pytest.mark.django_db
 def test_case_study__str_method():
-    case_study = CaseStudyFactory(
-        title='',
-        company_name='Test Co'
-    )
+    case_study = CaseStudyFactory(title='', company_name='Test Co')
     assert f'{case_study}' == 'Test Co'
 
-    case_study = CaseStudyFactory(
-        title='Alice and Bob export to every continent',
-        company_name='Test Co'
-    )
+    case_study = CaseStudyFactory(title='Alice and Bob export to every continent', company_name='Test Co')
     assert f'{case_study}' == 'Alice and Bob export to every continent'
 
 
 @pytest.mark.django_db
 def test_case_study__timestamps():
-    case_study = CaseStudyFactory(
-        company_name='Test Co'
-    )
+    case_study = CaseStudyFactory(company_name='Test Co')
     created = case_study.created
     modified = case_study.created
     assert created == modified
@@ -303,8 +256,7 @@ def test_case_study__timestamps():
 
 
 _case_study_top_level_error_message = (
-    'This block must contain one Media section (with one or '
-    'two items in it) and one Text section.'
+    'This block must contain one Media section (with one or two items in it) and one Text section.'
 )
 
 _case_study_one_video_only_error_message = 'Only one video may be used in a case study.'
@@ -322,22 +274,13 @@ _case_study_video_order_error_message = 'The video must come before a still imag
         (['text', ('media', ('video', 'image'))], _case_study_top_level_error_message),
         ([('media', ('video',)), ('media', ('video',))], _case_study_top_level_error_message),
         (['text', ('media', ('video', 'image')), 'text'], _case_study_top_level_error_message),
-        (
-            [('media', ('video', 'image')), 'text', ('media', ('video', 'image'))],
-            _case_study_top_level_error_message
-        ),
+        ([('media', ('video', 'image')), 'text', ('media', ('video', 'image'))], _case_study_top_level_error_message),
         ([('media', ('video', 'image')), 'text'], None),
         ([('media', ('video',)), 'text'], None),
         ([('media', ('image',)), 'text'], None),
         ([('media', ('image', 'image')), 'text'], None),
-        (
-            [('media', ('image', 'video')), 'text'],
-            _case_study_video_order_error_message
-        ),
-        (
-            [('media', ('video', 'video')), 'text'],
-            _case_study_one_video_only_error_message
-        ),
+        ([('media', ('image', 'video')), 'text'], _case_study_video_order_error_message),
+        ([('media', ('video', 'video')), 'text'], _case_study_one_video_only_error_message),
     ),
     ids=(
         '1. Top-level check: text node only: not fine',
@@ -348,17 +291,15 @@ _case_study_video_order_error_message = 'The video must come before a still imag
         '6. Top-level check: two media nodes: not fine',
         '7. Top-level check: text, media, text: not fine',
         '8. Top-level check: media, text, media: not fine',
-
         '9. media node (video and image) and text node: fine',
         '10. media node (video only) and text node: fine',
         '11. media node (image only) and text node: fine',
         '12. media node (two images) and text node: fine',
         '13. media node (image before video) and text node: not fine',
         '14. media node (two videos) and text node: not fine',
-    )
+    ),
 )
 def test_case_study_body_validation(block_type_values, exception_message):
-
     def _create_block(block_type):
         mock_block = mock.Mock()
         mock_block.block_type = block_type
@@ -386,7 +327,6 @@ def test_case_study_body_validation(block_type_values, exception_message):
 
 
 class LandingPageTests(WagtailPageTests):
-
     def test_can_be_created_under_homepage(self):
         self.assertAllowedParentPageTypes(LandingPage, {DomesticHomePage})
 
@@ -397,7 +337,6 @@ class LandingPageTests(WagtailPageTests):
 
 
 class ListPageTests(WagtailPageTests):
-
     def test_can_be_created_under_landing_page(self):
         self.assertAllowedParentPageTypes(ListPage, {LandingPage})
 
@@ -406,21 +345,15 @@ class ListPageTests(WagtailPageTests):
 
 
 class CuratedListPageTests(WagtailPageTests):
-
     def test_can_be_created_under_list_page(self):
         self.assertAllowedParentPageTypes(CuratedListPage, {ListPage})
 
     def test_allowed_subtypes(self):
-        self.assertAllowedSubpageTypes(CuratedListPage, {
-            TopicPage,
-            DetailPage,  # TEMPORARY: remove after topics refactor migration has run
-        })
+        self.assertAllowedSubpageTypes(CuratedListPage, {TopicPage})
 
 
 @pytest.mark.django_db
-def test_curatedlistpage_count_detail_pages(
-    curated_list_pages_with_lessons
-):
+def test_curatedlistpage_count_detail_pages(curated_list_pages_with_lessons):
     data = curated_list_pages_with_lessons
     clp_1 = data[0][0]
     clp_2 = data[1][0]
@@ -430,7 +363,6 @@ def test_curatedlistpage_count_detail_pages(
 
 
 class TopicPageTests(WagtailPageTests):
-
     def test_parent_page_types(self):
         self.assertAllowedParentPageTypes(TopicPage, {CuratedListPage})
 
@@ -440,7 +372,7 @@ class TopicPageTests(WagtailPageTests):
             {
                 DetailPage,
                 LessonPlaceholderPage,
-            }
+            },
         )
 
 
@@ -453,10 +385,7 @@ def test_topic_page_redirects_to_module(
     # The topic pages should never render their own content - they are basically
     # scaffolding to give us a sensible page tree. As such they shouldn't be
     # rendered
-    list_page = factories.ListPageFactory(
-        parent=domestic_homepage,
-        record_read_progress=False
-    )
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
     topic_page = TopicPageFactory(
         parent=curated_list_page,
@@ -475,7 +404,6 @@ def test_topic_page_redirects_to_module(
 
 
 class LessonPlaceholderPageTests(WagtailPageTests):
-
     def test_parent_page_types(self):
         self.assertAllowedParentPageTypes(LessonPlaceholderPage, {TopicPage})
 
@@ -490,17 +418,12 @@ def test_placeholder_page_redirects_to_module(
     domestic_site,
 ):
     # The topic pages should never render their own content and instead redirect
-    list_page = factories.ListPageFactory(
-        parent=domestic_homepage,
-        record_read_progress=False
-    )
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
     topic_page = TopicPageFactory(
         parent=curated_list_page,
     )
-    placeholder_page = LessonPlaceholderPageFactory(
-        parent=topic_page
-    )
+    placeholder_page = LessonPlaceholderPageFactory(parent=topic_page)
 
     # Check that we have the page tree set up correctly, else this is None
     assert curated_list_page.url is not None
@@ -515,27 +438,16 @@ def test_placeholder_page_redirects_to_module(
 
 
 class DetailPageTests(WagtailPageTests):
-
     def test_parent_page_types(self):
-        self.assertAllowedParentPageTypes(
-            DetailPage,
-            {
-                CuratedListPage,  # TEMPORARY: remove after topics refactor migration has run
-                TopicPage
-            }
-        )
+        self.assertAllowedParentPageTypes(DetailPage, {TopicPage})
 
     def test_detail_page_creation_for_single_hero_image(self):
-        detail_page = DetailPageFactory(
-            hero=[('Image', ImageFactory())]
-        )
+        detail_page = DetailPageFactory(hero=[('Image', ImageFactory())])
         self.assert_(detail_page, True)
 
     def test_validation_kick_for_multiple_hero_image(self):
         with pytest.raises(ValidationError):
-            detail_page = DetailPageFactory(
-                hero=[('Image', ImageFactory()), ('Image', ImageFactory())]
-            )
+            detail_page = DetailPageFactory(hero=[('Image', ImageFactory()), ('Image', ImageFactory())])
             self.assert_(detail_page, None)
 
 
@@ -586,12 +498,9 @@ class TestImageAltRendition(TestCase, WagtailTestUtils):
         great_image_collection = root_collection.add_child(name='Great Images')
 
         # Create an image with alt text
-        AltTextImage = get_image_model() # Noqa
+        AltTextImage = get_image_model()  # Noqa
         self.image = AltTextImage.objects.create(
-            title='Test image',
-            file=get_test_image_file(),
-            alt_text='smart alt text',
-            collection=great_image_collection
+            title='Test image', file=get_test_image_file(), alt_text='smart alt text', collection=great_image_collection
         )
 
     def test_image_alt_rendition(self):
@@ -603,17 +512,27 @@ class TestImageAltRendition(TestCase, WagtailTestUtils):
 class TestGreatMedia(TestCase):
     def test_sources_mp4_with_no_transcript(self):
         media = make_test_video()
-        self.assertEqual(media.sources, [{
-            'src': '/media/movie.mp4',
-            'type': 'video/mp4',
-            'transcript': None,
-        }])
+        self.assertEqual(
+            media.sources,
+            [
+                {
+                    'src': '/media/movie.mp4',
+                    'type': 'video/mp4',
+                    'transcript': None,
+                }
+            ],
+        )
 
     def test_sources_mp4_with_transcript(self):
         media = make_test_video(transcript='A test transcript text')
 
-        self.assertEqual(media.sources, [{
-            'src': '/media/movie.mp4',
-            'type': 'video/mp4',
-            'transcript': 'A test transcript text',
-        }])
+        self.assertEqual(
+            media.sources,
+            [
+                {
+                    'src': '/media/movie.mp4',
+                    'type': 'video/mp4',
+                    'transcript': 'A test transcript text',
+                }
+            ],
+        )

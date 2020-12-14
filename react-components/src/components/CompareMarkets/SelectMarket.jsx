@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie'
+import { analytics } from '../../Helpers'
 
 import Services from '@src/Services'
 
@@ -13,12 +14,22 @@ function SelectMarket(props) {
   const { market, setMarket } = props;
   const [cookies] = useCookies(['comparisonMarkets']);
 
+  const comparisonMarkets = Object.values(cookies.comparisonMarkets) || {}
+
   const clickMarket = (clickedMarket) => {
+    const marketNames = comparisonMarkets.map(v => v.country_name)
     setMarket(clickedMarket)
+    analytics({
+      'event': 'addFindMarketSuccess',
+      'market1': marketNames[0] || '',
+      'market2': marketNames[1] || '',
+      'market3': marketNames[2] || '',
+      'findMarket':clickedMarket.country_name
+    })
   }
 
   let isComparisonMarketSelected
-  const marketList = Object.values(cookies.comparisonMarkets || {}).map((mapMarket) => {
+  const marketList = comparisonMarkets.map((mapMarket) => {
     const isSelected = (market && market.country_iso2_code) === mapMarket.country_iso2_code
     isComparisonMarketSelected = isComparisonMarketSelected || isSelected
     return (
@@ -42,7 +53,7 @@ function SelectMarket(props) {
 
   return Object.keys(marketList).length ? (
     <div>
-      <section className="grid bg-blue-deep-80 text-white">
+      <section className="grid bg-blue-deep-100 text-white">
         <div className="c-1-4">&nbsp;</div>
         <div className="c-1-2 p-v-m">
           <h2 className="h-m text-white">Ready to choose a country?</h2>

@@ -1,21 +1,18 @@
 import json
-import pytest
-
-from urllib.parse import urlencode
 from unittest import mock
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
+from urllib.parse import urlencode
 
-from django.urls import reverse
-from django.http.cookie import SimpleCookie
+import pytest
 from django.conf import settings
-
-from directory_api_client import api_client
-from directory_sso_api_client import sso_api_client
+from django.http.cookie import SimpleCookie
+from django.urls import reverse
 from formtools.wizard.views import normalize_name
 from rest_framework import status
 
-from core import forms, helpers, serializers, views, cms_slugs
-
+from core import cms_slugs, forms, helpers, serializers, views
+from directory_api_client import api_client
+from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -24,11 +21,13 @@ from tests.unit.core.factories import (
     ListPageFactory,
     TopicPageFactory,
 )
-from tests.unit.learn.factories import LessonPageFactory
 from tests.unit.domestic.factories import DomesticDashboardFactory
+from tests.unit.learn.factories import LessonPageFactory
 
-BETA_AUTH_TOKEN_PAST = 'gAAAAABfCpH53lJcM0TiiXTqD7X18yRoZHOjy-rbSogRxB0v011FMb6rCkMeizffou-z80D9DPL1PWRA7sn9NBrUS' \
-                       '-M7FTQeapvntabhj-on62OFlNvzVMQ= '
+BETA_AUTH_TOKEN_PAST = (
+    'gAAAAABfCpH53lJcM0TiiXTqD7X18yRoZHOjy-rbSogRxB0v011FMb6rCkMeizffou-z80D9DPL1PWRA7sn9NBrUS'
+    '-M7FTQeapvntabhj-on62OFlNvzVMQ= '
+)
 
 
 def submit_step_factory(client, url_name, view_class):
@@ -43,9 +42,10 @@ def submit_step_factory(client, url_name, view_class):
             path=f'{path}?{urlencode(params, doseq=True)}',
             data={
                 view_name + '-current_step': step_name,
-                **{step_name + '-' + key: value for key, value in data.items()}
+                **{step_name + '-' + key: value for key, value in data.items()},
             },
         )
+
     return submit_step
 
 
@@ -164,7 +164,7 @@ def test_dashboard_page_logged_in(
     domestic_homepage,
     domestic_dashboard,
     client,
-    user
+    user,
 ):
     mock_get_user_lesson_completed.return_value = create_response(json_body={'results': []})
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
@@ -175,12 +175,7 @@ def test_dashboard_page_logged_in(
 
 
 @pytest.mark.django_db
-def test_dashboard_page_not_logged_in(
-    domestic_homepage,
-    domestic_dashboard,
-    client,
-    user
-):
+def test_dashboard_page_not_logged_in(domestic_homepage, domestic_dashboard, client, user):
     response = client.get(cms_slugs.DASHBOARD_URL)
     assert response.status_code == 302
     assert response.url == cms_slugs.LOGIN_URL
@@ -202,7 +197,7 @@ def test_dashboard_page_lesson_progress(
     user,
     get_request,
     domestic_homepage,
-    domestic_site
+    domestic_site,
 ):
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
@@ -261,10 +256,15 @@ def test_dashboard_page_lesson_progress(
     # create dashboard
     dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
 
-    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
-        {'lesson': lesson_one.id},
-        {'lesson': lesson_two.id},
-    ]})
+    mock_get_user_lesson_completed.return_value = create_response(
+        json_body={
+            'result': 'ok',
+            'lesson_completed': [
+                {'lesson': lesson_one.id},
+                {'lesson': lesson_two.id},
+            ],
+        }
+    )
 
     context_data = dashboard.get_context(get_request)
     # check the progress
@@ -281,11 +281,12 @@ def test_dashboard_page_lesson_progress(
     assert context_data['module_pages'][1]['completion_count'] == 0
     assert context_data['module_pages'][1]['completed_lesson_pages'] == {}
 
-    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
-        {'lesson': lesson_one.id},
-        {'lesson': lesson_two.id},
-        {'lesson': lesson_five.id}
-    ]})
+    mock_get_user_lesson_completed.return_value = create_response(
+        json_body={
+            'result': 'ok',
+            'lesson_completed': [{'lesson': lesson_one.id}, {'lesson': lesson_two.id}, {'lesson': lesson_five.id}],
+        }
+    )
 
     context_data = dashboard.get_context(get_request)
     # WARNING! The topics should swap round as two is in progress
@@ -313,97 +314,116 @@ def test_dashboard_apis_ok(
     patch_set_user_page_view,
     patch_get_user_page_views,
     patch_get_user_lesson_completed,
-    domestic_homepage
+    domestic_homepage,
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
 
-    with patch(
-        'directory_api_client.api_client.personalisation.events_by_location_list'
-    ) as events_api_results:
-        events_api_results.return_value = Mock(status_code=200, **{'json.return_value': {
-            'results': [{
-                'name': 'Global Aid and Development Directory',
-                'content': 'DIT is producing a directory of companies \
-who supply, or would like to supply, relevant humanitarian aid \
-and development products and services to the United Nations \
-family of organisations and NGOs.  ',
-                'location': {'city': 'London'},
-                'url': 'www.example.com',
-                'date': '2020-06-06'
-            }, {
-                'name': 'Less Info',
-                'content': 'Content',
-                'url': 'www.example.com',
-            }]
-        }})
+    with patch('directory_api_client.api_client.personalisation.events_by_location_list') as events_api_results:
+        events_api_results.return_value = Mock(
+            status_code=200,
+            **{
+                'json.return_value': {
+                    'results': [
+                        {
+                            'name': 'Global Aid and Development Directory',
+                            'content': (
+                                'DIT is producing a directory of companies '
+                                'who supply, or would like to supply, relevant humanitarian aid '
+                                'and development products and services to the United Nations '
+                                'family of organisations and NGOs.  '
+                            ),
+                            'location': {'city': 'London'},
+                            'url': 'www.example.com',
+                            'date': '2020-06-06',
+                        },
+                        {
+                            'name': 'Less Info',
+                            'content': 'Content',
+                            'url': 'www.example.com',
+                        },
+                    ]
+                }
+            },
+        )
 
         with patch(
-            'directory_api_client.api_client.\
-personalisation.export_opportunities_by_relevance_list'
+            'directory_api_client.api_client.personalisation.export_opportunities_by_relevance_list'
         ) as exops_api_results:
-            exops_api_results.return_value = Mock(status_code=200, **{'json.return_value': {
-                'results': [{'title': 'French sardines required',
-                             'url': 'http://exops.trade.great:3001/\
-export-opportunities/opportunities/french-sardines-required',
-                             'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
-                             'published_date': '2020-01-14T15:26:45.334Z',
-                             'closing_date': '2020-06-06',
-                             'source': 'post'}]
-            }})
+            exops_api_results.return_value = Mock(
+                status_code=200,
+                **{
+                    'json.return_value': {
+                        'results': [
+                            {
+                                'title': 'French sardines required',
+                                'url': (
+                                    'http://exops.trade.great:3001/export-opportunities/'
+                                    'opportunities/french-sardines-required'
+                                ),
+                                'description': 'Nam dolor nostrum distinctio.Et quod itaque.',
+                                'published_date': '2020-01-14T15:26:45.334Z',
+                                'closing_date': '2020-06-06',
+                                'source': 'post',
+                            }
+                        ]
+                    }
+                },
+            )
 
             client.force_login(user)
 
             dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
             context_data = dashboard.get_context(get_request)
 
-            assert context_data['events'] == [{
-                'title': 'Global Aid and Development Directory',
-                'description': 'DIT is producing a directory of compani…',
-                'url': 'www.example.com',
-                'location': 'London',
-                'date': '06 Jun 2020'
-            }, {
-                'title': 'Less Info',
-                'description': 'Content',
-                'url': 'www.example.com',
-                'location': 'n/a',
-                'date': 'n/a'
-            }]
-            assert context_data['export_opportunities'] == [{
-                'title': 'French sardines required',
-                'description': 'Nam dolor nostrum distinctio.…',
-                'source': 'post',
-                'url': 'http://exops.trade.great:3001/export-opportunities\
-/opportunities/french-sardines-required',
-                'published_date': '14 Jan 2020',
-                'closing_date': '06 Jun 2020'
-            }]
+            assert context_data['events'] == [
+                {
+                    'title': 'Global Aid and Development Directory',
+                    'description': 'DIT is producing a directory of compani…',
+                    'url': 'www.example.com',
+                    'location': 'London',
+                    'date': '06 Jun 2020',
+                },
+                {
+                    'title': 'Less Info',
+                    'description': 'Content',
+                    'url': 'www.example.com',
+                    'location': 'n/a',
+                    'date': 'n/a',
+                },
+            ]
+            assert context_data['export_opportunities'] == [
+                {
+                    'title': 'French sardines required',
+                    'description': 'Nam dolor nostrum distinctio.…',
+                    'source': 'post',
+                    'url': 'http://exops.trade.great:3001/export-opportunities/opportunities/french-sardines-required',
+                    'published_date': '14 Jan 2020',
+                    'closing_date': '06 Jun 2020',
+                }
+            ]
 
 
 @pytest.mark.django_db
 def test_dashboard_apis_fail(
-        client,
-        user,
-        get_request,
-        patch_get_dashboard_events,
-        patch_get_dashboard_export_opportunities,
-        patch_set_user_page_view,
-        patch_get_user_page_views,
-        patch_get_user_lesson_completed,
-        domestic_homepage
+    client,
+    user,
+    get_request,
+    patch_get_dashboard_events,
+    patch_get_dashboard_export_opportunities,
+    patch_set_user_page_view,
+    patch_get_user_page_views,
+    patch_get_user_lesson_completed,
+    domestic_homepage,
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
     patch_get_user_lesson_completed.stop()
-    with patch(
-        'directory_api_client.api_client.personalisation.events_by_location_list'
-    ) as events_api_results:
+    with patch('directory_api_client.api_client.personalisation.events_by_location_list') as events_api_results:
         events_api_results.return_value = Mock(status_code=500, **{'json.return_value': {}})
 
         with patch(
-            'directory_api_client.api_client.\
-personalisation.export_opportunities_by_relevance_list'
+            'directory_api_client.api_client.personalisation.export_opportunities_by_relevance_list'
         ) as exops_api_results:
             exops_api_results.return_value = Mock(status_code=500, **{'json.return_value': {}})
 
@@ -434,8 +454,7 @@ def test_capability_article_logged_in(client, user):
 def test_capability_article_not_logged_in(client):
 
     url = reverse(
-        'core:capability-article',
-        kwargs={'topic': 'some-topic', 'chapter': 'some-chapter', 'article': 'some-article'}
+        'core:capability-article', kwargs={'topic': 'some-topic', 'chapter': 'some-chapter', 'article': 'some-article'}
     )
 
     response = client.get(url)
@@ -519,9 +538,10 @@ def test_refine_commodity(mock_search_commodity_refine, client):
         {'value': '223323', 'label': 'some other description'},
     ]
 
-    response = client.post(reverse('core:api-lookup-product'), {
-        'interaction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'
-    })
+    response = client.post(
+        reverse('core:api-lookup-product'),
+        {'interaction_id': 1234, 'tx_id': 1234, 'value_id': 1234, 'value_string': 'processed'},
+    )
 
     assert response.status_code == 200
     assert response.json() == data
@@ -544,7 +564,7 @@ def test_get_countries(client):
 def test_get_suggested_countries(mock_get_suggested_countries_by_hs_code, client, user):
     data = [
         {'hs_code': 4, 'country_name': 'Sweden', 'country_iso2': 'SE', 'region': 'Europe'},
-        {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'}
+        {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'},
     ]
     mock_get_suggested_countries_by_hs_code.return_value = data
 
@@ -770,12 +790,7 @@ def test_check_view_external_error(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-def test_target_market_page(
-    patch_export_plan,
-    domestic_homepage,
-    client,
-    user
-):
+def test_target_market_page(patch_export_plan, domestic_homepage, client, user):
     client.force_login(user)
     url = reverse('core:target-market')
 
@@ -796,7 +811,7 @@ def test_target_market_page(
         components__1__route__route_type='plan',
         components__1__route__title='Planning title',
         components__1__route__body='Planning Body Text',
-        components__1__route__button={'label': 'Start planning'}
+        components__1__route__button={'label': 'Start planning'},
     )
     response = client.get(url)
     assert response.status_code == 200
@@ -822,7 +837,7 @@ def test_contact_us_form_prepopualate(client, user):
 @mock.patch.object(helpers, 'get_location')
 @mock.patch.object(views.ContactUsHelpFormView.form_class, 'save')
 def test_contact_us_help_notify_save_success(
-        mock_save, mock_get_location, client, get_location_value, contact_form_data
+    mock_save, mock_get_location, client, get_location_value, contact_form_data
 ):
     mock_get_location.return_value = get_location_value
     url = reverse('core:contact-us-help')
@@ -838,13 +853,13 @@ def test_contact_us_help_notify_save_success(
             sender={
                 'email_address': contact_form_data['email'],
                 'country_code': get_location_value['country'] if get_location_value else None,
-                'ip_address': '127.0.0.1'
+                'ip_address': '127.0.0.1',
             },
-            template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID
+            template_id=settings.CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID,
         ),
         mock.call(
             email_address=contact_form_data['email'],
             form_url='/contact-us/help/',
-            template_id=settings.CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID
-        )
+            template_id=settings.CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID,
+        ),
     ]

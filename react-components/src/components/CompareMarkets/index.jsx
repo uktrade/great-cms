@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie'
+import { analytics } from '../../Helpers'
 import Services from '@src/Services'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
@@ -44,10 +45,21 @@ function CompareMarkets(props) {
     return countryData ? countryData[1] : []
   }
 
+  const pushAnalytics = (markets) => {
+    const marketNames = Object.values(markets).map(v => v.country_name)
+    analytics({
+      'event': 'findMarketView',
+      'market1': marketNames[0] || '',
+      'market2': marketNames[1] || '',
+      'market3': marketNames[2] || '',
+    })
+  }
+
   const addCountry = (country) => {
     const newComparisonMarkets = cookies.comparisonMarkets || {}
     newComparisonMarkets[country.country_iso2_code] = country
     setCookie('comparisonMarkets', newComparisonMarkets)
+    pushAnalytics(newComparisonMarkets)
   }
 
   const removeMarket = (evt) => {
@@ -55,6 +67,7 @@ function CompareMarkets(props) {
     const tmpMarkets = cookies.comparisonMarkets || {}
     delete(tmpMarkets[id])
     setCookie('comparisonMarkets', tmpMarkets)
+    pushAnalytics(tmpMarkets)
   }
 
   let triggerButton
@@ -77,35 +90,72 @@ function CompareMarkets(props) {
     )
   }
 
+  const normalisePopulationValues = (str) => {
+    if (str) {
+      var values = str.replace(/\d+(\.\d+)?/g, ($0) => {
+        return Math.round(parseFloat($0) * 10) / 10;
+      })
+      values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
+        return Math.round($0);
+      })
+      return values.split(/\(([^)]+)\)/);
+    } else {
+      return 'Data not available';
+    }
+  }
+
   let dataTable
   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
 
     const tableBody = Object.values(comparisonMarkets).map(market => {
       const populationCountryData = getCountryData(market.country_name)
-      return (<tr key={`market-${market.country_iso2_code}`} id={`market-${market.country_name}`}>
-        <td className="p-v-xs name">
-          <div style={{whiteSpace:'nowrap'}}>
-            <span className="body-l-b" id={`market-${market.country_name}`}>{market.country_name}</span>
-            <button type="button" 
-              onClick={removeMarket} 
-              className="iconic" 
-              data-id={market.country_iso2_code} 
-              aria-label={`Remove ${market.country_name}`}>
-              <i className="fa fa-times-circle"/>
-            </button>
-          </div>
-        </td>
-        <td className="total-population">{populationCountryData ? populationCountryData.total_population : ''}</td>
-        <td className="internet-usage">{populationCountryData && populationCountryData.internet_usage ? `${populationCountryData.internet_usage.value}%` : 'NA'}</td>
-        <td className="urban-population"><h1>{populationCountryData ? populationCountryData.urban_population_percentage_formatted : ''}</h1></td>
-        <td className="rural-population"><h1>{populationCountryData ? populationCountryData.rural_population_percentage_formatted : ''}</h1></td>
-      <td>{populationCountryData && populationCountryData.cpi ? populationCountryData.cpi.value : 'NA'}</td></tr>)
+      let populationCountryRow
+
+      if (populationCountryData) {
+        populationCountryRow = (
+          <React.Fragment>
+            <td className="total-population">{normalisePopulationValues(populationCountryData.total_population)}</td>
+            <td className="internet-usage">{populationCountryData.internet_usage ? normalisePopulationValues(`${populationCountryData.internet_usage.value}%`) : 'Data not available'}</td>
+            <td className="urban-population">
+              <h1>{normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[0]}</h1>
+              <span className="body-m">{normalisePopulationValues(populationCountryData.urban_population_percentage_formatted)[1]}</span>
+            </td>
+            <td className="rural-population">
+              <h1>{normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[0]}</h1>
+              <span className="body-m">{normalisePopulationValues(populationCountryData.rural_population_percentage_formatted)[1]}</span>
+            </td>
+            <td>{populationCountryData.cpi ? populationCountryData.cpi.value : 'Data not available'}</td>
+          </React.Fragment>
+        )
+      } else {
+        populationCountryRow = (
+          <td colspan="5" className="no-data">Data is not currently available for this country</td>
+        )
+      }
+
+      return (
+        <tr key={`market-${market.country_iso2_code}`} id={`market-${market.country_name}`}>
+          <td className="p-v-xs name">
+            <div style={{whiteSpace:'nowrap'}}>
+              <button type="button"
+                onClick={removeMarket}
+                className="iconic"
+                data-id={market.country_iso2_code}
+                aria-label={`Remove ${market.country_name}`}>
+                <i className="fa fa-trash-alt icon--border"/>
+              </button>
+              <span className="body-l-b" id={`market-${market.country_name}`}>{market.country_name}</span>
+            </div>
+          </td>
+          {populationCountryRow}
+        </tr>
+      )
     })
     dataTable = (
       <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
         <table>
           <thead>
-            <tr>
+            <tr className="body-l-b">
               <th>&nbsp;</th>
               <th>Total Population</th>
               <th>Access to internet</th>
@@ -118,6 +168,13 @@ function CompareMarkets(props) {
             {tableBody}
           </tbody>
         </table>
+        <p className="source-attribution body-s">
+          Population data: <a href="https://population.un.org/wpp/Download/Standard/Population/">United Nations</a>
+          &nbsp;CC BY 3.0 IGO. Urban and Rural Populations:&nbsp;
+          <a href="https://population.un.org/wup/Download/">United Nations</a>
+          &nbsp;CC BY 3.0 IGO. ICT Indicators Edition 2019/2:&nbsp;
+          <a href="https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en">ITU (2020)</a>
+        </p>
         {triggerButton}
       </div>
     )

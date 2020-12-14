@@ -76,7 +76,6 @@ $fa-font-path: '/static/fonts';
 
 @import 'components/forms';
 @import 'components/progress-wizard';
-@import 'components/field-with-example';
 @import 'components/insights';
 @import 'components/product-finder';
 @import 'components/sign-up';
@@ -93,8 +92,7 @@ $fa-font-path: '/static/fonts';
 @import 'exportplan/dashboard';
 @import 'exportplan/statistics';
 @import 'exportplan/sections';
-@import 'exportplan/objectives';
 @import 'learn/base';
 @import 'learn/market-finder';
-@import 'exportplan/builder';
+@import 'exportplan/sidebar';
 @import 'exportplan/costs';

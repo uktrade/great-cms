@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 from typing import List
 
+import allure
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
-import allure
 from tests.browser.common_selectors import (
     HeaderSignedIn,
     SignUpModal,
     SignUpModalVerificationCode,
 )
-from tests.browser.steps import (
-    should_not_see_any_element,
-    should_not_see_errors,
-)
+from tests.browser.steps import should_not_see_any_element, should_not_see_errors
 from tests.browser.util import (
     attach_jpg_screenshot,
     find_element,

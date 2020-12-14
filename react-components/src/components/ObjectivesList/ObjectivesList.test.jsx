@@ -1,134 +1,143 @@
 import React from 'react'
 
-import Enzyme from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import fetchMock from 'fetch-mock'
-import { fakeSchedulers } from 'rxjs-marbles/jest'
-
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 import { ObjectivesList } from '@src/components/ObjectivesList'
-import Field from '@src/components/Fields/Field'
 import Services from '@src/Services'
 
-Enzyme.configure({ adapter: new Adapter() })
-
-let wrapper;
-
-const dummyObjectiveOne = {
-  description: 'Some text',
-  owner: 'Jane Doe',
-  planned_reviews: 'Lorem ipsum',
-  start_date: '',
-  end_date: '',
-  companyexportplan: 1,
-  pk: 1,
-  isLoading: false,
-  showSavedMessage: false,
-  errors: {},
+const props = {
+  objectives: [
+    {
+      description: 'Some text',
+      owner: 'Jane Doe',
+      planned_reviews: 'Lorem ipsum',
+      start_date: '',
+      end_date: '',
+      companyexportplan: 1,
+      pk: 1,
+      isLoading: false,
+      showSavedMessage: false,
+      errors: {},
+    },
+    {
+      description: 'Some text',
+      owner: 'Jane Doe',
+      planned_reviews: 'Lorem ipsum',
+      start_date: '',
+      end_date: '',
+      companyexportplan: 1,
+      pk: 2,
+      isLoading: false,
+      showSavedMessage: false,
+      errors: {},
+    },
+    {
+      description: '',
+      owner: '',
+      planned_reviews: 'Lorem ipsum',
+      start_date: '',
+      end_date: '',
+      companyexportplan: 1,
+      pk: 3,
+      isLoading: false,
+      showSavedMessage: false,
+      errors: {},
+    },
+  ],
+  exportPlanID: 10,
 }
 
-const dummyObjectiveTwo = {
-  description: 'Some text',
-  owner: 'Jane Doe',
-  planned_reviews: 'Lorem ipsum',
-  start_date: '',
-  end_date: '',
-  companyexportplan: 1,
-  pk: 2,
-  isLoading: false,
-  showSavedMessage: false,
-  errors: {},
-}
+const setup = ({ exportPlanID, objectives }) => {
+  const component = render(
+    <ObjectivesList exportPlanID={exportPlanID} objectives={objectives} />
+  )
 
-const dummyObjectiveThree = {
-  description: '',
-  owner: '',
-  planned_reviews: 'Lorem ipsum',
-  start_date: '',
-  end_date: '',
-  companyexportplan: 1,
-  pk: 3,
-  isLoading: false,
-  showSavedMessage: false,
-  errors: {},
+  return {
+    ...component,
+  }
 }
-
-const objectives = [dummyObjectiveOne, dummyObjectiveTwo, dummyObjectiveThree]
 
 beforeEach(() => {
   jest.useFakeTimers()
-  fetchMock.reset()
-
-  wrapper = Enzyme.mount(
-    <ObjectivesList
-      objectives={objectives}
-      exportPlanID={1}
-    />
-  )
-
-  Services.setConfig({
-    apiObjectivesCreateUrl: 'http://www.example.com/export-plan/api/objectives/create/',
-    apiObjectivesDeleteUrl: 'http://www.example.com/export-plan/api/objectives/delete/',
-    apiObjectivesUpdateUrl: 'http://www.example.com/export-plan/api/objectives/update/',
-  })
-
 })
 
 afterEach(() => {
   jest.useRealTimers()
+  cleanup()
 })
 
 describe('ObjectivesList', () => {
-
-  test('should update objectives list state on change', () => {
-
-    const input = wrapper.find('#description textarea').first()
-
-    // change value of form field
-    const dummyEvent = {
-      target: {name: 'description', value: 'Lorem ipsum'}
-    }
-
-    input.simulate('change', dummyEvent)
-
-    const updatedObjective = {...dummyObjectiveOne}
-    updatedObjective.description = 'Lorem ipsum'
-
-    const updatedObjectives = [updatedObjective, dummyObjectiveTwo, dummyObjectiveThree]
-
-    // check objectives state has changed
-    expect(wrapper.state('objectives')).toStrictEqual(updatedObjectives)
-
+  it('Should have 3 Objectives', () => {
+    const { getByLabelText } = setup({ ...props })
+    getByLabelText('Objective 1')
+    getByLabelText('Objective 2')
+    getByLabelText('Objective 3')
   })
 
-  test('should debounce input and show saved message', () => {
+  it('should update an objective', async () => {
+    Services.updateObjective = jest.fn(() => Promise.resolve())
+    const { container } = setup({ ...props })
 
-    fetchMock.post(Services.config.apiObjectivesUpdateUrl, 200)
-
-    const input = wrapper.find('#description_1 textarea')
-
-    expect(wrapper.state('objectives')[0].isLoading).toBe(false)
-
-    // change value of form field
-    const dummyEvent = {
-      target: {name: 'description', value: 'Lorem ipsum'}
-    }
-
-    fakeSchedulers((advance) => {
-      input.simulate('change', dummyEvent)
-
-      // wait for debounce
-      advance(1000 * 3)
-      expect(wrapper.state('objectives')[0].isLoading).toBe(true)
-      expect(wrapper.state('objectives')[0].showSavedMessage).toBe(true)
+    const textarea = container.querySelectorAll('textarea')[0]
+    fireEvent.change(textarea, {
+      target: { value: 'new plan' },
     })
 
-    fakeSchedulers((advance) => {
-      // wait for saved message to hide
-      advance(1000 * 3)
-      expect(wrapper.state('objectives')[0].isLoading).toBe(false)
-      expect(wrapper.state('objectives')[0].showSavedMessage).toBe(false)
+    await waitFor(() => {
+      expect(Services.updateObjective).toHaveBeenCalledTimes(1)
+      expect(Services.updateObjective).toHaveBeenLastCalledWith({
+        description: 'new plan',
+        owner: 'Jane Doe',
+        planned_reviews: 'Lorem ipsum',
+        start_date: '',
+        end_date: '',
+        companyexportplan: 1,
+        pk: 1,
+        isLoading: false,
+        showSavedMessage: false,
+        errors: {},
+      })
+      expect(textarea.value).toEqual('new plan')
     })
-
   })
 
+  it('should add an objective', async () => {
+    Services.createObjective = jest.fn(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            companyexportplan: 3,
+            description: '',
+            end_date: '2020-12-11',
+            owner: '',
+            pk: 53,
+            planned_reviews: '',
+            start_date: '2020-12-11',
+          }),
+      })
+    )
+
+    const { getByText, queryByLabelText } = setup({ ...props })
+    fireEvent.click(getByText('Add goal 4 of 5'))
+
+    expect(queryByLabelText('Objective 4')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(Services.createObjective).toHaveBeenCalledTimes(1)
+      queryByLabelText('Objective 4')
+      getByText('Add goal 5 of 5')
+    })
+  })
+
+  it('Should delete objective', async () => {
+    Services.deleteObjective = jest.fn(() => Promise.resolve())
+    const { container, queryByLabelText } = setup({ ...props })
+    const button = container.querySelectorAll('.button--delete')[2]
+
+    fireEvent.click(button)
+    queryByLabelText('Objective 3')
+    await waitFor(() => {
+      expect(Services.deleteObjective).toHaveBeenCalledTimes(1)
+      expect(Services.deleteObjective).toHaveBeenCalledWith(3)
+      expect(queryByLabelText('Objective 3')).not.toBeInTheDocument()
+    })
+  })
 })

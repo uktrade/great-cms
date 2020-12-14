@@ -1,13 +1,13 @@
-from directory_constants import choices
-
+from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail_personalisation.rules import AbstractBaseRule
 
-from django.db import models
+from directory_constants import choices
 
 
 class MatchProductExpertise(AbstractBaseRule):
     """Match product in the user's expertise"""
+
     icon = 'fa-user'
 
     product = models.ForeignKey('core.Product', on_delete=models.CASCADE)
@@ -27,15 +27,12 @@ class MatchProductExpertise(AbstractBaseRule):
                 return self.product.name in request.user.company.expertise_products_services
 
     def description(self):
-        return {
-            'title': 'Match this product against user expertise:',
-            'value': f'{self.product.name}',
-            'code': True
-        }
+        return {'title': 'Match this product against user expertise:', 'value': f'{self.product.name}', 'code': True}
 
 
 class MatchCountryQuerystring(AbstractBaseRule):
     """Match country in querystring"""
+
     icon = 'fa-user'
 
     country = models.ForeignKey('core.Country', on_delete=models.CASCADE)
@@ -51,15 +48,12 @@ class MatchCountryQuerystring(AbstractBaseRule):
         return request.GET.get('country') == self.country.name
 
     def description(self):
-        return {
-            'title': 'Match this country in querystring',
-            'value': f'{self.country.name}',
-            'code': True
-        }
+        return {'title': 'Match this country in querystring', 'value': f'{self.country.name}', 'code': True}
 
 
 class MatchFirstCountryOfInterestRule(AbstractBaseRule):
     """Match with first country in user's list of selected countries of interest"""
+
     icon = 'fa-user'
 
     country = models.ForeignKey('core.Country', on_delete=models.CASCADE)
@@ -81,12 +75,13 @@ class MatchFirstCountryOfInterestRule(AbstractBaseRule):
         return {
             'title': 'Match this country with chosen country of interest',
             'value': f'{self.country.name}',
-            'code': True
+            'code': True,
         }
 
 
 class MatchFirstIndustryOfInterestRule(AbstractBaseRule):
     """Match with first industry in user's list of selected countries of interest"""
+
     icon = 'fa-user'
 
     industry = models.TextField(choices=choices.SECTORS)
@@ -108,5 +103,5 @@ class MatchFirstIndustryOfInterestRule(AbstractBaseRule):
         return {
             'title': 'Match this country with chosen country of interest',
             'value': f'{self.industry}',
-            'code': True
+            'code': True,
         }
