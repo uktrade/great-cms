@@ -23,9 +23,9 @@ function Tab(props) {
   }
 
   return (
-    <li className={cssClassName} onClick={onClick}>
+    <button type="button" className={cssClassName} onClick={onClick}>
       {props.label}
-    </li>
+    </button>
   )
 }
 

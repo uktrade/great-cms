@@ -15,11 +15,10 @@ function Tabs(props) {
 
   return (
     <div className="tabs">
-      <ol className="tab-list">
+      <ol className="tab-list body-m">
         {props.children.map((child) => {
           const { label } = child.props
-
-          return (
+          return props.showTabs && (
             <Tab
               activeTab={activeTab}
               key={label}

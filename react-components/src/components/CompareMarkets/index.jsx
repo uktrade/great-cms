@@ -52,57 +52,45 @@ function CompareMarkets(props) {
     pushAnalytics(tmpMarkets)
   }
 
-  let triggerButton
-  if (!selectedProduct) {
-    triggerButton = (
-      <button
-        type="button"
-        className="button button--primary button--icon"
-        onClick={openModal}
-      >
-        <i className="fa fa-plus-square" />
-        Select product
-      </button>
-    )
-  } else if (selectedLength < maxSelectedLength) {
-    triggerButton = (
-      <button
-        type="button"
-        className="add-market button button--primary button--icon"
-        onClick={openModal}
-      >
-        <i className="fa fa-plus-square" />
-        Select market {selectedLength + 1} of 3
-      </button>
-    )
+  const buttonClass = `${
+    selectedProduct ? 'add-market' : ''
+  } button button--primary button--icon`
+  let buttonLabel = 'Select product'
+  if (selectedProduct) {
+    buttonLabel =
+      selectedLength > 0
+        ? `Add country ${selectedLength + 1} of ${maxSelectedLength}`
+        : 'Add country to compare'
   }
+  const triggerButton =
+    selectedLength < maxSelectedLength ? (
+      <button type="button" className={buttonClass} onClick={openModal}>
+        <i className="fa fa-plus-square" />
+        {buttonLabel}
+      </button>
+    ) : (
+      ''
+    )
 
-  let populationDiv
-  populationDiv = (
-    <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
+  let tabMap = {
+    population: (
       <PopulationData
         comparisonMarkets={comparisonMarkets}
         removeMarket={removeMarket}
       />
-      {triggerButton}
-    </div>
-  )
-
-  let economyDiv
-  economyDiv = (
-    <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
+    ),
+    economy: (
       <EconomyData
         comparisonMarkets={comparisonMarkets}
         removeMarket={removeMarket}
         selectedProduct={selectedProduct}
       />
-      {triggerButton}
-    </div>
-  )
+    ),
+  }
 
   let tabsContainer
 
-  if (selectedProduct) {
+  if (selectedProduct && selectedLength) {
     let tabs = JSON.parse(props.tabs)
     if (!isObject(tabs)) {
       tabs = JSON.parse(tabs)
@@ -111,40 +99,35 @@ function CompareMarkets(props) {
     if (tabs && Object.keys(tabs).length > 0) {
       listOfTabs = Object.keys(tabs).filter((key) => tabs[key])
     }
-
-    if (listOfTabs && listOfTabs.length > 1) {
+    if (listOfTabs) {
       tabsContainer = (
-        <Tabs>
+        <Tabs showTabs={listOfTabs.length > 1}>
           {listOfTabs.map((item) => {
-            let Component
-            Component = eval(item + 'Div')
-
             return (
               <div
                 key={item}
                 label={item.toUpperCase()}
                 className="button button--small button--tertiary"
               >
-                {Component}
+                <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
+                  {tabMap[item]}
+                  {triggerButton}
+                </div>
               </div>
             )
           })}
         </Tabs>
       )
-    } else if (listOfTabs) {
-      tabsContainer = (
-        <span>
-          {listOfTabs.map((item) => {
-            return eval(item + 'Div')
-          })}
-        </span>
-      )
     }
   } else {
+    // Either We're missing a product or any countries
     tabsContainer = (
-      <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
-        {triggerButton}
-      </div>
+      <section className="container">
+        <div class="grid">
+          <div class="c-1-4-l">&nbsp;</div>
+          <div class="c-1-2-l">{triggerButton}</div>
+        </div>
+      </section>
     )
   }
 
