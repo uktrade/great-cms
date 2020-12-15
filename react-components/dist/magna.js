@@ -71900,8 +71900,7 @@ var saveToExportPlan = function saveToExportPlan(country) {
     Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["analytics"])({
       'event': 'addMarketSuccess',
       'suggestMarket': country.suggested ? name : '',
-      'listMarket': country.suggested ? '' : name,
-      'marketAdded': name
+      'listMarket': country.suggested ? '' : name
     });
   })["catch"](function () {// TODO: Add error confirmation here
   });
