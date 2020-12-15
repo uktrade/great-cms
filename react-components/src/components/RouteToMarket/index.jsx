@@ -61,6 +61,7 @@ export const RouteToMarket = memo(({ fields, formData, formFields }) => {
       {routes.length >= 1 &&
         routes.map((field, id) => (
           <RouteToMarketSection
+            key={field.pk}
             {...formData}
             data={formData.data.map((x) =>
               x.name === 'route' ? { ...x, label: `${x.label} ${id + 1}` } : x
@@ -84,20 +85,28 @@ export const RouteToMarket = memo(({ fields, formData, formFields }) => {
 
 RouteToMarket.propTypes = {
   fields: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+    PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    ).isRequired
   ).isRequired,
   formData: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
         label: PropTypes.string,
-        options: PropTypes.arrayOf(PropTypes.string),
+        options: PropTypes.arrayOf(
+          PropTypes.shape({
+            value: PropTypes.string,
+            label: PropTypes.string,
+          })
+        ).isRequired,
       }).isRequired
     ).isRequired,
     example: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
-  formFields: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
+  formFields: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
 }

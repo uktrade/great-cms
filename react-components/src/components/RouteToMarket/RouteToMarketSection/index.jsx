@@ -7,17 +7,14 @@ import { TextArea } from '@src/components/Form/TextArea'
 export const RouteToMarketSection = memo(
   ({ data, label, example, name, onChange, deleteTable, field, tooltip }) => {
     return (
-      <div
-        className="form-table bg-blue-deep-10 radius p-h-s p-b-xxs m-b-s"
-        key={field.pk}
-      >
+      <div className="form-table bg-blue-deep-10 radius p-h-s p-b-xxs m-b-s">
         {data.map((item) => (
-          <>
+          <div key={`${item.name}-${field.pk}`}>
             <Select
-              key={item.name}
               label={item.label}
               update={(x) => onChange(field.pk, x)}
               name={item.name}
+              id={`${item.name}-${field.pk}`}
               options={item.options}
               tooltip={tooltip}
               selected={
@@ -28,7 +25,7 @@ export const RouteToMarketSection = memo(
               }
             />
             <hr className="hr hr--light" />
-          </>
+          </div>
         ))}
         <TextArea
           label={label}
@@ -58,14 +55,21 @@ RouteToMarketSection.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       label: PropTypes.string,
-      options: PropTypes.arrayOf(PropTypes.string),
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string,
+          label: PropTypes.string,
+        })
+      ).isRequired,
     }).isRequired
   ).isRequired,
   label: PropTypes.string.isRequired,
   example: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   tooltip: PropTypes.string.isRequired,
-  field: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  field: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
   onChange: PropTypes.func.isRequired,
   deleteTable: PropTypes.func.isRequired,
 }
