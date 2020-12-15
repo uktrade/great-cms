@@ -11,6 +11,7 @@
 
 ### Fixed bugs
 
+- GP2-1191 - Intermittent data blank on target market selection
 - GP2-1192 - Landing page menu on right - react component updates.
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
