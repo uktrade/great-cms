@@ -21,9 +21,9 @@ function SelectMarket(props) {
     setMarket(clickedMarket)
     analytics({
       'event': 'addFindMarketSuccess',
-      'market1': marketNames[0] || '',
-      'market2': marketNames[1] || '',
-      'market3': marketNames[2] || '',
+      'market1': marketNames[0] || 'None',
+      'market2': marketNames[1] || 'None',
+      'market3': marketNames[2] || 'None',
       'findMarket':clickedMarket.country_name
     })
   }

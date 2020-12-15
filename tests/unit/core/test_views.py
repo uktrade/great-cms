@@ -799,6 +799,7 @@ def test_target_market_page(patch_export_plan, domestic_homepage, client, user):
     # Check that the page renders even if there is no dashboard definition in wagtail
     assert response.status_code == 200
     assert response.context_data['dashboard_components'] is None
+    assert response.context_data['data_tabs_enabled'] == '"{\\"population\\":true, \\"economy\\":true}"'
 
     # Populate dashboard with a couple of routes and check context
     DomesticDashboardFactory(
