@@ -56,19 +56,20 @@ export default function EconomyData(props) {
           <React.Fragment>
             <td className="world-import-value">
               {data && data.import_from_world
-                ? data.import_from_world.trade_value
+                ? normaliseValues(data.import_from_world.trade_value)
                 : DATA_NA}
             </td>
             <td className="year-on-year-change">
               {data &&
               data.import_from_world &&
               data.import_from_world.year_on_year_change
-                ? data.import_from_world.year_on_year_change + '%'
+                ? normaliseValues(data.import_from_world.year_on_year_change) +
+                  '%'
                 : DATA_NA}
             </td>
             <td className="uk-import-value">
               {data && data.import_data_from_uk
-                ? data.import_data_from_uk.trade_value
+                ? normaliseValues(data.import_data_from_uk.trade_value)
                 : DATA_NA}
             </td>
             <td className="gdp">
@@ -144,8 +145,8 @@ export default function EconomyData(props) {
               <th>
                 {props.selectedProduct.name} import value from the UK (USD)
               </th>
-              <th>GDP per capita(USD)</th>
-              <th>Avg income(USD)</th>
+              <th>GDP per capita (USD)</th>
+              <th>Avg income (USD)</th>
               <th>Ease of doing business rank</th>
               <th>Corruption Perceptions Index</th>
             </tr>

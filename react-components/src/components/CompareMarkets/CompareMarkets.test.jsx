@@ -208,13 +208,13 @@ it('Allows selection of markets and fetch data when product selected', async () 
     )
     expect(
       rowEconomyGermany.querySelector('.world-import-value').textContent
-    ).toMatch('21.67 thousand')
+    ).toMatch('21.7 thousand')
     expect(
       rowEconomyGermany.querySelector('.year-on-year-change').textContent
-    ).toMatch('2.751%')
+    ).toMatch('2.8%')
     expect(
       rowEconomyGermany.querySelector('.uk-import-value').textContent
-    ).toMatch('135.15 thousand')
+    ).toMatch('135.2 thousand')
     expect(rowEconomyGermany.querySelector('.gdp').textContent).toMatch(
       '46258.9'
     )
