@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-981 - Responsive support for Case Study component
 - GP2-1068 - Autoformat Python code with black and isort
 - GP2-1111 - EP responsive marketing approach changes
 - GP2-1029 - Population data sources attributions and links
