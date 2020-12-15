@@ -34,13 +34,31 @@ export default function EconomyData(props) {
 
   const sourceAttribution = (
     <p className="source-attribution body-s">
-      Trade data: <a href="https://comtrade.un.org/data" target="_blank">UN Comtrade</a>
+      Trade data:{' '}
+      <a href="https://comtrade.un.org/data" target="_blank">
+        UN Comtrade
+      </a>
       &nbsp;Copyright United Nations 2020. GDP per capita (current US$):&nbsp;
-      <a href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD" target="_blank">World Bank, OECD</a>
+      <a
+        href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD"
+        target="_blank"
+      >
+        World Bank, OECD
+      </a>
       &nbsp;CC BY 4.0. Ease of Doing Business Scores:&nbsp;
-      <a href="https://www.doingbusiness.org/en/data/doing-business-score" target="_blank">World Bank</a>
+      <a
+        href="https://www.doingbusiness.org/en/data/doing-business-score"
+        target="_blank"
+      >
+        World Bank
+      </a>
       &nbsp;CC BY 4.0. Corruption Perceptions Index:&nbsp;
-      <a href="https://www.transparency.org/en/cpi/2019/results/table" target="_blank">Transparency International</a>
+      <a
+        href="https://www.transparency.org/en/cpi/2019/results/table"
+        target="_blank"
+      >
+        Transparency International
+      </a>
       &nbsp;CC BY-ND 4.0
     </p>
   )
@@ -96,7 +114,7 @@ export default function EconomyData(props) {
         )
       } else {
         dataRow = (
-          <td colSpan="5" className="no-data">
+          <td colSpan="7" className="no-data">
             No data currently available for this country
           </td>
         )
