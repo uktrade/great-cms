@@ -31,6 +31,20 @@ export default function EconomyData(props) {
   }, [props])
 
   const comparisonMarkets = props.comparisonMarkets
+
+  const sourceAttribution = (
+    <p className="source-attribution body-s">
+      Trade data: <a href="https://comtrade.un.org/data" target="_blank">UN Comtrade</a>
+      &nbsp;Copyright United Nations 2020. GDP per capita (current US$):&nbsp;
+      <a href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD" target="_blank">World Bank, OECD</a>
+      &nbsp;CC BY 4.0. Ease of Doing Business Scores:&nbsp;
+      <a href="https://www.doingbusiness.org/en/data/doing-business-score" target="_blank">World Bank</a>
+      &nbsp;CC BY 4.0. Corruption Perceptions Index:&nbsp;
+      <a href="https://www.transparency.org/en/cpi/2019/results/table" target="_blank">Transparency International</a>
+      &nbsp;CC BY-ND 4.0
+    </p>
+  )
+
   let DATA_NA = 'Data not available'
   let dataTable
   if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
@@ -138,6 +152,7 @@ export default function EconomyData(props) {
           </thead>
           <tbody>{tableBody}</tbody>
         </table>
+        {sourceAttribution}
       </span>
     )
   }
