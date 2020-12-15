@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1196 - Exclude analytics' Universal Data Object variable from local event
 - GP2-1112 - Coming soon modal responsive styling
 - GP2-981 - Responsive support for Case Study component
 - GP2-1068 - Autoformat Python code with black and isort
