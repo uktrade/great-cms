@@ -8,6 +8,8 @@
     }
   }
   table {
+    margin: 0 0;
+
     td, th {
       vertical-align: middle;
       text-align: right;
@@ -29,5 +31,5 @@
     margin-top: 20px;
 }
 .source-attribution {
-  margin: -10px 0;
+  margin: 20px 0 0;
 }
