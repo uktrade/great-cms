@@ -26,7 +26,7 @@
   .form-group {
     position: absolute;
     right: 0;
-    top: 10px;
+    top: 25px;
 
     @include breakpoint(lg_lt) {
       position: relative;
