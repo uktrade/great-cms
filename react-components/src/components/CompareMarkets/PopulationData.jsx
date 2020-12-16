@@ -32,11 +32,38 @@ export default function PopulationData(props) {
 
   const sourceAttribution = (
     <p className="source-attribution body-s">
-      Population data: <a href="https://population.un.org/wpp/Download/Standard/Population/" target="_blank">United Nations</a>
-      &nbsp;CC BY 3.0 IGO. Urban and Rural Populations:&nbsp;
-      <a href="https://population.un.org/wup/Download/" target="_blank">United Nations</a>
-      &nbsp;CC BY 3.0 IGO. ICT Indicators Edition 2019/2:&nbsp;
-      <a href="https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en" target="_blank">ITU (2020)</a>
+      <strong class="body-s-b">
+        Population data
+      </strong>
+      :&nbsp;
+      <a 
+        href="https://population.un.org/wpp/Download/Standard/Population/"
+        target="_blank"
+      >
+        United Nations
+      </a>
+      &nbsp;CC BY 3.0 IGO.&nbsp;
+      <strong class="body-s-b">
+        Urban and Rural Populations
+      </strong>
+      :&nbsp;
+      <a
+        href="https://population.un.org/wup/Download/"
+        target="_blank"
+      >
+        United Nations
+      </a>
+      &nbsp;CC BY 3.0 IGO.&nbsp;
+      <strong class="body-s-b">
+        Access to internet
+      </strong>
+      :&nbsp;
+      <a
+        href="https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en"
+        target="_blank"
+      >
+        International Telecommunications Union
+      </a>
     </p>
   )
 
