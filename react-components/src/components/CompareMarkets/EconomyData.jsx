@@ -34,25 +34,43 @@ export default function EconomyData(props) {
 
   const sourceAttribution = (
     <p className="source-attribution body-s">
-      Trade data:{' '}
-      <a href="https://comtrade.un.org/data" target="_blank">
+      <strong class="body-s-b">
+        Trade data
+      </strong>
+      :&nbsp;
+      <a
+        href="https://comtrade.un.org/data"
+        target="_blank"
+      >
         UN Comtrade
       </a>
-      &nbsp;Copyright United Nations 2020. GDP per capita (current US$):&nbsp;
+      &nbsp;Copyright United Nations 2020.&nbsp;
+      <strong class="body-s-b">
+        GDP per capita
+      </strong>
+      &nbsp;(current US$):&nbsp;
       <a
         href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD"
         target="_blank"
       >
         World Bank, OECD
       </a>
-      &nbsp;CC BY 4.0. Ease of Doing Business Scores:&nbsp;
+      &nbsp;CC BY 4.0.&nbsp;
+      <strong class="body-s-b">
+        Ease of Doing Business Scores
+      </strong>
+      :&nbsp;
       <a
         href="https://www.doingbusiness.org/en/data/doing-business-score"
         target="_blank"
       >
         World Bank
       </a>
-      &nbsp;CC BY 4.0. Corruption Perceptions Index:&nbsp;
+      &nbsp;CC BY 4.0.&nbsp;
+      <strong class="body-s-b">
+        Corruption Perceptions Index
+      </strong>
+      :&nbsp;
       <a
         href="https://www.transparency.org/en/cpi/2019/results/table"
         target="_blank"
