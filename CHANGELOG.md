@@ -4,7 +4,7 @@
 
 ### Implemented enhancements
 
-- GP2-1138 - Updated copy and some styling tweaks for compare countries page
+- GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page
 - GP2-1196 - Exclude analytics' Universal Data Object variable from local event
 - GP2-1112 - Coming soon modal responsive styling
 - GP2-1018 - Economy data sources attributions and links

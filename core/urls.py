@@ -22,9 +22,9 @@ def anonymous_user_required(function):
 urlpatterns = [
     path('markets/', views.MarketsView.as_view(), name='markets'),
     path(
-        'find-your-target-market/',
-        login_required(views.TargetMarketView.as_view(), login_url=LOGIN_URL),
-        name='target-market',
+        'compare-countries/',
+        login_required(views.CompareCountriesView.as_view(), login_url=LOGIN_URL),
+        name='compare-countries',
     ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',

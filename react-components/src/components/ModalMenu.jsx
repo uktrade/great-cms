@@ -65,9 +65,9 @@ export function Menu(props) {
             </a>
           </li>
           <li>
-            <a href="/find-your-target-market/" className="link">
+            <a href="/compare-countries/" className="link">
               <i className="fa fa-map-marker-alt" />
-              <span>Target a market</span>
+              <span>Compare countries</span>
             </a>
           </li>
           <li>
