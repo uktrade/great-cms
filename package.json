@@ -94,7 +94,7 @@
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@storybook/react": "^6.0.16",
-    "great-styles": "github:uktrade/great-styles",
+    "great-styles": "github:uktrade/great-styles#feature/modal-updates",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-cookie": "4.0.3",
