@@ -148,25 +148,25 @@ export default function EconomyData(props) {
     })
     dataTable = (
       <span>
-        <table>
+        <table className="m-v-0">
           <thead>
-            <tr className="body-l-b">
-              <th></th>
-              <th>
+            <tr>
+              <th className="body-s-b"></th>
+              <th className="body-s-b">
                 Total {props.selectedProduct.name.toLowerCase()} import value
                 (USD)
               </th>
-              <th>
+              <th className="body-s-b">
                 Year-to-year {props.selectedProduct.name.toLowerCase()} import
                 value change
               </th>
-              <th>
+              <th className="body-s-b">
                 {props.selectedProduct.name} import value from the UK (USD)
               </th>
-              <th>GDP per capita (USD)</th>
-              <th>Avg income (USD)</th>
-              <th>Ease of doing business rank</th>
-              <th>Corruption Perceptions Index</th>
+              <th className="body-s-b">GDP per capita(USD)</th>
+              <th className="body-s-b">Avg income(USD)</th>
+              <th className="body-s-b">Ease of doing business rank</th>
+              <th className="body-s-b">Corruption Perceptions Index</th>
             </tr>
           </thead>
           <tbody>{tableBody}</tbody>

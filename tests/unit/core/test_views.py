@@ -790,9 +790,9 @@ def test_check_view_external_error(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-def test_target_market_page(patch_export_plan, domestic_homepage, client, user):
+def test_compare_countries_page(patch_export_plan, domestic_homepage, client, user):
     client.force_login(user)
-    url = reverse('core:target-market')
+    url = reverse('core:compare-countries')
 
     response = client.get(url)
 

@@ -110,7 +110,7 @@ class MarketsView(GA360Mixin, TemplateView):
         )
 
 
-class TargetMarketView(GA360Mixin, TemplateView):
+class CompareCountriesView(GA360Mixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -119,7 +119,7 @@ class TargetMarketView(GA360Mixin, TemplateView):
             site_section='target markets',
         )
 
-    template_name = 'core/target_markets.html'
+    template_name = 'core/compare_countries.html'
 
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()

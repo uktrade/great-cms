@@ -133,15 +133,15 @@ export default function PopulationData(props) {
     })
     dataTable = (
       <span>
-        <table>
+        <table className="m-v-0">
           <thead>
-            <tr className="body-l-b">
-              <th>&nbsp;</th>
-              <th>Total Population </th>
-              <th>Access to internet</th>
-              <th>Living in urban areas</th>
-              <th>Living in rural areas</th>
-              <th>Consumer Price Index</th>
+            <tr>
+              <th className="body-s-b">&nbsp;</th>
+              <th className="body-s-b">Total Population </th>
+              <th className="body-s-b">Access to internet</th>
+              <th className="body-s-b">Living in urban areas</th>
+              <th className="body-s-b">Living in rural areas</th>
+              <th className="body-s-b">Consumer Price Index</th>
             </tr>
           </thead>
           <tbody>{tableBody}</tbody>

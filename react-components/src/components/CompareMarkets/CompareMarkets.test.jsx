@@ -158,7 +158,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
   })
 
   const button = container.querySelector('button')
-  expect(button.textContent).toMatch('Select market 1 of 3')
+  expect(button.textContent).toMatch('Add country to compare')
   act(() => {
     Simulate.click(button)
   })
@@ -177,7 +177,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Select market 2 of 3'
+      'Add country 2 of 3'
     )
   })
 
@@ -232,7 +232,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Select market 1 of 3'
+      'Add country to compare'
     )
   })
 })
@@ -254,7 +254,7 @@ it('Select market from selection area', async () => {
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Select market 1 of 3'
+      'Add country to compare'
     )
   })
 
@@ -273,7 +273,7 @@ it('Select market from selection area', async () => {
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Select market 2 of 3'
+      'Add country 2 of 3'
     )
   })
 
@@ -299,7 +299,7 @@ it('Select market from selection area', async () => {
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Select market 3 of 3'
+      'Add country 3 of 3'
     )
   })
 

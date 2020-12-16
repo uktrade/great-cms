@@ -190,15 +190,15 @@ export default function CountryFinderModal(props) {
   /*   Compare markets section  */
   const compareMarketsSection = (
     <div>
-      <h3 className="h-s p-t-xs">Compare markets</h3>
+      <h3 className="h-s p-t-xs">Compare countries</h3>
       <div className="grid">
         <div className="c-full">
           <p className="m-v-xs">
-            Compare stats for over 180 markets to find the best place to target
+            Compare stats for over 180 countries to find the best place to target
             your exports.
           </p>
           <a
-            href="/find-your-target-market/"
+            href="/compare-countries/"
             className="button button--secondary"
           >
             Compare Markets
