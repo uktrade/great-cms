@@ -8,7 +8,7 @@ import { ProductData } from './ProductData'
 
 export const DataSnapShot = memo(({ country, groups }) => {
   return (
-    <ToggleSnapshot isOpen={true}>
+    <ToggleSnapshot isOpen={false}>
       <div className="m-t-s">
         <ProductData />
         <ToggleDataTable country={country} groups={groups}>

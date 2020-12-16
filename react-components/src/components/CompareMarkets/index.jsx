@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie'
+import { analytics } from '../../Helpers'
 import Services from '@src/Services'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
@@ -44,10 +45,21 @@ function CompareMarkets(props) {
     return countryData ? countryData[1] : []
   }
 
+  const pushAnalytics = (markets) => {
+    const marketNames = Object.values(markets).map(v => v.country_name)
+    analytics({
+      'event': 'findMarketView',
+      'market1': marketNames[0] || '',
+      'market2': marketNames[1] || '',
+      'market3': marketNames[2] || '',
+    })
+  }
+
   const addCountry = (country) => {
     const newComparisonMarkets = cookies.comparisonMarkets || {}
     newComparisonMarkets[country.country_iso2_code] = country
     setCookie('comparisonMarkets', newComparisonMarkets)
+    pushAnalytics(newComparisonMarkets)
   }
 
   const removeMarket = (evt) => {
@@ -55,6 +67,7 @@ function CompareMarkets(props) {
     const tmpMarkets = cookies.comparisonMarkets || {}
     delete(tmpMarkets[id])
     setCookie('comparisonMarkets', tmpMarkets)
+    pushAnalytics(tmpMarkets)
   }
 
   let triggerButton

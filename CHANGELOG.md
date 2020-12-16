@@ -28,7 +28,9 @@
 
 ### Implemented enhancements
 
-GP2-1208 - Remove rxjs, add debounce to onChange to stop every keystroke to send request, refactor FormWithInputWithExample
+- GP2-1172 - Analytics compare countries find a market modal (3 markets)
+- GP2-1171 - Analytics select country from comparison list
+- GP2-1208 - Remove rxjs, add debounce to onChange to stop every keystroke to send request, refactor FormWithInputWithExample
 - GP2-1059 - Prettier config
 - GP2-1093 - Enhancements to Target Market service population table
 - GP2-1145 - Export plan landing page responsive retrofit
