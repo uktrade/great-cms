@@ -53057,18 +53057,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
-<<<<<<< HEAD
 /* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
 /* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
-=======
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
-/* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -53092,10 +53085,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
 function SelectMarket(props) {
   var market = props.market,
       setMarket = props.setMarket;
@@ -53104,7 +53094,6 @@ function SelectMarket(props) {
       _useCookies2 = _slicedToArray(_useCookies, 1),
       cookies = _useCookies2[0];
 
-<<<<<<< HEAD
   var comparisonMarkets = Object.values(cookies.comparisonMarkets) || {};
 
   var clickMarket = function clickMarket(clickedMarket) {
@@ -53123,14 +53112,6 @@ function SelectMarket(props) {
 
   var isComparisonMarketSelected;
   var marketList = comparisonMarkets.map(function (mapMarket) {
-=======
-  var clickMarket = function clickMarket(clickedMarket) {
-    setMarket(clickedMarket);
-  };
-
-  var isComparisonMarketSelected;
-  var marketList = Object.values(cookies.comparisonMarkets || {}).map(function (mapMarket) {
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
     var isSelected = (market && market.country_iso2_code) === mapMarket.country_iso2_code;
     isComparisonMarketSelected = isComparisonMarketSelected || isSelected;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -53187,41 +53168,24 @@ SelectMarket.defaultProps = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-<<<<<<< HEAD
     market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_8__["getMarkets"])(state)
-=======
-    market: Object(_src_reducers__WEBPACK_IMPORTED_MODULE_7__["getMarkets"])(state)
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     setMarket: function setMarket(market) {
-<<<<<<< HEAD
       dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].setMarket(market));
-=======
-      dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_6__["default"].setMarket(market));
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
     }
   };
 };
 
-<<<<<<< HEAD
 var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(mapStateToProps, mapDispatchToProps)(SelectMarket);
 function createSelectMarket(_ref) {
   var params = _extends({}, _ref);
 
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_6__["Provider"], {
     store: _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].store
-=======
-var ConnectedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(SelectMarket);
-function createSelectMarket(_ref) {
-  var params = _extends({}, _ref);
-
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
-    store: _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].store
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedContainer, null)), params.element);
 }
 
@@ -53244,16 +53208,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookie */ "./node_modules/react-cookie/es6/index.js");
-<<<<<<< HEAD
 /* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
 /* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
-=======
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ProductFinder/ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
-/* harmony import */ var _ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ProductFinder/CountryFinderModal */ "./react-components/src/components/ProductFinder/CountryFinderModal.jsx");
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -53275,10 +53233,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
 var maxSelectedLength = 3;
 
 function CompareMarkets(props) {
@@ -53321,11 +53276,7 @@ function CompareMarkets(props) {
       var countries = Object.values(comparisonMarkets).map(function (country) {
         return country.country_name;
       });
-<<<<<<< HEAD
       _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].getPopulationByCountryData(countries).then(function (result) {
-=======
-      _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].getPopulationByCountryData(countries).then(function (result) {
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
         setPopulationData(Object.entries(result));
       })["finally"](function () {});
     }
@@ -53343,7 +53294,6 @@ function CompareMarkets(props) {
     return countryData ? countryData[1] : [];
   };
 
-<<<<<<< HEAD
   var pushAnalytics = function pushAnalytics(markets) {
     var marketNames = Object.values(markets).map(function (v) {
       return v.country_name;
@@ -53356,16 +53306,11 @@ function CompareMarkets(props) {
     });
   };
 
-=======
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
   var addCountry = function addCountry(country) {
     var newComparisonMarkets = cookies.comparisonMarkets || {};
     newComparisonMarkets[country.country_iso2_code] = country;
     setCookie('comparisonMarkets', newComparisonMarkets);
-<<<<<<< HEAD
     pushAnalytics(newComparisonMarkets);
-=======
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
   };
 
   var removeMarket = function removeMarket(evt) {
@@ -53373,10 +53318,7 @@ function CompareMarkets(props) {
     var tmpMarkets = cookies.comparisonMarkets || {};
     delete tmpMarkets[id];
     setCookie('comparisonMarkets', tmpMarkets);
-<<<<<<< HEAD
     pushAnalytics(tmpMarkets);
-=======
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
   };
 
   var triggerButton;
@@ -53490,19 +53432,11 @@ function CompareMarkets(props) {
     }, "\xA0")));
   }
 
-<<<<<<< HEAD
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, dataTable, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     modalIsOpen: productModalIsOpen,
     setIsOpen: setProductModalIsOpen,
     setSelectedProduct: setSelectedProduct
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-=======
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, dataTable, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    modalIsOpen: productModalIsOpen,
-    setIsOpen: setProductModalIsOpen,
-    setSelectedProduct: setSelectedProduct
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
->>>>>>> 64d172a12db330f75b5a0013678181cff9cafd7d
     modalIsOpen: marketModalIsOpen,
     setIsOpen: setMarketModalIsOpen,
     commodityCode: selectedProduct && selectedProduct.code,
@@ -56035,7 +55969,7 @@ var Modal = function Modal(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-header ".concat(type ? "modal-header-bg modal-header-bg--".concat(type) : '', " radius-top bg-blue-deep-80 p-s")
+    className: "modal-header ".concat(type ? "modal-header-bg modal-header-bg--".concat(type) : '', " radius-top-s bg-blue-deep-80 p-s")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: backUrl,
     className: "link text-white body-m modal-close",
@@ -56043,7 +55977,7 @@ var Modal = function Modal(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-arrow-circle-left m-r-xxs"
   }), " back")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-inner text-blue-deep-80 bg-white radius-bottom"
+    className: "modal-inner text-blue-deep-80 bg-white radius-bottom-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "p-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
