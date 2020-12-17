@@ -23,8 +23,7 @@ const saveToExportPlan = (country) => {
       analytics({
         'event': 'addMarketSuccess',
         'suggestMarket': country.suggested ? name : '',
-        'listMarket': country.suggested ? '' : name,
-        'marketAdded': name
+        'listMarket': country.suggested ? '' : name
       })
     })
     .catch(() => {

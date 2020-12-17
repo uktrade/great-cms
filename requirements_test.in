@@ -35,3 +35,4 @@ flake8-string-format
 pep8-naming
 pylint-django
 codecov
+ipython==7.16.1

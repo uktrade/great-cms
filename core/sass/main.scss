@@ -8,6 +8,9 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
+@import 'node_modules/slick-carousel/slick/slick.scss';
+@import 'node_modules/slick-carousel/slick/slick-theme.scss';
+
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
@@ -93,6 +96,6 @@ $fa-font-path: '/static/fonts';
 @import 'exportplan/statistics';
 @import 'exportplan/sections';
 @import 'learn/base';
-@import 'learn/market-finder';
 @import 'exportplan/sidebar';
 @import 'exportplan/costs';
+@import 'components/target_market';

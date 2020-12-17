@@ -790,15 +790,16 @@ def test_check_view_external_error(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-def test_target_market_page(patch_export_plan, domestic_homepage, client, user):
+def test_compare_countries_page(patch_export_plan, domestic_homepage, client, user):
     client.force_login(user)
-    url = reverse('core:target-market')
+    url = reverse('core:compare-countries')
 
     response = client.get(url)
 
     # Check that the page renders even if there is no dashboard definition in wagtail
     assert response.status_code == 200
     assert response.context_data['dashboard_components'] is None
+    assert response.context_data['data_tabs_enabled'] == '"{\\"population\\":true, \\"economy\\":true}"'
 
     # Populate dashboard with a couple of routes and check context
     DomesticDashboardFactory(

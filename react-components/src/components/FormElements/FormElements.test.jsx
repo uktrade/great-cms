@@ -99,9 +99,7 @@ describe('FormElements', () => {
       expect(getByRole('listbox'))
       expect(getByLabelText('Your business performance'))
       expect(container.querySelectorAll('input')[1])
-      expect(container.querySelectorAll('input')[1].id).toEqual(
-        'Your business performance'
-      )
+      expect(container.querySelectorAll('input')[1].id).toEqual('performance')
     })
   })
 

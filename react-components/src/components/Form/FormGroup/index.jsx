@@ -1,7 +1,6 @@
-/* eslint-disable react/no-danger */
-
 import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 
 import EducationalMomentTooltip from '../../EducationalMomentTooltip'
 import ErrorList from '../../ErrorList'
@@ -33,10 +32,9 @@ export const FormGroup = memo(
           {label}
         </label>
         {description && (
-          <div
-            className="text-blue-deep-80 p-t-xs p-b-xs"
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
+          <div className="text-blue-deep-80 p-t-xs p-b-xs">
+            {ReactHtmlParser(description)}
+          </div>
         )}
 
         {!!(example || hasLesson || tooltip) && (
@@ -95,10 +93,7 @@ export const FormGroup = memo(
             <dt className="body-l-b">
               A fictional example to help you complete this section
             </dt>
-            <dd
-              className="m-t-xxs body-l"
-              dangerouslySetInnerHTML={{ __html: example }}
-            />
+            <dd className="m-t-xxs body-l">{ReactHtmlParser(example)}</dd>
           </dl>
         )}
         {hasLesson && (

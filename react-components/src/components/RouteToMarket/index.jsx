@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { RouteToMarketSection } from '@src/components/RouteToMarket/RouteToMarketSection'
-import Services from '../../Services'
-
+import Services from '@src/Services'
 import { analytics } from '@src/Helpers'
+import { useDebounce } from '@src/components/hooks/useDebounce'
 
-export const RouteToMarket = ({ fields, formData, formFields }) => {
+export const RouteToMarket = memo(({ fields, formData, formFields }) => {
   const [routes, setRoutes] = useState(fields)
   const [pushedAnalytic, setPushedAnalytic] = useState(false)
 
@@ -30,14 +30,7 @@ export const RouteToMarket = ({ fields, formData, formFields }) => {
       .catch(() => {})
   }
 
-  const update = (id, selected) => {
-    const field = routes.find((x) => x.pk === id)
-    const updatedRoutes = routes.map((x) =>
-      x.pk === id ? { ...x, ...selected } : x
-    )
-
-    setRoutes(updatedRoutes)
-
+  const update = (field, selected) => {
     Services.updateRouteToMarket({ ...field, ...selected })
       .then(() => {
         if (!pushedAnalytic) {
@@ -51,20 +44,33 @@ export const RouteToMarket = ({ fields, formData, formFields }) => {
       .catch(() => {})
   }
 
+  const debounceUpdate = useDebounce(update)
+
+  const onChange = (id, selected) => {
+    const field = routes.find((x) => x.pk === id)
+    const updatedRoutes = routes.map((x) =>
+      x.pk === id ? { ...x, ...selected } : x
+    )
+
+    setRoutes(updatedRoutes)
+    debounceUpdate(field, selected)
+  }
+
   return (
     <>
       {routes.length >= 1 &&
-        routes.map((field, id) =>
-          RouteToMarketSection({
-            ...formData,
-            data: formData.data.map((x) =>
+        routes.map((field, id) => (
+          <RouteToMarketSection
+            key={field.pk}
+            {...formData}
+            data={formData.data.map((x) =>
               x.name === 'route' ? { ...x, label: `${x.label} ${id + 1}` } : x
-            ),
-            update,
-            deleteTable,
-            field,
-          })
-        )}
+            )}
+            field={field}
+            onChange={onChange}
+            deleteTable={deleteTable}
+          />
+        ))}
       <button
         type="button"
         className="button button--large button--icon"
@@ -75,24 +81,32 @@ export const RouteToMarket = ({ fields, formData, formFields }) => {
       </button>
     </>
   )
-}
+})
 
 RouteToMarket.propTypes = {
   fields: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+    PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    ).isRequired
   ).isRequired,
   formData: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
         label: PropTypes.string,
-        options: PropTypes.arrayOf(PropTypes.string),
+        options: PropTypes.arrayOf(
+          PropTypes.shape({
+            value: PropTypes.string,
+            label: PropTypes.string,
+          })
+        ).isRequired,
       }).isRequired
     ).isRequired,
     example: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
-  formFields: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
+  formFields: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
 }
