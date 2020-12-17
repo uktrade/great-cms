@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1109 - EP target market research responsive. Modal style updates (from great-styles).
 - GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page
 - GP2-1196 - Exclude analytics' Universal Data Object variable from local event
 - GP2-1112 - Coming soon modal responsive styling
@@ -33,6 +34,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
+
 - GP2-1108 - business objective responsive changes
 - GP2-1172 - Analytics compare countries find a market modal (3 markets)
 - GP2-1171 - Analytics select country from comparison list

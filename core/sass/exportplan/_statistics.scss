@@ -3,8 +3,11 @@
   @extend .radius;
   display: block;
   padding: 10px 20px;
+  width: 100%;
 
-  margin-bottom: 30px;
+  @include breakpoint(sm) {
+    margin-bottom: 30px;
+  }
 
   .educational-moment--tooltip-container {
     margin-right: -8px;
@@ -16,19 +19,42 @@
     margin-right: 10px;
     padding: 5px 10px;
   }
-}
 
-.statistic__caption {
-  font-size: $font-size-small-mobile;
-  margin: 0;
+  dl {
+    display: flex;
+    justify-content: space-between;
 
-  @include tablet {
-    font-size: $font-size-small-desktop;
+    @include breakpoint(sm) {
+      flex-direction: column;
+    }
+
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+
+    @include breakpoint(sm) {
+      border-bottom: unset;
+      padding-bottom: unset;
+    }
   }
-}
 
-.statistic__figure {
-  margin: 0;
+  &__caption {
+    font-size: $font-size-small-mobile;
+    margin: 0;
+
+    @include tablet {
+      font-size: $font-size-small-desktop;
+    }
+  }
+
+  &__figure {
+    margin: 0;
+    padding: 0;
+    text-align: right;
+
+    @include breakpoint(sm) {
+      text-align: left;
+    }
+  }
 }
 
 .statistic__group {
@@ -47,5 +73,56 @@
     display: block;
     height: 4px;
     transition: width 1s;
+  }
+}
+
+// Container fix for new design for mobile without refactoring the react components.
+.stat-group {
+  @extend .bg-white;
+
+  &:first-of-type {
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+
+    div[class^='c-']:first-of-type dl {
+      padding-top: 10px;
+
+      @include breakpoint(sm) {
+        padding-top: unset;
+      }
+    }
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+
+    // Last grid col dl
+    div[class^='c-']:last-of-type dl {
+      border-bottom: none;
+    }
+
+    margin-bottom: 20px;
+
+    @include breakpoint(sm) {
+      margin-bottom: unset;
+    }
+  }
+
+  @include breakpoint(sm) {
+    background-color: unset;
+    border-radius: unset;
+  }
+
+  .grid,
+  div[class^='c-'] {
+    display: flex;
+  }
+
+  .grid {
+    flex-flow: column;
+    @include breakpoint(sm) {
+      flex-direction: row;
+    }
   }
 }

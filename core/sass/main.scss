@@ -16,6 +16,11 @@ $fa-font-path: '/static/fonts';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
+// Globals
+@import 'helpers/vars';
+@import 'helpers/breakpoints';
+@import 'helpers/mixins';
+
 // Base
 @import 'elements/reset';
 
@@ -40,11 +45,6 @@ $fa-font-path: '/static/fonts';
 @import 'elements/icons';
 @import 'elements/card';
 @import 'elements/progress-bar';
-
-@import 'helpers/mixins';
-@import 'helpers/utils';
-@import 'helpers/vars';
-@import 'helpers/breakpoints';
 
 // Components
 @import 'components/card/base';
@@ -74,6 +74,9 @@ $fa-font-path: '/static/fonts';
 // MVP styles
 // ===================================================
 
+@import 'helpers/utils';
+@import 'helpers/mixins-cms';
+
 @import 'components/forms';
 @import 'components/progress-wizard';
 @import 'components/insights';
@@ -81,7 +84,7 @@ $fa-font-path: '/static/fonts';
 @import 'components/sign-up';
 @import 'components/educational_moment_tooltip';
 @import 'components/tour';
-@import 'components/modal';
+@import 'components/modal-cms';
 @import 'components/spinner';
 
 @import 'base';
