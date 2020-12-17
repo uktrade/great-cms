@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1109 - EP target market research responsive. Modal style updates (from great-styles).
 - GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page
 - GP2-1196 - Exclude analytics' Universal Data Object variable from local event
 - GP2-1112 - Coming soon modal responsive styling
