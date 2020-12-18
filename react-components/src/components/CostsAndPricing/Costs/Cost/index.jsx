@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
-import EducationalMomentTooltip from '@src/components/EducationalMomentTooltip'
+import { Tooltip } from '@components/tooltip/Tooltip'
 
 export const Cost = memo(
   ({ label, id, currency, placeholder, tooltip, value, update, type }) => {
@@ -12,13 +12,7 @@ export const Cost = memo(
           <label className="form-label p-b-xs" htmlFor={id}>
             {label}
           </label>
-          {tooltip && (
-            <EducationalMomentTooltip
-              description={tooltip}
-              id="name"
-              type="LEFT"
-            />
-          )}
+          {tooltip && <Tooltip content={tooltip} />}
         </td>
         <td>
           <Input

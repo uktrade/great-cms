@@ -70,6 +70,7 @@ $fa-font-path: '/static/fonts';
 @import 'components/tag-list';
 @import 'components/panels';
 @import 'components/beta';
+@import 'components/tooltip';
 
 // MVP styles
 // ===================================================
@@ -82,7 +83,6 @@ $fa-font-path: '/static/fonts';
 @import 'components/insights';
 @import 'components/product-finder';
 @import 'components/sign-up';
-@import 'components/educational_moment_tooltip';
 @import 'components/tour';
 @import 'components/modal-cms';
 @import 'components/spinner';
