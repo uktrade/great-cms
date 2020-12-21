@@ -6,10 +6,10 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView
-from core.mixins import PageTitleMixin
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
+from core.mixins import PageTitleMixin
 from directory_api_client.client import api_client
 from directory_constants.choices import (
     COUNTRY_CHOICES,
@@ -139,7 +139,8 @@ class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
 
 
 class ExportPlanMarketingApproachView(
-        PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
     page_title = 'Marketing approach | great.gov.uk'
@@ -178,7 +179,8 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
 
 
 class ExportPlanTargetMarketsResearchView(
-        PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
     page_title = 'Target market research | great.gov.uk'
@@ -193,7 +195,8 @@ class ExportPlanTargetMarketsResearchView(
 
 
 class ExportPlanBusinessObjectivesView(
-        PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanBusinessObjectivesForm
     success_url = reverse_lazy('exportplan:business-objectives')
     page_title = 'Business objectives | great.gov.uk'
@@ -214,7 +217,8 @@ class ExportPlanBusinessObjectivesView(
 
 
 class ExportPlanAboutYourBusinessView(
-        PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     def get_initial(self):
         return self.export_plan['about_your_business']
 
