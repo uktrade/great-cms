@@ -14,6 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core import cms_slugs, forms, helpers, serializers
+from core.mixins import PageTitleMixin
 from directory_constants import choices
 from domestic.models import DomesticDashboard
 
@@ -110,7 +111,7 @@ class MarketsView(GA360Mixin, TemplateView):
         )
 
 
-class CompareCountriesView(GA360Mixin, TemplateView):
+class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -120,6 +121,7 @@ class CompareCountriesView(GA360Mixin, TemplateView):
         )
 
     template_name = 'core/compare_countries.html'
+    page_title = 'Compare countries'
 
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()

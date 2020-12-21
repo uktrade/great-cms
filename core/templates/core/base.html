@@ -4,7 +4,9 @@
 {% load url_map %}
 {% load to_json %}
 
-{% block head_title %}Welcome to great.gov.uk{% endblock %}
+{% block head_title %}
+  {% firstof page.title page_title 'Welcome to great.gov.uk' %}
+{% endblock %}
 
 {% block head_css %}
     <link href="{% static 'styles.css' %}" media="all" rel="stylesheet" />
