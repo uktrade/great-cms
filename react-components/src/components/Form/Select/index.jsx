@@ -74,7 +74,7 @@ export const Select = ({
     <div className="select m-b-l">
       <Input
         label={label}
-        id={id ? id : label}
+        id={id || label}
         name={label}
         readOnly
         value={input}
@@ -144,7 +144,11 @@ Select.propTypes = {
   ).isRequired,
   description: PropTypes.string,
   tooltip: PropTypes.string,
-  example: PropTypes.string,
+  example: PropTypes.shape({
+    buttonTitle: PropTypes.string,
+    header: PropTypes.string,
+    content: PropTypes.string,
+  }),
   hideLabel: PropTypes.bool,
   placeholder: PropTypes.string,
   id: PropTypes.string,
@@ -154,7 +158,7 @@ Select.defaultProps = {
   selected: '',
   description: '',
   tooltip: '',
-  example: '',
+  example: {},
   hideLabel: false,
   placeholder: 'Select one',
   id: '',

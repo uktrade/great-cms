@@ -29,7 +29,7 @@ export const RouteToMarketSection = memo(
         ))}
         <TextArea
           label={label}
-          example={example}
+          example={{ content: example }}
           onChange={(e) => onChange(field.pk, e)}
           value={field[name]}
           id={name}
