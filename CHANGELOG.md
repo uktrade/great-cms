@@ -15,7 +15,8 @@
 - GP2-1029 - Population data sources attributions and links
 
 ### Fixed bugs
-
+- GP2-1038 - Force lowercase on email input field
+- GP2-1118 - Correct email input field type on login and signup forms
 - GP2-1191 - Intermittent data blank on target market selection
 - GP2-1192 - Landing page menu on right - react component updates.
 

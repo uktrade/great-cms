@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
-import EducationalMomentTooltip from '../EducationalMomentTooltip'
+import { Tooltip } from '@components/tooltip/Tooltip'
 import { Stats } from '@src/components/Stats'
 import { StatsGroup, notAvailable } from '@src/components/Stats/StatsGroup'
 
@@ -40,10 +40,12 @@ export const Table = memo(
           </div>
           <div className="c-1-3">
             <Stats header="Consumer Price Index" data={cpi || notAvailable}>
-              <EducationalMomentTooltip
+              <Tooltip
+                className="f-r"
                 id="corruption-perception-index-tooltip"
+                position="right"
                 heading="What is the Consumer Price Index?"
-                description="The CPI measures the average change in prices over time that consumers pay for a basket of goods and services for their household, this is also known as inflation. It is used to estimate the change in total cost of this basket and the effect this has on the purchasing power of the country’s unit of currency."
+                content="<p>The CPI measures the average change in prices over time that consumers pay for a basket of goods and services for their household, this is also known as inflation. It is used to estimate the change in total cost of this basket and the effect this has on the purchasing power of the country’s unit of currency.</p>"
               />
             </Stats>
           </div>

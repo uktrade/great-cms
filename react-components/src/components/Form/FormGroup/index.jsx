@@ -1,8 +1,8 @@
 import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
+import { Tooltip } from '@components/tooltip/Tooltip'
 
-import EducationalMomentTooltip from '../../EducationalMomentTooltip'
 import ErrorList from '../../ErrorList'
 
 export const FormGroup = memo(
@@ -73,14 +73,7 @@ export const FormGroup = memo(
                 Lesson
               </button>
             )}
-            {tooltip && (
-              <EducationalMomentTooltip
-                heading=""
-                description={tooltip}
-                id={id}
-                type="LEFT"
-              />
-            )}
+            {tooltip && <Tooltip content={tooltip} className="inline-block" />}
           </div>
         )}
 
