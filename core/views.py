@@ -72,7 +72,7 @@ class LoginView(GA360Mixin, PageTitleMixin, TemplateView):
         )
 
     template_name = 'core/login.html'
-    page_title = 'Log in | great.gov.uk'
+    title = 'Log in'
 
 
 class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
@@ -85,7 +85,7 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
         )
 
     template_name = 'core/signup.html'
-    page_title = 'Sign up | great.gov.uk'
+    title = 'Sign up'
 
 
 class MarketsView(GA360Mixin, TemplateView):
@@ -123,7 +123,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
         )
 
     template_name = 'core/compare_countries.html'
-    page_title = 'Compare countries | great.gov.uk'
+    title = 'Compare countries'
 
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()
@@ -272,7 +272,7 @@ class ContactUsHelpFormView(PageTitleMixin, FormView):
     form_class = forms.ContactUsHelpForm
     template_name = 'core/contact-us-help-form.html'
     success_url = reverse_lazy('core:contact-us-success')
-    page_title = 'Contact us | great.gov.uk'
+    title = 'Contact us'
 
     def get_form_kwargs(self):
         form_kwargs = super().get_form_kwargs()

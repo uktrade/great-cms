@@ -86,13 +86,13 @@ class WagtailGA360Mixin:
         self.ga360_payload['site_language'] = translation.get_language()
 
 
-class PageTitleMixin(object):
-    # used by views to set a page_title attribute
-    def get_page_title(self, context):
-        return getattr(self, 'page_title', 'Welcome to great.gov.uk')
+class PageTitleMixin:
+    # used by views to set a page title attribute
+    def get_page_title(self):
+        return getattr(self, 'title')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page_title'] = self.get_page_title(context)
+        context.setdefault('page', {})['title'] = self.get_page_title()
 
         return context

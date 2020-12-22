@@ -5,7 +5,11 @@
 {% load to_json %}
 
 {% block head_title %}
-  {% firstof page.title page_title 'Welcome to great.gov.uk' %}
+  {% if page.title %}
+    {{ page.title }} | great.gov.uk
+  {% else %}
+    Welcome to great.gov.uk
+  {% endif %}
 {% endblock %}
 
 {% block head_css %}

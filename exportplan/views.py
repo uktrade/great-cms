@@ -143,7 +143,7 @@ class ExportPlanMarketingApproachView(
 ):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
-    page_title = 'Marketing approach | great.gov.uk'
+    title = 'Marketing approach'
 
     def get_initial(self):
         return self.export_plan['marketing_approach']
@@ -162,7 +162,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
 
     form_class = forms.ExportPlanAdaptationForTargetMarketForm
     success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
-    page_title = 'Adaptation for your target market | great.gov.uk'
+    title = 'Adaptation for your target market'
 
     def get_initial(self):
         return self.export_plan['adaptation_target_market']
@@ -183,7 +183,7 @@ class ExportPlanTargetMarketsResearchView(
 ):
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
-    page_title = 'Target market research | great.gov.uk'
+    title = 'Target market research'
 
     def get_initial(self):
         return self.export_plan['target_markets_research']
@@ -199,7 +199,7 @@ class ExportPlanBusinessObjectivesView(
 ):
     form_class = forms.ExportPlanBusinessObjectivesForm
     success_url = reverse_lazy('exportplan:business-objectives')
-    page_title = 'Business objectives | great.gov.uk'
+    title = 'Business objectives'
 
     def form_valid(self, form):
         helpers.update_exportplan(
@@ -224,7 +224,7 @@ class ExportPlanAboutYourBusinessView(
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
-    page_title = 'About your business | great.gov.uk'
+    title = 'About your business'
 
 
 class BaseFormView(GA360Mixin, FormView):
@@ -271,7 +271,7 @@ class LogoFormView(PageTitleMixin, BaseFormView):
     form_class = forms.LogoForm
     template_name = 'exportplan/logo-form.html'
     success_message = 'Logo updated'
-    page_title = 'Upload your logo | great.gov.uk'
+    title = 'Upload your logo'
 
 
 class ExportPlanServicePage(GA360Mixin, TemplateView):
