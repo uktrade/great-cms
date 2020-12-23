@@ -7,7 +7,7 @@
     "test:dev": "jest --watch",
     "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
     "build-dev": "webpack --config react-components/webpack.config.js --mode development",
-    "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
+    "build": "webpack --config react-components/webpack.config.js --mode production",
     "storybook": "start-storybook",
     "storybook-publish": "dsm-storybook publish",
     "storybook-build": "build-storybook"
@@ -93,7 +93,7 @@
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@storybook/react": "^6.0.16",
-    "great-styles": "github:uktrade/great-styles",
+    "great-styles": "github:uktrade/great-styles#GP2-1057-remove-unused-styles",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-cookie": "4.0.3",
