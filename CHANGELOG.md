@@ -15,6 +15,8 @@
 - GP2-1029 - Population data sources attributions and links
 
 ### Fixed bugs
+
+- GP2-1188 - Fixed IndexError on Target market research page if country is not selected
 - GP2-1038 - Force lowercase on email input field
 - GP2-1118 - Correct email input field type on login and signup forms
 - GP2-1191 - Intermittent data blank on target market selection
