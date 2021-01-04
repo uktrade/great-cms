@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1057 - Remove unused styles from great-styles
 - GP2-1109 - EP target market research responsive. Modal style updates (from great-styles).
 - GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page
 - GP2-1196 - Exclude analytics' Universal Data Object variable from local event
@@ -15,6 +16,8 @@
 - GP2-1029 - Population data sources attributions and links
 
 ### Fixed bugs
+
+- GP2-1188 - Fixed IndexError on Target market research page if country is not selected
 - GP2-1038 - Force lowercase on email input field
 - GP2-1118 - Correct email input field type on login and signup forms
 - GP2-1191 - Intermittent data blank on target market selection

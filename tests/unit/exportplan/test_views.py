@@ -47,9 +47,32 @@ def export_plan_data():
     }
 
 
+@pytest.fixture()
+def export_plan_data_with_no_countries():
+    return {
+        'about_your_business': '',
+        'target_markets_research': '',
+        'adaptation_target_market': [],
+        'target_market_documents': {'document_name': 'test'},
+        'route_to_markets': {'route': 'test'},
+        'marketing_approach': {'resources': 'xyz'},
+        'company_objectives': {},
+        'objectives': {'rationale': 'business rationale'},
+        'export_countries': [],
+    }
+
+
 @pytest.fixture(autouse=True)
 def mock_get_create_export_plan(export_plan_data):
     patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=export_plan_data)
+
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture()
+def mock_get_create_export_plan_with_no_countries(export_plan_data_with_no_countries):
+    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=export_plan_data_with_no_countries)
 
     yield patch.start()
     patch.stop()
@@ -239,6 +262,14 @@ def test_404_when_invalid_section_slug(client, user):
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_url_with_export_plan_country_selected(mock_get_create_export_plan_with_no_countries, client, user):
+    url = reverse('exportplan:target-markets-research')
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db

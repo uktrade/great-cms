@@ -1,13 +1,9 @@
-// !!! Imports only in this file !!!
-
-// Great styles
-// ===================================================
-
 // Config
 $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
+// Carousel
 @import 'node_modules/slick-carousel/slick/slick.scss';
 @import 'node_modules/slick-carousel/slick/slick-theme.scss';
 
@@ -16,65 +12,10 @@ $fa-font-path: '/static/fonts';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
-// Globals
-@import 'helpers/vars';
-@import 'helpers/breakpoints';
-@import 'helpers/mixins';
+// Great styles
+@import 'styles';
 
-// Base
-@import 'elements/reset';
-
-// Elements
-@import 'elements/layout';
-@import 'elements/grid';
-@import 'elements/forms/base';
-@import 'elements/link';
-@import 'elements/list';
-@import 'elements/media-block';
-@import 'elements/typography';
-@import 'elements/quote';
-@import 'elements/colours';
-@import 'elements/responsive';
-@import 'elements/buttons';
-@import 'elements/tags';
-@import 'elements/details';
-@import 'elements/tables';
-@import 'elements/utils';
-@import 'elements/spacing';
-@import 'elements/box';
-@import 'elements/icons';
-@import 'elements/card';
-@import 'elements/progress-bar';
-
-// Components
-@import 'components/card/base';
-@import 'components/header-footer/base';
-@import 'components/accordion';
-@import 'components/banners';
-@import 'components/boxes';
-@import 'components/breadcrumbs';
-@import 'components/case-study';
-@import 'components/content-list';
-@import 'components/cookie-notice';
-@import 'components/details-list';
-@import 'components/error-reporting';
-@import 'components/fact-sheet';
-@import 'components/hero';
-@import 'components/feature-list';
-@import 'components/modal';
-@import 'components/pagination';
-@import 'components/search';
-@import 'components/sharing-links';
-@import 'components/skip-link';
-@import 'components/stats';
-@import 'components/tag-list';
-@import 'components/panels';
-@import 'components/beta';
-@import 'components/tooltip';
-
-// MVP styles
-// ===================================================
-
+// Magna styles
 @import 'helpers/utils';
 @import 'helpers/mixins-cms';
 

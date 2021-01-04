@@ -51,7 +51,7 @@ describe('FormGroup', () => {
   })
 
   describe('Example', () => {
-    const example = '<p>This is an example</p>'
+    const example = { content: '<p>This is an example</p>' }
 
     it('Should be hidden', () => {
       const { queryByText, container } = setup({ ...props, example })
@@ -72,6 +72,29 @@ describe('FormGroup', () => {
       expect(exampleContainer).not.toHaveClass('hidden')
       expect(buttonIcon).toHaveClass('fa-chevron-up')
       expect(queryByText('This is an example')).toBeInTheDocument()
+      expect(
+        queryByText('A fictional example to help you complete this section')
+      ).toBeInTheDocument()
+    })
+
+    it('Should have a different button title', () => {
+      const { queryByText } = setup({
+        ...props,
+        example: { ...example, buttonTitle: 'Taxes' },
+      })
+
+      expect(queryByText('This is an example')).toBeInTheDocument()
+      expect(queryByText('Taxes')).toBeInTheDocument()
+    })
+
+    it('Should have a different header', () => {
+      const { queryByText } = setup({
+        ...props,
+        example: { ...example, header: 'A new example' },
+      })
+
+      expect(queryByText('This is an example')).toBeInTheDocument()
+      expect(queryByText('A new example')).toBeInTheDocument()
     })
   })
 
