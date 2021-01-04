@@ -28,10 +28,6 @@
     justify-content: space-between;
     width: 100%;
 
-    // &:not(:first-of-type) {
-    //   margin-top: 10px;
-    // }
-
     @include breakpoint(sm) {
       flex-direction: column;
       width: unset;
@@ -146,10 +142,6 @@
     flex-flow: column wrap;
     justify-content: space-between;
     align-items: flex-start;
-  }
-
-  @include breakpoint(sm) {
-    // flex-flow: row;
   }
 }
 
