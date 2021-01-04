@@ -73,6 +73,14 @@ class ProductLookupView(generics.GenericAPIView):
         return Response(data)
 
 
+class ProductLookupScheduleView(generics.GenericAPIView):
+
+    def get(self, request):
+        hs_code = request.GET.get('hs_code')
+        data = helpers.ccce_import_schedule(hs_code=hs_code)
+        return Response(data)
+
+
 class CountriesView(generics.GenericAPIView):
     def get(self, request):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])

@@ -214,6 +214,15 @@ def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
 
 
+def ccce_headers():
+    return {
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+        'Authorization': settings.COMMODITY_SEARCH_TOKEN,
+    }
+
+
 def search_commodity_by_term(term, json=True):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
@@ -224,12 +233,7 @@ def search_commodity_by_term(term, json=True):
             'stopAtHS6': 'Y',
             'schedule': 'import/export',
         },
-        headers={
-            'Accept': '*/*',
-            'Accept-Encoding': 'gzip, deflate',
-            'Content-Type': 'application/json',
-            'Authorization': settings.COMMODITY_SEARCH_TOKEN,
-        },
+        headers=ccce_headers(),
     )
 
     response.raise_for_status()
@@ -247,12 +251,17 @@ def search_commodity_refine(interaction_id, tx_id, values):
             'interactionid': interaction_id,
             'values': values,
         },
-        headers={
-            'Accept': '*/*',
-            'Accept-Encoding': 'gzip, deflate',
-            'Content-Type': 'application/json',
-            'Authorization': settings.COMMODITY_SEARCH_TOKEN,
-        },
+        headers=ccce_headers(),
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def ccce_import_schedule(hs_code, origin_country='GB', destination_country='CA'):
+    url = f'{settings.CCCE_IMPORT_SCHEDULE_URL}/{hs_code}/{origin_country}/{destination_country}/'
+    response = requests.get(
+        url=url,
+        headers=ccce_headers()
     )
     response.raise_for_status()
     return response.json()

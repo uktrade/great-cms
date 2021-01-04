@@ -1,6 +1,10 @@
 // static values that will not change during execution of the code
 // These are set within the base template
 export let config = {}
+export const setConfig = function(_config) {
+  config = _config
+}
+/*
 export const setConfig = function ({
   countryDataUrl,
   marketingCountryData,
@@ -11,6 +15,7 @@ export const setConfig = function ({
   apiLogoutUrl,
   apiSignupUrl,
   apiLookupProductUrl,
+  apiLookupProductScheduleUrl,
   apiCountriesUrl,
   apiSuggestedCountriesUrl,
   apiUpdateCompanyUrl,
@@ -74,3 +79,4 @@ export const setConfig = function ({
   config.refreshOnMarketChange = refreshOnMarketChange
   config.apiComTradeDataUrl = apiComTradeDataUrl
 }
+*/
