@@ -233,10 +233,8 @@ def test_ccce_import_schedule(requests_mock):
     destination_country = 'CA'
     hs_code = '123456'
     data = {
-        'children': [{
-            'code': hs_code,
-            'desc': 'some description',
-            'children': []},
+        'children': [
+            {'code': hs_code, 'desc': 'some description', 'children': []},
         ]
     }
 

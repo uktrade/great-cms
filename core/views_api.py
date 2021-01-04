@@ -74,7 +74,6 @@ class ProductLookupView(generics.GenericAPIView):
 
 
 class ProductLookupScheduleView(generics.GenericAPIView):
-
     def get(self, request):
         hs_code = request.GET.get('hs_code')
         data = helpers.ccce_import_schedule(hs_code=hs_code)
