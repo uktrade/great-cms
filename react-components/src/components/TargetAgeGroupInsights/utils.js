@@ -7,7 +7,9 @@ export const mapData = ({
     population: population_data.total_population
       ? Number((population_data.total_population / 1000).toFixed(1))
       : '',
-    cpi: '',
+    cpi: country_data.consumer_price_index.value
+      ? Number(country_data.consumer_price_index.value).toFixed(2)
+      : '',
     urban: population_data.urban_percentage
       ? Number((population_data.urban_percentage * 100).toFixed(1))
       : '',
@@ -20,11 +22,22 @@ export const mapData = ({
     male: population_data.male_target_age_population
       ? Number((population_data.male_target_age_population / 1000).toFixed(1))
       : '',
-    internetPercentage: '',
-    internetTotal: '',
+    internetPercentage: country_data.internet_usage.value
+      ? Math.floor(country_data.internet_usage.value)
+      : '',
+    internetTotal: country_data.internet_usage.value
+      ? Number(
+          (
+            (country_data.internet_usage.value / 100) *
+            (population_data.total_population / 1000)
+          ).toFixed(1)
+        )
+      : '',
     targetPopulation: population_data.total_target_age_population
       ? Number((population_data.total_target_age_population / 1000).toFixed(1))
       : '',
-    languages: '',
+    languages: cia_factbook_data.languages
+      ? cia_factbook_data.languages.language.map(({ name }) => name).join(', ')
+      : '',
   }
 }
