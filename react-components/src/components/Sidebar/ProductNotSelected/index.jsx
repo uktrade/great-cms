@@ -3,21 +3,15 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
 import { Modal } from '@src/components/Modal'
-import CountryFinderModal from '@src/components/ProductFinder/CountryFinderModal'
-import Services from '@src/Services'
-import actions from '@src/actions'
+import ProductFinderModal from '@src/components/ProductFinder/ProductFinderModal'
 
-export const CountryNotSelected = memo(({ isOpen }) => {
+export const ProductNotSelected = memo(({ isOpen }) => {
   const [modal, setModal] = useState(isOpen)
   const [modalIsOpen, setIsOpen] = useState(false)
 
-  const openCountryFinder = () => {
+  const openProductFinder = () => {
     setIsOpen(true)
     setModal(false)
-  }
-
-  const selectCountry = (market) => {
-    Services.store.dispatch(actions.setMarket(market))
   }
 
   return (
@@ -30,22 +24,22 @@ export const CountryNotSelected = memo(({ isOpen }) => {
       >
         <Modal
           backUrl="/export-plan/dashboard/"
-          header="Add your target market"
-          content="You will need to choose a target market before you can complete this section"
-          onClick={openCountryFinder}
-          buttonText="Add a target market"
-          type="1"
+          header="Add your product"
+          content="You will need to choose a product before you can complete this section"
+          onClick={openProductFinder}
+          buttonText="Add a product"
+          type="2"
         />
       </ReactModal>
-      <CountryFinderModal
+      <ProductFinderModal
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
-        selectCountry={selectCountry}
+        setSelectedProduct={() => {}}
       />
     </>
   )
 })
 
-CountryNotSelected.propTypes = {
+ProductNotSelected.propTypes = {
   isOpen: PropTypes.bool.isRequired,
 }
