@@ -547,6 +547,7 @@ def test_refine_commodity(mock_search_commodity_refine, client):
     assert response.json() == data
     assert mock_search_commodity_refine.call_count == 1
 
+
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'ccce_import_schedule')
 def test_commodity_schedule(mock_ccce_import_schedule, client):
@@ -562,6 +563,7 @@ def test_commodity_schedule(mock_ccce_import_schedule, client):
     assert response.json() == data
     assert mock_ccce_import_schedule.call_count == 1
     assert mock_ccce_import_schedule.call_args == mock.call(hs_code=hs_code)
+
 
 @pytest.mark.django_db
 def test_get_countries(client):
