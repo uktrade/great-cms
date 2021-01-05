@@ -2,6 +2,7 @@ from io import BytesIO
 from unittest import mock
 
 import pytest
+import json
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.utils.text import slugify
@@ -44,6 +45,7 @@ def export_plan_data():
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
+        'export_commodity_codes': [{'commodity_code': '1234'}],
     }
 
 
@@ -103,6 +105,23 @@ def mock_update_company():
     patch = mock.patch.object(api_client.company, 'profile_update', return_value=create_response())
     yield patch.start()
     patch.stop()
+
+
+@pytest.fixture()
+def comtrade_data():
+    return {
+        'Germany': {
+            'import_from_world':
+                {'year': 2019, 'trade_value': '1.82 billion', 'country_name': 'Germany', 'year_on_year_change': 1.264},
+            'import_data_from_uk':
+            {'year': 2019, 'trade_value': '127.25 million', 'country_name': 'Germany', 'year_on_year_change': 1.126}
+        }
+    }
+
+
+@pytest.fixture(autouse=True)
+def mock_get_comtrade_data(comtrade_data):
+    yield mock.patch('exportplan.views.get_comtrade_data', return_value=comtrade_data).start()
 
 
 @pytest.mark.django_db
@@ -265,11 +284,29 @@ def test_404_when_invalid_section_slug(client, user):
 
 
 @pytest.mark.django_db
-def test_url_with_export_plan_country_selected(mock_get_create_export_plan_with_no_countries, client, user):
+def test_url_with_export_plan_country_selected(
+        mock_get_comtrade_data, mock_get_create_export_plan_with_no_countries, client, user
+):
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
+    assert mock_get_comtrade_data.call_count == 0
+
+
+@pytest.mark.django_db
+def test_target_markets_research(
+        mock_get_comtrade_data, client, user
+):
+    url = reverse('exportplan:target-markets-research')
+    client.force_login(user)
+
+    response = client.get(url)
+
+    assert response.context_data['insight_data'] == json.dumps(mock_get_comtrade_data.return_value)
+    assert response.status_code == 200
+    assert mock_get_comtrade_data.call_count == 1
+    assert mock_get_comtrade_data.call_args == mock.call(commodity_code='1234', countries_list=['Netherlands'])
 
 
 @pytest.mark.django_db

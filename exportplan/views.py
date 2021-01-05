@@ -8,6 +8,7 @@ from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
+from core.helpers import get_comtrade_data
 
 from directory_api_client.client import api_client
 from directory_constants.choices import (
@@ -30,6 +31,16 @@ class ExportPlanMixin:
     @cached_property
     def export_plan(self):
         return helpers.get_or_create_export_plan(self.request.user)
+
+    @cached_property
+    def export_country_name(self):
+        if self.export_plan.get('export_countries'):
+            return self.export_plan['export_countries'][0]['country_name']
+
+    @cached_property
+    def export_commodity_code(self):
+        if self.export_plan.get('export_commodity_codes'):
+            return self.export_plan['export_commodity_codes'][0]['commodity_code']
 
     @property
     def next_section(self):
@@ -167,7 +178,7 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
         # To do pass lanaguage from export_plan object rather then  hardcoded
         context['language_data'] = helpers.get_cia_world_factbook_data(
-            country=self.export_plan['export_countries'][0]['country_name'], key='people,languages'
+            country=self.export_country_name, key='people,languages'
         )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
         return context
@@ -183,9 +194,19 @@ class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, 
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if self.export_plan.get('export_countries'):
-            kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
+        kwargs['country_name'] = self.export_country_name
         return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        if self.export_country_name and self.export_commodity_code:
+            insight_data = get_comtrade_data(
+                countries_list=[self.export_country_name],
+                commodity_code=self.export_commodity_code
+            )
+
+            context['insight_data'] = json.dumps(insight_data)
+        return context
 
 
 class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):

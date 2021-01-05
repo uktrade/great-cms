@@ -9,9 +9,7 @@ from rest_framework.response import Response
 
 from core import helpers, serializers
 from core.fern import Fern
-from directory_api_client import api_client
 from directory_constants import choices
-from exportplan import helpers as exportplan_helpers
 
 logger = logging.getLogger(__name__)
 
@@ -106,36 +104,5 @@ class ComTradeDataView(generics.GenericAPIView):
     def get(self, request):
         countries_list = request.GET.get('countries').split(',')
         commodity_code = request.GET.get('commodity_code')
-
-        response_data = {}
-        for country in countries_list:
-            json_data = api_client.dataservices.get_last_year_import_data(
-                country=country, commodity_code=commodity_code
-            ).json()
-
-            # Todo: Refactor repeated code
-            import_data = json_data['last_year_data'] if 'last_year_data' in json_data else {}
-            if import_data:
-                if 'trade_value' in import_data and import_data['trade_value']:
-                    import_data['trade_value'] = helpers.millify(import_data['trade_value'])
-
-                if 'year_on_year_change' in import_data and import_data['year_on_year_change']:
-                    import_data['year_on_year_change'] = import_data['year_on_year_change']
-
-            json_data_from_uk = api_client.dataservices.get_last_year_import_data_from_uk(
-                country=country, commodity_code=commodity_code
-            ).json()
-
-            # Todo: Refactor repeated code
-
-            import_data_from_uk = json_data_from_uk['last_year_data'] if 'last_year_data' in json_data_from_uk else {}
-            if import_data_from_uk and 'trade_value' in import_data_from_uk and import_data_from_uk['trade_value']:
-                import_data_from_uk['trade_value'] = helpers.millify(import_data_from_uk['trade_value'])
-
-            country_data = exportplan_helpers.get_country_data(country)
-            response_data[country] = {
-                'import_from_world': import_data,
-                'import_data_from_uk': import_data_from_uk,
-                **country_data,
-            }
+        response_data = helpers.get_comtrade_data(countries_list=countries_list, commodity_code=commodity_code)
         return Response(response_data)
