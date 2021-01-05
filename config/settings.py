@@ -193,32 +193,64 @@ WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = env.str('BASE_URL')
 
+LOG_FILE = os.path.join(ROOT_DIR('logs'), 'great-cms.log')
 
 # Logging for development
 if DEBUG:
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'filters': {'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}},
+        'filters': {
+            'require_debug_false':
+                {
+                    '()': 'django.utils.log.RequireDebugFalse'
+                }
+        },
+        'formatters': {
+           'file': {
+                'format': '[%(asctime)s][%(name)s][%(levelname)s] %(message)s'
+            },
+        },
         'handlers': {
             'console': {
                 'level': 'DEBUG',
                 'class': 'logging.StreamHandler',
             },
+            'file': {
+                'level': 'INFO',
+                'class': 'logging.FileHandler',
+                'formatter': 'file',
+                'filename': LOG_FILE,
+            },
         },
         'loggers': {
+            '': {
+                'handlers': ['file'],
+                'propagate': True,
+                'level': 'INFO',
+            },
+            'django.security.*': {
+                'handlers': ['file'],
+                'propagate': True,
+                'level': 'INFO',
+            },
             'django.request': {
-                'handlers': ['console'],
-                'level': 'ERROR',
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
+                'propagate': True,
+            },
+            'django.server': {
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
                 'propagate': True,
             },
             'mohawk': {
-                'handlers': ['console'],
-                'level': 'WARNING',
-                'propagate': False,
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
+                'propagate': True,
             },
             'requests': {
-                'handlers': ['console'],
+                'handlers': ['console', 'file'],
                 'level': 'WARNING',
                 'propagate': False,
             },
@@ -266,18 +298,23 @@ else:
                 'level': 'DEBUG',
                 'class': 'logging.StreamHandler',
                 'formatter': 'verbose',
-            }
+            },
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': str(ROOT_DIR('logs')) + '/api.log',
+            },
         },
         'loggers': {
             'django.db.backends': {
                 'level': 'ERROR',
-                'handlers': ['console'],
+                'handlers': ['console', 'file'],
                 'propagate': False,
             },
-            'sentry_sdk': {'level': 'ERROR', 'handlers': ['console'], 'propagate': False},
+            'sentry_sdk': {'level': 'ERROR', 'handlers': ['console', 'file'], 'propagate': False},
             'django.security.DisallowedHost': {
                 'level': 'ERROR',
-                'handlers': ['console'],
+                'handlers': ['console', 'file'],
                 'propagate': False,
             },
         },

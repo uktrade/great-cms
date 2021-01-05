@@ -124,6 +124,8 @@ class CompareCountriesView(GA360Mixin, TemplateView):
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()
         context = super().get_context_data(**kwargs)
+        logger.error('>>>>>>>>>>>>>>>I am here. 1..<<<<<<<<<<')
+        logger.info('>>>>>>>>>>>>>>>I am here..3.<<<<<<<<<<')
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
             context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)

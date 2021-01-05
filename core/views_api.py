@@ -106,6 +106,7 @@ class ComTradeDataView(generics.GenericAPIView):
     def get(self, request):
         countries_list = request.GET.get('countries').split(',')
         commodity_code = request.GET.get('commodity_code')
+        logger.info('<<<>>>>>>>>I...m here')
 
         response_data = {}
         for country in countries_list:
