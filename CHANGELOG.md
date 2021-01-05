@@ -40,7 +40,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
-
+- GP2-695 - Select your product (modal window) - Product is not selected
 - GP2-1108 - business objective responsive changes
 - GP2-1172 - Analytics compare countries find a market modal (3 markets)
 - GP2-1171 - Analytics select country from comparison list
