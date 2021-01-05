@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
+import { FormElements } from '@src/components/FormElements'
 
 export const aboutYourBusinessForm = ({ element, ...params }) => {
-  ReactDOM.render(<FormWithInputWithExample {...params} />, element)
+  ReactDOM.render(<FormElements {...params} />, element)
 }

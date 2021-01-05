@@ -4,15 +4,12 @@ import props from './TextArea.fixtures'
 
 import { TextArea } from '.'
 
-const setup = ({...data}) => {
+const setup = ({ ...data }) => {
   const actions = {
-    handleChange: jest.fn()
+    handleChange: jest.fn(),
   }
 
-  const utils = render(<TextArea
-    {...data}
-    {...actions}
-  />)
+  const utils = render(<TextArea {...data} {...actions} />)
 
   return {
     ...utils,
@@ -33,8 +30,10 @@ describe('TextArea', () => {
     })
 
     it('Should not have an example', () => {
-      const { queryByText } = setup({...props, example: ''})
-      expect(queryByText('An example of the required text')).not.toBeInTheDocument()
+      const { queryByText } = setup({ ...props, example: '' })
+      expect(
+        queryByText('An example of the required text')
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -44,25 +43,27 @@ describe('TextArea', () => {
       expect(queryByText(props.description)).toBeInTheDocument()
     })
     it('Should not have a description', () => {
-      const { queryByText } = setup({...props, description: ''})
+      const { queryByText } = setup({ ...props, description: '' })
       expect(queryByText(props.description)).not.toBeInTheDocument()
     })
   })
 
   describe('Tooltip', () => {
     it('Should have a tooltip', () => {
-      const { queryByRole } = setup(props)
-      expect(queryByRole('tooltip')).toBeInTheDocument()
+      const { getByTitle } = setup(props)
+      expect(getByTitle('Click to view Educational moment')).toBeInTheDocument()
     })
     it('Should not have a tooltip', () => {
-      const { queryByRole } = setup({...props, tooltip: ''})
-      expect(queryByRole('tooltip')).not.toBeInTheDocument()
+      const { queryByRole } = setup({ ...props, tooltip: '' })
+      expect(
+        queryByRole('Click to view Educational moment')
+      ).not.toBeInTheDocument()
     })
   })
 
   describe('Errors', () => {
     it('Should have errors', () => {
-      const { queryByText } = setup({...props, errors: ['an error']})
+      const { queryByText } = setup({ ...props, errors: ['an error'] })
       expect(queryByText('an error')).toBeInTheDocument()
     })
   })

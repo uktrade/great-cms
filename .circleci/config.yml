@@ -168,12 +168,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-deps-{{ checksum "package.json" }}
+          key: v1-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Install node modules
           command: npm install
       - save_cache:
-          key: v1-deps-{{ checksum "package.json" }}
+          key: v1-deps-{{ checksum "package-lock.json" }}
           paths:
             - "node_modules"
       - run:
@@ -194,12 +194,26 @@ jobs:
           pip install --quiet -r requirements_test.txt
           flake8
 
+  black:
+    docker:
+      - <<: *python
+    steps:
+      - checkout
+      - run:
+          name: Run Black in check mode
+          command: |
+            python3 -m venv .venv
+            . .venv/bin/activate
+            pip install black
+            black ./ --check
+
 workflows:
   version: 2
-  test_and_flake8:
+  test_and_checks:
     jobs:
       - test
       - test_browser
       - test_javascript
       - test_load
+      - black
       - flake8

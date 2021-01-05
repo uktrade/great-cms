@@ -4,12 +4,12 @@ from enum import EnumMeta
 from typing import List
 from urllib.parse import urljoin
 
+import allure
 from django.urls import reverse
+from pytest_django.live_server_helper import LiveServer
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.remote.webdriver import WebDriver
 
-import allure
-from pytest_django.live_server_helper import LiveServer
 from tests.browser.util import attach_jpg_screenshot, is_element_visible
 
 logger = logging.getLogger(__name__)

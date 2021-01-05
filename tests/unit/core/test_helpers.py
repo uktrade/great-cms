@@ -1,16 +1,16 @@
-import pytest
 from unittest import mock
-from requests.exceptions import HTTPError
-from django.http import HttpRequest
-from django.conf import settings
 
+import pytest
+from django.conf import settings
+from django.http import HttpRequest
+from requests.exceptions import HTTPError
+
+from core import helpers
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-from core import helpers
-
-from tests.unit.core.factories import CuratedListPageFactory
 from tests.helpers import create_response
+from tests.unit.core.factories import CuratedListPageFactory
 
 
 @mock.patch.object(helpers, 'get_client_ip')
@@ -54,7 +54,7 @@ def test_get_location_success(mock_get_client_ip, mock_city, rf):
         'longitude': -122.05740356445312,
         'postal_code': '94043',
         'region': 'CA',
-        'time_zone': 'America/Los_Angeles'
+        'time_zone': 'America/Los_Angeles',
     }
 
     actual = helpers.get_location(request)
@@ -64,7 +64,7 @@ def test_get_location_success(mock_get_client_ip, mock_city, rf):
         'region': 'CA',
         'latitude': 37.419200897216797,
         'longitude': -122.05740356445312,
-        'city': 'Mountain View'
+        'city': 'Mountain View',
     }
     assert mock_city.call_count == 1
     assert mock_city.call_args == mock.call('127.0.0.1')
@@ -94,10 +94,7 @@ def test_store_user_location_success(mock_user_location_create, mock_get_locatio
     helpers.store_user_location(request)
 
     assert mock_user_location_create.call_count == 1
-    assert mock_user_location_create.call_args == mock.call(
-        sso_session_id=user.session_id,
-        data={'country': 'US'}
-    )
+    assert mock_user_location_create.call_args == mock.call(sso_session_id=user.session_id, data={'country': 'US'})
 
 
 @mock.patch.object(sso_api_client.user, 'create_user_profile')
@@ -108,10 +105,7 @@ def test_create_user_profile_success(mock_create_user_profile, user, rf):
     helpers.create_user_profile(data=data, sso_session_id='123')
 
     assert mock_create_user_profile.call_count == 1
-    assert mock_create_user_profile.call_args == mock.call(
-        sso_session_id='123',
-        data=data
-    )
+    assert mock_create_user_profile.call_args == mock.call(sso_session_id='123', data=data)
 
 
 @mock.patch.object(sso_api_client.user, 'create_user_profile')
@@ -141,53 +135,67 @@ def test_update_company_profile(mock_profile_update, patch_update_company_profil
     assert mock_profile_update.call_args == mock.call(data=data, sso_session_id=sso_session_id)
 
 
-@pytest.mark.parametrize('company_profile,expected', [
-    [{'expertise_countries': [], 'expertise_industries': []}, None],
+@pytest.mark.parametrize(
+    'company_profile,expected',
     [
-        {'expertise_countries': ['FR'], 'expertise_industries': ['SL10001']},
-        'The Advanced Engineering market in France'
+        [{'expertise_countries': [], 'expertise_industries': []}, None],
+        [
+            {'expertise_countries': ['FR'], 'expertise_industries': ['SL10001']},
+            'The Advanced Engineering market in France',
+        ],
+        [{'expertise_countries': [], 'expertise_industries': ['SL10001']}, 'The Advanced Engineering market'],
+        [
+            {'expertise_countries': ['FR'], 'expertise_industries': [choices.SECTORS[1][0]]},
+            'The Aerospace market in France',
+        ],
+        [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
+        [{'expertise_countries': [], 'expertise_industries': [choices.SECTORS[1][0]]}, 'The Aerospace market'],
     ],
-    [{'expertise_countries': [], 'expertise_industries': ['SL10001']}, 'The Advanced Engineering market'],
-    [
-        {'expertise_countries': ['FR'], 'expertise_industries': [choices.SECTORS[1][0]]},
-        'The Aerospace market in France'
-    ],
-    [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
-    [{'expertise_countries': [], 'expertise_industries': [choices.SECTORS[1][0]]}, 'The Aerospace market'],
-])
+)
 def test_get_markets_page_title(company_profile, expected):
     company = helpers.CompanyParser(company_profile)
 
     assert helpers.get_markets_page_title(company) == expected
 
 
-@pytest.mark.parametrize('company_profile,expected', [
-    [{'expertise_industries': []}, []],
-    [{'expertise_industries': ['SL10001']}, ['Advanced Engineering']],
-    [{'expertise_industries': ['SL10001', 'SL10002']}, ['Advanced Engineering', 'Aerospace']],
-])
+@pytest.mark.parametrize(
+    'company_profile,expected',
+    [
+        [{'expertise_industries': []}, []],
+        [{'expertise_industries': ['SL10001']}, ['Advanced Engineering']],
+        [{'expertise_industries': ['SL10001', 'SL10002']}, ['Advanced Engineering', 'Aerospace']],
+    ],
+)
 def test_company_parser_expertise_industries_labels_no_industries(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_industries_labels == expected
 
 
-@pytest.mark.parametrize('company_profile,expected', [
-    [{'expertise_industries': []}, []],
-    [{'expertise_industries': ['SL10001']}, [{'label': 'Advanced Engineering', 'value': 'SL10001'}]],
-    [{'expertise_industries': ['SL10001', 'SL10002']}, [
-        {'label': 'Advanced Engineering', 'value': 'SL10001'}, {'label': 'Aerospace', 'value': 'SL10002'}
-    ]],
-])
+@pytest.mark.parametrize(
+    'company_profile,expected',
+    [
+        [{'expertise_industries': []}, []],
+        [{'expertise_industries': ['SL10001']}, [{'label': 'Advanced Engineering', 'value': 'SL10001'}]],
+        [
+            {'expertise_industries': ['SL10001', 'SL10002']},
+            [{'label': 'Advanced Engineering', 'value': 'SL10001'}, {'label': 'Aerospace', 'value': 'SL10002'}],
+        ],
+    ],
+)
 def test_company_parser_expertise_industries_value_label_pairs(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_industries_value_label_pairs == expected
 
 
-@pytest.mark.parametrize('company_profile,expected', [
-    [{'expertise_countries': []}, []],
-    [{'expertise_countries': ['FR']}, [{'label': 'France', 'value': 'FR'}]],
-    [{'expertise_countries': ['FR', 'AU']}, [
-        {'label': 'France', 'value': 'FR'}, {'label': 'Australia', 'value': 'AU'}
-    ]],
-])
+@pytest.mark.parametrize(
+    'company_profile,expected',
+    [
+        [{'expertise_countries': []}, []],
+        [{'expertise_countries': ['FR']}, [{'label': 'France', 'value': 'FR'}]],
+        [
+            {'expertise_countries': ['FR', 'AU']},
+            [{'label': 'France', 'value': 'FR'}, {'label': 'Australia', 'value': 'AU'}],
+        ],
+    ],
+)
 def test_company_parser_expertise_countries_value_label_pairs(company_profile, expected):
     assert helpers.CompanyParser(company_profile).expertise_countries_value_label_pairs == expected
 
@@ -207,21 +215,16 @@ def test_helper_search_commodity_by_term(requests_mock):
         ]
     }
 
-    requests_mock.post(
-        settings.COMMODITY_SEARCH_URL,
-        json=data
-    )
+    requests_mock.post(settings.COMMODITY_SEARCH_URL, json=data)
 
-    requests_mock.post(
-        settings.COMMODITY_SEARCH_REFINE_URL,
-        json=data
-    )
+    requests_mock.post(settings.COMMODITY_SEARCH_REFINE_URL, json=data)
 
     first_response = helpers.search_commodity_by_term('word')
     assert first_response == data
 
     refine_response = helpers.search_commodity_refine(
-        interaction_id=1234, tx_id=1234, values=[{'first': 1234, 'second': 'processed'}])
+        interaction_id=1234, tx_id=1234, values=[{'first': 1234, 'second': 'processed'}]
+    )
     assert refine_response == data
 
 
@@ -250,41 +253,35 @@ def test_get_module_completion_progress():
         'page': clp_1,
         'completed_lesson_pages': {
             'b7eca1bf-8b43-4737-91e4-913dfeb2c5d8': {10, 26},
-            '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20}
-        }
+            '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20},
+        },
     }
 
     clp_2_completion_data = {
         'total_pages': 4,
         'completion_count': 2,
         'page': clp_2,
-        'completed_lesson_pages': {
-            '786e9140-6ba8-4f1a-970b-0d556013e64d': {14, 22}
-        }
+        'completed_lesson_pages': {'786e9140-6ba8-4f1a-970b-0d556013e64d': {14, 22}},
     }
 
     mock_get_lesson_completion_status_return_value = {
         'lessons_in_progress': True,
-        'module_pages': [
-            clp_1_completion_data,
-            clp_2_completion_data
-        ],
+        'module_pages': [clp_1_completion_data, clp_2_completion_data],
     }
 
-    assert helpers.get_module_completion_progress(
+    assert clp_2_completion_data == helpers.get_module_completion_progress(
         mock_get_lesson_completion_status_return_value,
-        clp_2
-    ) == clp_2_completion_data
+        clp_2,
+    )
 
-    assert helpers.get_module_completion_progress(
-        mock_get_lesson_completion_status_return_value,
-        clp_1
-    ) == clp_1_completion_data
+    assert clp_1_completion_data == helpers.get_module_completion_progress(
+        mock_get_lesson_completion_status_return_value, clp_1
+    )
 
-    assert helpers.get_module_completion_progress(
+    assert {} == helpers.get_module_completion_progress(
         mock_get_lesson_completion_status_return_value,
-        clp_3
-    ) == {}  # ie, no match
+        clp_3,
+    )  # ie, no match
 
 
 @pytest.mark.django_db
@@ -302,17 +299,15 @@ def test_get_high_level_completion_progress():
         'page': clp_1,
         'completed_lesson_pages': {
             'b7eca1bf-8b43-4737-91e4-913dfeb2c5d8': {10, 26},
-            '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20}
-        }
+            '044e1343-f2ce-4089-8ce9-17093b9d36b8': {18, 20},
+        },
     }
 
     clp_2_completion_data = {
         'total_pages': 4,
         'completion_count': 2,
         'page': clp_2,
-        'completed_lesson_pages': {
-            '786e9140-6ba8-4f1a-970b-0d556013e64d': {14, 22}
-        }
+        'completed_lesson_pages': {'786e9140-6ba8-4f1a-970b-0d556013e64d': {14, 22}},
     }
 
     clp_3_completion_data = {
@@ -323,16 +318,11 @@ def test_get_high_level_completion_progress():
             '444e9140-6ba8-4f1a-970b-0d556013e64d': {111, 222, 333},
             '555e9140-6ba8-4f1a-970b-0d556013e64d': {211, 322, 433},
             '666e9140-6ba8-4f1a-970b-0d556013e64d': {311, 422, 533},
-        }
+        },
     }
 
     # this is unhappy-path data: no lessons, should trigger Zero division
-    clp_4_completion_data = {
-        'total_pages': 0,
-        'completion_count': 0,
-        'page': clp_4,
-        'completed_lesson_pages': {}
-    }
+    clp_4_completion_data = {'total_pages': 0, 'completion_count': 0, 'page': clp_4, 'completed_lesson_pages': {}}
 
     # this is unhappy-path data: missing keys that we expect
     clp_5_completion_data = {
@@ -350,9 +340,7 @@ def test_get_high_level_completion_progress():
         ],
     }
 
-    assert helpers.get_high_level_completion_progress(
-        mock_get_lesson_completion_status_return_value
-    ) == {
+    assert helpers.get_high_level_completion_progress(mock_get_lesson_completion_status_return_value) == {
         clp_1.id: {
             'total_pages': 7,
             'completion_count': 4,
@@ -377,7 +365,7 @@ def test_get_high_level_completion_progress():
             'total_pages': 0,
             'completion_count': 0,
             'completion_percentage': 0,
-        }
+        },
     }
 
 
@@ -396,3 +384,18 @@ def test_get_sender_ip():
 def test_get_sender_no_ip():
     request = HttpRequest()
     assert helpers.get_sender_ip_address(request) is None
+
+
+@pytest.mark.parametrize(
+    'amount,expected',
+    [
+        [12, '12.00'],
+        [1200, '1.20 thousand'],
+        [120000, '120.00 thousand'],
+        [1200000, '1.20 million'],
+        [1200000000, '1.20 billion'],
+    ],
+)
+def test_millify(amount, expected):
+    amount = helpers.millify(amount)
+    assert amount == expected

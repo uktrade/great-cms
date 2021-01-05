@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": "",
+    "paths": {
+      "@src/*": ["react-components/src/*"],
+      "@components/*": ["/node_modules/great-styles/dist/*"],
+      "reducers/*": ["react-components/src/reducers/*"],
+      "views/*": ["react-components/src/views/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

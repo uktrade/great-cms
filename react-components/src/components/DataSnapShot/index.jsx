@@ -6,18 +6,12 @@ import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Table } from './Table'
 import { ProductData } from './ProductData'
 
-export const DataSnapShot = memo(({
-  country,
-  groups
-}) => {
+export const DataSnapShot = memo(({ country, groups }) => {
   return (
     <ToggleSnapshot isOpen={false}>
-      <div className='m-t-s'>
+      <div className="m-t-s">
         <ProductData />
-        <ToggleDataTable
-          country={country}
-          groups={groups}
-        >
+        <ToggleDataTable country={country} groups={groups}>
           <Table />
         </ToggleDataTable>
       </div>
@@ -27,12 +21,14 @@ export const DataSnapShot = memo(({
 
 DataSnapShot.propTypes = {
   country: PropTypes.string.isRequired,
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired
-  })),
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ),
 }
 
 DataSnapShot.defaultProps = {
-  groups: []
+  groups: [],
 }

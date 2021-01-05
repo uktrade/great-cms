@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import patch
 
-from directory_api_client import api_client
-from directory_constants import choices
+import environ
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from wagtail_factories import SiteFactory
 
-import environ
-import pytest
-
-from core import helpers as core_helpers
-from core import cms_slugs
+from core import cms_slugs, helpers as core_helpers
 from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
+from directory_api_client import api_client
+from directory_constants import choices
 from exportplan import helpers as exportplan_helpers
 from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
@@ -24,7 +22,6 @@ from tests.unit.core.factories import (
     TopicPageFactory,
 )
 from tests.unit.learn import factories as learn_factories
-
 
 CHINA = {
     'country': 'China',
@@ -88,6 +85,7 @@ JAPAN = {
 ##########################################################
 # Browser fixtures
 ##########################################################
+
 
 @pytest.fixture(scope='session')
 def browser():
@@ -169,6 +167,7 @@ def server_user_browser_dashboard(
     should_not_see_errors(browser)
     return live_server, user, browser
 
+
 ##########################################################
 # Page fixtures
 ##########################################################
@@ -202,8 +201,16 @@ def curated_list_pages_with_lessons(domestic_site_browser_tests):
         slug='topic-b',
     )
     topic_for_clp_b = TopicPageFactory(parent=clp_b, title='Topic B', slug='topic-b')
-    lesson_b1 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B1', slug='lesson-b1',)
-    lesson_b2 = learn_factories.LessonPageFactory(parent=topic_for_clp_b, title='Lesson B2', slug='lesson-b2',)
+    lesson_b1 = learn_factories.LessonPageFactory(
+        parent=topic_for_clp_b,
+        title='Lesson B1',
+        slug='lesson-b1',
+    )
+    lesson_b2 = learn_factories.LessonPageFactory(
+        parent=topic_for_clp_b,
+        title='Lesson B2',
+        slug='lesson-b2',
+    )
 
     return [(clp_a, [lesson_a1, lesson_a2]), (clp_b, [lesson_b1, lesson_b2])]
 
@@ -327,7 +334,9 @@ def mock_get_export_plan_list():
 def mock_get_corruption_perceptions_index():
     return_value = CHINA['corruption_perceptions_index']
     with patch.object(
-        api_client.dataservices, 'get_corruption_perceptions_index', return_value=return_value,
+        api_client.dataservices,
+        'get_corruption_perceptions_index',
+        return_value=return_value,
     ) as patched:
         yield patched
 

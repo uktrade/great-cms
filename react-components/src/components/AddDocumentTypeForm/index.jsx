@@ -4,7 +4,7 @@
 import React, { useState } from 'react'
 import { Input } from '@src/components/Form/Input'
 import { TextArea } from '@src/components/Form/TextArea'
-import { FormWithInputWithExample } from '@src/components/FormWithInputWithExample'
+import { FormElements } from '@src/components/FormElements'
 
 // List the user defined other documents
 const DocumentList = (props) => {
@@ -21,12 +21,16 @@ const DocumentList = (props) => {
                 placeholder="Add document name here"
                 value={document.label}
                 onChange={(e) =>
-                  updateDocument(document.label, { label: e[document.document_name] })
+                  updateDocument(document.label, {
+                    label: e[document.document_name],
+                  })
                 }
               />
               <TextArea
                 onChange={(e) =>
-                  updateDocument(document.label, { description: e[document.document_notes] })
+                  updateDocument(document.label, {
+                    description: e[document.document_notes],
+                  })
                 }
                 key={document.name}
                 label="Notes"
@@ -152,12 +156,14 @@ export const AddDocumentTypeForm = (props) => {
   const updateDocument = (label, property) => {
     // debugger
     // console.log(label, property)
-    setDocuments(documents.map((x) => (x.label === label ? { ...x, ...property } : x)))
+    setDocuments(
+      documents.map((x) => (x.label === label ? { ...x, ...property } : x))
+    )
   }
 
   return (
     <>
-      <FormWithInputWithExample {...props} />
+      <FormElements {...props} />
       <DocumentList
         documents={documents}
         deleteDocument={deleteDocument}

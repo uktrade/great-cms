@@ -4,7 +4,13 @@
 {% load url_map %}
 {% load to_json %}
 
-{% block head_title %}Welcome to great.gov.uk{% endblock %}
+{% block head_title %}
+  {% if page.title %}
+    {{ page.title }} | great.gov.uk
+  {% else %}
+    Welcome to great.gov.uk
+  {% endif %}
+{% endblock %}
 
 {% block head_css %}
     <link href="{% static 'styles.css' %}" media="all" rel="stylesheet" />
@@ -42,6 +48,7 @@
           apiTargetMarketDocumentsUpdateUrl: '{% url "exportplan:api-target-markets-documents-update" %}',
           apiTargetMarketDocumentsDeleteUrl: '{% url "exportplan:api-target-markets-documents-delete" %}',
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
+          apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
           countryDataUrl: '{% url "exportplan:api-country-data" %}',
           populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',

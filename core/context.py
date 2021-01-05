@@ -9,7 +9,6 @@ def get_context_provider(request, page):
 
 
 class AbstractPageContextProvider(abc.ABC):
-
     @property
     @abc.abstractmethod
     def template_name():

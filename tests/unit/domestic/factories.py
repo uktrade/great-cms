@@ -1,8 +1,9 @@
-import wagtail_factories
 import factory
 import factory.fuzzy
-from domestic.models import DomesticHomePage, DomesticDashboard
+import wagtail_factories
+
 from core import blocks as core_blocks
+from domestic.models import DomesticDashboard, DomesticHomePage
 
 
 class RouteSectionFactory(wagtail_factories.StructBlockFactory):
@@ -32,9 +33,7 @@ class DomesticDashboardFactory(wagtail_factories.PageFactory):
     live = True
     slug = 'dashboard'
 
-    components = wagtail_factories.StreamFieldFactory({
-        'route': RouteSectionFactory
-    })
+    components = wagtail_factories.StreamFieldFactory({'route': RouteSectionFactory})
 
     class Meta:
         model = DomesticDashboard

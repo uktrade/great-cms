@@ -3,11 +3,12 @@ import tarfile
 from unittest.mock import call, patch
 
 import pytest
-
-from django.core.management import call_command
 from django.conf import settings
+from django.core.management import call_command
 
-from core.management.commands.download_geolocation_data import GeolocationRemoteFileArchive
+from core.management.commands.download_geolocation_data import (
+    GeolocationRemoteFileArchive,
+)
 
 
 class GeolocationBadLocalFileArchive(GeolocationRemoteFileArchive):

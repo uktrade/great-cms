@@ -1,8 +1,8 @@
 from django.conf import settings
-from directory_constants import choices
 
 from core.context import AbstractPageContextProvider
 from core.models import CuratedListPage
+from directory_constants import choices
 from learn import helpers
 
 

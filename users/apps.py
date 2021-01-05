@@ -9,7 +9,4 @@ class UsersConfig(AppConfig):
     def ready(self):
         from users import signals
 
-        post_save.connect(
-            receiver=signals.approve_new_user,
-            sender=get_user_model()
-        )
+        post_save.connect(receiver=signals.approve_new_user, sender=get_user_model())

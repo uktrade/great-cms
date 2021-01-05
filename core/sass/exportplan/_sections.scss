@@ -4,8 +4,13 @@
   }
 
   &--intro-image {
-    margin-bottom: -30px;
-    width: 679px;
+    bottom: -30px;
+    position: relative;
+    width: 100%;
+
+    @include breakpoint(lg){
+      width: 679px;
+    }
   }
 }
 
