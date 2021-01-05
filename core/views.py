@@ -136,20 +136,6 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
         return context
 
 
-class ProductLookupView(generics.GenericAPIView):
-    serializer_class = serializers.ProductLookupSerializer
-    permission_classes = []
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        if 'tx_id' in serializer.validated_data:
-            data = helpers.search_commodity_refine(**serializer.validated_data)
-        else:
-            data = helpers.search_commodity_by_term(term=serializer.validated_data['proddesc'])
-        return Response(data)
-
-
 class CountriesView(generics.GenericAPIView):
     def get(self, request):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])

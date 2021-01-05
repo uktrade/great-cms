@@ -1,0 +1,58 @@
+.classification-tree {
+  position: relative;
+  overflow: hidden;
+  transition: height 2s;
+
+  ul {
+    list-style: none;
+    padding-left: 30px;
+
+    li {
+      position: relative;
+      display: block;
+      min-height: 30px;
+    }
+  }
+
+  &__arrow {
+    transform: rotate(90deg);
+    position: absolute;
+    top: 3px;
+    left: -25px;
+  }
+
+  &__right-container {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 10px;
+  }
+
+  &__codes {
+
+    >div {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin-right: 5px;
+      text-align: center;
+      line-height: 30px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &-chapter {
+      background-color: #d1d2e6;
+    }
+
+    &-heading {
+      background-color: #c0dae7;
+    }
+
+    &-commodity {
+      background-color: #abeae5;
+    }
+  }
+}

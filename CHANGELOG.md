@@ -5,6 +5,7 @@
 ### Implemented enhancements
 
 - GP2-1193 - Dynamic page title tags
+- GP2-1137 - Product finder endpage
 - GP2-1057 - Remove unused styles from great-styles
 - GP2-1109 - EP target market research responsive. Modal style updates (from great-styles).
 - GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page

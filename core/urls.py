@@ -56,6 +56,11 @@ urlpatterns = [
     path('contact-us/success/', skip_ga360(views.ContactUsHelpSuccessView.as_view()), name='contact-us-success'),
     path('api/update-company/', skip_ga360(views_api.UpdateCompanyAPIView.as_view()), name='api-update-company'),
     path('api/lookup-product/', skip_ga360(views_api.ProductLookupView.as_view()), name='api-lookup-product'),
+    path(
+        'api/lookup-product-schedule/',
+        skip_ga360(views_api.ProductLookupScheduleView.as_view()),
+        name='api-lookup-product-schedule',
+    ),
     path('api/countries/', skip_ga360(views_api.CountriesView.as_view()), name='api-countries'),
     path(
         'api/suggested-countries/',

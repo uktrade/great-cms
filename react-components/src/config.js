@@ -11,6 +11,7 @@ export const setConfig = function ({
   apiLogoutUrl,
   apiSignupUrl,
   apiLookupProductUrl,
+  apiLookupProductScheduleUrl,
   apiCountriesUrl,
   apiSuggestedCountriesUrl,
   apiUpdateCompanyUrl,
@@ -47,6 +48,7 @@ export const setConfig = function ({
   config.apiLogoutUrl = apiLogoutUrl
   config.apiSignupUrl = apiSignupUrl
   config.apiLookupProductUrl = apiLookupProductUrl
+  config.apiLookupProductScheduleUrl = apiLookupProductScheduleUrl
   config.apiCountriesUrl = apiCountriesUrl
   config.apiSuggestedCountriesUrl = apiSuggestedCountriesUrl
   config.apiUpdateCompanyUrl = apiUpdateCompanyUrl
