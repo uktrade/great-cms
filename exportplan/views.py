@@ -190,7 +190,8 @@ class ExportPlanTargetMarketsResearchView(
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
+        if self.export_plan.get('export_countries'):
+            kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
         return kwargs
 
 

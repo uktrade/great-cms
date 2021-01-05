@@ -13,35 +13,15 @@
   display: none;
 }
 
-$colours:
-  ($black, black),
-  ($grey, grey),
-  ($mid-grey, mid-grey),
-  ($light-grey, light-grey),
-  ($offwhite, offwhite),
-  ($white, white),
-  (transparent, transparent),
-  ($purple, purple),
-  ($great-blue, great-blue),
-  ($dark-navy, dark-navy),
-  ($mid-blue, mid-blue),
-  ($active-blue, active-blue),
-  ($light-blue, light-blue),
-  ($aqua, aqua),
-  ($teal, teal),
-  ($flag-red, flag-red),
-  ($great-red, great-red),
-  ($focus-yellow, focus-yellow),
-  ($stone-10, stone-10),
-  ($stone-20, stone-20),
-  ($stone-30, stone-30),
-  ($stone-40, stone-40),
-  ($stone-50, stone-50),
-  ($stone-60, stone-60),
-  ($stone-70, stone-70),
-  ($stone-80, stone-80),
-  ($stone-90, stone-90),
-  ($stone, stone);
+$colours: ($black, black), ($grey, grey), ($mid-grey, mid-grey),
+  ($light-grey, light-grey), ($offwhite, offwhite), ($white, white),
+  (transparent, transparent), ($purple, purple), ($great-blue, great-blue),
+  ($dark-navy, dark-navy), ($mid-blue, mid-blue), ($active-blue, active-blue),
+  ($light-blue, light-blue), ($aqua, aqua), ($teal, teal), ($flag-red, flag-red),
+  ($great-red, great-red), ($focus-yellow, focus-yellow), ($stone-10, stone-10),
+  ($stone-20, stone-20), ($stone-30, stone-30), ($stone-40, stone-40),
+  ($stone-50, stone-50), ($stone-60, stone-60), ($stone-70, stone-70),
+  ($stone-80, stone-80), ($stone-90, stone-90), ($stone, stone);
 
 @each $colour, $name in $colours {
   .bg-hover-#{$name}:hover {
@@ -86,4 +66,24 @@ $colours:
 
 .text-align-left {
   text-align: left;
+}
+
+.radius-xs {
+  @include breakpoint(sm_lt) {
+    border-radius: var(--radius);
+  }
+}
+
+.radius-top-xs {
+  @include breakpoint(sm_lt) {
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+  }
+}
+
+.radius-bottom-xs {
+  @include breakpoint(sm_lt) {
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+  }
 }
