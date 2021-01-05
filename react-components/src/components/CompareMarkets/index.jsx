@@ -123,9 +123,9 @@ function CompareMarkets(props) {
     // Either We're missing a product or any countries
     tabsContainer = (
       <section className="container">
-        <div class="grid">
-          <div class="c-1-4-l">&nbsp;</div>
-          <div class="c-1-2-l">{triggerButton}</div>
+        <div className="grid">
+          <div className="c-1-4-l">&nbsp;</div>
+          <div className="c-1-2-l">{triggerButton}</div>
         </div>
       </section>
     )

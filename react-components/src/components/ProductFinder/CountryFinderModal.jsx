@@ -89,11 +89,12 @@ export default function CountryFinderModal(props) {
   }
 
   const clickCountry = (evt) => {
+    const button = evt.target.closest('button')
     const country = {
-      country_name: evt.target.getAttribute('data-country'),
-      country_iso2_code: evt.target.getAttribute('data-id'),
-      region: evt.target.getAttribute('data-region'),
-      suggested: evt.target.getAttribute('data-suggested'),
+      country_name: button.getAttribute('data-country'),
+      country_iso2_code: button.getAttribute('data-id'),
+      region: button.getAttribute('data-region'),
+      suggested: button.getAttribute('data-suggested'),
     }
     selectCountry(country)
     closeModal()
@@ -166,11 +167,6 @@ export default function CountryFinderModal(props) {
           {country.country_name}
           <i
             className="fa fa-plus"
-            data-country={country.country_name}
-            data-region={country.region}
-            data-id={country.country_iso2}
-            onClick={clickCountry}
-            data-suggested
           />
         </button>
       )

@@ -34,7 +34,7 @@ export default function EconomyData(props) {
 
   const sourceAttribution = (
     <p className="source-attribution body-s">
-      <strong class="body-s-b">
+      <strong className="body-s-b">
         Trade data
       </strong>
       :&nbsp;
@@ -45,7 +45,7 @@ export default function EconomyData(props) {
         UN Comtrade
       </a>
       &nbsp;Copyright United Nations 2020.&nbsp;
-      <strong class="body-s-b">
+      <strong className="body-s-b">
         GDP per capita
       </strong>
       &nbsp;(current US$):&nbsp;
@@ -56,7 +56,7 @@ export default function EconomyData(props) {
         World Bank, OECD
       </a>
       &nbsp;CC BY 4.0.&nbsp;
-      <strong class="body-s-b">
+      <strong className="body-s-b">
         Ease of Doing Business Scores
       </strong>
       :&nbsp;
@@ -67,7 +67,7 @@ export default function EconomyData(props) {
         World Bank
       </a>
       &nbsp;CC BY 4.0.&nbsp;
-      <strong class="body-s-b">
+      <strong className="body-s-b">
         Corruption Perceptions Index
       </strong>
       :&nbsp;
