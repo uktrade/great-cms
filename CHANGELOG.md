@@ -18,7 +18,7 @@
 - GP2-1029 - Population data sources attributions and links
 
 ### Fixed bugs
-
+- no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
 - GP2-1038 - Force lowercase on email input field
