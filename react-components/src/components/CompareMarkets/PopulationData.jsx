@@ -32,7 +32,7 @@ export default function PopulationData(props) {
 
   const sourceAttribution = (
     <p className="source-attribution body-s">
-      <strong class="body-s-b">
+      <strong className="body-s-b">
         Population data
       </strong>
       :&nbsp;
@@ -43,7 +43,7 @@ export default function PopulationData(props) {
         United Nations
       </a>
       &nbsp;CC BY 3.0 IGO.&nbsp;
-      <strong class="body-s-b">
+      <strong className="body-s-b">
         Urban and Rural Populations
       </strong>
       :&nbsp;
@@ -54,7 +54,7 @@ export default function PopulationData(props) {
         United Nations
       </a>
       &nbsp;CC BY 3.0 IGO.&nbsp;
-      <strong class="body-s-b">
+      <strong className="body-s-b">
         Access to internet
       </strong>
       :&nbsp;
