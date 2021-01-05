@@ -4,31 +4,38 @@ import Services from '@src/Services'
 import Spinner from '../Spinner/Spinner'
 
 const trimAndCapitalize = (str) => {
-  let match = /^(?:CHAPTER\s\d+)?\s*\-*\s*(.*)$/.exec(str)
-  str = match ? match[1] : str
-  return str && (str.substr(0,1).toUpperCase() + str.substr(1).toLowerCase())
-} 
+  const match = /^(?:CHAPTER\s\d+)?\s*-*\s*(.*)$/.exec(str)
+  const locStr = match ? match[1] : str
+  return (
+    locStr && locStr.substr(0, 1).toUpperCase() + locStr.substr(1).toLowerCase()
+  )
+}
 
 function TreeBranch(props) {
   const { level, hsCode } = props
-  if (!level.type || (level.type === 'SECTION'))
-    return  <TreeBranch level={level.children[0]} hsCode={hsCode}/>
-  const arrow = (level.type !== 'CHAPTER') && <i className="fa fa-level-up-alt classification-tree__arrow"/>
+  if (!level.type || level.type === 'SECTION')
+    return <TreeBranch level={level.children[0]} hsCode={hsCode} />
+  const arrow = level.type !== 'CHAPTER' && (
+    <i className="fa fa-level-up-alt classification-tree__arrow" />
+  )
 
   return (
     <div className="body-l classification-tree__item">
       {arrow}
       <span>{trimAndCapitalize(level.desc)}</span>
-      {((level.code || '').substring(0,hsCode.length) !== hsCode) ? (
+      {(level.code || '').substring(0, hsCode.length) !== hsCode ? (
         <ul className="m-v-xs">
           {(level.children || []).map((child) => (
-            <li>
-              <TreeBranch level={child} hsCode={hsCode}/>
+            <li key={level.code}>
+              <TreeBranch level={child} hsCode={hsCode} />
             </li>
           ))}
         </ul>
-      ) : ''}
-    </div>)
+      ) : (
+        ''
+      )}
+    </div>
+  )
 }
 
 export default function ClassificationTree(props) {
@@ -36,30 +43,31 @@ export default function ClassificationTree(props) {
   const [schedule, setSchedule] = useState()
 
   useEffect(() => {
-    if(!schedule) {
-      Services.lookupProductSchedule({ hsCode }).then(
-        (results) => setSchedule(results)
+    if (!schedule) {
+      Services.lookupProductSchedule({ hsCode }).then((results) =>
+        setSchedule(results)
       )
     }
   }, [hsCode])
 
   return (
     <div className="classification-tree g-panel m-v-xs">
-      {schedule && ((<TreeBranch level={schedule} hsCode={hsCode}/>)) || <Spinner text="" />}
+      {(schedule && <TreeBranch level={schedule} hsCode={hsCode} />) || (
+        <Spinner text="" />
+      )}
     </div>
   )
 }
 
 ClassificationTree.propTypes = {
-  hsCode: PropTypes.string.isRequired, 
+  hsCode: PropTypes.string.isRequired,
 }
 
 const ptLevel = PropTypes.shape({
-    type: PropTypes.string,
-    desc: PropTypes.string,
-    code: PropTypes.string
-  })
-
+  type: PropTypes.string,
+  desc: PropTypes.string,
+  code: PropTypes.string,
+})
 
 TreeBranch.propTypes = {
   hsCode: PropTypes.string.isRequired,
@@ -67,7 +75,6 @@ TreeBranch.propTypes = {
     type: PropTypes.string,
     desc: PropTypes.string,
     code: PropTypes.string,
-    children: PropTypes.arrayOf(ptLevel)
+    children: PropTypes.arrayOf(ptLevel),
   }).isRequired,
 }
-
