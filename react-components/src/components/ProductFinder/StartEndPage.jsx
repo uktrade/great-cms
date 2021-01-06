@@ -10,7 +10,9 @@ export default function StartEndPage(props) {
   const [commodityName, setCommodityName] = useState(defaultCommodityName)
 
   const saveNamedProduct = () => {
-    saveProduct(commodityCode, commodityName)
+    if(commodityCode && commodityName) {
+      saveProduct(commodityCode, commodityName)
+    }
   }
   return (
     <div>
