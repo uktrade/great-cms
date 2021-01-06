@@ -5,6 +5,8 @@ import React, { useState } from 'react'
 import { Input } from '@src/components/Form/Input'
 import { TextArea } from '@src/components/Form/TextArea'
 import { FormElements } from '@src/components/FormElements'
+import Services from '@src/Services'
+import { useDebounce } from '@src/components/hooks/useDebounce'
 
 // List the user defined other documents
 const DocumentList = (props) => {
@@ -29,12 +31,12 @@ const DocumentList = (props) => {
               <TextArea
                 onChange={(e) =>
                   updateDocument(document.label, {
-                    description: e[document.document_notes],
+                    description: e[document.note],
                   })
                 }
                 key={document.name}
                 label="Notes"
-                id={document.document_notes}
+                id={document.note}
                 value={document.description}
                 placeholder="Add notes"
                 currency={document.currency}
@@ -115,25 +117,11 @@ const AddNewDocument = (props) => {
 export const AddDocumentTypeForm = (props) => {
   const initialData = [
     {
-      name: 'export_certificate_1',
+      name: 'export_certificate',
       label: 'Export certificate',
       description: 'Some description data here',
-      document_name: 'export_certificate_1_name',
-      document_notes: 'export_certificate_1_notes',
-    },
-    {
-      name: 'food_standards_certificate_1',
-      label: 'Food standards certificate',
-      description: 'Some description data here',
-      document_name: 'food_standards_certificate_1_name',
-      document_notes: 'food_standards_certificate_1_notes',
-    },
-    {
-      name: 'duty_calculation_1',
-      label: 'Duty calculation',
-      description: 'Some description data here',
-      document_name: 'duty_calculation_1_name',
-      document_notes: 'duty_calculation_1_notes',
+      document_name: 'export_certificate_name',
+      note: 'export_certificate_note',
     },
   ]
 
@@ -144,7 +132,7 @@ export const AddDocumentTypeForm = (props) => {
     document.label = name
     document.name = name.replace(/\s/g, '_').toLowerCase()
     document.document_name = document.name + '_name'
-    document.document_notes = document.name + '_notes'
+    document.note = document.name + '_note'
     setDocuments([...documents, document])
   }
 

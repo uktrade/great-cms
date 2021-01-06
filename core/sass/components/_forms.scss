@@ -67,6 +67,11 @@
   .form-group-example {
     background-color: $white;
   }
+
+  .form-delete {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .button--add {
