@@ -35,7 +35,7 @@
 <div class="container m-b-s">
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
-    <div class="c-2-3">
+    <div class="c-1-2-l c-2-3-m">
       <p class="m-0 body-s">Population statistics – <a href="https://www.un.org/en/" title="United Nations">United Nations</a>; Access to Internet,Consumer Price Index - <a href="https://www.worldbank.org/" title="World Bank">World Bank</a>;  Languages -  <a href="https://www.cia.gov/library/publications/the-world-factbook/" title="CIA World Factbook">CIA World Factbook</a>;</p>
       <p class="m-0 body-s">*Data not available* will show where our sources have missing data. We're always working on adding more data sources.</p>
     </div>
@@ -45,12 +45,12 @@
 
 <section class="container m-b-l">
   <div class="grid">
-    <div class="c-1-4 p-0 m-t-s">
-      <div class="lesson__back">
+    <div class="c-1-4 m-t-s">
+      <div class="lesson__back width-full">
         {% include 'exportplan/includes/lesson_details.html' with lesson_name='sell-direct-your-customer' %}
       </div>
     </div>
-    <div class="c-1-2">
+    <div class="c-1-2-l c-2-3-m">
       <h2 class="h-m m-b-xs">How will you get your product to customers in {{ export_plan.export_countries.0.country_name }}?</h2>
       <p>Make a list of the ways you'll get your product to customers by using the following dropdown list.</p>
       <p>You can choose more than one option.</p>
@@ -105,17 +105,20 @@
           {
             label: 'Route to market',
             options: {{ route_choices|safe }},
-            name: 'route'
+            name: 'route',
+            tooltip: 'Route to market tooltip',
           },
           {
             label: 'How will we promote your product?',
             options: {{ promotional_choices|safe }},
-            name: 'promote'
+            name: 'promote',  
+            tooltip: 'How will we promote your product tooltip',
           }
         ],
-        example: '<p>We’ve found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>',
+        example: `<p>We've found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>`,
         label: 'Explain in your words why you selected this route to market and promotional channel',
-        name: 'market_promotional_channel'
+        name: 'market_promotional_channel',
+        tooltip: 'Example tooltip',
       },
       fields: {{ route_to_markets|safe }},
       formFields: {

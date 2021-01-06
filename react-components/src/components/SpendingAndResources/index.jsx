@@ -2,27 +2,21 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
+import { analytics } from '@src/Helpers'
+import { useDebounce } from '@src/components/hooks/useDebounce'
 import Services from '../../Services'
 
-import { analytics } from '@src/Helpers'
-
-export const SpendingAndResources = ({
-  field,
-  formFields,
-  formData,
-}) => {
-
+export const SpendingAndResources = ({ field, formFields, formData }) => {
   const [input, setInput] = useState(formData)
   const [pushedAnalytic, setPushedAnalytic] = useState(false)
 
   const update = (e) => {
-    setInput({ ...e })
-    Services.updateExportPlan({ [field]: { ...e }})
-      .then( () => {
+    Services.updateExportPlan({ [field]: { ...e } })
+      .then(() => {
         if (!pushedAnalytic) {
           analytics({
-            'event': 'planSectionSaved',
-            'sectionTitle': 'marketing-approach'
+            event: 'planSectionSaved',
+            sectionTitle: 'marketing-approach',
           })
           setPushedAnalytic(true)
         }
@@ -30,21 +24,32 @@ export const SpendingAndResources = ({
       .catch(() => {})
   }
 
+  const debounceUpdate = useDebounce(update)
+
+  const onChange = (e) => {
+    setInput({ ...e })
+    debounceUpdate(e)
+  }
+
   return (
     <>
-      {formFields.map(item => (
+      {formFields.map((item) => (
         <TextArea
           tooltip={item.tooltip}
           label={item.label}
-          example={item.example}
+          example={{ content: item.example }}
           key={item.name}
           id={item.name}
           value={input[item.name]}
           description={item.description}
-          placeholder={Number.isInteger(item.placeholder) ? item.placeholder : 'Add some text'}
+          placeholder={
+            Number.isInteger(item.placeholder)
+              ? item.placeholder
+              : 'Add some text'
+          }
           currency={item.currency}
           tag={Number.isInteger(item.placeholder) ? 'number' : 'text'}
-          onChange={update}
+          onChange={onChange}
         />
       ))}
     </>
@@ -54,9 +59,11 @@ export const SpendingAndResources = ({
 SpendingAndResources.propTypes = {
   field: PropTypes.string.isRequired,
   formData: PropTypes.objectOf(PropTypes.string).isRequired,
-  formFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
-  })).isRequired,
+  formFields: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      placeholder: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }

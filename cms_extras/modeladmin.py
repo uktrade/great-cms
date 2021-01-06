@@ -1,8 +1,5 @@
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
-from wagtail.contrib.modeladmin.options import (
-    ModelAdmin,
-    modeladmin_register
-)
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 
 from core.models import CaseStudy
 
@@ -24,9 +21,7 @@ class CaseStudyAdminButtonHelper(ButtonHelper):
     def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
         btns = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
         if 'view' not in (exclude or []):
-            btns.append(
-                self.view_button(obj)
-            )
+            btns.append(self.view_button(obj))
         return btns
 
 
@@ -36,11 +31,7 @@ class CaseStudyAdmin(ModelAdmin):
     button_helper_class = CaseStudyAdminButtonHelper
     exclude_from_explorer = False
     menu_icon = 'fa-book'
-    list_display = (
-        '__str__',
-        'associated_hs_code_tags',
-        'associated_country_code_tags'
-    )
+    list_display = ('__str__', 'associated_hs_code_tags', 'associated_country_code_tags')
     # list_filter = (  # DISABLED BECAUSE SLOWING DOWN THE PAGE TOO MUCH
     #     'hs_code_tags',
     #     'country_code_tags',

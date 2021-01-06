@@ -47,7 +47,12 @@ export default function SearchInput(props) {
       />
       <div className="input-icon">
         {value.length ? (
-          <button type="button" aria-label="Clear" className="fa fa-times clear" onClick={clearSearchInput}/>
+          <button 
+            type="button" 
+            aria-label="Clear" 
+            className="fa fa-times clear" 
+            onClick={clearSearchInput}
+          />
         ) : (
           <i className="fas fa-search text-blue-deep-60"/> 
         )}

@@ -1,6 +1,7 @@
 from collections import defaultdict
+
+from core.models import CuratedListPage, DetailPage
 from sso import helpers as sso_helpers
-from core.models import DetailPage, CuratedListPage
 
 
 def build_route_context(user, context={}):
@@ -27,10 +28,7 @@ def get_ancestor(page, ancestor_class):
     return ancestor_class.objects.live().ancestor_of(page).specific().first()
 
 
-def module_has_lesson_configured_in_topic(
-    module_page: CuratedListPage,
-    lesson_page: DetailPage
-) -> bool:
+def module_has_lesson_configured_in_topic(module_page: CuratedListPage, lesson_page: DetailPage) -> bool:
     lesson_topic_page = lesson_page.get_parent().specific
     for topic_page in module_page.get_topics():  # get_topics includes .live() by default
         if topic_page == lesson_topic_page:
@@ -78,20 +76,17 @@ def get_lesson_completion_status(user, context={}):
     for detail_page in DetailPage.objects.live():
         module_page = get_ancestor(detail_page, CuratedListPage)
         if module_page:
-            page_map[module_page.id] = (
-                page_map.get(module_page.id) or {
-                    'total_pages': 0,
-                    'completion_count': 0,
-                    'page': module_page,
-                    'completed_lesson_pages': defaultdict(set)
-                }
-            )
+            page_map[module_page.id] = page_map.get(module_page.id) or {
+                'total_pages': 0,
+                'completion_count': 0,
+                'page': module_page,
+                'completed_lesson_pages': defaultdict(set),
+            }
 
             # Only proceeed with `detail_page` if it is CURRENTLY
             # configured in a topic for this module
             if not module_has_lesson_configured_in_topic(
-                module_page=module_page.specific,
-                lesson_page=detail_page.specific
+                module_page=module_page.specific, lesson_page=detail_page.specific
             ):
                 continue
 
@@ -99,9 +94,7 @@ def get_lesson_completion_status(user, context={}):
 
             if detail_page.id in completed:
                 topic_id_as_key = detail_page.get_parent().id
-                page_map[module_page.id]['completed_lesson_pages'][topic_id_as_key].add(
-                    detail_page.id
-                )
+                page_map[module_page.id]['completed_lesson_pages'][topic_id_as_key].add(detail_page.id)
                 page_map[module_page.id]['completion_count'] += 1
                 # Take care: this next var means 'lessons have been attempted',
                 # not 'lessons are _currently_ in progress', because it doesn't
@@ -110,7 +103,4 @@ def get_lesson_completion_status(user, context={}):
 
     module_pages = list(page_map.values())
     module_pages.sort(key=lesson_comparator, reverse=True)
-    return {
-        'module_pages': module_pages,
-        'lessons_in_progress': lessons_in_progress
-    }
+    return {'module_pages': module_pages, 'lessons_in_progress': lessons_in_progress}

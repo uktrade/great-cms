@@ -2,7 +2,7 @@
 {% load format_timedelta get_backlinked_url from content_tags %}
 
 {% with lesson_details|get_item:lesson_name|get_item:'url' as outbound_url %}
-<a class="text-white link inline-block" href="{% get_backlinked_url outbound_url %}" title="{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}">
+<a class="text-white link inline-block width-full" href="{% get_backlinked_url outbound_url %}" title="{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}">
     <h3 class="text-blue-deep-80 body-l-b m-b-xs">Need help?</h3>
     <div class="card bg-blue-deep-80">
         <h4 class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}</h4>

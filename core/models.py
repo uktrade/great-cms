@@ -10,10 +10,11 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
-from modelcluster.models import ClusterableModel, ParentalKey
+from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase, TagBase, ItemBase
+from taggit.models import ItemBase, TagBase, TaggedItemBase
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -23,11 +24,11 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.contrib.redirects.models import Redirect
 from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
-from wagtail.contrib.redirects.models import Redirect
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
@@ -38,18 +39,10 @@ from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
-from core.constants import (
-    BACKLINK_QUERYSTRING_NAME,
-    RICHTEXT_FEATURES__MINIMAL
-)
-
+from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
-
-from great_components.mixins import GA360Mixin
-
 from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
-
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -58,20 +51,20 @@ register_snippet(Redirect)
 class GreatMedia(Media):
 
     transcript = models.TextField(
-        verbose_name=_('Transcript'),
-        blank=False,
-        null=True  # left null because was an existing field
+        verbose_name=_('Transcript'), blank=False, null=True  # left null because was an existing field
     )
 
-    admin_form_fields = Media.admin_form_fields + ('transcript', )
+    admin_form_fields = Media.admin_form_fields + ('transcript',)
 
     @property
     def sources(self):
-        return [{
-            'src': self.url,
-            'type': mimetypes.guess_type(self.filename)[0] or 'application/octet-stream',
-            'transcript': self.transcript
-        }]
+        return [
+            {
+                'src': self.url,
+                'type': mimetypes.guess_type(self.filename)[0] or 'application/octet-stream',
+                'transcript': self.transcript,
+            }
+        ]
 
 
 class AbstractObjectHash(models.Model):
@@ -91,22 +84,12 @@ class AbstractObjectHash(models.Model):
 
 class DocumentHash(AbstractObjectHash):
     document = models.ForeignKey(
-        'wagtaildocs.Document',
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-        related_name='+'
+        'wagtaildocs.Document', null=True, blank=True, on_delete=models.CASCADE, related_name='+'
     )
 
 
 class ImageHash(AbstractObjectHash):
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-        related_name='+'
-    )
+    image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.CASCADE, related_name='+')
 
 
 class AltTextImage(AbstractImage):
@@ -119,7 +102,7 @@ class Rendition(AbstractRendition):
     image = models.ForeignKey(AltTextImage, on_delete=models.CASCADE, related_name='renditions')
 
     class Meta:
-        unique_together = (('image', 'filter_spec', 'focal_point_key'))
+        unique_together = ('image', 'filter_spec', 'focal_point_key')
 
     @property
     def alt(self):
@@ -194,6 +177,7 @@ class TimeStampedModel(models.Model):
     modified fields, inheritance causes issues with field clash.
 
     """
+
     created = CreationDateTimeField('created', null=True)
     modified = ModificationDateTimeField('modified', null=True)
 
@@ -203,11 +187,15 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         get_latest_by = 'modified'
-        ordering = ('-modified', '-created',)
+        ordering = (
+            '-modified',
+            '-created',
+        )
         abstract = True
 
 
 # Content models
+
 
 class CMSGenericPage(
     PersonalisablePageMixin,
@@ -216,11 +204,12 @@ class CMSGenericPage(
     mixins.AuthenticatedUserRequired,
     mixins.WagtailGA360Mixin,
     GA360Mixin,
-    Page
+    Page,
 ):
     """
     Generic page, freely inspired by Codered page
     """
+
     class Meta:
         abstract = True
 
@@ -280,8 +269,12 @@ class CMSGenericPage(
 
 class LandingPage(CMSGenericPage):
     parent_page_types = ['domestic.DomesticHomePage']
-    subpage_types = ['core.ListPage', 'core.InterstitialPage',
-                     'exportplan.ExportPlanDashboardPage', 'domestic.DomesticDashboard']
+    subpage_types = [
+        'core.ListPage',
+        'core.InterstitialPage',
+        'exportplan.ExportPlanDashboardPage',
+        'domestic.DomesticDashboard',
+    ]
     template_choices = (
         ('learn/landing_page.html', 'Learn'),
         ('core/generic_page.html', 'Generic'),
@@ -293,23 +286,27 @@ class LandingPage(CMSGenericPage):
     description = RichTextField()
     button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
     image = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
+        get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
 
-    body = StreamField([
-        ('section', core_blocks.SectionBlock()),
-        ('title', core_blocks.TitleBlock()),
-        ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
-        ('image', core_blocks.ImageBlock()),
-    ], null=True, blank=True)
+    body = StreamField(
+        [
+            ('section', core_blocks.SectionBlock()),
+            ('title', core_blocks.TitleBlock()),
+            ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
+            ('image', core_blocks.ImageBlock()),
+        ],
+        null=True,
+        blank=True,
+    )
 
-    components = StreamField([
-        ('route', core_blocks.RouteSectionBlock()),
-    ], null=True, blank=True)
+    components = StreamField(
+        [
+            ('route', core_blocks.RouteSectionBlock()),
+        ],
+        null=True,
+        blank=True,
+    )
 
     #########
     # Panels
@@ -325,9 +322,7 @@ class LandingPage(CMSGenericPage):
 
 class InterstitialPage(CMSGenericPage):
     parent_page_types = ['core.LandingPage']
-    template_choices = (
-        ('learn/interstitial.html', 'Learn'),
-    )
+    template_choices = (('learn/interstitial.html', 'Learn'),)
 
     ################
     # Content fields
@@ -361,8 +356,9 @@ class ListPage(CMSGenericPage):
         verbose_name_plural = 'Automated list pages'
 
     def get_context(self, request, *args, **kwargs):
-        from domestic.helpers import get_lesson_completion_status
         from core.helpers import get_high_level_completion_progress
+        from domestic.helpers import get_lesson_completion_status
+
         context = super().get_context(request)
 
         if request.user.is_authenticated:
@@ -390,20 +386,14 @@ class CuratedListPage(CMSGenericPage):
     subpage_types = [
         'core.TopicPage',
     ]
-    template_choices = (
-        ('learn/curated_list_page.html', 'Learn'),
-    )
+    template_choices = (('learn/curated_list_page.html', 'Learn'),)
 
     ################
     # Content fields
     ################
     heading = RichTextField()
     image = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
+        get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
 
     ########
@@ -432,11 +422,12 @@ class CuratedListPage(CMSGenericPage):
         return count
 
     def get_context(self, request, *args, **kwargs):
-        from domestic.helpers import get_lesson_completion_status
         from core.helpers import (
             get_high_level_completion_progress,
-            get_module_completion_progress
+            get_module_completion_progress,
         )
+        from domestic.helpers import get_lesson_completion_status
+
         context = super().get_context(request)
         # Give the template a simple way to link back to the parent
         # learning module (ListPage)
@@ -458,17 +449,11 @@ class CuratedListPage(CMSGenericPage):
 def hero_singular_validation(value):
     if value and len(value) > 1:
         raise StreamBlockValidationError(
-            non_block_errors=ValidationError(
-                'Only one image or video allowed in Hero section',
-                code='invalid'
-            ),
+            non_block_errors=ValidationError('Only one image or video allowed in Hero section', code='invalid'),
         )
 
 
-class TopicPage(
-    mixins.AuthenticatedUserRequired,
-    Page
-):
+class TopicPage(mixins.AuthenticatedUserRequired, Page):
     """Structural page to allow for cleaner mapping of lessons (`DetailPage`s)
     to modules (`CuratedListPage`s).
 
@@ -497,10 +482,7 @@ class TopicPage(
         return self._redirect_to_parent_module()
 
 
-class LessonPlaceholderPage(
-    mixins.AuthenticatedUserRequired,
-    Page
-):
+class LessonPlaceholderPage(mixins.AuthenticatedUserRequired, Page):
 
     """Structural page to allow for configuring and representing very simple
     to modules (`CuratedListPage`s).
@@ -529,13 +511,10 @@ class LessonPlaceholderPage(
 
 
 class DetailPage(CMSGenericPage):
-    estimated_read_duration = models.DurationField(
-        null=True,
-        blank=True
-    )
+    estimated_read_duration = models.DurationField(null=True, blank=True)
     parent_page_types = [
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
-        'core.TopicPage'
+        'core.TopicPage',
     ]
     template_choices = (
         ('exportplan/dashboard_page.html', 'Export plan dashboard'),
@@ -549,85 +528,131 @@ class DetailPage(CMSGenericPage):
     ################
     # Content fields
     ################
-    hero = StreamField([
-        ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
-        ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_hero_video.html'))],
-        null=True,
-        validators=[hero_singular_validation]
-    )
-    objective = StreamField([
-        ('paragraph', blocks.RichTextBlock(options={'class': 'objectives'}),),
-        ('ListItem', core_blocks.Item()),
-    ])
-    body = StreamField([
-        (
-            'paragraph', PersonalisedStructBlock(
-                [('paragraph', blocks.RichTextBlock())],
-                template='core/personalised_page_struct_paragraph_block.html',
-                icon='fa-font'
-            )
-        ),
-        (
-            'video', PersonalisedStructBlock(
-                [('video', core_blocks.VideoBlock())],
-                template='core/personalised_page_struct_video_block.html',
-                icon='fa-play'
-            )
-        ),
-        (
-            'case_study',
-            core_blocks.CaseStudyStaticBlock(
-                icon='fa-book'
-            )
-        ),
-        ('Step', core_blocks.StepByStepBlock(icon='cog'),),
-        ('fictional_example', blocks.StructBlock(
-            [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
-            template='learn/fictional_company_example.html',
-            icon='fa-commenting-o',
-        ),),
-        ('ITA_Quote', core_blocks.ITAQuoteBlock(icon='fa-quote-left'),),
-        (
-            'pros_cons',
-            blocks.StructBlock(
-                [
-                    ('pros', blocks.StreamBlock([
-                        ('item', core_blocks.Item(icon='fa-arrow-right'),)]
-                    )),
-                    ('cons', blocks.StreamBlock([
-                        ('item', core_blocks.Item(icon='fa-arrow-right'),)]
-                    ))
-                ],
-                template='learn/pros_and_cons.html',
-                icon='fa-arrow-right',
-            ),
-        ),
-        ('choose_do_not_choose', core_blocks.ChooseDoNotChooseBlock()),
-        (
-            'image',
-            core_blocks.ImageBlock(
-                template='core/includes/_image_full_width.html',
-                help_text='Image displayed within a full-page-width block',
-            ),
-        ),
-        (
-            'video',
-            core_blocks.SimpleVideoBlock(
-                template='core/includes/_video_full_width.html',
-                help_text='Video displayed within a full-page-width block',
-            ),
-        ),
-    ])
-    recap = StreamField([
-        ('recap_item', blocks.StructBlock([
-            ('title', blocks.CharBlock(icon='fa-header')),
-            ('item', blocks.StreamBlock([
-                ('item', core_blocks.Item(),)]
-            ))
+    hero = StreamField(
+        [
+            ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
+            ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_hero_video.html')),
         ],
-            template='learn/recap.html',
-            icon='fa-commenting-o', ),)
-    ])
+        null=True,
+        validators=[hero_singular_validation],
+    )
+    objective = StreamField(
+        [
+            (
+                'paragraph',
+                blocks.RichTextBlock(options={'class': 'objectives'}),
+            ),
+            ('ListItem', core_blocks.Item()),
+        ]
+    )
+    body = StreamField(
+        [
+            (
+                'paragraph',
+                PersonalisedStructBlock(
+                    [('paragraph', blocks.RichTextBlock())],
+                    template='core/personalised_page_struct_paragraph_block.html',
+                    icon='fa-font',
+                ),
+            ),
+            (
+                'video',
+                PersonalisedStructBlock(
+                    [('video', core_blocks.VideoBlock())],
+                    template='core/personalised_page_struct_video_block.html',
+                    icon='fa-play',
+                ),
+            ),
+            ('case_study', core_blocks.CaseStudyStaticBlock(icon='fa-book')),
+            (
+                'Step',
+                core_blocks.StepByStepBlock(icon='cog'),
+            ),
+            (
+                'fictional_example',
+                blocks.StructBlock(
+                    [('fiction_body', blocks.RichTextBlock(icon='openquote'))],
+                    template='learn/fictional_company_example.html',
+                    icon='fa-commenting-o',
+                ),
+            ),
+            (
+                'ITA_Quote',
+                core_blocks.ITAQuoteBlock(icon='fa-quote-left'),
+            ),
+            (
+                'pros_cons',
+                blocks.StructBlock(
+                    [
+                        (
+                            'pros',
+                            blocks.StreamBlock(
+                                [
+                                    (
+                                        'item',
+                                        core_blocks.Item(icon='fa-arrow-right'),
+                                    )
+                                ]
+                            ),
+                        ),
+                        (
+                            'cons',
+                            blocks.StreamBlock(
+                                [
+                                    (
+                                        'item',
+                                        core_blocks.Item(icon='fa-arrow-right'),
+                                    )
+                                ]
+                            ),
+                        ),
+                    ],
+                    template='learn/pros_and_cons.html',
+                    icon='fa-arrow-right',
+                ),
+            ),
+            ('choose_do_not_choose', core_blocks.ChooseDoNotChooseBlock()),
+            (
+                'image',
+                core_blocks.ImageBlock(
+                    template='core/includes/_image_full_width.html',
+                    help_text='Image displayed within a full-page-width block',
+                ),
+            ),
+            (
+                'video',
+                core_blocks.SimpleVideoBlock(
+                    template='core/includes/_video_full_width.html',
+                    help_text='Video displayed within a full-page-width block',
+                ),
+            ),
+        ]
+    )
+    recap = StreamField(
+        [
+            (
+                'recap_item',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock(icon='fa-header')),
+                        (
+                            'item',
+                            blocks.StreamBlock(
+                                [
+                                    (
+                                        'item',
+                                        core_blocks.Item(),
+                                    )
+                                ]
+                            ),
+                        ),
+                    ],
+                    template='learn/recap.html',
+                    icon='fa-commenting-o',
+                ),
+            )
+        ]
+    )
 
     #########
     # Panels
@@ -674,9 +699,7 @@ class DetailPage(CMSGenericPage):
         """Return a lookup dictionary of URL->title for all the
         Export Plan sections we have."""
 
-        return {
-            entry['url']: entry['title'] for entry in EXPORT_PLAN_SECTION_TITLES_URLS
-        }
+        return {entry['url']: entry['title'] for entry in EXPORT_PLAN_SECTION_TITLES_URLS}
 
     def _get_backlink(self, request):
         """Try to extract a backlink (used for a link to the export plan) from the
@@ -687,10 +710,7 @@ class DetailPage(CMSGenericPage):
         if backlink_path is not None:
             backlink_path = unquote(backlink_path)
 
-            if (
-                    backlink_path.split('?')[0] in self._export_plan_url_map and  # noqa:W504
-                    '://' not in backlink_path
-            ):
+            if backlink_path.split('?')[0] in self._export_plan_url_map and '://' not in backlink_path:  # noqa:W504
                 # The check for '://' will stop us accepting a backlink which
                 # features a full URL as its OWN querystring param (eg a crafted attack
                 # URL), but that's an acceptable limitation here and is very unlikely
@@ -801,30 +821,19 @@ class PersonalisationCountryTag(TagBase):
 # If you're wondering what's going on here:
 # https://docs.wagtail.io/en/stable/reference/pages/model_recipes.html#custom-tag-models
 
+
 class HSCodeTaggedCaseStudy(ItemBase):
     tag = models.ForeignKey(
-        PersonalisationHSCodeTag,
-        related_name='hscode_tagged_case_studies',
-        on_delete=models.CASCADE
+        PersonalisationHSCodeTag, related_name='hscode_tagged_case_studies', on_delete=models.CASCADE
     )
-    content_object = ParentalKey(
-        to='core.CaseStudy',
-        on_delete=models.CASCADE,
-        related_name='hs_code_tagged_items'
-    )
+    content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='hs_code_tagged_items')
 
 
 class CountryTaggedCaseStudy(ItemBase):
     tag = models.ForeignKey(
-        PersonalisationCountryTag,
-        related_name='country_tagged_case_studies',
-        on_delete=models.CASCADE
+        PersonalisationCountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE
     )
-    content_object = ParentalKey(
-        to='core.CaseStudy',
-        on_delete=models.CASCADE,
-        related_name='country_tagged_items'
-    )
+    content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
 
 
 def _high_level_validation(value, error_messages):
@@ -832,9 +841,7 @@ def _high_level_validation(value, error_messages):
     MEDIA_BLOCK = 'media'  # noqa N806
 
     # we need to be strict about presence and ordering of these nodes
-    if [node.block_type for node in value] != [
-        MEDIA_BLOCK, TEXT_BLOCK
-    ]:
+    if [node.block_type for node in value] != [MEDIA_BLOCK, TEXT_BLOCK]:
         error_messages.append(
             (
                 'This block must contain one Media section (with one or '
@@ -857,15 +864,11 @@ def _low_level_validation(value, error_messages):
             if len(subnode_block_types) == 2:
                 if set(subnode_block_types) == {VIDEO_BLOCK}:
                     # Two videos: not allowed
-                    error_messages.append(
-                        'Only one video may be used in a case study.'
-                    )
+                    error_messages.append('Only one video may be used in a case study.')
                 elif subnode_block_types[1] == VIDEO_BLOCK:
                     # implicitly, [0] must be an image
                     # video after image: not allowed
-                    error_messages.append(
-                        'The video must come before a still image.'
-                    )
+                    error_messages.append('The video must come before a still image.')
 
     return error_messages
 
@@ -888,10 +891,7 @@ def case_study_body_validation(value):
 
         if error_messages:
             raise StreamBlockValidationError(
-                non_block_errors=ValidationError(
-                    '; '.join(error_messages),
-                    code='invalid'
-                ),
+                non_block_errors=ValidationError('; '.join(error_messages), code='invalid'),
             )
 
 
@@ -917,26 +917,19 @@ class CaseStudy(ClusterableModel):
         max_length=255,
         blank=False,
     )
-    summary = models.TextField(  # Deliberately not rich-text / no formatting
-        blank=False
-    )
+    summary = models.TextField(blank=False)  # Deliberately not rich-text / no formatting
     body = StreamField(
         [
             (
                 'media',
                 blocks.StreamBlock(
                     [
-                        (
-                            'video',
-                            core_blocks.SimpleVideoBlock(
-                                template='core/includes/_case_study_video.html'
-                            )
-                        ),
+                        ('video', core_blocks.SimpleVideoBlock(template='core/includes/_case_study_video.html')),
                         ('image', core_blocks.ImageBlock()),
                     ],
                     min_num=1,
                     max_num=2,
-                )
+                ),
             ),
             (
                 'text',
@@ -946,24 +939,15 @@ class CaseStudy(ClusterableModel):
             ),
         ],
         validators=[case_study_body_validation],
-        help_text=(
-            'This block must contain one Media section '
-            '(with one or two items in it) and one Text section.'
-        )
+        help_text=('This block must contain one Media section (with one or two items in it) and one Text section.'),
     )
 
     # We are keeping the personalisation-relevant tags in separate
     # fields to aid lookup and make the UX easier for editors
-    hs_code_tags = ClusterTaggableManager(
-        through='core.HSCodeTaggedCaseStudy',
-        blank=True,
-        verbose_name='HS-code tags'
-    )
+    hs_code_tags = ClusterTaggableManager(through='core.HSCodeTaggedCaseStudy', blank=True, verbose_name='HS-code tags')
 
     country_code_tags = ClusterTaggableManager(
-        through='core.CountryTaggedCaseStudy',
-        blank=True,
-        verbose_name='Country tags'
+        through='core.CountryTaggedCaseStudy', blank=True, verbose_name='Country tags'
     )
 
     created = CreationDateTimeField('created', null=True)
@@ -980,11 +964,7 @@ class CaseStudy(ClusterableModel):
             heading='Case Study content',
         ),
         MultiFieldPanel(
-            [
-                FieldPanel('hs_code_tags'),
-                FieldPanel('country_code_tags')
-            ],
-            heading='Case Study tags for Personalisation'
+            [FieldPanel('hs_code_tags'), FieldPanel('country_code_tags')], heading='Case Study tags for Personalisation'
         ),
     ]
 
@@ -993,10 +973,7 @@ class CaseStudy(ClusterableModel):
         return f'{display_name}'
 
     def save(self, **kwargs):
-        self.update_modified = kwargs.pop(
-            'update_modified',
-            getattr(self, 'update_modified', True)
-        )
+        self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
         super().save(**kwargs)
 
     def get_cms_standalone_view_url(self):
@@ -1005,4 +982,7 @@ class CaseStudy(ClusterableModel):
     class Meta:
         verbose_name_plural = 'Case studies'
         get_latest_by = 'modified'
-        ordering = ('-modified', '-created',)
+        ordering = (
+            '-modified',
+            '-created',
+        )

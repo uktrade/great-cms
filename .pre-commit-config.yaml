@@ -1,39 +1,39 @@
 repos:
--   repo: https://github.com/psf/black
-    rev: 19.10b0
-    hooks:
-    - id: black
-      args: ['--skip-string-normalization', '--line-length=120']
--   repo: https://github.com/asottile/blacken-docs
-    rev: v1.6.0
-    hooks:
-    -   id: blacken-docs
-        additional_dependencies: [black==19.10b0]
--   repo: https://github.com/pre-commit/mirrors-isort
-    rev: v4.3.21
-    hooks:
-    -   id: isort
--   repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7.9
-    hooks:
-    -   id: flake8
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.5.0
-    hooks:
-    -   id: trailing-whitespace
-        args: ['--markdown-linebreak-ext=md,markdown']
-    -   id: end-of-file-fixer
-    -   id: check-yaml
-    -   id: check-added-large-files
-    -   id: fix-encoding-pragma
-    -   id: check-ast
-    -   id: check-byte-order-marker
-    -   id: check-merge-conflict
-    -   id: debug-statements
-    -   id: detect-private-key
--   repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.5.1
-    hooks:
-    -   id: python-use-type-annotations
-    -   id: python-no-eval
-    -   id: python-no-log-warn
+    - repo: https://github.com/psf/black
+      rev: 20.8b1
+      hooks:
+          - id: black
+          # Config for black lives in pyproject.toml
+    - repo: https://github.com/asottile/blacken-docs
+      rev: v1.6.0
+      hooks:
+          - id: blacken-docs
+            additional_dependencies: [black==20.8b1]
+    - repo: https://github.com/PyCQA/isort
+      rev: 5.6.4
+      hooks:
+          - id: isort
+    - repo: https://gitlab.com/pycqa/flake8
+      rev: 3.8.4
+      hooks:
+          - id: flake8
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v3.3.0
+      hooks:
+          - id: trailing-whitespace
+            args: ["--markdown-linebreak-ext=md,markdown"]
+          - id: end-of-file-fixer
+          - id: check-yaml
+          - id: check-added-large-files
+          # - id: fix-encoding-pragma
+          - id: check-ast
+          - id: check-byte-order-marker
+          - id: check-merge-conflict
+          - id: debug-statements
+          - id: detect-private-key
+# -   repo: https://github.com/pre-commit/pygrep-hooks
+#     rev: v1.7.0
+#     hooks:
+#     -   id: python-use-type-annotations
+#     -   id: python-no-eval
+#     -   id: python-no-log-warn

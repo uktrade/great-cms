@@ -1,86 +1,33 @@
-// !!! Imports only in this file !!!
-
-// Great styles
-// ===================================================
-
 // Config
 $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
+// Carousel
+@import 'node_modules/slick-carousel/slick/slick.scss';
+@import 'node_modules/slick-carousel/slick/slick-theme.scss';
 
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
-// Base
-@import 'elements/reset';
+// Great styles
+@import 'styles';
 
-// Elements
-@import 'elements/layout';
-@import 'elements/grid';
-@import 'elements/forms/base';
-@import 'elements/link';
-@import 'elements/list';
-@import 'elements/media-block';
-@import 'elements/typography';
-@import 'elements/quote';
-@import 'elements/colours';
-@import 'elements/responsive';
-@import 'elements/buttons';
-@import 'elements/tags';
-@import 'elements/details';
-@import 'elements/tables';
-@import 'elements/utils';
-@import 'elements/spacing';
-@import 'elements/box';
-@import 'elements/icons';
-@import 'elements/card';
-@import 'elements/progress-bar';
-
-@import 'helpers/mixins';
+// Magna styles
 @import 'helpers/utils';
-@import 'helpers/vars';
-@import 'helpers/breakpoints';
-
-// Components
-@import 'components/card/base';
-@import 'components/header-footer/base';
-@import 'components/accordion';
-@import 'components/banners';
-@import 'components/boxes';
-@import 'components/breadcrumbs';
-@import 'components/case-study';
-@import 'components/content-list';
-@import 'components/cookie-notice';
-@import 'components/details-list';
-@import 'components/error-reporting';
-@import 'components/fact-sheet';
-@import 'components/hero';
-@import 'components/feature-list';
-@import 'components/modal';
-@import 'components/pagination';
-@import 'components/search';
-@import 'components/sharing-links';
-@import 'components/skip-link';
-@import 'components/stats';
-@import 'components/tag-list';
-@import 'components/panels';
-@import 'components/beta';
-
-// MVP styles
-// ===================================================
+@import 'helpers/mixins-cms';
 
 @import 'components/forms';
 @import 'components/progress-wizard';
 @import 'components/insights';
 @import 'components/product-finder';
 @import 'components/sign-up';
-@import 'components/educational_moment_tooltip';
 @import 'components/tour';
-@import 'components/modal';
+@import 'components/modal-cms';
 @import 'components/spinner';
+@import 'components/classification-tree';
 
 @import 'base';
 @import 'overrides';
@@ -91,6 +38,6 @@ $fa-font-path: '/static/fonts';
 @import 'exportplan/statistics';
 @import 'exportplan/sections';
 @import 'learn/base';
-@import 'learn/market-finder';
 @import 'exportplan/sidebar';
 @import 'exportplan/costs';
+@import 'components/target_market';

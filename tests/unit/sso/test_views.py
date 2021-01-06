@@ -1,13 +1,12 @@
 from unittest import mock
 
 import pytest
-
 from django.conf import settings
 from django.urls import reverse
+from requests.cookies import RequestsCookieJar
 
 from sso import helpers
 from tests.helpers import create_response
-from requests.cookies import RequestsCookieJar
 
 
 @pytest.mark.django_db
@@ -82,7 +81,7 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
         email=data['email'],
         verification_code='12345',
         form_url=url,
-        verification_link='http://testserver/signup/?verify=test@example.com'
+        verification_link='http://testserver/signup/?verify=test@example.com',
     )
 
 

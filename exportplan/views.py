@@ -1,21 +1,26 @@
 import json
-import sentry_sdk
 
+import sentry_sdk
 from django.http import Http404
-from django.views.generic import TemplateView, FormView
-from django.utils.functional import cached_property
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.functional import cached_property
+from django.views.generic import FormView, TemplateView
+from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
-from directory_constants.choices import INDUSTRIES, COUNTRY_CHOICES, MARKET_ROUTE_CHOICES, PRODUCT_PROMOTIONAL_CHOICES
+from core.mixins import PageTitleMixin
 from directory_api_client.client import api_client
-from great_components.mixins import GA360Mixin
-from exportplan import data, helpers, forms
+from directory_constants.choices import (
+    COUNTRY_CHOICES,
+    INDUSTRIES,
+    MARKET_ROUTE_CHOICES,
+    PRODUCT_PROMOTIONAL_CHOICES,
+)
+from exportplan import data, forms, helpers
 
 
 class ExportPlanMixin:
-
     def dispatch(self, request, *args, **kwargs):
         if self.slug not in data.SECTIONS:
             raise Http404()
@@ -47,22 +52,18 @@ class ExportPlanMixin:
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
-            **kwargs
+            **kwargs,
         )
 
 
 class LessonDetailsMixin:
-
     @property
     def lesson_details(self):
         return helpers.get_all_lesson_details()
 
     def get_context_data(self, **kwargs):
 
-        return super().get_context_data(
-            lesson_details=self.lesson_details,
-            **kwargs
-        )
+        return super().get_context_data(lesson_details=self.lesson_details, **kwargs)
 
 
 class FormContextMixin:
@@ -74,46 +75,46 @@ class FormContextMixin:
 
         field_labels = [field.label for field in form_field_values]
 
-        field_placeholders = [
-            field.widget.attrs.get('placeholder', '') for field in form_field_values
-        ]
+        field_placeholders = [field.widget.attrs.get('placeholder', '') for field in form_field_values]
 
-        field_tooltip = [
-            field.widget.attrs.get('tooltip', '') for field in form_field_values
-        ]
+        field_tooltip = [field.widget.attrs.get('tooltip', '') for field in form_field_values]
 
-        field_example = [
-            field.widget.attrs.get('example', '') for field in form_field_values
-        ]
+        field_example = [field.widget.attrs.get('example', '') for field in form_field_values]
 
-        field_description = [
-            field.widget.attrs.get('description', '') for field in form_field_values
-        ]
+        field_description = [field.widget.attrs.get('description', '') for field in form_field_values]
 
-        field_currency = [
-            field.widget.attrs.get('currency', '') for field in form_field_values
-        ]
+        field_currency = [field.widget.attrs.get('currency', '') for field in form_field_values]
 
         field_choices = [
-            [
-                {'value': key, 'label': label} for key, label in field.choices
-            ] if hasattr(field, 'choices') else '' for field in form_field_values
+            [{'value': key, 'label': label} for key, label in field.choices] if hasattr(field, 'choices') else ''
+            for field in form_field_values
         ]
 
-        field_types = [
-            type(field.widget).__name__ for field in form_field_values
-        ]
+        field_types = [type(field.widget).__name__ for field in form_field_values]
 
         form_fields = [
-            {'name': name, 'label': label, 'field_type': field_type, 'placeholder': placeholder,
-             'tooltip': tooltip, 'example': example, 'description': description, 'currency': currency,
-             'choices': choices}
-            for
-            name, label, field_type, placeholder, tooltip, example, description, currency, choices
-            in zip(
-                field_names, field_labels, field_types, field_placeholders, field_tooltip,
-                field_example, field_description,
-                field_currency, field_choices)
+            {
+                'name': name,
+                'label': label,
+                'field_type': field_type,
+                'placeholder': placeholder,
+                'tooltip': tooltip,
+                'example': example,
+                'description': description,
+                'currency': currency,
+                'choices': choices,
+            }
+            for name, label, field_type, placeholder, tooltip, example, description, currency, choices in zip(
+                field_names,
+                field_labels,
+                field_types,
+                field_placeholders,
+                field_tooltip,
+                field_example,
+                field_description,
+                field_currency,
+                field_choices,
+            )
         ]
         context['form_initial'] = json.dumps(context['form'].initial)
         context['form_fields'] = json.dumps(form_fields)
@@ -137,9 +138,12 @@ class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanMarketingApproachView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
+    title = 'Marketing approach'
 
     def get_initial(self):
         return self.export_plan['marketing_approach']
@@ -154,10 +158,11 @@ class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, Expo
         return context
 
 
-class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
     form_class = forms.ExportPlanAdaptationForTargetMarketForm
     success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
+    title = 'Adaptation for your target market'
 
     def get_initial(self):
         return self.export_plan['adaptation_target_market']
@@ -173,29 +178,33 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         return context
 
 
-class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
-
+class ExportPlanTargetMarketsResearchView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
+    title = 'Target market research'
 
     def get_initial(self):
         return self.export_plan['target_markets_research']
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
+        if self.export_plan.get('export_countries'):
+            kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
         return kwargs
 
 
-class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanBusinessObjectivesView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanBusinessObjectivesForm
     success_url = reverse_lazy('exportplan:business-objectives')
+    title = 'Business objectives'
 
     def form_valid(self, form):
         helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.export_plan['pk'],
-            data=form.cleaned_data
+            sso_session_id=self.request.user.session_id, id=self.export_plan['pk'], data=form.cleaned_data
         )
         return super().form_valid(form)
 
@@ -208,13 +217,15 @@ class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, Exp
         return self.export_plan['objectives']
 
 
-class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
-
+class ExportPlanAboutYourBusinessView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     def get_initial(self):
         return self.export_plan['about_your_business']
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
+    title = 'About your business'
 
 
 class BaseFormView(GA360Mixin, FormView):
@@ -225,6 +236,7 @@ class BaseFormView(GA360Mixin, FormView):
             business_unit='MagnaUnit',
             site_section='export-plan',
         )
+
     success_url = '/export-plan/dashboard/'
 
     def get_initial(self):
@@ -233,15 +245,11 @@ class BaseFormView(GA360Mixin, FormView):
     def form_valid(self, form):
         try:
             response = api_client.company.profile_update(
-                sso_session_id=self.request.user.session_id,
-                data=self.serialize_form(form)
+                sso_session_id=self.request.user.session_id, data=self.serialize_form(form)
             )
             response.raise_for_status()
         except RequestException:
-            self.send_update_error_to_sentry(
-                user=self.request.user,
-                api_response=response
-            )
+            self.send_update_error_to_sentry(user=self.request.user, api_response=response)
             raise
         return redirect(self.success_url)
 
@@ -252,19 +260,19 @@ class BaseFormView(GA360Mixin, FormView):
     def send_update_error_to_sentry(user, api_response):
         # This is needed to not include POST data (e.g. binary image), which
         # was causing sentry to fail at sending
-        sentry_sdk.set_user(
-            {'hashed_uuid': user.hashed_uuid, 'user_email': user.email}
-        )
+        sentry_sdk.set_user({'hashed_uuid': user.hashed_uuid, 'user_email': user.email})
         sentry_sdk.set_extra('api_response', str(api_response.content))
         sentry_sdk.capture_message('Updating company profile failed')
 
 
-class LogoFormView(BaseFormView):
+class LogoFormView(PageTitleMixin, BaseFormView):
     def get_initial(self):
         return {}
+
     form_class = forms.LogoForm
     template_name = 'exportplan/logo-form.html'
     success_message = 'Logo updated'
+    title = 'Upload your logo'
 
 
 class ExportPlanServicePage(GA360Mixin, TemplateView):
@@ -275,10 +283,8 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
             business_unit='MagnaUnit',
             site_section='export-plan',
         )
+
     template_name = 'exportplan/service_page.html'
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            sections=data.SECTION_URLS,
-            **kwargs
-        )
+        return super().get_context_data(sections=data.SECTION_URLS, **kwargs)

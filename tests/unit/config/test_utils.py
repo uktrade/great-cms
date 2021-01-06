@@ -1,4 +1,5 @@
 from unittest import mock
+
 import pytest
 
 from config.utils import get_wagtail_transfer_configuration
@@ -21,7 +22,7 @@ from config.utils import get_wagtail_transfer_configuration
             #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
             #     },
             # }
-            {}
+            {},
         ),
         (
             'staging',  # can pull from beta
@@ -33,7 +34,7 @@ from config.utils import get_wagtail_transfer_configuration
             #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
             #     },
             # }
-            {}
+            {},
         ),
         (
             'dev',  # can pull from beta or staging
@@ -48,7 +49,7 @@ from config.utils import get_wagtail_transfer_configuration
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
                 },
-            }
+            },
         ),
         (
             'local',  # can pull between local:8020 and local:8030 and from deployed sites
@@ -75,13 +76,9 @@ from config.utils import get_wagtail_transfer_configuration
                     'BASE_URL': 'http://greatcms.trade.great:8030/admin/wagtail-transfer/',
                     'SECRET_KEY': 'local-two',
                 },
-            }
+            },
         ),
-        (
-            'local',
-            False,  # not enabled
-            {}
-        ),
+        ('local', False, {}),  # not enabled
         (
             'staging',  # can pull from beta
             True,  # Danger! - or thankfully not... we won't act on this unless the env is `local`
@@ -92,9 +89,8 @@ from config.utils import get_wagtail_transfer_configuration
             #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
             #     },
             # }
-            {}
+            {},
         ),
-
     ),
     ids=(
         'no identifier',
@@ -107,7 +103,7 @@ from config.utils import get_wagtail_transfer_configuration
         'expects config for local ENABLED',
         'expects config for local DISABLED',
         'accidental local transfer enabled does not give bad config on real env',
-    )
+    ),
 )
 def test_get_wagtail_transfer_configuration(env_label, local_transfer_enabled, expected):
     """Show that we return the appropriate configs for the given active env_label"""

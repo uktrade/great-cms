@@ -1,6 +1,5 @@
 import pytest
 
-from tests.unit.learn import factories
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
@@ -8,6 +7,7 @@ from tests.unit.core.factories import (
     TopicPageFactory,
     TourFactory,
 )
+from tests.unit.learn import factories
 
 
 @pytest.mark.django_db

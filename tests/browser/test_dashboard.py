@@ -3,21 +3,19 @@ import logging
 import random
 from typing import List
 
+import allure
 import pytest
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
-from core import cms_slugs
 
-import allure
+from core import cms_slugs
 from directory_constants import choices
-from tests.browser.common_selectors import (
-    DashboardModalLetsGetToKnowYou,
-)
+from tests.browser.common_selectors import DashboardModalLetsGetToKnowYou
 from tests.browser.steps import (
     should_not_see_any_element,
     should_not_see_errors,
     should_see_all_elements,
-    visit_page
+    visit_page,
 )
 from tests.browser.util import (
     attach_jpg_screenshot,

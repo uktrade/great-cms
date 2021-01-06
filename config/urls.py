@@ -1,29 +1,25 @@
+from decorator_include import decorator_include
 from django.conf import settings
 from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
-
+from great_components.decorators import skip_ga360
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_transfer import urls as wagtailtransfer_urls
 
-from decorator_include import decorator_include
-
-from great_components.decorators import skip_ga360
-
-import sso.urls
 import cms_extras.urls
 import core.urls
 import exportplan.urls
+import sso.urls
 
 urlpatterns = []
 
 if settings.ENFORCE_STAFF_SSO_ENABLED:
     urlpatterns += [
-        path('admin/login/',
-             RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
+        path('admin/login/', RedirectView.as_view(url=reverse_lazy('authbroker_client:login'), query_string=True)),
         path('auth/', include('authbroker_client.urls')),
     ]
 
@@ -33,7 +29,7 @@ urlpatterns += [
     path(
         # Has to come before main /admin/ else will fail
         'admin/wagtail-transfer/',
-        decorator_include(skip_ga360, wagtailtransfer_urls)
+        decorator_include(skip_ga360, wagtailtransfer_urls),
     ),
     path('admin/cms-extras/', decorator_include(skip_ga360, cms_extras.urls, namespace='cms_extras')),
     path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),

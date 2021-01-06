@@ -4,8 +4,26 @@
 
 ### Implemented enhancements
 
-### Fixed bugs
+- GP2-1193 - Dynamic page title tags
+- GP2-1137 - Product finder endpage
+- GP2-1057 - Remove unused styles from great-styles
+- GP2-1109 - EP target market research responsive. Modal style updates (from great-styles).
+- GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page
+- GP2-1196 - Exclude analytics' Universal Data Object variable from local event
+- GP2-1112 - Coming soon modal responsive styling
+- GP2-1018 - Economy data sources attributions and links
+- GP2-981 - Responsive support for Case Study component
+- GP2-1068 - Autoformat Python code with black and isort
+- GP2-1111 - EP responsive marketing approach changes
+- GP2-1029 - Population data sources attributions and links
 
+### Fixed bugs
+- no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
+- GP2-1111 - Updates to Stats group.
+- GP2-1188 - Fixed IndexError on Target market research page if country is not selected
+- GP2-1038 - Force lowercase on email input field
+- GP2-1118 - Correct email input field type on login and signup forms
+- GP2-1191 - Intermittent data blank on target market selection
 - GP2-1192 - Landing page menu on right - react component updates.
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
@@ -23,7 +41,11 @@
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
-
+- GP2-695 - Select your product (modal window) - Product is not selected
+- GP2-1108 - business objective responsive changes
+- GP2-1172 - Analytics compare countries find a market modal (3 markets)
+- GP2-1171 - Analytics select country from comparison list
+- GP2-1208 - Remove rxjs, add debounce to onChange to stop every keystroke to send request, refactor FormWithInputWithExample
 - GP2-1059 - Prettier config
 - GP2-1093 - Enhancements to Target Market service population table
 - GP2-1145 - Export plan landing page responsive retrofit

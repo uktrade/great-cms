@@ -4,12 +4,10 @@ from wagtail.core.models import Page, Site
 
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
-
 User = get_user_model()
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         root_page = Page.objects.get(slug='root')
         # On start Wagtail provides one site with ID=1

@@ -7,6 +7,8 @@ from enum import EnumMeta
 from io import BytesIO
 from typing import List, Union
 
+import allure
+from PIL import Image
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
     ElementNotInteractableException,
@@ -20,8 +22,6 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
-import allure
-from PIL import Image
 from tests.browser.common_selectors import Selector, SelectorsEnum
 
 logger = logging.getLogger(__name__)
@@ -36,7 +36,11 @@ def convert_png_to_jpg(screenshot_png: bytes) -> bytes:
 
 
 def attach_jpg_screenshot(
-    browser: WebDriver, page_name: str, *, selector: Union[Selector, SelectorsEnum] = None, element: WebElement = None,
+    browser: WebDriver,
+    page_name: str,
+    *,
+    selector: Union[Selector, SelectorsEnum] = None,
+    element: WebElement = None,
 ):
     if selector:
         element = find_element(browser, selector)
@@ -47,7 +51,10 @@ def attach_jpg_screenshot(
         screenshot_png = browser.get_screenshot_as_png()
     screenshot_jpg = convert_png_to_jpg(screenshot_png)
     allure.attach(
-        screenshot_jpg, name=page_name, attachment_type=allure.attachment_type.JPG, extension='jpg',
+        screenshot_jpg,
+        name=page_name,
+        attachment_type=allure.attachment_type.JPG,
+        extension='jpg',
     )
 
 

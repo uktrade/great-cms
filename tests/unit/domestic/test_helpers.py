@@ -69,7 +69,7 @@ def test_get_lesson_completion_status(mock_get_lesson_completed):
         'lesson_completed': [
             {'lesson': lesson_1_clp_correct.id},
             {'lesson': lesson_4_clp_correct.id},
-        ]
+        ],
     }
 
     expected = {
@@ -81,10 +81,10 @@ def test_get_lesson_completion_status(mock_get_lesson_completed):
                 'page': clp_correct_config,
                 'completed_lesson_pages': {
                     topic_1.id: set([lesson_1_clp_correct.id]),
-                    topic_3.id: set([lesson_4_clp_correct.id])
-                }
+                    topic_3.id: set([lesson_4_clp_correct.id]),
+                },
             },
-        ]
+        ],
     }
 
     mock_user = mock.Mock()

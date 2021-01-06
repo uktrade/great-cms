@@ -8,6 +8,8 @@
     }
   }
   table {
+    margin: 0 0;
+
     td, th {
       vertical-align: middle;
       text-align: right;
@@ -26,4 +28,8 @@
 }
 .add-market {
     color: $white;
+    margin-top: 20px;
+}
+.source-attribution {
+  margin: 20px 0 0;
 }
