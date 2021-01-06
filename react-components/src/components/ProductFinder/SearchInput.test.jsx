@@ -42,7 +42,7 @@ it('Creates an autofocus input', () => {
   })
   const clearButton = container.querySelector('button.clear')
   expect(clearButton).toBeTruthy()
-    act(() => {
+  act(() => {
     Simulate.click(clearButton)
   })
   expect(input.value).toEqual('')
@@ -63,4 +63,24 @@ it('Creates an non-autofocus input', () => {
   const input = container.querySelector('input')
   expect(input).toBeTruthy()
   expect(input === document.activeElement).toBeTruthy
+})
+
+it('Creates an input with label', () => {
+  const onChange = jest.fn()
+  const search = jest.fn()
+
+  act(() => {
+      ReactDOM.render(
+      <SearchInput
+        onChange={onChange}
+        onKeyReturn={search}
+        label="test label"
+        placeholder="test placeholder"
+      />, 
+      container)
+  })
+  const label = container.querySelector('label')
+  expect(label.textContent).toMatch(/test label/)
+  const input = container.querySelector('input')
+  expect(input.getAttribute('placeholder')).toMatch(/test placeholder/)
 })
