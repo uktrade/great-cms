@@ -11,7 +11,6 @@ import { useDebounce } from '@src/components/hooks/useDebounce'
 // List the user defined other documents
 const DocumentList = (props) => {
   const { documents, deleteDocument, updateDocument } = props
-  debugger
   return (
     <div className="target-market-documents-form">
       {documents.length > 0
@@ -23,15 +22,15 @@ const DocumentList = (props) => {
                 placeholder="Add document name here"
                 value={doc.document_name}
                 onChange={(e) =>
-                  updateDocument(doc.label, {
-                    label: e[doc.document_name],
+                  updateDocument(doc.pk, {
+                    document_name: e[doc.pk],
                   })
                 }
               />
               <TextArea
                 onChange={(e) =>
-                  updateDocument(doc.label, {
-                    description: e[doc.note],
+                  updateDocument(doc.pk, {
+                    note: e[doc.pk],
                   })
                 }
                 key={doc.name}
@@ -115,31 +114,7 @@ const AddNewDocument = (props) => {
 
 // The parent component
 export const AddDocumentTypeForm = (props) => {
-  const initialData = props.formData
-
-  const [documents, setDocuments] = useState(initialData)
-  console.log(initialData)
-  // const addDocumentOld = (document) => {
-  //   const { name } = document
-  //   document.label = name
-  //   document.name = name.replace(/\s/g, '_').toLowerCase()
-  //   document.document_name = document.name + '_name'
-  //   document.note = document.name + '_note'
-  //   setDocuments([...documents, document])
-  // }
-
-  // const deleteDocumentOld = (name, event) => {
-  //   event.preventDefault()
-  //   setDocuments(documents.filter((document) => document.name !== name))
-  // }
-
-  // const updateDocumentOld = (label, property) => {
-  //   // debugger
-  //   // console.log(label, property)
-  //   setDocuments(
-  //     documents.map((x) => (x.label === label ? { ...x, ...property } : x))
-  //   )
-  // }
+  const [documents, setDocuments] = useState(props.formData)
 
   const addDocument = (document) => {
     const { name, description } = document
@@ -152,12 +127,6 @@ export const AddDocumentTypeForm = (props) => {
       companyexportplan: props.companyexportplan,
     })
       .then((data) => setDocuments([...documents, data]))
-      // .then(() => {
-      //   const newElement = document.getElementById(
-      //     `Route to market ${routes.length + 1}`
-      //   ).parentNode
-      //   newElement.scrollIntoView()
-      // })
       .catch(() => {})
   }
 
@@ -171,13 +140,19 @@ export const AddDocumentTypeForm = (props) => {
       .catch(() => {})
   }
 
-  const updateDocument = (label, property) => {
-    Services.updateAdaptTarketMarketDocumentList({ ...label, ...property })
-      .then(() => {
-        setDocuments(
-          documents.map((x) => (x.label === label ? { ...x, ...property } : x))
-        )
-      })
+  const debounceUpdate = useDebounce(updateApi)
+
+  const updateDocument = (id, property) => {
+    const field = documents.find((x) => x.pk === id)
+    setDocuments(
+      documents.map((x) => (x.pk === id ? { ...x, ...property } : x))
+    )
+    updateApi(field, property)
+  }
+
+  const updateApi = (field, property) => {
+    Services.updateAdaptTarketMarketDocumentList({ ...field, ...property })
+      .then(() => {})
       .catch(() => {})
   }
 

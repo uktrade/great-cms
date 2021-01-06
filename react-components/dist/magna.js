@@ -65317,7 +65317,6 @@ var DocumentList = function DocumentList(props) {
   var documents = props.documents,
       deleteDocument = props.deleteDocument,
       updateDocument = props.updateDocument;
-  debugger;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "target-market-documents-form"
   }, documents.length > 0 ? documents.map(function (doc) {
@@ -65330,14 +65329,14 @@ var DocumentList = function DocumentList(props) {
       placeholder: "Add document name here",
       value: doc.document_name,
       onChange: function onChange(e) {
-        return updateDocument(doc.label, {
-          label: e[doc.document_name]
+        return updateDocument(doc.pk, {
+          document_name: e[doc.pk]
         });
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
       onChange: function onChange(e) {
-        return updateDocument(doc.label, {
-          description: e[doc.note]
+        return updateDocument(doc.pk, {
+          note: e[doc.pk]
         });
       },
       key: doc.name,
@@ -65422,32 +65421,10 @@ var AddNewDocument = function AddNewDocument(props) {
 
 
 var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
-  var initialData = props.formData;
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialData),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.formData),
       _useState4 = _slicedToArray(_useState3, 2),
       documents = _useState4[0],
       setDocuments = _useState4[1];
-
-  console.log(initialData); // const addDocumentOld = (document) => {
-  //   const { name } = document
-  //   document.label = name
-  //   document.name = name.replace(/\s/g, '_').toLowerCase()
-  //   document.document_name = document.name + '_name'
-  //   document.note = document.name + '_note'
-  //   setDocuments([...documents, document])
-  // }
-  // const deleteDocumentOld = (name, event) => {
-  //   event.preventDefault()
-  //   setDocuments(documents.filter((document) => document.name !== name))
-  // }
-  // const updateDocumentOld = (label, property) => {
-  //   // debugger
-  //   // console.log(label, property)
-  //   setDocuments(
-  //     documents.map((x) => (x.label === label ? { ...x, ...property } : x))
-  //   )
-  // }
 
   var addDocument = function addDocument(document) {
     var name = document.name,
@@ -65458,13 +65435,7 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
       companyexportplan: props.companyexportplan
     })).then(function (data) {
       return setDocuments([].concat(_toConsumableArray(documents), [data]));
-    }) // .then(() => {
-    //   const newElement = document.getElementById(
-    //     `Route to market ${routes.length + 1}`
-    //   ).parentNode
-    //   newElement.scrollIntoView()
-    // })
-    ["catch"](function () {});
+    })["catch"](function () {});
   };
 
   var deleteDocument = function deleteDocument(id, event) {
@@ -65476,12 +65447,20 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
     })["catch"](function () {});
   };
 
-  var updateDocument = function updateDocument(label, property) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, label), property)).then(function () {
-      setDocuments(documents.map(function (x) {
-        return x.label === label ? _objectSpread(_objectSpread({}, x), property) : x;
-      }));
-    })["catch"](function () {});
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__["useDebounce"])(updateApi);
+
+  var updateDocument = function updateDocument(id, property) {
+    var field = documents.find(function (x) {
+      return x.pk === id;
+    });
+    setDocuments(documents.map(function (x) {
+      return x.pk === id ? _objectSpread(_objectSpread({}, x), property) : x;
+    }));
+    updateApi(field, property);
+  };
+
+  var updateApi = function updateApi(field, property) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, field), property)).then(function () {})["catch"](function () {});
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DocumentList, {
@@ -74085,12 +74064,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_AddDocumentTypeForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/AddDocumentTypeForm */ "./react-components/src/components/AddDocumentTypeForm/index.jsx");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /* eslint-disable import/prefer-default-export */
 
 
@@ -74124,7 +74097,7 @@ var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params)
       placeholder: 'Add note',
       tooltip: "<p>\n          An export declaration is a form submitted at the port when goods are leaving the country. The form has details about the goods and where they are heading.\n          <br /> \n          It is needed on all goods that are being exported outside the EU.\n        </p>"
     }],
-    formData: _objectSpread({}, formData),
+    formData: formData,
     companyexportplan: params.companyexportplan
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

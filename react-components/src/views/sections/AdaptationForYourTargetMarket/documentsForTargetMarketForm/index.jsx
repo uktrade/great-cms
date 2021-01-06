@@ -53,7 +53,7 @@ export const DocumentsForTargetMarketForm = (params) => {
         </p>`,
       },
     ],
-    formData: { ...formData },
+    formData,
     companyexportplan: params.companyexportplan,
   }
   return (
