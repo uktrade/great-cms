@@ -432,6 +432,10 @@ COMMODITY_SEARCH_REFINE_URL = env.str(
     'CCCE_COMMODITY_SEARCH_REFINE_URL',
     'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-continue',
 )
+CCCE_IMPORT_SCHEDULE_URL = env.str(
+    'CCCE_TRADE_DATA_URL', 'http://info.dev.3ceonline.com/ccce/apis/tradedata/import/v1/schedule'
+)
+
 COMMODITY_SEARCH_TOKEN = env.str('CCCE_COMMODITY_SEARCH_TOKEN', '')
 
 # directory constants

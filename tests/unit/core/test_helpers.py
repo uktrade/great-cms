@@ -228,6 +228,23 @@ def test_helper_search_commodity_by_term(requests_mock):
     assert refine_response == data
 
 
+def test_ccce_import_schedule(requests_mock):
+    origin_country = 'GB'
+    destination_country = 'CA'
+    hs_code = '123456'
+    data = {
+        'children': [
+            {'code': hs_code, 'desc': 'some description', 'children': []},
+        ]
+    }
+
+    url = f'{settings.CCCE_IMPORT_SCHEDULE_URL}/{hs_code}/{origin_country}/{destination_country}/'
+    requests_mock.get(url, json=data)
+
+    schedule_response = helpers.ccce_import_schedule(hs_code)
+    assert schedule_response == data
+
+
 def test_get_popular_export_destinations():
     destinations = helpers.get_popular_export_destinations('Aerospace')
     assert destinations[0] == ('China', 29)

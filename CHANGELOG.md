@@ -5,6 +5,7 @@
 ### Implemented enhancements
 
 - GP2-1193 - Dynamic page title tags
+- GP2-1137 - Product finder endpage
 - GP2-1057 - Remove unused styles from great-styles
 - GP2-1109 - EP target market research responsive. Modal style updates (from great-styles).
 - GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page
@@ -17,7 +18,7 @@
 - GP2-1029 - Population data sources attributions and links
 
 ### Fixed bugs
-
+- no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
 - GP2-1038 - Force lowercase on email input field
@@ -40,7 +41,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
-
+- GP2-695 - Select your product (modal window) - Product is not selected
 - GP2-1108 - business objective responsive changes
 - GP2-1172 - Analytics compare countries find a market modal (3 markets)
 - GP2-1171 - Analytics select country from comparison list
