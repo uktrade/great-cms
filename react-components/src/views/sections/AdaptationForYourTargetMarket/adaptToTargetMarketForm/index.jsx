@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import React from 'react'
 
 import { FormElements } from '@src/components/FormElements'
@@ -69,6 +68,7 @@ export const AdaptToTargetMarketForm = (params) => {
       },
     ],
     formData: { ...formData },
+    companyexportplan: params.companyexportplan,
   }
   return (
     <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">

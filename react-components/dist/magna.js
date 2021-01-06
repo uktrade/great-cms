@@ -65101,17 +65101,17 @@ var responseHandler = function responseHandler(response) {
     });
   },
   createAdaptTarketMarketDocumentList: function createAdaptTarketMarketDocumentList(data) {
-    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiRouteToMarketCreateUrl, data).then(function (response) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiTargetMarketDocumentsCreateUrl, data).then(function (response) {
       return responseHandler(response).json();
     });
   },
   deleteAdaptTarketMarketDocumentList: function deleteAdaptTarketMarketDocumentList(pk) {
-    return httpDelete(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiRouteToMarketDeleteUrl, {
+    return httpDelete(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiTargetMarketDocumentsDeleteUrl, {
       pk: pk
     }).then(responseHandler);
   },
   updateAdaptTarketMarketDocumentList: function updateAdaptTarketMarketDocumentList(data) {
-    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiRouteToMarketUpdateUrl, data).then(function (response) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiTargetMarketDocumentsUpdateUrl, data).then(function (response) {
       return responseHandler(response).json();
     });
   },
@@ -65317,42 +65317,43 @@ var DocumentList = function DocumentList(props) {
   var documents = props.documents,
       deleteDocument = props.deleteDocument,
       updateDocument = props.updateDocument;
+  debugger;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "target-market-documents-form"
-  }, documents.length > 0 ? documents.map(function (document) {
+  }, documents.length > 0 ? documents.map(function (doc) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-      key: document.name,
+      key: doc.pk,
       className: "user-form-group"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
       label: "Document name",
-      id: document.document_name,
+      id: doc.pk,
       placeholder: "Add document name here",
-      value: document.label,
+      value: doc.document_name,
       onChange: function onChange(e) {
-        return updateDocument(document.label, {
-          label: e[document.document_name]
+        return updateDocument(doc.label, {
+          label: e[doc.document_name]
         });
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
       onChange: function onChange(e) {
-        return updateDocument(document.label, {
-          description: e[document.note]
+        return updateDocument(doc.label, {
+          description: e[doc.note]
         });
       },
-      key: document.name,
+      key: doc.name,
       label: "Notes",
-      id: document.note,
-      value: document.description,
+      id: doc.pk,
+      value: doc.note,
       placeholder: "Add notes",
-      currency: document.currency,
-      tag: Number.isInteger(document.placeholder) ? 'number' : 'text'
+      currency: doc.currency,
+      tag: Number.isInteger(doc.placeholder) ? 'number' : 'text'
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "form-delete m-b-xs"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       title: "Click to delete this document and its notes.",
       className: "button button--delete button--small button--only-icon button--tertiary",
       onClick: function onClick(e) {
-        return deleteDocument(document.name, e);
+        return deleteDocument(doc.pk, e);
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fas fa-trash-alt"
@@ -65383,8 +65384,8 @@ var AddNewDocument = function AddNewDocument(props) {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: function onSubmit(event) {
-      event.preventDefault();
-      if (!document.name || !document.description) return;
+      event.preventDefault(); // if (!document.name || !document.description) return
+
       addDocument(document);
       setDocument(initialFormState);
     }
@@ -65421,41 +65422,66 @@ var AddNewDocument = function AddNewDocument(props) {
 
 
 var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
-  var initialData = [{
-    name: 'export_certificate',
-    label: 'Export certificate',
-    description: 'Some description data here',
-    document_name: 'export_certificate_name',
-    note: 'export_certificate_note'
-  }];
+  var initialData = props.formData;
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialData),
       _useState4 = _slicedToArray(_useState3, 2),
       documents = _useState4[0],
       setDocuments = _useState4[1];
 
+  console.log(initialData); // const addDocumentOld = (document) => {
+  //   const { name } = document
+  //   document.label = name
+  //   document.name = name.replace(/\s/g, '_').toLowerCase()
+  //   document.document_name = document.name + '_name'
+  //   document.note = document.name + '_note'
+  //   setDocuments([...documents, document])
+  // }
+  // const deleteDocumentOld = (name, event) => {
+  //   event.preventDefault()
+  //   setDocuments(documents.filter((document) => document.name !== name))
+  // }
+  // const updateDocumentOld = (label, property) => {
+  //   // debugger
+  //   // console.log(label, property)
+  //   setDocuments(
+  //     documents.map((x) => (x.label === label ? { ...x, ...property } : x))
+  //   )
+  // }
+
   var addDocument = function addDocument(document) {
-    var name = document.name;
-    document.label = name;
-    document.name = name.replace(/\s/g, '_').toLowerCase();
-    document.document_name = document.name + '_name';
-    document.note = document.name + '_note';
-    setDocuments([].concat(_toConsumableArray(documents), [document]));
+    var name = document.name,
+        description = document.description;
+    document.document_name = name;
+    document.note = description;
+    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].createAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, document), {}, {
+      companyexportplan: props.companyexportplan
+    })).then(function (data) {
+      return setDocuments([].concat(_toConsumableArray(documents), [data]));
+    }) // .then(() => {
+    //   const newElement = document.getElementById(
+    //     `Route to market ${routes.length + 1}`
+    //   ).parentNode
+    //   newElement.scrollIntoView()
+    // })
+    ["catch"](function () {});
   };
 
-  var deleteDocument = function deleteDocument(name, event) {
+  var deleteDocument = function deleteDocument(id, event) {
     event.preventDefault();
-    setDocuments(documents.filter(function (document) {
-      return document.name !== name;
-    }));
+    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].deleteAdaptTarketMarketDocumentList(id).then(function () {
+      setDocuments(documents.filter(function (document) {
+        return document.pk !== id;
+      }));
+    })["catch"](function () {});
   };
 
   var updateDocument = function updateDocument(label, property) {
-    // debugger
-    // console.log(label, property)
-    setDocuments(documents.map(function (x) {
-      return x.label === label ? _objectSpread(_objectSpread({}, x), property) : x;
-    }));
+    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, label), property)).then(function () {
+      setDocuments(documents.map(function (x) {
+        return x.label === label ? _objectSpread(_objectSpread({}, x), property) : x;
+      }));
+    })["catch"](function () {});
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DocumentList, {
@@ -73989,7 +74015,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* eslint-disable import/prefer-default-export */
 
 
 var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
@@ -74033,7 +74058,8 @@ var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
       placeholder: 'Describe alterations',
       tooltip: null
     }],
-    formData: _objectSpread({}, formData)
+    formData: _objectSpread({}, formData),
+    companyexportplan: params.companyexportplan
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
@@ -74069,7 +74095,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params) {
-  var formData = params.formData;
+  var formData = params.formData; // debugger
+
   var data = {
     field: 'adaptation_target_market',
     formFields: [{
@@ -74097,7 +74124,8 @@ var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params)
       placeholder: 'Add note',
       tooltip: "<p>\n          An export declaration is a form submitted at the port when goods are leaving the country. The form has details about the goods and where they are heading.\n          <br /> \n          It is needed on all goods that are being exported outside the EU.\n        </p>"
     }],
-    formData: _objectSpread({}, formData)
+    formData: _objectSpread({}, formData),
+    companyexportplan: params.companyexportplan
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"

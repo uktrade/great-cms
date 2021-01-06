@@ -4,6 +4,7 @@ import { AddDocumentTypeForm } from '@src/components/AddDocumentTypeForm'
 
 export const DocumentsForTargetMarketForm = (params) => {
   const { formData } = params
+  // debugger
   const data = {
     field: 'adaptation_target_market',
     formFields: [
@@ -53,6 +54,7 @@ export const DocumentsForTargetMarketForm = (params) => {
       },
     ],
     formData: { ...formData },
+    companyexportplan: params.companyexportplan,
   }
   return (
     <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">

@@ -3,6 +3,7 @@
 
 {% block intro_title %}Adaptation for your target market{%endblock %}
 {% block intro_description %}
+{{ target_market_documents|safe }}
 Different markets will have different rules you have to follow when it comes
 to selling your product. It is likely you will have to modify your product to make it fit with regulatory and cultural
 requirements.
@@ -119,13 +120,15 @@ your target market.
     element: element,
     field: 'adaptation_target_market',
     formData: {{ form_initial|safe }},
+    companyexportplan: {{ export_plan.pk }}
   })
 
   element = document.getElementById('documents-for-target-market');
   magna.documentsForTargetMarketForm({
     element: element,
     field: 'adaptation_target_market',
-    formData: {{ form_initial|safe }},
+    formData: {{ target_market_documents|safe }},
+    companyexportplan: {{ export_plan.pk }}
   })
 
   element = document.getElementById('stats-for-target-market');

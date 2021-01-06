@@ -140,15 +140,15 @@ export default {
   },
 
   createAdaptTarketMarketDocumentList: (data) => {
-    return post(config.apiRouteToMarketCreateUrl, data).then((response) => responseHandler(response).json())
+    return post(config.apiTargetMarketDocumentsCreateUrl, data).then((response) => responseHandler(response).json())
   },
 
   deleteAdaptTarketMarketDocumentList: (pk) => {
-    return httpDelete(config.apiRouteToMarketDeleteUrl, { pk: pk }).then(responseHandler)
+    return httpDelete(config.apiTargetMarketDocumentsDeleteUrl, { pk: pk }).then(responseHandler)
   },
 
   updateAdaptTarketMarketDocumentList: (data) => {
-    return post(config.apiRouteToMarketUpdateUrl, data).then((response) => responseHandler(response).json())
+    return post(config.apiTargetMarketDocumentsUpdateUrl, data).then((response) => responseHandler(response).json())
   },
 
   createObjective: (data) => {

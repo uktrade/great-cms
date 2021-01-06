@@ -11,42 +11,42 @@ import { useDebounce } from '@src/components/hooks/useDebounce'
 // List the user defined other documents
 const DocumentList = (props) => {
   const { documents, deleteDocument, updateDocument } = props
-
+  debugger
   return (
     <div className="target-market-documents-form">
       {documents.length > 0
-        ? documents.map((document) => (
-            <form key={document.name} className="user-form-group">
+        ? documents.map((doc) => (
+            <form key={doc.pk} className="user-form-group">
               <Input
                 label="Document name"
-                id={document.document_name}
+                id={doc.pk}
                 placeholder="Add document name here"
-                value={document.label}
+                value={doc.document_name}
                 onChange={(e) =>
-                  updateDocument(document.label, {
-                    label: e[document.document_name],
+                  updateDocument(doc.label, {
+                    label: e[doc.document_name],
                   })
                 }
               />
               <TextArea
                 onChange={(e) =>
-                  updateDocument(document.label, {
-                    description: e[document.note],
+                  updateDocument(doc.label, {
+                    description: e[doc.note],
                   })
                 }
-                key={document.name}
+                key={doc.name}
                 label="Notes"
-                id={document.note}
-                value={document.description}
+                id={doc.pk}
+                value={doc.note}
                 placeholder="Add notes"
-                currency={document.currency}
-                tag={Number.isInteger(document.placeholder) ? 'number' : 'text'}
+                currency={doc.currency}
+                tag={Number.isInteger(doc.placeholder) ? 'number' : 'text'}
               />
               <div className="form-delete m-b-xs">
                 <button
                   title="Click to delete this document and its notes."
                   className="button button--delete button--small button--only-icon button--tertiary"
-                  onClick={(e) => deleteDocument(document.name, e)}
+                  onClick={(e) => deleteDocument(doc.pk, e)}
                 >
                   <i className="fas fa-trash-alt" />
                 </button>
@@ -73,7 +73,7 @@ const AddNewDocument = (props) => {
     <form
       onSubmit={(event) => {
         event.preventDefault()
-        if (!document.name || !document.description) return
+        // if (!document.name || !document.description) return
 
         addDocument(document)
         setDocument(initialFormState)
@@ -115,38 +115,70 @@ const AddNewDocument = (props) => {
 
 // The parent component
 export const AddDocumentTypeForm = (props) => {
-  const initialData = [
-    {
-      name: 'export_certificate',
-      label: 'Export certificate',
-      description: 'Some description data here',
-      document_name: 'export_certificate_name',
-      note: 'export_certificate_note',
-    },
-  ]
+  const initialData = props.formData
 
   const [documents, setDocuments] = useState(initialData)
+  console.log(initialData)
+  // const addDocumentOld = (document) => {
+  //   const { name } = document
+  //   document.label = name
+  //   document.name = name.replace(/\s/g, '_').toLowerCase()
+  //   document.document_name = document.name + '_name'
+  //   document.note = document.name + '_note'
+  //   setDocuments([...documents, document])
+  // }
+
+  // const deleteDocumentOld = (name, event) => {
+  //   event.preventDefault()
+  //   setDocuments(documents.filter((document) => document.name !== name))
+  // }
+
+  // const updateDocumentOld = (label, property) => {
+  //   // debugger
+  //   // console.log(label, property)
+  //   setDocuments(
+  //     documents.map((x) => (x.label === label ? { ...x, ...property } : x))
+  //   )
+  // }
 
   const addDocument = (document) => {
-    const { name } = document
-    document.label = name
-    document.name = name.replace(/\s/g, '_').toLowerCase()
-    document.document_name = document.name + '_name'
-    document.note = document.name + '_note'
-    setDocuments([...documents, document])
+    const { name, description } = document
+
+    document.document_name = name
+    document.note = description
+
+    Services.createAdaptTarketMarketDocumentList({
+      ...document,
+      companyexportplan: props.companyexportplan,
+    })
+      .then((data) => setDocuments([...documents, data]))
+      // .then(() => {
+      //   const newElement = document.getElementById(
+      //     `Route to market ${routes.length + 1}`
+      //   ).parentNode
+      //   newElement.scrollIntoView()
+      // })
+      .catch(() => {})
   }
 
-  const deleteDocument = (name, event) => {
+  const deleteDocument = (id, event) => {
     event.preventDefault()
-    setDocuments(documents.filter((document) => document.name !== name))
+
+    Services.deleteAdaptTarketMarketDocumentList(id)
+      .then(() => {
+        setDocuments(documents.filter((document) => document.pk !== id))
+      })
+      .catch(() => {})
   }
 
   const updateDocument = (label, property) => {
-    // debugger
-    // console.log(label, property)
-    setDocuments(
-      documents.map((x) => (x.label === label ? { ...x, ...property } : x))
-    )
+    Services.updateAdaptTarketMarketDocumentList({ ...label, ...property })
+      .then(() => {
+        setDocuments(
+          documents.map((x) => (x.label === label ? { ...x, ...property } : x))
+        )
+      })
+      .catch(() => {})
   }
 
   return (
