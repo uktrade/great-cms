@@ -8,7 +8,7 @@ import { analytics } from '../../Helpers'
 
 export default function CountryFinderModal(props) {
   let scrollOuter
-  const { modalIsOpen, setIsOpen, commodityCode, selectCountry } = props
+  const { modalIsOpen, setIsOpen, commodityCode, selectCountry, isCompareCountries } = props
   const [countryList, setCountryList] = useState()
   const [suggestedCountries, setSuggestedCountries] = useState([])
   const [isScrolled, setIsScrolled] = useState(false)
@@ -89,11 +89,12 @@ export default function CountryFinderModal(props) {
   }
 
   const clickCountry = (evt) => {
+    const button = evt.target.closest('button')
     const country = {
-      country_name: evt.target.getAttribute('data-country'),
-      country_iso2_code: evt.target.getAttribute('data-id'),
-      region: evt.target.getAttribute('data-region'),
-      suggested: evt.target.getAttribute('data-suggested'),
+      country_name: button.getAttribute('data-country'),
+      country_iso2_code: button.getAttribute('data-id'),
+      region: button.getAttribute('data-region'),
+      suggested: button.getAttribute('data-suggested'),
     }
     selectCountry(country)
     closeModal()
@@ -166,11 +167,6 @@ export default function CountryFinderModal(props) {
           {country.country_name}
           <i
             className="fa fa-plus"
-            data-country={country.country_name}
-            data-region={country.region}
-            data-id={country.country_iso2}
-            onClick={clickCountry}
-            data-suggested
           />
         </button>
       )
@@ -219,7 +215,7 @@ export default function CountryFinderModal(props) {
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
-          <SearchInput onChange={searchChange} />
+          <SearchInput onChange={searchChange} iconClass="fa-search"/>
         </div>
       </div>
       <div className="grid">
@@ -245,9 +241,19 @@ export default function CountryFinderModal(props) {
     initial: (
       <div className="only-mobile">
         <div>
-          <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
+          <h2 className="h-l m-t-s p-b-xs">
+            {!isCompareCountries
+              ? 'Choose a target market'
+              : 'Choose markets for comparison'
+            }
+          </h2>
         </div>
-        <p>There are 3 ways to choose a target export market</p>
+        <p>
+          {!isCompareCountries
+            ? 'There are 3 ways to choose a target export market'
+            : 'There are 2 ways to choose a market for comparison'
+          }
+        </p>
         <button
           type="button"
           className="button button--secondary button--full-width m-b-s"
@@ -255,13 +261,15 @@ export default function CountryFinderModal(props) {
         >
           Suggested markets
         </button>
-        <button
-          type="button"
-          className="button button--secondary button--full-width m-b-s"
-          onClick={() => setMobilePage('compare')}
-        >
-          Compare markets
-        </button>
+        {!isCompareCountries && (
+          <button
+            type="button"
+            className="button button--secondary button--full-width m-b-s"
+            onClick={() => setMobilePage('compare')}
+          >
+            Compare markets
+          </button>
+        )}
         <button
           type="button"
           className="button button--secondary button--full-width m-b-s"
@@ -309,12 +317,21 @@ export default function CountryFinderModal(props) {
               {/* Desktop rendering with all sections available */}
               <div className="only-desktop">
                 <div>
-                  <h2 className="h-l m-t-s p-b-xs">Choose a target market</h2>
+                  <h2 className="h-l m-t-s p-b-xs">
+                    {isCompareCountries
+                      ? 'Choose markets for comparison'
+                      : 'Choose a target market'
+                    }
+                  </h2>
                 </div>
                 {suggestedSection}
                 <hr className="hr bg-red-deep-100" />
-                {compareMarketsSection}
-                <hr className="hr bg-red-deep-100" />
+                {!isCompareCountries && (
+                  <>
+                    {compareMarketsSection}
+                    <hr className="hr bg-red-deep-100" />
+                  </>
+                )}
                 {marketListSection}
               </div>
               {/* Mobile section rendering with buttons to choose which section to show */}
@@ -344,8 +361,10 @@ CountryFinderModal.propTypes = {
   setIsOpen: PropTypes.func.isRequired,
   commodityCode: PropTypes.string,
   selectCountry: PropTypes.func.isRequired,
+  compareMarkets: PropTypes.bool,
 }
 CountryFinderModal.defaultProps = {
   modalIsOpen: false,
   commodityCode: '',
+  isCompareCountries: false,
 }

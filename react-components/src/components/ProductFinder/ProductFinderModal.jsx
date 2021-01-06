@@ -8,14 +8,9 @@ import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
+import StartEndPage from './StartEndPage'
 import { analytics } from '../../Helpers'
 
-
-const formatPath = (pathstr) => {
-  return pathstr.split('//').map((part, index) => {
-    return `${index > 0 ? ' > ' : ''}${capitalize(part)}`
-  })
-}
 
 export default function ProductFinderModal(props) {
   const { modalIsOpen, setIsOpen, setSelectedProduct } = props;
@@ -69,23 +64,22 @@ export default function ProductFinderModal(props) {
     }
   }
 
-  const saveProduct = () => {
-    const productName = capitalize(searchResults.currentItemName)
-    const searchQuery = capitalize(searchResults.productDescription)
+  const saveProduct = (commodityCode, commodityName) => {
+
     setSelectedProduct({
-      name: productName,
-      code: searchResults.hsCode
+      name: commodityName,
+      code: commodityCode
     })
     analytics({
       event: 'addProductSuccess',
-      productKeyword: searchQuery,
-      productCode: searchResults.hsCode
+      productKeyword: capitalize(searchResults.productDescription),
+      productCode: commodityCode
     })
 
     Services.updateExportPlan({
         export_commodity_codes: [{
-          commodity_name: productName,
-          commodity_code: searchResults.hsCode
+          commodity_name: commodityName,
+          commodity_code: commodityCode
         }]
       })
       .then(() => {
@@ -174,9 +168,21 @@ export default function ProductFinderModal(props) {
         <h3 className="h-m p-v-xs">{title}</h3>
           {(sectionDetails || []).map((value) => {
             return value.type === 'SELECTION' ? 
-              (<Interaction txId={searchResults.txId} proddesc={searchResults.proddesc} key={value.id} attribute={value} isItemChoice={sectionDetails.isItemChoice} processResponse={processResponse}/>) : 
-              (<ValueInteraction txId={searchResults.txId} key={value.id} attribute={value} processResponse={processResponse} mixedContentError={searchResults.mixedContentError}/>)
-
+              (<Interaction 
+                txId={searchResults.txId} 
+                proddesc={searchResults.proddesc} 
+                key={value.id} 
+                attribute={value} 
+                isItemChoice={sectionDetails.isItemChoice} 
+                processResponse={processResponse}
+              />) : 
+              (<ValueInteraction 
+                txId={searchResults.txId} 
+                key={value.id} 
+                attribute={value} 
+                processResponse={processResponse} 
+                mixedContentError={searchResults.mixedContentError}
+              />)
           })}
       </section>
     )
@@ -191,7 +197,10 @@ export default function ProductFinderModal(props) {
             <p className="m-v-xxs">
               {capitalize(interaction.selectedString)} 
               {interaction.selectedString === 'other' ? ` ${interaction.unselectedString}` : ''}
-              {' '}<button type="button" className="change-known-button link link--underline body-m" onClick={() => onChangeClick(interaction)}>Change</button>
+              {' '}<button 
+                type="button" 
+                className="change-known-button link link--underline body-m" 
+                onClick={() => onChangeClick(interaction)}>Change</button>
             </p>
            </div>
         </div>)
@@ -224,16 +233,13 @@ export default function ProductFinderModal(props) {
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-l m-b-s">
-        <div className="h-m p-b-s">Match for &quot;{_searchResults.currentItemName}&quot;</div>
-        <div className="box box--no-pointer">
-          <h3 className="h-xs p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
-          <div className="body-m">HS Code: {_searchResults.hsCode}</div>
-          <p>{formatPath(_searchResults.currentSIP)}</p>
-          <button className="button button--primary" type="button" onClick={saveProduct}>
-            Select this product
-          </button>
-        </div>
+      <section className="m-h-l m-b-s body-l">
+        <div className="h-m p-b-s">Match found</div>
+        <StartEndPage 
+          commodityCode={_searchResults.hsCode} 
+          defaultCommodityName={capitalize(_searchResults.currentItemName)} 
+          saveProduct={saveProduct} 
+        />
       </section>
     )
   }
@@ -340,11 +346,18 @@ export default function ProductFinderModal(props) {
         <div>Find the product you want to export</div>
         <div className="flex-centre m-t-xs search-input">
             <SearchInput
+              id="search-input"
               onChange={setSearchTerm}
               onKeyReturn={search}
               autoFocus
+              iconClass="fa-search"
             />
-          <button className="search-button button button--small button--only-icon m-f-xs" disabled={!searchTerm} type="button" onClick={search}>
+          <button 
+            className="search-button button button--small button--only-icon m-f-xs" 
+            disabled={!searchTerm} 
+            type="button" 
+            onClick={search}
+          >
             <i className="fa fa-arrow-right"/>
           </button>
         </div>
@@ -382,13 +395,27 @@ export default function ProductFinderModal(props) {
             style={{marginTop:headerHeight}} 
             onScroll={onScroll}
           >
-            <button id="dialog-close" type="button" aria-label="Close" className="pull-right m-r-0 dialog-close" onClick={closeModal}/>
+            <button 
+              id="dialog-close" 
+              type="button" 
+              aria-label="Close" 
+              className="pull-right m-r-0 dialog-close" 
+              onClick={closeModal}
+            />
             {spinner}
             <div 
               className="scroll-inner p-b-m"
               ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
             >
-              {!searchResults ? searchBox() : (<button type="button" className="back-button m-f-l m-t-m" onClick={backToSearch} ><i className="fa fa-arrow-circle-left m-r-xs"/>Search again</button>)}
+              {!searchResults ? searchBox() : (
+                <button 
+                  type="button" 
+                  className="back-button m-f-l m-t-m" 
+                  onClick={backToSearch} 
+                >
+                  <i className="fa fa-arrow-circle-left m-r-xs"/>
+                  Search again
+                </button>)}
               {searchResults && resultsDisplay(searchResults)}
             </div>
           </div>

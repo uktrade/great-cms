@@ -549,6 +549,23 @@ def test_refine_commodity(mock_search_commodity_refine, client):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'ccce_import_schedule')
+def test_commodity_schedule(mock_ccce_import_schedule, client):
+    mock_ccce_import_schedule.return_value = data = [
+        {'value': '123323', 'label': 'some description'},
+        {'value': '223323', 'label': 'some other description'},
+    ]
+    hs_code = '123456'
+
+    response = client.get(reverse('core:api-lookup-product-schedule'), {'hs_code': hs_code})
+
+    assert response.status_code == 200
+    assert response.json() == data
+    assert mock_ccce_import_schedule.call_count == 1
+    assert mock_ccce_import_schedule.call_args == mock.call(hs_code=hs_code)
+
+
+@pytest.mark.django_db
 def test_get_countries(client):
     response = client.get(reverse('core:api-countries'))
     countries = response.json()

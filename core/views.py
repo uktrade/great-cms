@@ -14,6 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core import cms_slugs, forms, helpers, serializers
+from core.mixins import PageTitleMixin
 from directory_constants import choices
 from domestic.models import DomesticDashboard
 
@@ -61,7 +62,7 @@ class ArticleView(GA360Mixin, FormView):
         )
 
 
-class LoginView(GA360Mixin, TemplateView):
+class LoginView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -71,9 +72,10 @@ class LoginView(GA360Mixin, TemplateView):
         )
 
     template_name = 'core/login.html'
+    title = 'Log in'
 
 
-class SignupView(GA360Mixin, TemplateView):
+class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -83,6 +85,7 @@ class SignupView(GA360Mixin, TemplateView):
         )
 
     template_name = 'core/signup.html'
+    title = 'Sign up'
 
 
 class MarketsView(GA360Mixin, TemplateView):
@@ -110,7 +113,7 @@ class MarketsView(GA360Mixin, TemplateView):
         )
 
 
-class CompareCountriesView(GA360Mixin, TemplateView):
+class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -120,6 +123,7 @@ class CompareCountriesView(GA360Mixin, TemplateView):
         )
 
     template_name = 'core/compare_countries.html'
+    title = 'Compare countries'
 
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()
@@ -130,20 +134,6 @@ class CompareCountriesView(GA360Mixin, TemplateView):
             context['dashboard_components'] = dashboard.components if dashboard else None
             context['no_refresh_on_market_change'] = True
         return context
-
-
-class ProductLookupView(generics.GenericAPIView):
-    serializer_class = serializers.ProductLookupSerializer
-    permission_classes = []
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        if 'tx_id' in serializer.validated_data:
-            data = helpers.search_commodity_refine(**serializer.validated_data)
-        else:
-            data = helpers.search_commodity_by_term(term=serializer.validated_data['proddesc'])
-        return Response(data)
 
 
 class CountriesView(generics.GenericAPIView):
@@ -264,10 +254,11 @@ class CompanyNameFormView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class ContactUsHelpFormView(FormView):
+class ContactUsHelpFormView(PageTitleMixin, FormView):
     form_class = forms.ContactUsHelpForm
     template_name = 'core/contact-us-help-form.html'
     success_url = reverse_lazy('core:contact-us-success')
+    title = 'Contact us'
 
     def get_form_kwargs(self):
         form_kwargs = super().get_form_kwargs()

@@ -10,6 +10,7 @@ from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
 from core.helpers import get_comtrade_data
+from core.mixins import PageTitleMixin
 from directory_api_client.client import api_client
 from directory_constants.choices import (
     COUNTRY_CHOICES,
@@ -148,9 +149,12 @@ class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanMarketingApproachView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanMarketingApproachForm
     slug = 'marketing-approach'
+    title = 'Marketing approach'
 
     def get_initial(self):
         return self.export_plan['marketing_approach']
@@ -165,10 +169,11 @@ class ExportPlanMarketingApproachView(LessonDetailsMixin, FormContextMixin, Expo
         return context
 
 
-class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, ExportPlanSectionView, FormView):
 
     form_class = forms.ExportPlanAdaptationForTargetMarketForm
     success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
+    title = 'Adaptation for your target market'
 
     def get_initial(self):
         return self.export_plan['adaptation_target_market']
@@ -184,10 +189,12 @@ class ExportPlanAdaptationForTargetMarketView(FormContextMixin, ExportPlanSectio
         return context
 
 
-class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
-
+class ExportPlanTargetMarketsResearchView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
+    title = 'Target market research'
 
     def get_initial(self):
         return self.export_plan['target_markets_research']
@@ -208,9 +215,12 @@ class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, 
         return context
 
 
-class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanBusinessObjectivesView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     form_class = forms.ExportPlanBusinessObjectivesForm
     success_url = reverse_lazy('exportplan:business-objectives')
+    title = 'Business objectives'
 
     def form_valid(self, form):
         helpers.update_exportplan(
@@ -227,12 +237,15 @@ class ExportPlanBusinessObjectivesView(LessonDetailsMixin, FormContextMixin, Exp
         return self.export_plan['objectives']
 
 
-class ExportPlanAboutYourBusinessView(LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAboutYourBusinessView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
     def get_initial(self):
         return self.export_plan['about_your_business']
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
+    title = 'About your business'
 
 
 class BaseFormView(GA360Mixin, FormView):
@@ -272,13 +285,14 @@ class BaseFormView(GA360Mixin, FormView):
         sentry_sdk.capture_message('Updating company profile failed')
 
 
-class LogoFormView(BaseFormView):
+class LogoFormView(PageTitleMixin, BaseFormView):
     def get_initial(self):
         return {}
 
     form_class = forms.LogoForm
     template_name = 'exportplan/logo-form.html'
     success_message = 'Logo updated'
+    title = 'Upload your logo'
 
 
 class ExportPlanServicePage(GA360Mixin, TemplateView):

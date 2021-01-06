@@ -111,6 +111,10 @@ export default {
     return post(config.apiLookupProductUrl, { tx_id: txId, interaction_id: interactionId, values: values }).then((response) => responseHandler(response).json())
   },
 
+  lookupProductSchedule: ({ hsCode }) => {
+    return get(config.apiLookupProductScheduleUrl, { hs_code: hsCode }).then((response) => responseHandler(response).json())
+  },
+
   getLessonComplete: (endpoint) => {
     return get(endpoint).then(responseHandler)
   },
