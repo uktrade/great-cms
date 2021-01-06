@@ -1,8 +1,8 @@
+import json
 from io import BytesIO
 from unittest import mock
 
 import pytest
-import json
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.utils.text import slugify
@@ -111,10 +111,18 @@ def mock_update_company():
 def comtrade_data():
     return {
         'Germany': {
-            'import_from_world':
-                {'year': 2019, 'trade_value': '1.82 billion', 'country_name': 'Germany', 'year_on_year_change': 1.264},
-            'import_data_from_uk':
-            {'year': 2019, 'trade_value': '127.25 million', 'country_name': 'Germany', 'year_on_year_change': 1.126}
+            'import_from_world': {
+                'year': 2019,
+                'trade_value': '1.82 billion',
+                'country_name': 'Germany',
+                'year_on_year_change': 1.264,
+            },
+            'import_data_from_uk': {
+                'year': 2019,
+                'trade_value': '127.25 million',
+                'country_name': 'Germany',
+                'year_on_year_change': 1.126,
+            },
         }
     }
 
@@ -285,7 +293,7 @@ def test_404_when_invalid_section_slug(client, user):
 
 @pytest.mark.django_db
 def test_url_with_export_plan_country_selected(
-        mock_get_comtrade_data, mock_get_create_export_plan_with_no_countries, client, user
+    mock_get_comtrade_data, mock_get_create_export_plan_with_no_countries, client, user
 ):
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
@@ -295,9 +303,7 @@ def test_url_with_export_plan_country_selected(
 
 
 @pytest.mark.django_db
-def test_target_markets_research(
-        mock_get_comtrade_data, client, user
-):
+def test_target_markets_research(mock_get_comtrade_data, client, user):
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
 

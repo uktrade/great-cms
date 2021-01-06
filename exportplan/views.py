@@ -8,8 +8,8 @@ from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
-from core.helpers import get_comtrade_data
 
+from core.helpers import get_comtrade_data
 from directory_api_client.client import api_client
 from directory_constants.choices import (
     COUNTRY_CHOICES,
@@ -201,8 +201,7 @@ class ExportPlanTargetMarketsResearchView(LessonDetailsMixin, FormContextMixin, 
         context = super().get_context_data(*args, **kwargs)
         if self.export_country_name and self.export_commodity_code:
             insight_data = get_comtrade_data(
-                countries_list=[self.export_country_name],
-                commodity_code=self.export_commodity_code
+                countries_list=[self.export_country_name], commodity_code=self.export_commodity_code
             )
 
             context['insight_data'] = json.dumps(insight_data)

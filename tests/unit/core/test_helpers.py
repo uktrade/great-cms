@@ -4,13 +4,13 @@ import pytest
 from django.conf import settings
 from django.http import HttpRequest
 from requests.exceptions import HTTPError
+from requests.models import Response
 
 from core import helpers
-from requests.models import Response
-from exportplan import helpers as exportplan_helpers
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
+from exportplan import helpers as exportplan_helpers
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory
 
