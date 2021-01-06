@@ -145,6 +145,7 @@ function CompareMarkets(props) {
         commodityCode={selectedProduct && selectedProduct.code}
         addButton={false}
         selectCountry={addCountry}
+        isCompareCountries={true}
       />
     </span>
   )
