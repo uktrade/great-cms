@@ -80,6 +80,10 @@
   }
 }
 
+.button--inherit {
+  align-self: flex-start;
+}
+
 .button--delete {
   &.button--only-icon {
     border: 2px solid $colour-blue-deep-80;

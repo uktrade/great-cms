@@ -65258,60 +65258,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./react-components/src/components/AddDocumentTypeForm/index.jsx":
-/*!***********************************************************************!*\
-  !*** ./react-components/src/components/AddDocumentTypeForm/index.jsx ***!
-  \***********************************************************************/
-/*! exports provided: AddDocumentTypeForm */
+/***/ "./react-components/src/components/AddDocumentTypeForm/DocumentList.jsx":
+/*!******************************************************************************!*\
+  !*** ./react-components/src/components/AddDocumentTypeForm/DocumentList.jsx ***!
+  \******************************************************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddDocumentTypeForm", function() { return AddDocumentTypeForm; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
 /* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
-/* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-/* eslint-disable react/button-has-type */
-
-/* eslint-disable jsx-a11y/label-has-associated-control */
-
-/* eslint-disable import/prefer-default-export */
 
 
 
-
-
- // List the user defined other documents
 
 var DocumentList = function DocumentList(props) {
   var documents = props.documents,
@@ -65343,9 +65305,7 @@ var DocumentList = function DocumentList(props) {
       label: "Notes",
       id: doc.pk,
       value: doc.note,
-      placeholder: "Add notes",
-      currency: doc.currency,
-      tag: Number.isInteger(doc.placeholder) ? 'number' : 'text'
+      placeholder: "Add notes"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "form-delete m-b-xs"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -65358,80 +65318,69 @@ var DocumentList = function DocumentList(props) {
       className: "fas fa-trash-alt"
     }))));
   }) : null);
-}; // Add a new document to the list
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (DocumentList);
+
+/***/ }),
+
+/***/ "./react-components/src/components/AddDocumentTypeForm/index.jsx":
+/*!***********************************************************************!*\
+  !*** ./react-components/src/components/AddDocumentTypeForm/index.jsx ***!
+  \***********************************************************************/
+/*! exports provided: AddDocumentTypeForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddDocumentTypeForm", function() { return AddDocumentTypeForm; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
+/* harmony import */ var _DocumentList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DocumentList */ "./react-components/src/components/AddDocumentTypeForm/DocumentList.jsx");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-var AddNewDocument = function AddNewDocument(props) {
-  var addDocument = props.addDocument;
-  var initialFormState = {
-    name: '',
-    label: '',
-    description: ''
-  };
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialFormState),
-      _useState2 = _slicedToArray(_useState, 2),
-      document = _useState2[0],
-      setDocument = _useState2[1];
 
-  var handleInputChange = function handleInputChange(event) {
-    var _event$target = event.target,
-        name = _event$target.name,
-        value = _event$target.value;
-    setDocument(_objectSpread(_objectSpread({}, document), {}, _defineProperty({}, name, value)));
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: function onSubmit(event) {
-      event.preventDefault(); // if (!document.name || !document.description) return
-
-      addDocument(document);
-      setDocument(initialFormState);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    className: "form-label",
-    htmlFor: "name"
-  }, "Document name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: "name",
-    type: "text",
-    name: "name",
-    value: document.name,
-    placeholder: "Add document name here",
-    onChange: handleInputChange,
-    className: "form-control"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    className: "form-label",
-    htmlFor: "description"
-  }, "Notes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-    type: "text",
-    id: "description",
-    name: "description",
-    value: document.description,
-    placeholder: "Add notes",
-    onChange: handleInputChange,
-    className: "form-control"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button button--small button--secondary button--icon m-t-s"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add another document"))));
-}; // The parent component
 
 
 var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.formData),
-      _useState4 = _slicedToArray(_useState3, 2),
-      documents = _useState4[0],
-      setDocuments = _useState4[1];
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.formData),
+      _useState2 = _slicedToArray(_useState, 2),
+      documents = _useState2[0],
+      setDocuments = _useState2[1];
 
-  var addDocument = function addDocument(document) {
-    var name = document.name,
-        description = document.description;
-    document.document_name = name;
-    document.note = description;
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].createAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, document), {}, {
+  var addDocument = function addDocument() {
+    document.document_name = '';
+    document.note = '';
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].createAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, document), {}, {
       companyexportplan: props.companyexportplan
     })).then(function (data) {
       return setDocuments([].concat(_toConsumableArray(documents), [data]));
@@ -65440,14 +65389,14 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
 
   var deleteDocument = function deleteDocument(id, event) {
     event.preventDefault();
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].deleteAdaptTarketMarketDocumentList(id).then(function () {
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].deleteAdaptTarketMarketDocumentList(id).then(function () {
       setDocuments(documents.filter(function (document) {
         return document.pk !== id;
       }));
     })["catch"](function () {});
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__["useDebounce"])(updateApi);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(updateApi);
 
   var updateDocument = function updateDocument(id, property) {
     var field = documents.find(function (x) {
@@ -65460,16 +65409,20 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
   };
 
   var updateApi = function updateApi(field, property) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, field), property)).then(function () {})["catch"](function () {});
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].updateAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, field), property)).then(function () {})["catch"](function () {});
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DocumentList, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DocumentList__WEBPACK_IMPORTED_MODULE_4__["DocumentList"], {
     documents: documents,
     deleteDocument: deleteDocument,
     updateDocument: updateDocument
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AddNewDocument, {
-    addDocument: addDocument
-  }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--small button--secondary button--inherit button--icon m-t-s m-b-s",
+    type: "button",
+    onClick: addDocument
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-plus-circle"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add another document")));
 };
 
 /***/ }),
