@@ -30,9 +30,10 @@ export const Form = ({
       <Input
         label='Email address'
         id='email'
+        type='email'
         placeholder='Email address'
         disabled={disabled}
-        value={email}
+        value={email.toLowerCase()}
         onChange={(item) => handleEmailChange(item.email)}
         errors={errors.email || []}
       />

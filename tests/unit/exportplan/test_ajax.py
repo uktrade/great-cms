@@ -1,9 +1,9 @@
-import pytest
-from unittest import mock
-from freezegun import freeze_time
 from collections import OrderedDict
+from unittest import mock
 
+import pytest
 from django.urls import reverse
+from freezegun import freeze_time
 
 from exportplan import helpers
 
@@ -16,12 +16,27 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
     client.force_login(user)
     url = reverse('exportplan:api-country-data')
 
-    update_return_data = {'target_markets': [{'country_name': 'UK'}, {'country_name': 'China', 'SomeData': 'xyz'}, ]}
+    update_return_data = {
+        'target_markets': [
+            {'country_name': 'UK'},
+            {'country_name': 'China', 'SomeData': 'xyz'},
+        ]
+    }
 
-    mock_get_export_plan.return_value = {'pk': 1, 'target_markets': [{'country_name': 'UK'}, ]}
+    mock_get_export_plan.return_value = {
+        'pk': 1,
+        'target_markets': [
+            {'country_name': 'UK'},
+        ],
+    }
     mock_update_exportplan.return_value = update_return_data
 
-    response = client.get(url, {'country_name': 'China', })
+    response = client.get(
+        url,
+        {
+            'country_name': 'China',
+        },
+    )
 
     assert mock_get_export_plan.call_count == 1
     assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
@@ -29,14 +44,9 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data={'target_markets': [{'country_name': 'UK'}, {'country_name': 'China'}]},
-        id=1,
-        sso_session_id='123'
+        data={'target_markets': [{'country_name': 'UK'}, {'country_name': 'China'}]}, id=1, sso_session_id='123'
     )
-    assert response.json() == {
-        'datenow': '2016-11-23T11:21:10',
-        'target_markets': update_return_data['target_markets']
-    }
+    assert response.json() == {'datenow': '2016-11-23T11:21:10', 'target_markets': update_return_data['target_markets']}
 
 
 @pytest.mark.django_db
@@ -57,14 +67,23 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
     url = reverse('exportplan:api-remove-country-data')
 
     export_plan_data = {
-        'pk': 1, 'target_markets': [{'country_name': 'UK'}, {'country_name': 'China', 'SomeData': 'xyz'}, ]
+        'pk': 1,
+        'target_markets': [
+            {'country_name': 'UK'},
+            {'country_name': 'China', 'SomeData': 'xyz'},
+        ],
     }
     update_return_data = {'target_markets': [{'country': 'UK'}]}
 
     mock_get_export_plan.return_value = export_plan_data
     mock_update_exportplan.return_value = update_return_data
 
-    response = client.get(url, {'country_name': 'China', })
+    response = client.get(
+        url,
+        {
+            'country_name': 'China',
+        },
+    )
 
     assert mock_get_export_plan.call_count == 1
     assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
@@ -72,14 +91,9 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data={'target_markets': [{'country_name': 'UK'}]},
-        id=1,
-        sso_session_id='123'
+        data={'target_markets': [{'country_name': 'UK'}]}, id=1, sso_session_id='123'
     )
-    assert response.json() == {
-        'datenow': '2016-11-23T11:21:10',
-        'target_markets': update_return_data['target_markets']
-    }
+    assert response.json() == {'datenow': '2016-11-23T11:21:10', 'target_markets': update_return_data['target_markets']}
 
 
 @pytest.mark.django_db
@@ -102,11 +116,7 @@ def test_ajax_sector_remove(mock_get_export_plan, mock_update_exportplan, client
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
-    assert mock_update_exportplan.call_args == mock.call(
-        data={'sectors': []},
-        id=1,
-        sso_session_id='123'
-    )
+    assert mock_update_exportplan.call_args == mock.call(data={'sectors': []}, id=1, sso_session_id='123')
     assert response.json() == {'sectors': []}
 
 
@@ -125,8 +135,7 @@ def test_ajax_country_data_remove_no_country(client, user):
 @mock.patch.object(helpers, 'update_exportplan')
 @mock.patch.object(helpers, 'get_exportplan')
 def test_recommended_countries(
-        mock_get_export_plan, mock_update_exportplan,
-        mock_get_recommended_countries, client, user
+    mock_get_export_plan, mock_update_exportplan, mock_get_recommended_countries, client, user
 ):
     client.force_login(user)
     url = reverse('exportplan:ajax-recommended-countries-data')
@@ -144,16 +153,11 @@ def test_recommended_countries(
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data={'sectors': ['Automotive', 'Electrical']},
-        id=1,
-        sso_session_id='123'
+        data={'sectors': ['Automotive', 'Electrical']}, id=1, sso_session_id='123'
     )
 
     assert mock_get_recommended_countries.call_count == 1
-    assert mock_get_recommended_countries.call_args == mock.call(
-        sso_session_id='123',
-        sectors='Automotive,Electrical'
-    )
+    assert mock_get_recommended_countries.call_args == mock.call(sso_session_id='123', sectors='Automotive,Electrical')
 
     assert response.json() == {'countries': recommended_countries}
 
@@ -305,10 +309,7 @@ def test_objectives_validation_update(mock_update_objective, client, user):
 
     assert mock_update_objective.call_count == 0
     assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.'],
-        'pk': ['This field is required.']
-    }
+    assert response.json() == {'companyexportplan': ['This field is required.'], 'pk': ['This field is required.']}
 
 
 @pytest.mark.django_db
@@ -326,9 +327,7 @@ def test_objectives_validation_create(mock_create_objective, client, user):
 
     assert mock_create_objective.call_count == 0
     assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.']
-    }
+    assert response.json() == {'companyexportplan': ['This field is required.']}
 
 
 @pytest.mark.django_db
@@ -383,9 +382,7 @@ def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data=OrderedDict([('target_markets', [{'country': 'China'}, {'country': 'India'}])]),
-        id=1,
-        sso_session_id='123'
+        data=OrderedDict([('target_markets', [{'country': 'China'}, {'country': 'India'}])]), id=1, sso_session_id='123'
     )
 
 
@@ -462,10 +459,7 @@ def test_route_to_market_validation_update(mock_update_route_to_market, client, 
 
     assert mock_update_route_to_market.call_count == 0
     assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.'],
-        'pk': ['This field is required.']
-    }
+    assert response.json() == {'companyexportplan': ['This field is required.'], 'pk': ['This field is required.']}
 
 
 @pytest.mark.django_db
@@ -483,9 +477,7 @@ def test_route_to_market_validation_create(mock_create_route_to_market, client, 
 
     assert mock_create_route_to_market.call_count == 0
     assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.']
-    }
+    assert response.json() == {'companyexportplan': ['This field is required.']}
 
 
 @pytest.mark.django_db
@@ -574,10 +566,7 @@ def test_target_market_documents_validation_update(mock_update_target_market_doc
 
     assert mock_update_target_market_documents.call_count == 0
     assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.'],
-        'pk': ['This field is required.']
-    }
+    assert response.json() == {'companyexportplan': ['This field is required.'], 'pk': ['This field is required.']}
 
 
 @pytest.mark.django_db
@@ -595,9 +584,7 @@ def test_target_market_documents_validation_create(mock_create_target_market_doc
 
     assert mock_create_target_market_documents.call_count == 0
     assert response.status_code == 400
-    assert response.json() == {
-        'companyexportplan': ['This field is required.']
-    }
+    assert response.json() == {'companyexportplan': ['This field is required.']}
 
 
 @pytest.mark.django_db
@@ -607,6 +594,11 @@ def test_api_population_data_by_country(mock_get_population_data_by_country, cli
     client.force_login(user)
     url = reverse('exportplan:api-population-data-by-country')
 
-    response = client.get(url, {'countries': 'China,United Kingdom', })
+    response = client.get(
+        url,
+        {
+            'countries': 'China,United Kingdom',
+        },
+    )
 
     assert response.status_code == 200

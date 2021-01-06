@@ -18,12 +18,13 @@ export const Select = ({
   description,
   tooltip,
   example,
-  hideLabel
+  hideLabel,
+  placeholder,
+  id,
 }) => {
-
   const [input, setInput] = useState(selected)
   const [isOpen, setIsOpen] = useState(false)
-  const liRef = useRef([]);
+  const liRef = useRef([])
   const [element] = useOnOutsideClick(() => setIsOpen(false))
   useNoScroll(isOpen)
 
@@ -34,8 +35,8 @@ export const Select = ({
   }
 
   const focusNext = (e, i, item) => {
-    const next = i+1
-    const prev = i-1
+    const next = i + 1
+    const prev = i - 1
 
     switch (e.keyCode) {
       case ENTER_KEY_CODE:
@@ -70,45 +71,61 @@ export const Select = ({
   }
 
   return (
-    <div className='select m-b-l'>
+    <div className="select m-b-l">
       <Input
         label={label}
-        id={label}
+        id={id || label}
         name={label}
         readOnly
         value={input}
-        placeholder='Select one'
+        placeholder={placeholder}
         description={description}
         tooltip={tooltip}
         example={example}
-        tabIndex='-1'
+        tabIndex="-1"
         hideLabel={hideLabel}
+        onChange={() => {}}
       />
       <button
-        className={`select__button text-blue-deep-20 button--toggle ${isOpen ? 'select__button--close' : ''}`}
-        type='button'
-        role='button'
-        aria-haspopup='listbox'
+        className={`select__button text-blue-deep-20 button--toggle ${
+          isOpen ? 'select__button--close' : ''
+        }`}
+        type="button"
+        role="button"
+        aria-haspopup="listbox"
         onClick={() => setIsOpen(!isOpen)}
-        tabIndex='0'
+        tabIndex="0"
         onKeyDown={toggle}
       >
-        <i className={`fas button--toggle ${isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'}`} />
+        <i
+          className={`fas button--toggle ${
+            isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'
+          }`}
+        />
       </button>
-      <ul role='listbox' className={`select__list body-l bg-white radius ${isOpen ? '' : 'hidden'}`} aria-expanded={isOpen} ref={element}>
-        <li>Select one</li>
-        {options.map((item, i) =>
+      <ul
+        role="listbox"
+        className={`select__list body-l bg-white radius ${
+          isOpen ? '' : 'hidden'
+        }`}
+        aria-expanded={isOpen}
+        ref={element}
+      >
+        <li>{placeholder}</li>
+        {options.map((item, i) => (
           <li
-            tabIndex='0'
-            className='select__list--item'
-            key={item}
+            tabIndex="0"
+            className="select__list--item"
+            key={item.label}
             onClick={() => selectOption(item)}
             onKeyDown={(e) => focusNext(e, i, item)}
             aria-selected={item.label === input}
-            role='option'
-            ref={el => liRef.current[i] = el}
-          >{item.label}</li>
-        )}
+            role="option"
+            ref={(el) => (liRef.current[i] = el)}
+          >
+            {item.label}
+          </li>
+        ))}
       </ul>
     </div>
   )
@@ -119,20 +136,30 @@ Select.propTypes = {
   update: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   selected: PropTypes.string,
-  options: PropTypes.arrayOf({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  }).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
   description: PropTypes.string,
   tooltip: PropTypes.string,
-  example: PropTypes.string,
+  example: PropTypes.shape({
+    buttonTitle: PropTypes.string,
+    header: PropTypes.string,
+    content: PropTypes.string,
+  }),
   hideLabel: PropTypes.bool,
+  placeholder: PropTypes.string,
+  id: PropTypes.string,
 }
 
 Select.defaultProps = {
   selected: '',
   description: '',
   tooltip: '',
-  example: '',
-  hideLabel: false
+  example: {},
+  hideLabel: false,
+  placeholder: 'Select one',
+  id: '',
 }

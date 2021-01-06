@@ -129,6 +129,9 @@
   display: flex;
   align-items: center;
   min-width: 10em;
+  @include breakpoint(md_lt) {
+    width: 100%;
+  }
 
   input {
     padding-right: 30px;
@@ -175,6 +178,33 @@
 
     &.open {
       display: block;
+    }
+  }
+}
+
+.modal.large-modal-content {
+  width: auto;
+  left: 100px;
+  right: 100px;
+  top: 50px;
+  bottom: 50px;
+  overflow: hidden;
+  @include breakpoint(md_lt) {
+    left: 0;
+    right:0;
+    bottom: 0;
+    top: 0;
+    border-radius: 0;
+  }
+
+  .only-mobile {
+    @include breakpoint(md) {
+      display: none;
+    }
+  }
+  .only-desktop {
+    @include breakpoint(md_lt) {
+      display: none;
     }
   }
 }

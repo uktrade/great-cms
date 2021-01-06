@@ -13,17 +13,18 @@ babel==2.9.0              # via sphinx
 beautifulsoup4==4.8.2     # via great-components, readtime, wagtail
 boto3==1.11.17            # via -r requirements.in, django-storages
 botocore==1.14.17         # via boto3, s3transfer
-certifi==2020.11.8        # via requests, sentry-sdk
-cffi==1.14.3              # via cryptography
+certifi==2020.12.5        # via requests, sentry-sdk
+cffi==1.14.4              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==3.2         # via -r requirements.in
 cssselect==1.1.0          # via pyquery
-directory-api-client==22.7.0  # via -r requirements.in
+directory-api-client==22.10.0  # via -r requirements.in
 directory-client-core==6.3.0  # via directory-api-client, directory-forms-api-client, directory-sso-api-client
 directory-constants==20.17.0  # via -r requirements.in, great-components
 directory-forms-api-client==5.3.0  # via -r requirements.in
 directory-sso-api-client==6.5.3  # via -r requirements.in
 directory-validators==6.0.4  # via -r requirements.in
+django-decorator-include==3.0  # via -r requirements.in
 django-environ==0.4.5     # via -r requirements.in
 django-extensions==2.2.9  # via -r requirements.in
 django-filter==2.2.0      # via -r requirements.in, wagtail
@@ -36,13 +37,13 @@ django-staff-sso-client==1.0.1  # via -r requirements.in
 django-storages[boto3]==1.8  # via -r requirements.in
 django-taggit==1.3.0      # via wagtail
 django-treebeard==4.3.1   # via wagtail
-django==2.2.14            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-filter, django-formtools, django-recaptcha, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, djangorestframework, great-components, sigauth, wagtail, wagtailfontawesome
+django==2.2.14            # via -r requirements.in, directory-api-client, directory-client-core, directory-constants, directory-validators, django-decorator-include, django-filter, django-formtools, django-recaptcha, django-redis, django-staff-sso-client, django-storages, django-taggit, django-treebeard, djangorestframework, great-components, sigauth, wagtail, wagtailfontawesome
 djangorestframework==3.11.2  # via -r requirements.in, sigauth, wagtail
 docutils==0.15.2          # via botocore, sphinx
 draftjs-exporter==2.1.7   # via wagtail
 et-xmlfile==1.0.1         # via openpyxl
 factory-boy==2.12.0       # via -r requirements.in, wagtail-factories
-faker==4.14.2             # via factory-boy
+faker==5.0.1              # via factory-boy
 freezegun==0.1.5          # via -r requirements.in
 geoip2==2.9.0             # via -r requirements.in
 great-components==1.1.1   # via -r requirements.in
@@ -50,14 +51,14 @@ gunicorn==19.5.0          # via -r requirements.in
 html5lib==1.1             # via wagtail
 idna==2.10                # via requests
 imagesize==1.2.0          # via sphinx
-importlib-metadata==2.0.0  # via jsonschema
+importlib-metadata==3.3.0  # via jsonschema
 iso3166==1.0.1            # via -r requirements.in
 jdcal==1.4.1              # via openpyxl
 jinja2==2.11.2            # via sphinx
 jmespath==0.10.0          # via boto3, botocore
 jsonschema==3.2.0         # via great-components
 l18n==2020.6.1            # via wagtail
-lxml==4.6.1               # via pyquery
+lxml==4.6.2               # via pyquery
 markdown2==2.3.9          # via -r requirements.in, readtime
 markupsafe==1.1.1         # via jinja2
 maxminddb==2.0.3          # via geoip2
@@ -66,14 +67,14 @@ monotonic==1.5            # via directory-client-core
 oauthlib==3.1.0           # via requests-oauthlib
 olefile==0.46             # via directory-validators
 openpyxl==3.0.5           # via tablib
-packaging==20.4           # via sphinx
+packaging==20.8           # via sphinx
 pillow==7.2.0             # via -r requirements.in, directory-validators, wagtail
 psycopg2==2.8.6           # via -r requirements.in
 pycountry==20.7.3         # via wagtail-personalisation
 pycparser==2.20           # via cffi
-pygments==2.7.2           # via sphinx
+pygments==2.7.3           # via sphinx
 pyparsing==2.4.7          # via packaging
-pyquery==1.4.1            # via readtime
+pyquery==1.4.3            # via readtime
 pyrsistent==0.17.3        # via jsonschema
 python-dateutil==2.8.1    # via botocore, faker, freezegun
 pytz==2020.1              # via babel, directory-validators, django, django-modelcluster, l18n
@@ -84,15 +85,16 @@ requests==2.25.0          # via airtable-python-wrapper, directory-api-client, d
 s3transfer==0.3.3         # via boto3
 sentry-sdk==0.13.5        # via -r requirements.in
 sigauth==4.3.0            # via directory-client-core
-six==1.15.0               # via airtable-python-wrapper, cryptography, django-extensions, html5lib, jsonschema, l18n, packaging, python-dateutil, sphinx, w3lib
+six==1.15.0               # via airtable-python-wrapper, cryptography, django-extensions, html5lib, jsonschema, l18n, python-dateutil, sphinx, w3lib
 snowballstemmer==2.0.0    # via sphinx
-soupsieve==2.0.1          # via beautifulsoup4
+soupsieve==2.1            # via beautifulsoup4
 sphinx==1.8.5             # via -r requirements.in
 sphinxcontrib-serializinghtml==1.1.4  # via sphinxcontrib-websupport
 sphinxcontrib-websupport==1.2.4  # via sphinx
 sqlparse==0.4.1           # via django
-tablib[xls,xlsx]==2.0.0   # via wagtail
+tablib[xls,xlsx]==3.0.0   # via wagtail
 text-unidecode==1.3       # via faker
+typing-extensions==3.7.4.3  # via importlib-metadata
 ua-parser==0.10.0         # via user-agents
 unidecode==1.1.1          # via wagtail
 urllib3==1.25.11          # via botocore, directory-validators, requests, sentry-sdk
@@ -108,7 +110,7 @@ wagtailmedia==0.5.0       # via -r requirements.in
 webencodings==0.5.1       # via html5lib
 whitenoise==4.1.4         # via -r requirements.in
 willow==1.4               # via wagtail
-xlrd==1.2.0               # via tablib
+xlrd==2.0.1               # via tablib
 xlsxwriter==1.3.7         # via wagtail
 xlwt==1.3.0               # via tablib
 zipp==3.4.0               # via importlib-metadata

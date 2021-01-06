@@ -4,16 +4,25 @@
   }
 
   &--intro-image {
-    margin-bottom: -30px;
-    width: 679px;
+    bottom: -30px;
+    position: relative;
+    width: 100%;
+
+    @include breakpoint(lg){
+      width: 679px;
+    }
   }
 }
 
 .lesson__back {
-  float: right;
-  width: 245px;
+  margin-top: 30px;
 
-  &--bottom {
-    margin-top: 770px;
+  @include breakpoint(lg){
+    float: right;
+    width: 245px;
+
+    &--bottom {
+      margin-top: 315px;
+    }
   }
 }

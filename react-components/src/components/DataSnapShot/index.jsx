@@ -1,58 +1,34 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
+import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Table } from './Table'
-import { CountryData } from './CountryData'
+import { ProductData } from './ProductData'
 
-export const DataSnapShot = memo(({
-  country,
-  groups,
-  selectedGroups,
-  countryData
-}) => {
-  const [toggle, setToggle] = useState(false)
-
+export const DataSnapShot = memo(({ country, groups }) => {
   return (
-    <>
-      <div className={`m-t-s ${ toggle ? '' : 'hidden'}`}>
-          <CountryData
-            country={country}
-          />
-          <ToggleDataTable
-            country={country}
-            groups={groups}
-            selectedGroups={selectedGroups}
-            countryData={countryData}
-          >
-            <Table />
-          </ToggleDataTable>
+    <ToggleSnapshot isOpen={false}>
+      <div className="m-t-s">
+        <ProductData />
+        <ToggleDataTable country={country} groups={groups}>
+          <Table />
+        </ToggleDataTable>
       </div>
-      <div className='m-t-s'>
-        <button
-          className='button button--tertiary button--icon'
-          type='button'
-          onClick={() => setToggle(!toggle)}
-        >
-          <i className='fas fa-chart-bar' />Open Data Snapshot
-        </button>
-      </div>
-    </>
+    </ToggleSnapshot>
   )
 })
 
 DataSnapShot.propTypes = {
   country: PropTypes.string.isRequired,
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired
-  })),
-  selectedGroups: PropTypes.arrayOf(PropTypes.string.isRequired),
-  countryData: PropTypes.arrayOf(PropTypes.string.isRequired)
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ),
 }
 
 DataSnapShot.defaultProps = {
   groups: [],
-  selectedGroups: [],
-  countryData: []
 }

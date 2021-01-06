@@ -1,14 +1,18 @@
 from unittest import mock
-from django.http import HttpResponse
 
 import pytest
-
+from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from django.http import HttpResponse
+from django.test import override_settings
 
 from core import helpers, middleware
+from core.middleware import GADataMissingException, TimedAccessMiddleware
 from tests.unit.core import factories
-from tests.unit.exportplan.factories import ExportPlanPageFactory, ExportPlanPseudoDashboardPageFactory
-from core.middleware import GADataMissingException
+from tests.unit.exportplan.factories import (
+    ExportPlanPageFactory,
+    ExportPlanPseudoDashboardPageFactory,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -106,16 +110,13 @@ def test_user_product_expertise_middleware(domestic_site, client, mock_update_co
 
     response = client.get(
         lesson_page.url,
-        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True, 'hs_codes': [1, 2]}
+        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True, 'hs_codes': [1, 2]},
     )
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         sso_session_id=user.session_id,
-        data={
-            'expertise_products_services': {'other': ['Vodka', 'Potassium']},
-            'hs_codes': ['1', '2']
-        }
+        data={'expertise_products_services': {'other': ['Vodka', 'Potassium']}, 'hs_codes': ['1', '2']},
     )
 
 
@@ -131,16 +132,13 @@ def test_user_product_expertise_middleware_no_company(
 
     response = client.get(
         lesson_page.url,
-        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True, 'hs_codes': [1, 2]}
+        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True, 'hs_codes': [1, 2]},
     )
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 1
     assert mock_update_company_profile.call_args == mock.call(
         sso_session_id=user.session_id,
-        data={
-            'expertise_products_services': {'other': ['Vodka', 'Potassium']},
-            'hs_codes': ['1', '2']
-        }
+        data={'expertise_products_services': {'other': ['Vodka', 'Potassium']}, 'hs_codes': ['1', '2']},
     )
 
 
@@ -150,8 +148,7 @@ def test_user_product_expertise_middleware_not_logged_in(domestic_site, client, 
     lesson_page = factories.DetailPageFactory(parent=list_page)
 
     response = client.get(
-        lesson_page.url,
-        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
+        lesson_page.url, {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True}
     )
 
     assert response.status_code == 200
@@ -165,10 +162,7 @@ def test_user_product_expertise_middleware_not_store(domestic_site, client, mock
     list_page = factories.ListPageFactory(parent=domestic_site.root_page)
     lesson_page = factories.DetailPageFactory(parent=list_page)
 
-    response = client.get(
-        lesson_page.url,
-        {'product': ['Vodka', 'Potassium']}
-    )
+    response = client.get(lesson_page.url, {'product': ['Vodka', 'Potassium']})
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 0
 
@@ -182,10 +176,7 @@ def test_user_product_expertise_middleware_not_store_idempotent(
     list_page = factories.ListPageFactory(parent=domestic_site.root_page)
     lesson_page = factories.DetailPageFactory(parent=list_page)
 
-    response = client.get(
-        lesson_page.url,
-        {'product': ['Vodka'], 'remember-expertise-products-services': True}
-    )
+    response = client.get(lesson_page.url, {'product': ['Vodka'], 'remember-expertise-products-services': True})
     assert response.status_code == 200
     assert mock_update_company_profile.call_count == 0
 
@@ -197,7 +188,7 @@ def dummy_valid_ga_360_response():
         'site_section': 'Test Section',
         'site_language': 'de',
         'user_id': '1234',
-        'login_status': True
+        'login_status': True,
     }
 
     response = HttpResponse()
@@ -244,8 +235,7 @@ def test_check_ga_360_rejects_responses_missing_a_required_field():
     with pytest.raises(GADataMissingException) as exception:
         instance.process_response({}, response)
 
-    assert "'business_unit' is a required property" \
-           in str(exception.value)
+    assert "'business_unit' is a required property" in str(exception.value)
 
 
 def test_check_ga_360_rejects_responses_where_a_required_field_is_null():
@@ -267,3 +257,41 @@ def test_check_ga_360_allows_null_values_for_nullable_fields():
     processed_response = instance.process_response({}, response)
 
     assert processed_response is not None
+
+
+@mock.patch('core.middleware.TimedAccessMiddleware.try_cookie')
+@override_settings(TESTING=False, BETA_WHITELISTED_ENDPOINTS='/foo/,/admin/,/test/')
+def test_timed_access_middleware__whitelisted_paths(mock_try_cookie, rf):
+
+    # In _this_ test, we don't care what happens if we get at or below
+    # self.try_cookie(), so let's just give it a useul fake response
+    mock_response_for_not_whitelisted = mock.Mock(name='mock_response_for_not_whitelisted')
+    mock_try_cookie.return_value = mock_response_for_not_whitelisted
+
+    # Similarly, we can mock a default response from get_response to know
+    # if we've short-circuited and returned early
+    mock_response_for_whitelisted = mock.Mock(name='mock_response_for_whitelisted')
+    fake_get_response = mock.Mock(name='Fake get_response')
+    fake_get_response.return_value = mock_response_for_whitelisted
+
+    middleware = TimedAccessMiddleware(fake_get_response)
+
+    for path in ['/foo/', '/foo/bar/baz/', '/admin/', '/admin/auth.user', '/test/']:
+        fake_request = rf.get(path)
+        mock_try_cookie.reset_mock()
+        output = middleware(fake_request)
+        assert mock_try_cookie.call_count == 0
+        assert output == mock_response_for_whitelisted  # because a skippable path
+
+    for path in ['/foo-bar-baz/', '/other-admin/']:
+        fake_request = rf.get(path)
+        mock_try_cookie.reset_mock()
+        output = middleware(fake_request)
+        assert mock_try_cookie.call_count == 1
+        assert output == mock_response_for_not_whitelisted
+
+    # Show that '/' is skippable / is whitelisted / is not blocked
+    assert '/' not in settings.BETA_WHITELISTED_ENDPOINTS.split(',')
+    fake_request = rf.get('/')
+    output = middleware(fake_request)
+    assert output == mock_response_for_whitelisted

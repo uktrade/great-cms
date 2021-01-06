@@ -3,21 +3,23 @@ from random import choice
 from typing import List
 from unittest import mock
 
-import pytest
-from selenium.webdriver.remote.webdriver import WebDriver
-
 import allure
+import pytest
 from pytest_django.live_server_helper import LiveServer
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from core import cms_slugs
 from sso import helpers as sso_helpers
-
 from tests.browser.common_selectors import (
     DashboardReadingProgress,
     LessonPage,
     TopicLessonListing,
 )
-from tests.browser.steps import should_see_all_elements, should_not_see_any_element, visit_page
+from tests.browser.steps import (
+    should_not_see_any_element,
+    should_see_all_elements,
+    visit_page,
+)
 from tests.browser.util import attach_jpg_screenshot, selenium_action
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -26,7 +28,6 @@ from tests.unit.core.factories import (
     ListPageFactory,
     TopicPageFactory,
 )
-
 
 pytestmark = [
     pytest.mark.browser,
@@ -49,7 +50,8 @@ def visit_lesson_page(live_server: LiveServer, browser: WebDriver, page_name: st
 @allure.step('Open random lesson on lesson listing page')
 def open_random_lesson(browser: WebDriver):
     lesson_links = browser.find_elements(
-        by=TopicLessonListing.LESSON_LINKS.by, value=TopicLessonListing.LESSON_LINKS.selector,
+        by=TopicLessonListing.LESSON_LINKS.by,
+        value=TopicLessonListing.LESSON_LINKS.selector,
     )
     lesson_link = choice(lesson_links)
 
@@ -121,9 +123,7 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
     should_not_see_any_element(browser, DashboardReadingProgress)
     # Setting a lesson complete should show progress card with 1/1 complete
-    mock_get_lesson_completed.return_value = {'result': 'ok', 'lesson_completed': [
-        {'lesson': lesson_one.id}
-    ]}
+    mock_get_lesson_completed.return_value = {'result': 'ok', 'lesson_completed': [{'lesson': lesson_one.id}]}
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
     should_see_all_elements(browser, DashboardReadingProgress)

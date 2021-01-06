@@ -1,44 +1,106 @@
-import React from 'react'
+import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
-import EducationalMomentTooltip from '../../EducationalMomentTooltip'
-import ErrorList from '../../ErrorList'
+import ReactHtmlParser from 'react-html-parser'
 
-export const FormGroup = ({
-  children,
-  errors,
-  tooltip,
-  id,
-  label,
-  description,
-  example,
-  hideLabel
-}) => (
-  <div
-    className={`form-group ${errors.length > 0 ? 'form-group-error' : ''}`}
-  >
-    {
-      tooltip &&
-      <EducationalMomentTooltip
-        heading=''
-        description={tooltip}
-        id={id}
-        type='LEFT'
-      />
-    }
-    <label className={`form-label ${hideLabel ? 'visually-hidden': ''}`} htmlFor={id}>{label}</label>
-    { description && <div className='text-blue-deep-80 p-t-xs p-b-xxs' dangerouslySetInnerHTML={{ __html: description }} /> }
-    {
-      example &&
-      <dl className='form-group-example bg-blue-deep-10 p-xs m-b-xs'>
-        <dt className='body-l-b'>A fictional example to help you complete this section</dt>
-        <dd className='m-t-xxs body-l' dangerouslySetInnerHTML={{ __html: example }} />
-      </dl>
-    }
-    <ErrorList
-      errors={errors}
-    />
-    {children}
-  </div>
+import { Tooltip } from '@components/tooltip/Tooltip'
+import ErrorList from '@src/components//ErrorList'
+import { LessonLearn } from '@src/components/LessonLearn'
+
+export const FormGroup = memo(
+  ({
+    children,
+    errors,
+    tooltip,
+    id,
+    label,
+    description,
+    example,
+    hideLabel,
+    lesson,
+  }) => {
+    const [toggleExample, setToggleExample] = useState(false)
+    const [toggleLesson, setToggleLesson] = useState(false)
+    const hasLesson = Object.keys(lesson).length > 0
+    const hasExample = example.content
+
+    return (
+      <div
+        className={`form-group ${errors.length > 0 ? 'form-group-error' : ''}`}
+      >
+        <label
+          className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
+          htmlFor={id}
+        >
+          {label}
+        </label>
+        {description && (
+          <div className="text-blue-deep-80 p-t-xs p-b-xs">
+            {ReactHtmlParser(description)}
+          </div>
+        )}
+
+        {!!(hasExample || hasLesson || tooltip) && (
+          <div className="m-b-xs">
+            {hasExample && (
+              <button
+                className="button-example button button--small button--tertiary m-r-xxs"
+                type="button"
+                onClick={() => {
+                  setToggleExample(!toggleExample)
+                  setToggleLesson(false)
+                }}
+              >
+                <i
+                  className={`fas fa-chevron-${
+                    toggleExample ? 'up' : 'down'
+                  } m-r-xxs`}
+                />
+                {example.buttonTitle ? example.buttonTitle : 'Example'}
+              </button>
+            )}
+            {hasLesson && (
+              <button
+                className="button-lesson button button--small button--tertiary m-r-xxs"
+                type="button"
+                onClick={() => {
+                  setToggleLesson(!toggleLesson)
+                  setToggleExample(false)
+                }}
+              >
+                <i
+                  className={`fas fa-chevron-${
+                    toggleLesson ? 'up' : 'down'
+                  } m-r-xxs`}
+                />
+                Lesson
+              </button>
+            )}
+            {tooltip && <Tooltip content={tooltip} className="inline-block" />}
+          </div>
+        )}
+
+        {hasExample && (
+          <dl
+            className={`form-group-example bg-blue-deep-10 p-xs m-b-xs ${
+              toggleExample ? '' : 'hidden'
+            }`}
+          >
+            <dt className="body-l-b">
+              {example.header
+                ? example.header
+                : 'A fictional example to help you complete this section'}
+            </dt>
+            <dd className="m-t-xxs body-l">
+              {ReactHtmlParser(example.content)}
+            </dd>
+          </dl>
+        )}
+        {hasLesson && <LessonLearn {...lesson} show={toggleLesson} />}
+        <ErrorList errors={errors} />
+        {children}
+      </div>
+    )
+  }
 )
 
 FormGroup.propTypes = {
@@ -48,14 +110,25 @@ FormGroup.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
-  example: PropTypes.string,
+  example: PropTypes.shape({
+    buttonTitle: PropTypes.string,
+    header: PropTypes.string,
+    content: PropTypes.string,
+  }),
   hideLabel: PropTypes.bool,
+  lesson: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string,
+  }),
 }
 
 FormGroup.defaultProps = {
   errors: [],
   description: '',
   tooltip: '',
-  example: '',
-  hideLabel: false
+  example: {},
+  hideLabel: false,
+  lesson: {},
 }

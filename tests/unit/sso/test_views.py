@@ -1,13 +1,12 @@
 from unittest import mock
 
 import pytest
-
 from django.conf import settings
 from django.urls import reverse
+from requests.cookies import RequestsCookieJar
 
 from sso import helpers
 from tests.helpers import create_response
-from requests.cookies import RequestsCookieJar
 
 
 @pytest.mark.django_db
@@ -59,6 +58,7 @@ def test_business_sso_user_create_validation_error(client):
 def test_business_sso_logout(client, requests_mock):
     cookie_jar = RequestsCookieJar()
     cookie_jar.set(settings.SSO_DISPLAY_LOGGED_IN_COOKIE, value='false', domain='.great')
+    cookie_jar.set(settings.SSO_SESSION_COOKIE, value='123', domain='.great')
     requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302, cookies=cookie_jar)
     response = client.post(reverse('sso:business-sso-logout-api'), {})
 
@@ -81,7 +81,7 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
         email=data['email'],
         verification_code='12345',
         form_url=url,
-        verification_link='http://testserver/signup/?verify=test@example.com'
+        verification_link='http://testserver/signup/?verify=test@example.com',
     )
 
 

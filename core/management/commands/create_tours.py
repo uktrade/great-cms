@@ -2,7 +2,6 @@ from django.core.management import BaseCommand
 
 from core import models
 
-
 defaults = dict(
     title='Welcome to your export plan',
     button_text='Show me around',
@@ -44,16 +43,13 @@ defaults = dict(
             position='bottom',
             selector='#personalisation-bar',
         ),
-    ]
+    ],
 )
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
-        export_plan_dashboard = models.DetailPage.objects.filter().get(
-            template='exportplan/dashboard_page.html'
-        )
+        export_plan_dashboard = models.DetailPage.objects.filter().get(template='exportplan/dashboard_page.html')
         if export_plan_dashboard:
             models.Tour.objects.get_or_create(page=export_plan_dashboard, defaults=defaults)
         for page in models.DetailPage.objects.filter(template='exportplan/export_plan_dashboard_page.html'):

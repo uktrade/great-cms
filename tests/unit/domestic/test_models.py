@@ -1,11 +1,13 @@
-import pytest
-from wagtail.tests.utils import WagtailPageTests
 from unittest import mock
 
+import pytest
+from wagtail.tests.utils import WagtailPageTests
+
 from core import mixins
-from domestic.models import DomesticHomePage, DomesticDashboard
+from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
-from .factories import DomesticHomePageFactory, DomesticDashboardFactory
+from domestic.models import DomesticDashboard, DomesticHomePage
+from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
@@ -13,13 +15,10 @@ from tests.unit.core.factories import (
     ListPageFactory,
     TopicPageFactory,
 )
-from tests.helpers import create_response
-
-from directory_api_client import api_client
+from .factories import DomesticDashboardFactory, DomesticHomePageFactory
 
 
 class DomesticHomePageTests(WagtailPageTests):
-
     def test_page_is_exclusive(self):
         assert issubclass(DomesticHomePage, mixins.WagtailAdminExclusivePageMixin)
 
@@ -46,7 +45,6 @@ class DomesticHomePageTests(WagtailPageTests):
 
 
 class DomesticDashboardTests(WagtailPageTests):
-
     def test_page_is_exclusive(self):
         assert issubclass(DomesticDashboard, mixins.WagtailAdminExclusivePageMixin)
 
@@ -95,7 +93,7 @@ def test_dashboard_page_routing(
         components__2__route__route_type='plan',
         components__2__route__title='Planning title',
         components__2__route__body='Planning Body Text',
-        components__2__route__button={'label': 'Start planning'}
+        components__2__route__button={'label': 'Start planning'},
     )
     # All three routes should be visible
     mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok'})
@@ -117,14 +115,16 @@ def test_dashboard_page_routing(
         parent=topic_one,
         slug='lesson-one',
     )
-    LessonPlaceholderPageFactory(
-        parent=topic_one,
-        title='Placeholder To Show They Do Not Interfere With Counts'
-    )
+    LessonPlaceholderPageFactory(parent=topic_one, title='Placeholder To Show They Do Not Interfere With Counts')
 
-    mock_get_user_lesson_completed.return_value = create_response(json_body={'result': 'ok', 'lesson_completed': [
-        {'lesson': lesson_one.id},
-    ]})
+    mock_get_user_lesson_completed.return_value = create_response(
+        json_body={
+            'result': 'ok',
+            'lesson_completed': [
+                {'lesson': lesson_one.id},
+            ],
+        }
+    )
 
     # the learning route should be disabled
     context_data = dashboard.get_context(get_request)
@@ -140,6 +140,7 @@ def test_dashboard_page_routing(
     # page visit on exportplan dashboard should make plan section disappear
     assert context_data['routes']['plan'].value.get('enabled') is True
     mock_get_user_page_views.return_value = create_response(
-        json_body={'result': 'ok', 'page_views': {'/export-plan/dashboard/': {'service': 'great-cms'}}})
+        json_body={'result': 'ok', 'page_views': {'/export-plan/dashboard/': {'service': 'great-cms'}}}
+    )
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['plan'].value.get('enabled') is False

@@ -22,7 +22,10 @@ function RadioButtons(props) {
   }, [])
 
   const changeVal = (evt) => {
-    updateSelection({ name: evt.target.getAttribute('data-label'), id: evt.target.value })
+    updateSelection({
+      name: evt.target.getAttribute('data-label'),
+      id: evt.target.value,
+    })
   }
 
   const buttons = (attribute.attrs || []).map((option) => {
@@ -34,7 +37,11 @@ function RadioButtons(props) {
       </span>
     )
     return (
-      <label key={option.id} htmlFor={option.id} className="multiple-choice p-f-m m-v-xxs">
+      <label
+        key={option.id}
+        htmlFor={option.id}
+        className="multiple-choice p-f-m m-v-xxs"
+      >
         <input
           type="radio"
           className="radio"
@@ -59,7 +66,13 @@ function RadioButtons(props) {
 RadioButtons.propTypes = {
   attribute: PropTypes.shape({
     id: PropTypes.string,
-    attrs: PropTypes.array,
+    attrs: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        name: PropTypes.string,
+        id: PropTypes.string,
+      })
+    ),
   }).isRequired,
   valueChange: PropTypes.func.isRequired,
 }
@@ -90,7 +103,9 @@ export default function Interaction(props) {
   return (
     <div className="interaction grid m-v-xs" key={attribute.id}>
       <div className="c-fullwidth">
-        <span className="interaction-name h-s p-t-0">{capitalize(attribute.label)}</span>
+        <span className="interaction-name h-s p-t-0">
+          {capitalize(attribute.label)}
+        </span>
         <p className="m-v-xs">Select the best match for your product.</p>
         <RadioButtons attribute={attribute} valueChange={valueChange} />
         <button
@@ -109,7 +124,8 @@ export default function Interaction(props) {
 
 Interaction.propTypes = {
   txId: PropTypes.string.isRequired,
-  attribute: PropTypes.shape({ id: PropTypes.string, label: PropTypes.string }).isRequired,
+  attribute: PropTypes.shape({ id: PropTypes.string, label: PropTypes.string })
+    .isRequired,
   isItemChoice: PropTypes.bool,
   processResponse: PropTypes.func.isRequired,
 }

@@ -1,24 +1,22 @@
 import abc
-import datetime
+import json
 import logging
-import math
 
-from directory_constants import choices
+from directory_forms_api_client.helpers import Sender
+from django.conf import settings
+from django.template.response import TemplateResponse
+from django.urls import reverse_lazy
+from django.views.generic import FormView, TemplateView
 from formtools.wizard.views import NamedUrlSessionWizardView
+from great_components.mixins import GA360Mixin
 from rest_framework import generics
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from django.template.response import TemplateResponse
-from django.views.generic import TemplateView, FormView
-from core.fern import Fern
-from django.conf import settings
-from great_components.mixins import GA360Mixin
-
-from django.urls import reverse_lazy
-from directory_forms_api_client.helpers import Sender
-from core import forms, helpers, serializers, cms_slugs
+from core import cms_slugs, forms, helpers, serializers
+from core.mixins import PageTitleMixin
+from directory_constants import choices
+from domestic.models import DomesticDashboard
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +48,7 @@ class ArticleView(GA360Mixin, FormView):
             business_unit='MagnaUnit',
             site_section='capability',
         )
+
     template_name = 'core/article.html'
     success_url = cms_slugs.DASHBOARD_URL
     form_class = forms.NoOperationForm
@@ -63,7 +62,7 @@ class ArticleView(GA360Mixin, FormView):
         )
 
 
-class LoginView(GA360Mixin, TemplateView):
+class LoginView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -71,10 +70,12 @@ class LoginView(GA360Mixin, TemplateView):
             business_unit='MagnaUnit',
             site_section='login',
         )
+
     template_name = 'core/login.html'
+    title = 'Log in'
 
 
-class SignupView(GA360Mixin, TemplateView):
+class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -82,7 +83,9 @@ class SignupView(GA360Mixin, TemplateView):
             business_unit='MagnaUnit',
             site_section='signup',
         )
+
     template_name = 'core/signup.html'
+    title = 'Sign up'
 
 
 class MarketsView(GA360Mixin, TemplateView):
@@ -106,13 +109,11 @@ class MarketsView(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
-            page_title=self.get_page_title(),
-            most_popular_countries=self.get_most_popular_countries(),
-            **kwargs
+            page_title=self.get_page_title(), most_popular_countries=self.get_most_popular_countries(), **kwargs
         )
 
 
-class TargetMarketView(GA360Mixin, TemplateView):
+class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -120,63 +121,40 @@ class TargetMarketView(GA360Mixin, TemplateView):
             business_unit='MagnaUnit',
             site_section='target markets',
         )
-    template_name = 'core/target_markets.html'
+
+    template_name = 'core/compare_countries.html'
+    title = 'Compare countries'
 
     def get_context_data(self, **kwargs):
+        dashboard = DomesticDashboard.objects.live().first()
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan
-        # Set to {'population':True} to enable page
-        context['data_tabs_enabled'] = {}
+            context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
+            context['dashboard_components'] = dashboard.components if dashboard else None
+            context['no_refresh_on_market_change'] = True
         return context
 
 
-class ProductLookupView(generics.GenericAPIView):
-    serializer_class = serializers.ProductLookupSerializer
-    permission_classes = []
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        if 'tx_id' in serializer.validated_data:
-            data = helpers.search_commodity_refine(**serializer.validated_data)
-        else:
-            data = helpers.search_commodity_by_term(term=serializer.validated_data['proddesc'])
-        return Response(data)
-
-
 class CountriesView(generics.GenericAPIView):
-
     def get(self, request):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
 class SuggestedCountriesView(generics.GenericAPIView):
-
     def get(self, request):
         hs_code = request.GET.get('hs_code')
-        return Response(helpers.get_suggested_countries_by_hs_code(
-            sso_session_id=self.request.user.session_id,
-            hs_code=hs_code
-        ))
+        return Response(
+            helpers.get_suggested_countries_by_hs_code(sso_session_id=self.request.user.session_id, hs_code=hs_code)
+        )
 
 
 def handler404(request, *args, **kwargs):
-    return TemplateResponse(
-        request=request,
-        template='core/404.html',
-        context={},
-        status=404
-    )
+    return TemplateResponse(request=request, template='core/404.html', context={}, status=404)
 
 
 def handler500(request, *args, **kwargs):
-    return TemplateResponse(
-        request=request,
-        template='core/500.html',
-        context={},
-        status=500
-    )
+    return TemplateResponse(request=request, template='core/500.html', context={}, status=500)
 
 
 class AbstractSignupWizardView(abc.ABC):
@@ -264,6 +242,7 @@ class CompanyNameFormView(GA360Mixin, FormView):
             business_unit='MagnaUnit',
             site_section='signup-company-name',
         )
+
     template_name = 'core/company-name-form.html'
     form_class = forms.CompanyNameForm
 
@@ -275,43 +254,11 @@ class CompanyNameFormView(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class CreateTokenView(generics.GenericAPIView):
-    permission_classes = []
-
-    def get(self, request):
-        # expire access @ now() in msec + BETA_TOKEN_EXPIRATION_DAYS days
-        plaintext = str(datetime.datetime.now() + datetime.timedelta(days=settings.BETA_TOKEN_EXPIRATION_DAYS))
-        base_url = settings.BASE_URL
-        # ability to edit target URL by using path param
-        extra_url_params = 'signup'
-        if request.GET.get('path'):
-            extra_url_params = request.GET.get('path')
-        # TODO: logging
-        # print(f'token valid until {plaintext}')
-        fern = Fern()
-        ciphertext = fern.encrypt(plaintext)
-        response = {'valid_until': plaintext, 'token': ciphertext,
-                    'CLIENT URL': f'{base_url}/{extra_url_params}?enc={ciphertext}'}
-        return Response(response)
-
-
-class CheckView(generics.GenericAPIView):
-    def get(self, request):
-        try:
-            response = helpers.search_commodity_by_term(term='feta', json=False)
-            response_code = response.json()['data']['hsCode']
-            return Response({'status': status.HTTP_200_OK,
-                             'CCCE_API': {'status': status.HTTP_200_OK, 'response_body': response_code,
-                                          'elapsed_time': math.floor(response.elapsed.total_seconds() * 1000)}})
-        except Exception as e:
-            logger.exception(e)
-            return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': response.status_code}})
-
-
-class ContactUsHelpFormView(FormView):
+class ContactUsHelpFormView(PageTitleMixin, FormView):
     form_class = forms.ContactUsHelpForm
     template_name = 'core/contact-us-help-form.html'
     success_url = reverse_lazy('core:contact-us-success')
+    title = 'Contact us'
 
     def get_form_kwargs(self):
         form_kwargs = super().get_form_kwargs()

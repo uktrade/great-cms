@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from directory_validators.string import no_html
+from rest_framework import serializers
 
 
 class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
@@ -38,7 +38,10 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
     competitors = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     trend = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     unqiue_selling_proposition = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    average_price = serializers.IntegerField(required=False, allow_null=True,)
+    average_price = serializers.IntegerField(
+        required=False,
+        allow_null=True,
+    )
 
 
 class MarketingApproachSerializer(serializers.Serializer):

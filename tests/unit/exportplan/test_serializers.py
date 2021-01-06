@@ -7,7 +7,7 @@ def test_about_your_business_serializer():
         'story': 'Lorem ipsum',
         'location': 'Consectetur adipisicing elit',
         'packaging': 'Dolor sit amet',
-        'processes': 'Sed do eiusmod tempor incididunt'
+        'processes': 'Sed do eiusmod tempor incididunt',
     }
 
     serializer = serializers.AboutYourBuinessSerializer(data=data)
@@ -31,12 +31,7 @@ def test_about_your_business_serializer_allows_blank_omitted():
 
 def test_export_plan_serializer_empty_target_markets():
 
-    data = {
-        'about_your_business': {
-            'story': '',
-            'location': ''
-        }
-    }
+    data = {'about_your_business': {'story': '', 'location': ''}}
 
     serializer = serializers.ExportPlanSerializer(data=data)
 
@@ -105,9 +100,7 @@ def test_new_objective_serializer():
 
 def test_pk_only_serializer():
 
-    data = {
-        'pk': 1
-    }
+    data = {'pk': 1}
 
     serializer = serializers.PkOnlySerializer(data=data)
 
@@ -122,7 +115,7 @@ def target_markets_research_serializer():
         'competitors': 'Consectetur adipisicing elit',
         'trend': 'Dolor sit amet',
         'unqiue_selling_proposition': 'Sed do eiusmod tempor incididunt',
-        'average_price': 10
+        'average_price': 10,
     }
 
     serializer = serializers.TargetMarketsResearchSerializer(data=data)

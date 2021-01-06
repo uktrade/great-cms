@@ -18,8 +18,12 @@
   "rules": {
     "no-console": "warn",
     "import/no-unresolved": "off",
-    "quotes": "error"
+    "quotes": "error",
+    "react/jsx-max-props-per-line": [2, { "maximum": 2, "when": "always" }],
+    "import/prefer-default-export": "off",
+    "arrow-body-style": 0
   },
+  "plugins": ["prettier"],
   "overrides": [
     {
       "files": ["./tests/**/*.test.jsx"],
@@ -42,7 +46,7 @@
         "./src/components/TargetMarketCountries.jsx",
         "./src/components/ObjectivesList.jsx",
         "./src/components/Objective.jsx",
-        ".src/components/ProductFinder.jsx",
+        ".src/components/ProductFinder.jsx"
       ],
       "rules": {
         "no-underscore-dangle": "off",
@@ -51,7 +55,7 @@
         "react/no-array-index-key": "off",
         "class-methods-use-this": "off",
         "no-param-reassign": "off",
-        "camelcase": "off",
+        "camelcase": "off"
       }
     }
   ]

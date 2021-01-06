@@ -17,7 +17,7 @@ export const ComingSoon = ({ isOpen, onClick }) => (
       content="This Beta version is limited"
       onClick={onClick}
       buttonText="Ok"
-      type={3}
+      type='3'
     />
   </ReactModal>
 )

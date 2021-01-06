@@ -1,18 +1,17 @@
-import pytest
+from unittest import mock
 
+import pytest
+from directory_forms_api_client import actions
 from django.http import JsonResponse
 from django.urls import reverse
 from requests.cookies import RequestsCookieJar
 from requests.exceptions import HTTPError
 from rest_framework.exceptions import APIException
-from unittest import mock
 
 from directory_api_client import api_client
-from directory_forms_api_client import actions
 from directory_sso_api_client import sso_api_client
 from sso import helpers
 from tests.helpers import create_response
-
 from tests.unit.core.factories import DetailPageFactory
 
 test_response = {'result': 'ok'}
@@ -25,11 +24,7 @@ def test_set_cookies_from_cookie_jar():
     cookie_jar.set('foo', 'a secret value', domain='httpbin.org', path='/cookies')
     cookie_jar.set('bar', 'a secret value', domain='httpbin.org', path='/elsewhere')
 
-    helpers.set_cookies_from_cookie_jar(
-        cookie_jar=cookie_jar,
-        response=response,
-        whitelist=['bar']
-    )
+    helpers.set_cookies_from_cookie_jar(cookie_jar=cookie_jar, response=response, whitelist=['bar'])
 
     assert 'foo' not in response.cookies
     assert 'bar' in response.cookies
@@ -43,22 +38,17 @@ def test_get_cookie():
     cookie_jar.set('foo', 'a secret value', domain='httpbin.org', path='/cookies')
     cookie_jar.set('bar', 'a secret value - bar', domain='httpbin.org', path='/elsewhere')
 
-    cookie = helpers.get_cookie(
-        cookie_jar=cookie_jar,
-        name='bar'
-    )
+    cookie = helpers.get_cookie(cookie_jar=cookie_jar, name='bar')
     assert cookie.value == 'a secret value - bar'
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_verification_code_email(mock_action_class, settings):
-    verification_code = {
-        'expiration_date': '2020-12-01T13:12:10',
-        'code': '12345678'
-    }
+    verification_code = {'expiration_date': '2020-12-01T13:12:10', 'code': '12345678'}
 
     helpers.send_verification_code_email(
-        email='jim@example.com', verification_code=verification_code, form_url='foo', verification_link='/somewhere')
+        email='jim@example.com', verification_code=verification_code, form_url='foo', verification_link='/somewhere'
+    )
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
         template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
@@ -193,26 +183,21 @@ def test_set_user_page_view_fail(mock_set_user_page_view, user):
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
 def test_has_visited_page(mock_get_user_page_views):
     mock_get_user_page_views.return_value = create_response(
-        status_code=200,
-        json_body={'result': 'ok', 'page_views': {'dashboard': 1}}
+        status_code=200, json_body={'result': 'ok', 'page_views': {'dashboard': 1}}
     )
     assert helpers.has_visited_page(123, page='dashboard') is not None
 
 
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
 def test_has_not_visited_page(mock_get_user_page_views):
-    mock_get_user_page_views.return_value = create_response(
-        status_code=200,
-        json_body={'result': 'ok'}
-    )
+    mock_get_user_page_views.return_value = create_response(status_code=200, json_body={'result': 'ok'})
     assert helpers.has_visited_page(123, page='dashboard') is None
 
 
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
 def test_has_visited_page_fail(mock_get_user_page_views):
     mock_get_user_page_views.return_value = create_response(
-        status_code=400,
-        json_body={'result': 'ok', 'page_views': {'dashboard': 1}}
+        status_code=400, json_body={'result': 'ok', 'page_views': {'dashboard': 1}}
     )
     with pytest.raises(APIException):
         helpers.has_visited_page(123, page='dashbooard')
@@ -253,10 +238,7 @@ def test_delete_lesson_completed(mock_delete_user_lesson_completed, client, user
 
 @mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_has_lesson_completed_get_fail(mock_get_user_lesson_completed):
-    mock_get_user_lesson_completed.return_value = create_response(
-        status_code=400,
-        json_body={'result': 'ok'}
-    )
+    mock_get_user_lesson_completed.return_value = create_response(status_code=400, json_body={'result': 'ok'})
     with pytest.raises(APIException):
         helpers.get_lesson_completed(123, lesson='1')
 

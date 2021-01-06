@@ -1,8 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import translation
-from core import cms_slugs
-from config import settings
 from great_components import helpers as great_components_helpers
+
+from config import settings
+from core import cms_slugs
 
 
 class WagtailAdminExclusivePageMixin:
@@ -24,7 +25,7 @@ class EnableTourMixin:
                 'title': self.tour.title,
                 'body': self.tour.body,
                 'button_text': self.tour.button_text,
-                'steps': list(self.tour.steps.values('title', 'body', 'position', 'selector'))
+                'steps': list(self.tour.steps.values('title', 'body', 'position', 'selector')),
             }
         except ObjectDoesNotExist:
             pass
@@ -83,3 +84,15 @@ class WagtailGA360Mixin:
         self.ga360_payload['login_status'] = is_logged_in
         self.ga360_payload['user_id'] = user.hashed_uuid if is_logged_in else None
         self.ga360_payload['site_language'] = translation.get_language()
+
+
+class PageTitleMixin:
+    # used by views to set a page title attribute
+    def get_page_title(self):
+        return getattr(self, 'title')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.setdefault('page', {})['title'] = self.get_page_title()
+
+        return context

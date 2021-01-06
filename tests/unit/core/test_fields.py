@@ -8,12 +8,7 @@ from core import fields
 @pytest.mark.django_db
 def test_single_struct_block_stream_field_factory():
     field = fields.single_struct_block_stream_field_factory(
-        'test',
-        block_class_instance=blocks.TextBlock(),
-        max_num=6,
-        min_num=1,
-        null=True,
-        blank=True
+        'test', block_class_instance=blocks.TextBlock(), max_num=6, min_num=1, null=True, blank=True
     )
     assert isinstance(field, StreamField)
     assert field.null is True

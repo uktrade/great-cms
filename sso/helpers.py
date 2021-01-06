@@ -1,21 +1,18 @@
-from http import cookiejar
 import re
-
-from directory_api_client import api_client
-from directory_forms_api_client import actions
-from directory_sso_api_client import sso_api_client
+from http import cookiejar
 
 import requests
-from rest_framework.response import Response
-from rest_framework.exceptions import APIException
-
+from directory_forms_api_client import actions
 from django.conf import settings
 from django.utils import formats
 from django.utils.dateparse import parse_datetime
+from rest_framework.exceptions import APIException
+from rest_framework.response import Response
 
 from core.constants import SERVICE_NAME
 from core.models import DetailPage
-
+from directory_api_client import api_client
+from directory_sso_api_client import sso_api_client
 
 ADMIN_URL_PATTERN = re.compile(r'^\/(django\-)?admin\/.*')
 
@@ -44,11 +41,7 @@ def set_cookies_from_cookie_jar(cookie_jar, response, whitelist):
 
 def get_cookie_jar(response):
     cookie_jar = requests.cookies.RequestsCookieJar(policy=LiberalCookiePolicy())
-    requests.cookies.extract_cookies_to_jar(
-        jar=cookie_jar,
-        request=response.request,
-        response=response.raw
-    )
+    requests.cookies.extract_cookies_to_jar(jar=cookie_jar, request=response.request, response=response.raw)
     return cookie_jar
 
 
@@ -64,7 +57,7 @@ def response_factory(upstream_response):
     set_cookies_from_cookie_jar(
         cookie_jar=cookie_jar,
         response=response,
-        whitelist=[settings.SSO_SESSION_COOKIE, settings.SSO_DISPLAY_LOGGED_IN_COOKIE]
+        whitelist=[settings.SSO_SESSION_COOKIE, settings.SSO_DISPLAY_LOGGED_IN_COOKIE],
     )
     return response
 
@@ -78,11 +71,13 @@ def send_verification_code_email(email, verification_code, form_url, verificatio
 
     expiry_date = parse_datetime(verification_code['expiration_date'])
     formatted_expiry_date = formats.date_format(expiry_date, 'DATETIME_FORMAT')
-    response = action.save({
-        'code': verification_code['code'],
-        'expiry_date': formatted_expiry_date,
-        'verification_link': verification_link
-    })
+    response = action.save(
+        {
+            'code': verification_code['code'],
+            'expiry_date': formatted_expiry_date,
+            'verification_link': verification_link,
+        }
+    )
     response.raise_for_status()
     return response
 

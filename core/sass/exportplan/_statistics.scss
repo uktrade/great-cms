@@ -1,10 +1,14 @@
 .statistic {
+  // Vars
+  --line-rule: 1px solid #e0e0e0;
+
   @extend .bg-white;
   @extend .radius;
   display: block;
   padding: 10px 20px;
+  width: 100%;
 
-  @include tablet {
+  @include breakpoint(sm) {
     margin-bottom: 30px;
   }
 
@@ -19,36 +23,142 @@
     padding: 5px 10px;
   }
 
-}
+  dl {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 
-.statistic__caption {
-  font-size: $font-size-small-mobile;
-  margin: 0;
+    @include breakpoint(sm) {
+      flex-direction: column;
+      width: unset;
+    }
 
-  @include tablet {
-    font-size: $font-size-small-desktop;
+    border-bottom: var(--line-rule);
+    padding-bottom: 10px;
+
+    @include breakpoint(sm) {
+      border-bottom: unset;
+      padding-bottom: unset;
+    }
   }
-}
 
-.statistic__figure {
-  margin: 0;
+  &__caption {
+    font-size: $font-size-small-mobile;
+    margin: 0;
+
+    @include tablet {
+      font-size: $font-size-small-desktop;
+    }
+  }
+
+  &__figure {
+    margin: 0;
+    padding: 0;
+    text-align: right;
+
+    @include breakpoint(sm) {
+      text-align: left;
+    }
+  }
 }
 
 .statistic__group {
   display: flex;
   justify-content: space-between;
   position: relative;
+  flex-flow: wrap;
 }
 
 .statistic__percentage {
   height: 4px;
-  position: absolute;
-  top: 54px;
   width: 100%;
 
   span {
     display: block;
     height: 4px;
     transition: width 1s;
+  }
+}
+
+// Container fix for new design for mobile without refactoring the react components.
+.stat-group {
+  @extend .bg-white;
+
+  &:first-of-type {
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+
+    div[class^='c-']:first-of-type dl {
+      padding-top: 10px;
+
+      @include breakpoint(sm) {
+        padding-top: unset;
+      }
+    }
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+
+    // Last grid col dl
+    div[class^='c-']:last-of-type dl {
+      border-bottom: none;
+    }
+
+    margin-bottom: 20px;
+
+    @include breakpoint(sm) {
+      margin-bottom: unset;
+    }
+  }
+
+  @include breakpoint(sm) {
+    background-color: unset;
+    border-radius: unset;
+  }
+
+  .grid,
+  div[class^='c-'] {
+    display: flex;
+  }
+
+  .grid {
+    flex-flow: column;
+    @include breakpoint(sm) {
+      flex-direction: row;
+    }
+  }
+}
+
+.stat-group--cols {
+  .statistic__group {
+    flex-flow: row wrap;
+  }
+
+  dl {
+    max-width: 49%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.stat-group--percentage {
+  dl {
+    & + dl {
+      align-items: flex-end;
+    }
+  }
+
+  &:first-of-type {
+    .statistic__group {
+      border-bottom: var(--line-rule);
+
+      @include breakpoint(sm) {
+        border-bottom: unset;
+      }
+    }
   }
 }

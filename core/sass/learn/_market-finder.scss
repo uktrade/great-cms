@@ -1,15 +1,26 @@
 @import 'helpers/colours';
 .market-details {
   button.iconic {
-    color: $blue-deep-30;
+    color: $blue-deep-80;
     transition: color 0.1s;
     &:hover {
       color: $blue-deep-40;
     }
   }
-  table td,
-  table th {
-    border-bottom: 1px solid $blue-deep-20;
+  table {
+    margin: 0 0;
+
+    td, th {
+      vertical-align: middle;
+      text-align: right;
+      border-bottom: 1px solid $blue-deep-20;
+    }
+    td.name {
+      text-align: left;
+    }
+    td.no-data {
+      text-align: center;
+    }
   }
   button {
     color: $white;
@@ -17,4 +28,8 @@
 }
 .add-market {
     color: $white;
+    margin-top: 20px;
+}
+.source-attribution {
+  margin: 20px 0 0;
 }

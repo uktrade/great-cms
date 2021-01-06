@@ -1,19 +1,18 @@
 from io import BytesIO
 from unittest import mock
-import pytest
 
+import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse
+from django.utils.text import slugify
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
-from django.urls import reverse
 from config import settings
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.utils.text import slugify
-
+from directory_api_client.client import api_client
+from exportplan import data, helpers
 from tests.helpers import create_response, reload_urlconf
 from tests.unit.exportplan.factories import ExportPlanDashboardPageFactory
-from exportplan import data, helpers
-from directory_api_client.client import api_client
 
 
 @pytest.fixture
@@ -29,16 +28,60 @@ def company_profile_data():
         'number': '1234567',
         'slug': 'cool-company',
         'created': '2012-06-15T13:45:30.00000Z',
-        'modified': '2019-04-05T06:43:23.00000Z'
+        'modified': '2019-04-05T06:43:23.00000Z',
     }
+
+
+@pytest.fixture(autouse=True)
+def export_plan_data():
+    return {
+        'about_your_business': '',
+        'target_markets_research': '',
+        'adaptation_target_market': [],
+        'target_market_documents': {'document_name': 'test'},
+        'route_to_markets': {'route': 'test'},
+        'marketing_approach': {'resources': 'xyz'},
+        'company_objectives': {},
+        'objectives': {'rationale': 'business rationale'},
+        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
+    }
+
+
+@pytest.fixture()
+def export_plan_data_with_no_countries():
+    return {
+        'about_your_business': '',
+        'target_markets_research': '',
+        'adaptation_target_market': [],
+        'target_market_documents': {'document_name': 'test'},
+        'route_to_markets': {'route': 'test'},
+        'marketing_approach': {'resources': 'xyz'},
+        'company_objectives': {},
+        'objectives': {'rationale': 'business rationale'},
+        'export_countries': [],
+    }
+
+
+@pytest.fixture(autouse=True)
+def mock_get_create_export_plan(export_plan_data):
+    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=export_plan_data)
+
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture()
+def mock_get_create_export_plan_with_no_countries(export_plan_data_with_no_countries):
+    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=export_plan_data_with_no_countries)
+
+    yield patch.start()
+    patch.stop()
 
 
 @pytest.fixture(autouse=True)
 def mock_cia_factbook_data():
     patch = mock.patch.object(
-        helpers,
-        'get_cia_world_factbook_data',
-        return_value={'language': 'Dutch', 'note': 'Many other too'}
+        helpers, 'get_cia_world_factbook_data', return_value={'language': 'Dutch', 'note': 'Many other too'}
     )
 
     yield patch.start()
@@ -74,8 +117,13 @@ def test_export_plan_landing_page(client, exportplan_homepage, user, mock_get_co
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_export_plan_builder_landing_page(
-    mock_get_create_export_plan, client, exportplan_dashboard,
-    user, mock_get_company_profile, company_profile_data, export_plan_data
+    mock_get_create_export_plan,
+    client,
+    exportplan_dashboard,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+    export_plan_data,
 ):
     mock_get_create_export_plan.return_value = export_plan_data
     mock_get_company_profile.return_value = company_profile_data
@@ -91,9 +139,7 @@ def test_export_plan_builder_landing_page(
 @pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
 @mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(
-        mock_get_create_exportplan, mock_get_all_lessons, export_plan_data, slug, client, user
-):
+def test_exportplan_sections(mock_get_create_exportplan, mock_get_all_lessons, export_plan_data, slug, client, user):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -127,10 +173,7 @@ def test_edit_logo_page_submmit_success(client, mock_update_company, user):
     assert response.status_code == 302
     assert response.url == '/export-plan/dashboard/'
     assert mock_update_company.call_count == 1
-    assert mock_update_company.call_args == mock.call(
-        sso_session_id=user.session_id,
-        data={'logo': mock.ANY}
-    )
+    assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data={'logo': mock.ANY})
 
 
 @pytest.mark.django_db
@@ -174,9 +217,7 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, client, use
 def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, user):
     client.force_login(user)
 
-    mock_get_all_lesson_details.return_value = {
-        'lesson1': {'title': 'my lesson', 'url': 'my url'}
-    }
+    mock_get_all_lesson_details.return_value = {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
     slug = slugify('About your business')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
@@ -201,7 +242,7 @@ def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, us
         ('payment-methods', 'travel-and-business-policies'),
         ('travel-and-business-policies', 'business-risk'),
         ('business-risk', None),
-    )
+    ),
 )
 def test_export_plan_mixin(export_plan_data, slug, next_slug, client, user):
     client.force_login(user)
@@ -220,6 +261,14 @@ def test_404_when_invalid_section_slug(client, user):
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_url_with_export_plan_country_selected(mock_get_create_export_plan_with_no_countries, client, user):
+    url = reverse('exportplan:target-markets-research')
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db

@@ -1,24 +1,22 @@
-from collections import Counter
-from difflib import SequenceMatcher
-from logging import getLogger
-from io import StringIO
-from ipware import get_client_ip
-
 import csv
 import functools
-import requests
-
-from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
-from django.conf import settings
+import math
+from collections import Counter
+from difflib import SequenceMatcher
+from io import StringIO
+from logging import getLogger
 
 import great_components.helpers
+import requests
+from django.conf import settings
+from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
+from ipware import get_client_ip
+
+from core.models import CuratedListPage
+from core.serializers import parse_events, parse_opportunities
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-
-from core.serializers import parse_opportunities, parse_events
-from core.models import CuratedListPage
-
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
@@ -103,8 +101,7 @@ def store_user_location(request):
     location = get_location(request)
     if location:
         response = api_client.personalisation.user_location_create(
-            sso_session_id=request.user.session_id,
-            data=location
+            sso_session_id=request.user.session_id, data=location
         )
         if not response.ok:
             logger.error(USER_LOCATION_CREATE_ERROR)
@@ -124,7 +121,7 @@ def create_user_profile(data, sso_session_id):
 
 def get_dashboard_events(sso_session_id):
     results = api_client.personalisation.events_by_location_list(sso_session_id)
-    if (results.status_code == 200):
+    if results.status_code == 200:
         return parse_events(results.json()['results'])
     return []
 
@@ -133,7 +130,7 @@ def get_dashboard_export_opportunities(sso_session_id, company):
     sectors = company.expertise_industries_labels if company else []
     search_term = ' '.join(sectors)
     results = api_client.personalisation.export_opportunities_by_relevance_list(sso_session_id, search_term)
-    if (results.status_code == 200):
+    if results.status_code == 200:
         return parse_opportunities(results.json()['results'])
     return []
 
@@ -186,9 +183,11 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     @property
     def expertise_countries_labels(self):
-        return values_to_labels(
-            values=self.data['expertise_countries'], choices=self.COUNTRIES
-        ) if self.data.get('expertise_countries') else []
+        return (
+            values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
+            if self.data.get('expertise_countries')
+            else []
+        )
 
     @property
     def expertise_countries_value_label_pairs(self):
@@ -215,6 +214,15 @@ def values_to_value_label_pairs(values, choices):
     return [{'value': item, 'label': choices.get(item)} for item in values if item in choices]
 
 
+def ccce_headers():
+    return {
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+        'Authorization': settings.COMMODITY_SEARCH_TOKEN,
+    }
+
+
 def search_commodity_by_term(term, json=True):
     response = requests.post(
         url=settings.COMMODITY_SEARCH_URL,
@@ -225,12 +233,7 @@ def search_commodity_by_term(term, json=True):
             'stopAtHS6': 'Y',
             'schedule': 'import/export',
         },
-        headers={
-            'Accept': '*/*',
-            'Accept-Encoding': 'gzip, deflate',
-            'Content-Type': 'application/json',
-            'Authorization': settings.COMMODITY_SEARCH_TOKEN,
-        }
+        headers=ccce_headers(),
     )
 
     response.raise_for_status()
@@ -248,13 +251,15 @@ def search_commodity_refine(interaction_id, tx_id, values):
             'interactionid': interaction_id,
             'values': values,
         },
-        headers={
-            'Accept': '*/*',
-            'Accept-Encoding': 'gzip, deflate',
-            'Content-Type': 'application/json',
-            'Authorization': settings.COMMODITY_SEARCH_TOKEN,
-        }
+        headers=ccce_headers(),
     )
+    response.raise_for_status()
+    return response.json()
+
+
+def ccce_import_schedule(hs_code, origin_country='GB', destination_country='CA'):
+    url = f'{settings.CCCE_IMPORT_SCHEDULE_URL}/{hs_code}/{origin_country}/{destination_country}/'
+    response = requests.get(url=url, headers=ccce_headers())
     response.raise_for_status()
     return response.json()
 
@@ -319,7 +324,7 @@ def get_high_level_completion_progress(completion_status):
 
 
 def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
-    response = api_client.personalisation.suggested_countries_by_hs_code(sso_session_id=sso_session_id, hs_code=hs_code)
+    response = api_client.dataservices.suggested_countries_by_hs_code(hs_code=hs_code)
     response.raise_for_status()
     return response.json()
 
@@ -327,3 +332,10 @@ def get_suggested_countries_by_hs_code(sso_session_id, hs_code):
 def get_sender_ip_address(request):
     ip, is_routable = get_client_ip(request)
     return ip or None
+
+
+def millify(n):
+    n = float(n)
+    mill_names = ['', ' thousand', ' million', ' billion', ' trillion']
+    mill_idx = max(0, min(len(mill_names) - 1, int(math.floor(0 if n == 0 else math.log10(abs(n)) / 3))))
+    return '{0:.2f}{unit}'.format(n / 10 ** (3 * mill_idx), unit=mill_names[mill_idx])

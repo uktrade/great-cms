@@ -1,19 +1,16 @@
-from django.forms import Textarea
-from django.utils.html import mark_safe
-
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
-
-from great_components import forms
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from django.forms import Textarea
+from django.utils.html import mark_safe
+from great_components import forms
+
 from core.cms_slugs import TERMS_URL
 
 
 def build_checkbox(label):
     return forms.BooleanField(
-        label=label,
-        required=False,
-        widget=forms.CheckboxWithInlineLabel(attrs={'disabled': True})
+        label=label, required=False, widget=forms.CheckboxWithInlineLabel(attrs={'disabled': True})
     )
 
 
@@ -67,12 +64,7 @@ class ContactUsHelpForm(GovNotifyEmailActionMixin, forms.Form):
     given_name = forms.CharField(label='First name')
     family_name = forms.CharField(label='Last name')
     email = forms.EmailField()
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-        widget=ReCaptchaV3()
-
-    )
+    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
