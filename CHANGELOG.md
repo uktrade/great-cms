@@ -5,7 +5,6 @@
 ### Implemented enhancements
 - GP2-1127 - Renaming product at the end of product selection
 - GP2-1245 - Updated header contact link
-
 - GP2-1206 - Compare markets section on modal through compare markets (mobile and desktop)
 - GP2-1193 - Dynamic page title tags
 - GP2-1137 - Product finder endpage
