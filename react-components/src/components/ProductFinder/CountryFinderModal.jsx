@@ -215,7 +215,7 @@ export default function CountryFinderModal(props) {
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
-          <SearchInput onChange={searchChange} />
+          <SearchInput onChange={searchChange} iconClass="fa-search"/>
         </div>
       </div>
       <div className="grid">
