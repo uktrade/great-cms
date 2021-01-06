@@ -3,7 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
-
+- GP2-1245 - Updated header contact link
 - GP2-1193 - Dynamic page title tags
 - GP2-1137 - Product finder endpage
 - GP2-1057 - Remove unused styles from great-styles
