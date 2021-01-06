@@ -155,6 +155,10 @@ class ExportPlanMarketingApproachView(
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
         context['promotional_choices'] = promotional_choices
+        context['demographic_data'] = helpers.get_global_demographic_data(
+            self.export_plan['export_countries'][0]['country_name']
+        )
+        print(context['demographic_data'])
         return context
 
 
