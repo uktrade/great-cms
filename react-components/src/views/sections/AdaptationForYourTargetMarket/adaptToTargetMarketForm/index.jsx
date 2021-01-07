@@ -67,7 +67,7 @@ export const AdaptToTargetMarketForm = (params) => {
         tooltip: null,
       },
     ],
-    formData: { ...formData },
+    formData,
     companyexportplan: params.companyexportplan,
   }
   return (

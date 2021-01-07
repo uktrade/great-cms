@@ -65262,30 +65262,33 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************************************!*\
   !*** ./react-components/src/components/AddDocumentTypeForm/DocumentList.jsx ***!
   \******************************************************************************/
-/*! exports provided: default */
+/*! exports provided: DocumentList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentList", function() { return DocumentList; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
 
 
 
 
-var DocumentList = function DocumentList(props) {
-  var documents = props.documents,
-      deleteDocument = props.deleteDocument,
-      updateDocument = props.updateDocument;
+var DocumentList = function DocumentList(_ref) {
+  var documents = _ref.documents,
+      deleteDocument = _ref.deleteDocument,
+      updateDocument = _ref.updateDocument;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "target-market-documents-form"
   }, documents.length > 0 ? documents.map(function (doc) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: doc.pk,
       className: "user-form-group"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
       label: "Document name",
       id: doc.pk,
       placeholder: "Add document name here",
@@ -65295,13 +65298,12 @@ var DocumentList = function DocumentList(props) {
           document_name: e[doc.pk]
         });
       }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
       onChange: function onChange(e) {
         return updateDocument(doc.pk, {
           note: e[doc.pk]
         });
       },
-      key: doc.name,
       label: "Notes",
       id: doc.pk,
       value: doc.note,
@@ -65319,8 +65321,11 @@ var DocumentList = function DocumentList(props) {
     }))));
   }) : null);
 };
-
-/* harmony default export */ __webpack_exports__["default"] = (DocumentList);
+DocumentList.propTypes = {
+  documents: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
+  deleteDocument: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  updateDocument: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
 
 /***/ }),
 
@@ -65372,12 +65377,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.formData),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.formDataUserDocs),
       _useState2 = _slicedToArray(_useState, 2),
       documents = _useState2[0],
       setDocuments = _useState2[1];
 
   var addDocument = function addDocument() {
+    var document = {};
     document.document_name = '';
     document.note = '';
     _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].createAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, document), {}, {
@@ -73941,12 +73947,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
@@ -73990,7 +73990,7 @@ var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
       placeholder: 'Describe alterations',
       tooltip: null
     }],
-    formData: _objectSpread({}, formData),
+    formData: formData,
     companyexportplan: params.companyexportplan
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -74021,8 +74021,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params) {
-  var formData = params.formData; // debugger
-
+  var formDataUserDocs = params.formDataUserDocs,
+      formData = params.formData;
   var data = {
     field: 'adaptation_target_market',
     formFields: [{
@@ -74051,6 +74051,7 @@ var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params)
       tooltip: "<p>\n          An export declaration is a form submitted at the port when goods are leaving the country. The form has details about the goods and where they are heading.\n          <br /> \n          It is needed on all goods that are being exported outside the EU.\n        </p>"
     }],
     formData: formData,
+    formDataUserDocs: formDataUserDocs,
     companyexportplan: params.companyexportplan
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

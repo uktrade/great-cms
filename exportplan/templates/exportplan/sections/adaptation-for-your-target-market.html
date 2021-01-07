@@ -3,7 +3,6 @@
 
 {% block intro_title %}Adaptation for your target market{%endblock %}
 {% block intro_description %}
-{{ target_market_documents|safe }}
 Different markets will have different rules you have to follow when it comes
 to selling your product. It is likely you will have to modify your product to make it fit with regulatory and cultural
 requirements.
@@ -32,14 +31,13 @@ your target market.
 {% block user_input %}
 <section class="bg-blue-deep-10 m-t-l p-b-m">
   <div class="container">
-    <div class="grid">
-      <div class="c-1-4-l">&nbsp;</div>
-      <div class="c-1-1 c-1-2-l">
+    <div class="grid flex-grid">
+      <div class="c-1-1 c-2-3-l c-1-2-xl m-h-auto">
         <h2 class="h-xs p-t-l p-b-s">
           Data Snapshot: exporting {{ export_plan.export_commodity_codes.0.commodity_name }} to
           {{ export_plan.export_countries.0.country_name }}
         </h2>
-        <div id="stats-for-target-market">
+        <div id="stats-for-target-market" class="flex-direction-column">
           <div class="statistic">
             <dl>
               <dt class="statistic__caption">The main languages in your chosen market are:</dt>
@@ -127,7 +125,8 @@ your target market.
   magna.documentsForTargetMarketForm({
     element: element,
     field: 'adaptation_target_market',
-    formData: {{ target_market_documents|safe }},
+    formData: {{ form_initial|safe }},
+    formDataUserDocs: {{ target_market_documents|safe }},
     companyexportplan: {{ export_plan.pk }}
   })
 

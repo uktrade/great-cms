@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
+
 import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { FormElements } from '@src/components/FormElements'
 import { DocumentList } from './DocumentList'
 
 export const AddDocumentTypeForm = (props) => {
-  const [documents, setDocuments] = useState(props.formData)
+  const [documents, setDocuments] = useState(props.formDataUserDocs)
 
   const addDocument = () => {
+    const document = {}
     document.document_name = ''
     document.note = ''
 

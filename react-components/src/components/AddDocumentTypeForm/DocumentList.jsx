@@ -1,14 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
 import { TextArea } from '@src/components/Form/TextArea'
 
-export const DocumentList = (props) => {
-  const { documents, deleteDocument, updateDocument } = props
+export const DocumentList = ({ documents, deleteDocument, updateDocument }) => {
   return (
     <div className="target-market-documents-form">
       {documents.length > 0
         ? documents.map((doc) => (
-            <form key={doc.pk} className="user-form-group">
+            <div key={doc.pk} className="user-form-group">
               <Input
                 label="Document name"
                 id={doc.pk}
@@ -26,7 +26,6 @@ export const DocumentList = (props) => {
                     note: e[doc.pk],
                   })
                 }
-                key={doc.name}
                 label="Notes"
                 id={doc.pk}
                 value={doc.note}
@@ -41,9 +40,15 @@ export const DocumentList = (props) => {
                   <i className="fas fa-trash-alt" />
                 </button>
               </div>
-            </form>
+            </div>
           ))
         : null}
     </div>
   )
+}
+
+DocumentList.propTypes = {
+  documents: PropTypes.array.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
+  updateDocument: PropTypes.func.isRequired,
 }

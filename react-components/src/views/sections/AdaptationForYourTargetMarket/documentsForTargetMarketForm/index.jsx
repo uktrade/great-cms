@@ -3,8 +3,7 @@ import React from 'react'
 import { AddDocumentTypeForm } from '@src/components/AddDocumentTypeForm'
 
 export const DocumentsForTargetMarketForm = (params) => {
-  const { formData } = params
-  // debugger
+  const { formDataUserDocs, formData } = params
   const data = {
     field: 'adaptation_target_market',
     formFields: [
@@ -54,6 +53,7 @@ export const DocumentsForTargetMarketForm = (params) => {
       },
     ],
     formData,
+    formDataUserDocs,
     companyexportplan: params.companyexportplan,
   }
   return (
