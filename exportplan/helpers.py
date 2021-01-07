@@ -217,10 +217,10 @@ def get_current_url(slug, export_plan):
     return current_url
 
 
-def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, ):
-    if export_plan['ui_options'].get('target_ages') != target_ages:
+def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, section_name):
+    if export_plan['ui_options'].get(section_name, {}).get('target_ages') != target_ages:
         update_exportplan(
             sso_session_id=sso_session_id,
             id=export_plan['pk'],
-            data={'ui_options': {'target_ages': target_ages}},
+            data={'ui_options': {section_name: {'target_ages': target_ages}}},
         )

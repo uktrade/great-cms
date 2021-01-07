@@ -175,7 +175,7 @@ def export_plan_data():
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
         'target_markets_research': '',
-        'ui_options': {'target_ages': ['25-29', '47-49']},
+        'ui_options': {'marketing-approach': {'target_ages': ['25-29', '47-49']}},
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
@@ -192,11 +192,7 @@ def export_plan_data():
 
 @pytest.fixture
 def patch_get_create_export_plan(export_plan_data):
-    yield mock.patch.object(
-        exportplan_helpers,
-        'get_or_create_export_plan',
-        return_value=export_plan_data
-    )
+    yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
 
 @pytest.fixture(autouse=True)

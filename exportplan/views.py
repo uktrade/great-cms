@@ -170,9 +170,10 @@ class ExportPlanMarketingApproachView(
             self.export_plan['export_countries'][0]['country_name']
         )
 
-        if self.export_plan.get('ui_options', {}).get('target_ages'):
-            context['selected_age_groups'] = self.export_plan['ui_options']['target_ages']
-
+        if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
+            context['selected_age_groups'] = (
+                self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages')
+            )
         return context
 
 

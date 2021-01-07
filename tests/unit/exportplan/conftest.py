@@ -1,5 +1,7 @@
 from unittest import mock
+
 import pytest
+
 from exportplan import helpers
 
 
@@ -23,8 +25,6 @@ def mock_get_cia_world_factbook_data():
 
 @pytest.fixture(autouse=True)
 def mock_get_country_data():
-    patch = mock.patch.object(
-        helpers, 'get_country_data', return_value={'population_data': {'cpi': 100}}
-    )
+    patch = mock.patch.object(helpers, 'get_country_data', return_value={'population_data': {'cpi': 100}})
     yield patch.start()
     patch.stop()

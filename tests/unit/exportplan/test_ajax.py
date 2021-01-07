@@ -173,29 +173,26 @@ def test_recommended_countries_no_country(client, user):
 
 @pytest.mark.django_db
 def test_retrieve_marketing_country_data(
-        mock_cia_factbook_data, mock_get_country_data, mock_get_population_data, client, user
+    mock_get_cia_world_factbook_data, mock_get_country_data, mock_get_population_data, client, user
 ):
     client.force_login(user)
+
     url = reverse('exportplan:api-marketing-country-data')
     response = client.get(url, {'country': 'Canada', 'target_age_groups': ['19-25']})
 
-    assert mock_cia_factbook_data.call_count == 1
+    assert mock_get_cia_world_factbook_data.call_count == 1
     assert mock_get_country_data.call_count == 1
     assert mock_get_population_data.call_count == 1
-
-    assert mock_cia_factbook_data.call_args == mock.call(country='Canada', key='people,languages')
-    assert mock_get_population_data.call_args == mock.call(country=['Canada'], target_age_groups=['19-25'])
-    assert mock_get_country_data.call_args == mock.call(['Canada'])
-    assert response.json() == {
-        'cia_factbook_data': {'languages': ['English']},
-        'country_data': {'cpi': 100},
-    }
+    assert mock_get_cia_world_factbook_data.call_args == mock.call(country='Canada', key='people,languages')
+    assert mock_get_population_data.call_args == mock.call(country='Canada', target_ages=['19-25'])
+    assert mock_get_country_data.call_args == mock.call('Canada')
+    assert response.json() == {'population_data': {'cpi': 100}, 'cia_factbook_data': {'languages': ['English']}}
 
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_ui_options_target_ages')
 def test_retrieve_marketing_target_age_data(
-        mock_update_ui_options, mock_get_population_data, mock_get_export_plan, export_plan_data, client, user
+    mock_update_ui_options, mock_get_population_data, mock_get_export_plan, export_plan_data, client, user
 ):
     client.force_login(user)
 
@@ -207,7 +204,10 @@ def test_retrieve_marketing_target_age_data(
 
     assert mock_get_population_data.call_args == mock.call(country='Canada', target_ages=['0-5', '5-25'])
     assert mock_update_ui_options.call_args == mock.call(
-        export_plan=export_plan_data, sso_session_id='123', target_ages=['0-5', '5-25']
+        export_plan=export_plan_data,
+        sso_session_id='123',
+        target_ages=['0-5', '5-25'],
+        section_name='marketing-approach',
     )
 
     assert response.json() == mock_get_population_data.return_value
@@ -405,7 +405,7 @@ def test_update_export_plan_ui_option_api_view(mock_get_or_create_export_plan, m
     assert mock_update_exportplan.call_args == mock.call(
         data=OrderedDict([('ui_options', OrderedDict([('target_ages', ['25-34', ' 35-44'])]))]),
         id=1,
-        sso_session_id='123'
+        sso_session_id='123',
     )
 
 

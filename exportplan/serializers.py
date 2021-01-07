@@ -11,6 +11,7 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
 
 class PopulationDataSerializer(serializers.Serializer):
     country = serializers.CharField()
+    target_age_groups = serializers.ListField(child=serializers.CharField())
 
 
 class CountryTargetAgeDataSerializer(serializers.Serializer):

@@ -60,10 +60,16 @@ urlpatterns = [
     ),
     path('api/remove-sector/', skip_ga360(api.ExportPlanRemoveSectorView.as_view()), name='api-remove-sector'),
     path('api/country-data/', skip_ga360(api.ExportPlanCountryDataView.as_view()), name='api-country-data'),
-    path('api/population-data-by-country/', skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),
-         name='api-population-data-by-country'),
-    path('api/target-market-country-age-data/', skip_ga360(api.TargetMarketMarketingAgeData.as_view()),
-         name='api-target-market-country-age-data'),
+    path(
+        'api/population-data-by-country/',
+        skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),
+        name='api-population-data-by-country',
+    ),
+    path(
+        'api/target-market-country-age-data/',
+        skip_ga360(api.TargetMarketMarketingAgeData.as_view()),
+        name='api-target-market-country-age-data',
+    ),
     path(
         'api/population-data-by-country/',
         skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),
