@@ -8,7 +8,7 @@ import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
-import ClassificationTree from './ClassificationTree'
+import StartEndPage from './StartEndPage'
 import { analytics } from '../../Helpers'
 
 
@@ -64,23 +64,22 @@ export default function ProductFinderModal(props) {
     }
   }
 
-  const saveProduct = () => {
-    const productName = capitalize(searchResults.currentItemName)
-    const searchQuery = capitalize(searchResults.productDescription)
+  const saveProduct = (commodityCode, commodityName) => {
+
     setSelectedProduct({
-      name: productName,
-      code: searchResults.hsCode
+      name: commodityName,
+      code: commodityCode
     })
     analytics({
       event: 'addProductSuccess',
-      productKeyword: searchQuery,
-      productCode: searchResults.hsCode
+      productKeyword: capitalize(searchResults.productDescription),
+      productCode: commodityCode
     })
 
     Services.updateExportPlan({
         export_commodity_codes: [{
-          commodity_name: productName,
-          commodity_code: searchResults.hsCode
+          commodity_name: commodityName,
+          commodity_code: commodityCode
         }]
       })
       .then(() => {
@@ -234,20 +233,13 @@ export default function ProductFinderModal(props) {
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-l m-b-s">
+      <section className="m-h-l m-b-s body-l">
         <div className="h-m p-b-s">Match found</div>
-        <div className="box box--no-pointer">
-        <h3 className="h-xs p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
-        <div className="body-l">HS Code: {_searchResults.hsCode}</div>
-        <ClassificationTree hsCode={_searchResults.hsCode} />
-          <button 
-            className="button button--primary" 
-            type="button" 
-            onClick={saveProduct}
-          >
-            Save product
-          </button>
-        </div>
+        <StartEndPage 
+          commodityCode={_searchResults.hsCode} 
+          defaultCommodityName={capitalize(_searchResults.currentItemName)} 
+          saveProduct={saveProduct} 
+        />
       </section>
     )
   }
@@ -354,9 +346,11 @@ export default function ProductFinderModal(props) {
         <div>Find the product you want to export</div>
         <div className="flex-centre m-t-xs search-input">
             <SearchInput
+              id="search-input"
               onChange={setSearchTerm}
               onKeyReturn={search}
               autoFocus
+              iconClass="fa-search"
             />
           <button 
             className="search-button button button--small button--only-icon m-f-xs" 
