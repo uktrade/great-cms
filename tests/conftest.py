@@ -186,6 +186,7 @@ def export_plan_data():
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
+        'pk': 1,
     }
 
 
@@ -203,6 +204,22 @@ def mock_get_create_export_plan(patch_get_create_export_plan):
     yield patch_get_create_export_plan.start()
     try:
         patch_get_create_export_plan.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_get_export_plan(export_plan_data):
+    # TODO merge this and above patch so we use singe unified way of getting export plan
+    yield mock.patch('sso.models.get_exportplan', return_value=export_plan_data)
+
+
+@pytest.fixture(autouse=False)
+def mock_get_export_plan(patch_get_export_plan):
+    yield patch_get_export_plan.start()
+    try:
+        patch_get_export_plan.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass

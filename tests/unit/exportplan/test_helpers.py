@@ -266,36 +266,26 @@ def test_route_to_markets_delete(mock_route_to_market_delete):
     assert response.status_code == 200
 
 
-@mock.patch.object(api_client.dataservices, 'get_country_data')
-def test_get_country_data(mock_cia_world_factbook_data):
-    data = {'population_data': {'cpi': 100}}
-
-    mock_cia_world_factbook_data.return_value = create_response(data)
+def test_get_country_data(mock_get_country_data):
     response = helpers.get_country_data('United Kingdom')
-    assert mock_cia_world_factbook_data.call_count == 1
-    assert mock_cia_world_factbook_data.call_args == mock.call('United Kingdom')
-    assert response == data
+    assert mock_get_country_data.call_count == 1
+    assert mock_get_country_data.call_args == mock.call('United Kingdom')
+    assert response == mock_get_country_data.return_value
 
 
-@mock.patch.object(api_client.dataservices, 'get_cia_world_factbook_data')
-def test_get_cia_world_factbook_data(mock_cia_world_factbook_data):
-    data = {'cia_factbook_data': {'languages': ['English']}}
-    mock_cia_world_factbook_data.return_value = create_response(data)
+def test_get_cia_world_factbook_data(mock_get_cia_world_factbook_data):
+
     response = helpers.get_cia_world_factbook_data(country='United Kingdom', key='people,languages')
-    assert mock_cia_world_factbook_data.call_count == 1
-    assert mock_cia_world_factbook_data.call_args == mock.call(country='United Kingdom', data_key='people,languages')
-    assert response == data
+    assert mock_get_cia_world_factbook_data.call_count == 1
+    assert mock_get_cia_world_factbook_data.call_args == mock.call(country='United Kingdom', key='people,languages')
+    assert response == mock_get_cia_world_factbook_data.return_value
 
 
-@mock.patch.object(api_client.dataservices, 'get_population_data')
 def test_get_population_data(mock_get_population_data):
-    data = {'population_data': {'target_population': 10000}}
-
-    mock_get_population_data.return_value = create_response(data)
     response = helpers.get_population_data(country='United Kingdom', target_ages=['25-34', '35-44'])
     assert mock_get_population_data.call_count == 1
     assert mock_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
-    assert response == data
+    assert response == mock_get_population_data.return_value
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_create')

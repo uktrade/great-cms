@@ -127,7 +127,6 @@ class TargetMarketMarketingAgeData(APIView):
         target_ages = serializer.validated_data['target_age_groups']
         # Uncomment above line and remove below once we have this passed in
         # Lets save the target age against Export Plan
-
         helpers.update_ui_options_target_ages(
             sso_session_id=self.request.user.session_id,
             target_ages=target_ages,
