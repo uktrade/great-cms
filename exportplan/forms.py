@@ -174,50 +174,22 @@ class ExportPlanAdaptationForTargetMarketForm(forms.Form):
     certificate_of_origin = forms.CharField(
         label='Certificate of origin',
         required=False,
-        widget=Textarea(attrs={
-            'tooltip': (
-                'Certificate of origin'
-            ),
-            'placeholder': (
-                'Add notes'
-            )}
-        ),
+        widget=Textarea(attrs={'tooltip': ('Certificate of origin'), 'placeholder': ('Add notes')}),
     )
     insurance_certificate = forms.CharField(
         label='Insurance certificate',
         required=False,
-        widget=Textarea(attrs={
-            'tooltip': (
-                'Insurance certificate'
-            ),
-            'placeholder': (
-                'Add note'
-            )}
-        ),
+        widget=Textarea(attrs={'tooltip': ('Insurance certificate'), 'placeholder': ('Add note')}),
     )
     commercial_invoice = forms.CharField(
         label='Commercial invoice',
         required=False,
-        widget=Textarea(attrs={
-            'tooltip': (
-                'Commercial invoice'
-            ),
-            'placeholder': (
-                'Add note'
-            )}
-        ),
+        widget=Textarea(attrs={'tooltip': ('Commercial invoice'), 'placeholder': ('Add note')}),
     )
     uk_customs_declaration = forms.CharField(
         label='UK customs declaration',
         required=False,
-        widget=Textarea(attrs={
-            'tooltip': (
-                'UK customs declaration'
-            ),
-            'placeholder': (
-                'Add note'
-            )}
-        ),
+        widget=Textarea(attrs={'tooltip': ('UK customs declaration'), 'placeholder': ('Add note')}),
     )
 
 
