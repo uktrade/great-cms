@@ -57,10 +57,8 @@ export const DocumentsForTargetMarketForm = (params) => {
   }
   return (
     <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
-      <div className="objective-fields">
-        <div className="target-market-form">
-          <AddDocumentTypeForm {...data} />
-        </div>
+      <div className="target-market-form">
+        <AddDocumentTypeForm {...data} />
       </div>
     </div>
   )
