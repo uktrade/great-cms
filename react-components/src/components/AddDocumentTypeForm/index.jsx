@@ -31,6 +31,12 @@ export const AddDocumentTypeForm = (props) => {
       .catch(() => {})
   }
 
+  const updateApi = (field, property) => {
+    Services.updateAdaptTarketMarketDocumentList({ ...field, ...property })
+      .then(() => {})
+      .catch(() => {})
+  }
+
   const debounceUpdate = useDebounce(updateApi)
 
   const updateDocument = (id, property) => {
@@ -38,13 +44,7 @@ export const AddDocumentTypeForm = (props) => {
     setDocuments(
       documents.map((x) => (x.pk === id ? { ...x, ...property } : x))
     )
-    updateApi(field, property)
-  }
-
-  const updateApi = (field, property) => {
-    Services.updateAdaptTarketMarketDocumentList({ ...field, ...property })
-      .then(() => {})
-      .catch(() => {})
+    debounceUpdate(field, property)
   }
 
   return (

@@ -65402,6 +65402,10 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
     })["catch"](function () {});
   };
 
+  var updateApi = function updateApi(field, property) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].updateAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, field), property)).then(function () {})["catch"](function () {});
+  };
+
   var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(updateApi);
 
   var updateDocument = function updateDocument(id, property) {
@@ -65411,11 +65415,7 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
     setDocuments(documents.map(function (x) {
       return x.pk === id ? _objectSpread(_objectSpread({}, x), property) : x;
     }));
-    updateApi(field, property);
-  };
-
-  var updateApi = function updateApi(field, property) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].updateAdaptTarketMarketDocumentList(_objectSpread(_objectSpread({}, field), property)).then(function () {})["catch"](function () {});
+    debounceUpdate(field, property);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DocumentList__WEBPACK_IMPORTED_MODULE_4__["DocumentList"], {
