@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import React, { memo, useState, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 
@@ -9,14 +8,19 @@ export const ToggleDataTable = memo(({ country, groups, children }) => {
   const [isOpen, setIsOPen] = useState(false)
   const [selectedGroups, setSelectedGroups] = useState([])
   const [data, setData] = useState({})
-  const targetGroupLabels = groups.filter((group) => selectedGroups.includes(group.key)).map((group) => group.label)
+  const targetGroupLabels = groups
+    .filter((group) => selectedGroups.includes(group.key))
+    .map((group) => group.label)
   const showTable = Object.keys(data).length >= 1 && !isOpen
 
   const submitForm = (event) => {
     event.preventDefault()
     setIsOPen(!isOpen)
 
-    Services.getMarketingCountryData({ country, target_age_groups: selectedGroups })
+    Services.getMarketingCountryData({
+      country,
+      target_age_groups: selectedGroups,
+    })
       .then((d) => setData(mapData(d)))
       .catch((error) => console.log(error))
   }

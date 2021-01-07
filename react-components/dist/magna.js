@@ -72543,7 +72543,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* eslint-disable import/prefer-default-export */
 
 
 var Stats = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
@@ -72809,7 +72808,6 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-/* eslint-disable import/prefer-default-export */
 
 
 
@@ -74175,7 +74173,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_AddDocumentTypeForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/AddDocumentTypeForm */ "./react-components/src/components/AddDocumentTypeForm/index.jsx");
-/* eslint-disable import/prefer-default-export */
 
 
 var DocumentsForTargetMarketForm = function DocumentsForTargetMarketForm(params) {
@@ -74291,7 +74288,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_ToggleSnapshot__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/ToggleSnapshot */ "./react-components/src/components/ToggleSnapshot/index.jsx");
 /* harmony import */ var _src_components_Stats__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Stats */ "./react-components/src/components/Stats/index.jsx");
 /* harmony import */ var _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Stats/StatsGroup */ "./react-components/src/components/Stats/StatsGroup/index.jsx");
-/* eslint-disable import/prefer-default-export */
 
 
 
