@@ -3,7 +3,9 @@
 ## Pre-release
 
 ### Implemented enhancements
-
+- GP2-1127 - Renaming product at the end of product selection
+- GP2-1245 - Updated header contact link
+- GP2-1206 - Compare markets section on modal through compare markets (mobile and desktop)
 - GP2-1193 - Dynamic page title tags
 - GP2-1137 - Product finder endpage
 - GP2-1057 - Remove unused styles from great-styles
@@ -16,6 +18,7 @@
 - GP2-1068 - Autoformat Python code with black and isort
 - GP2-1111 - EP responsive marketing approach changes
 - GP2-1029 - Population data sources attributions and links
+- GP2-974 - target market research page
 
 ### Fixed bugs
 - no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate

@@ -100,8 +100,7 @@ export function Menu(props) {
         <hr className="m-v-xxs" />
         <li>
           <a
-            href="https://www.great.gov.uk/contact/feedback/"
-            target="_blank"
+            href="/contact-us/help/"
             rel="noopener noreferrer"
             className="link"
           >
@@ -110,11 +109,7 @@ export function Menu(props) {
           </a>
         </li>
         <li>
-          <button 
-            type="button" 
-            className="link" 
-            onClick={logout}
-          >
+          <button type="button" className="link" onClick={logout}>
             <i className="fa fa-arrow-right" />
             <span>Sign out</span>
           </button>
@@ -125,8 +120,7 @@ export function Menu(props) {
       <ul className="menu-items">
         <li>
           <a
-            href="https://www.great.gov.uk/contact/feedback/"
-            target="_blank"
+            href="/contact-us/help/"
             rel="noopener noreferrer"
             className="link"
           >

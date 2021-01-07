@@ -66326,7 +66326,8 @@ function CompareMarkets(props) {
     setIsOpen: setMarketModalIsOpen,
     commodityCode: selectedProduct && selectedProduct.code,
     addButton: false,
-    selectCountry: addCountry
+    selectCountry: addCountry,
+    isCompareCountries: true
   }));
 }
 
@@ -67339,10 +67340,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _src_components_Stats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Stats */ "./react-components/src/components/Stats/index.jsx");
-/* eslint-disable import/prefer-default-export */
+/* harmony import */ var _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Stats/StatsGroup */ "./react-components/src/components/Stats/StatsGroup/index.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
 
 
-var ProductData = function ProductData() {
+
+
+var ProductData = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var world = _ref.world,
+      local = _ref.local,
+      country = _ref.country;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "stat-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -67350,18 +67358,18 @@ var ProductData = function ProductData() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
-    header: "Total product import value in 2018 (USD)",
-    data: "47.7 million"
+    header: "Total product import value in ".concat(world.year, " (USD)"),
+    data: world.trade_value ? world.trade_value : _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_2__["notAvailable"]
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
-    header: "Total product import value from the UK in 2018 (USD)",
-    data: "11.0 million"
+    header: "Total product import value from the UK in ".concat(local.year, " (USD)"),
+    data: local.trade_value ? local.trade_value : _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_2__["notAvailable"]
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
     header: "Year-to-year product import value change",
-    data: "+25.1%"
+    data: world.year_on_year_change ? world.year_on_year_change : _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_2__["notAvailable"]
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "stat-group m-b-s-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -67370,15 +67378,38 @@ var ProductData = function ProductData() {
     className: "c-1-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
     header: "GDP per capita (USD)",
-    data: "53,024"
+    data: country.gdp_per_capita.year_2019 ? country.gdp_per_capita.year_2019 : _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_2__["notAvailable"]
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_1__["Stats"], {
     header: "Avg income (USD)",
-    data: "40,291"
+    data: _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_2__["notAvailable"]
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr bg-blue-deep-20 m-t-0"
   }));
+});
+ProductData.propTypes = {
+  world: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.shape({
+    year: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
+    trade_value: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
+    year_on_year_change: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string
+  }).isRequired,
+  local: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.shape({
+    year: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string,
+    trade_value: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string
+  }).isRequired,
+  country: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.shape({
+    gdp_per_capita: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.shape({
+      year_2019: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string
+    })
+  })
+};
+ProductData.defaultProps = {
+  country: {
+    gdp_per_capita: {
+      year_2019: ''
+    }
+  }
 };
 
 /***/ }),
@@ -67455,12 +67486,21 @@ __webpack_require__.r(__webpack_exports__);
 
 var DataSnapShot = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var country = _ref.country,
-      groups = _ref.groups;
+      groups = _ref.groups,
+      insight = _ref.insight;
+  var _insight$country = insight[country],
+      import_from_world = _insight$country.import_from_world,
+      import_data_from_uk = _insight$country.import_data_from_uk,
+      country_data = _insight$country.country_data;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ToggleSnapshot__WEBPACK_IMPORTED_MODULE_3__["ToggleSnapshot"], {
     isOpen: false
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-t-s"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductData__WEBPACK_IMPORTED_MODULE_5__["ProductData"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ToggleDataTable__WEBPACK_IMPORTED_MODULE_2__["ToggleDataTable"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductData__WEBPACK_IMPORTED_MODULE_5__["ProductData"], {
+    world: import_from_world,
+    local: import_data_from_uk,
+    country: country_data
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ToggleDataTable__WEBPACK_IMPORTED_MODULE_2__["ToggleDataTable"], {
     country: country,
     groups: groups
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_4__["Table"], null))));
@@ -67470,7 +67510,23 @@ DataSnapShot.propTypes = {
   groups: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     key: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  }))
+  })),
+  insight: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    import_from_world: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      year: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      trade_value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      year_on_year_change: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    }).isRequired,
+    import_data_from_uk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      year: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      trade_value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    }).isRequired,
+    country_data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      gdp_per_capita: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+        year_2019: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+      })
+    })
+  }).isRequired
 };
 DataSnapShot.defaultProps = {
   groups: []
@@ -68900,8 +68956,7 @@ function Menu(props) {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Build an export plan"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "m-v-xxs"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "https://www.great.gov.uk/contact/feedback/",
-      target: "_blank",
+      href: "/contact-us/help/",
       rel: "noopener noreferrer",
       className: "link"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -68916,8 +68971,7 @@ function Menu(props) {
     non_authenticated: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "menu-items"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "https://www.great.gov.uk/contact/feedback/",
-      target: "_blank",
+      href: "/contact-us/help/",
       rel: "noopener noreferrer",
       className: "link"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -69592,7 +69646,8 @@ function CountryFinderModal(props) {
   var modalIsOpen = props.modalIsOpen,
       setIsOpen = props.setIsOpen,
       commodityCode = props.commodityCode,
-      selectCountry = props.selectCountry;
+      selectCountry = props.selectCountry,
+      isCompareCountries = props.isCompareCountries;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState2 = _slicedToArray(_useState, 2),
@@ -69799,7 +69854,8 @@ function CountryFinderModal(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3 m-b-xxs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    onChange: searchChange
+    onChange: searchChange,
+    iconClass: "fa-search"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69821,13 +69877,13 @@ function CountryFinderModal(props) {
       className: "only-mobile"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
       className: "h-l m-t-s p-b-xs"
-    }, "Choose a target market")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "There are 3 ways to choose a target export market"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, !isCompareCountries ? 'Choose a target market' : 'Choose markets for comparison')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !isCompareCountries ? 'There are 3 ways to choose a target export market' : 'There are 2 ways to choose a market for comparison'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
       className: "button button--secondary button--full-width m-b-s",
       onClick: function onClick() {
         return setMobilePage('suggested');
       }
-    }, "Suggested markets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, "Suggested markets"), !isCompareCountries && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
       className: "button button--secondary button--full-width m-b-s",
       onClick: function onClick() {
@@ -69870,11 +69926,11 @@ function CountryFinderModal(props) {
     className: "only-desktop"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-l m-t-s p-b-xs"
-  }, "Choose a target market")), suggestedSection, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+  }, isCompareCountries ? 'Choose markets for comparison' : 'Choose a target market')), suggestedSection, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr bg-red-deep-100"
-  }), compareMarketsSection, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+  }), !isCompareCountries && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, compareMarketsSection, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr bg-red-deep-100"
-  }), marketListSection), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })), marketListSection), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "only-mobile"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
@@ -69890,11 +69946,13 @@ CountryFinderModal.propTypes = {
   modalIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.bool,
   setIsOpen: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
   commodityCode: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-  selectCountry: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired
+  selectCountry: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
+  compareMarkets: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.bool
 };
 CountryFinderModal.defaultProps = {
   modalIsOpen: false,
-  commodityCode: ''
+  commodityCode: '',
+  isCompareCountries: false
 };
 
 /***/ }),
@@ -70341,7 +70399,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ValueInteraction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ValueInteraction */ "./react-components/src/components/ProductFinder/ValueInteraction.jsx");
 /* harmony import */ var _ExpandCollapse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ExpandCollapse */ "./react-components/src/components/ProductFinder/ExpandCollapse.jsx");
 /* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
-/* harmony import */ var _ClassificationTree__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ClassificationTree */ "./react-components/src/components/ProductFinder/ClassificationTree.jsx");
+/* harmony import */ var _StartEndPage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./StartEndPage */ "./react-components/src/components/ProductFinder/StartEndPage.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -70441,22 +70499,20 @@ function ProductFinderModal(props) {
     }
   };
 
-  var saveProduct = function saveProduct() {
-    var productName = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["capitalize"])(searchResults.currentItemName);
-    var searchQuery = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["capitalize"])(searchResults.productDescription);
+  var saveProduct = function saveProduct(commodityCode, commodityName) {
     setSelectedProduct({
-      name: productName,
-      code: searchResults.hsCode
+      name: commodityName,
+      code: commodityCode
     });
     Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
       event: 'addProductSuccess',
-      productKeyword: searchQuery,
-      productCode: searchResults.hsCode
+      productKeyword: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["capitalize"])(searchResults.productDescription),
+      productCode: commodityCode
     });
     _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateExportPlan({
       export_commodity_codes: [{
-        commodity_name: productName,
-        commodity_code: searchResults.hsCode
+        commodity_name: commodityName,
+        commodity_code: commodityCode
       }]
     }).then(function () {
       closeModal();
@@ -70612,22 +70668,14 @@ function ProductFinderModal(props) {
 
   var sectionFound = function sectionFound(_searchResults) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-      className: "m-h-l m-b-s"
+      className: "m-h-l m-b-s body-l"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "h-m p-b-s"
-    }, "Match found"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "box box--no-pointer"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-      className: "h-xs p-v-0"
-    }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["capitalize"])(_searchResults.currentItemName)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-l"
-    }, "HS Code: ", _searchResults.hsCode), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ClassificationTree__WEBPACK_IMPORTED_MODULE_10__["default"], {
-      hsCode: _searchResults.hsCode
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "button button--primary",
-      type: "button",
-      onClick: saveProduct
-    }, "Save product")));
+    }, "Match found"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StartEndPage__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      commodityCode: _searchResults.hsCode,
+      defaultCommodityName: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["capitalize"])(_searchResults.currentItemName),
+      saveProduct: saveProduct
+    }));
   };
 
   var sectionNoResults = function sectionNoResults(_searchResults) {
@@ -70719,9 +70767,11 @@ function ProductFinderModal(props) {
     }, "Search by name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Find the product you want to export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "flex-centre m-t-xs search-input"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      id: "search-input",
       onChange: setSearchTerm,
       onKeyReturn: search,
-      autoFocus: true
+      autoFocus: true,
+      iconClass: "fa-search"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "search-button button button--small button--only-icon m-f-xs",
       disabled: !searchTerm,
@@ -70892,11 +70942,17 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function SearchInput(props) {
-  var onChange = props.onChange,
+  var id = props.id,
+      onChange = props.onChange,
       onKeyReturn = props.onKeyReturn,
-      autoFocus = props.autoFocus;
+      autoFocus = props.autoFocus,
+      defaultValue = props.defaultValue,
+      placeholder = props.placeholder,
+      label = props.label,
+      iconClass = props.iconClass,
+      maxWidth = props.maxWidth;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultValue || ''),
       _useState2 = _slicedToArray(_useState, 2),
       value = _useState2[0],
       setValue = _useState2[1];
@@ -70929,17 +70985,27 @@ function SearchInput(props) {
     searchInput.focus();
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: id
+  }, label && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-b-xxs"
+  }, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-centre search-input"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "form-control",
     type: "text",
+    id: id,
     ref: function ref(_searchInput) {
       searchInput = _searchInput;
     },
     onKeyPress: inputKeypress,
     onChange: inputChange,
-    value: value
+    value: value,
+    placeholder: placeholder,
+    maxLength: 50,
+    style: {
+      maxWidth: maxWidth
+    }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-icon"
   }, value.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -70947,20 +71013,112 @@ function SearchInput(props) {
     "aria-label": "Clear",
     className: "fa fa-times clear",
     onClick: clearSearchInput
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-search text-blue-deep-60"
+  }) : iconClass && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas ".concat(iconClass, " text-blue-deep-60")
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "visually-hidden"
-  }, "Search markets "));
+  }, "Search markets ")));
 }
 SearchInput.propTypes = {
+  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   onKeyReturn: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
-  autoFocus: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+  autoFocus: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  defaultValue: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  iconClass: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  maxWidth: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 SearchInput.defaultProps = {
+  id: 'search-input',
   onKeyReturn: function onKeyReturn() {},
-  autoFocus: false
+  autoFocus: false,
+  defaultValue: '',
+  placeholder: null,
+  label: '',
+  iconClass: '',
+  maxWidth: '200em'
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/ProductFinder/StartEndPage.jsx":
+/*!************************************************************************!*\
+  !*** ./react-components/src/components/ProductFinder/StartEndPage.jsx ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StartEndPage; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ClassificationTree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ClassificationTree */ "./react-components/src/components/ProductFinder/ClassificationTree.jsx");
+/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+function StartEndPage(props) {
+  var commodityCode = props.commodityCode,
+      defaultCommodityName = props.defaultCommodityName,
+      saveProduct = props.saveProduct;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultCommodityName),
+      _useState2 = _slicedToArray(_useState, 2),
+      commodityName = _useState2[0],
+      setCommodityName = _useState2[1];
+
+  var saveNamedProduct = function saveNamedProduct() {
+    if (commodityCode && commodityName) {
+      saveProduct(commodityCode, commodityName);
+    }
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box box--no-pointer m-b-s"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-xs p-v-0"
+  }, "HS Code: ", commodityCode), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ClassificationTree__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    hsCode: commodityCode
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group m-t-s m-b-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    label: "Does this look like the right product? Name it, then save it.",
+    id: "input-commodity-name",
+    onChange: setCommodityName,
+    defaultValue: commodityName,
+    iconClass: "fa-pencil-alt",
+    onKeyReturn: saveNamedProduct,
+    autoFocus: true,
+    maxWidth: "15em"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button button--primary save-product",
+    type: "button",
+    onClick: saveNamedProduct,
+    disabled: !commodityName
+  }, "Save product"));
+}
+StartEndPage.propTypes = {
+  commodityCode: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  defaultCommodityName: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  saveProduct: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
 
 /***/ }),

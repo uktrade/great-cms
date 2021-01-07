@@ -77,7 +77,8 @@
           {key: "55-64", label: '55-64 year olds'},
           {key: "65+", label: '65 years old and over'}
       ],
-      country: '{{ export_plan.export_countries.0.country_name }}'
+      country: '{{ export_plan.export_countries.0.country_name }}',
+      insight: {{ insight_data|safe }}
     })
   </script>
 {% endblock %}
