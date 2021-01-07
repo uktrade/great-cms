@@ -220,7 +220,7 @@ def get_current_url(slug, export_plan):
 def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, ):
     if export_plan['ui_options'].get('target_ages') != target_ages:
         update_exportplan(
-            sso_session_id= sso_session_id,
+            sso_session_id=sso_session_id,
             id=export_plan['pk'],
             data={'ui_options': {'target_ages': target_ages}},
         )

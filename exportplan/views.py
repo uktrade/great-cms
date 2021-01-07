@@ -158,7 +158,10 @@ class ExportPlanMarketingApproachView(
         context['demographic_data'] = helpers.get_global_demographic_data(
             self.export_plan['export_countries'][0]['country_name']
         )
-        print(context['demographic_data'])
+
+        if self.export_plan.get('ui_options', {}).get('target_ages'):
+            context['selected_age_groups'] = self.export_plan['ui_options']['target_ages']
+
         return context
 
 
