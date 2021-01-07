@@ -101,7 +101,6 @@ export function Menu(props) {
         <li>
           <a
             href="/contact-us/help/"
-            target="_blank"
             rel="noopener noreferrer"
             className="link"
           >
@@ -122,7 +121,6 @@ export function Menu(props) {
         <li>
           <a
             href="/contact-us/help/"
-            target="_blank"
             rel="noopener noreferrer"
             className="link"
           >
