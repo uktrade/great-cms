@@ -67336,10 +67336,15 @@ DataSnapShot.propTypes = {
         year_2019: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
       })
     })
-  }).isRequired
+  }).isRequired,
+  currentSection: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired)
 };
 DataSnapShot.defaultProps = {
-  groups: []
+  groups: [],
+  selected: []
 };
 
 /***/ }),
@@ -72642,10 +72647,32 @@ TargetAgeGroupInsights.propTypes = {
   groups: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     key: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  }))
+  })),
+  currentSection: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired),
+  insight: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    country_data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      total_population: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      total_internet_usage: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      consumer_price_index: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+        value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+      }).isRequired,
+      internet_usage: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+        value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+      }).isRequired
+    }),
+    cia_factbook_data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      languages: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+        language: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired)
+      })
+    }).isRequired
+  }).isRequired
 };
 TargetAgeGroupInsights.defaultProps = {
-  groups: []
+  groups: [],
+  selected: []
 };
 
 /***/ }),

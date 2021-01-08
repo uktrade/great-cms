@@ -58,8 +58,13 @@ DataSnapShot.propTypes = {
       }),
     }),
   }).isRequired,
+  currentSection: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
+  selected: PropTypes.arrayOf(PropTypes.string.isRequired),
 }
 
 DataSnapShot.defaultProps = {
   groups: [],
+  selected: [],
 }
