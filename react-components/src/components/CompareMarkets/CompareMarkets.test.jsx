@@ -3,6 +3,7 @@ import { act, Simulate } from 'react-dom/test-utils'
 import CompareMarkets from '@src/components/CompareMarkets'
 import SelectMarket from '@src/components/CompareMarkets/SelectMarket'
 import Services from '@src/Services'
+import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
 import { waitFor } from '@testing-library/react'
 import ReactModal from 'react-modal'
@@ -144,8 +145,16 @@ it('Forces product chooser when no product', () => {
 })
 
 it('Allows selection of markets and fetch data when product selected', async () => {
+
+  // set up existing product in store
+  let selectedProduct = {
+    commodity_code: '123456',
+    commodity_name: 'my product'
+  }
+  Services.store.dispatch(actions.setInitialState({exportPlan:{products:[selectedProduct]}}))
+
   container.innerHTML =
-    '<span id="compare-market-container" data-productname="my product" data-productcode="123456" ></span>'
+    '<span id="compare-market-container" ></span>'
   const dataTabs = '{ "population": true, "economy": true }'
   container
     .querySelector('#compare-market-container')
