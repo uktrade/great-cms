@@ -169,7 +169,6 @@ class ExportPlanMarketingApproachView(
         context['demographic_data'] = helpers.get_global_demographic_data(
             self.export_plan['export_countries'][0]['country_name']
         )
-
         if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
             context['selected_age_groups'] = (
                 json.dumps(self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'))
@@ -194,6 +193,8 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
             country=self.export_country_name, key='people,languages'
         )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
+
+
         return context
 
 
@@ -220,6 +221,10 @@ class ExportPlanTargetMarketsResearchView(
             )
 
             context['insight_data'] = json.dumps(insight_data)
+            if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
+                context['selected_age_groups'] = (
+                    json.dumps(self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'))
+                )
         return context
 
 

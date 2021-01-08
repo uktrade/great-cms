@@ -257,6 +257,7 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
     response = client.get(url)
 
     assert response.context_data['insight_data'] == json.dumps(mock_get_comtrade_data.return_value)
+    assert response.context_data['selected_age_groups'] == '["25-29", "47-49"]'
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 1
 
