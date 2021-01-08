@@ -36,7 +36,7 @@ export default function SearchInput(props) {
   }
 
   return (
-    <label htmlFor={id}>
+    <label className="width-full" htmlFor={id}>
       {label && (<div className="m-b-xxs">{label}</div>)}
       <div className="flex-centre search-input">
         <input

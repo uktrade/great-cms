@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GP2-1194 - Product finder search page content update and restyle
 - GP2-1130 - Product finder previous result start
 - GP2-1126 - Rename product
 - GP2-1125 - Remove product finder warning pop-up
