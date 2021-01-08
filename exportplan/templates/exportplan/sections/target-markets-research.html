@@ -1,5 +1,6 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
+{% load to_json %}
 
 {% block intro_title %}Target market research{% endblock %}
 {% block intro_description %}In this part of your Export Plan you'll record what you know about the target country and the market it has for your product.{% endblock %}
@@ -79,6 +80,8 @@
       ],
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ insight_data|safe }},
+      selected: {{ selected_age_groups|safe}},
+      currentSection: {{ current_section|to_json}},
     })
   </script>
 {% endblock %}
