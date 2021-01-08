@@ -17,6 +17,7 @@ class PopulationDataSerializer(serializers.Serializer):
 class CountryTargetAgeDataSerializer(serializers.Serializer):
     target_age_groups = serializers.ListField(child=serializers.CharField())
     country = serializers.CharField()
+    section_name = serializers.CharField()
 
     def validate_target_age_groups(self, value):
         return value[0].split(',')

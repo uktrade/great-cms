@@ -197,7 +197,7 @@ def test_retrieve_marketing_target_age_data(
     client.force_login(user)
 
     url = reverse('exportplan:api-target-market-country-age-data')
-    response = client.get(url, {'country': 'Canada', 'target_age_groups': '0-5,5-25'})
+    response = client.get(url, {'country': 'Canada', 'target_age_groups': '0-5,5-25', 'section_name': 'test-section'})
 
     assert mock_get_population_data.call_count == 1
     assert mock_update_ui_options.call_count == 1
@@ -207,7 +207,7 @@ def test_retrieve_marketing_target_age_data(
         export_plan=export_plan_data,
         sso_session_id='123',
         target_ages=['0-5', '5-25'],
-        section_name='marketing-approach',
+        section_name='test-section',
     )
 
     assert response.json() == mock_get_population_data.return_value
