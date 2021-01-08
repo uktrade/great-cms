@@ -17,8 +17,7 @@ export const TargetAgeGroupInsights = memo(
         <Table
           population={country_data.total_population}
           cpi={country_data.consumer_price_index.value}
-          internetPercentage={`${country_data.internet_usage.value} %`}
-          internetTotal=""
+          internetData={`${country_data.internet_usage.value}% (${country_data.total_internet_usage})`}
           languages={
             cia_factbook_data.languages
               ? formatLanguages(cia_factbook_data.languages.language)

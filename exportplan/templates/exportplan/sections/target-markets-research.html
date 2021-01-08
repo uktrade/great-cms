@@ -79,6 +79,7 @@
       ],
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ insight_data|safe }},
+      selected: {{ selected_age_groups|safe}},
     })
   </script>
 {% endblock %}

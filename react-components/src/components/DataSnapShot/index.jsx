@@ -6,7 +6,7 @@ import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Table } from './Table'
 import { ProductData } from './ProductData'
 
-export const DataSnapShot = memo(({ country, groups, insight }) => {
+export const DataSnapShot = memo(({ country, groups, insight, selected }) => {
   const { import_from_world, import_data_from_uk, country_data } = insight[
     country
   ]
@@ -19,7 +19,11 @@ export const DataSnapShot = memo(({ country, groups, insight }) => {
           local={import_data_from_uk}
           country={country_data}
         />
-        <ToggleDataTable country={country} groups={groups}>
+        <ToggleDataTable
+          country={country}
+          groups={groups}
+          selectedGroups={selected}
+        >
           <Table />
         </ToggleDataTable>
       </div>

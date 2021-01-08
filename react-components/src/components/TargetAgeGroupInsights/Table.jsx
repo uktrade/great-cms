@@ -8,8 +8,7 @@ export const Table = memo(
   ({
     population,
     cpi,
-    internetPercentage,
-    internetTotal,
+    internetData,
     languages,
     urban,
     rural,
@@ -20,8 +19,7 @@ export const Table = memo(
     <div className="m-t-m">
       <DemoData
         population={population}
-        internetPercentage={internetPercentage}
-        internetTotal={internetTotal}
+        internetData={internetData}
         cpi={cpi}
         languages={languages}
       />
@@ -43,8 +41,7 @@ Table.propTypes = {
   rural: PropTypes.number,
   female: PropTypes.number,
   male: PropTypes.number,
-  internetPercentage: PropTypes.number.isRequired,
-  internetTotal: PropTypes.number.isRequired,
+  internetData: PropTypes.string.isRequired,
   targetPopulation: PropTypes.number,
   languages: PropTypes.string.isRequired,
 }
