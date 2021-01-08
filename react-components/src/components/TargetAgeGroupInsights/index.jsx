@@ -6,13 +6,14 @@ import { formatLanguages } from '@src/components/TargetAgeGroupInsights/utils'
 import { Table } from './Table'
 
 export const TargetAgeGroupInsights = memo(
-  ({ country, groups, insight, selected }) => {
+  ({ country, groups, insight, selected, currentSection }) => {
     const { cia_factbook_data, country_data } = insight
     return (
       <ToggleDataTable
         country={country}
         groups={groups}
         selectedGroups={selected}
+        url={currentSection.url}
       >
         <Table
           population={country_data.total_population}

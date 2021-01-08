@@ -5,7 +5,7 @@ import Services from '@src/Services'
 import { mapData } from '@src/components/ToggleDataTable/utils'
 
 export const ToggleDataTable = memo(
-  ({ country, groups, selectedGroups: selected, children }) => {
+  ({ country, groups, selectedGroups: selected, children, url }) => {
     const [isOpen, setIsOPen] = useState(false)
     const [selectedGroups, setSelectedGroups] = useState(selected)
     const [data, setData] = useState({})
@@ -18,6 +18,7 @@ export const ToggleDataTable = memo(
       Services.getCountryAgeGroupData({
         country,
         target_age_groups: selectedGroups,
+        section_name: url,
       })
         .then(({ population_data }) => {
           setData(mapData(population_data))

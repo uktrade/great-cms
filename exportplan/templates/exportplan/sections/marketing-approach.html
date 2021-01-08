@@ -1,4 +1,5 @@
 {% extends 'exportplan/section.html' %}
+{% load to_json %}
 
 {% load intcomma from humanize %}
 
@@ -89,6 +90,7 @@
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ demographic_data|safe }},
       selected: {{ selected_age_groups|safe}},
+      currentSection: {{ current_section|to_json}},
     })
 
     element = document.getElementById('resources');
