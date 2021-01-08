@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GP2-1266 - Analytics - Separation of Target Market selection events
 - GP2-1127 - Renaming product at the end of product selection
 - GP2-1245 - Updated header contact link
 - GP2-1206 - Compare markets section on modal through compare markets (mobile and desktop)
