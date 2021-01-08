@@ -50,31 +50,6 @@ def mock_update_company():
     patch.stop()
 
 
-@pytest.fixture()
-def comtrade_data():
-    return {
-        'Germany': {
-            'import_from_world': {
-                'year': 2019,
-                'trade_value': '1.82 billion',
-                'country_name': 'Germany',
-                'year_on_year_change': 1.264,
-            },
-            'import_data_from_uk': {
-                'year': 2019,
-                'trade_value': '127.25 million',
-                'country_name': 'Germany',
-                'year_on_year_change': 1.126,
-            },
-        }
-    }
-
-
-@pytest.fixture(autouse=True)
-def mock_get_comtrade_data(comtrade_data):
-    yield mock.patch('exportplan.views.get_comtrade_data', return_value=comtrade_data).start()
-
-
 @pytest.mark.django_db
 def test_export_plan_landing_page(client, exportplan_homepage, user, mock_get_company_profile, company_profile_data):
     mock_get_company_profile.return_value = company_profile_data

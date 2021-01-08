@@ -221,6 +221,58 @@ def mock_get_export_plan(patch_get_export_plan):
         pass
 
 
+@pytest.fixture(autouse=True)
+def mock_get_population_data():
+    patch = mock.patch.object(
+        exportplan_helpers, 'get_population_data', return_value={'population_data': {'target_population': 10000}}
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=True)
+def mock_get_cia_world_factbook_data():
+    patch = mock.patch.object(
+        exportplan_helpers,
+        'get_cia_world_factbook_data',
+        return_value={'cia_factbook_data': {'languages': ['English']}},
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=True)
+def mock_get_country_data():
+    patch = mock.patch.object(exportplan_helpers, 'get_country_data', return_value={'population_data': {'cpi': 100}})
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture()
+def comtrade_data():
+    return {
+        'Germany': {
+            'import_from_world': {
+                'year': 2019,
+                'trade_value': '1.82 billion',
+                'country_name': 'Germany',
+                'year_on_year_change': 1.264,
+            },
+            'import_data_from_uk': {
+                'year': 2019,
+                'trade_value': '127.25 million',
+                'country_name': 'Germany',
+                'year_on_year_change': 1.126,
+            },
+        }
+    }
+
+
+@pytest.fixture(autouse=True)
+def mock_get_comtrade_data(comtrade_data):
+    yield mock.patch('exportplan.views.get_comtrade_data', return_value=comtrade_data).start()
+
+
 @pytest.fixture
 def patch_get_company_profile():
     yield mock.patch('sso.helpers.get_company_profile', return_value=None)

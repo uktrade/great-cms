@@ -219,7 +219,8 @@ def get_current_url(slug, export_plan):
 
 def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, section_name):
     if (not export_plan.get('ui_options') or not export_plan['ui_options'].get(section_name, {})) or (
-            export_plan['ui_options'].get(section_name, {}).get('target_ages') != target_ages):
+        export_plan['ui_options'].get(section_name, {}).get('target_ages') != target_ages
+    ):
         update_exportplan(
             sso_session_id=sso_session_id,
             id=export_plan['pk'],
