@@ -38,8 +38,30 @@ TargetAgeGroupInsights.propTypes = {
       label: PropTypes.string.isRequired,
     })
   ),
+  currentSection: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
+  selected: PropTypes.arrayOf(PropTypes.string.isRequired),
+  insight: PropTypes.shape({
+    country_data: PropTypes.shape({
+      total_population: PropTypes.string,
+      total_internet_usage: PropTypes.string,
+      consumer_price_index: PropTypes.shape({
+        value: PropTypes.string,
+      }).isRequired,
+      internet_usage: PropTypes.shape({
+        value: PropTypes.string,
+      }).isRequired,
+    }),
+    cia_factbook_data: PropTypes.shape({
+      languages: PropTypes.shape({
+        language: PropTypes.arrayOf(PropTypes.string.isRequired),
+      }),
+    }).isRequired,
+  }).isRequired,
 }
 
 TargetAgeGroupInsights.defaultProps = {
   groups: [],
+  selected: [],
 }
