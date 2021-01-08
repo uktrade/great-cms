@@ -86,7 +86,9 @@
           {key: "55-64", label: '55-64 year olds'},
           {key: "65+", label: '65 years old and over'}
       ],
-      country: '{{ export_plan.export_countries.0.country_name }}'
+      country: '{{ export_plan.export_countries.0.country_name }}',
+      insight: {{ demographic_data|safe }},
+      selected: {{ selected_age_groups|safe}},
     })
 
     element = document.getElementById('resources');
@@ -111,7 +113,7 @@
           {
             label: 'How will we promote your product?',
             options: {{ promotional_choices|safe }},
-            name: 'promote',  
+            name: 'promote',
             tooltip: 'How will we promote your product tooltip',
           }
         ],
