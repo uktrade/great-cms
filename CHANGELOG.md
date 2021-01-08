@@ -3,6 +3,9 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GP2-1130 - Product finder previous result start
+- GP2-1126 - Rename product
+- GP2-1125 - Remove product finder warning pop-up
 - GP2-1266 - Analytics - Separation of Target Market selection events
 - GP2-1127 - Renaming product at the end of product selection
 - GP2-1245 - Updated header contact link
