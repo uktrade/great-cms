@@ -194,7 +194,6 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
         )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
 
-
         return context
 
 

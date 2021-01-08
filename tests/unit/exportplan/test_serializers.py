@@ -129,6 +129,7 @@ def test_country_target_age_data_serializer():
     data = {
         'country': 'uk',
         'target_age_groups': ['0-5,5-25'],
+        'section_name': 'test-section',
     }
 
     serializer = serializers.CountryTargetAgeDataSerializer(data=data)

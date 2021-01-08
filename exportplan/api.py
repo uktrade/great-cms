@@ -123,13 +123,13 @@ class TargetMarketMarketingAgeData(APIView):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
         country = serializer.validated_data['country']
-
         target_ages = serializer.validated_data['target_age_groups']
+        section_name = serializer.validated_data['section_name']
         helpers.update_ui_options_target_ages(
             sso_session_id=self.request.user.session_id,
             target_ages=target_ages,
             export_plan=self.request.user.export_plan,
-            section_name='marketing-approach',
+            section_name=section_name,
         )
 
         population_data = helpers.get_population_data(country=country, target_ages=target_ages)
