@@ -155,7 +155,7 @@ export default function ProductFinderModal(props) {
   const Section = (title, sectionDetails) => {
     if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return ''
     return (
-      <section className="p-h-l">
+      <section className="p-h-s">
         <h3 className="h-m p-v-xs">{title}</h3>
           {(sectionDetails || []).map((value) => {
             return value.type === 'SELECTION' ? 
@@ -201,7 +201,7 @@ export default function ProductFinderModal(props) {
 
   const sectionAssumptions = (sectionDetails) => {
     return sectionDetails && sectionDetails.length && (
-      <section className="p-h-l">
+      <section className="p-h-s">
         <h3 className="h-s p-0">Assumptions</h3>
         <p className="m-v-xxs">We&apos;ve answered some questions for you. View and change these if they&apos;re wrong.</p>
         <ExpandCollapse buttonLabel={ `View assumptions (${sectionDetails.length})`} expandedButtonLabel="Hide assumptions">{readOnlyContent(sectionDetails)}</ExpandCollapse> 
@@ -212,19 +212,19 @@ export default function ProductFinderModal(props) {
   const sectionProductDetails = (sectionDetails) => {
     return sectionDetails && sectionDetails.length && (
       <div>
-        <section className="p-h-l">
+        <section className="p-h-s">
           <h3 className="h-s p-0">Product details</h3>
           <p className="m-v-xxs">Things you&apos;ve told us about your product.</p>
           {readOnlyContent(sectionDetails)}
         </section>
-        <hr className="hr bg-black-10 m-h-l" />
+        <hr className="hr bg-black-10 m-h-s" />
       </div>
     ) || ''
   }
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-l m-b-s body-l">
+      <section className="m-h-s m-b-s body-l">
         <div className="h-m p-b-s">Match found</div>
         <StartEndPage 
           commodityCode={_searchResults.hsCode} 
@@ -237,7 +237,7 @@ export default function ProductFinderModal(props) {
 
   const sectionNoResults = (_searchResults) => {
     return (
-      <section className="m-h-l">
+      <section className="m-h-s">
         <div className="box box--no-pointer p-h-s p-t-s p-b-xs m-t-xs">
           <h3 className="h-m p-t-xxs">No results found for &lsquo;{_searchResults.productDescription}&rsquo;</h3>
           <h4 className="h-xs">Search tips</h4>
@@ -258,7 +258,7 @@ export default function ProductFinderModal(props) {
   }
   const sectionMultiItem = () => {
     return (
-      <section className="m-h-l">
+      <section className="m-h-s">
         <div className="box box--no-pointer p-h-s p-v-xs m-t-xs">
           <p>
             The item you are classifying is considered a complex item (or set) which normally requires each component to be classified separately. 
@@ -322,7 +322,7 @@ export default function ProductFinderModal(props) {
       <div>
         {!showingInteraction && searchResults.hsCode && sectionFound(searchResults)}
         {(!searchResults.hsCode || showingInteraction) && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {((known || questions) && !showingInteraction ) ? (<hr className="hr bg-red-deep-100 m-h-l"/>) : ''}
+        {((known || questions) && !showingInteraction ) ? (<hr className="hr bg-red-deep-100 m-h-s"/>) : ''}
         {!showingInteraction && sectionProductDetails(known)} 
         {!showingInteraction && sectionAssumptions(assumptions)}
       </div>
@@ -332,9 +332,9 @@ export default function ProductFinderModal(props) {
 
   const searchBox = () => {
     return (
-      <div className="p-h-l p-v-l">
-        <h3 className="h-m p-t-0 p-b-xxs">Search by name</h3>
-        <div>Find the product you want to export</div>
+      <div className="p-h-s p-t-l">
+        <h3 className="h-m p-t-0 p-b-xxs">Add product</h3>
+        <div>Adding a product personalises lessons and other content for you.</div>
         <div className="flex-centre m-t-xs search-input">
             <SearchInput
               id="search-input"
@@ -352,6 +352,26 @@ export default function ProductFinderModal(props) {
             <i className="fa fa-arrow-right"/>
           </button>
         </div>
+        <div className="box box--no-pointer m-t-s">
+          When you search for a product you may have to answer a few questions before you find a match.
+        </div>
+        <div className="box box--no-pointer m-t-s">
+          <p className="m-t-0 m-b-xs">This is because we use HS (or <span className="body-l-b">harmonised system</span>) codes to classify goods.</p>
+          <p className="m-v-0">Think of it like the folder structure on a computer.</p>
+        </div>
+        <div className="box box--no-pointer m-t-s m-h-0 grid">
+          <div className="c-1-2 p-h-0">
+            <p className="m-t-0 m-b-xs">You might see your product as "delicious green apples from the valley".</p>
+            <p className="m-v-0">But the system sees 'fruits; apples; fresh".</p>
+          </div>
+          <div className="c-1-2">
+            <img className="w-full" src="/static/images/apples-oranges-with-hs6.svg " alt="" />
+          </div>
+        </div>
+        <div className="box box--no-pointer m-t-s">
+          <p className="m-t-0 m-b-xs">You don't have to find a perfect match.</p>
+          <p className="m-v-0">Find a close match, then feel free to relabel it.</p>
+        </div>
       </div>
     )
   }
@@ -360,8 +380,8 @@ export default function ProductFinderModal(props) {
     // When modal is opened - it shows the last selected product 
     // rather than jumping directly into search
     return (
-      <div className="p-h-l p-v-l">
-        <section className="m-h-l m-b-s body-l">
+      <div className="p-h-s p-t-l">
+        <section className="m-b-s body-l">
           <h2 className="h-m p-b-s">Your product</h2>
           <StartEndPage 
             commodityCode={selectedProduct.commodity_code || ''} 
@@ -391,7 +411,7 @@ export default function ProductFinderModal(props) {
       <span>
         <button 
           type="button" 
-          className="back-button m-f-l m-t-m" 
+          className="back-button m-f-s m-t-m" 
           onClick={backToSearch} 
         >
           <i className="fa fa-arrow-circle-left m-r-xs"/>
@@ -416,9 +436,9 @@ export default function ProductFinderModal(props) {
         shouldCloseOnOverlayClick={false}
         style={{
           content:{
-            width:'auto',
-            left: '100px',
-            right: '100px',
+            maxWidth:'630px',
+            left: 'auto',
+            right: 'auto',
             overflow: 'hidden',
           }
         }}
