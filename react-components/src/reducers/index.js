@@ -15,20 +15,7 @@ import { combineReducers, reduceReducers } from 'redux'
 import costAndPricing from '@src/reducers/costsAndPricing'
 
 const saveToExportPlan = (country) => {
-  api.updateExportPlan({
-      export_countries: [country]
-    })
-    .then(() => {
-      const name = country.country_name
-      analytics({
-        'event': 'addMarketSuccess',
-        'suggestMarket': country.suggested ? name : '',
-        'listMarket': country.suggested ? '' : name
-      })
-    })
-    .catch(() => {
-      // TODO: Add error confirmation here
-    })
+  api.updateExportPlan({ export_countries: [country] })
 }
 
 const initialState = {
