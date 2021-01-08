@@ -172,7 +172,7 @@ class ExportPlanMarketingApproachView(
 
         if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
             context['selected_age_groups'] = (
-                self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages')
+                json.dumps(self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'))
             )
         return context
 

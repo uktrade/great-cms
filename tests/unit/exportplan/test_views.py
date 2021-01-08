@@ -128,7 +128,7 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
         **mock_get_country_data.return_value,
         **mock_get_cia_world_factbook_data.return_value,
     }
-    assert response.context_data['selected_age_groups'] == ['25-29', '47-49']
+    assert response.context_data['selected_age_groups'] == '["25-29", "47-49"]'
 
 
 @pytest.mark.django_db
