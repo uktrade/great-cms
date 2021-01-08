@@ -95,7 +95,7 @@ export default {
     return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
   },
 
- getComTradeData: (countries, commodity_code) => {
+  getComTradeData: (countries, commodity_code) => {
   return get(config.apiComTradeDataUrl, { countries: countries, commodity_code: commodity_code }).then((response) => responseHandler(response).json())
   },
 

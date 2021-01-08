@@ -366,7 +366,7 @@ CountryFinderModal.propTypes = {
   setIsOpen: PropTypes.func.isRequired,
   commodityCode: PropTypes.string,
   selectCountry: PropTypes.func.isRequired,
-  compareMarkets: PropTypes.bool,
+  isCompareCountries: PropTypes.bool,
 }
 CountryFinderModal.defaultProps = {
   modalIsOpen: false,

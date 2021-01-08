@@ -4,7 +4,7 @@
 {% with product=export_plan.export_commodity_codes.0 market=export_plan.export_countries.0 %}
   <nav class="p-v-xs p-h-xs bg-blue-deep-80 c-full-width text-white" id="personalisation-bar">
       <span class="m-f-xs m-r-xxs">I want to export</span>
-      <span id="set-product-button" data-productname="{{product.commodity_name}}" data-productcode="{{product.commodity_code}}">
+      <span id="set-product-button">
         <button class="tag {% if not product %}tag--tertiary{% endif %} tag--icon">{{product.commodity_name|default:'add product'}}<i class="fas {% if product %}fa-chevron-edit{% else %}fa-chevron-plus{% endif %}"></i></button>
       </span>
       <span class="m-f-xxs m-r-xxs">to</span>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
+import actions from '@src/actions'
 import { capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
@@ -13,10 +14,10 @@ import { analytics } from '../../Helpers'
 
 
 export default function ProductFinderModal(props) {
-  const { modalIsOpen, setIsOpen, setSelectedProduct } = props;
+  const { modalIsOpen, setIsOpen, selectedProduct} = props;
 
   let scrollOuter
-
+  const [isSearching, setSearching] = useState(false)
   const [searchResults, setSearchResults] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -37,6 +38,7 @@ export default function ProductFinderModal(props) {
 
   const closeModal = () => {
     setIsOpen(false)
+    setSearching(false)
     setSearchResults()
   }
 
@@ -65,30 +67,18 @@ export default function ProductFinderModal(props) {
   }
 
   const saveProduct = (commodityCode, commodityName) => {
-
-    setSelectedProduct({
-      name: commodityName,
-      code: commodityCode
-    })
-    analytics({
-      event: 'addProductSuccess',
-      productKeyword: capitalize(searchResults.productDescription),
-      productCode: commodityCode
-    })
-
-    Services.updateExportPlan({
-        export_commodity_codes: [{
-          commodity_name: commodityName,
-          commodity_code: commodityCode
-        }]
+    Services.store.dispatch(actions.setProduct({
+      commodity_name: commodityName,
+      commodity_code: commodityCode
+    }))
+    if (searchResults) {
+      analytics({
+        event: 'addProductSuccess',
+        productKeyword: capitalize(searchResults.productDescription),
+        productCode: commodityCode
       })
-      .then(() => {
-        closeModal()
-        window.location.reload()
-      })
-      .catch(() => {
-        closeModal()
-      })
+    }
+    closeModal()
   }
 
   const renderSearchResults = (newSearchResults) => {
@@ -158,6 +148,7 @@ export default function ProductFinderModal(props) {
   }
 
   const backToSearch = () => {
+    setSearching(true)
     renderSearchResults()
   }
 
@@ -365,6 +356,52 @@ export default function ProductFinderModal(props) {
     )
   }
 
+  const showProduct = () => {
+    // When modal is opened - it shows the last selected product 
+    // rather than jumping directly into search
+    return (
+      <div className="p-h-l p-v-l">
+        <section className="m-h-l m-b-s body-l">
+          <h2 className="h-m p-b-s">Your product</h2>
+          <StartEndPage 
+            commodityCode={selectedProduct.commodity_code || ''} 
+            defaultCommodityName={selectedProduct.commodity_name || ''} 
+            saveProduct={saveProduct}
+            label="You can rename this to match you exact product"
+            buttonLabel="Update product name"
+          />
+          <p>If you&apos;ve created an Export Plan, make sure you update it to reflect your new product. You can change product at any time.</p>
+          <button 
+            type="button" 
+            className="button button--tertiary button--icon" 
+            onClick={backToSearch} 
+          >
+            <i className="fas fa-arrow-left" />
+            Search again
+          </button>
+        </section>
+      </div>
+    )
+  }
+
+  const searchPages = () => {
+    // When in searching mode.  If there are searchResults will show a refinement/result page
+    // otherwise the search box page.
+    return !searchResults ? searchBox() : (
+      <span>
+        <button 
+          type="button" 
+          className="back-button m-f-l m-t-m" 
+          onClick={backToSearch} 
+        >
+          <i className="fa fa-arrow-circle-left m-r-xs"/>
+          Search again
+        </button>
+      {searchResults && resultsDisplay(searchResults)}
+      </span>
+    )
+  }
+  
   const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
   const headerHeight = '0px'
 
@@ -407,16 +444,7 @@ export default function ProductFinderModal(props) {
               className="scroll-inner p-b-m"
               ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
             >
-              {!searchResults ? searchBox() : (
-                <button 
-                  type="button" 
-                  className="back-button m-f-l m-t-m" 
-                  onClick={backToSearch} 
-                >
-                  <i className="fa fa-arrow-circle-left m-r-xs"/>
-                  Search again
-                </button>)}
-              {searchResults && resultsDisplay(searchResults)}
+              {(isSearching || !selectedProduct) ? searchPages() : showProduct()}
             </div>
           </div>
         </form>
@@ -428,5 +456,11 @@ export default function ProductFinderModal(props) {
 ProductFinderModal.propTypes = {
   modalIsOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  setSelectedProduct: PropTypes.func.isRequired,
+  selectedProduct: PropTypes.shape({
+    commodity_name: PropTypes.string,
+    commodity_code: PropTypes.string,
+  }),
+}
+ProductFinderModal.defaultProps = {
+  selectedProduct: null
 }
