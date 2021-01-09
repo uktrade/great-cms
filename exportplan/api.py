@@ -115,7 +115,7 @@ class RetrieveMarketingCountryData(APIView):
         return Response(data)
 
 
-class TargetMarketMarketingAgeData(APIView):
+class TargetAgePopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 

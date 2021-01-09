@@ -24,6 +24,44 @@ pil_logger.setLevel(logging.CRITICAL)
 urllib3_logger.setLevel(logging.CRITICAL)
 
 
+@pytest.fixture
+def export_plan_data():
+    return {
+        'country': 'Australia',
+        'commodity_code': '220.850',
+        'sectors': ['Automotive'],
+        'target_markets': [{'country': 'China'}],
+        'target_markets_research': '',
+        'ui_options': {'marketing-approach': {'target_ages': ['25-29', '47-49']}},
+        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
+        'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
+        'timezone': 'Asia/Shanghai',
+        'about_your_business': '',
+        'adaptation_target_market': [],
+        'target_market_documents': {'document_name': 'test'},
+        'route_to_markets': {'route': 'test'},
+        'marketing_approach': {'resources': 'xyz'},
+        'company_objectives': {},
+        'objectives': {'rationale': 'business rationale'},
+        'pk': 1,
+    }
+
+
+@pytest.fixture
+def population_data():
+    return {'population_data': {'target_population': 10000}}
+
+
+@pytest.fixture
+def cia_factbook_data():
+    return {'cia_factbook_data': {'languages': ['English']}}
+
+
+@pytest.fixture
+def country_data():
+    return {'population_data': {'cpi': 100}}
+
+
 def get_user():
     return BusinessSSOUser(
         id=1,
@@ -168,29 +206,6 @@ def mock_export_plan_requests(
 
 
 @pytest.fixture
-def export_plan_data():
-    return {
-        'country': 'Australia',
-        'commodity_code': '220.850',
-        'sectors': ['Automotive'],
-        'target_markets': [{'country': 'China'}],
-        'target_markets_research': '',
-        'ui_options': {'marketing-approach': {'target_ages': ['25-29', '47-49']}},
-        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
-        'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
-        'timezone': 'Asia/Shanghai',
-        'about_your_business': '',
-        'adaptation_target_market': [],
-        'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': {'route': 'test'},
-        'marketing_approach': {'resources': 'xyz'},
-        'company_objectives': {},
-        'objectives': {'rationale': 'business rationale'},
-        'pk': 1,
-    }
-
-
-@pytest.fixture
 def patch_get_create_export_plan(export_plan_data):
     yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
@@ -212,7 +227,7 @@ def patch_get_export_plan(export_plan_data):
 
 
 @pytest.fixture(autouse=False)
-def mock_get_export_plan(patch_get_export_plan):
+def mock_api_get_export_plan(patch_get_export_plan):
     yield patch_get_export_plan.start()
     try:
         patch_get_export_plan.stop()
@@ -222,28 +237,31 @@ def mock_get_export_plan(patch_get_export_plan):
 
 
 @pytest.fixture(autouse=True)
-def mock_get_population_data():
-    patch = mock.patch.object(
-        exportplan_helpers, 'get_population_data', return_value={'population_data': {'target_population': 10000}}
+def mock_api_get_population_data(population_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_population_data',
+        return_value=create_response(json_body=population_data),
     )
     yield patch.start()
     patch.stop()
 
 
 @pytest.fixture(autouse=True)
-def mock_get_cia_world_factbook_data():
-    patch = mock.patch.object(
-        exportplan_helpers,
-        'get_cia_world_factbook_data',
-        return_value={'cia_factbook_data': {'languages': ['English']}},
+def mock_api_get_cia_world_factbook_data(cia_factbook_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_cia_world_factbook_data',
+        return_value=create_response(json_body=cia_factbook_data),
     )
     yield patch.start()
     patch.stop()
 
 
 @pytest.fixture(autouse=True)
-def mock_get_country_data():
-    patch = mock.patch.object(exportplan_helpers, 'get_country_data', return_value={'population_data': {'cpi': 100}})
+def mock_api_get_country_data(country_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_country_data',
+        return_value=create_response(json_body=country_data),
+    )
     yield patch.start()
     patch.stop()
 

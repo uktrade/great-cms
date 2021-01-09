@@ -266,26 +266,28 @@ def test_route_to_markets_delete(mock_route_to_market_delete):
     assert response.status_code == 200
 
 
-def test_get_country_data(mock_get_country_data):
+def test_get_country_data(mock_api_get_country_data, country_data):
     response = helpers.get_country_data('United Kingdom')
-    assert mock_get_country_data.call_count == 1
-    assert mock_get_country_data.call_args == mock.call('United Kingdom')
-    assert response == mock_get_country_data.return_value
+    assert mock_api_get_country_data.call_count == 1
+    assert mock_api_get_country_data.call_args == mock.call('United Kingdom')
+    assert response == country_data
 
 
-def test_get_cia_world_factbook_data(mock_get_cia_world_factbook_data):
-
+def test_get_cia_world_factbook_data(mock_api_get_cia_world_factbook_data, cia_factbook_data):
     response = helpers.get_cia_world_factbook_data(country='United Kingdom', key='people,languages')
-    assert mock_get_cia_world_factbook_data.call_count == 1
-    assert mock_get_cia_world_factbook_data.call_args == mock.call(country='United Kingdom', key='people,languages')
-    assert response == mock_get_cia_world_factbook_data.return_value
+    assert mock_api_get_cia_world_factbook_data.call_count == 1
+    assert mock_api_get_cia_world_factbook_data.call_args == mock.call(
+        country='United Kingdom', data_key='people,languages'
+    )
+    assert response == cia_factbook_data
 
 
-def test_get_population_data(mock_get_population_data):
+def test_get_population_data(mock_api_get_population_data, population_data):
+    mock_api_get_population_data.stop()
     response = helpers.get_population_data(country='United Kingdom', target_ages=['25-34', '35-44'])
-    assert mock_get_population_data.call_count == 1
-    assert mock_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
-    assert response == mock_get_population_data.return_value
+    assert mock_api_get_population_data.call_count == 1
+    assert mock_api_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
+    assert response == population_data
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_create')
