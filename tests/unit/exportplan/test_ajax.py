@@ -172,31 +172,13 @@ def test_recommended_countries_no_country(client, user):
 
 
 @pytest.mark.django_db
-def test_retrieve_marketing_country_data(
-    mock_get_cia_world_factbook_data, mock_get_country_data, mock_get_population_data, client, user
-):
-    client.force_login(user)
-
-    url = reverse('exportplan:api-marketing-country-data')
-    response = client.get(url, {'country': 'Canada', 'target_age_groups': ['19-25']})
-
-    assert mock_get_cia_world_factbook_data.call_count == 1
-    assert mock_get_country_data.call_count == 1
-    assert mock_get_population_data.call_count == 1
-    assert mock_get_cia_world_factbook_data.call_args == mock.call(country='Canada', key='people,languages')
-    assert mock_get_population_data.call_args == mock.call(country='Canada', target_ages=['19-25'])
-    assert mock_get_country_data.call_args == mock.call('Canada')
-    assert response.json() == {'population_data': {'cpi': 100}, 'cia_factbook_data': {'languages': ['English']}}
-
-
-@pytest.mark.django_db
 @mock.patch.object(helpers, 'update_ui_options_target_ages')
 def test_retrieve_marketing_target_age_data(
     mock_update_ui_options, mock_get_population_data, mock_get_export_plan, export_plan_data, client, user
 ):
     client.force_login(user)
 
-    url = reverse('exportplan:api-target-market-country-age-data')
+    url = reverse('exportplan:api-target-age-country-population-data')
     response = client.get(url, {'country': 'Canada', 'target_age_groups': '0-5,5-25', 'section_name': 'test-section'})
 
     assert mock_get_population_data.call_count == 1
@@ -217,7 +199,7 @@ def test_retrieve_marketing_target_age_data(
 def test_retrieve_marketing_country_data_no_target_ages(client, user):
     client.force_login(user)
 
-    url = reverse('exportplan:api-target-market-country-age-data')
+    url = reverse('exportplan:api-target-age-country-population-data')
     response = client.get(url, {'country': 'Canada'})
 
     assert response.status_code == 400

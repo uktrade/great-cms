@@ -48,7 +48,7 @@
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
-          countryAgeGroupDataUrl: '{% url "exportplan:api-target-market-country-age-data" %}',
+          countryAgeGroupDataUrl: '{% url "exportplan:api-target-age-country-population-data" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "dashboard" %}',
