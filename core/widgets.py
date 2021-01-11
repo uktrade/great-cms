@@ -1,5 +1,4 @@
 from django import forms
-
 from wagtail.utils.widgets import WidgetWithScript
 
 
