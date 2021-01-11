@@ -7,7 +7,7 @@ export const AgeGroupData = memo(
   ({ targetPopulation, female, male, urban, rural }) => (
     <>
       <h3 className="body-l-b m-t-s m-b-xs">
-        Data specific for you target age group
+        Data specific for your target age group
       </h3>
       <div className="stat-group radius-top-xs">
         <div className="grid">
