@@ -66,16 +66,16 @@ export const ToggleDataTable = memo(
         {isOpen && (
           <form onSubmit={submitForm}>
             <ul className="form-group m-b-0">
-              {groups.map(({ key, label }) => (
-                <li className="great-checkbox width-full m-b-xs" key={key}>
+              {groups.map(({ value, label }) => (
+                <li className="great-checkbox width-full m-b-xs" key={value}>
                   <input
-                    id={key}
-                    value={key}
+                    id={value}
+                    value={value}
                     type="checkbox"
                     onChange={handleChange}
-                    checked={selectedGroups.includes(key)}
+                    checked={selectedGroups.includes(value)}
                   />
-                  <label htmlFor={key}>{label}</label>
+                  <label htmlFor={value}>{label}</label>
                 </li>
               ))}
             </ul>

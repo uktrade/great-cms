@@ -10,25 +10,25 @@ jest.mock('@src/Services')
 let wrapper
 
 const mockGroups = [
-  { key: '0', label: '0-9 year olds' },
-  { key: '10', label: '10-19 year olds' },
-  { key: '20', label: '20-29 year olds' },
-  { key: '30', label: '30-39 year olds' }
+  { value: '0', label: '0-9 year olds' },
+  { value: '10', label: '10-19 year olds' },
+  { value: '20', label: '20-29 year olds' },
+  { value: '30', label: '30-39 year olds' },
 ]
 
 const mockResponse = {
   cia_factbook_data: {
     languages: {
-      language: [{ name: 'English' }, { name: 'French' }, { name: 'Spanish' }]
-    }
+      language: [{ name: 'English' }, { name: 'French' }, { name: 'Spanish' }],
+    },
   },
   country_data: {
     consumer_price_index: {
-      value: 123
+      value: 123,
     },
     internet_usage: {
-      value: 80
-    }
+      value: 80,
+    },
   },
   population_data: {
     female_target_age_population: 100,
@@ -37,14 +37,17 @@ const mockResponse = {
     urban_percentage: 0.4,
     rural_percentage: 0.6,
     total_target_age_population: 1000,
-  }
+  },
 }
 
 describe('ToggleDataTable', () => {
-
   beforeEach(() => {
     Services.getCountryAgeGroupData.mockImplementation(() => Promise.resolve())
-    wrapper = mount(<ToggleDataTable groups={mockGroups} country="netherlands"><div className='table'>test</div></ToggleDataTable>)
+    wrapper = mount(
+      <ToggleDataTable groups={mockGroups} country="netherlands">
+        <div className="table">test</div>
+      </ToggleDataTable>
+    )
   })
 
   afterEach(() => {
@@ -67,13 +70,18 @@ describe('ToggleDataTable', () => {
   })
 
   test('renders table', async () => {
-    Services.getCountryAgeGroupData.mockImplementation(() => Promise.resolve(mockResponse))
+    Services.getCountryAgeGroupData.mockImplementation(() =>
+      Promise.resolve(mockResponse)
+    )
 
     wrapper.find('.button--icon').simulate('click', { type: 'click' })
     wrapper
       .find('form input')
       .first()
-      .simulate('change', { type: 'change', target: { value: mockGroups[0]['key'] } })
+      .simulate('change', {
+        type: 'change',
+        target: { value: mockGroups[0]['key'] },
+      })
 
     await act(async () => {
       wrapper.find('form').simulate('submit', { preventDefault: () => {} })
