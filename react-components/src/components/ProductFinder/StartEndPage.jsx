@@ -18,17 +18,18 @@ export default function StartEndPage(props) {
 
   const [commodityName, setCommodityName] = useState(defaultCommodityName)
 
-  const saveNamedProduct = () => {
-    if (commodityCode && commodityName) {
-      saveProduct(commodityCode, commodityName.trim())
-    }
-  }
 
   const nameOkToSave = (name) => {
     return (
       testInput.test(name) &&
       (allowSaveSameName || name !== defaultCommodityName)
     )
+  }
+
+  const saveNamedProduct = () => {
+    if (commodityCode && nameOkToSave(commodityName)) {
+      saveProduct(commodityCode, commodityName.trim())
+    }
   }
 
   const validateKeys = (inputString) => {
