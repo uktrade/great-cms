@@ -453,6 +453,9 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
 
+# Wagtail customisations
+ENVIRONMENT_CSS_THEME_FILE = env.str('ENVIRONMENT_CSS_THEME_FILE', '')
+
 # Wagtail-transfer configuration
 
 WAGTAILTRANSFER_SOURCES = get_wagtail_transfer_configuration()

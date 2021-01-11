@@ -15,7 +15,7 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
             css={'all': ('https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css',)},  # NOQA
             js=(
                 'https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js',
-                'core/js/refresh_codemirror.js',
+                'cms-admin/js/refresh_codemirror.js',
                 'wagtailadmin/js/page-chooser-modal.js',
             ),
         )

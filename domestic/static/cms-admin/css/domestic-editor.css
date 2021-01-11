@@ -1,0 +1,89 @@
+/* CSS for CMS admin pages in the domestic app  */
+
+body .object fieldset {
+  max-width: none;
+}
+
+.field-row-panel {
+  padding-bottom: 20px;
+}
+
+.tab-nav li a,
+.tab-nav li.settings a {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+label {
+  width: 100% !important;
+}
+
+body .image-chooser .chosen .preview-image {
+  margin-left: 0;
+}
+
+body .image-chooser .chosen {
+  padding-left: 0;
+}
+
+.field-col.multi-field {
+  padding: 0;
+}
+
+.field-content {
+  clear: both;
+  width: 100% !important;
+}
+
+.cm-spell-error {
+  background: none !important;
+}
+
+#tab-arabic input {
+  direction: rtl;
+}
+
+.tab-nav a.required-for-language:after {
+  border-radius: 50px;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  right: -0.5em;
+  top: -0.5em;
+  z-index: 5;
+  min-width: 0.9em;
+  color: #fff;
+  background: #006ccc;
+  content: attr(data-count);
+  padding: 0 0.3em;
+  line-height: 1.4em;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.required-for-language-container > label:after {
+  content: '*';
+  color: #cd3238;
+  font-weight: 700;
+  display: inline-block;
+  margin-left: 0.5em;
+  line-height: 1em;
+  font-size: 13px;
+}
+
+button.button.action-choose.button-small.button-secondary {
+  height: auto;
+  overflow: visible;
+  white-space: normal;
+  padding: 0.2em 0.8em;
+}
+
+@media (min-width: 641px) {
+  .help-panel-font-large {
+    font-size: 36px;
+    line-height: 1.11111;
+  }
+}
+.help-panel-font-large {
+  font-size: 24px;
+  line-height: 1.04167;
+}
