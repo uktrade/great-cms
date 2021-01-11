@@ -76,17 +76,8 @@
   <script type="text/javascript">
     var element = document.getElementById('target-age-groups');
     magna.createTargetAgeGroupInsights({
-      element,
-      groups: [
-          {key: "0-14", label: '0-14 year olds'},
-          {key: "15-19", label: '15-19 year olds'},
-          {key: "20-24", label: '20-24 year olds'},
-          {key: "25-34", label: '25-34 year olds'},
-          {key: "35-44", label: '35-44 year olds'},
-          {key: "45-54", label: '45-54 year olds'},
-          {key: "55-64", label: '55-64 year olds'},
-          {key: "65+", label: '65 years old and over'}
-      ],
+      element, {{ target_age_group_choices }}
+      groups: {{ demographic_data|safe }},
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ demographic_data|safe }},
       selected: {{ selected_age_groups|safe}},

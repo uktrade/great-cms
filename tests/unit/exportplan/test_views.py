@@ -99,6 +99,7 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
     assert response.context_data['route_to_markets'] == '{"route": "test"}'
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
+    assert response.context_data['target_age_group_choices']
     assert response.context_data['demographic_data'] == {
         **mock_get_country_data.return_value,
         **mock_get_cia_world_factbook_data.return_value,
@@ -231,6 +232,7 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
 
     response = client.get(url)
 
+    assert response.context_data['target_age_group_choices']
     assert response.context_data['insight_data'] == json.dumps(mock_get_comtrade_data.return_value)
     assert response.context_data['selected_age_groups'] == '["25-29", "47-49"]'
     assert response.status_code == 200
