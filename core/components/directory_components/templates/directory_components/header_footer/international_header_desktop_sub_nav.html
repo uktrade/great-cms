@@ -1,0 +1,15 @@
+{% load i18n %}
+
+{% if tier_two_items %}
+  <div class="great-sub-header">
+    <nav class="sub-nav" aria-label="{% trans 'Sub-menu' %}">
+      <ul class="sub-nav-list">
+        {% for header_item in tier_two_items %}
+          <li class="menu-item{% if header_item.is_active %} active{% endif %}">
+            <a class="link-heading" href="{{ header_item.url }}">{{ header_item.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+{% endif %}

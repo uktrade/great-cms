@@ -1,0 +1,46 @@
+{% extends 'demo/base.html' %}
+
+{% load breadcrumbs content_404 content_500 from directory_components %}
+{% load code from demo_tags %}
+
+{% block content %}
+  <div class="container">
+    {% breadcrumbs 'Error pages' %}<a href="/">Home</a>{% endbreadcrumbs %}
+  </div>
+
+  <section>
+    <div class="container">
+    <div class="width-two-thirds">
+      <h1 class="heading-xlarge">Error Pages</h1>
+
+      <p>We provide the following sections which should be used as the content for the error pages in your apps.</p>
+    </div>
+  </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="width-two-thirds">
+        <h2 class="heading-large">404 Error Content</h2>
+        {% code 'django' %}
+          {% load content_404 from directory_components %}
+          {% content_404 feedback_url='/feedback/' home_page_url='/' %}
+        {% endcode %}
+      </div>
+      {% content_404 feedback_url='/feedback/' home_page_url='/' %}
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="width-two-thirds">
+        <h2 class="heading-large">500 Error Content</h2>
+        {% code 'django' %}
+          {% load content_500 from directory_components %}
+          {% content_500 feedback_url='/feedback/' home_page_url='/' %}
+        {% endcode %}
+      </div>
+      {% content_500 feedback_url='/feedback/' home_page_url='/' %}
+    </div>
+  </section>
+{% endblock %}

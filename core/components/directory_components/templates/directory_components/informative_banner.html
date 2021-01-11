@@ -1,0 +1,13 @@
+{% load add_export_elements_classes from directory_components %}
+<div class="container">
+    <div class="informative-banner">
+        <div>
+            {% if banner_label %}
+                <h2>{{ banner_label }}</h2>
+            {% endif %}
+            {% if banner_content %}
+                {{ banner_content|add_export_elements_classes }}
+            {% endif %}
+        </div>
+    </div>
+</div>

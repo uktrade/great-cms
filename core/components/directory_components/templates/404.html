@@ -1,0 +1,11 @@
+{% extends 'directory_components/base.html' %}
+
+{% load content_404 from directory_components %}
+
+{% block head_title %}This page cannot be found{% endblock %}
+
+{% block content %}
+    {% content_404 feedback_url=services_urls.contact_us home_page_url=services_urls.exred %}
+{% endblock %}
+
+{% block feedback_reporter %}{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'demo/base.html' %}
+
+{% load static %}
+{% load demo_tags %}
+{% load directory_components %}
+{% load code from demo_tags %}
+
+{% block head_title %}directory-components{% endblock %}
+
+{% block content %}
+<div class="container">
+  {% breadcrumbs 'Details and accordions' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<section>
+  <div class="container">
+    <div class="width-two-thirds">
+      <h1 class="heading-xlarge">Details and accordions</h1>
+      <h2 class="heading-medium">Details and summary</h2>
+      <p>No special classes required!</p>
+      <details closed>
+        <summary>{% filter capfirst %}{% lorem 5 w %}{% endfilter %}</summary>
+        {% lorem 1 p %}
+      </details>
+      <h3 class="heading-small">HTML Markup</h3>
+      {% code 'html' %}
+        <details closed>
+          <summary>[summary]</summary>
+          [details]
+        </details>
+      {% endcode %}
+
+      <h2 class="heading-medium">Accordion list</h2>
+      <p>This is a list of <code>details</code> elements each with a heading, text and optional icon. The <code>items</code> param expects a list of dictionaries like this:</p>
+    </div>
+    {% code 'python' %}
+      {
+        'heading': 'Heading',
+        'content': '<p>Some plain HTML.</p>'
+      }
+    {% endcode %}
+
+    <p>A polyfill for IE and Edge is included in the base directory_components template.</p>
+    {% code 'django' %}
+      {% accordion_list items=details_list %}
+    {% endcode %}
+    {% accordion_list items=details_list %}
+    <h3 class="heading-small">HTML Markup</h3>
+    {% code 'html' %}
+      <div class="great-accordion-list">
+        <details closed class="great-accordion">
+          <summary class="width-full">
+            <span class="bold-small link">[summary]</span>
+          </summary>
+          [details]
+        </details>
+        <details closed class="great-accordion">
+          <summary class="width-full">
+            <span class="bold-small link">[summary]</span>
+          </summary>
+          [details]
+        </details>
+        ... etc
+      </div>
+    {% endcode %}
+  </div>
+</section>
+
+{% endblock content %}

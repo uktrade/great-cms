@@ -1,0 +1,89 @@
+@import '../../partials/mixins';
+@import '../../partials/colours';
+
+@mixin burger-icon-line {
+  background-color: $white;
+  transition: all .2s ease;
+  clear: right;
+  content: '';
+  float: right;
+  height: 2px;
+  margin: 0 0 10px 10px;
+  width: 20px;
+}
+
+.js-mobile-button {
+  display: none;
+
+  @media (max-width: 768px) {
+    @include button-reset;
+
+    height: 50px;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    color: $white;
+    background-color: $great-blue;
+    border: 2px solid $white;
+    padding: 10px 45px 10px 10px;
+    cursor: pointer;
+
+    &:focus {
+      @include focus;
+    }
+
+    &.ready {
+      display: block;
+    }
+
+    .burger-icon {
+      // The three burger lines are formed using the span, and its before and after.
+      @include burger-icon-line;
+
+      position: absolute;
+      right: 10px;
+      top: 22px;
+      transition: background-color .2s ease;
+      background-color: transparent;
+
+      &:before {
+        @include burger-icon-line;
+        margin-top: -6px;
+      }
+
+      &:after {
+        @include burger-icon-line;
+      }
+
+      &:focus {
+        @include focus;
+      }
+    }
+
+    // When expanded, the icon changes to an 'X', by rotating the top and bottom lines, and removing the middle one.
+    &.expanded {
+      background-color: $active-blue;
+
+      .burger-icon {
+        background-color: transparent;
+
+        &:before,
+        &:after {
+          width: 25px;
+          margin-right: -3px;
+        }
+
+        &:before {
+          transform: rotate(45deg);
+          margin-top: 0;
+        }
+
+        &:after {
+          transform: rotate(-45deg);
+          margin-top: -12px;
+        }
+      }
+    }
+  }
+}
+

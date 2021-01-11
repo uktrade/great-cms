@@ -1,0 +1,23 @@
+{% extends 'directory_components/header_footer/footer_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block global_footer_class %}international{% endblock %}
+
+{% block footer_left_logo %}
+    <img height="70" id="great-footer-dit-logo" src="{% static 'directory_components/images/dfit-logo-white.png' %}" alt="{% trans 'Department for International Trade' %}"/>
+{% endblock %}
+
+{% block footer_right_logo %}
+    <img width="180" id="great-footer-great-logo" src="{% static 'directory_components/images/great.svg' %}" alt="{% trans 'Great Britain and Northern Ireland' %}"/>
+{% endblock %}
+
+{% block global_footer_logo %}
+    <img id="great-global-footer-logo" class="great-global-header-footer-logo" alt="HM Government" height="24" src="{% static 'directory_components/images/hm-government.svg' %}">
+{% endblock %}
+
+{% block footer_domestic_international_link %}
+    <li class="great-footer-domestic-international-link">
+      <a id="footer-domestic" href="{{ services_urls.great_domestic }}">{% trans 'Go to the page for UK businesses' %}</a>
+    </li>
+{% endblock %}

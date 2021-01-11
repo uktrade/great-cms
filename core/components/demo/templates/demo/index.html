@@ -1,0 +1,68 @@
+{% extends 'demo/base.html' %}
+
+{% block content %}
+<section class="index padding-top-30">
+  <div class="container">
+    <div class="width-two-thirds">
+
+      <h1 class="heading-xlarge">directory-components v{{ version }}</h1>
+
+      <p>Hello, world! This is the demo page for <a href="https://github.com/uktrade/directory-components" class="link" title="Go to directory-components on GitHub" target="_blank" rel="noopener noreferrer">directory-components</a>. From here you can preview all the components and styling that can be used when you import this module.</p>
+
+      <h2 class="heading-medium">Contents</h2>
+
+      <h3 class="heading-small" id="pages">Pages:</h3>
+      <ul class="list list-bullet" aria-labelledby="pages">
+        <li><a class="link" href="{% url '404' %}">404 error page</a></li>
+        <li><a class="link" href="{% url '500' %}">500 error page</a></li>
+      </ul>
+
+      <h3 class="heading-small" id="forms">Forms:</h3>
+      <ul class="list list-bullet" aria-labelledby="forms">
+        <li><a class="link" href="{% url 'widgets' %}">Form widgets</a></li>
+        <li><a class="link" href="{% url 'form-errors' %}">Form errors demo</a></li>
+      </ul>
+
+      <h3 class="heading-small" id="forms">Styling:</h3>
+      <ul class="list list-bullet" aria-labelledby="forms">
+        <li><a class="link" href="{% url 'cms-tags' %}">CMS tags</a></li>
+        <li><a class="link" href="{% url 'elements' %}">Elements & utility classes</a></li>
+        <li><a class="link" href="{% url 'responsive' %}">Responsive classes</a></li>
+      </ul>
+
+      <h3 class="heading-small" id="components">Components:</h3>
+      <ul class="list list-bullet" aria-labelledby="components">
+        <li><a class="link" href="{% url 'react-components' %}">React components</a></li>
+        <li><a class="link" href="{% url 'full-width-banners' %}">Full width banners (incl. hero)</a></li>
+        <li><a class="link" href="{% url 'banners' %}">Banners</a></li>
+        <li><a class="link" href="{% url 'key-facts' %}">Key facts</a></li>
+        <li><a class="link" href="{% url 'statistics' %}">Statistics grid</a></li>
+        <li><a class="link" href="{% url 'fact-sheet' %}">Fact sheet</a></li>
+        <li><a class="link" href="{% url 'featured-articles' %}">Featured articles</a></li>
+        <li><a class="link" href="{% url 'message-boxes' %}">Message boxes</a></li>
+        <li><a class="link" href="{% url 'details-accordions' %}">Details and accordions</a></li>
+        <li><a class="link" href="{% url 'cards' %}">Cards</a></li>
+        <li><a class="link" href="{% url 'buttons' %}">Buttons</a></li>
+        <li><a class="link" href="{% url 'breadcrumbs' %}">Breadcrumbs</a></li>
+        <li><a class="link" href="{% url 'search-page-components' %}">Search page components</a></li>
+        <li><a class="link" href="{% url 'pagination' %}">Pagination</a></li>
+        <li><a class="link" href="{% url 'error-pages' %}">Error pages</a></li>
+      </ul>
+
+      <h3 class="heading-small" id="header-footer">Headers and footers</h3>
+      <ul class="list list-bullet" aria-labelledby="header-footer">
+        <li><a class="link" href="{% url 'great-international-header-footer' %}">Great.gov.uk international header and footer</a></li>
+        <li><a class="link" href="{% url 'great-domestic-header-footer' %}">Great.gov.uk domestic header and footer</a></li>
+        <li><a class="link" href="{% url 'invest-header' %}">Great.gov.uk invest header (and international footer)</a></li>
+      </ul>
+
+      <h3 class="heading-small" id="analytics">Analytics</h3>
+      <ul class="list list-bullet" aria-labelledby="header-footer">
+        <li><a class="link" href="{% url 'google-tag-manager' %}">Google Tag Manager</a></li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

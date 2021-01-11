@@ -1,0 +1,15 @@
+<div id="{{ box_id }}" class="cta-box padding-30 padding-45-m {{ box_class|default:'background-stone-60' }}">
+  <div class="grid-row">
+    <div class="column-half-m column-full">
+      {% block content %}
+      {% if heading %}
+        <{{ heading_level|default:'h3' }} class="box-heading {{ heading_class|default:'heading-medium' }}">{{ heading }}</{{ heading_level|default:'h3' }}>
+      {% endif %}
+      <p class="box-description">{{ description }}</p>
+      {% endblock %}
+    </div>
+    <div class="column-quarter-xl column-half-m column-full button-container">
+      <a id="{{ box_id }}-button" class="button {{ button_class|default:'button-blue' }}" href="{{ button_url }}">{{ button_text }}</a>
+    </div>
+  </div>
+</div>

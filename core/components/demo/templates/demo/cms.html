@@ -1,0 +1,54 @@
+{% extends 'demo/base.html' %}
+{% load breadcrumbs add_export_elements_classes from directory_components %}
+
+{% block content %}
+
+<div class="container">
+  {% breadcrumbs 'CMS tags' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<section class="padding-top-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        {% filter add_export_elements_classes %}
+
+        <h1>CMS tags</h1>
+
+        <p>This page uses html tags with no style classes so you can see how the <code>add_export_elements_classes</code> template tag works.</p>
+
+        <h2>Heading level 2</h2>
+
+        <h3>Heading level 3</h3>
+        <p><a href="/">Lorem ipsum dolor sit amet</a>.</p>
+        {% lorem 1 p random %}
+
+        <h3>Heading level 3</h3>
+        {% lorem 1 p random %}
+        <ul>
+          <li>List item</li>
+          <li><a href="/">List item link</a></li>
+          <li>List item</li>
+        </ul>
+
+        <h3>Heading level 3</h3>
+        {% lorem 2 p random %}
+
+        <h4>Heading level 4</h4>
+        {% lorem 1 p random %}
+
+        <h5>Heading level 5</h5>
+        {% lorem 1 p random %}
+
+        <h6>Heading level 6</h6>
+        {% lorem 1 p random %}
+
+        {% endfilter %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

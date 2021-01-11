@@ -1,0 +1,362 @@
+@import '!elements/layout';
+@import '../../sass/partials/spacings';
+@import '../../sass/partials/mixins';
+
+// Remove max-width and margins from #content
+// as we use .container for this instead
+
+#content {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+
+// Additional great.gov.uk styles
+.grid-row > * {
+  padding: 0 15px;
+}
+
+// Like .grid-row but columns expand vertically to align their heights
+.flex-grid {
+  margin: 0 -15px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-grid > * {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.container {
+  max-width: $design-max-width;
+  margin: 0 auto;
+
+  @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
+    margin: 0 $spacing-3;
+  }
+
+  @media (max-width: 420px) {
+    margin: 0 20px; // Special figure intentionally outside of standard.
+  }
+}
+
+section {
+  overflow: visible;
+  padding-bottom: $spacing-1;
+
+  & > .container {
+    overflow: hidden;
+  }
+}
+
+// Included as a shortcut to using a grid-row and columns
+// when only one column is needed
+
+.width-sixth {
+  width: percentage(1 / 6);
+}
+
+.width-quarter {
+  width: 25%;
+}
+
+.width-half {
+  width: 50%;
+}
+
+.width-third {
+  width: percentage(1 / 3);
+}
+
+.width-two-thirds {
+  width: percentage(1 / 3 * 2);
+}
+
+.width-full {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .width-sixth,
+  .width-quarter,
+  .width-third,
+  .width-two-thirds,
+  .width-half {
+    width: 100%;
+  }
+}
+
+// Non-responsive versions
+
+.width-sixth-all {
+  width: percentage(1 / 6);
+}
+
+.width-quarter-all {
+  width: 25%;
+}
+
+.width-half-all {
+  width: 50%;
+}
+
+.width-third-all {
+  width: percentage(1 / 3);
+}
+
+.width-two-thirds-all {
+  width: percentage(1 / 3 * 2);
+}
+
+.width-full-all {
+  width: 100%;
+}
+
+.column-full {
+  @include grid-column(1);
+  width: 100%;
+}
+
+.column-half {
+  @include grid-column(1 / 2);
+  width: 100%;
+}
+
+.column-third {
+  @include grid-column(1 / 3);
+  width: 100%;
+}
+
+.column-two-thirds {
+  @include grid-column(2 / 3);
+  width: 100%;
+}
+
+.column-quarter {
+  @include grid-column(1 / 4);
+  width: 100%;
+}
+
+.column-five-twelfths {
+  @include grid-column(5 / 12);
+  width: 100%;
+}
+
+
+.column-sixth {
+  @include grid-column(1 / 6);
+  width: 100%;
+}
+
+.column-three-quarters {
+  @include grid-column(3 / 4);
+  width: 100%;
+}
+
+// Used on article pages
+.column-seven-twelfths {
+  @include grid-column(7 / 12);
+  width: 100%;
+}
+
+// =============================
+// Responsive classes
+// =============================
+
+// Medium screen width
+
+@media (min-width: 641px) {
+
+  .width-sixth-m {
+    width: percentage(1 / 6);
+  }
+
+  .width-quarter-m {
+    width: 25%;
+  }
+
+  .width-half-m {
+    width: 50%;
+  }
+
+  .width-third-m {
+    width: percentage(1 / 3);
+  }
+
+  .width-two-thirds-m {
+    width: percentage(1 / 3 * 2);
+  }
+
+  .width-full-m {
+    width: 100%;
+  }
+
+  .column-full-m {
+    @include grid-column(1);
+  }
+
+  .column-half-m {
+    @include grid-column(1 / 2);
+  }
+
+  .column-third-m {
+    @include grid-column(1 / 3);
+  }
+
+  .column-two-thirds-m {
+    @include grid-column(2 / 3);
+  }
+
+  .column-quarter-m {
+    @include grid-column(1 / 4);
+  }
+
+  .column-five-twelfths-m {
+    @include grid-column(5 / 12);
+  }
+
+  .column-sixth-m {
+    @include grid-column(1 / 6);
+  }
+
+  .column-seven-twelfths-m {
+    @include grid-column(7 / 12);
+  }
+
+  .column-three-quarters-m {
+    @include grid-column(3 / 4);
+  }
+}
+
+// Large screen width
+
+@media (min-width: 769px) {
+
+  .width-sixth-l {
+    width: percentage(1 / 6);
+  }
+
+  .width-quarter-l {
+    width: 25%;
+  }
+
+  .width-half-l {
+    width: 50%;
+  }
+
+  .width-third-l {
+    width: percentage(1 / 3);
+  }
+
+  .width-two-thirds-l {
+    width: percentage(1 / 3 * 2);
+  }
+
+  .width-full-l {
+    width: 100%;
+  }
+
+  .column-full-l {
+    @include grid-column(1);
+  }
+
+  .column-half-l {
+    @include grid-column(1 / 2);
+  }
+
+  .column-third-l {
+    @include grid-column(1 / 3);
+  }
+
+  .column-two-thirds-l {
+    @include grid-column(2 / 3);
+  }
+
+  .column-quarter-l {
+    @include grid-column(1 / 4);
+  }
+
+  .column-five-twelfths-l {
+    @include grid-column(5 / 12);
+  }
+
+  .column-sixth-l {
+    @include grid-column(1 / 6);
+  }
+
+  .column-seven-twelfths-l {
+    @include grid-column(7 / 12);
+  }
+
+  .column-three-quarters-l {
+    @include grid-column(3 / 4);
+  }
+}
+
+// XLarge screen width
+
+@media (min-width: 961px) {
+
+  .width-sixth-xl {
+    width: percentage(1 / 6);
+  }
+
+  .width-quarter-xl {
+    width: 25%;
+  }
+
+  .width-half-xl {
+    width: 50%;
+  }
+
+  .width-third-xl {
+    width: percentage(1 / 3);
+  }
+
+  .width-two-thirds-xl {
+    width: percentage(1 / 3 * 2);
+  }
+
+  .width-full-xl {
+    width: 100%;
+  }
+
+  .column-full-xl {
+    @include grid-column(1);
+  }
+
+  .column-half-xl {
+    @include grid-column(1 / 2);
+  }
+
+  .column-third-xl {
+    @include grid-column(1 / 3);
+  }
+
+  .column-two-thirds-xl {
+    @include grid-column(2 / 3);
+  }
+
+  .column-quarter-xl {
+    @include grid-column(1 / 4);
+  }
+
+  .column-five-twelfths-xl {
+    @include grid-column(5 / 12);
+  }
+
+  .column-sixth-xl {
+    @include grid-column(1 / 6);
+  }
+
+  .column-seven-twelfths-xl {
+    @include grid-column(7 / 12);
+  }
+
+  .column-three-quarters-xl {
+    @include grid-column(3 / 4);
+  }
+}

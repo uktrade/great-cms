@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<a
+  class="labelled-card"
+  href="{{ url }}"
+  {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}
+  {% if external_link %}target="_blank" rel="noopener noreferrer" title="{% trans 'Opens in a new window' %}"{% endif %}
+>
+    <div class="card-header">
+      <h3 class="title">{% firstof title heading %}</h3>
+    </div>
+    {% block image %}
+    {% if img_src %}
+      <img class="card-image" src="{{ img_src }}" alt="{{ img_alt }}" {% if card_id %}id="{{ card_id|add:'-image' }}"{% endif %}>
+    {% endif %}
+    {% endblock %}
+    <div class="card-inner {% if img_src %}with-image{% endif %}">
+      {% block content %}
+      <p class="description">{{ description }}</p>
+      {% endblock %}
+    </div>
+</a>

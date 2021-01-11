@@ -1,0 +1,327 @@
+{% extends 'demo/base.html' %}
+
+{% load static %}
+{% load demo_tags %}
+{% load breadcrumbs banner hero message_box cta_box card labelled_card labelled_image_card hero_with_cta case_study full_width_image_with_list_and_media add_export_elements_classes from directory_components %}
+{% load code from demo_tags %}
+
+{% block css_layout_class %}components{% endblock css_layout_class %}
+
+{% block content %}
+
+{% static 'images/hero02.png' as hero_image %}
+{% static 'images/hero01.jpg' as hero_image_domestic %}
+{% static 'images/placeholder.png' as placeholder %}
+{% static 'images/hero04.jpg' as dark_hero %}
+{% static 'images/card_image01.jpg' as half_image %}
+
+{% hero image=placeholder hero_text="Full width banners" %}
+
+<div class="container">
+  {% breadcrumbs 'Full width banners' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<div class="container">
+  <div class="width-two-thirds">
+    <h2 class="heading-large">Hero</h2>
+    <p>Load this template tag to use the hero.</p>
+  </div>
+  {% code 'django' %}
+    {% load hero from directory_components %}
+  {% endcode %}
+
+
+  <h3 class="heading-small">HTML markup</h3>
+{% code 'html' %}
+<section class="great-hero " id="hero" style="background-image: url([image url])">
+  <div class="container">
+    <div class="great-hero-title">
+      <h1 class="great-hero-heading" id="hero-heading">[heading]</h1>
+    </div>
+  </div>
+</section>
+{% endcode %}
+
+
+  <h3 class="heading-medium">Subheadings</h3>
+  <p>Hero title can also be split into heading and subheading.</p>
+</div>
+
+{% hero image=placeholder hero_subheading="Exporting to" hero_text="Germany" %}
+
+<div class="container">
+{% code 'django' %}
+
+{% hero image=placeholder hero_subheading="Exporting to" hero_text="Germany" %}
+{% endcode %}
+
+
+  <h4 class="heading-small">HTML markup</h4>
+  {% code 'html' %}
+  <section class="great-hero " id="hero" style="background-image: url([image url])">
+  <div class="container">
+    <div class="great-hero-title">
+      <h1 id="hero-heading" class="great-hero-heading with-subheading">
+        <span class="great-hero-subheading">[subheading]</span>
+        <span>[heading]</span>
+      </h1>
+    </div>
+  </div>
+</section>
+{% endcode %}
+
+
+  <h3 class="heading-medium">Description</h3>
+  <p>A description can be added after the hero heading.</p>
+
+</div>
+
+{% hero hero_text="Hero banner with a description" image=placeholder description='Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' %}
+
+<div class="container">
+{% code 'django' %}
+
+{% hero hero_text="Hero banner with a description" image=placeholder description='Lorem ipsum...' %}
+{% endcode %}
+
+  <h4 class="heading-small">HTML markup</h4>
+
+{% code 'html' %}
+  <section class="great-hero" id="hero" style="background-image: url([image url])">
+  <div class="container">
+    <div class="great-hero-title">
+      <h1 class="great-hero-heading" id="hero-heading">[heading]</h1>
+      <p class="great-hero-description" id="hero-description">[description]</p>
+    </div>
+  </div>
+</section>
+{% endcode %}
+
+
+  <h3 class="heading-medium">No image</h3>
+  <p>If an image is not provided a background colour will be used.</p>
+
+</div>
+
+{% hero hero_text="Hero banner with no background image" %}
+
+<div class="container">
+{% code 'django' %}
+
+{% hero hero_text="Hero banner with no background image" %}
+{% endcode %}
+
+
+    <h4 class="heading-small">HTML markup</h4>
+
+{% code 'html' %}
+<section class="great-hero great-hero-no-image" id="hero">
+  <div class="container">
+    <div class="great-hero-title">
+      <h1 class="great-hero-heading" id="hero-heading">[heading]</h1>
+    </div>
+  </div>
+</section>
+{% endcode %}
+
+
+  <h3 class="heading-medium">Hero with CTA button</h3>
+</div>
+
+{% hero_with_cta heading="Heading" subheading="Subheading" image=placeholder cta_text="Continue" cta_link="/foo" %}
+
+<div class="container">
+{% code 'django' %}
+
+{% hero_with_cta heading="Heading" subheading="Subheading" image=placeholder cta_text="Continue" cta_link="/foo" %}
+{% endcode %}
+
+
+
+  <h4 class="heading-small">HTML markup</h4>
+{% code 'html' %}
+<section data-ga-section="caseStudy" class="great-case-study" style="background-image: url([image url])">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-full column-two-thirds-l column-half-xl">
+        <div class="width-half-all border-thin border-flag-red"></div>
+        <h2 class="heading-large">[heading]</h2>
+        <img class="only-display-tablet width-full margin-bottom-15" src="[background_image]" alt="">
+        <p>[subtitle]</p>
+        <a class="button button-arrow-small margin-top-15-l" href="/">[cta_text]</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endcode %}
+
+
+  <h2 class="heading-large">Full width banners</h2>
+</div>
+
+{% case_study background_image=placeholder heading='Full width banner with a subtitle and CTA' subtitle='This component works best with a dark background image or an image where the left side is darker than the right so that this white text is legible. On tablet and smaller the image is displayed separately from the text.'  cta_link='/'  cta_text='Continue' %}
+
+<div class="container">
+{% code 'django' %}
+
+{% case_study background_image=placeholder heading='Heading text' subtitle='Lorem ipsum dolor sit amet ...'  cta_link='/'  cta_text='Continue' %}
+{% endcode %}
+
+
+  <h4 class="heading-small">HTML markup</h4>
+{% code 'html' %}
+<section data-ga-section="caseStudy" class="great-case-study " style="background-image: url([background_image])">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-full column-two-thirds-l column-half-xl">
+        <div class="width-half-all border-thin border-flag-red"></div>
+        <h2 class="heading-large">[heading]</h2>
+        <img class="only-display-tablet width-full margin-bottom-15" src="[background_image]" alt="">
+        <p>[subtitle]</p>
+        <a class="button button-arrow-small margin-top-15-l" href="/">[cta_text]</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endcode %}
+
+</div>
+
+{% case_study background_tint=True background_image=hero_image_domestic heading='Full width banner with subtitle, CTA, and background tint' subtitle='If an image is too bright a background tint can be used to make text more legible. On tablet and smaller it displays the same as above.'  cta_link='www.google.com'  cta_text='Continue' %}
+
+<div class="container">
+{% code 'django' %}
+
+{% case_study background_tint=True background_image=hero_image_domestic heading='Heading text' subtitle='Lorem ipsum dolor sit amet ...'  cta_link='/'  cta_text='Continue' %}
+{% endcode %}
+
+
+  <h4 class="heading-small">HTML markup</h4>
+  <p>Simply add the <code>background-tint</code> class to the <code>.great-case-study</code> element.</p>
+
+{% code 'html' %}
+<section data-ga-section="caseStudy" class="great-case-study <span class="great-red-text">background-tint</span>" style="background-image: url([background_image])">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-full column-two-thirds-l column-half-xl">
+        <div class="width-half-all border-thin border-flag-red"></div>
+        <h2 class="heading-large">[heading]</h2>
+        <img class="only-display-tablet width-full margin-bottom-15" src="[background_image]" alt="">
+        <p>[subtitle]</p>
+        <a class="button button-arrow-small margin-top-15-l" href="/">[cta_text]</a>
+      </div>
+    </div>
+  </div>
+  </section>
+{% endcode %}
+
+</div>
+
+<div class="container">
+  <h3 class="heading-large"> Full width image with a list of items and an optional image or video</h3>
+  <p>The intro is expected to be a markdown field.</p>
+  <p>The list of items are expected to be a dictionary with a title and text.</p>
+
+{% code 'python' %}
+items_list=[
+  {
+      'title': 'Item One Title',
+      'text': '<p>Lorem ipsum ... <a href="/full-width-banners/">Learn more.</a></p>'
+  },
+  {
+      'title': 'Item Two Title',
+      'text': '<p>Lorem ipsum ... <a href="/full-width-banners/">Learn more.</a></p>'
+  },
+]
+{% endcode %}
+
+
+</div>
+
+{% full_width_image_with_list_and_media title="Full width image with a list of items" background_image=dark_hero intro_markdown=intro_markdown items_list=items_list %}
+
+<div class="container">
+{% code 'django' %}
+
+{% full_width_image_with_list_and_media title="Full width image with a list of items" background_image=dark_hero intro_markdown=intro_markdown items_list=items_list %}
+{% endcode %}
+
+
+  <h4 class="heading-small">HTML markup</h4>
+
+{% code 'html' %}
+<section class="full-width-list-with-media " style="background-image: url([background_image])">
+  <div class="container padding-top-30 padding-bottom-30">
+    <h2 class="heading-large">Full width image with a list of items</h2>
+    <div class="grid-row">
+      <div class="column-two-thirds-l">
+        [intro (markdown)]
+      </div>
+    </div>
+    <div class="flex-grid reverse-columns-l">
+      <div class="column-half-xl column-full-m">
+        <ul class="flex-grid">
+          <li class="column-half-l">
+            <h3 class="bold-medium list-item padding-top-15">[title]</h3>
+            <span class="font-xsmall">[text (markdown)]</span>
+          </li>
+          ... etc
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{% endcode %}
+
+</div>
+
+{% full_width_image_with_list_and_media title="Full width image with a list of items and an image" background_image=dark_hero image=half_image intro_markdown=intro_markdown items_list=items_list %}
+
+<div class="container">
+  {% code 'django' %}
+    {% full_width_image_with_list_and_media title="Full width image with a list of items and an image" background_image=dark_hero image=half_image intro_markdown=intro_markdown items_list=items_list %}
+  {% endcode %}
+
+  <h4 class="heading-small">HTML markup</h4>
+  {% code 'html' %}
+    <section class="full-width-list-with-media " style="background-image: url('/static/images/hero04.jpg')">
+      <div class="container padding-top-30 padding-bottom-30">
+        <h2 class="heading-large">Full width image with a list of items and an image</h2>
+        <div class="grid-row">
+          <div class="column-two-thirds-l">
+            [intro (markdown)]
+          </div>
+        </div>
+        <div class="flex-grid reverse-columns-l">
+          <div class="column-half-xl column-full-m">
+            <ul class="flex-grid">
+              <li class="column-half-l">
+                <h3 class="bold-medium list-item padding-top-15">[title]</h3>
+                <span class="font-xsmall">[text (markdown)]</span>
+              </li>
+              ... etc
+            </ul>
+          </div>
+          <div class="column-half-xl media">
+            <div class="flex-grid">
+              <figure>
+                <img class="width-full" src="[image]" alt="">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endcode %}
+
+</div>
+
+{% full_width_image_with_list_and_media title="Full width image with a list of items and a video" background_image=dark_hero video=video intro_markdown=intro_markdown items_list=items_list %}
+
+<div class="container">
+  {% code "django" %}
+    {% full_width_image_with_list_and_media title="Full width image with a list of items and a video" background_image=dark_hero video=video intro_markdown=intro_markdown items_list=items_list %}
+  {% endcode %}
+</div>
+
+{% endblock %}

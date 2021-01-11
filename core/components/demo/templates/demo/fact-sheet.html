@@ -1,0 +1,40 @@
+{% extends 'demo/base.html' %}
+
+{% load static %}
+{% load demo_tags %}
+{% load directory_components %}
+{% load code from demo_tags %}
+
+{% block head_title %}directory-components{% endblock %}
+
+{% block content %}
+
+<section class="background-stone-30">
+  <div class="container">
+    <h2 class="heading-large margin-bottom-60">Fact sheet with highlighted heading</h2>
+    <div class="flex-grid">
+      <div class="column-half">
+        <div class="fact-sheet">
+          <h3 class="highlight heading-medium background-grey white-text">Fact sheet</h3>
+          <div class="fact-sheet-content background-white padding-45 wrap-tight">
+            {% lorem 1 p random %}
+            <hr>
+            {% lorem 2 p random %}
+          </div>
+        </div>
+      </div>
+      <div class="column-half">
+        {% code 'html' %}
+          <div class="fact-sheet">
+            <h3 class="highlight heading-medium background-grey white-text">Fact sheet</h3>
+            <div class="fact-sheet-content background-white padding-45 wrap-tight">
+              [ html content ]
+            </div>
+          </div>
+        {% endcode %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

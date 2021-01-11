@@ -1,0 +1,25 @@
+<section class="{{ section_class }}">
+  <div class="container">
+    <h2 class="heading-large margin-top-60-m margin-top-30">{{ heading }}</h2>
+    <div class="grid-row">
+      <div class="column-full column-two-thirds-xl margin-bottom-30">
+        <img class="width-full margin-bottom-30" src="{{ items.0.article_image_thumbnail.url }}" alt="">
+        <p class="subheading">{{ items.0.type_of_article }}</p>
+        <a href="{{ items.0.full_path }}" class="link heading-medium margin-top-0">{{ items.0.title }}</a>
+        <p class="margin-bottom-0">{{ items.0.article_teaser }}</p>
+      </div>
+      {% if items|length > 1 %}
+      <ul class="column-full column-third-xl">
+        {% for item in items %}
+          {% if not forloop.first %}
+          <li class="margin-bottom-30">
+            <p class="subheading">{{ item.type_of_article }}</p>
+            <a href="{{ item.full_path }}" class="link heading-medium margin-top-0">{{ item.title }}</a>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</section>

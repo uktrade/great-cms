@@ -1,0 +1,12 @@
+{% load add_export_elements_classes from directory_components %}
+
+<details open class="great-accordion">
+  <summary class="width-full">
+    <span class="bold-small link">{{ item.heading }}</span>
+  </summary>
+  {% block content %}
+  <div class="width-full width-two-thirds-m">
+    {{ item.content|add_export_elements_classes }}
+  </div>
+  {% endblock %}
+</details>

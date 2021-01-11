@@ -1,0 +1,24 @@
+{% extends 'directory_components/header_footer/footer_base.html' %}
+{% load static %}
+
+{% block global_footer_class %}domestic{% endblock %}
+
+{% block footer_left_logo %}
+    <img class="great-footer-right-logo" width="180" id="great-footer-great-logo" src="{% static 'directory_components/images/great.svg' %}" alt="Great Britain and Northern Ireland"/>
+{% endblock %}
+
+{% block global_footer_logo %}
+    <img id="great-global-footer-logo" class="great-global-header-footer-logo" alt="Department for International Trade" height="21" src="{% static 'directory_components/images/dit-logo.svg' %}">
+{% endblock %}
+
+{% block footer_performance_link %}
+<li>
+  <a id="footer-performance" href="{{ header_footer_urls.performance }}">Performance</a>
+</li>
+{% endblock %}
+
+{% block footer_domestic_international_link %}
+  <li class="great-footer-domestic-international-link">
+    <a id="footer-international" href="{{ services_urls.great_international }}">Go to the page for international businesses</a>
+  </li>
+{% endblock %}

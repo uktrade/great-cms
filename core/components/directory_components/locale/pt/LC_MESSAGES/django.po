@@ -1,0 +1,159 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-30 10:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: directory_components/templates/directory_components/card.html:12
+#: directory_components/templates/directory_components/cta_card.html:7
+#: directory_components/templates/directory_components/header_footer/footer_base.html:27
+#: directory_components/templates/directory_components/labelled_card.html:7
+#: directory_components/templates/directory_components/labelled_image_card.html:7
+msgid "Opens in a new window"
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:8
+msgid "Tell us whether you accept cookies"
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:9
+msgid "We use "
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:9
+msgid "cookies to collect information"
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:9
+msgid ""
+"about how you use great.gov.uk. We use this information to make the website "
+"work as well as possible and improve government services."
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:13
+msgid "Accept all cookies"
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:14
+msgid "Set cookie preferences"
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:19
+msgid "You've accepted all cookies.  You can "
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:19
+msgid "change your settings"
+msgstr ""
+
+#: directory_components/templates/directory_components/cookie_notice.html:19
+msgid "at any time."
+msgstr ""
+
+#: directory_components/templates/directory_components/header_footer/country_switcher.html:11
+msgid "Country"
+msgstr "País"
+
+#: directory_components/templates/directory_components/header_footer/country_switcher.html:15
+#: directory_components/templates/directory_components/header_footer/language_switcher.html:16
+msgid "Select"
+msgstr "Seleccione"
+
+#: directory_components/templates/directory_components/header_footer/domestic_header_nav.html:4
+#: directory_components/templates/directory_components/header_footer/international_header_desktop_nav.html:4
+#: directory_components/templates/directory_components/header_footer/international_header_mobile_nav.html:4
+msgid "Main menu"
+msgstr "Menu principal"
+
+#: directory_components/templates/directory_components/header_footer/footer_base.html:14
+msgid "Contact us"
+msgstr "Entrar em contato"
+
+#: directory_components/templates/directory_components/header_footer/footer_base.html:17
+msgid "Privacy and cookies"
+msgstr "Privacidade e cookies"
+
+#: directory_components/templates/directory_components/header_footer/footer_base.html:20
+msgid "Terms and conditions"
+msgstr "Termos e condições"
+
+#: directory_components/templates/directory_components/header_footer/footer_base.html:27
+msgid "Department for International Trade on GOV.UK"
+msgstr "Departamento de Comércio Internacional em GOV.UK"
+
+#: directory_components/templates/directory_components/header_footer/global_header.html:8
+msgid "For UK businesses"
+msgstr "Empresas do Reino Unido"
+
+#: directory_components/templates/directory_components/header_footer/global_header.html:9
+msgid "For international businesses"
+msgstr "Empresas internacionais"
+
+#: directory_components/templates/directory_components/header_footer/international_footer.html:8
+msgid "Department for International Trade"
+msgstr "Departamento de Comércio Internacional"
+
+#: directory_components/templates/directory_components/header_footer/international_footer.html:12
+msgid "Great Britain and Northern Ireland"
+msgstr "Grã-Bretanha e Irlanda do Norte"
+
+#: directory_components/templates/directory_components/header_footer/international_footer.html:21
+msgid "Go to the page for UK businesses"
+msgstr "Aceder à página de empresas do Reino Unido"
+
+#: directory_components/templates/directory_components/header_footer/international_header_desktop_sub_nav.html:5
+msgid "Sub-menu"
+msgstr ""
+
+#: directory_components/templates/directory_components/header_footer/language_switcher.html:13
+msgid "Language"
+msgstr "Língua"
+
+#: directory_components/templates/directory_components/header_footer/mobile_menu_button.html:10
+msgid "Menu"
+msgstr ""
+
+#: directory_components/templates/directory_components/search-page-expandable-options.html:5
+#, python-format
+msgid "Toggle %(label)s filter options"
+msgstr ""
+
+#: directory_components/templates/directory_components/search-page-selected-filters.html:6
+msgid "Selected filters"
+msgstr ""
+
+#: directory_components/templates/directory_components/search-page-selected-filters.html:10
+msgid "Clear all"
+msgstr ""
+
+#~ msgid "Invest"
+#~ msgstr "Investir"
+
+#~ msgid "UK setup guide"
+#~ msgstr "Guia para estabelecer no Reino Unido"
+
+#~ msgid "Find a UK supplier"
+#~ msgstr "Encontrar um fornecedor no Reino Unido"
+
+#~ msgid "Industries"
+#~ msgstr "Indústrias"
+
+#~ msgid "How to do business with the UK"
+#~ msgstr "Como fazer negócios com o Reino Unido"
+
+#~ msgid "Page in English only"
+#~ msgstr "Esta página apenas está disponível em inglês"

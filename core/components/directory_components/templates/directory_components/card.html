@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load add_export_elements_classes from directory_components %}
+
+<div class="card{% if title and not description and not html_content %} only-title{% endif %}{% if no_padding_card %} no-padding-card{% endif %}{% if transparent_card %} transparent-card{% endif %}"
+  {% if card_id %}id="{{ card_id }}"{% endif %}
+>
+  {% if url %}
+  <a
+    class="card-link"
+    href="{{ url }}"
+    {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}
+    {% if external_link %}target="_blank" rel="noopener noreferrer" title="{% trans 'Opens in a new window' %}"{% endif %}
+    >
+  {% endif %}
+    {% block image %}
+    {% if img_src %}
+        <img class="card-image" src="{{ img_src }}" alt="{{ img_alt }}" {% if card_id %}id="{{ card_id|add:'-image' }}"{% endif %}>
+    {% endif %}
+    {% endblock %}
+    <div class="card-inner">
+      {% block content %}
+      {% if html_content %}
+      {{ html_content }}
+      {% else %}
+        {% if subheading %}
+          <p class="subheading">{{ subheading }}</p>
+        {% endif %}
+        {% if title or heading %}
+          <h3 class="heading-large">{% firstof title heading %}</h3>
+        {% endif %}
+        {% if html_snippet %}
+        {{ html_snippet|add_export_elements_classes }}
+        {% endif %}
+      {% endif %}
+      {% endblock %}
+    </div>
+  {% if url %}
+  </a>
+  {% endif %}
+  {% if description %}
+    <p class="description">{{ description }}</p>
+  {% endif %}
+</div>

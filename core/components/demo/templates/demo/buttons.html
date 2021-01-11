@@ -1,0 +1,56 @@
+{% extends 'demo/base.html' %}
+
+{% load static %}
+{% load demo_tags %}
+{% load directory_components %}
+
+{% block css_layout_class %}components{% endblock css_layout_class %}
+
+{% block content %}
+
+<div class="container">
+  {% breadcrumbs 'Buttons' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<section>
+  <div class="container">
+    <h1 class="heading-large">Buttons</h1>
+    <div class="grid-row">
+      <div class="column-third padding-bottom-15">
+        <a href="#" class="button">.button</a>
+      </div>
+      <div class="column-third padding-bottom-15">
+        <a href="#" class="button-ghost-blue">.button-ghost-blue</a>
+      </div>
+      <div class="column-third padding-bottom-15">
+        <a href="#" class="button button-arrow-small">.button-arrow-small</a>
+      </div>
+      <div class="column-half padding-bottom-15">
+        <a href="#" class="button-large button-ghost-blue">.button-ghost-blue.button-large</a>
+      </div>
+      <div class="column-half padding-bottom-15">
+        <a href="#" class="button-arrow-large button-ghost-blue button-large">.button-arrow-large</a>
+      </div>
+      <div class="column-half padding-bottom-15">
+        {% cta_link with_arrow=True url="#" text=".cta-link.with-arrow" %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="padding-top-30 background-great-blue white-text">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-third padding-bottom-15">
+        <a href="#" class="button button-ghost-white">.button-ghost-white</a>
+      </div>
+      <div class="column-half padding-bottom-15">
+        <a href="#" class="button button-arrow-small button-ghost-white">.button-arrow-small</a>
+      </div>
+      <div class="column-half padding-bottom-15">
+        <a href="#" class="button-arrow-large button-ghost-white button-large">.button-arrow-large</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

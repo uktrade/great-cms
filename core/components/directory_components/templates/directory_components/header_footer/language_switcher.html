@@ -1,0 +1,20 @@
+{% load i18n %}
+
+{% if language_switcher.show %}
+  <div id="great-header-language-switcher" class="great-header-language-switcher great-header-form">
+    {% language request.LANGUAGE_CODE %}
+      <form class="languages" action="" method="get">
+        {% for key, value in request.GET.items %}
+          {% if key != 'lang' %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}" />
+          {% endif %}
+        {% endfor %}
+        {% block language_form_inner %}{% endblock %}
+        <label for="great-header-language-select">{% trans 'Language' %}</label>
+        <span id="great-header-language-display" class="great-header-language-display" aria-hidden="true"></span>
+          {{ language_switcher.form.lang }}
+        <button id="great-header-language-submit" type="submit">{% trans 'Select' %}</button>
+      </form>
+    {% endlanguage %}
+  </div>
+{% endif %}

@@ -1,0 +1,16 @@
+{% extends '404.html' %}
+
+{% load static %}
+
+{% block body_header %}
+    {% include 'demo/includes/header.html' %}
+{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/demo.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block body_footer %}
+    {% include 'demo/includes/footer.html' %}
+{% endblock %}

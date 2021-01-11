@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% if filters %}
+    <div class="selected-filters-container underline-flag-red margin-bottom-30">
+        <div class="padding-15">
+            <label class="selected-filters-label padding-bottom-15">{% trans 'Selected filters' %}</label>
+                {% for value in filters %}
+                    <mark>{{ value }}</mark>
+                {% endfor %}
+            <a href="{{ clear_all_link }}" class="link clear-all-link padding-top-15">{% trans 'Clear all' %}</a>
+        </div>
+    </div>
+{% endif %}

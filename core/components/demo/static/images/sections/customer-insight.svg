@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="54" viewBox="0 0 56 54">
+    <defs>
+        <circle id="a" cx="28" cy="38" r="6"/>
+        <circle id="b" cx="28" cy="6" r="6"/>
+        <circle id="c" cx="50" cy="38" r="6"/>
+        <circle id="d" cx="17" cy="22" r="6"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#006CCC" d="M39 54c0-6.075-4.925-11-11-11s-11 4.925-11 11"/>
+        <use fill="#006CCC" xlink:href="#a"/>
+        <circle cx="28" cy="38" r="4" stroke="#006CCC" stroke-width="4"/>
+        <circle cx="40" cy="22" r="4" stroke="#006CCC" stroke-width="4"/>
+        <use fill="#006CCC" xlink:href="#b"/>
+        <circle cx="28" cy="6" r="4" stroke="#006CCC" stroke-width="4"/>
+        <circle cx="6" cy="38" r="4" stroke="#006CCC" stroke-width="4"/>
+        <g>
+            <use fill="#006CCC" xlink:href="#c"/>
+            <circle cx="50" cy="38" r="4" stroke="#006CCC" stroke-width="4"/>
+        </g>
+        <g>
+            <use fill="#006CCC" xlink:href="#d"/>
+            <circle cx="17" cy="22" r="4" stroke="#006CCC" stroke-width="4"/>
+        </g>
+    </g>
+</svg>

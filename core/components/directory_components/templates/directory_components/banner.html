@@ -1,0 +1,12 @@
+{% load add_export_elements_classes from directory_components %}
+
+<div id="information-banner" class="information-banner border-medium border-stone-30 padding-15">
+  <div class="banner-content">
+    {% if badge_content %}
+      <div class="banner-badge">
+        <span class="bold-small background-active-blue white-text">{{ badge_content }}</span>
+      </div>
+    {% endif %}
+    <div>{{ banner_content|add_export_elements_classes }}</div>
+  </div>
+</div>

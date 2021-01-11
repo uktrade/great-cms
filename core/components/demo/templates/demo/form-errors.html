@@ -1,0 +1,27 @@
+{% extends 'demo/base.html' %}
+
+{% load view_instance_code from demo_tags %}
+{% load breadcrumbs from directory_components %}
+
+{% block content %}
+<div class="container">
+  {% breadcrumbs 'Form errors' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<section class="padding-top-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half">
+        <h1 class="heading-xlarge">Form error examples</h1>
+        <p>All the following fields are required. Try submitting the form to see the error messages.</p>
+      </div>
+    </div>
+    <form method="post" action="{% url 'form-errors' %}">
+      {% csrf_token %}
+      {{ form }}
+      <input class="button" type="submit" value="Submit" />
+    </form>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+
+<section class="great-hero {% if not image %}great-hero-no-image{% endif %}" id="hero" {% if image %}style="background-image: url({{ image }})"{% endif %}>
+  <div class="container">
+    <div class="great-hero-title">
+      {% if hero_subheading %}
+        <h1 id="hero-heading" class="great-hero-heading with-subheading">
+          <span class="great-hero-subheading">{{ hero_subheading }}</span>
+          <span>{{ hero_text }}</span>
+        </h1>
+      {% else %}
+        <h1 class="great-hero-heading" id="hero-heading">{{ hero_text }}</h1>
+      {% endif %}
+      {% if description %}
+      <p class="great-hero-description" id="hero-description">{{ description }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>

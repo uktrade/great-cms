@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{% if features.COUNTRY_SELECTOR_ON and hide_country_selector %}
+  <div id="great-header-country-selector" class="great-header-country-selector great-header-form">
+    <form class="countries" action="" method="get">
+      {% for key, value in request.GET.items %}
+        {% if key != 'country' %}
+          <input type="hidden" name="{{ key }}" value="{{ value }}" />
+        {% endif %}
+      {% endfor %}
+      <label for="great-header-country-select">{% trans 'Country' %}</label>
+      <span id="great-header-flag-icon" class="flag-icon flag-icon-{{ country.code }}"></span>
+      <span id="great-header-country-display" class="great-header-country-display" aria-hidden="true"></span>
+      {{ country_selector_form.country }}
+      <button id="great-header-country-submit" type="submit">{% trans 'Select' %}</button>
+    </form>
+  </div>
+{% endif %}

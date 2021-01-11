@@ -1,0 +1,37 @@
+{% load static from staticfiles %}
+{% load ga360_data from directory_components %}
+
+<ul class="sharing-links" data-component="sharing-links" data-ga-section="social-share-links">
+    <span class="visually-hidden">{{ title|default:'Share' }}</span>
+    <li>
+        {% ga360_data "a" value="twitter" %}
+        <a id="share-twitter" rel="noopener noreferrer" target="_blank" href="{{ social_links.twitter|safe }}">
+            <img alt="with Twitter" height="36px" src="{% static 'directory_components/icons/twitter.svg' %}" width="36px">
+        </a>
+        {% end_ga360_data %}
+    </li>
+    <li>
+        <span class="visually-hidden">,</span>
+        {% ga360_data "a" value="facebook" %}
+        <a id="share-facebook" rel="noopener noreferrer" target="_blank" href="{{ social_links.facebook|safe }}">
+            <img alt="with Facebook" height="36px" src="{% static 'directory_components/icons/facebook.svg' %}" width="36px">
+        </a>
+        {% end_ga360_data %}
+    </li>
+    <li>
+        <span class="visually-hidden">,</span>
+        {% ga360_data "a" value="linkedin" %}
+        <a id="share-linkedin" rel="noopener noreferrer" target="_blank" href="{{ social_links.linkedin|safe }}">
+            <img alt="with LinkedIn" height="36px" src="{% static 'directory_components/icons/linkedin.svg' %}" width="36px">
+        </a>
+        {% end_ga360_data %}
+    </li>
+    <li>
+        <span class="visually-hidden">,</span>
+        {% ga360_data "a" value="email" %}
+        <a id="share-email" href="{{ social_links.email|safe }}">
+            <img alt="via Email" height="36px" src="{% static 'directory_components/icons/email.svg' %}" width="36px">
+        </a>
+        {% end_ga360_data %}
+    </li>
+</ul>

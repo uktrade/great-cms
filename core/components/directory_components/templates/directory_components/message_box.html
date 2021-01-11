@@ -1,0 +1,8 @@
+<div class="message-box padding-15 padding-30-m border-medium {{ box_class|default:'border-teal background-white' }}">
+  {% block content %}
+  {% if heading %}
+    <{{ heading_level|default:'h3' }} class="box-heading heading-medium {{ heading_class|default:'grey-text' }}">{{ heading }}</{{ heading_level|default:'h3' }}>
+  {% endif %}
+  <p class="box-description">{{ description }}</p>
+  {% endblock %}
+</div>

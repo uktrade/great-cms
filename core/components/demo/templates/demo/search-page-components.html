@@ -1,0 +1,98 @@
+{% extends 'demo/base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% load demo_tags %}
+{% load breadcrumbs search_page_selected_filters search_page_expandable_options from directory_components %}
+{% load code from demo_tags %}
+
+{% block header_js %}
+    {{ block.super }}
+    <script src="{% static 'directory_components/js/dit.components.searchPageExpandableOptions.js' %}"></script>
+{% endblock %}
+
+{% block css_layout_class %}components{% endblock css_layout_class %}
+
+{% block content %}
+
+<div class="container">
+  {% breadcrumbs 'Search page components' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<div class="container">
+    <h1 class="heading-xlarge">Search page components</h1>
+
+    <h2 class="heading-medium">Selected filters</h2>
+
+    {% code 'django' %}
+        {% load search_page_selected_filters from directory_components %}
+        <div class="grid-row">
+            <div class="column-quarter">
+                {% search_page_selected_filters filters=filters clear_all_link="/" %}
+            </div>
+        </div>
+    {% endcode %}
+
+    <div> The 'filters' being passed in should be a list of the options that have been selected</div>
+    <br>
+    <div class="grid-row">
+        <div class="column-quarter">
+            {% search_page_selected_filters filters=filters clear_all_link="/" %}
+        </div>
+    </div>
+
+    <h2 class="heading-medium">Expandable options</h2>
+    <span>The file 'directory_components/js/dit.components.searchPageExpandableOptions.js' needs to be imported to use this component</span>
+
+    {% code 'django' %}
+        {% load search_page_expandable_options from directory_components %}
+
+        {% block header_js %}
+            {{ block.super }}
+            <script src="{% static 'directory_components/js/dit.components.searchPageExpandableOptions.js' %}"></script>
+        {% endblock %}
+
+        <div class="grid-row">
+            <div class="column-quarter">
+                {% search_page_expandable_options label='Sectors' field=form.colours %}
+            </div>
+        </div>
+    {% endcode %}
+    <p>To get the checkboxes, the form should use:</p>
+    {% code 'python'  %}
+        colours = fields.MultipleChoiceField(
+            widget=widgets.CheckboxSelectInlineLabelMultiple(
+                attrs={'id': 'checkbox-multiple'},
+                use_nice_ids=True,
+            ),
+
+    {% endcode %}
+
+    <p>The options should be a list of tuples:</p>
+    {% code 'python' %}
+        choices=(
+                ('red', 'Red'),
+                ('green', 'Green'),
+                ('blue', 'Blue'),
+            )
+        )
+    {% endcode %}
+
+    <div class="grid-row">
+        <div class="column-quarter">
+            {% search_page_expandable_options label='Colours' field=form.multiple_choice %}
+        </div>
+    </div>
+
+    <div class="grid-row">
+        <h2 class="heading-large">Related components</h2>
+        <div class="column-quarter">
+            <a class="link" href="{% url 'pagination' %}">Pagination</a>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+

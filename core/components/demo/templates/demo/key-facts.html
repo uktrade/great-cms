@@ -1,0 +1,67 @@
+{% extends 'demo/base.html' %}
+{% load breadcrumbs key_facts from directory_components %}
+{% load code from demo_tags %}
+
+{% block content %}
+
+<div class="container">
+  {% breadcrumbs 'Key facts' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<section class="padding-top-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <h1 class="heading-xlarge">Key facts</h1>
+        <p>This is a section with max 3 columns each with a heading, text and optional icon. The <code>items</code> param expects a list of dictionaries like this:</p>
+        {% code 'python' %}
+          {
+            'icon': {
+              'url': [icon url]
+            },
+            'heading': 'Heading',
+            'content': '<p>Some HTML.</p>'
+          }
+        {% endcode %}
+      </div>
+    </div>
+    <p>An optional <code>section_class</code> can be added to style the container e.g.</p>
+    {% code 'django' %}
+      {% key_facts items=key_facts heading='With three items' section_class='background-stone-30' %}
+    {% endcode %}
+
+
+  </div>
+</section>
+
+{% key_facts items=key_facts heading='With three items' section_class='background-stone-30' %}
+
+{% key_facts items=key_facts_two heading='With two items' %}
+
+{% key_facts items=key_facts_one heading='With one item' section_class='background-stone-30' %}
+
+{% key_facts items=key_facts_no_icons heading='With no icons' %}
+
+<section>
+  <div class="container">
+    <h2 class="heading-large">HTML markup</h2>
+    {% code 'html' %}
+      <section class="great-key-facts padding-top-60">
+          <div class="container wrap-tight">
+            <h2 class="heading-large margin-bottom-30">[heading]</h2>
+            <div class="grid-row">
+              <div class="great-key-facts-content column-third">
+                <img class="great-key-facts-icon" src="[item.icon]" alt="">
+                <div class="great-key-facts-text">
+                  <h3 class="heading-medium">[item.heading]</h3>
+                  [item.content (markdown/HTML)]
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    {% endcode %}
+  </div>
+</section>
+
+{% endblock %}

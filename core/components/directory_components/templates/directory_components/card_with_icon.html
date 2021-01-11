@@ -1,0 +1,34 @@
+<div
+  class="card"
+  {% if card_id %}id="{{ card_id }}"{% endif %}>
+  {% if url %}
+  <a
+    class="card-link"
+    href="{{ url }}"
+    {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}>
+  {% endif %}
+    <div class="card-inner">
+      {% block content %}
+      {% if img_src %}
+        <img
+          class="card-icon"
+          alt="{{ img_alt }}"
+          src="{{ img_src }}"
+          {% if card_id %}id="{{ card_id|add:'-icon' }}"{% endif %}>
+      {% endif %}
+      {% if html_content %}
+      {{ html_content }}
+      {% else %}
+        {% if title %}
+          <h3 class="heading-large">{{ title }}</h3>
+        {% endif %}
+        {% if description %}
+        <p class="description">{{ description }}</p>
+        {% endif %}
+      {% endif %}
+      {% endblock %}
+    </div>
+  {% if url %}
+  </a>
+  {% endif %}
+</div>

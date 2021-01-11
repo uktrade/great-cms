@@ -1,0 +1,32 @@
+<div class="statistics-card-grid flex-grid underline-active-blue">
+  {% for statistic in statistics %}
+    {% if statistic.number %}
+      {% if num_of_statistics >= 6 %}
+      <figure class="padding-vertical-15 column-half column-third-l column-sixth-xl">
+      {% elif num_of_statistics == 5 %}
+      <figure class="padding-vertical-15 column-half column-third-l column-sixth-xl">
+      {% elif num_of_statistics == 4 %}
+      <figure class="padding-vertical-15 column-half column-quarter-xl">
+      {% elif num_of_statistics == 3 %}
+      <figure class="padding-vertical-15 column-half column-third-l">
+      {% else %}
+      <figure class="padding-vertical-15 column-half">
+      {% endif %}
+        {% if not number_first %}
+        <figcaption>
+          <p class="statistic-heading font-xsmall">{{ statistic.heading }}</p>
+        </figcaption>
+        {% endif %}
+        <p class="active-blue-text statistic-number {% if statistic.number|length > 8 %} bold-medium{% else %} bold-large{% endif %}">{{ statistic.number }}</p>
+        {% if number_first %}
+        <figcaption>
+          <p class="statistic-heading font-xsmall">{{ statistic.heading }}</p>
+        </figcaption>
+        {% endif %}
+        <figcaption>
+          <p class="font-xsmall statistic-smallprint">{{ statistic.smallprint }}</p>
+        </figcaption>
+      </figure>
+    {% endif %}
+  {% endfor %}
+</div>

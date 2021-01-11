@@ -1,0 +1,12 @@
+{% load static %}
+{% load i18n %}
+
+<div id="great-global-header" class="great-global-header-footer great-global-header {{ header_class }}">
+  <div class="container">
+    <img id="great-global-header-logo" class="great-global-header-footer-logo" height="21" alt="Department for International Trade" src="{% static 'directory_components/images/dit-logo.svg' %}">
+    <div class="great-domestic-international-links">
+      <a href="{{ services_urls.great_domestic }}?lang=en-gb" id="great-global-header-domestic-link" class="domestic">{% trans 'For UK businesses' %}</a>
+      <a href="{{ services_urls.great_international }}" id="great-global-header-international-link" class="international">{% trans 'For international businesses' %}</a>
+    </div>
+  </div>
+</div>

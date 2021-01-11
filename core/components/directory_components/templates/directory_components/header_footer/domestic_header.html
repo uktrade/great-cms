@@ -1,0 +1,28 @@
+{% load static %}
+
+<header id="great-domestic-header" class="great-header" dir="ltr" data-ga-section="header">
+  {% include 'directory_components/header_footer/global_header.html' with header_class="domestic" %}
+
+  <div class="menu">
+    <div class="container">
+      {% block header_logo %}
+        {% static 'directory_components/images/eig-logo-stacked.svg' as logo_image_url %}
+        {% include 'directory_components/header_footer/header_logo.html' with url=services_urls.exred image_source=logo_image_url image_alt_text='Exporting is Great' %}
+      {% endblock %}
+
+      {% block login_state %}
+      <ul class="extra-links">
+        {% include 'directory_components/header_footer/sso_login.html' %}
+      </ul>
+      {% endblock %}
+
+      {% include 'directory_components/header_footer/mobile_menu_button.html' %}
+
+      {% include 'directory_components/header_footer/domestic_header_nav.html' with device_type='desktop' js_tag=false %}
+      {% include 'directory_components/header_footer/search.html' %}
+    </div>
+
+    {% include 'directory_components/header_footer/domestic_header_nav.html' with id='great-header-mobile-nav' device_type='mobile' js_tag=True %}
+
+  </div>
+</header>

@@ -1,0 +1,136 @@
+{% load static from staticfiles %}
+{% load i18n %}
+{% load static_absolute from directory_components %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+<!DOCTYPE html>
+    <!--[if lt IE 9]><html class="lte-ie8" lang={{ directory_components_html_lang_attribute|default:'en-gb' }}><![endif]-->
+    <!--[if gt IE 8]><!--><html dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}" lang={{ directory_components_html_lang_attribute|default:'en-gb' }}><!--<![endif]-->
+    <head>
+        {% block head_google_tag_manager %}
+            {% if directory_components_analytics %}
+                <meta id="utmCookieDomain" value="{{ directory_components_analytics.UTM_COOKIE_DOMAIN }}" />
+            {% endif %}
+            {% include 'directory_components/google_tag_manager_head.html' %}
+        {% endblock %}
+        {% block cookie_domain_meta %}
+          <meta id="privacyCookieDomain" value="{{ directory_components_cookie_notice.PRIVACY_COOKIE_DOMAIN }}" />
+        {% endblock %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            {% block head_title %}{% endblock %}
+        </title>
+
+        {% block head_favicon %}
+            <link href='{% static 'directory_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
+            <!--[if IE]> <link rel="icon" href="{% static 'directory_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+        {% endblock %}
+
+        {% block head_css %}
+            <link href="{% static 'directory_components/export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+            <link href="{% static 'directory_components/export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+        {% endblock %}
+
+        <style type="text/css">
+            .js-disabled-only { display: none; }
+        </style>
+        <noscript>
+            <style type="text/css">
+                .navigation-toggle { display: block; }
+                .js-disabled-only { display: block; }
+                .js-enabled-only { display: none; }
+            </style>
+        </noscript>
+
+        {% block vendor_js %}
+            <script src="{% static 'directory_components/js/vendor/details-polyfill.js' %}"></script>
+            <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
+        {% endblock %}
+
+        {% block head_js %}
+            <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+            <script src="{% static 'directory_components/js/reactComponents.js' %}"></script>
+
+        {% endblock %}
+
+        {% block head_js_ga360 %}
+            <script src="{% static 'directory_components/js/dit.tagging.js' %}"></script>
+            <script type="text/javascript">
+                window.dataLayer = window.dataLayer || [];
+                {% if ga360 and not skip_ga360 %}
+                window.dataLayer.push({
+                    'businessUnit': '{{ ga360.business_unit }}',
+                    'siteSection': '{{ ga360.site_section}}',
+                    'siteSubsection': '{{ ga360.site_subsection }}',
+                    'siteLanguage': '{{ ga360.site_language }}',
+                    'userId': '{{ ga360.user_id }}',
+                    'loginStatus': '{{ ga360.login_status }}',
+                });
+                dit.tagging.base.init();
+                {% endif %}
+            </script>
+        {% endblock %}
+
+        {% block header_js %}
+            <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>
+            <script src="{% static 'directory_components/js/dit.utils.js' %}"></script>
+            <script src="{% static 'directory_components/js/dit.components.header.js' %}"></script>
+        {% endblock %}
+
+        {% block head_other %}{% endblock %}
+
+        {% block head_sharing_metadata %}
+            {% if request %}
+                <meta property="og:image" content="{% static_absolute 'directory_components/images/opengraph-image.png' %}">
+                <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+            {% endif %}
+        {% endblock %}
+    </head>
+
+    <body {% block body_attributes %}{% endblock %}>
+        {% block body_google_tag_manager %}
+            {% include 'directory_components/google_tag_manager_body.html' %}
+        {% endblock %}
+        <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+        {% block skip_link %}
+          <a id="skip-link" href="#content">Skip to main content</a>
+        {% endblock %}
+
+        {% block cookie_notice %}
+            {% include 'directory_components/cookie_notice.html' %}
+        {% endblock %}
+
+        {% block body_header %}
+            {% include 'directory_components/header_footer/domestic_header.html' %}
+        {% endblock %}
+
+        {% block body_content_container %}
+            <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
+                {% block content %}{% endblock %}
+                {% block feedback_reporter %}
+                    {% include 'directory_components/error-reporting.html' %}
+                {% endblock %}
+                {% block content_after %}{% endblock %}
+            </main>
+        {% endblock %}
+
+        {% block body_footer %}
+            {% include 'directory_components/header_footer/domestic_footer.html' %}
+        {% endblock %}
+
+        {% block body_js %}
+          <script type="text/javascript">
+            var element = document.createElement('div');
+            document.body.appendChild(element);
+            reactComponents.CookiesModal({
+              element: element,
+              privacyCookiesUrl: '{{ header_footer_urls.privacy_and_cookies }}',
+              preferencesUrl: '{{ header_footer_urls.cookie_preference_settings }}',
+              isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
+            })
+          </script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,26 @@
+<div class="{{ field.css_classes }}" id="{{ field.id_for_label }}-container">
+  {% if field.field.widget.is_grouped %}
+    <fieldset>
+      {% if field.label %}
+        <legend>
+          {{ field.label_tag }}
+        </legend>
+      {% endif %}
+  {% else %}
+    {% if field.label %}
+      {{ field.label_tag }}
+    {% elif field.field.widget.hidden_label %}
+      <label class="visually-hidden" for="{{field.id_for_label}}">{{ field.field.widget.hidden_label }}</label>
+    {% endif %}
+  {% endif %}
+  {% if field.errors %}
+    <div class="error-message" role="alert" aria-atomic="true">{{ field.errors }}</div>
+  {% endif %}
+  {% if field.help_text %}
+    <span class="form-hint">{{ field.help_text }}</span>
+  {% endif %}
+  {{ field }}
+  {% if field.field.widget.is_grouped %}
+    </fieldset>
+  {% endif %}
+</div>

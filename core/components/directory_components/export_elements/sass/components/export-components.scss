@@ -1,0 +1,24 @@
+@import 'header-footer/base';
+@import 'cookie-notice/base';
+@import 'skip-link/base';
+@import '../partials/colours';
+
+#header nav ul {
+  margin: 0;
+}
+
+#header a.navigation:hover {
+  background-color: $mid-blue;
+}
+
+#menu ul li:first-child a {
+  border: 0;
+}
+
+#menu .links-list-heading.active:before,
+#menu .ExpanderControl:before,
+#header a.navigation:hover:before {
+  display: block;
+}
+
+

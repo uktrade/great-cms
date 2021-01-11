@@ -1,0 +1,89 @@
+{% extends 'demo/base.html' %}
+
+{% load static %}
+{% load demo_tags %}
+{% load directory_components %}
+{% load code from demo_tags %}
+
+{% block css_layout_class %}components{% endblock css_layout_class %}
+
+{% block content %}
+
+<div class="container">
+  {% breadcrumbs 'Breadcrumbs' %}<a href="/">Home</a>{% endbreadcrumbs %}
+</div>
+
+<section>
+  <div class="container">
+    <h1 class="heading-xlarge">Breadcrumbs</h1>
+        <p class="width-two-thirds">Like page titles, breadcrumbs labels should use sentence case - capitalise only the first word except when the breadcrumb contains proper nouns or acronyms e.g. 'Contact us about your investment', 'Market guide for Germany', 'Find out more about DIT'.</p>
+
+        <h2 class="heading-large">Usage in templates</h2>
+        <h3 class="heading-medium">Two levels</h3>
+        <p class="width-half">Specify the current page's label as the first argument of the tag, then include a single link in the body of the tag:</p>
+
+        {% code 'django' %}
+          {% breadcrumbs 'Current page' %}
+            <a href="http://www.example.com">Home</a>
+          {% endbreadcrumbs %}
+        {% endcode %}
+
+        <br>
+        <br>
+        <h4 class="heading-small">Output</h4>
+        {% breadcrumbs 'Current page' %}
+          <a href="http://www.example.com">Home</a>
+        {% endbreadcrumbs %}
+
+        <p>Context variables can also be used as the first argument and inside the tag:</p>
+        {% code 'django' %}
+          {% breadcrumbs page.title %}
+            <a href="{{ home_link }}">{{ home_label }}</a>
+          {% endbreadcrumbs %}
+        {% endcode %}
+        <br>
+        <br>
+        <h4 class="heading-small">Output</h4>
+        {% breadcrumbs page.title %}
+          <a href="{{ home_link }}">{{ home_label }}</a>
+        {% endbreadcrumbs %}
+
+        <h3 class="heading-medium">Three levels</h3>
+        <p class="width-half">Specify the Current page's label as the first argument of the tag, then include two links in the body of the tag:</p>
+        {% code 'django' %}
+          {% breadcrumbs 'Current page' %}
+            <a href="http://www.example.com">Home</a>
+            <a href="http://www.example.com/middle/">Middle label</a>
+          {% endbreadcrumbs %}
+        {% endcode %}
+        <br>
+        <br>
+        <h4 class="heading-small">Output</h4>
+        {% breadcrumbs 'Current page' %}
+          <a href="http://www.example.com">Home</a>
+          <a href="http://www.example.com/middle/">Middle label</a>
+        {% endbreadcrumbs %}
+
+        <h3 class="heading-medium">More levels</h3>
+        <p class="width-half">Similar to above, but include a number of links in the body of the tag.</p>
+        {% code 'django' %}
+          {% breadcrumbs 'Current page' %}
+            <a href="http://www.example.com/level1/">Level 1</a>
+            <a href="http://www.example.com/level2/">Level 2</a>
+            <a href="http://www.example.com/level3/">Level 3</a>
+            <a href="http://www.example.com/level4/">Level 4</a>
+          {% endbreadcrumbs %}
+        {% endcode %}
+        <br>
+        <br>
+        <h4 class="heading-small">Output</h4>
+        {% breadcrumbs 'Current page' %}
+          <a href="http://www.example.com/level1/">Level 1</a>
+          <a href="http://www.example.com/level2/">Level 2</a>
+          <a href="http://www.example.com/level3/">Level 3</a>
+          <a href="http://www.example.com/level4/">Level 4</a>
+        {% endbreadcrumbs %}
+
+  </div>
+</section>
+{% endblock %}

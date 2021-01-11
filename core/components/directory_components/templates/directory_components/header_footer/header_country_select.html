@@ -1,0 +1,37 @@
+{% load i18n %}
+
+{% if features.COUNTRY_SELECTOR_ON and not hide_country_selector  %}
+<section id="country-selector-dialog" class="country-selector-dialog" dir="ltr">
+  <div class="container">
+    <div class="countries">
+      <h2>Choose your country</h2>
+      <p>Tell us where your business is based to see information, guidance and opportunities specific to your location.</p>
+      <form class="form-group" action="" method="GET">
+        {% for key, value in request.GET.items %}
+          {% if key != 'country' %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}" />
+          {% endif %}
+        {% endfor %}
+        <div class="select-container">
+          {% if country %}
+            <span id="great-header-flag-icon" class="js-enabled-only flag-icon flag-icon-{{ country.code }}"></span>
+          {% endif %}
+          <div class="country-select{% if country_selector_form.country.errors %} form-group-error{% endif %}">
+            {% if country_selector_form.country.label %}{{ country_selector_form.country.label_tag }}{% endif %}
+            {% if country_selector_form.country.errors %}
+              <span class="error-message">{{ country_selector_form.country.errors }}</span>
+            {% endif %}
+            {% if country_selector_form.country.help_text %}
+              <span class="form-hint">{{ country_selector_form.country.help_text }}</span>
+            {% endif %}
+            {{ country_selector_form.country }}
+          </div>
+        </div>
+        <div class="button-container">
+          <button class="button button-blue" type="submit">Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endif %}

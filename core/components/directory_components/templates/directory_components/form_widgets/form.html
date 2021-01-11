@@ -1,0 +1,13 @@
+{% if form.non_field_errors %}
+  <div class="error-message margin-bottom-30">
+    <div class="{{ form.error_css_class }}">
+      {{ form.non_field_errors }}
+    </div>
+  </div>
+{% endif %}
+{% for field in form.visible_fields %}
+  {% include 'directory_components/form_widgets/form_field.html' with field=field %}
+{% endfor %}
+{% for field in form.hidden_fields %}
+    {{ field }}
+{% endfor %}

@@ -1,0 +1,10 @@
+<section class="great-key-facts padding-top-60 {{ section_class }}">
+  <div class="container wrap-tight">
+    <h2 class="heading-large margin-bottom-30">{{ heading }}</h2>
+    <div class="grid-row">
+      {% for item in items %}
+        {% include "directory_components/key_facts_item.html" with item=item columns=items|length %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+<div class="message-box-with-icon border-medium border-{{ border_colour|default:'teal' }} {{ box_class|default:'width-full background-white' }}">
+  <div class="message-box-icon font-large white-text background-{{ border_colour|default:'teal' }}" aria-hidden="true">{{ icon|default:'✓' }}</div>
+  <div class="message-box-content padding-15 padding-30-m">
+    {% block content %}
+    {% if heading %}
+      <{{ heading_level|default:'h3' }} class="box-heading heading-medium {{ heading_class|default:'grey-text' }}">{{ heading }}</{{ heading_level|default:'h3' }}>
+    {% endif %}
+    <p class="box-description">{{ description }}</p>
+    {% endblock %}
+  </div>
+</div>

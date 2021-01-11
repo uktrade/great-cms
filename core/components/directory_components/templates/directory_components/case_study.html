@@ -1,0 +1,22 @@
+
+<section
+  {% if section_id or id %}id="{% firstof section_id id %}"{% endif %}
+  data-ga-section="caseStudy"
+  class="great-case-study {% if background_tint %}background-tint{% endif %}"
+  style="background-image: url({% firstof background_image_url background_image img_url image_url image_src img_src image %})" data-ga-section="caseStudy">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-full column-two-thirds-l column-half-xl">
+        <div class="width-half-all border-thin border-flag-red"></div>
+        <h2 class="heading-large">{% firstof title heading %}</h2>
+          <img class="only-display-tablet width-full margin-bottom-15" src="{% firstof background_image_url background_image img_url image_url image_src img_src image %}" alt="">
+        {% block content %}
+        <p>{% firstof subtitle description %}</p>
+        {% if cta_link and cta_text %}
+          <a class="button button-arrow-small margin-top-15-l" href="{{ cta_link }}">{{ cta_text }}</a>
+        {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</section>
