@@ -1,17 +1,15 @@
-from django.forms import CheckboxSelectMultiple, Textarea, Select
-
+from django.forms import CheckboxSelectMultiple, Select, Textarea
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     FieldRowPanel,
+    HelpPanel,
     MultiFieldPanel,
     PageChooserPanel,
-    HelpPanel,
 )
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
 from core.cms_panels import SearchEngineOptimisationPanel
-
 
 ACCORDION_FIELDS_HELP_TEXT = (
     'To be displayed, this industry needs at least: a title, a teaser, '
