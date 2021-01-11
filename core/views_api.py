@@ -6,7 +6,7 @@ from django.conf import settings
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from requests import RequestException
+
 from core import helpers, serializers
 from core.fern import Fern
 from directory_constants import choices
@@ -52,7 +52,7 @@ class CheckView(generics.GenericAPIView):
                     },
                 }
             )
-        except RequestException as e:
+        except Exception as e:
             logger.exception(e)
             return Response({'status': status.HTTP_200_OK, 'CCCE_API': {'status': response.status_code}})
 
