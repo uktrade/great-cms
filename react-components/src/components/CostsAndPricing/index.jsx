@@ -26,7 +26,7 @@ export const CostsAndPricing = memo(({ currency, country, data, update }) => {
       <section className="container">
         <div className="grid">
           <div className="c-1-4">&nbsp;</div>
-          <div className="c-1-2">
+          <div className="c-1-1 c-2-3-m c-1-2-xl">
             <Direct
               costs={direct}
               currency={currency}
@@ -83,14 +83,14 @@ export const CostsAndPricing = memo(({ currency, country, data, update }) => {
               {...duty}
             />
           </div>
-          <div className="c-1-4">&nbsp;</div>
+          <div className="c-1-12-m c-1-4-xl">&nbsp;</div>
         </div>
       </section>
       <section className="bg-blue-deep-10 m-t-l p-v-s">
         <div className="container">
           <div className="grid">
-            <div className="c-1-4 p-0">&nbsp;</div>
-            <div className="c-1-2">
+            <div className="c-1-4">&nbsp;</div>
+            <div className="c-1-1 c-2-3-m c-1-2-xl">
               <GrossPrice
                 country={country}
                 currency={currency}
@@ -108,7 +108,7 @@ export const CostsAndPricing = memo(({ currency, country, data, update }) => {
                 }}
               />
             </div>
-            <div className="c-1-4">&nbsp;</div>
+            <div className="c-1-12-m c-1-4-xl">&nbsp;</div>
           </div>
         </div>
       </section>

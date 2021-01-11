@@ -13,12 +13,12 @@
     <div class="container">
       <div class="grid">
         <div class="c-1-4-l">&nbsp;</div>
-        <div class="c-1-2-l p-t-xl p-b-s text-white">
+        <div class="c-2-3-m c-1-2-xl p-t-xl p-b-s text-white">
           {% block intro_content %}{% endblock %}
           <h1 class="h-l text-red-80">{% block intro_title %}{% endblock %}</h1>
           <p>{% block intro_description %}{% endblock %}</p>
         </div>
-        <div class="c-1-4-l">&nbsp;</div>
+        <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
         <img src={% block banner_image %}{% static 'images/ep-placeholder.svg' %}{% endblock %} alt="" class="section--intro-image m-r-auto m-f-auto" />
       </div>
     </div>
@@ -27,10 +27,10 @@
   <section class="container">
     <div class="grid">
       <div class="c-1-4-l">&nbsp;</div>
-      <div class="c-1-2-l">
+      <div class="c-2-3-m c-1-2-xl">
         {% block main_content %}{% endblock %}
       </div>
-      <div class="c-1-4-l">&nbsp;</div>
+      <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
     </div>
   </section>
 
@@ -43,7 +43,7 @@
     <div class="container">
       <div class="grid">
         <div class="c-1-4-l">&nbsp;</div>
-        <div class="c-1-2-l">
+        <div class="c-2-3-m c-1-2-xl">
           {% if next_section and not next_section.disabled %}
             <p class="h-xs m-b-0 text-white">Next</p>
             <a class="text-red-80 link" href="{{ next_section.url }}" title="{{ next_section.title }}"><span class="inline-block h-l text-red-80 link--underline p-0 m-b-xs">{{ next_section.title }}</span> <br /><i class="fas fa-arrow-circle-right text-red-80"></i> </a>
@@ -52,7 +52,7 @@
             <div class="m-t-l"><a class="button button--tertiary button--icon" href="/export-plan/dashboard/" title="Back to Export Plan home"><i class="fas fa-arrow-left"></i> Back to Export Plan home</a></div>
           {% endblock %}
         </div>
-        <div class="c-1-4-l">&nbsp;</div>
+        <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
       </div>
     </div>
   </section>
