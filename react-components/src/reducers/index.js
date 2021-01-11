@@ -14,19 +14,9 @@ import { config } from '@src/config'
 import { combineReducers, reduceReducers } from 'redux'
 import costAndPricing from '@src/reducers/costsAndPricing'
 
-const saveToExportPlan = (country) => {
-  api.updateExportPlan({
-      export_countries: [country]
-    })
-    .then(() => {
-      const name = country.country_name
-      analytics({
-        'event': 'addMarketSuccess',
-        'suggestMarket': country.suggested ? name : '',
-        'listMarket': country.suggested ? '' : name
-      })
-    })
-    .catch(() => {
+
+const saveToExportPlan = (payload) => {
+  api.updateExportPlan(payload).catch(() => {
       // TODO: Add error confirmation here
     })
 }
@@ -99,13 +89,18 @@ const baseReducers = (state = initialState, action) => {
 }
 
 const exportPlanReducer = (state, action) => {
-  let newState = Object.assign({}, state);
+  let newState = Object.assign({}, state)
   switch (action.type) {
     case SET_PRODUCT:
+      saveToExportPlan({export_commodity_codes:[action.payload]})
+      const codeChanged = newState.products && (newState.products[0] && (newState.products[0].commodity_code != action.payload.commodity_code))
       newState.products = [action.payload]
+      if (codeChanged && config.refreshOnMarketChange) {
+        window.location.reload()
+      }
       break
     case SET_MARKET:
-      saveToExportPlan(action.payload)
+      saveToExportPlan({export_countries:[action.payload]})
       newState.markets = [action.payload]
       if (config.refreshOnMarketChange) {
         window.location.reload()

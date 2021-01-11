@@ -96,6 +96,13 @@ export default function CountryFinderModal(props) {
       region: button.getAttribute('data-region'),
       suggested: button.getAttribute('data-suggested'),
     }
+    if (!isCompareCountries) {
+      analytics({
+        'event': 'addMarketSuccess',
+        'suggestMarket': country.suggested ? country.country_name : '',
+        'listMarket': country.suggested ? '' : country.country_name
+      })
+    }
     selectCountry(country)
     closeModal()
   }
@@ -361,7 +368,7 @@ CountryFinderModal.propTypes = {
   setIsOpen: PropTypes.func.isRequired,
   commodityCode: PropTypes.string,
   selectCountry: PropTypes.func.isRequired,
-  compareMarkets: PropTypes.bool,
+  isCompareCountries: PropTypes.bool,
 }
 CountryFinderModal.defaultProps = {
   modalIsOpen: false,

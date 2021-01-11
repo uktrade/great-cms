@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import Services from '@src/Services'
+import actions from '@src/actions'
+import { getProducts } from '@src/reducers'
+import { connect, Provider } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { analytics } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
@@ -13,9 +17,8 @@ import { isObject } from '../../Helpers'
 const maxSelectedLength = 3
 
 function CompareMarkets(props) {
-  const { product } = props
+  const { selectedProduct } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(product)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const [cookies, setCookie] = useCookies(['comparisonMarkets'])
 
@@ -52,11 +55,10 @@ function CompareMarkets(props) {
     pushAnalytics(tmpMarkets)
   }
 
-  const buttonClass = `${
-    selectedProduct ? 'add-market' : ''
-  } button button--primary button--icon`
+  let buttonClass = 'button button--primary button--icon'
   let buttonLabel = 'Select product'
   if (selectedProduct) {
+    buttonClass = `add-market ${buttonClass}`
     buttonLabel =
       selectedLength > 0
         ? `Add country ${selectedLength + 1} of ${maxSelectedLength}`
@@ -137,12 +139,11 @@ function CompareMarkets(props) {
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
         setIsOpen={setProductModalIsOpen}
-        setSelectedProduct={setSelectedProduct}
       />
       <CountryFinderModal
         modalIsOpen={marketModalIsOpen}
         setIsOpen={setMarketModalIsOpen}
-        commodityCode={selectedProduct && selectedProduct.code}
+        commodityCode={selectedProduct && selectedProduct.commodity_code}
         addButton={false}
         selectCountry={addCountry}
         isCompareCountries={true}
@@ -151,10 +152,18 @@ function CompareMarkets(props) {
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    selectedProduct: getProducts(state),
+  }
+}
+
+const ConnectedCompareMarkets = connect(mapStateToProps)(CompareMarkets)
+
 CompareMarkets.propTypes = {
-  product: PropTypes.shape({
-    name: PropTypes.string,
-    code: PropTypes.string,
+  selectedProduct: PropTypes.shape({
+    commodity_name: PropTypes.string,
+    commodity_code: PropTypes.string,
   }),
 }
 
@@ -163,16 +172,11 @@ CompareMarkets.defaultProps = {
 }
 
 export default function createCompareMarkets({ ...params }) {
-  let product = {
-    name: params.element.getAttribute('data-productname'),
-    code: params.element.getAttribute('data-productcode'),
-  }
-  if (!product.name) {
-    product = null
-  }
   let tabs = params.element.getAttribute('data-tabs')
   ReactDOM.render(
-    <CompareMarkets product={product} tabs={tabs} />,
+    (<Provider store={Services.store}>
+      <ConnectedCompareMarkets tabs={tabs} />
+    </Provider>),
     params.element
   )
 }

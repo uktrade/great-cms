@@ -3,6 +3,13 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- GP2-1182 - Alignment of elements
+- GP2-1194 - Product finder search page content update and restyle
+- GP2-1130 - Product finder previous result start
+- GP2-1126 - Rename product
+- GP2-1125 - Remove product finder warning pop-up
+- GP2-1266 - Analytics - Separation of Target Market selection events
 - GP2-1127 - Renaming product at the end of product selection
 - GP2-1245 - Updated header contact link
 - GP2-1206 - Compare markets section on modal through compare markets (mobile and desktop)
@@ -21,6 +28,8 @@
 - GP2-974 - target market research page
 
 ### Fixed bugs
+
+- GP2-1067 - Fixed LessonCompleted component
 - no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
@@ -44,6 +53,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
+
 - GP2-695 - Select your product (modal window) - Product is not selected
 - GP2-1108 - business objective responsive changes
 - GP2-1172 - Analytics compare countries find a market modal (3 markets)
