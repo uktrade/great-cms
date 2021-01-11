@@ -374,4 +374,4 @@ def get_comtrade_data(countries_list, commodity_code):
             'import_data_from_uk': import_data_from_uk if import_data_from_uk else {},
             **country_data,
         }
-        return response_data
+    return response_data
