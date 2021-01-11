@@ -20,7 +20,7 @@ export default function StartEndPage(props) {
 
   const saveNamedProduct = () => {
     if (commodityCode && commodityName) {
-      saveProduct(commodityCode, commodityName)
+      saveProduct(commodityCode, commodityName.trim())
     }
   }
 

@@ -30,7 +30,7 @@ const mockResponse = {
 it('Renders a product selection final page', async () => {
   const hsCode = '123456'
   const commodityName = "default name"
-  const newName = "updated name"
+  const newName = " updated name "
   const saveProduct = jest.fn()
 
   Services.setConfig({ apiLookupProductScheduleUrl: '/api/lookup-product-schedule/' })
@@ -78,6 +78,6 @@ it('Renders a product selection final page', async () => {
   })
   expect(saveProduct.mock.calls.length).toEqual(1)
   expect(saveProduct.mock.calls[0][0]).toEqual(hsCode)
-  expect(saveProduct.mock.calls[0][1]).toEqual(newName)
-
+  expect(saveProduct.mock.calls[0][1]).not.toEqual(newName)
+  expect(saveProduct.mock.calls[0][1]).toEqual(newName.trim())
 })
