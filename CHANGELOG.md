@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1309 - Remove tooltips
 - GP2-1182 - Alignment of elements
 - GP2-1194 - Product finder search page content update and restyle
 - GP2-1130 - Product finder previous result start
