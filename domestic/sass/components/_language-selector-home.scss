@@ -1,0 +1,323 @@
+// Language Selector Component
+// ---------------------------
+
+.language-selector-control {
+  overflow: hidden;
+
+  button {
+    color: $white;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0 10px;
+  }
+
+  form {
+    color: $white;
+    margin: 5px 0 0 0;
+    position: relative;
+    z-index: 0;
+
+    &.enhancedLanguageSelector {
+      button {
+        display: none;
+      }
+    }
+  }
+
+  option {
+    background-color: $mid-grey;
+    color: $black;
+  }
+
+  p,
+  select {
+    @include body-s;
+    background-color: transparent;
+    border: 1px solid $mid-grey;
+    border-radius: 0;
+    color: $white;
+    cursor: pointer;
+    height: 27px;
+    line-height: 27px;
+    margin: 0;
+    padding: 0;
+    width: auto;
+  }
+
+  .SelectTraker-Tracker {
+    background-image: url("/static/icons/eig-world-language-icon.svg");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    border: none;
+    display: inline-block;
+    padding-left: 30px;
+    .code {
+      text-transform: uppercase;
+      &:after {
+        content: " - ";
+      }
+    }
+  }
+
+  .SelectTracker-Select {
+    border: none;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-indent: -1000px;
+    top: 0;
+    &:focus {
+      min-width: 150px;
+      & + p {
+        outline: 3px solid $focus-yellow;
+      }
+    }
+  }
+}
+
+
+.language-selector-dialog {
+
+  a {
+    @include body-s;
+  }
+
+  li {
+    display: inline;
+    float: none;
+  }
+
+  .domestic-redirect {
+    padding-top: $spacing-4;
+    span {
+      display: block;
+    }
+  }
+
+  .languages {
+    padding-bottom: $spacing-4;
+  }
+}
+
+
+.LanguageSelectorDialog-Modal {
+  top: 0;
+  a {
+    font-size: 21px;
+    text-decoration: underline;
+  }
+
+  li {
+    float: left;
+    margin-bottom: $spacing-3;
+  }
+
+  p {
+    @include body-m;
+    display: block;
+    margin-bottom: $spacing-3;
+  }
+
+  #great-languages-selector {
+    @include heading-m;
+    font-weight: normal;
+  }
+
+  ul {
+    display: block;
+  }
+
+  .countries {
+    overflow: hidden;
+    a {
+      background-position: top left;
+      background-repeat: no-repeat;
+      background-size: 40px;
+      display: block;
+      min-height: 40px;
+      padding: 5px 0 0 50px;
+    }
+  }
+
+  .languages {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .domestic-redirect {
+    float: right;
+    padding-left: $spacing-3;
+    padding-top: 71px;
+    width: $cols-4;
+
+    p {
+      font-size: inherit;
+      font-weight: normal;
+    }
+
+    span {
+      @include body-s;
+      display: block;
+      max-width: 215px;
+      padding-top: $spacing-4;
+    }
+  }
+}
+
+#header-bar .LanguageSelectorDialog-Tracker {
+  @include body-s;
+  margin-left: 5px;
+  background-image: url("/static/icons/eig-world-language-icon.svg");
+  background-position: 0px 2px;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  padding-left: 25px;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    text-decoration: underline;
+  }
+
+  .label {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .lang {
+    font-weight: bold;
+    text-transform: uppercase;
+    &:after {
+      content: " - ";
+    }
+  }
+}
+
+
+// DESKTOP ONLY
+@media (min-width: 768px) {
+  .LanguageSelectorDialog-Modal {
+    .countries {
+      li {
+        @include items(4, $spacing-3);
+      }
+    }
+
+    .languages {
+      ul {
+        padding: 5px;
+      }
+      li {
+        @include items(4, $spacing-3);
+      }
+    }
+  }
+}
+
+// TABLET
+@media (min-width: 481px) and (max-width: 767px) {
+  .LanguageSelectorDialog-Modal {
+    .countries {
+      li {
+        @include items(2, $spacing-3);
+      }
+    }
+
+    .languages {
+      li {
+        @include items(3, $spacing-3);
+      }
+    }
+  }
+}
+
+
+// MOBILE
+@media screen and (max-width: 580px) {
+  .LanguageSelectorDialog-Modal {
+    width: 100%;
+    left: 0;
+    top: 15px;
+
+    .close {
+      top: 30px;
+      right: 30px;
+    }
+
+    .languages {
+      width: auto;
+    }
+
+    .domestic-redirect {
+      float: none;
+      padding-left: 0;
+      width: auto;
+    }
+
+    #great-languages-selector {
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+
+  #great-languages-select {
+    @include body-m;
+    font-weight: bold;
+  }
+
+  .LanguageSelectorDialog-Modal {
+    padding: $spacing-4;
+
+    .content {
+      padding: 20px 30px;
+    }
+
+    a {
+      @include body-m;
+    }
+    p {
+      @include body-m;
+    }
+
+    .countries {
+      a {
+        background-size: 20px;
+        min-height: 20px;
+        padding: 0 0 0 30px;
+      }
+
+      li {
+        @include items(2, $spacing-3-m);
+      }
+    }
+
+    .domestic-redirect {
+      padding-top: 0;
+    }
+
+    .languages {
+      li {
+        @include items(2, $spacing-4-m);
+      }
+
+      p {
+        left: 0;
+        top: $spacing-4-m;
+      }
+    }
+  }
+
+  .LanguageSelectorDialog-Tracker {
+    .label,
+    .lang::after {
+      position: absolute;
+      z-index: -1;
+    }
+  }
+}

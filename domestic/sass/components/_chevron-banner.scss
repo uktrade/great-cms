@@ -1,0 +1,185 @@
+  // imported from gov.uk styles
+
+  .chevron-banner {
+    position: relative;
+  }
+
+  .chevron-banner:hover .chevron-banner__link-container {
+    background-color: #b31424;
+  }
+
+  @media (min-width: 20em) {
+    .chevron-banner:hover .chevron-banner__link-container:after {
+        background-image:url("/static/icons/chevron-banner-hover.svg");
+    }
+  }
+
+  .chevron-banner--hover-border:hover .chevron-banner__link-container {
+    border-right: 2px solid;
+    border-color: #ffffff;
+  }
+
+  @media (min-width: 20em) {
+    .chevron-banner--hover-border:hover .chevron-banner__link-container {
+        border-right:0;
+    }
+  }
+
+  @media (min-width: 20em) {
+    .chevron-banner--hover-border:hover .chevron-banner__link-container:after {
+        background-image:url("/static/icons/chevron-banner-hover-border.svg");
+    }
+  }
+
+  .chevron-banner:focus-within .chevron-banner__link-container {
+    border-right: 2px solid;
+    border-color: #0b0c0c;
+    background-color: #ffdd00;
+  }
+
+  @media (min-width: 20em) {
+    .chevron-banner:focus-within .chevron-banner__link-container {
+        border-right:0;
+    }
+  }
+
+  .chevron-banner:focus-within .chevron-banner__link-container:after {
+    background-image: url("/static/icons/chevron-banner-small.svg");
+  }
+
+  @media (min-width: 20em) {
+    .chevron-banner:focus-within .chevron-banner__link-container:after {
+        background-image:url("/static/icons/chevron-banner-focus.svg");
+    }
+  }
+
+  .chevron-banner__link-container {
+    background-color: #e61e32;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    border-right: 0;
+  }
+
+  @media (min-width: 20em) {
+    .chevron-banner__link-container {
+        border-radius:5px 0 0 5px;
+        margin-right: 120px;
+        padding: 15px;
+    }
+  }
+
+  @media (min-width: 48.0625em) {
+    .chevron-banner__link-container {
+        padding:20px;
+    }
+  }
+
+  .chevron-banner__link-container:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 25px;
+    height: 100%;
+    background: url("/static/icons/chevron-banner-small.svg") center right no-repeat;
+    background-size: 25px 25px;
+
+  }
+
+  @media (min-width: 20em) {
+    .chevron-banner__link-container:after {
+        content:"";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        min-width: 120px;
+        background: url("/static/icons/chevron-banner.svg") -1px center no-repeat;
+        background-size: auto 100%;
+    }
+  }
+
+  @media screen and (min-width: 0\0 ) and (min-width: 320px) and (max-width: 364px) {
+    .chevron-banner__link-container:after {
+        background-position:-15px center;
+    }
+  }
+
+  @media screen and (min-width: 0\0 ) and (min-width: 365px) and (max-width: 640px) {
+    .chevron-banner__link-container:after {
+        background-position:-28px center;
+    }
+  }
+
+  @media screen and (min-width: 0\0 ) and (min-width: 641px) and (max-width: 769px) {
+    .chevron-banner__link-container:after {
+        background-position:-20px center;
+    }
+  }
+
+  @media screen and (min-width: 0\0 ) and (min-width: 770px) {
+    .chevron-banner__link-container:after {
+        background-position:-14px center;
+    }
+  }
+
+  @media (max-width: 19.99em) {
+    .chevron-banner__link {
+        display:block;
+    }
+  }
+
+  .chevron-banner__link {
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  @media(min-width: 641px) {
+    .chevron-banner__link {
+      font-size: 24px;
+      line-height: 26px;
+    }
+  }
+
+  @media(min-width: 769px) {
+    .chevron-banner__link {
+      font-size: 32px;
+      line-height: 34px;
+    }
+  }
+
+  @media(min-width: 961px) {
+    .chevron-banner__link {
+      font-size: 36px;
+      line-height: 38px;
+    }
+  }
+
+  .chevron-banner__link:link,.chevron-banner__link:visited,.chevron-banner__link:hover {
+    font-family: $brand-font-alternative;
+    font-weight: 700;
+    color: $white;
+    text-decoration: none;
+  }
+
+  .chevron-banner__link:link:focus,.chevron-banner__link:focus,
+  .chevron-banner__link:link:active, .chevron-banner__link:active,
+  a.chevron-banner__link:active:focus {
+    color: #0b0c0c;
+    background-color: #ffdd00;
+    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    outline: none;
+  }
+
+  .chevron-banner__link:after {
+    content: "";
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+

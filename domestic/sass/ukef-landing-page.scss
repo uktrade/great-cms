@@ -1,0 +1,83 @@
+@import 'partials/utils';
+@import 'partials/typography';
+@import 'partials/colours';
+
+.uk-export-finance-landing {
+
+  .hero-title-compact{
+    width: 100%;
+  }
+
+  .teaser-text{
+    line-height: 1.58;
+  }
+
+  .more-about-section{
+    .heading-small{
+      margin-top: 0.5em;
+    }
+  }
+
+  img{
+    width: 100%;
+  }
+
+  .why-we-offer-section{
+    .offer-section-image{
+      width: 100%;
+    }
+    
+  }
+
+  .hero-title{
+    font-size: 52px;
+  }
+
+  .about-us-and-our-services{
+    .description{
+      font-size: 16px;
+    }
+  }
+
+  .heading-hero-generic-compact{
+    text-transform:none;
+  }
+
+  .card {
+    min-height: 185px;
+    height: auto;
+  }
+
+  .card-link{
+    min-height: 185px;
+    height: auto;
+  }
+
+  .your-next-step-section{
+    .text{
+      font-size: 19px;
+    }
+  }
+
+  .with-flag:after {
+    bottom: -20px;
+    background-image: url('/static/images/uj-motif.png');
+    background-size: 155px;
+    background-repeat: no-repeat;
+    height: 30px;
+    z-index: 2;
+    max-width: 1200px;
+    display: block;
+    content: "";
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+  }
+
+  @media (max-width: 1260px){
+    .with-flag:after {
+      margin: 0 30px;
+    }
+  }
+}

@@ -1,0 +1,180 @@
+
+// New landing page
+// =================
+
+@import '../partials/typography';
+@import '../partials/general';
+
+// NOTE: Not namespaced because these elements exist outside of the `main` element!
+.campaign-video-transcript {
+  display: none;
+
+  details {
+    border: 0;
+    padding: 0;
+  }
+
+  @media (max-width: 640px) {
+    details {
+      margin: $spacing-4 0 0;
+    }
+  }
+}
+
+.campaign-video-transcript-text {
+  overflow-y: scroll;
+  padding-bottom: 30px;
+}
+
+.landing-page {
+
+  .button-video {
+    position: relative;
+
+    @media (min-width: 769px) {
+      background-color: $white;
+      color: $active-blue;
+    }
+  }
+
+  .campaign-section {
+    padding: 0;
+    position: relative;
+    color: $grey;
+
+    img {
+      display: block;
+    }
+  }
+
+  .campaign-related-link {
+    font-weight: 700;
+    font-family: $brand-font-alternative;
+    display: block;
+    text-align: center;
+
+    &:active:hover {
+      color: $great-blue;
+    }
+
+    @media (min-width: 641px) {
+      display: inline;
+      text-align: left;
+      margin-left: 15px;
+
+    }
+
+    @media (min-width: 769px) {
+      color: $white;
+      margin-left: 30px;
+    }
+  }
+
+  .campaign-heading-container {
+    margin-bottom: $spacing-3;
+
+  }
+
+  .campaign-heading {
+    text-transform: uppercase;
+    .if-we-can {
+      display: inline-block;
+      white-space: pre;
+    }
+  }
+
+  .campaign-content-container {
+    padding-top: 30px;
+  }
+
+  @media (min-width: 769px) {
+    .campaign-section {
+      color: $white;
+    }
+
+    .campaign-content-container {
+      padding: 60px;
+      z-index: 1;
+      position: absolute;
+      overflow: visible;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .campaign-heading-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+
+    .campaign-heading {
+      max-width: 310px;
+      position: absolute;
+      margin-top: $spacing-1;
+
+      .if-we-can {
+        background-color: $great-red;
+        padding: 0 10px 0 30px;
+        white-space: normal;
+
+        &:last-child {
+          margin-top: 4px;
+        }
+      }
+    }
+
+    .campaign-subsection {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+  @media (min-width: 961px) {
+    .campaign-heading {
+      font-size: 52px;
+    }
+  }
+
+  @media (min-width: 1261px) {
+    .campaign-heading {
+      margin-left: 0;
+    }
+  }
+
+  .prepare-for-brexit-section {
+    .container {
+      border-top: 2px solid $stone-90;
+    }
+    .card {
+      min-height: 0;
+    }
+  }
+
+  .sector-potential-section {
+    .sector-potential-wrapper {
+      background-color: $stone-30;
+    }
+  }
+
+  .export-goods-from-uk {
+    .content-column {
+      padding-top: 15px;
+    }
+
+    @media(min-width: 769px) {
+      .content-column {
+        padding-top: 0;
+
+        .button {
+          margin: 0 auto;
+        }
+      }
+    }
+
+  }
+
+}

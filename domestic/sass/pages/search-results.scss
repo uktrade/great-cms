@@ -1,0 +1,143 @@
+@import '../partials/colours';
+@import '../partials/vars';
+@import '../partials/typography';
+@import '../partials/mixins';
+@import '../components/_pagination';
+//@import 'layout';
+
+// Global style
+//@import 'general';
+//@import 'content';
+//@import 'elements';
+//@import 'forms';
+
+
+.results {
+  li {
+    border-color: $light-grey;
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    margin-bottom: $spacing-3;
+    max-width: 900px;
+    padding: 0;
+  }
+
+  .title {
+    @include body-l;
+    font-weight: bold;
+  }
+
+  .type {
+    @include body-s;
+    color: $mid-grey;
+    display: block;
+  }
+}
+
+.subscription-link {
+  .link {
+    background-color: transparent;
+  }
+}
+
+#search-results-information {
+  background-color: $stone-50;
+  margin: 0 0 $spacing-3 0;
+  padding: 0 0 $spacing-2 0;
+  overflow: hidden;
+
+  a.bland {
+    color: inherit;
+    cursor: default;
+    text-decoration: none;
+  }
+
+  p {
+    @include body-l;
+    margin-bottom: 5px;
+  }
+
+  .added-margin-bottom{
+    margin-bottom: 30px;
+  }
+
+  .actions {
+    padding-top: #{30px + $spacing-1};
+    position: relative;
+  }
+
+  .back {
+    padding-left: 20px;
+    position: absolute;
+    text-decoration: underline;
+    text-transform: lowercase;
+    top: $spacing-2;
+
+    &:after {
+      border: 6px solid $stone-50;
+      border-right-color: $active-blue;
+      content: '';
+      display: block;
+      height: 0;
+      left: 0;
+      position: absolute;
+      top: 25%;
+      width: 0;
+    }
+  }
+
+  .container {
+    padding-top: $spacing-4;
+    position: relative;
+  }
+
+  .search {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .search-button {
+    @include button($active-blue, $active-blue-alt);
+    background-image: url(/static/images/icons/search-rotated.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    height: 51px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: 1000px;
+    vertical-align: bottom;
+    width: 51px;
+  }
+
+  .text {
+    @include body-m;
+    color: $mid-grey;
+    height: 50px;
+    max-width: 600px;
+    width: 80%;
+  }
+
+  .message-box-with-icon{
+    h3.box-heading, p.box-description{
+      margin: 0;
+    }
+    margin: 10px 0 10px 0;
+  }
+
+}
+
+#search-results-list {
+  p {
+    margin-bottom: $spacing-3;
+  }
+}
+
+#id_result_found, #id_contactable{
+  margin-top: 10px;
+  .multiple-choice{
+    clear: none;
+    margin-right: 15px;
+  }
+}

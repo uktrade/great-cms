@@ -1,0 +1,57 @@
+// Social media share links
+// -----------------------------
+
+.sharing-links {
+  @include body-s;
+  margin-bottom: 15px;
+
+  img {
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+
+  span {
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+  li {
+    padding: 0;
+    &::before {
+      background-color: transparent;
+    }
+  }
+}
+
+
+// TABLET
+@media (max-width: 767px) {
+  .sharing-links {
+    max-width: none;
+    display: table-cell;
+    padding-bottom: $spacing-3;
+
+    li {
+      padding: 0;
+      display: inline;
+      list-style-type: none;
+      padding-right: 20px;
+      float: left;
+    }
+
+    .label {
+      display: inline;
+      float: left;
+      margin-top: 6px;
+      margin-right: 20px;
+    }
+
+  }
+}
+
+
+// MOBILE
+@media (max-width: 480px) {
+  .sharing-links {
+    padding-bottom: 0;
+  }
+}
