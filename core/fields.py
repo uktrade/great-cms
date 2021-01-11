@@ -1,5 +1,9 @@
+from django.db.models import TextField
+
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
+
+from core.widgets import MarkdownTextarea
 
 
 def single_struct_block_stream_field_factory(
@@ -10,3 +14,10 @@ def single_struct_block_stream_field_factory(
         **kwargs,
     )
     return field
+
+
+class MarkdownField(TextField):
+    def formfield(self, **kwargs):
+        defaults = {'widget': MarkdownTextarea}
+        defaults.update(kwargs)
+        return super(MarkdownField, self).formfield(**defaults)
