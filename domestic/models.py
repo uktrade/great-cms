@@ -730,7 +730,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         'wagtailcore.Page', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
 
-    tags = ParentalManyToManyField(IndustryTag, blank=True)
+    tags = ParentalManyToManyField(IndustryTag, verbose_name='Industry tag', blank=True)
     country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 
     def count_data_with_field(self, list_of_data, field):
