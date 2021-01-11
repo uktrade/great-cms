@@ -1,3 +1,6 @@
+export const formatLanguages = (languages) =>
+  languages.map(({ name }) => name).join(', ')
+
 export const mapData = ({
   cia_factbook_data,
   country_data,
@@ -37,7 +40,7 @@ export const mapData = ({
       ? Number((population_data.total_target_age_population / 1000).toFixed(1))
       : '',
     languages: cia_factbook_data.languages
-      ? cia_factbook_data.languages.language.map(({ name }) => name).join(', ')
+      ? formatLanguages(cia_factbook_data.languages.language)
       : '',
   }
 }
