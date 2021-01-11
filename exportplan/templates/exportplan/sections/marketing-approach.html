@@ -76,8 +76,8 @@
   <script type="text/javascript">
     var element = document.getElementById('target-age-groups');
     magna.createTargetAgeGroupInsights({
-      element, {{ target_age_group_choices }}
-      groups: {{ demographic_data|safe }},
+      element,
+      groups: {{ target_age_group_choices|safe }},
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ demographic_data|safe }},
       selected: {{ selected_age_groups|safe}},

@@ -68,7 +68,7 @@
     element = document.getElementById('target-age-groups');
     magna.createDataSnapShot({
       element,
-      groups: {{ target_age_group_choices }},
+      groups: {{ target_age_group_choices|safe }},
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ insight_data|safe }},
       selected: {{ selected_age_groups|safe}},
