@@ -1,7 +1,9 @@
 /* eslint-disable */
 import { act, Simulate } from 'react-dom/test-utils'
 import ProductFinder from '@src/components/ProductFinder/ProductFinderButton'
+import ProductFinderModal from '@src/components/ProductFinder/ProductFinderModal'
 import Services from '@src/Services'
+import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
 import { waitFor } from '@testing-library/react'
 import ReactModal from 'react-modal'
@@ -188,6 +190,42 @@ describe('Product finder tests', () => {
       expect(results).toBeTruthy()
     })
     expect(finder.querySelector('.box').textContent).toMatch(/^The item you are classifying is considered a complex item/)
+  })
+
+  it('Opens product view and renames product', async () => {
+    // Populate existing product, check for naming screen (rather than search screen) 
+    // and ability to rename
+    
+    // set up existing product in store
+    let selectedProduct = {
+      commodity_code: '123456',
+      commodity_name: 'my product'
+    }
+    Services.store.dispatch(actions.setInitialState({exportPlan:{products:[selectedProduct]}}))
+
+
+    const setIsOpen = jest.fn()
+    // Mock the classification tree request
+    Services.setConfig({ apiLookupProductScheduleUrl: '/api/lookup-product-schedule/' })
+    
+    fetchMock.get(/\/api\/lookup-product-schedule\//, {
+      type:'one',
+      children:[]
+    })
+
+    act(() => {
+      ProductFinder({ element: container })
+      const button = container.querySelector('button')
+      Simulate.click(button)      
+    })
+    const finder = document.body.querySelector('.product-finder');
+    await waitFor(() => {
+      let results = finder.querySelector('.scroll-area div');
+      expect(results).toBeTruthy()
+    })
+    const box = finder.querySelector('.box');
+    expect(box.querySelector('h3').textContent).toMatch('HS Code: 123456')
+    expect(box.querySelector('input').getAttribute('value')).toMatch('my product')
   })
 
 })

@@ -22,7 +22,7 @@ export default function EconomyData(props) {
         return country.country_name
       })
 
-      Services.getComTradeData(countries, props.selectedProduct.code)
+      Services.getComTradeData(countries, props.selectedProduct.commodity_code)
         .then((result) => {
           setEconomyData(Object.entries(result))
         })
@@ -171,15 +171,15 @@ export default function EconomyData(props) {
             <tr>
               <th className="body-s-b"></th>
               <th className="body-s-b">
-                Total {props.selectedProduct.name.toLowerCase()} import value
+                Total {props.selectedProduct.commodity_name.toLowerCase()} import value
                 (USD)
               </th>
               <th className="body-s-b">
-                Year-to-year {props.selectedProduct.name.toLowerCase()} import
+                Year-to-year {props.selectedProduct.commodity_name.toLowerCase()} import
                 value change
               </th>
               <th className="body-s-b">
-                {props.selectedProduct.name} import value from the UK (USD)
+                {props.selectedProduct.commodity_name} import value from the UK (USD)
               </th>
               <th className="body-s-b">GDP per capita(USD)</th>
               <th className="body-s-b">Avg income(USD)</th>
