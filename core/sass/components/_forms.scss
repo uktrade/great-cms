@@ -1,11 +1,11 @@
 .form {
   &--sign-up {
-    bottom:0;
-    left:0;
+    bottom: 0;
+    left: 0;
     margin: auto;
-    position:absolute;
-    right:0;
-    top:150px;
+    position: absolute;
+    right: 0;
+    top: 150px;
     width: 430px;
 
     .vertical-separator {
@@ -48,7 +48,6 @@
 }
 
 .form-table {
-
   .form-label {
     @extend .body-l-b;
   }
@@ -69,20 +68,28 @@
     background-color: $white;
   }
 
-  .button--add {
-    @include breakpoint(lg_lt) {
-      width: 100%;
-    }
+  .form-delete {
+    display: flex;
+    justify-content: center;
   }
+}
 
-  .button--delete {
+.button--add {
+  @include breakpoint(lg_lt) {
+    width: 100%;
+  }
+}
 
-    &.button--only-icon {
-      border: 2px solid $colour-blue-deep-80;
+.button--inherit {
+  align-self: flex-start;
+}
 
-      i {
-        color: $colour-blue-deep-80;
-      }
+.button--delete {
+  &.button--only-icon {
+    border: 2px solid $colour-blue-deep-80;
+
+    i {
+      color: $colour-blue-deep-80;
     }
   }
 }
