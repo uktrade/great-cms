@@ -17,6 +17,15 @@ from domestic import cms_panels
 from domestic.helpers import build_route_context, get_lesson_completion_status
 
 
+class BaseLegacyPage(Page):
+    """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
+
+    promote_panels = []
+
+    class Meta:
+        abstract = True
+
+
 class DomesticHomePage(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
@@ -82,7 +91,7 @@ class DomesticDashboard(
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
 
 
-class CountryGuidePage(cms_panels.CountryGuidePagePanels, Page):
+class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     """Ported from Great V1.
     Make a cup of tea, this model is BIG!
     """
@@ -754,7 +763,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, Page):
         return context
 
 
-class ArticlePage(cms_panels.ArticlePagePanels, Page):
+class ArticlePage(cms_panels.ArticlePagePanels, BaseLegacyPage):
 
     subpage_types = []
 
@@ -808,7 +817,7 @@ class ArticlePage(cms_panels.ArticlePagePanels, Page):
     tags = ParentalManyToManyField(Tag, blank=True)
 
 
-class ArticleListingPage(cms_panels.ArticleListingPagePanels, Page):
+class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseLegacyPage):
 
     subpage_types = [
         'domestic.ArticlePage',
@@ -828,7 +837,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, Page):
         return self.get_descendants().type(ArticlePage).live().count()
 
 
-class CampaignPage(cms_panels.CampaignPagePanels, Page):
+class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
 
     subpage_types = []
 
