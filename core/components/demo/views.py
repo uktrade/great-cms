@@ -1,41 +1,32 @@
 import ast
 import re
-import lorem
-
-from unittest.mock import Mock
 from collections import namedtuple
+from unittest.mock import Mock
 
+import lorem
+from demo import forms
+from directory_components.mixins import CountryDisplayMixin, EnableTranslationsMixin
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.paginator import Paginator
 from django.shortcuts import Http404
-from django.views.generic import TemplateView, View
-from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.utils.text import slugify
-from django.contrib.staticfiles.templatetags.staticfiles import static
-
-from directory_components.mixins import (
-    CountryDisplayMixin, EnableTranslationsMixin
-)
-
-from demo import forms
+from django.views.generic import TemplateView, View
+from django.views.generic.edit import FormView
 
 
 class BasePageView(TemplateView):
-
     @property
     def template_name(self):
         return self.kwargs.get('template_name')
 
 
 class KeyFactsView(BasePageView):
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         key_facts = [
             {
-                'icon': {
-                    'url': static('images/icon1.png')
-                },
+                'icon': {'url': static('images/icon1.png')},
                 'heading': 'Heading 1',
                 'content': (
                     '<p>Bacon ipsum dolor amet pork jerky sausage buffalo '
@@ -43,9 +34,7 @@ class KeyFactsView(BasePageView):
                 ),
             },
             {
-                'icon': {
-                    'url': static('images/icon2.png')
-                },
+                'icon': {'url': static('images/icon2.png')},
                 'heading': 'Heading 2',
                 'content': (
                     '<p>Lorem ipsum dolor sit amet.</p>'
@@ -55,9 +44,7 @@ class KeyFactsView(BasePageView):
                 ),
             },
             {
-                'icon': {
-                    'url': static('images/icon3.png')
-                },
+                'icon': {'url': static('images/icon3.png')},
                 'heading': 'Heading 3',
                 'content': (
                     '<p><a class="link" href="/">Yet more links</a></p>'
@@ -74,7 +61,8 @@ class KeyFactsView(BasePageView):
                 'heading': item['heading'],
                 'content': item['content'],
             }
-            for item in key_facts]
+            for item in key_facts
+        ]
         context['key_facts_no_icons'] = key_facts_no_icons
         return context
 
@@ -84,9 +72,7 @@ class IndexPageView(BasePageView):
         pattern = re.compile(r'version=(.*),')
 
         with open('setup.py', 'rb') as src:
-            return str(ast.literal_eval(
-                pattern.search(src.read().decode('utf-8')).group(1)
-            ))
+            return str(ast.literal_eval(pattern.search(src.read().decode('utf-8')).group(1)))
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -146,7 +132,7 @@ class InternationalHeaderView(CountryDisplayMixin, EnableTranslationsMixin, Base
                 TierTwoNavItem('Industries', 'About the UK'),
                 TierTwoNavItem('Regions', 'About the UK'),
                 TierTwoNavItem('Contact us', 'About the UK'),
-            ]
+            ],
         ),
         NavNode(
             tier_one_item=TierOneNavItem("Expand to the UK"),
@@ -155,7 +141,7 @@ class InternationalHeaderView(CountryDisplayMixin, EnableTranslationsMixin, Base
                 TierTwoNavItem('How to expand to the UK', 'Expand to the UK'),
                 TierTwoNavItem('Professional services', 'Expand to the UK'),
                 TierTwoNavItem('Contact us', 'Expand to the UK'),
-            ]
+            ],
         ),
         NavNode(
             tier_one_item=TierOneNavItem("Invest capital in the UK"),
@@ -165,21 +151,21 @@ class InternationalHeaderView(CountryDisplayMixin, EnableTranslationsMixin, Base
                 TierTwoNavItem('Investment Opportunities', 'Invest capital in the UK'),
                 TierTwoNavItem('How to invest capital', 'Invest capital in the UK'),
                 TierTwoNavItem('Contact us', 'Invest capital in the UK'),
-            ]
+            ],
         ),
         NavNode(
             tier_one_item=TierOneNavItem("Buy from the UK"),
             tier_two_items=[
                 TierTwoNavItem('Buy from the UK', 'Buy from the UK'),
                 TierTwoNavItem('Contact us', 'Buy from the UK'),
-            ]
+            ],
         ),
         NavNode(
             tier_one_item=TierOneNavItem("About us"),
             tier_two_items=[
                 TierTwoNavItem('What we do', 'About us'),
                 TierTwoNavItem('Contact us', 'About us'),
-            ]
+            ],
         ),
     ]
 
@@ -189,7 +175,7 @@ class InternationalHeaderView(CountryDisplayMixin, EnableTranslationsMixin, Base
             header_section=self.header_section,
             header_sub_section=self.header_sub_section,
             *args,
-            **kwargs
+            **kwargs,
         )
 
 
@@ -210,12 +196,12 @@ class BreadcrumbsDemoPageView(BasePageView):
 
 
 class SearchPageComponentsDemoPageView(BasePageView):
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(
             filters=['Energy', 'Real Estate', 'Automotive', 'Aerospace'],
             form=forms.MultipleChoiceForm(),
-            *args, **kwargs
+            *args,
+            **kwargs,
         )
         context['home_link'] = '/'
         context['home_label'] = 'Home'
@@ -227,33 +213,13 @@ class DemoStatsView(BasePageView):
         {
             'heading': 'Ease of doing business',
             'number': '36',
-            'smallprint': 'World Bank Ease of Doing Business ranking'
+            'smallprint': 'World Bank Ease of Doing Business ranking',
         },
-        {
-            'heading': 'Currency',
-            'number': 'Euro',
-            'smallprint': ''
-        },
-        {
-            'heading': 'Business languages',
-            'number': 'Dutch, English',
-            'smallprint': ''
-        },
-        {
-            'heading': 'GDP per capita',
-            'number': '48,223.16 USD',
-            'smallprint': 'UK GDP per capita is 39,800.3 USD'
-        },
-        {
-            'heading': 'Economic growth',
-            'number': '2.9%',
-            'smallprint': 'in 2017'
-        },
-        {
-            'heading': 'Time zone',
-            'number': 'GMT+1',
-            'smallprint': ''
-        },
+        {'heading': 'Currency', 'number': 'Euro', 'smallprint': ''},
+        {'heading': 'Business languages', 'number': 'Dutch, English', 'smallprint': ''},
+        {'heading': 'GDP per capita', 'number': '48,223.16 USD', 'smallprint': 'UK GDP per capita is 39,800.3 USD'},
+        {'heading': 'Economic growth', 'number': '2.9%', 'smallprint': 'in 2017'},
+        {'heading': 'Time zone', 'number': 'GMT+1', 'smallprint': ''},
     ]
     num_of_statistics = 6
 
@@ -276,7 +242,8 @@ class DemoFormView(TemplateView):
             submit_button_form=forms.DemoFormWithSubmitButton(),
             nested_radio_form=forms.DemoNestedForm(),
             multiple_autocomplete_form=forms.MultiSelectAutoCompleteForm(),
-            *args, **kwargs
+            *args,
+            **kwargs,
         )
 
 
@@ -343,35 +310,31 @@ class FullWidthBannersView(TemplateView):
                 {
                     'title': 'Item One Title',
                     'text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do. '
-                            '<a href="/full-width-banners/">Learn more.</a></p>'
+                    '<a href="/full-width-banners/">Learn more.</a></p>',
                 },
                 {
                     'title': 'Item Two Title',
                     'text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do. '
-                            '<a href="/full-width-banners/">Learn more.</a></p>'
+                    '<a href="/full-width-banners/">Learn more.</a></p>',
                 },
                 {
                     'title': 'Item Three Title',
                     'text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do. '
-                            '<a href="/full-width-banners/">Learn more.</a></p>'
+                    '<a href="/full-width-banners/">Learn more.</a></p>',
                 },
                 {
                     'title': 'Item Four Title',
                     'text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do. '
-                            '<a href="/full-width-banners/">Learn more.</a></p>'
-                }
+                    '<a href="/full-width-banners/">Learn more.</a></p>',
+                },
             ],
             intro_markdown="<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
-                           "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
-            video={
-                'url': static('videos/hpo-food-video.mp4'),
-                'file_extension': 'mp4'
-            }
+            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+            video={'url': static('videos/hpo-food-video.mp4'), 'file_extension': 'mp4'},
         )
 
 
 class DetailsView(BasePageView):
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
@@ -380,18 +343,12 @@ class DetailsView(BasePageView):
         list = f'<ul><li>{lorem.sentence()}</li><li>{lorem.sentence()}</li><li>{lorem.sentence()}</li></ul>'
 
         details_list = [
+            {'heading': lorem.sentence(), 'content': list + f'<p>{lorem.paragraph()}</p>'},
             {
                 'heading': lorem.sentence(),
-                'content': list + f'<p>{lorem.paragraph()}</p>'
+                'content': f'<p>{lorem.paragraph()}</p>' + link + link + f'<p>{lorem.paragraph()}</p>',
             },
-            {
-                'heading': lorem.sentence(),
-                'content': f'<p>{lorem.paragraph()}</p>' + link + link + f'<p>{lorem.paragraph()}</p>'
-            },
-            {
-                'heading': lorem.sentence(),
-                'content': f'<p>{lorem.paragraph()}</p>'
-            },
+            {'heading': lorem.sentence(), 'content': f'<p>{lorem.paragraph()}</p>'},
         ]
 
         context['details_list'] = details_list
@@ -399,7 +356,6 @@ class DetailsView(BasePageView):
 
 
 class FeaturedArticlesView(BasePageView):
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 

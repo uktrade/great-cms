@@ -1,13 +1,11 @@
-from datetime import datetime
 import urllib.parse
-
-from django.utils.encoding import iri_to_uri
-from django.utils import translation
+from datetime import datetime
 
 from directory_components import constants
+from django.utils import translation
+from django.utils.encoding import iri_to_uri
 
 from directory_constants import choices
-
 
 COUNTRY_CODES = [code for code, _ in choices.COUNTRY_CHOICES]
 
@@ -43,13 +41,7 @@ class SocialLinkBuilder:
         ('email', 'mailto:?body={url}&subject={body}'),
         ('twitter', 'https://twitter.com/intent/tweet?text={body}{url}'),
         ('facebook', 'https://www.facebook.com/share.php?u={url}'),
-        (
-            'linkedin',
-            (
-                'https://www.linkedin.com/shareArticle'
-                '?mini=true&url={url}&title={body}&source=LinkedIn'
-            )
-        )
+        ('linkedin', ('https://www.linkedin.com/shareArticle' '?mini=true&url={url}&title={body}&source=LinkedIn')),
     )
 
     def __init__(self, url, page_title, app_title):
@@ -59,21 +51,15 @@ class SocialLinkBuilder:
 
     @property
     def body(self):
-        body = '{app_title} - {page_title} '.format(
-            app_title=self.app_title, page_title=self.page_title
-        )
+        body = '{app_title} - {page_title} '.format(app_title=self.app_title, page_title=self.page_title)
         return urllib.parse.quote(body)
 
     @property
     def links(self):
-        return {
-            name: template.format(url=self.url, body=self.body)
-            for name, template in self.templates
-        }
+        return {name: template.format(url=self.url, body=self.body) for name, template in self.templates}
 
 
 class UrlPrefixer:
-
     def __init__(self, request, prefix):
         self.prefix = prefix
         self.request = request
@@ -84,9 +70,7 @@ class UrlPrefixer:
 
     @property
     def path(self):
-        return urllib.parse.urljoin(
-            self.prefix, self.request.path.lstrip('/')
-        )
+        return urllib.parse.urljoin(self.prefix, self.request.path.lstrip('/'))
 
     @property
     def full_path(self):
@@ -95,7 +79,7 @@ class UrlPrefixer:
             path += '/'
         querystring = self.request.META.get('QUERY_STRING', '')
         if querystring:
-            path += ('?' + iri_to_uri(querystring))
+            path += '?' + iri_to_uri(querystring)
         return path
 
 
@@ -106,8 +90,7 @@ def get_country_from_querystring(request):
 
 
 def get_user_country(request):
-    return get_country_from_querystring(request) or \
-        request.COOKIES.get(constants.COUNTRY_COOKIE_NAME, '')
+    return get_country_from_querystring(request) or request.COOKIES.get(constants.COUNTRY_COOKIE_NAME, '')
 
 
 def get_language_from_querystring(request):
@@ -150,9 +133,7 @@ class CompanyParser:
     @property
     def address(self):
         address = []
-        fields = [
-            'address_line_1', 'address_line_2', 'locality', 'postal_code'
-        ]
+        fields = ['address_line_1', 'address_line_2', 'locality', 'postal_code']
         for field in fields:
             value = self.data.get(field)
             if value:
@@ -167,10 +148,7 @@ class CompanyParser:
 
     @property
     def sectors_label(self):
-        return values_to_labels(
-            values=self.data.get('sectors') or [],
-            choices=self.SECTORS
-        )
+        return values_to_labels(values=self.data.get('sectors') or [], choices=self.SECTORS)
 
     @property
     def employees_label(self):
@@ -179,31 +157,19 @@ class CompanyParser:
 
     @property
     def expertise_industries_label(self):
-        return values_to_labels(
-            values=self.data.get('expertise_industries') or [],
-            choices=self.INDUSTRIES
-        )
+        return values_to_labels(values=self.data.get('expertise_industries') or [], choices=self.INDUSTRIES)
 
     @property
     def expertise_regions_label(self):
-        return values_to_labels(
-            values=self.data.get('expertise_regions') or [],
-            choices=self.REGIONS
-        )
+        return values_to_labels(values=self.data.get('expertise_regions') or [], choices=self.REGIONS)
 
     @property
     def expertise_countries_label(self):
-        return values_to_labels(
-            values=self.data.get('expertise_countries') or [],
-            choices=self.COUNTRIES
-        )
+        return values_to_labels(values=self.data.get('expertise_countries') or [], choices=self.COUNTRIES)
 
     @property
     def expertise_languages_label(self):
-        return values_to_labels(
-            values=self.data.get('expertise_languages') or [],
-            choices=self.LANGUAGES
-        )
+        return values_to_labels(values=self.data.get('expertise_languages') or [], choices=self.LANGUAGES)
 
     @property
     def is_in_companies_house(self):
@@ -224,10 +190,7 @@ class CompanyParser:
         value = self.data.get('expertise_products_services')
         if not value:
             return {}
-        return {
-            key.replace('-', ' ').capitalize(): ', '.join(value)
-            for key, value in value.items()
-        }
+        return {key.replace('-', ' ').capitalize(): ', '.join(value) for key, value in value.items()}
 
 
 def values_to_labels(values, choices):

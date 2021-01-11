@@ -3,17 +3,15 @@ import logging
 import urllib.parse
 
 import jsonschema as jsonschema
+from directory_components import constants, helpers
 from django.conf import settings
 from django.middleware.locale import LocaleMiddleware
 from django.shortcuts import redirect
-from django.utils import translation
 from django.urls import resolve
 from django.urls.exceptions import Resolver404
+from django.utils import translation
 from django.utils.deprecation import MiddlewareMixin
 from jsonschema import ValidationError
-
-from directory_components import constants
-from directory_components import helpers
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +41,6 @@ class NoCacheMiddlware(MiddlewareMixin):
 
 
 class AbstractPrefixUrlMiddleware(abc.ABC, MiddlewareMixin):
-
     @property
     @abc.abstractmethod
     def prefix(self):
@@ -70,9 +67,7 @@ class AbstractPrefixUrlMiddleware(abc.ABC, MiddlewareMixin):
     @staticmethod
     def get_redirect_domain(request):
         if settings.URL_PREFIX_DOMAIN:
-            if not request.get_raw_uri().startswith(
-                    settings.URL_PREFIX_DOMAIN
-            ):
+            if not request.get_raw_uri().startswith(settings.URL_PREFIX_DOMAIN):
                 return settings.URL_PREFIX_DOMAIN
 
 
@@ -123,9 +118,7 @@ class LocaleQuerystringMiddleware(LocaleMiddleware):
 class PersistLocaleMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         if hasattr(settings, 'LANGUAGE_COOKIE_DEPRECATED_NAME'):
-            response.delete_cookie(
-                key=settings.LANGUAGE_COOKIE_DEPRECATED_NAME
-            )
+            response.delete_cookie(key=settings.LANGUAGE_COOKIE_DEPRECATED_NAME)
         response.set_cookie(
             key=settings.LANGUAGE_COOKIE_NAME,
             value=translation.get_language(),
@@ -179,7 +172,7 @@ ga_schema = {
         "login_status",
         "site_language",
         "user_id",
-    ]
+    ],
 }
 
 
@@ -203,7 +196,8 @@ class CheckGATags(MiddlewareMixin):
                 "No Google Analytics data found on the response. "
                 "You should either set this using the GA360Mixin, "
                 "or use the 'skip_ga360' decorator to indicate that this page "
-                "does not require analytics")
+                "does not require analytics"
+            )
 
         ga_data = context_data['ga360']
         try:
@@ -211,6 +205,7 @@ class CheckGATags(MiddlewareMixin):
         except ValidationError as exception:
             raise GADataMissingException(
                 "A field required for Google Analytics is missing or has "
-                "the incorrect type. Details: %s" % exception.message)
+                "the incorrect type. Details: %s" % exception.message
+            )
 
         return response

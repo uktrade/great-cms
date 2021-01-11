@@ -1,7 +1,6 @@
-from django.forms import widgets
 from django import forms
+from django.forms import widgets
 from django.utils.text import slugify
-
 
 __all__ = [
     'CheckboxSelectInlineLabelMultiple',
@@ -24,28 +23,19 @@ class PrettyIDsMixin:
             self.id_separator = '-'
         super().__init__(*args, **kwargs)
 
-    def create_option(
-            self, name, value, label, selected, index,
-            subindex=None, attrs=None):
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         """Patch to use nicer ids."""
-        index = str(index) if subindex is None else "%s%s%s" % (
-            index, self.id_separator, subindex)
+        index = str(index) if subindex is None else "%s%s%s" % (index, self.id_separator, subindex)
         if attrs is None:
             attrs = {}
-        option_attrs = self.build_attrs(
-            self.attrs, attrs) if self.option_inherits_attrs else {}
+        option_attrs = self.build_attrs(self.attrs, attrs) if self.option_inherits_attrs else {}
         if selected:
             option_attrs.update(self.checked_attribute)
         if 'id' in option_attrs:
             if self.use_nice_ids:
-                option_attrs['id'] = "%s%s%s" % (
-                    option_attrs['id'],
-                    self.id_separator,
-                    slugify(label.lower())
-                )
+                option_attrs['id'] = "%s%s%s" % (option_attrs['id'], self.id_separator, slugify(label.lower()))
             else:
-                option_attrs['id'] = self.id_for_label(
-                    option_attrs['id'], index)
+                option_attrs['id'] = self.id_for_label(option_attrs['id'], index)
         return {
             'name': name,
             'value': value,
@@ -112,9 +102,7 @@ class SelectMultipleAutocomplete(widgets.SelectMultiple):
     container_css_classes = 'multi-select-autocomplete'
 
     class Media:
-        css = {
-            'all': ('directory_components/js/vendor/accessible-autocomplete.min.css',)
-        }
+        css = {'all': ('directory_components/js/vendor/accessible-autocomplete.min.css',)}
         js = (
             'directory_components/js/vendor/accessible-autocomplete.min.js',
             'directory_components/js/dit.components.multiselect-autocomplete.js',

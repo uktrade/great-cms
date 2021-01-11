@@ -1,1 +1,0 @@
-recursive-include directory_components *.html *.png *.svg *.ico *.js *.txt *.css *.po *.mo

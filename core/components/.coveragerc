@@ -1,9 +1,0 @@
-[run]
-omit =
-	.venv/*
-	**/tests/*
-	**/version.py
-	setup.py
-	demo/*
-	manage.py
-	*__init__*

@@ -1,9 +1,6 @@
 import pytest
-
-from django.forms import TextInput
-
 from directory_components import forms
-
+from django.forms import TextInput
 
 REQUIRED_MESSAGE = forms.PaddedCharField.default_error_messages['required']
 
@@ -15,11 +12,7 @@ class PaddedTestForm(forms.Form):
 class RadioNestedForm(forms.BindNestedFormMixin, forms.Form):
     OTHER = 'OTHER'
     parent_field = forms.RadioNested(
-        choices=[
-            ('KG', 'Kilograms'),
-            ('HANDS', 'Hands'),
-            (OTHER, 'other')
-        ],
+        choices=[('KG', 'Kilograms'), ('HANDS', 'Hands'), (OTHER, 'other')],
         nested_form_class=PaddedTestForm,
         nested_form_choice=OTHER,
     )
@@ -68,9 +61,7 @@ field_classes = (
 def test_explicit_widget_attrs(field_class):
     field = field_class()
 
-    field_explicit_attrs = field_class(
-        widget=TextInput(attrs={'class': 'a-class'})
-    )
+    field_explicit_attrs = field_class(widget=TextInput(attrs={'class': 'a-class'}))
 
     assert field.widget.attrs['class'] == ' form-control'
     assert field_explicit_attrs.widget.attrs['class'] == 'a-class form-control'
@@ -87,33 +78,41 @@ def test_container_class(field_class):
 
 
 def test_radio_nested_form_validation():
-    form = RadioNestedForm({
-        'other_field': 'thing',
-        'parent_field': 'KG',
-    })
+    form = RadioNestedForm(
+        {
+            'other_field': 'thing',
+            'parent_field': 'KG',
+        }
+    )
     assert form.is_valid()
 
-    form = RadioNestedForm({
-        'other_field': 'thing',
-        'parent_field': RadioNestedForm.OTHER,
-    })
+    form = RadioNestedForm(
+        {
+            'other_field': 'thing',
+            'parent_field': RadioNestedForm.OTHER,
+        }
+    )
     assert form.is_valid() is False
     assert 'parent_field' in form.errors
     assert 'field' in form.fields['parent_field'].nested_form.errors
 
-    form = RadioNestedForm({
-        'other_field': 'thing',
-        'parent_field': RadioNestedForm.OTHER,
-    })
+    form = RadioNestedForm(
+        {
+            'other_field': 'thing',
+            'parent_field': RadioNestedForm.OTHER,
+        }
+    )
     assert form.is_valid() is False
     assert 'parent_field' in form.errors
     assert 'field' in form.fields['parent_field'].nested_form.errors
 
-    form = RadioNestedForm({
-        'other_field': 'thing',
-        'parent_field': RadioNestedForm.OTHER,
-        'field': 'fooooo',
-    })
+    form = RadioNestedForm(
+        {
+            'other_field': 'thing',
+            'parent_field': RadioNestedForm.OTHER,
+            'field': 'fooooo',
+        }
+    )
     assert form.is_valid() is True
     assert form.cleaned_data == {
         'other_field': 'thing',

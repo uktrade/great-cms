@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import environ
 
+import environ
 
 env = environ.Env()
 for env_file in env.list('ENV_FILES', default=[]):
@@ -89,10 +89,7 @@ TEMPLATES = [
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_HOST = env.str('STATIC_HOST', '')
 STATIC_URL = STATIC_HOST + '/static/'
-STATICFILES_STORAGE = env.str(
-    'STATICFILES_STORAGE',
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
-)
+STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedManifestStaticFilesStorage')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -111,19 +108,17 @@ COUNTRY_COOKIE_SECURE = env.bool('COUNTRY_COOKIE_SECURE', True)
 
 # https://github.com/django/django/blob/master/django/conf/locale/__init__.py
 LANGUAGES = [
-    ('en-gb', 'English'),    # English
-    ('de', 'Deutsch'),       # German
-    ('ja', '日本語'),         # Japanese
+    ('en-gb', 'English'),  # English
+    ('de', 'Deutsch'),  # German
+    ('ja', '日本語'),  # Japanese
     ('zh-hans', '简体中文'),  # Simplified Chinese
-    ('fr', 'Français'),      # French
-    ('es', 'español'),       # Spanish
-    ('pt', 'Português'),     # Portuguese
-    ('ar', 'العربيّة'),          # Arabic
+    ('fr', 'Français'),  # French
+    ('es', 'español'),  # Spanish
+    ('pt', 'Português'),  # Portuguese
+    ('ar', 'العربيّة'),  # Arabic
 ]
 
-LOCALE_PATHS = (
-    os.path.abspath(os.path.join(BASE_DIR, '../directory_components/locale')),
-)
+LOCALE_PATHS = (os.path.abspath(os.path.join(BASE_DIR, '../directory_components/locale')),)
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
@@ -131,11 +126,7 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
+    'filters': {'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}},
     'handlers': {
         'console': {
             'level': 'DEBUG',
@@ -163,7 +154,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-    }
+    },
 }
 
 # security
@@ -171,27 +162,15 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.str(
-    'DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC', ''
-)
-DIRECTORY_CONSTANTS_URL_INTERNATIONAL = env.str(
-    'DIRECTORY_CONSTANTS_URL_INTERNATIONAL', ''
-)
-DIRECTORY_CONSTANTS_URL_INVEST = env.str(
-    'DIRECTORY_CONSTANTS_URL_INVEST', ''
-)
-DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS = env.str(
-    'DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS', ''
-)
-DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER = env.str(
-    'DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER', ''
-)
+DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.str('DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC', '')
+DIRECTORY_CONSTANTS_URL_INTERNATIONAL = env.str('DIRECTORY_CONSTANTS_URL_INTERNATIONAL', '')
+DIRECTORY_CONSTANTS_URL_INVEST = env.str('DIRECTORY_CONSTANTS_URL_INVEST', '')
+DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS = env.str('DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS', '')
+DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER = env.str('DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER', '')
 PRIVACY_COOKIE_DOMAIN = env.str('PRIVACY_COOKIE_DOMAIN', '')
 
 # feature flags
-FEATURE_FLAGS = {
-    'COUNTRY_SELECTOR_ON': env.bool('FEATURE_COUNTRY_SELECTOR_ENABLED', False)
-}
+FEATURE_FLAGS = {'COUNTRY_SELECTOR_ON': env.bool('FEATURE_COUNTRY_SELECTOR_ENABLED', False)}
 
 SSO_PROXY_SIGNUP_URL = 'https://signup.com'
 SSO_PROXY_LOGIN_URL = 'https://login.com'

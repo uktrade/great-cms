@@ -1,9 +1,8 @@
-from directory_constants import urls
-
+from directory_components import helpers
 from django.conf import settings
 from django.utils import translation
 
-from directory_components import helpers
+from directory_constants import urls
 
 
 def ga360(request):
@@ -46,11 +45,7 @@ def analytics(request):
 
 
 def cookie_notice(request):
-    return {
-        'directory_components_cookie_notice': {
-            'PRIVACY_COOKIE_DOMAIN': settings.PRIVACY_COOKIE_DOMAIN
-        }
-    }
+    return {'directory_components_cookie_notice': {'PRIVACY_COOKIE_DOMAIN': settings.PRIVACY_COOKIE_DOMAIN}}
 
 
 def header_footer_processor(request):
@@ -83,7 +78,7 @@ def header_footer_processor(request):
         'international_news': urls.international.NEWS,
         'how_to_do_business_with_the_uk': urls.international.EXPAND_HOW_TO_DO_BUSINESS,
         'industries': urls.international.ABOUT_UK_INDUSTRIES,
-        'market_access': urls.domestic.HOME / 'report-trade-barrier'
+        'market_access': urls.domestic.HOME / 'report-trade-barrier',
     }
     header_footer_urls = {**header_footer_urls, **advice_urls}
     return {'header_footer_urls': header_footer_urls}

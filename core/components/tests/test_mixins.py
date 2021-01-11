@@ -1,20 +1,17 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
-from directory_constants.choices import COUNTRY_CHOICES
 import pytest
-
+from directory_components import mixins
 from django.contrib.auth.models import AnonymousUser
 from django.utils import translation
 from django.views.generic import TemplateView
 
-from directory_components import mixins
+from directory_constants.choices import COUNTRY_CHOICES
 
 
 @pytest.mark.parametrize('country_code,country_name', COUNTRY_CHOICES)
 @patch('directory_components.helpers.get_user_country')
-def test_country_display_mixin(
-    mock_country, country_code, country_name, rf
-):
+def test_country_display_mixin(mock_country, country_code, country_name, rf):
     class TestView(mixins.CountryDisplayMixin, TemplateView):
         template_name = 'directory_components/base.html'
 
@@ -67,9 +64,7 @@ def test_cms_language_switcher_one_language(rf):
     class MyView(mixins.CMSLanguageSwitcherMixin, TemplateView):
 
         template_name = 'directory_components/base.html'
-        page = {
-            'meta': {'languages': [('en-gb', 'English')]}
-        }
+        page = {'meta': {'languages': [('en-gb', 'English')]}}
 
     request = rf.get('/')
     request.LANGUAGE_CODE = ''
@@ -81,16 +76,11 @@ def test_cms_language_switcher_one_language(rf):
 
 
 def test_cms_language_switcher_active_language_unavailable(rf):
-
     class MyView(mixins.CMSLanguageSwitcherMixin, TemplateView):
 
         template_name = 'directory_components/base.html'
 
-        page = {
-            'meta': {
-                'languages': [('en-gb', 'English'), ('de', 'German')]
-            }
-        }
+        page = {'meta': {'languages': [('en-gb', 'English'), ('de', 'German')]}}
 
     request = rf.get('/')
     request.LANGUAGE_CODE = 'fr'
@@ -102,16 +92,11 @@ def test_cms_language_switcher_active_language_unavailable(rf):
 
 
 def test_cms_language_switcher_active_language_available(rf):
-
     class MyView(mixins.CMSLanguageSwitcherMixin, TemplateView):
 
         template_name = 'directory_components/base.html'
 
-        page = {
-            'meta': {
-                'languages': [('en-gb', 'English'), ('de', 'German')]
-            }
-        }
+        page = {'meta': {'languages': [('en-gb', 'English'), ('de', 'German')]}}
 
     request = rf.get('/')
     request.LANGUAGE_CODE = 'de'
@@ -131,10 +116,7 @@ def test_ga360_mixin_for_logged_in_user_old_style(rf):
         def __init__(self):
             super().__init__()
             self.set_ga360_payload(
-                page_id='TestPageId',
-                business_unit='Test App',
-                site_section='Test Section',
-                site_subsection='Test Page'
+                page_id='TestPageId', business_unit='Test App', site_section='Test Section', site_subsection='Test Page'
             )
 
     request = rf.get('/')
@@ -164,18 +146,11 @@ def test_ga360_mixin_for_logged_in_user(rf):
         def __init__(self):
             super().__init__()
             self.set_ga360_payload(
-                page_id='TestPageId',
-                business_unit='Test App',
-                site_section='Test Section',
-                site_subsection='Test Page'
+                page_id='TestPageId', business_unit='Test App', site_section='Test Section', site_subsection='Test Page'
             )
 
     request = rf.get('/')
-    request.user = Mock(
-        id=1,
-        hashed_uuid='a9a8f733-6bbb-4dca-a682-e8a0a18439e9',
-        is_authenticated=True
-    )
+    request.user = Mock(id=1, hashed_uuid='a9a8f733-6bbb-4dca-a682-e8a0a18439e9', is_authenticated=True)
 
     with translation.override('de'):
         response = TestView.as_view()(request)
@@ -198,10 +173,7 @@ def test_ga360_mixin_for_anonymous_user_old_style(rf):
         def __init__(self):
             super().__init__()
             self.set_ga360_payload(
-                page_id='TestPageId',
-                business_unit='Test App',
-                site_section='Test Section',
-                site_subsection='Test Page'
+                page_id='TestPageId', business_unit='Test App', site_section='Test Section', site_subsection='Test Page'
             )
 
     request = rf.get('/')
@@ -223,10 +195,7 @@ def test_ga360_mixin_for_anonymous_user(rf):
         def __init__(self):
             super().__init__()
             self.set_ga360_payload(
-                page_id='TestPageId',
-                business_unit='Test App',
-                site_section='Test Section',
-                site_subsection='Test Page'
+                page_id='TestPageId', business_unit='Test App', site_section='Test Section', site_subsection='Test Page'
             )
 
     request = rf.get('/')

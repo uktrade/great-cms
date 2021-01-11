@@ -1,8 +1,6 @@
+from directory_components.forms import widgets
 from django import forms
 from django.forms.boundfield import BoundField
-
-from directory_components.forms import widgets
-
 
 __all__ = [
     'DirectoryComponentsFieldMixin',
@@ -60,11 +58,7 @@ class DirectoryComponentsBoundField(BoundField):
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
         attrs['class'] = attrs.get('class', '') + ' form-label'
-        return super().label_tag(
-            contents=contents,
-            attrs=attrs,
-            label_suffix=label_suffix
-        )
+        return super().label_tag(contents=contents, attrs=attrs, label_suffix=label_suffix)
 
     def css_classes(self, *args, **kwargs):
         css_classes = super().css_classes(*args, **kwargs)
@@ -72,7 +66,6 @@ class DirectoryComponentsBoundField(BoundField):
 
 
 class DirectoryComponentsFieldMixin:
-
     def __init__(self, container_css_classes='form-group', *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not hasattr(self.widget, 'css_class_name'):

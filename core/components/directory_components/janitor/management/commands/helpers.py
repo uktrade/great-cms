@@ -1,15 +1,13 @@
 import difflib
-from pprint import pformat
 import importlib
 import inspect
 import re
+from pprint import pformat
 
-from colors import red, green
-from vulture import Vulture
-
-from django.core.management.commands.diffsettings import module_to_dict
+from colors import green, red
 from django.conf import global_settings, settings
-
+from django.core.management.commands.diffsettings import module_to_dict
+from vulture import Vulture
 
 DEFAULT_UNSAFE_SETTINGS = [
     re.compile('.*?PASSWORD.*?'),
@@ -55,11 +53,7 @@ def prompt_user_choice(message, options):
 
 
 def clean_secrets(secrets):
-    ignore_settings = getattr(
-        settings,
-        'DIRECTORY_COMPONENTS_VAULT_IGNORE_SETTINGS_REGEX',
-        DEFAULT_UNSAFE_SETTINGS
-    )
+    ignore_settings = getattr(settings, 'DIRECTORY_COMPONENTS_VAULT_IGNORE_SETTINGS_REGEX', DEFAULT_UNSAFE_SETTINGS)
     secrets = secrets.copy()
     for key in secrets:
         for entry in ignore_settings:
@@ -80,8 +74,8 @@ def write_secrets(client, path, secrets):
 
 def diff_dicts(dict_a, dict_b):
     return difflib.ndiff(
-       pformat(clean_secrets(dict_a)).splitlines(),
-       pformat(clean_secrets(dict_b)).splitlines(),
+        pformat(clean_secrets(dict_a)).splitlines(),
+        pformat(clean_secrets(dict_b)).splitlines(),
     )
 
 
@@ -96,7 +90,6 @@ def colour_diff(diff):
 
 
 class Vulture(Vulture):
-
     def __init__(self, *args, **kwargs):
         self.settings_keys = list(module_to_dict(settings._wrapped).keys())
         super().__init__(*args, **kwargs)

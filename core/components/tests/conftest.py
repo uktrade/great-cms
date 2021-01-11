@@ -1,7 +1,6 @@
 import pytest
-
-from django.urls import set_urlconf
 from django.conf import settings
+from django.urls import set_urlconf
 
 
 def pytest_configure():
@@ -43,37 +42,25 @@ def pytest_configure():
                 'OPTIONS': {
                     'context_processors': [
                         'django.template.context_processors.request',
-                        (
-                            'directory_components.context_processors.'
-                            'urls_processor'
-                        ),
-                        (
-                            'directory_components.context_processors.'
-                            'header_footer_processor'
-                        ),
-                        (
-                            'directory_components.context_processors.'
-                            'feature_flags'
-                        ),
+                        ('directory_components.context_processors.' 'urls_processor'),
+                        ('directory_components.context_processors.' 'header_footer_processor'),
+                        ('directory_components.context_processors.' 'feature_flags'),
                     ],
                 },
             },
         ],
         URL_PREFIX_DOMAIN='',
-        DIRECTORY_CONSTANTS_URL_INTERNATIONAL=(
-            'https://international.com/international/'),
+        DIRECTORY_CONSTANTS_URL_INTERNATIONAL=('https://international.com/international/'),
         DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC='https://exred.com',
         DIRECTORY_CONSTANTS_URL_EXPORT_OPPORTUNITIES='https://exopps.com',
         DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS='https://soo.com',
         DIRECTORY_CONSTANTS_URL_EVENTS='https://events.com',
         DIRECTORY_CONSTANTS_URL_INVEST='https://invest.com',
         DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER='https://fas.com',
-        DIRECTORY_CONSTANTS_URL_INVESTMENT_SUPPORT_DIRECTORY=(
-            'https://isd.com/investment-support-directory/'
-        ),
+        DIRECTORY_CONSTANTS_URL_INVESTMENT_SUPPORT_DIRECTORY=('https://isd.com/investment-support-directory/'),
         DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON='https://sso.com',
         DIRECTORY_CONSTANTS_URL_FIND_A_BUYER='https://fab.com',
-        DIRECTORY_COMPONENTS_VAULT_ROOT_PATH='/root/'
+        DIRECTORY_COMPONENTS_VAULT_ROOT_PATH='/root/',
     )
 
 

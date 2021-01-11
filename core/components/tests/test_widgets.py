@@ -1,7 +1,5 @@
 from bs4 import BeautifulSoup
-
 from directory_components import forms
-
 
 TEST_CHOICES = (
     ('cyan', 'Cyan'),
@@ -18,12 +16,7 @@ TEST_CHOICES_WITH_SPACES = (
 
 def test_checkbox_inline_label_widget():
     widget = forms.CheckboxWithInlineLabel(
-        label='Box label',
-        help_text='Help text',
-        attrs={
-            'id': 'checkbox_id',
-            'class': 'test-class'
-        }
+        label='Box label', help_text='Help text', attrs={'id': 'checkbox_id', 'class': 'test-class'}
     )
     html = widget.render('name', 'value')
     soup = BeautifulSoup(html, 'html.parser')
@@ -48,10 +41,7 @@ def test_checkbox_inline_label_multiple_widget():
 
 
 def test_radio_select_widget():
-    widget = forms.RadioSelect(
-        attrs={'id': 'radio-test'},
-        choices=TEST_CHOICES
-    )
+    widget = forms.RadioSelect(attrs={'id': 'radio-test'}, choices=TEST_CHOICES)
     html = widget.render('name', 'value')
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -63,11 +53,7 @@ def test_radio_select_widget():
 
 
 def test_radio_nice_ids():
-    widget = forms.RadioSelect(
-        use_nice_ids=True,
-        attrs={'id': 'radio-test'},
-        choices=TEST_CHOICES
-    )
+    widget = forms.RadioSelect(use_nice_ids=True, attrs={'id': 'radio-test'}, choices=TEST_CHOICES)
     html = widget.render('name', 'value')
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -82,10 +68,7 @@ def test_radio_nice_ids():
 
 
 def test_radio_default_ids():
-    widget = forms.RadioSelect(
-        attrs={'id': 'radio-test'},
-        choices=TEST_CHOICES
-    )
+    widget = forms.RadioSelect(attrs={'id': 'radio-test'}, choices=TEST_CHOICES)
     html = widget.render('name', 'value')
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -100,30 +83,21 @@ def test_radio_default_ids():
 
 
 def test_radio_select_class_has_attrs():
-    radio = forms.RadioSelect(
-        attrs={'id': 'radio-test'}
-    )
+    radio = forms.RadioSelect(attrs={'id': 'radio-test'})
     assert radio.input_type == 'radio'
     assert radio.css_class_name == 'select-multiple'
     assert radio.attrs['id'] == 'radio-test'
 
 
 def test_checkbox_inline_class_has_attrs():
-    checkbox = forms.CheckboxWithInlineLabel(
-        label='Test label',
-        help_text='Test helptext'
-    )
+    checkbox = forms.CheckboxWithInlineLabel(label='Test label', help_text='Test helptext')
     context = checkbox.get_context('name', 'value', attrs=None)
     assert context['label'] == 'Test label'
     assert context['help_text'] == 'Test helptext'
 
 
 def test_widget_id_handles_spaces_and_uppercase():
-    widget = forms.RadioSelect(
-        use_nice_ids=True,
-        attrs={'id': 'radio-test'},
-        choices=TEST_CHOICES_WITH_SPACES
-    )
+    widget = forms.RadioSelect(use_nice_ids=True, attrs={'id': 'radio-test'}, choices=TEST_CHOICES_WITH_SPACES)
     html = widget.render('name', 'value')
     soup = BeautifulSoup(html, 'html.parser')
     exp_ids = ['cyan-colour', 'magenta-colour', 'yellow-colour']

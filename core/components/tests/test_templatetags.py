@@ -1,12 +1,10 @@
 import pytest
 from bs4 import BeautifulSoup
-
-from django.core.paginator import Paginator
-from django.template import Context, Template
-
 from directory_components import forms
 from directory_components.templatetags import directory_components
 from directory_components.templatetags.directory_components import international_header
+from django.core.paginator import Paginator
+from django.template import Context, Template
 
 REQUIRED_MESSAGE = forms.PaddedCharField.default_error_messages['required']
 
@@ -24,27 +22,17 @@ def test_static_absolute(rf):
     context = Context({'request': rf.get('/')})
     html = template.render(context)
 
-    assert html == (
-        'http://testserver/static/directory_components/images/favicon.ico'
-    )
+    assert html == ('http://testserver/static/directory_components/images/favicon.ico')
 
 
 def test_add_anchors():
-    template = Template(
-        '{% load add_anchors from directory_components %}'
-        '{{ html|add_anchors:"-section" }}'
-    )
+    template = Template('{% load add_anchors from directory_components %}' '{{ html|add_anchors:"-section" }}')
 
-    context = Context({
-        'html': '<br/><h2>Title one</h2><h2>Title two</h2><br/>'
-    })
+    context = Context({'html': '<br/><h2>Title one</h2><h2>Title two</h2><br/>'})
     html = template.render(context)
 
     assert html == (
-        '<br/>'
-        '<h2 id="title-one-section">Title one</h2>'
-        '<h2 id="title-two-section">Title two</h2>'
-        '<br/>'
+        '<br/>' '<h2 id="title-one-section">Title one</h2>' '<h2 id="title-two-section">Title two</h2>' '<br/>'
     )
 
 
@@ -52,22 +40,22 @@ def test_add_href_target(rf):
     request = rf.get('/')
     request.META['HTTP_HOST'] = 'example.com'
     template = Template(
-        '{% load add_href_target from directory_components %}'
-        '{{ html|add_href_target:request|safe }}'
-
+        '{% load add_href_target from directory_components %}' '{{ html|add_href_target:request|safe }}'
     )
-    context = Context({
-        'request': request,
-        'html': (
-            '<a href="http://www.google.com"></a>'
-            '<a href="https://www.google.com"></a>'
-            '<a href="http://www.example.com"></a>'
-            '<a href="http://example.com/selling-online-overseas"></a>'
-            '<a href="http://example.com/export-opportunities"></a>'
-            '<a href="/selling-online-overseas"></a>'
-            '<a href="/export-opportunities"></a>'
-        )
-    })
+    context = Context(
+        {
+            'request': request,
+            'html': (
+                '<a href="http://www.google.com"></a>'
+                '<a href="https://www.google.com"></a>'
+                '<a href="http://www.example.com"></a>'
+                '<a href="http://example.com/selling-online-overseas"></a>'
+                '<a href="http://example.com/export-opportunities"></a>'
+                '<a href="/selling-online-overseas"></a>'
+                '<a href="/export-opportunities"></a>'
+            ),
+        }
+    )
     html = template.render(context)
 
     assert html == (
@@ -82,22 +70,12 @@ def test_add_href_target(rf):
 
 
 def test_add_anchors_no_suffix():
-    template = Template(
-        '{% load add_anchors from directory_components %}'
-        '{{ html|add_anchors }}'
-    )
+    template = Template('{% load add_anchors from directory_components %}' '{{ html|add_anchors }}')
 
-    context = Context({
-        'html': '<br/><h2>Title one</h2><h2>Title two</h2><br/>'
-    })
+    context = Context({'html': '<br/><h2>Title one</h2><h2>Title two</h2><br/>'})
     html = template.render(context)
 
-    assert html == (
-        '<br/>'
-        '<h2 id="title-one">Title one</h2>'
-        '<h2 id="title-two">Title two</h2>'
-        '<br/>'
-    )
+    assert html == ('<br/>' '<h2 id="title-one">Title one</h2>' '<h2 id="title-two">Title two</h2>' '<br/>')
 
 
 def test_add_anchors_to_all_headings():
@@ -106,13 +84,9 @@ def test_add_anchors_to_all_headings():
         '{{ html|add_anchors_to_all_headings:"-section" }}'
     )
 
-    context = Context({
-        'html': '<br/>'
-                '<h1>Title one</h1>'
-                '<h2>Title two</h2>'
-                '<h3>Title: with punctuation!</h3>'
-                '<br/>'
-    })
+    context = Context(
+        {'html': '<br/>' '<h1>Title one</h1>' '<h2>Title two</h2>' '<h3>Title: with punctuation!</h3>' '<br/>'}
+    )
     html = template.render(context)
 
     assert html == (
@@ -126,17 +100,12 @@ def test_add_anchors_to_all_headings():
 
 def test_add_anchors_to_all_headings_no_suffix():
     template = Template(
-        '{% load add_anchors_to_all_headings from directory_components %}'
-        '{{ html|add_anchors_to_all_headings }}'
+        '{% load add_anchors_to_all_headings from directory_components %}' '{{ html|add_anchors_to_all_headings }}'
     )
 
-    context = Context({
-        'html': '<br/>'
-                '<h1>Title one</h1>'
-                '<h2>Title two</h2>'
-                '<h3>Title: with punctuation!</h3>'
-                '<br/>'
-    })
+    context = Context(
+        {'html': '<br/>' '<h1>Title one</h1>' '<h2>Title two</h2>' '<h3>Title: with punctuation!</h3>' '<br/>'}
+    )
     html = template.render(context)
 
     assert html == (
@@ -148,22 +117,23 @@ def test_add_anchors_to_all_headings_no_suffix():
     )
 
 
-@pytest.mark.parametrize('input_html,expected_html', (
-    ('<h1>content</h1>', '<h1 class="heading-xlarge">content</h1>'),
-    ('<h2>content</h2>', '<h2 class="heading-large">content</h2>'),
-    ('<h3>content</h3>', '<h3 class="heading-medium">content</h3>'),
-    ('<h4>content</h4>', '<h4 class="heading-small">content</h4>'),
-    ('<ul>content</ul>', '<ul class="list list-bullet">content</ul>'),
-    ('<ol>content</ul>', '<ol class="list list-number">content</ol>'),
-    ('<p>content</p>', '<p class="body-text">content</p>'),
-    ('<a>content</a>', '<a class="link">content</a>'),
-    ('<blockquote>a</blockquote>', '<blockquote class="quote">a</blockquote>')
-))
+@pytest.mark.parametrize(
+    'input_html,expected_html',
+    (
+        ('<h1>content</h1>', '<h1 class="heading-xlarge">content</h1>'),
+        ('<h2>content</h2>', '<h2 class="heading-large">content</h2>'),
+        ('<h3>content</h3>', '<h3 class="heading-medium">content</h3>'),
+        ('<h4>content</h4>', '<h4 class="heading-small">content</h4>'),
+        ('<ul>content</ul>', '<ul class="list list-bullet">content</ul>'),
+        ('<ol>content</ul>', '<ol class="list list-number">content</ol>'),
+        ('<p>content</p>', '<p class="body-text">content</p>'),
+        ('<a>content</a>', '<a class="link">content</a>'),
+        ('<blockquote>a</blockquote>', '<blockquote class="quote">a</blockquote>'),
+    ),
+)
 def test_add_export_elements_classes(input_html, expected_html):
     template = Template(
-        '{% load add_export_elements_classes from directory_components %}'
-        '{{ html|add_export_elements_classes }}'
-
+        '{% load add_export_elements_classes from directory_components %}' '{{ html|add_export_elements_classes }}'
     )
     context = Context({'html': input_html})
 
@@ -183,7 +153,7 @@ def test_card():
         "{{% load card from directory_components %}}"
         "{{% card title='{title}' url='{url}' description='{description}' "
         "img_src='{img_src}' img_alt='{img_alt}' %}}"
-        ).format(**card_content)
+    ).format(**card_content)
 
     template = Template(string)
     context = Context({})
@@ -210,10 +180,9 @@ def test_card_html():
     card_content = {
         'html_content': html_content,
     }
-    string = (
-        "{{% load card from directory_components %}}"
-        "{{% card html_content='{html_content}' %}}"
-        ).format(**card_content)
+    string = ("{{% load card from directory_components %}}" "{{% card html_content='{html_content}' %}}").format(
+        **card_content
+    )
 
     template = Template(string)
     context = Context({})
@@ -235,7 +204,7 @@ def test_labelled_card_with_image():
         "{{% load labelled_card from directory_components %}}"
         "{{% labelled_card title='{title}' url='{url}' img_src='{img_src}' "
         "description='{description}' img_alt='{img_alt}' %}}"
-        ).format(**card_content)
+    ).format(**card_content)
 
     template = Template(string)
     context = Context({})
@@ -270,7 +239,7 @@ def test_labelled_card_without_image():
         "{{% load labelled_card from directory_components %}}"
         "{{% labelled_card title='{title}' url='{url}' "
         "description='{description}' %}}"
-        ).format(**card_content)
+    ).format(**card_content)
 
     template = Template(string)
     context = Context({})
@@ -295,7 +264,7 @@ def test_labelled_image_card():
         "{{% labelled_image_card title='{title}' url='{url}' "
         "img_src='{img_src}' "
         "description='{description}' img_alt='{img_alt}' %}}"
-        ).format(**card_content)
+    ).format(**card_content)
 
     template = Template(string)
     context = Context({})
@@ -328,7 +297,7 @@ def test_card_with_icon():
         "{{% card_with_icon title='{title}' url='{url}' "
         "description='{description}' "
         "img_src='{img_src}' img_alt='{img_alt}' %}}"
-        ).format(**card_content)
+    ).format(**card_content)
 
     template = Template(string)
     context = Context({})
@@ -356,9 +325,8 @@ def test_card_with_external_link():
         'url': 'url',
     }
     string = (
-        "{{% load card from directory_components %}}"
-        "{{% card external_link='{external_link}' url='{url}' %}}"
-        ).format(**card_content)
+        "{{% load card from directory_components %}}" "{{% card external_link='{external_link}' url='{url}' %}}"
+    ).format(**card_content)
 
     template = Template(string)
     context = Context({})
@@ -374,16 +342,11 @@ def test_card_with_external_link():
 
 
 def test_card_no_padding_transparent():
-    card_content = {
-        'title': 'title',
-        'url': 'url',
-        'no_padding_card': True,
-        'transparent_card': True
-    }
+    card_content = {'title': 'title', 'url': 'url', 'no_padding_card': True, 'transparent_card': True}
     string = (
         "{{% load card from directory_components %}}"
         "{{% card no_padding_card='{no_padding_card}' transparent_card='{transparent_card}' %}}"
-        ).format(**card_content)
+    ).format(**card_content)
 
     template = Template(string)
     context = Context({})
@@ -402,7 +365,7 @@ def test_message_box_default():
         "{{% load message_box from directory_components %}}"
         "{{% message_box heading='{heading}' "
         "description='{description}' %}}"
-        ).format(**box_content)
+    ).format(**box_content)
 
     template = Template(string)
     context = Context({})
@@ -430,7 +393,7 @@ def test_message_box_custom():
         "{{% message_box heading='{heading}' heading_level='{heading_level}' "
         "heading_class='{heading_class}' description='{description}' "
         "box_class='{box_class}' %}}"
-        ).format(**box_content)
+    ).format(**box_content)
 
     template = Template(string)
     context = Context({})
@@ -458,7 +421,7 @@ def test_error_box():
         "{{% load error_box from directory_components %}}"
         "{{% error_box heading='{heading}' "
         "description='{description}' %}}"
-        ).format(**box_content)
+    ).format(**box_content)
 
     template = Template(string)
     context = Context({})
@@ -486,7 +449,7 @@ def test_success_box():
         "{{% load success_box from directory_components %}}"
         "{{% success_box heading='{heading}' "
         "description='{description}' %}}"
-        ).format(**box_content)
+    ).format(**box_content)
 
     template = Template(string)
     context = Context({})
@@ -518,7 +481,7 @@ def test_cta_box_default():
         "{{% cta_box box_id='{box_id}' heading='{heading}' "
         "description='{description}' "
         "button_text='{button_text}' button_url='{button_url}' %}}"
-        ).format(**box_content)
+    ).format(**box_content)
 
     template = Template(string)
     context = Context({})
@@ -557,7 +520,7 @@ def test_cta_box_custom():
         "box_class='{box_class}' heading_level='{heading_level}' "
         "heading_class='{heading_class}' description='{description}' "
         "button_text='{button_text}' button_url='{button_url}' %}}"
-        ).format(**box_content)
+    ).format(**box_content)
 
     template = Template(string)
     context = Context({})
@@ -592,7 +555,7 @@ def test_banner():
         "{{% load banner from directory_components %}}"
         "{{% banner badge_content='{badge_content}' "
         "banner_content='{banner_content}' %}}"
-        ).format(**banner_content)
+    ).format(**banner_content)
 
     template = Template(string)
     context = Context({})
@@ -607,8 +570,8 @@ def test_banner():
     assert badge.string == 'Badge content'
 
     exp_banner_content = (
-        '<div><p class="body-text">Banner content with a '
-        '<a class="link" href="#">link</a></p></div>')
+        '<div><p class="body-text">Banner content with a ' '<a class="link" href="#">link</a></p></div>'
+    )
 
     banner_content = soup.select('.banner-content div:nth-of-type(2)')[0]
     assert str(banner_content) == exp_banner_content
@@ -624,7 +587,7 @@ def test_hero():
         "{{% load hero from directory_components %}}"
         "{{% hero background_image_url='{background_image_url}' "
         "hero_text='{hero_text}' description='{description}' %}}"
-        ).format(**hero_content)
+    ).format(**hero_content)
 
     template = Template(string)
     context = Context({})
@@ -642,30 +605,33 @@ def test_hero():
     assert banner.string == 'description'
 
 
-@pytest.mark.parametrize('template_tag', (
-    directory_components.cta_box,
-    directory_components.message_box,
-    directory_components.message_box_with_icon,
-    directory_components.banner,
-    directory_components.hero,
-    directory_components.card,
-    directory_components.card_with_icon,
-    directory_components.labelled_card,
-    directory_components.labelled_image_card,
-    directory_components.image_with_caption,
-    directory_components.cta_card,
-    directory_components.cta_link,
-    directory_components.statistics_card_grid,
-    directory_components.hero_with_cta,
-    directory_components.case_study,
-    directory_components.informative_banner,
-    directory_components.search_page_selected_filters,
-    directory_components.search_page_expandable_options,
-    directory_components.full_width_image_with_list_and_media,
-    directory_components.key_facts,
-    directory_components.accordion_list,
-    directory_components.featured_articles,
-))
+@pytest.mark.parametrize(
+    'template_tag',
+    (
+        directory_components.cta_box,
+        directory_components.message_box,
+        directory_components.message_box_with_icon,
+        directory_components.banner,
+        directory_components.hero,
+        directory_components.card,
+        directory_components.card_with_icon,
+        directory_components.labelled_card,
+        directory_components.labelled_image_card,
+        directory_components.image_with_caption,
+        directory_components.cta_card,
+        directory_components.cta_link,
+        directory_components.statistics_card_grid,
+        directory_components.hero_with_cta,
+        directory_components.case_study,
+        directory_components.informative_banner,
+        directory_components.search_page_selected_filters,
+        directory_components.search_page_expandable_options,
+        directory_components.full_width_image_with_list_and_media,
+        directory_components.key_facts,
+        directory_components.accordion_list,
+        directory_components.featured_articles,
+    ),
+)
 def test_template_tag_kwargs(template_tag):
     test_kwargs = {
         'foo': 'foo',
@@ -677,36 +643,25 @@ def test_template_tag_kwargs(template_tag):
 
 @pytest.mark.parametrize('heading', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
 def test_convert_headings_to(heading):
-    actual = directory_components.convert_headings_to(
-        '<' + heading + '></' + heading + '>',
-        'figure'
-    )
+    actual = directory_components.convert_headings_to('<' + heading + '></' + heading + '>', 'figure')
     expected = '<figure></figure>'
     assert actual == expected
 
 
 def test_convert_headings_to_does_not_convert_non_headings():
-    actual = directory_components.convert_headings_to(
-        '<span></span>', 'figure'
-    )
+    actual = directory_components.convert_headings_to('<span></span>', 'figure')
     expected = '<span></span>'
     assert actual == expected
 
 
 def test_override_elements_css_class():
-    actual = directory_components.override_elements_css_class(
-        '<h2 class="existing-class"></h2>',
-        'h2,test-class'
-    )
+    actual = directory_components.override_elements_css_class('<h2 class="existing-class"></h2>', 'h2,test-class')
     expected = '<h2 class="test-class"></h2>'
     assert actual == expected
 
 
 def test_override_elements_css_class_does_not_override_non_targets():
-    actual = directory_components.override_elements_css_class(
-        '<h4 class="existing-class"></h4>',
-        'h2,test-class'
-    )
+    actual = directory_components.override_elements_css_class('<h4 class="existing-class"></h4>', 'h2,test-class')
     expected = '<h4 class="existing-class"></h4>'
     assert actual == expected
 
@@ -721,41 +676,29 @@ def test_lazyload():
 
     rendered_html = template.render(Context())
 
-    expected_html = (
-        '<img class="foo" src="/bar"/>'
-    )
+    expected_html = '<img class="foo" src="/bar"/>'
     assert rendered_html.replace('\n', '') == expected_html
 
 
 def test_lazyload_no_img_class():
     template = Template(
-        '{% load lazyload from directory_components %}'
-        '{% lazyload %}'
-        '<img src="/bar"/>'
-        '{% endlazyload %}'
+        '{% load lazyload from directory_components %}' '{% lazyload %}' '<img src="/bar"/>' '{% endlazyload %}'
     )
 
     rendered_html = template.render(Context())
 
-    expected_html = (
-        '<img src="/bar"/>'
-    )
+    expected_html = '<img src="/bar"/>'
     assert rendered_html.replace('\n', '') == expected_html
 
 
 def test_lazyload_no_img_src():
     template = Template(
-        '{% load lazyload from directory_components %}'
-        '{% lazyload %}'
-        '<img class="foo"/>'
-        '{% endlazyload %}'
+        '{% load lazyload from directory_components %}' '{% lazyload %}' '<img class="foo"/>' '{% endlazyload %}'
     )
 
     rendered_html = template.render(Context())
 
-    expected_html = (
-        '<img class="foo"/>'
-    )
+    expected_html = '<img class="foo"/>'
     assert rendered_html.replace('\n', '') == expected_html
 
 
@@ -767,15 +710,11 @@ def test_lazyload_context_variables():
         '{% endlazyload %}'
     )
 
-    context = {
-        'foo': {'class': 'foo-class', 'src': '/foo'}
-    }
+    context = {'foo': {'class': 'foo-class', 'src': '/foo'}}
 
     rendered_html = template.render(Context(context))
 
-    expected_html = (
-        '<img class="foo-class" src="/foo"/>'
-    )
+    expected_html = '<img class="foo-class" src="/foo"/>'
     assert rendered_html.replace('\n', '') == expected_html
 
 
@@ -859,9 +798,7 @@ def test_breadcrumbs_missing_href():
 
 def test_breadcrumbs_missing_links():
     template = Template(
-        '{% load breadcrumbs from directory_components %}'
-        '{% breadcrumbs "Current Page" %}'
-        '{% endbreadcrumbs %}'
+        '{% load breadcrumbs from directory_components %}' '{% breadcrumbs "Current Page" %}' '{% endbreadcrumbs %}'
     )
     with pytest.raises(ValueError):
         template.render(Context())
@@ -889,10 +826,7 @@ def test_ga360_data_with_no_optional_parameters():
 
     rendered_html = template.render(Context())
 
-    expected_html = \
-        '<div>' \
-        ' <a href="example.com">Click Me</a>' \
-        '</div>'
+    expected_html = '<div>' ' <a href="example.com">Click Me</a>' '</div>'
     assert rendered_html == expected_html
 
 
@@ -908,48 +842,51 @@ def test_ga360_data_with_all_optional_parameters():
 
     rendered_html = template.render(Context())
 
-    expected_html = \
-        '<div>' \
-        ' <a data-ga-action="link" data-ga-element="pageSection" ' \
-        'data-ga-include-form-data="True" ' \
-        'data-ga-type="CTA" data-ga-value="Click Me" ' \
-        'href="example.com">Click Me</a>' \
+    expected_html = (
+        '<div>'
+        ' <a data-ga-action="link" data-ga-element="pageSection" '
+        'data-ga-include-form-data="True" '
+        'data-ga-type="CTA" data-ga-value="Click Me" '
+        'href="example.com">Click Me</a>'
         '</div>'
+    )
     assert rendered_html == expected_html
 
 
-@pytest.mark.parametrize('count,current,expected', (
-    (21, 1, '[1] 2 3 4 5 N'),
-    (21, 2, 'P 1 [2] 3 4 5 N'),
-    (21, 3, 'P 1 2 [3] 4 5 N'),
-    (21, 4, 'P 1 2 3 [4] 5 N'),
-    (21, 5, 'P 1 2 3 4 [5]'),
-    (30, 1, '[1] 2 3 4 5 6 N'),
-    (40, 1, '[1] 2 3 4 ... 8 N'),
-    (40, 2, 'P 1 [2] 3 4 ... 8 N'),
-    (40, 3, 'P 1 2 [3] 4 ... 8 N'),
-    (40, 4, 'P 1 2 3 [4] ... 8 N'),
-    (40, 5, 'P 1 ... [5] 6 7 8 N'),
-    (40, 6, 'P 1 ... 5 [6] 7 8 N'),
-    (40, 7, 'P 1 ... 5 6 [7] 8 N'),
-    (40, 8, 'P 1 ... 5 6 7 [8]'),
-    (60, 1, '[1] 2 3 4 ... 12 N'),
-    (60, 2, 'P 1 [2] 3 4 ... 12 N'),
-    (60, 3, 'P 1 2 [3] 4 ... 12 N'),
-    (60, 4, 'P 1 2 3 [4] ... 12 N'),
-    (60, 5, 'P 1 ... 4 [5] 6 ... 12 N'),
-    (60, 6, 'P 1 ... 5 [6] 7 ... 12 N'),
-    (60, 7, 'P 1 ... 6 [7] 8 ... 12 N'),
-    (60, 8, 'P 1 ... 7 [8] 9 ... 12 N'),
-    (60, 9, 'P 1 ... [9] 10 11 12 N'),
-    (60, 10, 'P 1 ... 9 [10] 11 12 N'),
-    (60, 11, 'P 1 ... 9 10 [11] 12 N'),
-    (60, 12, 'P 1 ... 9 10 11 [12]'),
-))
+@pytest.mark.parametrize(
+    'count,current,expected',
+    (
+        (21, 1, '[1] 2 3 4 5 N'),
+        (21, 2, 'P 1 [2] 3 4 5 N'),
+        (21, 3, 'P 1 2 [3] 4 5 N'),
+        (21, 4, 'P 1 2 3 [4] 5 N'),
+        (21, 5, 'P 1 2 3 4 [5]'),
+        (30, 1, '[1] 2 3 4 5 6 N'),
+        (40, 1, '[1] 2 3 4 ... 8 N'),
+        (40, 2, 'P 1 [2] 3 4 ... 8 N'),
+        (40, 3, 'P 1 2 [3] 4 ... 8 N'),
+        (40, 4, 'P 1 2 3 [4] ... 8 N'),
+        (40, 5, 'P 1 ... [5] 6 7 8 N'),
+        (40, 6, 'P 1 ... 5 [6] 7 8 N'),
+        (40, 7, 'P 1 ... 5 6 [7] 8 N'),
+        (40, 8, 'P 1 ... 5 6 7 [8]'),
+        (60, 1, '[1] 2 3 4 ... 12 N'),
+        (60, 2, 'P 1 [2] 3 4 ... 12 N'),
+        (60, 3, 'P 1 2 [3] 4 ... 12 N'),
+        (60, 4, 'P 1 2 3 [4] ... 12 N'),
+        (60, 5, 'P 1 ... 4 [5] 6 ... 12 N'),
+        (60, 6, 'P 1 ... 5 [6] 7 ... 12 N'),
+        (60, 7, 'P 1 ... 6 [7] 8 ... 12 N'),
+        (60, 8, 'P 1 ... 7 [8] 9 ... 12 N'),
+        (60, 9, 'P 1 ... [9] 10 11 12 N'),
+        (60, 10, 'P 1 ... 9 [10] 11 12 N'),
+        (60, 11, 'P 1 ... 9 10 [11] 12 N'),
+        (60, 12, 'P 1 ... 9 10 11 [12]'),
+    ),
+)
 def test_pagination(count, current, expected, rf):
     template = Template(
-        '{% load pagination from directory_components %}'
-        '{% pagination pagination_page=pagination_page %}'
+        '{% load pagination from directory_components %}' '{% pagination pagination_page=pagination_page %}'
     )
 
     page_size = 5
@@ -957,10 +894,7 @@ def test_pagination(count, current, expected, rf):
 
     paginator = Paginator(objects, page_size)
     pagination_page = paginator.page(current)
-    context = {
-        'request': rf.get('/'),
-        'pagination_page': pagination_page
-    }
+    context = {'request': rf.get('/'), 'pagination_page': pagination_page}
 
     html = template.render(Context(context))
 
@@ -1001,21 +935,21 @@ SAMPLE_NAVIGATION_TREE = [
         tier_one_item=NavItem('Root 1', 'root-1'),
         tier_two_items=[
             NavItem('Sub Page 1', 'sub-page-1'),
-        ]
+        ],
     ),
-    NavNode(
-        tier_one_item=NavItem('Root 2', 'root-2'),
-        tier_two_items=[]
-    ),
+    NavNode(tier_one_item=NavItem('Root 2', 'root-2'), tier_two_items=[]),
 ]
 
 
-@pytest.mark.parametrize('section,subsection', [
-    ('', ''),
-    ('incorrect-section', ''),
-    ('', 'incorrect-subsection'),
-    ('', 'sub-page-one'),
-])
+@pytest.mark.parametrize(
+    'section,subsection',
+    [
+        ('', ''),
+        ('incorrect-section', ''),
+        ('', 'incorrect-subsection'),
+        ('', 'sub-page-one'),
+    ],
+)
 def test_international_header_no_active_sections(section, subsection):
     navigation = international_header(Context({}), SAMPLE_NAVIGATION_TREE, '', '')
 

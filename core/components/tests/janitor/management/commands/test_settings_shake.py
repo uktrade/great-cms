@@ -1,19 +1,14 @@
-from unittest import mock
 import io
+from unittest import mock
+
 import pytest
-
-from django.core.management import call_command
-
 from directory_components.janitor.management.commands import helpers, settings_shake
+from django.core.management import call_command
 
 
 @pytest.fixture(autouse=True)
 def mock_get_settings_source_code():
-    patched = mock.patch.object(
-        helpers,
-        'get_settings_source_code',
-        return_value='EXAMPLE_A = env.bool("EXAMPLE_A")'
-    )
+    patched = mock.patch.object(helpers, 'get_settings_source_code', return_value='EXAMPLE_A = env.bool("EXAMPLE_A")')
     yield patched.start()
     patched.stop()
 
@@ -27,11 +22,7 @@ def mock_client():
 
 @pytest.fixture(autouse=True)
 def mock_get_secrets():
-    patched = mock.patch.object(
-        helpers,
-        'get_secrets',
-        return_value={'EXAMPLE_A': True, 'EXAMPLE_B': False}
-    )
+    patched = mock.patch.object(helpers, 'get_secrets', return_value={'EXAMPLE_A': True, 'EXAMPLE_B': False})
     yield patched.start()
     patched.stop()
 
@@ -54,7 +45,7 @@ def test_settings_shake_obsolete(settings):
         environment='example-environment',
         token='secret-token',
         domain='example.com',
-        stdout=out
+        stdout=out,
     )
     out.seek(0)
     result = out.read()
@@ -73,7 +64,7 @@ def test_settings_shake_redundant(settings):
         environment='example-environment',
         token='secret-token',
         domain='example.com',
-        stdout=out
+        stdout=out,
     )
     out.seek(0)
     result = out.read()
@@ -89,7 +80,7 @@ def test_settings_shake_unused(settings):
         environment='example-environment',
         token='secret-token',
         domain='example.com',
-        stdout=out
+        stdout=out,
     )
     out.seek(0)
     result = out.read()
@@ -104,13 +95,7 @@ def test_obsolete_wizard(mock_get_secrets_wizard, settings):
     mock_get_secrets_wizard.return_value = {'EXAMPLE_A': True, 'EXAMPLE_B': False}
     out = io.StringIO()
 
-    call_command(
-        'settings_shake',
-        wizard=True,
-        token='secret-token',
-        domain='example.com',
-        stdout=out
-    )
+    call_command('settings_shake', wizard=True, token='secret-token', domain='example.com', stdout=out)
     out.seek(0)
     result = out.read()
 
@@ -129,7 +114,7 @@ def test_settings_shake_ok(settings):
         environment='example-environment',
         token='secret-token',
         domain='example.com',
-        stdout=out
+        stdout=out,
     )
     out.seek(0)
     result = out.read()

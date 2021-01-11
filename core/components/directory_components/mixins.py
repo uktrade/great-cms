@@ -1,7 +1,8 @@
+from directory_components import forms, helpers
 from django.conf import settings
 from django.utils import translation
+
 from directory_constants.choices import COUNTRY_CHOICES
-from directory_components import helpers, forms
 
 
 class CountryDisplayMixin:
@@ -25,9 +26,9 @@ class CountryDisplayMixin:
         return super().get_context_data(
             hide_country_selector=hide_country_selector,
             country=country,
-            country_selector_form=self.country_form_class(
-                **country_form_kwargs),
-            *args, **kwargs
+            country_selector_form=self.country_form_class(**country_form_kwargs),
+            *args,
+            **kwargs,
         )
 
     def get_country_form_kwargs(self, **kwargs):
@@ -58,10 +59,7 @@ class EnableTranslationsMixin:
         context['LANGUAGE_BIDI'] = translation.get_language_bidi()
         language_form_kwargs = self.get_language_form_kwargs()
 
-        context['language_switcher'] = {
-            'show': True,
-            'form': self.language_form_class(**language_form_kwargs)
-        }
+        context['language_switcher'] = {'show': True, 'form': self.language_form_class(**language_form_kwargs)}
         return context
 
     def get_language_form_kwargs(self, **kwargs):
@@ -72,24 +70,19 @@ class EnableTranslationsMixin:
 
 
 class CMSLanguageSwitcherMixin:
-
     def dispatch(self, request, *args, **kwargs):
         translation.activate(request.LANGUAGE_CODE)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         form = forms.LanguageForm(
-            initial={'lang': translation.get_language()},
-            language_choices=self.page['meta']['languages']
+            initial={'lang': translation.get_language()}, language_choices=self.page['meta']['languages']
         )
-        show_language_switcher = (
-            len(self.page['meta']['languages']) > 1 and
-            form.is_language_available(translation.get_language())
+        show_language_switcher = len(self.page['meta']['languages']) > 1 and form.is_language_available(
+            translation.get_language()
         )
         return super().get_context_data(
-            language_switcher={'form': form, 'show': show_language_switcher},
-            *args,
-            **kwargs
+            language_switcher={'form': form, 'show': show_language_switcher}, *args, **kwargs
         )
 
 

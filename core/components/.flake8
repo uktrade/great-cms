@@ -1,3 +1,0 @@
-[flake8]
-exclude=.venv,venv,node_modules
-max-line-length=120

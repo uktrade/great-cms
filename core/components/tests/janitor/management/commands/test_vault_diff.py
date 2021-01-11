@@ -1,12 +1,10 @@
-from unittest import mock
 import io
+from unittest import mock
 
 import pytest
-from colors import red, green
-
-from django.core.management import call_command
-
+from colors import green, red
 from directory_components.janitor.management.commands import helpers
+from django.core.management import call_command
 
 
 @pytest.fixture(autouse=True)
@@ -18,11 +16,7 @@ def mock_client():
 
 @pytest.fixture(autouse=True)
 def mock_get_secrets():
-    patched = mock.patch.object(
-        helpers,
-        'get_secrets',
-        return_value={'EXAMPLE_A': True, 'EXAMPLE_B': False}
-    )
+    patched = mock.patch.object(helpers, 'get_secrets', return_value={'EXAMPLE_A': True, 'EXAMPLE_B': False})
     yield patched.start()
     patched.stop()
 
@@ -42,7 +36,7 @@ def test_vault_diff(command, mock_get_secrets):
         environment_b='example-environment-a',
         token='secret-token',
         domain='example.com',
-        stdout=out
+        stdout=out,
     )
     out.seek(0)
     result = out.read()
@@ -60,13 +54,7 @@ def test_wizard(mock_get_secrets_wizard, command):
     ]
     out = io.StringIO()
 
-    call_command(
-        command,
-        token='secret-token',
-        domain='example.com',
-        wizard=True,
-        stdout=out
-    )
+    call_command(command, token='secret-token', domain='example.com', wizard=True, stdout=out)
     out.seek(0)
     result = out.read()
 

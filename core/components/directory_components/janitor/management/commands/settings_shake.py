@@ -1,45 +1,32 @@
 import hvac
-
+from directory_components.janitor.management.commands import helpers
 from django.conf import global_settings, settings
 from django.core.management.base import BaseCommand
 from django.core.management.commands.diffsettings import module_to_dict
-
-from directory_components.janitor.management.commands import helpers
 
 
 class Command(BaseCommand):
     help_text = 'Shake the settings and see what falls off. Like tree-shaking.'
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            '--token',
-            help='Vault token. Retrieve by clicking "copy token" on Vault UI.'
-        )
+        parser.add_argument('--token', help='Vault token. Retrieve by clicking "copy token" on Vault UI.')
         parser.add_argument(
             '--domain',
             default=getattr(settings, 'DIRECTORY_COMPONENTS_VAULT_DOMAIN', None),
-            help='Vault domain. The domain you uses to access the UI.'
+            help='Vault domain. The domain you uses to access the UI.',
         )
-        parser.add_argument(
-            '--wizard',
-            action='store_true',
-            help='Select the projects and environments from a list.'
-        )
+        parser.add_argument('--wizard', action='store_true', help='Select the projects and environments from a list.')
         parser.add_argument(
             '--root',
             default=getattr(settings, 'DIRECTORY_COMPONENTS_VAULT_ROOT_PATH', None),
-            help='The vault root path your projects are within.'
+            help='The vault root path your projects are within.',
         )
         parser.add_argument(
             '--project',
             default=getattr(settings, 'DIRECTORY_COMPONENTS_VAULT_PROJECT', None),
-            help='The name of the project you want to check orphans of.'
+            help='The name of the project you want to check orphans of.',
         )
-        parser.add_argument(
-            '--environment',
-            required=False,
-            help='The environment to check for orphans.'
-        )
+        parser.add_argument('--environment', required=False, help='The environment to check for orphans.')
 
     def handle(self, *args, **options):
         obsolete = self.report_obsolete_vault_entries(options)
@@ -84,9 +71,7 @@ class Command(BaseCommand):
 
     def report_redundant_settings(self):
         # false positives: if powered by env var but the default value that is the same as django default
-        self.stdout.write(
-            self.style.MIGRATE_LABEL('Looking for redundant settings')
-        )
+        self.stdout.write(self.style.MIGRATE_LABEL('Looking for redundant settings'))
 
         settings_dict = module_to_dict(settings)
         default_settings = module_to_dict(global_settings)
@@ -99,14 +84,8 @@ class Command(BaseCommand):
         return warnings
 
     def report_unused_settings(self):
-        self.stdout.write(
-            self.style.MIGRATE_LABEL('Looking for unused settings')
-        )
-        vulture = helpers.Vulture(
-            verbose=False,
-            ignore_names=[],
-            ignore_decorators=[]
-        )
+        self.stdout.write(self.style.MIGRATE_LABEL('Looking for unused settings'))
+        vulture = helpers.Vulture(verbose=False, ignore_names=[], ignore_decorators=[])
         vulture.scavenge(['.'])
         return vulture.report()
 

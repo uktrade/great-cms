@@ -1,10 +1,9 @@
-from directory_constants import urls
-from bs4 import BeautifulSoup
 import pytest
-
+from bs4 import BeautifulSoup
+from directory_components import context_processors, forms, helpers
 from django.template.loader import render_to_string
 
-from directory_components import context_processors, forms, helpers
+from directory_constants import urls
 
 
 def test_ga360_javascript(client, rf):
@@ -18,13 +17,12 @@ def test_ga360_javascript(client, rf):
             'login_status': True,
             'business_unit': 'Great.gov',
         },
-        'services_urls': {'feedback': None}
+        'services_urls': {'feedback': None},
     }
-    html = BeautifulSoup(render_to_string(
-        'directory_components/base.html', context
-    ), 'html.parser')
+    html = BeautifulSoup(render_to_string('directory_components/base.html', context), 'html.parser')
 
-    expected = BeautifulSoup("""
+    expected = BeautifulSoup(
+        """
         <script type="text/javascript">
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
@@ -37,7 +35,9 @@ def test_ga360_javascript(client, rf):
             });
             dit.tagging.base.init();
         </script>
-    """, 'html.parser')
+    """,
+        'html.parser',
+    )
 
     assert soup_to_html(expected) in soup_to_html(html)
 
@@ -48,24 +48,16 @@ def test_google_tag_manager_project_id():
             'GOOGLE_TAG_MANAGER_ID': '123456',
         }
     }
-    head_html = render_to_string(
-        'directory_components/google_tag_manager_head.html', context
-    )
-    body_html = render_to_string(
-        'directory_components/google_tag_manager_body.html', context
-    )
+    head_html = render_to_string('directory_components/google_tag_manager_head.html', context)
+    body_html = render_to_string('directory_components/google_tag_manager_body.html', context)
 
     assert '123456' in head_html
     assert 'https://www.googletagmanager.com/ns.html?id=123456' in body_html
 
 
 def test_google_tag_manager():
-    expected_head = render_to_string(
-        'directory_components/google_tag_manager_head.html', {}
-    )
-    expected_body = render_to_string(
-        'directory_components/google_tag_manager_body.html', {}
-    )
+    expected_head = render_to_string('directory_components/google_tag_manager_head.html', {})
+    expected_body = render_to_string('directory_components/google_tag_manager_body.html', {})
 
     html = render_to_string('directory_components/base.html', {'services_urls': {'feedback': None}})
 
@@ -81,15 +73,11 @@ def test_google_tag_manager_env():
     context = {
         'directory_components_analytics': {
             'GOOGLE_TAG_MANAGER_ID': '123456',
-            'GOOGLE_TAG_MANAGER_ENV': '&gtm_auth=hello'
+            'GOOGLE_TAG_MANAGER_ENV': '&gtm_auth=hello',
         }
     }
-    head_html = render_to_string(
-        'directory_components/google_tag_manager_head.html', context
-    )
-    body_html = render_to_string(
-        'directory_components/google_tag_manager_body.html', context
-    )
+    head_html = render_to_string('directory_components/google_tag_manager_head.html', context)
+    body_html = render_to_string('directory_components/google_tag_manager_body.html', context)
 
     assert '&gtm_auth=hello' in head_html
     assert '&gtm_auth=hello' in body_html
@@ -134,29 +122,20 @@ def test_social_share_links():
         app_title='Export Readiness',
     )
     template_name = 'directory_components/social_share_links.html'
-    context = {
-        'social_links': social_links_builder.links
-    }
+    context = {'social_links': social_links_builder.links}
     html = render_to_string(template_name, context)
 
     for url in social_links_builder.links.values():
         assert url in html
 
 
-@pytest.mark.parametrize('title,expected', (
-    ('Custom title', 'Custom title'),
-    (None, 'Share'),
-    ('', 'Share')
-))
+@pytest.mark.parametrize('title,expected', (('Custom title', 'Custom title'), (None, 'Share'), ('', 'Share')))
 def test_social_share_title(title, expected):
     template_name = 'directory_components/social_share_links.html'
-    context = {
-        'title': title
-    }
+    context = {'title': title}
     html = render_to_string(template_name, context)
 
-    assert '<span class="visually-hidden">{title}</span>'.format(
-        title=expected) in html
+    assert '<span class="visually-hidden">{title}</span>'.format(title=expected) in html
 
 
 def test_robots_site_indexing():
@@ -164,16 +143,13 @@ def test_robots_site_indexing():
 
 
 def test_form_field_container():
-
     class Form(forms.Form):
         field = forms.CharField()
 
     form = Form()
 
     template_name = 'directory_components/form_widgets/form_field.html'
-    context = {
-        'field': form['field']
-    }
+    context = {'field': form['field']}
     html = render_to_string(template_name, context)
 
     assert 'id="id_field-container' in html
@@ -181,9 +157,7 @@ def test_form_field_container():
 
 def test_image_with_caption_displays_caption():
     template_name = 'directory_components/image_with_caption.html'
-    context = {
-            'main_caption': 'Hello'
-        }
+    context = {'main_caption': 'Hello'}
 
     html = render_to_string(template_name, context)
 
@@ -193,9 +167,7 @@ def test_image_with_caption_displays_caption():
 
 def test_image_with_caption_does_not_have_caption_without_caption_text():
     template_name = 'directory_components/image_with_caption.html'
-    context = {
-            'main_caption': None
-        }
+    context = {'main_caption': None}
 
     html = render_to_string(template_name, context)
 

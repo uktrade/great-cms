@@ -1,7 +1,6 @@
 from unittest import mock
 
 import pytest
-
 from directory_components.janitor.management.commands import helpers
 
 
@@ -10,14 +9,9 @@ def test_prompt_user_choice(monkeypatch):
 
     monkeypatch.setitem(__builtins__, 'input', mock_input)
 
-    helpers.prompt_user_choice(
-        message='Choose a thing',
-        options=['Option A', 'Option B']
-    )
+    helpers.prompt_user_choice(message='Choose a thing', options=['Option A', 'Option B'])
     assert mock_input.call_count == 1
-    assert mock_input.call_args == mock.call(
-        'Choose a thing:\n\n[0] Option A\n[1] Option B\n\n'
-    )
+    assert mock_input.call_args == mock.call('Choose a thing:\n\n[0] Option A\n[1] Option B\n\n')
 
 
 def test_clean_secrets_default():
@@ -86,7 +80,7 @@ def test_get_secrets_wizard(monkeypatch):
     }
     mock_client.list.side_effect = [
         {'data': {'keys': ['project-one', 'project-two', 'project-three']}},
-        {'data': {'keys': ['environment-one', 'environment-two']}}
+        {'data': {'keys': ['environment-one', 'environment-two']}},
     ]
     mock_input.side_effect = ['0', '1']
 
@@ -108,11 +102,7 @@ def test_vulture_filters_non_settings(mock_get_unused_code):
 
     mock_get_unused_code.return_value = [one, two, three]
 
-    vulture = helpers.Vulture(
-        verbose=False,
-        ignore_names=[],
-        ignore_decorators=False
-    )
+    vulture = helpers.Vulture(verbose=False, ignore_names=[], ignore_decorators=False)
     assert list(vulture.report()) == ['FOO', 'BAR']
 
 
@@ -122,17 +112,22 @@ def test_get_settings_source_code(settings):
     assert helpers.get_settings_source_code(settings)
 
 
-@pytest.mark.parametrize('value, expected', ((
-    ('SSO_PROXY_LOGOUT_URL', 'SSO_PROXY_LOGOUT_URL'),
-    ('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', 'DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON'),
-    ('ON', None),  # partial match false positive
-    ('FOO', None),
-    ('foo', None),
-    ('Foo', None),
-    ('EMAIL_REQUIRED', 'ACCOUNT_EMAIL_REQUIRED'),  # partial match
-    ('DUBUG', None),  # django provided
-    ('LIBRARY_SECRET_KEY', None)  # partial match that looks like django provided
-)))
+@pytest.mark.parametrize(
+    'value, expected',
+    (
+        (
+            ('SSO_PROXY_LOGOUT_URL', 'SSO_PROXY_LOGOUT_URL'),
+            ('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', 'DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON'),
+            ('ON', None),  # partial match false positive
+            ('FOO', None),
+            ('foo', None),
+            ('Foo', None),
+            ('EMAIL_REQUIRED', 'ACCOUNT_EMAIL_REQUIRED'),  # partial match
+            ('DUBUG', None),  # django provided
+            ('LIBRARY_SECRET_KEY', None),  # partial match that looks like django provided
+        )
+    ),
+)
 def test_resolve_setting_name(value, expected):
     settings_keys = [
         'SSO_PROXY_LOGOUT_URL',
@@ -143,7 +138,6 @@ def test_resolve_setting_name(value, expected):
 
 
 def test_list_vault_paths():
-
     def stub_list_vault_paths(path):
         keys = {
             '/root/metadata': ['project_a/', 'project_b/'],

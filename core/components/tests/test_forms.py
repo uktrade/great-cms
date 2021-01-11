@@ -1,9 +1,7 @@
 from bs4 import BeautifulSoup
-
+from directory_components import forms
 from django.forms import HiddenInput
 from django.utils import translation
-
-from directory_components import forms
 
 
 def test_get_language_form_initial_data():

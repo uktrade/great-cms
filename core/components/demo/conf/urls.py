@@ -1,6 +1,5 @@
-from django.conf.urls import url
-
 from demo import views
+from django.conf.urls import url
 
 urlpatterns = [
     url(
@@ -154,17 +153,14 @@ urlpatterns = [
         name='pagination',
     ),
     url(
-        r'^error-pages/$',
-        views.BasePageView.as_view(),
-        {'template_name': 'demo/error-pages.html'},
-        name='error-pages'
+        r'^error-pages/$', views.BasePageView.as_view(), {'template_name': 'demo/error-pages.html'}, name='error-pages'
     ),
     url(
         r'^react-components/$',
         views.BasePageView.as_view(),
         {'template_name': 'demo/react-components.html'},
-        name='react-components'
-    )
+        name='react-components',
+    ),
 ]
 
 handler404 = 'directory_components.views.handler404'

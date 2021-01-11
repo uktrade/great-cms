@@ -1,16 +1,15 @@
 from unittest.mock import Mock
 
-from directory_constants import choices
 import pytest
-
-from django.http import HttpResponse
-from django.conf import settings
-from django.urls import set_urlconf
-from django.utils import translation
-from django.test import RequestFactory
-
 from directory_components import middleware
 from directory_components.middleware import GADataMissingException
+from django.conf import settings
+from django.http import HttpResponse
+from django.test import RequestFactory
+from django.urls import set_urlconf
+from django.utils import translation
+
+from directory_constants import choices
 
 
 class PrefixUrlMiddleware(middleware.AbstractPrefixUrlMiddleware):
@@ -77,15 +76,16 @@ def test_prefix_url_middleware_unknown_url(rf):
     assert response is None
 
 
-@pytest.mark.parametrize('url,expected', (
-    ('/some/path/', '/components/some/path/'),
-    ('/some/path', '/components/some/path/'),
-    ('/some/path/?a=b', '/components/some/path/?a=b'),
-    ('/some/path?a=b', '/components/some/path/?a=b'),
-))
-def test_prefix_url_middleware_starts_with_known_url(
-    rf, settings, url, expected
-):
+@pytest.mark.parametrize(
+    'url,expected',
+    (
+        ('/some/path/', '/components/some/path/'),
+        ('/some/path', '/components/some/path/'),
+        ('/some/path/?a=b', '/components/some/path/?a=b'),
+        ('/some/path?a=b', '/components/some/path/?a=b'),
+    ),
+)
+def test_prefix_url_middleware_starts_with_known_url(rf, settings, url, expected):
     set_urlconf('tests.urls_prefixed')
 
     request = rf.get(url)
@@ -96,15 +96,16 @@ def test_prefix_url_middleware_starts_with_known_url(
     assert response.url == expected
 
 
-@pytest.mark.parametrize('url,expected', (
-    ('/some/path/', 'http://foo.com/components/some/path/'),
-    ('/some/path', 'http://foo.com/components/some/path/'),
-    ('/some/path/?a=b', 'http://foo.com/components/some/path/?a=b'),
-    ('/some/path?a=b', 'http://foo.com/components/some/path/?a=b'),
-))
-def test_prefix_url_middleware_starts_with_known_url_domain_set(
-    rf, settings, url, expected
-):
+@pytest.mark.parametrize(
+    'url,expected',
+    (
+        ('/some/path/', 'http://foo.com/components/some/path/'),
+        ('/some/path', 'http://foo.com/components/some/path/'),
+        ('/some/path/?a=b', 'http://foo.com/components/some/path/?a=b'),
+        ('/some/path?a=b', 'http://foo.com/components/some/path/?a=b'),
+    ),
+)
+def test_prefix_url_middleware_starts_with_known_url_domain_set(rf, settings, url, expected):
     settings.URL_PREFIX_DOMAIN = 'http://foo.com'
     set_urlconf('tests.urls_prefixed')
 
@@ -126,19 +127,20 @@ def test_prefix_url_middleware_unknown_url_wrong_domain(rf, settings):
     assert response is None
 
 
-@pytest.mark.parametrize('url,expected', (
-    ('/some/path/', 'http://foo.com/components/some/path/'),
-    ('/some/path', 'http://foo.com/components/some/path/'),
-    ('/some/path/?a=b', 'http://foo.com/components/some/path/?a=b'),
-    ('/some/path?a=b', 'http://foo.com/components/some/path/?a=b'),
-    ('/components/some/path/', 'http://foo.com/components/some/path/'),
-    ('/components/some/path', 'http://foo.com/components/some/path/'),
-    ('/components/some/path/?a=b', 'http://foo.com/components/some/path/?a=b'),
-    ('/components/some/path?a=b', 'http://foo.com/components/some/path/?a=b'),
-))
-def test_prefix_url_middleware_starts_with_known_url_wrong_domain(
-    rf, settings, url, expected
-):
+@pytest.mark.parametrize(
+    'url,expected',
+    (
+        ('/some/path/', 'http://foo.com/components/some/path/'),
+        ('/some/path', 'http://foo.com/components/some/path/'),
+        ('/some/path/?a=b', 'http://foo.com/components/some/path/?a=b'),
+        ('/some/path?a=b', 'http://foo.com/components/some/path/?a=b'),
+        ('/components/some/path/', 'http://foo.com/components/some/path/'),
+        ('/components/some/path', 'http://foo.com/components/some/path/'),
+        ('/components/some/path/?a=b', 'http://foo.com/components/some/path/?a=b'),
+        ('/components/some/path?a=b', 'http://foo.com/components/some/path/?a=b'),
+    ),
+)
+def test_prefix_url_middleware_starts_with_known_url_wrong_domain(rf, settings, url, expected):
     settings.URL_PREFIX_DOMAIN = 'http://foo.com'
 
     set_urlconf('tests.urls_prefixed')
@@ -151,15 +153,16 @@ def test_prefix_url_middleware_starts_with_known_url_wrong_domain(
     assert response.url == expected
 
 
-@pytest.mark.parametrize('url', (
-    '/components/some/path/',
-    '/components/some/path',
-    '/components/some/path/?a=b',
-    '/components/some/path?a=b',
-))
-def test_prefix_url_middleware_starts_with_known_url_correct_domain(
-    rf, settings, url
-):
+@pytest.mark.parametrize(
+    'url',
+    (
+        '/components/some/path/',
+        '/components/some/path',
+        '/components/some/path/?a=b',
+        '/components/some/path?a=b',
+    ),
+)
+def test_prefix_url_middleware_starts_with_known_url_correct_domain(rf, settings, url):
     settings.URL_PREFIX_DOMAIN = 'http://foo.com'
 
     set_urlconf('tests.urls_prefixed')
@@ -172,9 +175,7 @@ def test_prefix_url_middleware_starts_with_known_url_correct_domain(
 
 
 @pytest.mark.parametrize('country_code,country_name', choices.COUNTRY_CHOICES)
-def test_country_middleware_sets_country_cookie(
-    client, rf, country_code, country_name
-):
+def test_country_middleware_sets_country_cookie(client, rf, country_code, country_name):
     settings.COUNTRY_COOKIE_SECURE = True
     request = rf.get('/', {'country': country_code})
     response = HttpResponse()
@@ -314,9 +315,7 @@ def test_locale_persist_middleware_sets_cross_domain(client, rf, settings):
     assert cookie['domain'] == settings.LANGUAGE_COOKIE_DOMAIN
 
 
-def test_locale_persist_middleware_deletes_deprecated_cookie(
-        client, rf, settings
-):
+def test_locale_persist_middleware_deletes_deprecated_cookie(client, rf, settings):
     settings.LANGUAGE_COOKIE_DEPRECATED_NAME = 'django-language'
     settings.LANGUAGE_COOKIE_SECURE = True
 
@@ -427,7 +426,7 @@ def dummy_valid_ga_360_response():
         'site_section': 'Test Section',
         'site_language': 'de',
         'user_id': '1234',
-        'login_status': True
+        'login_status': True,
     }
 
     response = HttpResponse()
@@ -489,8 +488,7 @@ def test_check_ga_360_rejects_responses_without_a_ga360_payload():
     with pytest.raises(GADataMissingException) as exception:
         instance.process_response({}, response)
 
-    assert 'No Google Analytics data found on the response.' \
-           in str(exception.value)
+    assert 'No Google Analytics data found on the response.' in str(exception.value)
 
 
 def test_check_ga_360_rejects_responses_missing_a_required_field():
@@ -501,8 +499,7 @@ def test_check_ga_360_rejects_responses_missing_a_required_field():
     with pytest.raises(GADataMissingException) as exception:
         instance.process_response({}, response)
 
-    assert "'business_unit' is a required property" \
-           in str(exception.value)
+    assert "'business_unit' is a required property" in str(exception.value)
 
 
 def test_check_ga_360_rejects_responses_where_a_required_field_is_null():

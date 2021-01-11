@@ -1,9 +1,9 @@
 from unittest.mock import Mock, patch
 
 import pytest
+from directory_components import context_processors
 
 from directory_constants import urls
-from directory_components import context_processors
 
 
 def test_analytics(settings):
@@ -36,22 +36,12 @@ def test_cookie_notice(settings):
 
 @pytest.fixture
 def sso_user():
-    return Mock(
-        id=1,
-        email='jim@example.com',
-        spec=['id', 'email'],
-        hashed_uuid='1234'
-    )
+    return Mock(id=1, email='jim@example.com', spec=['id', 'email'], hashed_uuid='1234')
 
 
 @pytest.fixture
 def admin_superuser():
-    return Mock(
-        id=1,
-        email='admin@example.com',
-        spec=['id', 'email'],
-        is_staff=True
-    )
+    return Mock(id=1, email='admin@example.com', spec=['id', 'email'], is_staff=True)
 
 
 @pytest.fixture
@@ -89,9 +79,7 @@ def test_sso_profile_url(request_logged_in, settings):
 def test_sso_register_url_url(request_logged_in, settings):
     settings.SSO_PROXY_SIGNUP_URL = 'http://www.example.com/signup/'
     context = context_processors.sso_processor(request_logged_in)
-    assert context['sso_register_url'] == (
-        'http://www.example.com/signup/?next=http://testserver/'
-    )
+    assert context['sso_register_url'] == ('http://www.example.com/signup/?next=http://testserver/')
 
 
 def test_sso_logged_out(request_logged_out):
@@ -109,9 +97,7 @@ def test_sso_login_url(request_logged_in, settings):
 def test_sso_logout_url(request_logged_in, settings):
     settings.SSO_PROXY_LOGOUT_URL = 'http://www.example.com/logout/'
     context = context_processors.sso_processor(request_logged_in)
-    assert context['sso_logout_url'] == (
-        'http://www.example.com/logout/?next=http://testserver/'
-    )
+    assert context['sso_logout_url'] == ('http://www.example.com/logout/?next=http://testserver/')
 
 
 def test_sso_user(request_logged_in, sso_user):
@@ -127,7 +113,7 @@ def test_ga360_context_processor_all_data(settings, request_logged_in):
         'business_unit': 'Test App',
         'site_language': 'de',
         'user_id': '1234',
-        'login_status': True
+        'login_status': True,
     }
 
 
@@ -139,17 +125,13 @@ def test_ga360_context_processor_admin_all_data(settings, request_logged_in_admi
         'business_unit': 'Test App',
         'site_language': 'de',
         'user_id': None,
-        'login_status': True
+        'login_status': True,
     }
 
 
 def test_ga360_context_processor_no_data(request_logged_out):
     context = context_processors.ga360(request_logged_out)
-    assert context['ga360'] == {
-        'site_language': 'en-gb',
-        'user_id': None,
-        'login_status': False
-    }
+    assert context['ga360'] == {'site_language': 'en-gb', 'user_id': None, 'login_status': False}
 
 
 def test_header_footer_processor(settings):
@@ -183,7 +165,7 @@ def test_header_footer_processor(settings):
         'terms_and_conditions': 'https://exred.com/terms-and-conditions/',
         'accessibility': 'https://exred.com/accessibility-statement/',
         'cookie_preference_settings': 'https://exred.com/cookies/',
-        'market_access': 'https://exred.com/report-trade-barrier/'
+        'market_access': 'https://exred.com/report-trade-barrier/',
     }
 
 
@@ -219,9 +201,7 @@ def test_urls_processor(settings):
 
 
 def test_feature_returns_expected_features(settings):
-    settings.FEATURE_FLAGS = {
-        'COMPANIES_HOUSE_OAUTH2_ENABLED': True
-    }
+    settings.FEATURE_FLAGS = {'COMPANIES_HOUSE_OAUTH2_ENABLED': True}
 
     actual = context_processors.feature_flags(None)
 

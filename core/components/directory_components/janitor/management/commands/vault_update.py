@@ -1,9 +1,7 @@
 import hvac
-
+from directory_components.janitor.management.commands import helpers
 from django.conf import settings
 from django.core.management.base import BaseCommand
-
-from directory_components.janitor.management.commands import helpers
 
 
 def import_by_string(full_name):
@@ -16,19 +14,16 @@ class Command(BaseCommand):
     help = 'Change the vault values based on some mutator function.'
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            '--token',
-            help='Vault token. Retrieve by clicking "copy token" on Vault UI.'
-        )
+        parser.add_argument('--token', help='Vault token. Retrieve by clicking "copy token" on Vault UI.')
         parser.add_argument(
             '--domain',
             default=getattr(settings, 'DIRECTORY_COMPONENTS_VAULT_DOMAIN', None),
-            help='Vault domain. The domain you uses to access the UI.'
+            help='Vault domain. The domain you uses to access the UI.',
         )
         parser.add_argument(
             '--root',
             default=getattr(settings, 'DIRECTORY_COMPONENTS_VAULT_ROOT_PATH', None),
-            help='The vault root path your projects are within.'
+            help='The vault root path your projects are within.',
         )
         parser.add_argument(
             '--mutator',

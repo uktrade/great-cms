@@ -1,12 +1,10 @@
-from unittest import mock
 import io
+from unittest import mock
 
 import pytest
-from colors import red, green
-
-from django.core.management import call_command
-
+from colors import green, red
 from directory_components.janitor.management.commands import helpers
+from django.core.management import call_command
 
 
 @pytest.fixture(autouse=True)
@@ -18,29 +16,24 @@ def mock_client():
 
 @pytest.fixture(autouse=True)
 def mock_get_secrets():
-    patched = mock.patch.object(
-        helpers,
-        'get_secrets',
-        return_value={'FOO_A': 'foo.uktrade.io', 'PASSWORD': 'foo bar'}
-    )
+    patched = mock.patch.object(helpers, 'get_secrets', return_value={'FOO_A': 'foo.uktrade.io', 'PASSWORD': 'foo bar'})
     yield patched.start()
     patched.stop()
 
 
 @pytest.fixture(autouse=True)
 def mock_list_vault_paths():
-    patched = mock.patch.object(
-        helpers,
-        'list_vault_paths',
-        return_value=['foo/bar/baz']
-    )
+    patched = mock.patch.object(helpers, 'list_vault_paths', return_value=['foo/bar/baz'])
     yield patched.start()
     patched.stop()
 
 
 @pytest.fixture(autouse=True)
 def mock_write_secrets():
-    patched = mock.patch.object(helpers, 'write_secrets',)
+    patched = mock.patch.object(
+        helpers,
+        'write_secrets',
+    )
     yield patched.start()
     patched.stop()
 
@@ -55,13 +48,7 @@ def mutator(secrets, path):
 def test_vault_update(mock_input, mock_get_secrets, mock_write_secrets):
     out = io.StringIO()
 
-    call_command(
-        'vault_update',
-        token='secret-token',
-        domain='example.com',
-        mutator=mutator,
-        stdout=out
-    )
+    call_command('vault_update', token='secret-token', domain='example.com', mutator=mutator, stdout=out)
 
     assert red("- {'FOO_A': 'foo.uktrade.io', 'PASSWORD': '💀💀💀💀💀'}") in mock_input.call_args[0][0]
     assert green("+ {'FOO_A': 'foo.uktrade.digital', 'PASSWORD': '💀💀💀💀💀'}") in mock_input.call_args[0][0]
