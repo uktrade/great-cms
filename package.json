@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest -w 1 react-components/",
+    "test": "jest -w 1 react-components/ -t 'Searches multi-item'",
     "test:dev": "jest --watch",
     "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
     "build-dev": "webpack --config react-components/webpack.config.js --mode development",
