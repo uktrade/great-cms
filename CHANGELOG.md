@@ -29,6 +29,7 @@
 
 ### Fixed bugs
 
+- GP2-1067 - Fixed LessonCompleted component
 - no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
