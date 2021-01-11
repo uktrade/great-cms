@@ -15,7 +15,11 @@ import {
 } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import { createTargetMarketResearchForm, createDataSnapShot } from '@src/views/sections/TargetMarketResearch'
-import { adaptToTargetMarketForm } from '@src/views/sections/AdaptationForYourTargetMarket'
+import {
+  adaptToTargetMarketForm,
+  documentsForTargetMarketForm,
+  statsForYourTargetMarket,
+} from '@src/views/sections/AdaptationForYourTargetMarket'
 import { createObjectivesReasons, createObjectivesList } from '@src/views/sections/Objectives'
 import { createCostsAndPricing } from '@src/views/sections/CostsAndPricing'
 import { createDashboard, createDisabledButton } from '@src/views/sections/Dashboard'
@@ -36,6 +40,8 @@ export default {
   createTargetMarketResearchForm,
   createDataSnapShot,
   adaptToTargetMarketForm,
+  documentsForTargetMarketForm,
+  statsForYourTargetMarket,
   createComingSoonModal,
   createSpendingAndResources,
   createTargetAgeGroupInsights,
