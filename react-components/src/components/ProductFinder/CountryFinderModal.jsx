@@ -96,11 +96,13 @@ export default function CountryFinderModal(props) {
       region: button.getAttribute('data-region'),
       suggested: button.getAttribute('data-suggested'),
     }
-    analytics({
-      'event': 'addMarketSuccess',
-      'suggestMarket': country.suggested ? country.country_name : '',
-      'listMarket': country.suggested ? '' : country.country_name
-    })
+    if (!isCompareCountries) {
+      analytics({
+        'event': 'addMarketSuccess',
+        'suggestMarket': country.suggested ? country.country_name : '',
+        'listMarket': country.suggested ? '' : country.country_name
+      })
+    }
     selectCountry(country)
     closeModal()
   }
