@@ -1,7 +1,7 @@
 {% extends 'domestic/base.html' %}
 
 {% load static %}
-{% load component_tags %}
+{% load component_tags wagtailcore_tags %}
 
 {% block css_layout_class %}country-guide-page{% endblock %}
 
@@ -53,8 +53,7 @@
   <div class="container">
     <div class="grid-row">
       <div class="column-full column-half-l section-one-body">
-        CONVERT_HEADINGS_TO tag to port here
-        {% comment %} {{ page.section_one_body|convert_headings_to:'h2'|add_export_elements_classes|override_elements_css_class:'h2,heading-medium'|safe|add_href_target:request|safe }} {% endcomment %}
+        {{ page.section_one_body|richtext}}
       </div>
       <div class="column-full column-half-l">
         IMAGE WITH CAPTION tag to port here
