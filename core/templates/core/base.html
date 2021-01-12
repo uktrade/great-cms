@@ -52,6 +52,7 @@
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
           countryAgeGroupDataUrl: '{% url "exportplan:api-target-age-country-population-data" %}',
+          populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "dashboard" %}',
