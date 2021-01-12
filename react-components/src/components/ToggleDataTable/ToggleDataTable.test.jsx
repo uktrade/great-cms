@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
-import { mapData } from '@src/components/ToggleDataTable/utils'
+import { populationData } from '@src/components/ToggleDataTable/utils'
 import Services from '@src/Services'
 import { act } from 'react-dom/test-utils'
 
@@ -17,19 +17,6 @@ const mockGroups = [
 ]
 
 const mockResponse = {
-  cia_factbook_data: {
-    languages: {
-      language: [{ name: 'English' }, { name: 'French' }, { name: 'Spanish' }],
-    },
-  },
-  country_data: {
-    consumer_price_index: {
-      value: 123,
-    },
-    internet_usage: {
-      value: 80,
-    },
-  },
   population_data: {
     female_target_age_population: 100,
     male_target_age_population: 200,
@@ -42,9 +29,16 @@ const mockResponse = {
 
 describe('ToggleDataTable', () => {
   beforeEach(() => {
-    Services.getCountryAgeGroupData.mockImplementation(() => Promise.resolve())
+    Services.getCountryAgeGroupData.mockImplementation(() =>
+      Promise.resolve(mockResponse)
+    )
     wrapper = mount(
-      <ToggleDataTable groups={mockGroups} country="netherlands">
+      <ToggleDataTable
+        groups={mockGroups}
+        country="netherlands"
+        selectedGroups={['30']}
+        url="/export-plan"
+      >
         <div className="table">test</div>
       </ToggleDataTable>
     )
@@ -54,6 +48,14 @@ describe('ToggleDataTable', () => {
     wrapper = null
     Services.setConfig({})
     jest.clearAllMocks()
+  })
+
+  test('Should fetch country data', () => {
+    expect(Services.getCountryAgeGroupData).toHaveBeenCalledWith({
+      country: 'netherlands',
+      section_name: '/export-plan',
+      target_age_groups: ['30'],
+    })
   })
 
   test('renders heading and select button initially', () => {
@@ -96,7 +98,7 @@ describe('ToggleDataTable', () => {
 
 describe('utils', () => {
   test('mapData', () => {
-    expect(mapData(mockResponse.population_data)).toEqual({
+    expect(populationData(mockResponse.population_data)).toEqual({
       population: 0.2,
       urban: 40,
       rural: 60,
