@@ -87,3 +87,12 @@ button.button.action-choose.button-small.button-secondary {
   font-size: 24px;
   line-height: 1.04167;
 }
+
+#id_tags input[type='checkbox'] {
+  padding-right: 0px;
+}
+
+#id_tags input[type='checkbox']:before {
+  top: 5px;
+  left: 11px;
+}
