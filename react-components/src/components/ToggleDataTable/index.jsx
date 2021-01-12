@@ -2,7 +2,7 @@ import React, { memo, useState, cloneElement, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import { mapData } from '@src/components/ToggleDataTable/utils'
+import { populationData } from '@src/components/ToggleDataTable/utils'
 
 export const ToggleDataTable = memo(
   ({ country, groups, selectedGroups: selected, children, url }) => {
@@ -21,7 +21,7 @@ export const ToggleDataTable = memo(
         section_name: url,
       })
         .then(({ population_data }) => {
-          setData(mapData(population_data))
+          setData(populationData(population_data))
         })
         .catch((error) => console.log(error))
     }
@@ -97,12 +97,13 @@ ToggleDataTable.propTypes = {
   country: PropTypes.string.isRequired,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
     })
   ),
   children: PropTypes.element.isRequired,
   selectedGroups: PropTypes.arrayOf(PropTypes.string.isRequired),
+  url: PropTypes.string.isRequired,
 }
 
 ToggleDataTable.defaultProps = {
