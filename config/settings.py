@@ -107,6 +107,7 @@ TEMPLATES = [
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
+                'core.context_processors.analytics_vars',
                 'great_components.context_processors.analytics',
             ],
         },
