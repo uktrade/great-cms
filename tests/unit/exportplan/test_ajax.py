@@ -172,39 +172,34 @@ def test_recommended_countries_no_country(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_country_data')
-@mock.patch.object(helpers, 'get_cia_world_factbook_data')
-@mock.patch.object(helpers, 'get_population_data')
-def test_retrieve_marketing_country_data(mock_population_data, mock_factbook_data, mock_country_data, client, user):
+@mock.patch.object(helpers, 'update_ui_options_target_ages')
+def test_retrieve_marketing_target_age_data(
+    mock_update_ui_options, mock_get_population_data, mock_get_export_plan, export_plan_data, client, user
+):
     client.force_login(user)
 
-    mock_population_data.return_value = {'population_data': {'target_population': 10000}}
-    mock_factbook_data.return_value = {'cia_factbook_data': {'languages': ['English']}}
-    mock_country_data.return_value = {'country_data': {'cpi': 100}}
+    url = reverse('exportplan:api-target-age-country-population-data')
+    response = client.get(url, {'country': 'Canada', 'target_age_groups': '0-5,5-25', 'section_name': 'test-section'})
 
-    url = reverse('exportplan:api-marketing-country-data')
-    response = client.get(url, {'country': 'Canada', 'target_age_groups': '0-5,5-25'})
+    assert mock_get_population_data.call_count == 1
+    assert mock_update_ui_options.call_count == 1
 
-    assert mock_population_data.call_count == 1
-    assert mock_factbook_data.call_count == 1
-    assert mock_country_data.call_count == 1
+    assert mock_get_population_data.call_args == mock.call(country='Canada', target_ages=['0-5', '5-25'])
+    assert mock_update_ui_options.call_args == mock.call(
+        export_plan=export_plan_data,
+        sso_session_id='123',
+        target_ages=['0-5', '5-25'],
+        section_name='test-section',
+    )
 
-    assert mock_population_data.call_args == mock.call(country='Canada', target_ages=['0-5', '5-25'])
-    assert mock_factbook_data.call_args == mock.call(country='Canada', key='people,languages')
-
-    assert mock_country_data.call_args == mock.call('Canada')
-    assert response.json() == {
-        'cia_factbook_data': {'languages': ['English']},
-        'population_data': {'target_population': 10000},
-        'country_data': {'cpi': 100},
-    }
+    assert response.json() == mock_get_population_data.return_value
 
 
 @pytest.mark.django_db
 def test_retrieve_marketing_country_data_no_target_ages(client, user):
     client.force_login(user)
 
-    url = reverse('exportplan:api-marketing-country-data')
+    url = reverse('exportplan:api-target-age-country-population-data')
     response = client.get(url, {'country': 'Canada'})
 
     assert response.status_code == 400
@@ -370,7 +365,29 @@ def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data=OrderedDict([('target_markets', [{'country': 'China'}, {'country': 'India'}])]), id=1, sso_session_id='123'
+        data=OrderedDict([('target_markets',  ['China', 'India'])]), id=1, sso_session_id='123'
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_exportplan')
+@mock.patch.object(helpers, 'get_or_create_export_plan', return_value={'pk': 1, 'target_markets': []})
+def test_update_export_plan_ui_option_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
+    client.force_login(user)
+    mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
+
+    url = reverse('exportplan:api-update-export-plan')
+
+    response = client.post(url, {'ui_options': {'target_ages': ['25-34, 35-44']}}, content_type='application/json')
+    assert mock_get_or_create_export_plan.call_count == 1
+    assert mock_get_or_create_export_plan.call_args == mock.call(user)
+    assert response.status_code == 200
+
+    assert mock_update_exportplan.call_count == 1
+    assert mock_update_exportplan.call_args == mock.call(
+        data=OrderedDict([('ui_options', OrderedDict([('target_ages', ['25-34', ' 35-44'])]))]),
+        id=1,
+        sso_session_id='123',
     )
 
 

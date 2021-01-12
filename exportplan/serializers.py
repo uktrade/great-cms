@@ -114,6 +114,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     potential_total_profit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
 
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -127,9 +128,6 @@ class ExportPlanSerializer(serializers.Serializer):
     direct_costs = DirectCostsSerializer(required=False)
     overhead_costs = OverheadCostsSerializer(required=False)
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
-
-    def validate_target_markets(self, values):
-        return [{'country': c} for c in values]
 
 
 class CompanyObjectiveSerializer(serializers.Serializer):
