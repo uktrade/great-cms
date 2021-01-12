@@ -172,10 +172,9 @@ class ExportPlanMarketingApproachView(
         context['demographic_data'] = helpers.get_global_demographic_data(
             self.export_plan['export_countries'][0]['country_name']
         )
-        if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
-            context['selected_age_groups'] = json.dumps(
-                self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages')
-            )
+        context['selected_age_groups'] = json.dumps(
+            self.export_plan['ui_options'].get(self.slug, {}).get('target_ages', [])
+        )
         return context
 
 
@@ -205,6 +204,7 @@ class ExportPlanTargetMarketsResearchView(
 ):
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
+    slug = 'target-markets-research'
     title = 'Target market research'
 
     def get_initial(self):
@@ -225,10 +225,9 @@ class ExportPlanTargetMarketsResearchView(
             )
 
             context['insight_data'] = json.dumps(insight_data)
-            if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
-                context['selected_age_groups'] = json.dumps(
-                    self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages')
-                )
+            context['selected_age_groups'] = json.dumps(
+                self.export_plan['ui_options'].get(self.slug, {}).get('target_ages', [])
+            )
         return context
 
 
