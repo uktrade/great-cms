@@ -75,6 +75,11 @@ urlpatterns = [
         skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),
         name='api-population-data-by-country',
     ),
+    path(
+        'api/calculate-cost-and-pricing/',
+        skip_ga360(api.UpdateCalculateCostAndPricingAPIView.as_view()),
+        name='api-calculate-cost-and-pricing',
+    ),
     path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
     path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),
     path('api/objectives/delete/', skip_ga360(api.ObjectivesDestroyAPIView.as_view()), name='api-objectives-delete'),

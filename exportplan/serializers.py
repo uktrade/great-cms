@@ -9,11 +9,6 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
         return value[0].split(',')
 
 
-class PopulationDataSerializer(serializers.Serializer):
-    country = serializers.CharField()
-    target_age_groups = serializers.ListField(child=serializers.CharField())
-
-
 class CountryTargetAgeDataSerializer(serializers.Serializer):
     target_age_groups = serializers.ListField(child=serializers.CharField())
     country = serializers.CharField()

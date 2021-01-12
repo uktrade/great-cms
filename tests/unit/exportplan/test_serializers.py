@@ -126,20 +126,18 @@ def target_markets_research_serializer():
     assert serializer.data == data
 
 
-def test_country_target_age_data_serializer():
-
+def test_country_target_age_serializer():
     data = {
         'country': 'uk',
         'target_age_groups': ['0-5,5-25'],
         'section_name': 'test-section',
     }
-
     serializer = serializers.CountryTargetAgeDataSerializer(data=data)
     assert serializer.is_valid()
     assert serializer.data['target_age_groups'] == ['0-5', '5-25']
 
 
-def test_country_target_age_data_serializer_missing_target_age():
+def test_country_target_age_serializer_missing_target_age():
 
     data = {'country': 'uk', 'target_age_groups': ''}
     serializer = serializers.CountryTargetAgeDataSerializer(data=data)

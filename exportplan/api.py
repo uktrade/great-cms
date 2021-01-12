@@ -120,6 +120,21 @@ class TargetAgeCountryPopulationData(APIView):
         return Response(population_data)
 
 
+class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
+    serializer_class = serializers.ExportPlanSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            export_plan = helpers.get_or_create_export_plan(self.request.user)
+            helpers.update_exportplan(
+                sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.validated_data
+            )
+            calculated_pricing = helpers.calculate_cost_pricing(self.request.user.export_plan)
+            return Response(calculated_pricing)
+
+
 class UpdateExportPlanAPIView(generics.GenericAPIView):
     serializer_class = serializers.ExportPlanSerializer
     permission_classes = [IsAuthenticated]
