@@ -370,8 +370,8 @@ def get_comtrade_data(countries_list, commodity_code):
 
         country_data = exportplan_helpers.get_country_data(country)
         response_data[country] = {
-            'import_from_world': import_data,
-            'import_data_from_uk': import_data_from_uk,
+            'import_from_world': import_data if import_data else {},
+            'import_data_from_uk': import_data_from_uk if import_data_from_uk else {},
             **country_data,
         }
-        return response_data
+    return response_data

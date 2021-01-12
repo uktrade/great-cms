@@ -5,24 +5,24 @@ _Tick or delete as appropriate:_
 
 ### Workflow
 
- - [ ] Ticket exists in Jira  https://uktrade.atlassian.net/browse/TICKET_ID_HERE 
- - [ ] Jira ticket has the correct status.
- - [ ] [Changelog](CHANGELOG.md) entry added.
- 
+- [ ] Ticket exists in Jira https://uktrade.atlassian.net/browse/TICKET_ID_HERE
+- [ ] Jira ticket has the correct status.
+- [ ] [Changelog](CHANGELOG.md) entry added.
+
 ### Reviewing help
 
- - [ ] Explains how to test locally, including how to set up appropriate data
- - [ ] Includes screenshot(s) - ideally before and after, but at least after
+- [ ] Explains how to test locally, including how to set up appropriate data
+- [ ] Includes screenshot(s) - ideally before and after, but at least after
 
 ### Housekeeping
 
- - [ ] Added all new environment variables to Vault.
- - [ ] Cleaned up old feature flags
- - [ ] Upgraded any vulnerable dependencies.
- - [ ] I have updated security dependencies
- - [ ] Requirements have been re-compiled.
+- [ ] Added all new environment variables to Vault.
+- [ ] Cleaned up old feature flags
+- [ ] Upgraded any vulnerable dependencies.
+- [ ] I have updated security dependencies
+- [ ] Python requirements have been re-compiled.
+- [ ] Frontend assets have been re-compiled.
 
 ### Merging
 
-- [X] This PR can be merged by reviewers. (If unticked, please leave for the author to merge)
- 
+- [x] This PR can be merged by reviewers. (If unticked, please leave for the author to merge)

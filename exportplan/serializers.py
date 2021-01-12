@@ -128,9 +128,6 @@ class ExportPlanSerializer(serializers.Serializer):
     overhead_costs = OverheadCostsSerializer(required=False)
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
 
-    def validate_target_markets(self, values):
-        return [{'country': c} for c in values]
-
 
 class CompanyObjectiveSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])

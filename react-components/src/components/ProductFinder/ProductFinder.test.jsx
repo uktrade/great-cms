@@ -189,7 +189,7 @@ describe('Product finder tests', () => {
       let results = finder.querySelector('.scroll-area div');
       expect(results).toBeTruthy()
     })
-    expect(finder.querySelector('.box').textContent).toMatch(/^The item you are classifying is considered a complex item/)
+    expect(finder.querySelector('.form-group-error').textContent).toMatch(/We couldn't find a match because your search had too many product names/)
   })
 
   it('Opens product view and renames product', async () => {
