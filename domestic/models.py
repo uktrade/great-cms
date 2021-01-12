@@ -99,7 +99,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     class Meta:
         ordering = ['-heading']
 
-    template = "country_guide_page.html"
+    template = "domestic/content/country_guide.html"
 
     parent_page_types = [
         'domestic.DomesticHomePage',
