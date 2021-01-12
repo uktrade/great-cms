@@ -10,7 +10,6 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
 from core.constants import ARTICLE_TYPES, VIDEO_TRANSCRIPT_HELP_TEXT
-from core.fields import MarkdownField
 from core.models import CMSGenericPage, Country, IndustryTag, Tag
 from directory_constants import choices
 from domestic import cms_panels
@@ -144,10 +143,10 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     intro_cta_three_title = models.CharField(max_length=500, blank=True, verbose_name='CTA 3 title')
     intro_cta_three_link = models.CharField(max_length=500, blank=True, verbose_name='CTA 3 link')
 
-    section_one_body = MarkdownField(
+    section_one_body = RichTextField(
         null=True,
         verbose_name='3 unique selling points markdown',
-        help_text='Use H3 (###) markdown for the 3 subheadings',
+        help_text='Use H2s for the 3 subheadings',
     )
     section_one_image = models.ForeignKey(
         'core.AltTextImage',
@@ -720,10 +719,10 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     fact_sheet_column_1_teaser = models.CharField(
         max_length=255, blank=True, verbose_name="Summary for 'Tax and customs'"
     )
-    fact_sheet_column_1_body = MarkdownField(
+    fact_sheet_column_1_body = RichTextField(
         blank=True,
         verbose_name="Detailed text for 'Tax and customs'",
-        help_text='Use H4 (####) for each sub category heading. ' 'Maximum five sub categories. Aim for 50 words each.',
+        help_text='Use H3 for each subcategory heading. ' 'Maximum five sub categories. Aim for 50 words each.',
     )
     fact_sheet_column_2_title = models.CharField(
         max_length=255, blank=True, verbose_name="Title for 'Protecting your business'"
@@ -731,10 +730,10 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     fact_sheet_column_2_teaser = models.CharField(
         max_length=255, blank=True, verbose_name="Summary for 'Protecting your business'"
     )
-    fact_sheet_column_2_body = MarkdownField(
+    fact_sheet_column_2_body = RichTextField(
         blank=True,
         verbose_name="Detailed text for 'Protecting your business'",
-        help_text='Use H4 (####) for each sub category heading. ' 'Maximum five sub categories. Aim for 50 words each.',
+        help_text='Use H3 for each sub category heading. ' 'Maximum five sub categories. Aim for 50 words each.',
     )
 
     # need help
@@ -807,8 +806,8 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseLegacyPage):
     article_video = models.ForeignKey(
         'wagtailmedia.Media', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
-    article_video_transcript = MarkdownField(null=True, blank=True, help_text=VIDEO_TRANSCRIPT_HELP_TEXT)
-    article_body_text = MarkdownField()
+    article_video_transcript = RichTextField(null=True, blank=True, help_text=VIDEO_TRANSCRIPT_HELP_TEXT)
+    article_body_text = RichTextField()
 
     cta_title = models.CharField(max_length=255, blank=True, verbose_name='CTA title')
     cta_teaser = models.TextField(blank=True, verbose_name='CTA teaser')
@@ -853,7 +852,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseLegacyPage):
     )
     hero_teaser = models.CharField(max_length=255, null=True, blank=True)
 
-    list_teaser = MarkdownField(null=True, blank=True)
+    list_teaser = RichTextField(null=True, blank=True)
 
     @property
     def articles_count(self):
@@ -870,7 +869,7 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
     )
 
     section_one_heading = models.CharField(max_length=255)
-    section_one_intro = MarkdownField()
+    section_one_intro = RichTextField()
     section_one_image = models.ForeignKey(
         'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
@@ -879,7 +878,7 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
         'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
     selling_point_one_heading = models.CharField(max_length=255)
-    selling_point_one_content = MarkdownField()
+    selling_point_one_content = RichTextField()
 
     selling_point_two_icon = models.ForeignKey(
         'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
@@ -889,19 +888,19 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
         null=True,
         blank=True,
     )
-    selling_point_two_content = MarkdownField(null=True, blank=True)
+    selling_point_two_content = RichTextField(null=True, blank=True)
 
     selling_point_three_icon = models.ForeignKey(
         'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
     selling_point_three_heading = models.CharField(max_length=255, null=True, blank=True)
-    selling_point_three_content = MarkdownField(null=True, blank=True)
+    selling_point_three_content = RichTextField(null=True, blank=True)
 
     section_one_contact_button_url = models.CharField(max_length=255, null=True, blank=True)
     section_one_contact_button_text = models.CharField(max_length=255, null=True, blank=True)
 
     section_two_heading = models.CharField(max_length=255)
-    section_two_intro = MarkdownField()
+    section_two_intro = RichTextField()
 
     section_two_image = models.ForeignKey(
         'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
@@ -911,7 +910,7 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
     section_two_contact_button_text = models.CharField(max_length=255, null=True, blank=True)
 
     related_content_heading = models.CharField(max_length=255)
-    related_content_intro = MarkdownField()
+    related_content_intro = RichTextField()
 
     related_page_one = models.ForeignKey(
         'domestic.ArticlePage',

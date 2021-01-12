@@ -15,6 +15,7 @@ def single_struct_block_stream_field_factory(
     return field
 
 
+# Do not delete - needed for a temporary migration dependency
 class MarkdownField(TextField):
     def formfield(self, **kwargs):
         defaults = {'widget': MarkdownTextarea}
