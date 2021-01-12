@@ -6,7 +6,7 @@
   <div class="menu">
     <div class="container">
       {% block header_logo %}
-        {% static 'core/static/images/eig-logo-stacked.svg' as logo_image_url %}
+        {% static 'images/eig-logo-stacked.svg' as logo_image_url %}
         {% include 'components/header_footer/header_logo.html' with url=services_urls.exred image_source=logo_image_url image_alt_text='Exporting is Great' %}
       {% endblock %}
 
