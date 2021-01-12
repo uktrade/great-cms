@@ -107,7 +107,8 @@ class TargetAgeCountryPopulationData(APIView):
         serializer.is_valid(raise_exception=True)
         country = serializer.validated_data['country']
         target_ages = serializer.validated_data['target_age_groups']
-        section_name = serializer.validated_data['section_name']
+        url = serializer.validated_data['section_name']
+        section_name = url.replace('/export-plan/section/', '').replace('/', '')
         helpers.update_ui_options_target_ages(
             sso_session_id=self.request.user.session_id,
             target_ages=target_ages,
