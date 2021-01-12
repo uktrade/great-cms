@@ -1,8 +1,10 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
@@ -113,6 +115,24 @@ class DomesticDashboard(
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
 
 
+def main_statistics_validation(value):
+    if value and (len(value) < 2 or len(value) > 6):
+        raise StreamBlockValidationError(
+            non_block_errors=ValidationError(
+                'There must be between two and six statistics in this panel', code='invalid'
+            ),
+        )
+
+
+def general_statistics_streamfield_validation(value):
+    if value and len(value) > 6:
+        raise StreamBlockValidationError(
+            non_block_errors=ValidationError(
+                'There must be between two and six statistics in this panel', code='invalid'
+            ),
+        )
+
+
 class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     """Ported from Great V1.
     Make a cup of tea, this model is BIG!
@@ -160,29 +180,21 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         max_length=255, blank=True, verbose_name='Bullets image caption — company name'
     )
 
-    statistic_1_number = models.CharField(max_length=255)
-    statistic_1_heading = models.CharField(max_length=255)
-    statistic_1_smallprint = models.CharField(max_length=255, blank=True)
-
-    statistic_2_number = models.CharField(max_length=255)
-    statistic_2_heading = models.CharField(max_length=255)
-    statistic_2_smallprint = models.CharField(max_length=255, blank=True)
-
-    statistic_3_number = models.CharField(max_length=255, blank=True)
-    statistic_3_heading = models.CharField(max_length=255, blank=True)
-    statistic_3_smallprint = models.CharField(max_length=255, blank=True)
-
-    statistic_4_number = models.CharField(max_length=255, blank=True)
-    statistic_4_heading = models.CharField(max_length=255, blank=True)
-    statistic_4_smallprint = models.CharField(max_length=255, blank=True)
-
-    statistic_5_number = models.CharField(max_length=255, blank=True)
-    statistic_5_heading = models.CharField(max_length=255, blank=True)
-    statistic_5_smallprint = models.CharField(max_length=255, blank=True)
-
-    statistic_6_number = models.CharField(max_length=255, blank=True)
-    statistic_6_heading = models.CharField(max_length=255, blank=True)
-    statistic_6_smallprint = models.CharField(max_length=255, blank=True)
+    main_statistics = StreamField(
+        [
+            (
+                'statistic',
+                core_blocks.IndividualStatisticBlock(
+                    icon='fa-calculator',
+                    min_num=2,
+                    max_num=6,
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        validators=[main_statistics_validation],
+    )
 
     section_two_heading = models.CharField(
         max_length=255, verbose_name='High potential industries for UK businesses', blank=True
@@ -251,29 +263,19 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         max_length=255, blank=True, verbose_name='Case study description'
     )
 
-    accordion_1_statistic_1_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 number')
-    accordion_1_statistic_1_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 heading')
-    accordion_1_statistic_1_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 smallprint')
-
-    accordion_1_statistic_2_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 number')
-    accordion_1_statistic_2_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 heading')
-    accordion_1_statistic_2_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 smallprint')
-
-    accordion_1_statistic_3_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 number')
-    accordion_1_statistic_3_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 heading')
-    accordion_1_statistic_3_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 smallprint')
-
-    accordion_1_statistic_4_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 number')
-    accordion_1_statistic_4_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 heading')
-    accordion_1_statistic_4_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 smallprint')
-
-    accordion_1_statistic_5_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 number')
-    accordion_1_statistic_5_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 heading')
-    accordion_1_statistic_5_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 smallprint')
-
-    accordion_1_statistic_6_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 number')
-    accordion_1_statistic_6_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 heading')
-    accordion_1_statistic_6_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 smallprint')
+    accordion_1_statistics = StreamField(
+        [
+            (
+                'statistic',
+                core_blocks.IndividualStatisticBlock(
+                    icon='fa-calculator',
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        validators=[general_statistics_streamfield_validation],
+    )
 
     # accordion 2
     accordion_2_icon = models.ForeignKey(
@@ -336,29 +338,19 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         max_length=255, blank=True, verbose_name='Case study description'
     )
 
-    accordion_2_statistic_1_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 number')
-    accordion_2_statistic_1_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 heading')
-    accordion_2_statistic_1_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 smallprint')
-
-    accordion_2_statistic_2_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 number')
-    accordion_2_statistic_2_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 heading')
-    accordion_2_statistic_2_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 smallprint')
-
-    accordion_2_statistic_3_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 number')
-    accordion_2_statistic_3_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 heading')
-    accordion_2_statistic_3_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 smallprint')
-
-    accordion_2_statistic_4_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 number')
-    accordion_2_statistic_4_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 heading')
-    accordion_2_statistic_4_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 smallprint')
-
-    accordion_2_statistic_5_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 number')
-    accordion_2_statistic_5_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 heading')
-    accordion_2_statistic_5_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 smallprint')
-
-    accordion_2_statistic_6_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 number')
-    accordion_2_statistic_6_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 heading')
-    accordion_2_statistic_6_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 smallprint')
+    accordion_2_statistics = StreamField(
+        [
+            (
+                'statistic',
+                core_blocks.IndividualStatisticBlock(
+                    icon='fa-calculator',
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        validators=[general_statistics_streamfield_validation],
+    )
 
     # accordion 3
     accordion_3_icon = models.ForeignKey(
@@ -423,29 +415,19 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         max_length=255, blank=True, verbose_name='Case study description'
     )
 
-    accordion_3_statistic_1_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 number')
-    accordion_3_statistic_1_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 heading')
-    accordion_3_statistic_1_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 smallprint')
-
-    accordion_3_statistic_2_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 number')
-    accordion_3_statistic_2_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 heading')
-    accordion_3_statistic_2_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 smallprint')
-
-    accordion_3_statistic_3_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 number')
-    accordion_3_statistic_3_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 heading')
-    accordion_3_statistic_3_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 smallprint')
-
-    accordion_3_statistic_4_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 number')
-    accordion_3_statistic_4_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 heading')
-    accordion_3_statistic_4_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 smallprint')
-
-    accordion_3_statistic_5_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 number')
-    accordion_3_statistic_5_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 heading')
-    accordion_3_statistic_5_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 smallprint')
-
-    accordion_3_statistic_6_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 number')
-    accordion_3_statistic_6_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 heading')
-    accordion_3_statistic_6_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 smallprint')
+    accordion_3_statistics = StreamField(
+        [
+            (
+                'statistic',
+                core_blocks.IndividualStatisticBlock(
+                    icon='fa-calculator',
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        validators=[general_statistics_streamfield_validation],
+    )
 
     # accordion 4
     accordion_4_icon = models.ForeignKey(
@@ -510,29 +492,19 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         max_length=255, blank=True, verbose_name='Case study description'
     )
 
-    accordion_4_statistic_1_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 number')
-    accordion_4_statistic_1_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 heading')
-    accordion_4_statistic_1_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 smallprint')
-
-    accordion_4_statistic_2_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 number')
-    accordion_4_statistic_2_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 heading')
-    accordion_4_statistic_2_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 smallprint')
-
-    accordion_4_statistic_3_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 number')
-    accordion_4_statistic_3_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 heading')
-    accordion_4_statistic_3_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 smallprint')
-
-    accordion_4_statistic_4_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 number')
-    accordion_4_statistic_4_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 heading')
-    accordion_4_statistic_4_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 smallprint')
-
-    accordion_4_statistic_5_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 number')
-    accordion_4_statistic_5_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 heading')
-    accordion_4_statistic_5_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 smallprint')
-
-    accordion_4_statistic_6_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 number')
-    accordion_4_statistic_6_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 heading')
-    accordion_4_statistic_6_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 smallprint')
+    accordion_4_statistics = StreamField(
+        [
+            (
+                'statistic',
+                core_blocks.IndividualStatisticBlock(
+                    icon='fa-calculator',
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        validators=[general_statistics_streamfield_validation],
+    )
 
     # accordion 5
     accordion_5_icon = models.ForeignKey(
@@ -597,29 +569,19 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         max_length=255, blank=True, verbose_name='Case study description'
     )
 
-    accordion_5_statistic_1_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 number')
-    accordion_5_statistic_1_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 heading')
-    accordion_5_statistic_1_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 smallprint')
-
-    accordion_5_statistic_2_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 number')
-    accordion_5_statistic_2_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 heading')
-    accordion_5_statistic_2_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 smallprint')
-
-    accordion_5_statistic_3_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 number')
-    accordion_5_statistic_3_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 heading')
-    accordion_5_statistic_3_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 smallprint')
-
-    accordion_5_statistic_4_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 number')
-    accordion_5_statistic_4_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 heading')
-    accordion_5_statistic_4_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 smallprint')
-
-    accordion_5_statistic_5_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 number')
-    accordion_5_statistic_5_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 heading')
-    accordion_5_statistic_5_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 smallprint')
-
-    accordion_5_statistic_6_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 number')
-    accordion_5_statistic_6_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 heading')
-    accordion_5_statistic_6_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 smallprint')
+    accordion_5_statistics = StreamField(
+        [
+            (
+                'statistic',
+                core_blocks.IndividualStatisticBlock(
+                    icon='fa-calculator',
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        validators=[general_statistics_streamfield_validation],
+    )
 
     # accordion 6
     accordion_6_icon = models.ForeignKey(
@@ -684,29 +646,19 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         max_length=255, blank=True, verbose_name='Case study description'
     )
 
-    accordion_6_statistic_1_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 number')
-    accordion_6_statistic_1_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 heading')
-    accordion_6_statistic_1_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 1 smallprint')
-
-    accordion_6_statistic_2_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 number')
-    accordion_6_statistic_2_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 heading')
-    accordion_6_statistic_2_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 2 smallprint')
-
-    accordion_6_statistic_3_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 number')
-    accordion_6_statistic_3_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 heading')
-    accordion_6_statistic_3_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 3 smallprint')
-
-    accordion_6_statistic_4_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 number')
-    accordion_6_statistic_4_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 heading')
-    accordion_6_statistic_4_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 4 smallprint')
-
-    accordion_6_statistic_5_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 number')
-    accordion_6_statistic_5_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 heading')
-    accordion_6_statistic_5_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 5 smallprint')
-
-    accordion_6_statistic_6_number = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 number')
-    accordion_6_statistic_6_heading = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 heading')
-    accordion_6_statistic_6_smallprint = models.CharField(max_length=255, blank=True, verbose_name='Stat 6 smallprint')
+    accordion_6_statistics = StreamField(
+        [
+            (
+                'statistic',
+                core_blocks.IndividualStatisticBlock(
+                    icon='fa-calculator',
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        validators=[general_statistics_streamfield_validation],
+    )
 
     # fact sheet
     fact_sheet_title = models.CharField(
@@ -761,8 +713,6 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-
-        # TODO: refactor all this because we won't have directory_components available
         # self.num_of_statistics = self.count_data_with_field(context['page']['statistics'], 'number')
         # fact_sheet = context['page']['fact_sheet']
         # fact_sheet['num_of_columns'] = self.count_data_with_field(fact_sheet['columns'], 'title')

@@ -5,6 +5,7 @@ from wagtail.admin.edit_handlers import (
     HelpPanel,
     MultiFieldPanel,
     PageChooserPanel,
+    StreamFieldPanel,
 )
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
@@ -232,58 +233,7 @@ class CountryGuidePagePanels:
                 )
             ],
         ),
-        MultiFieldPanel(
-            heading='Statistics',
-            classname='collapsible',
-            children=[
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('statistic_1_number'),
-                                FieldPanel('statistic_1_heading'),
-                                FieldPanel('statistic_1_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('statistic_2_number'),
-                                FieldPanel('statistic_2_heading'),
-                                FieldPanel('statistic_2_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('statistic_3_number'),
-                                FieldPanel('statistic_3_heading'),
-                                FieldPanel('statistic_3_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('statistic_4_number'),
-                                FieldPanel('statistic_4_heading'),
-                                FieldPanel('statistic_4_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('statistic_5_number'),
-                                FieldPanel('statistic_5_heading'),
-                                FieldPanel('statistic_5_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('statistic_6_number'),
-                                FieldPanel('statistic_6_heading'),
-                                FieldPanel('statistic_6_smallprint'),
-                            ]
-                        ),
-                    ]
-                )
-            ],
-        ),
+        MultiFieldPanel(heading='Statistics', children=[StreamFieldPanel('main_statistics')], classname="collapsible"),
         MultiFieldPanel(
             heading='Highlights', children=[FieldPanel('section_two_heading'), FieldPanel('section_two_teaser')]
         ),
@@ -329,52 +279,7 @@ class CountryGuidePagePanels:
                         FieldPanel('accordion_1_case_study_description'),
                     ]
                 ),
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_1_statistic_1_number'),
-                                FieldPanel('accordion_1_statistic_1_heading'),
-                                FieldPanel('accordion_1_statistic_1_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_1_statistic_2_number'),
-                                FieldPanel('accordion_1_statistic_2_heading'),
-                                FieldPanel('accordion_1_statistic_2_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_1_statistic_3_number'),
-                                FieldPanel('accordion_1_statistic_3_heading'),
-                                FieldPanel('accordion_1_statistic_3_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_1_statistic_4_number'),
-                                FieldPanel('accordion_1_statistic_4_heading'),
-                                FieldPanel('accordion_1_statistic_4_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_1_statistic_5_number'),
-                                FieldPanel('accordion_1_statistic_5_heading'),
-                                FieldPanel('accordion_1_statistic_5_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_1_statistic_6_number'),
-                                FieldPanel('accordion_1_statistic_6_heading'),
-                                FieldPanel('accordion_1_statistic_6_smallprint'),
-                            ]
-                        ),
-                    ]
-                ),
+                MultiFieldPanel(heading='Statistics', children=[StreamFieldPanel('accordion_1_statistics')]),
             ],
         ),
         MultiFieldPanel(
@@ -419,52 +324,7 @@ class CountryGuidePagePanels:
                         FieldPanel('accordion_2_case_study_description'),
                     ]
                 ),
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_2_statistic_1_number'),
-                                FieldPanel('accordion_2_statistic_1_heading'),
-                                FieldPanel('accordion_2_statistic_1_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_2_statistic_2_number'),
-                                FieldPanel('accordion_2_statistic_2_heading'),
-                                FieldPanel('accordion_2_statistic_2_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_2_statistic_3_number'),
-                                FieldPanel('accordion_2_statistic_3_heading'),
-                                FieldPanel('accordion_2_statistic_3_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_2_statistic_4_number'),
-                                FieldPanel('accordion_2_statistic_4_heading'),
-                                FieldPanel('accordion_2_statistic_4_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_2_statistic_5_number'),
-                                FieldPanel('accordion_2_statistic_5_heading'),
-                                FieldPanel('accordion_2_statistic_5_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_2_statistic_6_number'),
-                                FieldPanel('accordion_2_statistic_6_heading'),
-                                FieldPanel('accordion_2_statistic_6_smallprint'),
-                            ]
-                        ),
-                    ]
-                ),
+                MultiFieldPanel(heading='Statistics', children=[StreamFieldPanel('accordion_2_statistics')]),
             ],
         ),
         MultiFieldPanel(
@@ -509,52 +369,7 @@ class CountryGuidePagePanels:
                         FieldPanel('accordion_3_case_study_description'),
                     ]
                 ),
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_3_statistic_1_number'),
-                                FieldPanel('accordion_3_statistic_1_heading'),
-                                FieldPanel('accordion_3_statistic_1_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_3_statistic_2_number'),
-                                FieldPanel('accordion_3_statistic_2_heading'),
-                                FieldPanel('accordion_3_statistic_2_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_3_statistic_3_number'),
-                                FieldPanel('accordion_3_statistic_3_heading'),
-                                FieldPanel('accordion_3_statistic_3_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_3_statistic_4_number'),
-                                FieldPanel('accordion_3_statistic_4_heading'),
-                                FieldPanel('accordion_3_statistic_4_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_3_statistic_5_number'),
-                                FieldPanel('accordion_3_statistic_5_heading'),
-                                FieldPanel('accordion_3_statistic_5_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_3_statistic_6_number'),
-                                FieldPanel('accordion_3_statistic_6_heading'),
-                                FieldPanel('accordion_3_statistic_6_smallprint'),
-                            ]
-                        ),
-                    ]
-                ),
+                MultiFieldPanel(heading='Statistics', children=[StreamFieldPanel('accordion_3_statistics')]),
             ],
         ),
         MultiFieldPanel(
@@ -599,52 +414,7 @@ class CountryGuidePagePanels:
                         FieldPanel('accordion_4_case_study_description'),
                     ]
                 ),
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_4_statistic_1_number'),
-                                FieldPanel('accordion_4_statistic_1_heading'),
-                                FieldPanel('accordion_4_statistic_1_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_4_statistic_2_number'),
-                                FieldPanel('accordion_4_statistic_2_heading'),
-                                FieldPanel('accordion_4_statistic_2_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_4_statistic_3_number'),
-                                FieldPanel('accordion_4_statistic_3_heading'),
-                                FieldPanel('accordion_4_statistic_3_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_4_statistic_4_number'),
-                                FieldPanel('accordion_4_statistic_4_heading'),
-                                FieldPanel('accordion_4_statistic_4_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_4_statistic_5_number'),
-                                FieldPanel('accordion_4_statistic_5_heading'),
-                                FieldPanel('accordion_4_statistic_5_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_4_statistic_6_number'),
-                                FieldPanel('accordion_4_statistic_6_heading'),
-                                FieldPanel('accordion_4_statistic_6_smallprint'),
-                            ]
-                        ),
-                    ]
-                ),
+                MultiFieldPanel(heading='Statistics', children=[StreamFieldPanel('accordion_4_statistics')]),
             ],
         ),
         MultiFieldPanel(
@@ -689,52 +459,7 @@ class CountryGuidePagePanels:
                         FieldPanel('accordion_5_case_study_description'),
                     ]
                 ),
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_5_statistic_1_number'),
-                                FieldPanel('accordion_5_statistic_1_heading'),
-                                FieldPanel('accordion_5_statistic_1_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_5_statistic_2_number'),
-                                FieldPanel('accordion_5_statistic_2_heading'),
-                                FieldPanel('accordion_5_statistic_2_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_5_statistic_3_number'),
-                                FieldPanel('accordion_5_statistic_3_heading'),
-                                FieldPanel('accordion_5_statistic_3_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_5_statistic_4_number'),
-                                FieldPanel('accordion_5_statistic_4_heading'),
-                                FieldPanel('accordion_5_statistic_4_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_5_statistic_5_number'),
-                                FieldPanel('accordion_5_statistic_5_heading'),
-                                FieldPanel('accordion_5_statistic_5_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_5_statistic_6_number'),
-                                FieldPanel('accordion_5_statistic_6_heading'),
-                                FieldPanel('accordion_5_statistic_6_smallprint'),
-                            ]
-                        ),
-                    ]
-                ),
+                MultiFieldPanel(heading='Statistics', children=[StreamFieldPanel('accordion_5_statistics')]),
             ],
         ),
         MultiFieldPanel(
@@ -779,52 +504,7 @@ class CountryGuidePagePanels:
                         FieldPanel('accordion_6_case_study_description'),
                     ]
                 ),
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_6_statistic_1_number'),
-                                FieldPanel('accordion_6_statistic_1_heading'),
-                                FieldPanel('accordion_6_statistic_1_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_6_statistic_2_number'),
-                                FieldPanel('accordion_6_statistic_2_heading'),
-                                FieldPanel('accordion_6_statistic_2_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_6_statistic_3_number'),
-                                FieldPanel('accordion_6_statistic_3_heading'),
-                                FieldPanel('accordion_6_statistic_3_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_6_statistic_4_number'),
-                                FieldPanel('accordion_6_statistic_4_heading'),
-                                FieldPanel('accordion_6_statistic_4_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_6_statistic_5_number'),
-                                FieldPanel('accordion_6_statistic_5_heading'),
-                                FieldPanel('accordion_6_statistic_5_smallprint'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('accordion_6_statistic_6_number'),
-                                FieldPanel('accordion_6_statistic_6_heading'),
-                                FieldPanel('accordion_6_statistic_6_smallprint'),
-                            ]
-                        ),
-                    ]
-                ),
+                MultiFieldPanel(heading='Statistics', children=[StreamFieldPanel('accordion_6_statistics')]),
             ],
         ),
         MultiFieldPanel(

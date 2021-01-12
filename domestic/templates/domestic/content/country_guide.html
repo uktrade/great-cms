@@ -65,8 +65,7 @@
 
 <section id="country-guide-statistics-section" class="statistics padding-vertical-30">
   <div class="container">
-    STATISTICS_CARD_GRID TO PORT HERE
-    {% comment %} {% statistics_card_grid statistics=page.statistics num_of_statistics=view.num_of_statistics %} {% endcomment %}
+    {% statistics_card_grid statistics=page.main_statistics %}
     </div>
   </div>
 </section>
@@ -77,13 +76,13 @@
       <div class="grid-row">
         <div class="column-full column-two-thirds-m column-half-l">
           <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
-          ADD HREF TARGET TO PORT HERE
-          {% comment %} <p>{{ page.section_two_teaser|add_href_target:request|safe }}</p> {% endcomment %}
+          <p>{{ page.section_two_teaser }}</p>
         </div>
       </div>
     </div>
   </section>
 
+  SORT OUT ACCORDIONS INCLUDING STATS FOR EACH ONE
   {% if page.accordions %}
     <section id="country-guide-accordions" class="accordions padding-vertical-0">
       <ul>
@@ -93,6 +92,7 @@
   {% endif %}
 {% endif %}
 
+FIX FACT SHEET
 {% if page.fact_sheet.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
   <div class="container">
@@ -103,6 +103,7 @@
       </div>
     </div>
     <div class="grid-row">
+        FIX THIS
       {% for column in page.fact_sheet.columns %}
         {% if column.title %}
           {% if page.fact_sheet.num_of_columns == 1 %}
@@ -117,8 +118,7 @@
                 <p class="font-small">{{ column.teaser }}</p>
                 <hr>
                 {% endif %}
-                CONVERT_HEADINGS_TO tag to port here
-                {% comment %} {{ column.body|convert_headings_to:'h4'|add_export_elements_classes|override_elements_css_class:'h4,heading-small'|safe|add_href_target:request|safe }} {% endcomment %}
+                {{ column.body|richtext }}
               </div>
             </div>
           </div>
@@ -129,6 +129,7 @@
 </section>
 {% endif %}
 
+FIX THIS
 <section id="country-guide-need-help-section" class="need-help padding-vertical-60">
   <div class="container">
     <div class="grid-row margin-bottom-45">
@@ -160,6 +161,7 @@
   </div>
 </section>
 
+FIX RELATED PAGES
 {% if page.related_pages %}
 <section id="country-guide-news-events-section" class="news-events background-stone-30 padding-vertical-60">
   <div class="container">

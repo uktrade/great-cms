@@ -261,3 +261,10 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         context = super().get_context(value, parent_context=parent_context)
         context = self._annotate_with_case_study(context)
         return context
+
+
+class IndividualStatisticBlock(blocks.StructBlock):
+    "Stores an individual statistic"
+    number = blocks.CharBlock(max_length=255)
+    heading = blocks.CharBlock(max_length=255)
+    smallprint = blocks.CharBlock(max_length=255, required=False)

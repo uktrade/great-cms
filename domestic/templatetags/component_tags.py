@@ -1,10 +1,23 @@
 # Refactored/amended versions of templatetags formerly in directory_componennts
+import re
 
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
 
 register = template.Library()
+
+
+@register.filter
+def add_href_target(value, request):
+    # Usage: some_value|add_href_target:request|safe
+    soup = BeautifulSoup(value, 'html.parser')
+    for element in soup.findAll('a', attrs={'href': re.compile("^http")}):
+        if request.META['HTTP_HOST'] not in element.attrs['href']:
+            element.attrs['target'] = '_blank'
+            element.attrs['title'] = 'Opens in a new window'
+            element.attrs['rel'] = 'noopener noreferrer'
+    return str(soup)
 
 
 @register.tag
