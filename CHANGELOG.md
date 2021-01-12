@@ -3,6 +3,9 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- GP2-1309 - Remove tooltips
+- GP2-341 - Adaptation target markets documents
 - GP2-1129 - Product classifier - show errors on search page
 - GP2-341  - Adaptation target markets documents
 - GP2-1182 - Alignment of elements
