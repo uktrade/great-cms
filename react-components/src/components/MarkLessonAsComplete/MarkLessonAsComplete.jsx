@@ -22,23 +22,23 @@ const MarkLessonAsComplete = ({ endpoint }) => {
         .then(() => {})
         .catch(() => {})
     } else if (persistedIsComplete !== isComplete) {
-      Services[isComplete ? 'setLessonComplete' : 'setLessonIncomplete'](endpoint)
-        .then(() => {
-          setPersistedIsComplete(isComplete)
-        })
-        .catch(() => {})
+      Services[isComplete ? 'setLessonComplete' : 'setLessonIncomplete'](
+        endpoint
+      ).finally(() => {
+        setPersistedIsComplete(isComplete)
+      })
     }
   }, [isComplete])
 
   const labelText = isComplete && isChecked ? 'Great! Progress saved' : 'Yes'
 
   const markCompleted = () => {
-    if(!isComplete) {
-      const dataLayer = (window.dataLayer = (window.dataLayer || []))
+    if (!isComplete) {
+      const dataLayer = (window.dataLayer = window.dataLayer || [])
       // adding tracking once lesson successfully updated as completed
       dataLayer.push({
-        'event': 'lessonComplete'
-      });
+        event: 'lessonComplete',
+      })
     }
     setIsChecked(true)
   }
@@ -53,7 +53,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
           onChange={() => {
             setIsComplete(!isComplete)
           }}
-          onClick={ markCompleted }
+          onClick={markCompleted}
           checked={Boolean(isComplete)}
         />
         <label htmlFor="markascomplete_checkbox">{labelText}</label>
@@ -63,7 +63,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 }
 
 MarkLessonAsComplete.propTypes = {
-  endpoint: PropTypes.string.isRequired
+  endpoint: PropTypes.string.isRequired,
 }
 
 function createMarkLessonAsComplete({ element, endpoint }) {

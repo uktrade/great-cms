@@ -1,0 +1,30 @@
+// Both of these are used in the adaptation for target markets forms
+.target-market-form {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .form-group {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+    border-bottom: 2px solid #d2d0da;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .tooltip {
+    margin-right: 0;
+    right: 0;
+    max-width: unset;
+  }
+}
+
+.target-market-documents-form {
+  .form-group {
+    border-bottom: none;
+  }
+  .user-form-group {
+    border-bottom: 2px solid #d2d0da;
+  }
+}
