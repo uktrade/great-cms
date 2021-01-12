@@ -10,8 +10,14 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
 
 
 class PopulationDataSerializer(serializers.Serializer):
+    country = serializers.CharField()
+    target_age_groups = serializers.ListField(child=serializers.CharField())
+
+
+class CountryTargetAgeDataSerializer(serializers.Serializer):
     target_age_groups = serializers.ListField(child=serializers.CharField())
     country = serializers.CharField()
+    section_name = serializers.CharField()
 
     def validate_target_age_groups(self, value):
         return value[0].split(',')
@@ -68,6 +74,46 @@ class ExportPlanCommodityCodeSerializer(serializers.Serializer):
     commodity_code = serializers.CharField(required=True)
 
 
+class UiOptions(serializers.Serializer):
+    target_ages = serializers.ListField(child=serializers.CharField())
+
+    def validate_target_ages(self, value):
+        return value[0].split(',')
+
+
+class DirectCostsSerializer(serializers.Serializer):
+    product_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    other_direct_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+
+
+class OverheadCostsSerializer(serializers.Serializer):
+    product_adaption = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    freight_logistics = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    agent_distributor_fees = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    marketing = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    insurance = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    other_overhead_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+
+
+class TotalCostAndPriceSerializer(serializers.Serializer):
+    class UnitRecord(serializers.Serializer):
+        unit = serializers.CharField(required=False)
+        value = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+
+    units_to_export_first_period = UnitRecord(required=False)
+    units_to_export_second_period = UnitRecord(required=False)
+    final_cost_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    average_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    net_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    local_tax_charges = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    duty_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    gross_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    gross_price_per_unit_invoicing_currency = UnitRecord(required=False)
+    profit_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    potential_total_profit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -77,6 +123,10 @@ class ExportPlanSerializer(serializers.Serializer):
     target_markets_research = TargetMarketsResearchSerializer(required=False)
     marketing_approach = MarketingApproachSerializer(required=False)
     adaptation_target_market = AdaptationTargetMarketSerializer(required=False)
+    ui_options = UiOptions(required=False)
+    direct_costs = DirectCostsSerializer(required=False)
+    overhead_costs = OverheadCostsSerializer(required=False)
+    total_cost_and_price = TotalCostAndPriceSerializer(required=False)
 
     def validate_target_markets(self, values):
         return [{'country': c} for c in values]
