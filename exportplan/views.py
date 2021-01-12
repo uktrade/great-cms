@@ -17,6 +17,7 @@ from directory_constants.choices import (
     INDUSTRIES,
     MARKET_ROUTE_CHOICES,
     PRODUCT_PROMOTIONAL_CHOICES,
+    TARGET_AGE_GROUP_CHOICES,
 )
 from exportplan import data, forms, helpers
 
@@ -163,9 +164,18 @@ class ExportPlanMarketingApproachView(
         context = super().get_context_data(**kwargs)
         route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
         promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES]
+        target_age_group_choices = [{'value': key, 'label': label} for key, label in TARGET_AGE_GROUP_CHOICES]
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
+        context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
+        context['demographic_data'] = helpers.get_global_demographic_data(
+            self.export_plan['export_countries'][0]['country_name']
+        )
+        if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
+            context['selected_age_groups'] = json.dumps(
+                self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages')
+            )
         return context
 
 
@@ -186,6 +196,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
             country=self.export_country_name, key='people,languages'
         )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
+
         return context
 
 
@@ -206,12 +217,18 @@ class ExportPlanTargetMarketsResearchView(
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        target_age_group_choices = [{'value': key, 'label': label} for key, label in TARGET_AGE_GROUP_CHOICES]
+        context['target_age_group_choices'] = target_age_group_choices
         if self.export_country_name and self.export_commodity_code:
             insight_data = get_comtrade_data(
                 countries_list=[self.export_country_name], commodity_code=self.export_commodity_code
             )
 
             context['insight_data'] = json.dumps(insight_data)
+            if self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages'):
+                context['selected_age_groups'] = json.dumps(
+                    self.export_plan['ui_options'].get('marketing-approach', {}).get('target_ages')
+                )
         return context
 
 
