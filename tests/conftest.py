@@ -32,7 +32,10 @@ def export_plan_data():
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
         'target_markets_research': '',
-        'ui_options': {'marketing-approach': {'target_ages': ['25-29', '47-49']}},
+        'ui_options': {
+            'marketing-approach': {'target_ages': ['25-29', '47-49']},
+            'target-markets-research': {'target_ages': ['35-40']}
+        },
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
