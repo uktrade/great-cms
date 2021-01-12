@@ -20,10 +20,33 @@ from domestic.helpers import build_route_context, get_lesson_completion_status
 class BaseLegacyPage(Page):
     """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
 
-    promote_panels = []
+    promote_panels = []  #  Hide the Promote panel
+    folder_page = False  # Some page classes will have this set to true to exclude them from breadcrumbs
 
     class Meta:
         abstract = True
+
+    def get_ancestors_in_app(self):
+        """
+        Starts at 2 to exclude the root page and the app page.
+        Ignores 'folder' pages.
+        """
+        ancestors = self.get_ancestors()[2:]
+
+        return [page for page in ancestors if not page.specific_class.folder_page]
+
+    def get_breadcrumbs(self, instance):
+        breadcrumbs = [page.specific for page in instance.specific.get_ancestors_in_app()]
+        breadcrumbs.append(instance)
+        retval = []
+
+        for crumb in breadcrumbs:
+            if hasattr(crumb, 'breadcrumbs_label'):  # breadcrumbs_label is a field on SOME Pages
+                retval.append({'title': crumb.breadcrumbs_label, 'url': crumb.url})
+            else:
+                retval.append({'title': crumb.title, 'url': crumb.url})
+
+        return retval
 
 
 class DomesticHomePage(

@@ -1,6 +1,6 @@
 {% load static from staticfiles %}
 {% load i18n %}
-{% load static_absolute from directory_components %}
+{% load static_absolute from component_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
             {% if directory_components_analytics %}
                 <meta id="utmCookieDomain" value="{{ directory_components_analytics.UTM_COOKIE_DOMAIN }}" />
             {% endif %}
-            {% include 'directory_components/google_tag_manager_head.html' %}
+            {% include 'components/google_tag_manager_head.html' %}
         {% endblock %}
         {% block cookie_domain_meta %}
           <meta id="privacyCookieDomain" value="{{ directory_components_cookie_notice.PRIVACY_COOKIE_DOMAIN }}" />
@@ -90,7 +90,7 @@
         {% endblock %}
 
         {% block head_other %}
-            {% include 'core/browser-checks.html' %}
+            {% include 'components/browser_check.html' %}
         {% endblock %}
 
         {% block head_sharing_metadata %}
@@ -117,7 +117,7 @@
 
     <body {% block body_attributes %}{% endblock %}>
         {% block body_google_tag_manager %}
-            {% include 'directory_components/google_tag_manager_body.html' %}
+            {% include 'components/google_tag_manager_body.html' %}
         {% endblock %}
         <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
@@ -126,25 +126,25 @@
         {% endblock %}
 
         {% block cookie_notice %}
-            {% include 'directory_components/cookie_notice.html' %}
+            {% include 'components/cookie_notice.html' %}
         {% endblock %}
 
         {% block body_header %}
-            {% include 'directory_components/header_footer/domestic_header.html' %}
+            {% include 'components/header_footer/domestic_header.html' %}
         {% endblock %}
 
         {% block body_content_container %}
             <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
                 {% block content %}{% endblock %}
                 {% block feedback_reporter %}
-                    {% include 'directory_components/error-reporting.html' %}
+                    {% include 'components/error_reporting.html' %}
                 {% endblock %}
                 {% block content_after %}{% endblock %}
             </main>
         {% endblock %}
 
         {% block body_footer %}
-            {% include 'directory_components/header_footer/domestic_footer.html' %}
+            {% include 'components/header_footer/domestic_footer.html' %}
         {% endblock %}
 
         {% block body_js %}
