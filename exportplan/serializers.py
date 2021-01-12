@@ -114,7 +114,6 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     potential_total_profit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
 
-
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)

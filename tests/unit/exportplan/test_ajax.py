@@ -365,7 +365,7 @@ def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data=OrderedDict([('target_markets',  ['China', 'India'])]), id=1, sso_session_id='123'
+        data=OrderedDict([('target_markets', ['China', 'India'])]), id=1, sso_session_id='123'
     )
 
 
