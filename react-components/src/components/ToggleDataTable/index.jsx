@@ -27,7 +27,9 @@ export const ToggleDataTable = memo(
     }
 
     useEffect(() => {
-      getCountryData()
+      if (selectedGroups.length > 0) {
+        getCountryData()
+      }
     }, [])
 
     const submitForm = (event) => {
