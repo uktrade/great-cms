@@ -60,9 +60,30 @@ it('Creates an non-autofocus input', () => {
       />, 
       container)
   })
-  const input = container.querySelector('input')
+  let input = container.querySelector('input')
   expect(input).toBeTruthy()
-  expect(input === document.activeElement).toBeTruthy
+  expect(input === document.activeElement).toBeFalsy()
+  expect(container.querySelector('button.clear')).toBeFalsy()
+  act(() => {
+    input.value='cheese'
+    Simulate.change(input)
+  })
+  // clear input is still not available as the input is not focussed.
+  expect(container.querySelector('button.clear')).toBeFalsy()
+  // to test the clear button - we need to focus the input.
+  // We have to change the content and fire a change event to make that happen as
+  // focus event doesn't fire on the window in test
+  input.focus()
+  act(() => {
+    input.value='different'
+    Simulate.change(input)
+  })
+  const clearButton = container.querySelector('button.clear')
+  expect(container.querySelector('button.clear')).toBeTruthy()
+  act(() => {
+    Simulate.click(clearButton)
+  })
+  expect(input.getAttribute('value')).toEqual('')
 })
 
 it('Creates an input with label', () => {
