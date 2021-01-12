@@ -128,6 +128,11 @@ def hero(**kwargs):
     return kwargs
 
 
+@register.inclusion_tag('components/image_with_caption.html')
+def image_with_caption(**kwargs):
+    return kwargs
+
+
 class FullStaticNode(static.StaticNode):
     def url(self, context):
         request = context['request']
