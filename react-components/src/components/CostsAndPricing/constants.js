@@ -1,7 +1,7 @@
 export const direct = [
   {
     label: 'Product cost',
-    id: 'product',
+    id: 'product_costs',
     placeholder: 0,
     tooltip:
       '<h3>What are product costs?</h3><p>These are the costs of the parts, materials or ingredients that go onto making the end product.</p><p>This does not include labour costs.</p>',
@@ -9,7 +9,7 @@ export const direct = [
   },
   {
     label: 'Labour cost',
-    id: 'labour',
+    id: 'product_costs',
     placeholder: 0,
     tooltip:
       '<h3>What are labour costs?</h3><p>These are the costs related to paying wages for employees who work on making your product directly including workers on your assembly line.</p>',
@@ -27,7 +27,7 @@ export const direct = [
 export const overhead = [
   {
     label: 'Product adaptation',
-    id: 'adaptation',
+    id: 'product_adaption',
     placeholder: 0,
     tooltip:
       '<h3>What is product adaptation?</h3><p>These are any changes you need to make to sell abroad. This includes translations, rebranding, packaging and labelling, and meeting local regulations.</p>',
@@ -74,7 +74,7 @@ export const overhead = [
   },
   {
     label: 'Other overhead costs',
-    id: 'other_overhead',
+    id: 'other_overhead_costs',
     placeholder: 0,
     tooltip: '',
     type: 'number',

@@ -1,16 +1,16 @@
 import { UPDATE_FIELD } from '@src/actions/costsAndPricing'
 
 export const initialState = {
-  product: '',
-  labour: '',
+  product_costs: '',
+  labour_costs: '',
   additional_margin: '',
-  adaptation: '',
+  product_adaption: '',
   packaging: '',
   freight: '',
   agent: '',
   marketing: '',
   insurance: '',
-  other_overhead: '',
+  other_overhead_costs: '',
   direct_total: '0.00',
   overhead_total: '0.00',
   cost_per_unit: '',
@@ -25,13 +25,13 @@ export const initialState = {
   profit_per_unit: '0',
   price_per_unit: '',
   units_to_export: '',
-  export_units: ''
+  export_units: '',
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_FIELD:
-      return { ...state, ...action.payload}
+      return { ...state, ...action.payload }
     default:
       return state
   }

@@ -31,13 +31,17 @@ export const CostsAndPricing = memo(({ currency, country, data, update }) => {
               costs={direct}
               currency={currency}
               data={data}
-              update={update}
+              update={(data) => {
+                update('direct_costs', data)
+              }}
             />
             <Overhead
               costs={overhead}
               currency={currency}
               data={data}
-              update={update}
+              update={(data) => {
+                update('overhead_costs', data)
+              }}
             />
             <Units
               update={update}
