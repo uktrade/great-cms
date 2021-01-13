@@ -220,3 +220,28 @@ def test_cost_and_pricing_serializers():
             ),
         },
     )
+
+
+def test_total_cost_direct_costs_serializer():
+    data = {'product_costs': 12.02, 'labour_costs': 13.02,}
+    serializer = serializers.DirectCostsSerializer(data=data)
+    assert serializer.is_valid()
+    assert serializer.calculate_total_direct_costs() == 25.04
+
+
+def test_total_over_head_costs_serializer():
+    data = {'product_adaption': '13.02', 'other_overhead_costs': '19.23'}
+    serializer = serializers.OverheadCostsSerializer(data=data)
+    assert serializer.is_valid()
+    assert serializer.calculate_total_overhead_costs() == 32.25
+
+
+def test_total_cost_and_price_serializer():
+    data = {'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}}
+    serializer = serializers.TotalCostAndPriceSerializer(data=data)
+    assert serializer.is_valid()
+    assert serializer.calculate_profit_per_unit() == 6.0
+    assert serializer.calculate_potential_total_profit() == 132
+
+
+

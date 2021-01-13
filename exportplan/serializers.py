@@ -8,7 +8,6 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
     def validate_sectors(self, value):
         return value[0].split(',')
 
-
 class CountryTargetAgeDataSerializer(serializers.Serializer):
     target_age_groups = serializers.ListField(child=serializers.CharField())
     country = serializers.CharField()
@@ -81,6 +80,11 @@ class DirectCostsSerializer(serializers.Serializer):
     labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     other_direct_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
+    def calculate_total_direct_costs(self):
+        total = 0.0
+        for field in self.data:
+            total = total + float(self.data[field])
+        return total
 
 class OverheadCostsSerializer(serializers.Serializer):
     product_adaption = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
@@ -89,6 +93,12 @@ class OverheadCostsSerializer(serializers.Serializer):
     marketing = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     insurance = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     other_overhead_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+
+    def calculate_total_overhead_costs(self):
+        total = 0.0
+        for field in self.data:
+            total = total + float(self.data[field])
+        return total
 
 
 class TotalCostAndPriceSerializer(serializers.Serializer):
@@ -107,6 +117,16 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     gross_price_per_unit_invoicing_currency = UnitRecord(required=False)
     profit_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     potential_total_profit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+
+    def calculate_profit_per_unit(self):
+        if self.data.get('net_price') and self.data.get('final_cost_per_unit'):
+            return float(self.data['net_price']) - float(self.data['final_cost_per_unit'])
+
+    def calculate_potential_total_profit(self):
+        no_of_unit = self.data.get('units_to_export_first_period', {}).get('value')
+        profit_per_unit = self.calculate_profit_per_unit()
+        if no_of_unit and profit_per_unit:
+            return profit_per_unit * float(no_of_unit)
 
 
 class ExportPlanSerializer(serializers.Serializer):
