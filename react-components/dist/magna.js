@@ -64835,12 +64835,14 @@ var setInitialState = function setInitialState(state) {
 /*!***************************************************************!*\
   !*** ./react-components/src/actions/costsAndPricing/index.js ***!
   \***************************************************************/
-/*! exports provided: UPDATE_FIELD, updateField, postField */
+/*! exports provided: UPDATE_FIELD, FIELD_UPDATE_SUCCESS, FIELD_UPDATE_FAIL, updateField, postField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_FIELD", function() { return UPDATE_FIELD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FIELD_UPDATE_SUCCESS", function() { return FIELD_UPDATE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FIELD_UPDATE_FAIL", function() { return FIELD_UPDATE_FAIL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateField", function() { return updateField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postField", function() { return postField; });
 /* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
@@ -64850,13 +64852,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var UPDATE_FIELD = 'UPDATE_FIELD';
+var FIELD_UPDATE_SUCCESS = 'FIELD_UPDATE_SUCCESS';
+var FIELD_UPDATE_FAIL = 'FIELD_UPDATE_FAIL';
 var updateField = function updateField(payload) {
   return {
     type: UPDATE_FIELD,
     payload: payload
   };
 };
-var postField = function postField(payload) {
+var postField = function postField(field) {
   return /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch) {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -64864,17 +64868,15 @@ var postField = function postField(payload) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _src_api__WEBPACK_IMPORTED_MODULE_0__["default"].updateCalculateCostAndPricing(payload).then(function (_ref2) {
-                var data = _ref2.data;
+              return _src_api__WEBPACK_IMPORTED_MODULE_0__["default"].updateCalculateCostAndPricing(field).then(function (data) {
                 dispatch({
-                  type: 'Success',
+                  type: FIELD_UPDATE_SUCCESS,
                   data: data
                 });
-              })["catch"](function (_ref3) {
-                var response = _ref3.response;
+              })["catch"](function (err) {
                 dispatch({
-                  type: 'fail',
-                  response: response
+                  type: FIELD_UPDATE_FAIL,
+                  err: err
                 });
               });
 
@@ -65232,7 +65234,9 @@ var responseHandler = function responseHandler(response) {
     return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiUpdateCompanyUrl, data).then(responseHandler);
   },
   updateCalculateCostAndPricing: function updateCalculateCostAndPricing(data) {
-    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].updateCalculateCostAndPricing, data).then(responseHandler);
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].updateCalculateCostAndPricing, data).then(function (response) {
+      return responseHandler(response).json();
+    });
   }
 });
 
@@ -66568,7 +66572,7 @@ var Costs = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var costs = _ref.costs,
       currency = _ref.currency,
       data = _ref.data,
-      _update = _ref.update;
+      _update2 = _ref.update;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "costs bg-blue-deep-10"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
@@ -66589,9 +66593,9 @@ var Costs = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       tooltip: tooltip,
       value: data[id],
       update: function update(data) {
-        var updatedField = type === 'number' ? _defineProperty({}, id, parseInt(data[id])) : data;
+        var updatedField = type === 'number' ? _defineProperty({}, id, Number(data[id]).toFixed(2)) : data;
 
-        _update(field, updatedField, type);
+        _update2(data, _defineProperty({}, field, updatedField));
       },
       type: type
     });
@@ -67157,9 +67161,9 @@ var mapStateToProps = function mapStateToProps(_ref) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    update: function update(field, data) {
+    update: function update(data, postData) {
       dispatch(Object(_src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_3__["updateField"])(data));
-      dispatch(Object(_src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_3__["postField"])(_defineProperty({}, field, data)));
+      dispatch(Object(_src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_3__["postField"])(postData));
     }
   };
 };
@@ -73624,6 +73628,10 @@ var initialState = {
   switch (action.type) {
     case _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__["UPDATE_FIELD"]:
       return _objectSpread(_objectSpread({}, state), action.payload);
+
+    case _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__["FIELD_UPDATE_SUCCESS"]:
+      debugger;
+      return _objectSpread({}, state);
 
     default:
       return state;

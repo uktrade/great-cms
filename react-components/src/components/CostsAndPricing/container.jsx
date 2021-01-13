@@ -11,9 +11,9 @@ const mapStateToProps = ({ exportPlan: { markets }, costAndPricing }) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  update: (field, data) => {
+  update: (data, postData) => {
     dispatch(updateField(data))
-    dispatch(postField({ [field]: data }))
+    dispatch(postField(postData))
   },
 })
 

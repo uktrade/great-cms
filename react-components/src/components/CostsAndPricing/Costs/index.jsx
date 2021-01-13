@@ -18,8 +18,8 @@ export const Costs = memo(({ costs, currency, data, update }) => {
             value={data[id]}
             update={(data) => {
               const updatedField =
-                type === 'number' ? { [id]: parseInt(data[id]) } : data
-              update(field, updatedField, type)
+                type === 'number' ? { [id]: Number(data[id]).toFixed(2) } : data
+              update(data, { [field]: updatedField })
             }}
             type={type}
           />

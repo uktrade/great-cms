@@ -226,5 +226,7 @@ export default {
   },
 
   updateCalculateCostAndPricing: (data) =>
-    post(config.updateCalculateCostAndPricing, data).then(responseHandler),
+    post(config.updateCalculateCostAndPricing, data).then((response) =>
+      responseHandler(response).json()
+    ),
 }
