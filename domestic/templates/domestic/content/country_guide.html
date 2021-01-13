@@ -6,8 +6,8 @@
 {% block css_layout_class %}country-guide-page{% endblock %}
 
 {% block head_js %}
-  {% comment "Temporarily commented out while Lewis does some refactoring" %} {{ block.super }} {% endcomment %}
-    <script src="{% static 'js/country-guide.js' %}"></script>
+  {{ block.super }}
+  <script src="{% static 'js/country-guide.js' %}"></script>
 {% endblock %}
 
 {% block head_title %}

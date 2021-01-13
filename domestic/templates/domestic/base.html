@@ -51,6 +51,7 @@
         {% endblock %}
 
         {% block head_js %}
+            <script src="{% static 'js/dit.js' %}"></script>
             <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
             <script src="{% static 'directory_components/js/reactComponents.js' %}"></script>
             <script type="text/javascript">
@@ -61,8 +62,6 @@
                   }
               }
             </script>
-            {{ block.super }}
-            <script src="{% static 'js/dit.js' %}"></script>
         {% endblock %}
 
         {% block head_js_ga360 %}
