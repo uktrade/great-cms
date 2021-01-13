@@ -131,8 +131,8 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
             helpers.update_exportplan(
                 sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.data
             )
-            return Response({'calculated_cost_pricing': 0.00})
-            calculated_pricing = helpers.calculate_cost_pricing(self.request.user.export_plan)
+            # We now need the full export plan to calculate the totals
+            calculated_pricing = self.serializer_class(data=self.request.user.export_plan).calculate_cost_pricing()
             return Response(calculated_pricing)
 
 

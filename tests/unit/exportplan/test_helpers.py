@@ -423,27 +423,3 @@ def test_update_ui_options_target_ages_not_required(mock_update_export_plan, exp
         sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
     )
     assert mock_update_export_plan.call_count == 0
-
-
-@pytest.mark.parametrize(
-    'pricing_data, expected',
-    [
-        [{'total_cost_and_price': {'final_cost_per_unit': 22.00, 'net_price': 16.00}}, {'profit_per_unit': 6.0}],
-        [
-            {
-                'total_cost_and_price': {
-                    'final_cost_per_unit': 22.00,
-                    'net_price': 16.00,
-                    'units_to_export_first_period': {'value': 22.00},
-                }
-            },
-            {'profit_per_unit': 6.0, 'potential_total_profit': 132.00},
-        ],
-        [{'total_cost_and_price': {'net_price': 6.0}}, {}],
-        [{'total_cost_and_price': {'final_cost_per_unit': 22.0}}, {}],
-        [{'total_cost_and_price': {}}, {}],
-    ],
-)
-def test_calculate_cost_pricing(pricing_data, expected):
-    data = helpers.calculate_cost_pricing(pricing_data)
-    assert data['calculated_cost_pricing'] == expected

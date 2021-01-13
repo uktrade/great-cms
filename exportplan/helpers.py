@@ -228,27 +228,3 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
             id=export_plan['pk'],
             data={'ui_options': {section_name: {'target_ages': target_ages}}},
         )
-
-
-def calculate_cost_pricing(exportplan):
-    calculated_dict = {}
-    return {'calculated_cost_pricing': 0.00}
-    netprice = exportplan.get('total_cost_and_price', {}).get('net_price')
-    final_cost_per_unit = exportplan.get('total_cost_and_price', {}).get('final_cost_per_unit')
-    no_of_unit = exportplan.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value')
-    if netprice and final_cost_per_unit:
-        profit_per_unit = Decimal(final_cost_per_unit) - Decimal(netprice)
-        calculated_dict.update({'profit_per_unit': profit_per_unit})
-        if no_of_unit:
-            potential_total_profit = profit_per_unit * Decimal(no_of_unit)
-            calculated_dict.update({'potential_total_profit': potential_total_profit})
-    # Calculate Direct Costs
-
-    def get_value_from_export_plan(field_names):
-        field = field_names.split(',')
-        n = exportplan.get(field[0], {}).get(field[1], 0.0)
-        return n
-    return {'calculated_cost_pricing': calculated_dict}
-
-
-
