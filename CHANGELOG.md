@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1259 - Styling for compare markets datatable from great-styles
 - GP2-1309 - Remove tooltips
 - GP2-341 - Adaptation target markets documents
 - GP2-1129 - Product classifier - show errors on search page
