@@ -36,7 +36,6 @@ export default (state = initialState, action) => {
     case UPDATE_FIELD:
       return { ...state, ...action.payload }
     case FIELD_UPDATE_SUCCESS:
-      debugger
       return { ...state }
     default:
       return state

@@ -16,10 +16,10 @@ export const Costs = memo(({ costs, currency, data, update }) => {
             placeholder={placeholder}
             tooltip={tooltip}
             value={data[id]}
-            update={(data) => {
+            update={(x) => {
               const updatedField =
-                type === 'number' ? { [id]: Number(data[id]).toFixed(2) } : data
-              update(data, { [field]: updatedField })
+                type === 'number' ? { [id]: Number(x[id]).toFixed(2) } : x
+              update(x, { [field]: updatedField })
             }}
             type={type}
           />

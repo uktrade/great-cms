@@ -9,12 +9,19 @@ export const updateField = (payload) => ({
   payload,
 })
 
+export const postSuccess = (data) => ({
+  type: FIELD_UPDATE_SUCCESS,
+  data,
+})
+
+export const postFail = (err) => ({ type: FIELD_UPDATE_FAIL, err })
+
 export const postField = (field) => async (dispatch) => {
   await Api.updateCalculateCostAndPricing(field)
     .then((data) => {
-      dispatch({ type: FIELD_UPDATE_SUCCESS, data })
+      dispatch(postSuccess(data))
     })
     .catch((err) => {
-      dispatch({ type: FIELD_UPDATE_FAIL, err })
+      dispatch(postFail(err))
     })
 }

@@ -64835,7 +64835,7 @@ var setInitialState = function setInitialState(state) {
 /*!***************************************************************!*\
   !*** ./react-components/src/actions/costsAndPricing/index.js ***!
   \***************************************************************/
-/*! exports provided: UPDATE_FIELD, FIELD_UPDATE_SUCCESS, FIELD_UPDATE_FAIL, updateField, postField */
+/*! exports provided: UPDATE_FIELD, FIELD_UPDATE_SUCCESS, FIELD_UPDATE_FAIL, updateField, postSuccess, postFail, postField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64844,6 +64844,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FIELD_UPDATE_SUCCESS", function() { return FIELD_UPDATE_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FIELD_UPDATE_FAIL", function() { return FIELD_UPDATE_FAIL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateField", function() { return updateField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postSuccess", function() { return postSuccess; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postFail", function() { return postFail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postField", function() { return postField; });
 /* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -64860,6 +64862,18 @@ var updateField = function updateField(payload) {
     payload: payload
   };
 };
+var postSuccess = function postSuccess(data) {
+  return {
+    type: FIELD_UPDATE_SUCCESS,
+    data: data
+  };
+};
+var postFail = function postFail(err) {
+  return {
+    type: FIELD_UPDATE_FAIL,
+    err: err
+  };
+};
 var postField = function postField(field) {
   return /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch) {
@@ -64869,15 +64883,9 @@ var postField = function postField(field) {
             case 0:
               _context.next = 2;
               return _src_api__WEBPACK_IMPORTED_MODULE_0__["default"].updateCalculateCostAndPricing(field).then(function (data) {
-                dispatch({
-                  type: FIELD_UPDATE_SUCCESS,
-                  data: data
-                });
+                dispatch(postSuccess(data));
               })["catch"](function (err) {
-                dispatch({
-                  type: FIELD_UPDATE_FAIL,
-                  err: err
-                });
+                dispatch(postFail(err));
               });
 
             case 2:
@@ -66592,10 +66600,10 @@ var Costs = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       placeholder: placeholder,
       tooltip: tooltip,
       value: data[id],
-      update: function update(data) {
-        var updatedField = type === 'number' ? _defineProperty({}, id, Number(data[id]).toFixed(2)) : data;
+      update: function update(x) {
+        var updatedField = type === 'number' ? _defineProperty({}, id, Number(x[id]).toFixed(2)) : x;
 
-        _update2(data, _defineProperty({}, field, updatedField));
+        _update2(x, _defineProperty({}, field, updatedField));
       },
       type: type
     });
@@ -73630,7 +73638,6 @@ var initialState = {
       return _objectSpread(_objectSpread({}, state), action.payload);
 
     case _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__["FIELD_UPDATE_SUCCESS"]:
-      debugger;
       return _objectSpread({}, state);
 
     default:
