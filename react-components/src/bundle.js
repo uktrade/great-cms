@@ -14,21 +14,38 @@ import {
   createTargetAgeGroupInsights,
 } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
-import { createTargetMarketResearchForm, createDataSnapShot } from '@src/views/sections/TargetMarketResearch'
+import {
+  financeTotalExportCost,
+  financeHowMuchFunding,
+  financeFundingCreditOptions,
+} from '@src/views/sections/Finance'
+import {
+  createTargetMarketResearchForm,
+  createDataSnapShot,
+} from '@src/views/sections/TargetMarketResearch'
 import {
   adaptToTargetMarketForm,
   documentsForTargetMarketForm,
   statsForYourTargetMarket,
 } from '@src/views/sections/AdaptationForYourTargetMarket'
-import { createObjectivesReasons, createObjectivesList } from '@src/views/sections/Objectives'
+import {
+  createObjectivesReasons,
+  createObjectivesList,
+} from '@src/views/sections/Objectives'
 import { createCostsAndPricing } from '@src/views/sections/CostsAndPricing'
-import { createDashboard, createDisabledButton } from '@src/views/sections/Dashboard'
+import {
+  createDashboard,
+  createDisabledButton,
+} from '@src/views/sections/Dashboard'
 import { sectionSidebar } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
 import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
 import { createComingSoonModal } from '@src/components/Lesson/ComingSoon'
-import { STEP_CREDENTIALS, STEP_VERIFICATION_CODE } from '@src/views/SignupModal/Component/'
+import {
+  STEP_CREDENTIALS,
+  STEP_VERIFICATION_CODE,
+} from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
 import { setConfig } from '@src/config'
 import '@babel/polyfill'
@@ -52,6 +69,9 @@ export default {
   createDisabledButton,
   createCaseStudy,
   createCostsAndPricing,
+  financeTotalExportCost,
+  financeHowMuchFunding,
+  financeFundingCreditOptions,
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,
