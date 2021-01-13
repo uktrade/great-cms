@@ -1,4 +1,9 @@
-<section class="great-hero {% if not image %}great-hero-no-image{% endif %}" id="hero" {% if image %}style="background-image: url({{ image }})"{% endif %}>
+{% load wagtailimages_tags %}
+
+{% image image original as rendition %}
+<section class="great-hero {% if not rendition %}great-hero-no-image{% endif %}"
+    id="hero"
+    {% if image %}style="background-image: url({{ rendition.url }})"{% endif %}>
   <div class="container">
     <div class="great-hero-title">
       {% if hero_subheading %}

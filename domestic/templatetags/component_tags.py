@@ -12,7 +12,7 @@ register = template.Library()
 def add_href_target(value, request):
     # Usage: some_value|add_href_target:request|safe
     soup = BeautifulSoup(value, 'html.parser')
-    for element in soup.findAll('a', attrs={'href': re.compile("^http")}):
+    for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
         if request.META['HTTP_HOST'] not in element.attrs['href']:
             element.attrs['target'] = '_blank'
             element.attrs['title'] = 'Opens in a new window'
@@ -160,3 +160,24 @@ def static_absolute(parser, token):
 @register.inclusion_tag('components/statistics_card_grid.html')
 def statistics_card_grid(**kwargs):
     return kwargs
+
+
+@register.filter
+def industry_accordion_is_viable(streamchild):
+    # Decides whether or not to show an industry accordion,
+    # based on the value of a CountryGuideIndustryBlock
+    if not streamchild:
+        return False
+
+    return all(
+        [streamchild.value.get('title'), streamchild.value.get('teaser'), len(streamchild.value.get('subsections')) > 1]
+    )
+
+
+@register.filter
+def industry_accordion_case_study_is_viable(value):
+    # Decides whether or not to show an industry accordion,
+    # based on the value of a CountryGuideCaseStudyBlock
+    if not value:
+        return False
+    return all([value.get('title'), value.get('hero_image')])

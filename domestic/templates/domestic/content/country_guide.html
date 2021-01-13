@@ -16,7 +16,7 @@
 
 {% block content %}
 
-{% hero image=page.hero_image.url hero_text=page.heading hero_subheading=page.sub_heading %}
+{% hero image=page.hero_image hero_text=page.heading hero_subheading=page.sub_heading %}
 
 <section class="container">
   {% include 'components/breadcrumbs_cms.html' %}
@@ -82,11 +82,10 @@
     </div>
   </section>
 
-  SORT OUT ACCORDIONS INCLUDING STATS FOR EACH ONE
-  {% if page.accordions %}
+  {% if page.accordions %} {# This is streamfield #}
     <section id="country-guide-accordions" class="accordions padding-vertical-0">
       <ul>
-        {% include 'content/components/accordions.html' with accordions=page.accordions %}
+        {% include 'domestic/content/accordions.html' with accordions=page.accordions %}
       </ul>
     </section>
   {% endif %}

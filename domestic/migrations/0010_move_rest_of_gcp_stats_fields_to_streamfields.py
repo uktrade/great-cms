@@ -4,6 +4,7 @@ import wagtail.core.blocks
 import wagtail.core.fields
 from django.db import migrations
 
+import core.blocks as core_blocks
 import domestic.models
 
 
@@ -465,7 +466,7 @@ class Migration(migrations.Migration):
                 ],
                 blank=True,
                 null=True,
-                validators=[domestic.models.general_statistics_streamfield_validation],
+                validators=[core_blocks.general_statistics_streamfield_validation],
             ),
         ),
         migrations.AddField(
@@ -487,7 +488,7 @@ class Migration(migrations.Migration):
                 ],
                 blank=True,
                 null=True,
-                validators=[domestic.models.general_statistics_streamfield_validation],
+                validators=[core_blocks.general_statistics_streamfield_validation],
             ),
         ),
         migrations.AddField(
@@ -509,7 +510,7 @@ class Migration(migrations.Migration):
                 ],
                 blank=True,
                 null=True,
-                validators=[domestic.models.general_statistics_streamfield_validation],
+                validators=[core_blocks.general_statistics_streamfield_validation],
             ),
         ),
         migrations.AddField(
@@ -531,7 +532,7 @@ class Migration(migrations.Migration):
                 ],
                 blank=True,
                 null=True,
-                validators=[domestic.models.general_statistics_streamfield_validation],
+                validators=[core_blocks.general_statistics_streamfield_validation],
             ),
         ),
         migrations.AddField(
@@ -553,7 +554,7 @@ class Migration(migrations.Migration):
                 ],
                 blank=True,
                 null=True,
-                validators=[domestic.models.general_statistics_streamfield_validation],
+                validators=[core_blocks.general_statistics_streamfield_validation],
             ),
         ),
         migrations.AddField(
@@ -575,7 +576,7 @@ class Migration(migrations.Migration):
                 ],
                 blank=True,
                 null=True,
-                validators=[domestic.models.general_statistics_streamfield_validation],
+                validators=[core_blocks.general_statistics_streamfield_validation],
             ),
         ),
         migrations.AlterField(
