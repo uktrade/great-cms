@@ -362,7 +362,7 @@ export default function ProductFinderModal(props) {
         </div>
         <div className="box box--no-pointer m-t-s">
           <p className="m-t-0 m-b-xs">
-            This is because we use HS (or{' '}
+            This is because we use HS (
             <span className="body-l-b">harmonised system</span>) codes to
             classify goods.
           </p>
@@ -441,7 +441,7 @@ export default function ProductFinderModal(props) {
       (!searchResults.txId ||
         (!searchResults.currentQuestionInteraction && !searchResults.hsCode))
     ) {
-      error = 'No results found. Check your spelling and use the search tips.'
+      error = 'No results found. Check your spelling and use the search tips below.'
     }
     if (searchResults && searchResults.multiItemError) {
       error = (
