@@ -85,7 +85,9 @@
   {% if page.accordions %} {# This is streamfield #}
     <section id="country-guide-accordions" class="accordions padding-vertical-0">
       <ul>
-        {% include 'domestic/content/accordions.html' with accordions=page.accordions %}
+        {% for industry_block in page.accordions  %}
+            {% include_block industry_block %}
+        {% endfor %}
       </ul>
     </section>
   {% endif %}

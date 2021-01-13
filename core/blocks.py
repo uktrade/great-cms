@@ -325,3 +325,6 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
     )
 
     case_study = CountryGuideCaseStudyBlock(required=False)
+
+    class Meta:
+        template = 'domestic/content/blocks/accordions.html'

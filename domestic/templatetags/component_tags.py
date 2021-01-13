@@ -163,15 +163,13 @@ def statistics_card_grid(**kwargs):
 
 
 @register.filter
-def industry_accordion_is_viable(streamchild):
+def industry_accordion_is_viable(value):
     # Decides whether or not to show an industry accordion,
     # based on the value of a CountryGuideIndustryBlock
-    if not streamchild:
+    if not value:
         return False
 
-    return all(
-        [streamchild.value.get('title'), streamchild.value.get('teaser'), len(streamchild.value.get('subsections')) > 1]
-    )
+    return all([value.get('title'), value.get('teaser'), len(value.get('subsections')) > 1])
 
 
 @register.filter
