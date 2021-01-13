@@ -58,7 +58,7 @@ function CompareMarkets(props) {
   let buttonClass = 'button button--primary button--icon'
   let buttonLabel = 'Select product'
   if (selectedProduct) {
-    buttonClass = `add-market ${buttonClass}`
+    buttonClass = `add-market m-t-xs ${buttonClass}`
     buttonLabel =
       selectedLength > 0
         ? `Add country ${selectedLength + 1} of ${maxSelectedLength}`
