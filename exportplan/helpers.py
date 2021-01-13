@@ -228,3 +228,8 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
             id=export_plan['pk'],
             data={'ui_options': {section_name: {'target_ages': target_ages}}},
         )
+
+
+def calculated_cost_pricing(exportplan_data):
+    calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing()
+    return {'calculated_cost_pricing': calculated_pricing}

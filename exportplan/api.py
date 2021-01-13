@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -132,7 +133,8 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
                 sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.data
             )
             # We now need the full export plan to calculate the totals
-            calculated_pricing = self.serializer_class(data=updated_export_plan).calculate_cost_pricing()
+            calculated_pricing = json.dumps(helpers.calculated_cost_pricing(updated_export_plan))
+            print(calculated_pricing)
             return Response(calculated_pricing)
 
 
