@@ -1,4 +1,7 @@
-import { UPDATE_FIELD } from '@src/actions/costsAndPricing'
+import {
+  UPDATE_FIELD,
+  FIELD_UPDATE_SUCCESS,
+} from '@src/actions/costsAndPricing'
 
 export const initialState = {
   product_costs: '',
@@ -32,6 +35,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_FIELD:
       return { ...state, ...action.payload }
+    case FIELD_UPDATE_SUCCESS:
+      return { ...state }
     default:
       return state
   }
