@@ -1,5 +1,6 @@
-import pytest
 from collections import OrderedDict
+
+import pytest
 
 from exportplan import serializers
 
@@ -224,7 +225,10 @@ def test_cost_and_pricing_serializers():
 
 
 def test_total_cost_direct_costs_serializer():
-    data = {'product_costs': 12.02, 'labour_costs': 13.02,}
+    data = {
+        'product_costs': 12.02,
+        'labour_costs': 13.02,
+    }
     serializer = serializers.DirectCostsSerializer(data=data)
     assert serializer.is_valid()
     assert serializer.calculate_total_direct_costs() == 25.04
@@ -240,17 +244,13 @@ def test_total_over_head_costs_serializer():
 @pytest.mark.parametrize(
     'data, expected_profit_per_unit, expected_total_profit',
     [
+        [{'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}}, 6, 132],
         [
-            {
-                'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}
-            }, 6, 132
+            {'final_cost_per_unit': '16.00', 'net_price': '22.00', 'units_to_export_first_period': {'value': '22.00'}},
+            6,
+            132,
         ],
-        [
-            {
-                'final_cost_per_unit': '16.00', 'net_price': '22.00', 'units_to_export_first_period': {'value': '22.00'}
-            }, 6, 132
-        ],
-    ]
+    ],
 )
 def test_total_cost_and_price_serializer(data, expected_profit_per_unit, expected_total_profit):
     serializer = serializers.TotalCostAndPriceSerializer(data=data)
@@ -264,8 +264,8 @@ def test_total_cost_and_price_serializer(data, expected_profit_per_unit, expecte
     [
         [
             {'total_cost_and_price': {'final_cost_per_unit': 16.00, 'net_price': 22.00}},
-            {'profit_per_unit': 6.0, 'potential_total_profit': 0.0}
-         ],
+            {'profit_per_unit': 6.0, 'potential_total_profit': 0.0},
+        ],
         [
             {
                 'total_cost_and_price': {
@@ -277,17 +277,18 @@ def test_total_cost_and_price_serializer(data, expected_profit_per_unit, expecte
             {'profit_per_unit': 6.0, 'potential_total_profit': 132.00},
         ],
         [{'total_cost_and_price': {'net_price': 6.0}}, {'profit_per_unit': 0.0, 'potential_total_profit': 0.0}],
-        [{'total_cost_and_price': {'final_cost_per_unit': 22.0}}, {'profit_per_unit': 0.0, 'potential_total_profit': 0.0}],
+        [
+            {'total_cost_and_price': {'final_cost_per_unit': 22.0}},
+            {'profit_per_unit': 0.0, 'potential_total_profit': 0.0},
+        ],
         [{'total_cost_and_price': {}}, {}],
         [
-            {
-                'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00, 'other_direct_costs': 2.00}
-            },
-            {'total_direct_costs': 17}
+            {'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00, 'other_direct_costs': 2.00}},
+            {'total_direct_costs': 17},
         ],
         [{'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00}}, {'total_direct_costs': 15}],
         [{'overhead_costs': {'insurance': 10.00, 'marketing': 1345.00}}, {'total_overhead_costs': 1355.00}],
-        [{}, {}]
+        [{}, {}],
     ],
 )
 def test_exportplan_serializer_calculate_cost_pricing(pricing_data, expected):

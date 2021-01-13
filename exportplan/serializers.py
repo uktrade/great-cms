@@ -8,6 +8,7 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
     def validate_sectors(self, value):
         return value[0].split(',')
 
+
 class CountryTargetAgeDataSerializer(serializers.Serializer):
     target_age_groups = serializers.ListField(child=serializers.CharField())
     country = serializers.CharField()
@@ -87,6 +88,7 @@ class DirectCostsSerializer(serializers.Serializer):
             total = total + float(self.data[field])
         return total
 
+
 class OverheadCostsSerializer(serializers.Serializer):
     product_adaption = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     freight_logistics = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
@@ -136,6 +138,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
             potential_total_profit = profit_per_unit * float(no_of_unit)
         return potential_total_profit
 
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -157,14 +160,16 @@ class ExportPlanSerializer(serializers.Serializer):
             calculated_dict.update(
                 {
                     'total_direct_costs': DirectCostsSerializer(
-                        data=self.data['direct_costs']).calculate_total_direct_costs()
+                        data=self.data['direct_costs']
+                    ).calculate_total_direct_costs()
                 }
             )
         if self.data.get('overhead_costs'):
             calculated_dict.update(
                 {
                     'total_overhead_costs': OverheadCostsSerializer(
-                        data=self.data['overhead_costs']).calculate_total_overhead_costs()
+                        data=self.data['overhead_costs']
+                    ).calculate_total_overhead_costs()
                 }
             )
         if self.data.get('total_cost_and_price'):
@@ -172,14 +177,10 @@ class ExportPlanSerializer(serializers.Serializer):
             calculated_dict.update(
                 {
                     'profit_per_unit': serializer.calculate_profit_per_unit(),
-                    'potential_total_profit': serializer.calculate_potential_total_profit()
+                    'potential_total_profit': serializer.calculate_potential_total_profit(),
                 }
             )
         return calculated_dict
-
-
-
-
 
 
 class CompanyObjectiveSerializer(serializers.Serializer):

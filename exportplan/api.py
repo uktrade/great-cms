@@ -1,5 +1,5 @@
-from datetime import datetime
 import json
+from datetime import datetime
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -134,7 +134,6 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
             )
             # We now need the full export plan to calculate the totals
             calculated_pricing = json.dumps(helpers.calculated_cost_pricing(updated_export_plan))
-            print(calculated_pricing)
             return Response(calculated_pricing)
 
 

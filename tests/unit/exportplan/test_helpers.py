@@ -423,3 +423,15 @@ def test_update_ui_options_target_ages_not_required(mock_update_export_plan, exp
         sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
     )
     assert mock_update_export_plan.call_count == 0
+
+
+def test_calculated_cost_pricing(cost_pricing_data):
+    pricing_data = helpers.calculated_cost_pricing(cost_pricing_data)
+    assert pricing_data == {
+        'calculated_cost_pricing': {
+            'potential_total_profit': 132.0,
+            'profit_per_unit': 6.0,
+            'total_direct_costs': 15.0,
+            'total_overhead_costs': 1355.0,
+        }
+    }

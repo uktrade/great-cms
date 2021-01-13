@@ -1,3 +1,4 @@
+import json
 from collections import OrderedDict
 from unittest import mock
 
@@ -366,6 +367,37 @@ def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
         data=OrderedDict([('target_markets', ['China', 'India'])]), id=1, sso_session_id='123'
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_exportplan')
+def test_update_calculate_cost_and_pricing(
+    mock_update_exportplan, mock_get_create_export_plan, cost_pricing_data, client, user
+):
+    client.force_login(user)
+    mock_update_exportplan.return_value = cost_pricing_data
+    url = reverse('exportplan:api-calculate-cost-and-pricing')
+
+    response = client.post(url, {'direct_costs': {'product_costs': '3.00'}}, content_type='application/json')
+    assert mock_get_create_export_plan.call_count == 1
+    assert mock_get_create_export_plan.call_args == mock.call(user)
+    assert response.status_code == 200
+
+    assert mock_update_exportplan.call_count == 1
+    assert mock_update_exportplan.call_args == mock.call(
+        data={'direct_costs': OrderedDict([('product_costs', '3.00')])}, id=1, sso_session_id='123'
+    )
+
+    assert response.json() == json.dumps(
+        {
+            'calculated_cost_pricing': {
+                'total_direct_costs': 15.0,
+                'total_overhead_costs': 1355.0,
+                'profit_per_unit': 6.0,
+                'potential_total_profit': 132.0,
+            }
+        }
     )
 
 

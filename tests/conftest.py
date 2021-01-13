@@ -25,6 +25,19 @@ urllib3_logger.setLevel(logging.CRITICAL)
 
 
 @pytest.fixture
+def cost_pricing_data():
+    return {
+        'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00},
+        'overhead_costs': {'insurance': 10.00, 'marketing': 1345.00},
+        'total_cost_and_price': {
+            'final_cost_per_unit': 16.00,
+            'net_price': 22.00,
+            'units_to_export_first_period': {'value': 22.00},
+        },
+    }
+
+
+@pytest.fixture
 def export_plan_data():
     return {
         'country': 'Australia',
