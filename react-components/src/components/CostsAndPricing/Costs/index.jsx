@@ -3,16 +3,11 @@ import PropTypes from 'prop-types'
 
 import { Cost } from './Cost'
 
-export const Costs = memo(({
-  costs,
-  currency,
-  data,
-  update
-}) => {
+export const Costs = memo(({ costs, currency, data, update }) => {
   return (
-    <div className='costs bg-blue-deep-10'>
-      <table className='m-b-0'>
-        {costs.map(({ label, id, placeholder, tooltip, type}) => (
+    <div className="costs bg-blue-deep-10">
+      <table className="m-b-0">
+        {costs.map(({ label, id, placeholder, tooltip, type, field }) => (
           <Cost
             key={id}
             label={label}
@@ -21,7 +16,11 @@ export const Costs = memo(({
             placeholder={placeholder}
             tooltip={tooltip}
             value={data[id]}
-            update={update}
+            update={(data) => {
+              const updatedField =
+                type === 'number' ? { [id]: parseInt(data[id]) } : data
+              update(field, updatedField, type)
+            }}
             type={type}
           />
         ))}
@@ -31,13 +30,16 @@ export const Costs = memo(({
 })
 
 Costs.propTypes = {
-  costs: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
-    tooltip: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-  })).isRequired,
+  costs: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      placeholder: PropTypes.string.isRequired,
+      tooltip: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      field: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   currency: PropTypes.string.isRequired,
   data: PropTypes.objectOf(PropTypes.number).isRequired,
   update: PropTypes.func.isRequired,

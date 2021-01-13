@@ -6,14 +6,16 @@ export const direct = [
     tooltip:
       '<h3>What are product costs?</h3><p>These are the costs of the parts, materials or ingredients that go onto making the end product.</p><p>This does not include labour costs.</p>',
     type: 'number',
+    field: 'direct_costs',
   },
   {
     label: 'Labour cost',
-    id: 'product_costs',
+    id: 'labour_costs',
     placeholder: 0,
     tooltip:
       '<h3>What are labour costs?</h3><p>These are the costs related to paying wages for employees who work on making your product directly including workers on your assembly line.</p>',
     type: 'number',
+    field: 'direct_costs',
   },
   {
     label: 'Additional margin',
@@ -21,6 +23,7 @@ export const direct = [
     placeholder: 0,
     tooltip: '',
     type: 'number',
+    field: 'direct_costs',
   },
 ]
 

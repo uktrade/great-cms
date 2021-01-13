@@ -2,20 +2,20 @@
 import { config } from '@src/config'
 import { messages } from '@src/constants'
 
-const post = function(url, data) {
+const post = function (url, data) {
   return fetch(url, {
     method: 'post',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRFToken': config.csrfToken,
-      'X-Requested-With': 'XMLHttpRequest'
+      'X-Requested-With': 'XMLHttpRequest',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
 }
 
-const httpDelete = function(url, data) {
+const httpDelete = function (url, data) {
   return fetch(url, {
     method: 'delete',
     headers: {
@@ -28,7 +28,7 @@ const httpDelete = function(url, data) {
   })
 }
 
-const get = function(url, params) {
+const get = function (url, params) {
   const parsedUrl = new URL(`${location.origin}${url}`)
   const parsedParams = new URLSearchParams(params).toString()
   parsedUrl.search = parsedParams
@@ -38,12 +38,12 @@ const get = function(url, params) {
     headers: {
       Accept: 'application/json',
       'X-CSRFToken': config.csrfToken,
-      'X-Requested-With': 'XMLHttpRequest'
-    }
+      'X-Requested-With': 'XMLHttpRequest',
+    },
   })
 }
 
-const responseHandler = function(response) {
+const responseHandler = function (response) {
   if (response.status == 400) {
     return response.json().then((error) => {
       throw error
@@ -80,39 +80,60 @@ export default {
   },
 
   getCountries: () => {
-    return get(config.apiCountriesUrl, {}).then((response) => responseHandler(response).json())
+    return get(config.apiCountriesUrl, {}).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   getSuggestedCountries: (hs_code) => {
-    return get(config.apiSuggestedCountriesUrl, { hs_code }).then((response) => responseHandler(response).json())
+    return get(config.apiSuggestedCountriesUrl, { hs_code }).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   getPopulationByCountryData: (countries) => {
-    return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
+    return get(config.populationByCountryUrl, {
+      countries: countries,
+    }).then((response) => responseHandler(response).json())
   },
 
   getComTradeData: (countries, commodity_code) => {
-    return get(config.apiComTradeDataUrl, { countries: countries, commodity_code: commodity_code }).then((response) => responseHandler(response).json())
+    return get(config.apiComTradeDataUrl, {
+      countries: countries,
+      commodity_code: commodity_code,
+    }).then((response) => responseHandler(response).json())
   },
 
   getCountryAgeGroupData: (data) => {
-    return get(config.countryAgeGroupDataUrl, data).then((response) => responseHandler(response).json())
+    return get(config.countryAgeGroupDataUrl, data).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   getMarketingCountryData: (data) => {
-    return get(config.marketingCountryData, data).then((response) => responseHandler(response).json())
+    return get(config.marketingCountryData, data).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   lookupProduct: ({ proddesc }) => {
-    return post(config.apiLookupProductUrl, { proddesc }).then((response) => responseHandler(response).json())
+    return post(config.apiLookupProductUrl, { proddesc }).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   lookupProductRefine: ({ txId, interactionId, values }) => {
-    return post(config.apiLookupProductUrl, { tx_id: txId, interaction_id: interactionId, values: values }).then((response) => responseHandler(response).json())
+    return post(config.apiLookupProductUrl, {
+      tx_id: txId,
+      interaction_id: interactionId,
+      values: values,
+    }).then((response) => responseHandler(response).json())
   },
 
   lookupProductSchedule: ({ hsCode }) => {
-    return get(config.apiLookupProductScheduleUrl, { hs_code: hsCode }).then((response) => responseHandler(response).json())
+    return get(config.apiLookupProductScheduleUrl, {
+      hs_code: hsCode,
+    }).then((response) => responseHandler(response).json())
   },
 
   getLessonComplete: (endpoint) => {
@@ -128,27 +149,41 @@ export default {
   },
 
   createRouteToMarket: (data) => {
-    return post(config.apiRouteToMarketCreateUrl, data).then((response) => responseHandler(response).json())
+    return post(config.apiRouteToMarketCreateUrl, data).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   deleteRouteToMarket: (pk) => {
-    return httpDelete(config.apiRouteToMarketDeleteUrl, { pk: pk }).then(responseHandler)
+    return httpDelete(config.apiRouteToMarketDeleteUrl, { pk: pk }).then(
+      responseHandler
+    )
   },
 
   updateRouteToMarket: (data) => {
-    return post(config.apiRouteToMarketUpdateUrl, data).then((response) => responseHandler(response).json())
+    return post(config.apiRouteToMarketUpdateUrl, data).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   createAdaptTarketMarketDocumentList: (data) => {
-    return post(config.apiTargetMarketDocumentsCreateUrl, data).then((response) => responseHandler(response).json())
+    return post(
+      config.apiTargetMarketDocumentsCreateUrl,
+      data
+    ).then((response) => responseHandler(response).json())
   },
 
   deleteAdaptTarketMarketDocumentList: (pk) => {
-    return httpDelete(config.apiTargetMarketDocumentsDeleteUrl, { pk: pk }).then(responseHandler)
+    return httpDelete(config.apiTargetMarketDocumentsDeleteUrl, {
+      pk: pk,
+    }).then(responseHandler)
   },
 
   updateAdaptTarketMarketDocumentList: (data) => {
-    return post(config.apiTargetMarketDocumentsUpdateUrl, data).then((response) => responseHandler(response).json())
+    return post(
+      config.apiTargetMarketDocumentsUpdateUrl,
+      data
+    ).then((response) => responseHandler(response).json())
   },
 
   createObjective: (data) => {
@@ -156,7 +191,9 @@ export default {
   },
 
   deleteObjective: (pk) => {
-    return httpDelete(config.apiObjectivesDeleteUrl, { pk: pk }).then(responseHandler)
+    return httpDelete(config.apiObjectivesDeleteUrl, { pk: pk }).then(
+      responseHandler
+    )
   },
 
   updateObjective: (data) => {
@@ -171,14 +208,23 @@ export default {
     return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
   },
 
-  updateCompany: ({ company_name, expertise_industries, expertise_countries, first_name, last_name }) => {
+  updateCompany: ({
+    company_name,
+    expertise_industries,
+    expertise_countries,
+    first_name,
+    last_name,
+  }) => {
     const data = {
       company_name,
       expertise_industries,
       expertise_countries,
       first_name,
-      last_name
+      last_name,
     }
     return post(config.apiUpdateCompanyUrl, data).then(responseHandler)
   },
+
+  updateCalculateCostAndPricing: (data) =>
+    post(config.updateCalculateCostAndPricing, data).then(responseHandler),
 }
