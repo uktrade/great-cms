@@ -268,8 +268,8 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         """
 
         # We haven't moved the Fact Sheet data to a streamfield because there are only two columns,
-        # but this is also a reasonable example of how anythig more than two repeated schemae
-        # of content should definitely be a streamfield
+        # but this is also a reasonable example of how anything with more than two
+        # repeated sets of content fields should likely be a streamfield
         columns = []
 
         col_1 = {
@@ -291,6 +291,29 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
             columns.append(col_2)
 
         return columns
+
+    @property
+    def intro_ctas(self):
+        ctas = []
+
+        cta_1 = {
+            'title': self.intro_cta_one_title,
+            'link': self.intro_cta_one_link,
+        }
+        cta_2 = {
+            'title': self.intro_cta_two_title,
+            'link': self.intro_cta_two_link,
+        }
+        cta_3 = {
+            'title': self.intro_cta_three_title,
+            'link': self.intro_cta_two_link,
+        }
+
+        for cta in [cta_1, cta_2, cta_3]:
+            if all(cta.values()):
+                ctas.append(cta)
+
+        return ctas
 
     @property
     def related_pages(self):
