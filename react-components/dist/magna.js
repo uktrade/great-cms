@@ -64809,7 +64809,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/reducers */ "./react-components/src/reducers/index.js");
 /* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
 /* harmony import */ var _src_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/api */ "./react-components/src/api.js");
-/* eslint-disable */
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -64822,7 +64827,7 @@ var setInitialState = function setInitialState(state) {
   store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_4__["default"].setInitialState(state));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object.assign({}, _src_api__WEBPACK_IMPORTED_MODULE_5__["default"], {
+/* harmony default export */ __webpack_exports__["default"] = (_objectSpread(_objectSpread({}, _src_api__WEBPACK_IMPORTED_MODULE_5__["default"]), {}, {
   store: store,
   config: _src_config__WEBPACK_IMPORTED_MODULE_2__["config"],
   setConfig: _src_config__WEBPACK_IMPORTED_MODULE_2__["setConfig"],
@@ -66986,7 +66991,7 @@ var direct = [{
   field: 'direct_costs'
 }, {
   label: 'Additional margin',
-  id: 'additional_margin',
+  id: 'other_direct_costs',
   placeholder: 0,
   tooltip: '',
   type: 'number',
@@ -66997,43 +67002,50 @@ var overhead = [{
   id: 'product_adaption',
   placeholder: 0,
   tooltip: '<h3>What is product adaptation?</h3><p>These are any changes you need to make to sell abroad. This includes translations, rebranding, packaging and labelling, and meeting local regulations.</p>',
-  type: 'number'
+  type: 'number',
+  field: 'overhead_costs'
 }, {
   label: 'Packaging and labelling',
   id: 'packaging',
   placeholder: 0,
   tooltip: '',
-  type: 'number'
+  type: 'number',
+  field: 'overhead_costs'
 }, {
   label: 'Freight and logistics',
-  id: 'freight',
+  id: 'freight_logistics',
   placeholder: 0,
   tooltip: '<h3>What is freight and logistics?</h3><p>Logistics is the process of getting your goods to their final destination.</p><p>A freight forwarder is a third-party agent that most UK companies use to transport their goods.</p>',
-  type: 'number'
+  type: 'number',
+  field: 'overhead_costs'
 }, {
   label: 'Agent and distributor fees',
-  id: 'agent',
+  id: 'agent_distributor_fees',
   placeholder: 0,
   tooltip: '<h3>What are agents and distributor fees?</h3><p>An agent is someone who acts on your behalf to sell your product and a distributor is an independent contractor. They take your product and sell them to the customer with an added margin. Both of which will charge fees for their services.</p>',
-  type: 'number'
+  type: 'number',
+  field: 'overhead_costs'
 }, {
   label: 'Marketing',
   id: 'marketing',
   placeholder: 0,
   tooltip: '<h3>What is marketing?</h3><p>This is how you promote your products abroad.</p><p>You can do marketing yourself or pay for marketing services, but either way there will probably be a cost.</p>',
-  type: 'number'
+  type: 'number',
+  field: 'overhead_costs'
 }, {
   label: 'Insurance',
   id: 'insurance',
   placeholder: 0,
   tooltip: '<h3>What is insurance?</h3><p>Like any business activity, exporting has its risks.</p><p>You can minimise these risks by looking at any challenges you might face and deciding whether you should insure against them.</p>',
-  type: 'number'
+  type: 'number',
+  field: 'overhead_costs'
 }, {
   label: 'Other overhead costs',
   id: 'other_overhead_costs',
   placeholder: 0,
   tooltip: '',
-  type: 'number'
+  type: 'number',
+  field: 'overhead_costs'
 }];
 var costPerUnit = {
   label: 'Cost per unit',
@@ -67220,7 +67232,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
   var currency = _ref.currency,
       country = _ref.country,
       data = _ref.data,
-      _update = _ref.update,
+      update = _ref.update,
       units = _ref.units,
       exportTimeframe = _ref.exportTimeframe,
       totals = _ref.totals,
@@ -67241,16 +67253,14 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     costs: _constants__WEBPACK_IMPORTED_MODULE_7__["direct"],
     currency: currency,
     data: data,
-    update: _update
+    update: update
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Overhead__WEBPACK_IMPORTED_MODULE_4__["Overhead"], {
     costs: _constants__WEBPACK_IMPORTED_MODULE_7__["overhead"],
     currency: currency,
     data: data,
-    update: function update(data) {
-      _update('overhead_costs', data);
-    }
+    update: update
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_5__["Units"], {
-    update: _update,
+    update: update,
     input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["unitsToExport"]), {}, {
       value: data.units_to_export
     }),
@@ -67259,30 +67269,30 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       options: units
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: _update,
+    onChange: update,
     value: data.cost_per_unit,
     hideLabel: true,
     prepend: currency
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: _update,
+    onChange: update,
     value: data.average_price,
     hideLabel: true,
     prepend: currency,
     description: "<h2 class=\"h-xs p-t-xs p-b-0\">Average price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Find the average price of similar products in your target market. Do some research using:</p><ul class=\"list-dot\"><li>online retailers</li><li>web searches</li><li>store prices</li></ul><p>Then find the average of these prices and enter the figure below.</p><p class=\"m-b-0\">Remember to convert the figure to GBP before entering it.</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: _update,
+    onChange: update,
     value: data.net_price,
     hideLabel: true,
     prepend: currency,
     description: "<h2 class=\"h-xs p-t-0 p-b-0\">Your net price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Deciding on what price your product will be sold for in retailers can be a difficult decision.</p><p class=\"m-b-0\">You want to make sure you sell your product for more than it cost to make it, this way you make a profit on every unit sold.</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: _update,
+    onChange: update,
     value: data.local_taxes,
     hideLabel: true,
     prepend: currency,
     description: "<h2 class=\"h-xs p-t-0 p-b-0\">Local taxes and charges in the ".concat(country, "</h2><p class=\"m-t-xs\">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ").concat(country, "</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: _update,
+    onChange: update,
     value: data.duty,
     hideLabel: true,
     prepend: currency
@@ -67304,7 +67314,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     GrossPriceUnit: data.gross_price_per_unit,
     potentialPerUnit: data.potential_per_unit,
     profitPerUnit: data.profit_per_unit,
-    update: _update,
+    update: update,
     input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["grossPriceCurrency"]), {}, {
       value: data.gross_price_per_unit_invoicing
     }),
@@ -73612,11 +73622,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var initialState = {
   product_costs: '',
   labour_costs: '',
-  additional_margin: '',
+  other_direct_costs: '',
   product_adaption: '',
   packaging: '',
-  freight: '',
-  agent: '',
+  freight_logistics: '',
+  agent_distributor_fees: '',
   marketing: '',
   insurance: '',
   other_overhead_costs: '',
@@ -73650,11 +73660,11 @@ var initialState = {
       {
         var _action$payload = action.payload,
             calculated_cost_pricing = _action$payload.calculated_cost_pricing,
-            direct_costs = _action$payload.direct_costs;
-        return _objectSpread(_objectSpread({}, state), {}, {
-          product_costs: direct_costs.product_costs,
-          labour_costs: direct_costs.labour_costs,
-          direct_total: calculated_cost_pricing.total_direct_costs
+            direct_costs = _action$payload.direct_costs,
+            overhead_costs = _action$payload.overhead_costs;
+        return _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, state), direct_costs), overhead_costs), {}, {
+          direct_total: calculated_cost_pricing.total_direct_costs,
+          overhead_total: calculated_cost_pricing.total_overhead_costs
         });
       }
 
@@ -73662,7 +73672,8 @@ var initialState = {
       {
         var _calculated_cost_pricing = action.payload.calculated_cost_pricing;
         return _objectSpread(_objectSpread({}, state), {}, {
-          direct_total: _calculated_cost_pricing.total_direct_costs
+          direct_total: _calculated_cost_pricing.total_direct_costs,
+          overhead_total: _calculated_cost_pricing.total_overhead_costs
         });
       }
 

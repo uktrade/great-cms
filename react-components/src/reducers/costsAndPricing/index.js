@@ -7,11 +7,11 @@ import {
 export const initialState = {
   product_costs: '',
   labour_costs: '',
-  additional_margin: '',
+  other_direct_costs: '',
   product_adaption: '',
   packaging: '',
-  freight: '',
-  agent: '',
+  freight_logistics: '',
+  agent_distributor_fees: '',
   marketing: '',
   insurance: '',
   other_overhead_costs: '',
@@ -38,12 +38,17 @@ export default (state = initialState, action) => {
       return { ...state, ...action.payload }
     }
     case INIT_COST_PRICING: {
-      const { calculated_cost_pricing, direct_costs } = action.payload
+      const {
+        calculated_cost_pricing,
+        direct_costs,
+        overhead_costs,
+      } = action.payload
       return {
         ...state,
-        product_costs: direct_costs.product_costs,
-        labour_costs: direct_costs.labour_costs,
+        ...direct_costs,
+        ...overhead_costs,
         direct_total: calculated_cost_pricing.total_direct_costs,
+        overhead_total: calculated_cost_pricing.total_overhead_costs,
       }
     }
     case FIELD_UPDATE_SUCCESS: {
@@ -51,6 +56,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         direct_total: calculated_cost_pricing.total_direct_costs,
+        overhead_total: calculated_cost_pricing.total_overhead_costs,
       }
     }
     default:

@@ -19,7 +19,7 @@ export const direct = [
   },
   {
     label: 'Additional margin',
-    id: 'additional_margin',
+    id: 'other_direct_costs',
     placeholder: 0,
     tooltip: '',
     type: 'number',
@@ -35,6 +35,7 @@ export const overhead = [
     tooltip:
       '<h3>What is product adaptation?</h3><p>These are any changes you need to make to sell abroad. This includes translations, rebranding, packaging and labelling, and meeting local regulations.</p>',
     type: 'number',
+    field: 'overhead_costs',
   },
   {
     label: 'Packaging and labelling',
@@ -42,22 +43,25 @@ export const overhead = [
     placeholder: 0,
     tooltip: '',
     type: 'number',
+    field: 'overhead_costs',
   },
   {
     label: 'Freight and logistics',
-    id: 'freight',
+    id: 'freight_logistics',
     placeholder: 0,
     tooltip:
       '<h3>What is freight and logistics?</h3><p>Logistics is the process of getting your goods to their final destination.</p><p>A freight forwarder is a third-party agent that most UK companies use to transport their goods.</p>',
     type: 'number',
+    field: 'overhead_costs',
   },
   {
     label: 'Agent and distributor fees',
-    id: 'agent',
+    id: 'agent_distributor_fees',
     placeholder: 0,
     tooltip:
       '<h3>What are agents and distributor fees?</h3><p>An agent is someone who acts on your behalf to sell your product and a distributor is an independent contractor. They take your product and sell them to the customer with an added margin. Both of which will charge fees for their services.</p>',
     type: 'number',
+    field: 'overhead_costs',
   },
   {
     label: 'Marketing',
@@ -66,6 +70,7 @@ export const overhead = [
     tooltip:
       '<h3>What is marketing?</h3><p>This is how you promote your products abroad.</p><p>You can do marketing yourself or pay for marketing services, but either way there will probably be a cost.</p>',
     type: 'number',
+    field: 'overhead_costs',
   },
   {
     label: 'Insurance',
@@ -74,6 +79,7 @@ export const overhead = [
     tooltip:
       '<h3>What is insurance?</h3><p>Like any business activity, exporting has its risks.</p><p>You can minimise these risks by looking at any challenges you might face and deciding whether you should insure against them.</p>',
     type: 'number',
+    field: 'overhead_costs',
   },
   {
     label: 'Other overhead costs',
@@ -81,6 +87,7 @@ export const overhead = [
     placeholder: 0,
     tooltip: '',
     type: 'number',
+    field: 'overhead_costs',
   },
 ]
 
