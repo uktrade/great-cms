@@ -12,7 +12,10 @@ from wagtailmedia.widgets import AdminMediaChooser
 
 from core.cms_panels import SearchEngineOptimisationPanel
 
-ACCORDION_FIELDS_HELP_TEXT = 'To be displayed, each industry needs at least: a title, a teaser, ' 'and two subsections'
+ACCORDION_FIELDS_HELP_TEXT = (
+    'Add up to six blocks of Industry Info. '
+    'To be displayed, each industry needs at least: a title, a teaser, and two subsections.'
+)
 
 
 class ArticleListingPagePanels:

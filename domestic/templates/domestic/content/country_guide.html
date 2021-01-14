@@ -93,21 +93,19 @@
   {% endif %}
 {% endif %}
 
-FIX FACT SHEET
-{% if page.fact_sheet.fact_sheet_title %}
+{% if page.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
   <div class="container">
     <div class="grid-row margin-bottom-60">
       <div class="column-full column-two-thirds-m column-half-l">
-        <h2 class="heading-large margin-top-0">{{ page.fact_sheet.fact_sheet_title }}</h2>
-        <p>{{ page.fact_sheet.fact_sheet_teaser }}</p>
+        <h2 class="heading-large margin-top-0">{{ page.fact_sheet_title }}</h2>
+        <p>{{ page.fact_sheet_teaser }}</p>
       </div>
     </div>
     <div class="grid-row">
-        FIX THIS
-      {% for column in page.fact_sheet.columns %}
+      {% for column in page.fact_sheet_columns %}
         {% if column.title %}
-          {% if page.fact_sheet.num_of_columns == 1 %}
+          {% if page.fact_sheet_columns|length == 1 %}
           <div class="column-full margin-bottom-30">
           {% else %}
           <div class="column-full column-half-xl margin-bottom-30">

@@ -124,6 +124,15 @@ def main_statistics_validation(value):
         )
 
 
+def industry_accordions_validation(value):
+    if value and len(value) > 6:
+        raise StreamBlockValidationError(
+            non_block_errors=ValidationError(
+                'There must be no more than six industry blocks in this panel', code='invalid'
+            ),
+        )
+
+
 class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     """Ported from Great V1.
     Make a cup of tea, this model is BIG!
@@ -196,7 +205,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     # In V1, we had 6 repeated sets of fields defined for 'accordions_1..._6'.
     # None of these was _required_, only optional and required extra logic to pull the data together
     # These have been moved to StreamField for flexibility without repetition
-    accordions = StreamField([('industries', core_blocks.CountryGuideIndustryBlock(max_num=6))], null=True, blank=True)
+    accordions = StreamField(
+        [('industries', core_blocks.CountryGuideIndustryBlock())],
+        null=True,
+        blank=True,
+        validators=[industry_accordions_validation],
+    )
 
     # fact sheet
     fact_sheet_title = models.CharField(
@@ -244,6 +258,39 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
 
     tags = ParentalManyToManyField(IndustryTag, verbose_name='Industry tag', blank=True)
     country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+
+    @property
+    def fact_sheet_columns(self):
+        """
+        Bundle up the fact sheet column data, if populated.
+
+        Returns a list of one or two dicts
+        """
+
+        # We haven't moved the Fact Sheet data to a streamfield because there are only two columns,
+        # but this is also a reasonable example of how anythig more than two repeated schemae
+        # of content should definitely be a streamfield
+        columns = []
+
+        col_1 = {
+            'title': self.fact_sheet_column_1_title,
+            'teaser': self.fact_sheet_column_1_teaser,  # not always present in data
+            'body': self.fact_sheet_column_1_body,
+        }
+
+        col_2 = {
+            'title': self.fact_sheet_column_2_title,
+            'teaser': self.fact_sheet_column_2_teaser,  # not always present in data
+            'body': self.fact_sheet_column_2_body,
+        }
+
+        if col_1.get('title') and col_1.get('body'):
+            columns.append(col_1)
+
+        if col_2.get('title') and col_2.get('body'):
+            columns.append(col_2)
+
+        return columns
 
     def count_data_with_field(self, list_of_data, field):
         filtered_list = [item for item in list_of_data if item[field]]

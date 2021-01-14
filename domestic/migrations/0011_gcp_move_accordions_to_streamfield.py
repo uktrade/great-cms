@@ -6,6 +6,7 @@ import wagtail.images.blocks
 from django.db import migrations
 
 import core.blocks
+import domestic.models
 
 
 class Migration(migrations.Migration):
@@ -563,12 +564,12 @@ class Migration(migrations.Migration):
                                     ),
                                 ),
                             ],
-                            max_num=6,
                         ),
                     )
                 ],
                 blank=True,
                 null=True,
+                validators=[domestic.models.industry_accordions_validation],
             ),
         ),
     ]
