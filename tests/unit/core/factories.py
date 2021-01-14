@@ -2,6 +2,7 @@ import factory
 import factory.fuzzy
 import wagtail_factories
 import wagtail_personalisation.models
+from django.utils.text import slugify
 
 from core import blocks, models, rules
 from tests.unit.domestic.factories import DomesticHomePageFactory
@@ -16,14 +17,15 @@ class ProductFactory(factory.django.DjangoModelFactory):
 
 class CountryFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('word')
+    slug = factory.LazyAttribute(lambda x: slugify(x.name))
 
     class Meta:
         model = models.Country
+        django_get_or_create = ['slug']
 
 
 class ContentModuleFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('word')
-    content = factory.fuzzy.FuzzyText(length=200)
 
     class Meta:
         model = models.ContentModule
