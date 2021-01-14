@@ -38,8 +38,8 @@ def cost_pricing_data():
 
 
 @pytest.fixture
-def export_plan_data():
-    return {
+def export_plan_data(cost_pricing_data):
+    data = {
         'country': 'Australia',
         'commodity_code': '220.850',
         'sectors': ['Automotive'],
@@ -61,6 +61,8 @@ def export_plan_data():
         'objectives': {'rationale': 'business rationale'},
         'pk': 1,
     }
+    data.update(cost_pricing_data)
+    return data
 
 
 @pytest.fixture

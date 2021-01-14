@@ -242,6 +242,23 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
 
 
 @pytest.mark.django_db
+def test_cost_and_pricing(cost_pricing_data, client, user):
+    url = reverse('exportplan:costs-and-pricing')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['export_units'][0] == {'label': 'metre(s)', 'value': 'm'}
+    assert response.context_data['export_time_frame'][0] == {'label': 'day(s)', 'value': 'd'}
+
+    assert response.context_data['costs_and_pricing_data'] == json.dumps(cost_pricing_data)
+    assert response.context_data['calculated_pricing'] == (
+        '{"calculated_cost_pricing": {"total_direct_costs": 15.0, "total_overhead_costs": 1355.0, '
+        '"profit_per_unit": 6.0, "potential_total_profit": 132.0}}'
+    )
+
+
+@pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = True
     reload_urlconf('exportplan.data')
