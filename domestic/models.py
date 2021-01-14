@@ -292,32 +292,18 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
 
         return columns
 
-    def count_data_with_field(self, list_of_data, field):
-        filtered_list = [item for item in list_of_data if item[field]]
-        return len(filtered_list)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        # self.num_of_statistics = self.count_data_with_field(context['page']['statistics'], 'number')
-        # fact_sheet = context['page']['fact_sheet']
-        # fact_sheet['num_of_columns'] = self.count_data_with_field(fact_sheet['columns'], 'title')
-        # for accordion in context['page']['accordions']:
-        #     case_study = accordion['case_study']
-        #     case_study['is_viable'] = case_study['title'] and case_study['image']
-
-        #     accordion['num_of_subsections'] = self.count_data_with_field(accordion['subsections'], 'heading')
-
-        #     accordion['num_of_statistics'] = self.count_data_with_field(accordion['statistics'], 'number')
-
-        #     accordion['neither_case_study_nor_statistics'] = (
-        #         not case_study['is_viable'] and not accordion['num_of_statistics']
-        #     )
-
-        #     accordion['is_viable'] = (
-        #         accordion['title'] and accordion['teaser'] and accordion['num_of_subsections'] >= 2
-        #     )
-
-        return context
+    @property
+    def related_pages(self):
+        output = []
+        for rel in [
+            'related_page_one',
+            'related_page_two',
+            'related_page_three',
+        ]:
+            page = getattr(self, rel)
+            if page:
+                output.append(page.specific)
+        return output
 
 
 class ArticlePage(cms_panels.ArticlePagePanels, BaseLegacyPage):
