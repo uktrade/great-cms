@@ -242,21 +242,31 @@ def test_total_over_head_costs_serializer():
 
 
 @pytest.mark.parametrize(
-    'data, expected_profit_per_unit, expected_total_profit',
+    'data, expected_profit_per_unit, expected_total_profit, expected_gross_unit_per_unit',
     [
-        [{'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}}, 6, 132],
+        [
+            {'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}},
+            6,
+            132,
+            0,
+        ],
         [
             {'final_cost_per_unit': '16.00', 'net_price': '22.00', 'units_to_export_first_period': {'value': '22.00'}},
             6,
             132,
+            0,
         ],
+        [{'duty_per_unit': 0.50, 'net_price': 22.00}, 0, 0, 11],
     ],
 )
-def test_total_cost_and_price_serializer(data, expected_profit_per_unit, expected_total_profit):
+def test_total_cost_and_price_serializer(
+    data, expected_profit_per_unit, expected_total_profit, expected_gross_unit_per_unit
+):
     serializer = serializers.TotalCostAndPriceSerializer(data=data)
     assert serializer.is_valid()
     assert serializer.calculate_profit_per_unit() == expected_profit_per_unit
     assert serializer.calculate_potential_total_profit() == expected_total_profit
+    assert serializer.calculate_gross_price_per_unit() == expected_gross_unit_per_unit
 
 
 @pytest.mark.parametrize(
@@ -264,7 +274,7 @@ def test_total_cost_and_price_serializer(data, expected_profit_per_unit, expecte
     [
         [
             {'total_cost_and_price': {'final_cost_per_unit': 16.00, 'net_price': 22.00}},
-            {'profit_per_unit': 6.0, 'potential_total_profit': 0.0},
+            {'profit_per_unit': 6.0, 'potential_total_profit': 0.0, 'gross_price_per_unit': 0},
         ],
         [
             {
@@ -274,12 +284,15 @@ def test_total_cost_and_price_serializer(data, expected_profit_per_unit, expecte
                     'units_to_export_first_period': {'value': 22.00},
                 }
             },
-            {'profit_per_unit': 6.0, 'potential_total_profit': 132.00},
+            {'profit_per_unit': 6.0, 'potential_total_profit': 132.00, 'gross_price_per_unit': 0},
         ],
-        [{'total_cost_and_price': {'net_price': 6.0}}, {'profit_per_unit': 0.0, 'potential_total_profit': 0.0}],
+        [
+            {'total_cost_and_price': {'net_price': 6.0, 'duty_per_unit': 0.5}},
+            {'profit_per_unit': 0.0, 'potential_total_profit': 0.0, 'gross_price_per_unit': 3.0},
+        ],
         [
             {'total_cost_and_price': {'final_cost_per_unit': 22.0}},
-            {'profit_per_unit': 0.0, 'potential_total_profit': 0.0},
+            {'profit_per_unit': 0.0, 'potential_total_profit': 0.0, 'gross_price_per_unit': 0.0},
         ],
         [{'total_cost_and_price': {}}, {}],
         [

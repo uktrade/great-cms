@@ -250,11 +250,18 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
     assert response.status_code == 200
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
-
+    assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
     assert response.context_data['costs_and_pricing_data'] == json.dumps(cost_pricing_data)
-    assert response.context_data['calculated_pricing'] == (
-        '{"calculated_cost_pricing": {"total_direct_costs": 15.0, "total_overhead_costs": 1355.0, '
-        '"profit_per_unit": 6.0, "potential_total_profit": 132.0}}'
+    assert response.context_data['calculated_pricing'] == json.dumps(
+        {
+            'calculated_cost_pricing': {
+                'total_direct_costs': 15.0,
+                'total_overhead_costs': 1355.0,
+                'profit_per_unit': 6.0,
+                'potential_total_profit': 132.0,
+                'gross_price_per_unit': 11.0,
+            }
+        }
     )
 
 

@@ -1,4 +1,3 @@
-import json
 from collections import OrderedDict
 from unittest import mock
 
@@ -389,16 +388,15 @@ def test_update_calculate_cost_and_pricing(
         data={'direct_costs': OrderedDict([('product_costs', '3.00')])}, id=1, sso_session_id='123'
     )
 
-    assert response.json() == json.dumps(
-        {
-            'calculated_cost_pricing': {
-                'total_direct_costs': 15.0,
-                'total_overhead_costs': 1355.0,
-                'profit_per_unit': 6.0,
-                'potential_total_profit': 132.0,
-            }
+    assert response.json() == {
+        'calculated_cost_pricing': {
+            'total_direct_costs': 15.0,
+            'total_overhead_costs': 1355.0,
+            'profit_per_unit': 6.0,
+            'potential_total_profit': 132.0,
+            'gross_price_per_unit': 11.0,
         }
-    )
+    }
 
 
 @pytest.mark.django_db
@@ -608,7 +606,6 @@ def test_api_population_data_by_country(mock_get_population_data_by_country, cli
     mock_get_population_data_by_country.return_value = {'status_code': 200}
     client.force_login(user)
     url = reverse('exportplan:api-population-data-by-country')
-
     response = client.get(
         url,
         {

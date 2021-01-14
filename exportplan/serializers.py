@@ -117,7 +117,6 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     net_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     local_tax_charges = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     duty_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    gross_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     gross_price_per_unit_invoicing_currency = UnitRecord(required=False)
     profit_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     potential_total_profit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
@@ -128,6 +127,15 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         if self.data.get('net_price') and self.data.get('final_cost_per_unit'):
             profit_per_unit = float(self.data['net_price']) - float(self.data['final_cost_per_unit'])
         return profit_per_unit
+
+    def calculate_gross_price_per_unit(self):
+        self.is_valid()
+        duty_per_unit = self.data.get('duty_per_unit')
+        net_price = self.data.get('net_price')
+        gross_price_per_unit = 0.00
+        if net_price and duty_per_unit:
+            gross_price_per_unit = float(duty_per_unit) * float(net_price)
+        return gross_price_per_unit
 
     def calculate_potential_total_profit(self):
         self.is_valid()
@@ -178,6 +186,7 @@ class ExportPlanSerializer(serializers.Serializer):
                 {
                     'profit_per_unit': serializer.calculate_profit_per_unit(),
                     'potential_total_profit': serializer.calculate_potential_total_profit(),
+                    'gross_price_per_unit': serializer.calculate_gross_price_per_unit(),
                 }
             )
         return calculated_dict

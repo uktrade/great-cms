@@ -267,6 +267,8 @@ class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
         context = super().get_context_data(*args, **kwargs)
         context['export_unit_choices'] = choices_to_key_value(choices.EXPORT_UNITS)
         context['export_timeframe_choices'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
+        currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
+        context['currency_choices'] = choices_to_key_value(currency_choices)
         context['costs_and_pricing_data'] = json.dumps(
             {
                 'direct_costs': self.export_plan['direct_costs'],
