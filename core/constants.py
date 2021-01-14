@@ -25,4 +25,4 @@ ARTICLE_TYPES = [
     ('Campaign', 'Campaign'),
 ]
 
-VIDEO_TRANSCRIPT_HELP_TEXT = "If the video is present, a transcript must be provided."
+VIDEO_TRANSCRIPT_HELP_TEXT = 'If the video is present, a transcript must be provided.'

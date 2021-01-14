@@ -141,7 +141,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     class Meta:
         ordering = ['-heading']
 
-    template = "domestic/content/country_guide.html"
+    template = 'domestic/content/country_guide.html'
 
     parent_page_types = [
         'domestic.DomesticHomePage',
@@ -337,12 +337,13 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseLegacyPage):
 
     article_title = models.TextField()
     article_subheading = models.TextField(
-        blank=True, help_text="This is a subheading that displays " "below the main title on the article page"
+        blank=True,
+        help_text='This is a subheading that displays below the main title on the article page',
     )
     article_teaser = models.TextField(
         blank=True,
         null=True,
-        help_text="This is a subheading that displays when the article " "is featured on another page",
+        help_text='This is a subheading that displays when the article is featured on another page',
     )
     article_image = models.ForeignKey(
         'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'

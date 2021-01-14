@@ -274,7 +274,8 @@ def general_statistics_streamfield_validation(value):
 
 
 class IndividualStatisticBlock(blocks.StructBlock):
-    "Stores an individual statistic"
+    """Stores an individual statistic"""
+
     number = blocks.CharBlock(max_length=255)
     heading = blocks.CharBlock(max_length=255)
     smallprint = blocks.CharBlock(max_length=255, required=False)

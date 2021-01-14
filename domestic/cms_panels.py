@@ -234,18 +234,27 @@ class CountryGuidePagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Statistics', children=[StreamFieldPanel('main_statistics')], classname="collapsible collapsed"
+            heading='Statistics',
+            children=[StreamFieldPanel('main_statistics')],
+            classname='collapsible collapsed',
         ),
         MultiFieldPanel(
-            heading='Highlights', children=[FieldPanel('section_two_heading'), FieldPanel('section_two_teaser')]
+            heading='Highlights',
+            children=[
+                FieldPanel('section_two_heading'),
+                FieldPanel('section_two_teaser'),
+            ],
         ),
         MultiFieldPanel(
             heading='Industry info',
             children=[
-                HelpPanel(content=ACCORDION_FIELDS_HELP_TEXT, classname='help-panel-font-largexx'),
+                HelpPanel(
+                    content=ACCORDION_FIELDS_HELP_TEXT,
+                    classname='help-panel-font-large',
+                ),
                 StreamFieldPanel('accordions'),
             ],
-            classname="collapsible collapsed",
+            classname='collapsible collapsed',
         ),
         MultiFieldPanel(
             heading='Fact sheet',
