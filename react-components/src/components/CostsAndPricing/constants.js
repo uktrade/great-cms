@@ -160,14 +160,6 @@ export const exportUnits = {
   label: 'select unit',
   name: 'select units',
   placeholder: 'Select unit',
-  options: [
-    { value: 'metre', label: 'metre (s)' },
-    { value: 'gram', label: 'gram (s)' },
-    { value: 'kilogram', label: 'kilogram (s)' },
-    { value: 'piece', label: 'piece (s)' },
-    { value: 'set', label: 'set (s)' },
-    { value: 'pack', label: 'pack (s)' },
-  ],
 }
 
 export const grossPriceCurrency = {

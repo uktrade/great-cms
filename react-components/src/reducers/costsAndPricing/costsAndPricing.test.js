@@ -7,18 +7,22 @@ describe('Costs and Pricing Reducer', () => {
   })
 
   it('Should return updated field state', () => {
-    const field = { product: 'tea' }
+    const field = { product_costs: 4 }
     expect(reducer(initialState, updateField(field))).toEqual({
       ...initialState,
-      ...field,
+      product_costs: 4,
     })
   })
 
   it('Should return updated cost and pricing state', () => {
     expect(
-      reducer(initialState, postSuccess({ calculated_cost_pricing: 0.0 }))
+      reducer(
+        initialState,
+        postSuccess({ calculated_cost_pricing: { total_direct_costs: 5 } })
+      )
     ).toEqual({
       ...initialState,
+      direct_total: 5,
     })
   })
 })

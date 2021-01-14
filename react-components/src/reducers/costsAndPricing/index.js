@@ -1,6 +1,7 @@
 import {
   UPDATE_FIELD,
   FIELD_UPDATE_SUCCESS,
+  INIT_COST_PRICING,
 } from '@src/actions/costsAndPricing'
 
 export const initialState = {
@@ -33,10 +34,25 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_FIELD:
+    case UPDATE_FIELD: {
       return { ...state, ...action.payload }
-    case FIELD_UPDATE_SUCCESS:
-      return { ...state }
+    }
+    case INIT_COST_PRICING: {
+      const { calculated_cost_pricing, direct_costs } = action.payload
+      return {
+        ...state,
+        product_costs: direct_costs.product_costs,
+        labour_costs: direct_costs.labour_costs,
+        direct_total: calculated_cost_pricing.total_direct_costs,
+      }
+    }
+    case FIELD_UPDATE_SUCCESS: {
+      const { calculated_cost_pricing } = action.payload
+      return {
+        ...state,
+        direct_total: calculated_cost_pricing.total_direct_costs,
+      }
+    }
     default:
       return state
   }

@@ -27,6 +27,10 @@
   <script type="text/javascript">
     magna.createCostsAndPricing({
       element: document.getElementById('cost-and-pricing'),
+      units: {{ export_unit_choices|safe }},
+      exportTimeframe: {{ export_timeframe_choices|safe }},
+      initialData: {{ costs_and_pricing_data|safe }},
+      totals: {{ calculated_pricing|safe }},
       currency: 'GBP',
     })
   </script>

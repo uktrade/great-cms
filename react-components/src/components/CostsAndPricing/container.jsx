@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, Provider } from 'react-redux'
 
 import Services from '@src/Services'
-import { updateField, postField } from '@src/actions/costsAndPricing'
+import { updateField, postField, init } from '@src/actions/costsAndPricing'
 import { CostsAndPricing } from '.'
 
 const mapStateToProps = ({ exportPlan: { markets }, costAndPricing }) => ({
@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => ({
   update: (data, postData) => {
     dispatch(updateField(data))
     dispatch(postField(postData))
+  },
+  init: (data) => {
+    dispatch(init(data))
   },
 })
 

@@ -64835,7 +64835,7 @@ var setInitialState = function setInitialState(state) {
 /*!***************************************************************!*\
   !*** ./react-components/src/actions/costsAndPricing/index.js ***!
   \***************************************************************/
-/*! exports provided: UPDATE_FIELD, FIELD_UPDATE_SUCCESS, FIELD_UPDATE_FAIL, updateField, postSuccess, postFail, postField */
+/*! exports provided: UPDATE_FIELD, FIELD_UPDATE_SUCCESS, FIELD_UPDATE_FAIL, INIT_COST_PRICING, updateField, init, postSuccess, postFail, postField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64843,7 +64843,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_FIELD", function() { return UPDATE_FIELD; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FIELD_UPDATE_SUCCESS", function() { return FIELD_UPDATE_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FIELD_UPDATE_FAIL", function() { return FIELD_UPDATE_FAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INIT_COST_PRICING", function() { return INIT_COST_PRICING; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateField", function() { return updateField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "init", function() { return init; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postSuccess", function() { return postSuccess; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postFail", function() { return postFail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postField", function() { return postField; });
@@ -64856,16 +64858,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var UPDATE_FIELD = 'UPDATE_FIELD';
 var FIELD_UPDATE_SUCCESS = 'FIELD_UPDATE_SUCCESS';
 var FIELD_UPDATE_FAIL = 'FIELD_UPDATE_FAIL';
+var INIT_COST_PRICING = 'INIT_COST_PRICING';
 var updateField = function updateField(payload) {
   return {
     type: UPDATE_FIELD,
     payload: payload
   };
 };
-var postSuccess = function postSuccess(data) {
+var init = function init(payload) {
+  return {
+    type: INIT_COST_PRICING,
+    payload: payload
+  };
+};
+var postSuccess = function postSuccess(payload) {
   return {
     type: FIELD_UPDATE_SUCCESS,
-    data: data
+    payload: payload
   };
 };
 var postFail = function postFail(err) {
@@ -67085,26 +67094,7 @@ var exportUnits = {
   id: 'export_units',
   label: 'select unit',
   name: 'select units',
-  placeholder: 'Select unit',
-  options: [{
-    value: 'metre',
-    label: 'metre (s)'
-  }, {
-    value: 'gram',
-    label: 'gram (s)'
-  }, {
-    value: 'kilogram',
-    label: 'kilogram (s)'
-  }, {
-    value: 'piece',
-    label: 'piece (s)'
-  }, {
-    value: 'set',
-    label: 'set (s)'
-  }, {
-    value: 'pack',
-    label: 'pack (s)'
-  }]
+  placeholder: 'Select unit'
 };
 var grossPriceCurrency = {
   label: 'Gross Price currency',
@@ -67172,6 +67162,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     update: function update(data, postData) {
       dispatch(Object(_src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_3__["updateField"])(data));
       dispatch(Object(_src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_3__["postField"])(postData));
+    },
+    init: function init(data) {
+      dispatch(Object(_src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_3__["init"])(data));
     }
   };
 };
@@ -67227,7 +67220,15 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
   var currency = _ref.currency,
       country = _ref.country,
       data = _ref.data,
-      _update = _ref.update;
+      _update = _ref.update,
+      units = _ref.units,
+      exportTimeframe = _ref.exportTimeframe,
+      totals = _ref.totals,
+      initialData = _ref.initialData,
+      init = _ref.init;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
+    init(_objectSpread(_objectSpread({}, totals), initialData));
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -67254,7 +67255,8 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       value: data.units_to_export
     }),
     select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["exportUnits"]), {}, {
-      value: data.export_units
+      value: data.export_units,
+      options: units
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: _update,
@@ -67317,7 +67319,12 @@ CostsAndPricing.propTypes = {
   currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   country: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   data: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string]).isRequired,
-  update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+  update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  init: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  units: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf({
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired
 };
 
 /***/ }),
@@ -73635,10 +73642,29 @@ var initialState = {
 
   switch (action.type) {
     case _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__["UPDATE_FIELD"]:
-      return _objectSpread(_objectSpread({}, state), action.payload);
+      {
+        return _objectSpread(_objectSpread({}, state), action.payload);
+      }
+
+    case _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__["INIT_COST_PRICING"]:
+      {
+        var _action$payload = action.payload,
+            calculated_cost_pricing = _action$payload.calculated_cost_pricing,
+            direct_costs = _action$payload.direct_costs;
+        return _objectSpread(_objectSpread({}, state), {}, {
+          product_costs: direct_costs.product_costs,
+          labour_costs: direct_costs.labour_costs,
+          direct_total: calculated_cost_pricing.total_direct_costs
+        });
+      }
 
     case _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__["FIELD_UPDATE_SUCCESS"]:
-      return _objectSpread({}, state);
+      {
+        var _calculated_cost_pricing = action.payload.calculated_cost_pricing;
+        return _objectSpread(_objectSpread({}, state), {}, {
+          direct_total: _calculated_cost_pricing.total_direct_costs
+        });
+      }
 
     default:
       return state;
