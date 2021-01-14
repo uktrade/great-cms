@@ -1,7 +1,7 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
 
-{% block intro_title %}Finance{%endblock %}
+{% block intro_title %}Funding and credit{%endblock %}
 
 {% block intro_description %}
 One of the main challenges of being an exporter is having enough money available to be successful.
@@ -59,7 +59,8 @@ There are however lots of financing options available to help you export, the ri
   magna.financeTotalExportCost({
     element: element,
     field: 'finance',
-    formData: {{ form_initial|safe }},
+    formData: {},
+    formFields: [],
     companyexportplan: {{ export_plan.pk }}
   })
 
@@ -67,7 +68,8 @@ There are however lots of financing options available to help you export, the ri
   magna.financeHowMuchFunding({
     element: element,
     field: 'finance',
-    formData: {{ form_initial|safe }},
+    formData: {},
+    formFields: [],
     companyexportplan: {{ export_plan.pk }}
   })
   
@@ -75,7 +77,8 @@ There are however lots of financing options available to help you export, the ri
   magna.financeFundingCreditOptions({
     element: element,
     field: 'finance',
-    formData: {{ form_initial|safe }},
+    formData: {},
+    formFields: [],
     companyexportplan: {{ export_plan.pk }}
   })
 </script>
