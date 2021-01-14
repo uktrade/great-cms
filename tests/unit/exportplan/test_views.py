@@ -248,7 +248,7 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.context_data['export_units_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
+    assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
 
     assert response.context_data['costs_and_pricing_data'] == json.dumps(cost_pricing_data)
