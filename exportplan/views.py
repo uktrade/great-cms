@@ -265,8 +265,8 @@ class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['export_units'] = choices_to_key_value(choices.EXPORT_UNITS)
-        context['export_time_frame'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
+        context['export_units_choices'] = choices_to_key_value(choices.EXPORT_UNITS)
+        context['export_timeframe_choices'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
         context['costs_and_pricing_data'] = json.dumps(
             {
                 'direct_costs': self.export_plan['direct_costs'],
