@@ -428,13 +428,8 @@ def test_update_ui_options_target_ages_not_required(mock_update_export_plan, exp
 def test_calculated_cost_pricing(cost_pricing_data):
     pricing_data = helpers.calculated_cost_pricing(cost_pricing_data)
     assert pricing_data == {
-        'direct_costs': {'labour_costs': 5.0, 'product_costs': 10.0},
-        'overhead_costs': {
-            'insurance': 10.0,
-            'marketing': 1345,
-            'duty_per_unit': 0.5,
-            'final_cost_per_unit': 16.0,
-            'net_price': 22.0,
-            'units_to_export_first_period': {'value': 22.0},
-        },
+        'calculated_cost_pricing': {
+            'total_direct_costs': 15.0, 'total_overhead_costs': 1355.0, 'profit_per_unit': 6.0,
+            'potential_total_profit': 132.0, 'gross_price_per_unit': 11.0
+        }
     }

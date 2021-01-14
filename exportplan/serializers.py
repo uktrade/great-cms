@@ -85,7 +85,7 @@ class DirectCostsSerializer(serializers.Serializer):
         self.is_valid()
         total = 0.00
         for field in self.data:
-            total = total + float(self.data[field])
+            total = round(total + float(self.data[field]), 2)
         return total
 
 
@@ -101,7 +101,7 @@ class OverheadCostsSerializer(serializers.Serializer):
         self.is_valid()
         total = 0.00
         for field in self.data:
-            total = total + float(self.data[field])
+            total = round(total + float(self.data[field]), 2)
         return total
 
 
@@ -125,7 +125,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         self.is_valid()
         profit_per_unit = 0.00
         if self.data.get('net_price') and self.data.get('final_cost_per_unit'):
-            profit_per_unit = float(self.data['net_price']) - float(self.data['final_cost_per_unit'])
+            profit_per_unit = round(float(self.data['net_price']) - float(self.data['final_cost_per_unit']), 2)
         return profit_per_unit
 
     def calculate_gross_price_per_unit(self):
@@ -134,7 +134,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         net_price = self.data.get('net_price')
         gross_price_per_unit = 0.00
         if net_price and duty_per_unit:
-            gross_price_per_unit = float(duty_per_unit) * float(net_price)
+            gross_price_per_unit = round(float(duty_per_unit) * float(net_price), 2)
         return gross_price_per_unit
 
     def calculate_potential_total_profit(self):
@@ -143,7 +143,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         profit_per_unit = self.calculate_profit_per_unit()
         potential_total_profit = 0.00
         if no_of_unit and profit_per_unit:
-            potential_total_profit = profit_per_unit * float(no_of_unit)
+            potential_total_profit = round(profit_per_unit * float(no_of_unit), 2)
         return potential_total_profit
 
 
