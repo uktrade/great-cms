@@ -17,29 +17,33 @@ export const FormGroup = memo(
     example,
     hideLabel,
     lesson,
+    estimate,
   }) => {
     const [toggleExample, setToggleExample] = useState(false)
     const [toggleLesson, setToggleLesson] = useState(false)
+    const [toggleEstimate, setToggleEstimate] = useState(false)
     const hasLesson = Object.keys(lesson).length > 0
     const hasExample = example.content
-
+    const hasEstimate = estimate ? Object.keys(estimate).length > 0 : false
     return (
       <div
         className={`form-group ${errors.length > 0 ? 'form-group-error' : ''}`}
       >
-        <label
-          className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
-          htmlFor={id}
-        >
-          {label}
-        </label>
+        {label && (
+          <label
+            className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
+            htmlFor={id}
+          >
+            {label}
+          </label>
+        )}
         {description && (
           <div className="text-blue-deep-80 p-t-xs p-b-xs">
             {ReactHtmlParser(description)}
           </div>
         )}
 
-        {!!(hasExample || hasLesson || tooltip) && (
+        {!!(hasExample || hasLesson || hasEstimate || tooltip) && (
           <div className="m-b-xs">
             {hasExample && (
               <button
@@ -75,6 +79,22 @@ export const FormGroup = memo(
                 Lesson
               </button>
             )}
+            {hasEstimate && (
+              <button
+                className="button-lesson button button--small button--tertiary m-r-xxs"
+                type="button"
+                onClick={() => {
+                  setToggleEstimate(!toggleEstimate)
+                }}
+              >
+                <i
+                  className={`fas fa-chevron-${
+                    toggleEstimate ? 'up' : 'down'
+                  } m-r-xxs`}
+                />
+                Estimate
+              </button>
+            )}
             {tooltip && <Tooltip content={tooltip} className="inline-block" />}
           </div>
         )}
@@ -92,6 +112,22 @@ export const FormGroup = memo(
             </dt>
             <dd className="m-t-xxs body-l">
               {ReactHtmlParser(example.content)}
+            </dd>
+          </dl>
+        )}
+        {hasEstimate && (
+          <dl
+            className={`form-group-example bg-blue-deep-10 p-xs m-b-xs ${
+              toggleEstimate ? '' : 'hidden'
+            }`}
+          >
+            <dt className="h-s">
+              {estimate.header
+                ? estimate.header
+                : 'A fictional estimate to help you complete this section'}
+            </dt>
+            <dd className="m-t-xxs body-l">
+              {ReactHtmlParser(estimate.content)}
             </dd>
           </dl>
         )}

@@ -21,6 +21,7 @@ export const Input = memo(
     hideLabel,
     lesson,
     prepend,
+    estimate,
   }) => (
     <FormGroup
       errors={errors}
@@ -31,6 +32,7 @@ export const Input = memo(
       id={id}
       hideLabel={hideLabel}
       lesson={lesson}
+      estimate={estimate}
     >
       <div className="flex-center">
         {prepend && (
