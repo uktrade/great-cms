@@ -14,30 +14,24 @@ const dispatch = jest.fn()
 const field = { labour_costs: 4 }
 
 describe('Costs and Pricing Actions', () => {
-  describe('updateField', () => {
-    it('Should return updated field', () => {
-      expect(updateField(field)).toEqual({
-        type: UPDATE_FIELD,
-        payload: field,
-      })
+  it('updateField', () => {
+    expect(updateField(field)).toEqual({
+      type: UPDATE_FIELD,
+      payload: field,
     })
   })
 
-  describe('init', () => {
-    it('Should initialise action', () => {
-      expect(init(field)).toEqual({
-        type: INIT_COST_PRICING,
-        payload: field,
-      })
+  it('init', () => {
+    expect(init(field)).toEqual({
+      type: INIT_COST_PRICING,
+      payload: field,
     })
   })
 
-  describe('postSuccess', () => {
-    it('Should return successful state', () => {
-      expect(postSuccess(field)).toEqual({
-        type: FIELD_UPDATE_SUCCESS,
-        payload: field,
-      })
+  it('postSuccess', () => {
+    expect(postSuccess(field)).toEqual({
+      type: FIELD_UPDATE_SUCCESS,
+      payload: field,
     })
   })
 
