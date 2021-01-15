@@ -1,8 +1,0 @@
-{% block user_agent %}
-User-agent: *
-{% endblock %}
-{% block records %}
-{% endblock %}
-{% block sitemap %}
-Sitemap: http://{{ request.get_host }}{% url 'sitemap' %}
-{% endblock sitemap %}
