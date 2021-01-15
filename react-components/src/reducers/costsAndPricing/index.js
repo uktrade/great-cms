@@ -9,7 +9,6 @@ export const initialState = {
   labour_costs: '',
   other_direct_costs: '',
   product_adaption: '',
-  packaging: '',
   freight_logistics: '',
   agent_distributor_fees: '',
   marketing: '',
@@ -17,13 +16,13 @@ export const initialState = {
   other_overhead_costs: '',
   direct_total: '0.00',
   overhead_total: '0.00',
-  cost_per_unit: '',
-  average_price: '',
+  final_cost_per_unit: '',
+  average_price_per_unit: '',
   net_price: '',
-  local_taxes: '',
-  duty: '',
+  local_tax_charges: '',
+  duty_per_unit: '',
   gross_price_per_unit: '0',
-  potential_per_unit: '0',
+  potential_total_profit: '0',
   gross_price_per_unit_invoicing: '',
   gross_price_per_unit_currency: '',
   profit_per_unit: '0',
@@ -44,6 +43,7 @@ export default (state = initialState, action) => {
         calculated_cost_pricing,
         direct_costs,
         overhead_costs,
+        total_cost_and_price,
       } = action.payload
       return {
         ...state,
@@ -51,6 +51,14 @@ export default (state = initialState, action) => {
         ...overhead_costs,
         direct_total: calculated_cost_pricing.total_direct_costs,
         overhead_total: calculated_cost_pricing.total_overhead_costs,
+        profit_per_unit: calculated_cost_pricing.profit_per_unit,
+        potential_total_profit: calculated_cost_pricing.potential_total_profit,
+        gross_price_per_unit: calculated_cost_pricing.gross_price_per_unit,
+        final_cost_per_unit: total_cost_and_price.final_cost_per_unit,
+        average_price_per_unit: total_cost_and_price.average_price_per_unit,
+        net_price: total_cost_and_price.net_price,
+        local_tax_charges: total_cost_and_price.local_tax_charges,
+        duty_per_unit: total_cost_and_price.duty_per_unit,
       }
     }
     case FIELD_UPDATE_SUCCESS: {
@@ -59,6 +67,9 @@ export default (state = initialState, action) => {
         ...state,
         direct_total: calculated_cost_pricing.total_direct_costs,
         overhead_total: calculated_cost_pricing.total_overhead_costs,
+        profit_per_unit: calculated_cost_pricing.profit_per_unit,
+        potential_total_profit: calculated_cost_pricing.potential_total_profit,
+        gross_price_per_unit: calculated_cost_pricing.gross_price_per_unit,
       }
     }
     default:

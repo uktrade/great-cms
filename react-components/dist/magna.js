@@ -66887,8 +66887,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js");
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+
 
 
 
@@ -66896,20 +66899,15 @@ __webpack_require__.r(__webpack_exports__);
 var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var _update = _ref.update,
       input = _ref.input,
-      select = _ref.select;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "h-m p-b-xs p-t-m"
-  }, "Total costs and price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don't worry, we will tell you what you need to do."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "h-xs p-t-0 p-b-0"
-  }, "Number of units you want to export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "m-t-xs"
-  }, "First, record how many units you want to export over a given period of time."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The more accurate you are, the better your plan will be."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      select = _ref.select,
+      description = _ref.description;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-6 m-r-xs"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__["Input"], {
     onChange: _update,
     label: input.label,
     id: input.id,
@@ -66919,7 +66917,7 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     placeholder: input.placeholder
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__["Select"], {
     label: select.label,
     update: function update(item) {
       return _update(select.id, item);
@@ -66959,7 +66957,7 @@ Units.propTypes = {
 /*!**********************************************************************!*\
   !*** ./react-components/src/components/CostsAndPricing/constants.js ***!
   \**********************************************************************/
-/*! exports provided: direct, overhead, costPerUnit, averagePrice, netPrice, localTaxes, duty, unitsToExport, exportUnits, grossPriceCurrency, grossPriceUnitSelect */
+/*! exports provided: direct, overhead, costPerUnit, averagePrice, netPrice, localTaxes, duty, unitsToExport, exportUnits, timeframe, timeframeUnits, grossPriceCurrency, grossPriceUnitSelect */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66973,6 +66971,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "duty", function() { return duty; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unitsToExport", function() { return unitsToExport; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exportUnits", function() { return exportUnits; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeframe", function() { return timeframe; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeframeUnits", function() { return timeframeUnits; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grossPriceCurrency", function() { return grossPriceCurrency; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grossPriceUnitSelect", function() { return grossPriceUnitSelect; });
 var direct = [{
@@ -67002,13 +67002,6 @@ var overhead = [{
   id: 'product_adaption',
   placeholder: 0,
   tooltip: '<h3>What is product adaptation?</h3><p>These are any changes you need to make to sell abroad. This includes translations, rebranding, packaging and labelling, and meeting local regulations.</p>',
-  type: 'number',
-  field: 'overhead_costs'
-}, {
-  label: 'Packaging and labelling',
-  id: 'packaging',
-  placeholder: 0,
-  tooltip: '',
   type: 'number',
   field: 'overhead_costs'
 }, {
@@ -67049,7 +67042,7 @@ var overhead = [{
 }];
 var costPerUnit = {
   label: 'Cost per unit',
-  id: 'cost_per_unit',
+  id: 'final_cost_per_unit',
   placeholder: 0,
   type: 'number',
   description: '<h2 class="h-xs p-t-0 p-b-0">Your final cost per unit</h2><p class="m-t-xs">Your final cost per unit is how much it costs your business to create one unit of your product.</p><p>To work this out you will need:</p><ul class="list-dot"><li>your total direct costs</li><li>your total overhead costs</li><li>the number of units you want to export</li></ul><p class="m-b-0">To help you, we\'ve created an estimate for you based on the figures you gave earlier.</p>',
@@ -67057,14 +67050,16 @@ var costPerUnit = {
     header: 'Your estimate cost per unit is [dynamic figure].',
     buttonTitle: 'Estimate',
     content: '<p class="m-b-0">We calculated this by:</p><ul class="list-dot"><li>taking your total overhead costs</li><li>dividing it by the number of units you want to export</li><li>adding this to your direct costs</li></ul><p class="m-v-0">You may want to adjust this estimate, especially if your overhead costs are varied.</p>'
-  }
+  },
+  field: 'total_cost_and_price'
 };
 var averagePrice = {
   label: 'Average Price',
-  id: 'average_price',
+  id: 'average_price_per_unit',
   tooltip: '<h3>To calculate the average, add the prices together then divide by the number of prices.</h3><p>For example;</p><ul><li>product 1 costs €10</li><li>product 2 costs €12</li><li>product 3 costs €17</li></ul><p>10+12+17=39</p><p>39÷3=13</p><p>Finally, convert €13 into GBP at the current market rate to get the GBP average.</p>',
   placeholder: 0,
-  type: 'number'
+  type: 'number',
+  field: 'total_cost_and_price'
 };
 var netPrice = {
   label: 'Net Price',
@@ -67074,27 +67069,30 @@ var netPrice = {
   placeholder: 0,
   example: {
     content: '<p>To decide a final price for Dove gin we thought about:</p><ul><li>how much it cost to make one bottle of our gin</li><li>the average price for a bottle of gin in Australia</li></ul><p>This helped us decide where our product would sit in the market.</p><p>A bottle of our gin costs £15 to make, so to make a profit we had to charge over £15. Looking at Australian prices we decided on £25 a bottle in line with the market prices there. This gives us a profit margin of £10 on every unit sold.</p>'
-  }
+  },
+  field: 'total_cost_and_price'
 };
 var localTaxes = {
   label: 'local Taxes',
-  id: 'local_taxes',
+  id: 'local_tax_charges',
   tooltip: "<h3>What are local sales taxes?</h3><p>These are the taxes charged by the UK government, the government of your target market, or both.</p><p>In the UK, our local sales tax is called VAT or goods and services tax (GST).</p><p>The rate of tax you pay depends on where you're exporting.</p><p>This means that if you change target country or export to more than one place, you'll need to recalculate your gross price per unit.</p>",
   type: 'number',
   placeholder: 0,
   example: {
     buttonTitle: 'Local taxes',
     content: "<p>The rate of tax you pay depends on where you're exporting to.</p><p>If you change your target country or export to more than one place, you'll need to recalculate your gross price per unit.</p>"
-  }
+  },
+  field: 'total_cost_and_price'
 };
 var duty = {
   label: 'Duty',
-  id: 'duty',
+  id: 'duty_per_unit',
   tooltip: '<h3>What are duties?</h3><p>Duties are fees charged by the government of your target market.</p><p>These are designed to keep markets competitive.</p><p>Duties are always charged on goods, while taxes can be charged on people and goods.</p>',
   type: 'number',
   placeholder: 0,
   example: '<h3 class="h-xs p-t-0 p-b-0">What is gross price per unit?</h3><p>This is the total price paid by the end customer per unit of your product including any duties, charges and taxes.</p>',
-  description: '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit Check how to export goods and choose the commodity code that best matches your product.</p>'
+  description: '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit Check how to export goods and choose the commodity code that best matches your product.</p>',
+  field: 'total_cost_and_price'
 };
 var unitsToExport = {
   label: 'Number of units to exports',
@@ -67105,6 +67103,18 @@ var unitsToExport = {
 var exportUnits = {
   id: 'export_units',
   label: 'select unit',
+  name: 'select units',
+  placeholder: 'Select unit'
+};
+var timeframe = {
+  label: 'Time frame to export',
+  id: 'time_frame',
+  placeholder: 0,
+  type: 'number'
+};
+var timeframeUnits = {
+  id: 'export_time_frame',
+  label: 'select timeframe',
   name: 'select units',
   placeholder: 'Select unit'
 };
@@ -67119,14 +67129,7 @@ var grossPriceUnitSelect = {
   id: 'gross_price_per_unit_currency',
   label: 'select unit',
   name: 'select units',
-  placeholder: 'Select unit',
-  options: [{
-    value: 'item_one',
-    label: 'item one'
-  }, {
-    value: 'item_two',
-    label: 'item two'
-  }]
+  placeholder: 'Select unit'
 };
 
 /***/ }),
@@ -67237,6 +67240,8 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       exportTimeframe = _ref.exportTimeframe,
       totals = _ref.totals,
       initialData = _ref.initialData,
+      currencies = _ref.currencies,
+      timeframeUnits = _ref.timeframeUnits,
       init = _ref.init;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
     init(_objectSpread(_objectSpread({}, totals), initialData));
@@ -67260,6 +67265,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     data: data,
     update: update
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_5__["Units"], {
+    description: '<h2 class="h-m p-b-xs p-t-m">Total costs and price</h2><p>Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don\'t worry, we will tell you what you need to do. </p><h2 class="h-xs p-t-0 p-b-0">Number of units you want to export</h2><p class="m-t-xs">First, record how many units you want to export over a given period of time.</p><p class="m-b-xs">The more accurate you are, the better your plan will be.</p>',
     update: update,
     input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["unitsToExport"]), {}, {
       value: data.units_to_export
@@ -67268,32 +67274,52 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       value: data.export_units,
       options: units
     })
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_5__["Units"], {
+    description: '<p class="m-t-0 m-b-xs">over the next</p>',
+    update: update,
+    input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["timeframe"]), {}, {
+      value: data.time_frame
+    }),
+    select: _objectSpread(_objectSpread({}, timeframeUnits), {}, {
+      value: data.export_time_frame,
+      options: exportTimeframe
+    })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: update,
-    value: data.cost_per_unit,
+    onChange: function onChange(x) {
+      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"].id]).toFixed(2))));
+    },
+    value: data.final_cost_per_unit,
     hideLabel: true,
     prepend: currency
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: update,
-    value: data.average_price,
+    onChange: function onChange(x) {
+      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"].id]).toFixed(2))));
+    },
+    value: data.average_price_per_unit,
     hideLabel: true,
     prepend: currency,
     description: "<h2 class=\"h-xs p-t-xs p-b-0\">Average price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Find the average price of similar products in your target market. Do some research using:</p><ul class=\"list-dot\"><li>online retailers</li><li>web searches</li><li>store prices</li></ul><p>Then find the average of these prices and enter the figure below.</p><p class=\"m-b-0\">Remember to convert the figure to GBP before entering it.</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: update,
+    onChange: function onChange(x) {
+      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"].id]).toFixed(2))));
+    },
     value: data.net_price,
     hideLabel: true,
     prepend: currency,
     description: "<h2 class=\"h-xs p-t-0 p-b-0\">Your net price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Deciding on what price your product will be sold for in retailers can be a difficult decision.</p><p class=\"m-b-0\">You want to make sure you sell your product for more than it cost to make it, this way you make a profit on every unit sold.</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: update,
-    value: data.local_taxes,
+    onChange: function onChange(x) {
+      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"].id]).toFixed(2))));
+    },
+    value: data.local_tax_charges,
     hideLabel: true,
     prepend: currency,
     description: "<h2 class=\"h-xs p-t-0 p-b-0\">Local taxes and charges in the ".concat(country, "</h2><p class=\"m-t-xs\">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ").concat(country, "</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
-    onChange: update,
-    value: data.duty,
+    onChange: function onChange(x) {
+      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["duty"].id]).toFixed(2))));
+    },
+    value: data.duty_per_unit,
     hideLabel: true,
     prepend: currency
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"]))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -67312,14 +67338,15 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     country: country,
     currency: currency,
     GrossPriceUnit: data.gross_price_per_unit,
-    potentialPerUnit: data.potential_per_unit,
+    potentialPerUnit: data.potential_total_profit,
     profitPerUnit: data.profit_per_unit,
     update: update,
     input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["grossPriceCurrency"]), {}, {
       value: data.gross_price_per_unit_invoicing
     }),
     select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["grossPriceUnitSelect"]), {}, {
-      value: data.gross_price_per_unit_currency
+      value: data.gross_price_per_unit_currency,
+      options: currencies
     })
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-12-m c-1-4-xl"
@@ -67334,7 +67361,17 @@ CostsAndPricing.propTypes = {
   units: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf({
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }).isRequired
+  }).isRequired,
+  currencies: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf({
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  exportTimeframe: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf({
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  totals: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string]).isRequired,
+  initialData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string]).isRequired
 };
 
 /***/ }),
@@ -73624,7 +73661,6 @@ var initialState = {
   labour_costs: '',
   other_direct_costs: '',
   product_adaption: '',
-  packaging: '',
   freight_logistics: '',
   agent_distributor_fees: '',
   marketing: '',
@@ -73632,19 +73668,21 @@ var initialState = {
   other_overhead_costs: '',
   direct_total: '0.00',
   overhead_total: '0.00',
-  cost_per_unit: '',
-  average_price: '',
+  final_cost_per_unit: '',
+  average_price_per_unit: '',
   net_price: '',
-  local_taxes: '',
-  duty: '',
+  local_tax_charges: '',
+  duty_per_unit: '',
   gross_price_per_unit: '0',
-  potential_per_unit: '0',
+  potential_total_profit: '0',
   gross_price_per_unit_invoicing: '',
   gross_price_per_unit_currency: '',
   profit_per_unit: '0',
   price_per_unit: '',
   units_to_export: '',
-  export_units: ''
+  export_units: '',
+  time_frame: '',
+  export_time_frame: ''
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -73661,10 +73699,19 @@ var initialState = {
         var _action$payload = action.payload,
             calculated_cost_pricing = _action$payload.calculated_cost_pricing,
             direct_costs = _action$payload.direct_costs,
-            overhead_costs = _action$payload.overhead_costs;
+            overhead_costs = _action$payload.overhead_costs,
+            total_cost_and_price = _action$payload.total_cost_and_price;
         return _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, state), direct_costs), overhead_costs), {}, {
           direct_total: calculated_cost_pricing.total_direct_costs,
-          overhead_total: calculated_cost_pricing.total_overhead_costs
+          overhead_total: calculated_cost_pricing.total_overhead_costs,
+          profit_per_unit: calculated_cost_pricing.profit_per_unit,
+          potential_total_profit: calculated_cost_pricing.potential_total_profit,
+          gross_price_per_unit: calculated_cost_pricing.gross_price_per_unit,
+          final_cost_per_unit: total_cost_and_price.final_cost_per_unit,
+          average_price_per_unit: total_cost_and_price.average_price_per_unit,
+          net_price: total_cost_and_price.net_price,
+          local_tax_charges: total_cost_and_price.local_tax_charges,
+          duty_per_unit: total_cost_and_price.duty_per_unit
         });
       }
 
@@ -73673,7 +73720,10 @@ var initialState = {
         var _calculated_cost_pricing = action.payload.calculated_cost_pricing;
         return _objectSpread(_objectSpread({}, state), {}, {
           direct_total: _calculated_cost_pricing.total_direct_costs,
-          overhead_total: _calculated_cost_pricing.total_overhead_costs
+          overhead_total: _calculated_cost_pricing.total_overhead_costs,
+          profit_per_unit: _calculated_cost_pricing.profit_per_unit,
+          potential_total_profit: _calculated_cost_pricing.potential_total_profit,
+          gross_price_per_unit: _calculated_cost_pricing.gross_price_per_unit
         });
       }
 

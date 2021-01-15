@@ -83,22 +83,40 @@ export const CostsAndPricing = memo(
                 }}
               />
               <Input
-                onChange={update}
-                value={data.cost_per_unit}
+                onChange={(x) => {
+                  update(x, {
+                    [costPerUnit.field]: {
+                      [costPerUnit.id]: Number(x[costPerUnit.id]).toFixed(2),
+                    },
+                  })
+                }}
+                value={data.final_cost_per_unit}
                 hideLabel
                 prepend={currency}
                 {...costPerUnit}
               />
               <Input
-                onChange={update}
-                value={data.average_price}
+                onChange={(x) => {
+                  update(x, {
+                    [averagePrice.field]: {
+                      [averagePrice.id]: Number(x[averagePrice.id]).toFixed(2),
+                    },
+                  })
+                }}
+                value={data.average_price_per_unit}
                 hideLabel
                 prepend={currency}
                 description={`<h2 class="h-xs p-t-xs p-b-0">Average price per unit in the ${country}</h2><p class="m-t-xs">Find the average price of similar products in your target market. Do some research using:</p><ul class="list-dot"><li>online retailers</li><li>web searches</li><li>store prices</li></ul><p>Then find the average of these prices and enter the figure below.</p><p class="m-b-0">Remember to convert the figure to GBP before entering it.</p>`}
                 {...averagePrice}
               />
               <Input
-                onChange={update}
+                onChange={(x) => {
+                  update(x, {
+                    [netPrice.field]: {
+                      [netPrice.id]: Number(x[netPrice.id]).toFixed(2),
+                    },
+                  })
+                }}
                 value={data.net_price}
                 hideLabel
                 prepend={currency}
@@ -106,16 +124,28 @@ export const CostsAndPricing = memo(
                 {...netPrice}
               />
               <Input
-                onChange={update}
-                value={data.local_taxes}
+                onChange={(x) => {
+                  update(x, {
+                    [localTaxes.field]: {
+                      [localTaxes.id]: Number(x[localTaxes.id]).toFixed(2),
+                    },
+                  })
+                }}
+                value={data.local_tax_charges}
                 hideLabel
                 prepend={currency}
                 description={`<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the ${country}</h2><p class="m-t-xs">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ${country}</p>`}
                 {...localTaxes}
               />
               <Input
-                onChange={update}
-                value={data.duty}
+                onChange={(x) => {
+                  update(x, {
+                    [duty.field]: {
+                      [duty.id]: Number(x[duty.id]).toFixed(2),
+                    },
+                  })
+                }}
+                value={data.duty_per_unit}
                 hideLabel
                 prepend={currency}
                 {...duty}
@@ -133,7 +163,7 @@ export const CostsAndPricing = memo(
                   country={country}
                   currency={currency}
                   GrossPriceUnit={data.gross_price_per_unit}
-                  potentialPerUnit={data.potential_per_unit}
+                  potentialPerUnit={data.potential_total_profit}
                   profitPerUnit={data.profit_per_unit}
                   update={update}
                   input={{
