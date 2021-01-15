@@ -1,4 +1,3 @@
-
 {% comment %}
     Args:
         rendition - AltTextImage _rendition_ already resized in the calling template,
@@ -9,7 +8,7 @@
 
     Example usage in parent template:
         {% image page.an_image_field fill-640x360 as my_image %}
-        {% image_with_caption rendition=my_image main_caption=page.some_capton_field sub_caption=page.sub_caption_field img_classes="class1 class2" %}
+        {% include 'components/image_with_caption.html' with rendition=my_image main_caption=page.some_capton_field sub_caption=page.sub_caption_field img_classes="class1 class2" %}
 
 {% endcomment %}
 

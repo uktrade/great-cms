@@ -71,7 +71,7 @@
     {% if value.statistics %}
     <section id="country-guide-sector-statistics-section" class="statistics padding-vertical-30">
         <div class="container">
-        {% statistics_card_grid statistics=value.statistics %}
+            {% include 'components/statistics_card_grid.html' with statistics=value.statistics %}
         </div>
     </section>
     {% endif %}

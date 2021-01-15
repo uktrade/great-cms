@@ -1,23 +1,9 @@
 # Refactored/amended versions of templatetags formerly in directory_componennts
-import re
-
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
 
 register = template.Library()
-
-
-@register.filter
-def add_href_target(value, request):
-    # Usage: some_value|add_href_target:request|safe
-    soup = BeautifulSoup(value, 'html.parser')
-    for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
-        if request.META['HTTP_HOST'] not in element.attrs['href']:
-            element.attrs['target'] = '_blank'
-            element.attrs['title'] = 'Opens in a new window'
-            element.attrs['rel'] = 'noopener noreferrer'
-    return str(soup)
 
 
 @register.tag
@@ -136,16 +122,6 @@ class GA360Data(template.Node):
         return soup.decode(formatter=None)
 
 
-@register.inclusion_tag('components/hero.html')
-def hero(**kwargs):
-    return kwargs
-
-
-@register.inclusion_tag('components/image_with_caption.html')
-def image_with_caption(**kwargs):
-    return kwargs
-
-
 class FullStaticNode(static.StaticNode):
     def url(self, context):
         request = context['request']
@@ -155,11 +131,6 @@ class FullStaticNode(static.StaticNode):
 @register.tag
 def static_absolute(parser, token):
     return FullStaticNode.handle_token(parser, token)
-
-
-@register.inclusion_tag('components/statistics_card_grid.html')
-def statistics_card_grid(**kwargs):
-    return kwargs
 
 
 @register.filter

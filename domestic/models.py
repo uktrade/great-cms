@@ -29,10 +29,10 @@ class BaseLegacyPage(Page):
 
     def get_ancestors_in_app(self):
         """
-        Starts at 2 to exclude the root page and the app page.
+        Starts at 1 to exclude the root page and the app page.
         Ignores 'folder' pages.
         """
-        ancestors = self.get_ancestors()[2:]
+        ancestors = self.get_ancestors()[1:]
 
         return [page for page in ancestors if not page.specific_class.folder_page]
 
@@ -152,16 +152,55 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         'domestic.CampaignPage',
     ]
 
-    heading = models.CharField(max_length=255, verbose_name='Country name', help_text='Only enter the country name')
-    sub_heading = models.CharField(max_length=255, blank=True)
-    hero_image = models.ForeignKey('core.AltTextImage', null=True, on_delete=models.SET_NULL, related_name='+')
-    heading_teaser = models.TextField(blank=True, verbose_name='Introduction')
-    intro_cta_one_title = models.CharField(max_length=500, blank=True, verbose_name='CTA 1 title')
-    intro_cta_one_link = models.CharField(max_length=500, blank=True, verbose_name='CTA 1 link')
-    intro_cta_two_title = models.CharField(max_length=500, blank=True, verbose_name='CTA 2 title')
-    intro_cta_two_link = models.CharField(max_length=500, blank=True, verbose_name='CTA 2 link')
-    intro_cta_three_title = models.CharField(max_length=500, blank=True, verbose_name='CTA 3 title')
-    intro_cta_three_link = models.CharField(max_length=500, blank=True, verbose_name='CTA 3 link')
+    heading = models.CharField(
+        max_length=255,
+        verbose_name='Country name',
+        help_text='Only enter the country name',
+    )
+    sub_heading = models.CharField(
+        max_length=255,
+        blank=True,
+    )
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    heading_teaser = models.TextField(
+        blank=True,
+        verbose_name='Introduction',
+    )
+    intro_cta_one_title = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 1 title',
+    )
+    intro_cta_one_link = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 1 link',
+    )
+    intro_cta_two_title = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 2 title',
+    )
+    intro_cta_two_link = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 2 link',
+    )
+    intro_cta_three_title = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 3 title',
+    )
+    intro_cta_three_link = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 3 link',
+    )
 
     section_one_body = RichTextField(
         null=True,
@@ -175,9 +214,15 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         related_name='+',
         verbose_name='Image for unique selling points',
     )
-    section_one_image_caption = models.CharField(max_length=255, blank=True, verbose_name='Bullets image caption')
+    section_one_image_caption = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Bullets image caption',
+    )
     section_one_image_caption_company = models.CharField(
-        max_length=255, blank=True, verbose_name='Bullets image caption — company name'
+        max_length=255,
+        blank=True,
+        verbose_name='Bullets image caption — company name',
     )
 
     # Moved from repeated fields to a reusable block in a StreamField
@@ -198,9 +243,14 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
     )
 
     section_two_heading = models.CharField(
-        max_length=255, verbose_name='High potential industries for UK businesses', blank=True
+        max_length=255,
+        verbose_name='High potential industries for UK businesses',
+        blank=True,
     )
-    section_two_teaser = models.TextField(verbose_name='Summary of the industry opportunities', blank=True)
+    section_two_teaser = models.TextField(
+        verbose_name='Summary of the industry opportunities',
+        blank=True,
+    )
 
     # In V1, we had 6 repeated sets of fields defined for 'accordions_1..._6'.
     # None of these was _required_, only optional and required extra logic to pull the data together
@@ -214,14 +264,24 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
 
     # fact sheet
     fact_sheet_title = models.CharField(
-        max_length=255, blank=True, verbose_name="Title for 'Doing business in' section"
+        max_length=255,
+        blank=True,
+        verbose_name="Title for 'Doing business in' section",
     )
     fact_sheet_teaser = models.CharField(
-        max_length=255, blank=True, verbose_name="Summary for 'Doing business in' section"
+        max_length=255,
+        blank=True,
+        verbose_name="Summary for 'Doing business in' section",
     )
-    fact_sheet_column_1_title = models.CharField(max_length=255, blank=True, verbose_name="Title for 'Tax and customs'")
+    fact_sheet_column_1_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Title for 'Tax and customs'",
+    )
     fact_sheet_column_1_teaser = models.CharField(
-        max_length=255, blank=True, verbose_name="Summary for 'Tax and customs'"
+        max_length=255,
+        blank=True,
+        verbose_name="Summary for 'Tax and customs'",
     )
     fact_sheet_column_1_body = RichTextField(
         blank=True,
@@ -229,10 +289,14 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         help_text='Use H3 for each subcategory heading. ' 'Maximum five sub categories. Aim for 50 words each.',
     )
     fact_sheet_column_2_title = models.CharField(
-        max_length=255, blank=True, verbose_name="Title for 'Protecting your business'"
+        max_length=255,
+        blank=True,
+        verbose_name="Title for 'Protecting your business'",
     )
     fact_sheet_column_2_teaser = models.CharField(
-        max_length=255, blank=True, verbose_name="Summary for 'Protecting your business'"
+        max_length=255,
+        blank=True,
+        verbose_name="Summary for 'Protecting your business'",
     )
     fact_sheet_column_2_body = RichTextField(
         blank=True,
@@ -242,18 +306,32 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
 
     # need help
     duties_and_custom_procedures_cta_link = models.URLField(
-        blank=True, null=True, verbose_name='Check duties and customs procedures for exporting goods'
+        blank=True,
+        null=True,
+        verbose_name='Check duties and customs procedures for exporting goods',
     )
 
     # related pages
     related_page_one = models.ForeignKey(
-        'wagtailcore.Page', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
     related_page_two = models.ForeignKey(
-        'wagtailcore.Page', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
     related_page_three = models.ForeignKey(
-        'wagtailcore.Page', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
     tags = ParentalManyToManyField(IndustryTag, verbose_name='Industry tag', blank=True)
@@ -306,7 +384,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         }
         cta_3 = {
             'title': self.intro_cta_three_title,
-            'link': self.intro_cta_two_link,
+            'link': self.intro_cta_three_link,
         }
 
         for cta in [cta_1, cta_2, cta_3]:
@@ -346,19 +424,46 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseLegacyPage):
         help_text='This is a subheading that displays when the article is featured on another page',
     )
     article_image = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
     article_video = models.ForeignKey(
-        'wagtailmedia.Media', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'wagtailmedia.Media',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
-    article_video_transcript = RichTextField(null=True, blank=True, help_text=VIDEO_TRANSCRIPT_HELP_TEXT)
+    article_video_transcript = RichTextField(
+        null=True,
+        blank=True,
+        help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
+    )
     article_body_text = RichTextField()
 
-    cta_title = models.CharField(max_length=255, blank=True, verbose_name='CTA title')
-    cta_teaser = models.TextField(blank=True, verbose_name='CTA teaser')
+    cta_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA title',
+    )
+    cta_teaser = models.TextField(
+        blank=True,
+        verbose_name='CTA teaser',
+    )
 
-    cta_link_label = models.CharField(max_length=255, blank=True, verbose_name='CTA link label')
-    cta_link = models.CharField(max_length=255, blank=True, verbose_name='CTA link')
+    cta_link_label = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA link label',
+    )
+    cta_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA link',
+    )
 
     related_page_one = models.ForeignKey(
         'domestic.ArticlePage',
@@ -393,11 +498,22 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseLegacyPage):
     landing_page_title = models.CharField(max_length=255)
 
     hero_image = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
-    hero_teaser = models.CharField(max_length=255, null=True, blank=True)
+    hero_teaser = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
 
-    list_teaser = RichTextField(null=True, blank=True)
+    list_teaser = RichTextField(
+        null=True,
+        blank=True,
+    )
 
     @property
     def articles_count(self):
@@ -410,23 +526,39 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
 
     campaign_heading = models.CharField(max_length=255)
     campaign_hero_image = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
     section_one_heading = models.CharField(max_length=255)
     section_one_intro = RichTextField()
     section_one_image = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
     selling_point_one_icon = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
     selling_point_one_heading = models.CharField(max_length=255)
     selling_point_one_content = RichTextField()
 
     selling_point_two_icon = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
     selling_point_two_heading = models.CharField(
         max_length=255,
@@ -436,25 +568,60 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
     selling_point_two_content = RichTextField(null=True, blank=True)
 
     selling_point_three_icon = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
-    selling_point_three_heading = models.CharField(max_length=255, null=True, blank=True)
-    selling_point_three_content = RichTextField(null=True, blank=True)
+    selling_point_three_heading = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    selling_point_three_content = RichTextField(
+        null=True,
+        blank=True,
+    )
 
-    section_one_contact_button_url = models.CharField(max_length=255, null=True, blank=True)
-    section_one_contact_button_text = models.CharField(max_length=255, null=True, blank=True)
+    section_one_contact_button_url = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    section_one_contact_button_text = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
 
-    section_two_heading = models.CharField(max_length=255)
+    section_two_heading = models.CharField(
+        max_length=255,
+    )
     section_two_intro = RichTextField()
 
     section_two_image = models.ForeignKey(
-        'core.AltTextImage', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
-    section_two_contact_button_url = models.CharField(max_length=255, null=True, blank=True)
-    section_two_contact_button_text = models.CharField(max_length=255, null=True, blank=True)
+    section_two_contact_button_url = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    section_two_contact_button_text = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
 
-    related_content_heading = models.CharField(max_length=255)
+    related_content_heading = models.CharField(
+        max_length=255,
+    )
     related_content_intro = RichTextField()
 
     related_page_one = models.ForeignKey(
@@ -479,6 +646,12 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
         related_name='+',
     )
 
-    cta_box_message = models.CharField(max_length=255)
-    cta_box_button_url = models.CharField(max_length=255)
-    cta_box_button_text = models.CharField(max_length=255)
+    cta_box_message = models.CharField(
+        max_length=255,
+    )
+    cta_box_button_url = models.CharField(
+        max_length=255,
+    )
+    cta_box_button_text = models.CharField(
+        max_length=255,
+    )

@@ -16,7 +16,7 @@
 
 {% block content %}
 
-{% hero image=page.hero_image hero_text=page.heading hero_subheading=page.sub_heading %}
+{% include 'components/hero.html' with image=page.hero_image hero_text=page.heading hero_subheading=page.sub_heading %}
 
 <section class="container">
   {% include 'components/breadcrumbs_cms.html' %}
@@ -57,7 +57,7 @@
       </div>
       <div class="column-full column-half-l">
         {% image page.section_one_image fill-640x360 as section_one_image %}
-        {% image_with_caption rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
+        {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@
 
 <section id="country-guide-statistics-section" class="statistics padding-vertical-30">
   <div class="container">
-    {% statistics_card_grid statistics=page.main_statistics %}
+    {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics %}
   </div>
 </section>
 
