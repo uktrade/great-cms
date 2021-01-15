@@ -1,5 +1,12 @@
+from unittest import mock
+
 import pytest
 from django.template import Context, Template
+
+from domestic.templatetags.component_tags import (
+    industry_accordion_case_study_is_viable,
+    industry_accordion_is_viable,
+)
 
 
 def test_static_absolute(rf):
@@ -128,3 +135,118 @@ def test_ga360_data_with_all_optional_parameters():
         '</div>'
     )
     assert rendered_html == expected_html
+
+
+@pytest.mark.parametrize(
+    'data,expected',
+    (
+        (
+            {
+                'title': 'test title',
+                'teaser': 'test teaser',
+                'subsections': [
+                    mock.Mock(),
+                    mock.Mock(),
+                    mock.Mock(),
+                ],
+            },
+            True,
+        ),
+        (
+            {
+                # 'title': 'test title',
+                'teaser': 'test teaser',
+                'subsections': [
+                    mock.Mock(),
+                    mock.Mock(),
+                    mock.Mock(),
+                ],
+            },
+            False,
+        ),
+        (
+            {
+                'title': 'test title',
+                # 'teaser': 'test teaser',
+                'subsections': [
+                    mock.Mock(),
+                    mock.Mock(),
+                    mock.Mock(),
+                ],
+            },
+            False,
+        ),
+        (
+            {
+                'title': 'test title',
+                'teaser': 'test teaser',
+                'subsections': [],
+            },
+            False,
+        ),
+        (
+            {
+                'title': 'test title',
+                'teaser': 'test teaser',
+                'subsections': [
+                    mock.Mock(),
+                ],
+            },
+            False,
+        ),
+        (
+            {},
+            False,
+        ),
+    ),
+    ids=(
+        'full data',
+        'missing title',
+        'missing teaser',
+        'missing all subsections',
+        'missing enough subsections',
+        'no data',
+    ),
+)
+def test_industry_accordion_is_viable(data, expected):
+    assert industry_accordion_is_viable(data) == expected
+
+
+@pytest.mark.parametrize(
+    'data,expected',
+    (
+        (
+            {
+                'title': 'test title',
+                'hero_image': mock.Mock(),
+            },
+            True,
+        ),
+        (
+            {
+                # 'title': 'test title',
+                'hero_image': mock.Mock(),
+            },
+            False,
+        ),
+        (
+            {
+                'title': 'test title',
+                # 'hero_image': mock.Mock(),
+            },
+            False,
+        ),
+        (
+            {},
+            False,
+        ),
+    ),
+    ids=(
+        'full data',
+        'missing title',
+        'missing hero_image',
+        'no data',
+    ),
+)
+def test_industry_accordion_case_study_is_viable(data, expected):
+    assert industry_accordion_case_study_is_viable(data) == expected
