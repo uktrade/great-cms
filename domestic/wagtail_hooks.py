@@ -16,7 +16,7 @@ def editor_css():
 def global_admin_css():
     env_stylesheet = ''
 
-    if hasattr(settings, 'ENVIRONMENT_CSS_THEME_FILE'):
+    if getattr(settings, 'ENVIRONMENT_CSS_THEME_FILE'):
         env_stylesheet = format_html(
             '<link rel="stylesheet" href="{}">',  # noqa: P103
             static(settings.ENVIRONMENT_CSS_THEME_FILE),
@@ -25,6 +25,6 @@ def global_admin_css():
     return (
         format_html(
             '<link rel="stylesheet" href="{}">',  # noqa: P103
-            static('cms-admin/css/domestic-editor.css'),
+            static('cms-admin/css/domestic.css'),
         )
     ) + env_stylesheet
