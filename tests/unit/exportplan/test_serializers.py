@@ -282,6 +282,20 @@ def test_exportplan_serializer_calculate_cost_pricing(export_plan_data):
     }
 
 
+def test_exportplan_serializer_calculate_cost_pricing_no_over_head_costs(export_plan_data):
+    del export_plan_data['total_cost_and_price']
+    serializer = serializers.ExportPlanSerializer(data=export_plan_data)
+    assert serializer.calculate_cost_pricing == {
+        'total_direct_costs': '15.00',
+        'total_overhead_costs': '1355.00',
+        'profit_per_unit': '0.00',
+        'potential_total_profit': '0.00',
+        'gross_price_per_unit': '0.00',
+        'total_export_costs': '0.00',
+        'estimated_costs_per_unit': '0.00',
+    }
+
+
 def test_total_direct_costs(cost_pricing_data):
     serializer = serializers.ExportPlanSerializer(data=cost_pricing_data)
     assert serializer.total_direct_costs == 15.00

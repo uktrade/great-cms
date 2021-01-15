@@ -211,15 +211,14 @@ class ExportPlanSerializer(serializers.Serializer):
             'total_overhead_costs': format_two_dp(self.total_overhead_costs),
         }
 
-        if self.data.get('total_cost_and_price'):
-            serializer = TotalCostAndPriceSerializer(data=self.data['total_cost_and_price'])
-            calculated_dict.update(
-                {
-                    'profit_per_unit': format_two_dp(serializer.profit_per_unit),
-                    'potential_total_profit': format_two_dp(serializer.potential_total_profit),
-                    'gross_price_per_unit': format_two_dp(serializer.gross_price_per_unit),
-                }
-            )
+        serializer = TotalCostAndPriceSerializer(data=self.data.get('total_cost_and_price'))
+        calculated_dict.update(
+            {
+                'profit_per_unit': format_two_dp(serializer.profit_per_unit),
+                'potential_total_profit': format_two_dp(serializer.potential_total_profit),
+                'gross_price_per_unit': format_two_dp(serializer.gross_price_per_unit),
+            }
+        )
         calculated_dict['total_export_costs'] = format_two_dp(self.total_export_costs)
         calculated_dict['estimated_costs_per_unit'] = format_two_dp(self.estimated_costs_per_unit)
         return calculated_dict
