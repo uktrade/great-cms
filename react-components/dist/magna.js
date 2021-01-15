@@ -65615,7 +65615,7 @@ function EconomyData(props) {
   }, [props]);
   var comparisonMarkets = props.comparisonMarkets;
   var sourceAttribution = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "source-attribution body-s"
+    className: "source-attribution body-s m-r-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
     className: "body-s-b"
   }, "Trade data"), ":\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -65656,7 +65656,7 @@ function EconomyData(props) {
           className: "gdp"
         }, data && data.country_data && data.country_data.gdp_per_capita ? Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(data.country_data.gdp_per_capita.year_2019) : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
           className: "avg-income"
-        }, DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        }, data && data.country_data && data.country_data.income ? Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(data.country_data.income.value) : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
           className: "eod-business"
         }, data && data.country_data && data.country_data.ease_of_doing_bussiness ? data.country_data.ease_of_doing_bussiness.year_2019 : DATA_NA), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
           className: "cpi"
@@ -65680,7 +65680,7 @@ function EconomyData(props) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         onClick: props.removeMarket,
-        className: "iconic",
+        className: "button button--only-icon button--tertiary button--small m-r-xxs",
         "data-id": market.country_iso2_code,
         "aria-label": "Remove ".concat(market.country_name)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -65690,14 +65690,14 @@ function EconomyData(props) {
       }, market.country_name))), dataRow);
     });
     dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-      className: "m-v-0"
+      className: "m-v-0 border-blue-deep-20"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       className: "body-s-b"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       className: "body-s-b"
-    }, "Total ", props.selectedProduct.commodity_name.toLowerCase(), " import value (USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    }, "Total ", props.selectedProduct.commodity_name.toLowerCase(), ' ', "import value (USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       className: "body-s-b"
-    }, "Year-to-year ", props.selectedProduct.commodity_name.toLowerCase(), " import value change"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    }, "Year-to-year", ' ', props.selectedProduct.commodity_name.toLowerCase(), " import value change"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       className: "body-s-b"
     }, props.selectedProduct.commodity_name, " import value from the UK (USD)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       className: "body-s-b"
@@ -65773,7 +65773,7 @@ function PopulationData(props) {
   }, [props]);
   var comparisonMarkets = props.comparisonMarkets;
   var sourceAttribution = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "source-attribution body-s"
+    className: "source-attribution body-s m-r-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
     className: "body-s-b"
   }, "Population data"), ":\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -65830,7 +65830,7 @@ function PopulationData(props) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         onClick: props.removeMarket,
-        className: "iconic",
+        className: "button button--only-icon button--tertiary button--small m-r-xxs",
         "data-id": market.country_iso2_code,
         "aria-label": "Remove ".concat(market.country_name)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -65841,7 +65841,7 @@ function PopulationData(props) {
       }, market.country_name))), populationCountryRow);
     });
     dataTable = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-      className: "m-v-0"
+      className: "m-v-0 border-blue-deep-20 valign-middle"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       className: "body-s-b"
     }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
@@ -66026,52 +66026,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
 function Tab(props) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('tab-list-item'),
-      _useState2 = _slicedToArray(_useState, 2),
-      cssClassName = _useState2[0],
-      setCssClassName = _useState2[1];
-
-  var onClick = function onClick() {
-    var label = props.label,
-        onClick = props.onClick;
-    onClick(label);
-  };
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (props.activeTab === props.label) {
-      setCssClassName('tab-list-item tab-list-active');
-    } else {
-      setCssClassName('tab-list-item');
-    }
-  }, [props]);
-  Tab.propTypes = {
-    activeTab: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    onClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
-  };
+  var label = props.label,
+      _onClick = props.onClick;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
-    className: cssClassName,
-    onClick: onClick
+    className: "tab-list-item m-r-s ".concat(props.activeTab === props.label ? 'tab-list-active' : ''),
+    onClick: function onClick() {
+      return _onClick(label);
+    }
   }, props.label);
 }
 
+Tab.propTypes = {
+  activeTab: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  onClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
 /* harmony default export */ __webpack_exports__["default"] = (Tab);
 
 /***/ }),
@@ -66123,7 +66097,7 @@ function Tabs(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "tabs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
-    className: "tab-list body-m"
+    className: "tab-list body-m m-f-m"
   }, props.children.map(function (child) {
     var label = child.props.label;
     return props.showTabs && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tab__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -66259,7 +66233,7 @@ function CompareMarkets(props) {
   var buttonLabel = 'Select product';
 
   if (selectedProduct) {
-    buttonClass = "add-market ".concat(buttonClass);
+    buttonClass = "add-market m-t-xs ".concat(buttonClass);
     buttonLabel = selectedLength > 0 ? "Add country ".concat(selectedLength + 1, " of ").concat(maxSelectedLength) : 'Add country to compare';
   }
 
