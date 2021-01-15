@@ -515,9 +515,10 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseLegacyPage):
         blank=True,
     )
 
-    @property
-    def articles_count(self):
-        return self.get_descendants().type(ArticlePage).live().count()
+    # TODO: reinstate this when we port the template for the page
+    # @property
+    # def articles_count(self):
+    #     return self.get_descendants().type(ArticlePage).live().count()
 
 
 class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
