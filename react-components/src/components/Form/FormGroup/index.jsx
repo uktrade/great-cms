@@ -151,6 +151,10 @@ FormGroup.propTypes = {
     header: PropTypes.string,
     content: PropTypes.string,
   }),
+  estimate: PropTypes.shape({
+    header: PropTypes.string,
+    content: PropTypes.string,
+  }),
   hideLabel: PropTypes.bool,
   lesson: PropTypes.shape({
     url: PropTypes.string,
@@ -167,4 +171,5 @@ FormGroup.defaultProps = {
   example: {},
   hideLabel: false,
   lesson: {},
+  estimate: {},
 }
