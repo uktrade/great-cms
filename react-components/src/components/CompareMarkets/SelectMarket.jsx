@@ -2,13 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
-import { analytics } from '../../Helpers'
-
 import Services from '@src/Services'
-
 import { connect, Provider } from 'react-redux'
 import actions from '@src/actions'
 import { getMarkets } from '@src/reducers'
+import { analytics } from '../../Helpers'
 
 function SelectMarket(props) {
   const { market, setMarket } = props

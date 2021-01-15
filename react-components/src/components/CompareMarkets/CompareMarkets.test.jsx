@@ -254,14 +254,14 @@ it('Allows selection of markets and fetch data when product selected', async () 
   // check mock directory api data...
   const rowGermany = container.querySelector('#market-Germany')
   expect(rowGermany.querySelector('.name').textContent).toMatch('Germany')
-  expect(rowGermany.querySelector('.total-population').textContent).toMatch(
+  expect(rowGermany.querySelector('.total_population').textContent).toMatch(
     '60.5 million'
   )
-  expect(rowGermany.querySelector('.internet-usage').textContent).toMatch('74%')
-  expect(rowGermany.querySelector('.urban-population').textContent).toMatch(
+  expect(rowGermany.querySelector('.internet_usage').textContent).toMatch('74%')
+  expect(rowGermany.querySelector('.urban_population').textContent).toMatch(
     '70% 42 million'
   )
-  expect(rowGermany.querySelector('.rural-population').textContent).toMatch(
+  expect(rowGermany.querySelector('.rural_population').textContent).toMatch(
     '28% 17.1 million'
   )
 

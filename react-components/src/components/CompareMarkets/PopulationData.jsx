@@ -1,181 +1,84 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Services from '@src/Services'
+<<<<<<< HEAD
 import { normaliseValues } from '../../Helpers'
+=======
+import { normaliseValues, get } from '../../Helpers'
+import DataTable from './DataTable'
+
+>>>>>>> GP2-1318_Compare_markets_data_table_refactor
 
 export default function PopulationData(props) {
-  const [populationData, setPopulationData] = useState([])
+  const { comparisonMarkets, selectedProduct, removeMarket, active } = props
 
-  const getCountryData = (country) => {
-    if (populationData && populationData.length) {
-      const country_data = Object.values(populationData).find(
-        (x) => x[1].country === country
-      )
-      return country_data ? country_data[1] : []
-    }
+  const headingAndBody = (value) => {
+    return (<>
+      <h1>{ normaliseValues(value)[0]}</h1>
+      <span className="body-m">{normaliseValues(value)[1]}</span>
+    </>)
   }
 
-  useEffect(() => {
-    if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
-      const countries = Object.values(comparisonMarkets).map((country) => {
-        return country.country_name
-      })
-      Services.getPopulationByCountryData(countries)
-        .then((result) => {
-          setPopulationData(Object.entries(result))
-        })
-        .finally(() => {})
-    }
-  }, [props])
+  const sourceAttributionList = [
+    {
+      title: 'Population data',
+      linkText: 'United Nations',
+      linkTarget: 'https://population.un.org/wup/Download/',
+      text: 'CC BY 3.0 IGO.'
+    },
+    {
+      title: 'Urban and Rural Populations',
+      linkText: 'United Nations',
+      linkTarget: 'https://population.un.org/wup/Download/',
+      text: 'CC BY 3.0 IGO.'
+    },
+    {
+      title: 'Access to internet',
+      linkText: 'International Telecommunications Union',
+      linkTarget: 'https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en',
+    },
+  ]
 
-  const comparisonMarkets = props.comparisonMarkets
-
-  const sourceAttribution = (
-    <p className="source-attribution body-s m-r-s">
-      <strong className="body-s-b">
-        Population data
-      </strong>
-      :&nbsp;
-      <a 
-        href="https://population.un.org/wpp/Download/Standard/Population/"
-        target="_blank"
-      >
-        United Nations
-      </a>
-      &nbsp;CC BY 3.0 IGO.&nbsp;
-      <strong className="body-s-b">
-        Urban and Rural Populations
-      </strong>
-      :&nbsp;
-      <a
-        href="https://population.un.org/wup/Download/"
-        target="_blank"
-      >
-        United Nations
-      </a>
-      &nbsp;CC BY 3.0 IGO.&nbsp;
-      <strong className="body-s-b">
-        Access to internet
-      </strong>
-      :&nbsp;
-      <a
-        href="https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en"
-        target="_blank"
-      >
-        International Telecommunications Union
-      </a>
-    </p>
-  )
-
-  let dataTable
-  if (comparisonMarkets && Object.keys(comparisonMarkets).length) {
-    const tableBody = Object.values(comparisonMarkets).map((market) => {
-      const populationCountryData = getCountryData(market.country_name)
-      let populationCountryRow
-
-      if (populationCountryData) {
-        populationCountryRow = (
-          <React.Fragment>
-            <td className="total-population">
-              {normaliseValues(populationCountryData.total_population)}
-            </td>
-            <td className="internet-usage">
-              {populationCountryData.internet_usage
-                ? normaliseValues(
-                    `${populationCountryData.internet_usage.value}%`
-                  )
-                : 'Data not available'}
-            </td>
-            <td className="urban-population">
-              <h1>
-                {
-                  normaliseValues(
-                    populationCountryData.urban_population_percentage_formatted
-                  )[0]
-                }
-              </h1>
-              <span className="body-m">
-                {
-                  normaliseValues(
-                    populationCountryData.urban_population_percentage_formatted
-                  )[1]
-                }
-              </span>
-            </td>
-            <td className="rural-population">
-              <h1>
-                {
-                  normaliseValues(
-                    populationCountryData.rural_population_percentage_formatted
-                  )[0]
-                }
-              </h1>
-              <span className="body-m">
-                {
-                  normaliseValues(
-                    populationCountryData.rural_population_percentage_formatted
-                  )[1]
-                }
-              </span>
-            </td>
-            <td>
-              {populationCountryData.cpi
-                ? populationCountryData.cpi.value
-                : 'Data not available'}
-            </td>
-          </React.Fragment>
-        )
-      } else {
-        populationCountryRow = (
-          <td colSpan="5" className="no-data">
-            No data currently available for this country
-          </td>
-        )
-      }
-
-      return (
-        <tr
-          key={`market-${market.country_iso2_code}`}
-          id={`market-${market.country_name}`}
-        >
-          <td className="p-v-xs name">
-            <div style={{ whiteSpace: 'nowrap' }}>
-              <button
-                type="button"
-                onClick={props.removeMarket}
-                className="button button--only-icon button--tertiary button--small m-r-xxs"
-                data-id={market.country_iso2_code}
-                aria-label={`Remove ${market.country_name}`}
-              >
-                <i className="fa fa-trash-alt icon--border" />
-              </button>
-              <span className="body-l-b" id={`market-${market.country_name}`}>
-                {market.country_name}
-              </span>
-            </div>
-          </td>
-          {populationCountryRow}
-        </tr>
-      )
-    })
-    dataTable = (
-      <span>
-        <table className="m-v-0 border-blue-deep-20 valign-middle">
-          <thead>
-            <tr>
-              <th className="body-s-b">&nbsp;</th>
-              <th className="body-s-b">Total Population </th>
-              <th className="body-s-b">Access to internet</th>
-              <th className="body-s-b">Living in urban areas</th>
-              <th className="body-s-b">Living in rural areas</th>
-              <th className="body-s-b">Consumer Price Index</th>
-            </tr>
-          </thead>
-          <tbody>{tableBody}</tbody>
-        </table>
-        {sourceAttribution}
-      </span>
-    )
+  const columns= {
+    'total_population': {
+      name:'Total Population',
+      render: (data) => normaliseValues(data.total_population),
+    },
+    'internet_usage': {
+      name:'Access to internet',
+      render: (data) => data.internet_usage ? normaliseValues(`${data.internet_usage.value}%`)
+                : 'Data not available'
+    },
+    'urban_population': {
+      name:'Living in urban areas',
+      render: (data) => headingAndBody(data.urban_population_percentage_formatted),
+    },
+    'rural_population': {
+      name:'Living in rural areas',
+      render: (data) => headingAndBody(data.rural_population_percentage_formatted),      
+    },
+    'cpi': {
+      name:'Consumer Price Index',
+      render: (data) => get(data,'cpi.value') || 'Data not available'  
+    },
   }
+  return (active && <DataTable
+    datasetName="population"
+    columns={columns}
+    comparisonMarkets={comparisonMarkets}
+    commodityCode={get(selectedProduct,'commodity_code')}
+    removeMarket={removeMarket}
+    sourceAttributions={sourceAttributionList}
+    dataFunction={Services.getPopulationByCountryData}
+  />)
+}
 
-  return <div>{dataTable}</div>
+PopulationData.propTypes = {
+  comparisonMarkets: PropTypes.instanceOf(Object).isRequired,
+  selectedProduct: PropTypes.shape({
+    commodity_name: PropTypes.string,
+    commodity_code: PropTypes.string,
+  }).isRequired,
+  removeMarket: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
 }

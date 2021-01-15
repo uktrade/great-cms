@@ -30,7 +30,7 @@ const analytics = (data) => {
 
 const normaliseValues = (str) => {
   if (str) {
-    var values = str.replace(/\d+(\.\d+)?/g, ($0) => {
+    var values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
       return Math.round(parseFloat($0) * 10) / 10
     })
     values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
@@ -44,6 +44,23 @@ const normaliseValues = (str) => {
 
 const isObject = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
+}
+
+const isArray = (arr) => {
+  return Object.prototype.toString.call(arr) === "[object Array]"
+}
+
+const get = (obj, path) => {
+  // get a value from an object based on dot-separated path 
+  let out = obj
+  const pathSplit = path.split('.')
+  for(var i=0; i<pathSplit.length; i++) {
+    if(!isObject(out)) {
+      return
+    }
+    out = out[pathSplit[i]]
+  }
+  return out
 }
 
 const sectionQuestionMapping = {
@@ -71,4 +88,6 @@ export {
   sectionQuestionMapping,
   normaliseValues,
   isObject,
+  isArray,
+  get,
 }

@@ -8,16 +8,14 @@ import { useCookies } from 'react-cookie'
 import { analytics } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
-import PopulationData from './PopulationData'
-import EconomyData from './EconomyData'
 import SocietyData from './SocietyData'
-import Tabs from './Tabs'
 import { isObject } from '../../Helpers'
+import ComparisonTables from './ComparisonTables'
 
 const maxSelectedLength = 3
 
 function CompareMarkets(props) {
-  const { selectedProduct } = props
+  const { selectedProduct, tabs } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const [cookies, setCookie] = useCookies(['comparisonMarkets'])
@@ -66,7 +64,10 @@ function CompareMarkets(props) {
   }
   const triggerButton =
     selectedLength < maxSelectedLength ? (
-      <button type="button" className={buttonClass} onClick={openModal}>
+      <button type="button" 
+        className={buttonClass} 
+        onClick={openModal}
+      >
         <i className="fa fa-plus-square" />
         {buttonLabel}
       </button>
@@ -74,59 +75,17 @@ function CompareMarkets(props) {
       ''
     )
 
-  let tabMap = {
-    population: (
-      <PopulationData
-        comparisonMarkets={comparisonMarkets}
-        removeMarket={removeMarket}
-      />
-    ),
-    economy: (
-      <EconomyData
-        comparisonMarkets={comparisonMarkets}
-        removeMarket={removeMarket}
-        selectedProduct={selectedProduct}
-      />
-    ),
-    society: (
-      <SocietyData
-        comparisonMarkets={comparisonMarkets}
-        removeMarket={removeMarket}
-      />
-    ),
-  }
-
   let tabsContainer
-
   if (selectedProduct && selectedLength) {
-    let tabs = JSON.parse(props.tabs)
-    if (!isObject(tabs)) {
-      tabs = JSON.parse(tabs)
-    }
-    let listOfTabs
-    if (tabs && Object.keys(tabs).length > 0) {
-      listOfTabs = Object.keys(tabs).filter((key) => tabs[key])
-    }
-    if (listOfTabs) {
-      tabsContainer = (
-        <Tabs showTabs={listOfTabs.length > 1}>
-          {listOfTabs.map((item) => {
-            return (
-              <div
-                key={item}
-                label={item.toUpperCase()}
-                className="button button--small button--tertiary"
-              >
-                <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
-                  {tabMap[item]}
-                  {triggerButton}
-                </div>
-              </div>
-            )
-          })}
-        </Tabs>
-      )
-    }
+    tabsContainer = (
+      <ComparisonTables
+        tabsJson={tabs}
+        comparisonMarkets={comparisonMarkets}
+        selectedProduct={selectedProduct}
+        removeMarket={removeMarket}
+        triggerButton={triggerButton}
+      />
+    )
   } else {
     // Either We're missing a product or any countries
     tabsContainer = (
@@ -152,7 +111,7 @@ function CompareMarkets(props) {
         commodityCode={selectedProduct && selectedProduct.commodity_code}
         addButton={false}
         selectCountry={addCountry}
-        isCompareCountries={true}
+        isCompareCountries
       />
     </span>
   )
@@ -171,18 +130,19 @@ CompareMarkets.propTypes = {
     commodity_name: PropTypes.string,
     commodity_code: PropTypes.string,
   }),
+  tabs: PropTypes.string.isRequired
 }
 
 CompareMarkets.defaultProps = {
-  product: {},
+  selectedProduct: null,
 }
 
 export default function createCompareMarkets({ ...params }) {
-  let tabs = params.element.getAttribute('data-tabs')
+  const tabs = params.element.getAttribute('data-tabs')
   ReactDOM.render(
-    (<Provider store={Services.store}>
+    <Provider store={Services.store}>
       <ConnectedCompareMarkets tabs={tabs} />
-    </Provider>),
+    </Provider>,
     params.element
   )
 }

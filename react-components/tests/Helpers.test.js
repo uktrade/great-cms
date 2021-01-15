@@ -1,4 +1,4 @@
-import { slugify, addItemToList, capitalize } from '@src/Helpers'
+import { slugify, addItemToList, capitalize, isObject, get } from '@src/Helpers'
 
 test('slugify', (done) => {
   const testStrings = ['Aerospace', 'Advanced manufacturing', 'Airports', 'Agriculture, horticulture and fisheries']
@@ -77,4 +77,29 @@ describe('addItemToList', () => {
 test('capitalize', () => {
   expect(capitalize('one_two_three')).toMatch('One two three')
   expect(capitalize('one_two_three', false)).toMatch('one two three')
+})
+
+test('isObject', () => {
+  expect(isObject([])).toBeFalsy()
+  expect(isObject('')).toBeFalsy()
+  expect(isObject(undefined)).toBeFalsy()
+  expect(isObject(null)).toBeFalsy()
+  expect(isObject(()=>1)).toBeFalsy()
+  expect(isObject({})).toBeTruthy()
+})
+
+test('get helper', () => {
+  let obj = {
+    l1:{
+      l2: {
+        str:'one-two'
+      },
+      str:'one'
+    }
+  }
+  expect(get(obj,'l1')).toEqual(obj.l1)
+  expect(get(obj,'l1.l2')).toEqual(obj.l1.l2)
+  expect(get(obj,'l1.l2.str')).toEqual(obj.l1.l2.str)
+  expect(get(obj,'l1.l2.bibble')).toBeFalsy()
+  expect(get(null,'l1')).toBeFalsy()
 })
