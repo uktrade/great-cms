@@ -133,7 +133,6 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
             )
             # We now need the full export plan to calculate the totals
             calculated_pricing = helpers.calculated_cost_pricing(updated_export_plan)
-            print(calculated_pricing)
             return Response(calculated_pricing)
 
 

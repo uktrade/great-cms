@@ -186,7 +186,7 @@ def get_population_data(country, target_ages):
     return response.json()
 
 
-def get_check_duties_link(exportplan):
+def get_check_duties_link(export_plan):
     # TODO Once requirements have been defined pick country code from export plan
     url = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     return url
@@ -229,5 +229,5 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
 
 
 def calculated_cost_pricing(exportplan_data):
-    calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing()
+    calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing
     return {'calculated_cost_pricing': calculated_pricing}

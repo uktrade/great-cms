@@ -33,7 +33,8 @@ def cost_pricing_data():
             'final_cost_per_unit': 16.00,
             'net_price': 22.00,
             'units_to_export_first_period': {'value': 22.00},
-            'duty_per_unit': 0.5,
+            'duty_per_unit': 15.13,
+            'local_tax_charges': 5.23,
         },
     }
 

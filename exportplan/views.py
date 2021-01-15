@@ -265,6 +265,7 @@ class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
         context['export_unit_choices'] = choices_to_key_value(choices.EXPORT_UNITS)
         context['export_timeframe_choices'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
         currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))

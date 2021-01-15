@@ -387,14 +387,15 @@ def test_update_calculate_cost_and_pricing(
     assert mock_update_exportplan.call_args == mock.call(
         data={'direct_costs': OrderedDict([('product_costs', '3.00')])}, id=1, sso_session_id='123'
     )
-
     assert response.json() == {
         'calculated_cost_pricing': {
-            'total_direct_costs': 15.0,
-            'total_overhead_costs': 1355.0,
-            'profit_per_unit': 6.0,
-            'potential_total_profit': 132.0,
-            'gross_price_per_unit': 11.0,
+            'total_direct_costs': '15.00',
+            'total_overhead_costs': '1355.00',
+            'profit_per_unit': '6.00',
+            'potential_total_profit': '132.00',
+            'gross_price_per_unit': '42.36',
+            'total_export_costs': '1685.00',
+            'estimated_costs_per_unit': '76.59',
         }
     }
 

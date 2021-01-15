@@ -1,6 +1,8 @@
 from directory_validators.string import no_html
 from rest_framework import serializers
 
+from exportplan.utils import format_two_dp
+
 
 class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
     sectors = serializers.ListField(child=serializers.CharField())
@@ -81,11 +83,12 @@ class DirectCostsSerializer(serializers.Serializer):
     labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     other_direct_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
-    def calculate_total_direct_costs(self):
+    @property
+    def total_direct_costs(self):
         self.is_valid()
         total = 0.00
         for field in self.data:
-            total = round(total + float(self.data[field]), 2)
+            total = total + float(self.data[field])
         return total
 
 
@@ -97,11 +100,12 @@ class OverheadCostsSerializer(serializers.Serializer):
     insurance = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     other_overhead_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
-    def calculate_total_overhead_costs(self):
+    @property
+    def total_overhead_costs(self):
         self.is_valid()
         total = 0.00
         for field in self.data:
-            total = round(total + float(self.data[field]), 2)
+            total = total + float(self.data[field])
         return total
 
 
@@ -121,29 +125,33 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     profit_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     potential_total_profit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
-    def calculate_profit_per_unit(self):
+    @property
+    def profit_per_unit(self):
         self.is_valid()
         profit_per_unit = 0.00
         if self.data.get('net_price') and self.data.get('final_cost_per_unit'):
-            profit_per_unit = round(float(self.data['net_price']) - float(self.data['final_cost_per_unit']), 2)
+            profit_per_unit = float(self.data['net_price']) - float(self.data['final_cost_per_unit'])
         return profit_per_unit
 
-    def calculate_gross_price_per_unit(self):
+    @property
+    def gross_price_per_unit(self):
         self.is_valid()
         duty_per_unit = self.data.get('duty_per_unit')
         net_price = self.data.get('net_price')
+        local_tax_charges = self.data.get('local_tax_charges')
         gross_price_per_unit = 0.00
-        if net_price and duty_per_unit:
-            gross_price_per_unit = round(float(duty_per_unit) * float(net_price), 2)
+        if net_price and duty_per_unit and local_tax_charges:
+            gross_price_per_unit = float(duty_per_unit) + float(local_tax_charges) + float(net_price)
         return gross_price_per_unit
 
-    def calculate_potential_total_profit(self):
+    @property
+    def potential_total_profit(self):
         self.is_valid()
         no_of_unit = self.data.get('units_to_export_first_period', {}).get('value')
-        profit_per_unit = self.calculate_profit_per_unit()
+        profit_per_unit = self.profit_per_unit
         potential_total_profit = 0.00
         if no_of_unit and profit_per_unit:
-            potential_total_profit = round(profit_per_unit * float(no_of_unit), 2)
+            potential_total_profit = profit_per_unit * float(no_of_unit)
         return potential_total_profit
 
 
@@ -161,34 +169,59 @@ class ExportPlanSerializer(serializers.Serializer):
     overhead_costs = OverheadCostsSerializer(required=False)
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
 
+    @property
+    def total_direct_costs(self):
+        self.is_valid()
+        total_direct_costs = 0.00
+        if self.data.get('direct_costs'):
+            total_direct_costs = DirectCostsSerializer(data=self.data['direct_costs']).total_direct_costs
+        return total_direct_costs
+
+    @property
+    def total_overhead_costs(self):
+        self.is_valid()
+        total_overhead_costs = 0.00
+        if self.data.get('overhead_costs'):
+            total_overhead_costs = OverheadCostsSerializer(data=self.data['overhead_costs']).total_overhead_costs
+        return total_overhead_costs
+
+    @property
+    def total_export_costs(self):
+        self.is_valid()
+        units_to_export = self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value')
+        total_export_costs = 0.00
+        if units_to_export:
+            total_export_costs = (self.total_direct_costs * float(units_to_export)) + self.total_overhead_costs
+        return total_export_costs
+
+    @property
+    def estimated_costs_per_unit(self):
+        self.is_valid()
+        units_to_export = self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value')
+        estimated_costs_per_unit = 0.00
+        if self.total_overhead_costs > 0 and units_to_export:
+            estimated_costs_per_unit = (self.total_overhead_costs / float(units_to_export)) + self.total_direct_costs
+        return estimated_costs_per_unit
+
+    @property
     def calculate_cost_pricing(self):
         self.is_valid()
-        calculated_dict = {}
-        if self.data.get('direct_costs'):
-            calculated_dict.update(
-                {
-                    'total_direct_costs': DirectCostsSerializer(
-                        data=self.data['direct_costs']
-                    ).calculate_total_direct_costs()
-                }
-            )
-        if self.data.get('overhead_costs'):
-            calculated_dict.update(
-                {
-                    'total_overhead_costs': OverheadCostsSerializer(
-                        data=self.data['overhead_costs']
-                    ).calculate_total_overhead_costs()
-                }
-            )
+        calculated_dict = {
+            'total_direct_costs': format_two_dp(self.total_direct_costs),
+            'total_overhead_costs': format_two_dp(self.total_overhead_costs),
+        }
+
         if self.data.get('total_cost_and_price'):
             serializer = TotalCostAndPriceSerializer(data=self.data['total_cost_and_price'])
             calculated_dict.update(
                 {
-                    'profit_per_unit': serializer.calculate_profit_per_unit(),
-                    'potential_total_profit': serializer.calculate_potential_total_profit(),
-                    'gross_price_per_unit': serializer.calculate_gross_price_per_unit(),
+                    'profit_per_unit': format_two_dp(serializer.profit_per_unit),
+                    'potential_total_profit': format_two_dp(serializer.potential_total_profit),
+                    'gross_price_per_unit': format_two_dp(serializer.gross_price_per_unit),
                 }
             )
+        calculated_dict['total_export_costs'] = format_two_dp(self.total_export_costs)
+        calculated_dict['estimated_costs_per_unit'] = format_two_dp(self.estimated_costs_per_unit)
         return calculated_dict
 
 

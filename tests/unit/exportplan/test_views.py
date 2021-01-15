@@ -248,6 +248,9 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
     response = client.get(url)
 
     assert response.status_code == 200
+    assert (
+        response.context_data['check_duties_link'] == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+    )
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
     assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
@@ -255,11 +258,13 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
     assert response.context_data['calculated_pricing'] == json.dumps(
         {
             'calculated_cost_pricing': {
-                'total_direct_costs': 15.0,
-                'total_overhead_costs': 1355.0,
-                'profit_per_unit': 6.0,
-                'potential_total_profit': 132.0,
-                'gross_price_per_unit': 11.0,
+                'total_direct_costs': '15.00',
+                'total_overhead_costs': '1355.00',
+                'profit_per_unit': '6.00',
+                'potential_total_profit': '132.00',
+                'gross_price_per_unit': '42.36',
+                'total_export_costs': '1685.00',
+                'estimated_costs_per_unit': '76.59',
             }
         }
     )
