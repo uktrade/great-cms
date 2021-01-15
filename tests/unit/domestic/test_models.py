@@ -1,12 +1,18 @@
 from unittest import mock
 
 import pytest
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
 from core import mixins
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
-from domestic.models import DomesticDashboard, DomesticHomePage
+from domestic.models import (
+    DomesticDashboard,
+    DomesticHomePage,
+    industry_accordions_validation,
+    main_statistics_validation,
+)
 from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -431,3 +437,56 @@ def test_related_pages(
         **kwargs,
     )
     assert [x for x in page.related_pages] == [x for x in kwargs.values()]
+
+
+@pytest.mark.parametrize(
+    'blocks_to_create,expected_exception_message',
+    (
+        (1, 'There must be between two and six statistics in this panel'),
+        (2, None),
+        (3, None),
+        (4, None),
+        (5, None),
+        (6, None),
+        (7, 'There must be between two and six statistics in this panel'),
+    ),
+)
+def test_main_statistics_validation(blocks_to_create, expected_exception_message):
+    value = [mock.Mock() for x in range(blocks_to_create)]
+
+    if expected_exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            main_statistics_validation(value)
+            assert ctx.message == expected_exception_message
+    else:
+        try:
+            main_statistics_validation(value)  #
+        except Exception as e:
+            assert False, 'Should not have got a {}'.format(e)
+
+
+@pytest.mark.parametrize(
+    'blocks_to_create,expected_exception_message',
+    (
+        (1, None),
+        (2, None),
+        (3, None),
+        (4, None),
+        (5, None),
+        (6, None),
+        (7, 'There must be no more than six industry blocks in this panel'),
+    ),
+)
+def test_industry_accordions_validation(blocks_to_create, expected_exception_message):
+
+    value = [mock.Mock() for x in range(blocks_to_create)]
+
+    if expected_exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            industry_accordions_validation(value)
+            assert ctx.message == expected_exception_message
+    else:
+        try:
+            industry_accordions_validation(value)  #
+        except Exception as e:
+            assert False, 'Should not have got a {}'.format(e)

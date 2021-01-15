@@ -265,7 +265,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
 
 
 def general_statistics_streamfield_validation(value):
-    if value and len(value) > 6:
+    if value and (len(value) < 2 or len(value) > 6):
         raise StreamBlockValidationError(
             non_block_errors=ValidationError(
                 'There must be between two and six statistics in this panel', code='invalid'
