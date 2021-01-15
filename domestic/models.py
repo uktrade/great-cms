@@ -29,10 +29,10 @@ class BaseLegacyPage(Page):
 
     def get_ancestors_in_app(self):
         """
-        Starts at 2 to exclude the root page and the app page.
+        Starts at 1 to exclude the root page and the app page.
         Ignores 'folder' pages.
         """
-        ancestors = self.get_ancestors()[2:]
+        ancestors = self.get_ancestors()[1:]
 
         return [page for page in ancestors if not page.specific_class.folder_page]
 
