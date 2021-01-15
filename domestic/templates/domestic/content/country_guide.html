@@ -52,7 +52,7 @@
 <section id="country-guide-section-one" class="section-one padding-vertical-60">
   <div class="container">
     <div class="grid-row">
-      <div class="column-full column-half-l section-one-body">
+      <div class="column-full column-half-l section-one-body rich-text">
         {{ page.section_one_body|richtext }}
       </div>
       <div class="column-full column-half-l">
@@ -116,7 +116,7 @@
                 <p class="font-small">{{ column.teaser }}</p>
                 <hr>
                 {% endif %}
-                {{ column.body|richtext }}
+                <div class="rich-text">{{ column.body|richtext }}</div>
               </div>
             </div>
           </div>
