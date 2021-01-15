@@ -462,7 +462,7 @@ def test_main_statistics_validation(blocks_to_create, expected_exception_message
         try:
             main_statistics_validation(value)  #
         except Exception as e:
-            assert False, 'Should not have got a {}'.format(e)
+            assert False, f'Should not have got a {e}'
 
 
 @pytest.mark.parametrize(
@@ -489,4 +489,4 @@ def test_industry_accordions_validation(blocks_to_create, expected_exception_mes
         try:
             industry_accordions_validation(value)  #
         except Exception as e:
-            assert False, 'Should not have got a {}'.format(e)
+            assert False, f'Should not have got a {e}'

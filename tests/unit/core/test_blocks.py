@@ -355,4 +355,4 @@ def test_general_statistics_streamfield_validation(blocks_to_create, expected_ex
         try:
             core_blocks.general_statistics_streamfield_validation(value)  #
         except Exception as e:
-            assert False, 'Should not have got a {}'.format(e)
+            assert False, f'Should not have got a {e}'
