@@ -77,7 +77,7 @@ export const Select = ({
         id={id || label}
         name={label}
         readOnly
-        value={input}
+        value={selected}
         placeholder={placeholder}
         description={description}
         tooltip={tooltip}

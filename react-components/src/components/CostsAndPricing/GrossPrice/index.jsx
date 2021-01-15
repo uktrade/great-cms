@@ -48,7 +48,12 @@ export const GrossPrice = memo(
                   }}
                   name={select.name}
                   options={select.options}
-                  selected={select.value}
+                  selected={
+                    select.value
+                      ? select.options.find((x) => x.value === select.value)
+                          .label
+                      : ''
+                  }
                   hideLabel
                   placeholder={select.placeholder}
                 />
