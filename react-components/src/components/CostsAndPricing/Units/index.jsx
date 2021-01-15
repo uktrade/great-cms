@@ -13,7 +13,13 @@ export const Units = memo(({ update, input, select, description }) => {
         <div className="w-full">
           <div className="c-1-6 m-r-xs">
             <Input
-              onChange={update}
+              onChange={(x) => {
+                const postData = input.field({
+                  unit: select.value,
+                  value: x[input.id],
+                })
+                update(x, postData)
+              }}
               label={input.label}
               id={input.id}
               hideLabel
@@ -25,12 +31,23 @@ export const Units = memo(({ update, input, select, description }) => {
           <div className="c-1-3">
             <Select
               label={select.label}
-              update={(item) => update(select.id, item)}
+              id={select.id}
+              update={(item) => {
+                const postData = input.field({
+                  unit: item[select.name],
+                  value: input.value,
+                })
+                update({ [select.id]: item[select.name] }, postData)
+              }}
               name={select.name}
               options={select.options}
-              selected={select.value}
               hideLabel
               placeholder={select.placeholder}
+              selected={
+                select.value
+                  ? select.options.find((x) => x.value === select.value).label
+                  : ''
+              }
             />
           </div>
         </div>
@@ -40,11 +57,13 @@ export const Units = memo(({ update, input, select, description }) => {
 })
 
 Units.propTypes = {
+  description: PropTypes.string.isRequired,
   input: PropTypes.shape({
     label: PropTypes.string,
     id: PropTypes.string,
     value: PropTypes.string,
     type: PropTypes.string,
+    field: PropTypes.func,
     placeholder: PropTypes.string,
   }).isRequired,
   select: PropTypes.shape({

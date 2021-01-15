@@ -66710,6 +66710,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @components/tooltip/Tooltip */ "./node_modules/great-styles/dist/components/tooltip/Tooltip.js");
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_4__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -66721,7 +66723,7 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
       GrossPriceUnit = _ref.GrossPriceUnit,
       profitPerUnit = _ref.profitPerUnit,
       potentialPerUnit = _ref.potentialPerUnit,
-      _update = _ref.update,
+      _update2 = _ref.update,
       input = _ref.input,
       select = _ref.select;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -66750,8 +66752,14 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
     className: "c-1-6 m-r-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
     label: select.label,
+    id: select.id,
     update: function update(item) {
-      return _update(select.id, item);
+      var postData = input.field({
+        unit: item[select.name],
+        value: input.value
+      });
+
+      _update2(_defineProperty({}, select.id, item[select.name]), postData);
     },
     name: select.name,
     options: select.options,
@@ -66761,7 +66769,14 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
-    onChange: _update,
+    onChange: function onChange(x) {
+      var postData = input.field({
+        unit: select.value,
+        value: x[input.id]
+      });
+
+      _update2(x, postData);
+    },
     label: input.label,
     id: input.id,
     hideLabel: true,
@@ -66804,7 +66819,8 @@ GrossPrice.propTypes = {
     id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func
   }).isRequired,
   select: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -66891,13 +66907,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
 /* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
 
 
 var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var _update = _ref.update,
+  var _update2 = _ref.update,
       input = _ref.input,
       select = _ref.select,
       description = _ref.description;
@@ -66908,7 +66926,14 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-6 m-r-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__["Input"], {
-    onChange: _update,
+    onChange: function onChange(x) {
+      var postData = input.field({
+        unit: select.value,
+        value: x[input.id]
+      });
+
+      _update2(x, postData);
+    },
     label: input.label,
     id: input.id,
     hideLabel: true,
@@ -66919,22 +66944,32 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     className: "c-1-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__["Select"], {
     label: select.label,
+    id: select.id,
     update: function update(item) {
-      return _update(select.id, item);
+      var postData = input.field({
+        unit: item[select.name],
+        value: input.value
+      });
+
+      _update2(_defineProperty({}, select.id, item[select.name]), postData);
     },
     name: select.name,
     options: select.options,
-    selected: select.value,
     hideLabel: true,
-    placeholder: select.placeholder
+    placeholder: select.placeholder,
+    selected: select.value ? select.options.find(function (x) {
+      return x.value === select.value;
+    }).label : ''
   })))));
 });
 Units.propTypes = {
+  description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   input: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
     placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
   }).isRequired,
   select: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
@@ -67098,32 +67133,55 @@ var unitsToExport = {
   label: 'Number of units to exports',
   id: 'units_to_export',
   placeholder: 0,
-  type: 'number'
+  type: 'number',
+  field: function field(x) {
+    return {
+      total_cost_and_price: {
+        units_to_export_first_period: x
+      }
+    };
+  }
 };
 var exportUnits = {
   id: 'export_units',
   label: 'select unit',
   name: 'select units',
-  placeholder: 'Select unit'
+  placeholder: 'Select unit',
+  field: 'total_cost_and_price'
 };
 var timeframe = {
   label: 'Time frame to export',
   id: 'time_frame',
   placeholder: 0,
-  type: 'number'
+  type: 'number',
+  field: function field(x) {
+    return {
+      total_cost_and_price: {
+        units_to_export_second_period: x
+      }
+    };
+  }
 };
 var timeframeUnits = {
   id: 'export_time_frame',
   label: 'select timeframe',
   name: 'select units',
-  placeholder: 'Select unit'
+  placeholder: 'Select unit',
+  field: 'total_cost_and_price'
 };
 var grossPriceCurrency = {
   label: 'Gross Price currency',
   id: 'gross_price_per_unit_invoicing',
   tooltip: 'tooltip',
   placeholder: 0,
-  type: 'number'
+  type: 'number',
+  field: function field(x) {
+    return {
+      total_cost_and_price: {
+        gross_price_per_unit_invoicing_currency: x
+      }
+    };
+  }
 };
 var grossPriceUnitSelect = {
   id: 'gross_price_per_unit_currency',
@@ -67241,11 +67299,15 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       totals = _ref.totals,
       initialData = _ref.initialData,
       currencies = _ref.currencies,
-      timeframeUnits = _ref.timeframeUnits,
       init = _ref.init;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
     init(_objectSpread(_objectSpread({}, totals), initialData));
   }, []);
+
+  var _onChange = function onChange(updateField, input) {
+    update(updateField, _defineProperty({}, input.field, _defineProperty({}, input.id, Number(updateField[input.id]).toFixed(2))));
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -67280,20 +67342,20 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["timeframe"]), {}, {
       value: data.time_frame
     }),
-    select: _objectSpread(_objectSpread({}, timeframeUnits), {}, {
+    select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["timeframeUnits"]), {}, {
       value: data.export_time_frame,
       options: exportTimeframe
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"].id]).toFixed(2))));
+      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"]);
     },
     value: data.final_cost_per_unit,
     hideLabel: true,
     prepend: currency
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["costPerUnit"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"].id]).toFixed(2))));
+      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"]);
     },
     value: data.average_price_per_unit,
     hideLabel: true,
@@ -67301,7 +67363,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     description: "<h2 class=\"h-xs p-t-xs p-b-0\">Average price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Find the average price of similar products in your target market. Do some research using:</p><ul class=\"list-dot\"><li>online retailers</li><li>web searches</li><li>store prices</li></ul><p>Then find the average of these prices and enter the figure below.</p><p class=\"m-b-0\">Remember to convert the figure to GBP before entering it.</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["averagePrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"].id]).toFixed(2))));
+      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"]);
     },
     value: data.net_price,
     hideLabel: true,
@@ -67309,7 +67371,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     description: "<h2 class=\"h-xs p-t-0 p-b-0\">Your net price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Deciding on what price your product will be sold for in retailers can be a difficult decision.</p><p class=\"m-b-0\">You want to make sure you sell your product for more than it cost to make it, this way you make a profit on every unit sold.</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["netPrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"].id]).toFixed(2))));
+      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"]);
     },
     value: data.local_tax_charges,
     hideLabel: true,
@@ -67317,7 +67379,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     description: "<h2 class=\"h-xs p-t-0 p-b-0\">Local taxes and charges in the ".concat(country, "</h2><p class=\"m-t-xs\">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ").concat(country, "</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      update(x, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"].field, _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"].id, Number(x[_constants__WEBPACK_IMPORTED_MODULE_7__["duty"].id]).toFixed(2))));
+      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"]);
     },
     value: data.duty_per_unit,
     hideLabel: true,
@@ -73711,7 +73773,13 @@ var initialState = {
           average_price_per_unit: total_cost_and_price.average_price_per_unit,
           net_price: total_cost_and_price.net_price,
           local_tax_charges: total_cost_and_price.local_tax_charges,
-          duty_per_unit: total_cost_and_price.duty_per_unit
+          duty_per_unit: total_cost_and_price.duty_per_unit,
+          units_to_export: total_cost_and_price.units_to_export_first_period.value,
+          export_units: total_cost_and_price.units_to_export_first_period.unit,
+          time_frame: total_cost_and_price.units_to_export_second_period.value,
+          export_time_frame: total_cost_and_price.units_to_export_second_period.unit,
+          gross_price_per_unit_invoicing: total_cost_and_price.units_to_export_second_period.value,
+          gross_price_per_unit_currency: total_cost_and_price.units_to_export_second_period.unit
         });
       }
 

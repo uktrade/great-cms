@@ -38,7 +38,14 @@ export const GrossPrice = memo(
               <div className="c-1-6 m-r-xs">
                 <Select
                   label={select.label}
-                  update={(item) => update(select.id, item)}
+                  id={select.id}
+                  update={(item) => {
+                    const postData = input.field({
+                      unit: item[select.name],
+                      value: input.value,
+                    })
+                    update({ [select.id]: item[select.name] }, postData)
+                  }}
                   name={select.name}
                   options={select.options}
                   selected={select.value}
@@ -48,7 +55,13 @@ export const GrossPrice = memo(
               </div>
               <div className="c-1-3">
                 <Input
-                  onChange={update}
+                  onChange={(x) => {
+                    const postData = input.field({
+                      unit: select.value,
+                      value: x[input.id],
+                    })
+                    update(x, postData)
+                  }}
                   label={input.label}
                   id={input.id}
                   hideLabel
@@ -98,6 +111,7 @@ GrossPrice.propTypes = {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.string,
+    field: PropTypes.func,
   }).isRequired,
   select: PropTypes.shape({
     label: PropTypes.string,

@@ -18,6 +18,7 @@ import {
   exportUnits,
   grossPriceUnitSelect,
   timeframe,
+  timeframeUnits,
   grossPriceCurrency,
 } from './constants'
 
@@ -32,7 +33,6 @@ export const CostsAndPricing = memo(
     totals,
     initialData,
     currencies,
-    timeframeUnits,
     init,
   }) => {
     useState(() => {
@@ -41,6 +41,14 @@ export const CostsAndPricing = memo(
         ...initialData,
       })
     }, [])
+
+    const onChange = (updateField, input) => {
+      update(updateField, {
+        [input.field]: {
+          [input.id]: Number(updateField[input.id]).toFixed(2),
+        },
+      })
+    }
 
     return (
       <>
@@ -83,26 +91,15 @@ export const CostsAndPricing = memo(
                 }}
               />
               <Input
-                onChange={(x) => {
-                  update(x, {
-                    [costPerUnit.field]: {
-                      [costPerUnit.id]: Number(x[costPerUnit.id]).toFixed(2),
-                    },
-                  })
-                }}
+                onChange={(x) => onChange(x, costPerUnit)}
                 value={data.final_cost_per_unit}
                 hideLabel
                 prepend={currency}
                 {...costPerUnit}
               />
+
               <Input
-                onChange={(x) => {
-                  update(x, {
-                    [averagePrice.field]: {
-                      [averagePrice.id]: Number(x[averagePrice.id]).toFixed(2),
-                    },
-                  })
-                }}
+                onChange={(x) => onChange(x, averagePrice)}
                 value={data.average_price_per_unit}
                 hideLabel
                 prepend={currency}
@@ -110,13 +107,7 @@ export const CostsAndPricing = memo(
                 {...averagePrice}
               />
               <Input
-                onChange={(x) => {
-                  update(x, {
-                    [netPrice.field]: {
-                      [netPrice.id]: Number(x[netPrice.id]).toFixed(2),
-                    },
-                  })
-                }}
+                onChange={(x) => onChange(x, netPrice)}
                 value={data.net_price}
                 hideLabel
                 prepend={currency}
@@ -124,13 +115,7 @@ export const CostsAndPricing = memo(
                 {...netPrice}
               />
               <Input
-                onChange={(x) => {
-                  update(x, {
-                    [localTaxes.field]: {
-                      [localTaxes.id]: Number(x[localTaxes.id]).toFixed(2),
-                    },
-                  })
-                }}
+                onChange={(x) => onChange(x, localTaxes)}
                 value={data.local_tax_charges}
                 hideLabel
                 prepend={currency}
@@ -138,13 +123,7 @@ export const CostsAndPricing = memo(
                 {...localTaxes}
               />
               <Input
-                onChange={(x) => {
-                  update(x, {
-                    [duty.field]: {
-                      [duty.id]: Number(x[duty.id]).toFixed(2),
-                    },
-                  })
-                }}
+                onChange={(x) => onChange(x, duty)}
                 value={data.duty_per_unit}
                 hideLabel
                 prepend={currency}

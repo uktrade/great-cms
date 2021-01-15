@@ -59,6 +59,16 @@ export default (state = initialState, action) => {
         net_price: total_cost_and_price.net_price,
         local_tax_charges: total_cost_and_price.local_tax_charges,
         duty_per_unit: total_cost_and_price.duty_per_unit,
+        units_to_export:
+          total_cost_and_price.units_to_export_first_period.value,
+        export_units: total_cost_and_price.units_to_export_first_period.unit,
+        time_frame: total_cost_and_price.units_to_export_second_period.value,
+        export_time_frame:
+          total_cost_and_price.units_to_export_second_period.unit,
+        gross_price_per_unit_invoicing:
+          total_cost_and_price.units_to_export_second_period.value,
+        gross_price_per_unit_currency:
+          total_cost_and_price.units_to_export_second_period.unit,
       }
     }
     case FIELD_UPDATE_SUCCESS: {

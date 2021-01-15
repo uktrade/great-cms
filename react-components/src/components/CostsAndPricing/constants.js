@@ -157,6 +157,11 @@ export const unitsToExport = {
   id: 'units_to_export',
   placeholder: 0,
   type: 'number',
+  field: (x) => ({
+    total_cost_and_price: {
+      units_to_export_first_period: x,
+    },
+  }),
 }
 
 export const exportUnits = {
@@ -164,6 +169,7 @@ export const exportUnits = {
   label: 'select unit',
   name: 'select units',
   placeholder: 'Select unit',
+  field: 'total_cost_and_price',
 }
 
 export const timeframe = {
@@ -171,6 +177,11 @@ export const timeframe = {
   id: 'time_frame',
   placeholder: 0,
   type: 'number',
+  field: (x) => ({
+    total_cost_and_price: {
+      units_to_export_second_period: x,
+    },
+  }),
 }
 
 export const timeframeUnits = {
@@ -178,6 +189,7 @@ export const timeframeUnits = {
   label: 'select timeframe',
   name: 'select units',
   placeholder: 'Select unit',
+  field: 'total_cost_and_price',
 }
 
 export const grossPriceCurrency = {
@@ -186,6 +198,11 @@ export const grossPriceCurrency = {
   tooltip: 'tooltip',
   placeholder: 0,
   type: 'number',
+  field: (x) => ({
+    total_cost_and_price: {
+      gross_price_per_unit_invoicing_currency: x,
+    },
+  }),
 }
 
 export const grossPriceUnitSelect = {
