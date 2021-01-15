@@ -15,21 +15,31 @@
       text-align: right;
       border-bottom: 1px solid $blue-deep-20;
     }
+    td.align-left, th.align-left {
+      text-align: left;
+    }
+    td.align-top {
+      vertical-align: top;
+    }
     td.name {
       text-align: left;
     }
     td.no-data {
       text-align: center;
     }
+    td p.entry {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
   }
   button {
     color: $white;
   }
-}
-.add-market {
+  .add-market {
     color: $white;
     margin-top: 20px;
-}
-.source-attribution {
-  margin: 20px 0 0;
+  }
+  .source-attribution {
+    margin: 20px 0 0;
+  }
 }
