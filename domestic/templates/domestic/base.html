@@ -7,17 +7,20 @@
     <!--[if lt IE 9]><html class="lte-ie8" lang={{ directory_components_html_lang_attribute|default:'en-gb' }}><![endif]-->
     <!--[if gt IE 8]><!--><html dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}" lang={{ directory_components_html_lang_attribute|default:'en-gb' }}><!--<![endif]-->
     <head>
+        <meta charset="utf-8" />
+        {% block sharing_description %}
+            <meta name="description" content="{% block meta_description %}{% firstof page.search_description page.teaser page.featured_description page.seo_title page.title %}{% endblock %}">
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_google_tag_manager %}
             {% if directory_components_analytics %}
-                <meta id="utmCookieDomain" value="{{ directory_components_analytics.UTM_COOKIE_DOMAIN }}" />
+                <meta id="utmCookieDomain" value=".great.gov.uk" />
             {% endif %}
             {% include 'components/google_tag_manager_head.html' %}
         {% endblock %}
         {% block cookie_domain_meta %}
-          <meta id="privacyCookieDomain" value="{{ directory_components_cookie_notice.PRIVACY_COOKIE_DOMAIN }}" />
+          <meta id="privacyCookieDomain" value=".great.gov.uk" />
         {% endblock %}
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
             {% block head_title %}{% endblock %}
         </title>
@@ -34,11 +37,11 @@
             <link href="{% static 'styles/main.css' %}" rel="stylesheet" type="text/css" />
         {% endblock %}
 
-        <style type="text/css">
+        <style>
             .js-disabled-only { display: none; }
         </style>
         <noscript>
-            <style type="text/css">
+            <style>
                 .navigation-toggle { display: block; }
                 .js-disabled-only { display: block; }
                 .js-enabled-only { display: none; }
@@ -54,7 +57,7 @@
             <script src="{% static 'js/dit.js' %}"></script>
             <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
             <script src="{% static 'directory_components/js/reactComponents.js' %}"></script>
-            <script type="text/javascript">
+            <script>
               // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
               window.onpageshow = function (event) {
                   if (event.persisted) {
@@ -66,7 +69,7 @@
 
         {% block head_js_ga360 %}
             <script src="{% static 'directory_components/js/dit.tagging.js' %}"></script>
-            <script type="text/javascript">
+            <script>
                 window.dataLayer = window.dataLayer || [];
                 {% if ga360 and not skip_ga360 %}
                 window.dataLayer.push({
@@ -107,10 +110,6 @@
                 {% endif %}
             {% endif %}
             {% endblock %}
-
-            {% block sharing_description %}
-            <meta name="description" content="{% block meta_description %}{% firstof page.search_description page.teaser page.featured_description page.seo_title page.title %}{% endblock %}">
-            {% endblock %}
         {% endblock %}
     </head>
 
@@ -118,7 +117,7 @@
         {% block body_google_tag_manager %}
             {% include 'components/google_tag_manager_body.html' %}
         {% endblock %}
-        <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+        <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
         {% block skip_link %}
           <a id="skip-link" href="#content">Skip to main content</a>
@@ -133,7 +132,7 @@
         {% endblock %}
 
         {% block body_content_container %}
-            <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
+            <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}">
                 {% block content %}{% endblock %}
                 {% block feedback_reporter %}
                     {% include 'components/error_reporting.html' %}
@@ -150,7 +149,7 @@
             {% if request.resolver_match.url_name != 'privacy-and-cookies' %}
                 {{ block.super }}
             {% endif %}
-          <script type="text/javascript">
+          <script>
             var element = document.createElement('div');
             document.body.appendChild(element);
             reactComponents.CookiesModal({

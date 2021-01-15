@@ -20,17 +20,13 @@
                 {% endif %}
 
                     {% if not number_first %}
-                        <figcaption>
                         <p class="statistic-heading font-xsmall">{{ statistics_block.value.heading }}</p>
-                        </figcaption>
                     {% endif %}
                         <p class="active-blue-text statistic-number {% if statistics_block.value.number|length > 8 %} bold-medium{% else %} bold-large{% endif %}">
                             {{ statistics_block.value.number }}
                         </p>
                     {% if number_first %}
-                        <figcaption>
-                            <p class="statistic-heading font-xsmall">{{ statistics_block.value.heading }}</p>
-                        </figcaption>
+                        <p class="statistic-heading font-xsmall">{{ statistics_block.value.heading }}</p>
                     {% endif %}
                         <figcaption>
                             <p class="font-xsmall statistic-smallprint">{{ statistics_block.value.smallprint }}</p>
