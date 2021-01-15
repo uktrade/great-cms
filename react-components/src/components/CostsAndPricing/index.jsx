@@ -17,6 +17,7 @@ import {
   unitsToExport,
   exportUnits,
   grossPriceUnitSelect,
+  timeframe,
   grossPriceCurrency,
 } from './constants'
 
@@ -30,6 +31,8 @@ export const CostsAndPricing = memo(
     exportTimeframe,
     totals,
     initialData,
+    currencies,
+    timeframeUnits,
     init,
   }) => {
     useState(() => {
@@ -58,12 +61,25 @@ export const CostsAndPricing = memo(
                 update={update}
               />
               <Units
+                description={
+                  '<h2 class="h-m p-b-xs p-t-m">Total costs and price</h2><p>Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don\'t worry, we will tell you what you need to do. </p><h2 class="h-xs p-t-0 p-b-0">Number of units you want to export</h2><p class="m-t-xs">First, record how many units you want to export over a given period of time.</p><p class="m-b-xs">The more accurate you are, the better your plan will be.</p>'
+                }
                 update={update}
                 input={{ ...unitsToExport, value: data.units_to_export }}
                 select={{
                   ...exportUnits,
                   value: data.export_units,
                   options: units,
+                }}
+              />
+              <Units
+                description={'<p class="m-t-0 m-b-xs">over the next</p>'}
+                update={update}
+                input={{ ...timeframe, value: data.time_frame }}
+                select={{
+                  ...timeframeUnits,
+                  value: data.export_time_frame,
+                  options: exportTimeframe,
                 }}
               />
               <Input
@@ -127,6 +143,7 @@ export const CostsAndPricing = memo(
                   select={{
                     ...grossPriceUnitSelect,
                     value: data.gross_price_per_unit_currency,
+                    options: currencies,
                   }}
                 />
               </div>
@@ -149,4 +166,14 @@ CostsAndPricing.propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
   }).isRequired,
+  currencies: PropTypes.arrayOf({
+    value: PropTypes.string,
+    label: PropTypes.string,
+  }).isRequired,
+  exportTimeframe: PropTypes.arrayOf({
+    value: PropTypes.string,
+    label: PropTypes.string,
+  }).isRequired,
+  totals: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  initialData: PropTypes.oneOfType([PropTypes.string]).isRequired,
 }

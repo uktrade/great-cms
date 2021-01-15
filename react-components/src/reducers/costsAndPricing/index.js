@@ -30,6 +30,8 @@ export const initialState = {
   price_per_unit: '',
   units_to_export: '',
   export_units: '',
+  time_frame: '',
+  export_time_frame: '',
 }
 
 export default (state = initialState, action) => {

@@ -169,6 +169,20 @@ export const exportUnits = {
   placeholder: 'Select unit',
 }
 
+export const timeframe = {
+  label: 'Time frame to export',
+  id: 'time_frame',
+  placeholder: 0,
+  type: 'number',
+}
+
+export const timeframeUnits = {
+  id: 'export_time_frame',
+  label: 'select timeframe',
+  name: 'select units',
+  placeholder: 'Select unit',
+}
+
 export const grossPriceCurrency = {
   label: 'Gross Price currency',
   id: 'gross_price_per_unit_invoicing',
@@ -182,8 +196,4 @@ export const grossPriceUnitSelect = {
   label: 'select unit',
   name: 'select units',
   placeholder: 'Select unit',
-  options: [
-    { value: 'item_one', label: 'item one' },
-    { value: 'item_two', label: 'item two' },
-  ],
 }

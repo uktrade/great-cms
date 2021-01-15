@@ -1,24 +1,14 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
 
-export const Units = memo(({ update, input, select }) => {
+export const Units = memo(({ update, input, select, description }) => {
   return (
     <>
-      <h2 className="h-m p-b-xs p-t-m">Total costs and price</h2>
-      <p>
-        Now you have calculated your direct and overhead costs, you can
-        calculate your final cost per unit. This can be tricky but don't worry,
-        we will tell you what you need to do.
-      </p>
-      <h2 className="h-xs p-t-0 p-b-0">Number of units you want to export</h2>
-      <p className="m-t-xs">
-        First, record how many units you want to export over a given period of
-        time.
-      </p>
-      <p>The more accurate you are, the better your plan will be.</p>
+      {ReactHtmlParser(description)}
       <div className="grid">
         <div className="w-full">
           <div className="c-1-6 m-r-xs">
