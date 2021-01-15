@@ -38,14 +38,6 @@ export const overhead = [
     field: 'overhead_costs',
   },
   {
-    label: 'Packaging and labelling',
-    id: 'packaging',
-    placeholder: 0,
-    tooltip: '',
-    type: 'number',
-    field: 'overhead_costs',
-  },
-  {
     label: 'Freight and logistics',
     id: 'freight_logistics',
     placeholder: 0,
@@ -93,7 +85,7 @@ export const overhead = [
 
 export const costPerUnit = {
   label: 'Cost per unit',
-  id: 'cost_per_unit',
+  id: 'final_cost_per_unit',
   placeholder: 0,
   type: 'number',
   description:
@@ -104,15 +96,17 @@ export const costPerUnit = {
     content:
       '<p class="m-b-0">We calculated this by:</p><ul class="list-dot"><li>taking your total overhead costs</li><li>dividing it by the number of units you want to export</li><li>adding this to your direct costs</li></ul><p class="m-v-0">You may want to adjust this estimate, especially if your overhead costs are varied.</p>',
   },
+  field: 'total_cost_and_price',
 }
 
 export const averagePrice = {
   label: 'Average Price',
-  id: 'average_price',
+  id: 'average_price_per_unit',
   tooltip:
     '<h3>To calculate the average, add the prices together then divide by the number of prices.</h3><p>For example;</p><ul><li>product 1 costs €10</li><li>product 2 costs €12</li><li>product 3 costs €17</li></ul><p>10+12+17=39</p><p>39÷3=13</p><p>Finally, convert €13 into GBP at the current market rate to get the GBP average.</p>',
   placeholder: 0,
   type: 'number',
+  field: 'total_cost_and_price',
 }
 
 export const netPrice = {
@@ -126,11 +120,12 @@ export const netPrice = {
     content:
       '<p>To decide a final price for Dove gin we thought about:</p><ul><li>how much it cost to make one bottle of our gin</li><li>the average price for a bottle of gin in Australia</li></ul><p>This helped us decide where our product would sit in the market.</p><p>A bottle of our gin costs £15 to make, so to make a profit we had to charge over £15. Looking at Australian prices we decided on £25 a bottle in line with the market prices there. This gives us a profit margin of £10 on every unit sold.</p>',
   },
+  field: 'total_cost_and_price',
 }
 
 export const localTaxes = {
   label: 'local Taxes',
-  id: 'local_taxes',
+  id: 'local_tax_charges',
   tooltip:
     "<h3>What are local sales taxes?</h3><p>These are the taxes charged by the UK government, the government of your target market, or both.</p><p>In the UK, our local sales tax is called VAT or goods and services tax (GST).</p><p>The rate of tax you pay depends on where you're exporting.</p><p>This means that if you change target country or export to more than one place, you'll need to recalculate your gross price per unit.</p>",
   type: 'number',
@@ -140,11 +135,12 @@ export const localTaxes = {
     content:
       "<p>The rate of tax you pay depends on where you're exporting to.</p><p>If you change your target country or export to more than one place, you'll need to recalculate your gross price per unit.</p>",
   },
+  field: 'total_cost_and_price',
 }
 
 export const duty = {
   label: 'Duty',
-  id: 'duty',
+  id: 'duty_per_unit',
   tooltip:
     '<h3>What are duties?</h3><p>Duties are fees charged by the government of your target market.</p><p>These are designed to keep markets competitive.</p><p>Duties are always charged on goods, while taxes can be charged on people and goods.</p>',
   type: 'number',
@@ -153,6 +149,7 @@ export const duty = {
     '<h3 class="h-xs p-t-0 p-b-0">What is gross price per unit?</h3><p>This is the total price paid by the end customer per unit of your product including any duties, charges and taxes.</p>',
   description:
     '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit Check how to export goods and choose the commodity code that best matches your product.</p>',
+  field: 'total_cost_and_price',
 }
 
 export const unitsToExport = {
@@ -165,6 +162,20 @@ export const unitsToExport = {
 export const exportUnits = {
   id: 'export_units',
   label: 'select unit',
+  name: 'select units',
+  placeholder: 'Select unit',
+}
+
+export const timeframe = {
+  label: 'Time frame to export',
+  id: 'time_frame',
+  placeholder: 0,
+  type: 'number',
+}
+
+export const timeframeUnits = {
+  id: 'export_time_frame',
+  label: 'select timeframe',
   name: 'select units',
   placeholder: 'Select unit',
 }
@@ -182,8 +193,4 @@ export const grossPriceUnitSelect = {
   label: 'select unit',
   name: 'select units',
   placeholder: 'Select unit',
-  options: [
-    { value: 'item_one', label: 'item one' },
-    { value: 'item_two', label: 'item two' },
-  ],
 }
