@@ -1,26 +1,24 @@
 import React, { memo } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import { Option } from './Option'
 
-export const Option = memo(({ options, currency, data, update, remove }) => {
+export const Options = memo(({ formFields, currency, selectData }) => {
+  // debugger
   return (
     <div className="costs bg-blue-deep-10">
       <table className="m-b-0">
-        {options.map(({ label, id, placeholder, tooltip, type }) => (
-          <Option
-            key={id}
-            label={label}
-            id={id}
-            currency={currency}
-            placeholder={placeholder}
-            tooltip={tooltip}
-            value={data[id]}
-            update={update}
-            type={type}
-            remove={remove}
-          />
-        ))}
+        <tbody>
+          {formFields.map(({ id, value }) => (
+            <Option
+              key={id}
+              id={id}
+              value={value}
+              currency={currency}
+              selectData={selectData}
+            />
+          ))}
+        </tbody>
       </table>
     </div>
   )

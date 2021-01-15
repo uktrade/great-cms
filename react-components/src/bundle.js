@@ -18,7 +18,7 @@ import {
   financeTotalExportCost,
   financeHowMuchFunding,
   financeFundingCreditOptions,
-} from '@src/views/sections/Finance'
+} from '@src/views/sections/Finance/Finance'
 import {
   createTargetMarketResearchForm,
   createDataSnapShot,

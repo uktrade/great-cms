@@ -18,6 +18,8 @@ export const FormGroup = memo(
     hideLabel,
     lesson,
     estimate,
+    className,
+    formGroupClassName,
   }) => {
     const [toggleExample, setToggleExample] = useState(false)
     const [toggleLesson, setToggleLesson] = useState(false)
@@ -27,7 +29,9 @@ export const FormGroup = memo(
     const hasEstimate = estimate ? Object.keys(estimate).length > 0 : false
     return (
       <div
-        className={`form-group ${errors.length > 0 ? 'form-group-error' : ''}`}
+        className={`form-group ${
+          errors.length > 0 ? 'form-group-error' : ''
+        } ${className} ${formGroupClassName}`}
       >
         {label && (
           <label
@@ -146,6 +150,8 @@ FormGroup.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
+  className: PropTypes.string,
+  formGroupClassName: PropTypes.string,
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
@@ -172,4 +178,6 @@ FormGroup.defaultProps = {
   hideLabel: false,
   lesson: {},
   estimate: {},
+  className: '',
+  formGroupClassName: '',
 }

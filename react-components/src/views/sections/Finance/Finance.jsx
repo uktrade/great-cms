@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { FormElements } from '@src/components/FormElements'
+import { FundingCredit } from '@src/components/Finance/FundingCredit/FundingCredit'
 
 const financeTotalExportCostData = [
   {
@@ -38,8 +39,16 @@ const financeHowMuchFundingData = [
 
 const financeFundingCreditOptionsData = [
   {
-    name: 'financeFundingCreditOptions',
-    label: 'Test label',
+    id: '33',
+    value: 15000,
+  },
+  {
+    id: '34',
+    value: 8000,
+  },
+  {
+    id: '35',
+    value: 10000,
   },
 ]
 
@@ -64,5 +73,5 @@ export const financeFundingCreditOptions = ({ element, ...params }) => {
     ...params,
     formFields: financeFundingCreditOptionsData,
   }
-  ReactDOM.render(<FormElements {...data} />, element)
+  ReactDOM.render(<FundingCredit {...data} />, element)
 }

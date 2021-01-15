@@ -65179,7 +65179,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_CompareMarkets_SelectMarket__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/components/CompareMarkets/SelectMarket */ "./react-components/src/components/CompareMarkets/SelectMarket.jsx");
 /* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
 /* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
-/* harmony import */ var _src_views_sections_Finance__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/Finance */ "./react-components/src/views/sections/Finance/index.jsx");
+/* harmony import */ var _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/Finance/Finance */ "./react-components/src/views/sections/Finance/Finance.jsx");
 /* harmony import */ var _src_views_sections_TargetMarketResearch__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/views/sections/TargetMarketResearch */ "./react-components/src/views/sections/TargetMarketResearch/index.jsx");
 /* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
 /* harmony import */ var _src_views_sections_Objectives__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/views/sections/Objectives */ "./react-components/src/views/sections/Objectives/index.jsx");
@@ -65240,9 +65240,9 @@ __webpack_require__.r(__webpack_exports__);
   createDisabledButton: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_16__["createDisabledButton"],
   createCaseStudy: _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_20__["createCaseStudy"],
   createCostsAndPricing: _src_views_sections_CostsAndPricing__WEBPACK_IMPORTED_MODULE_15__["createCostsAndPricing"],
-  financeTotalExportCost: _src_views_sections_Finance__WEBPACK_IMPORTED_MODULE_11__["financeTotalExportCost"],
-  financeHowMuchFunding: _src_views_sections_Finance__WEBPACK_IMPORTED_MODULE_11__["financeHowMuchFunding"],
-  financeFundingCreditOptions: _src_views_sections_Finance__WEBPACK_IMPORTED_MODULE_11__["financeFundingCreditOptions"],
+  financeTotalExportCost: _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__["financeTotalExportCost"],
+  financeHowMuchFunding: _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__["financeHowMuchFunding"],
+  financeFundingCreditOptions: _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__["financeFundingCreditOptions"],
   ProductFinderButton: _src_components_ProductFinder_ProductFinderButton__WEBPACK_IMPORTED_MODULE_4__["default"],
   CountryFinderButton: _src_components_ProductFinder_CountryFinderButton__WEBPACK_IMPORTED_MODULE_5__["default"],
   CompareMarkets: _src_components_CompareMarkets__WEBPACK_IMPORTED_MODULE_7__["default"],
@@ -67562,6 +67562,252 @@ ErrorList.defaultProps = {
 
 /***/ }),
 
+/***/ "./react-components/src/components/Finance/FundingCredit/FundingCredit.jsx":
+/*!*********************************************************************************!*\
+  !*** ./react-components/src/components/Finance/FundingCredit/FundingCredit.jsx ***!
+  \*********************************************************************************/
+/*! exports provided: FundingCredit */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FundingCredit", function() { return FundingCredit; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Total__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Total */ "./react-components/src/components/Finance/FundingCredit/Total.jsx");
+/* harmony import */ var _Options__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Options */ "./react-components/src/components/Finance/FundingCredit/Options.jsx");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./react-components/src/components/Finance/constants.js");
+ // import PropTypes from 'prop-types'
+
+
+
+ // const fundingCreditOptions = {
+//   id: 'funding_option',
+//   name: 'select option',
+//   placeholder: 'Select option',
+//   currency: 'GBP',
+//   type: 'number',
+//   value: 0,
+//   options: [
+//     { value: 'bank', label: 'Bank loan' },
+//     { value: 'gov', label: 'Finance support from government' },
+//     { value: 'platform', label: 'Finance platforms' },
+//     { value: 'peer', label: 'Peer-to-peer loan' },
+//     { value: 'equity', label: 'Equity finance' },
+//     { value: 'other', label: 'other' },
+//   ],
+// }
+
+var FundingCredit = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var formFields = _ref.formFields,
+      currency = _ref.currency;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Options__WEBPACK_IMPORTED_MODULE_2__["Options"], {
+    formFields: formFields,
+    currency: currency,
+    selectData: _constants__WEBPACK_IMPORTED_MODULE_3__["fundingCreditOptions"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Total__WEBPACK_IMPORTED_MODULE_1__["Total"], {
+    label: "Total funding"
+  }));
+}); // FundingCredit.propTypes = {
+//   costs: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       label: PropTypes.string.isRequired,
+//       id: PropTypes.string.isRequired,
+//       heading: PropTypes.string.isRequired,
+//       description: PropTypes.string.isRequired,
+//     })
+//   ).isRequired,
+//   currency: PropTypes.string.isRequired,
+//   data: PropTypes.objectOf(PropTypes.number).isRequired,
+//   update: PropTypes.func.isRequired,
+// }
+
+/***/ }),
+
+/***/ "./react-components/src/components/Finance/FundingCredit/Option.jsx":
+/*!**************************************************************************!*\
+  !*** ./react-components/src/components/Finance/FundingCredit/Option.jsx ***!
+  \**************************************************************************/
+/*! exports provided: Option */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Option", function() { return Option; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+ // import PropTypes from 'prop-types'
+
+
+
+var Option = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var id = _ref.id,
+      value = _ref.value,
+      currency = _ref.currency,
+      selectData = _ref.selectData;
+  // debugger
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_2__["Select"], {
+    id: id,
+    options: selectData.options,
+    label: selectData.name,
+    hideLabel: true,
+    className: "m-b-0"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_1__["Input"], {
+    id: id,
+    type: "number",
+    value: value,
+    prepend: currency,
+    formGroupClassName: "m-b-0"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    title: "Click to delete this funding option and its data.",
+    className: "button button--delete button--small button--only-icon button--tertiary"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-trash-alt"
+  })))));
+}); // Option.propTypes = {
+//   label: PropTypes.string.isRequired,
+//   id: PropTypes.string.isRequired,
+//   currency: PropTypes.string.isRequired,
+//   placeholder: PropTypes.string.isRequired,
+//   tooltip: PropTypes.string,
+//   value: PropTypes.string.isRequired,
+//   type: PropTypes.string.isRequired,
+//   update: PropTypes.func.isRequired,
+// }
+// Option.defaultProps = {
+//   tooltip: '',
+// }
+
+/***/ }),
+
+/***/ "./react-components/src/components/Finance/FundingCredit/Options.jsx":
+/*!***************************************************************************!*\
+  !*** ./react-components/src/components/Finance/FundingCredit/Options.jsx ***!
+  \***************************************************************************/
+/*! exports provided: Options */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Options", function() { return Options; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Option__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Option */ "./react-components/src/components/Finance/FundingCredit/Option.jsx");
+ // import PropTypes from 'prop-types'
+
+
+var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var formFields = _ref.formFields,
+      currency = _ref.currency,
+      selectData = _ref.selectData;
+  // debugger
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "costs bg-blue-deep-10"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "m-b-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formFields.map(function (_ref2) {
+    var id = _ref2.id,
+        value = _ref2.value;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Option__WEBPACK_IMPORTED_MODULE_1__["Option"], {
+      key: id,
+      id: id,
+      value: value,
+      currency: currency,
+      selectData: selectData
+    });
+  }))));
+}); // Option.propTypes = {
+//   costs: PropTypes.arrayOf(PropTypes.shape({
+//     label: PropTypes.string.isRequired,
+//     id: PropTypes.string.isRequired,
+//     placeholder: PropTypes.string.isRequired,
+//     tooltip: PropTypes.string.isRequired,
+//     type: PropTypes.string.isRequired,
+//   })).isRequired,
+//   currency: PropTypes.string.isRequired,
+//   data: PropTypes.objectOf(PropTypes.number).isRequired,
+//   update: PropTypes.func.isRequired,
+// }
+
+/***/ }),
+
+/***/ "./react-components/src/components/Finance/FundingCredit/Total.jsx":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/components/Finance/FundingCredit/Total.jsx ***!
+  \*************************************************************************/
+/*! exports provided: Total */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Total", function() { return Total; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+ // import PropTypes from 'prop-types'
+
+var Total = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var total = _ref.total,
+      currency = _ref.currency,
+      label = _ref.label;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "costs costs--total bg-blue-deep-80 text-white"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "m-t-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "total"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-white m-r-s"
+  }, currency), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "body-l-b text-white"
+  }, total))))));
+}); // Total.propTypes = {
+//   total: PropTypes.string.isRequired,
+//   currency: PropTypes.string.isRequired,
+//   label: PropTypes.string.isRequired,
+// }
+
+/***/ }),
+
+/***/ "./react-components/src/components/Finance/constants.js":
+/*!**************************************************************!*\
+  !*** ./react-components/src/components/Finance/constants.js ***!
+  \**************************************************************/
+/*! exports provided: fundingCreditOptions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fundingCreditOptions", function() { return fundingCreditOptions; });
+var fundingCreditOptions = {
+  id: 'funding_option',
+  name: 'Select option',
+  placeholder: 'Select option',
+  options: [{
+    value: 'bank',
+    label: 'Bank loan'
+  }, {
+    value: 'gov',
+    label: 'Finance support from government'
+  }, {
+    value: 'platform',
+    label: 'Finance platforms'
+  }, {
+    value: 'peer',
+    label: 'Peer-to-peer loan'
+  }, {
+    value: 'equity',
+    label: 'Equity finance'
+  }, {
+    value: 'other',
+    label: 'Other'
+  }]
+};
+
+/***/ }),
+
 /***/ "./react-components/src/components/Form/FormGroup/index.jsx":
 /*!******************************************************************!*\
   !*** ./react-components/src/components/Form/FormGroup/index.jsx ***!
@@ -67612,7 +67858,9 @@ var FormGroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
       example = _ref.example,
       hideLabel = _ref.hideLabel,
       lesson = _ref.lesson,
-      estimate = _ref.estimate;
+      estimate = _ref.estimate,
+      className = _ref.className,
+      formGroupClassName = _ref.formGroupClassName;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -67633,7 +67881,7 @@ var FormGroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
   var hasExample = example.content;
   var hasEstimate = estimate ? Object.keys(estimate).length > 0 : false;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group ".concat(errors.length > 0 ? 'form-group-error' : '')
+    className: "form-group ".concat(errors.length > 0 ? 'form-group-error' : '', " ").concat(className, " ").concat(formGroupClassName)
   }, label && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "form-label ".concat(hideLabel ? 'visually-hidden' : ''),
     htmlFor: id
@@ -67695,6 +67943,8 @@ FormGroup.propTypes = {
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  formGroupClassName: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     buttonTitle: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     header: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -67719,7 +67969,9 @@ FormGroup.defaultProps = {
   example: {},
   hideLabel: false,
   lesson: {},
-  estimate: {}
+  estimate: {},
+  className: '',
+  formGroupClassName: ''
 };
 
 /***/ }),
@@ -67761,7 +68013,9 @@ var Input = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       hideLabel = _ref.hideLabel,
       lesson = _ref.lesson,
       prepend = _ref.prepend,
-      estimate = _ref.estimate;
+      estimate = _ref.estimate,
+      className = _ref.className,
+      formGroupClassName = _ref.formGroupClassName;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FormGroup__WEBPACK_IMPORTED_MODULE_2__["FormGroup"], {
     errors: errors,
     label: label,
@@ -67771,13 +68025,14 @@ var Input = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     id: id,
     hideLabel: hideLabel,
     lesson: lesson,
-    estimate: estimate
+    estimate: estimate,
+    formGroupClassName: formGroupClassName
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-center"
   }, prepend && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "bg-blue-deep-10 text-blue-deep-60 bold prepend"
   }, prepend), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    className: "form-control ".concat(prepend ? 'form-control-prepend' : ''),
+    className: "form-control ".concat(prepend ? 'form-control-prepend' : '', " ").concat(className),
     id: id,
     type: type,
     name: id,
@@ -67816,7 +68071,9 @@ Input.propTypes = {
     category: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     duration: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
   }),
-  prepend: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  prepend: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  formGroupClassName: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 Input.defaultProps = {
   errors: [],
@@ -67831,7 +68088,9 @@ Input.defaultProps = {
   tabIndex: '',
   hideLabel: false,
   lesson: {},
-  prepend: ''
+  prepend: '',
+  className: '',
+  formGroupClassName: ''
 };
 
 /***/ }),
@@ -67887,7 +68146,8 @@ var Select = function Select(_ref) {
       example = _ref.example,
       hideLabel = _ref.hideLabel,
       placeholder = _ref.placeholder,
-      id = _ref.id;
+      id = _ref.id,
+      className = _ref.className;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(selected),
       _useState2 = _slicedToArray(_useState, 2),
@@ -67958,7 +68218,7 @@ var Select = function Select(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "select m-b-l"
+    className: "select ".concat(className)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
     label: label,
     id: id || label,
@@ -68026,7 +68286,8 @@ Select.propTypes = {
   }),
   hideLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 Select.defaultProps = {
   selected: '',
@@ -68035,7 +68296,8 @@ Select.defaultProps = {
   example: {},
   hideLabel: false,
   placeholder: 'Select one',
-  id: ''
+  id: '',
+  className: 'm-b-l'
 };
 
 /***/ }),
@@ -74759,10 +75021,10 @@ var createDisabledButton = function createDisabledButton(_ref2) {
 
 /***/ }),
 
-/***/ "./react-components/src/views/sections/Finance/index.jsx":
-/*!***************************************************************!*\
-  !*** ./react-components/src/views/sections/Finance/index.jsx ***!
-  \***************************************************************/
+/***/ "./react-components/src/views/sections/Finance/Finance.jsx":
+/*!*****************************************************************!*\
+  !*** ./react-components/src/views/sections/Finance/Finance.jsx ***!
+  \*****************************************************************/
 /*! exports provided: financeTotalExportCost, financeHowMuchFunding, financeFundingCreditOptions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -74776,6 +75038,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
+/* harmony import */ var _src_components_Finance_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Finance/FundingCredit/FundingCredit */ "./react-components/src/components/Finance/FundingCredit/FundingCredit.jsx");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -74785,6 +75048,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 
 
 
@@ -74807,8 +75071,14 @@ var financeHowMuchFundingData = [{
   tooltip: "<p>Some tooltip here</p>"
 }];
 var financeFundingCreditOptionsData = [{
-  name: 'financeFundingCreditOptions',
-  label: 'Test label'
+  id: '33',
+  value: 15000
+}, {
+  id: '34',
+  value: 8000
+}, {
+  id: '35',
+  value: 10000
 }];
 var financeTotalExportCost = function financeTotalExportCost(_ref) {
   var element = _ref.element,
@@ -74838,7 +75108,7 @@ var financeFundingCreditOptions = function financeFundingCreditOptions(_ref3) {
     formFields: financeFundingCreditOptionsData
   });
 
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__["FormElements"], data), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Finance_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_3__["FundingCredit"], data), element);
 };
 
 /***/ }),

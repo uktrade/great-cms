@@ -1,43 +1,47 @@
 import React, { memo } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
 
-export const Option = memo(
-  ({ remove, id, currency, placeholder, value, update, type }) => {
-    return (
-      <>
-        <tr>
-          <td>
-            <Select />
-          </td>
-          <td>
-            <Input
-              label={label}
-              id={id}
-              hideLabel
-              type={type}
-              prepend={currency}
-              value={value}
-              onChange={(field) => update(field)}
-              placeholder={placeholder}
-            />
-          </td>
-        </tr>
-        <tr>
+export const Option = memo(({ id, value, currency, selectData }) => {
+  // debugger
+  return (
+    <>
+      <tr>
+        <td>
+          <Select
+            id={id}
+            options={selectData.options}
+            label={selectData.name}
+            hideLabel
+            className="m-b-0"
+          />
+        </td>
+        <td>
+          <Input
+            id={id}
+            type="number"
+            value={value}
+            prepend={currency}
+            formGroupClassName="m-b-0"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
           <button
             type="button"
-            className="button button--secondary"
-            onClick={remove}
+            title="Click to delete this funding option and its data."
+            className="button button--delete button--small button--only-icon button--tertiary"
           >
-            Delete
+            <i className="fas fa-trash-alt"></i>
           </button>
-        </tr>
-      </>
-    )
-  }
-)
+        </td>
+      </tr>
+    </>
+  )
+})
 
 // Option.propTypes = {
 //   label: PropTypes.string.isRequired,
