@@ -231,14 +231,14 @@ def test_total_cost_direct_costs_serializer():
     }
     serializer = serializers.DirectCostsSerializer(data=data)
     assert serializer.is_valid()
-    assert serializer.calculate_total_direct_costs() == 25.04
+    assert serializer.total_direct_costs == 25.04
 
 
 def test_total_over_head_costs_serializer():
     data = {'product_adaption': '13.02', 'other_overhead_costs': '19.23'}
     serializer = serializers.OverheadCostsSerializer(data=data)
     assert serializer.is_valid()
-    assert serializer.calculate_total_overhead_costs() == 32.25
+    assert serializer.total_overhead_costs == 32.25
 
 
 @pytest.mark.parametrize(
@@ -246,17 +246,17 @@ def test_total_over_head_costs_serializer():
     [
         [
             {'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}},
-            6,
-            132,
-            0,
+            6.00,
+            132.00,
+            0.00,
         ],
         [
             {'final_cost_per_unit': '16.00', 'net_price': '22.00', 'units_to_export_first_period': {'value': '22.00'}},
-            6,
-            132,
-            0,
+            6.00,
+            132.00,
+            0.00,
         ],
-        [{'duty_per_unit': 0.50, 'net_price': 22.00}, 0, 0, 11],
+        [{'duty_per_unit': 15, 'net_price': 22.00}, 0.00, 0.00, 0.00],
     ],
 )
 def test_total_cost_and_price_serializer(
@@ -264,46 +264,39 @@ def test_total_cost_and_price_serializer(
 ):
     serializer = serializers.TotalCostAndPriceSerializer(data=data)
     assert serializer.is_valid()
-    assert serializer.calculate_profit_per_unit() == expected_profit_per_unit
-    assert serializer.calculate_potential_total_profit() == expected_total_profit
-    assert serializer.calculate_gross_price_per_unit() == expected_gross_unit_per_unit
+    assert serializer.profit_per_unit == expected_profit_per_unit
+    assert serializer.potential_total_profit == expected_total_profit
+    assert serializer.gross_price_per_unit == expected_gross_unit_per_unit
 
 
-@pytest.mark.parametrize(
-    'pricing_data, expected',
-    [
-        [
-            {'total_cost_and_price': {'final_cost_per_unit': 16.00, 'net_price': 22.00}},
-            {'profit_per_unit': 6.0, 'potential_total_profit': 0.0, 'gross_price_per_unit': 0},
-        ],
-        [
-            {
-                'total_cost_and_price': {
-                    'final_cost_per_unit': 16.00,
-                    'net_price': 22.00,
-                    'units_to_export_first_period': {'value': 22.00},
-                }
-            },
-            {'profit_per_unit': 6.0, 'potential_total_profit': 132.00, 'gross_price_per_unit': 0},
-        ],
-        [
-            {'total_cost_and_price': {'net_price': 6.0, 'duty_per_unit': 0.5}},
-            {'profit_per_unit': 0.0, 'potential_total_profit': 0.0, 'gross_price_per_unit': 3.0},
-        ],
-        [
-            {'total_cost_and_price': {'final_cost_per_unit': 22.0}},
-            {'profit_per_unit': 0.0, 'potential_total_profit': 0.0, 'gross_price_per_unit': 0.0},
-        ],
-        [{'total_cost_and_price': {}}, {}],
-        [
-            {'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00, 'other_direct_costs': 2.00}},
-            {'total_direct_costs': 17},
-        ],
-        [{'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00}}, {'total_direct_costs': 15}],
-        [{'overhead_costs': {'insurance': 10.00, 'marketing': 1345.00}}, {'total_overhead_costs': 1355.00}],
-        [{}, {}],
-    ],
-)
-def test_exportplan_serializer_calculate_cost_pricing(pricing_data, expected):
-    serializer = serializers.ExportPlanSerializer(data=pricing_data)
-    assert serializer.calculate_cost_pricing() == expected
+def test_exportplan_serializer_calculate_cost_pricing(export_plan_data):
+    serializer = serializers.ExportPlanSerializer(data=export_plan_data)
+    assert serializer.calculate_cost_pricing == {
+        'total_direct_costs': '15.00',
+        'total_overhead_costs': '1355.00',
+        'profit_per_unit': '6.00',
+        'potential_total_profit': '132.00',
+        'gross_price_per_unit': '42.36',
+        'total_export_costs': '1685.00',
+        'estimated_costs_per_unit': '76.59',
+    }
+
+
+def test_total_direct_costs(cost_pricing_data):
+    serializer = serializers.ExportPlanSerializer(data=cost_pricing_data)
+    assert serializer.total_direct_costs == 15.00
+
+
+def test_total_overhead_costs(cost_pricing_data):
+    serializer = serializers.ExportPlanSerializer(data=cost_pricing_data)
+    assert serializer.total_overhead_costs == 1355.00
+
+
+def test_total_export_costs(cost_pricing_data):
+    serializer = serializers.ExportPlanSerializer(data=cost_pricing_data)
+    assert serializer.total_export_costs == 1685.00
+
+
+def test_estimated_costs_per_unit(cost_pricing_data):
+    serializer = serializers.ExportPlanSerializer(data=cost_pricing_data)
+    assert serializer.estimated_costs_per_unit == 76.5909090909091

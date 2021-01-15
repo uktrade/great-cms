@@ -429,7 +429,12 @@ def test_calculated_cost_pricing(cost_pricing_data):
     pricing_data = helpers.calculated_cost_pricing(cost_pricing_data)
     assert pricing_data == {
         'calculated_cost_pricing': {
-            'total_direct_costs': 15.0, 'total_overhead_costs': 1355.0, 'profit_per_unit': 6.0,
-            'potential_total_profit': 132.0, 'gross_price_per_unit': 11.0
+            'total_direct_costs': '15.00',
+            'total_overhead_costs': '1355.00',
+            'profit_per_unit': '6.00',
+            'potential_total_profit': '132.00',
+            'gross_price_per_unit': '42.36',
+            'total_export_costs': '1685.00',
+            'estimated_costs_per_unit': '76.59',
         }
     }
