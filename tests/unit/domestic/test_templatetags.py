@@ -44,28 +44,15 @@ def test_breadcrumbs_simple(rf):
     )
 
 
-# # TODO: make this work to complete coverage of the module
-# def test_breadcrumb_missing_label(rf):
-#     template = Template(
-#         '{% load breadcrumbs from component_tags %}'
-#         '{% block breadcrumbs %}'
-#         '<div class="container">'
-#         '{% breadcrumbs %}'  # MISSING THE LABEL
-#         '<a href="/path/to/">EXAMPLE LINK ONE</a>'
-#         '<a href="/path/to/something">EXAMPLE LINK TWO</a>'
-#         '{% endbreadcrumbs %}'
-#         '</div>'
-#         '{% endblock %}'
-#     )
-
-#     context = Context({'request': rf.get('/')})
-#     # For some reason pytest.raises won't catch the ValueError here
-#     #  and neither does a try/except!
-#     try:
-#         template.render(context)
-#         assert False, 'Expected a failure'
-#     except ValueError as e:
-#         assert e.message == 'Please specify the label of the current page'
+def test_breadcrumb_missing_label():
+    with pytest.raises(ValueError) as ctx:
+        Template(
+            '{% load breadcrumbs from component_tags %}'
+            '{% breadcrumbs %}'
+            '<a href="/foo"></a>'
+            '{% endbreadcrumbs %}'
+        )
+        assert ctx.message == 'Please specify the label of the current page'
 
 
 def test_breadcrumb_missing_href(rf):
@@ -102,3 +89,42 @@ def test_breadcrumb_no_links(rf):
     with pytest.raises(ValueError) as ctx:
         template.render(context)
         assert ctx.message == 'Please specify some links'
+
+
+def test_ga360_data_with_no_optional_parameters():
+    template = Template(
+        '{% load ga360_data from component_tags %}'
+        '{% ga360_data "a" %}'
+        '<div>'
+        '    <a href="example.com">Click Me</a>'
+        '</div>'
+        '{% end_ga360_data %}'
+    )
+
+    rendered_html = template.render(Context())
+
+    expected_html = '<div>' ' <a href="example.com">Click Me</a>' '</div>'
+    assert rendered_html == expected_html
+
+
+def test_ga360_data_with_all_optional_parameters():
+    template = Template(
+        '{% load ga360_data from component_tags %}'
+        '{% ga360_data "a" action="link" type="CTA" element="pageSection" value="Click Me" include_form_data="True" %}'  # noqa
+        '<div>'
+        '    <a href="example.com">Click Me</a>'
+        '</div>'
+        '{% end_ga360_data %}'
+    )
+
+    rendered_html = template.render(Context())
+
+    expected_html = (
+        '<div>'
+        ' <a data-ga-action="link" data-ga-element="pageSection" '
+        'data-ga-include-form-data="True" '
+        'data-ga-type="CTA" data-ga-value="Click Me" '
+        'href="example.com">Click Me</a>'
+        '</div>'
+    )
+    assert rendered_html == expected_html
