@@ -12,7 +12,7 @@ function SelectMarket(props) {
   const { market, setMarket } = props
   const [cookies] = useCookies(['comparisonMarkets'])
 
-  const comparisonMarkets = Object.values(cookies.comparisonMarkets) || {}
+  const comparisonMarkets = Object.values(cookies.comparisonMarkets || {})
 
   const clickMarket = (clickedMarket) => {
     const marketNames = comparisonMarkets.map((v) => v.country_name)

@@ -5,7 +5,7 @@ import Tab from './Tab'
 function Tabs(props) {
   const { setActiveTab, showTabs, children } = props
 
-  const [activeTab, setLocalActiveTab] = useState(children[0].props.label)
+  const [activeTab, setLocalActiveTab] = useState(children[0] && children[0].props.label)
 
   const onClickTabItem = (tab) => {
     setLocalActiveTab(tab)

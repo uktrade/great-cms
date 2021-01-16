@@ -2,29 +2,34 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { isArray } from '../../Helpers'
 
-const cache = {}
+let cache = {}
 
 export default function DataTable(props) {
   const {
     datasetName,
-    columns,
+    config,
     comparisonMarkets,
     commodityCode,
     removeMarket,
-    sourceAttributions,
-    dataFunction,
   } = props
   const [, setLoading] = useState(true)
 
   useEffect(() => {
+    // Wipe cache if commodity code changes
+    if (cache.commodityCode !== commodityCode) {
+      cache = { commodityCode }
+    }
     cache[datasetName] = cache[datasetName] || {}
     const countries = Object.values(comparisonMarkets).map(
       (country) => country.country_name
     )
-    const missingCountries = countries.filter((country) => !cache[datasetName][country])
+    const missingCountries = countries.filter(
+      (country) => !cache[datasetName][country]
+    )
     if (missingCountries.length) {
       setLoading(true)
-      dataFunction(missingCountries, commodityCode)
+      config
+        .dataFunction(missingCountries, commodityCode)
         .then((result) => {
           let newData = result
           // If the result is an array, make an object keyed by country
@@ -39,7 +44,12 @@ export default function DataTable(props) {
           cache[datasetName] = Object.assign(cache[datasetName], newData)
           setLoading(false)
         })
-        .finally(() => {})
+        .catch(() => {
+          missingCountries.forEach((country) => {
+            cache[datasetName][country] = {}
+          })
+          setLoading(false)
+        })
     } else {
       setLoading(false)
     }
@@ -53,22 +63,19 @@ export default function DataTable(props) {
             <React.Fragment key={`attr-${attribution.title}`}>
               <strong className="body-s-b">{attribution.title}</strong>
               {attribution.preLinkText && (
-                <>
-                  &nbsp;{attribution.preLinkText}&nbsp;
-                </>
+                <>&nbsp;{attribution.preLinkText}&nbsp;</>
               )}
               :&nbsp;
               {attribution.linkTarget && (
-                <a href={attribution.linkTarget}  
-                  rel="noreferrer" 
+                <a
+                  href={attribution.linkTarget}
+                  rel="noreferrer"
                   target="_blank"
                 >
                   {attribution.linkText}
                 </a>
               )}
-              {attribution.text && (
-                <>&nbsp;{attribution.text}&nbsp;</>
-              )}
+              {attribution.text && <>&nbsp;{attribution.text}&nbsp;</>}
             </React.Fragment>
           )
         })}
@@ -79,11 +86,11 @@ export default function DataTable(props) {
   const tableBody = Object.values(comparisonMarkets).map((market) => {
     const countryData =
       cache[datasetName] && cache[datasetName][market.country_name]
-    const countryRow = Object.keys(columns).map((columnKey) => {
+    const countryRow = Object.keys(config.columns).map((columnKey) => {
       return (
         <td key={columnKey} className={`${columnKey}`}>
           {countryData ? (
-            columns[columnKey].render(countryData)
+            config.columns[columnKey].render(countryData)
           ) : (
             <div className="loading">&nbsp;</div>
           )}
@@ -123,10 +130,10 @@ export default function DataTable(props) {
         <thead>
           <tr>
             <th className="body-s-b">&nbsp;</th>
-            {Object.keys(columns).map((columnKey) => {
+            {Object.keys(config.columns).map((columnKey) => {
               return (
                 <th className="body-s-b" key={columnKey}>
-                  {columns[columnKey].name}
+                  {config.columns[columnKey].name}
                 </th>
               )
             })}
@@ -134,26 +141,20 @@ export default function DataTable(props) {
         </thead>
         <tbody>{tableBody}</tbody>
       </table>
-      {sourceAttributions && sourceAttribution(sourceAttributions)}
+      {config.sourceAttributions &&
+        sourceAttribution(config.sourceAttributions)}
     </span>
   )
 }
 
 DataTable.propTypes = {
   datasetName: PropTypes.string.isRequired,
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      render: PropTypes.func,
-    })
-  ).isRequired,
-  comparisonMarkets: PropTypes.instanceOf(Array).isRequired,
+  comparisonMarkets: PropTypes.instanceOf(Object).isRequired,
+  config: PropTypes.shape({
+    columns: PropTypes.instanceOf(Object),
+    sourceAttributions: PropTypes.instanceOf(Array),
+    dataFunction: PropTypes.func,
+  }).isRequired,
   commodityCode: PropTypes.string.isRequired,
   removeMarket: PropTypes.func.isRequired,
-  sourceAttributions: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-    })
-  ).isRequired,
-  dataFunction: PropTypes.func.isRequired,
 }

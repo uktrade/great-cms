@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import PopulationData from './PopulationData'
-import EconomyData from './EconomyData'
+import tabConfiguration from './TabConfiguration'
+import DataTable from './DataTable'
 import Tabs from './Tabs'
-import { isObject } from '../../Helpers'
+import { isObject, get } from '../../Helpers'
 
 export default function ComparisonTables(props) {
   const {
@@ -15,21 +15,22 @@ export default function ComparisonTables(props) {
   } = props
   const [activeTab, setActiveTab] = useState()
 
-
   let tabs = JSON.parse(tabsJson)
   if (!isObject(tabs)) {
     tabs = JSON.parse(tabs)
   }
-  let listOfTabs
+  let listOfTabs = []
   if (tabs && Object.keys(tabs).length > 0) {
     listOfTabs = Object.keys(tabs).filter((key) => tabs[key])
-    if(!activeTab && listOfTabs.length){
+    if (!activeTab && listOfTabs.length) {
       setActiveTab(listOfTabs[0].toUpperCase())
     }
   }
+
+  const tabConfig = tabConfiguration(selectedProduct)
   return (
     <>
-      <Tabs setActiveTab={setActiveTab} showTabs={listOfTabs.length > 1}>
+      <Tabs setActiveTab={setActiveTab} showTabs={!!listOfTabs.length}>
         {listOfTabs.map((item) => {
           return (
             <div
@@ -41,30 +42,20 @@ export default function ComparisonTables(props) {
         })}
       </Tabs>
       <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
-        {listOfTabs.map((item) => {
-          return (
-            <React.Fragment key={`tab-${item}`}>
-              {item === 'population' && (
-                <PopulationData
-                  key={item}
-                  comparisonMarkets={comparisonMarkets}
-                  selectedProduct={selectedProduct}
-                  removeMarket={removeMarket}
-                  active={activeTab === item.toUpperCase()}
-                />
-              )}
-              {item === 'economy' && (
-                <EconomyData
-                  key={item}
-                  comparisonMarkets={comparisonMarkets}
-                  removeMarket={removeMarket}
-                  selectedProduct={selectedProduct}
-                  active={activeTab === item.toUpperCase()}
-                />
-              )}
-            </React.Fragment>
-          )
-        })}
+        {listOfTabs.map(
+          (item) =>
+            activeTab === item.toUpperCase() &&
+            tabConfig[item] && (
+              <DataTable
+                key={item}
+                datasetName={item}
+                config={tabConfig[item]}
+                comparisonMarkets={comparisonMarkets}
+                commodityCode={get(selectedProduct, 'commodity_code')}
+                removeMarket={removeMarket}
+              />
+            )
+        )}
         {triggerButton}
       </div>
     </>
@@ -79,5 +70,6 @@ ComparisonTables.propTypes = {
     commodity_code: PropTypes.string,
   }).isRequired,
   removeMarket: PropTypes.func.isRequired,
-  triggerButton: PropTypes.elementType.isRequired,
+  triggerButton: PropTypes.instanceOf(Object).isRequired,
 }
+

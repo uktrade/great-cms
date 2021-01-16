@@ -259,10 +259,10 @@ it('Allows selection of markets and fetch data when product selected', async () 
   )
   expect(rowGermany.querySelector('.internet_usage').textContent).toMatch('74%')
   expect(rowGermany.querySelector('.urban_population').textContent).toMatch(
-    '70% 42 million'
+    /70%\s*42 million/
   )
   expect(rowGermany.querySelector('.rural_population').textContent).toMatch(
-    '28% 17.1 million'
+    /28%\s*17.1 million/
   )
 
   // check economy data
@@ -337,6 +337,22 @@ it('Select market from selection area', async () => {
   container
     .querySelector('#compare-market-container')
     .setAttribute('data-tabs', dataTabs)
+
+  // set up existing product in store
+  let selectedProduct = {
+    commodity_code: '123456',
+    commodity_name: 'my product',
+  }
+
+  Object.defineProperty(window.document, 'cookie', {
+    writable: true,
+    value: 'comparisonMarkets=',
+  });
+
+  Services.store.dispatch(
+    actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+  )
+
   act(() => {
     CompareMarkets({
       element: container.querySelector('#compare-market-container'),
@@ -346,10 +362,12 @@ it('Select market from selection area', async () => {
     })
   })
   await waitFor(() => {
-    expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add country to compare'
-    )
+    expect(container.querySelector('button.add-market')).toBeTruthy()
+
   })
+  expect(container.querySelector('button.add-market').textContent).toMatch(
+    'Add country to compare'
+  )
 
   // Select a country
   act(() => {

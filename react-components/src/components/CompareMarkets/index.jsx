@@ -71,9 +71,7 @@ function CompareMarkets(props) {
         <i className="fa fa-plus-square" />
         {buttonLabel}
       </button>
-    ) : (
-      ''
-    )
+    ) : <></>
 
   let tabsContainer
   if (selectedProduct && selectedLength) {
