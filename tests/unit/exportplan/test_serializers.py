@@ -314,3 +314,8 @@ def test_total_export_costs(cost_pricing_data):
 def test_estimated_costs_per_unit(cost_pricing_data):
     serializer = serializers.ExportPlanSerializer(data=cost_pricing_data)
     assert serializer.estimated_costs_per_unit == 76.5909090909091
+
+
+def test_json_to_presentaion(cost_pricing_data):
+    json_data = serializers.ExportPlanSerializer().cost_and_pricing_to_json(cost_pricing_data)
+    assert json_data

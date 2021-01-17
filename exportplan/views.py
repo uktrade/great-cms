@@ -14,7 +14,7 @@ from core.mixins import PageTitleMixin
 from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
-from exportplan import data, forms, helpers
+from exportplan import data, forms, helpers, serializers
 
 
 class ExportPlanMixin:
@@ -270,12 +270,8 @@ class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
         context['export_timeframe_choices'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
         currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
         context['currency_choices'] = choices_to_key_value(currency_choices)
-        context['costs_and_pricing_data'] = json.dumps(
-            {
-                'direct_costs': self.export_plan['direct_costs'],
-                'overhead_costs': self.export_plan['overhead_costs'],
-                'total_cost_and_price': self.export_plan['total_cost_and_price'],
-            }
+        context['costs_and_pricing_data'] = serializers.ExportPlanSerializer().cost_and_pricing_to_json(
+            self.export_plan
         )
         context['calculated_pricing'] = json.dumps(helpers.calculated_cost_pricing(self.export_plan))
         return context
