@@ -3,6 +3,7 @@ import {
   FIELD_UPDATE_SUCCESS,
   INIT_COST_PRICING,
 } from '@src/actions/costsAndPricing'
+import { getLabel } from '@src/Helpers'
 
 export const initialState = {
   product_costs: '',
@@ -35,9 +36,6 @@ export const initialState = {
   units: [],
   currencies: [],
 }
-
-const selectedOption = (list, selected) =>
-  selected ? list.find((x) => x.value === selected).label : ''
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -74,18 +72,18 @@ export default (state = initialState, action) => {
         duty_per_unit: total_cost_and_price.duty_per_unit,
         units_to_export:
           total_cost_and_price.units_to_export_first_period.value,
-        export_units: selectedOption(
+        export_units: getLabel(
           units,
           total_cost_and_price.units_to_export_first_period.unit
         ),
         time_frame: total_cost_and_price.units_to_export_second_period.value,
-        export_time_frame: selectedOption(
+        export_time_frame: getLabel(
           timeframe,
           total_cost_and_price.units_to_export_second_period.unit
         ),
         gross_price_per_unit_invoicing:
           total_cost_and_price.gross_price_per_unit_invoicing_currency.value,
-        gross_price_per_unit_currency: selectedOption(
+        gross_price_per_unit_currency: getLabel(
           currencies,
           total_cost_and_price.gross_price_per_unit_invoicing_currency.unit
         ),

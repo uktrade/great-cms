@@ -72,3 +72,6 @@ export {
   normaliseValues,
   isObject,
 }
+
+export const getLabel = (list, selected) =>
+  selected ? list.find((x) => x.value === selected).label : ''

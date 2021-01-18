@@ -64700,7 +64700,7 @@ module.exports = function(originalModule) {
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
   \*****************************************/
-/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject */
+/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, getLabel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64712,6 +64712,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionQuestionMapping", function() { return sectionQuestionMapping; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normaliseValues", function() { return normaliseValues; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isObject", function() { return isObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLabel", function() { return getLabel; });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -64790,6 +64791,11 @@ var sectionQuestionMapping = {
   average_price: 'What’s the avg price for your product in the selected country?'
 };
 
+var getLabel = function getLabel(list, selected) {
+  return selected ? list.find(function (x) {
+    return x.value === selected;
+  }).label : '';
+};
 
 /***/ }),
 
@@ -66710,7 +66716,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @components/tooltip/Tooltip */ "./node_modules/great-styles/dist/components/tooltip/Tooltip.js");
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -66759,15 +66767,13 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
         value: input.value
       });
 
-      _update2(_defineProperty({}, select.id, item[select.name]), postData);
+      _update2(_defineProperty({}, select.id, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(select.options, item[select.name])), postData);
     },
     name: select.name,
     options: select.options,
-    selected: select.value ? select.options.find(function (x) {
-      return x.value === select.value;
-    }).label : '',
     hideLabel: true,
-    placeholder: select.placeholder
+    placeholder: select.placeholder,
+    selected: select.value
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
@@ -66909,7 +66915,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
 /* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -66953,7 +66961,7 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
         value: input.value
       });
 
-      _update2(_defineProperty({}, select.id, item[select.name]), postData);
+      _update2(_defineProperty({}, select.id, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(select.options, item[select.name])), postData);
     },
     name: select.name,
     options: select.options,
@@ -73715,11 +73723,13 @@ var messages = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
 /* harmony import */ var _src_actions_costsAndPricing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/actions/costsAndPricing */ "./react-components/src/actions/costsAndPricing/index.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var initialState = {
@@ -73753,13 +73763,6 @@ var initialState = {
   units: [],
   currencies: []
 };
-
-var selectedOption = function selectedOption(list, selected) {
-  return selected ? list.find(function (x) {
-    return x.value === selected;
-  }).label : '';
-};
-
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -73795,11 +73798,11 @@ var selectedOption = function selectedOption(list, selected) {
           local_tax_charges: total_cost_and_price.local_tax_charges,
           duty_per_unit: total_cost_and_price.duty_per_unit,
           units_to_export: total_cost_and_price.units_to_export_first_period.value,
-          export_units: selectedOption(units, total_cost_and_price.units_to_export_first_period.unit),
+          export_units: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["getLabel"])(units, total_cost_and_price.units_to_export_first_period.unit),
           time_frame: total_cost_and_price.units_to_export_second_period.value,
-          export_time_frame: selectedOption(timeframe, total_cost_and_price.units_to_export_second_period.unit),
+          export_time_frame: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["getLabel"])(timeframe, total_cost_and_price.units_to_export_second_period.unit),
           gross_price_per_unit_invoicing: total_cost_and_price.gross_price_per_unit_invoicing_currency.value,
-          gross_price_per_unit_currency: selectedOption(currencies, total_cost_and_price.gross_price_per_unit_invoicing_currency.unit)
+          gross_price_per_unit_currency: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_1__["getLabel"])(currencies, total_cost_and_price.gross_price_per_unit_invoicing_currency.unit)
         });
       }
 

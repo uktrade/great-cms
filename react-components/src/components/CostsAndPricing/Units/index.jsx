@@ -4,6 +4,7 @@ import ReactHtmlParser from 'react-html-parser'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
+import { getLabel } from '@src/Helpers'
 
 export const Units = memo(({ update, input, select, description }) => {
   return (
@@ -37,7 +38,10 @@ export const Units = memo(({ update, input, select, description }) => {
                   unit: item[select.name],
                   value: input.value,
                 })
-                update({ [select.id]: item[select.name] }, postData)
+                update(
+                  { [select.id]: getLabel(select.options, item[select.name]) },
+                  postData
+                )
               }}
               name={select.name}
               options={select.options}
