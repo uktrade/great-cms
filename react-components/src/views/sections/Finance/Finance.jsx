@@ -39,15 +39,15 @@ const financeHowMuchFundingData = [
 
 const financeFundingCreditOptionsData = [
   {
-    id: '33',
+    pk: '33',
     value: 15000,
   },
   {
-    id: '34',
+    pk: '34',
     value: 8000,
   },
   {
-    id: '35',
+    pk: '35',
     value: 10000,
   },
 ]

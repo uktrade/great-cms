@@ -4,44 +4,67 @@ import React, { memo } from 'react'
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
 
-export const Option = memo(({ id, value, currency, selectData }) => {
-  // debugger
-  return (
-    <>
-      <tr>
-        <td>
-          <Select
-            id={id}
-            options={selectData.options}
-            label={selectData.name}
-            hideLabel
-            className="m-b-0"
-          />
-        </td>
-        <td>
-          <Input
-            id={id}
-            type="number"
-            value={value}
-            prepend={currency}
-            formGroupClassName="m-b-0"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button
-            type="button"
-            title="Click to delete this funding option and its data."
-            className="button button--delete button--small button--only-icon button--tertiary"
-          >
-            <i className="fas fa-trash-alt"></i>
-          </button>
-        </td>
-      </tr>
-    </>
-  )
-})
+export const Option = memo(
+  ({
+    label,
+    name,
+    field,
+    id,
+    value,
+    currency,
+    selectData,
+    onChange,
+    deleteFunding,
+  }) => {
+    // debugger
+    return (
+      <>
+        <tr>
+          <td>
+            <Select
+              id={id + selectData.name}
+              options={selectData.options}
+              label={selectData.name}
+              name={selectData.name}
+              // selected={
+              //   field[item.name] &&
+              //   item.options.find((x) => x.value === field[item.name])
+              //     ? item.options.find((x) => x.value === field[item.name]).label
+              //     : ''
+              // }
+              hideLabel
+              className="m-b-0"
+              update={(x) => onChange('select', id, x)}
+            />
+          </td>
+          <td>
+            <Input
+              id={id}
+              type="number"
+              // value={field[name]}
+              value={value}
+              prepend={currency}
+              onChange={(e) => onChange('input', id, e)}
+              formGroupClassName="m-b-0"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td className="text-center" colSpan="2">
+            <button
+              type="button"
+              title="Click to delete this funding option and its data."
+              className="button button--delete button--small button--only-icon button--tertiary"
+              onClick={() => deleteFunding(id)}
+            >
+              <i className="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </>
+    )
+  }
+)
 
 // Option.propTypes = {
 //   label: PropTypes.string.isRequired,

@@ -3,26 +3,30 @@ import React, { memo } from 'react'
 
 import { Option } from './Option'
 
-export const Options = memo(({ formFields, currency, selectData }) => {
-  // debugger
-  return (
-    <div className="costs bg-blue-deep-10">
-      <table className="m-b-0">
-        <tbody>
-          {formFields.map(({ id, value }) => (
-            <Option
-              key={id}
-              id={id}
-              value={value}
-              currency={currency}
-              selectData={selectData}
-            />
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )
-})
+export const Options = memo(
+  ({ formFields, currency, selectData, onChange, deleteFunding }) => {
+    // debugger
+    return (
+      <div className="costs bg-blue-deep-10">
+        <table className="m-b-0">
+          <tbody>
+            {formFields.map(({ pk, value }) => (
+              <Option
+                key={pk}
+                id={pk}
+                value={value}
+                currency={currency}
+                selectData={selectData}
+                onChange={onChange}
+                deleteFunding={deleteFunding}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+)
 
 // Option.propTypes = {
 //   costs: PropTypes.arrayOf(PropTypes.shape({
