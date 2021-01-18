@@ -393,6 +393,17 @@ def test_get_population_data_by_country(mock_population_data_by_country):
     assert response == data
 
 
+@mock.patch.object(api_client.dataservices, 'get_society_data_by_country')
+def test_get_society_data_by_country(mock_society_data_by_country):
+    data = {'country': 'United Kingdom', 'languages': [{'name': 'English'}]}
+
+    mock_society_data_by_country.return_value = create_response(data)
+    response = helpers.get_society_data_by_country(countries='United Kingdom')
+    assert mock_society_data_by_country.call_count == 1
+    assert mock_society_data_by_country.call_args == mock.call(countries='United Kingdom')
+    assert response == data
+
+
 @pytest.mark.parametrize(
     'ui_options_data,',
     [
