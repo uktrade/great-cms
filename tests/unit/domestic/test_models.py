@@ -490,3 +490,14 @@ def test_industry_accordions_validation(blocks_to_create, expected_exception_mes
             industry_accordions_validation(value)  #
         except Exception as e:
             assert False, f'Should not have got a {e}'
+
+
+# BaseContentPage is abstract but had some methods on it
+@pytest.mark.skip(reason="we need more of the page tree ported before we can test this")
+def test_base_content_page__ancestors_in_app():
+    pass
+
+
+@pytest.mark.skip(reason="we need more of the page tree ported before we can test this")
+def test_base_content_page__get_breadcrumbs():
+    pass
