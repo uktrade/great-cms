@@ -3,7 +3,7 @@ from collections import OrderedDict
 import pytest
 
 from exportplan import serializers
-
+import json
 
 def test_about_your_business_serializer():
 
@@ -265,7 +265,7 @@ def test_total_over_head_costs_serializer():
             132.00,
             22.00,
         ],
-        [{'duty_per_unit': 15, 'net_price': 22.00}, 0.00, 0.00, 22.00],
+        [{'duty_per_unit': 15, 'net_price': 22.00}, 0.00, 22.00, 0.00],
     ],
 )
 def test_total_cost_and_price_serializer(
@@ -327,4 +327,15 @@ def test_estimated_costs_per_unit(cost_pricing_data):
 
 def test_json_to_presentaion(cost_pricing_data):
     json_data = serializers.ExportPlanSerializer().cost_and_pricing_to_json(cost_pricing_data)
-    assert json_data
+    assert json_data == json.dumps({
+        "direct_costs": {
+            "product_costs": "10.00", "labour_costs": "5.00", "other_direct_costs": "0.00"},
+        "overhead_costs": {"product_adaption": "0.00", "freight_logistics": "0.00", "agent_distributor_fees": "0.00",
+                           "marketing": "0.00", "insurance": "0.00", "other_overhead_costs": "0.00"},
+        "total_cost_and_price": {"units_to_export_first_period": {"unit": "", "value": "0.00"},
+                                 "units_to_export_second_period": {"unit": "", "value": "0.00"},
+                                 "net_price": "0.00", "duty_per_unit": "0.00",
+                                 "gross_price_per_unit_invoicing_currency": {"unit": "", "value": "0.00"}
+                                 }
+    }
+    )

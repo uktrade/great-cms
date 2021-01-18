@@ -82,49 +82,49 @@ class UiOptions(serializers.Serializer):
 
 
 class DirectCostsSerializer(serializers.Serializer):
-    product_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    other_direct_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
+    product_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    other_direct_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
     @property
     def total_direct_costs(self):
         self.is_valid()
         total = 0.00
-        for field in self.data:
-            total = total + float(self.data[field])
+        for field in self.get_fields().keys():
+            total = total + float(self.data.get(field, 0.00))
         return total
 
 
 class OverheadCostsSerializer(serializers.Serializer):
-    product_adaption = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    freight_logistics = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    agent_distributor_fees = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    marketing = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    insurance = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    other_overhead_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
+    product_adaption = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    freight_logistics = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    agent_distributor_fees = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    marketing = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    insurance = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    other_overhead_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
     @property
     def total_overhead_costs(self):
         self.is_valid()
         total = 0.00
-        for field in self.data:
-            total = total + float(self.data[field])
+        for field in self.get_fields().keys():
+            total = total + float(self.data.get(field, 0.00))
         return total
 
 
 class TotalCostAndPriceSerializer(serializers.Serializer):
     class UnitRecord(serializers.Serializer):
-        unit = serializers.CharField(required=False, default='')
-        value = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
+        unit = serializers.CharField(required=False, allow_blank=True)
+        value = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
 
-    units_to_export_first_period = UnitRecord(required=False, default={'unit': '', 'value': '0.00'})
-    units_to_export_second_period = UnitRecord(required=False, default={'unit': '', 'value': '0.00'})
-    final_cost_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    average_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    net_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    local_tax_charges = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    duty_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, default='0.00')
-    gross_price_per_unit_invoicing_currency = UnitRecord(required=False, default={'unit': '', 'value': '0.00'})
+    units_to_export_first_period = UnitRecord(required=False)
+    units_to_export_second_period = UnitRecord(required=False)
+    final_cost_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    average_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    net_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    local_tax_charges = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    duty_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    gross_price_per_unit_invoicing_currency = UnitRecord(required=False)
 
     @property
     def profit_per_unit(self):
@@ -231,14 +231,38 @@ class ExportPlanSerializer(serializers.Serializer):
     def cost_and_pricing_to_json(self, data):
         # This method currently takes in cost and pricing data and serialising to JSON format
         # Required for UI since it requires defaults
+        # This is horrible and will need to be reworked
         # TODO move this to a export plan parser helper method
+        direct_cost_json = self.serialise_to_json(DirectCostsSerializer(data=data.get('direct_costs', {})))
+        overhead_costs_json = self.serialise_to_json(OverheadCostsSerializer(data=data.get('overhead_costs', {})))
+        total_cost_and_price_json = self.serialise_to_json(
+            TotalCostAndPriceSerializer(data=data.get('total_cost_and_price', {}))
+        )
+
         cost_pricing_data = {
-            'direct_costs': data.get('direct_costs', {}),
-            'overhead_costs': data.get('overhead_costs', {}),
-            'total_cost_and_price': data.get('direct_costs', {}),
+            'direct_costs': direct_cost_json,
+            'overhead_costs': overhead_costs_json,
+            'total_cost_and_price': total_cost_and_price_json,
         }
         json_encoded = json.dumps(self.to_internal_value(data=cost_pricing_data), cls=self.DecimalEncoder)
         return json_encoded
+
+    def serialise_to_json(self, serialiser):
+        serialiser.is_valid()
+        to_json = {}
+        for k, v in serialiser.fields.items():
+            import pdb
+            #pdb.set_trace()
+            val = self.get_default_value(v)
+            print(val)
+            to_json.update({k: serialiser.validated_data.get(k, val)})
+        return to_json
+
+    def get_default_value(self, field_type):
+        if isinstance(field_type, serializers.DecimalField):
+            return 0.00
+        elif isinstance(field_type, TotalCostAndPriceSerializer.UnitRecord):
+            return {'unit': '', 'value': '0.00'}
 
     class DecimalEncoder(json.JSONEncoder):
         def default(self, obj):
