@@ -31,7 +31,7 @@ export default function PopulationData(props) {
   const comparisonMarkets = props.comparisonMarkets
 
   const sourceAttribution = (
-    <p className="source-attribution body-s">
+    <p className="source-attribution body-s m-r-s">
       <strong className="body-s-b">
         Population data
       </strong>
@@ -143,7 +143,7 @@ export default function PopulationData(props) {
               <button
                 type="button"
                 onClick={props.removeMarket}
-                className="iconic"
+                className="button button--only-icon button--tertiary button--small m-r-xxs"
                 data-id={market.country_iso2_code}
                 aria-label={`Remove ${market.country_name}`}
               >
@@ -160,7 +160,7 @@ export default function PopulationData(props) {
     })
     dataTable = (
       <span>
-        <table className="m-v-0">
+        <table className="m-v-0 border-blue-deep-20 valign-middle">
           <thead>
             <tr>
               <th className="body-s-b">&nbsp;</th>

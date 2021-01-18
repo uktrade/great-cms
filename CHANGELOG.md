@@ -3,6 +3,14 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- GP2-1270 - income data for economy tab
+- GP2-1259 - Styling for compare markets datatable from great-styles
+- GP2-1309 - Remove tooltips
+- GP2-341 - Adaptation target markets documents
+- GP2-1129 - Product classifier - show errors on search page
+- GP2-341  - Adaptation target markets documents
+- GP2-1182 - Alignment of elements
 - GP2-1194 - Product finder search page content update and restyle
 - GP2-1130 - Product finder previous result start
 - GP2-1126 - Rename product
@@ -26,6 +34,10 @@
 - GP2-974 - target market research page
 
 ### Fixed bugs
+
+- No ticket - Added missing population url
+- GP2-1310 - Data not loading for if made more than one country is compared
+- GP2-1067 - Fixed LessonCompleted component
 - no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
@@ -49,6 +61,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/releases/tag/1.0.0)
 
 ### Implemented enhancements
+
 - GP2-695 - Select your product (modal window) - Product is not selected
 - GP2-1108 - business objective responsive changes
 - GP2-1172 - Analytics compare countries find a market modal (3 markets)
@@ -77,6 +90,11 @@
 - GP2-1022 - hide footer sign-up
 - GP2-695 - select product modal
 - GP2-1049 - country name in target market research page
+- GP2-849 - target audience progress
+
+
+## Pre-release
+
 - GP2-1146 - fix broken forms
 - no ticket - node-fetch module upgrade
 - no ticket - Dependencies upgrade

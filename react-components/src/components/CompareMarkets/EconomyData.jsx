@@ -33,21 +33,14 @@ export default function EconomyData(props) {
   const comparisonMarkets = props.comparisonMarkets
 
   const sourceAttribution = (
-    <p className="source-attribution body-s">
-      <strong className="body-s-b">
-        Trade data
-      </strong>
+    <p className="source-attribution body-s m-r-s">
+      <strong className="body-s-b">Trade data</strong>
       :&nbsp;
-      <a
-        href="https://comtrade.un.org/data"
-        target="_blank"
-      >
+      <a href="https://comtrade.un.org/data" target="_blank">
         UN Comtrade
       </a>
       &nbsp;Copyright United Nations 2020.&nbsp;
-      <strong className="body-s-b">
-        GDP per capita
-      </strong>
+      <strong className="body-s-b">GDP per capita</strong>
       &nbsp;(current US$):&nbsp;
       <a
         href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD"
@@ -56,9 +49,7 @@ export default function EconomyData(props) {
         World Bank, OECD
       </a>
       &nbsp;CC BY 4.0.&nbsp;
-      <strong className="body-s-b">
-        Ease of Doing Business Scores
-      </strong>
+      <strong className="body-s-b">Ease of Doing Business Scores</strong>
       :&nbsp;
       <a
         href="https://www.doingbusiness.org/en/data/doing-business-score"
@@ -67,9 +58,7 @@ export default function EconomyData(props) {
         World Bank
       </a>
       &nbsp;CC BY 4.0.&nbsp;
-      <strong className="body-s-b">
-        Corruption Perceptions Index
-      </strong>
+      <strong className="body-s-b">Corruption Perceptions Index</strong>
       :&nbsp;
       <a
         href="https://www.transparency.org/en/cpi/2019/results/table"
@@ -113,7 +102,11 @@ export default function EconomyData(props) {
                 ? normaliseValues(data.country_data.gdp_per_capita.year_2019)
                 : DATA_NA}
             </td>
-            <td className="avg-income">{DATA_NA}</td>
+            <td className="avg-income">
+              {data && data.country_data && data.country_data.income
+                ? normaliseValues(data.country_data.income.value)
+                : DATA_NA}
+            </td>
             <td className="eod-business">
               {data &&
               data.country_data &&
@@ -147,7 +140,7 @@ export default function EconomyData(props) {
               <button
                 type="button"
                 onClick={props.removeMarket}
-                className="iconic"
+                className="button button--only-icon button--tertiary button--small m-r-xxs"
                 data-id={market.country_iso2_code}
                 aria-label={`Remove ${market.country_name}`}
               >
@@ -166,20 +159,22 @@ export default function EconomyData(props) {
     })
     dataTable = (
       <span>
-        <table className="m-v-0">
+        <table className="m-v-0 border-blue-deep-20">
           <thead>
             <tr>
               <th className="body-s-b"></th>
               <th className="body-s-b">
-                Total {props.selectedProduct.commodity_name.toLowerCase()} import value
-                (USD)
+                Total {props.selectedProduct.commodity_name.toLowerCase()}{' '}
+                import value (USD)
               </th>
               <th className="body-s-b">
-                Year-to-year {props.selectedProduct.commodity_name.toLowerCase()} import
+                Year-to-year{' '}
+                {props.selectedProduct.commodity_name.toLowerCase()} import
                 value change
               </th>
               <th className="body-s-b">
-                {props.selectedProduct.commodity_name} import value from the UK (USD)
+                {props.selectedProduct.commodity_name} import value from the UK
+                (USD)
               </th>
               <th className="body-s-b">GDP per capita(USD)</th>
               <th className="body-s-b">Avg income(USD)</th>

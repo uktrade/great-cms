@@ -1,4 +1,5 @@
 {% extends 'exportplan/section.html' %}
+{% load to_json %}
 
 {% load intcomma from humanize %}
 
@@ -20,14 +21,14 @@
 <section class="bg-blue-deep-10 m-t-l m-b-s">
   <div class="container">
     <div class="grid">
-      <div class="c-1-4 p-0">&nbsp;</div>
-      <div class="c-2-3">
+      <div class="c-1-4">&nbsp;</div>
+      <div class="c-1-1 c-2-3-m c-1-2-xl">
         <h2 class="h-xs p-t-l p-b-s">Facts and figures about {{ export_plan.export_countries.0.country_name }} to get you started</h2>
         <div id="target-age-groups" class="m-b-s">
           {% include "exportplan/includes/insight.html" %}
         </div>
       </div>
-      <div class="c-1-4">&nbsp;</div>
+      <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
     </div>
   </div>
 </section>
@@ -35,11 +36,11 @@
 <div class="container m-b-s">
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
-    <div class="c-1-2-l c-2-3-m">
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
       <p class="m-0 body-s">Population statistics – <a href="https://www.un.org/en/" title="United Nations">United Nations</a>; Access to Internet,Consumer Price Index - <a href="https://www.worldbank.org/" title="World Bank">World Bank</a>;  Languages -  <a href="https://www.cia.gov/library/publications/the-world-factbook/" title="CIA World Factbook">CIA World Factbook</a>;</p>
       <p class="m-0 body-s">*Data not available* will show where our sources have missing data. We're always working on adding more data sources.</p>
     </div>
-    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
   </div>
 </div>
 
@@ -50,22 +51,22 @@
         {% include 'exportplan/includes/lesson_details.html' with lesson_name='sell-direct-your-customer' %}
       </div>
     </div>
-    <div class="c-1-2-l c-2-3-m">
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
       <h2 class="h-m m-b-xs">How will you get your product to customers in {{ export_plan.export_countries.0.country_name }}?</h2>
       <p>Make a list of the ways you'll get your product to customers by using the following dropdown list.</p>
       <p>You can choose more than one option.</p>
       <div id="route-to-market"></div>
     </div>
-    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
   </div>
 </section>
 <section class="container">
   <div class="grid">
-    <div class="c-1-4 p-0 m-t-s">&nbsp;</div>
-    <div class="c-1-2">
+    <div class="c-1-4 m-t-s">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
       <div id="resources"></div>
     </div>
-    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
   </div>
 </section>
 {% endblock %}
@@ -76,17 +77,11 @@
     var element = document.getElementById('target-age-groups');
     magna.createTargetAgeGroupInsights({
       element,
-      groups: [
-          {key: "0-14", label: '0-14 year olds'},
-          {key: "15-19", label: '15-19 year olds'},
-          {key: "20-24", label: '20-24 year olds'},
-          {key: "25-34", label: '25-34 year olds'},
-          {key: "35-44", label: '35-44 year olds'},
-          {key: "45-54", label: '45-54 year olds'},
-          {key: "55-64", label: '55-64 year olds'},
-          {key: "65+", label: '65 years old and over'}
-      ],
-      country: '{{ export_plan.export_countries.0.country_name }}'
+      groups: {{ target_age_group_choices|safe }},
+      country: '{{ export_plan.export_countries.0.country_name }}',
+      insight: {{ demographic_data|safe }},
+      selected: {{ selected_age_groups|safe}},
+      currentSection: {{ current_section|to_json}},
     })
 
     element = document.getElementById('resources');
@@ -106,19 +101,19 @@
             label: 'Route to market',
             options: {{ route_choices|safe }},
             name: 'route',
-            tooltip: 'Route to market tooltip',
+            tooltip: null,
           },
           {
             label: 'How will we promote your product?',
             options: {{ promotional_choices|safe }},
             name: 'promote',  
-            tooltip: 'How will we promote your product tooltip',
+            tooltip: null,
           }
         ],
         example: `<p>We've found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>`,
         label: 'Explain in your words why you selected this route to market and promotional channel',
         name: 'market_promotional_channel',
-        tooltip: 'Example tooltip',
+        tooltip: null,
       },
       fields: {{ route_to_markets|safe }},
       formFields: {

@@ -171,6 +171,26 @@ class ExportPlanAdaptationForTargetMarketForm(forms.Form):
         required=False,
         widget=Textarea(attrs={'tooltip': ('Other changes'), 'placeholder': ('Describe alterations')}),
     )
+    certificate_of_origin = forms.CharField(
+        label='Certificate of origin',
+        required=False,
+        widget=Textarea(attrs={'tooltip': ('Certificate of origin'), 'placeholder': ('Add notes')}),
+    )
+    insurance_certificate = forms.CharField(
+        label='Insurance certificate',
+        required=False,
+        widget=Textarea(attrs={'tooltip': ('Insurance certificate'), 'placeholder': ('Add note')}),
+    )
+    commercial_invoice = forms.CharField(
+        label='Commercial invoice',
+        required=False,
+        widget=Textarea(attrs={'tooltip': ('Commercial invoice'), 'placeholder': ('Add note')}),
+    )
+    uk_customs_declaration = forms.CharField(
+        label='UK customs declaration',
+        required=False,
+        widget=Textarea(attrs={'tooltip': ('UK customs declaration'), 'placeholder': ('Add note')}),
+    )
 
 
 class ExportPlanTargetMarketsResearchForm(forms.Form):
@@ -326,7 +346,7 @@ class ExportPlanMarketingApproachForm(forms.Form):
                     '<li>the areas where your business will need support</li><li>external agencies or '
                     'people you will work with and what they will be doing</li>'
                 ),
-                'tooltip': ('What marketing resources do you need tooltip'),
+                'tooltip': None,
             }
         ),
     )

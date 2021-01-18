@@ -87,6 +87,12 @@ const economyApiResponse = {
         country_code: 'DEU',
         year_2019: '46258.878',
       },
+      income: {
+        country_name: 'Germany',
+        country_code: 'DEU',
+        year: 2018,
+        value: '7895',
+      },
     },
   },
 }
@@ -145,16 +151,16 @@ it('Forces product chooser when no product', () => {
 })
 
 it('Allows selection of markets and fetch data when product selected', async () => {
-
   // set up existing product in store
   let selectedProduct = {
     commodity_code: '123456',
-    commodity_name: 'my product'
+    commodity_name: 'my product',
   }
-  Services.store.dispatch(actions.setInitialState({exportPlan:{products:[selectedProduct]}}))
+  Services.store.dispatch(
+    actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+  )
 
-  container.innerHTML =
-    '<span id="compare-market-container" ></span>'
+  container.innerHTML = '<span id="compare-market-container" ></span>'
   const dataTabs = '{ "population": true, "economy": true }'
   container
     .querySelector('#compare-market-container')
@@ -228,7 +234,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
       '46258.9'
     )
     expect(rowEconomyGermany.querySelector('.avg-income').textContent).toMatch(
-      'Data not available'
+      '7895'
     )
     expect(
       rowEconomyGermany.querySelector('.eod-business').textContent
