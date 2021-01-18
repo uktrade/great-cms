@@ -40,28 +40,3 @@ def mock_get_export_plan(patch_get_export_plan):
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
-
-
-@pytest.fixture(autouse=False)
-def cost_and_pricing_serialized_result():
-    return {
-        'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': '0.00'},
-        'overhead_costs': {
-            'product_adaption': '0.00',
-            'freight_logistics': '0.00',
-            'agent_distributor_fees': '0.00',
-            'marketing': '1345.00',
-            'insurance': '10.00',
-            'other_overhead_costs': '0.00',
-        },
-        'total_cost_and_price': {
-            'units_to_export_first_period': {'unit': '', 'value': '0.00'},
-            'units_to_export_second_period': {'unit': '', 'value': '0.00'},
-            'final_cost_per_unit': '0.00',
-            'average_price_per_unit': '0.00',
-            'net_price': '0.00',
-            'local_tax_charges': '0.00',
-            'duty_per_unit': '0.00',
-            'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': '0.00'},
-        },
-    }

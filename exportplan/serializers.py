@@ -115,7 +115,7 @@ class OverheadCostsSerializer(serializers.Serializer):
 class TotalCostAndPriceSerializer(serializers.Serializer):
     class UnitRecord(serializers.Serializer):
         unit = serializers.CharField(required=False, allow_blank=True)
-        value = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+        value = serializers.IntegerField(required=False)
 
     units_to_export_first_period = UnitRecord(required=False)
     units_to_export_second_period = UnitRecord(required=False)
@@ -244,25 +244,22 @@ class ExportPlanSerializer(serializers.Serializer):
             'overhead_costs': overhead_costs_json,
             'total_cost_and_price': total_cost_and_price_json,
         }
-        json_encoded = json.dumps(self.to_internal_value(data=cost_pricing_data), cls=self.DecimalEncoder)
+        json_encoded = json.dumps(cost_pricing_data, cls=self.DecimalEncoder)
         return json_encoded
 
     def serialise_to_json(self, serialiser):
         serialiser.is_valid()
         to_json = {}
         for k, v in serialiser.fields.items():
-            import pdb
-            #pdb.set_trace()
             val = self.get_default_value(v)
-            print(val)
             to_json.update({k: serialiser.validated_data.get(k, val)})
         return to_json
 
     def get_default_value(self, field_type):
         if isinstance(field_type, serializers.DecimalField):
-            return 0.00
+            return ''
         elif isinstance(field_type, TotalCostAndPriceSerializer.UnitRecord):
-            return {'unit': '', 'value': '0.00'}
+            return {'unit': '', 'value': '0'}
 
     class DecimalEncoder(json.JSONEncoder):
         def default(self, obj):

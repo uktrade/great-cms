@@ -385,11 +385,7 @@ def test_update_calculate_cost_and_pricing(
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data={
-            'direct_costs': OrderedDict(
-                [('product_costs', '3.00'), ('labour_costs', '0.00'), ('other_direct_costs', '0.00')]
-            )
-        },
+        data={'direct_costs': OrderedDict([('product_costs', '3.00')])},
         id=1,
         sso_session_id='123',
     )

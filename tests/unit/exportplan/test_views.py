@@ -242,7 +242,7 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
 
 
 @pytest.mark.django_db
-def test_cost_and_pricing(cost_pricing_data, cost_and_pricing_serialized_result, client, user):
+def test_cost_and_pricing(cost_pricing_data, client, user):
     url = reverse('exportplan:costs-and-pricing')
     client.force_login(user)
     response = client.get(url)
@@ -254,7 +254,19 @@ def test_cost_and_pricing(cost_pricing_data, cost_and_pricing_serialized_result,
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
     assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
-    assert response.context_data['costs_and_pricing_data'] == json.dumps(cost_and_pricing_serialized_result)
+    import pdb
+    pdb.set_trace()
+    assert response.context_data['costs_and_pricing_data'] == json.dumps(
+        {"direct_costs": {"product_costs": "10.00", "labour_costs": "5.00", "other_direct_costs": "0.00"},
+         "overhead_costs": {"product_adaption": "0.00", "freight_logistics": "0.00", "agent_distributor_fees": "0.00",
+                            "marketing": "1345.00", "insurance": "10.00", "other_overhead_costs": "0.00"},
+         "total_cost_and_price": {"units_to_export_first_period": {"value": "22.00"},
+                                  "units_to_export_second_period": {"unit": "", "value": "0.00"},
+                                  "final_cost_per_unit": "16.00", "average_price_per_unit": "0.00",
+                                  "net_price": "22.00", "local_tax_charges": "5.23", "duty_per_unit": "15.13",
+                                  "gross_price_per_unit_invoicing_currency": {"unit": "", "value": "0.00"}}}
+
+    )
     assert response.context_data['calculated_pricing'] == json.dumps(
         {
             'calculated_cost_pricing': {
