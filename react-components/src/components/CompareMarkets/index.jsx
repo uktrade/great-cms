@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import actions from '@src/actions'
 import { getProducts } from '@src/reducers'
 import { connect, Provider } from 'react-redux'
 import { useCookies } from 'react-cookie'
@@ -11,6 +10,7 @@ import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import PopulationData from './PopulationData'
 import EconomyData from './EconomyData'
+import SocietyData from './SocietyData'
 import Tabs from './Tabs'
 import { isObject } from '../../Helpers'
 
@@ -86,6 +86,12 @@ function CompareMarkets(props) {
         comparisonMarkets={comparisonMarkets}
         removeMarket={removeMarket}
         selectedProduct={selectedProduct}
+      />
+    ),
+    society: (
+      <SocietyData
+        comparisonMarkets={comparisonMarkets}
+        removeMarket={removeMarket}
       />
     ),
   }

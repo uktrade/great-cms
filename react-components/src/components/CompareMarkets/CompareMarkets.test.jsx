@@ -97,6 +97,59 @@ const economyApiResponse = {
   },
 }
 
+const societyApiResponse = [
+  {
+    country: 'Germany',
+    languages: {
+      note: 'Danish, Frisian, Sorbian, and Romani are official minority languages',
+      language: [
+        {
+          name: 'German',
+          note: 'official',
+        },
+      ]
+    },
+    religions: {
+      date: '2018',
+      religion: [
+        {
+          name: 'Roman Catholic',
+          percent: 27.7,
+        },
+        {
+          name: 'Protestant',
+          percent: 25.5,
+        },
+        {
+          name: 'Muslim',
+          percent: 5.1,
+        },
+        {
+          name: 'Orthodox',
+          percent: 1.9,
+        },
+        {
+          name: 'other Christian',
+          percent: 1.1,
+        },
+        {
+          name: 'other .9%',
+        },
+        {
+          name: 'none',
+          percent: 37.8,
+        },
+      ]
+    },
+    rule_of_law: {
+      country_name: 'Germany',
+      iso2: 'DE',
+      rank: 16,
+      score: '89.200',
+    },
+  },
+]
+
 beforeAll(() => {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
@@ -114,11 +167,13 @@ beforeEach(() => {
     apiSuggestedCountriesUrl: '/api/suggestedcountries/',
     populationByCountryUrl: '/export-plan/api/country-data/',
     apiComTradeDataUrl: '/api/data-service/comtrade/',
+    societyByCountryUrl: '/export-plan/api/society-data/',
   })
   countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
   fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
   fetchMock.get(/\/export-plan\/api\/country-data\//, populationApiResponse)
   fetchMock.get(/\/api\/data-service\/comtrade\//, economyApiResponse)
+  fetchMock.get(/\/export-plan\/api\/society-data\//, societyApiResponse)
 })
 
 afterEach(() => {
@@ -161,7 +216,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
   )
 
   container.innerHTML = '<span id="compare-market-container" ></span>'
-  const dataTabs = '{ "population": true, "economy": true }'
+  const dataTabs = '{ "population": true, "economy": true, "society": true }'
   container
     .querySelector('#compare-market-container')
     .setAttribute('data-tabs', dataTabs)
@@ -241,6 +296,29 @@ it('Allows selection of markets and fetch data when product selected', async () 
     ).toMatch('22')
     expect(rowEconomyGermany.querySelector('.cpi').textContent).toMatch('9')
   })
+
+  // check society data
+  const society_tab = container.querySelector('.tab-list-item:nth-of-type(3)')
+  expect(society_tab.textContent).toMatch('SOCIETY')
+  act(() => {
+    Simulate.click(society_tab)
+  })
+  await waitFor(() => {
+    const rowSocietyGermany = container.querySelector('#market-Germany')
+    expect(rowSocietyGermany.querySelector('.name').textContent).toMatch(
+      'Germany'
+    )
+    expect(
+      rowSocietyGermany.querySelector('.religion').textContent
+    ).toMatch('Roman Catholic 27.7%Protestant 25.5%Muslim 5.1%Orthodox 1.9%other Christian 1.1%')
+    expect(
+      rowSocietyGermany.querySelector('.language').textContent
+    ).toMatch('German (official)')
+    expect(
+      rowSocietyGermany.querySelector('.rule-of-law').textContent
+    ).toMatch('89.2')
+  })
+
   // remove the country
   act(() => {
     Simulate.click(container.querySelector('.market-details button'))
@@ -255,7 +333,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
 it('Select market from selection area', async () => {
   container.innerHTML =
     '<span id="compare-market-container" data-productname="my product" data-productcode="123456"></span><span id="comparison-market-selector"></span>'
-  const dataTabs = '{"population":true, "economy":true}'
+  const dataTabs = '{"population":true, "economy":true, "society": true}'
   container
     .querySelector('#compare-market-container')
     .setAttribute('data-tabs', dataTabs)
