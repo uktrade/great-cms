@@ -8,6 +8,11 @@ import { notAvailable } from '@src/components/Stats/StatsGroup'
 
 export const Table = memo(({ languages, infoMomenent, tooltip }) => {
   const { heading, description } = tooltip
+
+  const languagesToString = languages.cia_factbook_data.languages.language
+    .map((lang) => lang.name)
+    .join(', ')
+
   return (
     <ToggleSnapshot isOpen={false}>
       <div className="width-full">
@@ -15,7 +20,7 @@ export const Table = memo(({ languages, infoMomenent, tooltip }) => {
           <div className="c-full">
             <Stats
               header="The main languages in your chosen market are:"
-              data={languages || notAvailable}
+              data={languagesToString || notAvailable}
             >
               <Tooltip
                 id="languages-in-target-market-tooltip"
@@ -45,7 +50,7 @@ Table.defaultProps = {
 }
 
 Table.propTypes = {
-  languages: PropTypes.string.isRequired,
+  languages: PropTypes.object.isRequired,
   infoMomenent: PropTypes.string.isRequired,
   tooltip: PropTypes.shape({
     heading: PropTypes.string.isRequired,

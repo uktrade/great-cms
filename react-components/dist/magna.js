@@ -74551,6 +74551,9 @@ var Table = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       tooltip = _ref.tooltip;
   var heading = tooltip.heading,
       description = tooltip.description;
+  var languagesToString = languages.cia_factbook_data.languages.language.map(function (lang) {
+    return lang.name;
+  }).join(', ');
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ToggleSnapshot__WEBPACK_IMPORTED_MODULE_3__["ToggleSnapshot"], {
     isOpen: false
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -74561,7 +74564,7 @@ var Table = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     className: "c-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Stats__WEBPACK_IMPORTED_MODULE_4__["Stats"], {
     header: "The main languages in your chosen market are:",
-    data: languages || _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_5__["notAvailable"]
+    data: languagesToString || _src_components_Stats_StatsGroup__WEBPACK_IMPORTED_MODULE_5__["notAvailable"]
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__["Tooltip"], {
     id: "languages-in-target-market-tooltip",
     title: heading,
@@ -74582,7 +74585,7 @@ Table.defaultProps = {
   }
 };
 Table.propTypes = {
-  languages: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  languages: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object.isRequired,
   infoMomenent: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     heading: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
