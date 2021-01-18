@@ -1,2 +1,0 @@
-# paas needs this
--e .[demo]
