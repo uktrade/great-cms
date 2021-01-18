@@ -14,12 +14,17 @@ from wagtail_factories import ImageFactory
 from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
+    Country,
     CuratedListPage,
     DetailPage,
+    IndustryTag,
     InterstitialPage,
     LandingPage,
     LessonPlaceholderPage,
     ListPage,
+    Product,
+    Region,
+    Tag,
     TopicPage,
     case_study_body_validation,
 )
@@ -541,3 +546,56 @@ class TestGreatMedia(TestCase):
                 }
             ],
         )
+
+
+class TestSmallSnippets(TestCase):
+    # Most snippets are generally small models. Move them out of this test case
+    # into their own if/when they gain any custom methods beyond __str__
+
+    def test_region(self):
+        region = Region.objects.create(name='Test Region')
+        self.assertEqual(region.name, 'Test Region')
+
+    def test_country(self):
+        region = Region.objects.create(name='Test Region')
+
+        # NB: slugs are not automatically set.
+        # The SlugField is about valiation, not auto-population by default
+        country1 = Country.objects.create(
+            name='Test Country',
+            slug='test-country',
+        )
+        country2 = Country.objects.create(
+            name='Other Country',
+            slug='other-country',
+            region=region,
+        )
+        country_unicode = Country.objects.create(
+            name='Téßt Country',
+            slug='tt-country',
+        )
+
+        self.assertEqual(country1.name, 'Test Country')
+        self.assertEqual(country1.slug, 'test-country')
+        self.assertEqual(country1.region, None)
+
+        self.assertEqual(country2.name, 'Other Country')
+        self.assertEqual(country2.slug, 'other-country')
+        self.assertEqual(country2.region, region)
+
+        self.assertEqual(country_unicode.name, 'Téßt Country')
+        # by default, ASCII only - https://docs.djangoproject.com/en/2.2/ref/utils/#django.utils.text.slugify
+        self.assertEqual(country_unicode.slug, 'tt-country')
+        self.assertEqual(country_unicode.region, None)
+
+    def test_product(self):
+        tag = Product.objects.create(name='Test Product')
+        self.assertEqual(tag.name, 'Test Product')
+
+    def test_tag(self):
+        tag = Tag.objects.create(name='Test Tag')
+        self.assertEqual(tag.name, 'Test Tag')
+
+    def test_industry_tag(self):
+        tag = IndustryTag.objects.create(name='Test IndustryTag')
+        self.assertEqual(tag.name, 'Test IndustryTag')
