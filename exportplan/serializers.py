@@ -1,9 +1,11 @@
+import decimal
+import json
+
 from directory_validators.string import no_html
 from rest_framework import serializers
 
 from exportplan.utils import format_two_dp
-import decimal
-import json
+
 
 class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
     sectors = serializers.ListField(child=serializers.CharField())
@@ -154,7 +156,6 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         return potential_total_profit
 
 
-
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -198,11 +199,13 @@ class ExportPlanSerializer(serializers.Serializer):
     def estimated_costs_per_unit(self):
         self.is_valid()
         units_to_export = float(
-            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value')
+            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value', 0.00)
         )
         estimated_costs_per_unit = float(self.total_direct_costs)
         if self.total_overhead_costs > 0.00 and units_to_export > 0.00:
-            estimated_costs_per_unit = (self.total_overhead_costs / float(units_to_export)) + float(self.total_direct_costs)
+            estimated_costs_per_unit = (self.total_overhead_costs / float(units_to_export)) + float(
+                self.total_direct_costs
+            )
         return estimated_costs_per_unit
 
     @property
@@ -234,7 +237,7 @@ class ExportPlanSerializer(serializers.Serializer):
             'overhead_costs': data.get('overhead_costs', {}),
             'total_cost_and_price': data.get('direct_costs', {}),
         }
-        json_encoded = json.dumps(self.to_internal_value(data=cost_pricing_data, cls=self.DecimalEncoder))
+        json_encoded = json.dumps(self.to_internal_value(data=cost_pricing_data), cls=self.DecimalEncoder)
         return json_encoded
 
     class DecimalEncoder(json.JSONEncoder):

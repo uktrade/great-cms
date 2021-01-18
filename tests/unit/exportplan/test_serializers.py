@@ -204,23 +204,32 @@ def test_cost_and_pricing_serializers():
 
     serializer = serializers.ExportPlanSerializer(data=data)
     assert serializer.is_valid()
+
     assert serializer.data['direct_costs'] == OrderedDict(
-        {'product_costs': '12.02', 'labour_costs': '13.02'},
+        [('product_costs', '12.02'), ('labour_costs', '13.02'), ('other_direct_costs', '0.00')]
     )
+
     assert serializer.data['overhead_costs'] == OrderedDict(
-        {'product_adaption': '13.02', 'other_overhead_costs': '19.23'},
+        [
+            ('product_adaption', '13.02'),
+            ('freight_logistics', '0.00'),
+            ('agent_distributor_fees', '0.00'),
+            ('marketing', '0.00'),
+            ('insurance', '0.00'),
+            ('other_overhead_costs', '19.23'),
+        ]
     )
     assert serializer.data['total_cost_and_price'] == OrderedDict(
-        {
-            'units_to_export_first_period': OrderedDict(
-                {'unit': 'kg', 'value': '10.00'},
-            ),
-            'average_price_per_unit': '23.44',
-            'duty_per_unit': '23.00',
-            'gross_price_per_unit_invoicing_currency': OrderedDict(
-                {'unit': 'EUR', 'value': '23.40'},
-            ),
-        },
+        [
+            ('units_to_export_first_period', OrderedDict([('unit', 'kg'), ('value', '10.00')])),
+            ('units_to_export_second_period', OrderedDict([('unit', ''), ('value', '0.00')])),
+            ('final_cost_per_unit', '0.00'),
+            ('average_price_per_unit', '23.44'),
+            ('net_price', '0.00'),
+            ('local_tax_charges', '0.00'),
+            ('duty_per_unit', '23.00'),
+            ('gross_price_per_unit_invoicing_currency', OrderedDict([('unit', 'EUR'), ('value', '23.40')])),
+        ]
     )
 
 
@@ -248,15 +257,15 @@ def test_total_over_head_costs_serializer():
             {'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}},
             6.00,
             132.00,
-            0.00,
+            22.00,
         ],
         [
             {'final_cost_per_unit': '16.00', 'net_price': '22.00', 'units_to_export_first_period': {'value': '22.00'}},
             6.00,
             132.00,
-            0.00,
+            22.00,
         ],
-        [{'duty_per_unit': 15, 'net_price': 22.00}, 0.00, 0.00, 0.00],
+        [{'duty_per_unit': 15, 'net_price': 22.00}, 0.00, 0.00, 22.00],
     ],
 )
 def test_total_cost_and_price_serializer(
@@ -292,7 +301,7 @@ def test_exportplan_serializer_calculate_cost_pricing_no_over_head_costs(export_
         'potential_total_profit': '0.00',
         'gross_price_per_unit': '0.00',
         'total_export_costs': '0.00',
-        'estimated_costs_per_unit': '0.00',
+        'estimated_costs_per_unit': '15.00',
     }
 
 

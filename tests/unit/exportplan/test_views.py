@@ -242,7 +242,7 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
 
 
 @pytest.mark.django_db
-def test_cost_and_pricing(cost_pricing_data, client, user):
+def test_cost_and_pricing(cost_pricing_data, cost_and_pricing_serialized_result, client, user):
     url = reverse('exportplan:costs-and-pricing')
     client.force_login(user)
     response = client.get(url)
@@ -254,7 +254,7 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
     assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
-    assert response.context_data['costs_and_pricing_data'] == json.dumps(cost_pricing_data)
+    assert response.context_data['costs_and_pricing_data'] == json.dumps(cost_and_pricing_serialized_result)
     assert response.context_data['calculated_pricing'] == json.dumps(
         {
             'calculated_cost_pricing': {
