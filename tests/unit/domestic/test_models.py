@@ -493,11 +493,11 @@ def test_industry_accordions_validation(blocks_to_create, expected_exception_mes
 
 
 # BaseContentPage is abstract but had some methods on it
-@pytest.mark.skip(reason="we need more of the page tree ported before we can test this")
+@pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
 def test_base_content_page__ancestors_in_app():
     pass
 
 
-@pytest.mark.skip(reason="we need more of the page tree ported before we can test this")
+@pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
 def test_base_content_page__get_breadcrumbs():
     pass
