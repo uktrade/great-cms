@@ -4,10 +4,15 @@
 
 ### Implemented enhancements
 
+- GP2-341 - Adaptation language info and stats update
+- GP2-1270 - income data for economy tab
+- GP2-1265 - Compare markets - society data attribution
+- GP2-1258 - Compare markets - integrate society data
+- GP2-1270 - income data for economy tab
+- GP2-1259 - Styling for compare markets datatable from great-styles
 - GP2-1309 - Remove tooltips
 - GP2-341 - Adaptation target markets documents
 - GP2-1129 - Product classifier - show errors on search page
-- GP2-341  - Adaptation target markets documents
 - GP2-1182 - Alignment of elements
 - GP2-1194 - Product finder search page content update and restyle
 - GP2-1130 - Product finder previous result start
@@ -36,6 +41,7 @@
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
+- GP2-1309 - Marketing approach page - Content for tool-tips is not displayed
 - no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
@@ -89,7 +95,6 @@
 - GP2-695 - select product modal
 - GP2-1049 - country name in target market research page
 - GP2-849 - target audience progress
-
 
 ## Pre-release
 

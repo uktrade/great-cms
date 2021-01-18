@@ -80,7 +80,7 @@
       groups: {{ target_age_group_choices|safe }},
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ demographic_data|safe }},
-      selected: {{ selected_age_groups|safe}},
+      selected: {{ selected_age_groups|safe }},
       currentSection: {{ current_section|to_json}},
     })
 

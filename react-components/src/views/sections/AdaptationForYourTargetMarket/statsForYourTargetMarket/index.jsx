@@ -5,9 +5,15 @@ import { Tooltip } from '@components/tooltip/Tooltip'
 import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
+import { formatLanguages } from '@src/components/TargetAgeGroupInsights/utils'
 
 export const Table = memo(({ languages, infoMomenent, tooltip }) => {
   const { heading, description } = tooltip
+
+  const formatedLanguages = formatLanguages(
+    languages.cia_factbook_data.languages.language
+  )
+
   return (
     <ToggleSnapshot isOpen={false}>
       <div className="width-full">
@@ -15,7 +21,7 @@ export const Table = memo(({ languages, infoMomenent, tooltip }) => {
           <div className="c-full">
             <Stats
               header="The main languages in your chosen market are:"
-              data={languages || notAvailable}
+              data={formatedLanguages || notAvailable}
             >
               <Tooltip
                 id="languages-in-target-market-tooltip"
@@ -45,7 +51,7 @@ Table.defaultProps = {
 }
 
 Table.propTypes = {
-  languages: PropTypes.string.isRequired,
+  languages: PropTypes.object.isRequired,
   infoMomenent: PropTypes.string.isRequired,
   tooltip: PropTypes.shape({
     heading: PropTypes.string.isRequired,

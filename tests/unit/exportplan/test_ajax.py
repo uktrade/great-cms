@@ -585,3 +585,20 @@ def test_api_population_data_by_country(mock_get_population_data_by_country, cli
     )
 
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'get_society_data_by_country')
+def test_api_society_data_by_country(mock_get_society_data_by_country, client, user):
+    mock_get_society_data_by_country.return_value = {'status_code': 200}
+    client.force_login(user)
+    url = reverse('exportplan:api-society-data-by-country')
+
+    response = client.get(
+        url,
+        {
+            'countries': 'China,United Kingdom',
+        },
+    )
+
+    assert response.status_code == 200

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Services from '@src/Services'
-import { useCookies } from 'react-cookie'
 import { normaliseValues } from '../../Helpers'
 
 export default function PopulationData(props) {

@@ -94,6 +94,7 @@ class ExportPlanAboutYourBusinessForm(forms.Form):
         widget=Select(
             attrs={
                 'description': ('What is the annual turnover of your business?'),
+                'placeholder': ('Select one'),
             }
         ),
     )
