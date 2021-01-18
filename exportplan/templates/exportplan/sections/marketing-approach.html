@@ -101,19 +101,16 @@
             label: 'Route to market',
             options: {{ route_choices|safe }},
             name: 'route',
-            tooltip: null,
           },
           {
             label: 'How will we promote your product?',
             options: {{ promotional_choices|safe }},
-            name: 'promote',  
-            tooltip: null,
+            name: 'promote',
           }
         ],
         example: `<p>We've found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>`,
         label: 'Explain in your words why you selected this route to market and promotional channel',
         name: 'market_promotional_channel',
-        tooltip: null,
       },
       fields: {{ route_to_markets|safe }},
       formFields: {

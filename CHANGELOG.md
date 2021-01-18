@@ -40,6 +40,7 @@
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
+- GP2-1309 - Marketing approach page - Content for tool-tips is not displayed
 - no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
