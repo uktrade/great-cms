@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 
+- GP2-341 - Adaptation language info and stats update
+- GP2-1270 - income data for economy tab
 - GP2-1265 - Compare markets - society data attribution
 - GP2-1258 - Compare markets - integrate society data
 - GP2-1270 - income data for economy tab
@@ -11,7 +13,6 @@
 - GP2-1309 - Remove tooltips
 - GP2-341 - Adaptation target markets documents
 - GP2-1129 - Product classifier - show errors on search page
-- GP2-341  - Adaptation target markets documents
 - GP2-1182 - Alignment of elements
 - GP2-1194 - Product finder search page content update and restyle
 - GP2-1130 - Product finder previous result start
@@ -94,7 +95,6 @@
 - GP2-695 - select product modal
 - GP2-1049 - country name in target market research page
 - GP2-849 - target audience progress
-
 
 ## Pre-release
 
