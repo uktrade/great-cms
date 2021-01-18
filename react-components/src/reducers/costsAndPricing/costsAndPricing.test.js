@@ -18,11 +18,23 @@ describe('Costs and Pricing Reducer', () => {
     expect(
       reducer(
         initialState,
-        postSuccess({ calculated_cost_pricing: { total_direct_costs: 5 } })
+        postSuccess({
+          calculated_cost_pricing: {
+            total_direct_costs: 5,
+            total_overhead_costs: 10,
+            profit_per_unit: 2,
+            potential_total_profit: 4,
+            gross_price_per_unit: 1,
+          },
+        })
       )
     ).toEqual({
       ...initialState,
       direct_total: 5,
+      overhead_total: 10,
+      profit_per_unit: 2,
+      potential_total_profit: 4,
+      gross_price_per_unit: 1,
     })
   })
 })
