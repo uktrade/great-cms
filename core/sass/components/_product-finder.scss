@@ -208,19 +208,3 @@
     }
   }
 }
-
-
-table .loading {
-   animation : shimmer 5s infinite linear;
-   background: linear-gradient(to right, #E9E7ED 20%, #faf8fe 50%, #E9E7ED 66%);
-   background-size: 1000px 100%;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}

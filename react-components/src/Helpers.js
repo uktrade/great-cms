@@ -63,6 +63,15 @@ const get = (obj, path) => {
   return out
 }
 
+const mapArray = (array, key) => {
+// Generates an object from an array, using the given key
+    const out = {}
+    array.forEach((entry) => {
+      out[entry[key]] = entry
+    })
+    return out
+} 
+
 const sectionQuestionMapping = {
   story: 'How you started',
   location: "Where you're based",
@@ -90,4 +99,5 @@ export {
   isObject,
   isArray,
   get,
+  mapArray,
 }

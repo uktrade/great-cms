@@ -18,9 +18,24 @@ const getAndFormat = (data, key, unit = '') => {
   return value !== undefined ? `${normaliseValues(value)}${unit}` : DATA_NA
 }
 
+  const formatReligion = (religion) => {
+    return `${religion.name} ${(religion.percent ? `${religion.percent}%` : '')}`
+  }
+
+  const formatLanguage = (language) => {
+    return `${language.name}${language.note === 'official' ? ' (official)' : ''}`
+  }
+
+  const getEntries = (list={}, func) => {
+    const entries = Object.keys(list || {}).map((key) => {
+      return <p className="entry body-m" key={key}>{func(list[key])}</p>
+    })
+    return entries
+  }
+
 export default (selectedProduct) => {
   const populationTabConfig = {
-    sourceAttributionList: [
+    sourceAttributions: [
       {
         title: 'Population data',
         linkText: 'United Nations',
@@ -72,7 +87,7 @@ export default (selectedProduct) => {
   }
 
   const economyTabConfig = {
-    sourceAttributionList: [
+    sourceAttributions: [
       {
         title: 'Trade data',
         linkText: 'UN Comtrade',
@@ -137,9 +152,48 @@ export default (selectedProduct) => {
     },
     dataFunction: Services.getComTradeData,
   }
+const societyTabConfig = {
+    sourceAttributions: [
+      {
+        title: 'Religion',
+        linkText: 'Central Intelligence Agency',
+        linkTarget: 'https://www.cia.gov/the-world-factbook',
+      },
+      {
+        title: 'Languages',
+        linkText: 'Central Intelligence Agency',
+        linkTarget: 'https://www.cia.gov/the-world-factbook',
+      },
+      {
+        title: 'Rule of law',
+        linkText: 'The Global Innovation Index 2020',
+        linkTarget:
+          'https://www.globalinnovationindex.org/gii-2020-report',
+      }
+    ],
+
+    columns: {
+      'religion': {
+        name: 'Religion',
+        className: 'text-align-left align-top',
+        render: (data) => {return getEntries(get(data, 'religions.religion'), formatReligion)},
+      },
+      'language': {
+        name: 'Languages',
+        className: 'text-align-left align-top',
+        render: (data) => {return getEntries(get(data, 'languages.language'), formatLanguage)},
+      },
+      'rule-of-law': {
+        name: 'Rule of law score align-top',
+        render: (data) => normaliseValues(get(data,'rule_of_law.score'))
+      }
+    },
+    dataFunction: Services.getSocietyByCountryData,
+  }
 
   return {
     population: populationTabConfig,
     economy: economyTabConfig,
+    society: societyTabConfig,
   }
 }

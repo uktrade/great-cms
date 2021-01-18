@@ -8,8 +8,6 @@ import { useCookies } from 'react-cookie'
 import { analytics } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
-import SocietyData from './SocietyData'
-import { isObject } from '../../Helpers'
 import ComparisonTables from './ComparisonTables'
 
 const maxSelectedLength = 3
@@ -64,14 +62,17 @@ function CompareMarkets(props) {
   }
   const triggerButton =
     selectedLength < maxSelectedLength ? (
-      <button type="button" 
+      <button 
+        type="button" 
         className={buttonClass} 
         onClick={openModal}
       >
         <i className="fa fa-plus-square" />
         {buttonLabel}
       </button>
-    ) : <></>
+    ) : (
+      <></>
+    )
 
   let tabsContainer
   if (selectedProduct && selectedLength) {
@@ -128,7 +129,7 @@ CompareMarkets.propTypes = {
     commodity_name: PropTypes.string,
     commodity_code: PropTypes.string,
   }),
-  tabs: PropTypes.string.isRequired
+  tabs: PropTypes.string.isRequired,
 }
 
 CompareMarkets.defaultProps = {

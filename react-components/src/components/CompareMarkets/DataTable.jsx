@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { isArray } from '../../Helpers'
+import { isArray, isObject, mapArray } from '../../Helpers'
 
 let cache = {}
 
@@ -28,17 +28,14 @@ export default function DataTable(props) {
     )
     if (missingCountries.length) {
       setLoading(true)
-      config
-        .dataFunction(missingCountries, commodityCode)
+      config.dataFunction(missingCountries, commodityCode)
         .then((result) => {
           let newData = result
           // If the result is an array, make an object keyed by country
           if (isArray(result)) {
-            const out = {}
-            result.forEach((entry) => {
-              out[entry.country] = entry
-            })
-            newData = out
+            newData = mapArray(result, 'country')
+          } else if (isObject(result) && !result[missingCountries[0]]) {
+            newData = mapArray(Object.values(result), 'country')
           }
           // or it could be an object already keyed by country
           cache[datasetName] = Object.assign(cache[datasetName], newData)
@@ -75,7 +72,8 @@ export default function DataTable(props) {
                   {attribution.linkText}
                 </a>
               )}
-              {attribution.text && <>&nbsp;{attribution.text}&nbsp;</>}
+              {attribution.text && <>&nbsp;{attribution.text}</>}
+              &nbsp;
             </React.Fragment>
           )
         })}
@@ -87,8 +85,9 @@ export default function DataTable(props) {
     const countryData =
       cache[datasetName] && cache[datasetName][market.country_name]
     const countryRow = Object.keys(config.columns).map((columnKey) => {
+      const cellConfig = config.columns[columnKey]
       return (
-        <td key={columnKey} className={`${columnKey}`}>
+        <td key={columnKey} className={`${columnKey} ${cellConfig.className || ''}`}>
           {countryData ? (
             config.columns[columnKey].render(countryData)
           ) : (
@@ -131,8 +130,9 @@ export default function DataTable(props) {
           <tr>
             <th className="body-s-b">&nbsp;</th>
             {Object.keys(config.columns).map((columnKey) => {
+              const cellConfig = config.columns[columnKey]
               return (
-                <th className="body-s-b" key={columnKey}>
+                <th className={`body-s-b ${columnKey} ${cellConfig.className || ''}`} key={columnKey}>
                   {config.columns[columnKey].name}
                 </th>
               )
