@@ -1,6 +1,8 @@
-from django import template
-from core import cms_slugs
 import re
+
+from django import template
+
+from core import cms_slugs
 
 register = template.Library()
 

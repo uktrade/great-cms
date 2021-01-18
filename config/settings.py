@@ -8,7 +8,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 from .utils import get_wagtail_transfer_configuration
 
-ROOT_DIR = (environ.Path(__file__) - 2)
+ROOT_DIR = environ.Path(__file__) - 2
 
 env = environ.Env()
 
@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
     'wagtail.contrib.routable_page',
-
     'wagtailmedia',
     'wagtailcache',
     'wagtail_personalisation',
@@ -51,7 +50,6 @@ INSTALLED_APPS = [
     'storages',
     'django_extensions',
     'great_components',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,7 +58,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.forms',
     'django.contrib.humanize',
-
     'sso',
     'core.apps.CoreConfig',
     'cms_extras.apps.CmsExtrasConfig',
@@ -133,16 +130,14 @@ else:
 
 
 if env.bool('API_CACHE_DISABLED', False):
-    cache = {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache'
-    }
+    cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
 else:
     cache = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': REDIS_URL,
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
+        },
     }
 
 CACHES = {
@@ -180,14 +175,8 @@ STATICFILES_DIRS = [
     str(ROOT_DIR('react-components/dist')),
 ]
 
-STATICFILES_STORAGE = env.str(
-    'STATICFILES_STORAGE',
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
-)
-DEFAULT_FILE_STORAGE = env.str(
-    'DEFAULT_FILE_STORAGE',
-    'storages.backends.s3boto3.S3Boto3Storage'
-)
+STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedManifestStaticFilesStorage')
+DEFAULT_FILE_STORAGE = env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage')
 
 STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
@@ -210,11 +199,7 @@ if DEBUG:
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'filters': {
-            'require_debug_false': {
-                '()': 'django.utils.log.RequireDebugFalse'
-            }
-        },
+        'filters': {'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}},
         'handlers': {
             'console': {
                 'level': 'DEBUG',
@@ -267,17 +252,14 @@ if DEBUG:
                 'level': 'WARNING',
                 'propagate': False,
             },
-        }
+        },
     }
 else:
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': True,
         'formatters': {
-            'verbose': {
-                'format': '%(levelname)s %(asctime)s %(module)s '
-                          '%(process)d %(thread)d %(message)s'
-            }
+            'verbose': {'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'}
         },
         'handlers': {
             'console': {
@@ -292,11 +274,7 @@ else:
                 'handlers': ['console'],
                 'propagate': False,
             },
-            'sentry_sdk': {
-                'level': 'ERROR',
-                'handlers': ['console'],
-                'propagate': False
-            },
+            'sentry_sdk': {'level': 'ERROR', 'handlers': ['console'], 'propagate': False},
             'django.security.DisallowedHost': {
                 'level': 'ERROR',
                 'handlers': ['console'],
@@ -309,9 +287,7 @@ else:
 # Sentry
 if env.str('SENTRY_DSN', ''):
     sentry_sdk.init(
-        dsn=env.str('SENTRY_DSN'),
-        environment=env.str('SENTRY_ENVIRONMENT'),
-        integrations=[DjangoIntegration()]
+        dsn=env.str('SENTRY_DSN'), environment=env.str('SENTRY_ENVIRONMENT'), integrations=[DjangoIntegration()]
     )
 
 USE_X_FORWARDED_HOST = True
@@ -346,13 +322,9 @@ AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION', 's3v4')
 AWS_QUERYSTRING_AUTH = env.bool('AWS_QUERYSTRING_AUTH', False)
 S3_USE_SIGV4 = env.bool('S3_USE_SIGV4', True)
 
-USER_MEDIA_ON_S3 = (
-    DEFAULT_FILE_STORAGE == 'storages.backends.s3boto3.S3Boto3Storage'
-)
+USER_MEDIA_ON_S3 = DEFAULT_FILE_STORAGE == 'storages.backends.s3boto3.S3Boto3Storage'
 # Wagtail-Transfer needs MEDIA_URL set to reference cloud storage
-if USER_MEDIA_ON_S3 and (
-    AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN
-):
+if USER_MEDIA_ON_S3 and (AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN):
     if AWS_S3_CUSTOM_DOMAIN:  # eg cdn.example.com
         hostname = AWS_S3_CUSTOM_DOMAIN
     else:
@@ -362,7 +334,7 @@ if USER_MEDIA_ON_S3 and (
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE = (['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE)
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
@@ -405,11 +377,7 @@ GOOGLE_TAG_MANAGER_ENV = env.str('GOOGLE_TAG_MANAGER_ENV', '')
 UTM_COOKIE_DOMAIN = env.str('UTM_COOKIE_DOMAIN')
 GA360_BUSINESS_UNIT = 'GreatMagna'
 
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    )
-}
+REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',)}
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
 WAGTAILMEDIA_MEDIA_MODEL = 'core.GreatMedia'
@@ -429,17 +397,14 @@ DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str('DIRECTORY_FORMS_API_ZENDESK_S
 
 # gov.uk notify
 CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.str(
-    'CONFIRM_VERIFICATION_CODE_TEMPLATE_ID',
-    'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
+    'CONFIRM_VERIFICATION_CODE_TEMPLATE_ID', 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
 )
 ENROLMENT_WELCOME_TEMPLATE_ID = env.str('ENROLMENT_WELCOME_TEMPLATE_ID', '0a4ae7a9-7f67-4f5d-a536-54df2dee42df')
 CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.str(
-    'ENQURIES_CONTACTUS_TEMPLATE_ID',
-    '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'
+    'ENQURIES_CONTACTUS_TEMPLATE_ID', '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'
 )
 CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.str(
-    'CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID',
-    '68030d40-4574-4aa1-b3ff-941320929964'
+    'CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID', '68030d40-4574-4aa1-b3ff-941320929964'
 )
 
 # geo location
@@ -457,19 +422,20 @@ DIRECTORY_API_CLIENT_API_KEY = env.str('DIRECTORY_API_CLIENT_API_KEY')
 DIRECTORY_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_API_CLIENT_DEFAULT_TIMEOUT = 15
 
-MADB_URL = env.str(
-    'MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
-)
+MADB_URL = env.str('MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
 
 # 3CE commodity classification
 COMMODITY_SEARCH_URL = env.str(
-    'CCCE_COMMODITY_SEARCH_URL',
-    'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-start'
+    'CCCE_COMMODITY_SEARCH_URL', 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-start'
 )
 COMMODITY_SEARCH_REFINE_URL = env.str(
     'CCCE_COMMODITY_SEARCH_REFINE_URL',
-    'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-continue'
+    'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-continue',
 )
+CCCE_IMPORT_SCHEDULE_URL = env.str(
+    'CCCE_TRADE_DATA_URL', 'http://info.dev.3ceonline.com/ccce/apis/tradedata/import/v1/schedule'
+)
+
 COMMODITY_SEARCH_TOKEN = env.str('CCCE_COMMODITY_SEARCH_TOKEN', '')
 
 # directory constants
@@ -482,10 +448,9 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
     def get_client_ip(request):
         return '51.6.68.120'
 
+
 # directory validators
-VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int(
-    'VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024
-)
+VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
 
 # Wagtail-transfer configuration
 
@@ -510,10 +475,7 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
 ]
 
 # Give W-T a little more time than the default 5 secs to do things
-WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT = env.int(
-    'WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT',
-    10
-)
+WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT = env.int('WAGTAILTRANSFER_CHOOSER_API_PROXY_TIMEOUT', 10)
 
 WAGTAILTRANSFER_FOLLOWED_REVERSE_RELATIONS = [
     # (model, reverse_relationship_name, track_deletions)
@@ -540,7 +502,7 @@ FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
 BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')
 
 if BETA_ENVIRONMENT != '':
-    MIDDLEWARE = (['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE)
+    MIDDLEWARE = ['core.middleware.TimedAccessMiddleware'] + MIDDLEWARE
     BETA_WHITELISTED_ENDPOINTS = env.str('BETA_WHITELISTED_ENDPOINTS', default=None)
     BETA_BLACKLISTED_USERS = env.str('BETA_BLACKLISTED_USERS', default=None)
     BETA_TOKEN_EXPIRATION_DAYS = env.int('BETA_TOKEN_EXPIRATION_DAYS', default=30)

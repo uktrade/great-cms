@@ -1,5 +1,4 @@
 import pytest
-
 from django.urls import reverse
 
 from tests.unit.core.factories import CaseStudyFactory
@@ -8,11 +7,7 @@ from tests.unit.core.factories import CaseStudyFactory
 @pytest.mark.django_db
 def test_case_study_view(client, django_user_model):
 
-    user = django_user_model.objects.create_user(
-        username='username',
-        password='password',
-        is_staff=True
-    )
+    user = django_user_model.objects.create_user(username='username', password='password', is_staff=True)
     client.login(username='username', password='password')
 
     assert user.is_authenticated and user.is_active and user.is_staff

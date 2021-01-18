@@ -1,4 +1,5 @@
 from django import template
+
 register = template.Library()
 
 """
@@ -21,7 +22,7 @@ def set(context, var_name, value):
 def push(context, var_name, value):
     if not context.get('store'):
         context['store'] = {}
-    context['store'][var_name] = (context['store'].get(var_name) or [])
+    context['store'][var_name] = context['store'].get(var_name) or []
     context['store'][var_name].append(value)
     context[var_name] = context['store'][var_name]
     return ''

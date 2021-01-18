@@ -95,6 +95,10 @@ export default {
     return get(config.populationByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
   },
 
+ getComTradeData: (countries, commodity_code) => {
+  return get(config.apiComTradeDataUrl, { countries: countries, commodity_code: commodity_code }).then((response) => responseHandler(response).json())
+  },
+
   getMarketingCountryData: (data) => {
     return get(config.marketingCountryData, data).then((response) => responseHandler(response).json())
   },
@@ -105,6 +109,10 @@ export default {
 
   lookupProductRefine: ({ txId, interactionId, values }) => {
     return post(config.apiLookupProductUrl, { tx_id: txId, interaction_id: interactionId, values: values }).then((response) => responseHandler(response).json())
+  },
+
+  lookupProductSchedule: ({ hsCode }) => {
+    return get(config.apiLookupProductScheduleUrl, { hs_code: hsCode }).then((response) => responseHandler(response).json())
   },
 
   getLessonComplete: (endpoint) => {

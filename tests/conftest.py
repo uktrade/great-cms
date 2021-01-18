@@ -3,17 +3,16 @@ import logging
 from unittest import mock
 
 import pytest
+from django.test.client import RequestFactory
+from wagtail.core.models import Page
+from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
-
 from directory_api_client import api_client
 from exportplan import helpers as exportplan_helpers
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
-from wagtail.core.models import Page
-from wagtail_factories import PageFactory, SiteFactory
-from django.test.client import RequestFactory
 
 # This is to reduce logging verbosity of these two libraries when running pytests
 # with DEBUG=true and --log-cli-level=DEBUG
@@ -69,7 +68,10 @@ def exportplan_dashboard(exportplan_homepage):
 
 @pytest.fixture
 def domestic_site(domestic_homepage, client):
-    return SiteFactory(root_page=domestic_homepage, hostname=client._base_environ()['SERVER_NAME'],)
+    return SiteFactory(
+        root_page=domestic_homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
 
 
 @pytest.fixture(autouse=True)
@@ -145,7 +147,10 @@ def mock_export_plan_requests(
         'cpi_score_2019': 41,
         'rank': 80,
     }
-    mock_ease_of_doing_business.return_value = create_response(status_code=200, json_body=ease_of_doing_business_data,)
+    mock_ease_of_doing_business.return_value = create_response(
+        status_code=200,
+        json_body=ease_of_doing_business_data,
+    )
 
     cpi_data = {
         'country_name': 'China',
@@ -199,7 +204,7 @@ def mock_get_company_profile(patch_get_company_profile):
 def patch_get_user_lesson_completed():
     yield mock.patch(
         'directory_sso_api_client.sso_api_client.user.get_user_lesson_completed',
-        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+        return_value=create_response(status_code=200, json_body={'result': 'ok'}),
     ).start()
 
 
@@ -242,7 +247,7 @@ def patch_get_dashboard_export_opportunities():
 def patch_get_user_page_views():
     yield mock.patch(
         'directory_sso_api_client.sso_api_client.user.get_user_page_views',
-        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+        return_value=create_response(status_code=200, json_body={'result': 'ok'}),
     ).start()
 
 
@@ -250,7 +255,7 @@ def patch_get_user_page_views():
 def patch_set_user_page_view():
     yield mock.patch(
         'directory_sso_api_client.sso_api_client.user.set_user_page_view',
-        return_value=create_response(status_code=200, json_body={'result': 'ok'})
+        return_value=create_response(status_code=200, json_body={'result': 'ok'}),
     ).start()
 
 
@@ -258,7 +263,7 @@ def patch_set_user_page_view():
 def patch_export_plan():
     yield mock.patch(
         'directory_api_client.api_client.exportplan.exportplan_list',
-        return_value=create_response(status_code=200, json_body=[{'id': 1}])
+        return_value=create_response(status_code=200, json_body=[{'id': 1}]),
     ).start()
 
 
@@ -279,6 +284,6 @@ def patch_get_suggested_markets():
         {'hs_code': 4, 'country_name': 'Spain', 'country_iso2': 'ES', 'region': 'Europe'},
     ]
     yield mock.patch(
-        'directory_api_client.api_client.personalisation.suggested_countries_by_hs_code',
-        return_value=create_response(status_code=200, json_body=body)
+        'directory_api_client.api_client.dataservices.suggested_countries_by_hs_code',
+        return_value=create_response(status_code=200, json_body=body),
     ).start()

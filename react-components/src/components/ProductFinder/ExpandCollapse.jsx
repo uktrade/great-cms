@@ -16,15 +16,27 @@ export default function ExpandCollapse(props) {
 
   return (
     <div>
-    <div 
-      className={`expander ${expanded ? 'expander-expanded' : 'expander-collapsed'}`} 
-      style={{maxHeight:expanded ? `${sectionHeight}px`: '0px',transition:'max-height 0.3s', overflow:'hidden'}}
-      ref={setSection}
-    >
-      {children}
+      <div
+        className={`expander ${
+          expanded ? 'expander-expanded' : 'expander-collapsed'
+        }`}
+        style={{
+          maxHeight: expanded ? `${sectionHeight}px` : '0px',
+          transition: 'max-height 0.3s',
+          overflow: 'hidden',
+        }}
+        ref={setSection}
+      >
+        {children}
+      </div>
+      <button
+        type="button"
+        className="button button--tertiary"
+        onClick={toggleExpand}
+      >
+        {expanded ? expandedButtonLabel || buttonLabel : buttonLabel}
+      </button>
     </div>
-   <button type="button" className="button button--tertiary" onClick={toggleExpand} >{expanded ? expandedButtonLabel || buttonLabel : buttonLabel}</button>
-   </div>
   )
 }
 
@@ -35,10 +47,10 @@ ExpandCollapse.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
-  ]).isRequired
+  ]).isRequired,
 }
 
 ExpandCollapse.defaultProps = {
   defaultExpanded: false,
-  expandedButtonLabel: ''
+  expandedButtonLabel: '',
 }

@@ -1,8 +1,12 @@
 {
-  "singleQuote": true,
-  "printWidth": 120,
   "arrowParens": "always",
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "css",
+  "jsxBracketSameLine": false,
   "semi": false,
+  "singleQuote": true,
   "tabWidth": 2,
-  "useTabs": false
+  "trailingComma": "es5",
+  "useTabs": false,
+  "overrides": []
 }

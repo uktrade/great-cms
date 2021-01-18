@@ -1,46 +1,58 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { FormGroup } from '../FormGroup'
 
-export const Input = ({
-  errors,
-  label,
-  disabled,
-  id,
-  type,
-  placeholder,
-  value,
-  onChange,
-  description,
-  tooltip,
-  example,
-  readOnly,
-  tabIndex,
-  hideLabel
-}) => (
-  <FormGroup
-    errors={errors}
-    label={label}
-    description={description}
-    tooltip={tooltip}
-    example={example}
-    id={id}
-    hideLabel={hideLabel}
-  >
-    <input
-      className='form-control'
+export const Input = memo(
+  ({
+    errors,
+    label,
+    disabled,
+    id,
+    type,
+    placeholder,
+    value,
+    onChange,
+    description,
+    tooltip,
+    example,
+    readOnly,
+    tabIndex,
+    hideLabel,
+    lesson,
+    prepend,
+  }) => (
+    <FormGroup
+      errors={errors}
+      label={label}
+      description={description}
+      tooltip={tooltip}
+      example={example}
       id={id}
-      type={type}
-      name={id}
-      disabled={disabled}
-      onChange={(e) => onChange({[id]: e.target.value})}
-      placeholder={placeholder}
-      value={value}
-      readOnly={readOnly}
-      tabIndex={tabIndex}
-    />
-</FormGroup>
+      hideLabel={hideLabel}
+      lesson={lesson}
+    >
+      <div className="flex-center">
+        {prepend && (
+          <span className="bg-blue-deep-10 text-blue-deep-60 bold prepend">
+            {prepend}
+          </span>
+        )}
+        <input
+          className={`form-control ${prepend ? 'form-control-prepend' : ''}`}
+          id={id}
+          type={type}
+          name={id}
+          disabled={disabled}
+          onChange={(e) => onChange({ [id]: e.target.value })}
+          placeholder={placeholder}
+          value={value}
+          readOnly={readOnly}
+          tabIndex={tabIndex}
+        />
+      </div>
+    </FormGroup>
+  )
 )
 
 Input.propTypes = {
@@ -54,10 +66,21 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   description: PropTypes.string,
   tooltip: PropTypes.string,
-  example: PropTypes.string,
+  example: PropTypes.shape({
+    buttonTitle: PropTypes.string,
+    header: PropTypes.string,
+    content: PropTypes.string,
+  }),
   readOnly: PropTypes.bool,
   tabIndex: PropTypes.string,
-  hideLabel: PropTypes.bool
+  hideLabel: PropTypes.bool,
+  lesson: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string,
+  }),
+  prepend: PropTypes.string,
 }
 
 Input.defaultProps = {
@@ -68,8 +91,10 @@ Input.defaultProps = {
   value: '',
   description: '',
   tooltip: '',
-  example: '',
+  example: {},
   readOnly: false,
   tabIndex: '',
-  hideLabel: false
+  hideLabel: false,
+  lesson: {},
+  prepend: '',
 }

@@ -30,7 +30,9 @@ export const CountryFinderButton = (props) => {
   const buttonClass = `tag ${!market ? 'tag--tertiary' : ''} tag--icon `
 
   const triggerButton = (
-    <button type="button" className={buttonClass} onClick={openModal}>
+    <button type="button" 
+      className={buttonClass} 
+      onClick={openModal} >
       {(market && market.country_name) || 'add country'}
       <i className={`fa ${(market ? 'fa-edit' : 'fa-plus')}`}/>
     </button>

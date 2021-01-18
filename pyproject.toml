@@ -1,0 +1,38 @@
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+target-version = ['py36']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.git
+    | \.circleci
+    | \__pycache__
+    | \.github
+    | \.pytest_cache
+    | \.storybook
+    | \.venv
+    | \.vscode
+    | allure_results
+    | htmlcov
+    | node_modules
+    | venv
+    | migrations  # for this codebase, we'll exclude migrations from Black's reach
+  )/
+  | manage.py
+)
+'''
+
+[tool.isort]
+skip = 'venv,node_modules,migrations,.env,.venv'
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 120
+
+[tool.flake8]
+exclude = '.venv,venv,node_modules,migrations'
+max-line-length = 120

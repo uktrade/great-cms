@@ -1,30 +1,27 @@
 import json
-
-from unittest import mock
 from datetime import timedelta
+from unittest import mock
 
 import pytest
-
 from boto3.exceptions import RetriesExceededError, S3UploadFailedError
-
-from django.db.models import FileField
-from django.test import override_settings
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
+from django.db.models import FileField
+from django.test import override_settings
 from wagtail.core.rich_text import RichText
 
 from core import wagtail_hooks
 from core.wagtail_hooks import (
-    register_s3_media_file_adapter,
+    FileTransferError,
     S3FileFieldAdapter,
     S3WagtailTransferFile,
-    FileTransferError,
+    register_s3_media_file_adapter,
 )
 from tests.helpers import make_test_video
 from tests.unit.core import factories
 from tests.unit.exportplan.factories import (
-    ExportPlanPseudoDashboardPageFactory,
     ExportPlanPageFactory,
+    ExportPlanPseudoDashboardPageFactory,
 )
 from tests.unit.learn.factories import LessonPageFactory
 
@@ -216,9 +213,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
         template='learn/detail_page.html',
         hero=[],
         body=[],
-        objective=[
-            ('paragraph', RichText(reading_content))
-        ],
+        objective=[('paragraph', RichText(reading_content))],
     )
     # Every real-world page will have a revision, so the test needs one, too
     revision = detail_page.save_revision()
@@ -229,10 +224,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
 
-    wagtail_hooks._set_read_time(
-        page=detail_page,
-        request=request
-    )
+    wagtail_hooks._set_read_time(page=detail_page, request=request)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration == expected_duration
@@ -261,9 +253,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
         hero=[
             ('Video', factories.SimpleVideoBlockFactory(video=video_for_hero)),
         ],
-        objective=[
-            ('paragraph', RichText(reading_content))
-        ],
+        objective=[('paragraph', RichText(reading_content))],
         body=[
             # For now, the body ONLY contains PersonalisedStructBlocks, which don't
             # count towards page read or view time.
@@ -280,10 +270,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
 
-    wagtail_hooks._set_read_time(
-        page=detail_page,
-        request=request
-    )
+    wagtail_hooks._set_read_time(page=detail_page, request=request)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration == expected_duration
@@ -327,19 +314,14 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
 
-    wagtail_hooks._set_read_time(
-        page=detail_page,
-        request=request
-    )
+    wagtail_hooks._set_read_time(page=detail_page, request=request)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration == expected_duration
 
 
 @pytest.mark.django_db
-def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
-    rf, domestic_homepage
-):
+def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, domestic_homepage):
 
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
     # your changeset has slightly increased the size of the HTML page, which
@@ -373,10 +355,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    wagtail_hooks._set_read_time(
-        page=detail_page,
-        request=request
-    )
+    wagtail_hooks._set_read_time(page=detail_page, request=request)
 
     detail_page.refresh_from_db()
 
@@ -397,10 +376,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
     detail_page.refresh_from_db()
 
-    wagtail_hooks._set_read_time(
-        page=detail_page,
-        request=request
-    )
+    wagtail_hooks._set_read_time(page=detail_page, request=request)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != original_live_read_duration
@@ -412,9 +388,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(
 
 
 @pytest.mark.django_db
-def test_estimated_read_time_calculation__forced_update_of_live(
-    rf, domestic_homepage
-):
+def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_homepage):
     # This test is a variant of test_estimated_read_time_calculation__updates_only_draft_if_appropriate
 
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
@@ -448,7 +422,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(
     wagtail_hooks._set_read_time(
         page=detail_page,
         request=request,
-        is_post_creation=True  # THIS will mean the live page is updated at the same time as the draft
+        is_post_creation=True,  # THIS will mean the live page is updated at the same time as the draft
     )
 
     detail_page.refresh_from_db()
@@ -488,7 +462,7 @@ def test__set_read_time__passes_through_is_post_creation(
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,
-        data_to_update={'estimated_read_duration': timedelta(seconds=expected_seconds)}
+        data_to_update={'estimated_read_duration': timedelta(seconds=expected_seconds)},
     )
 
 
@@ -512,9 +486,7 @@ def test__update_data_for_appropriate_version(domestic_homepage, rf, force_updat
     assert json.loads(revision.content_json)['title'] == detail_page.title
 
     wagtail_hooks._update_data_for_appropriate_version(
-        page=detail_page,
-        force_page_update=force_update,
-        data_to_update={'title': 'Dummy Title'}
+        page=detail_page, force_page_update=force_update, data_to_update={'title': 'Dummy Title'}
     )
 
     revision.refresh_from_db()
@@ -574,14 +546,8 @@ def test_wagtail_transfer_custom_adapter_methods___get_relevant_s3_meta():
     with mock.patch('core.wagtail_hooks.s3.ObjectSummary', mock_objectsummary_class):
         meta = adapter._get_relevant_s3_meta(mock_field_value)
 
-    mock_objectsummary_class.assert_called_once_with(
-        'test-bucket-name',
-        'test-bucket-key'
-    )
-    assert meta == {
-        'size': 1234567,
-        'hash': 'aabbccddeeff112233445566'
-    }
+    mock_objectsummary_class.assert_called_once_with('test-bucket-name', 'test-bucket-key')
+    assert meta == {'size': 1234567, 'hash': 'aabbccddeeff112233445566'}
 
 
 @pytest.mark.parametrize(
@@ -590,7 +556,7 @@ def test_wagtail_transfer_custom_adapter_methods___get_relevant_s3_meta():
         ('"aabbccddeeff112233445566"', 'aabbccddeeff112233445566'),
         ('aabbccddeeff112233445566', 'aabbccddeeff112233445566'),
         ("aabbccddeeff112233445566", 'aabbccddeeff112233445566'),  # noqa Q000  - this was deliberate
-    )
+    ),
 )
 def test_wagtail_transfer_custom_adapter_methods___get_file_hash(etag_val, expected):
     mock_field = mock.Mock(name='mock_field')
@@ -611,34 +577,31 @@ def test_wagtail_transfer_custom_adapter_methods___get_file_hash(etag_val, expec
         # See constants.AWS_S3_MAIN_HOSTNAME_OPTIONS
         (
             'https://w-t-test-bucket.s3.amazonaws.com/media/path/to/file.mp4',
-            ('w-t-test-bucket', 'media/path/to/file.mp4')
+            ('w-t-test-bucket', 'media/path/to/file.mp4'),
         ),
         (
             'http://w-t-test-bucket.s3.amazonaws.com/media/path/to/file.mp4',
-            ('w-t-test-bucket', 'media/path/to/file.mp4')
+            ('w-t-test-bucket', 'media/path/to/file.mp4'),
         ),
         (
             'https://w-t-test-bucket.s3.eu-west-2.amazonaws.com/media/path/to/file.mp4',
-            ('w-t-test-bucket', 'media/path/to/file.mp4')
+            ('w-t-test-bucket', 'media/path/to/file.mp4'),
         ),
         (
             'https://w-t-test-bucket.s3.dualstack.eu-west-2.amazonaws.com/media/path/to/file.mp4',
-            ('w-t-test-bucket', 'media/path/to/file.mp4')
+            ('w-t-test-bucket', 'media/path/to/file.mp4'),
         ),
         (
             'https://w-t-test-bucket.s3-accesspoint.eu-west-2.amazonaws.com/media/path/to/file.mp4',
-            ('w-t-test-bucket', 'media/path/to/file.mp4')
+            ('w-t-test-bucket', 'media/path/to/file.mp4'),
         ),
         (
             'https://w-t-test-bucket.s3-accesspoint.dualstack.eu-west-2.amazonaws.com/media/path/to/file.mp4',
-            ('w-t-test-bucket', 'media/path/to/file.mp4')
+            ('w-t-test-bucket', 'media/path/to/file.mp4'),
         ),
-    )
+    ),
 )
-def test_wagtail_transfer_custom_adapter_methods___get_imported_file_bucket_and_key(
-    file_url,
-    expected
-):
+def test_wagtail_transfer_custom_adapter_methods___get_imported_file_bucket_and_key(file_url, expected):
     mock_field = mock.Mock(name='mock_field')
     adapter = S3FileFieldAdapter(mock_field)
     assert adapter._get_imported_file_bucket_and_key(file_url) == expected
@@ -648,18 +611,18 @@ def test_wagtail_transfer_custom_adapter_methods___get_imported_file_bucket_and_
 @pytest.mark.parametrize(
     'url,expected',
     (
-        ('https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg', {
-            'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
-            'size': 123321,
-            'hash': 'aabbccddeeff665544332211',
-        }),
+        (
+            'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
+            {
+                'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
+                'size': 123321,
+                'hash': 'aabbccddeeff665544332211',
+            },
+        ),
         (None, None),
-    )
+    ),
 )
-def test_wagtail_transfer_custom_adapter_methods__serialize(
-    url,
-    expected
-):
+def test_wagtail_transfer_custom_adapter_methods__serialize(url, expected):
     file_field = FileField()
 
     if url:
@@ -674,16 +637,11 @@ def test_wagtail_transfer_custom_adapter_methods__serialize(
     adapter = S3FileFieldAdapter(file_field)
     instance = mock.Mock()
 
-    mock_get_relevant_s3_meta = mock.Mock(return_value={
-        'download_url': url,
-        'size': 123321,
-        'hash': 'aabbccddeeff665544332211'
-    })
+    mock_get_relevant_s3_meta = mock.Mock(
+        return_value={'download_url': url, 'size': 123321, 'hash': 'aabbccddeeff665544332211'}
+    )
 
-    with mock.patch(
-        'core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta',
-        mock_get_relevant_s3_meta
-    ):
+    with mock.patch('core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta', mock_get_relevant_s3_meta):
         output = adapter.serialize(instance)
 
     assert output == expected
@@ -691,9 +649,8 @@ def test_wagtail_transfer_custom_adapter_methods__serialize(
     file_field.value_from_object.assert_called_once_with(instance)
 
     if url:
-        mock_get_relevant_s3_meta.assert_called_once_with(
-            field_value=mock_field_value
-        )
+        mock_get_relevant_s3_meta.assert_called_once_with(field_value=mock_field_value)
+
 
 ####################################################################################################
 # Cases for S3FileFieldAdapter.populate_field
@@ -723,7 +680,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_1():
     fake_value = {
         'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
         'size': 123321,
-        'hash': 'aabbccddeeff665544332211'
+        'hash': 'aabbccddeeff665544332211',
     }
 
     adapter._get_imported_file_bucket_and_key = mock.Mock(
@@ -735,11 +692,13 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_1():
 
     mock_imported_file = mock.Mock(name='mock_imported_file')
 
-    mock_get_relevant_s3_meta = mock.Mock(return_value={
-        'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
-        'size': 123321,
-        'hash': 'aabbccddeeff665544332211'  # same as existing file, so no import will happen
-    })
+    mock_get_relevant_s3_meta = mock.Mock(
+        return_value={
+            'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
+            'size': 123321,
+            'hash': 'aabbccddeeff665544332211',  # same as existing file, so no import will happen
+        }
+    )
 
     mock_s3_file = mock.Mock(name='mock_s3_file')
     mock_s3_file.source_url = 'MOCK_SOURCE_URL_VALUE'
@@ -749,14 +708,8 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_1():
 
     mock_instance = mock.Mock()
 
-    with mock.patch(
-        'core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta',
-        mock_get_relevant_s3_meta
-    ):
-        with mock.patch(
-            'core.wagtail_hooks.S3WagtailTransferFile',
-            mock_S3WagtailTransferFile
-        ):
+    with mock.patch('core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta', mock_get_relevant_s3_meta):
+        with mock.patch('core.wagtail_hooks.S3WagtailTransferFile', mock_S3WagtailTransferFile):
             adapter.populate_field(
                 instance=mock_instance,
                 value=fake_value,
@@ -787,7 +740,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_2():
     fake_value = {
         'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
         'size': 123321,
-        'hash': 'aabbccddeeff665544332211'
+        'hash': 'aabbccddeeff665544332211',
     }
 
     adapter._get_imported_file_bucket_and_key = mock.Mock(
@@ -799,11 +752,13 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_2():
 
     mock_imported_file = mock.Mock(name='mock_imported_file')
 
-    mock_get_relevant_s3_meta = mock.Mock(return_value={
-        'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
-        'size': 123321,
-        'hash': 'bbccddeeff'  # ie, does NOT match
-    })
+    mock_get_relevant_s3_meta = mock.Mock(
+        return_value={
+            'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
+            'size': 123321,
+            'hash': 'bbccddeeff',  # ie, does NOT match
+        }
+    )
 
     mock_s3_file = mock.Mock(name='mock_s3_file')
     mock_s3_file.source_url = 'MOCK_SOURCE_URL_VALUE'
@@ -811,14 +766,8 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_2():
 
     mock_S3WagtailTransferFile = mock.Mock(return_value=mock_s3_file)  # noqa N806
 
-    with mock.patch(
-        'core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta',
-        mock_get_relevant_s3_meta
-    ):
-        with mock.patch(
-            'core.wagtail_hooks.S3WagtailTransferFile',
-            mock_S3WagtailTransferFile
-        ):
+    with mock.patch('core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta', mock_get_relevant_s3_meta):
+        with mock.patch('core.wagtail_hooks.S3WagtailTransferFile', mock_S3WagtailTransferFile):
             adapter.populate_field(
                 instance=mock_instance,
                 value=fake_value,
@@ -828,9 +777,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_2():
     # the importer was called
     mock_get_relevant_s3_meta.assert_called_once_with(field_value=mock_field_value)
 
-    adapter._get_imported_file_bucket_and_key.assert_called_once_with(
-        fake_value['download_url']
-    )
+    adapter._get_imported_file_bucket_and_key.assert_called_once_with(fake_value['download_url'])
 
     mock_S3WagtailTransferFile.assert_called_once_with(
         local_filename='path/to/file.jpg',  # not changed by DefaultStorage in this test
@@ -844,9 +791,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_2():
     mock_s3_file.transfer.assert_called_once_with()  # Deliberately no args
 
     # show the imported file is now in the cache so it won't be re-imported
-    assert mock_context.imported_files_by_source_url[
-        'MOCK_SOURCE_URL_VALUE'
-    ] == mock_imported_file
+    assert mock_context.imported_files_by_source_url['MOCK_SOURCE_URL_VALUE'] == mock_imported_file
 
 
 def test_wagtail_transfer_custom_adapter_methods__populate_field__case_3():
@@ -867,7 +812,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_3():
     fake_value = {
         'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
         'size': 123321,
-        'hash': 'aabbccddeeff665544332211'
+        'hash': 'aabbccddeeff665544332211',
     }
 
     adapter._get_imported_file_bucket_and_key = mock.Mock(
@@ -877,25 +822,21 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_3():
     mock_context = mock.Mock()
     mock_context.imported_files_by_source_url = {}
 
-    mock_get_relevant_s3_meta = mock.Mock(return_value={
-        'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
-        'size': 123321,
-        'hash': 'bbccddeeff'  # ie, does NOT match
-    })
+    mock_get_relevant_s3_meta = mock.Mock(
+        return_value={
+            'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
+            'size': 123321,
+            'hash': 'bbccddeeff',  # ie, does NOT match
+        }
+    )
 
     mock_s3_file = mock.Mock(name='mock_s3_file')
     mock_s3_file.source_url = 'MOCK_SOURCE_URL_VALUE'
     mock_s3_file.transfer.side_effect = FileTransferError('Faked')
     mock_S3WagtailTransferFile = mock.Mock(return_value=mock_s3_file)  # noqa N806
 
-    with mock.patch(
-        'core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta',
-        mock_get_relevant_s3_meta
-    ):
-        with mock.patch(
-            'core.wagtail_hooks.S3WagtailTransferFile',
-            mock_S3WagtailTransferFile
-        ):
+    with mock.patch('core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta', mock_get_relevant_s3_meta):
+        with mock.patch('core.wagtail_hooks.S3WagtailTransferFile', mock_S3WagtailTransferFile):
             adapter.populate_field(
                 instance=mock_instance,
                 value=fake_value,
@@ -905,9 +846,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_3():
     # the importer was called, but dudn't succeed
     mock_get_relevant_s3_meta.assert_called_once_with(field_value=mock_field_value)
 
-    adapter._get_imported_file_bucket_and_key.assert_called_once_with(
-        fake_value['download_url']
-    )
+    adapter._get_imported_file_bucket_and_key.assert_called_once_with(fake_value['download_url'])
 
     mock_S3WagtailTransferFile.assert_called_once_with(
         local_filename='path/to/file.jpg',  # not changed by DefaultStorage in this test
@@ -943,7 +882,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_4():
     fake_value = {
         'download_url': 'https://magna-fake-example.s3.amazonaws.com/path/to/file.jpg',
         'size': 123321,
-        'hash': 'aabbccddeeff665544332211'
+        'hash': 'aabbccddeeff665544332211',
     }
 
     adapter._get_imported_file_bucket_and_key = mock.Mock()
@@ -957,14 +896,8 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_4():
     mock_get_relevant_s3_meta = mock.Mock()
     mock_S3WagtailTransferFile = mock.Mock()  # noqa N806
 
-    with mock.patch(
-        'core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta',
-        mock_get_relevant_s3_meta
-    ):
-        with mock.patch(
-            'core.wagtail_hooks.S3WagtailTransferFile',
-            mock_S3WagtailTransferFile
-        ):
+    with mock.patch('core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta', mock_get_relevant_s3_meta):
+        with mock.patch('core.wagtail_hooks.S3WagtailTransferFile', mock_S3WagtailTransferFile):
             adapter.populate_field(
                 instance=mock_instance,
                 value=fake_value,
@@ -996,14 +929,8 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_5():
     mock_get_relevant_s3_meta = mock.Mock()
     mock_S3WagtailTransferFile = mock.Mock()  # noqa N806
 
-    with mock.patch(
-        'core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta',
-        mock_get_relevant_s3_meta
-    ):
-        with mock.patch(
-            'core.wagtail_hooks.S3WagtailTransferFile',
-            mock_S3WagtailTransferFile
-        ):
+    with mock.patch('core.wagtail_hooks.S3FileFieldAdapter._get_relevant_s3_meta', mock_get_relevant_s3_meta):
+        with mock.patch('core.wagtail_hooks.S3WagtailTransferFile', mock_S3WagtailTransferFile):
             adapter.populate_field(
                 instance=mock_instance,
                 value=fake_value,
@@ -1014,6 +941,7 @@ def test_wagtail_transfer_custom_adapter_methods__populate_field__case_5():
     assert adapter._get_imported_file_bucket_and_key.call_count == 0
     assert mock_get_relevant_s3_meta.call_count == 0
     assert mock_S3WagtailTransferFile.call_count == 0
+
 
 ####################################################################################################
 
@@ -1047,10 +975,7 @@ def test_s3wagtailtransferfile__transfer(
     file.transfer()
 
     mock_s3_client_copy.assert_called_once_with(
-        {
-            'Bucket': file.source_bucket,
-            'Key': file.source_key
-        },
+        {'Bucket': file.source_bucket, 'Key': file.source_key},
         'magna-fake-bucket-2',
         file.local_filename,
     )
@@ -1064,11 +989,12 @@ def test_s3wagtailtransferfile__transfer(
 
 
 @pytest.mark.parametrize(
-    'exception_class', (
+    'exception_class',
+    (
         RetriesExceededError,
         S3UploadFailedError,
         ValueError,
-    )
+    ),
 )
 @mock.patch('core.wagtail_hooks.s3.meta.client.copy')
 def test_s3wagtailtransferfile__transfer__covered_exceptions(mock_s3_client_copy, exception_class):
@@ -1091,7 +1017,7 @@ def test_s3wagtailtransferfile__transfer__covered_exceptions(mock_s3_client_copy
     (
         (True, {FileField: S3FileFieldAdapter}),
         (False, {}),
-    )
+    ),
 )
 def test_register_s3_media_file_adapter(user_media_on_s3, expected):
     with override_settings(USER_MEDIA_ON_S3=user_media_on_s3):

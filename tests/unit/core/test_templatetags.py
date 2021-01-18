@@ -1,29 +1,22 @@
+from datetime import timedelta
 from unittest import mock
 
 import pytest
-
 from django.template import Context, Template
-from datetime import timedelta
 
-from core.models import (
-    CuratedListPage,
-    DetailPage,
-    LessonPlaceholderPage,
-    TopicPage,
-)
+from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
     get_backlinked_url,
-    get_topic_title_for_lesson,
     get_lesson_progress_for_topic,
+    get_topic_title_for_lesson,
     is_lesson_page,
     is_placeholder_page,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.personalised_blocks import render_video_block
+from core.templatetags.progress_bar import progress_bar
 from core.templatetags.url_map import path_match
 from core.templatetags.video_tags import render_video
-from core.templatetags.progress_bar import progress_bar
-
 from tests.unit.core import factories
 
 
@@ -35,11 +28,7 @@ def test_render_personalised_video_block_tag__with_thumbnail():
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         thumbnail=mock_thumbnail,
     )
-    block = dict(
-        width=20,
-        height=20,
-        video=video_mock
-    )
+    block = dict(width=20, height=20, video=video_mock)
     html = render_video_block(block)
 
     assert '<video poster="https://example.com/thumb.png" width="20" height="20" controls>' in html
@@ -52,11 +41,7 @@ def test_render_personalised_video_block_tag__without_thumbnail():
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         thumbnail=None,
     )
-    block = dict(
-        width=20,
-        height=20,
-        video=video_mock
-    )
+    block = dict(width=20, height=20, video=video_mock)
     html = render_video_block(block)
 
     assert '<video width="20" height="20" controls>' in html
@@ -72,11 +57,9 @@ def test_general_render_video_tag__with_thumbnail():
         name='video_mock',
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
-        thumbnail=mock_thumbnail
+        thumbnail=mock_thumbnail,
     )
-    block = dict(
-        video=video_mock
-    )
+    block = dict(video=video_mock)
     html = render_video(block)
 
     assert '<video controls poster="https://example.com/thumb.png" data-v-duration="120">' in html
@@ -90,9 +73,7 @@ def test_general_render_video_tag__without_thumbnail():
         duration=120,
         thumbnail=None,
     )
-    block = dict(
-        video=video_mock
-    )
+    block = dict(video=video_mock)
     html = render_video(block)
 
     assert '<video controls data-v-duration="120">' in html
@@ -115,12 +96,11 @@ def test_format_timedelta_filter(user, rf, domestic_site):
         {'value': timedelta(seconds=70), 'result': '2 min:2 mins'},
         {'value': timedelta(seconds=4500), 'result': '1 hour 15 min:1 hour 15 mins'},
         {'value': timedelta(seconds=7200), 'result': '2 hour:2 hours'},
-        {'value': None, 'result': ':'}
+        {'value': None, 'result': ':'},
     ]
 
     template = Template(
-        '{% load format_timedelta from content_tags %}'
-        '{{ delta|format_timedelta }}:{{ delta|format_timedelta:True }}'
+        '{% load format_timedelta from content_tags %}{{ delta|format_timedelta }}:{{ delta|format_timedelta:True }}'
     )
 
     for case in cases:
@@ -137,10 +117,7 @@ def test_pluralize(user, rf, domestic_site):
         {'value': 2, 'result': 's'},
     ]
 
-    template = Template(
-        '{% load pluralize from content_tags %}'
-        '{% pluralize value %}'
-    )
+    template = Template('{% load pluralize from content_tags %}{% pluralize value %}')
     for case in cases:
         html = template.render(Context({'value': case.get('value')}))
         assert html == case.get('result')
@@ -149,10 +126,7 @@ def test_pluralize(user, rf, domestic_site):
 @pytest.mark.django_db
 def test_tojson(user, rf, domestic_site):
 
-    template = Template(
-        '{% load to_json %}'
-        '{{ data|to_json }}'
-    )
+    template = Template('{% load to_json %}{{ data|to_json }}')
 
     html = template.render(Context({'data': {'thing1': 'one', 'thing2': 'two'}}))
     assert html == '{"thing1": "one", "thing2": "two"}'
@@ -161,11 +135,7 @@ def test_tojson(user, rf, domestic_site):
 @pytest.mark.django_db
 def test_set(user, rf, domestic_site):
 
-    template = Template(
-        '{% load set %}'
-        "{% set 'my_variable' 1234 %}"
-        '{{ my_variable }}'
-    )
+    template = Template("{% load set %}{% set 'my_variable' 1234 %}{{ my_variable }}")
 
     html = template.render(Context({}))
     assert html == '1234'
@@ -179,10 +149,7 @@ def test_get_item_filter(user, rf, domestic_site):
         {'lesson_details': '', 'result': ''},
     ]
 
-    template = Template(
-        '{% load object_tags %}'
-        '{{ lesson_details|get_item:\"my-lesson\"|get_item:\"topic_name\" }}'
-    )
+    template = Template('{% load object_tags %}{{ lesson_details|get_item:\"my-lesson\"|get_item:\"topic_name\" }}')
 
     for case in cases:
         html = template.render(Context({'lesson_details': case.get('lesson_details')}))
@@ -196,33 +163,27 @@ def test_get_item_filter(user, rf, domestic_site):
         (
             '/example/export-plan/path/',
             '/test/outbound/path/',
-            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F'
+            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F',
         ),
         (
             '/example/export-plan/path/?foo=bar',
             '/test/outbound/path/',
-            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
+            '/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar',
         ),
         (
             '/example/export-plan/path/',
             'https://example.com/test/outbound/path/',
-            'https://example.com/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F'
+            'https://example.com/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F',
         ),
         (
             '/example/export-plan/path/?foo=bar',
             'https://example.com/test/outbound/path/',
-            (
-                'https://example.com/test/outbound/path/'
-                '?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
-            )
+            ('https://example.com/test/outbound/path/?return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'),
         ),
         (
             '/example/export-plan/path/?foo=bar',
             '/test/outbound/path/?bam=baz',
-            (
-                '/test/outbound/path/'
-                '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
-            )
+            ('/test/outbound/path/?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'),
         ),
         (
             '/example/export-plan/path/?foo=bar',
@@ -230,7 +191,7 @@ def test_get_item_filter(user, rf, domestic_site):
             (
                 'https://example.com/test/outbound/path/'
                 '?bam=baz&return-link=%2Fexample%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar'
-            )
+            ),
         ),
     ),
     ids=[
@@ -240,7 +201,7 @@ def test_get_item_filter(user, rf, domestic_site):
         '4. Full outbound URL with existing querystring for the source/request path',
         '5. Both source/request and outbound URLs feature querystrings',
         '5. Both source/request and outbound URLs feature querystrings; outbound is a full URL',
-    ]
+    ],
 )
 def test_get_backlinked_url(rf, request_path, outbound_url, expected_backlinked_url):
     context = {'request': rf.get(request_path)}
@@ -248,18 +209,15 @@ def test_get_backlinked_url(rf, request_path, outbound_url, expected_backlinked_
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('path, expected', (
-    ('/markets/', True),
-    ('/markets/morepath/', True),
-    ('/export-plan/markets/', False),
-    ('', False),
-),
-    ids=[
-        'match base path',
-        'match extended path',
-        'non-match',
-        'empty path'
-]
+@pytest.mark.parametrize(
+    'path, expected',
+    (
+        ('/markets/', True),
+        ('/markets/morepath/', True),
+        ('/export-plan/markets/', False),
+        ('', False),
+    ),
+    ids=['match base path', 'match extended path', 'non-match', 'empty path'],
 )
 def test_path_match(rf, path, expected):
     context = {'request': rf.get(path)}
@@ -292,7 +250,7 @@ def test_push(user, rf, domestic_site):
         ({1: 'bar'}, '1', None),
         ('a string has no get attr', 'foo', ''),
         ({'foo': 'bar'}, 'FOO', 'bar'),
-    )
+    ),
 )
 def test_get_item(data, key, expected):
     assert get_item(data, key) == expected
@@ -305,7 +263,7 @@ def test_get_item(data, key, expected):
         (10, 5, '50%'),
         (10, 10, '100%'),
         (0, 0, '0%'),
-    )
+    ),
 )
 def test_progress_bar(total, complete, percentage):
     html = progress_bar(total, complete)
@@ -318,9 +276,7 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
 
     # Lots of setup, alas
 
-    list_page = factories.ListPageFactory(
-        parent=domestic_homepage, record_read_progress=True
-    )
+    list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
     module_1 = factories.CuratedListPageFactory(
         title='Module 1',
         parent=list_page,
@@ -330,68 +286,26 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
         parent=list_page,
     )
 
-    topic_page_1 = factories.TopicPageFactory(
-        title='Topic 1',
-        parent=module_1
-    )
-    topic_page_2 = factories.TopicPageFactory(
-        title='Topic 2',
-        parent=module_1
-    )
-    topic_page_3 = factories.TopicPageFactory(
-        title='Topic 3',
-        parent=module_2
-    )
+    topic_page_1 = factories.TopicPageFactory(title='Topic 1', parent=module_1)
+    topic_page_2 = factories.TopicPageFactory(title='Topic 2', parent=module_1)
+    topic_page_3 = factories.TopicPageFactory(title='Topic 3', parent=module_2)
 
     # Topic One children
-    detail_page_1 = factories.DetailPageFactory(
-        slug='detail-page-1-1',
-        parent=topic_page_1
-    )
-    factories.LessonPlaceholderPageFactory(
-        title='Topic One: Placeholder One',
-        parent=topic_page_1
-    )
-    detail_page_2 = factories.DetailPageFactory(
-        slug='detail-page-1-2',
-        parent=topic_page_1
-    )
-    factories.LessonPlaceholderPageFactory(
-        title='Topic One: Placeholder Two',
-        parent=topic_page_1
-    )
+    detail_page_1 = factories.DetailPageFactory(slug='detail-page-1-1', parent=topic_page_1)
+    factories.LessonPlaceholderPageFactory(title='Topic One: Placeholder One', parent=topic_page_1)
+    detail_page_2 = factories.DetailPageFactory(slug='detail-page-1-2', parent=topic_page_1)
+    factories.LessonPlaceholderPageFactory(title='Topic One: Placeholder Two', parent=topic_page_1)
 
     # Topic Two children
-    detail_page_3 = factories.DetailPageFactory(
-        slug='detail-page-1-3',
-        parent=topic_page_2
-    )
-    factories.LessonPlaceholderPageFactory(
-        title='Topic Two: Placeholder Two',
-        parent=topic_page_2
-    )
-    factories.LessonPlaceholderPageFactory(
-        title='Topic Two: Placeholder Two',
-        parent=topic_page_2
-    )
-    factories.LessonPlaceholderPageFactory(
-        title='Topic Two: Placeholder Three',
-        parent=topic_page_2
-    )
+    detail_page_3 = factories.DetailPageFactory(slug='detail-page-1-3', parent=topic_page_2)
+    factories.LessonPlaceholderPageFactory(title='Topic Two: Placeholder Two', parent=topic_page_2)
+    factories.LessonPlaceholderPageFactory(title='Topic Two: Placeholder Two', parent=topic_page_2)
+    factories.LessonPlaceholderPageFactory(title='Topic Two: Placeholder Three', parent=topic_page_2)
 
     # Topic Three children
-    factories.LessonPlaceholderPageFactory(
-        title='Topic Three: Placeholder One',
-        parent=topic_page_3
-    )
-    detail_page_4 = factories.DetailPageFactory(
-        slug='detail-page-4-2',
-        parent=topic_page_3
-    )
-    factories.LessonPlaceholderPageFactory(
-        title='Topic Three: Placeholder Two',
-        parent=topic_page_3
-    )
+    factories.LessonPlaceholderPageFactory(title='Topic Three: Placeholder One', parent=topic_page_3)
+    detail_page_4 = factories.DetailPageFactory(slug='detail-page-4-2', parent=topic_page_3)
+    factories.LessonPlaceholderPageFactory(title='Topic Three: Placeholder Two', parent=topic_page_3)
 
     # Finally, to the test:
     assert get_topic_title_for_lesson(detail_page_1) == 'Topic 1'
@@ -402,17 +316,10 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
 
 def _build_lesson_and_placeholder_spec(data, topic_page):
     for lesson_id in range(data['lessons_to_create']):
-        factories.DetailPageFactory.create(
-            parent=topic_page,
-            slug=f'lesson-{lesson_id}',
-            title=f'Lesson {lesson_id}'
-        )
+        factories.DetailPageFactory.create(parent=topic_page, slug=f'lesson-{lesson_id}', title=f'Lesson {lesson_id}')
 
     for placeholder_title in data['placeholders']:
-        factories.LessonPlaceholderPageFactory.create(
-            parent=topic_page,
-            title=placeholder_title
-        )
+        factories.LessonPlaceholderPageFactory.create(parent=topic_page, title=placeholder_title)
 
 
 def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less complex than it looks
@@ -429,9 +336,7 @@ def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less co
         retval = set()
         for lesson_id in range(100, 102):
             factories.DetailPageFactory.create(
-                parent=topic_page,
-                slug=f'lesson-{lesson_id}',
-                title=f'Lesson {lesson_id}'
+                parent=topic_page, slug=f'lesson-{lesson_id}', title=f'Lesson {lesson_id}'
             )
             retval.add(lesson_id)
         return retval
@@ -443,9 +348,7 @@ def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less co
         # and two uknown pages to include in completion stats
         for lesson_id in range(100, 101):
             factories.DetailPageFactory.create(
-                parent=topic_page,
-                slug=f'lesson-{lesson_id}',
-                title=f'Lesson {lesson_id}'
+                parent=topic_page, slug=f'lesson-{lesson_id}', title=f'Lesson {lesson_id}'
             )
             retval.add(lesson_id)
         return retval
@@ -457,72 +360,27 @@ def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less co
 @pytest.mark.parametrize(
     'lesson_completion_data_spec,lesson_and_placeholder_spec_data,expected',
     (
-        (
-            'subset',
-            {'lessons_to_create': 2, 'placeholders': []},
-            {
-                'lessons_completed': 1,
-                'lessons_available': 2
-            }
-        ),
-        (
-            'all',
-            {'lessons_to_create': 4, 'placeholders': []},
-            {
-                'lessons_completed': 4,
-                'lessons_available': 4
-            }
-        ),
-        (
-            'none',
-            {'lessons_to_create': 4, 'placeholders': []},
-            {
-                'lessons_completed': 0,
-                'lessons_available': 4
-            }
-        ),
+        ('subset', {'lessons_to_create': 2, 'placeholders': []}, {'lessons_completed': 1, 'lessons_available': 2}),
+        ('all', {'lessons_to_create': 4, 'placeholders': []}, {'lessons_completed': 4, 'lessons_available': 4}),
+        ('none', {'lessons_to_create': 4, 'placeholders': []}, {'lessons_completed': 0, 'lessons_available': 4}),
         (
             'subset',  # eg {3},
             {'lessons_to_create': 2, 'placeholders': ['one']},
-            {
-                'lessons_completed': 1,
-                'lessons_available': 2
-            }
+            {'lessons_completed': 1, 'lessons_available': 2},
         ),
         (
             'all',
             {'lessons_to_create': 4, 'placeholders': ['one', 'two']},
-            {
-                'lessons_completed': 4,
-                'lessons_available': 4
-            }
+            {'lessons_completed': 4, 'lessons_available': 4},
         ),
         (
             'none',
             {'lessons_to_create': 4, 'placeholders': ['one', 'two', 'three']},
-            {
-                'lessons_completed': 0,
-                'lessons_available': 4
-            }
+            {'lessons_completed': 0, 'lessons_available': 4},
         ),
-        (
-            'none',
-            {'lessons_to_create': 0, 'placeholders': []},
-            {
-                'lessons_completed': 0,
-                'lessons_available': 0
-            }
-        ),
-        (
-            'different',
-            {'lessons_to_create': 0, 'placeholders': []},
-            {}
-        ),
-        (
-            'partial_overlap',
-            {'lessons_to_create': 3, 'placeholders': []},
-            {}
-        ),
+        ('none', {'lessons_to_create': 0, 'placeholders': []}, {'lessons_completed': 0, 'lessons_available': 0}),
+        ('different', {'lessons_to_create': 0, 'placeholders': []}, {}),
+        ('partial_overlap', {'lessons_to_create': 3, 'placeholders': []}, {}),
     ),
     ids=(
         'two lessons, one completed',
@@ -532,44 +390,26 @@ def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less co
         'four lessons, placeholders, all completed',
         'four lessons, placeholders, none completed',
         'no lessons, none completed',
-        (
-            'bad data: two lessons completed but not '
-            'mentioned in lesson_and_placeholder_spec'
-        ),
+        ('bad data: two lessons completed but not mentioned in lesson_and_placeholder_spec'),
         (
             'bad data: two lessons completed but not a '
             'subset of those in lesson_and_placeholder_spec - partial overlap'
         ),
-    )
+    ),
 )
-def test_get_lesson_progress_for_topic(
-    lesson_completion_data_spec,
-    lesson_and_placeholder_spec_data,
-    expected
-):
-    topic_page = factories.TopicPageFactory(
-        title='test-topic'
-    )
+def test_get_lesson_progress_for_topic(lesson_completion_data_spec, lesson_and_placeholder_spec_data, expected):
+    topic_page = factories.TopicPageFactory(title='test-topic')
 
-    _build_lesson_and_placeholder_spec(
-        lesson_and_placeholder_spec_data,
-        topic_page
-    )
+    _build_lesson_and_placeholder_spec(lesson_and_placeholder_spec_data, topic_page)
 
-    lesson_completion_data = _build_lesson_completion_data(
-        lesson_completion_data_spec,
-        topic_page
-    )
+    lesson_completion_data = _build_lesson_completion_data(lesson_completion_data_spec, topic_page)
 
     # Uncomment these lines to help if you're refactoring/extending these tests
     # print('\nlesson_and_placeholder_spec_data', lesson_and_placeholder_spec_data)
     # print('lesson_completion_data', lesson_completion_data)
     # print('actual page IDs', DetailPage.objects.all().values_list('id', flat=True))
 
-    assert get_lesson_progress_for_topic(
-        lesson_completion_data,
-        topic_page.id
-    ) == expected
+    assert get_lesson_progress_for_topic(lesson_completion_data, topic_page.id) == expected
 
 
 @pytest.mark.parametrize(
@@ -579,7 +419,7 @@ def test_get_lesson_progress_for_topic(
         (LessonPlaceholderPage, False),
         (CuratedListPage, False),
         (TopicPage, False),
-    )
+    ),
 )
 def test_is_lesson_page(klass, expected):
     assert is_lesson_page(klass()) == expected
@@ -592,7 +432,7 @@ def test_is_lesson_page(klass, expected):
         (LessonPlaceholderPage, True),
         (CuratedListPage, False),
         (TopicPage, False),
-    )
+    ),
 )
 def test_is_placeholder_page(klass, expected):
     assert is_placeholder_page(klass()) == expected

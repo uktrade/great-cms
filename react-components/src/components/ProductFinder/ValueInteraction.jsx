@@ -69,7 +69,11 @@ export default function Interaction(props) {
   }
 
   const options = (attribute.attrs || []).map((attr) => {
-    return <ValueItem key={attr.id} option={attr} valueChange={valueChange}/>
+    return <ValueItem 
+      key={attr.id} 
+      option={attr} 
+      valueChange={valueChange}
+      />
   })
 
   return (
@@ -81,7 +85,15 @@ export default function Interaction(props) {
           { mixedContentError ? (<span className="error-message m-v-xs bold">Total must equal 100%</span>) : '' }
           {options}
         </div>
-        <button type="button" className="button button--primary m-t-xxs" disabled={!buttonEnabled} onClick={clickNext} style={{float:'left',clear:'both'}}>Next</button>
+        <button 
+          type="button" 
+          className="button button--primary m-t-xxs" 
+          disabled={!buttonEnabled} 
+          onClick={clickNext} 
+          style={{float:'left',clear:'both'}}
+        >
+        Next
+        </button>
       </div>
     </div>
   )
@@ -92,7 +104,13 @@ Interaction.propTypes = {
   attribute: PropTypes.shape(
     { id: PropTypes.string, 
       label: PropTypes.string,
-      attrs: PropTypes.array,
+      attrs: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string,
+          name: PropTypes.string,
+          id: PropTypes.string,
+        })
+      ),
     }).isRequired,
   processResponse: PropTypes.func.isRequired,
   mixedContentError: PropTypes.bool

@@ -1,8 +1,8 @@
 import pytz
-
-from directory_api_client import api_client
 from iso3166 import countries_by_alpha3
+
 from core import models
+from directory_api_client import api_client
 from exportplan import data
 
 
@@ -86,7 +86,9 @@ def serialize_exportplan_data(user):
     target_markets = []
     if user.company and user.company.expertise_countries_labels:
         target_markets = target_markets + [{'country': c} for c in user.company.expertise_countries_labels]
-        export_plan_data = {'target_markets': target_markets, }
+        export_plan_data = {
+            'target_markets': target_markets,
+        }
     else:
         export_plan_data = {}
     return export_plan_data
@@ -97,8 +99,7 @@ def get_or_create_export_plan(user):
     export_plan = get_exportplan(user.session_id)
     if not export_plan:
         export_plan = create_export_plan(
-            sso_session_id=user.session_id,
-            exportplan_data=serialize_exportplan_data(user=user)
+            sso_session_id=user.session_id, exportplan_data=serialize_exportplan_data(user=user)
         )
     return export_plan
 
@@ -111,7 +112,8 @@ def create_objective(sso_session_id, data):
 
 def update_objective(sso_session_id, data):
     response = api_client.exportplan.exportplan_objectives_update(
-        sso_session_id=sso_session_id, id=data['pk'], data=data)
+        sso_session_id=sso_session_id, id=data['pk'], data=data
+    )
     response.raise_for_status()
     return response.json()
 
@@ -129,8 +131,7 @@ def create_route_to_market(sso_session_id, data):
 
 
 def update_route_to_market(sso_session_id, data):
-    response = api_client.exportplan.route_to_market_update(
-        sso_session_id=sso_session_id, id=data['pk'], data=data)
+    response = api_client.exportplan.route_to_market_update(sso_session_id=sso_session_id, id=data['pk'], data=data)
     response.raise_for_status()
     return response.json()
 
@@ -149,7 +150,8 @@ def create_target_market_documents(sso_session_id, data):
 
 def update_target_market_documents(sso_session_id, data):
     response = api_client.exportplan.target_market_documents_update(
-        sso_session_id=sso_session_id, id=data['pk'], data=data)
+        sso_session_id=sso_session_id, id=data['pk'], data=data
+    )
     response.raise_for_status()
     return response.json()
 

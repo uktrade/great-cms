@@ -808,9 +808,10 @@ $desktop: 1024px;
     }
 
     &__content {
-      padding-top: 30px;
+      display: block;
 
       @include tablet {
+        display: flex;
         padding-top: 0;
       }
     }
@@ -822,7 +823,9 @@ $desktop: 1024px;
       cursor: pointer;
       font-size: 33px;
       position: absolute;
-      top: 10px;
+      top: 30px;
+      right: 0;
+      z-index: 1;
 
       @include tablet {
         right: -58px;
@@ -835,7 +838,12 @@ $desktop: 1024px;
     }
 
     &__media {
-      position: relative;
+      display: none;
+
+      @include tablet {
+        display: block;
+        position: relative;
+      }
 
       img, video {
         display: block;
@@ -861,6 +869,18 @@ $desktop: 1024px;
       .c-full {
         float: none;
         margin: 0;
+      }
+    }
+
+    .slick-slide img {
+      margin: -30px 0;
+      max-width: 100%;
+      height: auto;
+    }
+
+    &__mobile {
+      @include tablet {
+        display: none;
       }
     }
   }

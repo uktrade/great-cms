@@ -1,9 +1,8 @@
-from core import cms_slugs
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
 
-import core.views
+from core import cms_slugs, views, views_api
 
 app_name = 'core'
 
@@ -15,95 +14,60 @@ def anonymous_user_required(function):
         lambda user: bool(user.is_anonymous),
         # redirect if the user DOES NOT pass the test
         cms_slugs.DASHBOARD_URL,
-        None
+        None,
     )
     return inner(function)
 
 
 urlpatterns = [
+    path('markets/', views.MarketsView.as_view(), name='markets'),
     path(
-        'markets/',
-        core.views.MarketsView.as_view(),
-        name='markets'
+        'compare-countries/',
+        login_required(views.CompareCountriesView.as_view(), login_url=LOGIN_URL),
+        name='compare-countries',
     ),
-    path('find-your-target-market/',
-         login_required(core.views.TargetMarketView.as_view(), login_url=LOGIN_URL),
-         name='target-market'
-         ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
-        login_required(core.views.ArticleView.as_view(), login_url=LOGIN_URL),
-        name='capability-article'
+        login_required(views.ArticleView.as_view(), login_url=LOGIN_URL),
+        name='capability-article',
     ),
-    path(
-        'login/',
-        anonymous_user_required(core.views.LoginView.as_view()),
-        name='login'
-    ),
-    path(
-        'signup/',
-        anonymous_user_required(core.views.SignupView.as_view()),
-        name='signup'
-    ),
+    path('login/', anonymous_user_required(views.LoginView.as_view()), name='login'),
+    path('signup/', anonymous_user_required(views.SignupView.as_view()), name='signup'),
     path(
         'signup/company-name/',
-        login_required(skip_ga360(core.views.CompanyNameFormView.as_view())),
-        name='set-company-name'
+        login_required(skip_ga360(views.CompanyNameFormView.as_view())),
+        name='set-company-name',
     ),
     path(
         'signup/tailored-content/<str:step>/',
         anonymous_user_required(
-            skip_ga360(
-                core.views.SignupForTailoredContentWizardView.as_view(url_name='core:signup-wizard-tailored-content'))
+            skip_ga360(views.SignupForTailoredContentWizardView.as_view(url_name='core:signup-wizard-tailored-content'))
         ),
-        name='signup-wizard-tailored-content'
+        name='signup-wizard-tailored-content',
     ),
     path(
         'signup/export-plan/<str:step>/',
         login_required(
-            skip_ga360(core.views.SignupForExportPlanWizardView.as_view(url_name='core:signup-wizard-export-plan'))
+            skip_ga360(views.SignupForExportPlanWizardView.as_view(url_name='core:signup-wizard-export-plan'))
         ),
-        name='signup-wizard-export-plan'
+        name='signup-wizard-export-plan',
     ),
+    path('contact-us/help/', skip_ga360(views.ContactUsHelpFormView.as_view()), name='contact-us-help'),
+    path('contact-us/success/', skip_ga360(views.ContactUsHelpSuccessView.as_view()), name='contact-us-success'),
+    path('api/update-company/', skip_ga360(views_api.UpdateCompanyAPIView.as_view()), name='api-update-company'),
+    path('api/lookup-product/', skip_ga360(views_api.ProductLookupView.as_view()), name='api-lookup-product'),
     path(
-        'contact-us/help/',
-        skip_ga360(core.views.ContactUsHelpFormView.as_view()),
-        name='contact-us-help'
+        'api/lookup-product-schedule/',
+        skip_ga360(views_api.ProductLookupScheduleView.as_view()),
+        name='api-lookup-product-schedule',
     ),
-    path(
-        'contact-us/success/',
-        skip_ga360(core.views.ContactUsHelpSuccessView.as_view()),
-        name='contact-us-success'
-    ),
-    path(
-        'api/update-company/',
-        skip_ga360(core.views.UpdateCompanyAPIView.as_view()),
-        name='api-update-company'
-    ),
-    path(
-        'api/lookup-product/',
-        skip_ga360(core.views.ProductLookupView.as_view()),
-        name='api-lookup-product'
-    ),
-    path(
-        'api/countries/',
-        skip_ga360(core.views.CountriesView.as_view()),
-        name='api-countries'
-    ),
+    path('api/countries/', skip_ga360(views_api.CountriesView.as_view()), name='api-countries'),
     path(
         'api/suggested-countries/',
-        skip_ga360(core.views.SuggestedCountriesView.as_view()),
-        name='api-suggested-countries'
+        skip_ga360(views_api.SuggestedCountriesView.as_view()),
+        name='api-suggested-countries',
     ),
-    path(
-        'api/create-token/',
-        skip_ga360(core.views.CreateTokenView.as_view()),
-        name='api-create-token'
-    ),
-    path(
-        'api/check/',
-        skip_ga360(core.views.CheckView.as_view()),
-        name='api-check'
-    ),
-
+    path('api/create-token/', skip_ga360(views_api.CreateTokenView.as_view()), name='api-create-token'),
+    path('api/check/', skip_ga360(views_api.CheckView.as_view()), name='api-check'),
+    path('api/data-service/comtrade/', skip_ga360(views_api.ComTradeDataView.as_view()), name='api-comtrade-data'),
 ]

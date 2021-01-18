@@ -1,9 +1,8 @@
 import requests
-from rest_framework import generics
-from rest_framework.response import Response
-
 from django.conf import settings
 from django.contrib import auth
+from rest_framework import generics
+from rest_framework.response import Response
 
 from sso import helpers, serializers
 
@@ -32,17 +31,21 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
 
 
 class SSOBusinessUserLogoutView(generics.GenericAPIView):
-
     def post(self, request):
-        # Call logout on directory_sso to kill the token.
-        upstream_response = requests.post(url=settings.SSO_PROXY_LOGOUT_URL, allow_redirects=False)
+        # Construct a cookie with the session key.
+        session_cookie = {'session_key': request.COOKIES.get(settings.SSO_SESSION_COOKIE)}
+        # Call logout on directory_sso to flush the session.
+        upstream_response = requests.post(
+            url=settings.SSO_PROXY_LOGOUT_URL, cookies=session_cookie, allow_redirects=False
+        )
         # Nothing we can do if that fails so carry on.
         # Kill our Django session
         auth.logout(request=request)
         # Build a response that deletes the sso_session cookie to stop our session being restored
         # first get the 'display logged in' cookie' as it will have the same domain as the sso-session-cookie
-        logged_in_cookie = helpers.get_cookie(helpers.get_cookie_jar(
-            upstream_response), settings.SSO_DISPLAY_LOGGED_IN_COOKIE)
+        logged_in_cookie = helpers.get_cookie(
+            helpers.get_cookie_jar(upstream_response), settings.SSO_DISPLAY_LOGGED_IN_COOKIE
+        )
         response = helpers.response_factory(upstream_response=upstream_response)
         response.delete_cookie(settings.SSO_SESSION_COOKIE, domain=logged_in_cookie and logged_in_cookie.domain)
         return response
@@ -71,7 +74,7 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
             email=serializer.validated_data['email'],
             verification_code=user_details['verification_code'],
             form_url=self.request.path,
-            verification_link=self.get_verification_link(serializer.validated_data['email'])
+            verification_link=self.get_verification_link(serializer.validated_data['email']),
         )
         return Response(status=200)
 
@@ -92,8 +95,5 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
             email=serializer.validated_data['email'],
             code=serializer.validated_data['code'],
         )
-        helpers.send_welcome_notification(
-            email=serializer.validated_data['email'],
-            form_url=self.request.path
-        )
+        helpers.send_welcome_notification(email=serializer.validated_data['email'], form_url=self.request.path)
         return helpers.response_factory(upstream_response=upstream_response)
