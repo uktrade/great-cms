@@ -39,6 +39,9 @@ export const CostsAndPricing = memo(
       init({
         ...totals,
         ...initialData,
+        units,
+        currencies,
+        timeframe: exportTimeframe,
       })
     }, [])
 
@@ -77,7 +80,7 @@ export const CostsAndPricing = memo(
                 select={{
                   ...exportUnits,
                   value: data.export_units,
-                  options: units,
+                  options: data.units,
                 }}
               />
               <Units
@@ -87,7 +90,7 @@ export const CostsAndPricing = memo(
                 select={{
                   ...timeframeUnits,
                   value: data.export_time_frame,
-                  options: exportTimeframe,
+                  options: data.timeframe,
                 }}
               />
               <Input
@@ -152,7 +155,7 @@ export const CostsAndPricing = memo(
                   select={{
                     ...grossPriceUnitSelect,
                     value: data.gross_price_per_unit_currency,
-                    options: currencies,
+                    options: data.currencies,
                   }}
                 />
               </div>

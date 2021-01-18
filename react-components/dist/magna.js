@@ -66959,9 +66959,7 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     options: select.options,
     hideLabel: true,
     placeholder: select.placeholder,
-    selected: select.value ? select.options.find(function (x) {
-      return x.value === select.value;
-    }).label : ''
+    selected: select.value
   })))));
 });
 Units.propTypes = {
@@ -67303,7 +67301,11 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       currencies = _ref.currencies,
       init = _ref.init;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
-    init(_objectSpread(_objectSpread({}, totals), initialData));
+    init(_objectSpread(_objectSpread(_objectSpread({}, totals), initialData), {}, {
+      units: units,
+      currencies: currencies,
+      timeframe: exportTimeframe
+    }));
   }, []);
 
   var _onChange = function onChange(updateField, input) {
@@ -67336,7 +67338,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     }),
     select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["exportUnits"]), {}, {
       value: data.export_units,
-      options: units
+      options: data.units
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_5__["Units"], {
     description: '<p class="m-t-0 m-b-xs">over the next</p>',
@@ -67346,7 +67348,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     }),
     select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["timeframeUnits"]), {}, {
       value: data.export_time_frame,
-      options: exportTimeframe
+      options: data.timeframe
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
@@ -67410,7 +67412,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     }),
     select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_7__["grossPriceUnitSelect"]), {}, {
       value: data.gross_price_per_unit_currency,
-      options: currencies
+      options: data.currencies
     })
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-12-m c-1-4-xl"
@@ -73746,8 +73748,18 @@ var initialState = {
   units_to_export: '',
   export_units: '',
   time_frame: '',
-  export_time_frame: ''
+  export_time_frame: '',
+  timeframe: [],
+  units: [],
+  currencies: []
 };
+
+var selectedOption = function selectedOption(list, selected) {
+  return selected ? list.find(function (x) {
+    return x.value === selected;
+  }).label : '';
+};
+
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -73764,26 +73776,14 @@ var initialState = {
             calculated_cost_pricing = _action$payload.calculated_cost_pricing,
             direct_costs = _action$payload.direct_costs,
             overhead_costs = _action$payload.overhead_costs,
-            total_cost_and_price = _action$payload.total_cost_and_price;
-        console.log(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, state), direct_costs), overhead_costs), {}, {
-          direct_total: calculated_cost_pricing.total_direct_costs,
-          overhead_total: calculated_cost_pricing.total_overhead_costs,
-          profit_per_unit: calculated_cost_pricing.profit_per_unit,
-          potential_total_profit: calculated_cost_pricing.potential_total_profit,
-          gross_price_per_unit: calculated_cost_pricing.gross_price_per_unit,
-          final_cost_per_unit: total_cost_and_price.final_cost_per_unit,
-          average_price_per_unit: total_cost_and_price.average_price_per_unit,
-          net_price: total_cost_and_price.net_price,
-          local_tax_charges: total_cost_and_price.local_tax_charges,
-          duty_per_unit: total_cost_and_price.duty_per_unit,
-          units_to_export: total_cost_and_price.units_to_export_first_period.value,
-          export_units: total_cost_and_price.units_to_export_first_period.unit,
-          time_frame: total_cost_and_price.units_to_export_second_period.value,
-          export_time_frame: total_cost_and_price.units_to_export_second_period.unit,
-          gross_price_per_unit_invoicing: total_cost_and_price.gross_price_per_unit_invoicing_currency.value,
-          gross_price_per_unit_currency: total_cost_and_price.gross_price_per_unit_invoicing_currency.unit
-        }));
+            total_cost_and_price = _action$payload.total_cost_and_price,
+            timeframe = _action$payload.timeframe,
+            units = _action$payload.units,
+            currencies = _action$payload.currencies;
         return _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, state), direct_costs), overhead_costs), {}, {
+          timeframe: timeframe,
+          units: units,
+          currencies: currencies,
           direct_total: calculated_cost_pricing.total_direct_costs,
           overhead_total: calculated_cost_pricing.total_overhead_costs,
           profit_per_unit: calculated_cost_pricing.profit_per_unit,
@@ -73795,11 +73795,11 @@ var initialState = {
           local_tax_charges: total_cost_and_price.local_tax_charges,
           duty_per_unit: total_cost_and_price.duty_per_unit,
           units_to_export: total_cost_and_price.units_to_export_first_period.value,
-          export_units: total_cost_and_price.units_to_export_first_period.unit,
+          export_units: selectedOption(units, total_cost_and_price.units_to_export_first_period.unit),
           time_frame: total_cost_and_price.units_to_export_second_period.value,
-          export_time_frame: total_cost_and_price.units_to_export_second_period.unit,
+          export_time_frame: selectedOption(timeframe, total_cost_and_price.units_to_export_second_period.unit),
           gross_price_per_unit_invoicing: total_cost_and_price.gross_price_per_unit_invoicing_currency.value,
-          gross_price_per_unit_currency: total_cost_and_price.gross_price_per_unit_invoicing_currency.unit
+          gross_price_per_unit_currency: selectedOption(currencies, total_cost_and_price.gross_price_per_unit_invoicing_currency.unit)
         });
       }
 

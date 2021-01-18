@@ -43,11 +43,7 @@ export const Units = memo(({ update, input, select, description }) => {
               options={select.options}
               hideLabel
               placeholder={select.placeholder}
-              selected={
-                select.value
-                  ? select.options.find((x) => x.value === select.value).label
-                  : ''
-              }
+              selected={select.value}
             />
           </div>
         </div>
