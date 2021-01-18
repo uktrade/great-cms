@@ -18,7 +18,7 @@ from domestic import cms_panels
 from domestic.helpers import build_route_context, get_lesson_completion_status
 
 
-class BaseLegacyPage(Page):
+class BaseContentPage(Page):
     """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
 
     promote_panels = []  #  Hide the Promote panel
@@ -133,7 +133,7 @@ def industry_accordions_validation(value):
         )
 
 
-class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
+class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     """Ported from Great V1.
     Make a cup of tea, this model is BIG!
     """
@@ -407,7 +407,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseLegacyPage):
         return output
 
 
-class ArticlePage(cms_panels.ArticlePagePanels, BaseLegacyPage):
+class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
 
     subpage_types = []
 
@@ -489,7 +489,7 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseLegacyPage):
     tags = ParentalManyToManyField(Tag, blank=True)
 
 
-class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseLegacyPage):
+class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     subpage_types = [
         'domestic.ArticlePage',
@@ -521,7 +521,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseLegacyPage):
     #     return self.get_descendants().type(ArticlePage).live().count()
 
 
-class CampaignPage(cms_panels.CampaignPagePanels, BaseLegacyPage):
+class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
 
     subpage_types = []
 
