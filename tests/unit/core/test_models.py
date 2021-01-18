@@ -589,8 +589,8 @@ class TestSmallSnippets(TestCase):
         self.assertEqual(country_unicode.region, None)
 
     def test_product(self):
-        tag = Product.objects.create(name='Test Product')
-        self.assertEqual(tag.name, 'Test Product')
+        product = Product.objects.create(name='Test Product')
+        self.assertEqual(product.name, 'Test Product')
 
     def test_tag(self):
         tag = Tag.objects.create(name='Test Tag')
