@@ -18,6 +18,7 @@
 - GP2-1029 - Population data sources attributions and links
 
 ### Fixed bugs
+- GP2-1309 - Marketing approach page - Content for tool-tips is not displayed
 - no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
 - GP2-1111 - Updates to Stats group.
 - GP2-1188 - Fixed IndexError on Target market research page if country is not selected
