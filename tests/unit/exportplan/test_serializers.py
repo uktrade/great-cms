@@ -1,9 +1,10 @@
+import json
 from collections import OrderedDict
 
 import pytest
 
 from exportplan import serializers
-import json
+
 
 def test_about_your_business_serializer():
 
@@ -195,7 +196,7 @@ def test_cost_and_pricing_serializers():
             'other_overhead_costs': 19.23,
         },
         'total_cost_and_price': {
-            'units_to_export_first_period': {'unit': 'kg', 'value': 10.00},
+            'units_to_export_first_period': {'unit': 'kg', 'value': 10},
             'average_price_per_unit': 23.44,
             'duty_per_unit': 23,
             'gross_price_per_unit_invoicing_currency': {'value': 23.4, 'unit': 'EUR'},
@@ -205,28 +206,15 @@ def test_cost_and_pricing_serializers():
     serializer = serializers.ExportPlanSerializer(data=data)
     assert serializer.is_valid()
 
-    assert serializer.data['direct_costs'] == OrderedDict(
-        [('product_costs', '12.02'), ('labour_costs', '13.02'), ('other_direct_costs', '0.00')]
-    )
+    assert serializer.data['direct_costs'] == OrderedDict([('product_costs', '12.02'), ('labour_costs', '13.02')])
 
     assert serializer.data['overhead_costs'] == OrderedDict(
-        [
-            ('product_adaption', '13.02'),
-            ('freight_logistics', '0.00'),
-            ('agent_distributor_fees', '0.00'),
-            ('marketing', '0.00'),
-            ('insurance', '0.00'),
-            ('other_overhead_costs', '19.23'),
-        ]
+        [('product_adaption', '13.02'), ('other_overhead_costs', '19.23')]
     )
     assert serializer.data['total_cost_and_price'] == OrderedDict(
         [
-            ('units_to_export_first_period', OrderedDict([('unit', 'kg'), ('value', '10.00')])),
-            ('units_to_export_second_period', OrderedDict([('unit', ''), ('value', '0.00')])),
-            ('final_cost_per_unit', '0.00'),
+            ('units_to_export_first_period', OrderedDict([('unit', 'kg'), ('value', 10)])),
             ('average_price_per_unit', '23.44'),
-            ('net_price', '0.00'),
-            ('local_tax_charges', '0.00'),
             ('duty_per_unit', '23.00'),
             ('gross_price_per_unit_invoicing_currency', OrderedDict([('unit', 'EUR'), ('value', '23.40')])),
         ]
@@ -265,7 +253,7 @@ def test_total_over_head_costs_serializer():
             132.00,
             22.00,
         ],
-        [{'duty_per_unit': 15, 'net_price': 22.00}, 0.00, 22.00, 0.00],
+        [{'duty_per_unit': 15, 'net_price': 22.00}, 0.00, 0.00, 37.00],
     ],
 )
 def test_total_cost_and_price_serializer(
@@ -328,9 +316,25 @@ def test_estimated_costs_per_unit(cost_pricing_data):
 def test_json_to_presentaion(cost_pricing_data):
     json_data = serializers.ExportPlanSerializer().cost_and_pricing_to_json(cost_pricing_data)
     assert json_data == json.dumps(
-        {"direct_costs": {"product_costs": "10.00", "labour_costs": "5.00", "other_direct_costs": "0.00"},
-         "overhead_costs": {"product_adaption": "0.00", "freight_logistics": "0.00", "agent_distributor_fees": "0.00",
-                            "marketing": "1345.00", "insurance": "10.00", "other_overhead_costs": "0.00"},
-         "total_cost_and_price": {"units_to_export_first_period": {"value": "22.00"}, "units_to_export_second_period":
-             {"unit": "", "value": "0.00"}, "final_cost_per_unit": "16.00", "average_price_per_unit": "0.00", "net_price": "22.00", "local_tax_charges": "5.23", "duty_per_unit": "15.13", "gross_price_per_unit_invoicing_currency": {"unit": "", "value": "0.00"}}}
+        {
+            'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': ''},
+            'overhead_costs': {
+                'product_adaption': '',
+                'freight_logistics': '',
+                'agent_distributor_fees': '',
+                'marketing': '1345.00',
+                'insurance': '10.00',
+                'other_overhead_costs': '',
+            },
+            'total_cost_and_price': {
+                'units_to_export_first_period': {'unit': '', 'value': 22},
+                'units_to_export_second_period': {'unit': '', 'value': ''},
+                'final_cost_per_unit': '16.00',
+                'average_price_per_unit': '',
+                'net_price': '22.00',
+                'local_tax_charges': '5.23',
+                'duty_per_unit': '15.13',
+                'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
+            },
+        }
     )

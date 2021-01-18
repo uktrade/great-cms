@@ -113,18 +113,32 @@ class OverheadCostsSerializer(serializers.Serializer):
 
 
 class TotalCostAndPriceSerializer(serializers.Serializer):
-    class UnitRecord(serializers.Serializer):
-        unit = serializers.CharField(required=False, allow_blank=True)
+    class UnitRecordInt(serializers.Serializer):
+        unit = serializers.CharField(required=False, default='', allow_blank=True)
         value = serializers.IntegerField(required=False)
 
-    units_to_export_first_period = UnitRecord(required=False)
-    units_to_export_second_period = UnitRecord(required=False)
+        def to_internal_value(self, data):
+            if data.get('value') == '':
+                data['value'] = 0
+            return super().to_internal_value(data)
+
+    class UnitRecordDecimal(serializers.Serializer):
+        unit = serializers.CharField(required=False, default='', allow_blank=True)
+        value = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, initial=0)
+
+        def to_internal_value(self, data):
+            if data.get('value') == '':
+                data['value'] = 0.00
+            return super().to_internal_value(data)
+
+    units_to_export_first_period = UnitRecordInt(required=False)
+    units_to_export_second_period = UnitRecordInt(required=False)
     final_cost_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     average_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     net_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     local_tax_charges = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     duty_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    gross_price_per_unit_invoicing_currency = UnitRecord(required=False)
+    gross_price_per_unit_invoicing_currency = UnitRecordDecimal(required=False)
 
     @property
     def profit_per_unit(self):
@@ -137,12 +151,11 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     @property
     def gross_price_per_unit(self):
         self.is_valid()
-        duty_per_unit = self.data.get('duty_per_unit')
-        net_price = self.data.get('net_price')
-        local_tax_charges = self.data.get('local_tax_charges')
-        gross_price_per_unit = 0.00
-        if net_price and duty_per_unit and local_tax_charges:
-            gross_price_per_unit = float(duty_per_unit) + float(local_tax_charges) + float(net_price)
+        duty_per_unit = self.data.get('duty_per_unit', 0.00)
+        net_price = self.data.get('net_price', 0.00)
+        local_tax_charges = self.data.get('local_tax_charges', 0.00)
+        gross_price_per_unit = float(duty_per_unit) + float(local_tax_charges) + float(net_price)
+
         return gross_price_per_unit
 
     @property
@@ -258,8 +271,10 @@ class ExportPlanSerializer(serializers.Serializer):
     def get_default_value(self, field_type):
         if isinstance(field_type, serializers.DecimalField):
             return ''
-        elif isinstance(field_type, TotalCostAndPriceSerializer.UnitRecord):
-            return {'unit': '', 'value': '0'}
+        elif isinstance(field_type, TotalCostAndPriceSerializer.UnitRecordInt) or isinstance(
+            field_type, TotalCostAndPriceSerializer.UnitRecordDecimal
+        ):
+            return {'unit': '', 'value': ''}
 
     class DecimalEncoder(json.JSONEncoder):
         def default(self, obj):
