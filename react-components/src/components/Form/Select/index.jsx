@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
@@ -27,6 +27,10 @@ export const Select = ({
   const liRef = useRef([])
   const [element] = useOnOutsideClick(() => setIsOpen(false))
   useNoScroll(isOpen)
+
+  useEffect(() => {
+    setInput(selected)
+  }, [selected])
 
   const selectOption = (item) => {
     setInput(item.label)
@@ -77,7 +81,7 @@ export const Select = ({
         id={id || label}
         name={label}
         readOnly
-        value={selected}
+        value={input}
         placeholder={placeholder}
         description={description}
         tooltip={tooltip}

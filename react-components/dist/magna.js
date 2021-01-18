@@ -68134,6 +68134,9 @@ var Select = function Select(_ref) {
       element = _useOnOutsideClick2[0];
 
   Object(_src_components_hooks_useNoScroll__WEBPACK_IMPORTED_MODULE_4__["useNoScroll"])(isOpen);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setInput(selected);
+  }, [selected]);
 
   var selectOption = function selectOption(item) {
     setInput(item.label);
@@ -68190,7 +68193,7 @@ var Select = function Select(_ref) {
     id: id || label,
     name: label,
     readOnly: true,
-    value: selected,
+    value: input,
     placeholder: placeholder,
     description: description,
     tooltip: tooltip,
