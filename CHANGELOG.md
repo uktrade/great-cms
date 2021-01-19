@@ -36,7 +36,7 @@
 - GP2-1111 - EP responsive marketing approach changes
 - GP2-1029 - Population data sources attributions and links
 - GP2-974 - target market research page
-
+- GP2-1323 - enable ep sections
 ### Fixed bugs
 
 - No ticket - Added missing population url

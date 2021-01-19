@@ -18,19 +18,8 @@ TRAVEL_AND_BUSINESS_POLICIES = 'Travel and business policies'
 BUSINESS_RISK = 'Business risk'
 
 
-if settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED:
-    # This Map is used to enabled/disable sections on export plan
-    SECTIONS_DISABLED = [
-        TARGET_MARKETS_RESEARCH,
-        ADAPTATION_TARGET_MARKET,
-        COSTS_AND_PRICING,
-        FINANCE,
-        PAYMENT_METHODS,
-        TRAVEL_AND_BUSINESS_POLICIES,
-        BUSINESS_RISK,
-    ]
-else:
-    SECTIONS_DISABLED = []
+# This Map is used to enabled/disable sections on export plan
+SECTIONS_DISABLED = settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST
 
 # This maintains a collection of which pages require a country to be selected
 COUNTRY_REQUIRED = [
