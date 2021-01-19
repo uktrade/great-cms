@@ -44,10 +44,7 @@ export const Table = memo(({ languages, infoMomenent, tooltip }) => {
 })
 
 Table.defaultProps = {
-  tooltip: {
-    heading: 'Helpful hint',
-    description: 'Educational moment description',
-  },
+  tooltip: null,
 }
 
 Table.propTypes = {
