@@ -2,19 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
-import { analytics } from '../../Helpers'
-
 import Services from '@src/Services'
-
 import { connect, Provider } from 'react-redux'
 import actions from '@src/actions'
 import { getMarkets } from '@src/reducers'
+import { analytics } from '../../Helpers'
 
 function SelectMarket(props) {
   const { market, setMarket } = props
   const [cookies] = useCookies(['comparisonMarkets'])
 
-  const comparisonMarkets = Object.values(cookies.comparisonMarkets) || {}
+  const comparisonMarkets = Object.values(cookies.comparisonMarkets || {})
 
   const clickMarket = (clickedMarket) => {
     const marketNames = comparisonMarkets.map((v) => v.country_name)

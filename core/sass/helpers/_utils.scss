@@ -68,6 +68,14 @@ $colours: ($black, black), ($grey, grey), ($mid-grey, mid-grey),
   text-align: left;
 }
 
+.text-align-right {
+  text-align: right;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
 .radius-xs {
   @include breakpoint(sm_lt) {
     border-radius: var(--radius);
