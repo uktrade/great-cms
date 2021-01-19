@@ -64700,7 +64700,7 @@ module.exports = function(originalModule) {
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
   \*****************************************/
-/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, getLabel */
+/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, getLabel, getValue */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64713,6 +64713,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normaliseValues", function() { return normaliseValues; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isObject", function() { return isObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLabel", function() { return getLabel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return getValue; });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -64795,6 +64796,11 @@ var getLabel = function getLabel(list, selected) {
   return selected ? list.find(function (x) {
     return x.value === selected;
   }).label : '';
+};
+var getValue = function getValue(list, selected) {
+  return selected ? list.find(function (x) {
+    return x.label === selected;
+  }).value : '';
 };
 
 /***/ }),
@@ -66779,7 +66785,7 @@ var GrossPrice = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
     onChange: function onChange(x) {
       var postData = input.field({
-        unit: select.value,
+        unit: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValue"])(select.options, select.value),
         value: x[input.id]
       });
 
@@ -66938,7 +66944,7 @@ var Units = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__["Input"], {
     onChange: function onChange(x) {
       var postData = input.field({
-        unit: select.value,
+        unit: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValue"])(select.options, select.value),
         value: x[input.id]
       });
 

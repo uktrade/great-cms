@@ -75,3 +75,6 @@ export {
 
 export const getLabel = (list, selected) =>
   selected ? list.find((x) => x.value === selected).label : ''
+
+export const getValue = (list, selected) =>
+  selected ? list.find((x) => x.label === selected).value : ''

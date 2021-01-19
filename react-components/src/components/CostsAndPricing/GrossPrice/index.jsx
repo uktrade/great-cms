@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
 import { Tooltip } from '@components/tooltip/Tooltip'
-import { getLabel } from '@src/Helpers'
+import { getLabel, getValue } from '@src/Helpers'
 
 export const GrossPrice = memo(
   ({
@@ -66,7 +66,7 @@ export const GrossPrice = memo(
                 <Input
                   onChange={(x) => {
                     const postData = input.field({
-                      unit: select.value,
+                      unit: getValue(select.options, select.value),
                       value: x[input.id],
                     })
                     update(x, postData)
