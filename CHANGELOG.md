@@ -37,8 +37,11 @@
 - GP2-1029 - Population data sources attributions and links
 - GP2-974 - target market research page
 - GP2-1323 - enable ep sections
+- GP2-1321 - add TM  learning component
+
 ### Fixed bugs
 
+- No ticket - Remove tooltip from languages panel on adaptation for tarket market
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
