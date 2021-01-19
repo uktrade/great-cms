@@ -25,8 +25,23 @@ urllib3_logger.setLevel(logging.CRITICAL)
 
 
 @pytest.fixture
-def export_plan_data():
+def cost_pricing_data():
     return {
+        'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00},
+        'overhead_costs': {'insurance': 10.00, 'marketing': 1345.00},
+        'total_cost_and_price': {
+            'final_cost_per_unit': 16.00,
+            'net_price': 22.00,
+            'units_to_export_first_period': {'value': 22.00},
+            'duty_per_unit': 15.13,
+            'local_tax_charges': 5.23,
+        },
+    }
+
+
+@pytest.fixture
+def export_plan_data(cost_pricing_data):
+    data = {
         'country': 'Australia',
         'commodity_code': '220.850',
         'sectors': ['Automotive'],
@@ -48,6 +63,8 @@ def export_plan_data():
         'objectives': {'rationale': 'business rationale'},
         'pk': 1,
     }
+    data.update(cost_pricing_data)
+    return data
 
 
 @pytest.fixture
