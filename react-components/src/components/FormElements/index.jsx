@@ -8,7 +8,7 @@ import { Input } from '@src/components/Form/Input'
 import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import Spinner from '@src/components/Spinner/Spinner'
-import { analytics, sectionQuestionMapping } from '@src/Helpers'
+import { analytics, getLabel, sectionQuestionMapping } from '@src/Helpers'
 
 export const FormElements = memo(({ formData: form, field, formFields }) => {
   const [formData, setFormData] = useState({ ...form })
@@ -82,8 +82,7 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             type={fieldType === 'NumberInput' ? 'number' : 'text'}
             selected={
               formData[item.name] && item.choices
-                ? item.choices.find((x) => x.value === formData[item.name])
-                    .label
+                ? getLabel(item.choices, formData[item.name])
                 : ''
             }
           />
