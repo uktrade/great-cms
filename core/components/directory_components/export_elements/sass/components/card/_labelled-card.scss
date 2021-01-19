@@ -1,0 +1,88 @@
+
+a.labelled-card {
+  @extend .card;
+  border: 0;
+  position: static;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: $grey;
+  background-color: transparent;
+
+  .card-inner {
+    background: $white;
+    flex-grow: 1;
+    margin-top: -2px;
+  }
+
+  .card-inner.with-image {
+    border-top: 0;
+  }
+
+  &:focus {
+    outline: none;
+
+    .card-image,
+    .card-header h3,
+    .card-inner {
+      @include focus;
+      outline-offset: -3px;
+    }
+
+    .card-inner {
+      border-color: $white;
+    }
+  }
+
+  &:active {
+    background-color: transparent;
+  }
+
+  &:focus:active,
+  &:active {
+    .card-inner {
+      background-color: $focus-yellow;
+    }
+  }
+
+  .card-header {
+    z-index: 0;
+  }
+
+  .card-header,
+  .card-header h3 {
+    display: inline-block;
+  }
+
+  .card-header h3 {
+    @include brand-medium;
+    height: 45px;
+    color: $white;
+    background-color: $active-blue;
+    padding: 10px $spacing-3;
+  }
+}
+
+// labelled card with just an image and no description
+
+a.labelled-image-card {
+  @extend .labelled-card;
+  position: relative;
+
+  .card-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .card-header {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  a.labelled-image-card .card-image {
+    height: 200px;
+    position: static;
+  }
+}

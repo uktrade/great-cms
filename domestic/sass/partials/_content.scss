@@ -1,0 +1,17 @@
+
+// GENERAL CONTENT STYLES
+//------------------------------
+
+ul, ol, nav ul, nav ol {
+  list-style: none;
+}
+
+.navigation {
+  margin: 0;
+  li {
+    padding: 0;
+    &::before {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+// PAGE: CONTACT
+// ------------------------------------------------
+
+@import './partials/base';
+@import './partials/colours';
+@import './components/form-wizard';
+
+#content .form-group input[type=checkbox] {
+  width: 38px;
+}
+
+li {
+  list-style: none;
+  padding-left: 0;
+  &::before {
+    background-color: transparent;
+  }
+}
+
+ul {
+  li::before {
+    background-color: transparent;
+  }
+}
+
+#form-step-body-text {
+  margin-bottom: 20px;
+}
+
+button {
+  margin-top: 30px;
+}
+
+#content {
+  input, textarea, select {
+    width: 100%;
+  }
+}
+
+.show-your-details-title #id_given_name-container::before {
+  content: "Your details";
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.previous-step {
+  margin-top: 30px;
+  color: $mid-blue;
+  cursor: pointer;
+  text-decoration: underline;
+  background-color: transparent;
+  border-width: 0;
+  font-size: 18px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.collapse-paragraphs-spacing {
+  p {
+    margin: 0;
+  }
+}

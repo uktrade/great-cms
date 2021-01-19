@@ -1,0 +1,30 @@
+
+// Brexit BANNER
+// ===============
+
+.eu-exit-banner {
+  border-left: 5px solid #0661CF;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  h2 {
+    display: inline;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  p {
+    display: inline;
+    margin-left: 6px;
+    padding: 0;
+  }
+
+  div {
+    width: 80%;
+  }
+
+  @media (min-width: 768px) {
+    width: 80%;
+  }
+}

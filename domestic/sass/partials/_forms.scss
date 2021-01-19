@@ -1,0 +1,168 @@
+// GLOBAL FORM STYLES
+// ----------------------------
+//
+// REQUIRES...
+
+// From _colours.scss
+// $black
+// $white
+// $grey
+// $great-red
+// $mid-grey
+// $mid-blue
+// $focus-yellow
+
+// From _vars.scss
+// $spacing-3
+
+// From _typography.scss
+// @mixin body-s
+// @mixin body-m
+
+fieldset {
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
+label {
+  @include body-m;
+  color: $grey;
+  display: inline-block;
+
+  .description {
+    color: $mid-grey;
+    display: block;
+  }
+}
+
+select {
+  @include body-m;
+  display: block;
+  margin-bottom: $spacing-3;
+  border: 2px solid $grey;
+  padding: 10px;
+  background: $white url("/static/images/down-arrow.svg") no-repeat 98%/15px;
+  height: 50px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  text-overflow: '';
+}
+
+textarea {
+  @include body-m;
+  border: 2px solid $grey;
+  display: block;
+  margin-bottom: $spacing-3;
+  padding: 5px;
+  width: 100%;
+}
+
+.error {
+  color: $great-red;
+}
+
+
+// Checkboxes + Radio buttons
+.checkbox,
+.radio {
+  @include body-m;
+  margin-bottom: $spacing-4;
+  position: relative;
+  padding: 4px 0 0 45px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+
+  input {
+    cursor: pointer;
+    left: 0;
+    height: 36px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 36px;
+  }
+
+  label {
+    cursor: pointer;
+
+    &:before {
+      background: transparent;
+      border: 2px solid $mid-grey;
+      content: "";
+      height: 32px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 32px;
+      z-index: 0;
+    }
+  }
+}
+
+.checkbox {
+  input:checked + label {
+    &::after {
+      background: transparent;
+      border: solid $mid-blue;
+      border-width: 0 0 5px 5px;
+      content: "";
+      height: 7px;
+      left: 7px;
+      position: absolute;
+      top: 10px;
+      -ms-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      width: 17px;
+      z-index: 0;
+    }
+  }
+
+  label::before {
+    border-radius: 4px;
+  }
+}
+
+.radio {
+  input:checked + label {
+    &::after {
+      background-color: $mid-blue;
+      border-radius: 50%;
+      content: "";
+      height: 20px;
+      left: 8px;
+      position: absolute;
+      top: 8px;
+      width: 20px;
+      z-index: 0;
+    }
+  }
+
+  label::before {
+    border-radius: 50%;
+  }
+}
+
+.radio [type=radio]:focus + label::before {
+  -webkit-box-shadow: 0 0 0 4px $focus-yellow;
+  -moz-box-shadow: 0 0 0 4px $focus-yellow;
+  box-shadow: 0 0 0 4px $focus-yellow;
+}
+.checkbox [type=checkbox]:focus + label::before {
+  -webkit-box-shadow: 0 0 0 3px $focus-yellow;
+  -moz-box-shadow: 0 0 0 3px $focus-yellow;
+  box-shadow: 0 0 0 3px $focus-yellow;
+}
+
+
+// MEDIA QUERIES
+@media (max-width: 767px) {
+  input[type=text] {
+    @include body-m;
+    max-width: none;
+  }
+}

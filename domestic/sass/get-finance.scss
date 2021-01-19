@@ -1,0 +1,115 @@
+@import 'partials/colours';
+@import 'partials/utils';
+
+.get-finance {
+  .get-finance-hero {
+    background-position: center top;
+    position: relative;
+    z-index: 0;
+
+    .breadcrumbs a {
+      color: $white;
+    }
+
+    &:after {
+      background: linear-gradient(to bottom left, transparent 20%, rgba(0,0,0,0.9) 100%);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      content: '';
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .ukef-logo {
+      width: 148px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  .service-card {
+    flex-direction: row;
+
+    .advantages-content {
+      padding-left: 30px;
+      width: calc(100% - 40px);
+    }
+  }
+
+  .get-finance-video {
+    background-color: $stone-30;
+
+    video {
+      width: 100%;
+    }
+  }
+
+}
+
+@media (min-width: 641px) {
+  .ukef-contact-section-cta-box {
+    .button-container {
+      .button.button-blue {
+        width: auto;
+      }
+
+    }
+  }
+}
+
+@media (min-width: 961px) {
+  .ukef-contact-section-cta-box {
+    .button-container {
+      text-align: right;
+      .button.button-blue {
+        width: auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .evidence-section {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .get-finance {
+    .contact-section,
+    .contact-section-bottom {
+      padding-top: 0;
+      padding-bottom: 30px;
+
+      & > .container {
+        margin: 0;
+
+      }
+      .button-large {
+        font-size: 20px;
+        padding: 15px;
+
+      }
+    }
+
+    .ukef-logo {
+      display: none;
+    }
+
+    .video-container {
+      margin-bottom: 30px;
+    }
+
+    .get-finance-hero:after {
+      background: linear-gradient(to bottom left, transparent 0%, rgba(0,0,0,0.9) 100%);
+    }
+  }
+}

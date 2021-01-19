@@ -1,5 +1,6 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from wagtail.core import blocks
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
@@ -261,3 +262,70 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         context = super().get_context(value, parent_context=parent_context)
         context = self._annotate_with_case_study(context)
         return context
+
+
+def general_statistics_streamfield_validation(value):
+    if value and (len(value) < 2 or len(value) > 6):
+        raise StreamBlockValidationError(
+            non_block_errors=ValidationError(
+                'There must be between two and six statistics in this panel', code='invalid'
+            ),
+        )
+
+
+class IndividualStatisticBlock(blocks.StructBlock):
+    """Stores an individual statistic"""
+
+    number = blocks.CharBlock(max_length=255)
+    heading = blocks.CharBlock(max_length=255)
+    smallprint = blocks.CharBlock(max_length=255, required=False)
+
+
+class CountryGuideIndustrySubsectionBlock(blocks.StructBlock):
+    icon = ImageChooserBlock(required=False, label='Subsection icon')
+    heading = blocks.CharBlock(max_length=255, label='Subsection heading')
+    body = blocks.TextBlock(required=False, label='Subsection body')
+
+
+class CountryGuideCaseStudyBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=False, max_length=255, label='Case study title')
+    hero_image = ImageChooserBlock(required=False, label='Case study hero image')
+    description = blocks.TextBlock(required=False, label='Case study description')
+    button_text = blocks.CharBlock(required=False, max_length=255, label='Case study button text')
+    button_link = blocks.URLBlock(required=False, label='Case study button text')
+
+
+class CountryGuideIndustryBlock(blocks.StructBlock):
+    # Replacing a large set of fields each set of which was repeated six
+    # times in V1's CountryGuidePage model as `accordion_*``
+
+    icon = ImageChooserBlock(required=False, label='Industry icon')
+    title = blocks.CharBlock(max_length=255, label='Industry title')
+    teaser = blocks.TextBlock(required=False, label='Industry teaser')
+
+    subsections = blocks.StreamBlock(
+        [('subsection', CountryGuideIndustrySubsectionBlock())],
+        block_counts={'subsection': {'max_num': 3}},
+        required=False,
+    )
+
+    statistics = blocks.StreamBlock(
+        [
+            (
+                'statistic',
+                IndividualStatisticBlock(
+                    icon='fa-calculator',
+                    required=False,
+                ),
+            )
+        ],
+        null=True,
+        blank=True,
+        required=False,
+        validators=[general_statistics_streamfield_validation],
+    )
+
+    case_study = CountryGuideCaseStudyBlock(required=False)
+
+    class Meta:
+        template = 'domestic/content/blocks/accordions.html'

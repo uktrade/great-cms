@@ -1,0 +1,49 @@
+
+// UTILITY CLASSES
+// ================
+
+@import 'typography';
+@import 'colours';
+
+@media (max-width: 960px) {
+  .reverse-columns-l {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 768px) {
+  .reverse-columns-m {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 640px) {
+  .reverse-columns-s {
+    flex-direction: column-reverse;
+  }
+
+  .button-large {
+    width: 100%;
+  }
+}
+
+
+.font-overpass {
+  font-family: $brand-font-alternative;
+}
+
+.highlight-circle {
+  display: inline-block;
+  font-size: 19px;
+  font-weight: 700;
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  color: $white;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.centre-children {
+  text-align: center;
+}

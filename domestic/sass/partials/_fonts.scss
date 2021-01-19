@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'ge-ss';
+  src: url('/static/fonts/ge_ss_light.otf') format('opentype');
+  font-weight: 400;
+}
+
+// An italic variant is required as the default browser behaviour
+// slants text to the right (/) when it needs to be to the left (\)
+// to match the text direction
+@font-face {
+  font-family: 'ge-ss';
+  src: url('/static/fonts/ge_ss_light_italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ge-ss';
+  src: url('/static/fonts/ge_ss_bold.otf') format('opentype');
+  font-weight: 700;
+}

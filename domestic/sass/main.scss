@@ -1,0 +1,34 @@
+
+// PARTIALS
+// from core/sass
+@import 'partials/colours';
+@import 'partials/vars';
+@import 'partials/typography';
+@import 'partials/layout';
+@import 'partials/mixins';
+@import 'partials/utils';
+
+// COMPONENTS
+@import 'components/modal';
+@import 'components/language-selector-home';
+@import 'components/eu-exit-banner';
+@import 'components/pagination';
+@import 'components/utils';
+@import 'components/sector-selector-form';
+@import 'components/chevron-banner';
+@import 'components/filters';
+
+// PAGES
+@import 'pages/landing-page';
+@import 'pages/article-list';
+@import 'pages/tag-list';
+@import 'pages/article-detail';
+@import 'pages/campaign-page';
+@import 'pages/country-guide-page';
+@import 'pages/markets-landing';
+
+
+#content {
+  padding: 0;
+  color: $grey;
+}

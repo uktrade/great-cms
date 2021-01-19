@@ -1,0 +1,37 @@
+#wagtail .content > header,
+#wagtail .breadcrumb,
+#wagtail .tab-nav,
+#page-reorder-form .index {
+  background-color: grey;
+}
+
+#wagtail.page-explorer .listing .index .button,
+#wagtail.page-explorer .listing .actions a {
+  border-color: white;
+}
+
+#wagtail.page-explorer .listing .index .button.bicolor,
+#wagtail.page-explorer .listing .index .button:hover,
+#wagtail.page-explorer .t-inverted .u-btn-current:hover {
+  background: darkgray;
+}
+
+#wagtail .content > header::before,
+#wagtail .content > header::after {
+  content: 'This is not the production environment.';
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+#wagtail header::before {
+  top: 5px;
+}
+#wagtail header::after {
+  top: 90px;
+}
+
+#wagtail .panel a,
+.listing .title h2 a:hover {
+  color: grey;
+}

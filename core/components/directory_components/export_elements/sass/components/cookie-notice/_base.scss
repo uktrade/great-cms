@@ -1,0 +1,94 @@
+@import '../../partials/typography';
+@import '../../partials/mixins';
+@import '../../partials/colours';
+
+.cookie-notice {
+  display: none;
+  @include body-medium;
+  padding: 30px 0;
+
+  a:focus,
+  button:focus {
+    @include focus;
+  }
+
+  .cookie-initial {
+    display: block;
+  }
+
+  .cookie-confirmation,
+  .cookie-close {
+    display: none;
+  }
+
+  &.confirmation-message {
+    .cookie-initial {
+      display: none;
+    }
+
+    .cookie-confirmation,
+    .cookie-close {
+      display: block;
+    }
+  }
+
+  .container {
+    overflow: hidden;
+    padding: 3px 0; // avoid cutting off focus outline
+  }
+
+  .cookie-close {
+    padding: 0;
+    margin: 3px 3px 0 0;
+    width: 20px;
+    height: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: 0;
+    position: absolute;
+    right: 30px;
+    top: auto;
+    cursor: pointer;
+
+    &:before {
+      @include up-chevron-1($mid-blue);
+      margin: 0;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      left: 4px;
+      top: 10px;
+    }
+
+    &:after {
+      @include down-chevron-1($mid-blue);
+      margin: 0;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      left: 4px;
+      top: -4px;
+    }
+
+    &:hover {
+      &:before,
+      &:after {
+        border-color: $light-blue;
+      }
+    }
+
+  }
+
+  @media (min-width: 641px) {
+    .button {
+      min-width: 265px;
+    }
+
+    p {
+      width: calc(100% - 50px);
+      margin: 0;
+    }
+  }
+
+}

@@ -1,0 +1,15 @@
+
+// Details list
+// ============
+
+.great-details-list {
+
+  details:first-child {
+    border-top: 2px solid $light-grey;
+    border-bottom: 0;
+  }
+
+  details:last-child {
+    border-top: 0;
+  }
+}

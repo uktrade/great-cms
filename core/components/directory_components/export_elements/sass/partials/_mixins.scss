@@ -1,0 +1,238 @@
+
+// General mixins
+// ----------------
+
+@import 'colours';
+
+@mixin flag-red-underline {
+  &:after {
+    background-color: $flag-red;
+    content: '';
+    height: 4px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: block;
+  }
+}
+
+@mixin float-clear {
+  &:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}
+
+@mixin great-red-trim {
+  background-color: $great-red;
+  content: '';
+  height: 4px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+@mixin focus {
+  outline: $focus-yellow solid 4px;
+  outline-offset: 0;
+}
+
+@mixin separator($colour) {
+  background-color: $colour;
+  content: '';
+  display: inline-block;
+  height: 1em;
+  margin: 0 0.5em 0 0.3em;
+  width: 1px;
+  vertical-align: middle;
+}
+
+@mixin rotate($deg) {
+  -ms-transform: rotate(#{$deg + 'deg'}); /* IE 9 */
+  -webkit-transform: rotate(#{$deg + 'deg'});
+  transform: rotate(#{$deg + 'deg'});
+}
+
+@mixin button-reset {
+  border: 0;
+  margin: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+}
+
+// BUTTONS
+// prefixed with great- so they don't clash with govuk mixins
+@mixin great-button($colour: $active-blue) {
+  @include button-reset;
+  font-size: 19px;
+  text-align: center;
+  display: inline-block;
+  font-weight: 700;
+  font-family: $brand-font;
+  background-color: $colour;
+  color: $white;
+  padding: 10px 30px;
+  text-decoration: none;
+  line-height: 30px;
+
+  &:focus:active,
+  &:active {
+    color: $black;
+    background-color: $focus-yellow;
+  }
+
+  &:focus {
+    @include focus;
+  }
+
+  &:hover {
+    background-color: darken($colour, 5);
+  }
+
+  &:after {
+    line-height: 50px;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
+
+@mixin great-button-ghost($colour: $button-colour) {
+  @include great-button;
+  background-color: transparent;
+  border: 2px solid $colour;
+  color: $colour;
+
+  &:hover,
+  &:focus {
+    background-color: $colour;
+  }
+
+  &:focus {
+    @include focus;
+  }
+
+  &:focus:active,
+  &:active {
+    color: $black;
+    background-color: $focus-yellow;
+    border-color: $focus-yellow;
+  }
+
+  @if ($colour == $white) {
+
+    &:focus,
+    &:hover {
+      color: $black;
+      background-color: $white;
+    }
+
+  } @else {
+
+    &:focus,
+    &:hover {
+      color: $white;
+    }
+
+    &:focus:active {
+      color: $black;
+    }
+
+  }
+}
+
+
+// CHEVRONS
+
+@mixin chevron($rotate, $colour) {
+  box-sizing: initial;
+  -ms-transform: rotate($rotate);
+  /* IE 9 */
+  -webkit-transform: rotate($rotate);
+  transform: rotate($rotate);
+  content: '';
+  border-style: solid;
+  display: inline-block;
+  height: 5px;
+  width: 5px;
+  position: relative;
+  vertical-align: top;
+  top: 1px;
+  border-color: $colour;
+  border-width: 0 2px 2px 0;
+  margin: 2px 0 0 10px;
+}
+
+@mixin down-chevron-1($colour) {
+  @include chevron(45deg, $colour);
+  border-color: $colour;
+  border-width: 0 2px 2px 0;
+  top: 1px;
+}
+
+@mixin left-chevron-1($colour) {
+  @include chevron(45deg, $colour);
+  border-color: $colour;
+  border-width: 0 0 2px 2px;
+  top: 0;
+}
+
+@mixin right-chevron-1($colour) {
+  @include chevron(45deg, $colour);
+  border-color: $colour;
+  border-width: 2px 2px 0 0;
+  top: 0;
+}
+
+@mixin right-chevron-2($colour) {
+  @include chevron(45deg, $colour);
+  vertical-align: middle;
+  border-color: $colour;
+  border-width: 2px 2px 0 0;
+  margin: 0 5px;
+  top: 0;
+}
+
+@mixin up-chevron-1($colour) {
+  @include chevron(45deg, $colour);
+  border-color: $colour;
+  border-width: 2px 0 0 2px;
+  top: 5px;
+}
+
+@mixin container {
+  position: relative;
+
+  &:after {
+    max-width: 1200px;
+    display: block;
+    content: '';
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+
+    @media(max-width: 1260px) {
+      margin: 0 30px;
+    }
+
+    @media(max-width: 420px) {
+      margin: 0 20px;
+    }
+  }
+}

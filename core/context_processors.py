@@ -24,3 +24,10 @@ def env_vars(request):
     data['great_support_email'] = settings.GREAT_SUPPORT_EMAIL
     data['dit_on_govuk'] = settings.DIT_ON_GOVUK
     return data
+
+
+def analytics_vars(request):
+    return {
+        'GOOGLE_TAG_MANAGER_ID': settings.GOOGLE_TAG_MANAGER_ID,
+        'GOOGLE_TAG_MANAGER_ENV': settings.GOOGLE_TAG_MANAGER_ENV,
+    }

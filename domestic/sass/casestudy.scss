@@ -1,0 +1,169 @@
+// PAGE: CONTENT/ARTICLE
+// ------------------------------------------------
+
+@import './partials/base';
+@import './components/quote';
+@import './components/sharing-links';
+
+
+article {
+  margin-bottom: $spacing-2;
+  padding-top: $spacing-1;
+  position: relative;
+  h1 {
+    margin-left: calc(#{$cols-1} + #{$cols-half});
+  }
+  p {
+    clear: both;
+    margin-left: calc(#{$cols-1} + #{$cols-half});
+    width: $cols-7;
+  }
+
+  .content {
+    margin-bottom: $spacing-2;
+  }
+
+  .image {
+    margin: 0 0 $spacing-2 0;
+    position: relative;
+
+    img {
+      float: right;
+      margin-bottom: $spacing-2;
+      margin-right: $cols-3;
+      max-width: 870px;
+      width: $cols-8;
+    }
+  }
+
+  .quote {
+    padding-left: calc(#{$cols-1} + #{$cols-half});
+    padding-right: calc(#{$cols-3} + #{$cols-half});
+  }
+
+  .type {
+    left: 0;
+    position: absolute;
+    top: 20px;
+  }
+}
+
+.footnote {
+  margin-bottom: #{$spacing-2 * 2};
+  margin-left: calc(#{$cols-1} + #{$cols-half});
+  width: $cols-7;
+}
+
+.image {
+  margin-bottom: $spacing-3;
+
+  .quote {
+    background-color: $white;
+    padding-left: $spacing-3;
+    padding-right: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: $cols-3;
+
+    .company {
+      border: none;
+      display: block;
+      padding-left: 0;
+    }
+
+    .role {
+      margin-right: 0;
+    }
+  }
+}
+
+.sharing-links {
+  left: 0;
+  margin-left: 0;
+  position: absolute;
+  top: 20px;
+  width: $cols-2;
+}
+
+
+// TABLET
+@media screen and (max-width: 980px) {
+  .image {
+    .text {
+      font-size: inherit;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  article {
+    width: auto;
+
+    h1,
+    p {
+      margin-left: 0;
+      width: auto;
+    }
+
+    .image {
+      img {
+        float: none;
+        margin-right: 0;
+        width: 100%;
+      }
+    }
+
+    .quote {
+      padding-left: $spacing-3;
+      padding-right: $spacing-3;
+    }
+  }
+
+  .image {
+    .quote {
+      padding: 0;
+      position: static;
+      width: auto;
+    }
+  }
+
+  .footnote {
+    margin-left: 0;
+    width: auto;
+  }
+
+  .sharing-links {
+    left: initial;
+    right: 0;
+    top: 18px;
+    width: auto;
+  }
+}
+
+
+// MOBILE
+@media screen and (max-width: 480px) {
+  article {
+    margin-bottom: $spacing-2;
+    padding-top: $spacing-2;
+
+    &,
+    .content,
+    .description,
+    .image,
+    .image img {
+      margin-bottom: $spacing-3;
+    }
+
+    .quote {
+      padding: $spacing-4;
+    }
+  }
+
+  .sharing-links {
+    bottom: -200px;
+    top: inherit;
+    left: 0;
+  }
+}
