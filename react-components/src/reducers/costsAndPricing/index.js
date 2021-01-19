@@ -32,6 +32,7 @@ export const initialState = {
   export_units: '',
   time_frame: '',
   export_time_frame: '',
+  estimated_costs_per_unit: '',
   timeframe: [],
   units: [],
   currencies: [],
@@ -65,6 +66,8 @@ export default (state = initialState, action) => {
         profit_per_unit: calculated_cost_pricing.profit_per_unit,
         potential_total_profit: calculated_cost_pricing.potential_total_profit,
         gross_price_per_unit: calculated_cost_pricing.gross_price_per_unit,
+        estimated_costs_per_unit:
+          calculated_cost_pricing.estimated_costs_per_unit,
         final_cost_per_unit: total_cost_and_price.final_cost_per_unit,
         average_price_per_unit: total_cost_and_price.average_price_per_unit,
         net_price: total_cost_and_price.net_price,
@@ -98,6 +101,8 @@ export default (state = initialState, action) => {
         profit_per_unit: calculated_cost_pricing.profit_per_unit,
         potential_total_profit: calculated_cost_pricing.potential_total_profit,
         gross_price_per_unit: calculated_cost_pricing.gross_price_per_unit,
+        estimated_costs_per_unit:
+          calculated_cost_pricing.estimated_costs_per_unit,
       }
     }
     default:
