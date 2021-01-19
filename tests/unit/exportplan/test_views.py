@@ -242,6 +242,57 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
 
 
 @pytest.mark.django_db
+def test_cost_and_pricing(cost_pricing_data, client, user):
+    url = reverse('exportplan:costs-and-pricing')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert (
+        response.context_data['check_duties_link'] == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+    )
+    assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
+    assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
+    assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
+    assert response.context_data['costs_and_pricing_data'] == json.dumps(
+        {
+            'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': ''},
+            'overhead_costs': {
+                'product_adaption': '',
+                'freight_logistics': '',
+                'agent_distributor_fees': '',
+                'marketing': '1345.00',
+                'insurance': '10.00',
+                'other_overhead_costs': '',
+            },
+            'total_cost_and_price': {
+                'units_to_export_first_period': {'unit': '', 'value': 22},
+                'units_to_export_second_period': {'unit': '', 'value': ''},
+                'final_cost_per_unit': '16.00',
+                'average_price_per_unit': '',
+                'net_price': '22.00',
+                'local_tax_charges': '5.23',
+                'duty_per_unit': '15.13',
+                'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
+            },
+        }
+    )
+    assert response.context_data['calculated_pricing'] == json.dumps(
+        {
+            'calculated_cost_pricing': {
+                'total_direct_costs': '15.00',
+                'total_overhead_costs': '1355.00',
+                'profit_per_unit': '6.00',
+                'potential_total_profit': '132.00',
+                'gross_price_per_unit': '42.36',
+                'total_export_costs': '1685.00',
+                'estimated_costs_per_unit': '76.59',
+            }
+        }
+    )
+
+
+@pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
     reload_urlconf('exportplan.data')
