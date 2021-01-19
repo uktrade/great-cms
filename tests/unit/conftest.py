@@ -1,8 +1,8 @@
+from datetime import timedelta
 from unittest import mock
 
 import pytest
 from captcha.client import RecaptchaResponse
-from datetime import timedelta
 
 from tests.unit.core.factories import (
     CuratedListPageFactory,
