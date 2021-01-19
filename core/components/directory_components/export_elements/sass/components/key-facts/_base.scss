@@ -1,0 +1,67 @@
+
+// Key facts component
+// ====================
+
+@import '../../partials/spacings';
+@import '../../partials/mixins';
+
+.great-key-facts {
+
+  .great-key-facts-text > *[class^='heading'] {
+    margin-top: 0;
+    margin-bottom: $spacing-5;
+  }
+
+  .great-key-facts-content {
+    @include float-clear;
+    padding-bottom: $spacing-3;
+  }
+
+  .great-key-facts-text {
+    float: left;
+    width: calc(100% - (#{$spacing-1} + #{$spacing-4}));
+
+    & > p {
+      margin-bottom: $spacing-5;
+    }
+  }
+
+  .great-key-facts-icon {
+    float: left;
+    padding-right: $spacing-4;
+    height: $spacing-1;
+    width: $spacing-1 + $spacing-4;
+    margin-bottom: $spacing-5;
+  }
+
+}
+
+@media (min-width: 769px) {
+  .great-key-facts {
+
+    .great-key-facts-text {
+      float: none;
+    }
+
+    .great-key-facts-icon {
+      width: auto;
+      float: none;
+    }
+
+  }
+}
+
+@media (min-width: 641px) {
+  .great-key-facts {
+
+    .great-key-facts-text {
+      float: none;
+    }
+
+    .great-key-facts-icon {
+      width: auto;
+      float: none;
+    }
+
+  }
+}

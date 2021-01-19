@@ -1,0 +1,68 @@
+.heading {
+  font-size: 24px;
+  margin: 0;
+}
+
+.synopsis {
+  font-size: 19px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.button {
+  cursor: pointer;
+  font-size: 19px;
+  margin-bottom: 0;
+  height: 52px;
+  padding: 0;
+  line-height: 52px;
+  font-weight: normal;
+}
+
+:global .ReactModal__Overlay {
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5)!important;
+}
+  
+:global .ReactModal__Content {
+  background: #ffffff;
+  inset: 50%!important;
+  left: 50%!important;
+  top: 50%!important;
+  margin-right: -50%;
+  max-width: 616px;
+  padding: 30px!important;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  bottom: auto;
+  right: auto;
+  top: 50%;
+  min-height: 500px;
+}
+
+.buttonSeperator {
+  display: inline-block;
+  width: 20px;
+}
+
+@media (min-width: 376px) {
+  :global .ReactModal__Content {
+    padding-top: 54px!important;
+    padding-left: 52px!important;
+    padding-right: 52px!important;
+    width: auto;
+    min-height: 375px;
+  }
+
+  .buttonContainer {
+    display: flex;
+  }
+  .synopsis {
+    margin-top: 25px;
+    margin-bottom: 45px;
+  }
+  .button {
+    width: 50%;
+  }
+}

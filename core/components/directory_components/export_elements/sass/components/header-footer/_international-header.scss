@@ -1,0 +1,67 @@
+@import 'header';
+@import 'global-header';
+@import 'header-logo';
+@import 'mobile-menu-button';
+
+@mixin underlineActiveHeaders($underline-color) {
+  .menu-item {
+    &.active .link-heading:after {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 4px;
+      background-color: $white;
+      content: '';
+    }
+  }
+}
+
+#great-international-header {
+  @include underlineActiveHeaders($great-red);
+}
+
+#great-international-header,
+.great-sub-header {
+  .sub-nav {
+    @include headerContainer;
+  }
+
+  .sub-nav-list {
+    @include underlineActiveHeaders($white);
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .sub-nav-mobile-list {
+    margin-left: $spacing-3;
+
+    .link-heading {
+      padding: $spacing-4 / 2;
+    }
+  }
+
+  .link-heading {
+    @media(hover: hover) {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 10px 0;
+      text-decoration: none;
+
+      &:last-child {
+        margin-bottom: $spacing-4;
+      }
+    }
+  }
+}
+
+.great-sub-header {
+  @include desktopOnly;
+  background-color: $mid-blue;
+}

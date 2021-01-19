@@ -1,0 +1,119 @@
+
+.sector-potential-section {
+
+  .view-markets {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    font-size: 19px;
+  }
+  @media (min-width: 1081px) {
+    .sector-potential-wrapper {
+      background: url('/static/images/globe.png') calc(100% - (-100px)) -150px no-repeat;
+      background-size: auto 110%;
+    }
+  }
+
+  @media (min-width: 641px) {
+    .view-markets {
+      width: auto;
+    }
+  }
+
+
+}
+
+.sector-potential-form {
+    #id_sector-container {
+      label {
+        @extend .verbose
+      }
+    }
+    select {
+      width: 100%;
+      background-color: $white;
+    }
+
+    .button.show-markets:disabled {
+      pointer-events: none;
+      background: $stone-90;
+      color: $stone-30;
+
+    }
+
+    @media (min-width: 641px) {
+      .view-markets {
+        width: auto;
+      }
+      select {
+        max-width: 650px;
+      }
+    }
+
+    @media (min-width: 961px) {
+      select {
+        max-width: 770px;
+      }
+    }
+  }
+
+  .sector-selector-quick-links {
+    .quick-links-separator {
+      margin: 0 0 45px 0;
+      height: 2px;
+      background-color: $light-grey;
+    }
+
+    li {
+      display: none;
+      text-align: center;
+      float: left;
+    }
+    .quick-link {
+      text-decoration: none;
+    }
+    .sector-name {
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .quick-links-icon {
+      height: 60px;
+      display: block;
+      margin: 0 auto 15px;
+    }
+
+    .sector-name,
+    .sector-page-count {
+      font-size: 16px;
+      line-height: 16px;
+    }
+
+    @media (max-width: 640px) {
+        display: none;
+    }
+
+    @media (min-width: 641px) {
+      li:nth-child(-n+3) {
+        display: block;
+        width: calc(100% / 3);
+      }
+    }
+
+    @media (min-width: 769px) {
+      li:nth-child(-n+4) {
+        display: block;
+        width: calc(100% / 4);
+      }
+    }
+    @media (min-width: 961px) {
+      li:nth-child(-n+6) {
+        display: block;
+        width: 16.66%; // ie edge fix
+      }
+    }
+    @media (min-width: 1081px) {
+      .quick-links-separator {
+        width: 60%;
+      }
+    }
+  }

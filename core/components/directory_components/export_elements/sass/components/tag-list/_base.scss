@@ -1,0 +1,15 @@
+ul.tag-list {
+  li {
+    display: inline;
+    font-size: 15px;
+
+    &:after {
+      content: ',';
+      margin-left: -0.1em;
+    }
+
+    &:last-child:after {
+      content: '';
+    }
+  }
+}

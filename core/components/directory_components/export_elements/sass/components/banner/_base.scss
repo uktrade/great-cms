@@ -1,0 +1,94 @@
+
+// BANNER
+// ======
+
+.information-banner {
+  p {
+    margin: 0;
+  }
+
+  .banner-content {
+    width: 100%;
+    display: table;
+    margin: 0;
+
+    & > * {
+      display: table-cell;
+      vertical-align: top;
+      padding-left: 15px;
+    }
+
+    & > *:first-child {
+      padding-left: 0;
+    }
+  }
+
+  .banner-badge {
+    // force element to shrink to fit content
+    white-space: nowrap;
+    width: 1px;
+
+    span {
+      padding: 2px 15px;
+    }
+  }
+
+  .banner-close-button {
+    float: right;
+  }
+}
+
+@media (max-width: 520px) {
+  .information-banner {
+    .banner-content {
+      display: block;
+      position: relative;
+
+      & > * {
+        display: block;
+        padding-left: 0;
+      }
+
+      & > *:last-child {
+        padding: 0;
+      }
+
+      .banner-badge {
+        width: auto;
+        padding-bottom: 15px;
+      }
+
+      .banner-close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+}
+
+.informative-banner {
+  border-left: 5px solid #0661cf;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  h2 {
+    display: inline;
+    font-weight: bold;
+    margin: 0 8px 0 0;
+  }
+
+  p {
+    display: inline;
+    padding: 0;
+  }
+
+  div {
+    width: 80%;
+  }
+
+  @media (min-width: 768px) {
+    width: 80%;
+  }
+}

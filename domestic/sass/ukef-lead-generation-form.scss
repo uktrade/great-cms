@@ -1,0 +1,37 @@
+@import './partials/base';
+@import './components/form-wizard';
+
+#id_help-terms_agreed {
+  width: 40px;
+}
+
+form {
+  li {
+    list-style: none;
+  }
+  #previous-button {
+    margin-top: 40px;
+    font-size: 16px;
+    display: inline-block;
+  }
+  .form-control {
+    width: 100%;
+  }
+}
+
+#heading-container {
+    h2 {
+        margin-bottom: 10px;
+    }
+    margin-bottom: 40px;
+}
+#form-container {
+    button {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+}
+
+#id_help-terms_agreed-label{
+  padding-top: 0;
+}

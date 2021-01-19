@@ -1,0 +1,75 @@
+@import '../partials/colours';
+@import '../partials/spacings';
+@import '../partials/typography';
+
+// Accordion-style details component
+
+.great-accordion-list {
+  margin: $spacing-3 0;
+
+  details.great-accordion {
+    border-bottom: 0;
+  }
+
+  details.great-accordion:last-child {
+    border-bottom: 2px solid $light-grey;
+  }
+
+}
+
+details.great-accordion {
+  border-top: 2px solid $light-grey;
+  border-bottom: 2px solid $light-grey;
+  margin: 0;
+
+  & > * {
+    margin-left: 0;
+  }
+}
+
+details.great-accordion summary {
+  display: block;
+  list-style-image: none;
+  margin-bottom: 0;
+  padding: 20px 0;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:after {
+    @include body-large-bold
+    display: block;
+    position: absolute;
+    right: $spacing-4;
+    top: $spacing-4;
+  }
+}
+
+// For IE details-polyfill.js
+details.great-accordion[closed] summary:before,
+details.great-accordion[open] summary:before, {
+  display: none;
+}
+
+@media (min-width: 641px) {
+  details.great-accordion summary {
+    padding-right: $spacing-2;
+  }
+
+  details.great-accordion:not([open]) {
+
+    summary:after {
+      content: '+';
+    }
+  }
+
+  details.great-accordion[open] {
+    padding-bottom: $spacing-3;
+
+    summary:after {
+      content: '–';
+    }
+  }
+
+}

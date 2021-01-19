@@ -1,0 +1,53 @@
+.multi-select-autocomplete {
+  & > div {
+    padding-left: 10px;
+    border: 2px solid black;
+  }
+
+  span {
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  .autocomplete__wrapper {
+    height: 100%;
+  }
+
+  .autocomplete__wrapper input {
+    border: 0;
+    height: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  .autocomplete__menu {
+    overflow: hidden;
+    border-top: 2px solid black;
+  }
+
+  .multi-select-autocomplete-selected-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    padding-left: 10px;
+    margin-right: 10px;
+    border: 1px solid $grey;
+    background: $offwhite;
+    border-radius: 5px;
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+    margin-top: 10px;
+
+    button {
+      border: 0;
+      background: none;
+      padding: 10px;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      cursor: pointer;
+      vertical-align: middle;
+      font-size: 19px;
+      line-height: 1em;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+
+@import 'partials/colours';
+@import 'partials/vars';
+
+#content {
+  color: $grey;
+}
+
+.data {
+  .number {
+    margin-bottom: 0.2em;
+  }
+}
+
+.performance {
+  padding-top: $spacing-3;
+  border-bottom: 2px solid $light-grey;
+  padding-bottom: $spacing-2;
+}
+
+.performance-stats {
+  margin-bottom: $spacing-1;
+}
+
+.other-services {
+  padding-top: $spacing-3;
+}
+
+.subheading {
+  margin-bottom: -2.2em;
+}
+
+@media (max-width: 640px) {
+  .subheading {
+    margin-bottom: -1.2em;
+  }
+}
+
+@media (max-width: 420px) {
+  section {
+    padding-top: 0;
+  }
+}

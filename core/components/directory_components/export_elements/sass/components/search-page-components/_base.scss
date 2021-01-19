@@ -1,0 +1,96 @@
+// Search page components
+
+@import '../../partials/colours';
+@import '../../partials/spacings';
+
+.selected-filters-container {
+  background-color: $stone-40;
+
+  mark {
+    margin-bottom: 5px;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.5;
+    background: $stone;
+    padding: 5px;
+    border-radius: 4px;
+  }
+
+  .selected-filters-label {
+    display: block;
+  }
+
+  .clear-all-link {
+    display: block;
+  }
+
+}
+
+.expandable-fieldset {
+  position: relative;
+
+  legend {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    padding-bottom: $spacing-4;
+    font-size: $spacing-4;
+  }
+
+  button.filter-collapse {
+    background: transparent;
+    border: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-top: 10px;
+    padding-bottom: 4px;
+    cursor: pointer;
+  }
+
+  button.filter-collapse.checked {
+    padding-bottom: 9px;
+    padding-right: 6px;
+    padding-top: 0;
+  }
+
+  button.filter-collapse::after {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: '';
+    border-style: solid;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    border-color: #000000;
+    border-width: 2px 0 0 2px;
+    height: 8px;
+    width: 8px;
+  }
+
+  button.filter-collapse.checked::after {
+    border-width: 0 2px 2px 0;
+    margin: 5px 0 0;
+  }
+
+}
+
+body.js-enabled {
+  .expandable-fieldset {
+    button.filter-collapse.checked + .form-group {
+      display: none;
+    }
+  }
+}
+
+body:not(.js-enabled) {
+  .expandable-fieldset {
+    button.filter-collapse {
+      display: none;
+    }
+  }
+}

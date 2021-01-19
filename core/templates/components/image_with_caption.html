@@ -1,0 +1,23 @@
+{% comment %}
+    Args:
+        rendition - AltTextImage _rendition_ already resized in the calling template,
+            so that we use this with a variety of image sizes
+        main_caption - text
+        sub_caption - text
+        img_classes - text
+
+    Example usage in parent template:
+        {% image page.an_image_field fill-640x360 as my_image %}
+        {% include 'components/image_with_caption.html' with rendition=my_image main_caption=page.some_capton_field sub_caption=page.sub_caption_field img_classes="class1 class2" %}
+
+{% endcomment %}
+
+<figure class="image-with-caption">
+  <img src="{{ rendition.url }}" alt="{{ rendition.image.alt_text }}"{% if img_classes %} class="{{img_classes}}"{% endif %}>
+  {% if main_caption or sub_caption %}
+  <figcaption class="caption">
+    <p class="main-caption">{{ main_caption }}</p>
+    {% if sub_caption %}<p class="sub-caption">{{ sub_caption }}</p>{% endif %}
+  </figcaption>
+  {% endif %}
+</figure>

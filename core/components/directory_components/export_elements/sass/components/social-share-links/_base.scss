@@ -1,0 +1,20 @@
+
+@import '../partials/spacings';
+
+@media (max-width: 640px) {
+  ul.sharing-links {
+    padding-bottom: 1em;
+
+    li {
+      display: block;
+      float: left;
+      margin-right: $spacing-4 / 2;
+    }
+
+    &:after {
+      content: '';
+      clear: both;
+      display: block;
+    }
+  }
+}

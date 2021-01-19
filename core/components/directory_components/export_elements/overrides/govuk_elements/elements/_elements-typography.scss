@@ -1,0 +1,50 @@
+@import '!elements/elements-typography';
+
+@import '../../sass/partials/typography';
+@import '../../sass/partials/colours';
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url('https://fonts.googleapis.com/css?family=Overpass:700');
+
+body {
+  font-family: 'Roboto', 'Helvetica Neue', helvetica, arial, sans-serif;
+}
+
+.quote {
+  @include quote-large
+
+  @include media(tablet) {
+    margin-top: em(5);
+    margin-bottom: em(20);
+  }
+
+  margin-top: em(5, 16);
+  margin-bottom: em(20, 16);
+}
+
+// Update spacings to match our designs
+.heading-xlarge {
+  margin-bottom: em(45, 48);
+}
+
+.heading-large {
+  margin-bottom: em(30, 36);
+}
+
+.heading-medium {
+  margin-bottom: em(15, 24);
+}
+
+.heading-xlarge,
+.heading-large,
+.heading-medium,
+.heading-small {
+  font-family: $brand-font;
+}
+
+.subheading {
+  @extend .font-xsmall;
+  color: $mid-grey;
+  line-height: $line-height;
+  margin: 0;
+}

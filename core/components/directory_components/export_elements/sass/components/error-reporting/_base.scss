@@ -1,0 +1,17 @@
+
+// For 'is there anything wrong with this page?' links
+
+@import '../partials/colours';
+@import '../partials/spacings';
+
+section.error-reporting {
+  padding: $spacing-3 0;
+}
+
+.error-reporting {
+  a {
+    font-size: 16px;
+    text-align: left;
+    color: $grey;
+  }
+}
