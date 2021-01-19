@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
-    'international',
     'exportplan.apps.ExportPlanConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
