@@ -4,11 +4,13 @@ import pytest
 from django.conf import settings
 from django.http import HttpRequest
 from requests.exceptions import HTTPError
+from requests.models import Response
 
 from core import helpers
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
+from exportplan import helpers as exportplan_helpers
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory
 
@@ -416,3 +418,26 @@ def test_get_sender_no_ip():
 def test_millify(amount, expected):
     amount = helpers.millify(amount)
     assert amount == expected
+
+
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data_from_uk')
+@mock.patch.object(exportplan_helpers, 'get_country_data')
+@pytest.mark.django_db
+def test_get_comdtrade_data(mock_country_data, mock_uk_data, mock_world_data, client):
+    res1 = Response()
+    res1.status_code = 200
+    res1._content_consumed = True
+    res1._content = b"""{"last_year_data": {"year": 2019,"trade_value": 1823000000,"country_name": "Germany","year_on_year_change": 1.264}}"""  # noqa
+
+    mock_world_data.return_value = res1
+
+    res2 = Response()
+    res2.status_code = 200
+    res2._content_consumed = True
+    res2._content = b"""{"last_year_data": {"year": 2019,"trade_value": 127250000,"country_name": "Germany","year_on_year_change": 1.126}}"""  # noqa
+    mock_uk_data.return_value = res2
+    response = helpers.get_comtrade_data(countries_list=['Germany'], commodity_code='123456')
+    assert 'Germany' in response.keys()
+
+    assert ['import_from_world', 'import_data_from_uk'] == list(response['Germany'].keys())

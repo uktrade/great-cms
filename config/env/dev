@@ -38,8 +38,7 @@ STAFF_SSO_AUTHBROKER_URL=https://www.examole.com
 AUTHBROKER_CLIENT_ID=debug
 AUTHBROKER_CLIENT_SECRET=debug
 FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE=True
-FEATURE_COMPARE_MARKETS_TABS={"population":true, "economy":true}
-
+FEATURE_COMPARE_MARKETS_TABS={"population":true, "economy":true, "society": true}
 #treat it like SECRET_KEY in BETA env. must be a valid Fernet key.hex()
 #BETA_TOKEN=z7445AQ6aGXoPdFxYXQaJPLa3XU6I0zZUuI-Kbar8Jk=
 #BETA_TOKEN_EXPIRATION_DAYS=30

@@ -24,6 +24,64 @@ pil_logger.setLevel(logging.CRITICAL)
 urllib3_logger.setLevel(logging.CRITICAL)
 
 
+@pytest.fixture
+def cost_pricing_data():
+    return {
+        'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00},
+        'overhead_costs': {'insurance': 10.00, 'marketing': 1345.00},
+        'total_cost_and_price': {
+            'final_cost_per_unit': 16.00,
+            'net_price': 22.00,
+            'units_to_export_first_period': {'value': 22.00},
+            'duty_per_unit': 15.13,
+            'local_tax_charges': 5.23,
+        },
+    }
+
+
+@pytest.fixture
+def export_plan_data(cost_pricing_data):
+    data = {
+        'country': 'Australia',
+        'commodity_code': '220.850',
+        'sectors': ['Automotive'],
+        'target_markets': [{'country': 'China'}],
+        'target_markets_research': '',
+        'ui_options': {
+            'marketing-approach': {'target_ages': ['25-29', '47-49']},
+            'target-markets-research': {'target_ages': ['35-40']},
+        },
+        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
+        'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
+        'timezone': 'Asia/Shanghai',
+        'about_your_business': '',
+        'adaptation_target_market': [],
+        'target_market_documents': {'document_name': 'test'},
+        'route_to_markets': {'route': 'test'},
+        'marketing_approach': {'resources': 'xyz'},
+        'company_objectives': {},
+        'objectives': {'rationale': 'business rationale'},
+        'pk': 1,
+    }
+    data.update(cost_pricing_data)
+    return data
+
+
+@pytest.fixture
+def population_data():
+    return {'population_data': {'target_population': 10000}}
+
+
+@pytest.fixture
+def cia_factbook_data():
+    return {'cia_factbook_data': {'languages': ['English']}}
+
+
+@pytest.fixture
+def country_data():
+    return {'population_data': {'cpi': 100}}
+
+
 def get_user():
     return BusinessSSOUser(
         id=1,
@@ -168,21 +226,89 @@ def mock_export_plan_requests(
 
 
 @pytest.fixture
-@pytest.mark.django_db(transaction=True)
-@mock.patch.object(exportplan_helpers, 'get_or_create_export_plan')
-def mock_get_or_create_export_plan(mock_get_or_create_export_plan):
+def patch_get_create_export_plan(export_plan_data):
+    yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
-    explan_plan_data = {
-        'country': 'Australia',
-        'commodity_code': '220.850',
-        'sectors': ['Automotive'],
-        'target_markets': [{'country': 'China'}],
-        'rules_regulations': {'country_code': 'CHN'},
-        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
-        'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
-        'timezone': 'Asia/Shanghai',
+
+@pytest.fixture(autouse=True)
+def mock_get_create_export_plan(patch_get_create_export_plan):
+    yield patch_get_create_export_plan.start()
+    try:
+        patch_get_create_export_plan.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_get_export_plan(export_plan_data):
+    # TODO merge this and above patch so we use singe unified way of getting export plan
+    yield mock.patch('sso.models.get_exportplan', return_value=export_plan_data)
+
+
+@pytest.fixture(autouse=False)
+def mock_api_get_export_plan(patch_get_export_plan):
+    yield patch_get_export_plan.start()
+    try:
+        patch_get_export_plan.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture(autouse=True)
+def mock_api_get_population_data(population_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_population_data',
+        return_value=create_response(json_body=population_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=True)
+def mock_api_get_cia_world_factbook_data(cia_factbook_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_cia_world_factbook_data',
+        return_value=create_response(json_body=cia_factbook_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=True)
+def mock_api_get_country_data(country_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_country_data',
+        return_value=create_response(json_body=country_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture()
+def comtrade_data():
+    return {
+        'Germany': {
+            'import_from_world': {
+                'year': 2019,
+                'trade_value': '1.82 billion',
+                'country_name': 'Germany',
+                'year_on_year_change': 1.264,
+            },
+            'import_data_from_uk': {
+                'year': 2019,
+                'trade_value': '127.25 million',
+                'country_name': 'Germany',
+                'year_on_year_change': 1.126,
+            },
+        }
     }
-    mock_get_or_create_export_plan.return_value = create_response(status_code=200, json_body=explan_plan_data)
+
+
+@pytest.fixture(autouse=True)
+def mock_get_comtrade_data(comtrade_data):
+    yield mock.patch('exportplan.views.get_comtrade_data', return_value=comtrade_data).start()
 
 
 @pytest.fixture

@@ -3,7 +3,7 @@ from iso3166 import countries_by_alpha3
 
 from core import models
 from directory_api_client import api_client
-from exportplan import data
+from exportplan import data, serializers
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -66,6 +66,12 @@ def get_comtrade_historical_import_data(commodity_code, country):
 
 def get_population_data_by_country(countries):
     response = api_client.dataservices.get_population_data_by_country(countries=countries)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_society_data_by_country(countries):
+    response = api_client.dataservices.get_society_data_by_country(countries=countries)
     response.raise_for_status()
     return response.json()
 
@@ -168,6 +174,12 @@ def get_country_data(country):
     return response.json()
 
 
+def get_global_demographic_data(country):
+    country_data = get_country_data(country)
+    factbook_data = get_cia_world_factbook_data(country=country, key='people,languages')
+    return {**country_data, **factbook_data}
+
+
 def get_cia_world_factbook_data(country, key):
     response = api_client.dataservices.get_cia_world_factbook_data(country=country, data_key=key)
     response.raise_for_status()
@@ -180,7 +192,7 @@ def get_population_data(country, target_ages):
     return response.json()
 
 
-def get_check_duties_link(exportplan):
+def get_check_duties_link(export_plan):
     # TODO Once requirements have been defined pick country code from export plan
     url = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     return url
@@ -209,3 +221,19 @@ def get_current_url(slug, export_plan):
         if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
             current_url['product_required'] = True
     return current_url
+
+
+def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, section_name):
+    if (not export_plan.get('ui_options') or not export_plan['ui_options'].get(section_name, {})) or (
+        export_plan['ui_options'].get(section_name, {}).get('target_ages') != target_ages
+    ):
+        update_exportplan(
+            sso_session_id=sso_session_id,
+            id=export_plan['pk'],
+            data={'ui_options': {section_name: {'target_ages': target_ages}}},
+        )
+
+
+def calculated_cost_pricing(exportplan_data):
+    calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing
+    return {'calculated_cost_pricing': calculated_pricing}

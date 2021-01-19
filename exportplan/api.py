@@ -74,6 +74,14 @@ class ExportPlanPopulationDataByCountryView(APIView):
         return Response(data)
 
 
+class ExportPlanSocietyDataByCountryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        data = helpers.get_society_data_by_country(countries=self.request.GET.get('countries').split(','))
+        return Response(data)
+
+
 class ExportPlanRecommendedCountriesDataView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.ExportPlanRecommendedCountriesSerializer
@@ -98,21 +106,42 @@ class ExportPlanRecommendedCountriesDataView(APIView):
         return Response(data)
 
 
-class RetrieveMarketingCountryData(APIView):
+class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = serializers.PopulationDataSerializer
+    serializer_class = serializers.CountryTargetAgeDataSerializer
 
     def get(self, request):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
-        target_age_groups = serializer.validated_data['target_age_groups']
         country = serializer.validated_data['country']
+        target_ages = serializer.validated_data['target_age_groups']
+        url = serializer.validated_data['section_name']
+        section_name = url.replace('/export-plan/section/', '').replace('/', '')
+        helpers.update_ui_options_target_ages(
+            sso_session_id=self.request.user.session_id,
+            target_ages=target_ages,
+            export_plan=self.request.user.export_plan,
+            section_name=section_name,
+        )
 
-        population_data = helpers.get_population_data(country=country, target_ages=target_age_groups)
-        country_data = helpers.get_country_data(country)
-        factbook_data = helpers.get_cia_world_factbook_data(country=country, key='people,languages')
-        data = {**population_data, **country_data, **factbook_data}
-        return Response(data)
+        population_data = helpers.get_population_data(country=country, target_ages=target_ages)
+        return Response(population_data)
+
+
+class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
+    serializer_class = serializers.ExportPlanSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            export_plan = helpers.get_or_create_export_plan(self.request.user)
+            updated_export_plan = helpers.update_exportplan(
+                sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.data
+            )
+            # We now need the full export plan to calculate the totals
+            calculated_pricing = helpers.calculated_cost_pricing(updated_export_plan)
+            return Response(calculated_pricing)
 
 
 class UpdateExportPlanAPIView(generics.GenericAPIView):

@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import Services from '@src/Services'
+import { getProducts } from '@src/reducers'
+import { connect, Provider } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { analytics } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
-import PopulationData from './PopulationData'
-import EconomyData from './EconomyData'
-import Tabs from './Tabs'
-import { isObject } from '../../Helpers'
+import ComparisonTables from './ComparisonTables'
 
 const maxSelectedLength = 3
 
 function CompareMarkets(props) {
-  const { product } = props
+  const { selectedProduct, tabs } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(product)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const [cookies, setCookie] = useCookies(['comparisonMarkets'])
 
@@ -52,11 +51,10 @@ function CompareMarkets(props) {
     pushAnalytics(tmpMarkets)
   }
 
-  const buttonClass = `${
-    selectedProduct ? 'add-market' : ''
-  } button button--primary button--icon`
+  let buttonClass = 'button button--primary button--icon'
   let buttonLabel = 'Select product'
   if (selectedProduct) {
+    buttonClass = `add-market m-t-xs ${buttonClass}`
     buttonLabel =
       selectedLength > 0
         ? `Add country ${selectedLength + 1} of ${maxSelectedLength}`
@@ -64,61 +62,29 @@ function CompareMarkets(props) {
   }
   const triggerButton =
     selectedLength < maxSelectedLength ? (
-      <button type="button" className={buttonClass} onClick={openModal}>
+      <button 
+        type="button" 
+        className={buttonClass} 
+        onClick={openModal}
+      >
         <i className="fa fa-plus-square" />
         {buttonLabel}
       </button>
     ) : (
-      ''
+      <></>
     )
 
-  let tabMap = {
-    population: (
-      <PopulationData
-        comparisonMarkets={comparisonMarkets}
-        removeMarket={removeMarket}
-      />
-    ),
-    economy: (
-      <EconomyData
-        comparisonMarkets={comparisonMarkets}
-        removeMarket={removeMarket}
-        selectedProduct={selectedProduct}
-      />
-    ),
-  }
-
   let tabsContainer
-
   if (selectedProduct && selectedLength) {
-    let tabs = JSON.parse(props.tabs)
-    if (!isObject(tabs)) {
-      tabs = JSON.parse(tabs)
-    }
-    let listOfTabs
-    if (tabs && Object.keys(tabs).length > 0) {
-      listOfTabs = Object.keys(tabs).filter((key) => tabs[key])
-    }
-    if (listOfTabs) {
-      tabsContainer = (
-        <Tabs showTabs={listOfTabs.length > 1}>
-          {listOfTabs.map((item) => {
-            return (
-              <div
-                key={item}
-                label={item.toUpperCase()}
-                className="button button--small button--tertiary"
-              >
-                <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
-                  {tabMap[item]}
-                  {triggerButton}
-                </div>
-              </div>
-            )
-          })}
-        </Tabs>
-      )
-    }
+    tabsContainer = (
+      <ComparisonTables
+        tabsJson={tabs}
+        comparisonMarkets={comparisonMarkets}
+        selectedProduct={selectedProduct}
+        removeMarket={removeMarket}
+        triggerButton={triggerButton}
+      />
+    )
   } else {
     // Either We're missing a product or any countries
     tabsContainer = (
@@ -137,41 +103,45 @@ function CompareMarkets(props) {
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
         setIsOpen={setProductModalIsOpen}
-        setSelectedProduct={setSelectedProduct}
       />
       <CountryFinderModal
         modalIsOpen={marketModalIsOpen}
         setIsOpen={setMarketModalIsOpen}
-        commodityCode={selectedProduct && selectedProduct.code}
+        commodityCode={selectedProduct && selectedProduct.commodity_code}
         addButton={false}
         selectCountry={addCountry}
+        isCompareCountries
       />
     </span>
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    selectedProduct: getProducts(state),
+  }
+}
+
+const ConnectedCompareMarkets = connect(mapStateToProps)(CompareMarkets)
+
 CompareMarkets.propTypes = {
-  product: PropTypes.shape({
-    name: PropTypes.string,
-    code: PropTypes.string,
+  selectedProduct: PropTypes.shape({
+    commodity_name: PropTypes.string,
+    commodity_code: PropTypes.string,
   }),
+  tabs: PropTypes.string.isRequired,
 }
 
 CompareMarkets.defaultProps = {
-  product: {},
+  selectedProduct: null,
 }
 
 export default function createCompareMarkets({ ...params }) {
-  let product = {
-    name: params.element.getAttribute('data-productname'),
-    code: params.element.getAttribute('data-productcode'),
-  }
-  if (!product.name) {
-    product = null
-  }
-  let tabs = params.element.getAttribute('data-tabs')
+  const tabs = params.element.getAttribute('data-tabs')
   ReactDOM.render(
-    <CompareMarkets product={product} tabs={tabs} />,
+    <Provider store={Services.store}>
+      <ConnectedCompareMarkets tabs={tabs} />
+    </Provider>,
     params.element
   )
 }

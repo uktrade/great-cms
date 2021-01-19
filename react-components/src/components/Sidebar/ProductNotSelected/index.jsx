@@ -34,7 +34,6 @@ export const ProductNotSelected = memo(({ isOpen }) => {
       <ProductFinderModal
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
-        setSelectedProduct={() => {}}
       />
     </>
   )

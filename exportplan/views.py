@@ -9,15 +9,12 @@ from django.views.generic import FormView, TemplateView
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
+from core.helpers import get_comtrade_data
 from core.mixins import PageTitleMixin
+from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
-from directory_constants.choices import (
-    COUNTRY_CHOICES,
-    INDUSTRIES,
-    MARKET_ROUTE_CHOICES,
-    PRODUCT_PROMOTIONAL_CHOICES,
-)
-from exportplan import data, forms, helpers
+from directory_constants import choices
+from exportplan import data, forms, helpers, serializers
 
 
 class ExportPlanMixin:
@@ -32,6 +29,16 @@ class ExportPlanMixin:
     def export_plan(self):
         return helpers.get_or_create_export_plan(self.request.user)
 
+    @cached_property
+    def export_country_name(self):
+        if self.export_plan.get('export_countries'):
+            return self.export_plan['export_countries'][0]['country_name']
+
+    @cached_property
+    def export_commodity_code(self):
+        if self.export_plan.get('export_commodity_codes'):
+            return self.export_plan['export_commodity_codes'][0]['commodity_code']
+
     @property
     def next_section(self):
         if self.slug == data.SECTION_SLUGS[-1]:
@@ -43,8 +50,8 @@ class ExportPlanMixin:
         return helpers.get_current_url(self.slug, self.export_plan)
 
     def get_context_data(self, **kwargs):
-        industries = [name for _, name in INDUSTRIES]
-        country_choices = [{'value': key, 'label': label} for key, label in COUNTRY_CHOICES]
+        industries = [name for _, name in choices.INDUSTRIES]
+        country_choices = choices_to_key_value(choices.COUNTRY_CHOICES)
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
@@ -150,11 +157,19 @@ class ExportPlanMarketingApproachView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        route_choices = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
-        promotional_choices = [{'value': key, 'label': label} for key, label in PRODUCT_PROMOTIONAL_CHOICES]
+        route_choices = choices_to_key_value(choices.MARKET_ROUTE_CHOICES)
+        promotional_choices = choices_to_key_value(choices.PRODUCT_PROMOTIONAL_CHOICES)
+        target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
         context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
         context['route_choices'] = route_choices
+        context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
+        context['demographic_data'] = helpers.get_global_demographic_data(
+            self.export_plan['export_countries'][0]['country_name']
+        )
+        context['selected_age_groups'] = json.dumps(
+            self.export_plan['ui_options'].get(self.slug, {}).get('target_ages', [])
+        )
         return context
 
 
@@ -172,9 +187,10 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
         context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
         # To do pass lanaguage from export_plan object rather then  hardcoded
         context['language_data'] = helpers.get_cia_world_factbook_data(
-            country=self.export_plan['export_countries'][0]['country_name'], key='people,languages'
+            country=self.export_country_name, key='people,languages'
         )
         context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
+
         return context
 
 
@@ -183,6 +199,7 @@ class ExportPlanTargetMarketsResearchView(
 ):
     form_class = forms.ExportPlanTargetMarketsResearchForm
     success_url = reverse_lazy('exportplan:target-markets-research')
+    slug = 'target-markets-research'
     title = 'Target market research'
 
     def get_initial(self):
@@ -190,9 +207,23 @@ class ExportPlanTargetMarketsResearchView(
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if self.export_plan.get('export_countries'):
-            kwargs['country_name'] = self.export_plan['export_countries'][0]['country_name']
+        kwargs['country_name'] = self.export_country_name
         return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
+        context['target_age_group_choices'] = target_age_group_choices
+        if self.export_country_name and self.export_commodity_code:
+            insight_data = get_comtrade_data(
+                countries_list=[self.export_country_name], commodity_code=self.export_commodity_code
+            )
+
+            context['insight_data'] = json.dumps(insight_data)
+            context['selected_age_groups'] = json.dumps(
+                self.export_plan['ui_options'].get(self.slug, {}).get('target_ages', [])
+            )
+        return context
 
 
 class ExportPlanBusinessObjectivesView(
@@ -226,6 +257,24 @@ class ExportPlanAboutYourBusinessView(
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'About your business'
+
+
+class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
+    success_url = reverse_lazy('exportplan:about-your-business')
+    title = 'Costs And Pricing'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        context['export_unit_choices'] = choices_to_key_value(choices.EXPORT_UNITS)
+        context['export_timeframe_choices'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
+        currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
+        context['currency_choices'] = choices_to_key_value(currency_choices)
+        context['costs_and_pricing_data'] = serializers.ExportPlanSerializer().cost_and_pricing_to_json(
+            self.export_plan
+        )
+        context['calculated_pricing'] = json.dumps(helpers.calculated_cost_pricing(self.export_plan))
+        return context
 
 
 class BaseFormView(GA360Mixin, FormView):

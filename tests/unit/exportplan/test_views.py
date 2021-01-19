@@ -1,3 +1,4 @@
+import json
 from io import BytesIO
 from unittest import mock
 
@@ -30,62 +31,6 @@ def company_profile_data():
         'created': '2012-06-15T13:45:30.00000Z',
         'modified': '2019-04-05T06:43:23.00000Z',
     }
-
-
-@pytest.fixture(autouse=True)
-def export_plan_data():
-    return {
-        'about_your_business': '',
-        'target_markets_research': '',
-        'adaptation_target_market': [],
-        'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': {'route': 'test'},
-        'marketing_approach': {'resources': 'xyz'},
-        'company_objectives': {},
-        'objectives': {'rationale': 'business rationale'},
-        'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
-    }
-
-
-@pytest.fixture()
-def export_plan_data_with_no_countries():
-    return {
-        'about_your_business': '',
-        'target_markets_research': '',
-        'adaptation_target_market': [],
-        'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': {'route': 'test'},
-        'marketing_approach': {'resources': 'xyz'},
-        'company_objectives': {},
-        'objectives': {'rationale': 'business rationale'},
-        'export_countries': [],
-    }
-
-
-@pytest.fixture(autouse=True)
-def mock_get_create_export_plan(export_plan_data):
-    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=export_plan_data)
-
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture()
-def mock_get_create_export_plan_with_no_countries(export_plan_data_with_no_countries):
-    patch = mock.patch.object(helpers, 'get_or_create_export_plan', return_value=export_plan_data_with_no_countries)
-
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=True)
-def mock_cia_factbook_data():
-    patch = mock.patch.object(
-        helpers, 'get_cia_world_factbook_data', return_value={'language': 'Dutch', 'note': 'Many other too'}
-    )
-
-    yield patch.start()
-    patch.stop()
 
 
 def create_test_image(extension):
@@ -147,13 +92,19 @@ def test_exportplan_sections(mock_get_create_exportplan, mock_get_all_lessons, e
 
 
 @pytest.mark.django_db
-def test_exportplan_section_marketing_approach(client, user):
+def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_cia_world_factbook_data, client, user):
     client.force_login(user)
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
     assert response.context_data['route_to_markets'] == '{"route": "test"}'
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
+    assert response.context_data['target_age_group_choices']
+    assert response.context_data['demographic_data'] == {
+        **mock_get_country_data.return_value,
+        **mock_get_cia_world_factbook_data.return_value,
+    }
+    assert response.context_data['selected_age_groups'] == '["25-29", "47-49"]'
 
 
 @pytest.mark.django_db
@@ -246,7 +197,6 @@ def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, us
 )
 def test_export_plan_mixin(export_plan_data, slug, next_slug, client, user):
     client.force_login(user)
-
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
@@ -265,16 +215,86 @@ def test_404_when_invalid_section_slug(client, user):
 
 
 @pytest.mark.django_db
-def test_url_with_export_plan_country_selected(mock_get_create_export_plan_with_no_countries, client, user):
+def test_url_with_export_plan_country_selected(mock_get_comtrade_data, mock_get_create_export_plan, client, user):
+    # Remove countries selection
+    mock_get_create_export_plan.return_value.update({'export_countries': None})
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
+    assert mock_get_comtrade_data.call_count == 0
+
+
+@pytest.mark.django_db
+def test_target_markets_research(mock_get_comtrade_data, client, user):
+    url = reverse('exportplan:target-markets-research')
+    client.force_login(user)
+
+    response = client.get(url)
+
+    assert response.context_data['target_age_group_choices']
+    assert response.context_data['insight_data'] == json.dumps(mock_get_comtrade_data.return_value)
+    assert response.context_data['selected_age_groups'] == '["35-40"]'
+    assert response.status_code == 200
+    assert mock_get_comtrade_data.call_count == 1
+
+    assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['Netherlands'])
+
+
+@pytest.mark.django_db
+def test_cost_and_pricing(cost_pricing_data, client, user):
+    url = reverse('exportplan:costs-and-pricing')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert (
+        response.context_data['check_duties_link'] == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+    )
+    assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
+    assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
+    assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
+    assert response.context_data['costs_and_pricing_data'] == json.dumps(
+        {
+            'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': ''},
+            'overhead_costs': {
+                'product_adaption': '',
+                'freight_logistics': '',
+                'agent_distributor_fees': '',
+                'marketing': '1345.00',
+                'insurance': '10.00',
+                'other_overhead_costs': '',
+            },
+            'total_cost_and_price': {
+                'units_to_export_first_period': {'unit': '', 'value': 22},
+                'units_to_export_second_period': {'unit': '', 'value': ''},
+                'final_cost_per_unit': '16.00',
+                'average_price_per_unit': '',
+                'net_price': '22.00',
+                'local_tax_charges': '5.23',
+                'duty_per_unit': '15.13',
+                'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
+            },
+        }
+    )
+    assert response.context_data['calculated_pricing'] == json.dumps(
+        {
+            'calculated_cost_pricing': {
+                'total_direct_costs': '15.00',
+                'total_overhead_costs': '1355.00',
+                'profit_per_unit': '6.00',
+                'potential_total_profit': '132.00',
+                'gross_price_per_unit': '42.36',
+                'total_export_costs': '1685.00',
+                'estimated_costs_per_unit': '76.59',
+            }
+        }
+    )
 
 
 @pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = True
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
     reload_urlconf('exportplan.data')
     slug = slugify(data.SECTIONS_DISABLED[0])
     url = reverse('exportplan:section', kwargs={'slug': slug})
@@ -286,7 +306,7 @@ def test_redirect_to_service_page_for_disabled_urls(client, user):
 
 @pytest.mark.django_db
 def test_disabled_urls_feature_flag_disabled(client, user):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = False
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = []
     reload_urlconf('exportplan.data')
 
     assert len(data.SECTIONS_DISABLED) == 0

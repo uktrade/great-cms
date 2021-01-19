@@ -30,7 +30,7 @@ const analytics = (data) => {
 
 const normaliseValues = (str) => {
   if (str) {
-    var values = str.replace(/\d+(\.\d+)?/g, ($0) => {
+    var values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
       return Math.round(parseFloat($0) * 10) / 10
     })
     values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
@@ -44,6 +44,32 @@ const normaliseValues = (str) => {
 
 const isObject = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
+}
+
+const isArray = (arr) => {
+  return Object.prototype.toString.call(arr) === '[object Array]'
+}
+
+const get = (obj, path) => {
+  // get a value from an object based on dot-separated path
+  let out = obj
+  const pathSplit = path.split('.')
+  for (var i = 0; i < pathSplit.length; i++) {
+    if (!isObject(out)) {
+      return
+    }
+    out = out[pathSplit[i]]
+  }
+  return out
+}
+
+const mapArray = (array, key) => {
+  // Generates an object from an array, using the given key
+  const out = {}
+  array.forEach((entry) => {
+    out[entry[key]] = entry
+  })
+  return out
 }
 
 const sectionQuestionMapping = {
@@ -63,6 +89,16 @@ const sectionQuestionMapping = {
     'What’s the avg price for your product in the selected country?',
 }
 
+const getLabel = (list, selected) => {
+  const hasValue = list.find((x) => x.value === selected)
+  return selected && hasValue ? hasValue.label : ''
+}
+
+const getValue = (list, selected) => {
+  const hasLabel = list.find((x) => x.label === selected)
+  return selected && hasLabel ? hasLabel.value : ''
+}
+
 export {
   slugify,
   addItemToList,
@@ -71,4 +107,9 @@ export {
   sectionQuestionMapping,
   normaliseValues,
   isObject,
+  isArray,
+  get,
+  mapArray,
+  getLabel,
+  getValue,
 }

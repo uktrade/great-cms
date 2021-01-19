@@ -99,7 +99,9 @@ def test_update_export_plan(mock_exportplan_update):
 
 
 @mock.patch.object(helpers, 'get_exportplan')
-def test_get_or_create_export_plan_existing(mock_get_exportplan, user):
+def test_get_or_create_export_plan_existing(mock_get_exportplan, patch_get_create_export_plan, user):
+    # Lets stop higher level function auto fixture so we can test inner functions
+    patch_get_create_export_plan.stop()
     mock_get_exportplan.return_value = create_response(status_code=200, json_body={'export_plan'})
 
     export_plan = helpers.get_or_create_export_plan(user)
@@ -144,7 +146,11 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
 
 @mock.patch.object(helpers, 'get_exportplan')
 @mock.patch.object(helpers, 'create_export_plan')
-def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exportplan, user):
+def test_get_or_create_export_plan_created(
+    mock_create_export_plan, mock_get_exportplan, patch_get_create_export_plan, user
+):
+    # Lets stop higher level function auto fixture so we can test inner functions
+    patch_get_create_export_plan.stop()
     mock_get_exportplan.return_value = None
 
     mock_create_export_plan.return_value = {'export_plan_created'}
@@ -260,36 +266,28 @@ def test_route_to_markets_delete(mock_route_to_market_delete):
     assert response.status_code == 200
 
 
-@mock.patch.object(api_client.dataservices, 'get_country_data')
-def test_get_country_data(mock_cia_world_factbook_data):
-    data = {'population_data': {'cpi': 100}}
-
-    mock_cia_world_factbook_data.return_value = create_response(data)
+def test_get_country_data(mock_api_get_country_data, country_data):
     response = helpers.get_country_data('United Kingdom')
-    assert mock_cia_world_factbook_data.call_count == 1
-    assert mock_cia_world_factbook_data.call_args == mock.call('United Kingdom')
-    assert response == data
+    assert mock_api_get_country_data.call_count == 1
+    assert mock_api_get_country_data.call_args == mock.call('United Kingdom')
+    assert response == country_data
 
 
-@mock.patch.object(api_client.dataservices, 'get_cia_world_factbook_data')
-def test_get_cia_world_factbook_data(mock_cia_world_factbook_data):
-    data = {'cia_factbook_data': {'languages': ['English']}}
-    mock_cia_world_factbook_data.return_value = create_response(data)
+def test_get_cia_world_factbook_data(mock_api_get_cia_world_factbook_data, cia_factbook_data):
     response = helpers.get_cia_world_factbook_data(country='United Kingdom', key='people,languages')
-    assert mock_cia_world_factbook_data.call_count == 1
-    assert mock_cia_world_factbook_data.call_args == mock.call(country='United Kingdom', data_key='people,languages')
-    assert response == data
+    assert mock_api_get_cia_world_factbook_data.call_count == 1
+    assert mock_api_get_cia_world_factbook_data.call_args == mock.call(
+        country='United Kingdom', data_key='people,languages'
+    )
+    assert response == cia_factbook_data
 
 
-@mock.patch.object(api_client.dataservices, 'get_population_data')
-def test_get_population_data(mock_get_population_data):
-    data = {'population_data': {'target_population': 10000}}
-
-    mock_get_population_data.return_value = create_response(data)
+def test_get_population_data(mock_api_get_population_data, population_data):
+    mock_api_get_population_data.stop()
     response = helpers.get_population_data(country='United Kingdom', target_ages=['25-34', '35-44'])
-    assert mock_get_population_data.call_count == 1
-    assert mock_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
-    assert response == data
+    assert mock_api_get_population_data.call_count == 1
+    assert mock_api_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
+    assert response == population_data
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_create')
@@ -393,3 +391,61 @@ def test_get_population_data_by_country(mock_population_data_by_country):
     assert mock_population_data_by_country.call_count == 1
     assert mock_population_data_by_country.call_args == mock.call(countries='United Kingdom')
     assert response == data
+
+
+@mock.patch.object(api_client.dataservices, 'get_society_data_by_country')
+def test_get_society_data_by_country(mock_society_data_by_country):
+    data = {'country': 'United Kingdom', 'languages': [{'name': 'English'}]}
+
+    mock_society_data_by_country.return_value = create_response(data)
+    response = helpers.get_society_data_by_country(countries='United Kingdom')
+    assert mock_society_data_by_country.call_count == 1
+    assert mock_society_data_by_country.call_args == mock.call(countries='United Kingdom')
+    assert response == data
+
+
+@pytest.mark.parametrize(
+    'ui_options_data,',
+    [
+        {'target-market': {'target_ages': ['30-40']}},
+        {'target-market': {'target_ages': None}},
+        {'target-market': None},
+        None,
+        {'target-market-research': {'target_ages': ['21-15']}},
+    ],
+)
+@mock.patch.object(api_client.exportplan, 'exportplan_update')
+def test_update_ui_options_target_ages(mock_update_export_plan, export_plan_data, ui_options_data):
+    export_plan_data.update({'ui_options': ui_options_data})
+    helpers.update_ui_options_target_ages(
+        sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
+    )
+    assert mock_update_export_plan.call_count == 1
+    assert mock_update_export_plan.call_args == mock.call(
+        sso_session_id=1, id=1, data={'ui_options': {'target-market': {'target_ages': ['21-15']}}}
+    )
+
+
+@mock.patch.object(api_client.exportplan, 'exportplan_update')
+def test_update_ui_options_target_ages_not_required(mock_update_export_plan, export_plan_data):
+    ui_options_data = {'target-market': {'target_ages': ['21-15']}}
+    export_plan_data.update({'ui_options': ui_options_data})
+    helpers.update_ui_options_target_ages(
+        sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
+    )
+    assert mock_update_export_plan.call_count == 0
+
+
+def test_calculated_cost_pricing(cost_pricing_data):
+    pricing_data = helpers.calculated_cost_pricing(cost_pricing_data)
+    assert pricing_data == {
+        'calculated_cost_pricing': {
+            'total_direct_costs': '15.00',
+            'total_overhead_costs': '1355.00',
+            'profit_per_unit': '6.00',
+            'potential_total_profit': '132.00',
+            'gross_price_per_unit': '42.36',
+            'total_export_costs': '1685.00',
+            'estimated_costs_per_unit': '76.59',
+        }
+    }
