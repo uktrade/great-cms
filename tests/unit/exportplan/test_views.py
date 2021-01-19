@@ -243,7 +243,7 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
 
 @pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = True
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
     reload_urlconf('exportplan.data')
     slug = slugify(data.SECTIONS_DISABLED[0])
     url = reverse('exportplan:section', kwargs={'slug': slug})
@@ -255,7 +255,7 @@ def test_redirect_to_service_page_for_disabled_urls(client, user):
 
 @pytest.mark.django_db
 def test_disabled_urls_feature_flag_disabled(client, user):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = False
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = []
     reload_urlconf('exportplan.data')
 
     assert len(data.SECTIONS_DISABLED) == 0
