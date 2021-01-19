@@ -6,6 +6,7 @@
 
 - GP2-341 - Adaptation language info and stats update
 - GP2-1270 - income data for economy tab
+- GP2-1318 - Compare markets - refactor and loading twinkle
 - GP2-1265 - Compare markets - society data attribution
 - GP2-1258 - Compare markets - integrate society data
 - GP2-1270 - income data for economy tab
@@ -38,6 +39,7 @@
 
 ### Fixed bugs
 
+- No ticket - Remove tooltip from languages panel on adaptation for tarket market
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
