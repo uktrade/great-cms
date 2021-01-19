@@ -1,4 +1,5 @@
 import json
+import re
 from unittest import mock
 from unittest.mock import Mock, patch
 from urllib.parse import urlencode
@@ -816,7 +817,7 @@ def test_compare_countries_page(patch_export_plan, domestic_homepage, client, us
     # Check that the page renders even if there is no dashboard definition in wagtail
     assert response.status_code == 200
     assert response.context_data['dashboard_components'] is None
-    assert response.context_data['data_tabs_enabled'] == '"{\\"population\\":true, \\"economy\\":true}"'
+    assert re.search(r'\\"population\\":true', response.context_data['data_tabs_enabled'])
 
     # Populate dashboard with a couple of routes and check context
     DomesticDashboardFactory(

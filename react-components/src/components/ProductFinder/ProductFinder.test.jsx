@@ -224,7 +224,7 @@ describe('Product finder tests', () => {
       expect(results).toBeTruthy()
     })
     const box = finder.querySelector('.box');
-    expect(box.querySelector('h3').textContent).toMatch('HS Code: 123456')
+    expect(box.querySelector('h3').textContent).toMatch('HS6 Code: 123456')
     expect(box.querySelector('input').getAttribute('value')).toMatch('my product')
   })
 

@@ -74,6 +74,14 @@ class ExportPlanPopulationDataByCountryView(APIView):
         return Response(data)
 
 
+class ExportPlanSocietyDataByCountryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        data = helpers.get_society_data_by_country(countries=self.request.GET.get('countries').split(','))
+        return Response(data)
+
+
 class ExportPlanRecommendedCountriesDataView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.ExportPlanRecommendedCountriesSerializer

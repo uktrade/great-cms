@@ -38,7 +38,7 @@ export default function StartEndPage(props) {
 
   return (
     <div className="box box--no-pointer">
-      <h3 className="h-xs p-v-0">HS Code: {commodityCode}</h3>
+      <h3 className="h-xs p-v-0">HS6 Code: {commodityCode}</h3>
       <ClassificationTree hsCode={commodityCode} />
       <div className="form-group m-t-s m-b-0">
         <SearchInput

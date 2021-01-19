@@ -54,6 +54,7 @@
           countryAgeGroupDataUrl: '{% url "exportplan:api-target-age-country-population-data" %}',
           populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
           updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" %}',
+          societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "dashboard" %}',

@@ -77,9 +77,9 @@ urlpatterns = [
         name='api-target-age-country-population-data',
     ),
     path(
-        'api/population-data-by-country/',
-        skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),
-        name='api-population-data-by-country',
+        'api/society-data-by-country/',
+        skip_ga360(api.ExportPlanSocietyDataByCountryView.as_view()),
+        name='api-society-data-by-country',
     ),
     path(
         'api/calculate-cost-and-pricing/',
