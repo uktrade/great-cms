@@ -8,8 +8,6 @@ import { notAvailable } from '@src/components/Stats/StatsGroup'
 import { formatLanguages } from '@src/components/TargetAgeGroupInsights/utils'
 
 export const Table = memo(({ languages, infoMomenent, tooltip }) => {
-  const { heading, description } = tooltip
-
   const formatedLanguages = formatLanguages(
     languages.cia_factbook_data.languages.language
   )
@@ -23,11 +21,13 @@ export const Table = memo(({ languages, infoMomenent, tooltip }) => {
               header="The main languages in your chosen market are:"
               data={formatedLanguages || notAvailable}
             >
-              <Tooltip
-                id="languages-in-target-market-tooltip"
-                title={heading}
-                content={`<p>${description}</p>`}
-              />
+              {tooltip && (
+                <Tooltip
+                  id="languages-in-target-market-tooltip"
+                  title={tooltip.heading}
+                  content={`<p>${tooltip.description}</p>`}
+                />
+              )}
             </Stats>
             <hr className="hr hr--light" />
             <Stats
@@ -45,7 +45,7 @@ export const Table = memo(({ languages, infoMomenent, tooltip }) => {
 
 Table.defaultProps = {
   tooltip: {
-    heading: 'Tooltip',
+    heading: 'Helpful hint',
     description: 'Educational moment description',
   },
 }
