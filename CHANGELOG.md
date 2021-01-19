@@ -35,6 +35,7 @@
 - GP2-1111 - EP responsive marketing approach changes
 - GP2-1029 - Population data sources attributions and links
 - GP2-974 - target market research page
+- GP2-1321 - add TM  learning component
 
 ### Fixed bugs
 
