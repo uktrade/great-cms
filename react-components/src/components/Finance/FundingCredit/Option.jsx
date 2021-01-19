@@ -19,13 +19,14 @@ export const Option = memo(
     // debugger
     return (
       <>
-        <tr>
+        <tr className="border-none">
           <td>
             <Select
               id={id + selectData.name}
               options={selectData.options}
               label={selectData.name}
               name={selectData.name}
+              placeholder={selectData.placeholder}
               // selected={
               //   field[item.name] &&
               //   item.options.find((x) => x.value === field[item.name])

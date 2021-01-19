@@ -3,6 +3,10 @@
   display: block;
   padding: 0 20px;
 
+  &--funding {
+    padding: 1px 20px;
+  }
+
   td {
     border: 0;
     padding: 10px 5px 20px;
@@ -16,6 +20,10 @@
     }
   }
 
+  .border-none {
+    border: none;
+  }
+
   tr {
     border-bottom: 2px solid $blue-deep-20;
 
@@ -26,6 +34,10 @@
 
   .form-label {
     @extend .body-l-b;
+  }
+
+  .button--add i {
+    padding-right: 10px;
   }
 
   &--total {

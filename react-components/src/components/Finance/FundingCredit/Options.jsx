@@ -4,10 +4,17 @@ import React, { memo } from 'react'
 import { Option } from './Option'
 
 export const Options = memo(
-  ({ formFields, currency, selectData, onChange, deleteFunding }) => {
+  ({
+    formFields,
+    currency,
+    selectData,
+    onChange,
+    deleteFunding,
+    addFunding,
+  }) => {
     // debugger
     return (
-      <div className="costs bg-blue-deep-10">
+      <div className="costs costs--funding bg-blue-deep-10 p-v-s">
         <table className="m-b-0">
           <tbody>
             {formFields.map(({ pk, value }) => (
@@ -22,6 +29,20 @@ export const Options = memo(
               />
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="2">
+                <button
+                  type="button"
+                  className="button button--secondary button--icon button--small button--add"
+                  onClick={addFunding}
+                >
+                  <i className="fas fa-plus-circle"></i>
+                  <span>Add a funding option</span>
+                </button>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     )

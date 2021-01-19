@@ -12,7 +12,7 @@ export const FundingCredit = memo(
     const [fundingTotal, setFundingTotal] = useState(null)
 
     const calclatedTotal = () =>
-      funding.reduce((acc, curr) => acc + curr.value, 0)
+      funding.reduce((acc, curr) => acc + Number(curr.value), 0)
 
     useEffect(() => {
       setFundingTotal(calclatedTotal)
@@ -22,6 +22,7 @@ export const FundingCredit = memo(
     const addFunding = () => {
       const newFunding = {}
       newFunding.value = 0
+      newFunding.companyexportplan = companyexportplan
 
       Services.createRouteToMarket({ ...newFunding })
         .then((data) => setFunding([...funding, data]))
@@ -51,7 +52,11 @@ export const FundingCredit = memo(
     const debounceUpdate = useDebounce(update)
 
     const onChange = (type, id, selected) => {
+      if (type === 'input') {
+        selected = { value: selected[id] }
+      }
       const field = funding.find((x) => x.pk === id)
+      field.companyexportplan = companyexportplan
       const updatedFunding = funding.map((x) =>
         x.pk === id ? { ...x, ...selected } : x
       )
@@ -67,15 +72,8 @@ export const FundingCredit = memo(
           selectData={fundingCreditOptions}
           deleteFunding={deleteFunding}
           onChange={onChange}
+          addFunding={addFunding}
         />
-        <button
-          type="button"
-          className="button button--large button--icon"
-          onClick={addFunding}
-        >
-          <i className="fas fa-plus-circle" />
-          Add funding option
-        </button>
         <Total label="Total funding" currency={currency} total={fundingTotal} />
       </>
     )
