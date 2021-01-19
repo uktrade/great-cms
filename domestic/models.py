@@ -409,6 +409,9 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
 class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
 
+    parent_page_types = [
+        'domestic.CountryGuidePage',
+    ]
     subpage_types = []
 
     type_of_article = models.TextField(choices=ARTICLE_TYPES, null=True)
@@ -491,6 +494,10 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
+    parent_page_types = [
+        'domestic.CountryGuidePage',
+    ]
+
     subpage_types = [
         'domestic.ArticlePage',
     ]
@@ -524,6 +531,9 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
 
     subpage_types = []
+    parent_page_types = [
+        'domestic.CountryGuidePage',
+    ]
 
     campaign_heading = models.CharField(max_length=255)
     campaign_hero_image = models.ForeignKey(
