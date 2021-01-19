@@ -1,0 +1,48 @@
+
+// CASE STUDY/BANNER
+
+.great-case-study {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $white;
+  padding: 0;
+  position: relative;
+
+  &.background-tint:before {
+    background-color: rgba(0, 0, 0, 0.5);
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 600px;
+  }
+
+  @media (max-width: 768px) {
+    // horrible but only way to override inline background style
+    background-image: none !important;
+    color: $grey;
+
+    &.background-tint:before {
+      display: none;
+    }
+
+    & > .container {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .button {
+      width: auto;
+    }
+  }
+}

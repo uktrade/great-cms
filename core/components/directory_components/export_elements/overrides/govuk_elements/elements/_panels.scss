@@ -1,0 +1,46 @@
+@import '!elements/panels';
+
+.panel {
+  @extend %contain-floats;
+  @include box-sizing(border-box);
+  clear: both;
+  border-left-style: solid;
+  border-left-width: 4px;
+  border-color: $border-colour;
+
+  padding: em(15, 19);
+  margin-bottom: em(15, 19);
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  :only-child,
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
+%panel-vertical {
+  @extend %contain-floats;
+  @include box-sizing(border-box);
+  clear: both;
+  border-left-style: solid;
+  border-color: $border-colour;
+  padding: em(15, 19) 0;
+  margin-bottom: em(15, 19);
+}
+
+.panel-vertical-wide {
+  @extend %panel-vertical;
+  border-top: solid 10px $border-colour;
+}
+
+.panel-vertical-narrow {
+  @extend %panel-vertical;
+  border-top: solid 6px $border-colour;
+}
+
+.panel-border-narrow {
+  border-left-width: 6px;
+}

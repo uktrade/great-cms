@@ -1,0 +1,41 @@
+@import '../../partials/colours';
+
+.full-width-list-with-media {
+  width: 100%;
+  min-height: 500px;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+
+  a {
+    color: white;
+  }
+
+  a:visited {
+    color: white;
+  }
+
+  a:active:focus {
+    color: $great-blue;
+  }
+
+  .list-item {
+    border-top: 3px solid $great-red;
+  }
+
+  .media {
+    margin-top: auto;
+    margin-bottom: auto;
+
+    @media (max-width: 960px) {
+      margin-bottom: 30px;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .reverse-columns-l {
+      flex-direction: column-reverse;
+    }
+  }
+}

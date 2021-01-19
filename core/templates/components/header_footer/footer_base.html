@@ -1,0 +1,41 @@
+{% load static %}
+{% load i18n %}
+
+<footer id="great-footer" class="great-footer light-grey-text background-great-blue" dir="ltr" data-ga-section="footer">
+
+  <div class="great-footer-logo-container container">
+    {% block footer_left_logo %}{% endblock %}
+    {% block footer_right_logo %}{% endblock %}
+  </div>
+
+  <nav class="great-footer-links container">
+    <ul class="great-footer-site-links">
+        <li>
+            <a id="footer-contact" href="{{ services_urls.contact_us }}">{% trans 'Contact us' %}</a>
+        </li>
+        <li>
+            <a id="footer-privacy-and-cookies" href="{{ header_footer_urls.privacy_and_cookies }}">{% trans 'Privacy and cookies' %}</a>
+        </li>
+        <li>
+            <a id="footer-terms-and-conditions" href="{{ header_footer_urls.terms_and_conditions }}">{% trans 'Terms and conditions' %}</a>
+        </li>
+        <li>
+            <a id="footer-accessibility" href="{{ header_footer_urls.accessibility }}">Accessibility</a>
+        </li>
+        {% block footer_performance_link %}{% endblock %}
+        <li>
+            <a id="footer-dit" href="{{ header_footer_urls.dit }}" title="{% trans 'Opens in a new window' %}" rel="noopener noreferrer" target="_blank">{% trans 'Department for International Trade on GOV.UK' %}</a>
+        </li>
+        {% block footer_domestic_international_link %}{% endblock %}
+    </ul>
+  </nav>
+
+  <div class="great-global-header-footer {% block global_footer_class %}{% endblock %}">
+    <div class="container">
+        {% block global_footer_logo %}
+        {% endblock %}
+        <p id="great-footer-copyright" class="great-footer-copyright">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
+    </div>
+  </div>
+
+</footer>

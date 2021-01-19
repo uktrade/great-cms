@@ -1,0 +1,73 @@
+@import 'partials/utils';
+@import 'partials/typography';
+
+.uk-export-finance {
+  .uk-export-finance-hero {
+    background-position: top center;
+    position: relative;
+
+    .container{
+      height: 300px;
+    }
+
+    .hero-title-compact{
+      bottom: -7px;
+      width: 100%;
+
+      .hero-title{
+        width: 100%;
+      }
+    }
+
+    .heading-hero-generic-compact p{
+      margin: 0;
+    }
+  }
+
+  .hero-title{
+    font-size: 52px;
+  }
+
+  .card-list-section{
+    .heading-large{
+      font-family: $brand-font-alternative;
+      font-weight: 700;
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .card-list-section .card-image{
+    height: 320px;
+    background-position: top center;
+  }
+
+  .why-you-choose-ukef{
+    .heading-light{
+      font-weight: bold;
+      font-size: 36px;
+    }
+
+    .description-title{
+      font-size: 24px;
+      font-family: $brand-font-alternative;
+    }
+
+    .icon{
+      width: 56px;
+      height: 56px;
+    }
+  }
+
+  .card-image{
+    height: 320px;
+  }
+
+  .card-link {
+    min-height: 640px;
+  }
+
+  .teaser-text{
+    font-size: 19px;
+  }
+}

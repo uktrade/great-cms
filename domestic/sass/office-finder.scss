@@ -1,0 +1,75 @@
+// PAGE: CONTACT
+// ------------------------------------------------
+
+@import './partials/base';
+@import './partials/colours';
+@import './components/form-wizard';
+
+button {
+  margin-top: 30px;
+}
+
+#content {
+  input, textarea, select {
+    width: 100%;
+  }
+
+  .form-group input[type=checkbox] {
+    width: 38px;
+  }
+
+  h1 {
+    margin-bottom: 15px;  
+  }
+  form p {
+    margin-bottom: 30px;
+  }
+}
+
+#search-section {
+  padding-bottom: 45px;
+}
+
+#results {
+  background-color: #F6F4F0;
+  margin: 0;
+  padding: 1px 30px 40px;
+  hr {
+    background: $mid-grey;
+  }
+}
+
+#other-results {
+  padding-bottom: 0;
+  h2 {
+    margin-bottom: 45px;
+    margin-top: 60px;
+  }
+  h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  .grid-row {
+    padding: 0;
+  }
+  hr {
+    margin-left: 0;
+    background: $mid-grey;
+  }
+}
+
+#office-name {
+  margin-top: 0;
+}
+
+.previous-step {
+  margin-top: 30px;
+  color: #00549f;
+  cursor: pointer;
+  text-decoration: underline;
+  background-color: transparent;
+  border-width: 0;
+  font-size: 18px;
+  display: inline-block;
+  margin-right: 20px;
+}

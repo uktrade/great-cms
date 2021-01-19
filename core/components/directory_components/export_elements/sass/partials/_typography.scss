@@ -1,0 +1,85 @@
+
+
+// Great specific fonts
+$brand-font: 'Overpass', 'Roboto', arial, helvetica, verdana;
+$brand-font-alternative: 'Roboto', arial, helvetica, verdana;
+$quote-font: 'Georgia', serif;
+$line-height: 1.6;
+$hero-line-height: 1.2;
+
+
+@mixin font-generator($font-family: $brand-font-alternative, $font-size: 19px, $font-size-mobile: 16px, $font-weight: 400, $font-style: normal, $line-height: 1.6) {
+  font-weight: $font-weight;
+  font-size: $font-size-mobile;
+  font-family: $font-family;
+  font-style: $font-style;
+  line-height: $line-height;
+
+  @media (min-width: 641px) {
+    font-size: $font-size;
+  }
+}
+
+@mixin body-xlarge {
+  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.6)
+}
+
+@mixin body-large {
+  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6)
+}
+
+@mixin body-medium {
+  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $line-height: 1.6)
+}
+
+@mixin body-small {
+  @include font-generator($font-size: 16px, $font-size-mobile: 14px, $line-height: 1.6)
+}
+
+@mixin quote-xlarge {
+  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.6)
+}
+
+@mixin quote-large {
+  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6)
+}
+
+@mixin quote-medium {
+  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $line-height: 1.6)
+}
+
+@mixin quote-small {
+  @include font-generator($font-size: 16px, $font-size-mobile: 14px, $line-height: 1.6)
+}
+
+@mixin body-xlarge-bold {
+  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.6, $font-weight: 700)
+}
+
+@mixin body-large-bold {
+  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6, $font-weight: 700)
+}
+
+@mixin body-medium-bold {
+  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $font-weight: 700, $line-height: 1.6)
+}
+
+@mixin body-small-bold {
+  @include font-generator($font-size: 16px, $font-size-mobile: 14px, $line-height: 1.6, $font-weight: 700)
+}
+
+@mixin brand-xxlarge {
+  @include font-generator($font-size: 48px, $font-size-mobile: 32px, $line-height: 1.2, $font-weight: 700, $font-family: $brand-font)
+}
+
+@mixin brand-xlarge {
+  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.4, $font-weight: 700, $font-family: $brand-font)
+}
+
+@mixin brand-large {
+  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6, $font-weight: 700, $font-family: $brand-font)
+}
+
+@mixin brand-medium {
+  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $line-height: 1.6, $font-weight: 700, $font-family: $brand-font)
+}

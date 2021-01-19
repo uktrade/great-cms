@@ -1,12 +1,18 @@
 from unittest import mock
 
 import pytest
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
 from core import mixins
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
-from domestic.models import DomesticDashboard, DomesticHomePage
+from domestic.models import (
+    DomesticDashboard,
+    DomesticHomePage,
+    industry_accordions_validation,
+    main_statistics_validation,
+)
 from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -15,7 +21,12 @@ from tests.unit.core.factories import (
     ListPageFactory,
     TopicPageFactory,
 )
-from .factories import DomesticDashboardFactory, DomesticHomePageFactory
+from .factories import (
+    ArticlePageFactory,
+    CountryGuidePageFactory,
+    DomesticDashboardFactory,
+    DomesticHomePageFactory,
+)
 
 
 class DomesticHomePageTests(WagtailPageTests):
@@ -144,3 +155,349 @@ def test_dashboard_page_routing(
     )
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['plan'].value.get('enabled') is False
+
+
+@pytest.mark.django_db
+def test_can_create_country_guide_page(
+    domestic_homepage,
+    domestic_site,
+):
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test country',
+    )
+    assert page.title == 'Test country'
+    assert page.slug == 'test-country'
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'data,expected',
+    (
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_1_title': 'Col 1 title',
+                'fact_sheet_column_1_teaser': 'Col 1 teaser',
+                'fact_sheet_column_1_body': 'Col 1 body',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                'fact_sheet_column_2_teaser': 'Col 2 teaser',
+                'fact_sheet_column_2_body': 'Col 2 body',
+            },
+            [
+                {
+                    'title': 'Col 1 title',
+                    'teaser': 'Col 1 teaser',
+                    'body': 'Col 1 body',
+                },
+                {
+                    'title': 'Col 2 title',
+                    'teaser': 'Col 2 teaser',
+                    'body': 'Col 2 body',
+                },
+            ],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_1_title': 'Col 1 title',
+                'fact_sheet_column_1_teaser': 'Col 1 teaser',
+                'fact_sheet_column_1_body': 'Col 1 body',
+            },
+            [
+                {
+                    'title': 'Col 1 title',
+                    'teaser': 'Col 1 teaser',
+                    'body': 'Col 1 body',
+                },
+            ],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                'fact_sheet_column_2_teaser': 'Col 2 teaser',
+                'fact_sheet_column_2_body': 'Col 2 body',
+            },
+            [
+                {
+                    'title': 'Col 2 title',
+                    'teaser': 'Col 2 teaser',
+                    'body': 'Col 2 body',
+                },
+            ],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+            },
+            [],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                # 'fact_sheet_column_1_title': 'Col 1 title',  # Not OK to be missing
+                'fact_sheet_column_1_teaser': 'Col 1 teaser',
+                'fact_sheet_column_1_body': 'Col 1 body',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                'fact_sheet_column_2_teaser': 'Col 2 teaser',
+                # 'fact_sheet_column_2_body': 'Col 2 body',  # Not OK to be missing
+            },
+            [],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_1_title': 'Col 1 title',
+                # 'fact_sheet_column_1_teaser': 'Col 1 teaser',  # OK to be missing
+                'fact_sheet_column_1_body': 'Col 1 body',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                # 'fact_sheet_column_2_teaser': 'Col 2 teaser',  # OK to be missing
+                'fact_sheet_column_2_body': 'Col 2 body',
+            },
+            [
+                {
+                    'title': 'Col 1 title',
+                    'teaser': '',
+                    'body': 'Col 1 body',
+                },
+                {
+                    'title': 'Col 2 title',
+                    'teaser': '',
+                    'body': 'Col 2 body',
+                },
+            ],
+        ),
+    ),
+    ids=[
+        'both cols',
+        'only first',
+        'only second',
+        'no cols',
+        'missing key data',
+        'missing optional data',
+    ],
+)
+def test_fact_sheet_columns(
+    data,
+    expected,
+    domestic_homepage,
+    domestic_site,
+):
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        **data,
+    )
+    assert page.fact_sheet_columns == expected
+
+
+@pytest.mark.parametrize(
+    'data,expected',
+    (
+        (
+            {
+                'intro_cta_one_title': 'CTA 1 title',
+                'intro_cta_one_link': 'https://example.com/1/',
+                'intro_cta_two_title': 'CTA 2 title',
+                'intro_cta_two_link': 'https://example.com/2/',
+                'intro_cta_three_title': 'CTA 3 title',
+                'intro_cta_three_link': 'https://example.com/3/',
+            },
+            [
+                {
+                    'title': 'CTA 1 title',
+                    'link': 'https://example.com/1/',
+                },
+                {
+                    'title': 'CTA 2 title',
+                    'link': 'https://example.com/2/',
+                },
+                {
+                    'title': 'CTA 3 title',
+                    'link': 'https://example.com/3/',
+                },
+            ],
+        ),
+        (
+            {
+                'intro_cta_one_title': 'CTA 1 title',
+                'intro_cta_one_link': 'https://example.com/1/',
+                'intro_cta_three_title': 'CTA 3 title',
+                'intro_cta_three_link': 'https://example.com/3/',
+            },
+            [
+                {
+                    'title': 'CTA 1 title',
+                    'link': 'https://example.com/1/',
+                },
+                {
+                    'title': 'CTA 3 title',
+                    'link': 'https://example.com/3/',
+                },
+            ],
+        ),
+        (
+            {
+                'intro_cta_two_title': 'CTA 2 title',
+                'intro_cta_two_link': 'https://example.com/2/',
+            },
+            [
+                {
+                    'title': 'CTA 2 title',
+                    'link': 'https://example.com/2/',
+                },
+            ],
+        ),
+        (
+            {},
+            [],
+        ),
+        (
+            {
+                'intro_cta_one_title': 'CTA 1 title',
+                'intro_cta_one_link': 'https://example.com/1/',
+                'intro_cta_two_title': 'CTA 2 title',  #  missing link
+                'intro_cta_three_link': 'https://example.com/3/',  # missing title
+            },
+            [
+                {
+                    'title': 'CTA 1 title',
+                    'link': 'https://example.com/1/',
+                },
+            ],
+        ),
+    ),
+    ids=[
+        'all CTAs',
+        'two CTAs',
+        'One CTA',
+        'No CTAs',
+        'missing key fields',
+    ],
+)
+@pytest.mark.django_db
+def test_intro_ctas(
+    data,
+    expected,
+    domestic_homepage,
+    domestic_site,
+):
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        **data,
+    )
+    assert page.intro_ctas == expected
+
+
+@pytest.mark.parametrize(
+    'related_page_data',
+    (
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        ({'title': 'Article THREE', 'rel_name': 'related_page_three'},),
+        (),
+    ),
+    ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
+)
+@pytest.mark.django_db
+def test_related_pages(
+    related_page_data,
+    domestic_homepage,
+    domestic_site,
+):
+
+    kwargs = {}
+
+    for data in related_page_data:
+        kwargs[data['rel_name']] = ArticlePageFactory(article_title=data['title'])
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        **kwargs,
+    )
+    assert [x for x in page.related_pages] == [x for x in kwargs.values()]
+
+
+@pytest.mark.parametrize(
+    'blocks_to_create,expected_exception_message',
+    (
+        (1, 'There must be between two and six statistics in this panel'),
+        (2, None),
+        (3, None),
+        (4, None),
+        (5, None),
+        (6, None),
+        (7, 'There must be between two and six statistics in this panel'),
+    ),
+)
+def test_main_statistics_validation(blocks_to_create, expected_exception_message):
+    value = [mock.Mock() for x in range(blocks_to_create)]
+
+    if expected_exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            main_statistics_validation(value)
+            assert ctx.message == expected_exception_message
+    else:
+        try:
+            main_statistics_validation(value)  #
+        except Exception as e:
+            assert False, f'Should not have got a {e}'
+
+
+@pytest.mark.parametrize(
+    'blocks_to_create,expected_exception_message',
+    (
+        (1, None),
+        (2, None),
+        (3, None),
+        (4, None),
+        (5, None),
+        (6, None),
+        (7, 'There must be no more than six industry blocks in this panel'),
+    ),
+)
+def test_industry_accordions_validation(blocks_to_create, expected_exception_message):
+
+    value = [mock.Mock() for x in range(blocks_to_create)]
+
+    if expected_exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            industry_accordions_validation(value)
+            assert ctx.message == expected_exception_message
+    else:
+        try:
+            industry_accordions_validation(value)  #
+        except Exception as e:
+            assert False, f'Should not have got a {e}'
+
+
+# BaseContentPage is abstract but had some methods on it
+@pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
+def test_base_content_page__ancestors_in_app():
+    pass
+
+
+@pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
+def test_base_content_page__get_breadcrumbs():
+    pass

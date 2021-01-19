@@ -1,0 +1,45 @@
+
+// ARTICLE LIST PAGE
+// =================
+
+@import 'partials/colours';
+
+
+.article-list-page {
+
+  .number-display {
+    margin-left: 10px;
+  }
+
+  .information-banner {
+    background-color: $white;
+    border: solid $stone 2px;
+  }
+
+  .list-teaser {
+    padding: 2em 0;
+    line-height: 1.5;
+  }
+
+  .content-list li {
+    margin-bottom: 0;
+    padding-bottom: 1em;
+    border-bottom: 1px solid $light-grey;
+
+    &:last-child {
+      border: 0;
+    }
+
+    a {
+      display: inline-block;
+    }
+  }
+
+  .error-reporting {
+    padding-top: 30px;
+  }
+
+  .card-inner {
+    padding: 30px;
+  }
+}

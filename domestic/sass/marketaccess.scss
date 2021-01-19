@@ -1,0 +1,133 @@
+@import './partials/base';
+@import './components/form-wizard';
+
+.big-number-list {
+    margin: 40px 0;
+    list-style: none;
+    counter-reset: counter;
+    li {
+        position: relative;
+        counter-increment: counter;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 1.47em;
+        list-style: none;
+        margin: 0 0 45px 0;
+        padding: 0 0 0 100px;
+        overflow: hidden;
+        &:before {
+            content: counter(counter);
+            font-family: $brand-font-alternative;
+            font-size: 72px;
+            font-weight: bold;
+            line-height: 1.2em;
+            color: #1e1348;
+            left: 0;
+            min-width: 70px;
+            position: absolute;
+            text-align: center;
+            top: -8px;
+        }
+    }
+}
+
+.list.list-bullet {
+    margin: 0;
+
+    + p {
+        margin-top: 1em;
+    }
+}
+
+.list.list-bullet.list-bullet li:before {
+    background-color: #333;
+}
+
+.form-label {
+    padding-bottom: 15px;
+}
+
+.column-one-half a.button {
+    float: right;
+}
+
+.column-one-third img {
+    width: 100%;
+}
+
+.message-box {
+    margin-top: 90px;
+    margin-bottom: 0;
+    .box-description {
+        a {
+            display: block;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    }
+}
+
+.privacy-policy-text {
+    margin-top: 40px;
+}
+
+hr {
+    height: 4px;
+    background: #999999;
+    opacity: 0.2;
+}
+
+form {
+    #previous-button {
+        margin-top: 40px;
+        display: block;
+    }
+}
+
+#id_problem-details-product_service-container {
+    .form-label {
+        padding-bottom: 4px;
+    }
+}
+
+.form-hint {
+    padding-bottom: 15px;
+}
+
+.error-message-box {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+dt, dd {
+    margin: 15px 0;
+}
+
+p.lede + a.button {
+    margin-bottom: 20px;
+}
+
+.tickbox-with-options-help-text {
+    clear: both;
+    margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .report-barrier-image {
+       display: none;
+    }
+
+    .big-number-list {
+        li {
+            margin: 0 0 30px 0;
+            padding: 0 0 0 65px;
+
+            &:before {
+                font-size: 52px;
+                min-width: 50px;
+                top: -4px;
+            }
+        }
+    }
+
+}

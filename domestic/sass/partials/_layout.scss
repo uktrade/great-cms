@@ -1,0 +1,80 @@
+
+// COLUMN SIZES AND MULTIPLES
+
+// Set number of columns
+$columns: (100% / 12);
+
+// Some width variables if you need them
+$cols-half : #{($columns *  0.5)};
+$cols-1    : #{($columns *  1)};
+$cols-2    : #{($columns *  2)};
+$cols-3    : #{($columns *  3)};
+$cols-4    : #{($columns *  4)};
+$cols-5    : #{($columns *  5)};
+$cols-6    : #{($columns *  6)};
+$cols-7    : #{($columns *  7)};
+$cols-8    : #{($columns *  8)};
+$cols-9    : #{($columns *  9)};
+$cols-10   : #{($columns * 10)};
+$cols-11   : #{($columns * 11)};
+$cols-12   : #{($columns * 12)};
+
+// Add CSS to make the element (x)Number of columns wide.
+@mixin columns($multiples) {
+  float: left;
+  width: ($columns * $multiples);
+}
+
+// Add CSS to make the (x) number of elements sit on one row.
+@mixin items($multiples, $spacing) {
+  float: left;
+  margin-left: $spacing;
+  width: calc((100% - (#{$spacing} * #{$multiples - 1}))  / #{$multiples});
+  &:nth-child(#{$multiples}n+1) {
+    clear: left;
+    margin-left: 0;
+  }
+}
+
+// Add CSS to reset a block element to stretch across one row.
+@mixin items-1 {
+  float: none;
+  margin-left: 0;
+  width: auto;
+}
+
+// Some classes to add responsive sizing directly in templates.
+
+// DESKTOP ONLY
+@media (min-width: 768px) {
+  .lg-6 { @include items(6, $spacing-3); }
+  .lg-5 { @include items(5, $spacing-3); }
+  .lg-4 { @include items(4, $spacing-3); }
+  .lg-3 { @include items(3, $spacing-3); }
+  .lg-2 { @include items(2, $spacing-3); }
+  .lg-1 { @include items-1; }
+}
+
+// TABLET
+@media (max-width: 767px) {
+  .md-4 { @include items(4, $spacing-3); }
+  .md-3 { @include items(3, $spacing-3); }
+  .md-2 { @include items(2, $spacing-3); }
+  .md-1 { @include items-1; }
+}
+
+// MOBILE
+@media (max-width: 480px) {
+  .sm-4 { @include items(4, $spacing-4); }
+  .sm-3 { @include items(3, $spacing-4); }
+  .sm-2 { @include items(2, $spacing-4); }
+  .sm-1 { @include items-1; }
+}
+
+.clearfix {
+  clear: both;
+}
+
+section > .container {
+    overflow: inherit;
+}

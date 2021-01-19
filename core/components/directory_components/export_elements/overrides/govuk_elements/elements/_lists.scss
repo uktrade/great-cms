@@ -1,0 +1,29 @@
+@import '!elements/lists';
+@import '../../sass/partials/colours';
+
+.list.list-bullet {
+  margin: 0 0 1em;
+  list-style: none;
+
+  padding-left: 0;
+
+  &.list-bullet {
+    li {
+      position: relative;
+      list-style: none;
+      padding: 0 0 0 30px;
+    }
+
+    li::before {
+      background-color: $grey;
+      border-radius: 4px;
+      content: '';
+      display: inline-block;
+      height: 8px;
+      left: 0;
+      position: absolute;
+      top: 0.5em;
+      width: 8px;
+    }
+  }
+}

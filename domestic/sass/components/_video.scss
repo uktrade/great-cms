@@ -1,0 +1,84 @@
+
+// Homepage video
+// ===============
+
+
+// button on landing page hero
+.video-button {
+  @include button-ghost($white, transparent);
+  padding: 10px 60px;
+  position: relative;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: none;
+
+  &:hover,
+  &:focus {
+    background-color: #fff;
+  }
+
+  &:active:before {
+    top: 17px;
+    height: auto;
+  }
+
+  &:before {
+    border-bottom: 15px solid $white;
+    border-left: 15px solid transparent;
+    content: "";
+    display: block;
+    height: 0px;
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    transform: rotate(-45deg);
+    width: 0px;
+  }
+
+  &:focus,
+  &:hover,
+  &:link:focus {
+    color: $grey;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    &:before {
+      border-bottom-color: $grey;
+    }
+  }
+}
+
+.video-container {
+
+  iframe,
+  video {
+    width: 100%;
+    max-height: calc(100vh - 120px);
+
+    &:focus {
+      @include focus;
+    }
+  }
+
+  .content {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .close {
+    background: $white url(/static/images/icons/close.png) top right no-repeat;
+    border-radius: 15px;
+    border-width: 0;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -1000px;
+    padding: 0;
+    position: absolute;
+    right: $spacing-4;
+    top: $spacing-4;
+    width: 30px;
+    z-index: 1;
+  }
+}

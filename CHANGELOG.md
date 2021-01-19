@@ -9,6 +9,7 @@
 - GP2-1318 - Compare markets - refactor and loading twinkle
 - GP2-1265 - Compare markets - society data attribution
 - GP2-1258 - Compare markets - integrate society data
+- GP2-1284 - Port over CountryGuidePage from BAU, including base template, header, footer, etc
 - GP2-1270 - income data for economy tab
 - GP2-1259 - Styling for compare markets datatable from great-styles
 - GP2-1309 - Remove tooltips
