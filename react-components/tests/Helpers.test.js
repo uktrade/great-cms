@@ -1,4 +1,13 @@
-import { slugify, addItemToList, capitalize, isObject, get, mapArray } from '@src/Helpers'
+import {
+  slugify,
+  addItemToList,
+  capitalize,
+  isObject,
+  get,
+  mapArray,
+  getValue,
+  getLabel,
+} from '@src/Helpers'
 
 test('slugify', (done) => {
   const testStrings = [
@@ -129,4 +138,42 @@ test('mapArray', () => {
   const result = mapArray(arr, 'keyVal')
   expect(result.keyOne).toEqual(arr[0])
   expect(result.keyTwo.name).toEqual('value2')
+})
+
+describe('getLabel', () => {
+  it('Should return a label', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getLabel(list, 'd')).toEqual('days')
+  })
+
+  it('Should have no label', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getLabel(list, 'n')).toEqual('')
+    expect(getLabel(list, '')).toEqual('')
+  })
+})
+
+describe('getValue', () => {
+  it('Should return a value', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getValue(list, 'days')).toEqual('d')
+  })
+
+  it('Should have no value', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getValue(list, 'hour')).toEqual('')
+    expect(getValue(list, '')).toEqual('')
+  })
 })
