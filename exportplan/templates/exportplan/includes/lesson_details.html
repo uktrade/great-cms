@@ -9,7 +9,7 @@
         <p class="text-white h-s m-t-0">{{ lesson_details|get_item:lesson_name|get_item:'title' }}</p>
         <div class="text-white">
             <i class="fa fa-clock text-blue-deep-40 m-r-xs"></i>
-            <span class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'estimated_read_duration'|format_timedelta }} read</span>
+            <span class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'estimated_read_duration' }} read</span>
         </div>
     </div>
 </a>

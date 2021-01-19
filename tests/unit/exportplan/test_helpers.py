@@ -330,9 +330,15 @@ def test_target_market_documents_delete(mock_target_market_documents_delete):
 def test_get_all_lesson_details(curated_list_pages_with_lessons):
     lessons = helpers.get_all_lesson_details()
     assert lessons == {
-        'lesson-a1': {'topic_name': 'Some title', 'title': 'Lesson A1', 'estimated_read_duration': None, 'url': None},
-        'lesson-a2': {'topic_name': 'Some title', 'title': 'Lesson A2', 'estimated_read_duration': None, 'url': None},
-        'lesson-b1': {'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': None, 'url': None},
+        'lesson-a1': {
+            'topic_name': 'Some title', 'title': 'Lesson A1', 'estimated_read_duration': '2 hour 45 min', 'url': None
+        },
+        'lesson-a2': {
+            'topic_name': 'Some title', 'title': 'Lesson A2', 'estimated_read_duration': '12 min', 'url': None
+        },
+        'lesson-b1': {
+            'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': '10 min', 'url': None
+        },
     }
 
 

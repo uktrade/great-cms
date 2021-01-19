@@ -259,7 +259,7 @@ class ExportPlanAboutYourBusinessView(
     title = 'About your business'
 
 
-class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
+class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'Costs And Pricing'
 
@@ -274,6 +274,7 @@ class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
             self.export_plan
         )
         context['calculated_pricing'] = json.dumps(helpers.calculated_cost_pricing(self.export_plan))
+        print(context['lesson_details'])
         return context
 
 
