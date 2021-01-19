@@ -25,6 +25,7 @@ describe('Costs and Pricing Reducer', () => {
             profit_per_unit: 2,
             potential_total_profit: 4,
             gross_price_per_unit: 1,
+            estimated_costs_per_unit: 30,
           },
         })
       )
@@ -35,6 +36,7 @@ describe('Costs and Pricing Reducer', () => {
       profit_per_unit: 2,
       potential_total_profit: 4,
       gross_price_per_unit: 1,
+      estimated_costs_per_unit: 30,
     })
   })
 })

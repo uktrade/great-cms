@@ -102,7 +102,7 @@ export const CostsAndPricing = memo(
                 example={{
                   ...costPerUnit.example,
                   header: costPerUnit.example.header(
-                    data.estimated_costs_per_unit
+                    `${currency} ${data.estimated_costs_per_unit}`
                   ),
                 }}
               />
