@@ -59,10 +59,12 @@ export default (selectedProduct) => {
     columns: {
       total_population: {
         name: 'Total Population',
+        className: 'text-align-right',
         render: (data) => normaliseValues(data.total_population),
       },
       internet_usage: {
         name: 'Access to internet',
+        className: 'text-align-right',
         render: (data) =>
           data.internet_usage
             ? normaliseValues(`${data.internet_usage.value}%`)
@@ -70,16 +72,19 @@ export default (selectedProduct) => {
       },
       urban_population: {
         name: 'Living in urban areas',
+        className: 'text-align-right',
         render: (data) =>
           headingAndBody(data.urban_population_percentage_formatted),
       },
       rural_population: {
         name: 'Living in rural areas',
+        className: 'text-align-right',
         render: (data) =>
           headingAndBody(data.rural_population_percentage_formatted),
       },
       cpi: {
         name: 'Consumer Price Index',
+        className: 'text-align-right',
         render: (data) => get(data, 'cpi.value') || 'Data not available',
       },
     },
@@ -119,33 +124,40 @@ export default (selectedProduct) => {
     columns: {
       'world-import-value': {
         name: `Total ${selectedProduct.commodity_name.toLowerCase()} import value (USD)`,
+        className: 'text-align-right',
         render: (data) => getAndFormat(data, 'import_from_world.trade_value'),
       },
       'year-on-year-change': {
         name: `Year-to-year ${selectedProduct.commodity_name.toLowerCase()} import value change`,
+        className: 'text-align-right',
         render: (data) =>
           getAndFormat(data, 'import_from_world.year_on_year_change', '%'),
       },
       'uk-import-value': {
         name: `${selectedProduct.commodity_name} import value from the UK (USD)`,
+        className: 'text-align-right',
         render: (data) => getAndFormat(data, 'import_data_from_uk.trade_value'),
       },
       gdp: {
         name: 'GDP per capita(USD)',
+        className: 'text-align-right',
         render: (data) =>
           getAndFormat(data, 'country_data.gdp_per_capita.year_2019'),
       },
       'avg-income': {
         name: 'Avg income(USD)',
+        className: 'text-align-right',
         render: (data) => getAndFormat(data, 'country_data.income.value'),
       },
       'eod-business': {
         name: 'Ease of doing business rank',
+        className: 'text-align-right',
         render: (data) =>
           getAndFormat(data, 'country_data.ease_of_doing_bussiness.year_2019'),
       },
       cpi: {
         name: 'Corruption Perceptions Index',
+        className: 'text-align-right',
         render: (data) =>
           getAndFormat(data, 'country_data.corruption_perceptions_index.rank'),
       },
@@ -175,16 +187,17 @@ const societyTabConfig = {
     columns: {
       'religion': {
         name: 'Religion',
-        className: 'text-align-left align-top',
+        className: 'align-top',
         render: (data) => {return getEntries(get(data, 'religions.religion'), formatReligion)},
       },
       'language': {
         name: 'Languages',
-        className: 'text-align-left align-top',
+        className: 'align-top',
         render: (data) => {return getEntries(get(data, 'languages.language'), formatLanguage)},
       },
       'rule-of-law': {
-        name: 'Rule of law score align-top',
+        name: 'Rule of law score',
+        className: 'align-top',
         render: (data) => normaliseValues(get(data,'rule_of_law.score'))
       }
     },

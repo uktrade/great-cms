@@ -54,7 +54,7 @@ export default function DataTable(props) {
 
   const sourceAttribution = (attributions) => {
     return (
-      <p className="source-attribution body-s m-r-s">
+      <p className="source-attribution body-s m-r-s m-v-xs">
         {attributions.map((attribution) => {
           return (
             <React.Fragment key={`attr-${attribution.title}`}>
@@ -102,8 +102,7 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        <td className="p-v-xs name">
-          <div style={{ whiteSpace: 'nowrap' }}>
+        <td className="p-v-xs name nowrap">
             <button
               type="button"
               onClick={removeMarket}
@@ -116,7 +115,6 @@ export default function DataTable(props) {
             <span className="body-l-b" id={`market-${market.country_name}`}>
               {market.country_name}
             </span>
-          </div>
         </td>
         {countryRow}
       </tr>
