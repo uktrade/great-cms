@@ -44,11 +44,19 @@ PRODUCT_REQUIRED = [
     slugify(BUSINESS_RISK),
 ]
 
-# This maintains a collection of which pages require a lesson
+# This maintains a collection of which pages require a lesson, the order of these lessons corresponds to the order
+# on the UI page
 
 LESSONS = {
     ABOUT_YOUR_BUSINESS: ['move-accidental-exporting-strategic-exporting'],
-    COSTS_AND_PRICING: ['move-accidental-exporting-strategic-exporting'],
+    OBJECTIVES: ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+    MARKETING_APPROACH: ['sell-direct-your-customer'],
+    TARGET_MARKETS_RESEARCH: [
+        'quantifying-customer-demand-how-much-might-you-sell',
+        'using-what-you-know-to-help-inform-your-positioning-and-competitive-advantage',
+        'understand-market-trends',
+    ],
+    COSTS_AND_PRICING: ['sell-direct-your-customer2'],
 }
 
 SECTIONS = OrderedDict(
@@ -58,7 +66,6 @@ SECTIONS = OrderedDict(
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(ABOUT_YOUR_BUSINESS)}),
             'disabled': True if ABOUT_YOUR_BUSINESS in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(ABOUT_YOUR_BUSINESS, []),
-
         },
         slugify(OBJECTIVES): {
             'title': OBJECTIVES,
@@ -88,7 +95,7 @@ SECTIONS = OrderedDict(
             'title': COSTS_AND_PRICING,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(COSTS_AND_PRICING)}),
             'disabled': True if COSTS_AND_PRICING in SECTIONS_DISABLED else False,
-            'lessons': LESSONS.get(COSTS_AND_PRICING, [])
+            'lessons': LESSONS.get(COSTS_AND_PRICING, []),
         },
         slugify(FINANCE): {
             'title': FINANCE,

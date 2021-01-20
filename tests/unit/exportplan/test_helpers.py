@@ -334,7 +334,7 @@ def test_get_lesson_details(curated_list_pages_with_lessons):
         'lesson-a1': {
             'category': 'Some title',
             'title': 'Lesson A1',
-            'read_duration': '2 hour 45 min',
+            'duration': '2 hour 45 min',
             'url': None,
         },
         'lesson-a2': {
@@ -350,33 +350,23 @@ def test_get_lesson_details(curated_list_pages_with_lessons):
             'url': None,
         },
     }
+
 
 @pytest.mark.django_db
 def test_get_lesson_details_empty(curated_list_pages_with_lessons):
     lesson_list = []
     lessons = helpers.get_lesson_details(lesson_list)
-    assert lessons == {
-        'lesson-a1': {
-            'category': 'Some title',
-            'title': 'Lesson A1',
-            'read_duration': '2 hour 45 min',
-            'url': None,
-        },
-        'lesson-a2': {
-            'category': 'Some title',
-            'title': 'Lesson A2',
-            'duration': '12 min',
-            'url': None,
-        },
-        'lesson-b1': {
-            'category': 'Some title b',
-            'title': 'Lesson b1',
-            'duration': '10 min',
-            'url': None,
-        },
-    }
+    assert lessons == {}
 
-@pytest.mark.parametrize(
+
+@pytest.mark.django_db
+def test_get_lesson_details_no_found(curated_list_pages_with_lessons):
+    lesson_list = ['ewkjhewfk']
+    lessons = helpers.get_lesson_details(lesson_list)
+    assert lessons == {}
+
+
+@pytest.mark.paramcetrize(
     'export_plan_data, expected',
     [
         [{'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]}, None],

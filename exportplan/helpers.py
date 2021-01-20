@@ -201,13 +201,14 @@ def get_check_duties_link(export_plan):
 
 def get_lesson_details(lessons):
     lessons_details = {}
-    for lesson in models.DetailPage.objects.live().filter(slug__in=lessons):
-        lessons_details[lesson.slug] = {
-            'category': lesson.topic_title,
-            'title': lesson.title,
-            'duration': format_timedelta(lesson.estimated_read_duration),
-            'url': lesson.url,
-        }
+    if len(lessons) > 0:
+        for lesson in models.DetailPage.objects.live().filter(slug__in=lessons):
+            lessons_details[lesson.slug] = {
+                'category': lesson.topic_title,
+                'title': lesson.title,
+                'duration': format_timedelta(lesson.estimated_read_duration),
+                'url': lesson.url,
+            }
     return lessons_details
 
 
