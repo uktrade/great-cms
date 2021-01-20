@@ -40,7 +40,7 @@
 - GP2-285 - cost and price be
 - GP2-1323 - enable ep sections
 - GP2-1321 - add TM  learning component
-
+- GP2-1306 - learning data
 ### Fixed bugs
 
 - No ticket - Remove tooltip from languages panel on adaptation for tarket market

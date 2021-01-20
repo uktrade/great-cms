@@ -259,7 +259,7 @@ class ExportPlanAboutYourBusinessView(
     title = 'About your business'
 
 
-class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
+class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'Costs And Pricing'
 

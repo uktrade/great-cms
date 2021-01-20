@@ -1,3 +1,4 @@
+from datetime import timedelta
 from unittest import mock
 
 import pytest
@@ -26,12 +27,14 @@ def curated_list_pages_with_lessons(domestic_homepage):
         parent=topic_for_clp_a,
         title='Lesson A1',
         slug='lesson-a1',
+        estimated_read_duration=timedelta(hours=2, minutes=45),
     )
     LessonPlaceholderPageFactory(parent=topic_for_clp_a, title='Placeholder One')
     lesson_a2 = learn_factories.LessonPageFactory(
         parent=topic_for_clp_a,
         title='Lesson A2',
         slug='lesson-a2',
+        estimated_read_duration=timedelta(minutes=12),
     )
 
     clp_b = CuratedListPageFactory(
@@ -44,6 +47,7 @@ def curated_list_pages_with_lessons(domestic_homepage):
         parent=topic_for_clp_b,
         title='Lesson b1',
         slug='lesson-b1',
+        estimated_read_duration=timedelta(minutes=9.38),
     )
 
     return [(clp_a, [lesson_a1, lesson_a2]), (clp_b, [lesson_b1])]

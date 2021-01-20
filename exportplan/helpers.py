@@ -2,6 +2,7 @@ import pytz
 from iso3166 import countries_by_alpha3
 
 from core import models
+from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
 from exportplan import data, serializers
 
@@ -204,7 +205,7 @@ def get_all_lesson_details():
         lessons[lesson.slug] = {
             'topic_name': lesson.topic_title,
             'title': lesson.title,
-            'estimated_read_duration': lesson.estimated_read_duration,
+            'estimated_read_duration': format_timedelta(lesson.estimated_read_duration),
             'url': lesson.url,
         }
     return lessons
