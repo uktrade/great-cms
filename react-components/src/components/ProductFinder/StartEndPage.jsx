@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ClassificationTree from './ClassificationTree'
 import SearchInput from './SearchInput'
+import { analytics } from '../../Helpers'
 
 const checkChars = /^[a-zA-Z0-9\s~!@#£$%°^&*()-_+={}[\]|\\/:;"'<>,.?]*$/
 const testInput = /[a-zA-Z]+/
@@ -29,6 +30,11 @@ export default function StartEndPage(props) {
   const saveNamedProduct = () => {
     if (commodityCode && nameOkToSave(commodityName)) {
       saveProduct(commodityCode, commodityName.trim())
+      if (!allowSaveSameName) {
+        analytics({
+          event:'updateProductName',
+        })
+      }
     }
   }
 
