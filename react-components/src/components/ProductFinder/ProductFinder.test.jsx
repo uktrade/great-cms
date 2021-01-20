@@ -46,6 +46,7 @@ const mockResponse = {
           id: 'attrId2',
           name: 'name_2',
           value: 'false',
+          def: 'definition text'
         }
       ]
     }
@@ -130,6 +131,10 @@ describe('Product finder tests', () => {
     expect(radios[1].closest('label').textContent).toMatch('Name 2')
     const interactionName = radios[1].closest('.interaction').querySelector('.interaction-name')
     expect(interactionName.textContent).toMatch('Current question')
+    const definitionExpanders = finder.querySelectorAll('button.info')
+    expect(definitionExpanders.length).toEqual(1)
+    const panel = definitionExpanders[0].closest('label').querySelector('.g-panel') 
+    expect(panel.textContent).toMatch('definition text')
   })
 
   it('Back-tracks search', async () => {
