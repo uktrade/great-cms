@@ -34,6 +34,8 @@ export const CostsAndPricing = memo(
     initialData,
     currencies,
     init,
+    lesson_details,
+    currentSection,
   }) => {
     useState(() => {
       init({
@@ -130,6 +132,7 @@ export const CostsAndPricing = memo(
                 prepend={currency}
                 description={`<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the ${country}</h2><p class="m-t-xs">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ${country}</p>`}
                 {...localTaxes}
+                lesson={lesson_details[currentSection.lessons[0]]}
               />
               <Input
                 onChange={(x) => onChange(x, duty)}
