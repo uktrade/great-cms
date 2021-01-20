@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { Tooltip } from '@components/tooltip/Tooltip'
 import { isArray, isObject, mapArray } from '../../Helpers'
 
 let cache = {}
@@ -126,12 +127,21 @@ export default function DataTable(props) {
       <table className="m-v-0 border-blue-deep-20 valign-middle">
         <thead>
           <tr>
-            <th className="body-s-b">&nbsp;</th>
+            <th className="body-l-b">&nbsp;</th>
             {Object.keys(config.columns).map((columnKey) => {
               const cellConfig = config.columns[columnKey]
               return (
-                <th className={`body-s-b ${columnKey} ${cellConfig.className || ''}`} key={columnKey}>
+                <th className={`body-l-b ${columnKey} ${cellConfig.className || ''}`} key={columnKey}>
                   {config.columns[columnKey].name}
+                  {config.columns[columnKey].tooltip && (
+                    <div>
+                      <Tooltip title={cellConfig.tooltip.title} 
+                        content={cellConfig.tooltip.content} 
+                        position={cellConfig.tooltip.position}
+                        className="text-align-left body-m"
+                      />
+                    </div>
+                  )}
                 </th>
               )
             })}
