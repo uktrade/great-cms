@@ -64759,7 +64759,7 @@ module.exports = function(originalModule) {
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
   \*****************************************/
-/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, isArray, get, mapArray, getLabel, getValue */
+/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, isArray, get, mapArray, getLabel, getValue, formatLessonLearned */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64776,6 +64776,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapArray", function() { return mapArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLabel", function() { return getLabel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return getValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatLessonLearned", function() { return formatLessonLearned; });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -64895,6 +64896,12 @@ var getValue = function getValue(list, selected) {
     return x.label === selected;
   });
   return selected && hasLabel ? hasLabel.value : '';
+};
+
+var formatLessonLearned = function formatLessonLearned(lesson, section, id) {
+  return _objectSpread(_objectSpread({}, lesson[section.lessons[id]]), {}, {
+    url: "".concat(lesson[section.lessons[id]].url, "?return-link=").concat(section.url)
+  });
 };
 
 
@@ -67519,6 +67526,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Units__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Units */ "./react-components/src/components/CostsAndPricing/Units/index.jsx");
 /* harmony import */ var _GrossPrice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GrossPrice */ "./react-components/src/components/CostsAndPricing/GrossPrice/index.jsx");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./constants */ "./react-components/src/components/CostsAndPricing/constants.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -67526,6 +67534,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -67548,7 +67557,6 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       init = _ref.init,
       lesson_details = _ref.lesson_details,
       currentSection = _ref.currentSection;
-  debugger;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
     init(_objectSpread(_objectSpread(_objectSpread({}, totals), initialData), {}, {
       units: units,
@@ -67635,7 +67643,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     prepend: currency,
     description: "<h2 class=\"h-xs p-t-0 p-b-0\">Local taxes and charges in the ".concat(country, "</h2><p class=\"m-t-xs\">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ").concat(country, "</p>")
   }, _constants__WEBPACK_IMPORTED_MODULE_7__["localTaxes"], {
-    lesson: lesson_details[currentSection.lessons[0]]
+    lesson: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_8__["formatLessonLearned"])(lesson_details, currentSection, 0)
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
       return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_7__["duty"]);
