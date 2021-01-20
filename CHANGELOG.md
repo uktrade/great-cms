@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1340 - Analytics - product name relabelled
 - GP2-1339 - Analytics - search again
 - GP2-341 - Adaptation language info and stats update
 - GP2-1270 - income data for economy tab

@@ -80,7 +80,7 @@ export default function ProductFinderModal(props) {
     if (searchResults) {
       analytics({
         event: 'addProductSuccess',
-        productKeyword: capitalize(searchResults.productDescription),
+        productKeyword: commodityName,
         productCode: commodityCode,
       })
     }
