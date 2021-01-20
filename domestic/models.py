@@ -50,6 +50,33 @@ class BaseContentPage(Page):
         return retval
 
 
+class VariableTemplateMixin(Page):
+    """Mixin to be used for Page subclasses that can have mulutple"""
+
+    # Follows the same pattern as core.models.CMSGenericPage
+    class Meta:
+        abstract = True
+
+    is_creatable = False  # Only applies to this class, not its subclasses
+    template_choices = []
+
+    template = models.CharField(
+        max_length=255,
+        choices=None,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # set up the `template` field
+        field = self._meta.get_field('template')
+        field.choices = self.template_choices
+        field.required = True
+
+    def get_template(self, request, *args, **kwargs):
+        return self.template
+
+
 class DomesticHomePage(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
@@ -113,6 +140,45 @@ class DomesticDashboard(
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
+
+
+class TopicLandingPage(
+    cms_panels.TopicLandingPagePanels,
+    VariableTemplateMixin,
+    BaseContentPage,
+):
+    parent_page_types = [
+        'domestic.DomesticHomePage',
+    ]
+
+    subpage_types = [
+        'domestic.ArticleListingPage',
+        'domestic.CountryGuidePage',
+        'domestic.ArticlePage',
+    ]
+
+    # for VariableTemplateMixin
+    template_choices = (
+        ('domestic/topic_landing_pages/advice.html', '"Advice" topic page'),
+        ('domestic/topic_landing_pages/market.html', '"Markets" topic page'),
+    )
+
+    # `title` field comes from Page->BaseContentPage
+
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_teaser = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    banner_text = RichTextField(blank=True)
+    teaser = models.TextField(blank=True)
 
 
 def main_statistics_validation(value):

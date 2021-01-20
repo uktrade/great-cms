@@ -323,3 +323,39 @@ class CountryGuidePagePanels:
         FieldPanel('tags', widget=CheckboxSelectMultiple),
         FieldPanel('country'),
     ]
+
+
+class TopicLandingPagePanels:
+
+    content_panels = [
+        MultiFieldPanel(
+            heading='Page Template',
+            children=[
+                HelpPanel(
+                    content=(
+                        'Select the type of layout this topic landing page will use. '
+                        'There can only be one of each layout in use in the system.'
+                    ),
+                ),
+                FieldPanel('template'),
+            ],
+        ),
+        FieldPanel('title'),
+        MultiFieldPanel(
+            heading='Hero',
+            children=[
+                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_teaser'),
+            ],
+        ),
+        FieldPanel(
+            'banner_text',
+            help_text='Use this field to change the text displayed in the banner, if the page has one.',
+        ),
+        FieldPanel('teaser'),
+        SearchEngineOptimisationPanel(),
+    ]
+
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
