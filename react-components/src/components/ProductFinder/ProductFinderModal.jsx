@@ -156,6 +156,9 @@ export default function ProductFinderModal(props) {
   const backToSearch = () => {
     setSearching(true)
     renderSearchResults()
+    analytics({
+      event:'SearchProductAgain',
+    })
   }
 
   const Section = (title, sectionDetails) => {
