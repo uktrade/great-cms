@@ -73,3 +73,4 @@ ComparisonTables.propTypes = {
   triggerButton: PropTypes.instanceOf(Object).isRequired,
 }
 
+

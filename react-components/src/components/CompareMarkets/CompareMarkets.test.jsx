@@ -183,8 +183,13 @@ afterEach(() => {
 })
 
 it('Forces product chooser when no product', () => {
-  container.innerHTML =
-    '<span id="compare-market-container" data-productname="" data-productcode=""></span>'
+
+  container.innerHTML = '<span id="compare-market-container" ></span>'
+  const dataTabs = '{ "population": true, "economy": true, "society": true }'
+  container
+    .querySelector('#compare-market-container')
+    .setAttribute('data-tabs', dataTabs)
+
   act(() => {
     CompareMarkets({ element: container.querySelector('span') })
   })
