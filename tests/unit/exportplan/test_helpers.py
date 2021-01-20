@@ -366,7 +366,7 @@ def test_get_lesson_details_no_found(curated_list_pages_with_lessons):
     assert lessons == {}
 
 
-@pytest.mark.paramcetrize(
+@pytest.mark.parametrize(
     'export_plan_data, expected',
     [
         [{'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}]}, None],

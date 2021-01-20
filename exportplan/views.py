@@ -275,6 +275,7 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
             self.export_plan
         )
         context['calculated_pricing'] = json.dumps(helpers.calculated_cost_pricing(self.export_plan))
+        print(context['lesson_details'])
         return context
 
 

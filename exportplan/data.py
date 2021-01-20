@@ -56,7 +56,11 @@ LESSONS = {
         'using-what-you-know-to-help-inform-your-positioning-and-competitive-advantage',
         'understand-market-trends',
     ],
-    COSTS_AND_PRICING: ['sell-direct-your-customer2'],
+    COSTS_AND_PRICING: [
+        'understand-services-rules-and-regulations',
+        'understand-services-rules-and-regulations',
+        'managing-exchange-rates'
+    ],
 }
 
 SECTIONS = OrderedDict(
