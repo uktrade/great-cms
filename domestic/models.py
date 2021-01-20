@@ -147,6 +147,10 @@ class TopicLandingPage(
     VariableTemplateMixin,
     BaseContentPage,
 ):
+    """Structural page with limited content, intended for use at
+    /advice/ and /markets/, for instance
+    """
+
     parent_page_types = [
         'domestic.DomesticHomePage',
     ]
@@ -211,7 +215,9 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.DomesticHomePage',
+        'domestic.TopicLandingPage',
     ]
+
     subpage_types = [
         'domestic.ArticleListingPage',
         'domestic.ArticlePage',
@@ -477,6 +483,7 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
+        'domestic.TopicLandingPage',
     ]
     subpage_types = []
 
@@ -562,6 +569,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
+        'domestic.TopicLandingPage',
     ]
 
     subpage_types = [

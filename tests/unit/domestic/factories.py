@@ -8,6 +8,7 @@ from domestic.models import (
     CountryGuidePage,
     DomesticDashboard,
     DomesticHomePage,
+    TopicLandingPage,
 )
 
 
@@ -67,3 +68,17 @@ class ArticlePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = ArticlePage
+
+
+class TopicLandingPageFactory(wagtail_factories.PageFactory):
+    # Note the subclasses of this factory, below
+    class Meta:
+        model = TopicLandingPage
+
+
+class AdviceTopicLandingPageFactory(TopicLandingPageFactory):
+    template = 'domestic/topic_landing_pages/advice.html'
+
+
+class MarketsTopicLandingPageFactory(TopicLandingPageFactory):
+    template = 'domestic/topic_landing_pages/markets.html'
