@@ -43,6 +43,7 @@
 - GP2-1306 - learning data
 ### Fixed bugs
 
+- No ticket - Next lesson button showing blue underline
 - No ticket - Remove tooltip from languages panel on adaptation for tarket market
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
