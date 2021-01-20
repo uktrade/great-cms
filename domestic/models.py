@@ -164,7 +164,7 @@ class TopicLandingPage(
     # for VariableTemplateMixin
     template_choices = (
         ('domestic/topic_landing_pages/advice.html', '"Advice" topic page'),
-        ('domestic/topic_landing_pages/market.html', '"Markets" topic page'),
+        ('domestic/topic_landing_pages/markets.html', '"Markets" topic page'),
     )
 
     # `title` field comes from Page->BaseContentPage
@@ -183,6 +183,19 @@ class TopicLandingPage(
     )
     banner_text = RichTextField(blank=True)
     teaser = models.TextField(blank=True)
+
+    def clean(self, *args, **kwargs):
+
+        cleaned = super().clean(*args, **kwargs)
+
+        if TopicLandingPage.objects.exclude(id=self.id).filter(template=self.template).exists():
+            raise ValidationError(
+                'A TopicListingPage using this layout '
+                'template already exists. '
+                'There can be only one of each type in use.'
+            )
+
+        return cleaned
 
 
 def main_statistics_validation(value):

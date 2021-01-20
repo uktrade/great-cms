@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from django.core.exceptions import ValidationError
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
@@ -26,10 +27,12 @@ from tests.unit.core.factories import (
     TopicPageFactory,
 )
 from .factories import (
+    AdviceTopicLandingPageFactory,
     ArticlePageFactory,
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
+    MarketsTopicLandingPageFactory,
 )
 
 
@@ -543,3 +546,18 @@ class TopicLandingPageTests(WagtailPageTests):
         homepage.add_child(instance=markets_topic_page)
         retrieved_page_2 = TopicLandingPage.objects.get(id=markets_topic_page.id)
         self.assertEqual(retrieved_page_2.slug, 'markets')
+
+    def test_single_use_of_a_template_is_enforced(self):
+        for _factory in [AdviceTopicLandingPageFactory, MarketsTopicLandingPageFactory]:
+            _factory(title="one")
+            with self.assertRaises(ValidationError) as ctx:
+                _factory(title="two")
+
+                self.assertEqual(
+                    ctx.message,
+                    (
+                        'A TopicListingPage using this layout '
+                        'template already exists. '
+                        'There can be only one of each type in use.'
+                    ),
+                )
