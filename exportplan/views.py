@@ -66,7 +66,8 @@ class ExportPlanMixin:
 class LessonDetailsMixin:
     @property
     def lesson_details(self):
-        return helpers.get_all_lesson_details()
+        lessons = self.current_section['lessons']
+        return helpers.get_lesson_details(lessons)
 
     def get_context_data(self, **kwargs):
 

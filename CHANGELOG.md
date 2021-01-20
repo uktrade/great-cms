@@ -41,6 +41,8 @@
 - GP2-1323 - enable ep sections
 - GP2-1321 - add TM  learning component
 - GP2-1306 - learning data
+- GP2-1168 - export plan lessons
+
 ### Fixed bugs
 
 - No ticket - Remove tooltip from languages panel on adaptation for tarket market
