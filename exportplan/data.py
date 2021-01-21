@@ -59,7 +59,7 @@ LESSONS = {
     COSTS_AND_PRICING: [
         'understand-services-rules-and-regulations',
         'understand-services-rules-and-regulations',
-        'managing-exchange-rates'
+        'managing-exchange-rates',
     ],
 }
 
