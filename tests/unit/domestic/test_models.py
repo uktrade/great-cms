@@ -27,6 +27,7 @@ from tests.unit.core.factories import (
     TopicPageFactory,
 )
 from .factories import (
+    AdviceTopicLandingPageFactory,
     ArticlePageFactory,
     CountryGuidePageFactory,
     DomesticDashboardFactory,
@@ -498,13 +499,66 @@ def test_industry_accordions_validation(blocks_to_create, expected_exception_mes
 
 
 # BaseContentPage is abstract but had some methods on it
+
+
+@pytest.mark.django_db
+def test_base_content_page__ancestors_in_app(
+    domestic_homepage,
+    domestic_site,
+):
+
+    advice_topic_page = AdviceTopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+    )
+
+    article_page = ArticlePageFactory(
+        article_title='test article',
+        parent=advice_topic_page,
+    )
+
+    assert article_page.get_ancestors_in_app() == [
+        # NB: domestic homepage is deliberately NOT in this list
+        advice_topic_page.page_ptr,
+        # NB: article_page is deliberately NOT in this list
+    ]
+
+
 @pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
-def test_base_content_page__ancestors_in_app():
+def test_base_content_page__ancestors_in_app__involving_folder_pages():
     pass
 
 
+@pytest.mark.django_db
+def test_base_content_page__get_breadcrumbs(
+    domestic_homepage,
+    domestic_site,
+):
+    advice_topic_page = AdviceTopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+    )
+
+    article_page = ArticlePageFactory(
+        article_title='test article',
+        parent=advice_topic_page,
+    )
+    assert article_page.get_breadcrumbs() == [
+        # NB: domestic homepage is deliberately NOT in this list
+        {
+            'title': advice_topic_page.title,
+            'url': advice_topic_page.url,
+        },
+        {
+            'title': article_page.title,
+            'url': article_page.url,
+        }
+        # NB: article_page IS in this list
+    ]
+
+
 @pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
-def test_base_content_page__get_breadcrumbs():
+def test_base_content_page__get_breadcrumbs__using_breadcrumbs_label_field():
     pass
 
 

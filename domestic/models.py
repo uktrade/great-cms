@@ -29,16 +29,20 @@ class BaseContentPage(Page):
 
     def get_ancestors_in_app(self):
         """
-        Starts at 1 to exclude the root page and the app page.
+        Starts at 2 to exclude the root page and the homepage (which is fixed/static/mandatory).
         Ignores 'folder' pages.
         """
-        ancestors = self.get_ancestors()[1:]
+        ancestors = self.get_ancestors()[2:]
 
-        return [page for page in ancestors if not page.specific_class.folder_page]
+        return [
+            page
+            for page in ancestors
+            if (not hasattr(page.specific_class, 'folder_page') or not page.specific_class.folder_page)
+        ]
 
-    def get_breadcrumbs(self, instance):
-        breadcrumbs = [page.specific for page in instance.specific.get_ancestors_in_app()]
-        breadcrumbs.append(instance)
+    def get_breadcrumbs(self):
+        breadcrumbs = [page.specific for page in self.specific.get_ancestors_in_app()]
+        breadcrumbs.append(self)
         retval = []
 
         for crumb in breadcrumbs:
@@ -56,6 +60,7 @@ class DomesticHomePage(
     mixins.AnonymousUserRequired,
     Page,
 ):
+
     body = RichTextField(null=True, blank=True)
     button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
     image = models.ForeignKey(
