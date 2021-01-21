@@ -157,7 +157,7 @@ export default function ProductFinderModal(props) {
     setSearching(true)
     renderSearchResults()
     analytics({
-      event:'SearchProductAgain',
+      event:'searchProductAgain',
     })
   }
 
