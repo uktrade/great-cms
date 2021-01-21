@@ -22,6 +22,7 @@ import {
   grossPriceCurrency,
 } from './constants'
 import { formatLessonLearned } from '@src/Helpers'
+import { LessonLearn } from '@src/components/LessonLearn'
 
 export const CostsAndPricing = memo(
   ({
@@ -38,7 +39,6 @@ export const CostsAndPricing = memo(
     lesson_details,
     currentSection,
   }) => {
-    debugger
     useState(() => {
       init({
         ...totals,
@@ -154,6 +154,11 @@ export const CostsAndPricing = memo(
               <div className="c-1-4">&nbsp;</div>
               <div className="c-1-1 c-2-3-m c-1-2-xl">
                 <GrossPrice
+                  lesson={formatLessonLearned(
+                    lesson_details,
+                    currentSection,
+                    2
+                  )}
                   country={country}
                   currency={currency}
                   GrossPriceUnit={data.gross_price_per_unit}
