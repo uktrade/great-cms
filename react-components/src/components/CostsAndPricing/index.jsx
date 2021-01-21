@@ -142,6 +142,7 @@ export const CostsAndPricing = memo(
                 hideLabel
                 prepend={currency}
                 {...duty}
+                lesson={formatLessonLearned(lesson_details, currentSection, 1)}
               />
             </div>
             <div className="c-1-12-m c-1-4-xl">&nbsp;</div>
