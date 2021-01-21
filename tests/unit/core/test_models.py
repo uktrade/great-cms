@@ -3,6 +3,7 @@ from unittest import mock
 
 import pytest
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.test import TestCase
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Collection
@@ -590,6 +591,35 @@ class TestSmallSnippets(TestCase):
         self.assertEqual(country_unicode.slug, 'tt-country')
         self.assertEqual(country_unicode.region, None)
         self.assertEqual(f'{country_unicode}', 'Téßt Country')  #  tests __str__
+
+    def test_country_sets_slug_on_save(self):
+        country = Country.objects.create(name='Test Country')
+        country.refresh_from_db()
+        self.assertEqual(country.slug, 'test-country')
+
+        # Slug is set only on first save, if not already set
+        country_2 = Country.objects.create(name='Another Country')
+        self.assertEqual(country_2.slug, 'another-country')
+        country_2.name = 'Changed country name'
+        country_2.save()
+        country_2.refresh_from_db()
+        self.assertEqual(
+            country_2.slug,
+            'another-country',
+            'Slug should not have changed',
+        )
+
+        # Can specify slug up-front
+        country_3 = Country.objects.create(
+            name='Country Three',
+            slug='somewhere',
+        )
+        country_3.refresh_from_db()
+        self.assertEqual(country_3.slug, 'somewhere')
+
+        # Can't reuse slug
+        with self.assertRaises(IntegrityError):
+            Country.objects.create(name='Test Country')
 
     def test_product(self):
         product = Product.objects.create(name='Test Product')

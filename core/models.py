@@ -8,6 +8,7 @@ from django.db import models
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from great_components.mixins import GA360Mixin
@@ -173,7 +174,15 @@ class Country(models.Model):
 
     panels = [
         FieldPanel('name'),
+        FieldPanel('region'),
     ]
+
+    def save(self, *args, **kwargs):
+        # Automatically set slug on save, if not already set
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
