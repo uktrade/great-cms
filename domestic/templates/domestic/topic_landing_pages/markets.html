@@ -1,0 +1,51 @@
+{% extends 'domestic/base.html' %}
+
+{% load static %}
+
+{% block head_title %}Markets - great.gov.uk{% endblock %}
+
+{% block css_layout_class %}article-list-page{% endblock css_layout_class %}
+
+{% block content %}
+
+{% block hero %}
+  {% include 'components/hero.html' with image=page.hero_image hero_text="Markets" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="container">
+  {% include 'components/breadcrumbs_cms.html' %}
+</div>
+{% endblock %}
+
+{% if page.teaser %}
+<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-bottom-60-m padding-top-15-m">
+    <div class="container">
+      <div class="grid-row margin-top-30 margin-top-45-m">
+        <div class="column-full column-two-thirds-l font-medium">
+          {{ page.teaser }}
+        </div>
+      </div>
+    </div>
+</section>
+{% endif %}
+
+{% block child_pages %}
+<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing">
+    <div class="container">market content goes here</div>
+</section>
+{% endblock %}
+
+{% endblock %}
+
+{% block body_js %}
+{{ block.super }}
+<script src="{% static 'js/marketFilters.js' %}"></script>
+{% comment "Disabled until we add the filtering functionality" %}
+<script>
+  $(function() {
+    marketFilters.init();
+  });
+</script>
+{% endcomment %}
+{% endblock %}
