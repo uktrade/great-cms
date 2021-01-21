@@ -132,6 +132,12 @@ GrossPrice.propTypes = {
   profitPerUnit: PropTypes.string.isRequired,
   potentialPerUnit: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
+  lesson: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string,
+  }).isRequired,
   input: PropTypes.shape({
     label: PropTypes.string,
     id: PropTypes.string,
@@ -146,9 +152,11 @@ GrossPrice.propTypes = {
     name: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
-    options: PropTypes.arrayOf({
-      value: PropTypes.string,
-      label: PropTypes.string,
-    }).isRequired,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+      })
+    ).isRequired,
   }).isRequired,
 }

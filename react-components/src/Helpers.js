@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const slugify = (string) => {
   return string
     .toLowerCase()
@@ -105,7 +103,7 @@ const formatLessonLearned = (lesson, section, id) =>
         ...lesson[section.lessons[id]],
         url: `${lesson[section.lessons[id]].url}?return-link=${section.url}`,
       }
-    : ''
+    : {}
 
 export {
   slugify,
