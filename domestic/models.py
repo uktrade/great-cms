@@ -50,33 +50,6 @@ class BaseContentPage(Page):
         return retval
 
 
-class VariableTemplateMixin(Page):
-    """Mixin to be used for Page subclasses that can have mulutple"""
-
-    # Follows the same pattern as core.models.CMSGenericPage
-    class Meta:
-        abstract = True
-
-    is_creatable = False  # Only applies to this class, not its subclasses
-    template_choices = []
-
-    template = models.CharField(
-        max_length=255,
-        choices=None,
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        # set up the `template` field
-        field = self._meta.get_field('template')
-        field.choices = self.template_choices
-        field.required = True
-
-    def get_template(self, request, *args, **kwargs):
-        return self.template
-
-
 class DomesticHomePage(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
@@ -142,30 +115,17 @@ class DomesticDashboard(
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
 
 
-class TopicLandingPage(
-    cms_panels.TopicLandingPagePanels,
-    VariableTemplateMixin,
-    BaseContentPage,
-):
+class TopicLandingBasePage(BaseContentPage):
     """Structural page with limited content, intended for use at
     /advice/ and /markets/, for instance
     """
 
+    class Meta:
+        abstract = True
+
     parent_page_types = [
         'domestic.DomesticHomePage',
     ]
-
-    subpage_types = [
-        'domestic.ArticleListingPage',
-        'domestic.CountryGuidePage',
-        'domestic.ArticlePage',
-    ]
-
-    # for VariableTemplateMixin
-    template_choices = (
-        ('domestic/topic_landing_pages/advice.html', '"Advice" topic page'),
-        ('domestic/topic_landing_pages/markets.html', '"Markets" topic page'),
-    )
 
     # `title` field comes from Page->BaseContentPage
 
@@ -184,18 +144,32 @@ class TopicLandingPage(
     banner_text = RichTextField(blank=True)
     teaser = models.TextField(blank=True)
 
-    def clean(self, *args, **kwargs):
 
-        cleaned = super().clean(*args, **kwargs)
+class AdviceTopicLandingPage(
+    cms_panels.AdviceTopicLandingPagePanels,
+    TopicLandingBasePage,
+):
+    """Singleton page intended for use as the top of the Advice section"""
 
-        if TopicLandingPage.objects.exclude(id=self.id).filter(template=self.template).exists():
-            raise ValidationError(
-                'A TopicListingPage using this layout '
-                'template already exists. '
-                'There can be only one of each type in use.'
-            )
+    template = 'domestic/topic_landing_pages/advice.html'
 
-        return cleaned
+    subpage_types = [
+        'domestic.ArticleListingPage',
+        'domestic.ArticlePage',
+    ]
+
+
+class MarketsTopicLandingPage(
+    cms_panels.MarketsTopicLandingPagePanels,
+    TopicLandingBasePage,
+):
+    """Singleton page intended for use as the top of the Markets section"""
+
+    template = 'domestic/topic_landing_pages/markets.html'
+
+    subpage_types = [
+        'domestic.CountryGuidePage',
+    ]
 
 
 def main_statistics_validation(value):
@@ -227,8 +201,8 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     template = 'domestic/content/country_guide.html'
 
     parent_page_types = [
-        'domestic.DomesticHomePage',
-        'domestic.TopicLandingPage',
+        'domestic.DomesticHomePage',  # TODO: remove this
+        'domestic.MarketsTopicLandingPage',
     ]
 
     subpage_types = [
@@ -496,7 +470,8 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
-        'domestic.TopicLandingPage',
+        'domestic.ArticleListingPage',
+        'domestic.AdviceTopicLandingPage',
     ]
     subpage_types = []
 
@@ -582,7 +557,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
-        'domestic.TopicLandingPage',
+        'domestic.AdviceTopicLandingPage',
     ]
 
     subpage_types = [

@@ -325,21 +325,9 @@ class CountryGuidePagePanels:
     ]
 
 
-class TopicLandingPagePanels:
+class TopicLandingPageBasePanels:
 
     content_panels = [
-        MultiFieldPanel(
-            heading='Page Template',
-            children=[
-                HelpPanel(
-                    content=(
-                        'Select the type of layout this topic landing page will use. '
-                        'There can only be one of each layout in use in the system.'
-                    ),
-                ),
-                FieldPanel('template'),
-            ],
-        ),
         FieldPanel('title'),
         MultiFieldPanel(
             heading='Hero',
@@ -359,3 +347,11 @@ class TopicLandingPagePanels:
     settings_panels = [
         FieldPanel('slug'),
     ]
+
+
+class AdviceTopicLandingPagePanels(TopicLandingPageBasePanels):
+    pass
+
+
+class MarketsTopicLandingPagePanels(TopicLandingPageBasePanels):
+    pass

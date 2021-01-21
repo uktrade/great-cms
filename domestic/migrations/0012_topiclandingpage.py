@@ -48,6 +48,10 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(domestic.cms_panels.TopicLandingPagePanels, 'wagtailcore.page'),
+            bases=(
+                #  Commented out because refactored away and has no impact on schema
+                # domestic.cms_panels.TopicLandingPagePanels,
+                'wagtailcore.page',
+            ),
         ),
     ]
