@@ -549,9 +549,9 @@ class TopicLandingPageTests(WagtailPageTests):
 
     def test_single_use_of_a_template_is_enforced(self):
         for _factory in [AdviceTopicLandingPageFactory, MarketsTopicLandingPageFactory]:
-            _factory(title="one")
+            _factory(title='one')
             with self.assertRaises(ValidationError) as ctx:
-                _factory(title="two")
+                _factory(title='two')
 
                 self.assertEqual(
                     ctx.message,
