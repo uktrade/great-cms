@@ -38,6 +38,7 @@ export const CostsAndPricing = memo(
     lesson_details,
     currentSection,
   }) => {
+    debugger
     useState(() => {
       init({
         ...totals,

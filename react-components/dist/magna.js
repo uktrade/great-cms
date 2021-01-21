@@ -64899,9 +64899,9 @@ var getValue = function getValue(list, selected) {
 };
 
 var formatLessonLearned = function formatLessonLearned(lesson, section, id) {
-  return _objectSpread(_objectSpread({}, lesson[section.lessons[id]]), {}, {
+  return lesson[section.lessons[id]] ? _objectSpread(_objectSpread({}, lesson[section.lessons[id]]), {}, {
     url: "".concat(lesson[section.lessons[id]].url, "?return-link=").concat(section.url)
-  });
+  }) : '';
 };
 
 
@@ -67557,6 +67557,7 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       init = _ref.init,
       lesson_details = _ref.lesson_details,
       currentSection = _ref.currentSection;
+  debugger;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
     init(_objectSpread(_objectSpread(_objectSpread({}, totals), initialData), {}, {
       units: units,
