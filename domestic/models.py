@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
 from django.db import models
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
@@ -135,7 +136,7 @@ class TopicLandingBasePage(BaseContentPage):
     # `title` field comes from Page->BaseContentPage
 
     hero_image = models.ForeignKey(
-        'wagtailimages.Image',
+        'core.AltTextImage',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -170,11 +171,29 @@ class MarketsTopicLandingPage(
 ):
     """Singleton page intended for use as the top of the Markets section"""
 
+    MAX_PER_PAGE = 18
+
     template = 'domestic/topic_landing_pages/markets.html'
 
     subpage_types = [
         'domestic.CountryGuidePage',
     ]
+
+    def get_relevant_markets(self):
+        # TO COME: filtering and sorting
+
+        market_pages = CountryGuidePage.objects.child_of(self)
+
+        return market_pages
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        paginator = Paginator(self.get_relevant_markets(), self.MAX_PER_PAGE)
+        paginated_results = paginator.page(request.GET.get('page', 1))
+        context['paginated_results'] = paginated_results
+
+        return context
 
 
 def main_statistics_validation(value):

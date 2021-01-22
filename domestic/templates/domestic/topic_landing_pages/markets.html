@@ -90,10 +90,10 @@
                 {% endif %}
               </div>
               <div class="flex-grid markets-grid">
-                {% include 'components/card_grid.html' with cards=pagination_page  %}
+                {% include 'components/card_grid.html' with cards=paginated_results  %}
               </div>
               {% comment %}
-              {% pagination pagination_page=pagination_page %}
+              {% pagination pagination_page=paginated_results %}
               {% endcomment %}
             </div>
           </div>

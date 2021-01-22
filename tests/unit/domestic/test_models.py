@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from django.test import RequestFactory
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
@@ -618,6 +619,38 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         homepage.add_child(instance=markets_topic_page)
         retrieved_page_2 = MarketsTopicLandingPage.objects.get(id=markets_topic_page.id)
         self.assertEqual(retrieved_page_2.slug, 'markets')
+
+    def _make_country_guide_pages(self, parent_page, count):
+        for i in range(count):
+            CountryGuidePageFactory(
+                parent=parent_page,
+                title=f'Test GCP {i}',
+            )
+
+    def test_get_relevant_markets(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+        self._make_country_guide_pages(markets_topic_page, 23)
+
+        self.assertEqual(markets_topic_page.get_relevant_markets().count(), 23)
+        #  MORE TESTS TO COME AS WE EXPAND ITS BEHAVIOUR
+
+    def test_get_context(self):
+
+        request = RequestFactory().get('/')
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+        output = markets_topic_page.get_context(request)
+
+        self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(output['paginated_results'][0], CountryGuidePage.objects.first())
 
 
 class ArticleListingPageTests(WagtailPageTests):
