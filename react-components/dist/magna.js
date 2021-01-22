@@ -65890,7 +65890,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @components/tooltip/Tooltip */ "./node_modules/great-styles/dist/components/tooltip/Tooltip.js");
+/* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -65902,6 +65904,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -65939,10 +65942,10 @@ function DataTable(props) {
       config.dataFunction(missingCountries, commodityCode).then(function (result) {
         var newData = result; // If the result is an array, make an object keyed by country
 
-        if (Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["isArray"])(result)) {
-          newData = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["mapArray"])(result, 'country');
-        } else if (Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["isObject"])(result) && !result[missingCountries[0]]) {
-          newData = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["mapArray"])(Object.values(result), 'country');
+        if (Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["isArray"])(result)) {
+          newData = Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["mapArray"])(result, 'country');
+        } else if (Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["isObject"])(result) && !result[missingCountries[0]]) {
+          newData = Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["mapArray"])(Object.values(result), 'country');
         } // or it could be an object already keyed by country
 
 
@@ -66007,13 +66010,18 @@ function DataTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "m-v-0 border-blue-deep-20 valign-middle"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "body-s-b"
+    className: "body-l-b"
   }, "\xA0"), Object.keys(config.columns).map(function (columnKey) {
     var cellConfig = config.columns[columnKey];
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-      className: "body-s-b ".concat(columnKey, " ").concat(cellConfig.className || ''),
+      className: "body-l-b ".concat(columnKey, " ").concat(cellConfig.className || ''),
       key: columnKey
-    }, config.columns[columnKey].name);
+    }, config.columns[columnKey].name, config.columns[columnKey].tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__["Tooltip"], {
+      title: cellConfig.tooltip.title,
+      content: cellConfig.tooltip.content,
+      position: cellConfig.tooltip.position,
+      className: "text-align-left body-m"
+    })));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)), config.sourceAttributions && sourceAttribution(config.sourceAttributions));
 }
 DataTable.propTypes = {
@@ -66321,6 +66329,11 @@ var getEntries = function getEntries() {
         className: 'text-align-right',
         render: function render(data) {
           return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'cpi.value') || 'Data not available';
+        },
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: "\n          <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>\n          <p>All countries start at 100. A higher number indicates prices are growing quickly, while a lower number indicates they are rising slowly.</p>\n          <p>Knowing the CPI of your target country gives you a better idea of what prices consumers expect for your product and how much they expect those prices to change.</p>\n         "
         }
       }
     },
@@ -66351,14 +66364,14 @@ var getEntries = function getEntries() {
     }],
     columns: {
       'world-import-value': {
-        name: "Total ".concat(selectedProduct.commodity_name.toLowerCase(), " import value (USD)"),
+        name: 'Worldwide import value (USD)',
         className: 'text-align-right',
         render: function render(data) {
           return getAndFormat(data, 'import_from_world.trade_value');
         }
       },
       'year-on-year-change': {
-        name: "Year-to-year ".concat(selectedProduct.commodity_name.toLowerCase(), " import value change"),
+        name: 'Import value from the UK (USD)',
         className: 'text-align-right',
         render: function render(data) {
           return getAndFormat(data, 'import_from_world.year_on_year_change', '%');
@@ -66371,25 +66384,28 @@ var getEntries = function getEntries() {
           return getAndFormat(data, 'import_data_from_uk.trade_value');
         }
       },
-      gdp: {
-        name: 'GDP per capita(USD)',
-        className: 'text-align-right',
-        render: function render(data) {
-          return getAndFormat(data, 'country_data.gdp_per_capita.year_2019');
-        }
-      },
       'avg-income': {
-        name: 'Avg income(USD)',
+        name: 'Adjusted net national income per capita (USD)',
         className: 'text-align-right',
         render: function render(data) {
           return getAndFormat(data, 'country_data.income.value');
+        },
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: "\n          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers in a country.</p>\n          <p>Each year, the World Bank publishes figures for all countries by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>\n          <p>ANNIPC gives you an idea of how much consumers in your country earn, whether they can comfortably afford your products and at what price.</p>\n         "
         }
       },
       'eod-business': {
-        name: 'Ease of doing business rank',
+        name: 'Ease of doing business rank ',
         className: 'text-align-right',
         render: function render(data) {
           return getAndFormat(data, 'country_data.ease_of_doing_bussiness.year_2019');
+        },
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: "\n          <p>The Ease of Doing Business rank indicates whether doing business in a country is easy or difficult.</p>\n          <p>Every year, the World Bank ranks all countries from 1 (easy to do business) to 190 (hard to do business).</p>\n          <p>Knowing the rank of your target country can help you decide whether to enter a market and whether you need professional help to do so.</p>\n         "
         }
       },
       cpi: {
@@ -66397,6 +66413,11 @@ var getEntries = function getEntries() {
         className: 'text-align-right',
         render: function render(data) {
           return getAndFormat(data, 'country_data.corruption_perceptions_index.rank');
+        },
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: "\n          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>\n          <p>The index ranks countries and territories by the corruption of their public sector, according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>\n          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>\n         "
         }
       }
     },
@@ -66417,14 +66438,14 @@ var getEntries = function getEntries() {
       linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report'
     }],
     columns: {
-      'religion': {
+      religion: {
         name: 'Religion',
         className: 'align-top',
         render: function render(data) {
           return getEntries(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'religions.religion'), formatReligion);
         }
       },
-      'language': {
+      language: {
         name: 'Languages',
         className: 'align-top',
         render: function render(data) {
@@ -66432,10 +66453,15 @@ var getEntries = function getEntries() {
         }
       },
       'rule-of-law': {
-        name: 'Rule of law score',
+        name: 'Rule of law ranking',
         className: 'align-top',
         render: function render(data) {
           return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'rule_of_law.score'));
+        },
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: "\n          <p>The strength of the law varies from country to country.</p>\n          <p>Each year, the Global Innovation Index ranks countries from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, the police, and the courts.</p>\n          <p>This gives you an idea of how easy may be to follow regulations and take legal action if something goes wrong.</p>\n         "
         }
       }
     },
@@ -70483,9 +70509,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function ExpandCollapse(props) {
   var buttonLabel = props.buttonLabel,
+      buttonClass = props.buttonClass,
       expandedButtonLabel = props.expandedButtonLabel,
       defaultExpanded = props.defaultExpanded,
-      children = props.children;
+      children = props.children,
+      buttonBefore = props.buttonBefore;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultExpanded),
       _useState2 = _slicedToArray(_useState, 2),
@@ -70505,29 +70533,35 @@ function ExpandCollapse(props) {
     setSectionHeight(_section && _section.scrollHeight || sectionHeight);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "expander ".concat(expanded ? 'expander-expanded' : 'expander-collapsed'),
+  var toggleButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: buttonClass || 'button button--tertiary',
+    onClick: toggleExpand
+  }, expanded ? expandedButtonLabel || buttonLabel : buttonLabel);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, buttonBefore && toggleButton, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "f-l expander ".concat(expanded ? 'expander-expanded' : 'expander-collapsed'),
     style: {
       maxHeight: expanded ? "".concat(sectionHeight, "px") : '0px',
       transition: 'max-height 0.3s',
       overflow: 'hidden'
     },
     ref: setSection
-  }, children), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--tertiary",
-    onClick: toggleExpand
-  }, expanded ? expandedButtonLabel || buttonLabel : buttonLabel));
+  }, children), !buttonBefore && toggleButton);
 }
 ExpandCollapse.propTypes = {
-  buttonLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  buttonLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  buttonClass: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  buttonBefore: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   expandedButtonLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   defaultExpanded: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   children: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.node), prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.node]).isRequired
 };
 ExpandCollapse.defaultProps = {
   defaultExpanded: false,
-  expandedButtonLabel: ''
+  expandedButtonLabel: '',
+  buttonLabel: '',
+  buttonClass: '',
+  buttonBefore: false
 };
 
 /***/ }),
@@ -70548,6 +70582,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _ExpandCollapse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ExpandCollapse */ "./react-components/src/components/ProductFinder/ExpandCollapse.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -70559,6 +70594,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -70606,13 +70642,13 @@ function RadioButtons(props) {
 
   var buttons = (attribute.attrs || []).map(function (option) {
     var checked = option.id === (selection && selection.id);
-    var optionName = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, option.isPart ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    var optionName = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, option.isPart ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-black-50"
     }, "Part of ") : '', Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["capitalize"])(option.name, !option.isPart));
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       key: option.id,
       htmlFor: option.id,
-      className: "multiple-choice p-f-m m-v-xxs"
+      className: "interaction-label multiple-choice p-f-m m-v-xxs"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "radio",
       className: "radio",
@@ -70625,7 +70661,12 @@ function RadioButtons(props) {
       onChange: changeVal
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       htmlFor: option.id
-    }), optionName);
+    }), optionName, option.def && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExpandCollapse__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      buttonClass: "info fas fa-lg fa-info-circle text-blue-deep-90 m-f-s p-v-4 p-h-0",
+      buttonBefore: true
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "g-panel f-l m-v-xs"
+    }, option.def)));
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-b-xs"
@@ -71077,7 +71118,7 @@ function ProductFinderModal(props) {
     setSearching(true);
     renderSearchResults();
     Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["analytics"])({
-      event: 'SearchProductAgain'
+      event: 'searchProductAgain'
     });
   };
 
@@ -71740,6 +71781,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _ExpandCollapse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ExpandCollapse */ "./react-components/src/components/ProductFinder/ExpandCollapse.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -71751,6 +71793,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -71792,14 +71835,20 @@ function ValueItem(props) {
     className: "text-black-50 m-f-xxs"
   }, "%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "m-f-xs"
-  }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["capitalize"])(option.name)));
+  }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["capitalize"])(option.name), option.def && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExpandCollapse__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    buttonClass: "info fas fa-lg fa-info-circle text-blue-deep-90 m-f-s p-v-4 p-h-0",
+    buttonBefore: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "g-panel f-l m-v-xs"
+  }, option.def))));
 }
 
 ValueItem.propTypes = {
   option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    def: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
   }).isRequired,
   valueChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
@@ -71874,6 +71923,7 @@ Interaction.propTypes = {
     attrs: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
       value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
       name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      def: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
       id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
     }))
   }).isRequired,
