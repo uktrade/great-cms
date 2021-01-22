@@ -278,7 +278,7 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         return context
 
 
-class FundingAndCredit(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Funding And Credit'
 
     def get_context_data(self, *args, **kwargs):
