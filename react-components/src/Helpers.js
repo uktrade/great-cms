@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const slugify = (string) => {
   return string
     .toLowerCase()
@@ -99,6 +97,14 @@ const getValue = (list, selected) => {
   return selected && hasLabel ? hasLabel.value : ''
 }
 
+const formatLessonLearned = (lesson, section, id) =>
+  lesson[section.lessons[id]]
+    ? {
+        ...lesson[section.lessons[id]],
+        url: `${lesson[section.lessons[id]].url}?return-link=${section.url}`,
+      }
+    : {}
+
 export {
   slugify,
   addItemToList,
@@ -112,4 +118,5 @@ export {
   mapArray,
   getLabel,
   getValue,
+  formatLessonLearned,
 }

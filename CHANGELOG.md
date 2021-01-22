@@ -5,6 +5,8 @@
 ### Implemented enhancements
 
 - GP2-1336 - Advice homepage
+- GP2-1363 - Drop custom Django view serving /markets/
+- GP2-1176 - Getting paid - Page structure
 - GP2-1340 - Analytics - product name relabelled
 - GP2-1339 - Analytics - search again
 - GP2-1260 - Compare markets - tooltips
@@ -46,8 +48,14 @@
 - GP2-1323 - enable ep sections
 - GP2-1321 - add TM  learning component
 - GP2-1306 - learning data
+- GP2-1168 - export plan lessons
+
 ### Fixed bugs
 
+- GP2-1365 - Add bulleted list styles to rich text block
+- GP2-1364 - Fix extra spacing for first element in rich text block
+- GP2-1366 - minor fix of help text for rich-text areas
+- GP2-1367 - minor fix of link field label
 - No ticket - Next lesson button showing blue underline
 - No ticket - Remove tooltip from languages panel on adaptation for tarket market
 - No ticket - Added missing population url

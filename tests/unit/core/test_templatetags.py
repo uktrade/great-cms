@@ -212,16 +212,16 @@ def test_get_backlinked_url(rf, request_path, outbound_url, expected_backlinked_
 @pytest.mark.parametrize(
     'path, expected',
     (
-        ('/markets/', True),
-        ('/markets/morepath/', True),
-        ('/export-plan/markets/', False),
+        ('/example/', True),
+        ('/example/morepath/', True),
+        ('/export-plan/example/', False),
         ('', False),
     ),
     ids=['match base path', 'match extended path', 'non-match', 'empty path'],
 )
 def test_path_match(rf, path, expected):
     context = {'request': rf.get(path)}
-    match = path_match(context, '^\\/markets\\/')
+    match = path_match(context, '^\\/example\\/')
     assert bool(match) == expected
 
 

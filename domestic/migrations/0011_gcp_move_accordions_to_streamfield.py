@@ -556,7 +556,7 @@ class Migration(migrations.Migration):
                                             (
                                                 'button_link',
                                                 wagtail.core.blocks.URLBlock(
-                                                    label='Case study button text', required=False
+                                                    label='Case study button link', required=False
                                                 ),
                                             ),
                                         ],
