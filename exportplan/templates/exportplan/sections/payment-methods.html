@@ -23,7 +23,45 @@
   {{ block.super }}
   <script type="text/javascript">
     magna.createGettingPaid({
-      element: document.getElementById('getting-paid')
+      element: document.getElementById('getting-paid'),
+      formFields:   [
+          {
+            field: [
+              {
+                name: 'payment_terms',
+                id: 'payment_terms',
+                label: 'Payments terms',
+                field_type: 'Select',
+                options: [{ value: '', label: ''}],
+              },
+              {
+                name: 'Add notes',
+                label: 'Add notes',
+                field_type: 'Textarea',
+                placeholder: 'Add note',
+                id: 'add_notes_payments'
+              },
+            ],
+          },
+          {
+            field: [
+              {
+                name: 'incoterms',
+                id: 'incoterms',
+                label: 'Incoterms®',
+                field_type: 'Select',
+                options: [{ value: '', label: ''}],
+              },
+              {
+                name: 'Add notes',
+                label: 'Add notes',
+                field_type: 'Textarea',
+                placeholder: 'Add note',
+                id: 'add_notes_incoterms'
+              },
+            ],
+          },
+        ],
     })
   </script>
 {% endblock %}
