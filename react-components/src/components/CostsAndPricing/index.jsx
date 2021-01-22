@@ -183,7 +183,18 @@ export const CostsAndPricing = memo(
 CostsAndPricing.propTypes = {
   currency: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
-  data: PropTypes.any.isRequired,
+  data: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string,
+          label: PropTypes.string,
+        })
+      ),
+    ])
+  ).isRequired,
   update: PropTypes.func.isRequired,
   init: PropTypes.func.isRequired,
   units: PropTypes.arrayOf(

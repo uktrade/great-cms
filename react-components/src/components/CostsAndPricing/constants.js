@@ -145,8 +145,6 @@ export const duty = {
     '<h3>What are duties?</h3><p>Duties are fees charged by the government of your target market.</p><p>These are designed to keep markets competitive.</p><p>Duties are always charged on goods, while taxes can be charged on people and goods.</p>',
   type: 'number',
   placeholder: '0',
-  example:
-    '<h3 class="h-xs p-t-0 p-b-0">What is gross price per unit?</h3><p>This is the total price paid by the end customer per unit of your product including any duties, charges and taxes.</p>',
   description:
     '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit Check how to export goods and choose the commodity code that best matches your product.</p>',
   field: 'total_cost_and_price',
