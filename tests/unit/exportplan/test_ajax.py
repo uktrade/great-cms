@@ -605,6 +605,119 @@ def test_target_market_documents_validation_create(mock_create_target_market_doc
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'update_funding_credit_options')
+def test_update_funding_credit_options_api_view(mock_update_funding_credit_option, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-funding-credit-options-update')
+
+    funding_option_data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
+
+    mock_update_funding_credit_option.return_value = funding_option_data
+
+    response = client.post(url, funding_option_data)
+
+    assert mock_update_funding_credit_option.call_count == 1
+    assert response.status_code == 200
+
+    assert mock_update_funding_credit_option.call_args == mock.call(
+        '123', OrderedDict([('amount', 2.23), ('funding_option', 'government'), ('companyexportplan', 1), ('pk', 1)])
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_funding_credit_options')
+def test_create_funding_credit_options_api_view(mock_create_funding_credit_option, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-funding-credit-options-create')
+
+    funding_option_data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
+
+    mock_create_funding_credit_option.return_value = {'pk': 1, **funding_option_data}
+
+    response = client.post(url, funding_option_data)
+    assert response.status_code == 200
+    assert mock_create_funding_credit_option.call_count == 1
+
+    assert mock_create_funding_credit_option.call_args == mock.call(
+        '123', OrderedDict([('amount', 2.23), ('funding_option', 'government'), ('companyexportplan', 1), ('pk', 1)])
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_funding_credit_options')
+def test_delete_funding_credit_options_api_view(mock_delete_funding_credit_options, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-funding-credit-options-delete')
+
+    data = {'pk': 1}
+
+    mock_delete_funding_credit_options.return_value = {}
+
+    response = client.delete(url, data, content_type='application/json')
+
+    assert mock_delete_funding_credit_options.call_count == 1
+    assert response.status_code == 200
+    assert mock_delete_funding_credit_options.call_args == mock.call('123', data)
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_funding_credit_options')
+def test_target_funding_credit_options_validation_delete(mock_delete_funding_credit_options, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-funding-credit-options-delete')
+
+    data = {}
+
+    mock_delete_funding_credit_options.return_value = {}
+
+    response = client.delete(url, data, content_type='application/json')
+
+    assert mock_delete_funding_credit_options.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {'pk': ['This field is required.']}
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_funding_credit_options')
+def test_funding_credit_options_validation_update(mock_create_funding_credit_options, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-funding-credit-options-update')
+
+    data = {}
+
+    mock_create_funding_credit_options.return_value = {}
+
+    response = client.post(url, data)
+
+    assert mock_create_funding_credit_options.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {'companyexportplan': ['This field is required.'], 'pk': ['This field is required.']}
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_target_market_documents')
+def test_funding_credit_options_validation_create(mock_create_funding_credit_options, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-funding-credit-options-create')
+
+    data = {}
+
+    mock_create_funding_credit_options.return_value = {}
+
+    response = client.post(url, data)
+
+    assert mock_create_funding_credit_options.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == {'companyexportplan': ['This field is required.']}
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'get_population_data_by_country')
 def test_api_population_data_by_country(mock_get_population_data_by_country, client, user):
     mock_get_population_data_by_country.return_value = {'status_code': 200}

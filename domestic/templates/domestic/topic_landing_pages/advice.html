@@ -1,0 +1,29 @@
+{% extends 'domestic/base.html' %}
+
+{% block css_layout_class %}article-list-page{% endblock css_layout_class %}
+
+{% block content %}
+
+{% block hero %}
+  {% include 'components/hero.html' with image=page.hero_image hero_text="Advice" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="container">
+  {% include 'components/breadcrumbs_cms.html' %}
+</div>
+{% endblock %}
+{% block intro_section %}{% endblock %}
+
+{% block child_pages %}
+<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 padding-top-60">
+  <div class="container">
+    <div class="flex-grid">
+      {% include 'components/card_grid.html' with cards=page.child_pages %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block footer_section %}{% endblock %}
+
+{% endblock %}

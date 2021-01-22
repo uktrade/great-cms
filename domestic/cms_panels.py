@@ -323,3 +323,35 @@ class CountryGuidePagePanels:
         FieldPanel('tags', widget=CheckboxSelectMultiple),
         FieldPanel('country'),
     ]
+
+
+class TopicLandingPageBasePanels:
+
+    content_panels = [
+        FieldPanel('title'),
+        MultiFieldPanel(
+            heading='Hero',
+            children=[
+                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_teaser'),
+            ],
+        ),
+        FieldPanel(
+            'banner_text',
+            help_text='Use this field to change the text displayed in the banner, if the page has one.',
+        ),
+        FieldPanel('teaser'),
+        SearchEngineOptimisationPanel(),
+    ]
+
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
+
+
+class AdviceTopicLandingPagePanels(TopicLandingPageBasePanels):
+    pass
+
+
+class MarketsTopicLandingPagePanels(TopicLandingPageBasePanels):
+    pass

@@ -19,6 +19,7 @@ import {
   financeHowMuchFunding,
   financeFundingCreditOptions,
 } from '@src/views/sections/Finance/Finance'
+import { createGettingPaid } from '@src/views/sections/GettingPaid'
 import {
   createTargetMarketResearchForm,
   createDataSnapShot,
@@ -62,6 +63,7 @@ export default {
   createComingSoonModal,
   createSpendingAndResources,
   createTargetAgeGroupInsights,
+  createGettingPaid,
   createObjectivesList,
   createObjectivesReasons,
   createVideoTranscript,
