@@ -4,8 +4,11 @@
 
 ### Implemented enhancements
 
+- GP2-1336 - Advice homepage
 - GP2-1340 - Analytics - product name relabelled
 - GP2-1339 - Analytics - search again
+- GP2-1260 - Compare markets - tooltips
+- GP2-1132 - Product classifier - surface definitions
 - GP2-341 - Adaptation language info and stats update
 - GP2-1270 - income data for economy tab
 - GP2-1318 - Compare markets - refactor and loading twinkle

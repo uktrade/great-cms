@@ -18,20 +18,24 @@ const getAndFormat = (data, key, unit = '') => {
   return value !== undefined ? `${normaliseValues(value)}${unit}` : DATA_NA
 }
 
-  const formatReligion = (religion) => {
-    return `${religion.name} ${(religion.percent ? `${religion.percent}%` : '')}`
-  }
+const formatReligion = (religion) => {
+  return `${religion.name} ${religion.percent ? `${religion.percent}%` : ''}`
+}
 
-  const formatLanguage = (language) => {
-    return `${language.name}${language.note === 'official' ? ' (official)' : ''}`
-  }
+const formatLanguage = (language) => {
+  return `${language.name}${language.note === 'official' ? ' (official)' : ''}`
+}
 
-  const getEntries = (list={}, func) => {
-    const entries = Object.keys(list || {}).map((key) => {
-      return <p className="entry body-m" key={key}>{func(list[key])}</p>
-    })
-    return entries
-  }
+const getEntries = (list = {}, func) => {
+  const entries = Object.keys(list || {}).map((key) => {
+    return (
+      <p className="entry body-m" key={key}>
+        {func(list[key])}
+      </p>
+    )
+  })
+  return entries
+}
 
 export default (selectedProduct) => {
   const populationTabConfig = {
@@ -86,6 +90,15 @@ export default (selectedProduct) => {
         name: 'Consumer Price Index',
         className: 'text-align-right',
         render: (data) => get(data, 'cpi.value') || 'Data not available',
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: `
+          <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>
+          <p>All countries start at 100. A higher number indicates prices are growing quickly, while a lower number indicates they are rising slowly.</p>
+          <p>Knowing the CPI of your target country gives you a better idea of what prices consumers expect for your product and how much they expect those prices to change.</p>
+         `,
+        },
       },
     },
     dataFunction: Services.getPopulationByCountryData,
@@ -123,12 +136,12 @@ export default (selectedProduct) => {
 
     columns: {
       'world-import-value': {
-        name: `Total ${selectedProduct.commodity_name.toLowerCase()} import value (USD)`,
+        name: 'Worldwide import value (USD)',
         className: 'text-align-right',
         render: (data) => getAndFormat(data, 'import_from_world.trade_value'),
       },
       'year-on-year-change': {
-        name: `Year-to-year ${selectedProduct.commodity_name.toLowerCase()} import value change`,
+        name: 'Import value from the UK (USD)',
         className: 'text-align-right',
         render: (data) =>
           getAndFormat(data, 'import_from_world.year_on_year_change', '%'),
@@ -138,33 +151,54 @@ export default (selectedProduct) => {
         className: 'text-align-right',
         render: (data) => getAndFormat(data, 'import_data_from_uk.trade_value'),
       },
-      gdp: {
-        name: 'GDP per capita(USD)',
-        className: 'text-align-right',
-        render: (data) =>
-          getAndFormat(data, 'country_data.gdp_per_capita.year_2019'),
-      },
       'avg-income': {
-        name: 'Avg income(USD)',
+        name: 'Adjusted net national income per capita (USD)',
         className: 'text-align-right',
         render: (data) => getAndFormat(data, 'country_data.income.value'),
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: `
+          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers in a country.</p>
+          <p>Each year, the World Bank publishes figures for all countries by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>
+          <p>ANNIPC gives you an idea of how much consumers in your country earn, whether they can comfortably afford your products and at what price.</p>
+         `,
+        },
       },
       'eod-business': {
-        name: 'Ease of doing business rank',
+        name: 'Ease of doing business rank ',
         className: 'text-align-right',
         render: (data) =>
           getAndFormat(data, 'country_data.ease_of_doing_bussiness.year_2019'),
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: `
+          <p>The Ease of Doing Business rank indicates whether doing business in a country is easy or difficult.</p>
+          <p>Every year, the World Bank ranks all countries from 1 (easy to do business) to 190 (hard to do business).</p>
+          <p>Knowing the rank of your target country can help you decide whether to enter a market and whether you need professional help to do so.</p>
+         `,
+        },
       },
       cpi: {
         name: 'Corruption Perceptions Index',
         className: 'text-align-right',
         render: (data) =>
           getAndFormat(data, 'country_data.corruption_perceptions_index.rank'),
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: `
+          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>
+          <p>The index ranks countries and territories by the corruption of their public sector, according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>
+          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>
+         `,
+        },
       },
     },
     dataFunction: Services.getComTradeData,
   }
-const societyTabConfig = {
+  const societyTabConfig = {
     sourceAttributions: [
       {
         title: 'Religion',
@@ -179,27 +213,39 @@ const societyTabConfig = {
       {
         title: 'Rule of law',
         linkText: 'The Global Innovation Index 2020',
-        linkTarget:
-          'https://www.globalinnovationindex.org/gii-2020-report',
-      }
+        linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report',
+      },
     ],
 
     columns: {
-      'religion': {
+      religion: {
         name: 'Religion',
         className: 'align-top',
-        render: (data) => {return getEntries(get(data, 'religions.religion'), formatReligion)},
+        render: (data) => {
+          return getEntries(get(data, 'religions.religion'), formatReligion)
+        },
       },
-      'language': {
+      language: {
         name: 'Languages',
         className: 'align-top',
-        render: (data) => {return getEntries(get(data, 'languages.language'), formatLanguage)},
+        render: (data) => {
+          return getEntries(get(data, 'languages.language'), formatLanguage)
+        },
       },
       'rule-of-law': {
-        name: 'Rule of law score',
+        name: 'Rule of law ranking',
         className: 'align-top',
-        render: (data) => normaliseValues(get(data,'rule_of_law.score'))
-      }
+        render: (data) => normaliseValues(get(data, 'rule_of_law.score')),
+        tooltip: {
+          position: 'right',
+          title: '',
+          content: `
+          <p>The strength of the law varies from country to country.</p>
+          <p>Each year, the Global Innovation Index ranks countries from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, the police, and the courts.</p>
+          <p>This gives you an idea of how easy may be to follow regulations and take legal action if something goes wrong.</p>
+         `,
+        },
+      },
     },
     dataFunction: Services.getSocietyByCountryData,
   }
