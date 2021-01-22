@@ -286,7 +286,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     fact_sheet_column_1_body = RichTextField(
         blank=True,
         verbose_name="Detailed text for 'Tax and customs'",
-        help_text='Use H3 for each subcategory heading. ' 'Maximum five sub categories. Aim for 50 words each.',
+        help_text='Use H4 for each subcategory heading. Maximum five sub categories. Aim for 50 words each.',
     )
     fact_sheet_column_2_title = models.CharField(
         max_length=255,
@@ -301,7 +301,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     fact_sheet_column_2_body = RichTextField(
         blank=True,
         verbose_name="Detailed text for 'Protecting your business'",
-        help_text='Use H3 for each sub category heading. Maximum five sub categories. Aim for 50 words each.',
+        help_text='Use H4 for each sub category heading. Maximum five sub categories. Aim for 50 words each.',
     )
 
     # need help

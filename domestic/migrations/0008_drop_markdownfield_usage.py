@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
             name='fact_sheet_column_1_body',
             field=wagtail.core.fields.RichTextField(
                 blank=True,
-                help_text='Use H3 for each subcategory heading. Maximum five sub categories. Aim for 50 words each.',
+                help_text='Use H4 for each subcategory heading. Maximum five sub categories. Aim for 50 words each.',
                 verbose_name="Detailed text for 'Tax and customs'",
             ),
         ),
@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
             name='fact_sheet_column_2_body',
             field=wagtail.core.fields.RichTextField(
                 blank=True,
-                help_text='Use H3 for each sub category heading. Maximum five sub categories. Aim for 50 words each.',
+                help_text='Use H4 for each sub category heading. Maximum five sub categories. Aim for 50 words each.',
                 verbose_name="Detailed text for 'Protecting your business'",
             ),
         ),

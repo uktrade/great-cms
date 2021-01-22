@@ -50,6 +50,8 @@
 
 ### Fixed bugs
 
+- GP2-1366 - minor fix of help text for rich-text areas
+- GP2-1367 - minor fix of link field label
 - No ticket - Next lesson button showing blue underline
 - No ticket - Remove tooltip from languages panel on adaptation for tarket market
 - No ticket - Added missing population url
