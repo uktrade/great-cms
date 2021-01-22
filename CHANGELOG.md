@@ -50,6 +50,8 @@
 
 ### Fixed bugs
 
+- GP2-1365 - Add bulleted list styles to rich text block
+- GP2-1364 - Fix extra spacing for first element in rich text block
 - No ticket - Next lesson button showing blue underline
 - No ticket - Remove tooltip from languages panel on adaptation for tarket market
 - No ticket - Added missing population url
