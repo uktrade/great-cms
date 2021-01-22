@@ -292,7 +292,7 @@ class CountryGuideCaseStudyBlock(blocks.StructBlock):
     hero_image = ImageChooserBlock(required=False, label='Case study hero image')
     description = blocks.TextBlock(required=False, label='Case study description')
     button_text = blocks.CharBlock(required=False, max_length=255, label='Case study button text')
-    button_link = blocks.URLBlock(required=False, label='Case study button text')
+    button_link = blocks.URLBlock(required=False, label='Case study button link')
 
 
 class CountryGuideIndustryBlock(blocks.StructBlock):
