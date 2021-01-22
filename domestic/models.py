@@ -29,16 +29,20 @@ class BaseContentPage(Page):
 
     def get_ancestors_in_app(self):
         """
-        Starts at 1 to exclude the root page and the app page.
+        Starts at 2 to exclude the root page and the homepage (which is fixed/static/mandatory).
         Ignores 'folder' pages.
         """
-        ancestors = self.get_ancestors()[1:]
+        ancestors = self.get_ancestors()[2:]
 
-        return [page for page in ancestors if not page.specific_class.folder_page]
+        return [
+            page
+            for page in ancestors
+            if (not hasattr(page.specific_class, 'folder_page') or not page.specific_class.folder_page)
+        ]
 
-    def get_breadcrumbs(self, instance):
-        breadcrumbs = [page.specific for page in instance.specific.get_ancestors_in_app()]
-        breadcrumbs.append(instance)
+    def get_breadcrumbs(self):
+        breadcrumbs = [page.specific for page in self.specific.get_ancestors_in_app()]
+        breadcrumbs.append(self)
         retval = []
 
         for crumb in breadcrumbs:
@@ -56,6 +60,7 @@ class DomesticHomePage(
     mixins.AnonymousUserRequired,
     Page,
 ):
+
     body = RichTextField(null=True, blank=True)
     button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
     image = models.ForeignKey(
@@ -115,6 +120,63 @@ class DomesticDashboard(
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
 
 
+class TopicLandingBasePage(BaseContentPage):
+    """Structural page with limited content, intended for use at
+    /advice/ and /markets/, for instance
+    """
+
+    class Meta:
+        abstract = True
+
+    parent_page_types = [
+        'domestic.DomesticHomePage',
+    ]
+
+    # `title` field comes from Page->BaseContentPage
+
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_teaser = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    banner_text = RichTextField(blank=True)
+    teaser = models.TextField(blank=True)
+
+
+class AdviceTopicLandingPage(
+    cms_panels.AdviceTopicLandingPagePanels,
+    TopicLandingBasePage,
+):
+    """Singleton page intended for use as the top of the Advice section"""
+
+    template = 'domestic/topic_landing_pages/advice.html'
+
+    subpage_types = [
+        'domestic.ArticleListingPage',
+        'domestic.ArticlePage',
+    ]
+
+
+class MarketsTopicLandingPage(
+    cms_panels.MarketsTopicLandingPagePanels,
+    TopicLandingBasePage,
+):
+    """Singleton page intended for use as the top of the Markets section"""
+
+    template = 'domestic/topic_landing_pages/markets.html'
+
+    subpage_types = [
+        'domestic.CountryGuidePage',
+    ]
+
+
 def main_statistics_validation(value):
     if value and (len(value) < 2 or len(value) > 6):
         raise StreamBlockValidationError(
@@ -144,8 +206,10 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     template = 'domestic/content/country_guide.html'
 
     parent_page_types = [
-        'domestic.DomesticHomePage',
+        'domestic.DomesticHomePage',  # TODO: remove this
+        'domestic.MarketsTopicLandingPage',
     ]
+
     subpage_types = [
         'domestic.ArticleListingPage',
         'domestic.ArticlePage',
@@ -411,6 +475,8 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
+        'domestic.ArticleListingPage',
+        'domestic.AdviceTopicLandingPage',
     ]
     subpage_types = []
 
@@ -496,6 +562,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
+        'domestic.AdviceTopicLandingPage',
     ]
 
     subpage_types = [

@@ -1,8 +1,7 @@
 
 {% load breadcrumbs from component_tags %}
 
-{% with current_page=page.tree_based_breadcrumbs|last %}
-
+{% with current_page=page.specific.get_breadcrumbs|last %}
 {% if hide_breadcrumbs %}
 
   {% breadcrumbs current_page.title %}
@@ -10,11 +9,10 @@
   {% endbreadcrumbs %}
 
 {% else %}
-
   {% breadcrumbs current_page.title %}
-      <a href="/">great.gov.uk</a>
+    <a href="/">great.gov.uk</a>
       {% for crumb in page.get_breadcrumbs %}
-          {% if not forloop.last %}
+             {% if not forloop.last %}
               <a href="{{ crumb.url }}">{{ crumb.title }}</a>
           {% endif %}
       {% endfor %}
