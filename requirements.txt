@@ -46,7 +46,7 @@ directory-client-core==6.3.0
     #   directory-api-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-constants==20.19.0
+directory-constants==20.20.0
     # via
     #   -r requirements.in
     #   great-components
