@@ -119,4 +119,19 @@ urlpatterns = [
         skip_ga360(api.TargetMarketDocumentsDestroyAPIView.as_view()),
         name='api-target-markets-documents-delete',
     ),
+    path(
+        'api/funding-credit-options/create/',
+        skip_ga360(api.FundingCreditOptionsCreateAPIView.as_view()),
+        name='api-funding-credit-options-create',
+    ),
+    path(
+        'api/funding-credit-options/update/',
+        skip_ga360(api.FundingCreditOptionsUpdateAPIView.as_view()),
+        name='api-funding-credit-options-update',
+    ),
+    path(
+        'api/funding-credit-options/delete/',
+        skip_ga360(api.FundingCreditOptionsDestroyAPIView.as_view()),
+        name='api-funding-credit-options-delete',
+    ),
 ]
