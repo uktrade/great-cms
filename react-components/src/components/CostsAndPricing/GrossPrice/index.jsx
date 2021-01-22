@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
-import { Tooltip } from '@components/tooltip/Tooltip'
 import { getLabel, getValue } from '@src/Helpers'
 import { LessonLearn } from '@src/components/LessonLearn'
 
@@ -58,7 +57,6 @@ export const GrossPrice = memo(
             <p className="m-t-xxs m-b-0">
               Gross price per unit in invoicing currency
             </p>
-            <Tooltip content="asdasdad" />
             <div className="grid m-t-xs">
               <div className="w-full">
                 <div className="c-1-6 m-r-xs">
