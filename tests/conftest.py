@@ -63,6 +63,7 @@ def export_plan_data(cost_pricing_data):
         'objectives': {'rationale': 'business rationale'},
         'funding_and_credit': {'override_estimated_total_cost': '34.23', 'funding_amount_required': '45.99'},
         'pk': 1,
+        'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }
     data.update(cost_pricing_data)
     return data
