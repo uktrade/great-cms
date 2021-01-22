@@ -47,7 +47,7 @@ urlpatterns = [
     path(
         'section/funding-and-credit/',
         login_required(views.FundingAndCredit.as_view(), login_url=LOGIN_URL),
-        {'slug': 'costs-and-pricing'},
+        {'slug': 'funding-and-credit'},
         name='funding-and-credit',
     ),
     path(
