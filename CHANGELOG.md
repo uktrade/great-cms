@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/
 - GP2-1176 - Getting paid - Page structure
