@@ -45,6 +45,8 @@
 - GP2-1323 - enable ep sections
 - GP2-1321 - add TM  learning component
 - GP2-1306 - learning data
+- GP2-1359 - credit funding fields ajax
+
 ### Fixed bugs
 
 - No ticket - Next lesson button showing blue underline

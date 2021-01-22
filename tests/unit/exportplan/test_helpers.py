@@ -291,7 +291,7 @@ def test_get_population_data(mock_api_get_population_data, population_data):
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_create')
-def test_target_market_documentss_create(mock_target_market_documents_create):
+def test_target_market_documents_create(mock_target_market_documents_create):
     data = {'document_name': 'doc1', 'note': 'my notes', 'companyexportplan': 1, 'pk': 1}
     mock_target_market_documents_create.return_value = create_response(data)
 
@@ -303,7 +303,7 @@ def test_target_market_documentss_create(mock_target_market_documents_create):
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_update')
-def test_target_market_documentss_update(mock_target_market_documents_update):
+def test_target_market_documents_update(mock_target_market_documents_update):
     data = {'document_name': 'doc1', 'note': 'my notes', 'companyexportplan': 1, 'pk': 1}
     mock_target_market_documents_update.return_value = create_response(data)
 
@@ -315,7 +315,7 @@ def test_target_market_documentss_update(mock_target_market_documents_update):
 
 
 @mock.patch.object(api_client.exportplan, 'target_market_documents_delete')
-def test_target_market_documents_delete(mock_target_market_documents_delete):
+def test_target_market_document_delete(mock_target_market_documents_delete):
     data = {'pk': 1}
     mock_target_market_documents_delete.return_value = create_response(data)
 
@@ -323,6 +323,42 @@ def test_target_market_documents_delete(mock_target_market_documents_delete):
 
     assert mock_target_market_documents_delete.call_count == 1
     assert mock_target_market_documents_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
+    assert response.status_code == 200
+
+
+@mock.patch.object(api_client.exportplan, 'funding_credit_options_create')
+def test_funding_credit_options_create(mock_funding_credit_options_create):
+    data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
+    mock_funding_credit_options_create.return_value = create_response(data)
+
+    response = helpers.create_funding_credit_options(123, data)
+
+    assert mock_funding_credit_options_create.call_count == 1
+    assert mock_funding_credit_options_create.call_args == mock.call(data=data, sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'funding_credit_options_update')
+def test_funding_credit_options_update(mock_funding_credit_options_update):
+    data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
+    mock_funding_credit_options_update.return_value = create_response(data)
+
+    response = helpers.update_funding_credit_options(123, data)
+
+    assert mock_funding_credit_options_update.call_count == 1
+    assert mock_funding_credit_options_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
+    assert response == data
+
+
+@mock.patch.object(api_client.exportplan, 'funding_credit_options_delete')
+def test_funding_credit_optionsfun_delete(mock_mock_funding_credit_options_delete):
+    data = {'pk': 1}
+    mock_mock_funding_credit_options_delete.return_value = create_response(data)
+
+    response = helpers.delete_funding_credit_options(123, data)
+
+    assert mock_mock_funding_credit_options_delete.call_count == 1
+    assert mock_mock_funding_credit_options_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
     assert response.status_code == 200
 
 
