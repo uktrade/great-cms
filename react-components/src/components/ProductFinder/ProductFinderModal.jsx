@@ -80,7 +80,7 @@ export default function ProductFinderModal(props) {
     if (searchResults) {
       analytics({
         event: 'addProductSuccess',
-        productKeyword: capitalize(searchResults.productDescription),
+        productKeyword: commodityName,
         productCode: commodityCode,
       })
     }
@@ -156,6 +156,9 @@ export default function ProductFinderModal(props) {
   const backToSearch = () => {
     setSearching(true)
     renderSearchResults()
+    analytics({
+      event:'searchProductAgain',
+    })
   }
 
   const Section = (title, sectionDetails) => {

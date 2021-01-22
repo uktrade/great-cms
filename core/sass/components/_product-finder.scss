@@ -50,6 +50,9 @@
       }
     }
   }
+  .interaction-label .expander {
+    margin-left: -42px;
+  }
 }
 
 .dialog-close {
@@ -207,4 +210,8 @@
       display: none;
     }
   }
+}
+.p-v-4 {
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
