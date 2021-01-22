@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1336 - Advice homepage
 - GP2-1340 - Analytics - product name relabelled
 - GP2-1339 - Analytics - search again
 - GP2-1260 - Compare markets - tooltips
