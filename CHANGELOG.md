@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1363 - Drop custom Django view serving /markets/
 - GP2-1340 - Analytics - product name relabelled
 - GP2-1339 - Analytics - search again
 - GP2-1260 - Compare markets - tooltips
