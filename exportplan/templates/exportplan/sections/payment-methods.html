@@ -1,13 +1,29 @@
 {% extends 'exportplan/section.html' %}
 
-{% block intro_content %}
-<h1 class="h-xl">Payment methods</h1>
-{% lorem 1 p random %}
-{% endblock %}
+{% block intro_title %}Getting paid{% endblock %}
+{% block intro_description %}How and when you get paid directly affects your business cashflow so it's important to get it right. <br /><br /> This page helps you outline your plans for getting paid from abroad.{% endblock %}
 
 {% block main_content %}
-{% lorem 2 p random %}
+<div class="g-panel">
+  <p>To get paid the right amount and get paid on time, you'll need to think about your intended:</p>
+  <ul class="list-dot">
+    <li>payment terms</li>
+    <li>payment methods</li>
+    <li>Incoterms® (international commercial terms)</li>
+  </ul>
+  <p>To make it easier, we've created a list of options for each one.</p>
+</div>
 {% endblock %}
 
 {% block user_input %}
+<div id="getting-paid"></div>
+{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    magna.createGettingPaid({
+      element: document.getElementById('getting-paid')
+    })
+  </script>
 {% endblock %}
