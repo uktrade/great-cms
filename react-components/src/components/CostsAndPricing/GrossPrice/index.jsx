@@ -20,21 +20,29 @@ export const GrossPrice = memo(
     lesson,
   }) => {
     const [toggleLesson, setToggleLesson] = useState(false)
+    const hasLesson = Object.keys(lesson).length > 0
+
     return (
       <>
-        <button
-          className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
-          type="button"
-          onClick={() => {
-            setToggleLesson(!toggleLesson)
-          }}
-        >
-          <i
-            className={`fas fa-chevron-${toggleLesson ? 'up' : 'down'} m-r-xxs`}
-          />
-          Lesson
-        </button>
-        <LessonLearn show={toggleLesson} {...lesson} />
+        {hasLesson && (
+          <>
+            <button
+              className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
+              type="button"
+              onClick={() => {
+                setToggleLesson(!toggleLesson)
+              }}
+            >
+              <i
+                className={`fas fa-chevron-${
+                  toggleLesson ? 'up' : 'down'
+                } m-r-xxs`}
+              />
+              Lesson
+            </button>
+            <LessonLearn show={toggleLesson} {...lesson} />
+          </>
+        )}
         <div className="bg-white radius p-xs c-full m-b-s gross-price">
           <div className="">
             <i className="fas fa-tag text-blue-deep-60 fa-lg" />
