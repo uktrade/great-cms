@@ -52,7 +52,7 @@
 - GP2-1168 - export plan lessons
 
 ### Fixed bugs
-
+- GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block
 - GP2-1366 - minor fix of help text for rich-text areas
