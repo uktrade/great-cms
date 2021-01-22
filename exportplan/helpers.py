@@ -199,16 +199,17 @@ def get_check_duties_link(export_plan):
     return url
 
 
-def get_all_lesson_details():
-    lessons = {}
-    for lesson in models.DetailPage.objects.live().specific():
-        lessons[lesson.slug] = {
-            'topic_name': lesson.topic_title,
-            'title': lesson.title,
-            'estimated_read_duration': format_timedelta(lesson.estimated_read_duration),
-            'url': lesson.url,
-        }
-    return lessons
+def get_lesson_details(lessons):
+    lessons_details = {}
+    if len(lessons) > 0:
+        for lesson in models.DetailPage.objects.live().filter(slug__in=lessons):
+            lessons_details[lesson.slug] = {
+                'category': lesson.topic_title,
+                'title': lesson.title,
+                'duration': format_timedelta(lesson.estimated_read_duration),
+                'url': lesson.url,
+            }
+    return lessons_details
 
 
 def get_current_url(slug, export_plan):

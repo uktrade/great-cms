@@ -7,6 +7,7 @@ import {
   mapArray,
   getValue,
   getLabel,
+  formatLessonLearned,
 } from '@src/Helpers'
 
 test('slugify', (done) => {
@@ -175,5 +176,34 @@ describe('getValue', () => {
     ]
     expect(getValue(list, 'hour')).toEqual('')
     expect(getValue(list, '')).toEqual('')
+  })
+})
+
+describe('formatLessonLearned', () => {
+  const lesson = {
+    'managing-exchange-rates': {
+      category: 'Exchange rates and moving money',
+      title: 'Managing exchange rates',
+      duration: '4 min',
+      url:
+        '/learn/categories/funding-financing-and-getting-paid/exchange-rates-and-moving-money/managing-exchange-rates/',
+    },
+  }
+
+  const section = {
+    lessons: ['managing-exchange-rates', 'another-lesson'],
+    url: '/back-to',
+  }
+
+  it('Should return a lesson', () => {
+    expect(formatLessonLearned(lesson, section, 0)).toEqual({
+      ...lesson['managing-exchange-rates'],
+      url: `${lesson['managing-exchange-rates'].url}?return-link=${section.url}`,
+    })
+  })
+
+  it('Should have no lesson', () => {
+    expect(formatLessonLearned(lesson, section, 1)).toEqual({})
+    expect(formatLessonLearned(lesson, { lessons: [] }, 1)).toEqual({})
   })
 })

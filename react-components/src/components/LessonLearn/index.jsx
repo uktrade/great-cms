@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 
 export const LessonLearn = memo(({ show, url, title, category, duration }) => (
   <a
-    className={`text-white link m-b-xs ${show ? 'inline-block' : 'hidden'}`}
+    className={`text-white link m-b-xs width-full ${
+      show ? 'inline-block' : 'hidden'
+    }`}
     href={url}
     title={title}
   >
