@@ -82,9 +82,9 @@ def test_export_plan_builder_landing_page(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
-@mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
+@mock.patch.object(helpers, 'get_lesson_details', return_value={})
 @mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(mock_get_create_exportplan, mock_get_all_lessons, export_plan_data, slug, client, user):
+def test_exportplan_sections(mock_get_create_exportplan, mock_get_lessons, export_plan_data, slug, client, user):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -164,19 +164,21 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, client, use
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_all_lesson_details')
-def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, user):
+@mock.patch.object(helpers, 'get_lesson_details')
+def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
     client.force_login(user)
 
-    mock_get_all_lesson_details.return_value = {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
     slug = slugify('About your business')
+    lessons = data.SECTIONS[slug]['lessons']
+    mock_get_lesson_details.return_value = {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
 
-    assert mock_get_all_lesson_details.call_count == 1
+    assert mock_get_lesson_details.call_count == 1
+    assert mock_get_lesson_details.call_args == mock.call(lessons)
 
-    assert response.context_data['lesson_details'] == {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
+    assert response.context_data['lesson_details'] == {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
 
 
 @pytest.mark.django_db

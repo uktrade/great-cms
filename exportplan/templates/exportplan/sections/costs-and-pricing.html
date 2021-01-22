@@ -1,5 +1,5 @@
 {% extends 'exportplan/section.html' %}
-
+{% load to_json %}
 {% block intro_title %}Costs and pricing{% endblock %}
 
 {% block intro_description %}To avoid unwanted surprises, it's best to know all the costs involved in exporting your product. <br /><br />This page will help you plan ahead and keep track of the upfront costs.{% endblock %}
@@ -33,6 +33,8 @@
       totals: {{ calculated_pricing|safe }},
       currencies: {{ currency_choices|safe }},
       currency: 'GBP',
+      currentSection: {{ current_section|to_json}},
+      lessonDetails: {{ lesson_details|safe }},
     })
   </script>
 {% endblock %}

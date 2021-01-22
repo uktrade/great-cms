@@ -73,10 +73,12 @@ Units.propTypes = {
     name: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
-    options: PropTypes.arrayOf({
-      value: PropTypes.string,
-      label: PropTypes.string,
-    }).isRequired,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+      })
+    ).isRequired,
   }).isRequired,
   update: PropTypes.func.isRequired,
 }
