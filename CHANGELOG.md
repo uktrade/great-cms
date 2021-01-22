@@ -50,6 +50,8 @@
 
 ### Fixed bugs
 
+- GP2-1365 - Add bulleted list styles to rich text block
+- GP2-1364 - Fix extra spacing for first element in rich text block
 - GP2-1366 - minor fix of help text for rich-text areas
 - GP2-1367 - minor fix of link field label
 - No ticket - Next lesson button showing blue underline
