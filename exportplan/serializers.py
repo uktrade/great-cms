@@ -81,6 +81,11 @@ class UiOptions(serializers.Serializer):
         return value[0].split(',')
 
 
+class FundingAndCreditSerializer(serializers.Serializer):
+    override_estimated_total_cost = serializers.FloatField(required=True)
+    funding_amount_required = serializers.FloatField(required=True)
+
+
 class DirectCostsSerializer(serializers.Serializer):
     product_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
     labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
@@ -182,6 +187,7 @@ class ExportPlanSerializer(serializers.Serializer):
     direct_costs = DirectCostsSerializer(required=False)
     overhead_costs = OverheadCostsSerializer(required=False)
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
+    funding_and_credit = FundingAndCreditSerializer(required=False)
 
     @property
     def total_direct_costs(self):
@@ -318,6 +324,17 @@ class TargetMarketDocumentSerializer(serializers.Serializer):
     note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
+
+
+class FundingCreditOptionsSerializer(serializers.Serializer):
+    amount = serializers.FloatField(required=False)
+    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
+class NewFundingCreditOptionsSerializer(FundingCreditOptionsSerializer):
+    pk = serializers.IntegerField(required=False)
 
 
 class NewTargetMarketDocumentSerializer(TargetMarketDocumentSerializer):
