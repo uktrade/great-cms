@@ -1,0 +1,19 @@
+{
+  "name": "directory-ui-export-readiness",
+  "version": "0.0.1",
+  "description": "Directory of UK exporters UI service",
+  "main": "index.js",
+  "private": true,
+  "author": "DIT",
+  "license": "ISC",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "devDependencies": {
+    "del": "^4.0.0",
+    "gulp": "^4.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "yarn": "^1.22.0"
+  }
+}

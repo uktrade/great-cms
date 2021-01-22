@@ -1,0 +1,36 @@
+.pagination {
+  text-align: center;
+  width: 75%;
+  margin: 45px auto 0;
+}
+
+.search-results-list .pagination {
+  a {
+    @include button-ghost($active-blue, $white);
+    margin-bottom: $spacing-4;
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  .current {
+    @include button-disabled($white, $active-blue);
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+  }
+
+  .next {
+    float: right;
+  }
+
+  .previous {
+    float: left;
+  }
+
+  ul {
+    display: inline-block;
+  }
+}

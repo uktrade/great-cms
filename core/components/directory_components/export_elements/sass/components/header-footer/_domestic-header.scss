@@ -1,0 +1,15 @@
+@import 'header';
+@import 'global-header';
+@import 'header-logo';
+@import 'mobile-menu-button';
+
+#great-domestic-header {
+  .account-link {
+    color: $stone;
+    text-decoration: none;
+  }
+
+  .main-nav.desktop {
+    margin-right: 280px;
+  }
+}

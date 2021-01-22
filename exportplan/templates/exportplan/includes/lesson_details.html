@@ -2,14 +2,14 @@
 {% load format_timedelta get_backlinked_url from content_tags %}
 
 {% with lesson_details|get_item:lesson_name|get_item:'url' as outbound_url %}
-<a class="text-white link inline-block width-full" href="{% get_backlinked_url outbound_url %}" title="{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}">
+<a class="text-white link inline-block width-full" href="{% get_backlinked_url outbound_url %}" title="{{ lesson_details|get_item:lesson_name|get_item:'category' }}">
     <h3 class="text-blue-deep-80 body-l-b m-b-xs">Need help?</h3>
     <div class="card bg-blue-deep-80">
-        <h4 class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'topic_name' }}</h4>
+        <h4 class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'category' }}</h4>
         <p class="text-white h-s m-t-0">{{ lesson_details|get_item:lesson_name|get_item:'title' }}</p>
         <div class="text-white">
             <i class="fa fa-clock text-blue-deep-40 m-r-xs"></i>
-            <span class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'estimated_read_duration'|format_timedelta }} read</span>
+            <span class="body-m text-white">{{ lesson_details|get_item:lesson_name|get_item:'duration' }} read</span>
         </div>
     </div>
 </a>

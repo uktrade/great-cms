@@ -2,8 +2,9 @@ import pytz
 from iso3166 import countries_by_alpha3
 
 from core import models
+from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
-from exportplan import data
+from exportplan import data, serializers
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -192,22 +193,23 @@ def get_population_data(country, target_ages):
     return response.json()
 
 
-def get_check_duties_link(exportplan):
+def get_check_duties_link(export_plan):
     # TODO Once requirements have been defined pick country code from export plan
     url = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     return url
 
 
-def get_all_lesson_details():
-    lessons = {}
-    for lesson in models.DetailPage.objects.live().specific():
-        lessons[lesson.slug] = {
-            'topic_name': lesson.topic_title,
-            'title': lesson.title,
-            'estimated_read_duration': lesson.estimated_read_duration,
-            'url': lesson.url,
-        }
-    return lessons
+def get_lesson_details(lessons):
+    lessons_details = {}
+    if len(lessons) > 0:
+        for lesson in models.DetailPage.objects.live().filter(slug__in=lessons):
+            lessons_details[lesson.slug] = {
+                'category': lesson.topic_title,
+                'title': lesson.title,
+                'duration': format_timedelta(lesson.estimated_read_duration),
+                'url': lesson.url,
+            }
+    return lessons_details
 
 
 def get_current_url(slug, export_plan):
@@ -232,3 +234,8 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
             id=export_plan['pk'],
             data={'ui_options': {section_name: {'target_ages': target_ages}}},
         )
+
+
+def calculated_cost_pricing(exportplan_data):
+    calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing
+    return {'calculated_cost_pricing': calculated_pricing}

@@ -144,3 +144,7 @@ def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, regi
         filter_args = filter_args + [create_filter_dict(product_code=None, target_area=area) for area in region_list]
 
     return [i for i in filter_args if i]
+
+
+def choices_to_key_value(choices):
+    return [{'value': key, 'label': label} for key, label in choices]

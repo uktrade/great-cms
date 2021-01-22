@@ -82,9 +82,9 @@ def test_export_plan_builder_landing_page(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
-@mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
+@mock.patch.object(helpers, 'get_lesson_details', return_value={})
 @mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(mock_get_create_exportplan, mock_get_all_lessons, export_plan_data, slug, client, user):
+def test_exportplan_sections(mock_get_create_exportplan, mock_get_lessons, export_plan_data, slug, client, user):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -164,19 +164,21 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, client, use
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_all_lesson_details')
-def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, user):
+@mock.patch.object(helpers, 'get_lesson_details')
+def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
     client.force_login(user)
 
-    mock_get_all_lesson_details.return_value = {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
     slug = slugify('About your business')
+    lessons = data.SECTIONS[slug]['lessons']
+    mock_get_lesson_details.return_value = {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
 
-    assert mock_get_all_lesson_details.call_count == 1
+    assert mock_get_lesson_details.call_count == 1
+    assert mock_get_lesson_details.call_args == mock.call(lessons)
 
-    assert response.context_data['lesson_details'] == {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
+    assert response.context_data['lesson_details'] == {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
 
 
 @pytest.mark.django_db
@@ -242,8 +244,59 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
 
 
 @pytest.mark.django_db
+def test_cost_and_pricing(cost_pricing_data, client, user):
+    url = reverse('exportplan:costs-and-pricing')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert (
+        response.context_data['check_duties_link'] == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
+    )
+    assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
+    assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
+    assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
+    assert response.context_data['costs_and_pricing_data'] == json.dumps(
+        {
+            'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': ''},
+            'overhead_costs': {
+                'product_adaption': '',
+                'freight_logistics': '',
+                'agent_distributor_fees': '',
+                'marketing': '1345.00',
+                'insurance': '10.00',
+                'other_overhead_costs': '',
+            },
+            'total_cost_and_price': {
+                'units_to_export_first_period': {'unit': '', 'value': 22},
+                'units_to_export_second_period': {'unit': '', 'value': ''},
+                'final_cost_per_unit': '16.00',
+                'average_price_per_unit': '',
+                'net_price': '22.00',
+                'local_tax_charges': '5.23',
+                'duty_per_unit': '15.13',
+                'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
+            },
+        }
+    )
+    assert response.context_data['calculated_pricing'] == json.dumps(
+        {
+            'calculated_cost_pricing': {
+                'total_direct_costs': '15.00',
+                'total_overhead_costs': '1355.00',
+                'profit_per_unit': '6.00',
+                'potential_total_profit': '132.00',
+                'gross_price_per_unit': '42.36',
+                'total_export_costs': '1685.00',
+                'estimated_costs_per_unit': '76.59',
+            }
+        }
+    )
+
+
+@pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = True
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
     reload_urlconf('exportplan.data')
     slug = slugify(data.SECTIONS_DISABLED[0])
     url = reverse('exportplan:section', kwargs={'slug': slug})
@@ -255,7 +308,7 @@ def test_redirect_to_service_page_for_disabled_urls(client, user):
 
 @pytest.mark.django_db
 def test_disabled_urls_feature_flag_disabled(client, user):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = False
+    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = []
     reload_urlconf('exportplan.data')
 
     assert len(data.SECTIONS_DISABLED) == 0

@@ -1,0 +1,81 @@
+{% comment %}
+    Partial which renders out 1...n blocks of Industry data, which is modelled in
+    a StreamField with custom StructBlocks
+{% endcomment %}
+
+{% load component_tags wagtailimages_tags %}
+{% if value|industry_accordion_is_viable %}
+<li class="accordion-divider">
+    <a href="#" class="accordion-expander heading-medium link container margin-vertical-0">
+    {% if value.icon %}
+    {% image value.icon original class="accordion-icon margin-right-15" %}
+    {% endif %}
+    {{ value.title }}
+    </a>
+    <div class="accordion-content">
+
+    <section class="padding-vertical-60">
+        <div class="container">
+        <div class="grid-row margin-bottom-30">
+            <div class="column-full column-two-thirds-m column-half-l">
+            <p class="font-medium">{{ value.teaser }}</p>
+            </div>
+        </div>
+        {% with value.subsections|length as number_of_subsections %}
+        <div class="grid-row">
+            {% for subsection in value.subsections %}
+            {% if subsection.value.heading %}
+            {% if number_of_subsections == 3 %}
+            <div class="column-full column-third-l">
+            {% elif number_of_subsections == 2 %}
+            <div class="column-full column-half-l">
+            {% else %}
+            <div class="column-full">
+            {% endif %}
+                {% if subsection.value.icon %}
+                {% image subsection.value.icon original class="accordion-icon" %}
+                {% endif %}
+                <h3 class="heading-medium margin-top-15">{{ subsection.value.heading }}</h3>
+                <p>{{ subsection.value.body }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endwith %}
+        </div>
+    </section>
+
+    {% if value.case_study|industry_accordion_case_study_is_viable %}
+    {% image value.case_study.hero_image original as case_study_background_image %}
+    <section
+        id="country-guide-sector-case-study-section"
+        class="case-study"
+        style="background-image: url({{ case_study_background_image.url }})">
+        <div class="container">
+        <div class="grid-row">
+            <div class="column-full column-two-thirds-m column-half-l column-third-xl">
+            <div class="decorative-line border-thin border-flag-red"></div>
+            <h2 class="heading-large">{{ value.case_study.title }}</h2>
+            {% if value.case_study.button_link and value.case_study.button_text %}
+            <p>{{ value.case_study.description }}</p>
+            <a class="button" href="{{ value.case_study.button_link }}">
+                {{ value.case_study.button_text }}
+            </a>
+            {% endif %}
+            </div>
+        </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if value.statistics %}
+    <section id="country-guide-sector-statistics-section" class="statistics padding-vertical-30">
+        <div class="container">
+            {% include 'components/statistics_card_grid.html' with statistics=value.statistics %}
+        </div>
+    </section>
+    {% endif %}
+
+    </div>
+</li>
+{% endif %}

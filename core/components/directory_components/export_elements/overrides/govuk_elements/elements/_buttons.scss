@@ -1,0 +1,65 @@
+@import '../../sass/partials/mixins';
+@import '../../sass/partials/colours';
+@import '../../sass/partials/typography';
+
+.button {
+  @include great-button;
+}
+
+// Transparent/ghost buttons
+.button-ghost-blue {
+  @include great-button-ghost;
+}
+
+.button-ghost-white {
+  @include great-button-ghost($white);
+}
+
+.button-large {
+  text-align: center;
+  min-width: 300px;
+  font-size: 24px;
+  padding: 15px 30px;
+
+  &:after {
+    height: 60px;
+    line-height: 60px;
+  }
+}
+
+@media (max-width: 640px) {
+  .button-large {
+    width: 100%;
+  }
+}
+
+%button-arrow {
+  text-align: inherit;
+  padding-right: 70px;
+  position: relative;
+  font-family: $brand-font;
+
+  &:after {
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 55px;
+  }
+}
+
+.button-arrow-small {
+  @extend %button-arrow;
+
+  &:after {
+    content: '➞';
+  }
+}
+
+.button-arrow-large {
+  @extend %button-arrow;
+
+  &:after {
+    content: '➔';
+  }
+}

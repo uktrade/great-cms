@@ -1,0 +1,145 @@
+
+// COMMON STYLES
+// ==============
+
+@import '../../partials/typography';
+@import '../../partials/colours';
+@import '../../partials/mixins';
+
+.great-global-header-footer,
+.great-sub-header,
+.great-header {
+  font-family: $brand-font;
+  font-weight: 700;
+}
+
+.great-global-header-footer.international .great-global-header-footer-logo {
+  margin-top: 11px;
+}
+
+.great-global-header-footer.domestic .great-global-header-footer-logo {
+  margin-top: 15px;
+}
+
+.great-global-header-footer {
+  background-color: $white;
+  height: 50px;
+  line-height: 50px;
+
+  & > .container {
+    @include float-clear;
+  }
+
+  .great-global-header-footer-logo {
+    float: left;
+    white-space: nowrap;
+  }
+
+  .great-domestic-international-links {
+    @include float-clear;
+    float: right;
+  }
+
+  .great-footer-copyright {
+    float: right;
+    font-size: 12px;
+    margin: 0;
+    color: $grey;
+  }
+}
+
+.great-global-header-footer,
+.great-header,
+.great-sub-header,
+.great-footer {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.great-footer-logo-container,
+.great-footer .great-domestic-international-links {
+  border-bottom: 1px solid $lightened-great-blue;
+}
+
+.great-footer,
+.great-header,
+.great-sub-header {
+  a:active:focus {
+    color: $great-blue;
+  }
+}
+
+.great-domestic-international-links {
+  @include float-clear;
+  font-family: $brand-font;
+
+  a {
+    text-decoration: none;
+    height: 50px;
+    display: block;
+    float: left;
+    padding: 0 15px;
+    font-size: 14px;
+    position: relative;
+  }
+}
+
+.great-global-header.domestic a.domestic,
+.great-global-header.international a.international {
+  @include flag-red-underline;
+  color: $great-blue;
+}
+
+@media (max-width: 640px) {
+
+  .great-global-header-footer {
+    height: auto;
+    line-height: 1;
+
+    & > .container {
+      margin: 0;
+      width: 100%;
+    }
+
+    .great-global-header-footer-logo {
+      padding-left: 15px;
+      float: none;
+    }
+
+    .great-domestic-international-links {
+      display: table;
+      float: none;
+      width: 100%;
+      table-layout: fixed;
+
+      a {
+        float: none;
+        display: table-cell;
+        vertical-align: middle;
+        width: 50%;
+        min-height: 50px;
+        height: auto;
+
+        &:first-child {
+          padding: 15px;
+          padding-right: 0;
+        }
+
+        &:last-child {
+          text-align: right;
+          padding: 15px;
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+}
+
+@media (max-width: 350px) {
+  .great-global-header-footer {
+    .great-domestic-international-links > * {
+      font-size: 12px;
+    }
+  }
+}

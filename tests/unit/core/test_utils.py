@@ -5,11 +5,13 @@ from django.http import HttpRequest
 
 from core.utils import (
     PageTopicHelper,
+    choices_to_key_value,
     get_all_lessons,
     get_first_lesson,
     get_personalised_case_study_orm_filter_args,
     get_personalised_choices,
 )
+from directory_constants.choices import MARKET_ROUTE_CHOICES
 from tests.unit.core import factories
 
 
@@ -412,3 +414,8 @@ def test_selected_personalised_choices(
         assert commodity_code == expected_commodity_code
         assert country == expected_country
         assert region == expected_region
+
+
+def test_tuple_to_key_value_dict():
+    key_value_dict = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
+    assert choices_to_key_value(MARKET_ROUTE_CHOICES) == key_value_dict

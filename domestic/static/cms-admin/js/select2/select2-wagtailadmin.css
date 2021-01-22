@@ -1,0 +1,75 @@
+form .select2-container--default {
+    width: 100% !important;
+}
+form .select2-container--default .select2-selection--multiple,
+form .select2-container--default .select2-selection--single {
+    border-color: #e6e6e6;
+    background-color: #fafafa;
+    font-family: Open Sans,Arial,sans-serif;
+    font-size: 1.2em;
+}
+form .select2-container--default .select2-selection--single:hover {
+    background-color: #fff;
+}
+form .select2-container--open .select2-selection--single {
+    background-color: #f4fcfc !important;
+    border-color: #5ad0cf;
+}
+form .select2-container--focus .select2-selection--single {
+    border-color: #5ad0cf;
+    background-color: #fff;
+    outline: none !important;
+    outline-offset: -2px !important;
+}
+
+form .select2-container--default .select2-selection--single {
+    padding: 0;
+    height: 50px;
+}
+form .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #333;
+    padding: 0.9em 1.2em;
+    line-height: normal;
+    font-weight: 300;
+}
+form .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 50px;
+}
+
+form .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #54d0d0;
+}
+
+form .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    padding: 6px;
+    color: #333;
+    font-weight: 300;
+    background-color: #eaeaea;
+    border-color: #d4d4d4;
+}
+
+form .select2-container--default .select2-search--inline .select2-search__field {
+    padding: 6px;
+}
+
+form .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding: 3px 7px;
+}
+
+form .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    font-size: 1.3em;
+    margin-right: 5px;
+    padding-top: 1px;
+    vertical-align: top;
+}
+
+.select2-container--default .select2-dropdown {
+    border-color: #e6e6e6;
+}
+.select2-container--default .select2-results__option,
+.select2-container--default .select2-results__group {
+    font-size: 1.1em;
+    padding: 9px 14px;
+
+
+}

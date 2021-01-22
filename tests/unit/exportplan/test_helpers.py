@@ -327,13 +327,43 @@ def test_target_market_documents_delete(mock_target_market_documents_delete):
 
 
 @pytest.mark.django_db
-def test_get_all_lesson_details(curated_list_pages_with_lessons):
-    lessons = helpers.get_all_lesson_details()
+def test_get_lesson_details(curated_list_pages_with_lessons):
+    lesson_list = ['lesson-a1', 'lesson-a2', 'lesson-b1']
+    lessons = helpers.get_lesson_details(lesson_list)
     assert lessons == {
-        'lesson-a1': {'topic_name': 'Some title', 'title': 'Lesson A1', 'estimated_read_duration': None, 'url': None},
-        'lesson-a2': {'topic_name': 'Some title', 'title': 'Lesson A2', 'estimated_read_duration': None, 'url': None},
-        'lesson-b1': {'topic_name': 'Some title b', 'title': 'Lesson b1', 'estimated_read_duration': None, 'url': None},
+        'lesson-a1': {
+            'category': 'Some title',
+            'title': 'Lesson A1',
+            'duration': '2 hour 45 min',
+            'url': None,
+        },
+        'lesson-a2': {
+            'category': 'Some title',
+            'title': 'Lesson A2',
+            'duration': '12 min',
+            'url': None,
+        },
+        'lesson-b1': {
+            'category': 'Some title b',
+            'title': 'Lesson b1',
+            'duration': '10 min',
+            'url': None,
+        },
     }
+
+
+@pytest.mark.django_db
+def test_get_lesson_details_empty(curated_list_pages_with_lessons):
+    lesson_list = []
+    lessons = helpers.get_lesson_details(lesson_list)
+    assert lessons == {}
+
+
+@pytest.mark.django_db
+def test_get_lesson_details_no_found(curated_list_pages_with_lessons):
+    lesson_list = ['ewkjhewfk']
+    lessons = helpers.get_lesson_details(lesson_list)
+    assert lessons == {}
 
 
 @pytest.mark.parametrize(
@@ -434,3 +464,18 @@ def test_update_ui_options_target_ages_not_required(mock_update_export_plan, exp
         sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
     )
     assert mock_update_export_plan.call_count == 0
+
+
+def test_calculated_cost_pricing(cost_pricing_data):
+    pricing_data = helpers.calculated_cost_pricing(cost_pricing_data)
+    assert pricing_data == {
+        'calculated_cost_pricing': {
+            'total_direct_costs': '15.00',
+            'total_overhead_costs': '1355.00',
+            'profit_per_unit': '6.00',
+            'potential_total_profit': '132.00',
+            'gross_price_per_unit': '42.36',
+            'total_export_costs': '1685.00',
+            'estimated_costs_per_unit': '76.59',
+        }
+    }

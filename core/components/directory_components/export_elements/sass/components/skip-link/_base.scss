@@ -1,0 +1,24 @@
+@import '../partials/typography';
+@import '../partials/mixins';
+
+#skip-link {
+  @include body-small;
+  background-color: transparent;
+  color: $white;
+  display: inline-block;
+  padding: 15px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: -1000px;
+  z-index: -1;
+
+  &:focus {
+    @include focus;
+    background-color: $focus-yellow;
+    color: $dark-blue;
+    left: 0;
+    text-indent: 0;
+    top: 0;
+    z-index: 10;
+  }
+}

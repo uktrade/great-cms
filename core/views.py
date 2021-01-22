@@ -88,31 +88,6 @@ class SignupView(GA360Mixin, PageTitleMixin, TemplateView):
     title = 'Sign up'
 
 
-class MarketsView(GA360Mixin, TemplateView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='Markets',
-            business_unit='MarketsUnit',
-            site_section='markets',
-        )
-
-    template_name = 'core/markets.html'
-
-    def get_page_title(self):
-        if self.request.user.is_authenticated:
-            return helpers.get_markets_page_title(self.request.user.company)
-
-    def get_most_popular_countries(self):
-        if self.request.user.is_authenticated and self.request.user.company.expertise_industries_labels:
-            return helpers.get_popular_export_destinations(self.request.user.company.expertise_industries_labels[0])
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            page_title=self.get_page_title(), most_popular_countries=self.get_most_popular_countries(), **kwargs
-        )
-
-
 class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
     def __init__(self):
         super().__init__()

@@ -1,4 +1,14 @@
-import { slugify, addItemToList, capitalize, isObject, get, mapArray } from '@src/Helpers'
+import {
+  slugify,
+  addItemToList,
+  capitalize,
+  isObject,
+  get,
+  mapArray,
+  getValue,
+  getLabel,
+  formatLessonLearned,
+} from '@src/Helpers'
 
 test('slugify', (done) => {
   const testStrings = [
@@ -129,4 +139,71 @@ test('mapArray', () => {
   const result = mapArray(arr, 'keyVal')
   expect(result.keyOne).toEqual(arr[0])
   expect(result.keyTwo.name).toEqual('value2')
+})
+
+describe('getLabel', () => {
+  it('Should return a label', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getLabel(list, 'd')).toEqual('days')
+  })
+
+  it('Should have no label', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getLabel(list, 'n')).toEqual('')
+    expect(getLabel(list, '')).toEqual('')
+  })
+})
+
+describe('getValue', () => {
+  it('Should return a value', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getValue(list, 'days')).toEqual('d')
+  })
+
+  it('Should have no value', () => {
+    const list = [
+      { value: 'd', label: 'days' },
+      { value: 'm', label: 'months' },
+    ]
+    expect(getValue(list, 'hour')).toEqual('')
+    expect(getValue(list, '')).toEqual('')
+  })
+})
+
+describe('formatLessonLearned', () => {
+  const lesson = {
+    'managing-exchange-rates': {
+      category: 'Exchange rates and moving money',
+      title: 'Managing exchange rates',
+      duration: '4 min',
+      url:
+        '/learn/categories/funding-financing-and-getting-paid/exchange-rates-and-moving-money/managing-exchange-rates/',
+    },
+  }
+
+  const section = {
+    lessons: ['managing-exchange-rates', 'another-lesson'],
+    url: '/back-to',
+  }
+
+  it('Should return a lesson', () => {
+    expect(formatLessonLearned(lesson, section, 0)).toEqual({
+      ...lesson['managing-exchange-rates'],
+      url: `${lesson['managing-exchange-rates'].url}?return-link=${section.url}`,
+    })
+  })
+
+  it('Should have no lesson', () => {
+    expect(formatLessonLearned(lesson, section, 1)).toEqual({})
+    expect(formatLessonLearned(lesson, { lessons: [] }, 1)).toEqual({})
+  })
 })

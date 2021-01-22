@@ -1,0 +1,164 @@
+{% load static from staticfiles %}
+{% load i18n %}
+{% load static_absolute from component_tags %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+<!DOCTYPE html>
+    <!--[if lt IE 9]><html class="lte-ie8" lang={{ directory_components_html_lang_attribute|default:'en-gb' }}><![endif]-->
+    <!--[if gt IE 8]><!--><html dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}" lang={{ directory_components_html_lang_attribute|default:'en-gb' }}><!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        {% block sharing_description %}
+            <meta name="description" content="{% block meta_description %}{% firstof page.search_description page.teaser page.featured_description page.seo_title page.title %}{% endblock %}">
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block head_google_tag_manager %}
+            {% if directory_components_analytics %}
+                <meta id="utmCookieDomain" value=".great.gov.uk" />
+            {% endif %}
+            {% include 'components/google_tag_manager_head.html' %}
+        {% endblock %}
+        {% block cookie_domain_meta %}
+          <meta id="privacyCookieDomain" value=".great.gov.uk" />
+        {% endblock %}
+        <title>
+            {% block head_title %}{% endblock %}
+        </title>
+
+        {% block head_favicon %}
+            <link href='{% static 'directory_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
+            <!--[if IE]> <link rel="icon" href="{% static 'directory_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+        {% endblock %}
+
+        {% block head_css %}
+            <link href="{% static 'directory_components/export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+            <link href="{% static 'directory_components/export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+            {{ block.super }}
+            <link href="{% static 'styles/main.css' %}" rel="stylesheet" type="text/css" />
+        {% endblock %}
+
+        <style>
+            .js-disabled-only { display: none; }
+        </style>
+        <noscript>
+            <style>
+                .navigation-toggle { display: block; }
+                .js-disabled-only { display: block; }
+                .js-enabled-only { display: none; }
+            </style>
+        </noscript>
+
+        {% block vendor_js %}
+            <script src="{% static 'directory_components/js/vendor/details-polyfill.js' %}"></script>
+            <script src="{% static 'directory_components/js/vendor/jquery-3.5.1.min.js' %}"></script>
+        {% endblock %}
+
+        {% block head_js %}
+            <script src="{% static 'js/dit.js' %}"></script>
+            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script> {% endcomment %}
+            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'directory_components/js/reactComponents.js' %}"></script> {% endcomment %}
+            <script>
+              // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
+              window.onpageshow = function (event) {
+                  if (event.persisted) {
+                      window.location.reload();
+                  }
+              }
+            </script>
+        {% endblock %}
+
+        {% block head_js_ga360 %}
+            <script src="{% static 'directory_components/js/dit.tagging.js' %}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                {% if ga360 and not skip_ga360 %}
+                window.dataLayer.push({
+                    'businessUnit': '{{ ga360.business_unit }}',
+                    'siteSection': '{{ ga360.site_section}}',
+                    'siteSubsection': '{{ ga360.site_subsection }}',
+                    'siteLanguage': '{{ ga360.site_language }}',
+                    'userId': '{{ ga360.user_id }}',
+                    'loginStatus': '{{ ga360.login_status }}',
+                });
+                dit.tagging.base.init();
+                {% endif %}
+            </script>
+        {% endblock %}
+
+        {% block header_js %}
+            <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>
+            <script src="{% static 'directory_components/js/dit.utils.js' %}"></script>
+            <script src="{% static 'directory_components/js/dit.components.header.js' %}"></script>
+        {% endblock %}
+
+        {% block head_other %}
+            {% include 'components/browser_check.html' %}
+        {% endblock %}
+
+        {% block head_sharing_metadata %}
+            {% if request %}
+            <meta property="og:image" content="{% static_absolute 'directory_components/images/opengraph-image.png' %}">
+            <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+            {% endif %}
+
+            {% block sharing_image %}
+            {% if page.hero_image or page.hero_medium or page.hero_image_thumbnail or page.article_image_thumbnail %}
+                <meta property="og:image" content="{% firstof page.hero_image_thumbnail.url page.article_image_thumbnail.url page.hero_medium.url page.hero_image.url %}">
+            {% else %}
+                {% if request %}
+                <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
+                {% endif %}
+            {% endif %}
+            {% endblock %}
+        {% endblock %}
+    </head>
+
+    <body {% block body_attributes %}{% endblock %}>
+        {% block body_google_tag_manager %}
+            {% include 'components/google_tag_manager_body.html' %}
+        {% endblock %}
+        <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+        {% block skip_link %}
+          <a id="skip-link" href="#content">Skip to main content</a>
+        {% endblock %}
+
+        {% block cookie_notice %}
+            {% include 'components/cookie_notice.html' %}
+        {% endblock %}
+
+        {% block body_header %}
+            {% include 'components/header_footer/domestic_header.html' %}
+        {% endblock %}
+
+        {% block body_content_container %}
+            <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}">
+                {% block content %}{% endblock %}
+                {% block feedback_reporter %}
+                    {% include 'components/error_reporting.html' %}
+                {% endblock %}
+                {% block content_after %}{% endblock %}
+            </main>
+        {% endblock %}
+
+        {% block body_footer %}
+            {% include 'components/header_footer/domestic_footer.html' %}
+        {% endblock %}
+
+        {% block body_js %}
+            {% if request.resolver_match.url_name != 'privacy-and-cookies' %}
+                {{ block.super }}
+            {% endif %}
+          <script>
+            var element = document.createElement('div');
+            document.body.appendChild(element);
+            {% comment "Disabled because cookie behaviour needs attention" %} reactComponents.CookiesModal({
+              element: element,
+              privacyCookiesUrl: '{{ header_footer_urls.privacy_and_cookies }}',
+              preferencesUrl: '{{ header_footer_urls.cookie_preference_settings }}',
+              isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
+            }) {% endcomment %}
+          </script>
+        {% endblock %}
+    </body>
+</html>

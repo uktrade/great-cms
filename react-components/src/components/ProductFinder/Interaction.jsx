@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { capitalize } from '@src/Helpers'
+import ExpandCollapse from './ExpandCollapse'
 
 function RadioButtons(props) {
   const { attribute, valueChange } = props
@@ -31,16 +32,16 @@ function RadioButtons(props) {
   const buttons = (attribute.attrs || []).map((option) => {
     const checked = option.id === (selection && selection.id)
     const optionName = (
-      <span>
+      <>
         {option.isPart ? <span className="text-black-50">Part of </span> : ''}
         {capitalize(option.name, !option.isPart)}
-      </span>
+      </>
     )
     return (
       <label
         key={option.id}
         htmlFor={option.id}
-        className="multiple-choice p-f-m m-v-xxs"
+        className="interaction-label multiple-choice p-f-m m-v-xxs"
       >
         <input
           type="radio"
@@ -53,10 +54,19 @@ function RadioButtons(props) {
           aria-label={option.name}
           onChange={changeVal}
         />
+
         {/* eslint-disable jsx-a11y/label-has-associated-control */}
         <label htmlFor={option.id} />
         {/* eslint-enable jsx-a11y/label-has-associated-control */}
         {optionName}
+        {option.def && (
+          <ExpandCollapse
+            buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-s p-v-4 p-h-0"
+            buttonBefore
+          >
+            <div className="g-panel f-l m-v-xs">{option.def}</div>
+          </ExpandCollapse>
+        )}
       </label>
     )
   })

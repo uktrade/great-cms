@@ -1,29 +1,27 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
+import { getLabel, getValue } from '@src/Helpers'
 
-export const Units = memo(({ update, input, select }) => {
+export const Units = memo(({ update, input, select, description }) => {
   return (
     <>
-      <h2 className="h-m p-b-xs p-t-m">Total costs and price</h2>
-      <p>
-        Now you have calculated your direct and overhead costs, you can
-        calculate your final cost per unit. This can be tricky but don't worry,
-        we will tell you what you need to do.
-      </p>
-      <h2 className="h-xs p-t-0 p-b-0">Number of units you want to export</h2>
-      <p className="m-t-xs">
-        First, record how many units you want to export over a given period of
-        time.
-      </p>
-      <p>The more accurate you are, the better your plan will be.</p>
+      {ReactHtmlParser(description)}
       <div className="grid">
         <div className="w-full">
           <div className="c-1-6 m-r-xs">
             <Input
-              onChange={update}
+              onChange={(x) => {
+                const postData = input.field({
+                  unit: getValue(select.options, select.value),
+                  value: x[input.id],
+                })
+
+                update(x, postData)
+              }}
               label={input.label}
               id={input.id}
               hideLabel
@@ -35,12 +33,22 @@ export const Units = memo(({ update, input, select }) => {
           <div className="c-1-3">
             <Select
               label={select.label}
-              update={(item) => update(select.id, item)}
+              id={select.id}
+              update={(item) => {
+                const postData = input.field({
+                  unit: item[select.name],
+                  value: input.value,
+                })
+                update(
+                  { [select.id]: getLabel(select.options, item[select.name]) },
+                  postData
+                )
+              }}
               name={select.name}
               options={select.options}
-              selected={select.value}
               hideLabel
               placeholder={select.placeholder}
+              selected={select.value}
             />
           </div>
         </div>
@@ -50,11 +58,13 @@ export const Units = memo(({ update, input, select }) => {
 })
 
 Units.propTypes = {
+  description: PropTypes.string.isRequired,
   input: PropTypes.shape({
     label: PropTypes.string,
     id: PropTypes.string,
     value: PropTypes.string,
     type: PropTypes.string,
+    field: PropTypes.func,
     placeholder: PropTypes.string,
   }).isRequired,
   select: PropTypes.shape({
@@ -63,10 +73,12 @@ Units.propTypes = {
     name: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
-    options: PropTypes.arrayOf({
-      value: PropTypes.string,
-      label: PropTypes.string,
-    }).isRequired,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+      })
+    ).isRequired,
   }).isRequired,
   update: PropTypes.func.isRequired,
 }

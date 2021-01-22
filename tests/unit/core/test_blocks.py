@@ -2,6 +2,7 @@ from unittest import mock
 
 import pytest
 from wagtail.core import blocks
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 
 from core import blocks as core_blocks
 from tests.unit.core.factories import (
@@ -328,3 +329,30 @@ def test_case_study_static_block_get_context():
 
         assert context == mocked_returned_context
         assert mock_annotate_with_case_study.call_count == 1
+
+
+@pytest.mark.parametrize(
+    'blocks_to_create,expected_exception_message',
+    (
+        (1, 'There must be between two and six statistics in this panel'),
+        (2, None),
+        (3, None),
+        (4, None),
+        (5, None),
+        (6, None),
+        (7, 'There must be between two and six statistics in this panel'),
+    ),
+)
+def test_general_statistics_streamfield_validation(blocks_to_create, expected_exception_message):
+
+    value = [mock.Mock() for x in range(blocks_to_create)]
+
+    if expected_exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            core_blocks.general_statistics_streamfield_validation(value)
+            assert ctx.message == expected_exception_message
+    else:
+        try:
+            core_blocks.general_statistics_streamfield_validation(value)  #
+        except Exception as e:
+            assert False, f'Should not have got a {e}'

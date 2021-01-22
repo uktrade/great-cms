@@ -106,6 +106,7 @@ TEMPLATES = [
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
+                'core.context_processors.analytics_vars',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -172,6 +173,8 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     str(ROOT_DIR('core/static')),
+    str(ROOT_DIR('core/components/directory_components/static')),
+    str(ROOT_DIR('domestic/static')),
     str(ROOT_DIR('react-components/dist')),
 ]
 
@@ -452,6 +455,9 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
 
+# Wagtail customisations
+ENVIRONMENT_CSS_THEME_FILE = env.str('ENVIRONMENT_CSS_THEME_FILE', '')
+
 # Wagtail-transfer configuration
 
 WAGTAILTRANSFER_SOURCES = get_wagtail_transfer_configuration()
@@ -495,7 +501,7 @@ WAGTAILTRANSFER_LOOKUP_FIELDS = {
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
 
 FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE', False)
-FEATURE_EXPORT_PLAN_SECTIONS_DISABLED = env.str('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED', False)
+FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = env.list('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST', default=[])
 FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER = env.bool('FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER', False)
 FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
 

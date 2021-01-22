@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const slugify = (string) => {
   return string
     .toLowerCase()
@@ -47,15 +45,15 @@ const isObject = (obj) => {
 }
 
 const isArray = (arr) => {
-  return Object.prototype.toString.call(arr) === "[object Array]"
+  return Object.prototype.toString.call(arr) === '[object Array]'
 }
 
 const get = (obj, path) => {
-  // get a value from an object based on dot-separated path 
+  // get a value from an object based on dot-separated path
   let out = obj
   const pathSplit = path.split('.')
-  for(var i=0; i<pathSplit.length; i++) {
-    if(!isObject(out)) {
+  for (var i = 0; i < pathSplit.length; i++) {
+    if (!isObject(out)) {
       return
     }
     out = out[pathSplit[i]]
@@ -64,13 +62,13 @@ const get = (obj, path) => {
 }
 
 const mapArray = (array, key) => {
-// Generates an object from an array, using the given key
-    const out = {}
-    array.forEach((entry) => {
-      out[entry[key]] = entry
-    })
-    return out
-} 
+  // Generates an object from an array, using the given key
+  const out = {}
+  array.forEach((entry) => {
+    out[entry[key]] = entry
+  })
+  return out
+}
 
 const sectionQuestionMapping = {
   story: 'How you started',
@@ -89,6 +87,24 @@ const sectionQuestionMapping = {
     'What’s the avg price for your product in the selected country?',
 }
 
+const getLabel = (list, selected) => {
+  const hasValue = list.find((x) => x.value === selected)
+  return selected && hasValue ? hasValue.label : ''
+}
+
+const getValue = (list, selected) => {
+  const hasLabel = list.find((x) => x.label === selected)
+  return selected && hasLabel ? hasLabel.value : ''
+}
+
+const formatLessonLearned = (lesson, section, id) =>
+  lesson[section.lessons[id]]
+    ? {
+        ...lesson[section.lessons[id]],
+        url: `${lesson[section.lessons[id]].url}?return-link=${section.url}`,
+      }
+    : {}
+
 export {
   slugify,
   addItemToList,
@@ -100,4 +116,7 @@ export {
   isArray,
   get,
   mapArray,
+  getLabel,
+  getValue,
+  formatLessonLearned,
 }

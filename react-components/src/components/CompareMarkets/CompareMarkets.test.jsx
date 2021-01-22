@@ -183,8 +183,13 @@ afterEach(() => {
 })
 
 it('Forces product chooser when no product', () => {
-  container.innerHTML =
-    '<span id="compare-market-container" data-productname="" data-productcode=""></span>'
+
+  container.innerHTML = '<span id="compare-market-container" ></span>'
+  const dataTabs = '{ "population": true, "economy": true, "society": true }'
+  container
+    .querySelector('#compare-market-container')
+    .setAttribute('data-tabs', dataTabs)
+
   act(() => {
     CompareMarkets({ element: container.querySelector('span') })
   })
@@ -265,6 +270,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
     /28%\s*17.1 million/
   )
 
+
   // check economy data
   const economy_tab = container.querySelector('.tab-list-item:nth-of-type(2)')
   expect(economy_tab.textContent).toMatch('ECONOMY')
@@ -285,9 +291,6 @@ it('Allows selection of markets and fetch data when product selected', async () 
     expect(
       rowEconomyGermany.querySelector('.uk-import-value').textContent
     ).toMatch('135.2 thousand')
-    expect(rowEconomyGermany.querySelector('.gdp').textContent).toMatch(
-      '46258.9'
-    )
     expect(rowEconomyGermany.querySelector('.avg-income').textContent).toMatch(
       '7895'
     )
@@ -296,6 +299,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
     ).toMatch('22')
     expect(rowEconomyGermany.querySelector('.cpi').textContent).toMatch('9')
   })
+  expect(container.querySelectorAll('.tooltip button').length).toEqual(3) 
 
   // check society data
   const society_tab = container.querySelector('.tab-list-item:nth-of-type(3)')
@@ -321,7 +325,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
 
   // remove the country
   act(() => {
-    Simulate.click(container.querySelector('.market-details button'))
+    Simulate.click(container.querySelector('.market-details tbody button'))
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(

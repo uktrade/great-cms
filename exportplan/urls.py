@@ -39,6 +39,12 @@ urlpatterns = [
         name='business-objectives',
     ),
     path(
+        'section/costs-and-pricing/',
+        login_required(views.CostsAndPricingView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'costs-and-pricing'},
+        name='costs-and-pricing',
+    ),
+    path(
         'section/<slug:slug>/',
         login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
         name='section',
@@ -74,6 +80,11 @@ urlpatterns = [
         'api/society-data-by-country/',
         skip_ga360(api.ExportPlanSocietyDataByCountryView.as_view()),
         name='api-society-data-by-country',
+    ),
+    path(
+        'api/calculate-cost-and-pricing/',
+        skip_ga360(api.UpdateCalculateCostAndPricingAPIView.as_view()),
+        name='api-calculate-cost-and-pricing',
     ),
     path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
     path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),

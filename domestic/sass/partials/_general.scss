@@ -1,0 +1,60 @@
+// GENERAL SITE STYLES
+// ---------------------
+
+#menu-activator {
+  margin-top: 0;
+}
+
+a:active {
+  background-color: $focus-yellow;
+}
+
+a:focus {
+  outline: $focus-yellow solid 3px;
+}
+
+section {
+  clear: both;
+  padding-bottom: 90px;
+
+  .intro {
+    @include columns(6);
+    clear: left;
+    margin-bottom: $spacing-2;
+  }
+}
+
+table {
+  margin-bottom: 2em;
+}
+
+.container {
+  max-width: $design-max-width;
+  margin: 0 auto;
+
+  @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
+    margin: 0 $spacing-3;
+  }
+
+  @media (max-width: 420px) {
+    margin: 0 20px; // Special figure intentionally outside of standard.
+  }
+}
+
+.group {
+  // Use to clear a group of floated elements
+  // and have the parent recalculate its height.
+  clear: both;
+  float: none;
+}
+
+.verbose {
+  overflow: hidden;
+  position: absolute;
+  text-indent: -1000px;
+  z-index: -1;
+}
+
+#content .hidden {
+  display: none;
+}

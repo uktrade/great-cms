@@ -1,0 +1,64 @@
+.radio-nested-container {
+  margin-bottom: 50px;
+
+  input[type='radio']:not(:checked) + label + .radio-nested {
+    display: none;
+  }
+
+  > .form-group {
+    margin-bottom: -20px;
+  }
+
+  .radio-nested {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 4px;
+    margin-top: 45px;
+    margin-bottom: 0;
+    margin-left: -20px;
+
+    .form-hint + .form-group {
+      margin-top: -5px;
+    }
+
+    .form-hint {
+      padding-bottom: 0;
+    }
+
+    .form-group {
+      margin-top: 10px;
+      margin-bottom: 0;
+
+      > .form-label {
+        padding-left: 0;
+        font-weight: normal;
+        width: 100%;
+      }
+
+      // override .multiple-choice input which hides input boxes.
+      input[type=text],
+      input[type=number] {
+        position: inherit;
+        cursor: inherit;
+        left: inherit;
+        top: inherit;
+        height: inherit;
+        z-index: inherit;
+        zoom: inherit;
+        filter: inherit;
+        opacity: inherit;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+      }
+    }
+
+    .form-group-error {
+      margin-left: -19px;
+      border-width: 4px;
+    }
+  }
+}
