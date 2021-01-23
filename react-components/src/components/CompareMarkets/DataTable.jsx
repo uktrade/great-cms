@@ -57,7 +57,7 @@ export default function DataTable(props) {
   const yearDiv = (year, baseYear) => {
     return (
       year &&
-      year !== baseYear && (
+      String(year) !== baseYear && (
         <div className="body-m text-black-60 display-year">{year}</div>
       )
     )

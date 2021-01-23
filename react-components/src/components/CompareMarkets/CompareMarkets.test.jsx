@@ -301,6 +301,9 @@ it('Allows selection of markets and fetch data when product selected', async () 
         expect(test.selector).toEqual('Following selector failed to return an element')
       }
     } else {
+      if(test.fail) {
+        expect(test.selector).toEqual('Following selector returned an element')
+      }
       expect(element.textContent).toMatch(test.expect)
     }
   })
