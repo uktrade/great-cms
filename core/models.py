@@ -933,7 +933,7 @@ def case_study_body_validation(value):
 class MagnaPageChooserPanel(PageChooserPanel):
     show_label = False
 
-    field_template = "admin/wagtailadmin/edit_handlers/field_panel_field.html"
+    field_template = 'admin/wagtailadmin/edit_handlers/field_panel_field.html'
 
     def render_as_field(self):
         instance_obj = self.get_chosen_item()
@@ -954,9 +954,9 @@ class CaseStudyRelatedPages(Orderable):
         null=True,
         blank=True,
     )
-    page = models.ForeignKey('wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name="+")
+    page = models.ForeignKey('wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     panels = [
-        MagnaPageChooserPanel("page", [DetailPage, CuratedListPage, TopicPage]),
+        MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]),
     ]
     sort_order_field = None
 
