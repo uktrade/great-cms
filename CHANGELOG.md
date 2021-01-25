@@ -9,6 +9,7 @@
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/
 - GP2-1176 - Getting paid - Page structure
+- GP2- 1341 - Added Case Study Content Linking UI
 - GP2-1340 - Analytics - product name relabelled
 - GP2-1339 - Analytics - search again
 - GP2-1260 - Compare markets - tooltips
