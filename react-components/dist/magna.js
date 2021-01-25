@@ -65484,9 +65484,9 @@ __webpack_require__.r(__webpack_exports__);
   createDisabledButton: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_17__["createDisabledButton"],
   createCaseStudy: _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_21__["createCaseStudy"],
   createCostsAndPricing: _src_views_sections_CostsAndPricing__WEBPACK_IMPORTED_MODULE_16__["createCostsAndPricing"],
-  financeTotalExportCost: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["financeTotalExportCost"],
-  financeHowMuchFunding: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["financeHowMuchFunding"],
-  financeFundingCreditOptions: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["financeFundingCreditOptions"],
+  fundingCreditTotalExportCost: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["fundingCreditTotalExportCost"],
+  fundingCreditHowMuchFunding: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["fundingCreditHowMuchFunding"],
+  fundingCreditFundingCreditOptions: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["fundingCreditFundingCreditOptions"],
   ProductFinderButton: _src_components_ProductFinder_ProductFinderButton__WEBPACK_IMPORTED_MODULE_4__["default"],
   CountryFinderButton: _src_components_ProductFinder_CountryFinderButton__WEBPACK_IMPORTED_MODULE_5__["default"],
   CompareMarkets: _src_components_CompareMarkets__WEBPACK_IMPORTED_MODULE_7__["default"],
@@ -75867,14 +75867,14 @@ var createDisabledButton = function createDisabledButton(_ref2) {
 /*!*****************************************************************************!*\
   !*** ./react-components/src/views/sections/FundingCredit/FundingCredit.jsx ***!
   \*****************************************************************************/
-/*! exports provided: financeTotalExportCost, financeHowMuchFunding, financeFundingCreditOptions */
+/*! exports provided: fundingCreditTotalExportCost, fundingCreditHowMuchFunding, fundingCreditFundingCreditOptions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "financeTotalExportCost", function() { return financeTotalExportCost; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "financeHowMuchFunding", function() { return financeHowMuchFunding; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "financeFundingCreditOptions", function() { return financeFundingCreditOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fundingCreditTotalExportCost", function() { return fundingCreditTotalExportCost; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fundingCreditHowMuchFunding", function() { return fundingCreditHowMuchFunding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fundingCreditFundingCreditOptions", function() { return fundingCreditFundingCreditOptions; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -75912,7 +75912,7 @@ var financeHowMuchFundingData = [{
   placeholder: '0.00',
   tooltip: "<p>Some tooltip here</p>"
 }];
-var financeTotalExportCost = function financeTotalExportCost(_ref) {
+var fundingCreditTotalExportCost = function fundingCreditTotalExportCost(_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
@@ -75924,7 +75924,7 @@ var financeTotalExportCost = function financeTotalExportCost(_ref) {
 
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__["FormElements"], data), element);
 };
-var financeHowMuchFunding = function financeHowMuchFunding(_ref2) {
+var fundingCreditHowMuchFunding = function fundingCreditHowMuchFunding(_ref2) {
   var element = _ref2.element,
       params = _objectWithoutProperties(_ref2, ["element"]);
 
@@ -75934,7 +75934,7 @@ var financeHowMuchFunding = function financeHowMuchFunding(_ref2) {
 
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__["FormElements"], data), element);
 };
-var financeFundingCreditOptions = function financeFundingCreditOptions(_ref3) {
+var fundingCreditFundingCreditOptions = function fundingCreditFundingCreditOptions(_ref3) {
   var element = _ref3.element,
       params = _objectWithoutProperties(_ref3, ["element"]);
 

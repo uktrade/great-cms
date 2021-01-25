@@ -37,7 +37,7 @@ const financeHowMuchFundingData = [
   },
 ]
 
-export const financeTotalExportCost = ({ element, ...params }) => {
+export const fundingCreditTotalExportCost = ({ element, ...params }) => {
   debugger
   const data = {
     ...params,
@@ -46,7 +46,7 @@ export const financeTotalExportCost = ({ element, ...params }) => {
   ReactDOM.render(<FormElements {...data} />, element)
 }
 
-export const financeHowMuchFunding = ({ element, ...params }) => {
+export const fundingCreditHowMuchFunding = ({ element, ...params }) => {
   const data = {
     ...params,
     formFields: financeHowMuchFundingData,
@@ -54,7 +54,7 @@ export const financeHowMuchFunding = ({ element, ...params }) => {
   ReactDOM.render(<FormElements {...data} />, element)
 }
 
-export const financeFundingCreditOptions = ({ element, ...params }) => {
+export const fundingCreditFundingCreditOptions = ({ element, ...params }) => {
   const { options } = params
   const fundingCreditOptions = {
     id: 'funding_option',

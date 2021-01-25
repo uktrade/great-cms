@@ -15,9 +15,9 @@ import {
 } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
 import {
-  financeTotalExportCost,
-  financeHowMuchFunding,
-  financeFundingCreditOptions,
+  fundingCreditTotalExportCost,
+  fundingCreditHowMuchFunding,
+  fundingCreditFundingCreditOptions,
 } from '@src/views/sections/FundingCredit/FundingCredit'
 import { createGettingPaid } from '@src/views/sections/GettingPaid'
 import {
@@ -71,9 +71,9 @@ export default {
   createDisabledButton,
   createCaseStudy,
   createCostsAndPricing,
-  financeTotalExportCost,
-  financeHowMuchFunding,
-  financeFundingCreditOptions,
+  fundingCreditTotalExportCost,
+  fundingCreditHowMuchFunding,
+  fundingCreditFundingCreditOptions,
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,
