@@ -58,18 +58,15 @@ There are however lots of financing options available to help you export, the ri
   var element = document.getElementById('finance-total-export-cost');
   magna.financeTotalExportCost({
     element: element,
-    field: 'finance',
-    formData: {},
-    formFields: [],
+    estimated_costs_per_unit: {{ estimated_costs_per_unit }},
+    formData: {{ funding_and_credit }},
     companyexportplan: {{ export_plan.pk }}
   })
 
   element = document.getElementById('finance-how-much-funding');
   magna.financeHowMuchFunding({
     element: element,
-    field: 'finance',
-    formData: {},
-    formFields: [],
+    formData: {{ funding_and_credit }},
     companyexportplan: {{ export_plan.pk }}
   })
   
@@ -77,9 +74,8 @@ There are however lots of financing options available to help you export, the ri
   magna.financeFundingCreditOptions({
     element: element,
     currency: 'GBP',
-    field: 'finance',
-    formData: {},
-    formFields: [],
+    options: {{ funding_options|safe }},
+    formFields: {{ funding_credit_options|safe }},
     companyexportplan: {{ export_plan.pk }}
   })
 </script>

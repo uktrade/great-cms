@@ -37,22 +37,8 @@ const financeHowMuchFundingData = [
   },
 ]
 
-const financeFundingCreditOptionsData = [
-  {
-    pk: '33',
-    value: 15000,
-  },
-  {
-    pk: '34',
-    value: 8000,
-  },
-  {
-    pk: '35',
-    value: 10000,
-  },
-]
-
 export const financeTotalExportCost = ({ element, ...params }) => {
+  debugger
   const data = {
     ...params,
     formFields: financeTotalExportCostData,
@@ -69,9 +55,17 @@ export const financeHowMuchFunding = ({ element, ...params }) => {
 }
 
 export const financeFundingCreditOptions = ({ element, ...params }) => {
+  const { options } = params
+  const fundingCreditOptions = {
+    id: 'funding_option',
+    name: 'funding_option',
+    placeholder: 'Select option',
+    options: options,
+  }
   const data = {
     ...params,
-    formFields: financeFundingCreditOptionsData,
+    fundingCreditOptions,
   }
+  debugger
   ReactDOM.render(<FundingCredit {...data} />, element)
 }

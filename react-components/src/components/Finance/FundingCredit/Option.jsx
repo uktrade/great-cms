@@ -1,22 +1,19 @@
 import React, { memo } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
 
 export const Option = memo(
   ({
-    label,
-    name,
-    field,
     id,
     value,
     currency,
     selectData,
     onChange,
     deleteFunding,
+    selectedOption,
   }) => {
-    // debugger
     return (
       <>
         <tr className="border-none">
@@ -27,12 +24,13 @@ export const Option = memo(
               label={selectData.name}
               name={selectData.name}
               placeholder={selectData.placeholder}
-              // selected={
-              //   field[item.name] &&
-              //   item.options.find((x) => x.value === field[item.name])
-              //     ? item.options.find((x) => x.value === field[item.name]).label
-              //     : ''
-              // }
+              selected={
+                selectedOption &&
+                selectData.options.find((x) => x.value === selectedOption)
+                  ? selectData.options.find((x) => x.value === selectedOption)
+                      .label
+                  : ''
+              }
               hideLabel
               className="m-b-0"
               update={(x) => onChange('select', id, x)}
@@ -67,17 +65,19 @@ export const Option = memo(
   }
 )
 
-// Option.propTypes = {
-//   label: PropTypes.string.isRequired,
-//   id: PropTypes.string.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   placeholder: PropTypes.string.isRequired,
-//   tooltip: PropTypes.string,
-//   value: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   update: PropTypes.func.isRequired,
-// }
-
-// Option.defaultProps = {
-//   tooltip: '',
-// }
+Option.propTypes = {
+  id: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+  currency: PropTypes.string.isRequired,
+  selectData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      options: PropTypes.array.isRequired,
+      placeholder: PropTypes.string.isRequired,
+    })
+  ),
+  onChange: PropTypes.func.isRequired,
+  deleteFunding: PropTypes.func.isRequired,
+  addFunding: PropTypes.func.isRequired,
+}

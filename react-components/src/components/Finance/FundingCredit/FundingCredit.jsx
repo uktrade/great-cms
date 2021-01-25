@@ -1,18 +1,18 @@
 import React, { memo, useState, useEffect } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { Total } from './Total'
 import { Options } from './Options'
-import { fundingCreditOptions } from '../constants'
+// import { fundingCreditOptions } from '../constants'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 
 export const FundingCredit = memo(
-  ({ formFields, currency, companyexportplan }) => {
+  ({ formFields, currency, companyexportplan, fundingCreditOptions }) => {
     const [funding, setFunding] = useState(formFields)
     const [fundingTotal, setFundingTotal] = useState(null)
 
     const calclatedTotal = () =>
-      funding.reduce((acc, curr) => acc + Number(curr.value), 0)
+      funding.reduce((acc, curr) => acc + Number(curr.amount), 0)
 
     useEffect(() => {
       setFundingTotal(calclatedTotal)
@@ -21,10 +21,10 @@ export const FundingCredit = memo(
 
     const addFunding = () => {
       const newFunding = {}
-      newFunding.value = 0
       newFunding.companyexportplan = companyexportplan
+      newFunding.amount = 0
 
-      Services.createRouteToMarket({ ...newFunding })
+      Services.createFundingCreditOption({ ...newFunding })
         .then((data) => setFunding([...funding, data]))
         .then(() => {
           const newElement = document.getElementById(
@@ -36,7 +36,7 @@ export const FundingCredit = memo(
     }
 
     const deleteFunding = (id) => {
-      Services.deleteRouteToMarket(id)
+      Services.deleteFundingCreditOption(id)
         .then(() => {
           setFunding(funding.filter((x) => x.pk !== id))
         })
@@ -44,7 +44,7 @@ export const FundingCredit = memo(
     }
 
     const update = (field, selected) => {
-      Services.updateRouteToMarket({ ...field, ...selected })
+      Services.updateFundingCreditOption({ ...field, ...selected })
         .then(() => {})
         .catch(() => {})
     }
@@ -53,7 +53,7 @@ export const FundingCredit = memo(
 
     const onChange = (type, id, selected) => {
       if (type === 'input') {
-        selected = { value: selected[id] }
+        selected = { amount: selected[id] }
       }
       const field = funding.find((x) => x.pk === id)
       field.companyexportplan = companyexportplan
@@ -63,7 +63,6 @@ export const FundingCredit = memo(
       setFunding(updatedFunding)
       debounceUpdate(field, selected)
     }
-    // debugger
     return (
       <>
         <Options
@@ -80,16 +79,22 @@ export const FundingCredit = memo(
   }
 )
 
-// FundingCredit.propTypes = {
-//   costs: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       label: PropTypes.string.isRequired,
-//       id: PropTypes.string.isRequired,
-//       heading: PropTypes.string.isRequired,
-//       description: PropTypes.string.isRequired,
-//     })
-//   ).isRequired,
-//   currency: PropTypes.string.isRequired,
-//   data: PropTypes.objectOf(PropTypes.number).isRequired,
-//   update: PropTypes.func.isRequired,
-// }
+FundingCredit.propTypes = {
+  formFields: PropTypes.arrayOf(
+    PropTypes.shape({
+      amount: PropTypes.number,
+      companyexportplan: PropTypes.number.isRequired,
+      funding_option: PropTypes.string,
+      pk: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  companyexportplan: PropTypes.number.isRequired,
+  fundingCreditOptions: PropTypes.objectOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      options: PropTypes.array.isRequired,
+      placeholder: PropTypes.string.isRequired,
+    })
+  ),
+}

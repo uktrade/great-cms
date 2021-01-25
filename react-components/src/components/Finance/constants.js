@@ -1,6 +1,6 @@
 export const fundingCreditOptions = {
   id: 'funding_option',
-  name: 'Select option',
+  name: 'funding_option',
   placeholder: 'Select option',
   options: [
     { value: 'bank', label: 'Bank loan' },

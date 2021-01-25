@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import { Option } from './Option'
 
@@ -12,16 +12,16 @@ export const Options = memo(
     deleteFunding,
     addFunding,
   }) => {
-    // debugger
     return (
       <div className="costs costs--funding bg-blue-deep-10 p-v-s">
         <table className="m-b-0">
           <tbody>
-            {formFields.map(({ pk, value }) => (
+            {formFields.map(({ pk, amount, funding_option }) => (
               <Option
                 key={pk}
                 id={pk}
-                value={value}
+                value={amount}
+                selectedOption={funding_option}
                 currency={currency}
                 selectData={selectData}
                 onChange={onChange}
@@ -49,15 +49,25 @@ export const Options = memo(
   }
 )
 
-// Option.propTypes = {
-//   costs: PropTypes.arrayOf(PropTypes.shape({
-//     label: PropTypes.string.isRequired,
-//     id: PropTypes.string.isRequired,
-//     placeholder: PropTypes.string.isRequired,
-//     tooltip: PropTypes.string.isRequired,
-//     type: PropTypes.string.isRequired,
-//   })).isRequired,
-//   currency: PropTypes.string.isRequired,
-//   data: PropTypes.objectOf(PropTypes.number).isRequired,
-//   update: PropTypes.func.isRequired,
-// }
+Option.propTypes = {
+  formFields: PropTypes.arrayOf(
+    PropTypes.shape({
+      amount: PropTypes.number,
+      companyexportplan: PropTypes.number.isRequired,
+      funding_option: PropTypes.string,
+      pk: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  currency: PropTypes.string.isRequired,
+  selectData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      options: PropTypes.array.isRequired,
+      placeholder: PropTypes.string.isRequired,
+    })
+  ),
+  onChange: PropTypes.func.isRequired,
+  deleteFunding: PropTypes.func.isRequired,
+  addFunding: PropTypes.func.isRequired,
+}
