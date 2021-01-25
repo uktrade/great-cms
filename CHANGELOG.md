@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1334 - Markets homepage grid, incl sorting and pagination
 - GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/
