@@ -32,7 +32,13 @@ class CaseStudyAdmin(ModelAdmin):
     button_helper_class = CaseStudyAdminButtonHelper
     exclude_from_explorer = False
     menu_icon = 'fa-book'
-    list_display = ('__str__', 'associated_hs_code_tags', 'associated_country_code_tags', 'get_related_pages')
+    list_display = (
+        '__str__',
+        'associated_hs_code_tags',
+        'associated_country_code_tags',
+        'get_related_pages',
+        'modified',
+    )
     # list_filter = (  # DISABLED BECAUSE SLOWING DOWN THE PAGE TOO MUCH
     #     'hs_code_tags',
     #     'country_code_tags',
