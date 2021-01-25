@@ -65420,7 +65420,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_CompareMarkets_SelectMarket__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @src/components/CompareMarkets/SelectMarket */ "./react-components/src/components/CompareMarkets/SelectMarket.jsx");
 /* harmony import */ var _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @src/views/sections/MarketingApproach */ "./react-components/src/views/sections/MarketingApproach/index.jsx");
 /* harmony import */ var _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @src/views/sections/AboutYourBusiness */ "./react-components/src/views/sections/AboutYourBusiness/index.jsx");
-/* harmony import */ var _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/Finance/Finance */ "./react-components/src/views/sections/Finance/Finance.jsx");
+/* harmony import */ var _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @src/views/sections/FundingCredit/FundingCredit */ "./react-components/src/views/sections/FundingCredit/FundingCredit.jsx");
 /* harmony import */ var _src_views_sections_GettingPaid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @src/views/sections/GettingPaid */ "./react-components/src/views/sections/GettingPaid/index.jsx");
 /* harmony import */ var _src_views_sections_TargetMarketResearch__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @src/views/sections/TargetMarketResearch */ "./react-components/src/views/sections/TargetMarketResearch/index.jsx");
 /* harmony import */ var _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @src/views/sections/AdaptationForYourTargetMarket */ "./react-components/src/views/sections/AdaptationForYourTargetMarket/index.jsx");
@@ -65484,9 +65484,9 @@ __webpack_require__.r(__webpack_exports__);
   createDisabledButton: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_17__["createDisabledButton"],
   createCaseStudy: _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_21__["createCaseStudy"],
   createCostsAndPricing: _src_views_sections_CostsAndPricing__WEBPACK_IMPORTED_MODULE_16__["createCostsAndPricing"],
-  financeTotalExportCost: _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__["financeTotalExportCost"],
-  financeHowMuchFunding: _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__["financeHowMuchFunding"],
-  financeFundingCreditOptions: _src_views_sections_Finance_Finance__WEBPACK_IMPORTED_MODULE_11__["financeFundingCreditOptions"],
+  financeTotalExportCost: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["financeTotalExportCost"],
+  financeHowMuchFunding: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["financeHowMuchFunding"],
+  financeFundingCreditOptions: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["financeFundingCreditOptions"],
   ProductFinderButton: _src_components_ProductFinder_ProductFinderButton__WEBPACK_IMPORTED_MODULE_4__["default"],
   CountryFinderButton: _src_components_ProductFinder_CountryFinderButton__WEBPACK_IMPORTED_MODULE_5__["default"],
   CompareMarkets: _src_components_CompareMarkets__WEBPACK_IMPORTED_MODULE_7__["default"],
@@ -68170,357 +68170,6 @@ ErrorList.defaultProps = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/Finance/FundingCredit/FundingCredit.jsx":
-/*!*********************************************************************************!*\
-  !*** ./react-components/src/components/Finance/FundingCredit/FundingCredit.jsx ***!
-  \*********************************************************************************/
-/*! exports provided: FundingCredit */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FundingCredit", function() { return FundingCredit; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _Total__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Total */ "./react-components/src/components/Finance/FundingCredit/Total.jsx");
-/* harmony import */ var _Options__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Options */ "./react-components/src/components/Finance/FundingCredit/Options.jsx");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
- // import { fundingCreditOptions } from '../constants'
-
-
-var FundingCredit = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var formFields = _ref.formFields,
-      currency = _ref.currency,
-      companyexportplan = _ref.companyexportplan,
-      fundingCreditOptions = _ref.fundingCreditOptions;
-
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formFields),
-      _useState2 = _slicedToArray(_useState, 2),
-      funding = _useState2[0],
-      setFunding = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState4 = _slicedToArray(_useState3, 2),
-      fundingTotal = _useState4[0],
-      setFundingTotal = _useState4[1];
-
-  var calclatedTotal = function calclatedTotal() {
-    return funding.reduce(function (acc, curr) {
-      return acc + Number(curr.amount);
-    }, 0);
-  };
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    setFundingTotal(calclatedTotal);
-    return function () {};
-  }, [funding]);
-
-  var addFunding = function addFunding() {
-    var newFunding = {};
-    newFunding.companyexportplan = companyexportplan;
-    newFunding.amount = 0;
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].createFundingCreditOption(_objectSpread({}, newFunding)).then(function (data) {
-      return setFunding([].concat(_toConsumableArray(funding), [data]));
-    }).then(function () {
-      var newElement = document.getElementById("Funding ".concat(funding.length + 1)).parentNode;
-      newElement.scrollIntoView();
-    })["catch"](function () {});
-  };
-
-  var deleteFunding = function deleteFunding(id) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].deleteFundingCreditOption(id).then(function () {
-      setFunding(funding.filter(function (x) {
-        return x.pk !== id;
-      }));
-    })["catch"](function () {});
-  };
-
-  var update = function update(field, selected) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateFundingCreditOption(_objectSpread(_objectSpread({}, field), selected)).then(function () {})["catch"](function () {});
-  };
-
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__["useDebounce"])(update);
-
-  var onChange = function onChange(type, id, selected) {
-    if (type === 'input') {
-      selected = {
-        amount: selected[id]
-      };
-    }
-
-    var field = funding.find(function (x) {
-      return x.pk === id;
-    });
-    field.companyexportplan = companyexportplan;
-    var updatedFunding = funding.map(function (x) {
-      return x.pk === id ? _objectSpread(_objectSpread({}, x), selected) : x;
-    });
-    setFunding(updatedFunding);
-    debounceUpdate(field, selected);
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Options__WEBPACK_IMPORTED_MODULE_4__["Options"], {
-    formFields: funding,
-    currency: currency,
-    selectData: fundingCreditOptions,
-    deleteFunding: deleteFunding,
-    onChange: onChange,
-    addFunding: addFunding
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Total__WEBPACK_IMPORTED_MODULE_3__["Total"], {
-    label: "Total funding",
-    currency: currency,
-    total: fundingTotal
-  }));
-});
-FundingCredit.propTypes = {
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    amount: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-    companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
-    funding_option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
-  })).isRequired,
-  companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
-  fundingCreditOptions: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
-    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  }))
-};
-
-/***/ }),
-
-/***/ "./react-components/src/components/Finance/FundingCredit/Option.jsx":
-/*!**************************************************************************!*\
-  !*** ./react-components/src/components/Finance/FundingCredit/Option.jsx ***!
-  \**************************************************************************/
-/*! exports provided: Option */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Option", function() { return Option; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
-
-
-
-
-var Option = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var id = _ref.id,
-      value = _ref.value,
-      currency = _ref.currency,
-      selectData = _ref.selectData,
-      _onChange = _ref.onChange,
-      deleteFunding = _ref.deleteFunding,
-      selectedOption = _ref.selectedOption;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-    className: "border-none"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
-    id: id + selectData.name,
-    options: selectData.options,
-    label: selectData.name,
-    name: selectData.name,
-    placeholder: selectData.placeholder,
-    selected: selectedOption && selectData.options.find(function (x) {
-      return x.value === selectedOption;
-    }) ? selectData.options.find(function (x) {
-      return x.value === selectedOption;
-    }).label : '',
-    hideLabel: true,
-    className: "m-b-0",
-    update: function update(x) {
-      return _onChange('select', id, x);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
-    id: id,
-    type: "number" // value={field[name]}
-    ,
-    value: value,
-    prepend: currency,
-    onChange: function onChange(e) {
-      return _onChange('input', id, e);
-    },
-    formGroupClassName: "m-b-0"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "text-center",
-    colSpan: "2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    title: "Click to delete this funding option and its data.",
-    className: "button button--delete button--small button--only-icon button--tertiary",
-    onClick: function onClick() {
-      return deleteFunding(id);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-trash-alt"
-  })))));
-});
-Option.propTypes = {
-  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
-  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
-    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  })),
-  onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  deleteFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  addFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
-};
-
-/***/ }),
-
-/***/ "./react-components/src/components/Finance/FundingCredit/Options.jsx":
-/*!***************************************************************************!*\
-  !*** ./react-components/src/components/Finance/FundingCredit/Options.jsx ***!
-  \***************************************************************************/
-/*! exports provided: Options */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Options", function() { return Options; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Option__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Option */ "./react-components/src/components/Finance/FundingCredit/Option.jsx");
-
-
-
-var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var formFields = _ref.formFields,
-      currency = _ref.currency,
-      selectData = _ref.selectData,
-      onChange = _ref.onChange,
-      deleteFunding = _ref.deleteFunding,
-      addFunding = _ref.addFunding;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "costs costs--funding bg-blue-deep-10 p-v-s"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-    className: "m-b-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formFields.map(function (_ref2) {
-    var pk = _ref2.pk,
-        amount = _ref2.amount,
-        funding_option = _ref2.funding_option;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Option__WEBPACK_IMPORTED_MODULE_2__["Option"], {
-      key: pk,
-      id: pk,
-      value: amount,
-      selectedOption: funding_option,
-      currency: currency,
-      selectData: selectData,
-      onChange: onChange,
-      deleteFunding: deleteFunding
-    });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tfoot", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    colSpan: "2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--secondary button--icon button--small button--add",
-    onClick: addFunding
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add a funding option")))))));
-});
-_Option__WEBPACK_IMPORTED_MODULE_2__["Option"].propTypes = {
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    amount: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-    companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
-    funding_option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
-  })).isRequired,
-  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
-    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  })),
-  onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  deleteFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  addFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
-};
-
-/***/ }),
-
-/***/ "./react-components/src/components/Finance/FundingCredit/Total.jsx":
-/*!*************************************************************************!*\
-  !*** ./react-components/src/components/Finance/FundingCredit/Total.jsx ***!
-  \*************************************************************************/
-/*! exports provided: Total */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Total", function() { return Total; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
- // import PropTypes from 'prop-types'
-
-var Total = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var total = _ref.total,
-      currency = _ref.currency,
-      label = _ref.label;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "costs costs--total bg-blue-deep-80 text-white"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-    className: "m-t-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "total"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "text-white m-r-s"
-  }, currency), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "body-l-b text-white"
-  }, total))))));
-}); // Total.propTypes = {
-//   total: PropTypes.string.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   label: PropTypes.string.isRequired,
-// }
-
-/***/ }),
-
 /***/ "./react-components/src/components/Form/FormGroup/index.jsx":
 /*!******************************************************************!*\
   !*** ./react-components/src/components/Form/FormGroup/index.jsx ***!
@@ -69265,6 +68914,356 @@ FormElements.propTypes = {
   field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions.jsx":
+/*!*****************************************************************************************************!*\
+  !*** ./react-components/src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions.jsx ***!
+  \*****************************************************************************************************/
+/*! exports provided: FundingCreditOptions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FundingCreditOptions", function() { return FundingCreditOptions; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _Total__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Total */ "./react-components/src/components/FundingCredit/FundingCreditOptions/Total.jsx");
+/* harmony import */ var _Options__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Options */ "./react-components/src/components/FundingCredit/FundingCreditOptions/Options.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var formFields = _ref.formFields,
+      currency = _ref.currency,
+      companyexportplan = _ref.companyexportplan,
+      fundingCreditOptions = _ref.fundingCreditOptions;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formFields),
+      _useState2 = _slicedToArray(_useState, 2),
+      funding = _useState2[0],
+      setFunding = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      fundingTotal = _useState4[0],
+      setFundingTotal = _useState4[1];
+
+  var calclatedTotal = function calclatedTotal() {
+    return funding.reduce(function (acc, curr) {
+      return acc + Number(curr.amount);
+    }, 0);
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setFundingTotal(calclatedTotal);
+    return function () {};
+  }, [funding]);
+
+  var addFunding = function addFunding() {
+    var newFunding = {};
+    newFunding.companyexportplan = companyexportplan;
+    newFunding.amount = 0;
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].createFundingCreditOption(_objectSpread({}, newFunding)).then(function (data) {
+      return setFunding([].concat(_toConsumableArray(funding), [data]));
+    }).then(function () {
+      var newElement = document.getElementById("Funding ".concat(funding.length + 1)).parentNode;
+      newElement.scrollIntoView();
+    })["catch"](function () {});
+  };
+
+  var deleteFunding = function deleteFunding(id) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].deleteFundingCreditOption(id).then(function () {
+      setFunding(funding.filter(function (x) {
+        return x.pk !== id;
+      }));
+    })["catch"](function () {});
+  };
+
+  var update = function update(field, selected) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateFundingCreditOption(_objectSpread(_objectSpread({}, field), selected)).then(function () {})["catch"](function () {});
+  };
+
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__["useDebounce"])(update);
+
+  var onChange = function onChange(type, id, selected) {
+    if (type === 'input') {
+      selected = {
+        amount: selected[id]
+      };
+    }
+
+    var field = funding.find(function (x) {
+      return x.pk === id;
+    });
+    field.companyexportplan = companyexportplan;
+    var updatedFunding = funding.map(function (x) {
+      return x.pk === id ? _objectSpread(_objectSpread({}, x), selected) : x;
+    });
+    setFunding(updatedFunding);
+    debounceUpdate(field, selected);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Options__WEBPACK_IMPORTED_MODULE_4__["Options"], {
+    formFields: funding,
+    currency: currency,
+    selectData: fundingCreditOptions,
+    deleteFunding: deleteFunding,
+    onChange: onChange,
+    addFunding: addFunding
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Total__WEBPACK_IMPORTED_MODULE_3__["Total"], {
+    label: "Total funding",
+    currency: currency,
+    total: fundingTotal
+  }));
+});
+FundingCreditOptions.propTypes = {
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    amount: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+    companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+    funding_option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
+  })).isRequired,
+  companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  fundingCreditOptions: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  }))
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/FundingCredit/FundingCreditOptions/Option.jsx":
+/*!***************************************************************************************!*\
+  !*** ./react-components/src/components/FundingCredit/FundingCreditOptions/Option.jsx ***!
+  \***************************************************************************************/
+/*! exports provided: Option */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Option", function() { return Option; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+
+
+
+
+var Option = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var id = _ref.id,
+      value = _ref.value,
+      currency = _ref.currency,
+      selectData = _ref.selectData,
+      _onChange = _ref.onChange,
+      deleteFunding = _ref.deleteFunding,
+      selectedOption = _ref.selectedOption;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+    className: "border-none"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
+    id: id + selectData.name,
+    options: selectData.options,
+    label: selectData.name,
+    name: selectData.name,
+    placeholder: selectData.placeholder,
+    selected: selectedOption && selectData.options.find(function (x) {
+      return x.value === selectedOption;
+    }) ? selectData.options.find(function (x) {
+      return x.value === selectedOption;
+    }).label : '',
+    hideLabel: true,
+    className: "m-b-0",
+    update: function update(x) {
+      return _onChange('select', id, x);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
+    id: id,
+    type: "number" // value={field[name]}
+    ,
+    value: value,
+    prepend: currency,
+    onChange: function onChange(e) {
+      return _onChange('input', id, e);
+    },
+    formGroupClassName: "m-b-0"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "text-center",
+    colSpan: "2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    title: "Click to delete this funding option and its data.",
+    className: "button button--delete button--small button--only-icon button--tertiary",
+    onClick: function onClick() {
+      return deleteFunding(id);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-trash-alt"
+  })))));
+});
+Option.propTypes = {
+  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  })),
+  onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  deleteFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  addFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/FundingCredit/FundingCreditOptions/Options.jsx":
+/*!****************************************************************************************!*\
+  !*** ./react-components/src/components/FundingCredit/FundingCreditOptions/Options.jsx ***!
+  \****************************************************************************************/
+/*! exports provided: Options */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Options", function() { return Options; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Option__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Option */ "./react-components/src/components/FundingCredit/FundingCreditOptions/Option.jsx");
+
+
+
+var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var formFields = _ref.formFields,
+      currency = _ref.currency,
+      selectData = _ref.selectData,
+      onChange = _ref.onChange,
+      deleteFunding = _ref.deleteFunding,
+      addFunding = _ref.addFunding;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "costs costs--funding bg-blue-deep-10 p-v-s"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "m-b-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formFields.map(function (_ref2) {
+    var pk = _ref2.pk,
+        amount = _ref2.amount,
+        funding_option = _ref2.funding_option;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Option__WEBPACK_IMPORTED_MODULE_2__["Option"], {
+      key: pk,
+      id: pk,
+      value: amount,
+      selectedOption: funding_option,
+      currency: currency,
+      selectData: selectData,
+      onChange: onChange,
+      deleteFunding: deleteFunding
+    });
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tfoot", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colSpan: "2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "button button--secondary button--icon button--small button--add",
+    onClick: addFunding
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-plus-circle"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add a funding option")))))));
+});
+_Option__WEBPACK_IMPORTED_MODULE_2__["Option"].propTypes = {
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    amount: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+    companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+    funding_option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
+  })).isRequired,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  })),
+  onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  deleteFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  addFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/FundingCredit/FundingCreditOptions/Total.jsx":
+/*!**************************************************************************************!*\
+  !*** ./react-components/src/components/FundingCredit/FundingCreditOptions/Total.jsx ***!
+  \**************************************************************************************/
+/*! exports provided: Total */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Total", function() { return Total; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+ // import PropTypes from 'prop-types'
+
+var Total = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var total = _ref.total,
+      currency = _ref.currency,
+      label = _ref.label;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "costs costs--total bg-blue-deep-80 text-white"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "m-t-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "total"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-white m-r-s"
+  }, currency), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "body-l-b text-white"
+  }, total))))));
+}); // Total.propTypes = {
+//   total: PropTypes.string.isRequired,
+//   currency: PropTypes.string.isRequired,
+//   label: PropTypes.string.isRequired,
+// }
 
 /***/ }),
 
@@ -75864,10 +75863,10 @@ var createDisabledButton = function createDisabledButton(_ref2) {
 
 /***/ }),
 
-/***/ "./react-components/src/views/sections/Finance/Finance.jsx":
-/*!*****************************************************************!*\
-  !*** ./react-components/src/views/sections/Finance/Finance.jsx ***!
-  \*****************************************************************/
+/***/ "./react-components/src/views/sections/FundingCredit/FundingCredit.jsx":
+/*!*****************************************************************************!*\
+  !*** ./react-components/src/views/sections/FundingCredit/FundingCredit.jsx ***!
+  \*****************************************************************************/
 /*! exports provided: financeTotalExportCost, financeHowMuchFunding, financeFundingCreditOptions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -75881,7 +75880,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
-/* harmony import */ var _src_components_Finance_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Finance/FundingCredit/FundingCredit */ "./react-components/src/components/Finance/FundingCredit/FundingCredit.jsx");
+/* harmony import */ var _src_components_FundingCredit_FundingCreditOptions_FundingCreditOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions */ "./react-components/src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions.jsx");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -75952,7 +75951,7 @@ var financeFundingCreditOptions = function financeFundingCreditOptions(_ref3) {
   });
 
   debugger;
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Finance_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_3__["FundingCredit"], data), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditOptions_FundingCreditOptions__WEBPACK_IMPORTED_MODULE_3__["FundingCreditOptions"], data), element);
 };
 
 /***/ }),

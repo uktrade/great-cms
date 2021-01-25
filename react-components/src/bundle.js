@@ -18,7 +18,7 @@ import {
   financeTotalExportCost,
   financeHowMuchFunding,
   financeFundingCreditOptions,
-} from '@src/views/sections/Finance/Finance'
+} from '@src/views/sections/FundingCredit/FundingCredit'
 import { createGettingPaid } from '@src/views/sections/GettingPaid'
 import {
   createTargetMarketResearchForm,

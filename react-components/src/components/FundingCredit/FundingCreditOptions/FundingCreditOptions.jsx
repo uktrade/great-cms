@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { Total } from './Total'
 import { Options } from './Options'
-// import { fundingCreditOptions } from '../constants'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 
-export const FundingCredit = memo(
+export const FundingCreditOptions = memo(
   ({ formFields, currency, companyexportplan, fundingCreditOptions }) => {
     const [funding, setFunding] = useState(formFields)
     const [fundingTotal, setFundingTotal] = useState(null)
@@ -79,7 +78,7 @@ export const FundingCredit = memo(
   }
 )
 
-FundingCredit.propTypes = {
+FundingCreditOptions.propTypes = {
   formFields: PropTypes.arrayOf(
     PropTypes.shape({
       amount: PropTypes.number,
