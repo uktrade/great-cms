@@ -94,6 +94,34 @@ const economyApiResponse = {
       },
     },
   },
+  Netherlands: {
+    import_from_world: {
+      year: '2019',
+      trade_value_raw: 21670,
+      country_name: 'Netherlands',
+      year_on_year_change: '2.751',
+    },
+    import_data_from_uk: {
+      year: '2019',
+      trade_value_raw: 135150,
+      country_name: 'Netherlands',
+      year_on_year_change: '0.736',
+    },
+    country_data: {
+      consumer_price_index: {
+        country_name: 'Netherlands',
+        value: '112.855',
+        year: 2019,
+      },
+      income: {
+        country_name: 'Netherlands',
+        year: 2018,
+        value: '7895',
+      },
+    },
+  },
+
+
 }
 
 const economyTabTests = [
@@ -109,6 +137,9 @@ const economyTabTests = [
   {selector: '#market-Germany .eod-business .display-year', fail:true},
   {selector: '#market-Germany .cpi', expect: '9 of 180'},
   {selector: '#market-Germany .cpi .display-year', expect: '2017'},
+  {selector: '#market-Netherlands .name', expect: 'Netherlands'},
+  {selector: '#market-Netherlands .eod-business', expect: 'Data not available'},
+  {selector: '#market-Netherlands .cpi', expect: 'Data not available'},
   {selector: '.base-year', expect: /\s+2019\s+/},
 ]
 
@@ -231,6 +262,19 @@ it('Allows selection of markets and fetch data when product selected', async () 
     commodity_code: '123456',
     commodity_name: 'my product',
   }
+
+  Object.defineProperty(window.document, 'cookie', {
+    writable: true,
+    value: encodeURI(`comparisonMarkets=${JSON.stringify({
+      NL:{country_name:'Netherlands',
+        country_iso2_code:'NL'
+      },
+      DE:{country_name:'Germany',
+        country_iso2_code:'DE'
+      },
+    })}`),
+  });
+
   Services.store.dispatch(
     actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
   )
@@ -246,32 +290,10 @@ it('Allows selection of markets and fetch data when product selected', async () 
       element: container.querySelector('#compare-market-container'),
     })
   })
-
-  const button = container.querySelector('button')
-  expect(button.textContent).toMatch('Add country to compare')
-  act(() => {
-    Simulate.click(button)
-  })
-  const finder = document.body.querySelector('.country-finder')
-  expect(finder).toBeTruthy()
-  await waitFor(() => {
-    const region = finder.querySelector('.country-list h2')
-    expect(region.textContent).toEqual('Africa')
-    const suggested = finder.querySelector('.suggested-markets button')
-    expect(suggested.textContent).toEqual('Germany')
-  })
-  const firstCountry = finder.querySelector('.suggested-markets button')
-  // Select first suggested country
-  act(() => {
-    Simulate.click(firstCountry)
-  })
-  await waitFor(() => {
-    expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add country 2 of 3'
-    )
-  })
-
   // check mock directory api data...
+  await waitFor(() => {
+    expect( container.querySelector('#market-Germany .name')).toBeTruthy()
+  })
   const rowGermany = container.querySelector('#market-Germany')
   expect(rowGermany.querySelector('.name').textContent).toMatch('Germany')
   expect(rowGermany.querySelector('.total_population').textContent).toMatch(
@@ -329,16 +351,6 @@ it('Allows selection of markets and fetch data when product selected', async () 
     expect(
       rowSocietyGermany.querySelector('.rule-of-law').textContent
     ).toMatch('89.2')
-  })
-
-  // remove the country
-  act(() => {
-    Simulate.click(container.querySelector('.market-details tbody button'))
-  })
-  await waitFor(() => {
-    expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add country to compare'
-    )
   })
 })
 
