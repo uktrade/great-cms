@@ -19,7 +19,7 @@ const populationPercentActual = (group, population) => {
 
 const rankOutOf = (data, key) => {
   return (
-    (data[key] && (
+    (data && data[key] && (
       <>
         {data[key]} of {data.total}
       </>
