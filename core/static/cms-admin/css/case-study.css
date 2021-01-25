@@ -4,9 +4,6 @@
 .CuratedListPage .chooser .chosen:before, .chooser .unchosen:before {
     color: #EB4F4D;
 }
-.CuratedListPage.title:before{
-        content:"Module"
-    }
 
 .DetailPage .chooser .chosen:before, .chooser .unchosen:before {
     color: #007EA3;
@@ -26,7 +23,6 @@
     font-weight: bold;
 }
 
-
-[id^="related_pages-"]{
+button[id^="related_pages-"]{
     display: none;
 }

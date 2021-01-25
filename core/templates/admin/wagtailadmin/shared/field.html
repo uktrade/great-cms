@@ -2,7 +2,10 @@
 
 <div class="field {{ field|fieldtype }} {{ field|widgettype }} {{ field_classes }}">
 
-      <div class="field-content {{ obj_type|default_if_none:True }}">
+        {% comment %}
+        Added obj_type to class to differtiate different pages on template level on UI
+        {% endcomment %}
+      <div class="field-content {{ obj_type }}">
         <div class="input {{ input_classes }} ">
             {% block form_field %}
               {{ field|render_with_errors }}

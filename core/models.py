@@ -941,13 +941,14 @@ class MagnaPageChooserPanel(PageChooserPanel):
             'field': self.bound_field,
             self.object_type_name: instance_obj,
             'is_chosen': bool(instance_obj),  # DEPRECATED - passed to templates for backwards compatibility only
+            # Added obj_type on base class method render_as_field
             'obj_type': instance_obj.specific.__class__.__name__ if instance_obj else None,
         }
         return mark_safe(render_to_string(self.field_template, context))
 
 
 class CaseStudyRelatedPages(Orderable):
-    post = ParentalKey(
+    case_study = ParentalKey(
         'core.CaseStudy',
         related_name='related_pages',
         on_delete=models.SET_NULL,
@@ -958,10 +959,9 @@ class CaseStudyRelatedPages(Orderable):
     panels = [
         MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]),
     ]
-    sort_order_field = None
 
     class Meta:
-        unique_together = ['post', 'page']
+        unique_together = ['case_study', 'page']
 
 
 @register_snippet
@@ -1043,7 +1043,7 @@ class CaseStudy(ClusterableModel):
             [
                 InlinePanel('related_pages', label='Related pages'),
             ],
-            heading='Related Lesson, Topic & Module',
+            heading='Related Lesson, Topic & Module, also used for Personalisation',
         ),
     ]
 
