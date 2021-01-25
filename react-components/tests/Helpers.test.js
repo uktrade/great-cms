@@ -8,6 +8,8 @@ import {
   getValue,
   getLabel,
   formatLessonLearned,
+  normaliseValues,
+  millify,
 } from '@src/Helpers'
 
 test('slugify', (done) => {
@@ -139,6 +141,37 @@ test('mapArray', () => {
   const result = mapArray(arr, 'keyVal')
   expect(result.keyOne).toEqual(arr[0])
   expect(result.keyTwo.name).toEqual('value2')
+})
+
+describe('Number formats', () => {
+  it('normaliseValues', () => {
+    [
+      {str:'123', dp:1, expect:['123']},
+      {str:'123.4556', dp:1, expect:['123.5']},
+      {str:'123.4556', dp:2, expect:['123.46']},
+      {str:'123.4556', dp:0, expect:['123']},
+      {str:null, dp:0, expect:'Data not available'},
+      {str:'0', dp:0, expect:['0']},
+      {str:'-1', dp:0, expect:['-1']},
+    ].forEach((test) => {
+      expect(normaliseValues(test.str, test.dp)).toEqual(test.expect)
+    })
+  })
+  it('millify', () => {
+    [
+      {num:123, dp:1, expect:'123'},
+      {num:123456, dp:1, expect:'123,456'},
+      {num:1234567, dp:1, expect:'1.2 million'},
+      {num:1000000, dp:1, expect:'1.0 million'},
+      {num:1555555555, dp:1, expect:'1.6 billion'},
+      {num:2444444444444, dp:1, expect:'2.4 trillion'},
+      {num:0, dp:1, expect:'0'},
+      {num:null, dp:1, expect:null},
+
+    ].forEach((test) => {
+      expect(millify(test.num)).toEqual(test.expect)
+    })    
+  })
 })
 
 describe('getLabel', () => {

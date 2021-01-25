@@ -39,6 +39,7 @@ const populationApiResponse = [
     urban_population_total: 42007,
     urban_population_percentage_formatted: '69.48% (42.01 million)',
     total_population: '60.46 million',
+    total_population_raw: 60463456,
     cpi: { value: '110.62', year: 2019 },
   },
 ]
@@ -47,13 +48,13 @@ const economyApiResponse = {
   Germany: {
     import_from_world: {
       year: '2017',
-      trade_value: '21.67 thousand',
+      trade_value_raw: 21670,
       country_name: 'Germany',
       year_on_year_change: '2.751',
     },
     import_data_from_uk: {
       year: '2019',
-      trade_value: '135.15 thousand',
+      trade_value_raw: 135150,
       country_name: 'Germany',
       year_on_year_change: '0.736',
     },
@@ -64,23 +65,21 @@ const economyApiResponse = {
         value: '112.855',
         year: 2019,
       },
-      internet_usage: {
-        country_name: 'Germany',
-        country_code: 'DEU',
-        value: '89.739',
-        year: 2018,
-      },
       corruption_perceptions_index: {
+        total: 180,
         country_name: 'Germany',
         country_code: 'DEU',
         cpi_score_2019: 80,
         rank: 9,
+        year: 2017
       },
       ease_of_doing_bussiness: {
         total: 264,
         country_name: 'Germany',
         country_code: 'DEU',
         year_2019: 22,
+        rank: 22,
+        year: 2019,
       },
       gdp_per_capita: {
         country_name: 'Germany',
@@ -96,6 +95,22 @@ const economyApiResponse = {
     },
   },
 }
+
+const economyTabTests = [
+  {selector: '#market-Germany .name', expect: 'Germany' },
+  {selector: '#market-Germany .world-import-value .primary', expect: '21,670' },
+  {selector: '#market-Germany .world-import-value .secondary', expect: '+2.8% vs 2016' },
+  {selector: '#market-Germany .uk-import-value .primary', expect: '135,150' },
+  {selector: '#market-Germany .uk-import-value .secondary', expect: '+0.7% vs 2018' },
+  {selector: '#market-Germany .avg-income', expect: '7,895' },
+  {selector: '#market-Germany .avg-income .display-year', expect: '2018'},
+  {selector: '#market-Germany .cpi', expect: '9' },
+  {selector: '#market-Germany .eod-business', expect: '22 of 264'},
+  {selector: '#market-Germany .eod-business .display-year', fail:true},
+  {selector: '#market-Germany .cpi', expect: '9 of 180'},
+  {selector: '#market-Germany .cpi .display-year', expect: '2017'},
+  {selector: '.base-year', expect: /\s+2019\s+/},
+]
 
 const societyApiResponse = [
   {
@@ -263,13 +278,11 @@ it('Allows selection of markets and fetch data when product selected', async () 
     '60.5 million'
   )
   expect(rowGermany.querySelector('.internet_usage').textContent).toMatch('74%')
-  expect(rowGermany.querySelector('.urban_population').textContent).toMatch(
-    /70%\s*42 million/
-  )
+  expect(rowGermany.querySelector('.urban_population .primary').textContent).toMatch('69%')
+  expect(rowGermany.querySelector('.urban_population .secondary').textContent).toMatch('42.0 million')
   expect(rowGermany.querySelector('.rural_population').textContent).toMatch(
     /28%\s*17.1 million/
   )
-
 
   // check economy data
   const economy_tab = container.querySelector('.tab-list-item:nth-of-type(2)')
@@ -278,26 +291,21 @@ it('Allows selection of markets and fetch data when product selected', async () 
     Simulate.click(economy_tab)
   })
   await waitFor(() => {
-    const rowEconomyGermany = container.querySelector('#market-Germany')
-    expect(rowEconomyGermany.querySelector('.name').textContent).toMatch(
-      'Germany'
-    )
-    expect(
-      rowEconomyGermany.querySelector('.world-import-value').textContent
-    ).toMatch('21.7 thousand')
-    expect(
-      rowEconomyGermany.querySelector('.year-on-year-change').textContent
-    ).toMatch('2.8%')
-    expect(
-      rowEconomyGermany.querySelector('.uk-import-value').textContent
-    ).toMatch('135.2 thousand')
-    expect(rowEconomyGermany.querySelector('.avg-income').textContent).toMatch(
-      '7895'
-    )
-    expect(
-      rowEconomyGermany.querySelector('.eod-business').textContent
-    ).toMatch('22')
-    expect(rowEconomyGermany.querySelector('.cpi').textContent).toMatch('9')
+    expect( container.querySelector('#market-Germany .name')).toBeTruthy()
+    expect( container.querySelector('#market-Germany .world-import-value .primary')).toBeTruthy()
+  })
+  economyTabTests.forEach((test) => {
+    let element = container.querySelector(test.selector)
+    if(!element) {
+      if(!test.fail) {
+        expect(test.selector).toEqual('Following selector failed to return an element')
+      }
+    } else {
+      if(test.fail) {
+        expect(test.selector).toEqual('Following selector returned an element')
+      }
+      expect(element.textContent).toMatch(test.expect)
+    }
   })
   expect(container.querySelectorAll('.tooltip button').length).toEqual(3) 
 
