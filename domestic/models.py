@@ -179,19 +179,44 @@ class MarketsTopicLandingPage(
         'domestic.CountryGuidePage',
     ]
 
-    def get_relevant_markets(self):
-        # TO COME: filtering and sorting
+    @property
+    def sortby_options(self):
+        # In V1, the sort field was called 'title' in the UI but the backend
+        # default-sorted by 'heading' instead. Therefore this may need amending
+        # if the resulting behaviour isn't _quite_ what we're expecting.
+        options = [
+            {'value': 'title', 'label': 'Market A-Z'},
+            {'value': 'last_published_at', 'label': 'Recently updated'},
+        ]
+        return options
+
+    def sort_results(self, request, pages):
+        DEFAULT_SORT_OPTION = self.sortby_options[0]['value']
+        sort_option = request.GET.get('sortby', DEFAULT_SORT_OPTION)
+
+        # Only use an expected/allowed sort option
+        if sort_option not in [x['value'] for x in self.sortby_options]:
+            sort_option = DEFAULT_SORT_OPTION
+
+        return pages.order_by(sort_option)
+
+    def get_relevant_markets(self, request):
+        # TO COME: filtering
 
         market_pages = CountryGuidePage.objects.child_of(self)
-
-        return market_pages
+        return self.sort_results(request=request, pages=market_pages)
 
     def get_context(self, request):
         context = super().get_context(request)
 
-        paginator = Paginator(self.get_relevant_markets(), self.MAX_PER_PAGE)
+        context['sortby_options'] = self.sortby_options
+
+        relevant_markets = self.get_relevant_markets(request)
+
+        paginator = Paginator(relevant_markets, self.MAX_PER_PAGE)
         paginated_results = paginator.page(request.GET.get('page', 1))
         context['paginated_results'] = paginated_results
+        context['number_of_results'] = relevant_markets.count()
 
         return context
 
@@ -220,7 +245,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     """
 
     class Meta:
-        ordering = ['-heading']
+        ordering = ['-heading', '-title']
 
     template = 'domestic/content/country_guide.html'
 

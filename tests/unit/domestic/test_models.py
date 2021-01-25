@@ -33,6 +33,7 @@ from .factories import (
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
+    MarketsTopicLandingPageFactory,
 )
 
 
@@ -625,7 +626,59 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
             CountryGuidePageFactory(
                 parent=parent_page,
                 title=f'Test GCP {i}',
+                live=True,
             )
+
+    def test_sort_results(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+        self._make_country_guide_pages(markets_topic_page, 23)
+
+        pages = CountryGuidePage.objects.all()
+
+        # Order by title
+        request = RequestFactory().get('/?sortby=title')
+        sorted_pages = markets_topic_page.sort_results(
+            request,
+            pages,
+        )
+
+        self.assertEqual(sorted_pages[0], CountryGuidePage.objects.get(title='Test GCP 0'))
+        self.assertEqual([x for x in pages.order_by('title')], [y for y in sorted_pages])
+
+        # Last amended
+        request = RequestFactory().get('/?sortby=last_published_at')
+        sorted_pages = markets_topic_page.sort_results(
+            request,
+            pages,
+        )
+
+        self.assertEqual(sorted_pages[0], pages.order_by('last_published_at').first())
+        self.assertEqual([x for x in pages.order_by('last_published_at')], [y for y in sorted_pages])
+
+    def test_sort_results__sanitises_input(self):
+
+        mock_pages_queryset = mock.Mock(name='mock_pages_queryset')
+        markets_page = MarketsTopicLandingPageFactory()
+
+        for bad_args in (
+            '?sortby=body',
+            '?sortby=created_at',
+            '?sortby=;delete * from auth_user',
+            '?sortby=;delete%20*%20from%20auth_user',
+            '?other=foo',
+        ):
+            with self.subTest(bad_args=bad_args):
+                mock_pages_queryset.order_by.reset_mock()
+                request = RequestFactory().get(f'/{bad_args}')
+                markets_page.sort_results(
+                    request,
+                    mock_pages_queryset,
+                )
+                # 'title' is the fallback sort_by field
+                mock_pages_queryset.order_by.assert_called_once_with('title')
 
     def test_get_relevant_markets(self):
         DomesticHomePageFactory(slug='root')
@@ -634,7 +687,9 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         homepage.add_child(instance=markets_topic_page)
         self._make_country_guide_pages(markets_topic_page, 23)
 
-        self.assertEqual(markets_topic_page.get_relevant_markets().count(), 23)
+        request = RequestFactory().get('/markets/')
+
+        self.assertEqual(markets_topic_page.get_relevant_markets(request).count(), 23)
         #  MORE TESTS TO COME AS WE EXPAND ITS BEHAVIOUR
 
     def test_get_context(self):
