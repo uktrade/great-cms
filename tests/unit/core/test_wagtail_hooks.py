@@ -15,6 +15,7 @@ from core.wagtail_hooks import (
     FileTransferError,
     S3FileFieldAdapter,
     S3WagtailTransferFile,
+    editor_css,
     register_s3_media_file_adapter,
 )
 from tests.helpers import make_test_video
@@ -1022,3 +1023,13 @@ def test_s3wagtailtransferfile__transfer__covered_exceptions(mock_s3_client_copy
 def test_register_s3_media_file_adapter(user_media_on_s3, expected):
     with override_settings(USER_MEDIA_ON_S3=user_media_on_s3):
         assert register_s3_media_file_adapter() == expected
+
+
+def _fake_static(value):
+    return '/path/to/static/' + value
+
+
+@mock.patch('core.wagtail_hooks.static')
+def test_case_study_editor_css(mock_static):
+    mock_static.side_effect = _fake_static
+    assert editor_css() == '<link rel="stylesheet" href="/path/to/static/cms-admin/css/case-study.css">'
