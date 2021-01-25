@@ -24,7 +24,14 @@
   <script type="text/javascript">
     magna.createGettingPaid({
       element: document.getElementById('getting-paid'),
-      formFields:   [
+      field: 'getting_paid',
+      formData: {
+        payment_terms: 'credit',
+        payments_notes: 'This is a note for payments',
+        incoterms: 'collection',
+        incoterms_notes: 'This is a an incoterm note',
+      },
+      formFields: [
           {
             field: [
               {
@@ -32,14 +39,20 @@
                 id: 'payment_terms',
                 label: 'Payments terms',
                 field_type: 'Select',
-                options: [{ value: '', label: ''}],
+                options: [
+                  { value: 'payment', label: 'Payment in advance' },
+                  { value: 'credit', label: 'Letter of credit' },
+                  { value: 'collection', label: 'Bank collection or documentary collections (D/C)' },
+                  { value: 'account', label: 'Open account' },
+                  { value: 'other', label: 'other' },
+                ],
               },
               {
                 name: 'Add notes',
                 label: 'Add notes',
                 field_type: 'Textarea',
                 placeholder: 'Add note',
-                id: 'add_notes_payments'
+                id: 'payments_notes'
               },
             ],
           },
@@ -50,14 +63,18 @@
                 id: 'incoterms',
                 label: 'Incoterms®',
                 field_type: 'Select',
-                options: [{ value: '', label: ''}],
+                options: [
+                  { value: 'payment', label: 'Ex Works' },
+                  { value: 'credit', label: 'Free Carrier' },
+                  { value: 'collection', label: 'Carriage Paid To (CPT)' },
+                ],
               },
               {
                 name: 'Add notes',
                 label: 'Add notes',
                 field_type: 'Textarea',
                 placeholder: 'Add note',
-                id: 'add_notes_incoterms'
+                id: 'incoterms_notes'
               },
             ],
           },

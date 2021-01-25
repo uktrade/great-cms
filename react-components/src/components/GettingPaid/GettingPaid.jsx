@@ -1,10 +1,29 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
+import { useDebounce } from '@src/components/hooks/useDebounce'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
+import { getLabel } from '@src/Helpers'
+import Services from '@src/Services'
 
-export const GettingPaid = memo(({ formFields }) => {
+export const GettingPaid = memo(({ formFields, formData, field }) => {
+  const [state, setState] = useState(formData)
+
+  const update = (data) => {
+    Services.updateExportPlan(data).then(() => {})
+  }
+
+  const debounceUpdate = useDebounce(update)
+
+  const onChange = (data) => {
+    setState({
+      ...state,
+      ...data,
+    })
+    debounceUpdate({ [field]: data })
+  }
+
   return (
     <section className="container p-t-l m-b-l">
       <div className="grid">
@@ -29,12 +48,15 @@ export const GettingPaid = memo(({ formFields }) => {
                     name={field[0].name}
                     update={() => {}}
                     options={field[0].options}
+                    selected={getLabel(field[0].options, state[field[0].id])}
+                    onChange={onChange}
                   />
+                  {getLabel(field[0].options, state[field[1].id])}
                   <TextArea
-                    onChange={() => {}}
+                    onChange={onChange}
                     label={field[1].label}
                     id={field[1].id}
-                    value=""
+                    value={state[field[1].id]}
                     placeholder={field[1].placeholder}
                   />
                 </div>
@@ -74,4 +96,8 @@ GettingPaid.propTypes = {
       )
     )
   ).isRequired,
+  formData: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
+  field: PropTypes.string.isRequired,
 }
