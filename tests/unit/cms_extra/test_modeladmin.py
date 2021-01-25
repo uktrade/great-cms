@@ -3,7 +3,7 @@ from unittest import mock
 import pytest
 
 from cms_extras.modeladmin import CaseStudyAdmin, CaseStudyAdminButtonHelper
-from core.models import CaseStudy
+from core.models import CaseStudy, CaseStudyRelatedPages
 from tests.unit.core import factories
 
 
@@ -11,12 +11,24 @@ from tests.unit.core import factories
 def test_case_study_modeladmin_list_display_methods():
     admin = CaseStudyAdmin()
     obj = factories.CaseStudyFactory()
+    detail_page = factories.DetailPageFactory()
+    topic_page = factories.TopicPageFactory()
+    module_page = factories.CuratedListPageFactory()
 
     obj.country_code_tags.add('Europe', 'FR')
     obj.hs_code_tags.add('HS1234', 'HS123456')
 
+    # Adding related pages to case study
+    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=obj)
+    CaseStudyRelatedPages.objects.create(page=topic_page, case_study=obj)
+    CaseStudyRelatedPages.objects.create(page=module_page, case_study=obj)
+
     assert sorted(admin.associated_country_code_tags(obj)) == ['Europe', 'FR']
     assert sorted(admin.associated_hs_code_tags(obj)) == ['HS1234', 'HS123456']
+    assert (
+        admin.get_related_pages(obj)
+        == '<strong>LESSON: </strong> Detail page<br><strong>TOPIC: </strong> Topic page<br><strong>MODULE: </strong> Curated List Page<br>'  # noqa
+    )
 
 
 @pytest.mark.django_db

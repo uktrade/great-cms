@@ -1,3 +1,4 @@
+from django.utils.html import format_html_join
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 
@@ -31,7 +32,7 @@ class CaseStudyAdmin(ModelAdmin):
     button_helper_class = CaseStudyAdminButtonHelper
     exclude_from_explorer = False
     menu_icon = 'fa-book'
-    list_display = ('__str__', 'associated_hs_code_tags', 'associated_country_code_tags')
+    list_display = ('__str__', 'associated_hs_code_tags', 'associated_country_code_tags', 'get_related_pages')
     # list_filter = (  # DISABLED BECAUSE SLOWING DOWN THE PAGE TOO MUCH
     #     'hs_code_tags',
     #     'country_code_tags',
@@ -48,6 +49,18 @@ class CaseStudyAdmin(ModelAdmin):
 
     def associated_country_code_tags(self, obj):
         return [str(x) for x in obj.country_code_tags.all()]
+
+    def get_related_pages(self, obj):
+        page_mapping = {
+            'curatedlistpage': 'MODULE',
+            'topicpage': 'TOPIC',
+            'detailpage': 'LESSON',
+        }
+        return format_html_join(
+            '',
+            '<strong>{}: </strong> {}<br>',  # noqa
+            ((page_mapping.get(x.page.specific._meta.model_name), x.page) for x in obj.related_pages.all()),
+        )
 
 
 modeladmin_register(CaseStudyAdmin)
