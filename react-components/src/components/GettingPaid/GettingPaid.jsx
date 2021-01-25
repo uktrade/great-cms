@@ -40,24 +40,23 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
           </p>
           <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
             <div className="target-market-documents-form">
-              {formFields.map(({ field }) => (
-                <div className="user-form-group" key={field[0].id}>
+              {formFields.map(({ group }) => (
+                <div className="user-form-group" key={group[0].id}>
                   <Select
-                    label={field[0].label}
-                    id={field[0].id}
-                    name={field[0].name}
-                    update={() => {}}
-                    options={field[0].options}
-                    selected={getLabel(field[0].options, state[field[0].id])}
+                    label={group[0].label}
+                    id={group[0].id}
+                    name={group[0].name}
+                    options={group[0].options}
+                    selected={getLabel(group[0].options, state[group[0].id])}
                     onChange={onChange}
                   />
-                  {getLabel(field[0].options, state[field[1].id])}
+                  {getLabel(group[0].options, state[group[1].id])}
                   <TextArea
                     onChange={onChange}
-                    label={field[1].label}
-                    id={field[1].id}
-                    value={state[field[1].id]}
-                    placeholder={field[1].placeholder}
+                    label={group[1].label}
+                    id={group[1].id}
+                    value={state[group[1].id]}
+                    placeholder={group[1].placeholder}
                   />
                 </div>
               ))}
