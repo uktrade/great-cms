@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
 - GP2-1348 - Compare markets - economy/population tab enhancements
 - GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
