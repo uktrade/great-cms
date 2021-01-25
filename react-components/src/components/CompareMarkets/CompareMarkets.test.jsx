@@ -147,6 +147,7 @@ const societyApiResponse = [
   {
     country: 'Germany',
     languages: {
+      date: '2018',
       note: 'Danish, Frisian, Sorbian, and Romani are official minority languages',
       language: [
         {
@@ -344,13 +345,13 @@ it('Allows selection of markets and fetch data when product selected', async () 
     )
     expect(
       rowSocietyGermany.querySelector('.religion').textContent
-    ).toMatch('Roman Catholic 27.7%Protestant 25.5%Muslim 5.1%Orthodox 1.9%other Christian 1.1%')
+    ).toMatch('Roman Catholic - 28%Protestant - 26%Muslim - 5%Orthodox - 2%other Christian - 1%2018')
     expect(
       rowSocietyGermany.querySelector('.language').textContent
-    ).toMatch('German (official)')
+    ).toMatch('German2018. Danish, Frisian, Sorbian, and Romani are official minority languages')
     expect(
       rowSocietyGermany.querySelector('.rule-of-law').textContent
-    ).toMatch('89.2')
+    ).toMatch('16 of 113')
   })
 })
 
