@@ -1,5 +1,7 @@
 {% extends 'domestic/base.html' %}
 
+
+{% load pagination from component_tags %}
 {% load static %}
 
 {% block head_title %}Markets - great.gov.uk{% endblock %}
@@ -92,9 +94,7 @@
               <div class="flex-grid markets-grid">
                 {% include 'components/card_grid.html' with cards=paginated_results  %}
               </div>
-              {% comment %}
               {% pagination pagination_page=paginated_results %}
-              {% endcomment %}
             </div>
           </div>
           <input class="button" type="submit" value="Submit form" />

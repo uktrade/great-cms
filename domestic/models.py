@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
@@ -206,15 +206,23 @@ class MarketsTopicLandingPage(
         market_pages = CountryGuidePage.objects.child_of(self)
         return self.sort_results(request=request, pages=market_pages)
 
+    def paginate_data(self, request, pages):
+        paginator = Paginator(pages, self.MAX_PER_PAGE)
+
+        try:
+            paginated_results = paginator.page(request.GET.get('page', 1))
+        except (EmptyPage, PageNotAnInteger):
+            # By default, return the first page
+            paginated_results = paginator.page(1)
+
+        return paginated_results
+
     def get_context(self, request):
         context = super().get_context(request)
+        relevant_markets = self.get_relevant_markets(request)
+        paginated_results = self.paginate_data(request, relevant_markets)
 
         context['sortby_options'] = self.sortby_options
-
-        relevant_markets = self.get_relevant_markets(request)
-
-        paginator = Paginator(relevant_markets, self.MAX_PER_PAGE)
-        paginated_results = paginator.page(request.GET.get('page', 1))
         context['paginated_results'] = paginated_results
         context['number_of_results'] = relevant_markets.count()
 
