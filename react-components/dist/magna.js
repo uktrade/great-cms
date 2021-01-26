@@ -64759,7 +64759,7 @@ module.exports = function(originalModule) {
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
   \*****************************************/
-/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, isArray, get, mapArray, getLabel, getValue, formatLessonLearned */
+/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, isArray, get, mapArray, getLabel, getValue, formatLessonLearned, millify, stripPercentage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64777,6 +64777,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLabel", function() { return getLabel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return getValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatLessonLearned", function() { return formatLessonLearned; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "millify", function() { return millify; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "stripPercentage", function() { return stripPercentage; });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -64823,9 +64825,13 @@ var analytics = function analytics(data) {
 };
 
 var normaliseValues = function normaliseValues(str) {
+  var places = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var fixed = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var pow = Math.pow(10, places);
+
   if (str) {
     var values = String(str).replace(/\d+(\.\d+)?/g, function ($0) {
-      return Math.round(parseFloat($0) * 10) / 10;
+      return fixed ? parseFloat($0).toFixed(places) : Math.round(parseFloat($0) * pow) / pow;
     });
     values = values.replace(/\d+(\.\d+)?(?=\%)/g, function ($0) {
       return Math.round($0);
@@ -64834,6 +64840,32 @@ var normaliseValues = function normaliseValues(str) {
   } else {
     return 'Data not available';
   }
+};
+
+var millify = function millify(value) {
+  var floatValue = parseFloat(value);
+
+  if (floatValue) {
+    var names = ['million', 'billion', 'trillion'];
+    var oom = Math.floor(Math.log10(Math.abs(floatValue)) / 3);
+    if (oom <= 1) return Math.round(floatValue).toLocaleString();
+    return "".concat((value / Math.pow(10, oom * 3)).toFixed(1), " ").concat(names[oom - 2]);
+  }
+
+  return value === null ? value : '' + value;
+};
+
+var stripPercentage = function stripPercentage(str) {
+  // The regular expression matches an integer or float with or without leading
+  // digit at the end of the string, not necessarily preceded by a space and not
+  // necessarily succeded  by a percent symbol.
+  // e.g. 'text.1(+)(%)', 'text .1(+)(%)', 'text 1(+).1(+)(%)' and combinations
+  if (str) {
+    var regex = /\s?\<?\>?\.?\d*\.?\d+\%?$/;
+    return str.replace(regex, '');
+  }
+
+  return str;
 };
 
 var isObject = function isObject(obj) {
@@ -64845,13 +64877,14 @@ var isArray = function isArray(arr) {
 };
 
 var get = function get(obj, path) {
+  var def = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   // get a value from an object based on dot-separated path
   var out = obj;
   var pathSplit = path.split('.');
 
   for (var i = 0; i < pathSplit.length; i++) {
     if (!isObject(out)) {
-      return;
+      return def;
     }
 
     out = out[pathSplit[i]];
@@ -65991,6 +66024,12 @@ function DataTable(props) {
     }
   }, [commodityCode, comparisonMarkets]);
 
+  var yearDiv = function yearDiv(year, baseYear) {
+    return year && String(year) !== baseYear && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-m text-black-60 display-year"
+    }, year);
+  };
+
   var sourceAttribution = function sourceAttribution(attributions) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "source-attribution body-s m-r-s m-v-xs"
@@ -66007,6 +66046,25 @@ function DataTable(props) {
     }));
   };
 
+  var years = {};
+  Object.values(comparisonMarkets).forEach(function (market) {
+    var countryData = cache[datasetName] && cache[datasetName][market.country_name];
+
+    if (countryData) {
+      Object.values(config.columns).forEach(function (columnConfig) {
+        if (columnConfig.year) {
+          var year = columnConfig.year(countryData);
+
+          if (year) {
+            years[year] = (years[year] || 0) + 1;
+          }
+        }
+      });
+    }
+  });
+  var baseYear = Object.keys(years).sort(function (a, b) {
+    return years[a] < years[b] ? 1 : -1;
+  })[0];
   var tableBody = Object.values(comparisonMarkets).map(function (market) {
     var countryData = cache[datasetName] && cache[datasetName][market.country_name];
     var countryRow = Object.keys(config.columns).map(function (columnKey) {
@@ -66014,7 +66072,9 @@ function DataTable(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         key: columnKey,
         className: "".concat(columnKey, " ").concat(cellConfig.className || '')
-      }, countryData ? config.columns[columnKey].render(countryData) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, countryData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, cellConfig.render(countryData), yearDiv((cellConfig.year || function () {
+        return null;
+      })(countryData), baseYear)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading"
       }, "\xA0"));
     });
@@ -66049,9 +66109,11 @@ function DataTable(props) {
       title: cellConfig.tooltip.title,
       content: cellConfig.tooltip.content,
       position: cellConfig.tooltip.position,
-      className: "text-align-left body-m"
+      className: "text-align-left body-m p-r-s"
     })));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)), config.sourceAttributions && sourceAttribution(config.sourceAttributions));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, tableBody)), baseYear && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "base-year body-m m-t-xs"
+  }, "Displaying data from ", baseYear, " unless otherwise indicated."), config.sourceAttributions && sourceAttribution(config.sourceAttributions));
 }
 DataTable.propTypes = {
   datasetName: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
@@ -66272,42 +66334,98 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-var headingAndBody = function headingAndBody(value) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(value)[0]), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "body-m"
-  }, " ", Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(value)[1], " "), ' ');
-};
-
 var DATA_NA = 'Data not available';
 
-var getAndFormat = function getAndFormat(data, key) {
-  var unit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-  var value = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, key);
-  return value !== undefined ? "".concat(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(value)).concat(unit) : DATA_NA;
+var populationPercentActual = function populationPercentActual(group, population) {
+  if (group && population) {
+    var percentage = Math.round(group * 100 / population);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-l primary"
+    }, percentage, "%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-m secondary"
+    }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(group), " "));
+  }
+
+  return DATA_NA;
 };
 
-var formatReligion = function formatReligion(religion) {
-  return "".concat(religion.name, " ").concat(religion.percent ? "".concat(religion.percent, "%") : '');
+var rankOutOf = function rankOutOf(data, key) {
+  return data && data[key] && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, data[key], " of ", data.total) || DATA_NA;
 };
 
-var formatLanguage = function formatLanguage(language) {
-  return "".concat(language.name).concat(language.note === 'official' ? ' (official)' : '');
+var formatEntry = function formatEntry(data) {
+  var name = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["stripPercentage"])(data.name);
+  var percent = data.percent ? Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(data.percent, 0) : '';
+  return percent ? name + ' - ' + percent + '%' : name;
 };
 
 var getEntries = function getEntries() {
   var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var func = arguments.length > 1 ? arguments[1] : undefined;
-  var entries = Object.keys(list || {}).map(function (key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "entry body-m",
+  var maxEntries = 5;
+  var entries = Object.keys(list || {}).filter(function (key) {
+    return list[key].name;
+  }).slice(0, maxEntries).map(function (key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "entry body-l",
       key: key
-    }, func(list[key]));
+    }, formatEntry(list[key]));
   });
   return entries;
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (function (selectedProduct) {
+var language = function language(data) {
+  var entries = getEntries(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'language'));
+
+  if (data && entries) {
+    var year = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'date');
+    var note = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'note');
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-m text-black-60 display-note"
+    }, year, year && note && ". ", note && Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["capitalize"])(note)));
+  }
+
+  return DATA_NA;
+};
+
+var religion = function religion(data) {
+  var entries = getEntries(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'religion'));
+
+  if (data && entries) {
+    var year = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'date');
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, year && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-m text-black-60 display-year"
+    }, year));
+  }
+
+  return DATA_NA;
+};
+
+var ruleOfLawRanking = function ruleOfLawRanking(data) {
+  var rankingTotal = 113;
+
+  if (data) {
+    data.total = rankingTotal;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rankOutOf(data, 'rank'), data.year && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-m text-black-60 display-year"
+    }, data.year));
+  }
+
+  return DATA_NA;
+};
+
+var sign = function sign(value) {
+  return ['-', '', '+'][Math.sign(value) + 1];
+};
+
+var importValueAndChange = function importValueAndChange(importValue) {
+  return importValue && importValue.trade_value_raw && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-l primary"
+  }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(importValue.trade_value_raw) || DATA_NA), importValue.year_on_year_change && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-m secondary text-black-60"
+  }, sign(importValue.year_on_year_change), Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(importValue.year_on_year_change), "% vs", ' ', importValue.year - 1)) || DATA_NA;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
   var populationTabConfig = {
     sourceAttributions: [{
       title: 'Population data',
@@ -66329,7 +66447,21 @@ var getEntries = function getEntries() {
         name: 'Total Population',
         className: 'text-align-right',
         render: function render(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(data.total_population);
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(data.total_population_raw) || DATA_NA;
+        }
+      },
+      urban_population: {
+        name: 'Living in urban areas',
+        className: 'text-align-right',
+        render: function render(data) {
+          return populationPercentActual(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'urban_population_total', 0) * 1000, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'total_population_raw'));
+        }
+      },
+      rural_population: {
+        name: 'Living in rural areas',
+        className: 'text-align-right',
+        render: function render(data) {
+          return populationPercentActual(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'rural_population_total', 0) * 1000, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'total_population_raw'));
         }
       },
       internet_usage: {
@@ -66337,20 +66469,9 @@ var getEntries = function getEntries() {
         className: 'text-align-right',
         render: function render(data) {
           return data.internet_usage ? Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])("".concat(data.internet_usage.value, "%")) : 'Data not available';
-        }
-      },
-      urban_population: {
-        name: 'Living in urban areas',
-        className: 'text-align-right',
-        render: function render(data) {
-          return headingAndBody(data.urban_population_percentage_formatted);
-        }
-      },
-      rural_population: {
-        name: 'Living in rural areas',
-        className: 'text-align-right',
-        render: function render(data) {
-          return headingAndBody(data.rural_population_percentage_formatted);
+        },
+        year: function year(data) {
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'internet_usage.year');
         }
       },
       cpi: {
@@ -66358,6 +66479,9 @@ var getEntries = function getEntries() {
         className: 'text-align-right',
         render: function render(data) {
           return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'cpi.value') || 'Data not available';
+        },
+        year: function year(data) {
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'cpi.year');
         },
         tooltip: {
           position: 'right',
@@ -66396,28 +66520,30 @@ var getEntries = function getEntries() {
         name: 'Worldwide import value (USD)',
         className: 'text-align-right',
         render: function render(data) {
-          return getAndFormat(data, 'import_from_world.trade_value');
-        }
-      },
-      'year-on-year-change': {
-        name: 'Import value from the UK (USD)',
-        className: 'text-align-right',
-        render: function render(data) {
-          return getAndFormat(data, 'import_from_world.year_on_year_change', '%');
+          return importValueAndChange(data.import_from_world);
+        },
+        year: function year(data) {
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'import_from_world.year');
         }
       },
       'uk-import-value': {
-        name: "".concat(selectedProduct.commodity_name, " import value from the UK (USD)"),
+        name: 'Import value from the UK (USD)',
         className: 'text-align-right',
         render: function render(data) {
-          return getAndFormat(data, 'import_data_from_uk.trade_value');
+          return importValueAndChange(data.import_data_from_uk);
+        },
+        year: function year(data) {
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'import_data_from_uk.year');
         }
       },
       'avg-income': {
         name: 'Adjusted net national income per capita (USD)',
         className: 'text-align-right',
         render: function render(data) {
-          return getAndFormat(data, 'country_data.income.value');
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.income.value'));
+        },
+        year: function year(data) {
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.income.year');
         },
         tooltip: {
           position: 'right',
@@ -66429,7 +66555,10 @@ var getEntries = function getEntries() {
         name: 'Ease of doing business rank ',
         className: 'text-align-right',
         render: function render(data) {
-          return getAndFormat(data, 'country_data.ease_of_doing_bussiness.year_2019');
+          return rankOutOf(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.ease_of_doing_bussiness'), 'rank');
+        },
+        year: function year(data) {
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.ease_of_doing_bussiness.year');
         },
         tooltip: {
           position: 'right',
@@ -66441,7 +66570,10 @@ var getEntries = function getEntries() {
         name: 'Corruption Perceptions Index',
         className: 'text-align-right',
         render: function render(data) {
-          return getAndFormat(data, 'country_data.corruption_perceptions_index.rank');
+          return rankOutOf(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.corruption_perceptions_index'), 'rank');
+        },
+        year: function year(data) {
+          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.corruption_perceptions_index.year');
         },
         tooltip: {
           position: 'right',
@@ -66471,21 +66603,21 @@ var getEntries = function getEntries() {
         name: 'Religion',
         className: 'align-top',
         render: function render(data) {
-          return getEntries(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'religions.religion'), formatReligion);
+          return religion(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'religions'));
         }
       },
       language: {
-        name: 'Languages',
+        name: 'Language',
         className: 'align-top',
         render: function render(data) {
-          return getEntries(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'languages.language'), formatLanguage);
+          return language(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'languages'));
         }
       },
       'rule-of-law': {
-        name: 'Rule of law ranking',
+        name: 'Rule of Law ranking',
         className: 'align-top',
         render: function render(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'rule_of_law.score'));
+          return ruleOfLawRanking(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'rule_of_law'));
         },
         tooltip: {
           position: 'right',
@@ -69446,11 +69578,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
+/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-var GettingPaid = function GettingPaid() {
+
+
+
+
+
+
+var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var formFields = _ref.formFields,
+      formData = _ref.formData,
+      field = _ref.field;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
+      _useState2 = _slicedToArray(_useState, 2),
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  var update = function update(data) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].updateExportPlan(data).then(function () {});
+  };
+
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
+
+  var onChange = function onChange(data) {
+    setState(_objectSpread(_objectSpread({}, state), data));
+    debounceUpdate(_defineProperty({}, field, data));
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "container p-t-l"
+    className: "container p-t-l m-b-l"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69459,11 +69639,43 @@ var GettingPaid = function GettingPaid() {
     className: "c-1-1 c-2-3-m c-1-2-xl"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-l"
-  }, "Your payment methods"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Foreign buyers may have different expectations about how and when to pay for their imports."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To avoid uncertainty and disappointment, carefully consider the options available.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Your payment methods"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Foreign buyers may have different expectations about how and when to pay for their imports."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To avoid uncertainty and disappointment, carefully consider the options available."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "target-market-documents-form"
+  }, formFields.map(function (_ref2) {
+    var group = _ref2.group;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "user-form-group",
+      key: group[0].id
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__["Select"], {
+      label: group[0].label,
+      id: group[0].id,
+      name: group[0].name,
+      options: group[0].options,
+      selected: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(group[0].options, state[group[0].id]),
+      onChange: onChange
+    }), Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(group[0].options, state[group[1].id]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
+      onChange: onChange,
+      label: group[1].label,
+      id: group[1].id,
+      value: state[group[1].id],
+      placeholder: group[1].placeholder
+    }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "body-s text-blue-deep-50 m-b-0"
+  }, "Incoterms\xAE and the Incoterms\xAE 2020 logo are trademarks of ICC. Use of these trademarks does not imply association with, approval of or sponsorship by ICC unless specifically stated above. The Incoterms\xAE Rules are protected by copyright owned by ICC. Further information on the Incoterm\xAE Rules may be obtained from the ICC website iccwbo.org.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-12-m c-1-4-xl"
   }, "\xA0")));
+});
+GettingPaid.propTypes = {
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }))]))))).isRequired,
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired,
+  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
 };
-GettingPaid.propTypes = {};
 
 /***/ }),
 
@@ -71345,7 +71557,7 @@ function RadioButtons(props) {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       htmlFor: option.id
     }), optionName, option.def && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExpandCollapse__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      buttonClass: "info fas fa-lg fa-info-circle text-blue-deep-90 m-f-s p-v-4 p-h-0",
+      buttonClass: "info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0",
       buttonBefore: true
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "g-panel f-l m-v-xs"
@@ -72519,7 +72731,7 @@ function ValueItem(props) {
   }, "%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "m-f-xs"
   }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["capitalize"])(option.name), option.def && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExpandCollapse__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    buttonClass: "info fas fa-lg fa-info-circle text-blue-deep-90 m-f-s p-v-4 p-h-0",
+    buttonClass: "info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0",
     buttonBefore: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "g-panel f-l m-v-xs"

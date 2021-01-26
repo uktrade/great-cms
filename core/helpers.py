@@ -353,11 +353,11 @@ def get_comtrade_data(countries_list, commodity_code):
         import_data = json_data['last_year_data'] if 'last_year_data' in json_data else {}
         if import_data:
             if 'trade_value' in import_data and import_data['trade_value']:
+                import_data['trade_value_raw'] = import_data['trade_value']
                 import_data['trade_value'] = millify(import_data['trade_value'])
 
             if 'year_on_year_change' in import_data and import_data['year_on_year_change']:
                 import_data['year_on_year_change'] = import_data['year_on_year_change']
-
         json_data_from_uk = api_client.dataservices.get_last_year_import_data_from_uk(
             country=country, commodity_code=commodity_code
         ).json()
@@ -366,6 +366,7 @@ def get_comtrade_data(countries_list, commodity_code):
 
         import_data_from_uk = json_data_from_uk['last_year_data'] if 'last_year_data' in json_data_from_uk else {}
         if import_data_from_uk and 'trade_value' in import_data_from_uk and import_data_from_uk['trade_value']:
+            import_data_from_uk['trade_value_raw'] = import_data_from_uk['trade_value']
             import_data_from_uk['trade_value'] = millify(import_data_from_uk['trade_value'])
 
         country_data = exportplan_helpers.get_country_data(country)

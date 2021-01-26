@@ -135,7 +135,7 @@ class TopicLandingBasePage(BaseContentPage):
     # `title` field comes from Page->BaseContentPage
 
     hero_image = models.ForeignKey(
-        'wagtailimages.Image',
+        'core.AltTextImage',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
