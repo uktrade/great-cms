@@ -82,12 +82,6 @@ class UiOptions(serializers.Serializer):
         return value[0].split(',')
 
 
-class TimestampField(serializers.Field):
-    def to_representation(self, value):
-        if isinstance(value, (datetime.date, datetime.datetime)):
-            return value.isoformat()
-
-
 class UiProgress(serializers.Serializer):
     is_complete = serializers.BooleanField(required=False)
     date_last_visited = serializers.CharField(required=False)
