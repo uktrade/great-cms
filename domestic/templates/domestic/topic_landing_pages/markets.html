@@ -108,11 +108,9 @@
 {% block body_js %}
 {{ block.super }}
 <script src="{% static 'js/marketFilters.js' %}"></script>
-{% comment "Disabled until we add the filtering functionality" %}
 <script>
   $(function() {
     marketFilters.init();
   });
 </script>
-{% endcomment %}
 {% endblock %}
