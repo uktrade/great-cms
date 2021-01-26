@@ -642,8 +642,8 @@ class ArticleListingPageTests(WagtailPageTests):
     def test_get_articles(self):
 
         listing_page = ArticleListingPageFactory(
-            title="Test listing page",
-            landing_page_title="Test Listing Page",
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
         )
         for i in range(5):
             _title = f'Article {i}'
@@ -663,8 +663,8 @@ class ArticleListingPageTests(WagtailPageTests):
 
     def test_get_articles_count(self):
         listing_page = ArticleListingPageFactory(
-            title="Test listing page",
-            landing_page_title="Test Listing Page",
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
         )
         for i in range(5):
             _title = f'Article {i}'
