@@ -50,8 +50,8 @@ This page helps you compare country data to make the right decision.{% endblock 
     </div>
     {% if data_tabs_enabled %}
       <div id="open-product-finder" class="m-v-l"
-        data-productname="{{ export_plan.export_commodity_codes.0.commodity_name }}"
-        data-productcode="{{ export_plan.export_commodity_codes.0.commodity_code }}"
+        data-productname="{{ request.user.export_plan.export_commodity_codes.0.commodity_name }}"
+        data-productcode="{{ request.user.export_plan.export_commodity_codes.0.commodity_code }}"
         data-tabs="{{ data_tabs_enabled }}">
       </div>
 
