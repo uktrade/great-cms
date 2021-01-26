@@ -179,7 +179,7 @@ def get_meta_description(page, **kwargs):
 @register.filter
 def add_href_target(value, request):
     soup = BeautifulSoup(value, 'html.parser')
-    for element in soup.findAll('a', attrs={'href': re.compile("^http")}):
+    for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
         if request.META['HTTP_HOST'] not in element.attrs['href']:
             element.attrs['target'] = '_blank'
             element.attrs['title'] = 'Opens in a new window'
