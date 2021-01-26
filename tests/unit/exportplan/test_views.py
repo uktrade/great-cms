@@ -206,6 +206,9 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, client, user):
     assert response.context_data['current_section'] == data.SECTIONS[slug]
     assert response.context_data['sections'] == data.SECTION_URLS
     assert response.context_data['export_plan'] == export_plan_data
+    assert response.context_data['export_plan_progress'] == {
+        'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
+    }
 
 
 @pytest.mark.django_db

@@ -51,6 +51,7 @@
 - GP2-1321 - add TM  learning component
 - GP2-1306 - learning data
 - GP2-1168 - export plan lessons
+- GP2-1139 - save EP progress
 
 ### Fixed bugs
 - GP2-1375 - Fix image-types for advice and markets hero

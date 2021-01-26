@@ -355,9 +355,7 @@ def test_create_route_to_market_api_view(mock_create_route_to_market, client, us
 def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
     client.force_login(user)
     mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
-
     url = reverse('exportplan:api-update-export-plan')
-
     response = client.post(url, {'target_markets': ['China', 'India']})
     assert mock_get_or_create_export_plan.call_count == 1
     assert mock_get_or_create_export_plan.call_args == mock.call(user)

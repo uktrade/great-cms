@@ -49,12 +49,17 @@ class ExportPlanMixin:
     def current_section(self):
         return helpers.get_current_url(self.slug, self.export_plan)
 
+    @property
+    def export_plan_progress(self):
+        return helpers.calculate_ep_progress(self.export_plan)
+
     def get_context_data(self, **kwargs):
         industries = [name for _, name in choices.INDUSTRIES]
         country_choices = choices_to_key_value(choices.COUNTRY_CHOICES)
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
+            export_plan_progress=self.export_plan_progress,
             sections=data.SECTION_URLS,
             export_plan=self.export_plan,
             sectors=json.dumps(industries),

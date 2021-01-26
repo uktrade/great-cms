@@ -1,3 +1,4 @@
+import datetime
 import decimal
 import json
 
@@ -79,6 +80,28 @@ class UiOptions(serializers.Serializer):
 
     def validate_target_ages(self, value):
         return value[0].split(',')
+
+
+class TimestampField(serializers.Field):
+    def to_representation(self, value):
+        if isinstance(value, (datetime.date, datetime.datetime)):
+            return value.isoformat()
+
+
+class UiProgress(serializers.Serializer):
+    is_complete = serializers.BooleanField(required=False)
+    date_last_visited = serializers.CharField(required=False)
+    modified = serializers.DateTimeField(required=False)
+
+    def to_representation(self, instance):
+        modified = instance.get('modified')
+        if isinstance(modified, (datetime.date, datetime.datetime)):
+            instance['date_last_visited'] = modified.isoformat()
+            instance.pop('modified')
+        return instance
+
+    class Meta:
+        exclude = ('ts',)
 
 
 class FundingAndCreditSerializer(serializers.Serializer):
@@ -184,10 +207,17 @@ class ExportPlanSerializer(serializers.Serializer):
     marketing_approach = MarketingApproachSerializer(required=False)
     adaptation_target_market = AdaptationTargetMarketSerializer(required=False)
     ui_options = UiOptions(required=False)
+    ui_progress = serializers.DictField(child=UiProgress(), required=False)
     direct_costs = DirectCostsSerializer(required=False)
     overhead_costs = OverheadCostsSerializer(required=False)
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
     funding_and_credit = FundingAndCreditSerializer(required=False)
+
+    def to_internal_value(self, data):
+        internal_val = super().to_internal_value(data)
+        if internal_val.get('ui_progress') == {}:
+            internal_val.pop('ui_progress')
+        return internal_val
 
     @property
     def total_direct_costs(self):
