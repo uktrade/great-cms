@@ -1,0 +1,28 @@
+.TopicPage .chooser .chosen:before, .chooser .unchosen:before {
+    color: #4B426D;
+}
+.CuratedListPage .chooser .chosen:before, .chooser .unchosen:before {
+    color: #EB4F4D;
+}
+
+.DetailPage .chooser .chosen:before, .chooser .unchosen:before {
+    color: #007EA3;
+}
+
+.DetailPage span.title:before {
+    content: "LESSON: ";
+    font-weight: bold;
+}
+.CuratedListPage span.title:before {
+    content: "MODULE: ";
+    font-weight: bold;
+}
+
+.TopicPage span.title:before {
+    content: "TOPIC: ";
+    font-weight: bold;
+}
+
+button[id^="related_pages-"]{
+    display: none;
+}

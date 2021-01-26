@@ -39,7 +39,7 @@ cryptography==3.2
     # via -r requirements.in
 cssselect==1.1.0
     # via pyquery
-directory-api-client==22.11.0
+directory-api-client==22.12.0
     # via -r requirements.in
 directory-client-core==6.3.0
     # via

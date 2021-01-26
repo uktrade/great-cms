@@ -61,7 +61,7 @@ function RadioButtons(props) {
         {optionName}
         {option.def && (
           <ExpandCollapse
-            buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-s p-v-4 p-h-0"
+            buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
             buttonBefore
           >
             <div className="g-panel f-l m-v-xs">{option.def}</div>

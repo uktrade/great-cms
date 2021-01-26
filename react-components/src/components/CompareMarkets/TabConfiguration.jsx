@@ -1,43 +1,133 @@
 import React from 'react'
 import Services from '@src/Services'
-import { normaliseValues, get } from '../../Helpers'
-
-const headingAndBody = (value) => {
-  return (
-    <>
-      <h1>{normaliseValues(value)[0]}</h1>{' '}
-      <span className="body-m"> {normaliseValues(value)[1]} </span>{' '}
-    </>
-  )
-}
+import { normaliseValues, get, millify, capitalize, stripPercentage } from '../../Helpers'
 
 const DATA_NA = 'Data not available'
 
-const getAndFormat = (data, key, unit = '') => {
-  const value = get(data, key)
-  return value !== undefined ? `${normaliseValues(value)}${unit}` : DATA_NA
-}
-
-const formatReligion = (religion) => {
-  return `${religion.name} ${religion.percent ? `${religion.percent}%` : ''}`
-}
-
-const formatLanguage = (language) => {
-  return `${language.name}${language.note === 'official' ? ' (official)' : ''}`
-}
-
-const getEntries = (list = {}, func) => {
-  const entries = Object.keys(list || {}).map((key) => {
+const populationPercentActual = (group, population) => {
+  if (group && population) {
+    const percentage = Math.round((group * 100) / population)
     return (
-      <p className="entry body-m" key={key}>
-        {func(list[key])}
-      </p>
+      <>
+        <div className="body-l primary">{percentage}%</div>
+        <div className="body-m secondary">{millify(group)} </div>
+      </>
     )
-  })
+  }
+  return DATA_NA
+}
+
+const rankOutOf = (data, key) => {
+  return (
+    (data && data[key] && (
+      <>
+        {data[key]} of {data.total}
+      </>
+    )) ||
+    DATA_NA
+  )
+}
+
+const formatEntry = (data) => {
+  const name = stripPercentage(data.name)
+  const percent = data.percent ? normaliseValues(data.percent, 0) : ''
+
+  return percent ? (name + ' - ' + percent + '%') : name
+}
+
+const getEntries = (list = {}) => {
+  const maxEntries = 5
+  const entries = Object.keys(list || {})
+    .filter(key => list[key].name)
+    .slice(0, maxEntries)
+    .map((key) => {
+      return (
+        <div className="entry body-l" key={key}>
+          {formatEntry(list[key])}
+        </div>
+      )
+    })
   return entries
 }
 
-export default (selectedProduct) => {
+const language = (data) => {
+  const entries = getEntries(get(data, 'language'))
+
+  if (data && entries) {
+    const year = get(data, 'date')
+    const note = get(data, 'note')
+
+    return (
+      <>
+        {entries}
+        <div className="body-m text-black-60 display-note">
+          {year}{year && note && ". "}{note && capitalize(note)}
+        </div>
+      </>
+    )
+  }
+  return DATA_NA
+}
+
+const religion = (data) => {
+  const entries = getEntries(get(data, 'religion'))
+
+  if (data && entries) {
+    const year = get(data, 'date')
+
+    return (
+      <>
+        {entries}
+        {year && (
+          <div className="body-m text-black-60 display-year">{year}</div>
+        )}
+      </>
+    )
+  }
+  return DATA_NA
+}
+
+const ruleOfLawRanking = (data) => {
+  const rankingTotal = 113
+  if (data) {
+    data.total = rankingTotal
+    return (
+      <>
+        {rankOutOf(data, 'rank')}
+        {data.year && (
+          <div className="body-m text-black-60 display-year">{data.year}</div>
+        )}
+      </>
+    )
+  }
+  return DATA_NA
+}
+
+const sign = (value) => {
+  return ['-', '', '+'][Math.sign(value) + 1]
+}
+
+const importValueAndChange = (importValue) => {
+  return (
+    (importValue && importValue.trade_value_raw && (
+      <>
+        <div className="body-l primary">
+          {millify(importValue.trade_value_raw) || DATA_NA}
+        </div>
+        {importValue.year_on_year_change && (
+          <div className="body-m secondary text-black-60">
+            {sign(importValue.year_on_year_change)}
+            {normaliseValues(importValue.year_on_year_change)}% vs{' '}
+            {importValue.year - 1}
+          </div>
+        )}
+      </>
+    )) ||
+    DATA_NA
+  )
+}
+
+export default () => {
   const populationTabConfig = {
     sourceAttributions: [
       {
@@ -64,7 +154,25 @@ export default (selectedProduct) => {
       total_population: {
         name: 'Total Population',
         className: 'text-align-right',
-        render: (data) => normaliseValues(data.total_population),
+        render: (data) => millify(data.total_population_raw) || DATA_NA,
+      },
+      urban_population: {
+        name: 'Living in urban areas',
+        className: 'text-align-right',
+        render: (data) =>
+          populationPercentActual(
+            get(data, 'urban_population_total', 0) * 1000,
+            get(data, 'total_population_raw')
+          ),
+      },
+      rural_population: {
+        name: 'Living in rural areas',
+        className: 'text-align-right',
+        render: (data) =>
+          populationPercentActual(
+            get(data, 'rural_population_total', 0) * 1000,
+            get(data, 'total_population_raw')
+          ),
       },
       internet_usage: {
         name: 'Access to internet',
@@ -73,23 +181,13 @@ export default (selectedProduct) => {
           data.internet_usage
             ? normaliseValues(`${data.internet_usage.value}%`)
             : 'Data not available',
-      },
-      urban_population: {
-        name: 'Living in urban areas',
-        className: 'text-align-right',
-        render: (data) =>
-          headingAndBody(data.urban_population_percentage_formatted),
-      },
-      rural_population: {
-        name: 'Living in rural areas',
-        className: 'text-align-right',
-        render: (data) =>
-          headingAndBody(data.rural_population_percentage_formatted),
+        year: (data) => get(data, 'internet_usage.year'),
       },
       cpi: {
         name: 'Consumer Price Index',
         className: 'text-align-right',
         render: (data) => get(data, 'cpi.value') || 'Data not available',
+        year: (data) => get(data, 'cpi.year'),
         tooltip: {
           position: 'right',
           title: '',
@@ -138,23 +236,20 @@ export default (selectedProduct) => {
       'world-import-value': {
         name: 'Worldwide import value (USD)',
         className: 'text-align-right',
-        render: (data) => getAndFormat(data, 'import_from_world.trade_value'),
-      },
-      'year-on-year-change': {
-        name: 'Import value from the UK (USD)',
-        className: 'text-align-right',
-        render: (data) =>
-          getAndFormat(data, 'import_from_world.year_on_year_change', '%'),
+        render: (data) => importValueAndChange(data.import_from_world),
+        year: (data) => get(data, 'import_from_world.year'),
       },
       'uk-import-value': {
-        name: `${selectedProduct.commodity_name} import value from the UK (USD)`,
+        name: 'Import value from the UK (USD)',
         className: 'text-align-right',
-        render: (data) => getAndFormat(data, 'import_data_from_uk.trade_value'),
+        render: (data) => importValueAndChange(data.import_data_from_uk),
+        year: (data) => get(data, 'import_data_from_uk.year'),
       },
       'avg-income': {
         name: 'Adjusted net national income per capita (USD)',
         className: 'text-align-right',
-        render: (data) => getAndFormat(data, 'country_data.income.value'),
+        render: (data) => millify(get(data, 'country_data.income.value')),
+        year: (data) => get(data, 'country_data.income.year'),
         tooltip: {
           position: 'right',
           title: '',
@@ -169,7 +264,8 @@ export default (selectedProduct) => {
         name: 'Ease of doing business rank ',
         className: 'text-align-right',
         render: (data) =>
-          getAndFormat(data, 'country_data.ease_of_doing_bussiness.year_2019'),
+          rankOutOf(get(data, 'country_data.ease_of_doing_bussiness'), 'rank'),
+        year: (data) => get(data, 'country_data.ease_of_doing_bussiness.year'),
         tooltip: {
           position: 'right',
           title: '',
@@ -184,7 +280,12 @@ export default (selectedProduct) => {
         name: 'Corruption Perceptions Index',
         className: 'text-align-right',
         render: (data) =>
-          getAndFormat(data, 'country_data.corruption_perceptions_index.rank'),
+          rankOutOf(
+            get(data, 'country_data.corruption_perceptions_index'),
+            'rank'
+          ),
+        year: (data) =>
+          get(data, 'country_data.corruption_perceptions_index.year'),
         tooltip: {
           position: 'right',
           title: '',
@@ -221,21 +322,17 @@ export default (selectedProduct) => {
       religion: {
         name: 'Religion',
         className: 'align-top',
-        render: (data) => {
-          return getEntries(get(data, 'religions.religion'), formatReligion)
-        },
+        render: (data) => religion(get(data, 'religions')),
       },
       language: {
-        name: 'Languages',
+        name: 'Language',
         className: 'align-top',
-        render: (data) => {
-          return getEntries(get(data, 'languages.language'), formatLanguage)
-        },
+        render: (data) => language(get(data, 'languages')),
       },
       'rule-of-law': {
-        name: 'Rule of law ranking',
+        name: 'Rule of Law ranking',
         className: 'align-top',
-        render: (data) => normaliseValues(get(data, 'rule_of_law.score')),
+        render: (data) => ruleOfLawRanking(get(data, 'rule_of_law')),
         tooltip: {
           position: 'right',
           title: '',

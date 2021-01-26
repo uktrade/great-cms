@@ -26,10 +26,13 @@ const analytics = (data) => {
   dataLayer.push(data)
 }
 
-const normaliseValues = (str) => {
+const normaliseValues = (str, places = 1, fixed = false) => {
+  const pow = Math.pow(10, places)
   if (str) {
     var values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
-      return Math.round(parseFloat($0) * 10) / 10
+      return fixed
+        ? parseFloat($0).toFixed(places)
+        : Math.round(parseFloat($0) * pow) / pow
     })
     values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
       return Math.round($0)
@@ -40,6 +43,30 @@ const normaliseValues = (str) => {
   }
 }
 
+let millify = (value) => {
+  const floatValue = parseFloat(value)
+  if (floatValue) {
+    const names = ['million', 'billion', 'trillion']
+    const oom = Math.floor(Math.log10(Math.abs(floatValue)) / 3)
+    if (oom <= 1) return Math.round(floatValue).toLocaleString()
+    return `${(value / Math.pow(10, oom * 3)).toFixed(1)} ${names[oom - 2]}`
+  }
+  return value === null ? value : ''+value
+}
+
+const stripPercentage = (str) => {
+  // The regular expression matches an integer or float with or without leading
+  // digit at the end of the string, not necessarily preceded by a space and not
+  // necessarily succeded  by a percent symbol.
+  // e.g. 'text.1(+)(%)', 'text .1(+)(%)', 'text 1(+).1(+)(%)' and combinations
+  if (str) {
+    const regex = /\s?\<?\>?\.?\d*\.?\d+\%?$/
+    return str.replace(regex, '')
+  }
+
+  return str
+}
+
 const isObject = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
@@ -48,13 +75,13 @@ const isArray = (arr) => {
   return Object.prototype.toString.call(arr) === '[object Array]'
 }
 
-const get = (obj, path) => {
+const get = (obj, path, def=null) => {
   // get a value from an object based on dot-separated path
   let out = obj
   const pathSplit = path.split('.')
   for (var i = 0; i < pathSplit.length; i++) {
     if (!isObject(out)) {
-      return
+      return def
     }
     out = out[pathSplit[i]]
   }
@@ -119,4 +146,6 @@ export {
   getLabel,
   getValue,
   formatLessonLearned,
+  millify,
+  stripPercentage,
 }

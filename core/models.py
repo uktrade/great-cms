@@ -6,8 +6,10 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.http import HttpResponseRedirect
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
@@ -937,6 +939,40 @@ def case_study_body_validation(value):
             )
 
 
+class MagnaPageChooserPanel(PageChooserPanel):
+    show_label = False
+
+    field_template = 'admin/wagtailadmin/edit_handlers/field_panel_field.html'
+
+    def render_as_field(self):
+        instance_obj = self.get_chosen_item()
+        context = {
+            'field': self.bound_field,
+            self.object_type_name: instance_obj,
+            'is_chosen': bool(instance_obj),  # DEPRECATED - passed to templates for backwards compatibility only
+            # Added obj_type on base class method render_as_field
+            'obj_type': instance_obj.specific.__class__.__name__ if instance_obj else None,
+        }
+        return mark_safe(render_to_string(self.field_template, context))
+
+
+class CaseStudyRelatedPages(Orderable):
+    case_study = ParentalKey(
+        'core.CaseStudy',
+        related_name='related_pages',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    page = models.ForeignKey('wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+    panels = [
+        MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]),
+    ]
+
+    class Meta:
+        unique_together = ['case_study', 'page']
+
+
 @register_snippet
 class CaseStudy(ClusterableModel):
     """Dedicated snippet for use as a case study. Supports personalised
@@ -1006,7 +1042,17 @@ class CaseStudy(ClusterableModel):
             heading='Case Study content',
         ),
         MultiFieldPanel(
-            [FieldPanel('hs_code_tags'), FieldPanel('country_code_tags')], heading='Case Study tags for Personalisation'
+            [
+                FieldPanel('hs_code_tags'),
+                FieldPanel('country_code_tags'),
+            ],
+            heading='Case Study tags for Personalisation',
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel('related_pages', label='Related pages'),
+            ],
+            heading='Related Lesson, Topic & Module, also used for Personalisation',
         ),
     ]
 

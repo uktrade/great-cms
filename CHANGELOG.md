@@ -5,10 +5,17 @@
 ### Implemented enhancements
 
 - GP2-1334 - Markets homepage grid, incl sorting and pagination
+- GP2-1346 - Compare markets - society tab enhancements
+- GP2-1178 - add payment terms fields
+- GP2-1368 - Wire up link from country_guide.html to /advice/ slug
+- GP2- 1342 - Added related pages to CaseStudy listing view
+- GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
+- GP2-1348 - Compare markets - economy/population tab enhancements
 - GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/
 - GP2-1176 - Getting paid - Page structure
+- GP2- 1341 - Added Case Study Content Linking UI
 - GP2-1340 - Analytics - product name relabelled
 - GP2-1339 - Analytics - search again
 - GP2-1260 - Compare markets - tooltips
@@ -53,7 +60,7 @@
 - GP2-1168 - export plan lessons
 
 ### Fixed bugs
-
+- GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block
 - GP2-1366 - minor fix of help text for rich-text areas

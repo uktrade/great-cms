@@ -2,9 +2,11 @@ import time
 from unittest import mock
 
 import pytest
+from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
+from wagtail.admin.edit_handlers import ObjectList
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
@@ -15,6 +17,7 @@ from wagtail_factories import ImageFactory
 from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
+    CaseStudyRelatedPages,
     Country,
     CuratedListPage,
     DetailPage,
@@ -23,6 +26,7 @@ from core.models import (
     LandingPage,
     LessonPlaceholderPage,
     ListPage,
+    MagnaPageChooserPanel,
     Product,
     Region,
     Tag,
@@ -635,3 +639,45 @@ class TestSmallSnippets(TestCase):
         tag = IndustryTag.objects.create(name='Test IndustryTag')
         self.assertEqual(tag.name, 'Test IndustryTag')
         self.assertEqual(f'{tag}', 'Test IndustryTag')  #  tests __str__
+
+
+class TestMagnaPageChooserPanel(TestCase):
+    def setUp(self):
+        self.request = RequestFactory().get('/')
+        user = AnonymousUser()  # technically, Anonymous users cannot access the admin
+        self.request.user = user
+
+        model = CaseStudyRelatedPages  # a model with a foreign key to Page which we want to render as a page chooser
+
+        # a MagnaPageChooserPanel class that works on CaseStudyRelatedPages's 'page' field
+        self.edit_handler = ObjectList(
+            [MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage])]
+        ).bind_to(model=model, request=self.request)
+        self.my_page_chooser_panel = self.edit_handler.children[0]
+
+        # build a form class containing the fields that MyPageChooserPanel wants
+        self.PageChooserForm = self.edit_handler.get_form_class()
+
+        # a test instance of PageChooserModel, pointing to the 'christmas' page
+        self.detail_page = DetailPageFactory(slug='detail-page')
+        self.test_instance = model.objects.create(page=self.detail_page)
+
+        self.form = self.PageChooserForm(instance=self.test_instance)
+        self.page_chooser_panel = self.my_page_chooser_panel.bind_to(instance=self.test_instance, form=self.form)
+
+    def test_magna_page_chooser_panel_target_models(self):
+        result = (
+            MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage])
+            .bind_to(model=MagnaPageChooserPanel)
+            .target_models()
+        )
+        self.assertEqual(result, [DetailPage, CuratedListPage, TopicPage])
+
+    def test_magna_page_chooser_panel_render_as_empty_field(self):
+        test_instance = CaseStudyRelatedPages()
+        form = self.PageChooserForm(instance=test_instance)
+        page_chooser_panel = self.my_page_chooser_panel.bind_to(instance=test_instance, form=form, request=self.request)
+        result = page_chooser_panel.render_as_field()
+
+        self.assertIn('<span class="title"></span>', result)
+        self.assertIn('Choose a page', result)

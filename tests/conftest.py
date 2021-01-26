@@ -61,6 +61,7 @@ def export_plan_data(cost_pricing_data):
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
+        'funding_and_credit': {'override_estimated_total_cost': '34.23', 'funding_amount_required': '45.99'},
         'pk': 1,
     }
     data.update(cost_pricing_data)
@@ -293,12 +294,14 @@ def comtrade_data():
             'import_from_world': {
                 'year': 2019,
                 'trade_value': '1.82 billion',
+                'trade_value_raw': 1825413256,
                 'country_name': 'Germany',
                 'year_on_year_change': 1.264,
             },
             'import_data_from_uk': {
                 'year': 2019,
                 'trade_value': '127.25 million',
+                'trade_value_raw': 127252345,
                 'country_name': 'Germany',
                 'year_on_year_change': 1.126,
             },
