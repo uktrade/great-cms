@@ -68931,14 +68931,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 
 
 
@@ -68946,30 +68960,39 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 var FundingCreditHowMuchFunding = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var data = _extends({}, _ref);
 
-  var estimated_costs_per_unit = data.estimated_costs_per_unit,
-      formFields = data.formFields;
-  var estimate = {
-    header: "Your estimate total export cost is GBP ".concat(estimated_costs_per_unit),
-    content: "<p>\n    We calculated this by:\n  </p>\n  <ul class=\"list-bullet\">\n    <li>taking your total direct costs per unit</li>\n    <li>multiplying it by the number of units you want to export in a year</li>\n    <li>adding this to your overhead costs</li>\n  </ul>\n  <p>You may want to adjust this estimate, especially if your overhead costs aren't priced annually.</p>\n  "
+  var formFields = data.formFields,
+      currency = data.currency,
+      value = data.value;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(value),
+      _useState2 = _slicedToArray(_useState, 2),
+      formValue = _useState2[0],
+      setFormValue = _useState2[1];
+
+  var update = function update(field, value) {
+    Services.updateFundingCreditOption(_objectSpread(_objectSpread({}, field), value)).then(function () {})["catch"](function () {});
   };
-  formFields.map(function (item) {
-    return estimated_costs_per_unit ? _objectSpread(_objectSpread({}, item), {}, {
-      estimate: _objectSpread({}, item.estimate = estimate)
-    }) : item;
-  });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "h-s"
-  }, "Your total export cost"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Your total export cost is how much it will cost your business to export for one year."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "m-b-0"
-  }, "To work this out you will need:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "list-bullet m-t-xs"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total direct costs per unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total overhead costs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "the number of units you want to export")), estimated_costs_per_unit !== 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To help you, we've created an estimate for you based on the figures you gave in on the Cost and pricing page.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To get an estimate of your total export cost, complete the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/export-plan/section/costs-and-pricing/"
-  }, "Costs and Pricing"), ' ', "section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__["FormElements"], data));
+
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
+  var inputData = {
+    onChange: function onChange(e) {
+      debugger;
+      setFormValue(e['how_much_funding']);
+      debounceUpdate(e);
+    },
+    value: formValue,
+    prepend: currency,
+    hideLabel: true,
+    label: 'How much funding you need',
+    id: 'how_much_funding',
+    placeholder: '0',
+    tooltip: null,
+    type: 'number',
+    field: 'how_much_funding'
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], inputData));
 });
-FundingCreditHowMuchFunding.propTypes = {
-  estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
-}; // FundingCreditHowMuchFunding.defaultProps = {
+FundingCreditHowMuchFunding.propTypes = {}; // FundingCreditHowMuchFunding.defaultProps = {
 //   estimated_costs_per_unit: 0,
 // }
 
@@ -69321,6 +69344,103 @@ var Total = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
 //   total: PropTypes.string.isRequired,
 //   currency: PropTypes.string.isRequired,
 //   label: PropTypes.string.isRequired,
+// }
+
+/***/ }),
+
+/***/ "./react-components/src/components/FundingCredit/FundingCreditTotalExportCost/FundingCreditTotalExportCost.jsx":
+/*!*********************************************************************************************************************!*\
+  !*** ./react-components/src/components/FundingCredit/FundingCreditTotalExportCost/FundingCreditTotalExportCost.jsx ***!
+  \*********************************************************************************************************************/
+/*! exports provided: FundingCreditTotalExportCost */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FundingCreditTotalExportCost", function() { return FundingCreditTotalExportCost; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var data = _extends({}, _ref);
+
+  var estimated_costs_per_unit = data.estimated_costs_per_unit,
+      formFields = data.formFields,
+      currency = data.currency,
+      value = data.value;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(value),
+      _useState2 = _slicedToArray(_useState, 2),
+      formValue = _useState2[0],
+      setFormValue = _useState2[1];
+
+  var update = function update(field, value) {
+    Services.updateFundingCreditOption(_objectSpread(_objectSpread({}, field), value)).then(function () {})["catch"](function () {});
+  };
+
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
+  var inputData = {
+    onChange: function onChange(e) {
+      debugger;
+      setFormValue(e['total_export_cost']);
+      debounceUpdate(e);
+    },
+    value: formValue,
+    prepend: currency,
+    hideLabel: true,
+    label: 'Total export cost',
+    id: 'total_export_cost',
+    placeholder: '0',
+    tooltip: null,
+    type: 'number',
+    field: 'total_export_cost',
+    example: estimated_costs_per_unit !== 0 ? {
+      buttonTitle: 'Estimate',
+      header: "Your estimate total export cost is GBP ".concat(estimated_costs_per_unit),
+      content: "<p>\n        We calculated this by:\n      </p>\n      <ul class=\"list-bullet\">\n        <li>taking your total direct costs per unit</li>\n        <li>multiplying it by the number of units you want to export in a year</li>\n        <li>adding this to your overhead costs</li>\n      </ul>\n      <p>You may want to adjust this estimate, especially if your overhead costs aren't priced annually.</p>\n      "
+    } : {}
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-s"
+  }, "Your total export cost"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Your total export cost is how much it will cost your business to export for one year."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "m-b-0"
+  }, "To work this out you will need:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "list-bullet m-t-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total direct costs per unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total overhead costs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "the number of units you want to export")), estimated_costs_per_unit !== 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To help you, we've created an estimate for you based on the figures you gave in on the Cost and pricing page.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To get an estimate of your total export cost, complete the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "/export-plan/section/costs-and-pricing/"
+  }, "Costs and Pricing"), ' ', "section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], inputData));
+});
+FundingCreditTotalExportCost.propTypes = {
+  estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
+}; // FundingCreditTotalExportCost.defaultProps = {
+//   estimated_costs_per_unit: 0,
 // }
 
 /***/ }),
@@ -75937,9 +76057,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
-/* harmony import */ var _src_components_FundingCredit_FundingCreditOptions_FundingCreditOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions */ "./react-components/src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions.jsx");
-/* harmony import */ var _src_components_FundingCredit_FundingCreditHowMuchFunding_FundingCreditHowMuchFunding__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/FundingCredit/FundingCreditHowMuchFunding/FundingCreditHowMuchFunding */ "./react-components/src/components/FundingCredit/FundingCreditHowMuchFunding/FundingCreditHowMuchFunding.jsx");
+/* harmony import */ var _src_components_FundingCredit_FundingCreditHowMuchFunding_FundingCreditHowMuchFunding__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FundingCredit/FundingCreditHowMuchFunding/FundingCreditHowMuchFunding */ "./react-components/src/components/FundingCredit/FundingCreditHowMuchFunding/FundingCreditHowMuchFunding.jsx");
+/* harmony import */ var _src_components_FundingCredit_FundingCreditTotalExportCost_FundingCreditTotalExportCost__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FundingCredit/FundingCreditTotalExportCost/FundingCreditTotalExportCost */ "./react-components/src/components/FundingCredit/FundingCreditTotalExportCost/FundingCreditTotalExportCost.jsx");
+/* harmony import */ var _src_components_FundingCredit_FundingCreditOptions_FundingCreditOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions */ "./react-components/src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions.jsx");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -75955,40 +76075,23 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
-var financeHowMuchFundingData = [{
-  name: 'financeHowMuchFunding',
-  field_type: 'NumberInput',
-  currency: 'GBP',
-  placeholder: '0.00',
-  tooltip: "<p>Some tooltip here</p>"
-}];
 var fundingCreditTotalExportCost = function fundingCreditTotalExportCost(_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
   debugger;
-  var fundingCreditTotalExportCostData = [{
-    name: 'financeTotalExportCost',
-    field_type: 'NumberInput',
-    currency: 'GBP',
-    placeholder: '0.00'
-  }];
 
-  var data = _objectSpread(_objectSpread({}, params), {}, {
-    formFields: fundingCreditTotalExportCostData
-  });
+  var data = _objectSpread({}, params);
 
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditHowMuchFunding_FundingCreditHowMuchFunding__WEBPACK_IMPORTED_MODULE_4__["FundingCreditHowMuchFunding"], data), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditTotalExportCost_FundingCreditTotalExportCost__WEBPACK_IMPORTED_MODULE_3__["FundingCreditTotalExportCost"], data), element);
 };
 var fundingCreditHowMuchFunding = function fundingCreditHowMuchFunding(_ref2) {
   var element = _ref2.element,
       params = _objectWithoutProperties(_ref2, ["element"]);
 
-  var data = _objectSpread(_objectSpread({}, params), {}, {
-    formFields: financeHowMuchFundingData
-  });
+  var data = _objectSpread({}, params);
 
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__["FormElements"], data), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditHowMuchFunding_FundingCreditHowMuchFunding__WEBPACK_IMPORTED_MODULE_2__["FundingCreditHowMuchFunding"], data), element);
 };
 var fundingCreditFundingCreditOptions = function fundingCreditFundingCreditOptions(_ref3) {
   var element = _ref3.element,
@@ -76006,7 +76109,7 @@ var fundingCreditFundingCreditOptions = function fundingCreditFundingCreditOptio
     fundingCreditOptions: fundingCreditOptions
   });
 
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditOptions_FundingCreditOptions__WEBPACK_IMPORTED_MODULE_3__["FundingCreditOptions"], data), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditOptions_FundingCreditOptions__WEBPACK_IMPORTED_MODULE_4__["FundingCreditOptions"], data), element);
 };
 
 /***/ }),
