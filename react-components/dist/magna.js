@@ -68931,14 +68931,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -68957,44 +68952,46 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
+
 var FundingCreditHowMuchFunding = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var data = _extends({}, _ref);
 
-  var formFields = data.formFields,
-      currency = data.currency,
-      value = data.value;
+  var formData = data.formData,
+      currency = data.currency;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(value),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData['funding_amount_required']),
       _useState2 = _slicedToArray(_useState, 2),
       formValue = _useState2[0],
       setFormValue = _useState2[1];
 
-  var update = function update(field, value) {
-    Services.updateFundingCreditOption(_objectSpread(_objectSpread({}, field), value)).then(function () {})["catch"](function () {});
+  var update = function update(field) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {})["catch"](function () {});
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(update);
   var inputData = {
-    onChange: function onChange(e) {
-      debugger;
-      setFormValue(e['how_much_funding']);
-      debounceUpdate(e);
+    onChange: function onChange(fieldItem) {
+      setFormValue(fieldItem['funding_amount_required']);
+      debounceUpdate({
+        funding_and_credit: fieldItem
+      });
     },
     value: formValue,
     prepend: currency,
     hideLabel: true,
     label: 'How much funding you need',
-    id: 'how_much_funding',
+    id: 'funding_amount_required',
     placeholder: '0',
     tooltip: null,
     type: 'number',
-    field: 'how_much_funding'
+    field: 'funding_amount_required'
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], inputData));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__["Input"], inputData);
 });
-FundingCreditHowMuchFunding.propTypes = {}; // FundingCreditHowMuchFunding.defaultProps = {
-//   estimated_costs_per_unit: 0,
-// }
+FundingCreditHowMuchFunding.propTypes = {
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
 
 /***/ }),
 
@@ -69362,14 +69359,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -69388,60 +69380,55 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
+
 var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var data = _extends({}, _ref);
 
   var estimated_costs_per_unit = data.estimated_costs_per_unit,
-      formFields = data.formFields,
-      currency = data.currency,
-      value = data.value;
+      formData = data.formData,
+      currency = data.currency;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(value),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData['override_estimated_total_cost']),
       _useState2 = _slicedToArray(_useState, 2),
       formValue = _useState2[0],
       setFormValue = _useState2[1];
 
-  var update = function update(field, value) {
-    Services.updateFundingCreditOption(_objectSpread(_objectSpread({}, field), value)).then(function () {})["catch"](function () {});
+  var update = function update(field) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {})["catch"](function () {});
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(update);
   var inputData = {
-    onChange: function onChange(e) {
-      debugger;
-      setFormValue(e['total_export_cost']);
-      debounceUpdate(e);
+    onChange: function onChange(fieldItem) {
+      setFormValue(fieldItem['override_estimated_total_cost']);
+      debounceUpdate({
+        funding_and_credit: fieldItem
+      });
     },
     value: formValue,
     prepend: currency,
     hideLabel: true,
     label: 'Total export cost',
-    id: 'total_export_cost',
+    id: 'override_estimated_total_cost',
     placeholder: '0',
     tooltip: null,
     type: 'number',
-    field: 'total_export_cost',
+    field: 'override_estimated_total_cost',
     example: estimated_costs_per_unit !== 0 ? {
       buttonTitle: 'Estimate',
       header: "Your estimate total export cost is GBP ".concat(estimated_costs_per_unit),
       content: "<p>\n        We calculated this by:\n      </p>\n      <ul class=\"list-bullet\">\n        <li>taking your total direct costs per unit</li>\n        <li>multiplying it by the number of units you want to export in a year</li>\n        <li>adding this to your overhead costs</li>\n      </ul>\n      <p>You may want to adjust this estimate, especially if your overhead costs aren't priced annually.</p>\n      "
     } : {}
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "h-s"
-  }, "Your total export cost"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Your total export cost is how much it will cost your business to export for one year."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "m-b-0"
-  }, "To work this out you will need:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "list-bullet m-t-xs"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total direct costs per unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total overhead costs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "the number of units you want to export")), estimated_costs_per_unit !== 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To help you, we've created an estimate for you based on the figures you gave in on the Cost and pricing page.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To get an estimate of your total export cost, complete the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, estimated_costs_per_unit !== 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To help you, we've created an estimate for you based on the figures you gave in on the Cost and pricing page.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To get an estimate of your total export cost, complete the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/export-plan/section/costs-and-pricing/"
-  }, "Costs and Pricing"), ' ', "section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], inputData));
+  }, "Costs and Pricing"), ' ', "section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__["Input"], inputData));
 });
 FundingCreditTotalExportCost.propTypes = {
-  estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
-}; // FundingCreditTotalExportCost.defaultProps = {
-//   estimated_costs_per_unit: 0,
-// }
+  estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
 
 /***/ }),
 
@@ -76079,19 +76066,13 @@ var fundingCreditTotalExportCost = function fundingCreditTotalExportCost(_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
-  debugger;
-
-  var data = _objectSpread({}, params);
-
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditTotalExportCost_FundingCreditTotalExportCost__WEBPACK_IMPORTED_MODULE_3__["FundingCreditTotalExportCost"], data), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditTotalExportCost_FundingCreditTotalExportCost__WEBPACK_IMPORTED_MODULE_3__["FundingCreditTotalExportCost"], params), element);
 };
 var fundingCreditHowMuchFunding = function fundingCreditHowMuchFunding(_ref2) {
   var element = _ref2.element,
       params = _objectWithoutProperties(_ref2, ["element"]);
 
-  var data = _objectSpread({}, params);
-
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditHowMuchFunding_FundingCreditHowMuchFunding__WEBPACK_IMPORTED_MODULE_2__["FundingCreditHowMuchFunding"], data), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditHowMuchFunding_FundingCreditHowMuchFunding__WEBPACK_IMPORTED_MODULE_2__["FundingCreditHowMuchFunding"], params), element);
 };
 var fundingCreditFundingCreditOptions = function fundingCreditFundingCreditOptions(_ref3) {
   var element = _ref3.element,

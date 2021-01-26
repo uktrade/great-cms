@@ -6,18 +6,11 @@ import { FundingCreditTotalExportCost } from '@src/components/FundingCredit/Fund
 import { FundingCreditOptions } from '@src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions'
 
 export const fundingCreditTotalExportCost = ({ element, ...params }) => {
-  debugger
-  const data = {
-    ...params,
-  }
-  ReactDOM.render(<FundingCreditTotalExportCost {...data} />, element)
+  ReactDOM.render(<FundingCreditTotalExportCost {...params} />, element)
 }
 
 export const fundingCreditHowMuchFunding = ({ element, ...params }) => {
-  const data = {
-    ...params,
-  }
-  ReactDOM.render(<FundingCreditHowMuchFunding {...data} />, element)
+  ReactDOM.render(<FundingCreditHowMuchFunding {...params} />, element)
 }
 
 export const fundingCreditFundingCreditOptions = ({ element, ...params }) => {
@@ -26,7 +19,7 @@ export const fundingCreditFundingCreditOptions = ({ element, ...params }) => {
     id: 'funding_option',
     name: 'funding_option',
     placeholder: 'Select option',
-    options: options,
+    options,
   }
   const data = {
     ...params,

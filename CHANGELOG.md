@@ -4,6 +4,9 @@
 
 ### Implemented enhancements
 
+- GP2-1175 - Funding and credit: 'Funding options' element
+- GP2-1241 - Funding and credit: 'Your total export cost' element
+- GP2-1174 - Funding and credit: 'How much you might need to borrow' element
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/
 - GP2-1176 - Getting paid - Page structure
@@ -46,7 +49,7 @@
 - GP2-974 - target market research page
 - GP2-285 - cost and price be
 - GP2-1323 - enable ep sections
-- GP2-1321 - add TM  learning component
+- GP2-1321 - add TM learning component
 - GP2-1306 - learning data
 - GP2-1168 - export plan lessons
 - NOTICKET - upgrade admin include export plan data

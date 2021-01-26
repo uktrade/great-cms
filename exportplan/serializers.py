@@ -82,8 +82,8 @@ class UiOptions(serializers.Serializer):
 
 
 class FundingAndCreditSerializer(serializers.Serializer):
-    override_estimated_total_cost = serializers.FloatField(required=True)
-    funding_amount_required = serializers.FloatField(required=True)
+    override_estimated_total_cost = serializers.FloatField(required=False)
+    funding_amount_required = serializers.FloatField(required=False)
 
 
 class DirectCostsSerializer(serializers.Serializer):
