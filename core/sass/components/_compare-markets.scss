@@ -1,7 +1,11 @@
 @import 'helpers/colours';
 
+table {
+  table-layout: fixed;
+}
+
 table td {
-  p {
+  div {
     margin: 5px 0;
   }
   &.align-top {

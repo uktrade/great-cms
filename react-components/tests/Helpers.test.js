@@ -10,6 +10,7 @@ import {
   formatLessonLearned,
   normaliseValues,
   millify,
+  stripPercentage,
 } from '@src/Helpers'
 
 test('slugify', (done) => {
@@ -171,6 +172,42 @@ describe('Number formats', () => {
     ].forEach((test) => {
       expect(millify(test.num)).toEqual(test.expect)
     })    
+  })
+  it('stripPercentage', () => {
+    [
+      {str:'country1', expect:'country'},
+      {str:'country.1', expect:'country'},
+      {str:'country1.2', expect:'country'},
+      {str:'country1.23', expect:'country'},
+      {str:'country 1', expect:'country'},
+      {str:'country .1', expect:'country'},
+      {str:'country 1.2', expect:'country'},
+      {str:'country 1.23', expect:'country'},
+      {str:'country .1', expect:'country'},
+      {str:'country 1.2', expect:'country'},
+      {str:'country 1.23', expect:'country'},
+      {str:'country1%', expect:'country'},
+      {str:'country.1%', expect:'country'},
+      {str:'country1.2%', expect:'country'},
+      {str:'country1.23%', expect:'country'},
+      {str:'country 1%', expect:'country'},
+      {str:'country .1%', expect:'country'},
+      {str:'country 1.2%', expect:'country'},
+      {str:'country 1.23%', expect:'country'},
+      {str:'country .1%', expect:'country'},
+      {str:'country 1.2%', expect:'country'},
+      {str:'country 1.23%', expect:'country'},
+      {str:'country>1%', expect:'country'},
+      {str:'country <.1%', expect:'country'},
+      {str:'country >1.2%', expect:'country'},
+      {str:'country <1.23%', expect:'country'},
+      {str:'country >.1%', expect:'country'},
+      {str:'country <1.2%', expect:'country'},
+      {str:'country >1.23%', expect:'country'},
+      {str:null, expect:null},
+    ].forEach((test) => {
+      expect(stripPercentage(test.str)).toEqual(test.expect)
+    })
   })
 })
 

@@ -54,6 +54,19 @@ let millify = (value) => {
   return value === null ? value : ''+value
 }
 
+const stripPercentage = (str) => {
+  // The regular expression matches an integer or float with or without leading
+  // digit at the end of the string, not necessarily preceded by a space and not
+  // necessarily succeded  by a percent symbol.
+  // e.g. 'text.1(+)(%)', 'text .1(+)(%)', 'text 1(+).1(+)(%)' and combinations
+  if (str) {
+    const regex = /\s?\<?\>?\.?\d*\.?\d+\%?$/
+    return str.replace(regex, '')
+  }
+
+  return str
+}
+
 const isObject = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
@@ -134,4 +147,5 @@ export {
   getValue,
   formatLessonLearned,
   millify,
+  stripPercentage,
 }

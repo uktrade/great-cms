@@ -1,6 +1,6 @@
 import React from 'react'
 import Services from '@src/Services'
-import { normaliseValues, get, millify } from '../../Helpers'
+import { normaliseValues, get, millify, capitalize, stripPercentage } from '../../Helpers'
 
 const DATA_NA = 'Data not available'
 
@@ -19,7 +19,7 @@ const populationPercentActual = (group, population) => {
 
 const rankOutOf = (data, key) => {
   return (
-    (data[key] && (
+    (data && data[key] && (
       <>
         {data[key]} of {data.total}
       </>
@@ -28,23 +28,79 @@ const rankOutOf = (data, key) => {
   )
 }
 
-const formatReligion = (religion) => {
-  return `${religion.name} ${religion.percent ? `${religion.percent}%` : ''}`
+const formatEntry = (data) => {
+  const name = stripPercentage(data.name)
+  const percent = data.percent ? normaliseValues(data.percent, 0) : ''
+
+  return percent ? (name + ' - ' + percent + '%') : name
 }
 
-const formatLanguage = (language) => {
-  return `${language.name}${language.note === 'official' ? ' (official)' : ''}`
-}
-
-const getEntries = (list = {}, func) => {
-  const entries = Object.keys(list || {}).map((key) => {
-    return (
-      <p className="entry body-m" key={key}>
-        {func(list[key])}
-      </p>
-    )
-  })
+const getEntries = (list = {}) => {
+  const maxEntries = 5
+  const entries = Object.keys(list || {})
+    .filter(key => list[key].name)
+    .slice(0, maxEntries)
+    .map((key) => {
+      return (
+        <div className="entry body-l" key={key}>
+          {formatEntry(list[key])}
+        </div>
+      )
+    })
   return entries
+}
+
+const language = (data) => {
+  const entries = getEntries(get(data, 'language'))
+
+  if (data && entries) {
+    const year = get(data, 'date')
+    const note = get(data, 'note')
+
+    return (
+      <>
+        {entries}
+        <div className="body-m text-black-60 display-note">
+          {year}{year && note && ". "}{note && capitalize(note)}
+        </div>
+      </>
+    )
+  }
+  return DATA_NA
+}
+
+const religion = (data) => {
+  const entries = getEntries(get(data, 'religion'))
+
+  if (data && entries) {
+    const year = get(data, 'date')
+
+    return (
+      <>
+        {entries}
+        {year && (
+          <div className="body-m text-black-60 display-year">{year}</div>
+        )}
+      </>
+    )
+  }
+  return DATA_NA
+}
+
+const ruleOfLawRanking = (data) => {
+  const rankingTotal = 113
+  if (data) {
+    data.total = rankingTotal
+    return (
+      <>
+        {rankOutOf(data, 'rank')}
+        {data.year && (
+          <div className="body-m text-black-60 display-year">{data.year}</div>
+        )}
+      </>
+    )
+  }
+  return DATA_NA
 }
 
 const sign = (value) => {
@@ -266,21 +322,17 @@ export default () => {
       religion: {
         name: 'Religion',
         className: 'align-top',
-        render: (data) => {
-          return getEntries(get(data, 'religions.religion'), formatReligion)
-        },
+        render: (data) => religion(get(data, 'religions')),
       },
       language: {
-        name: 'Languages',
+        name: 'Language',
         className: 'align-top',
-        render: (data) => {
-          return getEntries(get(data, 'languages.language'), formatLanguage)
-        },
+        render: (data) => language(get(data, 'languages')),
       },
       'rule-of-law': {
-        name: 'Rule of law ranking',
+        name: 'Rule of Law ranking',
         className: 'align-top',
-        render: (data) => normaliseValues(get(data, 'rule_of_law.score')),
+        render: (data) => ruleOfLawRanking(get(data, 'rule_of_law')),
         tooltip: {
           position: 'right',
           title: '',
