@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GP2- 1341-1 - Improvement of Content Linking UI for CaseStudy
 - GP2-1346 - Compare markets - society tab enhancements
 - GP2-1178 - add payment terms fields
 - GP2-1368 - Wire up link from country_guide.html to /advice/ slug
