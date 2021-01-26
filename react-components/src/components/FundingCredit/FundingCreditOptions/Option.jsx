@@ -40,7 +40,8 @@ export const Option = memo(
             <Input
               id={id}
               type="number"
-              // value={field[name]}
+              hideLabel
+              label={selectData.name}
               value={value}
               prepend={currency}
               onChange={(e) => onChange('input', id, e)}
@@ -69,15 +70,12 @@ Option.propTypes = {
   id: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
-  selectData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      options: PropTypes.array.isRequired,
-      placeholder: PropTypes.string.isRequired,
-    })
-  ),
+  selectData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    options: PropTypes.array.isRequired,
+    placeholder: PropTypes.string.isRequired,
+  }).isRequired,
   onChange: PropTypes.func.isRequired,
   deleteFunding: PropTypes.func.isRequired,
-  addFunding: PropTypes.func.isRequired,
 }

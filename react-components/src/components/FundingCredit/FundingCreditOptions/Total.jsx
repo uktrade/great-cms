@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 export const Total = memo(({ total, currency, label }) => {
   return (
@@ -19,8 +19,14 @@ export const Total = memo(({ total, currency, label }) => {
   )
 })
 
-// Total.propTypes = {
-//   total: PropTypes.string.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   label: PropTypes.string.isRequired,
-// }
+Total.propTypes = {
+  total: PropTypes.number,
+  currency: PropTypes.string,
+  label: PropTypes.string,
+}
+
+Total.defaultProps = {
+  total: 0,
+  currency: 'GBP',
+  label: 'Total funding',
+}

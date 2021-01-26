@@ -69269,12 +69269,12 @@ FundingCreditOptions.propTypes = {
     pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
   })).isRequired,
   companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
-  fundingCreditOptions: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  fundingCreditOptions: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
     placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  }))
+  }).isRequired
 };
 
 /***/ }),
@@ -69327,8 +69327,9 @@ var Option = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
     id: id,
-    type: "number" // value={field[name]}
-    ,
+    type: "number",
+    hideLabel: true,
+    label: selectData.name,
     value: value,
     prepend: currency,
     onChange: function onChange(e) {
@@ -69353,15 +69354,14 @@ Option.propTypes = {
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
   value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
   currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
     placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  })),
+  }).isRequired,
   onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  deleteFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  addFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+  deleteFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
 
 /***/ }),
@@ -69402,7 +69402,7 @@ var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref)
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Option__WEBPACK_IMPORTED_MODULE_2__["Option"], {
       key: pk,
       id: pk,
-      value: amount,
+      value: Number(amount),
       selectedOption: funding_option,
       currency: currency,
       selectData: selectData,
@@ -69419,20 +69419,20 @@ var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref)
     className: "fas fa-plus-circle"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add a funding option")))))));
 });
-_Option__WEBPACK_IMPORTED_MODULE_2__["Option"].propTypes = {
+Options.propTypes = {
   formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     amount: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
     companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
     funding_option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
   })).isRequired,
-  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  selectData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
     placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  })),
+  }).isRequired,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   deleteFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   addFunding: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
@@ -69452,7 +69452,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Total", function() { return Total; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
- // import PropTypes from 'prop-types'
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+
 
 var Total = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var total = _ref.total,
@@ -69469,11 +69471,17 @@ var Total = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   }, currency), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "body-l-b text-white"
   }, total))))));
-}); // Total.propTypes = {
-//   total: PropTypes.string.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   label: PropTypes.string.isRequired,
-// }
+});
+Total.propTypes = {
+  total: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+};
+Total.defaultProps = {
+  total: 0,
+  currency: 'GBP',
+  label: 'Total funding'
+};
 
 /***/ }),
 

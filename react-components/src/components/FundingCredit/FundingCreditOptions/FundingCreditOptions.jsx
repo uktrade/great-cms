@@ -88,12 +88,10 @@ FundingCreditOptions.propTypes = {
     })
   ).isRequired,
   companyexportplan: PropTypes.number.isRequired,
-  fundingCreditOptions: PropTypes.objectOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      options: PropTypes.array.isRequired,
-      placeholder: PropTypes.string.isRequired,
-    })
-  ),
+  fundingCreditOptions: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    options: PropTypes.array.isRequired,
+    placeholder: PropTypes.string.isRequired,
+  }).isRequired,
 }

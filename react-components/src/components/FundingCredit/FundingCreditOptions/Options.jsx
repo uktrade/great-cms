@@ -13,7 +13,7 @@ export const Options = memo(
               <Option
                 key={pk}
                 id={pk}
-                value={amount}
+                value={Number(amount)}
                 selectedOption={funding_option}
                 currency={currency}
                 selectData={selectData}
@@ -42,7 +42,7 @@ export const Options = memo(
   }
 )
 
-Option.propTypes = {
+Options.propTypes = {
   formData: PropTypes.arrayOf(
     PropTypes.shape({
       amount: PropTypes.number,
@@ -51,15 +51,13 @@ Option.propTypes = {
       pk: PropTypes.number.isRequired,
     })
   ).isRequired,
+  selectData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    options: PropTypes.array.isRequired,
+    placeholder: PropTypes.string.isRequired,
+  }).isRequired,
   currency: PropTypes.string.isRequired,
-  selectData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      options: PropTypes.array.isRequired,
-      placeholder: PropTypes.string.isRequired,
-    })
-  ),
   onChange: PropTypes.func.isRequired,
   deleteFunding: PropTypes.func.isRequired,
   addFunding: PropTypes.func.isRequired,
