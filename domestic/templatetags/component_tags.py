@@ -1,4 +1,7 @@
 # Refactored/amended versions of templatetags formerly in directory_componennts
+import re
+
+import dateparser
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
@@ -150,3 +153,35 @@ def industry_accordion_case_study_is_viable(value):
     if not value:
         return False
     return all([value.get('title'), value.get('hero_image')])
+
+
+@register.filter
+def parse_date(date_string):
+    if date_string:
+        return dateparser.parse(date_string).strftime('%d %B %Y')
+    return None
+
+
+META_DESCRIPTION_TEXT_LENGTH = 150
+
+
+@register.tag
+def get_meta_description(page, **kwargs):
+    search_description = page.get('search_description', '')
+    description = page.get('article_teaser', search_description)
+    if not description and page.get('article_body_text'):
+        html = BeautifulSoup(page.get('article_body_text'), 'html.parser')
+        body_text = html.findAll(text=True)
+        description = ''.join(body_text)[:META_DESCRIPTION_TEXT_LENGTH]
+    return description
+
+
+@register.filter
+def add_href_target(value, request):
+    soup = BeautifulSoup(value, 'html.parser')
+    for element in soup.findAll('a', attrs={'href': re.compile("^http")}):
+        if request.META['HTTP_HOST'] not in element.attrs['href']:
+            element.attrs['target'] = '_blank'
+            element.attrs['title'] = 'Opens in a new window'
+            element.attrs['rel'] = 'noopener noreferrer'
+    return str(soup)

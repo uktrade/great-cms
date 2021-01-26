@@ -1,8 +1,7 @@
-{% load parse_date from article_tags %}
-{% load add_export_elements_classes add_href_target breadcrumbs from directory_components %}
+{% load component_tags %}
 
 <div class="container">
-  {% include 'core/breadcrumbs_cms.html' %}
+  {% include 'components/breadcrumbs_cms.html' %}
 </div>
 <article class="article-main {{ view.slug }}-article">
   <div class="container">
@@ -10,7 +9,7 @@
     <header>
       <div class="grid-row">
         <div class="column-sixth">
-          {% include 'directory_components/social_share_links.html' %}
+          {% include 'components/social_share_links.html' %}
         </div>
         <div class="column-seven-twelfths">
           {% if page.type_of_article %}
@@ -27,7 +26,8 @@
               </p>
             </div>
           {% endif %}
-          <p class="subheading">Last updated {{ page.last_published_at|parse_date }}</p>
+          {% comment "Steve to fix: parse_date blows up" %}{{ page.last_published_at|parse_date }}{% endcomment %}
+          <p class="subheading">Last updated {{ page.last_published_at }}</p>
         </div>
         {% block article_tags %}
           {% if features.PROTOTYPE_PAGES_ON and page.tags %}
@@ -57,10 +57,11 @@
               <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ page.article_video.url }}">link to the video</a> instead.</p>
           </video>
         </div>
+
         {% if page.article_video_transcript %}
         <details closed class="margin-bottom-0">
           <summary>View video transcript</summary>
-            {{  page.article_video_transcript|add_export_elements_classes }}
+            {{  page.article_video_transcript }}
         </details>
         {% endif %}
         {% endif %}
@@ -69,13 +70,13 @@
         {% endif %}
 
         <section class="grid-row padding-bottom-0">
-          <div class="article-content">
-            {{ page.article_body_text|add_export_elements_classes|add_href_target:request|safe  }}
+          <div class="article-content rich-text">
+            {{ page.article_body_text|add_href_target:request|safe }}
           </div>
         </section>
       </div>
       {% block related_content %}
-        {% include 'article_related_content_list.html' %}
+        {% include 'domestic/content/article_related_content_list.html' %}
       {% endblock %}
 
     </div>
