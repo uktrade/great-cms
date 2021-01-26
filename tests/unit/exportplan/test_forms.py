@@ -169,6 +169,6 @@ def test_objectives_form_view_submission(
     client.force_login(user)
     response = client.post(url, objectives_form_data)
 
-    assert mock_update_exportplan.call_count == 1
+    assert mock_update_exportplan.call_count == 2
     assert response.status_code == 302
     assert response.url == url

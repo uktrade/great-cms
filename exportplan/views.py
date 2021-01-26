@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import sentry_sdk
 from django.http import Http404
@@ -23,6 +24,12 @@ class ExportPlanMixin:
             raise Http404()
         elif data.SECTIONS[self.slug]['disabled']:
             return redirect('exportplan:service-page')
+
+        serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
+        serializer.is_valid()
+        helpers.update_exportplan(
+            id=self.export_plan['pk'], sso_session_id=self.request.user.session_id, data=serializer.data
+        )
         return super().dispatch(request, *args, **kwargs)
 
     @cached_property

@@ -356,6 +356,24 @@ def mock_update_company_profile(patch_update_company_profile):
 
 
 @pytest.fixture
+def patch_update_export_plan_client():
+    yield mock.patch(
+        'directory_api_client.api_client.exportplan.exportplan_update',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'}),
+    )
+
+
+@pytest.fixture(autouse=True)
+def mock_update_export_plan_client(patch_update_export_plan_client):
+    yield patch_update_export_plan_client.start()
+    try:
+        patch_update_export_plan_client.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
 def patch_get_dashboard_events():
     yield mock.patch('core.helpers.get_dashboard_events', return_value=None)
 
