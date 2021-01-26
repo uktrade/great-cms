@@ -66359,13 +66359,9 @@ var language = function language(data) {
   if (data && entries) {
     var year = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'date');
     var note = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'note');
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, year && !note && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-m text-black-60 display-year"
-    }, year), !year && note && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "body-m text-black-60 display-note"
-    }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["capitalize"])(note)), year && note && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-m text-black-60 display-note"
-    }, year, ". ", Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["capitalize"])(note)));
+    }, year, year && note && ". ", note && Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["capitalize"])(note)));
   }
 
   return DATA_NA;

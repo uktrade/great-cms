@@ -60,15 +60,9 @@ const language = (data) => {
     return (
       <>
         {entries}
-        {year && !note &&(
-          <div className="body-m text-black-60 display-year">{year}</div>
-        )}
-        {!year && note && (
-          <div className="body-m text-black-60 display-note">{capitalize(note)}</div>
-        )}
-        {year && note && (
-          <div className="body-m text-black-60 display-note">{year}. {capitalize(note)}</div>
-        )}
+        <div className="body-m text-black-60 display-note">
+          {year}{year && note && ". "}{note && capitalize(note)}
+        </div>
       </>
     )
   }
