@@ -4,19 +4,12 @@ import PropTypes from 'prop-types'
 import { Option } from './Option'
 
 export const Options = memo(
-  ({
-    formFields,
-    currency,
-    selectData,
-    onChange,
-    deleteFunding,
-    addFunding,
-  }) => {
+  ({ formData, currency, selectData, onChange, deleteFunding, addFunding }) => {
     return (
       <div className="costs costs--funding bg-blue-deep-10 p-v-s">
         <table className="m-b-0">
           <tbody>
-            {formFields.map(({ pk, amount, funding_option }) => (
+            {formData.map(({ pk, amount, funding_option }) => (
               <Option
                 key={pk}
                 id={pk}
@@ -50,7 +43,7 @@ export const Options = memo(
 )
 
 Option.propTypes = {
-  formFields: PropTypes.arrayOf(
+  formData: PropTypes.arrayOf(
     PropTypes.shape({
       amount: PropTypes.number,
       companyexportplan: PropTypes.number.isRequired,

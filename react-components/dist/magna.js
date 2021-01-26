@@ -68929,7 +68929,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FundingCreditHowMuchFunding", function() { return FundingCreditHowMuchFunding; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -68938,7 +68940,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
- // import PropTypes from 'prop-types'
+
 
 
 var FundingCreditHowMuchFunding = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
@@ -68963,8 +68965,13 @@ var FundingCreditHowMuchFunding = Object(react__WEBPACK_IMPORTED_MODULE_0__["mem
     className: "list-bullet m-t-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total direct costs per unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "your total overhead costs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "the number of units you want to export")), estimated_costs_per_unit !== 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To help you, we've created an estimate for you based on the figures you gave in on the Cost and pricing page.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To get an estimate of your total export cost, complete the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/export-plan/section/costs-and-pricing/"
-  }, "Costs and Pricing"), ' ', "section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_1__["FormElements"], data));
+  }, "Costs and Pricing"), ' ', "section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_2__["FormElements"], data));
 });
+FundingCreditHowMuchFunding.propTypes = {
+  estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
+}; // FundingCreditHowMuchFunding.defaultProps = {
+//   estimated_costs_per_unit: 0,
+// }
 
 /***/ }),
 
@@ -69019,12 +69026,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var formFields = _ref.formFields,
+  var formData = _ref.formData,
       currency = _ref.currency,
       companyexportplan = _ref.companyexportplan,
       fundingCreditOptions = _ref.fundingCreditOptions;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formFields),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
       _useState2 = _slicedToArray(_useState, 2),
       funding = _useState2[0],
       setFunding = _useState2[1];
@@ -69090,7 +69097,7 @@ var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Options__WEBPACK_IMPORTED_MODULE_4__["Options"], {
-    formFields: funding,
+    formData: funding,
     currency: currency,
     selectData: fundingCreditOptions,
     deleteFunding: deleteFunding,
@@ -69103,7 +69110,7 @@ var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
   }));
 });
 FundingCreditOptions.propTypes = {
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     amount: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
     companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
     funding_option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -69226,7 +69233,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
-  var formFields = _ref.formFields,
+  var formData = _ref.formData,
       currency = _ref.currency,
       selectData = _ref.selectData,
       onChange = _ref.onChange,
@@ -69236,7 +69243,7 @@ var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref)
     className: "costs costs--funding bg-blue-deep-10 p-v-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "m-b-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formFields.map(function (_ref2) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formData.map(function (_ref2) {
     var pk = _ref2.pk,
         amount = _ref2.amount,
         funding_option = _ref2.funding_option;
@@ -69261,7 +69268,7 @@ var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add a funding option")))))));
 });
 _Option__WEBPACK_IMPORTED_MODULE_2__["Option"].propTypes = {
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     amount: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
     companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
     funding_option: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -75959,7 +75966,7 @@ var fundingCreditTotalExportCost = function fundingCreditTotalExportCost(_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
-  // debugger
+  debugger;
   var fundingCreditTotalExportCostData = [{
     name: 'financeTotalExportCost',
     field_type: 'NumberInput',

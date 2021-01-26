@@ -16,7 +16,7 @@ const financeHowMuchFundingData = [
 ]
 
 export const fundingCreditTotalExportCost = ({ element, ...params }) => {
-  // debugger
+  debugger
   const fundingCreditTotalExportCostData = [
     {
       name: 'financeTotalExportCost',

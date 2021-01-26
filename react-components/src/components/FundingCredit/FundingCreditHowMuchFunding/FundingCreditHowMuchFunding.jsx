@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { FormElements } from '@src/components/FormElements'
 
 export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
@@ -57,3 +57,11 @@ export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
     </>
   )
 })
+
+FundingCreditHowMuchFunding.propTypes = {
+  estimated_costs_per_unit: PropTypes.number.isRequired,
+}
+
+// FundingCreditHowMuchFunding.defaultProps = {
+//   estimated_costs_per_unit: 0,
+// }

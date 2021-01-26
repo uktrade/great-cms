@@ -6,8 +6,8 @@ import { Options } from './Options'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 
 export const FundingCreditOptions = memo(
-  ({ formFields, currency, companyexportplan, fundingCreditOptions }) => {
-    const [funding, setFunding] = useState(formFields)
+  ({ formData, currency, companyexportplan, fundingCreditOptions }) => {
+    const [funding, setFunding] = useState(formData)
     const [fundingTotal, setFundingTotal] = useState(null)
 
     const calclatedTotal = () =>
@@ -65,7 +65,7 @@ export const FundingCreditOptions = memo(
     return (
       <>
         <Options
-          formFields={funding}
+          formData={funding}
           currency={currency}
           selectData={fundingCreditOptions}
           deleteFunding={deleteFunding}
@@ -79,7 +79,7 @@ export const FundingCreditOptions = memo(
 )
 
 FundingCreditOptions.propTypes = {
-  formFields: PropTypes.arrayOf(
+  formData: PropTypes.arrayOf(
     PropTypes.shape({
       amount: PropTypes.number,
       companyexportplan: PropTypes.number.isRequired,
