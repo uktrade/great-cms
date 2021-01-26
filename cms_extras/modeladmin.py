@@ -68,5 +68,7 @@ class CaseStudyAdmin(ModelAdmin):
             ((page_mapping.get(x.page.specific._meta.model_name), x.page) for x in obj.related_pages.all()),
         )
 
+    get_related_pages.short_description = 'Associated pages'
+
 
 modeladmin_register(CaseStudyAdmin)
