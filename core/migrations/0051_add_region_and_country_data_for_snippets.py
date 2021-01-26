@@ -353,7 +353,7 @@ def forwards_countries(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0049_data_bootstrap_tag_and_industrytag_snippets'),
+        ('core', '0050_casestudyrelatedpages'),
     ]
 
     operations = [
