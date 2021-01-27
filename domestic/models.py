@@ -12,6 +12,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
 from core.constants import ARTICLE_TYPES, VIDEO_TRANSCRIPT_HELP_TEXT
+from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Tag
 from directory_constants import choices
 from domestic import cms_panels
@@ -52,6 +53,22 @@ class BaseContentPage(Page):
                 retval.append({'title': crumb.title, 'url': crumb.url})
 
         return retval
+
+
+class SocialLinksPageMixin(Page):
+    """Abstract base class that adds social sharing links to the context
+    of any page that inherits it."""
+
+    class Meta:
+        abstract = True
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['social_links'] = build_social_links(
+            request,
+            self.title,
+        )
+        return context
 
 
 class DomesticHomePage(
@@ -471,7 +488,11 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return output
 
 
-class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
+class ArticlePage(
+    cms_panels.ArticlePagePanels,
+    SocialLinksPageMixin,
+    BaseContentPage,
+):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
