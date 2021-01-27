@@ -30,14 +30,13 @@ export const FormGroup = memo(
           errors.length > 0 ? 'form-group-error' : ''
         } ${className} ${formGroupClassName}`}
       >
-        {label && (
-          <label
-            className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
-            htmlFor={id}
-          >
-            {label}
-          </label>
-        )}
+        <label
+          className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
+          htmlFor={id}
+        >
+          {label}
+        </label>
+
         {description && (
           <div className="text-blue-deep-80 p-t-xs p-b-xs">
             {ReactHtmlParser(description)}
