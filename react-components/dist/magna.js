@@ -69479,8 +69479,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -69500,12 +69501,14 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
+
 var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var data = _extends({}, _ref);
 
   var estimated_costs_per_unit = data.estimated_costs_per_unit,
       formData = data.formData,
       currency = data.currency;
+  var urlCostsAndPricing = _src_config__WEBPACK_IMPORTED_MODULE_3__["config"].urlCostsAndPricing;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData['override_estimated_total_cost']),
       _useState2 = _slicedToArray(_useState, 2),
@@ -69516,7 +69519,7 @@ var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["me
     _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {})["catch"](function () {});
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__["useDebounce"])(update);
   var inputData = {
     onChange: function onChange(fieldItem) {
       setFormValue(fieldItem['override_estimated_total_cost']);
@@ -69540,8 +69543,8 @@ var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["me
     } : {}
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, estimated_costs_per_unit !== 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To help you, we've created an estimate for you based on the figures you gave in on the Cost and pricing page.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To get an estimate of your total export cost, complete the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/export-plan/section/costs-and-pricing/"
-  }, "Costs and Pricing"), ' ', "section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__["Input"], inputData));
+    href: urlCostsAndPricing
+  }, "Costs and Pricing"), " section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_4__["Input"], inputData));
 });
 FundingCreditTotalExportCost.propTypes = {
   estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
@@ -76270,6 +76273,7 @@ var fundingCreditTotalExportCost = function fundingCreditTotalExportCost(_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
+  debugger;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FundingCredit_FundingCreditTotalExportCost_FundingCreditTotalExportCost__WEBPACK_IMPORTED_MODULE_3__["FundingCreditTotalExportCost"], params), element);
 };
 var fundingCreditHowMuchFunding = function fundingCreditHowMuchFunding(_ref2) {
