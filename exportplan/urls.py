@@ -45,6 +45,12 @@ urlpatterns = [
         name='costs-and-pricing',
     ),
     path(
+        'section/funding-and-credit/',
+        login_required(views.FundingAndCreditView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'funding-and-credit'},
+        name='funding-and-credit',
+    ),
+    path(
         'section/<slug:slug>/',
         login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
         name='section',

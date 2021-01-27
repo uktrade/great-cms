@@ -119,7 +119,7 @@ export default function DataTable(props) {
       return (
         <td
           key={columnKey}
-          className={`${columnKey} ${cellConfig.className || ''}`}
+          className={`${columnKey} p-v-xs ${cellConfig.className || ''}`}
         >
           {countryData ? (
             <>
@@ -141,20 +141,20 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        <td className="p-v-xs name nowrap">
+        <th className="p-v-xs  p-f-l name relative">
           <button
             type="button"
             onClick={removeMarket}
-            className="button button--only-icon button--tertiary button--small m-r-xxs"
+            className="button button--only-icon button--tertiary button--small f-l"
             data-id={market.country_iso2_code}
             aria-label={`Remove ${market.country_name}`}
           >
             <i className="fa fa-trash-alt icon--border" />
           </button>
-          <span className="body-l-b" id={`market-${market.country_name}`}>
+          <div className="body-l-b" id={`market-${market.country_name}`}>
             {market.country_name}
-          </span>
-        </td>
+          </div>
+        </th>
         {countryRow}
       </tr>
     )
@@ -170,7 +170,7 @@ export default function DataTable(props) {
               const cellConfig = config.columns[columnKey]
               return (
                 <th
-                  className={`body-l-b ${columnKey} ${
+                  className={`body-l-b p-b-xs ${columnKey} ${
                     cellConfig.className || ''
                   }`}
                   key={columnKey}
@@ -182,7 +182,7 @@ export default function DataTable(props) {
                         title={cellConfig.tooltip.title}
                         content={cellConfig.tooltip.content}
                         position={cellConfig.tooltip.position}
-                        className="text-align-left body-m p-r-s"
+                        className="text-align-left body-m"
                       />
                     </div>
                   )}

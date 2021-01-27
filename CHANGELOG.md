@@ -4,6 +4,12 @@
 
 ### Implemented enhancements
 
+- GP2-1175 - Funding and credit: 'Funding options' element
+- GP2-1241 - Funding and credit: 'Your total export cost' element
+- GP2-1174 - Funding and credit: 'How much you might need to borrow' element
+- GP2- 1341-1 - Improvement of Content Linking UI for CaseStudy
+- GP2-1346 - Compare markets - society tab enhancements
+- GP2-1178 - add payment terms fields
 - GP2-1368 - Wire up link from country_guide.html to /advice/ slug
 - GP2- 1342 - Added related pages to CaseStudy listing view
 - GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
@@ -52,9 +58,12 @@
 - GP2-974 - target market research page
 - GP2-285 - cost and price be
 - GP2-1323 - enable ep sections
-- GP2-1321 - add TM  learning component
+- GP2-1321 - add TM learning component
 - GP2-1306 - learning data
 - GP2-1168 - export plan lessons
+- NOTICKET - upgrade admin include export plan data
+- GP2-1139 - save EP progress
+- GP2-1382 - getting paid structure be
 
 ### Fixed bugs
 - GP2-1375 - Fix image-types for advice and markets hero

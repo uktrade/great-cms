@@ -188,3 +188,25 @@ def get_meta_description(page):
 #             element.attrs['title'] = 'Opens in a new window'
 #             element.attrs['rel'] = 'noopener noreferrer'
 #     return str(soup)
+
+
+def get_pagination_url(request, page_param_name):
+    """Remove pagination param from request url"""
+    url = request.path
+    params = request.GET.copy()
+    params.pop(page_param_name, None)
+    if params:
+        return f'{url}?{params.urlencode()}&'
+    return f'{url}?'
+
+
+@register.inclusion_tag('components/pagination/pagination.html', takes_context=True)
+def pagination(context, pagination_page, page_param_name='page'):
+    paginator = pagination_page.paginator
+    pagination_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
+    return {
+        'page_param_name': page_param_name,
+        'pagination': pagination_page,
+        'url': pagination_url,
+        'pages_after_current': paginator.num_pages - pagination_page.number,
+    }

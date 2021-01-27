@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
@@ -180,6 +181,9 @@ class AdviceTopicLandingPage(
         'domestic.ArticlePage',
     ]
 
+    def child_pages(self):
+        return self.get_children().specific()
+
 
 class MarketsTopicLandingPage(
     cms_panels.MarketsTopicLandingPagePanels,
@@ -187,11 +191,69 @@ class MarketsTopicLandingPage(
 ):
     """Singleton page intended for use as the top of the Markets section"""
 
+    MAX_PER_PAGE = 18
+
     template = 'domestic/topic_landing_pages/markets.html'
 
     subpage_types = [
         'domestic.CountryGuidePage',
     ]
+
+    @property
+    def sortby_options(self):
+        # In V1, the sort field was called 'title' in the UI but the backend
+        # default-sorted by 'heading' instead. Therefore this may need amending
+        # if the resulting behaviour isn't _quite_ what we're expecting.
+        options = [
+            {'value': 'title', 'label': 'Market A-Z'},
+            {'value': 'last_published_at', 'label': 'Recently updated'},
+        ]
+        return options
+
+    def _get_sortby(self, request):
+        default_sort_option = self.sortby_options[0]['value']
+        sort_option = request.GET.get('sortby', default_sort_option)
+
+        # Only use an expected/allowed sort option
+        if sort_option not in [x['value'] for x in self.sortby_options]:
+            sort_option = default_sort_option
+
+        return sort_option
+
+    def sort_results(self, request, pages):
+
+        sort_option = self._get_sortby(request)
+
+        return pages.order_by(sort_option)
+
+    def get_relevant_markets(self, request):
+        # TO COME: filtering
+
+        market_pages = CountryGuidePage.objects.child_of(self)
+        return self.sort_results(request=request, pages=market_pages)
+
+    def paginate_data(self, request, pages):
+        paginator = Paginator(pages, self.MAX_PER_PAGE)
+
+        try:
+            paginated_results = paginator.page(request.GET.get('page', 1))
+        except (EmptyPage, PageNotAnInteger):
+            # By default, return the first page
+            paginated_results = paginator.page(1)
+
+        return paginated_results
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        relevant_markets = self.get_relevant_markets(request)
+        paginated_results = self.paginate_data(request, relevant_markets)
+
+        context['sortby_options'] = self.sortby_options
+        context['sortby'] = self._get_sortby(request)
+        context['paginated_results'] = paginated_results
+        context['number_of_results'] = relevant_markets.count()
+
+        return context
 
 
 def main_statistics_validation(value):
@@ -218,7 +280,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     """
 
     class Meta:
-        ordering = ['-heading']
+        ordering = ['-heading', '-title']
 
     template = 'domestic/content/country_guide.html'
 
@@ -613,7 +675,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
     )
 
     def get_articles(self):
-        return ArticlePage.objects.descendant_of(self).specific()
+        return ArticlePage.objects.live().descendant_of(self).specific()
 
     def get_articles_count(self):
         return self.get_articles().count()

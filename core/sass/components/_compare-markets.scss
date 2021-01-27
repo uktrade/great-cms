@@ -1,19 +1,29 @@
 @import 'helpers/colours';
 
-table td {
-  p {
-    margin: 5px 0;
-  }
-  &.align-top {
-    vertical-align: top;
-  }
-}
 .market-details {
+  table {
+    table-layout: fixed;
+    td {
+      &.align-top {
+        vertical-align: top;
+      }
+    }
+    thead th {
+      vertical-align: bottom;
+    }
+    tbody th button {
+      position: absolute;
+      left: 0;
+      margin-top: -5px;
+    }
+  }
+
   .tooltip__content {
     padding-right: 20px;
     p {
       margin: 20px 0;
-      &:first-child, &:last-child {
+      &:first-child,
+      &:last-child {
         margin: 10px 0;
       }
     }
