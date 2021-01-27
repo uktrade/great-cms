@@ -290,6 +290,14 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         return context
 
 
+class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = 'Getting paid'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
+
+
 class BaseFormView(GA360Mixin, FormView):
     def __init__(self):
         super().__init__()
