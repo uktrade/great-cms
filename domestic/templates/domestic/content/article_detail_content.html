@@ -1,4 +1,5 @@
 {% load component_tags %}
+{% load wagtailcore_tags %}
 
 <div class="container">
   {% include 'components/breadcrumbs_cms.html' %}
@@ -71,7 +72,7 @@
 
         <section class="grid-row padding-bottom-0">
           <div class="article-content rich-text">
-            {{ page.article_body_text|add_href_target:request|safe }}
+            {{ page.article_body_text|richtext }}
           </div>
         </section>
       </div>

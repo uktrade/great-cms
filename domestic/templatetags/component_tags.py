@@ -1,12 +1,12 @@
 # Refactored/amended versions of templatetags formerly in directory_componennts
-import re
-
 import dateparser
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
 
 register = template.Library()
+
+META_DESCRIPTION_TEXT_LENGTH = 150
 
 
 @register.tag
@@ -162,26 +162,29 @@ def parse_date(date_string):
     return None
 
 
-META_DESCRIPTION_TEXT_LENGTH = 150
+@register.simple_tag
+def get_meta_description(page):
 
+    if not page:
+        return ''
 
-@register.tag
-def get_meta_description(page, **kwargs):
-    search_description = page.get('search_description', '')
-    description = page.get('article_teaser', search_description)
-    if not description and page.get('article_body_text'):
-        html = BeautifulSoup(page.get('article_body_text'), 'html.parser')
+    description = page.article_teaser if page.article_teaser else page.search_description
+
+    if not description and page.article_body_text:
+        html = BeautifulSoup(page.article_body_text, 'html.parser')
         body_text = html.findAll(text=True)
         description = ''.join(body_text)[:META_DESCRIPTION_TEXT_LENGTH]
-    return description
+
+    return description if description is not None else ''
 
 
-@register.filter
-def add_href_target(value, request):
-    soup = BeautifulSoup(value, 'html.parser')
-    for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
-        if request.META['HTTP_HOST'] not in element.attrs['href']:
-            element.attrs['target'] = '_blank'
-            element.attrs['title'] = 'Opens in a new window'
-            element.attrs['rel'] = 'noopener noreferrer'
-    return str(soup)
+# TODO? Reimplement, if we can't address this better at the Wagtail level
+# @register.filter
+# def add_href_target(value, request):
+#     soup = BeautifulSoup(value, 'html.parser')
+#     for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
+#         if request.META['HTTP_HOST'] not in element.attrs['href']:
+#             element.attrs['target'] = '_blank'
+#             element.attrs['title'] = 'Opens in a new window'
+#             element.attrs['rel'] = 'noopener noreferrer'
+#     return str(soup)

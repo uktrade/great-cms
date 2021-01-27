@@ -5,9 +5,7 @@
 
 {% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
 
-{% comment "Steve to fix: django error(page has no method get)" %}
 {% block meta_description %}{% get_meta_description page %}{% endblock %}
-{% endcomment %}
 {% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
 
 {% block content %}

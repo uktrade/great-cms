@@ -4,8 +4,10 @@ import pytest
 from django.template import Context, Template
 
 from domestic.templatetags.component_tags import (
+    get_meta_description,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
+    parse_date,
 )
 
 
@@ -250,3 +252,76 @@ def test_industry_accordion_is_viable(data, expected):
 )
 def test_industry_accordion_case_study_is_viable(data, expected):
     assert industry_accordion_case_study_is_viable(data) == expected
+
+
+@pytest.mark.parametrize(
+    'input_val, expected',
+    (
+        ('2021-03-05', '05 March 2021'),
+        ('03-05-2021', '05 March 2021'),  # NB: North American parsing
+        ('2021-03-05', '05 March 2021'),
+        ('March 5th 2021', '05 March 2021'),
+        (None, None),
+    ),
+)
+def test_parse_date(input_val, expected):
+    assert parse_date(input_val) == expected
+
+
+@pytest.mark.parametrize(
+    'attrs_to_set, expected',
+    (
+        (
+            [
+                ('article_teaser', 'article teaser text'),
+                ('search_description', ''),
+            ],
+            'article teaser text',
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', 'article search description'),
+            ],
+            'article search description',
+        ),
+        (
+            [
+                ('article_teaser', 'article teaser text'),
+                ('search_description', 'article search description'),
+            ],
+            'article teaser text',
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', ''),
+                ('article_body_text', 'lorem ipsum dolor sit amet' * 50),
+            ],
+            ('lorem ipsum dolor sit amet' * 50)[:150],
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', ''),
+                ('article_body_text', 'lorem ipsum dolor sit amet'),
+            ],
+            'lorem ipsum dolor sit amet',
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', ''),
+                ('article_body_text', ''),
+            ],
+            '',
+        ),
+    ),
+)
+def test_get_meta_description(attrs_to_set, expected):
+
+    page = mock.Mock()
+    for attr, value in attrs_to_set:
+        setattr(page, attr, value)
+
+    assert get_meta_description(page) == expected
