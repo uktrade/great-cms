@@ -46,7 +46,7 @@ urlpatterns = [
     ),
     path(
         'section/getting-paid/',
-        login_required(views.CostsAndPricingView.as_view(), login_url=LOGIN_URL),
+        login_required(views.GettingPaidView.as_view(), login_url=LOGIN_URL),
         {'slug': 'getting-paid'},
         name='getting-paid',
     ),

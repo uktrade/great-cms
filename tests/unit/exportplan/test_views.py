@@ -194,8 +194,8 @@ def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
         ('adaptation-for-your-target-market', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
         ('costs-and-pricing', 'finance'),
-        ('finance', 'payment-methods'),
-        ('payment-methods', 'travel-and-business-policies'),
+        ('finance', 'getting-paid'),
+        ('getting-paid', 'travel-and-business-policies'),
         ('travel-and-business-policies', 'business-risk'),
         ('business-risk', None),
     ),
@@ -304,6 +304,18 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
             }
         }
     )
+
+
+@pytest.mark.django_db
+def test_getting_paid(export_plan_data, client, user):
+    url = reverse('exportplan:getting-paid')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['transport_choices'][0] == {'value': 'exw', 'label': 'Ex Works (EXW)'}
+    assert response.context_data['water_transport_choices'][0] == {'label': 'Free Alongside Ship (FAS)', 'value': 'fas'}
+    assert response.context_data['getting_paid_data'] == json.dumps(export_plan_data['getting_paid'])
 
 
 @pytest.mark.django_db
