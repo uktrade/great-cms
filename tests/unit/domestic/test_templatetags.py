@@ -315,6 +315,10 @@ def test_get_meta_description(attrs_to_set, expected):
     assert get_meta_description(page) == expected
 
 
+def test_get_meta_description__page_none():
+    assert get_meta_description(None) == ''
+
+
 @pytest.mark.parametrize(
     'url,expected',
     (
