@@ -3,7 +3,12 @@
 ## Pre-release
 
 ### Implemented enhancements
-
+- GP2- 1341-1 - Improvement of Content Linking UI for CaseStudy
+- GP2-1346 - Compare markets - society tab enhancements
+- GP2-1178 - add payment terms fields
+- GP2-1368 - Wire up link from country_guide.html to /advice/ slug
+- GP2- 1342 - Added related pages to CaseStudy listing view
+- GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
 - GP2-1348 - Compare markets - economy/population tab enhancements
 - GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
@@ -52,6 +57,7 @@
 - GP2-1321 - add TM  learning component
 - GP2-1306 - learning data
 - GP2-1168 - export plan lessons
+- GP2-1139 - save EP progress
 
 ### Fixed bugs
 - GP2-1375 - Fix image-types for advice and markets hero

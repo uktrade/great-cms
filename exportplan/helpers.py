@@ -242,6 +242,7 @@ def get_current_url(slug, export_plan):
     if slug in data.PRODUCT_REQUIRED:
         if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
             current_url['product_required'] = True
+    current_url['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
     return current_url
 
 
@@ -259,3 +260,15 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
 def calculated_cost_pricing(exportplan_data):
     calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing
     return {'calculated_cost_pricing': calculated_pricing}
+
+
+def calculate_ep_progress(exportplan_data):
+    progress_items = exportplan_data.get('ui_progress', {})
+    completed = [True for v in progress_items.values() if v.get('is_complete')]
+    return {
+        'export_plan_progress': {
+            'sections_completed': len(completed),
+            'sections_total': len(data.SECTION_SLUGS),
+            'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
+        }
+    }

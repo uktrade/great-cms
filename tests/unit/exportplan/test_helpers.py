@@ -3,7 +3,7 @@ from unittest import mock
 import pytest
 
 from directory_api_client import api_client
-from exportplan import helpers
+from exportplan import data, helpers
 from tests.helpers import create_response
 
 
@@ -448,6 +448,24 @@ def test_get_current_url_product_required_not_in_check(mock_get_exportplan):
     assert current_url.get('product_required') is None
 
 
+@pytest.mark.parametrize(
+    'ui_progress_data, expected',
+    [
+        [{}, False],
+        [{'target-markets': {'is_complete': True}}, False],
+        [{'about-your-business': {}}, False],
+        [{'about-your-business': {'is_complete': False}}, False],
+        [{'about-your-business': {'is_complete': True}, 'Target-markets': {'is_complete': True}}, True],
+    ],
+)
+@mock.patch.object(helpers, 'get_exportplan')
+def test_get_current_url_progress(mock_get_exportplan, ui_progress_data, expected):
+    export_plan_data = {'ui_progress': ui_progress_data}
+    mock_get_exportplan.return_value = export_plan_data
+    current_url = helpers.get_current_url(slug='about-your-business', export_plan=export_plan_data)
+    assert current_url.get('is_complete') is expected
+
+
 @mock.patch.object(api_client.dataservices, 'get_population_data_by_country')
 def test_get_population_data_by_country(mock_population_data_by_country):
     data = {'country': 'United Kingdom', 'population_data': {'target_population': 10000}}
@@ -515,3 +533,23 @@ def test_calculated_cost_pricing(cost_pricing_data):
             'estimated_costs_per_unit': '76.59',
         }
     }
+
+
+@pytest.mark.parametrize(
+    'ui_progress_data, complete, percentage_complete',
+    [
+        [{}, 0, 0],
+        [{'a': {}}, 0, 0],
+        [{'a': {'is_complete': False}}, 0, 0],
+        [{'a': {'is_complete': True}}, 1, 0.1],
+        [{'b': {'is_complete': True}, 'c': {'is_complete': True}}, 2, 0.2],
+    ],
+)
+@mock.patch.object(helpers, 'get_exportplan')
+def test_calculate_ep_progress(mock_get_exportplan, ui_progress_data, complete, percentage_complete):
+    export_plan_data = {'ui_progress': ui_progress_data}
+    mock_get_exportplan.return_value = export_plan_data
+    ep_progress = helpers.calculate_ep_progress(export_plan_data)['export_plan_progress']
+    assert ep_progress['sections_total'] == len(data.SECTION_SLUGS)
+    assert ep_progress['sections_completed'] == complete
+    assert ep_progress['percentage_completed'] == percentage_complete
