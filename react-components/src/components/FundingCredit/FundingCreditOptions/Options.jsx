@@ -30,7 +30,7 @@ export const Options = memo(
                   className="button button--secondary button--icon button--small button--add"
                   onClick={addFunding}
                 >
-                  <i className="fas fa-plus-circle"></i>
+                  <i className="fas fa-plus-circle" />
                   <span>Add a funding option</span>
                 </button>
               </td>
