@@ -27,8 +27,9 @@
               </p>
             </div>
           {% endif %}
-          {% comment "Steve to fix: parse_date blows up" %}{{ page.last_published_at|parse_date }}{% endcomment %}
-          <p class="subheading">Last updated {{ page.last_published_at }}</p>
+          <p class="subheading">
+            Last updated {{ page.last_published_at|date:'j F Y' }}
+          </p>
         </div>
         {% block article_tags %}
           {% if features.PROTOTYPE_PAGES_ON and page.tags %}

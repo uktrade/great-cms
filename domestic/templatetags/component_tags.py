@@ -1,5 +1,4 @@
 # Refactored/amended versions of templatetags formerly in directory_componennts
-import dateparser
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
@@ -153,13 +152,6 @@ def industry_accordion_case_study_is_viable(value):
     if not value:
         return False
     return all([value.get('title'), value.get('hero_image')])
-
-
-@register.filter
-def parse_date(date_string):
-    if date_string:
-        return dateparser.parse(date_string).strftime('%d %B %Y')
-    return None
 
 
 @register.simple_tag

@@ -10,7 +10,6 @@ from domestic.templatetags.component_tags import (
     get_pagination_url,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
-    parse_date,
 )
 
 
@@ -255,20 +254,6 @@ def test_industry_accordion_is_viable(data, expected):
 )
 def test_industry_accordion_case_study_is_viable(data, expected):
     assert industry_accordion_case_study_is_viable(data) == expected
-
-
-@pytest.mark.parametrize(
-    'input_val, expected',
-    (
-        ('2021-03-05', '05 March 2021'),
-        ('03-05-2021', '05 March 2021'),  # NB: North American parsing
-        ('2021-03-05', '05 March 2021'),
-        ('March 5th 2021', '05 March 2021'),
-        (None, None),
-    ),
-)
-def test_parse_date(input_val, expected):
-    assert parse_date(input_val) == expected
 
 
 @pytest.mark.parametrize(
