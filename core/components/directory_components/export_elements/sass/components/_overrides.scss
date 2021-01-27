@@ -6,6 +6,49 @@
         display: block;
     }
 
+    &.article-detail {
+        h2 {
+            font-size: 24px;
+            line-height: 1.04167;
+            margin-top: 1.04167em;
+            margin-bottom: .41667em;
+
+            @media (min-width: 641px) {
+                font-size: 36px;
+                line-height: 1.11111;
+                margin-top: 1.25em;
+                margin-bottom: .83333em;
+            }
+        }
+
+        h3 {
+            font-size: 18px;
+            line-height: 1.2;
+            margin-top: 1.25em;
+            margin-bottom: .5em;
+
+            @media (min-width: 641px) {
+                font-size: 24px;
+                line-height: 1.25;
+                margin-top: 1.875em;
+                margin-bottom: .625em;
+            }
+        }
+
+        h4 {
+            font-size: 16px;
+            line-height: 1.25;
+            margin-top: .625em;
+            margin-bottom: .3125em;
+
+            @media (min-width: 641px) {
+                font-size: 19px;
+                line-height: 1.31579;
+                margin-top: 1.05263em;
+            }
+        }
+    }
+
     h2 {
         font-size: 18px;
         line-height: 1.2;
@@ -78,6 +121,17 @@
                 top: .5em;
                 width: 8px;
             }
+        }
+    }
+
+    ol {
+        padding: 0;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        list-style-type: decimal;
+
+        li {
+            margin-bottom: 5px;
         }
     }
 }

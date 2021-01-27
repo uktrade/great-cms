@@ -29,6 +29,7 @@ from tests.unit.core.factories import (
 )
 from .factories import (
     AdviceTopicLandingPageFactory,
+    ArticleListingPageFactory,
     ArticlePageFactory,
     CountryGuidePageFactory,
     DomesticDashboardFactory,
@@ -594,6 +595,36 @@ class AdviceTopicLandingPageTests(WagtailPageTests):
         retrieved_page_1 = AdviceTopicLandingPage.objects.get(id=advice_topic_page.id)
         self.assertEqual(retrieved_page_1.slug, 'advice')
 
+    def test_child_pages(self):
+
+        advice_topic_page = AdviceTopicLandingPageFactory(
+            title='Advice',
+        )
+        article_list_one = ArticleListingPage(
+            title='list one',
+            landing_page_title='List One',
+        )
+        article_list_two = ArticleListingPage(
+            title='list two',
+            landing_page_title='List Two',
+        )
+        article_list_three = ArticleListingPage(
+            title='list three',
+            landing_page_title='List Three',
+        )
+
+        # note deliberate out-of-sequence ordering here
+        advice_topic_page.add_child(instance=article_list_two)
+        advice_topic_page.add_child(instance=article_list_one)
+        advice_topic_page.add_child(instance=article_list_three)
+
+        advice_topic_page.refresh_from_db()
+
+        self.assertEqual(
+            [x for x in advice_topic_page.child_pages()],
+            [article_list_two, article_list_one, article_list_three],
+        )
+
 
 class MarketsTopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
@@ -782,6 +813,67 @@ class ArticleListingPageTests(WagtailPageTests):
                 ArticlePage,
             },
         )
+
+    def test_get_articles(self):
+
+        listing_page = ArticleListingPageFactory(
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
+        )
+        for i in range(5):
+            _title = f'Article {i}'
+            ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
+
+        last_article = ArticlePage.objects.last()
+
+        orphan_article = ArticlePageFactory(
+            title='Orphan',
+            article_title='Orphan',
+            parent=None,
+        )
+
+        self.assertEqual(
+            # QuerySets are not directly comparable
+            [x for x in listing_page.get_articles()],
+            [x for x in ArticlePage.objects.exclude(id=orphan_article.id)],
+        )
+
+        last_article.live = False
+        last_article.save()
+        self.assertEqual(
+            # QuerySets are not directly comparable
+            [x for x in listing_page.get_articles()],
+            [
+                x
+                for x in ArticlePage.objects.exclude(
+                    id__in=[orphan_article.id, last_article.id],
+                )
+            ],
+        )
+
+    def test_get_articles_count(self):
+        listing_page = ArticleListingPageFactory(
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
+        )
+        for i in range(5):
+            _title = f'Article {i}'
+            ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
+
+        last_article = ArticlePage.objects.last()
+
+        ArticlePageFactory(
+            title='Orphan',
+            article_title='Orphan',
+            parent=None,
+        )
+
+        self.assertEqual(ArticlePage.objects.count(), 6)
+        self.assertEqual(listing_page.get_articles_count(), 5)
+
+        last_article.live = False
+        last_article.save()
+        self.assertEqual(listing_page.get_articles_count(), 4)
 
 
 class ArticlePageTests(WagtailPageTests):

@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GP2-1337 - Port/Rebuild ArticleListingPage from V1
 
 - GP2-1334 - Markets homepage grid, incl sorting and pagination
 - GP2-1341-1 - Improvement of Content Linking UI for CaseStudy
