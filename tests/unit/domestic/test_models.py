@@ -761,6 +761,7 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
                     CountryGuidePage.objects.first(),
                 )
 
+
 class ArticleListingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
