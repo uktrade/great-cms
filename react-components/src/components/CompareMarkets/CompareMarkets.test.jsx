@@ -351,7 +351,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
     ).toMatch('German2018. Danish, Frisian, Sorbian, and Romani are official minority languages')
     expect(
       rowSocietyGermany.querySelector('.rule-of-law').textContent
-    ).toMatch('16 of 113')
+    ).toMatch('16 of 131')
   })
 })
 
