@@ -21,6 +21,8 @@ export const Input = memo(
     hideLabel,
     lesson,
     prepend,
+    className,
+    formGroupClassName,
   }) => (
     <FormGroup
       errors={errors}
@@ -31,6 +33,7 @@ export const Input = memo(
       id={id}
       hideLabel={hideLabel}
       lesson={lesson}
+      formGroupClassName={formGroupClassName}
     >
       <div className="flex-center">
         {prepend && (
@@ -39,7 +42,9 @@ export const Input = memo(
           </span>
         )}
         <input
-          className={`form-control ${prepend ? 'form-control-prepend' : ''}`}
+          className={`form-control ${
+            prepend ? 'form-control-prepend' : ''
+          } ${className}`}
           id={id}
           type={type}
           name={id}
@@ -81,6 +86,8 @@ Input.propTypes = {
     duration: PropTypes.string,
   }),
   prepend: PropTypes.string,
+  className: PropTypes.string,
+  formGroupClassName: PropTypes.string,
 }
 
 Input.defaultProps = {
@@ -97,4 +104,6 @@ Input.defaultProps = {
   hideLabel: false,
   lesson: {},
   prepend: '',
+  className: '',
+  formGroupClassName: '',
 }

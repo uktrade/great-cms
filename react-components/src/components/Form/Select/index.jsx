@@ -21,6 +21,7 @@ export const Select = ({
   hideLabel,
   placeholder,
   id,
+  className,
 }) => {
   const [input, setInput] = useState(selected)
   const [isOpen, setIsOpen] = useState(false)
@@ -75,7 +76,7 @@ export const Select = ({
   }
 
   return (
-    <div className="select m-b-l">
+    <div className={`select ${className}`}>
       <Input
         label={label}
         id={id || label}
@@ -156,6 +157,7 @@ Select.propTypes = {
   hideLabel: PropTypes.bool,
   placeholder: PropTypes.string,
   id: PropTypes.string,
+  className: PropTypes.string,
 }
 
 Select.defaultProps = {
@@ -166,4 +168,5 @@ Select.defaultProps = {
   hideLabel: false,
   placeholder: 'Select one',
   id: '',
+  className: 'm-b-l',
 }

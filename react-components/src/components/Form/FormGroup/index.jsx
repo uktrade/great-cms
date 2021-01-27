@@ -17,15 +17,17 @@ export const FormGroup = memo(
     example,
     hideLabel,
     lesson,
+    formGroupClassName,
   }) => {
     const [toggleExample, setToggleExample] = useState(false)
     const [toggleLesson, setToggleLesson] = useState(false)
     const hasLesson = Object.keys(lesson).length > 0
     const hasExample = example.content
-
     return (
       <div
-        className={`form-group ${errors.length > 0 ? 'form-group-error' : ''}`}
+        className={`form-group ${
+          errors.length > 0 ? 'form-group-error' : ''
+        } ${formGroupClassName}`}
       >
         <label
           className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
@@ -33,6 +35,7 @@ export const FormGroup = memo(
         >
           {label}
         </label>
+
         {description && (
           <div className="text-blue-deep-80 p-t-xs p-b-xs">
             {ReactHtmlParser(description)}
@@ -110,6 +113,7 @@ FormGroup.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
+  formGroupClassName: PropTypes.string,
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
@@ -131,4 +135,5 @@ FormGroup.defaultProps = {
   example: {},
   hideLabel: false,
   lesson: {},
+  formGroupClassName: '',
 }

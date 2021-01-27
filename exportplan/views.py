@@ -290,6 +290,22 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         return context
 
 
+class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = 'Funding And Credit'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['funding_options'] = choices_to_key_value(choices.FUNDING_OPTIONS)
+        context['funding_and_credit'] = self.export_plan['funding_and_credit']
+
+        calculated_pricing = helpers.calculated_cost_pricing(self.export_plan)
+        context['estimated_costs_per_unit'] = calculated_pricing['calculated_cost_pricing'].get(
+            'estimated_costs_per_unit', ''
+        )
+        context['funding_credit_options'] = json.dumps(self.export_plan.get('funding_credit_options', []))
+        return context
+
+
 class BaseFormView(GA360Mixin, FormView):
     def __init__(self):
         super().__init__()

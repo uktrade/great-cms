@@ -193,8 +193,8 @@ def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
         ('target-markets-research', 'adaptation-for-your-target-market'),
         ('adaptation-for-your-target-market', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
-        ('costs-and-pricing', 'finance'),
-        ('finance', 'payment-methods'),
+        ('costs-and-pricing', 'funding-and-credit'),
+        ('funding-and-credit', 'payment-methods'),
         ('payment-methods', 'travel-and-business-policies'),
         ('travel-and-business-policies', 'business-risk'),
         ('business-risk', None),
@@ -304,6 +304,20 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
             }
         }
     )
+
+
+@pytest.mark.django_db
+def test_funding_and_credit(export_plan_data, client, user):
+    url = reverse('exportplan:funding-and-credit')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+    assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'bank-loan'}
+    assert response.context_data['funding_and_credit'] == export_plan_data['funding_and_credit']
+    assert response.context_data['estimated_costs_per_unit'] == '76.59'
+    assert response.context_data['funding_credit_options'] == json.dumps(export_plan_data['funding_credit_options'])
 
 
 @pytest.mark.django_db
