@@ -21,7 +21,6 @@ export const Input = memo(
     hideLabel,
     lesson,
     prepend,
-    estimate,
     className,
     formGroupClassName,
   }) => (
@@ -34,7 +33,6 @@ export const Input = memo(
       id={id}
       hideLabel={hideLabel}
       lesson={lesson}
-      estimate={estimate}
       formGroupClassName={formGroupClassName}
     >
       <div className="flex-center">

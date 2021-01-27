@@ -75,7 +75,6 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
               content: item.example,
             }}
             description={item.description}
-            estimate={item.estimate}
             key={item.name}
             prepend={item.currency ? item.currency : null}
             name={item.name}

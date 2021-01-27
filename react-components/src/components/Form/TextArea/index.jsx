@@ -17,7 +17,6 @@ export const TextArea = memo(
     example,
     hideLabel,
     lesson,
-    estimate,
   }) => (
     <FormGroup
       errors={errors}
@@ -28,7 +27,6 @@ export const TextArea = memo(
       id={id}
       hideLabel={hideLabel}
       lesson={lesson}
-      estimate={estimate}
     >
       <textarea
         className="form-control"
