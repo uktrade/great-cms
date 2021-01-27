@@ -354,3 +354,31 @@ def test_ui_progress_serializer():
             'sectiona_a': OrderedDict([('is_complete', True), ('date_last_visited', '2012-01-14T03:21:34+00:00')])
         }
     }
+
+
+def test_payment_method_serializer():
+
+    data = {
+        'getting_paid': {
+            'payment_method': {'method': ['TTE', 'EFG'], 'notes': 'method 1'},
+            'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
+            'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
+        }
+    }
+    serializer = serializers.ExportPlanSerializer(data=data)
+
+    assert serializer.is_valid(raise_exception=True)
+    assert serializer.validated_data == OrderedDict(
+        [
+            (
+                'getting_paid',
+                OrderedDict(
+                    [
+                        ('payment_method', OrderedDict([('method', ['TTE', 'EFG']), ('notes', 'method 1')])),
+                        ('payment_terms', OrderedDict([('method', ['FFE', 'TMP']), ('notes', 'method 2')])),
+                        ('incoterms', OrderedDict([('method', ['RME', 'ECM']), ('notes', 'method 3')])),
+                    ]
+                ),
+            )
+        ]
+    )
