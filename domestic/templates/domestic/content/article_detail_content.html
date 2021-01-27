@@ -1,5 +1,5 @@
 {% load component_tags %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 <div class="container">
   {% include 'components/breadcrumbs_cms.html' %}
@@ -67,7 +67,9 @@
         {% endif %}
         {% endif %}
         {% if page.article_image and not page.article_video %}
-          <img src="{{ page.article_image.url }}" alt="{{ page.article_image.alt }}" class="width-full">
+
+            {% image page.article_image original as article_image_rendition %}
+            <img src="{{ article_image_rendition.url }}" alt="{{ page.article_image.alt }}" class="width-full">
         {% endif %}
 
         <section class="grid-row padding-bottom-0">
