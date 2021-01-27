@@ -40,7 +40,12 @@ export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
 })
 
 FundingCreditHowMuchFunding.propTypes = {
-  formData: PropTypes.object,
+  formData: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      funding_amount_required: PropTypes.number,
+    }),
+  ]).isRequired,
   currency: PropTypes.string.isRequired,
 }
 

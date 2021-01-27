@@ -76,7 +76,12 @@ export const FundingCreditTotalExportCost = memo(({ ...data }) => {
 
 FundingCreditTotalExportCost.propTypes = {
   estimated_costs_per_unit: PropTypes.number.isRequired,
-  formData: PropTypes.object,
+  formData: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      override_estimated_total_cost: PropTypes.number,
+    }),
+  ]).isRequired,
   currency: PropTypes.string.isRequired,
 }
 
