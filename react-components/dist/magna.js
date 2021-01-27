@@ -66381,10 +66381,13 @@ var religion = function religion(data) {
 };
 
 var ruleOfLawRanking = function ruleOfLawRanking(data) {
+  // TODO: get these 'total' and 'year' values from API
   var rankingTotal = 113;
+  var year = 2020;
 
   if (data) {
     data.total = rankingTotal;
+    data.year = year;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rankOutOf(data, 'rank'), data.year && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "body-m text-black-60 display-year"
     }, data.year));
