@@ -21,14 +21,26 @@ ACCORDION_FIELDS_HELP_TEXT = (
 class ArticleListingPagePanels:
 
     content_panels = [
-        FieldPanel('landing_page_title'),
+        MultiFieldPanel(
+            heading='Titles',
+            children=[
+                FieldPanel('title'),
+                FieldPanel('landing_page_title'),
+            ],
+            help_text=(
+                'The title field is the standard title the page will be given '
+                'and also populates the page slug. '
+                'The Landing Page Title is used when this page is a child of '
+                'a landing page, eg Advice Topic Landing Page. '
+                'If in doubt, make them both the same.'
+            ),
+        ),
         MultiFieldPanel(heading='Hero', children=[ImageChooserPanel('hero_image'), FieldPanel('hero_teaser')]),
         FieldPanel('list_teaser'),
         SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
-        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 

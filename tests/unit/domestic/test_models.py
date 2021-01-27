@@ -28,6 +28,7 @@ from tests.unit.core.factories import (
 )
 from .factories import (
     AdviceTopicLandingPageFactory,
+    ArticleListingPageFactory,
     ArticlePageFactory,
     CountryGuidePageFactory,
     DomesticDashboardFactory,
@@ -637,6 +638,46 @@ class ArticleListingPageTests(WagtailPageTests):
                 ArticlePage,
             },
         )
+
+    def test_get_articles(self):
+
+        listing_page = ArticleListingPageFactory(
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
+        )
+        for i in range(5):
+            _title = f'Article {i}'
+            ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
+
+        orphan_article = ArticlePageFactory(
+            title='Orphan',
+            article_title='Orphan',
+            parent=None,
+        )
+
+        self.assertEqual(
+            # QuerySets are not directly comparable
+            [x for x in listing_page.get_articles()],
+            [x for x in ArticlePage.objects.exclude(id=orphan_article.id)],
+        )
+
+    def test_get_articles_count(self):
+        listing_page = ArticleListingPageFactory(
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
+        )
+        for i in range(5):
+            _title = f'Article {i}'
+            ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
+
+        ArticlePageFactory(
+            title='Orphan',
+            article_title='Orphan',
+            parent=None,
+        )
+
+        self.assertEqual(ArticlePage.objects.count(), 6)
+        self.assertEqual(listing_page.get_articles_count(), 5)
 
 
 class ArticlePageTests(WagtailPageTests):

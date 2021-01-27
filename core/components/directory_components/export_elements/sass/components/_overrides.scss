@@ -6,6 +6,8 @@
         display: block;
     }
 
+
+    &.article-detail,
     &.article-content {
         h2 {
             font-size: 24px;
@@ -48,7 +50,6 @@
             }
         }
     }
-
 
     h2 {
         font-size: 18px;

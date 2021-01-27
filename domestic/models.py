@@ -560,6 +560,8 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
+    template = 'domestic/content/article_listing_page.html'
+
     parent_page_types = [
         'domestic.CountryGuidePage',
         'domestic.AdviceTopicLandingPage',
@@ -589,10 +591,11 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
         blank=True,
     )
 
-    # TODO: reinstate this when we port the template for the page
-    # @property
-    # def articles_count(self):
-    #     return self.get_descendants().type(ArticlePage).live().count()
+    def get_articles(self):
+        return ArticlePage.objects.descendant_of(self).specific()
+
+    def get_articles_count(self):
+        return self.get_articles().count()
 
 
 class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
