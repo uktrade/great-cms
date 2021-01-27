@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 - GP2-1337 - Port/Rebuild ArticleListingPage from V1
+
+- GP2-1334 - Markets homepage grid, incl sorting and pagination
 - GP2-1341-1 - Improvement of Content Linking UI for CaseStudy
 - GP2-1346 - Compare markets - society tab enhancements
 - GP2-1178 - add payment terms fields
@@ -59,8 +61,10 @@
 - GP2-1306 - learning data
 - GP2-1168 - export plan lessons
 - GP2-1139 - save EP progress
+- GP2-1382 - getting paid structure be
 
 ### Fixed bugs
+- GP2-1362 - Fix apostrophes rendering
 - GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block

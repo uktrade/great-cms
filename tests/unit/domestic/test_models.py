@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from django.test import RequestFactory
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
@@ -33,6 +34,7 @@ from .factories import (
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
+    MarketsTopicLandingPageFactory,
 )
 
 
@@ -647,8 +649,151 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
             title='Markets',
         )
         homepage.add_child(instance=markets_topic_page)
-        retrieved_page_2 = MarketsTopicLandingPage.objects.get(id=markets_topic_page.id)
+        retrieved_page_2 = MarketsTopicLandingPage.objects.get(
+            id=markets_topic_page.id,
+        )
         self.assertEqual(retrieved_page_2.slug, 'markets')
+
+    def _make_country_guide_pages(self, parent_page, count):
+        for i in range(count):
+            CountryGuidePageFactory(
+                parent=parent_page,
+                title=f'Test GCP {i}',
+                live=True,
+            )
+
+    def test_sort_results(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+        self._make_country_guide_pages(markets_topic_page, 23)
+
+        pages = CountryGuidePage.objects.all()
+
+        # Order by title
+        request = RequestFactory().get('/?sortby=title')
+        sorted_pages = markets_topic_page.sort_results(
+            request,
+            pages,
+        )
+
+        self.assertEqual(sorted_pages[0], CountryGuidePage.objects.get(title='Test GCP 0'))
+        self.assertEqual([x for x in pages.order_by('title')], [y for y in sorted_pages])
+
+        # Last amended
+        request = RequestFactory().get('/?sortby=last_published_at')
+        sorted_pages = markets_topic_page.sort_results(
+            request,
+            pages,
+        )
+
+        self.assertEqual(sorted_pages[0], pages.order_by('last_published_at').first())
+        self.assertEqual([x for x in pages.order_by('last_published_at')], [y for y in sorted_pages])
+
+    def test_sort_results__sanitises_input(self):
+
+        mock_pages_queryset = mock.Mock(name='mock_pages_queryset')
+        markets_page = MarketsTopicLandingPageFactory()
+
+        for bad_args in (
+            '?sortby=body',
+            '?sortby=created_at',
+            '?sortby=;delete * from auth_user',
+            '?sortby=;delete%20*%20from%20auth_user',
+            '?other=foo',
+        ):
+            with self.subTest(bad_args=bad_args):
+                mock_pages_queryset.order_by.reset_mock()
+                request = RequestFactory().get(f'/{bad_args}')
+                markets_page.sort_results(
+                    request,
+                    mock_pages_queryset,
+                )
+                # 'title' is the fallback sort_by field
+                mock_pages_queryset.order_by.assert_called_once_with('title')
+
+    def test_get_relevant_markets(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+        self._make_country_guide_pages(markets_topic_page, 23)
+
+        request = RequestFactory().get('/markets/')
+
+        self.assertEqual(markets_topic_page.get_relevant_markets(request).count(), 23)
+        # MORE TESTS TO COME AS WE EXPAND ITS BEHAVIOUR TO INCLUDE FILTERING
+
+    def test_get_context(self):
+
+        request = RequestFactory().get('/?sortby=last_published_at')
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+        output = markets_topic_page.get_context(request)
+
+        self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(output['sortby'], 'last_published_at')
+
+    def test_get_context__pagination(self):
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+        assert CountryGuidePage.objects.count() == 21
+
+        request = RequestFactory().get('/?page=1')  # 1-18 should be on page 1
+        output = markets_topic_page.get_context(request)
+        self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(
+            output['paginated_results'][0],
+            CountryGuidePage.objects.first(),
+        )
+        output = markets_topic_page.get_context(request)
+
+        request = RequestFactory().get('/?page=2')  # 19-21 should be on page 2
+        output = markets_topic_page.get_context(request)
+
+        self.assertEqual(len(output['paginated_results']), 3)
+        # final result should be the last CGP
+        self.assertEqual(
+            output['paginated_results'][2],
+            CountryGuidePage.objects.order_by('title').last(),
+        )
+
+    def test_get_context__handles_paginator_abuse(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+
+        for bad_args in (
+            '?page=112312312312413124',  # will raise EmptyPage
+            '?page=BAD WORDS',  # will raise PageNotAnInteger
+            '?page=;delete * from auth_user',  # will raise PageNotAnInteger
+            '?page=;delete%20*%20from%20auth_user',  # will raise PageNotAnInteger
+        ):
+            with self.subTest(bad_args=bad_args):
+                request = RequestFactory().get(f'/{bad_args}')
+
+                output = markets_topic_page.get_context(request)
+
+                self.assertEqual(len(output['paginated_results']), 18)
+                # defaults to the first page of results
+                self.assertEqual(
+                    output['paginated_results'][0],
+                    CountryGuidePage.objects.first(),
+                )
 
 
 class ArticleListingPageTests(WagtailPageTests):
