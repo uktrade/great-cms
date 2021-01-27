@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ClassificationTree from './ClassificationTree'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
+import ReactHtmlParser from 'react-html-parser'
 
 const checkChars = /^[a-zA-Z0-9\s~!@#£$%°^&*()-_+={}[\]|\\/:;"'<>,.?]*$/
 const testInput = /[a-zA-Z]+/
@@ -19,7 +20,6 @@ export default function StartEndPage(props) {
 
   const [commodityName, setCommodityName] = useState(defaultCommodityName)
 
-
   const nameOkToSave = (name) => {
     return (
       testInput.test(name) &&
@@ -32,7 +32,7 @@ export default function StartEndPage(props) {
       saveProduct(commodityCode, commodityName.trim())
       if (!allowSaveSameName) {
         analytics({
-          event:'updateProductName',
+          event: 'updateProductName',
         })
       }
     }
@@ -51,7 +51,7 @@ export default function StartEndPage(props) {
           label={label}
           id="input-commodity-name"
           onChange={setCommodityName}
-          defaultValue={commodityName}
+          defaultValue={ReactHtmlParser(commodityName)}
           iconClass="fa-pencil-alt"
           onKeyReturn={saveNamedProduct}
           maxWidth="15em"
