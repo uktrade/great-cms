@@ -191,6 +191,16 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         return potential_total_profit
 
 
+class GettingPaidSerializer(serializers.Serializer):
+    class PaymentMethodSerializer(serializers.Serializer):
+        method = serializers.ListField(child=serializers.CharField(), required=False)
+        notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+
+    payment_method = PaymentMethodSerializer(required=False)
+    payment_terms = PaymentMethodSerializer(required=False)
+    incoterms = PaymentMethodSerializer(required=False)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -206,6 +216,7 @@ class ExportPlanSerializer(serializers.Serializer):
     overhead_costs = OverheadCostsSerializer(required=False)
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
     funding_and_credit = FundingAndCreditSerializer(required=False)
+    getting_paid = GettingPaidSerializer(required=False)
 
     def to_internal_value(self, data):
         internal_val = super().to_internal_value(data)
