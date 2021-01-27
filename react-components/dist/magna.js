@@ -68352,7 +68352,6 @@ var FormGroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
       example = _ref.example,
       hideLabel = _ref.hideLabel,
       lesson = _ref.lesson,
-      estimate = _ref.estimate,
       className = _ref.className,
       formGroupClassName = _ref.formGroupClassName;
 
@@ -68366,14 +68365,8 @@ var FormGroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
       toggleLesson = _useState4[0],
       setToggleLesson = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      toggleEstimate = _useState6[0],
-      setToggleEstimate = _useState6[1];
-
   var hasLesson = Object.keys(lesson).length > 0;
   var hasExample = example.content;
-  var hasEstimate = estimate ? Object.keys(estimate).length > 0 : false;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group ".concat(errors.length > 0 ? 'form-group-error' : '', " ").concat(className, " ").concat(formGroupClassName)
   }, label && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -68381,7 +68374,7 @@ var FormGroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
     htmlFor: id
   }, label), description && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-blue-deep-80 p-t-xs p-b-xs"
-  }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(description)), !!(hasExample || hasLesson || hasEstimate || tooltip) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(description)), !!(hasExample || hasLesson || tooltip) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-b-xs"
   }, hasExample && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button-example button button--small button--tertiary m-r-xxs",
@@ -68401,15 +68394,7 @@ var FormGroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-chevron-".concat(toggleLesson ? 'up' : 'down', " m-r-xxs")
-  }), "Lesson"), hasEstimate && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button-lesson button button--small button--tertiary m-r-xxs",
-    type: "button",
-    onClick: function onClick() {
-      setToggleEstimate(!toggleEstimate);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-chevron-".concat(toggleEstimate ? 'up' : 'down', " m-r-xxs")
-  }), "Estimate"), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_3__["Tooltip"], {
+  }), "Lesson"), tooltip && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_3__["Tooltip"], {
     content: tooltip,
     className: "inline-block"
   })), hasExample && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", {
@@ -68418,13 +68403,7 @@ var FormGroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
     className: "body-l-b"
   }, example.header ? example.header : 'A fictional example to help you complete this section'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", {
     className: "m-t-xxs body-l"
-  }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(example.content))), hasEstimate && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dl", {
-    className: "form-group-example bg-blue-deep-10 p-xs m-b-xs ".concat(toggleEstimate ? '' : 'hidden')
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dt", {
-    className: "h-s"
-  }, estimate.header ? estimate.header : 'A fictional estimate to help you complete this section'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("dd", {
-    className: "m-t-xxs body-l"
-  }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(estimate.content))), hasLesson && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_LessonLearn__WEBPACK_IMPORTED_MODULE_5__["LessonLearn"], _extends({}, lesson, {
+  }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(example.content))), hasLesson && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_LessonLearn__WEBPACK_IMPORTED_MODULE_5__["LessonLearn"], _extends({}, lesson, {
     show: toggleLesson
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_4__["default"], {
     errors: errors
@@ -68444,10 +68423,6 @@ FormGroup.propTypes = {
     header: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
   }),
-  estimate: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    header: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }),
   hideLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   lesson: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -68463,7 +68438,6 @@ FormGroup.defaultProps = {
   example: {},
   hideLabel: false,
   lesson: {},
-  estimate: {},
   className: '',
   formGroupClassName: ''
 };
@@ -69124,6 +69098,11 @@ FundingCreditHowMuchFunding.propTypes = {
   formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
   currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
 };
+FundingCreditHowMuchFunding.defaultProps = {
+  formData: {
+    funding_amount_required: 0
+  }
+};
 
 /***/ }),
 
@@ -69568,6 +69547,11 @@ FundingCreditTotalExportCost.propTypes = {
   estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
   formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
   currency: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
+FundingCreditTotalExportCost.defaultProps = {
+  formData: {
+    override_estimated_total_cost: 0
+  }
 };
 
 /***/ }),

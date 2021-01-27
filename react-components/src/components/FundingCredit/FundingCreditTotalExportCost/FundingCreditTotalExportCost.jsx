@@ -80,3 +80,9 @@ FundingCreditTotalExportCost.propTypes = {
   formData: PropTypes.object,
   currency: PropTypes.string.isRequired,
 }
+
+FundingCreditTotalExportCost.defaultProps = {
+  formData: {
+    override_estimated_total_cost: 0,
+  },
+}

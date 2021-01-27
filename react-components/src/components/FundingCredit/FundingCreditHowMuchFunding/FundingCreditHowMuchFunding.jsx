@@ -43,3 +43,9 @@ FundingCreditHowMuchFunding.propTypes = {
   formData: PropTypes.object,
   currency: PropTypes.string.isRequired,
 }
+
+FundingCreditHowMuchFunding.defaultProps = {
+  formData: {
+    funding_amount_required: 0,
+  },
+}
