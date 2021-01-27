@@ -1,7 +1,7 @@
 {% if cards %}
   {% for card in cards %}
   <div class="column-third-xl column-half-l">
-    {% include 'components/card.html' with url=card.url page_image=card.hero_image title=card.title %}
+    {% include 'components/card.html' with url=card.url page_image=card.hero_image title=card.landing_page_title|default:card.title %}
   </div>
   {% endfor %}
 {% endif %}
