@@ -163,6 +163,9 @@ class AdviceTopicLandingPage(
         'domestic.ArticlePage',
     ]
 
+    def child_pages(self):
+        return self.get_children().specific()
+
 
 class MarketsTopicLandingPage(
     cms_panels.MarketsTopicLandingPagePanels,

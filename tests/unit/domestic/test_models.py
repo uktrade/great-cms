@@ -593,6 +593,36 @@ class AdviceTopicLandingPageTests(WagtailPageTests):
         retrieved_page_1 = AdviceTopicLandingPage.objects.get(id=advice_topic_page.id)
         self.assertEqual(retrieved_page_1.slug, 'advice')
 
+    def test_child_pages(self):
+
+        advice_topic_page = AdviceTopicLandingPageFactory(
+            title='Advice',
+        )
+        article_list_one = ArticleListingPage(
+            title='list one',
+            landing_page_title='List One',
+        )
+        article_list_two = ArticleListingPage(
+            title='list two',
+            landing_page_title='List Two',
+        )
+        article_list_three = ArticleListingPage(
+            title='list three',
+            landing_page_title='List Three',
+        )
+
+        # note deliberate out-of-sequence ordering here
+        advice_topic_page.add_child(instance=article_list_two)
+        advice_topic_page.add_child(instance=article_list_one)
+        advice_topic_page.add_child(instance=article_list_three)
+
+        advice_topic_page.refresh_from_db()
+
+        self.assertEqual(
+            [x for x in advice_topic_page.child_pages()],
+            [article_list_two, article_list_one, article_list_three],
+        )
+
 
 class MarketsTopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
