@@ -1,0 +1,9 @@
+{% if ellipsis_before %}
+    <li class="active-blue-text margin-right-0 margin-top-15 margin-15-m"><span>...</span></li>
+{% endif %}
+
+<li><a href="{{ url }}page={{ number }}" class="{% if pagination.number == number %}button{% else %}button-ghost-blue{% endif %}">{{ number }}</a></li>
+
+{% if ellipsis_after %}
+    <li class="active-blue-text margin-right-0 margin-top-15 margin-15-m"><span>...</span></li>
+{% endif %}

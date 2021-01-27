@@ -20,16 +20,26 @@ var marketFilters = function() {
     }
 
     function bindEvents() {
-      for (var i=0; i< checks.length; i=i+1) {
+      if (checks) {
+        for (var i=0; i< checks.length; i=i+1) {
           checks[i].addEventListener('change', submitForm);
+        }
       }
 
-      if(sortby) {
+      if (sortby) {
         sortby.addEventListener("change", submitForm);
       }
-      stickyFooter.querySelector('a.cancel').addEventListener('click', clearMobileFilters);
-      stickyFooter.querySelector('a.update').addEventListener('click', submitForm);
-      document.querySelector('#mobile-filter-toggle').addEventListener('click', setMobileFilters);
+
+      if (stickyFooter) {
+        stickyFooter.querySelector('a.cancel').addEventListener('click', clearMobileFilters);
+        stickyFooter.querySelector('a.update').addEventListener('click', submitForm);
+      }
+
+      var mobileFilterToggle = document.querySelector('#mobile-filter-toggle');
+      if (mobileFilterToggle) {
+        mobileFilterToggle.addEventListener('click', setMobileFilters);
+      }
+
       window.addEventListener("resize", resizeHandler);
       window.addEventListener("orientationchange", resizeHandler);
     }
