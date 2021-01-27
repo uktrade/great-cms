@@ -7,6 +7,7 @@ import { connect, Provider } from 'react-redux'
 import Services from '@src/Services'
 
 import ProductFinderModal from './ProductFinderModal'
+import ReactHtmlParser from 'react-html-parser'
 
 function ProductFinderButton(props) {
   const { selectedProduct } = props
@@ -17,11 +18,9 @@ function ProductFinderButton(props) {
   }
   const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
   const triggerButton = (
-    <button type="button" 
-      className={buttonClass} 
-      onClick={openModal}
-    >
-      {(selectedProduct && selectedProduct.commodity_name) || 'add product'}
+    <button type="button" className={buttonClass} onClick={openModal}>
+      {(selectedProduct && ReactHtmlParser(selectedProduct.commodity_name)) ||
+        'add product'}
       <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`} />
     </button>
   )
