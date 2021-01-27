@@ -62,7 +62,7 @@
         {% if page.article_video_transcript %}
         <details closed class="margin-bottom-0">
           <summary>View video transcript</summary>
-            {{  page.article_video_transcript }}
+            {{ page.article_video_transcript|richtext }}
         </details>
         {% endif %}
         {% endif %}
