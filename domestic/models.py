@@ -595,7 +595,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
     )
 
     def get_articles(self):
-        return ArticlePage.objects.descendant_of(self).specific()
+        return ArticlePage.objects.live().descendant_of(self).specific()
 
     def get_articles_count(self):
         return self.get_articles().count()
