@@ -429,7 +429,7 @@ def test_intro_ctas(
     ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
 )
 @pytest.mark.django_db
-def test_related_pages(
+def test_country_guide_page__related_pages(
     related_page_data,
     domestic_homepage,
     domestic_site,
@@ -892,3 +892,45 @@ class ArticlePageTests(WagtailPageTests):
             ArticlePage,
             {},
         )
+
+
+@pytest.mark.parametrize(
+    'related_page_data',
+    (
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        ({'title': 'Article THREE', 'rel_name': 'related_page_three'},),
+        (),
+    ),
+    ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
+)
+@pytest.mark.django_db
+def test_article_page__related_pages(
+    related_page_data,
+    domestic_homepage,
+    domestic_site,
+):
+
+    kwargs = {}
+
+    for data in related_page_data:
+        kwargs[data['rel_name']] = ArticlePageFactory(article_title=data['title'])
+
+    page = ArticlePageFactory(
+        parent=domestic_homepage,
+        title='Test Article Page',
+        article_title='Test Article',
+        **kwargs,
+    )
+    assert [x for x in page.related_pages] == [x for x in kwargs.values()]

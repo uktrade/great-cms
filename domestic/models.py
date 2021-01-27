@@ -640,6 +640,19 @@ class ArticlePage(
     )
     tags = ParentalManyToManyField(Tag, blank=True)
 
+    @property
+    def related_pages(self):
+        output = []
+        for rel in [
+            'related_page_one',
+            'related_page_two',
+            'related_page_three',
+        ]:
+            page = getattr(self, rel)
+            if page:
+                output.append(page.specific)
+        return output
+
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
