@@ -5,8 +5,6 @@
 
 {% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
 
-{% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
-
 {% comment "Steve to fix: django error(page has no method get)" %}
 {% block meta_description %}{% get_meta_description page %}{% endblock %}
 {% endcomment %}
