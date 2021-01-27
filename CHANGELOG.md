@@ -61,6 +61,7 @@
 - GP2-1382 - getting paid structure be
 
 ### Fixed bugs
+- GP2-1362 - Fix apostrophes rendering
 - GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block

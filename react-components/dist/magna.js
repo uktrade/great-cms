@@ -13244,7 +13244,7 @@ DomHandler.prototype.onerror = function(error){
 
 DomHandler.prototype.onclosetag = function(){
 	//if(this._tagStack.pop().name !== name) this._handleCallback(Error("Tagname didn't match!"));
-	
+
 	var elem = this._tagStack.pop();
 
 	if(this._options.withEndIndices && elem){
@@ -13843,7 +13843,7 @@ exports.prepend = function(elem, prev){
 	if(elem.prev){
 		elem.prev.next = prev;
 	}
-	
+
 	prev.parent = parent;
 	prev.prev = elem.prev;
 	prev.next = elem;
@@ -16573,7 +16573,7 @@ Parser.prototype.onclosetag = function(name) {
     if (this._lowerCaseTagNames) {
         name = name.toLowerCase();
     }
-    
+
     if (name in foreignContextElements || name in htmlIntegrationElements) {
         this._foreignContext.pop();
     }
@@ -16622,7 +16622,7 @@ Parser.prototype._closeCurrentTag = function() {
             this._cbs.onclosetag(name);
         }
         this._stack.pop();
-        
+
     }
 };
 
@@ -44555,7 +44555,7 @@ function injectIntoDevTools(devToolsConfig) {
     // Enables DevTools to append owner stacks to error messages in DEV mode.
     getCurrentFiber:  function () {
       return current;
-    } 
+    }
   }));
 }
 var IsSomeRendererActing$1 = ReactSharedInternals.IsSomeRendererActing;
@@ -48221,7 +48221,7 @@ __webpack_require__.r(__webpack_exports__);
   selectorFactory, which has the signature:
 
     (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
-  
+
   connect passes its args to connectAdvanced as options, which will in turn pass them to
   selectorFactory each time a Connect component instance is instantiated or hot reloaded.
 
@@ -61513,7 +61513,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
-// 
+//
 var interleave = (function (strings, interpolations) {
   var result = [strings[0]];
 
@@ -61524,38 +61524,38 @@ var interleave = (function (strings, interpolations) {
   return result;
 });
 
-// 
+//
 var isPlainObject = (function (x) {
   return typeof x === 'object' && x.constructor === Object;
 });
 
-// 
+//
 var EMPTY_ARRAY = Object.freeze([]);
 var EMPTY_OBJECT = Object.freeze({});
 
-// 
+//
 function isFunction(test) {
   return typeof test === 'function';
 }
 
-// 
+//
 function getComponentName(target) {
   return ( true ? typeof target === 'string' && target : undefined) || // $FlowFixMe
   target.displayName || // $FlowFixMe
   target.name || 'Component';
 }
 
-// 
+//
 function isStatelessFunction(test) {
   return typeof test === 'function' && !(test.prototype && test.prototype.isReactComponent);
 }
 
-// 
+//
 function isStyledComponent(target) {
   return target && typeof target.styledComponentId === 'string';
 }
 
-// 
+//
 var SC_ATTR = typeof process !== 'undefined' && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || 'data-styled';
 var SC_ATTR_ACTIVE = 'active';
 var SC_ATTR_VERSION = 'data-styled-version';
@@ -61565,7 +61565,7 @@ var DISABLE_SPEEDY = typeof SC_DISABLE_SPEEDY === 'boolean' && SC_DISABLE_SPEEDY
 
 var STATIC_EXECUTION_CONTEXT = {};
 
-// 
+//
 
 /* eslint-disable camelcase, no-undef */
 var getNonce = function getNonce() {
@@ -61592,7 +61592,7 @@ var errorMap = {
   "17": "CSSStyleSheet could not be found on HTMLStyleElement.\nHas styled-components' style tag been unmounted or altered by another script?\n"
 };
 
-// 
+//
 var ERRORS =  true ? errorMap : undefined;
 /**
  * super basic version of sprintf
@@ -61627,7 +61627,7 @@ function throwStyledComponentsError(code) {
   }
 }
 
-// 
+//
 var ELEMENT_TYPE = 1;
 /* Node.ELEMENT_TYPE */
 
@@ -61685,7 +61685,7 @@ var getSheet = function getSheet(tag) {
   return undefined;
 };
 
-// 
+//
 /** Create a CSSStyleSheet-like tag depending on the environment */
 
 var makeTag = function makeTag(_ref) {
@@ -61819,7 +61819,7 @@ function () {
   return VirtualTag;
 }();
 
-// 
+//
 /** Create a GroupedTag with an underlying Tag implementation */
 
 var makeGroupedTag = function makeGroupedTag(tag) {
@@ -61915,7 +61915,7 @@ function () {
   return DefaultGroupedTag;
 }();
 
-// 
+//
 var MAX_SMI = 1 << 31 - 1;
 var groupIDRegister = new Map();
 var reverseRegister = new Map();
@@ -61947,7 +61947,7 @@ var setGroupForId = function setGroupForId(id, group) {
   reverseRegister.set(group, id);
 };
 
-// 
+//
 var SELECTOR = "style[" + SC_ATTR + "][" + SC_ATTR_VERSION + "=\"" + SC_VERSION + "\"]";
 var RULE_RE = /(?:\s*)?(.*?){((?:{[^}]*}|(?!{).*?)*)}/g;
 var MARKER_RE = new RegExp("^" + SC_ATTR + "\\.g(\\d+)\\[id=\"([\\w\\d-]+)\"\\]");
@@ -62147,7 +62147,7 @@ function () {
   return StyleSheet;
 }();
 
-// 
+//
 
 /* eslint-disable */
 var SEED = 5381; // When we have separate strings it's useful to run a progressive
@@ -62325,7 +62325,7 @@ function createStylisInstance(_temp) {
   return stringifyRules;
 }
 
-// 
+//
 var StyleSheetContext = react__WEBPACK_IMPORTED_MODULE_1___default.a.createContext();
 var StyleSheetConsumer = StyleSheetContext.Consumer;
 var StylisContext = react__WEBPACK_IMPORTED_MODULE_1___default.a.createContext();
@@ -62382,7 +62382,7 @@ function StyleSheetManager(props) {
   },  true ? react__WEBPACK_IMPORTED_MODULE_1___default.a.Children.only(props.children) : undefined));
 }
 
-// 
+//
 
 var Keyframes =
 /*#__PURE__*/
@@ -62414,7 +62414,7 @@ function () {
   return Keyframes;
 }();
 
-// 
+//
 
 /**
  * inlined version of
@@ -62443,7 +62443,7 @@ function hyphenateStyleName(string) {
   return string.replace(uppercasePattern, '-$1').toLowerCase().replace(msPattern, '-ms-');
 }
 
-// 
+//
 
 function addUnitIfNeeded(name, value) {
   // https://github.com/amilajack/eslint-plugin-flowtype-errors/issues/133
@@ -62459,7 +62459,7 @@ function addUnitIfNeeded(name, value) {
   return String(value).trim();
 }
 
-// 
+//
 /**
  * It's falsish not falsy because 0 is allowed.
  */
@@ -62537,7 +62537,7 @@ function flatten(chunk, executionContext, styleSheet) {
   return isPlainObject(chunk) ? objToCssArray(chunk) : chunk.toString();
 }
 
-// 
+//
 function css(styles) {
   for (var _len = arguments.length, interpolations = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     interpolations[_key - 1] = arguments[_key];
@@ -62656,7 +62656,7 @@ function mixinDeep(target) {
   return target;
 }
 
-// 
+//
 
 /* eslint-disable no-bitwise */
 var AD_REPLACER_R = /(a)(d)/gi;
@@ -62684,7 +62684,7 @@ function generateAlphabeticName(code) {
   return (getAlphabeticChar(x % charsLength) + name).replace(AD_REPLACER_R, '$1-$2');
 }
 
-// 
+//
 function isStaticRules(rules) {
   for (var i = 0; i < rules.length; i += 1) {
     var rule = rules[i];
@@ -62699,7 +62699,7 @@ function isStaticRules(rules) {
   return true;
 }
 
-// 
+//
 /*
  ComponentStyle is all the CSS-specific stuff, not
  the React-specific stuff.
@@ -62778,7 +62778,7 @@ function () {
   return ComponentStyle;
 }();
 
-// 
+//
 var LIMIT = 200;
 var createWarnTooManyClasses = (function (displayName, componentId) {
   var generatedClasses = {};
@@ -62800,7 +62800,7 @@ var createWarnTooManyClasses = (function (displayName, componentId) {
   };
 });
 
-// 
+//
 var invalidHookCallRe = /invalid hook call/i;
 var seen = new Set();
 var checkDynamicCreation = function checkDynamicCreation(displayName, componentId) {
@@ -62830,7 +62830,7 @@ var checkDynamicCreation = function checkDynamicCreation(displayName, componentI
   }
 };
 
-// 
+//
 var determineTheme = (function (props, providedTheme, defaultProps) {
   if (defaultProps === void 0) {
     defaultProps = EMPTY_OBJECT;
@@ -62839,7 +62839,7 @@ var determineTheme = (function (props, providedTheme, defaultProps) {
   return props.theme !== defaultProps.theme && props.theme || providedTheme || defaultProps.theme;
 });
 
-// 
+//
 var escapeRegex = /[[\].#*$><+~=|^:(),"'`-]+/g;
 var dashesAtEnds = /(^-|-$)/g;
 /**
@@ -62853,18 +62853,18 @@ function escape(str) {
   .replace(dashesAtEnds, '');
 }
 
-// 
+//
 function isTag(target) {
   return typeof target === 'string' && ( true ? target.charAt(0) === target.charAt(0).toLowerCase() : undefined);
 }
 
-// 
+//
 function generateDisplayName(target) {
   // $FlowFixMe
   return isTag(target) ? "styled." + target : "Styled(" + getComponentName(target) + ")";
 }
 
-// 
+//
 var generateComponentId = (function (str) {
   return generateAlphabeticName(hash(str) >>> 0);
 });
@@ -63121,12 +63121,12 @@ function createStyledComponent(target, options, rules) {
   return WrappedStyledComponent;
 }
 
-// 
+//
 // Thanks to ReactDOMFactories for this handy list!
 var domElements = ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'data', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'var', 'video', 'wbr', // SVG
 'circle', 'clipPath', 'defs', 'ellipse', 'foreignObject', 'g', 'image', 'line', 'linearGradient', 'marker', 'mask', 'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect', 'stop', 'svg', 'text', 'tspan'];
 
-// 
+//
 
 var styled = function styled(tag) {
   return constructWithOptions(createStyledComponent, tag);
@@ -63137,7 +63137,7 @@ domElements.forEach(function (domElement) {
   styled[domElement] = styled(domElement);
 });
 
-// 
+//
 
 var GlobalStyle =
 /*#__PURE__*/
@@ -63230,7 +63230,7 @@ function createGlobalStyle(strings) {
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.memo(GlobalStyleComponent);
 }
 
-// 
+//
 function keyframes(strings) {
   /* Warning if you've used keyframes on React Native */
   if ( true && typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
@@ -63353,19 +63353,19 @@ var withTheme = (function (Component) {
   return WithTheme;
 });
 
-// 
+//
 
 var useTheme = function useTheme() {
   return Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(ThemeContext);
 };
 
-// 
+//
 var __PRIVATE__ = {
   StyleSheet: StyleSheet,
   masterSheet: masterSheet
 };
 
-// 
+//
 /* Define bundle version for export */
 
 var version = "5.0.1";
@@ -71138,6 +71138,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ProductFinderModal */ "./react-components/src/components/ProductFinder/ProductFinderModal.jsx");
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js");
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_7__);
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -71151,6 +71153,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -71177,7 +71180,7 @@ function ProductFinderButton(props) {
     type: "button",
     className: buttonClass,
     onClick: openModal
-  }, selectedProduct && selectedProduct.commodity_name || 'add product', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+  }, selectedProduct && react_html_parser__WEBPACK_IMPORTED_MODULE_7___default()(selectedProduct.commodity_name) || 'add product', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fa ".concat(selectedProduct ? 'fa-edit' : 'fa-plus')
   }));
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, triggerButton, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinderModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
