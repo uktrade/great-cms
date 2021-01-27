@@ -66382,7 +66382,7 @@ var religion = function religion(data) {
 
 var ruleOfLawRanking = function ruleOfLawRanking(data) {
   // TODO: get these 'total' and 'year' values from API
-  var rankingTotal = 113;
+  var rankingTotal = 131;
   var year = 2020;
 
   if (data) {
