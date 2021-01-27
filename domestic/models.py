@@ -191,12 +191,12 @@ class MarketsTopicLandingPage(
         return options
 
     def _get_sortby(self, request):
-        DEFAULT_SORT_OPTION = self.sortby_options[0]['value']
-        sort_option = request.GET.get('sortby', DEFAULT_SORT_OPTION)
+        default_sort_option = self.sortby_options[0]['value']
+        sort_option = request.GET.get('sortby', default_sort_option)
 
         # Only use an expected/allowed sort option
         if sort_option not in [x['value'] for x in self.sortby_options]:
-            sort_option = DEFAULT_SORT_OPTION
+            sort_option = default_sort_option
 
         return sort_option
 
