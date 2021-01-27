@@ -138,7 +138,7 @@
     <div class="grid-row">
       <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
         {% static 'images/country-guide-advice.png' as need_help_image_url %}
-        {% url 'advice' as advice_url %}
+        {% slugurl 'advice' as advice_url %}
         {% include 'components/cta_card.html' with with_arrow=True image_url=need_help_image_url text="Read more advice about doing business abroad" url=advice_url %}
       </div>
       {% if page.duties_and_custom_procedures_cta_link %}

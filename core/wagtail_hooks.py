@@ -7,12 +7,14 @@ import boto3
 import readtime
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.files.storage import DefaultStorage
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models as django_models
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.html import format_html
 from great_components.helpers import add_next
 from wagtail.core import hooks
 from wagtail.core.models import Page
@@ -306,3 +308,11 @@ def register_s3_media_file_adapter():
         )
 
     return extra_adapters
+
+
+@hooks.register('insert_editor_css')
+def editor_css():
+    return format_html(
+        '<link rel="stylesheet" href="{}">',  # noqa: P103
+        static('cms-admin/css/case-study.css'),
+    )

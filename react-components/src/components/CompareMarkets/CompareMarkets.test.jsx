@@ -39,6 +39,7 @@ const populationApiResponse = [
     urban_population_total: 42007,
     urban_population_percentage_formatted: '69.48% (42.01 million)',
     total_population: '60.46 million',
+    total_population_raw: 60463456,
     cpi: { value: '110.62', year: 2019 },
   },
 ]
@@ -47,13 +48,13 @@ const economyApiResponse = {
   Germany: {
     import_from_world: {
       year: '2017',
-      trade_value: '21.67 thousand',
+      trade_value_raw: 21670,
       country_name: 'Germany',
       year_on_year_change: '2.751',
     },
     import_data_from_uk: {
       year: '2019',
-      trade_value: '135.15 thousand',
+      trade_value_raw: 135150,
       country_name: 'Germany',
       year_on_year_change: '0.736',
     },
@@ -64,23 +65,21 @@ const economyApiResponse = {
         value: '112.855',
         year: 2019,
       },
-      internet_usage: {
-        country_name: 'Germany',
-        country_code: 'DEU',
-        value: '89.739',
-        year: 2018,
-      },
       corruption_perceptions_index: {
+        total: 180,
         country_name: 'Germany',
         country_code: 'DEU',
         cpi_score_2019: 80,
         rank: 9,
+        year: 2017
       },
       ease_of_doing_bussiness: {
         total: 264,
         country_name: 'Germany',
         country_code: 'DEU',
         year_2019: 22,
+        rank: 22,
+        year: 2019,
       },
       gdp_per_capita: {
         country_name: 'Germany',
@@ -95,12 +94,60 @@ const economyApiResponse = {
       },
     },
   },
+  Netherlands: {
+    import_from_world: {
+      year: '2019',
+      trade_value_raw: 21670,
+      country_name: 'Netherlands',
+      year_on_year_change: '2.751',
+    },
+    import_data_from_uk: {
+      year: '2019',
+      trade_value_raw: 135150,
+      country_name: 'Netherlands',
+      year_on_year_change: '0.736',
+    },
+    country_data: {
+      consumer_price_index: {
+        country_name: 'Netherlands',
+        value: '112.855',
+        year: 2019,
+      },
+      income: {
+        country_name: 'Netherlands',
+        year: 2018,
+        value: '7895',
+      },
+    },
+  },
+
+
 }
+
+const economyTabTests = [
+  {selector: '#market-Germany .name', expect: 'Germany' },
+  {selector: '#market-Germany .world-import-value .primary', expect: '21,670' },
+  {selector: '#market-Germany .world-import-value .secondary', expect: '+2.8% vs 2016' },
+  {selector: '#market-Germany .uk-import-value .primary', expect: '135,150' },
+  {selector: '#market-Germany .uk-import-value .secondary', expect: '+0.7% vs 2018' },
+  {selector: '#market-Germany .avg-income', expect: '7,895' },
+  {selector: '#market-Germany .avg-income .display-year', expect: '2018'},
+  {selector: '#market-Germany .cpi', expect: '9' },
+  {selector: '#market-Germany .eod-business', expect: '22 of 264'},
+  {selector: '#market-Germany .eod-business .display-year', fail:true},
+  {selector: '#market-Germany .cpi', expect: '9 of 180'},
+  {selector: '#market-Germany .cpi .display-year', expect: '2017'},
+  {selector: '#market-Netherlands .name', expect: 'Netherlands'},
+  {selector: '#market-Netherlands .eod-business', expect: 'Data not available'},
+  {selector: '#market-Netherlands .cpi', expect: 'Data not available'},
+  {selector: '.base-year', expect: /\s+2019\s+/},
+]
 
 const societyApiResponse = [
   {
     country: 'Germany',
     languages: {
+      date: '2018',
       note: 'Danish, Frisian, Sorbian, and Romani are official minority languages',
       language: [
         {
@@ -216,6 +263,19 @@ it('Allows selection of markets and fetch data when product selected', async () 
     commodity_code: '123456',
     commodity_name: 'my product',
   }
+
+  Object.defineProperty(window.document, 'cookie', {
+    writable: true,
+    value: encodeURI(`comparisonMarkets=${JSON.stringify({
+      NL:{country_name:'Netherlands',
+        country_iso2_code:'NL'
+      },
+      DE:{country_name:'Germany',
+        country_iso2_code:'DE'
+      },
+    })}`),
+  });
+
   Services.store.dispatch(
     actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
   )
@@ -231,45 +291,21 @@ it('Allows selection of markets and fetch data when product selected', async () 
       element: container.querySelector('#compare-market-container'),
     })
   })
-
-  const button = container.querySelector('button')
-  expect(button.textContent).toMatch('Add country to compare')
-  act(() => {
-    Simulate.click(button)
-  })
-  const finder = document.body.querySelector('.country-finder')
-  expect(finder).toBeTruthy()
-  await waitFor(() => {
-    const region = finder.querySelector('.country-list h2')
-    expect(region.textContent).toEqual('Africa')
-    const suggested = finder.querySelector('.suggested-markets button')
-    expect(suggested.textContent).toEqual('Germany')
-  })
-  const firstCountry = finder.querySelector('.suggested-markets button')
-  // Select first suggested country
-  act(() => {
-    Simulate.click(firstCountry)
-  })
-  await waitFor(() => {
-    expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add country 2 of 3'
-    )
-  })
-
   // check mock directory api data...
+  await waitFor(() => {
+    expect( container.querySelector('#market-Germany .name')).toBeTruthy()
+  })
   const rowGermany = container.querySelector('#market-Germany')
   expect(rowGermany.querySelector('.name').textContent).toMatch('Germany')
   expect(rowGermany.querySelector('.total_population').textContent).toMatch(
     '60.5 million'
   )
   expect(rowGermany.querySelector('.internet_usage').textContent).toMatch('74%')
-  expect(rowGermany.querySelector('.urban_population').textContent).toMatch(
-    /70%\s*42 million/
-  )
+  expect(rowGermany.querySelector('.urban_population .primary').textContent).toMatch('69%')
+  expect(rowGermany.querySelector('.urban_population .secondary').textContent).toMatch('42.0 million')
   expect(rowGermany.querySelector('.rural_population').textContent).toMatch(
     /28%\s*17.1 million/
   )
-
 
   // check economy data
   const economy_tab = container.querySelector('.tab-list-item:nth-of-type(2)')
@@ -278,26 +314,21 @@ it('Allows selection of markets and fetch data when product selected', async () 
     Simulate.click(economy_tab)
   })
   await waitFor(() => {
-    const rowEconomyGermany = container.querySelector('#market-Germany')
-    expect(rowEconomyGermany.querySelector('.name').textContent).toMatch(
-      'Germany'
-    )
-    expect(
-      rowEconomyGermany.querySelector('.world-import-value').textContent
-    ).toMatch('21.7 thousand')
-    expect(
-      rowEconomyGermany.querySelector('.year-on-year-change').textContent
-    ).toMatch('2.8%')
-    expect(
-      rowEconomyGermany.querySelector('.uk-import-value').textContent
-    ).toMatch('135.2 thousand')
-    expect(rowEconomyGermany.querySelector('.avg-income').textContent).toMatch(
-      '7895'
-    )
-    expect(
-      rowEconomyGermany.querySelector('.eod-business').textContent
-    ).toMatch('22')
-    expect(rowEconomyGermany.querySelector('.cpi').textContent).toMatch('9')
+    expect( container.querySelector('#market-Germany .name')).toBeTruthy()
+    expect( container.querySelector('#market-Germany .world-import-value .primary')).toBeTruthy()
+  })
+  economyTabTests.forEach((test) => {
+    let element = container.querySelector(test.selector)
+    if(!element) {
+      if(!test.fail) {
+        expect(test.selector).toEqual('Following selector failed to return an element')
+      }
+    } else {
+      if(test.fail) {
+        expect(test.selector).toEqual('Following selector returned an element')
+      }
+      expect(element.textContent).toMatch(test.expect)
+    }
   })
   expect(container.querySelectorAll('.tooltip button').length).toEqual(3) 
 
@@ -314,23 +345,13 @@ it('Allows selection of markets and fetch data when product selected', async () 
     )
     expect(
       rowSocietyGermany.querySelector('.religion').textContent
-    ).toMatch('Roman Catholic 27.7%Protestant 25.5%Muslim 5.1%Orthodox 1.9%other Christian 1.1%')
+    ).toMatch('Roman Catholic - 28%Protestant - 26%Muslim - 5%Orthodox - 2%other Christian - 1%2018')
     expect(
       rowSocietyGermany.querySelector('.language').textContent
-    ).toMatch('German (official)')
+    ).toMatch('German2018. Danish, Frisian, Sorbian, and Romani are official minority languages')
     expect(
       rowSocietyGermany.querySelector('.rule-of-law').textContent
-    ).toMatch('89.2')
-  })
-
-  // remove the country
-  act(() => {
-    Simulate.click(container.querySelector('.market-details tbody button'))
-  })
-  await waitFor(() => {
-    expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add country to compare'
-    )
+    ).toMatch('16 of 131')
   })
 })
 

@@ -169,6 +169,26 @@ def delete_target_market_documents(sso_session_id, data):
     return response
 
 
+def create_funding_credit_options(sso_session_id, data):
+    response = api_client.exportplan.funding_credit_options_create(sso_session_id=sso_session_id, data=data)
+    response.raise_for_status()
+    return response.json()
+
+
+def update_funding_credit_options(sso_session_id, data):
+    response = api_client.exportplan.funding_credit_options_update(
+        sso_session_id=sso_session_id, id=data['pk'], data=data
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def delete_funding_credit_options(sso_session_id, data):
+    response = api_client.exportplan.funding_credit_options_delete(sso_session_id=sso_session_id, id=data['pk'])
+    response.raise_for_status()
+    return response
+
+
 def get_country_data(country):
     response = api_client.dataservices.get_country_data(country)
     response.raise_for_status()
@@ -222,6 +242,7 @@ def get_current_url(slug, export_plan):
     if slug in data.PRODUCT_REQUIRED:
         if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
             current_url['product_required'] = True
+    current_url['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
     return current_url
 
 
@@ -239,3 +260,15 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
 def calculated_cost_pricing(exportplan_data):
     calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing
     return {'calculated_cost_pricing': calculated_pricing}
+
+
+def calculate_ep_progress(exportplan_data):
+    progress_items = exportplan_data.get('ui_progress', {})
+    completed = [True for v in progress_items.values() if v.get('is_complete')]
+    return {
+        'export_plan_progress': {
+            'sections_completed': len(completed),
+            'sections_total': len(data.SECTION_SLUGS),
+            'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
+        }
+    }
