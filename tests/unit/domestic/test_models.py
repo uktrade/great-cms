@@ -824,6 +824,8 @@ class ArticleListingPageTests(WagtailPageTests):
             _title = f'Article {i}'
             ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
 
+        last_article = ArticlePage.objects.last()
+
         orphan_article = ArticlePageFactory(
             title='Orphan',
             article_title='Orphan',
@@ -836,6 +838,19 @@ class ArticleListingPageTests(WagtailPageTests):
             [x for x in ArticlePage.objects.exclude(id=orphan_article.id)],
         )
 
+        last_article.live = False
+        last_article.save()
+        self.assertEqual(
+            # QuerySets are not directly comparable
+            [x for x in listing_page.get_articles()],
+            [
+                x
+                for x in ArticlePage.objects.exclude(
+                    id__in=[orphan_article.id, last_article.id],
+                )
+            ],
+        )
+
     def test_get_articles_count(self):
         listing_page = ArticleListingPageFactory(
             title='Test listing page',
@@ -845,6 +860,8 @@ class ArticleListingPageTests(WagtailPageTests):
             _title = f'Article {i}'
             ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
 
+        last_article = ArticlePage.objects.last()
+
         ArticlePageFactory(
             title='Orphan',
             article_title='Orphan',
@@ -853,6 +870,10 @@ class ArticleListingPageTests(WagtailPageTests):
 
         self.assertEqual(ArticlePage.objects.count(), 6)
         self.assertEqual(listing_page.get_articles_count(), 5)
+
+        last_article.live = False
+        last_article.save()
+        self.assertEqual(listing_page.get_articles_count(), 4)
 
 
 class ArticlePageTests(WagtailPageTests):
