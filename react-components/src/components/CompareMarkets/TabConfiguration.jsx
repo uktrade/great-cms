@@ -88,9 +88,12 @@ const religion = (data) => {
 }
 
 const ruleOfLawRanking = (data) => {
-  const rankingTotal = 113
+  // TODO: get these 'total' and 'year' values from API
+  const rankingTotal = 131
+  const year = 2020
   if (data) {
     data.total = rankingTotal
+    data.year = year
     return (
       <>
         {rankOutOf(data, 'rank')}

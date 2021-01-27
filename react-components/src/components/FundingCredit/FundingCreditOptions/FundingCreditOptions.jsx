@@ -95,3 +95,7 @@ FundingCreditOptions.propTypes = {
     placeholder: PropTypes.string.isRequired,
   }).isRequired,
 }
+
+FundingCreditOptions.defaultProps = {
+  formData: [],
+}

@@ -6,7 +6,6 @@ import { FundingCreditTotalExportCost } from '@src/components/FundingCredit/Fund
 import { FundingCreditOptions } from '@src/components/FundingCredit/FundingCreditOptions/FundingCreditOptions'
 
 export const fundingCreditTotalExportCost = ({ element, ...params }) => {
-  debugger
   ReactDOM.render(<FundingCreditTotalExportCost {...params} />, element)
 }
 
