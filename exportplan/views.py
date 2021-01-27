@@ -295,6 +295,9 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['transport_choices'] = choices_to_key_value(choices.TRANSPORT_OPTIONS)
+        context['water_transport_choices'] = choices_to_key_value(choices.WATER_TRANSPORT_OPTIONS)
+        context['getting_paid_data'] = self.export_plan['getting_paid']
         return context
 
 
