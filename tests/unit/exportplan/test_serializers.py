@@ -1,7 +1,9 @@
 import json
 from collections import OrderedDict
+from datetime import datetime
 
 import pytest
+from freezegun import freeze_time
 
 from exportplan import serializers
 
@@ -338,3 +340,17 @@ def test_json_to_presentaion(cost_pricing_data):
             },
         }
     )
+
+
+@freeze_time('2012-01-14 03:21:34')
+def test_ui_progress_serializer():
+
+    data = {'ui_progress': {'sectiona_a': {'is_complete': True, 'modified': datetime.now()}}}
+    serializer = serializers.ExportPlanSerializer(data=data)
+    serializer.is_valid()
+    assert serializer.is_valid()
+    assert serializer.data == {
+        'ui_progress': {
+            'sectiona_a': OrderedDict([('is_complete', True), ('date_last_visited', '2012-01-14T03:21:34+00:00')])
+        }
+    }
