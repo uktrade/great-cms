@@ -618,7 +618,9 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
             title='Markets',
         )
         homepage.add_child(instance=markets_topic_page)
-        retrieved_page_2 = MarketsTopicLandingPage.objects.get(id=markets_topic_page.id)
+        retrieved_page_2 = MarketsTopicLandingPage.objects.get(
+            id=markets_topic_page.id,
+        )
         self.assertEqual(retrieved_page_2.slug, 'markets')
 
     def _make_country_guide_pages(self, parent_page, count):
@@ -690,11 +692,11 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         request = RequestFactory().get('/markets/')
 
         self.assertEqual(markets_topic_page.get_relevant_markets(request).count(), 23)
-        #  MORE TESTS TO COME AS WE EXPAND ITS BEHAVIOUR
+        # MORE TESTS TO COME AS WE EXPAND ITS BEHAVIOUR TO INCLUDE FILTERING
 
     def test_get_context(self):
 
-        request = RequestFactory().get('/')
+        request = RequestFactory().get('/?sortby=last_published_at')
 
         DomesticHomePageFactory(slug='root')
         homepage = DomesticHomePage.objects.get(url_path='/')
@@ -705,6 +707,7 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         output = markets_topic_page.get_context(request)
 
         self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(output['sortby'], 'last_published_at')
 
     def test_get_context__pagination(self):
 

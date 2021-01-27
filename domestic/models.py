@@ -190,13 +190,19 @@ class MarketsTopicLandingPage(
         ]
         return options
 
-    def sort_results(self, request, pages):
+    def _get_sortby(self, request):
         DEFAULT_SORT_OPTION = self.sortby_options[0]['value']
         sort_option = request.GET.get('sortby', DEFAULT_SORT_OPTION)
 
         # Only use an expected/allowed sort option
         if sort_option not in [x['value'] for x in self.sortby_options]:
             sort_option = DEFAULT_SORT_OPTION
+
+        return sort_option
+
+    def sort_results(self, request, pages):
+
+        sort_option = self._get_sortby(request)
 
         return pages.order_by(sort_option)
 
@@ -223,6 +229,7 @@ class MarketsTopicLandingPage(
         paginated_results = self.paginate_data(request, relevant_markets)
 
         context['sortby_options'] = self.sortby_options
+        context['sortby'] = self._get_sortby(request)
         context['paginated_results'] = paginated_results
         context['number_of_results'] = relevant_markets.count()
 
