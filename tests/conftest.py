@@ -71,6 +71,7 @@ def export_plan_data(cost_pricing_data):
             'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
         },
         'pk': 1,
+        'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }
     data.update(cost_pricing_data)
     return data

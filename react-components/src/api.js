@@ -98,7 +98,9 @@ export default {
   },
 
   getSocietyByCountryData: (countries) => {
-    return get(config.societyByCountryUrl, { countries: countries }).then((response) => responseHandler(response).json())
+    return get(config.societyByCountryUrl, {
+      countries: countries,
+    }).then((response) => responseHandler(response).json())
   },
 
   getComTradeData: (countries, commodity_code) => {
@@ -186,6 +188,26 @@ export default {
   updateAdaptTarketMarketDocumentList: (data) => {
     return post(
       config.apiTargetMarketDocumentsUpdateUrl,
+      data
+    ).then((response) => responseHandler(response).json())
+  },
+
+  createFundingCreditOption: (data) => {
+    return post(
+      config.apiFundingCreditOptionsCreateUrl,
+      data
+    ).then((response) => responseHandler(response).json())
+  },
+
+  deleteFundingCreditOption: (pk) => {
+    return httpDelete(config.apiFundingCreditOptionsDeleteUrl, {
+      pk: pk,
+    }).then(responseHandler)
+  },
+
+  updateFundingCreditOption: (data) => {
+    return post(
+      config.apiFundingCreditOptionsUpdateUrl,
       data
     ).then((response) => responseHandler(response).json())
   },

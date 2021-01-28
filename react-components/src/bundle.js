@@ -14,6 +14,11 @@ import {
   createTargetAgeGroupInsights,
 } from '@src/views/sections/MarketingApproach'
 import { aboutYourBusinessForm } from '@src/views/sections/AboutYourBusiness'
+import {
+  fundingCreditTotalExportCost,
+  fundingCreditHowMuchFunding,
+  fundingCreditFundingCreditOptions,
+} from '@src/views/sections/FundingCredit/FundingCredit'
 import { createGettingPaid } from '@src/views/sections/GettingPaid'
 import {
   createTargetMarketResearchForm,
@@ -66,6 +71,9 @@ export default {
   createDisabledButton,
   createCaseStudy,
   createCostsAndPricing,
+  fundingCreditTotalExportCost,
+  fundingCreditHowMuchFunding,
+  fundingCreditFundingCreditOptions,
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,

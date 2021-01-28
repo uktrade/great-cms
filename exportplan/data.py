@@ -14,6 +14,8 @@ MARKETING_APPROACH = 'Marketing approach'
 COSTS_AND_PRICING = 'Costs and pricing'
 FINANCE = 'Finance'
 GETTING_PAID = 'Getting paid'
+FUNDING_AND_CREDIT = 'Funding and Credit'
+PAYMENT_METHODS = 'Payment methods'
 TRAVEL_AND_BUSINESS_POLICIES = 'Travel and business policies'
 BUSINESS_RISK = 'Business risk'
 
@@ -29,6 +31,8 @@ COUNTRY_REQUIRED = [
     slugify(COSTS_AND_PRICING),
     slugify(FINANCE),
     slugify(GETTING_PAID),
+    slugify(FUNDING_AND_CREDIT),
+    slugify(PAYMENT_METHODS),
     slugify(TRAVEL_AND_BUSINESS_POLICIES),
 ]
 
@@ -38,8 +42,8 @@ PRODUCT_REQUIRED = [
     slugify(ADAPTATION_TARGET_MARKET),
     slugify(MARKETING_APPROACH),
     slugify(COSTS_AND_PRICING),
-    slugify(FINANCE),
-    slugify(GETTING_PAID),
+    slugify(FUNDING_AND_CREDIT),
+    slugify(PAYMENT_METHODS),
     slugify(TRAVEL_AND_BUSINESS_POLICIES),
     slugify(BUSINESS_RISK),
 ]
@@ -101,11 +105,11 @@ SECTIONS = OrderedDict(
             'disabled': True if COSTS_AND_PRICING in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(COSTS_AND_PRICING, []),
         },
-        slugify(FINANCE): {
-            'title': FINANCE,
-            'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(FINANCE)}),
-            'disabled': True if FINANCE in SECTIONS_DISABLED else False,
-            'lessons': LESSONS.get(FINANCE, []),
+        slugify(FUNDING_AND_CREDIT): {
+            'title': FUNDING_AND_CREDIT,
+            'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(FUNDING_AND_CREDIT)}),
+            'disabled': True if FUNDING_AND_CREDIT in SECTIONS_DISABLED else False,
+            'lessons': LESSONS.get(FUNDING_AND_CREDIT, []),
         },
         slugify(GETTING_PAID): {
             'title': GETTING_PAID,

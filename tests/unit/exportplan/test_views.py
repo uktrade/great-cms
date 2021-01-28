@@ -193,8 +193,8 @@ def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
         ('target-markets-research', 'adaptation-for-your-target-market'),
         ('adaptation-for-your-target-market', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
-        ('costs-and-pricing', 'finance'),
-        ('finance', 'getting-paid'),
+        ('costs-and-pricing', 'funding-and-credit'),
+        ('funding-and-credit', 'getting-paid'),
         ('getting-paid', 'travel-and-business-policies'),
         ('travel-and-business-policies', 'business-risk'),
         ('business-risk', None),
@@ -307,27 +307,17 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
 
 
 @pytest.mark.django_db
-def test_getting_paid(export_plan_data, client, user):
-    url = reverse('exportplan:getting-paid')
+def test_funding_and_credit(export_plan_data, client, user):
+    url = reverse('exportplan:funding-and-credit')
     client.force_login(user)
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.context_data['payment_method_choices'][0] == {
-        'label': 'International bank transfers', 'value': 'INTERNATIONAL_BANK_TRANSFER'
-    }
-    assert response.context_data['payment_term_choices'][0] == {
-        'label': 'Payment in advance', 'value': 'PAYMENT_IN_ADVANCE'
-    }
 
-    assert response.context_data['transport_choices']['All forms of transport'][0] == {
-        'value': 'EX_WORKS', 'label': 'Ex Works (EXW)'
-    }
-    assert response.context_data['transport_choices']['All forms of transport'][0] == {
-        'label': 'Free Alongside Ship (FAS)', 'value': 'FREE_ALONG_SHIP'
-    }
-
-    assert response.context_data['getting_paid_data'] == json.dumps(export_plan_data['getting_paid'])
+    assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'BANK_LOAN'}
+    assert response.context_data['funding_and_credit'] == export_plan_data['funding_and_credit']
+    assert response.context_data['estimated_costs_per_unit'] == '76.59'
+    assert response.context_data['funding_credit_options'] == json.dumps(export_plan_data['funding_credit_options'])
 
 
 @pytest.mark.django_db

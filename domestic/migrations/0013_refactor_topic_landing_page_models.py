@@ -51,7 +51,11 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(domestic.cms_panels.AdviceTopicLandingPagePanels, 'wagtailcore.page'),
+            bases=(
+                # Renamed in later work, but no impact on schema so safe to comment out
+                # domestic.cms_panels.AdviceTopicLandingPagePanels,
+                'wagtailcore.page',
+            ),
         ),
         migrations.CreateModel(
             name='MarketsTopicLandingPage',

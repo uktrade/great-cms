@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
@@ -12,6 +13,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
 from core.constants import ARTICLE_TYPES, VIDEO_TRANSCRIPT_HELP_TEXT
+from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Tag
 from directory_constants import choices
 from domestic import cms_panels
@@ -52,6 +54,22 @@ class BaseContentPage(Page):
                 retval.append({'title': crumb.title, 'url': crumb.url})
 
         return retval
+
+
+class SocialLinksPageMixin(Page):
+    """Abstract base class that adds social sharing links to the context
+    of any page that inherits it."""
+
+    class Meta:
+        abstract = True
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['social_links'] = build_social_links(
+            request,
+            self.title,
+        )
+        return context
 
 
 class DomesticHomePage(
@@ -150,18 +168,22 @@ class TopicLandingBasePage(BaseContentPage):
     teaser = models.TextField(blank=True)
 
 
-class AdviceTopicLandingPage(
-    cms_panels.AdviceTopicLandingPagePanels,
+class TopicLandingPage(
+    cms_panels.TopicLandingPagePanels,
     TopicLandingBasePage,
 ):
     """Singleton page intended for use as the top of the Advice section"""
 
-    template = 'domestic/topic_landing_pages/advice.html'
+    template = 'domestic/topic_landing_pages/generic.html'
 
     subpage_types = [
         'domestic.ArticleListingPage',
         'domestic.ArticlePage',
     ]
+
+    def child_pages(self):
+        """Gets published, non-private child pages only"""
+        return self.get_children().live().public().specific()
 
 
 class MarketsTopicLandingPage(
@@ -170,11 +192,69 @@ class MarketsTopicLandingPage(
 ):
     """Singleton page intended for use as the top of the Markets section"""
 
+    MAX_PER_PAGE = 18
+
     template = 'domestic/topic_landing_pages/markets.html'
 
     subpage_types = [
         'domestic.CountryGuidePage',
     ]
+
+    @property
+    def sortby_options(self):
+        # In V1, the sort field was called 'title' in the UI but the backend
+        # default-sorted by 'heading' instead. Therefore this may need amending
+        # if the resulting behaviour isn't _quite_ what we're expecting.
+        options = [
+            {'value': 'title', 'label': 'Market A-Z'},
+            {'value': 'last_published_at', 'label': 'Recently updated'},
+        ]
+        return options
+
+    def _get_sortby(self, request):
+        default_sort_option = self.sortby_options[0]['value']
+        sort_option = request.GET.get('sortby', default_sort_option)
+
+        # Only use an expected/allowed sort option
+        if sort_option not in [x['value'] for x in self.sortby_options]:
+            sort_option = default_sort_option
+
+        return sort_option
+
+    def sort_results(self, request, pages):
+
+        sort_option = self._get_sortby(request)
+
+        return pages.order_by(sort_option)
+
+    def get_relevant_markets(self, request):
+        # TO COME: filtering
+
+        market_pages = CountryGuidePage.objects.child_of(self).live().public()
+        return self.sort_results(request=request, pages=market_pages)
+
+    def paginate_data(self, request, pages):
+        paginator = Paginator(pages, self.MAX_PER_PAGE)
+
+        try:
+            paginated_results = paginator.page(request.GET.get('page', 1))
+        except (EmptyPage, PageNotAnInteger):
+            # By default, return the first page
+            paginated_results = paginator.page(1)
+
+        return paginated_results
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        relevant_markets = self.get_relevant_markets(request)
+        paginated_results = self.paginate_data(request, relevant_markets)
+
+        context['sortby_options'] = self.sortby_options
+        context['sortby'] = self._get_sortby(request)
+        context['paginated_results'] = paginated_results
+        context['number_of_results'] = relevant_markets.count()
+
+        return context
 
 
 def main_statistics_validation(value):
@@ -201,7 +281,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     """
 
     class Meta:
-        ordering = ['-heading']
+        ordering = ['-heading', '-title']
 
     template = 'domestic/content/country_guide.html'
 
@@ -471,12 +551,16 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return output
 
 
-class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
+class ArticlePage(
+    cms_panels.ArticlePagePanels,
+    SocialLinksPageMixin,
+    BaseContentPage,
+):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
         'domestic.ArticleListingPage',
-        'domestic.AdviceTopicLandingPage',
+        'domestic.TopicLandingPage',
     ]
     subpage_types = []
 
@@ -557,12 +641,27 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
     )
     tags = ParentalManyToManyField(Tag, blank=True)
 
+    @property
+    def related_pages(self):
+        output = []
+        for rel in [
+            'related_page_one',
+            'related_page_two',
+            'related_page_three',
+        ]:
+            page = getattr(self, rel)
+            if page:
+                output.append(page.specific)
+        return output
+
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
+    template = 'domestic/content/article_listing_page.html'
+
     parent_page_types = [
         'domestic.CountryGuidePage',
-        'domestic.AdviceTopicLandingPage',
+        'domestic.TopicLandingPage',
     ]
 
     subpage_types = [
@@ -589,10 +688,11 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
         blank=True,
     )
 
-    # TODO: reinstate this when we port the template for the page
-    # @property
-    # def articles_count(self):
-    #     return self.get_descendants().type(ArticlePage).live().count()
+    def get_articles(self):
+        return ArticlePage.objects.live().public().descendant_of(self).specific()
+
+    def get_articles_count(self):
+        return self.get_articles().count()
 
 
 class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
