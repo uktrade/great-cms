@@ -168,13 +168,13 @@ class TopicLandingBasePage(BaseContentPage):
     teaser = models.TextField(blank=True)
 
 
-class AdviceTopicLandingPage(
-    cms_panels.AdviceTopicLandingPagePanels,
+class TopicLandingPage(
+    cms_panels.TopicLandingPagePanels,
     TopicLandingBasePage,
 ):
     """Singleton page intended for use as the top of the Advice section"""
 
-    template = 'domestic/topic_landing_pages/advice.html'
+    template = 'domestic/topic_landing_pages/generic.html'
 
     subpage_types = [
         'domestic.ArticleListingPage',
@@ -560,7 +560,7 @@ class ArticlePage(
     parent_page_types = [
         'domestic.CountryGuidePage',
         'domestic.ArticleListingPage',
-        'domestic.AdviceTopicLandingPage',
+        'domestic.TopicLandingPage',
     ]
     subpage_types = []
 
@@ -661,7 +661,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
-        'domestic.AdviceTopicLandingPage',
+        'domestic.TopicLandingPage',
     ]
 
     subpage_types = [

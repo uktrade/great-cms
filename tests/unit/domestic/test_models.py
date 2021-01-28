@@ -9,13 +9,13 @@ from core import mixins
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.models import (
-    AdviceTopicLandingPage,
     ArticleListingPage,
     ArticlePage,
     CountryGuidePage,
     DomesticDashboard,
     DomesticHomePage,
     MarketsTopicLandingPage,
+    TopicLandingPage,
     industry_accordions_validation,
     main_statistics_validation,
 )
@@ -28,13 +28,13 @@ from tests.unit.core.factories import (
     TopicPageFactory,
 )
 from .factories import (
-    AdviceTopicLandingPageFactory,
     ArticleListingPageFactory,
     ArticlePageFactory,
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
     MarketsTopicLandingPageFactory,
+    TopicLandingPageFactory,
 )
 
 
@@ -510,7 +510,7 @@ def test_base_content_page__ancestors_in_app(
     domestic_site,
 ):
 
-    advice_topic_page = AdviceTopicLandingPageFactory(
+    advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
     )
@@ -537,7 +537,7 @@ def test_base_content_page__get_breadcrumbs(
     domestic_homepage,
     domestic_site,
 ):
-    advice_topic_page = AdviceTopicLandingPageFactory(
+    advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
     )
@@ -565,16 +565,16 @@ def test_base_content_page__get_breadcrumbs__using_breadcrumbs_label_field():
     pass
 
 
-class AdviceTopicLandingPageTests(WagtailPageTests):
+class TopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            AdviceTopicLandingPage,
+            TopicLandingPage,
             {DomesticHomePage},
         )
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            AdviceTopicLandingPage,
+            TopicLandingPage,
             {
                 ArticlePage,
                 ArticleListingPage,
@@ -588,16 +588,16 @@ class AdviceTopicLandingPageTests(WagtailPageTests):
         hello_page = DomesticHomePage(title='Hello world')
         homepage.add_child(instance=hello_page)
 
-        advice_topic_page = AdviceTopicLandingPage(
+        advice_topic_page = TopicLandingPage(
             title='Advice',
         )
         homepage.add_child(instance=advice_topic_page)
-        retrieved_page_1 = AdviceTopicLandingPage.objects.get(id=advice_topic_page.id)
+        retrieved_page_1 = TopicLandingPage.objects.get(id=advice_topic_page.id)
         self.assertEqual(retrieved_page_1.slug, 'advice')
 
     def test_child_pages(self):
 
-        advice_topic_page = AdviceTopicLandingPageFactory(
+        advice_topic_page = TopicLandingPageFactory(
             title='Advice',
         )
         article_list_one = ArticleListingPage(
@@ -810,7 +810,7 @@ class ArticleListingPageTests(WagtailPageTests):
             ArticleListingPage,
             {
                 CountryGuidePage,
-                AdviceTopicLandingPage,
+                TopicLandingPage,
             },
         )
 
@@ -891,7 +891,7 @@ class ArticlePageTests(WagtailPageTests):
             {
                 CountryGuidePage,
                 ArticleListingPage,
-                AdviceTopicLandingPage,
+                TopicLandingPage,
             },
         )
 

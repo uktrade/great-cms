@@ -343,7 +343,7 @@ class CountryGuidePagePanels:
     ]
 
 
-class TopicLandingPageBasePanels:
+class TopicLandingPagePanels:
 
     content_panels = [
         FieldPanel('title'),
@@ -367,9 +367,5 @@ class TopicLandingPageBasePanels:
     ]
 
 
-class AdviceTopicLandingPagePanels(TopicLandingPageBasePanels):
-    pass
-
-
-class MarketsTopicLandingPagePanels(TopicLandingPageBasePanels):
+class MarketsTopicLandingPagePanels(TopicLandingPagePanels):
     pass
