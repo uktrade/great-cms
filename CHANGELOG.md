@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
 - GP2-1338 - Port v1 ArticlePage template + model
 - GP2-1175 - Funding and credit: 'Funding options' element
 - GP2-1241 - Funding and credit: 'Your total export cost' element
@@ -71,6 +72,7 @@
 - GP2-1382 - getting paid structure be
 
 ### Fixed bugs
+- GP2-1407 - Ensure ArticlePage is rendered correctly as a child of TopicLandingPage
 - GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block
