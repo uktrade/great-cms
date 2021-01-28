@@ -36,7 +36,7 @@
             {% for article in page.specific.get_articles %}
               <li class="article">
                 <a href="{{ article.url }}" class="heading-medium link" id="{{ article.meta.slug }}-link">{{ article.article_title }}</a>
-                <p class="subheading">Last updated {{ article.last_published_at }}</p>
+                <p class="subheading">Last updated {{ article.last_published_at|date:'j F Y' }}</p>
               </li>
             {% endfor %}
           {% endblock %}
