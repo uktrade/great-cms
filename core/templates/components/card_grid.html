@@ -1,7 +1,14 @@
 {% if cards %}
-  {% for card in cards %}
+  {% for page in cards %}
   <div class="column-third-xl column-half-l">
-    {% include 'components/card.html' with url=card.url page_image=card.hero_image title=card.landing_page_title|default:card.title %}
+
+    {% if page.article_image %}
+        {% comment "This is the case for ArticlePage children" %} note we use page.title here, not page.article_title {% endcomment %}
+        {% include 'components/card.html' with url=page.url page_image=page.article_image title=page.title %}
+    {% else %}
+        {% include 'components/card.html' with url=page.url page_image=page.hero_image title=page.landing_page_title|default:page.title %}
+    {% endif %}
+
   </div>
   {% endfor %}
 {% endif %}

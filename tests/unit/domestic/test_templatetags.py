@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.template import Context, Template
 
 from domestic.templatetags.component_tags import (
+    get_meta_description,
     get_pagination_url,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
@@ -253,6 +254,69 @@ def test_industry_accordion_is_viable(data, expected):
 )
 def test_industry_accordion_case_study_is_viable(data, expected):
     assert industry_accordion_case_study_is_viable(data) == expected
+
+
+@pytest.mark.parametrize(
+    'attrs_to_set, expected',
+    (
+        (
+            [
+                ('article_teaser', 'article teaser text'),
+                ('search_description', ''),
+            ],
+            'article teaser text',
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', 'article search description'),
+            ],
+            'article search description',
+        ),
+        (
+            [
+                ('article_teaser', 'article teaser text'),
+                ('search_description', 'article search description'),
+            ],
+            'article teaser text',
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', ''),
+                ('article_body_text', 'lorem ipsum dolor sit amet' * 50),
+            ],
+            ('lorem ipsum dolor sit amet' * 50)[:150],
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', ''),
+                ('article_body_text', 'lorem ipsum dolor sit amet'),
+            ],
+            'lorem ipsum dolor sit amet',
+        ),
+        (
+            [
+                ('article_teaser', ''),
+                ('search_description', ''),
+                ('article_body_text', ''),
+            ],
+            '',
+        ),
+    ),
+)
+def test_get_meta_description(attrs_to_set, expected):
+
+    page = mock.Mock()
+    for attr, value in attrs_to_set:
+        setattr(page, attr, value)
+
+    assert get_meta_description(page) == expected
+
+
+def test_get_meta_description__page_none():
+    assert get_meta_description(None) == ''
 
 
 @pytest.mark.parametrize(

@@ -48,18 +48,24 @@ class ArticleListingPagePanels:
 class ArticlePagePanels:
 
     content_panels = [
-        FieldPanel('article_title'),
         MultiFieldPanel(
-            heading='Article content',
+            heading='Article intro',
             children=[
+                FieldPanel('article_title'),
                 FieldPanel('article_subheading'),
                 FieldPanel('article_teaser'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Media',
+            children=[
                 ImageChooserPanel('article_image'),
                 FieldPanel('article_video', widget=AdminMediaChooser),
                 FieldPanel('article_video_transcript'),
-                FieldPanel('article_body_text'),
             ],
+            help_text='If both video and image are specified, only the video will be shown',
         ),
+        FieldPanel('article_body_text'),
         MultiFieldPanel(
             heading='CTA fields',
             children=[
@@ -337,7 +343,7 @@ class CountryGuidePagePanels:
     ]
 
 
-class TopicLandingPageBasePanels:
+class TopicLandingPagePanels:
 
     content_panels = [
         FieldPanel('title'),
@@ -361,9 +367,5 @@ class TopicLandingPageBasePanels:
     ]
 
 
-class AdviceTopicLandingPagePanels(TopicLandingPageBasePanels):
-    pass
-
-
-class MarketsTopicLandingPagePanels(TopicLandingPageBasePanels):
+class MarketsTopicLandingPagePanels(TopicLandingPagePanels):
     pass

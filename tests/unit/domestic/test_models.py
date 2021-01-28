@@ -9,13 +9,13 @@ from core import mixins
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.models import (
-    AdviceTopicLandingPage,
     ArticleListingPage,
     ArticlePage,
     CountryGuidePage,
     DomesticDashboard,
     DomesticHomePage,
     MarketsTopicLandingPage,
+    TopicLandingPage,
     industry_accordions_validation,
     main_statistics_validation,
 )
@@ -28,13 +28,13 @@ from tests.unit.core.factories import (
     TopicPageFactory,
 )
 from .factories import (
-    AdviceTopicLandingPageFactory,
     ArticleListingPageFactory,
     ArticlePageFactory,
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
     MarketsTopicLandingPageFactory,
+    TopicLandingPageFactory,
 )
 
 
@@ -429,7 +429,7 @@ def test_intro_ctas(
     ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
 )
 @pytest.mark.django_db
-def test_related_pages(
+def test_country_guide_page__related_pages(
     related_page_data,
     domestic_homepage,
     domestic_site,
@@ -510,7 +510,7 @@ def test_base_content_page__ancestors_in_app(
     domestic_site,
 ):
 
-    advice_topic_page = AdviceTopicLandingPageFactory(
+    advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
     )
@@ -537,7 +537,7 @@ def test_base_content_page__get_breadcrumbs(
     domestic_homepage,
     domestic_site,
 ):
-    advice_topic_page = AdviceTopicLandingPageFactory(
+    advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
     )
@@ -565,16 +565,16 @@ def test_base_content_page__get_breadcrumbs__using_breadcrumbs_label_field():
     pass
 
 
-class AdviceTopicLandingPageTests(WagtailPageTests):
+class TopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            AdviceTopicLandingPage,
+            TopicLandingPage,
             {DomesticHomePage},
         )
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            AdviceTopicLandingPage,
+            TopicLandingPage,
             {
                 ArticlePage,
                 ArticleListingPage,
@@ -588,16 +588,16 @@ class AdviceTopicLandingPageTests(WagtailPageTests):
         hello_page = DomesticHomePage(title='Hello world')
         homepage.add_child(instance=hello_page)
 
-        advice_topic_page = AdviceTopicLandingPage(
+        advice_topic_page = TopicLandingPage(
             title='Advice',
         )
         homepage.add_child(instance=advice_topic_page)
-        retrieved_page_1 = AdviceTopicLandingPage.objects.get(id=advice_topic_page.id)
+        retrieved_page_1 = TopicLandingPage.objects.get(id=advice_topic_page.id)
         self.assertEqual(retrieved_page_1.slug, 'advice')
 
     def test_child_pages(self):
 
-        advice_topic_page = AdviceTopicLandingPageFactory(
+        advice_topic_page = TopicLandingPageFactory(
             title='Advice',
         )
         article_list_one = ArticleListingPage(
@@ -623,6 +623,14 @@ class AdviceTopicLandingPageTests(WagtailPageTests):
         self.assertEqual(
             [x for x in advice_topic_page.child_pages()],
             [article_list_two, article_list_one, article_list_three],
+        )
+
+        article_list_three.live = False
+        article_list_three.save()
+
+        self.assertEqual(
+            [x for x in advice_topic_page.child_pages()],
+            [article_list_two, article_list_one],
         )
 
 
@@ -802,7 +810,7 @@ class ArticleListingPageTests(WagtailPageTests):
             ArticleListingPage,
             {
                 CountryGuidePage,
-                AdviceTopicLandingPage,
+                TopicLandingPage,
             },
         )
 
@@ -883,7 +891,7 @@ class ArticlePageTests(WagtailPageTests):
             {
                 CountryGuidePage,
                 ArticleListingPage,
-                AdviceTopicLandingPage,
+                TopicLandingPage,
             },
         )
 
@@ -892,3 +900,62 @@ class ArticlePageTests(WagtailPageTests):
             ArticlePage,
             {},
         )
+
+    def test_get_context(self):
+
+        request = RequestFactory().get('/example-path/')
+
+        page = ArticlePageFactory(
+            title='Test Article Page',
+            article_title='Test Article',
+        )
+
+        # ArticlePage subclasses SocialLinksPageMixin, which populates
+        # the 'social_links' key in the context
+        with mock.patch('domestic.models.build_social_links') as mock_build_social_links:
+            output = page.get_context(request=request)
+
+        mock_build_social_links.assert_called_once_with(request, 'Test Article Page')
+        assert 'social_links' in output
+
+
+@pytest.mark.parametrize(
+    'related_page_data',
+    (
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        ({'title': 'Article THREE', 'rel_name': 'related_page_three'},),
+        (),
+    ),
+    ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
+)
+@pytest.mark.django_db
+def test_article_page__related_pages(
+    related_page_data,
+    domestic_homepage,
+    domestic_site,
+):
+
+    kwargs = {}
+
+    for data in related_page_data:
+        kwargs[data['rel_name']] = ArticlePageFactory(article_title=data['title'])
+
+    page = ArticlePageFactory(
+        parent=domestic_homepage,
+        title='Test Article Page',
+        article_title='Test Article',
+        **kwargs,
+    )
+    assert [x for x in page.related_pages] == [x for x in kwargs.values()]

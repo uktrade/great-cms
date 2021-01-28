@@ -13,6 +13,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
 from core.constants import ARTICLE_TYPES, VIDEO_TRANSCRIPT_HELP_TEXT
+from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Tag
 from directory_constants import choices
 from domestic import cms_panels
@@ -53,6 +54,22 @@ class BaseContentPage(Page):
                 retval.append({'title': crumb.title, 'url': crumb.url})
 
         return retval
+
+
+class SocialLinksPageMixin(Page):
+    """Abstract base class that adds social sharing links to the context
+    of any page that inherits it."""
+
+    class Meta:
+        abstract = True
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['social_links'] = build_social_links(
+            request,
+            self.title,
+        )
+        return context
 
 
 class DomesticHomePage(
@@ -151,13 +168,13 @@ class TopicLandingBasePage(BaseContentPage):
     teaser = models.TextField(blank=True)
 
 
-class AdviceTopicLandingPage(
-    cms_panels.AdviceTopicLandingPagePanels,
+class TopicLandingPage(
+    cms_panels.TopicLandingPagePanels,
     TopicLandingBasePage,
 ):
     """Singleton page intended for use as the top of the Advice section"""
 
-    template = 'domestic/topic_landing_pages/advice.html'
+    template = 'domestic/topic_landing_pages/generic.html'
 
     subpage_types = [
         'domestic.ArticleListingPage',
@@ -165,7 +182,8 @@ class AdviceTopicLandingPage(
     ]
 
     def child_pages(self):
-        return self.get_children().specific()
+        """Gets published, non-private child pages only"""
+        return self.get_children().live().public().specific()
 
 
 class MarketsTopicLandingPage(
@@ -212,7 +230,7 @@ class MarketsTopicLandingPage(
     def get_relevant_markets(self, request):
         # TO COME: filtering
 
-        market_pages = CountryGuidePage.objects.child_of(self)
+        market_pages = CountryGuidePage.objects.child_of(self).live().public()
         return self.sort_results(request=request, pages=market_pages)
 
     def paginate_data(self, request, pages):
@@ -533,12 +551,16 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return output
 
 
-class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
+class ArticlePage(
+    cms_panels.ArticlePagePanels,
+    SocialLinksPageMixin,
+    BaseContentPage,
+):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
         'domestic.ArticleListingPage',
-        'domestic.AdviceTopicLandingPage',
+        'domestic.TopicLandingPage',
     ]
     subpage_types = []
 
@@ -619,6 +641,19 @@ class ArticlePage(cms_panels.ArticlePagePanels, BaseContentPage):
     )
     tags = ParentalManyToManyField(Tag, blank=True)
 
+    @property
+    def related_pages(self):
+        output = []
+        for rel in [
+            'related_page_one',
+            'related_page_two',
+            'related_page_three',
+        ]:
+            page = getattr(self, rel)
+            if page:
+                output.append(page.specific)
+        return output
+
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
@@ -626,7 +661,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     parent_page_types = [
         'domestic.CountryGuidePage',
-        'domestic.AdviceTopicLandingPage',
+        'domestic.TopicLandingPage',
     ]
 
     subpage_types = [
@@ -654,7 +689,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
     )
 
     def get_articles(self):
-        return ArticlePage.objects.live().descendant_of(self).specific()
+        return ArticlePage.objects.live().public().descendant_of(self).specific()
 
     def get_articles_count(self):
         return self.get_articles().count()

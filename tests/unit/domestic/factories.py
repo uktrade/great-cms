@@ -4,13 +4,13 @@ import wagtail_factories
 
 from core import blocks as core_blocks, constants
 from domestic.models import (
-    AdviceTopicLandingPage,
     ArticleListingPage,
     ArticlePage,
     CountryGuidePage,
     DomesticDashboard,
     DomesticHomePage,
     MarketsTopicLandingPage,
+    TopicLandingPage,
 )
 
 
@@ -77,9 +77,9 @@ class ArticlePageFactory(wagtail_factories.PageFactory):
         model = ArticlePage
 
 
-class AdviceTopicLandingPageFactory(wagtail_factories.PageFactory):
+class TopicLandingPageFactory(wagtail_factories.PageFactory):
     class Meta:
-        model = AdviceTopicLandingPage
+        model = TopicLandingPage
 
 
 class MarketsTopicLandingPageFactory(wagtail_factories.PageFactory):

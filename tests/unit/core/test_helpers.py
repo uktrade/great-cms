@@ -441,3 +441,96 @@ def test_get_comdtrade_data(mock_country_data, mock_uk_data, mock_world_data, cl
     assert 'Germany' in response.keys()
 
     assert ['import_from_world', 'import_data_from_uk'] == list(response['Germany'].keys())
+
+
+def test_build_twitter_link(rf):
+    actual = helpers.build_twitter_link(
+        request=rf.get(
+            '/test-article',
+            HTTP_HOST='example.trade.great',
+            secure=True,
+        ),
+        title='Welcome to the UK',
+    )
+    expected = (
+        'https://twitter.com/intent/tweet?'
+        'text=Export%20Readiness%20-%20Welcome%20to%20the%20UK%20'
+        'https://example.trade.great/test-article'
+    )
+    assert actual == expected
+
+
+def test_build_facebook_link(rf):
+    actual = helpers.build_facebook_link(
+        request=rf.get(
+            '/test-article',
+            HTTP_HOST='example.trade.great',
+            secure=True,
+        ),
+        title='NOT USED IN FACEBOOK LINK',
+    )
+    expected = 'https://www.facebook.com/share.php?u=https://example.trade.great/test-article'
+    assert actual == expected
+
+
+def test_build_email_link(rf):
+    actual = helpers.build_email_link(
+        request=rf.get(
+            '/test-article',
+            HTTP_HOST='example.trade.great',
+            secure=True,
+        ),
+        title='Welcome to the UK',
+    )
+    expected = (
+        'mailto:?body=https://example.trade.great/test-article'
+        '&subject=Export%20Readiness%20-%20Welcome%20to%20the%20UK%20'
+    )
+    assert actual == expected
+
+
+def test_build_linkedin_link(rf):
+    actual = helpers.build_linkedin_link(
+        request=rf.get(
+            '/test-article',
+            HTTP_HOST='example.trade.great',
+            secure=True,
+        ),
+        title='Welcome to the UK',
+    )
+    expected = (
+        'https://www.linkedin.com/shareArticle?mini=true&url='
+        'https://example.trade.great/test-article'
+        '&title=Export%20Readiness%20-%20Welcome%20to%20the%20UK%20&source=LinkedIn'
+    )
+    assert actual == expected
+
+
+def test_build_social_links(rf):
+    actual = helpers.build_social_links(
+        request=rf.get(
+            '/test-article',
+            HTTP_HOST='example.trade.great',
+            secure=True,
+        ),
+        title='Welcome to the UK',
+    )
+    expected = {
+        'facebook': 'https://www.facebook.com/share.php?u=https://example.trade.great/test-article',
+        'twitter': (
+            'https://twitter.com/intent/tweet?'
+            'text=Export%20Readiness%20-%20Welcome%20to%20the%20UK%20'
+            'https://example.trade.great/test-article'
+        ),
+        'linkedin': (
+            'https://www.linkedin.com/shareArticle?mini=true&url='
+            'https://example.trade.great/test-article'
+            '&title=Export%20Readiness%20-%20Welcome%20to%20the%20UK%20&source=LinkedIn'
+        ),
+        'email': (
+            'mailto:?body=https://example.trade.great/test-article'
+            '&subject=Export%20Readiness%20-%20Welcome%20to%20the%20UK%20'
+        ),
+    }
+
+    assert actual == expected

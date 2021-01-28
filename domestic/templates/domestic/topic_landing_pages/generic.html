@@ -5,7 +5,7 @@
 {% block content %}
 
 {% block hero %}
-  {% include 'components/hero.html' with image=page.hero_image hero_text="Advice" %}
+  {% include 'components/hero.html' with image=page.hero_image hero_text=page.title %}
 {% endblock %}
 
 {% block breadcrumbs %}
