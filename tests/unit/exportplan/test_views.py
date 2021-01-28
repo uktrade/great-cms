@@ -307,6 +307,32 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
 
 
 @pytest.mark.django_db
+def test_getting_paid(export_plan_data, client, user):
+    url = reverse('exportplan:getting-paid')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['payment_method_choices'][0] == {
+        'label': 'International bank transfers',
+        'value': 'INTERNATIONAL_BANK_TRANSFER',
+    }
+    assert response.context_data['payment_term_choices'][0] == {
+        'label': 'Payment in advance',
+        'value': 'PAYMENT_IN_ADVANCE',
+    }
+    assert response.context_data['transport_choices']['All forms of transport'][0] == {
+        'label': 'Ex Works (EXW)',
+        'value': 'EX_WORKS',
+    }
+    assert response.context_data['transport_choices']['Water transport'][0] == {
+        'label': 'Free Alongside Ship (FAS)',
+        'value': 'FREE_ALONG_SHIP',
+    }
+    assert response.context_data['getting_paid_data'] == json.dumps(export_plan_data['getting_paid'])
+
+
+@pytest.mark.django_db
 def test_funding_and_credit(export_plan_data, client, user):
     url = reverse('exportplan:funding-and-credit')
     client.force_login(user)
