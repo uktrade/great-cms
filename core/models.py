@@ -162,10 +162,13 @@ class Product(models.Model):
 class Region(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    panels = [FieldPanel('name')]
+
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
-
-    panels = [FieldPanel('name')]
 
 
 @register_snippet
@@ -179,6 +182,10 @@ class Country(models.Model):
         FieldPanel('region'),
     ]
 
+    class Meta:
+        verbose_name_plural = 'Countries'
+        ordering = ('name',)
+
     def save(self, *args, **kwargs):
         # Automatically set slug on save, if not already set
         if not self.slug:
@@ -189,18 +196,18 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        verbose_name_plural = 'Countries'
-
 
 @register_snippet
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    panels = [FieldPanel('name')]
+
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
-
-    panels = [FieldPanel('name')]
 
 
 @register_snippet
@@ -208,10 +215,13 @@ class IndustryTag(models.Model):
     name = models.CharField(max_length=100, unique=True)
     icon = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 
+    panels = [FieldPanel('name'), ImageChooserPanel('icon')]
+
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
-
-    panels = [FieldPanel('name'), ImageChooserPanel('icon')]
 
 
 class TimeStampedModel(models.Model):
