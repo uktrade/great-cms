@@ -320,7 +320,7 @@ def test_funding_and_credit(export_plan_data, client, user):
 
     assert response.status_code == 200
 
-    assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'BANK_LOAN'}
+    assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'bank-loan'}
     assert response.context_data['funding_and_credit'] == export_plan_data['funding_and_credit']
     assert response.context_data['estimated_costs_per_unit'] == '76.59'
     assert response.context_data['funding_credit_options'] == json.dumps(export_plan_data['funding_credit_options'])
