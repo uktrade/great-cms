@@ -182,7 +182,8 @@ class AdviceTopicLandingPage(
     ]
 
     def child_pages(self):
-        return self.get_children().specific()
+        """Gets published, non-private child pages only"""
+        return self.get_children().live().public().specific()
 
 
 class MarketsTopicLandingPage(
@@ -229,7 +230,7 @@ class MarketsTopicLandingPage(
     def get_relevant_markets(self, request):
         # TO COME: filtering
 
-        market_pages = CountryGuidePage.objects.child_of(self)
+        market_pages = CountryGuidePage.objects.child_of(self).live().public()
         return self.sort_results(request=request, pages=market_pages)
 
     def paginate_data(self, request, pages):
@@ -688,7 +689,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
     )
 
     def get_articles(self):
-        return ArticlePage.objects.live().descendant_of(self).specific()
+        return ArticlePage.objects.live().public().descendant_of(self).specific()
 
     def get_articles_count(self):
         return self.get_articles().count()

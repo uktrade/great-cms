@@ -625,6 +625,14 @@ class AdviceTopicLandingPageTests(WagtailPageTests):
             [article_list_two, article_list_one, article_list_three],
         )
 
+        article_list_three.live = False
+        article_list_three.save()
+
+        self.assertEqual(
+            [x for x in advice_topic_page.child_pages()],
+            [article_list_two, article_list_one],
+        )
+
 
 class MarketsTopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
