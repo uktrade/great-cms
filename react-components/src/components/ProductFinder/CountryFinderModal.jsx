@@ -201,7 +201,7 @@ export default function CountryFinderModal(props) {
             your exports.
           </p>
           <a
-            href="/compare-countries/"
+            href="/where-to-export/"
             className="button button--secondary"
           >
             Compare Markets

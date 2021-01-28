@@ -1,6 +1,5 @@
-{% extends 'exportplan/section.html' %}
+{% extends "core/base.html" %}
 {% load static %}
-{% load set %}
 {% load wagtailcore_tags %}
 
 {% block content %}
@@ -61,6 +60,3 @@
     </script>
   {% endif %}
 {% endblock %}
-
-{% block next_section %}{% endblock %}
-{% block back_button %}{% endblock %}
