@@ -429,7 +429,7 @@ def test_intro_ctas(
     ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
 )
 @pytest.mark.django_db
-def test_related_pages(
+def test_country_guide_page__related_pages(
     related_page_data,
     domestic_homepage,
     domestic_site,
@@ -623,6 +623,14 @@ class AdviceTopicLandingPageTests(WagtailPageTests):
         self.assertEqual(
             [x for x in advice_topic_page.child_pages()],
             [article_list_two, article_list_one, article_list_three],
+        )
+
+        article_list_three.live = False
+        article_list_three.save()
+
+        self.assertEqual(
+            [x for x in advice_topic_page.child_pages()],
+            [article_list_two, article_list_one],
         )
 
 
@@ -892,3 +900,62 @@ class ArticlePageTests(WagtailPageTests):
             ArticlePage,
             {},
         )
+
+    def test_get_context(self):
+
+        request = RequestFactory().get('/example-path/')
+
+        page = ArticlePageFactory(
+            title='Test Article Page',
+            article_title='Test Article',
+        )
+
+        # ArticlePage subclasses SocialLinksPageMixin, which populates
+        # the 'social_links' key in the context
+        with mock.patch('domestic.models.build_social_links') as mock_build_social_links:
+            output = page.get_context(request=request)
+
+        mock_build_social_links.assert_called_once_with(request, 'Test Article Page')
+        assert 'social_links' in output
+
+
+@pytest.mark.parametrize(
+    'related_page_data',
+    (
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        ({'title': 'Article THREE', 'rel_name': 'related_page_three'},),
+        (),
+    ),
+    ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
+)
+@pytest.mark.django_db
+def test_article_page__related_pages(
+    related_page_data,
+    domestic_homepage,
+    domestic_site,
+):
+
+    kwargs = {}
+
+    for data in related_page_data:
+        kwargs[data['rel_name']] = ArticlePageFactory(article_title=data['title'])
+
+    page = ArticlePageFactory(
+        parent=domestic_homepage,
+        title='Test Article Page',
+        article_title='Test Article',
+        **kwargs,
+    )
+    assert [x for x in page.related_pages] == [x for x in kwargs.values()]
