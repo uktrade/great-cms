@@ -21,14 +21,26 @@ ACCORDION_FIELDS_HELP_TEXT = (
 class ArticleListingPagePanels:
 
     content_panels = [
-        FieldPanel('landing_page_title'),
+        MultiFieldPanel(
+            heading='Titles',
+            children=[
+                FieldPanel('title'),
+                FieldPanel('landing_page_title'),
+            ],
+            help_text=(
+                'The title field is the standard title the page will be given '
+                'and also populates the page slug. '
+                'The Landing Page Title is used when this page is a child of '
+                'a landing page, eg Advice Topic Landing Page. '
+                'If in doubt, make them both the same.'
+            ),
+        ),
         MultiFieldPanel(heading='Hero', children=[ImageChooserPanel('hero_image'), FieldPanel('hero_teaser')]),
         FieldPanel('list_teaser'),
         SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
-        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -36,18 +48,24 @@ class ArticleListingPagePanels:
 class ArticlePagePanels:
 
     content_panels = [
-        FieldPanel('article_title'),
         MultiFieldPanel(
-            heading='Article content',
+            heading='Article intro',
             children=[
+                FieldPanel('article_title'),
                 FieldPanel('article_subheading'),
                 FieldPanel('article_teaser'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Media',
+            children=[
                 ImageChooserPanel('article_image'),
                 FieldPanel('article_video', widget=AdminMediaChooser),
                 FieldPanel('article_video_transcript'),
-                FieldPanel('article_body_text'),
             ],
+            help_text='If both video and image are specified, only the video will be shown',
         ),
+        FieldPanel('article_body_text'),
         MultiFieldPanel(
             heading='CTA fields',
             children=[
@@ -325,7 +343,7 @@ class CountryGuidePagePanels:
     ]
 
 
-class TopicLandingPageBasePanels:
+class TopicLandingPagePanels:
 
     content_panels = [
         FieldPanel('title'),
@@ -349,9 +367,5 @@ class TopicLandingPageBasePanels:
     ]
 
 
-class AdviceTopicLandingPagePanels(TopicLandingPageBasePanels):
-    pass
-
-
-class MarketsTopicLandingPagePanels(TopicLandingPageBasePanels):
+class MarketsTopicLandingPagePanels(TopicLandingPagePanels):
     pass

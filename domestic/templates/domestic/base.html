@@ -1,6 +1,7 @@
 {% load static from staticfiles %}
 {% load i18n %}
 {% load static_absolute from component_tags %}
+{% load wagtailimages_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <!DOCTYPE html>
@@ -97,17 +98,22 @@
 
         {% block head_sharing_metadata %}
             {% if request %}
-            <meta property="og:image" content="{% static_absolute 'directory_components/images/opengraph-image.png' %}">
+            {% comment %} There are one or two OG image tags rendered.
+                This is the first/default one, which can be overridden at the template level
+            {% endcomment %}
+            <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
             <meta property="og:url" content="{{ request.build_absolute_uri }}" />
             {% endif %}
 
+            {% comment %} This is the second OG image, optional{% endcomment %}
             {% block sharing_image %}
-            {% if page.hero_image or page.hero_medium or page.hero_image_thumbnail or page.article_image_thumbnail %}
-                <meta property="og:image" content="{% firstof page.hero_image_thumbnail.url page.article_image_thumbnail.url page.hero_medium.url page.hero_image.url %}">
-            {% else %}
-                {% if request %}
-                <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
-                {% endif %}
+            {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
+            {% image page.hero_image width-1200 as hero_image %}
+            {% image page.hero_medium width-1200 as hero_image_medium %}
+            {% image page.article_image width-1200 as article_image %}
+            {% firstof hero_image.url hero_image_medium.url article_image.url as sharable_image_url %}
+            {% if sharable_image_url %}
+                <meta property="og:image" content="{{sharable_image_url}}">
             {% endif %}
             {% endblock %}
         {% endblock %}

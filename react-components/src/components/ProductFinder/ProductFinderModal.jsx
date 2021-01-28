@@ -11,6 +11,7 @@ import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
 import { analytics } from '../../Helpers'
+import ReactHtmlParser from 'react-html-parser'
 
 export default function ProductFinderModal(props) {
   const { modalIsOpen, setIsOpen, selectedProduct } = props
@@ -157,7 +158,7 @@ export default function ProductFinderModal(props) {
     setSearching(true)
     renderSearchResults()
     analytics({
-      event:'searchProductAgain',
+      event: 'searchProductAgain',
     })
   }
 
@@ -412,7 +413,9 @@ export default function ProductFinderModal(props) {
           <h2 className="h-m p-b-s">Your product</h2>
           <StartEndPage
             commodityCode={selectedProduct.commodity_code || ''}
-            defaultCommodityName={selectedProduct.commodity_name || ''}
+            defaultCommodityName={
+              ReactHtmlParser(selectedProduct.commodity_name) || ''
+            }
             saveProduct={saveProduct}
             label="You can rename this to match your exact product"
             buttonLabel="Update product name"
@@ -444,7 +447,8 @@ export default function ProductFinderModal(props) {
       (!searchResults.txId ||
         (!searchResults.currentQuestionInteraction && !searchResults.hsCode))
     ) {
-      error = 'No results found. Check your spelling and use the search tips below.'
+      error =
+        'No results found. Check your spelling and use the search tips below.'
     }
     if (searchResults && searchResults.multiItemError) {
       error = (

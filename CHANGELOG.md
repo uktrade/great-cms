@@ -4,7 +4,17 @@
 
 ### Implemented enhancements
 
+- GP2-1402 - Update content for Funding and Credit section
+- GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
+- GP2-1338 - Port v1 ArticlePage template + model
+- GP2-1175 - Funding and credit: 'Funding options' element
+- GP2-1241 - Funding and credit: 'Your total export cost' element
+- GP2-1174 - Funding and credit: 'How much you might need to borrow' element
+- GP2- 1341-1 - Improvement of Content Linking UI for CaseStudy
+- GP2-1179 - Getting paid - Incoterms
+- GP2-1337 - Port/Rebuild ArticleListingPage from V1
 - GP2-1334 - Markets homepage grid, incl sorting and pagination
+- GP2-1341-1 - Improvement of Content Linking UI for CaseStudy
 - GP2-1346 - Compare markets - society tab enhancements
 - GP2-1178 - add payment terms fields
 - GP2-1368 - Wire up link from country_guide.html to /advice/ slug
@@ -55,11 +65,17 @@
 - GP2-974 - target market research page
 - GP2-285 - cost and price be
 - GP2-1323 - enable ep sections
-- GP2-1321 - add TM  learning component
+- GP2-1321 - add TM learning component
 - GP2-1306 - learning data
 - GP2-1168 - export plan lessons
+- NOTICKET - upgrade admin include export plan data
+- GP2-1139 - save EP progress
+- GP2-1382 - getting paid structure be
 
 ### Fixed bugs
+
+- GP2-1408 - Fix date formatting of articles on article list page template
+- GP2-1407 - Ensure ArticlePage is rendered correctly as a child of TopicLandingPage
 - GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block

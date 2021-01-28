@@ -1,0 +1,81 @@
+{% extends 'exportplan/section.html' %}
+{% load static %}
+
+{% block intro_title %}Funding and credit{%endblock %}
+
+{% block intro_description %}
+One of the main challenges of being an exporter is having enough money available to be successful.
+<br />
+<br />
+There are however lots of financing options available to help you export, the right package for you will depend on the size and stage of your business.
+{% endblock %}
+
+{% block main_content %}
+<div class="g-panel">
+  <p>You have already calcuated how much you are going to spend on exporting, now it is time work out if you need funding and if you do, which type of funding is best for you.</p>
+  <p>Carefully researching these options will make sure you bridge any gaps in funding, making sure you can export successfully.</p> 
+</div>
+{% endblock %}
+
+
+{% block user_input %}
+<div class="container m-t-l p-b-m">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-1 c-2-3-l c-1-2-xl">
+      <div class="f-clear">
+        <h3 class="h-s">Your total export cost</h3>
+        <p>Your total export cost is how much it will cost your business to export for one year.</p>
+        <p class="m-b-0">To work this out you will need:</p>
+        <ul class="list-bullet m-t-xs">
+          <li>your total direct costs per unit</li>
+          <li>your total overhead costs</li>
+          <li>the number of units you want to export</li>
+        </ul>
+        <div id="finance-total-export-cost"></div>
+
+        <h3 class="h-s">How much funding you need</h3>
+        <p>Working out the total cost for your business will give you a good idea if you need to borrow money to cover all the costs.</p>
+        <p>Enter the amount of money you need to borrow in the following tool, this will help you decide which funding methods are best for you.</p>
+        <div id="finance-how-much-funding"></div>
+
+        <h2 class="h-m">Funding and credit options</h2>
+        <p>Choose the best option for funding for your business from the options in the following table.</p>
+        <p>You can select more than one.</p>
+        <div id="finance-funding-credit-options"></div>
+      </div>
+
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_js %}
+{{ block.super }}
+<script type="text/javascript">
+  var element = document.getElementById('finance-total-export-cost');
+  magna.fundingCreditTotalExportCost({
+    element: element,
+    currency: 'GBP',
+    estimated_costs_per_unit: {{ estimated_costs_per_unit }},
+    formData: {{ funding_and_credit|safe }},
+  })
+
+  element = document.getElementById('finance-how-much-funding');
+  magna.fundingCreditHowMuchFunding({
+    element: element,
+    currency: 'GBP',
+    formData: {{ funding_and_credit|safe }},
+  })
+  
+  element = document.getElementById('finance-funding-credit-options');
+  magna.fundingCreditFundingCreditOptions({
+    element: element,
+    currency: 'GBP',
+    options: {{ funding_options|safe }},
+    formData: {{ funding_credit_options|safe }},
+    companyexportplan: {{ export_plan.pk }}
+  })
+</script>
+{% endblock %}

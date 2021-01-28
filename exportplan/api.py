@@ -280,7 +280,6 @@ class FundingCreditOptionsUpdateAPIView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-
         if serializer.is_valid(raise_exception=True):
             response = helpers.update_funding_credit_options(self.request.user.session_id, serializer.validated_data)
             return Response(response)

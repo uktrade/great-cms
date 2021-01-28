@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
 import { useNoScroll } from '@src/components/hooks/useNoScroll'
+import { Item } from '@src/components/Form/Select/Item'
 
 const ENTER_KEY_CODE = 13
 const DOWN_ARROW_KEY_CODE = 40
@@ -21,6 +22,7 @@ export const Select = ({
   hideLabel,
   placeholder,
   id,
+  className,
 }) => {
   const [input, setInput] = useState(selected)
   const [isOpen, setIsOpen] = useState(false)
@@ -38,19 +40,33 @@ export const Select = ({
     update({ [name]: item.value })
   }
 
-  const focusNext = (e, i, item) => {
+  const focusNext = (e, i, item, subSection = null) => {
     const next = i + 1
     const prev = i - 1
+    const section = subSection + 1
+    const currentElement = element.current.children[section]
 
     switch (e.keyCode) {
       case ENTER_KEY_CODE:
         selectOption(item)
         break
       case DOWN_ARROW_KEY_CODE:
-        if (next < liRef.current.length) liRef.current[next].focus()
+        if (subSection !== null) {
+          const nextSection = element.current.children[section + 1]
+          const nextElement = currentElement.children[next]
+            ? currentElement.children[next]
+            : nextSection.children[1]
+          nextElement.focus()
+        } else if (next < liRef.current.length) liRef.current[next].focus()
         break
       case UP_ARROW_KEY_CODE:
-        if (prev >= 0) liRef.current[prev].focus()
+        if (subSection !== null) {
+          const nextSection = element.current.children[section - 1]
+          const nextElement = currentElement.children[prev - 1]
+            ? currentElement.children[prev]
+            : nextSection.children[nextSection.children.length - 1]
+          nextElement.focus()
+        } else if (prev >= 0) liRef.current[prev].focus()
         break
       case ESCAPE_KEY_CODE:
         setIsOpen(false)
@@ -61,10 +77,15 @@ export const Select = ({
   }
 
   const toggle = (e) => {
+    const firstElement = element.current.children[1]
     switch (e.keyCode) {
       case DOWN_ARROW_KEY_CODE:
         setIsOpen(true)
-        liRef.current[0].focus()
+        if (firstElement.nodeName === 'UL') {
+          firstElement.children[1].focus()
+        } else {
+          firstElement.focus()
+        }
         break
       case ESCAPE_KEY_CODE:
         setIsOpen(false)
@@ -75,7 +96,7 @@ export const Select = ({
   }
 
   return (
-    <div className="select m-b-l">
+    <div className={`select ${className}`}>
       <Input
         label={label}
         id={id || label}
@@ -95,7 +116,6 @@ export const Select = ({
           isOpen ? 'select__button--close' : ''
         }`}
         type="button"
-        role="button"
         aria-haspopup="listbox"
         onClick={() => setIsOpen(!isOpen)}
         tabIndex="0"
@@ -116,20 +136,34 @@ export const Select = ({
         ref={element}
       >
         <li>{placeholder}</li>
-        {options.map((item, i) => (
-          <li
-            tabIndex="0"
-            className="select__list--item"
-            key={item.label}
-            onClick={() => selectOption(item)}
-            onKeyDown={(e) => focusNext(e, i, item)}
-            aria-selected={item.label === input}
-            role="option"
-            ref={(el) => (liRef.current[i] = el)}
-          >
-            {item.label}
-          </li>
-        ))}
+        {options.map((item, i) =>
+          item.name ? (
+            <ul className="m-0" key={item.name}>
+              <li className="body-m-b">{item.name}</li>
+              {item.options.map((li, index) => (
+                <Item
+                  key={li.label}
+                  onClick={() => selectOption(li)}
+                  onKeyDown={(e) => focusNext(e, index + 1, li, i)}
+                  selected={li.label === input}
+                  label={li.label}
+                  forwardedRef={(el) => (liRef.current[index] = el)}
+                >
+                  {li.label}
+                </Item>
+              ))}
+            </ul>
+          ) : (
+            <Item
+              key={item.label}
+              onClick={() => selectOption(item)}
+              onKeyDown={(e) => focusNext(e, i, item)}
+              selected={item.label === input}
+              label={item.label}
+              forwardedRef={(el) => (liRef.current[i] = el)}
+            />
+          )
+        )}
       </ul>
     </div>
   )
@@ -156,6 +190,7 @@ Select.propTypes = {
   hideLabel: PropTypes.bool,
   placeholder: PropTypes.string,
   id: PropTypes.string,
+  className: PropTypes.string,
 }
 
 Select.defaultProps = {
@@ -166,4 +201,5 @@ Select.defaultProps = {
   hideLabel: false,
   placeholder: 'Select one',
   id: '',
+  className: 'm-b-l',
 }

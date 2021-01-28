@@ -1,6 +1,12 @@
 import React from 'react'
 import Services from '@src/Services'
-import { normaliseValues, get, millify, capitalize, stripPercentage } from '../../Helpers'
+import {
+  normaliseValues,
+  get,
+  millify,
+  capitalize,
+  stripPercentage,
+} from '../../Helpers'
 
 const DATA_NA = 'Data not available'
 
@@ -32,13 +38,13 @@ const formatEntry = (data) => {
   const name = stripPercentage(data.name)
   const percent = data.percent ? normaliseValues(data.percent, 0) : ''
 
-  return percent ? (name + ' - ' + percent + '%') : name
+  return percent ? `${name} - ${percent}%` : name
 }
 
 const getEntries = (list = {}) => {
   const maxEntries = 5
   const entries = Object.keys(list || {})
-    .filter(key => list[key].name)
+    .filter((key) => list[key].name)
     .slice(0, maxEntries)
     .map((key) => {
       return (
@@ -61,7 +67,9 @@ const language = (data) => {
       <>
         {entries}
         <div className="body-m text-black-60 display-note">
-          {year}{year && note && ". "}{note && capitalize(note)}
+          {year}
+          {year && note && '. '}
+          {note && capitalize(note)}
         </div>
       </>
     )
@@ -88,14 +96,18 @@ const religion = (data) => {
 }
 
 const ruleOfLawRanking = (data) => {
-  const rankingTotal = 113
+  // TODO: get these 'total' and 'year' values from API
+  const rankingTotal = 131
+  const year = 2020
   if (data) {
-    data.total = rankingTotal
+    const decorated = { ...data, total: rankingTotal, year }
     return (
       <>
-        {rankOutOf(data, 'rank')}
-        {data.year && (
-          <div className="body-m text-black-60 display-year">{data.year}</div>
+        {rankOutOf(decorated, 'rank')}
+        {decorated.year && (
+          <div className="body-m text-black-60 display-year">
+            {decorated.year}
+          </div>
         )}
       </>
     )
