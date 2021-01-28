@@ -64,9 +64,22 @@
                 label: 'Incoterms®',
                 field_type: 'Select',
                 options: [
-                  { value: 'payment', label: 'Ex Works' },
-                  { value: 'credit', label: 'Free Carrier' },
-                  { value: 'collection', label: 'Carriage Paid To (CPT)' },
+                  {
+                    name: 'All forms of transport',
+                    options: [
+                      { value: 'works', label: 'Ex Works' },
+                      { value: 'career', label: 'Free Carrier' },
+                      { value: 'carriage', label: 'Carriage Paid To (CPT)' },
+                    ],
+                  },
+                  {
+                    name: 'Water transport',
+                    options: [
+                      { value: 'free', label: 'Free Alongside Ship (FAS)' },
+                      { value: 'board', label: 'Free on Board (FOB)' },
+                      { value: 'freight', label: 'Cost and Freight (CFR)' },
+                    ],
+                  },
                 ],
               },
               {
