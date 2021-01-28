@@ -7,23 +7,39 @@ const props = {
   label: 'label example',
   name: 'input example',
   selected: 'item one',
-  options: [{value: 'item_one', label: 'item one'}, {value: 'item_two', label: 'item two'}]
-
+  options: [
+    { value: 'item_one', label: 'item one' },
+    { value: 'item_two', label: 'item two' },
+  ],
 }
 
-const setup = ({...data}) => {
+const propsCategories = [
+  {
+    name: 'All forms of transport',
+    options: [
+      { value: 'item_one', label: 'item one' },
+      { value: 'item_two', label: 'item two' },
+    ],
+  },
+  {
+    name: 'Water transport',
+    options: [
+      { value: 'item_three', label: 'item three' },
+      { value: 'item_four', label: 'item four' },
+    ],
+  },
+]
+
+const setup = ({ ...data }) => {
   const actions = {
-    update: jest.fn()
+    update: jest.fn(),
   }
 
-  const utils = render(<Select
-    {...data}
-    {...actions}
-  />)
+  const utils = render(<Select {...data} {...actions} />)
 
   return {
     ...utils,
-    actions
+    actions,
   }
 }
 
@@ -34,7 +50,6 @@ describe('Select', () => {
   })
 
   describe('Input', () => {
-
     it('Should have selected value', () => {
       const { getByLabelText } = setup(props)
       const input = getByLabelText(props.label)
@@ -45,7 +60,7 @@ describe('Select', () => {
     })
 
     it('should have no value', () => {
-      const { getByLabelText } = setup({...props, selected: ''})
+      const { getByLabelText } = setup({ ...props, selected: '' })
       const input = getByLabelText(props.label)
 
       expect(input.value).toEqual('')
@@ -53,9 +68,8 @@ describe('Select', () => {
   })
 
   describe('Dropdown', () => {
-
     it('Should show dropdown and 2 items', async () => {
-      const { queryByRole, getByText, getByRole } = setup({...props})
+      const { queryByRole, getByText, getByRole } = setup({ ...props })
 
       fireEvent.click(getByRole('button'))
 
@@ -67,18 +81,50 @@ describe('Select', () => {
     })
   })
 
-  describe('Update',() => {
-
-    it('Should fire',async () => {
-      const { actions, getByText, getByRole } = setup({...props})
+  describe('Update', () => {
+    it('Should fire', async () => {
+      const { actions, getByText, getByRole } = setup({ ...props })
 
       fireEvent.click(getByRole('button'))
       await waitFor(() => {
         fireEvent.click(getByText(props.options[0].label))
         expect(actions.update).toHaveBeenCalledTimes(1)
-        expect(actions.update).toHaveBeenCalledWith({ 'input example': 'item_one' })
+        expect(actions.update).toHaveBeenCalledWith({
+          'input example': 'item_one',
+        })
       })
     })
   })
 
+  describe('with categories', () => {
+    it('Should show dropdown with 2 categories', async () => {
+      const { queryByRole, getByText, getByRole } = setup({
+        ...props,
+        options: propsCategories,
+      })
+
+      fireEvent.click(getByRole('button'))
+
+      await waitFor(() => {
+        expect(queryByRole('listbox')).toBeInTheDocument()
+        expect(getByText(propsCategories[0].name)).toBeInTheDocument()
+        expect(getByText(propsCategories[1].name)).toBeInTheDocument()
+      })
+    })
+    it('Should select a sub category', async () => {
+      const { actions, getByText, getByRole } = setup({
+        ...props,
+        options: propsCategories,
+      })
+
+      fireEvent.click(getByRole('button'))
+      await waitFor(() => {
+        fireEvent.click(getByText(props.options[0].label))
+        expect(actions.update).toHaveBeenCalledTimes(1)
+        expect(actions.update).toHaveBeenCalledWith({
+          'input example': 'item_one',
+        })
+      })
+    })
+  })
 })
