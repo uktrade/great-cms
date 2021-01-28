@@ -313,8 +313,20 @@ def test_getting_paid(export_plan_data, client, user):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.context_data['transport_choices'][0] == {'value': 'exw', 'label': 'Ex Works (EXW)'}
-    assert response.context_data['water_transport_choices'][0] == {'label': 'Free Alongside Ship (FAS)', 'value': 'fas'}
+    assert response.context_data['payment_method_choices'][0] == {
+        'label': 'International bank transfers', 'value': 'INTERNATIONAL_BANK_TRANSFER'
+    }
+    assert response.context_data['payment_term_choices'][0] == {
+        'label': 'Payment in advance', 'value': 'PAYMENT_IN_ADVANCE'
+    }
+
+    assert response.context_data['transport_choices']['All forms of transport'][0] == {
+        'value': 'EX_WORKS', 'label': 'Ex Works (EXW)'
+    }
+    assert response.context_data['transport_choices']['All forms of transport'][0] == {
+        'label': 'Free Alongside Ship (FAS)', 'value': 'FREE_ALONG_SHIP'
+    }
+
     assert response.context_data['getting_paid_data'] == json.dumps(export_plan_data['getting_paid'])
 
 

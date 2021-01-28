@@ -31,7 +31,7 @@ sentry-sdk==0.13.*
 # ------------
 great-components==1.1.*
 directory-api-client==22.12.*
-directory-constants==20.21.*
+directory-constants==20.22.*
 directory-forms-api-client==5.3.*
 directory-sso-api-client>=6.5.*
 django-staff-sso-client==1.0.*

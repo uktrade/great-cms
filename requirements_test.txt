@@ -88,7 +88,7 @@ directory-client-core==6.3.0
     #   directory-api-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-constants==20.21.1
+directory-constants==20.22.0
     # via
     #   -r requirements.in
     #   great-components
@@ -259,7 +259,7 @@ l18n==2020.6.1
     # via wagtail
 lazy-object-proxy==1.4.3
     # via astroid
-locust==1.4.2
+locust==1.4.3
     # via -r requirements_test.in
 lxml==4.6.2
     # via pyquery
@@ -382,7 +382,7 @@ pytz==2020.1
     #   django
     #   django-modelcluster
     #   l18n
-pyzmq==21.0.2
+pyzmq==22.0.0
     # via locust
 readtime==1.1.1
     # via -r requirements.in
