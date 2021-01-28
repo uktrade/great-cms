@@ -8,6 +8,10 @@
 - GP2-1241 - Funding and credit: 'Your total export cost' element
 - GP2-1174 - Funding and credit: 'How much you might need to borrow' element
 - GP2- 1341-1 - Improvement of Content Linking UI for CaseStudy
+- GP2-1179 - Getting paid - Incoterms
+- GP2-1337 - Port/Rebuild ArticleListingPage from V1
+- GP2-1334 - Markets homepage grid, incl sorting and pagination
+- GP2-1341-1 - Improvement of Content Linking UI for CaseStudy
 - GP2-1346 - Compare markets - society tab enhancements
 - GP2-1178 - add payment terms fields
 - GP2-1368 - Wire up link from country_guide.html to /advice/ slug
