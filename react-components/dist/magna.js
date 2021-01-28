@@ -69551,9 +69551,7 @@ var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["me
       content: "<p>\n        We calculated this by:\n      </p>\n      <ul class=\"list-bullet\">\n        <li>taking your total direct costs per unit</li>\n        <li>multiplying it by the number of units you want to export in a year</li>\n        <li>adding this to your overhead costs</li>\n      </ul>\n      <p>You may want to adjust this estimate, especially if your overhead costs aren't priced annually.</p>\n      "
     } : {}
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, estimated_costs_per_unit !== 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To help you, we've created an estimate for you based on the figures you gave in on the Cost and pricing page.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To get an estimate of your total export cost, complete the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: urlCostsAndPricing
-  }, "Costs and Pricing"), " section of your Export Plan. Once you're done, you'll see your estimate here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_4__["Input"], inputData));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_4__["Input"], inputData);
 });
 FundingCreditTotalExportCost.propTypes = {
   estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,

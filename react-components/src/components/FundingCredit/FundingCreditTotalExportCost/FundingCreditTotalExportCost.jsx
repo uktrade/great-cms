@@ -55,23 +55,7 @@ export const FundingCreditTotalExportCost = memo(({ ...data }) => {
         : {},
   }
 
-  return (
-    <>
-      {estimated_costs_per_unit !== 0 ? (
-        <p>
-          To help you, we've created an estimate for you based on the figures
-          you gave in on the Cost and pricing page.
-        </p>
-      ) : (
-        <p>
-          To get an estimate of your total export cost, complete the{' '}
-          <a href={urlCostsAndPricing}>Costs and Pricing</a> section of your
-          Export Plan. Once you're done, you'll see your estimate here.
-        </p>
-      )}
-      <Input {...inputData} />
-    </>
-  )
+  return <Input {...inputData} />
 })
 
 FundingCreditTotalExportCost.propTypes = {
