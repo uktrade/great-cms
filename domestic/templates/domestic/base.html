@@ -108,9 +108,9 @@
             {% comment %} This is the second OG image, optional{% endcomment %}
             {% block sharing_image %}
             {% comment %} There are a number of fields which might be workable as a sharing image {% endcomment %}
-            {% image page.hero_image width-480 as hero_image %}
-            {% image page.hero_medium width-480 as hero_image_medium %}
-            {% image page.article_image width-480 as article_image %}
+            {% image page.hero_image width-1200 as hero_image %}
+            {% image page.hero_medium width-1200 as hero_image_medium %}
+            {% image page.article_image width-1200 as article_image %}
             {% firstof hero_image.url hero_image_medium.url article_image.url as sharable_image_url %}
             {% if sharable_image_url %}
                 <meta property="og:image" content="{{sharable_image_url}}">
