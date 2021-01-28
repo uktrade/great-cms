@@ -893,6 +893,23 @@ class ArticlePageTests(WagtailPageTests):
             {},
         )
 
+    def test_get_context(self):
+
+        request = RequestFactory().get('/example-path/')
+
+        page = ArticlePageFactory(
+            title='Test Article Page',
+            article_title='Test Article',
+        )
+
+        # ArticlePage subclasses SocialLinksPageMixin, which populates
+        # the 'social_links' key in the context
+        with mock.patch('domestic.models.build_social_links') as mock_build_social_links:
+            output = page.get_context(request=request)
+
+        mock_build_social_links.assert_called_once_with(request, 'Test Article Page')
+        assert 'social_links' in output
+
 
 @pytest.mark.parametrize(
     'related_page_data',
