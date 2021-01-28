@@ -69488,9 +69488,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -69510,14 +69509,12 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
-
 var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var data = _extends({}, _ref);
 
   var estimated_costs_per_unit = data.estimated_costs_per_unit,
       formData = data.formData,
       currency = data.currency;
-  var urlCostsAndPricing = _src_config__WEBPACK_IMPORTED_MODULE_3__["config"].urlCostsAndPricing;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData['override_estimated_total_cost']),
       _useState2 = _slicedToArray(_useState, 2),
@@ -69528,7 +69525,7 @@ var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["me
     _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {})["catch"](function () {});
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(update);
   var inputData = {
     onChange: function onChange(fieldItem) {
       setFormValue(fieldItem['override_estimated_total_cost']);
@@ -69551,7 +69548,7 @@ var FundingCreditTotalExportCost = Object(react__WEBPACK_IMPORTED_MODULE_0__["me
       content: "<p>\n        We calculated this by:\n      </p>\n      <ul class=\"list-bullet\">\n        <li>taking your total direct costs per unit</li>\n        <li>multiplying it by the number of units you want to export in a year</li>\n        <li>adding this to your overhead costs</li>\n      </ul>\n      <p>You may want to adjust this estimate, especially if your overhead costs aren't priced annually.</p>\n      "
     } : {}
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_4__["Input"], inputData);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__["Input"], inputData);
 });
 FundingCreditTotalExportCost.propTypes = {
   estimated_costs_per_unit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,

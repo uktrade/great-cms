@@ -1,13 +1,11 @@
 import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import { config } from '@src/config'
 import { Input } from '@src/components/Form/Input'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 
 export const FundingCreditTotalExportCost = memo(({ ...data }) => {
   const { estimated_costs_per_unit, formData, currency } = data
-  const { urlCostsAndPricing } = config
   const [formValue, setFormValue] = useState(
     formData['override_estimated_total_cost']
   )
