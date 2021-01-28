@@ -40,7 +40,7 @@ export const FundingCreditTotalExportCost = memo(({ ...data }) => {
       estimated_costs_per_unit !== 0
         ? {
             buttonTitle: 'Estimate',
-            header: `Your estimate total export cost is GBP ${estimated_costs_per_unit}`,
+            header: `Your estimate total export cost is GBP ${formValue}`,
             content: `<p>
         We calculated this by:
       </p>
