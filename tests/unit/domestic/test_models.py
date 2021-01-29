@@ -1,11 +1,12 @@
 from unittest import mock
 
 import pytest
+from bs4 import BeautifulSoup
 from django.test import RequestFactory
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
-from core import mixins
+from core import mixins, models as core_models
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.models import (
@@ -721,18 +722,6 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
                 # 'title' is the fallback sort_by field
                 mock_pages_queryset.order_by.assert_called_once_with('title')
 
-    def test_get_relevant_markets(self):
-        DomesticHomePageFactory(slug='root')
-        homepage = DomesticHomePage.objects.get(url_path='/')
-        markets_topic_page = MarketsTopicLandingPage(title='Markets')
-        homepage.add_child(instance=markets_topic_page)
-        self._make_country_guide_pages(markets_topic_page, 23)
-
-        request = RequestFactory().get('/markets/')
-
-        self.assertEqual(markets_topic_page.get_relevant_markets(request).count(), 23)
-        # MORE TESTS TO COME AS WE EXPAND ITS BEHAVIOUR TO INCLUDE FILTERING
-
     def test_get_context(self):
 
         request = RequestFactory().get('/?sortby=last_published_at')
@@ -802,6 +791,248 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
                     output['paginated_results'][0],
                     CountryGuidePage.objects.first(),
                 )
+
+
+class MarketsTopicLandingPageFilteringTests(WagtailPageTests):
+
+    fixtures = ['markets_filtering_fixtures.json']
+
+    def setUp(self):
+        # Ensure we have the expected data loaded (from the fixture)
+        assert core_models.IndustryTag.objects.count() == 42
+        assert core_models.Region.objects.count() == 22
+        assert core_models.Country.objects.count() == 269
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=self.markets_topic_page)
+
+    def _make_simplistic_country_guide_pages(self, parent_page, count):
+        for i in range(count):
+            CountryGuidePageFactory(
+                parent=parent_page,
+                title=f'Test GCP {i}',
+                live=True,
+            )
+
+    def _build_market_guide_for_filtering_tests(self, parent_page):
+        self.country_lookup = {}
+
+        for country_name in [
+            'Brazil',
+            'Australia',
+            'France',
+            'New Zealand',
+            'Germany',
+            'United States',
+        ]:
+            self.country_lookup[country_name] = CountryGuidePageFactory(
+                parent=parent_page,
+                title=country_name,
+                live=True,
+                country=core_models.Country.objects.get(
+                    name=country_name,
+                ),
+            )
+
+        _get_tag = core_models.IndustryTag.objects.get
+
+        self.country_lookup['Australia'].tags.add(_get_tag(name='Sport'))
+        self.country_lookup['Brazil'].tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['Brazil'].tags.add(_get_tag(name='Engineering'))
+        self.country_lookup['France'].tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['France'].tags.add(_get_tag(name='Food and drink'))
+        self.country_lookup['France'].tags.add(_get_tag(name='Technology'))
+        self.country_lookup['Germany'].tags.add(_get_tag(name='Technology'))
+        self.country_lookup['United States'].tags.add(_get_tag(name='Leisure and tourism'))
+        self.country_lookup['New Zealand'].tags.add(_get_tag(name='Leisure and tourism'))
+
+        for cgp in self.country_lookup.values():
+            cgp.save()  # To persist the tags
+
+    def test_get_relevant_markets__no_filtering(self):
+        self._make_simplistic_country_guide_pages(self.markets_topic_page, 23)
+
+        request = RequestFactory().get('/markets/')
+
+        self.assertEqual(
+            self.markets_topic_page.get_relevant_markets(request).count(),
+            23,
+        )
+
+    def test_get_relevant_markets__filtering__single_sector(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace')
+        results = self.markets_topic_page.get_relevant_markets(request)
+
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Brazil'],
+                self.country_lookup['France'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__multiple_sectors(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace&sector=Technology')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Brazil'],
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+            ],
+        )
+
+        request = RequestFactory().get('/markets/?sector=Sport&sector=Leisure+and+tourism')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Australia'],
+                self.country_lookup['New Zealand'],
+                self.country_lookup['United States'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__single_region(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?region=Western+Europe')
+        results = self.markets_topic_page.get_relevant_markets(request)
+
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__multiple_regions(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?region=Western+Europe&region=Oceania')
+        results = self.markets_topic_page.get_relevant_markets(request)
+
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Australia'],
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+                self.country_lookup['New Zealand'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__single_region_and_single_sector(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace&region=South+America')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Brazil'],
+            ],
+        )
+
+        request = RequestFactory().get('/markets/?sector=Leisure+and+tourism&region=North+America')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['United States'],
+            ],
+        )
+
+        request = RequestFactory().get('/markets/?region=Western+Europe&sector=Technology')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__multiple_regions_and_sectors(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace&sector=Sport&region=South+America&region=Oceania')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Australia'],
+                self.country_lookup['Brazil'],
+            ],
+        )
+
+    def test_get_relevant_markets__no_results(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Mining')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual([x for x in results], [])
+
+        request = RequestFactory().get('/markets/?region=Antarctica')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual([x for x in results], [])
+
+
+@pytest.mark.django_db
+def test_markets_page__no_results__page_content(
+    domestic_homepage,
+    domestic_site,
+    client,
+):
+
+    markets_topic_page = MarketsTopicLandingPageFactory(
+        title='Markets',
+        slug='markets',
+        parent=domestic_homepage,
+    )
+
+    response = client.get(markets_topic_page.url + '?region=Antarctica')
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    body_text = soup.get_text().replace('  ', '').replace('\n', '')
+
+    links = soup.find_all('a')
+
+    # lack of space `inAntarctica` is correct for this test, where we've stripped whitespace
+    assert ("Currently, we don't have any market guides with information inAntarctica.") in body_text
+
+    assert (
+        'There are other ways the Department for International Trade '
+        'can help you sell your product in an overseas market.'
+    ) in body_text
+
+    # Brittle tests warning
+    assert str(links[19]) == (
+        '<a class="link" href="https://www.great.gov.uk/export-opportunities/">'
+        'Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>'
+    )
+
+    assert str(links[20]) == (
+        '<a class="link" href="https://www.great.gov.uk/contact/office-finder">'
+        'Get in touch with a trade adviser to discuss your export business plan</a>'
+    )
+
+    assert str(links[21]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
 
 
 class ArticleListingPageTests(WagtailPageTests):
