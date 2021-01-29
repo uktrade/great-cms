@@ -75,7 +75,9 @@
 
 ### Fixed bugs
 
+- GP2-1408 - Fix date formatting of articles on article list page template
 - GP2-1407 - Ensure ArticlePage is rendered correctly as a child of TopicLandingPage
+- GP2-1360 - Personalisation bar population on form pages
 - GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block

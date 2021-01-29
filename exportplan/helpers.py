@@ -242,8 +242,15 @@ def get_current_url(slug, export_plan):
     if slug in data.PRODUCT_REQUIRED:
         if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
             current_url['product_required'] = True
-    current_url['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
+    current_url['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', 'False')
     return current_url
+
+
+def build_export_plan_sections(export_plan):
+    sections = data.SECTIONS
+    for slug, values in sections.items():
+        values['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', 'False')
+    return list(sections.values())
 
 
 def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, section_name):
