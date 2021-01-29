@@ -25,7 +25,7 @@
     <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
     <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
     {% endif %}
-
+    <div id="section-progress">Section progress</div>
     <div id="buttons-disabled" class="m-t-m">
       <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
         <i class="fas fa-download"></i>
@@ -78,7 +78,6 @@
     magna.createDashboard({
       element: element,
       sections: {{ sections|to_json}},
-      current_section: {{ current_section|to_json}},
       export_plan_progress: {{ export_plan_progress|to_json }},
     })
 

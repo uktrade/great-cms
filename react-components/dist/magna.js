@@ -67987,7 +67987,8 @@ var Dashboard = function Dashboard(_ref) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       modal = _useState2[0],
-      setModal = _useState2[1];
+      setModal = _useState2[1]; // debugger
+
 
   var openComingSoonModal = function openComingSoonModal(e) {
     setModal(true); // record click on disable section
@@ -68006,12 +68007,13 @@ var Dashboard = function Dashboard(_ref) {
   }), sections.map(function (_ref2) {
     var title = _ref2.title,
         url = _ref2.url,
-        disabled = _ref2.disabled;
+        disabled = _ref2.disabled,
+        is_complete = _ref2.is_complete;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-1-3-xl c-1-2-m",
       key: url
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "bg-white m-b-s section-list__item"
+      className: "bg-white m-b-s section-list__item ".concat(is_complete ? 'section-list__item--is-complete' : '')
     }, disabled ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "w-full link section-list__disabled section-list__link",
       onClick: openComingSoonModal,
@@ -68037,7 +68039,8 @@ var Dashboard = function Dashboard(_ref) {
       href: url,
       title: title
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "bg-blue-deep-20 section-list__image-container"
+      className: "".concat(is_complete ? 'bg-green-30' : 'bg-blue-deep-20', " section-list__image-container"),
+      "data-complete": is_complete ? 'Complete' : ''
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       className: "w-full p-h-s p-t-m p-b-s",
       src: "/static/images/ep-placeholder.svg",
