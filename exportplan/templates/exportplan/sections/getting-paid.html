@@ -27,7 +27,25 @@
       field: 'getting_paid',
       formData: {{getting_paid_data}},
       formFields: [
-          {
+        {
+            group: [
+              {
+                name: 'payment_methods',
+                id: 'payment_methods',
+                label: 'Payments methods',
+                field_type: 'Select',
+                options: {{ payment_method_choices|safe }},
+              },
+              {
+                name: 'Add notes',
+                label: 'Add notes',
+                field_type: 'Textarea',
+                placeholder: 'Add note',
+                id: 'method_notes'
+              },
+            ],
+          },
+        {
             group: [
               {
                 name: 'payment_terms',
