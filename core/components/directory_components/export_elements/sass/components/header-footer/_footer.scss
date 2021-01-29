@@ -1,0 +1,139 @@
+
+// FOOTER
+// =======
+
+@import '../../partials/typography';
+@import '../../partials/colours';
+@import '../../partials/mixins';
+
+.great-footer-logo-container {
+  @include float-clear;
+  padding: 45px 0 30px;
+
+  img:first-child {
+    float: left;
+  }
+
+  img:last-child {
+    float: right;
+  }
+}
+
+.great-footer {
+  font-family: $brand-font;
+
+  a {
+    font-size: 15px;
+    color: $light-grey;
+  }
+}
+
+.great-footer-links {
+  padding: 30px 0;
+  display: flex;
+
+  a {
+    font-size: 14px;
+  }
+
+  ul li {
+    margin-right: 30px;
+    display: inline-block;
+  }
+
+  ul {
+    display: table;
+    width: 100%;
+
+    & > * {
+      display: table-cell;
+    }
+  }
+
+  .great-footer-domestic-international-link {
+    text-align: right;
+
+    li {
+      margin: 0;
+    }
+  }
+}
+
+.great-footer-copyright {
+  font-size: 12px;
+  font-family: $brand-font-alternative;
+  line-height: 50px;
+}
+
+@media (max-width: 640px) {
+  .great-footer-links {
+    display: block;
+
+    a {
+      color: $white;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    ul,
+    ul li,
+    ul > div {
+      display: block;
+    }
+
+    .great-footer-site-links li:first-child a,
+    li:last-child a {
+      font-size: 18px;
+    }
+
+    .great-footer-site-links li:first-child {
+      margin-bottom: 15px;
+    }
+
+    .great-footer-domestic-international-link {
+      margin-top: 15px;
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  .great-global-header-footer .great-footer-copyright {
+    line-height: 50px;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 420px) {
+  .great-footer-logo-container img {
+    width: 50%;
+    height: auto;
+
+    &:first-child {
+      padding-right: 5px;
+    }
+
+    &:last-child {
+      padding-left: 5px;
+    }
+  }
+
+  .great-footer-links {
+    @include float-clear;
+
+    ul li a {
+      color: $white;
+      text-decoration: none;
+    }
+
+    .great-footer-domestic-international-link {
+      white-space: normal;
+    }
+  }
+
+  .great-global-header-footer .great-footer-copyright {
+    float: none;
+  }
+}

@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'wagtail.documents',
     'wagtail.images',
     'wagtail.search',
-    'wagtail.admin',
     'wagtail.core',
     'wagtail.contrib.routable_page',
     'wagtailmedia',
@@ -60,6 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'sso',
     'core.apps.CoreConfig',
+    'wagtail.admin',
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
@@ -106,6 +106,7 @@ TEMPLATES = [
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
+                'core.context_processors.analytics_vars',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -172,6 +173,8 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     str(ROOT_DIR('core/static')),
+    str(ROOT_DIR('core/components/directory_components/static')),
+    str(ROOT_DIR('domestic/static')),
     str(ROOT_DIR('react-components/dist')),
 ]
 
@@ -451,6 +454,9 @@ if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
 
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
+
+# Wagtail customisations
+ENVIRONMENT_CSS_THEME_FILE = env.str('ENVIRONMENT_CSS_THEME_FILE', '')
 
 # Wagtail-transfer configuration
 

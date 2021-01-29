@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import sentry_sdk
 from django.http import Http404
@@ -23,6 +24,12 @@ class ExportPlanMixin:
             raise Http404()
         elif data.SECTIONS[self.slug]['disabled']:
             return redirect('exportplan:service-page')
+
+        serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
+        serializer.is_valid()
+        helpers.update_exportplan(
+            id=self.export_plan['pk'], sso_session_id=self.request.user.session_id, data=serializer.data
+        )
         return super().dispatch(request, *args, **kwargs)
 
     @cached_property
@@ -49,13 +56,19 @@ class ExportPlanMixin:
     def current_section(self):
         return helpers.get_current_url(self.slug, self.export_plan)
 
+    @property
+    def export_plan_progress(self):
+        return helpers.calculate_ep_progress(self.export_plan)
+
     def get_context_data(self, **kwargs):
         industries = [name for _, name in choices.INDUSTRIES]
         country_choices = choices_to_key_value(choices.COUNTRY_CHOICES)
+        sections = helpers.build_export_plan_sections(self.export_plan)
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
-            sections=data.SECTION_URLS,
+            export_plan_progress=self.export_plan_progress,
+            sections=sections,
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
@@ -66,7 +79,8 @@ class ExportPlanMixin:
 class LessonDetailsMixin:
     @property
     def lesson_details(self):
-        return helpers.get_all_lesson_details()
+        lessons = self.current_section['lessons']
+        return helpers.get_lesson_details(lessons)
 
     def get_context_data(self, **kwargs):
 
@@ -259,7 +273,7 @@ class ExportPlanAboutYourBusinessView(
     title = 'About your business'
 
 
-class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
+class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'Costs And Pricing'
 
@@ -274,6 +288,22 @@ class CostsAndPricingView(PageTitleMixin, ExportPlanSectionView):
             self.export_plan
         )
         context['calculated_pricing'] = json.dumps(helpers.calculated_cost_pricing(self.export_plan))
+        return context
+
+
+class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = 'Funding And Credit'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['funding_options'] = choices_to_key_value(choices.FUNDING_OPTIONS)
+        context['funding_and_credit'] = self.export_plan['funding_and_credit']
+
+        calculated_pricing = helpers.calculated_cost_pricing(self.export_plan)
+        context['estimated_costs_per_unit'] = calculated_pricing['calculated_cost_pricing'].get(
+            'estimated_costs_per_unit', ''
+        )
+        context['funding_credit_options'] = json.dumps(self.export_plan.get('funding_credit_options', []))
         return context
 
 

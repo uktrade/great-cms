@@ -1,0 +1,51 @@
+@import '!elements/forms/form-multiple-choice';
+@import '../../sass/partials/colours';
+
+.multiple-choice {
+
+  [type=radio] + label {
+    &::after {
+      color: $mid-blue;
+    }
+
+    &::before {
+      border: 2px solid $mid-grey;
+      background-color: $white;
+    }
+  }
+
+  [type=checkbox] + label {
+    &::after {
+      color: $mid-blue;
+    }
+
+    &::before {
+      background-color: $white;
+    }
+  }
+
+  [type=checkbox]:focus + label {
+    &::before {
+      border-width: 4px;
+      box-shadow: 0 0 0 4px $focus-yellow;
+      margin: -2px;
+    }
+  }
+
+  .checkbox-small & {
+    [type=checkbox] + label {
+      &::after {
+        border-width: 0 0 3px 3px;
+        width: 9px;
+        height: 3.5px;
+        top: 14px;
+      }
+
+      &::before {
+        width: 24px;
+        height: 24px;
+        top: 5px;
+      }
+    }
+  }
+}

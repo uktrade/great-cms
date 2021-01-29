@@ -1,0 +1,48 @@
+
+// UTILITY CLASSES
+// ================
+
+.blue-underline {
+  & > .container {
+    border-bottom: 5px solid $active-blue;
+    padding-bottom: 3em;
+  }
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.clear-none {
+  clear: none;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-only-js {
+    display: none;
+    .js-enabled & {
+      display: block;
+    }
+}
+
+.display-only-no-js {
+  display: block;
+  .js-enabled & {
+    display: none;
+  }
+}

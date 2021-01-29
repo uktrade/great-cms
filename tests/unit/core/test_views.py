@@ -485,36 +485,6 @@ def test_login_page_logged_in(client, user):
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_markets_page_title')
-def test_markets_logged_in(mock_get_markets_page_title, mock_get_company_profile, user, client):
-    mock_get_markets_page_title.return_value = 'Some page title'
-    mock_get_company_profile.return_value = {
-        'expertise_countries': ['AF'],
-        'expertise_industries': ['SL10001'],
-        'expertise_products_services': {},
-    }
-    client.force_login(user)
-    url = reverse('core:markets')
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context_data['page_title'] == 'Some page title'
-    assert len(response.context_data['most_popular_countries']) == 5
-
-
-@pytest.mark.django_db
-def test_markets_not_logged_in(mock_get_company_profile, client):
-    url = reverse('core:markets')
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context_data['page_title'] is None
-    assert response.context_data['most_popular_countries'] is None
-
-
-@pytest.mark.django_db
 @mock.patch.object(helpers, 'search_commodity_by_term')
 def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     mock_search_commodity_by_term.return_value = data = [
@@ -744,7 +714,7 @@ def test_auth_with_url(client, rf):
     response = client.get('/api/create-token/')
     token = response.data['token']
 
-    response_2 = client.get(f'/markets/?enc={token}')
+    response_2 = client.get(f'/signup/?enc={token}')
     assert response_2.status_code == 200
 
 
@@ -753,29 +723,29 @@ def test_auth_with_cookie(client, rf):
     response = client.get('/api/create-token/')
     token = response.data['token']
 
-    response_2 = client.get(f'/markets/?enc={token}')
+    response_2 = client.get(f'/signup/?enc={token}')
     assert response_2.status_code == 200
 
-    response_3 = client.get('/markets/')
+    response_3 = client.get('/signup/')
     assert response_3.status_code == 200
 
 
 @pytest.mark.django_db
 def test_bad_auth_with_url(client):
-    response = client.get('/markets/')
+    response = client.get('/signup/')
     assert response.status_code == 403
 
 
 @pytest.mark.django_db
 def test_bad_auth_with_cookie(client):
     client.cookies = SimpleCookie({'beta-user': BETA_AUTH_TOKEN_PAST})
-    response = client.get('/markets/')
+    response = client.get('/signup/')
     assert response.status_code == 403
 
 
 @pytest.mark.django_db
 def test_bad_auth_with_enc_token(client):
-    response = client.get(f'/markets/?enc={BETA_AUTH_TOKEN_PAST}')
+    response = client.get(f'/signup/?enc={BETA_AUTH_TOKEN_PAST}')
     assert response.status_code == 403
 
 

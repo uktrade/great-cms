@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { Tooltip } from '@components/tooltip/Tooltip'
 import { isArray, isObject, mapArray } from '../../Helpers'
 
 let cache = {}
@@ -28,7 +29,8 @@ export default function DataTable(props) {
     )
     if (missingCountries.length) {
       setLoading(true)
-      config.dataFunction(missingCountries, commodityCode)
+      config
+        .dataFunction(missingCountries, commodityCode)
         .then((result) => {
           let newData = result
           // If the result is an array, make an object keyed by country
@@ -51,6 +53,15 @@ export default function DataTable(props) {
       setLoading(false)
     }
   }, [commodityCode, comparisonMarkets])
+
+  const yearDiv = (year, baseYear) => {
+    return (
+      year &&
+      (String(year) !== baseYear) && (
+        <div className="body-m text-black-60 display-year">{year}</div>
+      )
+    )
+  }
 
   const sourceAttribution = (attributions) => {
     return (
@@ -81,15 +92,43 @@ export default function DataTable(props) {
     )
   }
 
+  const years = {}
+  Object.values(comparisonMarkets).forEach((market) => {
+    const countryData =
+      cache[datasetName] && cache[datasetName][market.country_name]
+    if (countryData) {
+      Object.values(config.columns).forEach((columnConfig) => {
+        if (columnConfig.year) {
+          const year = columnConfig.year(countryData)
+          if (year) {
+            years[year] = (years[year] || 0) + 1
+          }
+        }
+      })
+    }
+  })
+  const baseYear = Object.keys(years).sort((a, b) => {
+    return years[a] < years[b] ? 1 : -1
+  })[0]
+
   const tableBody = Object.values(comparisonMarkets).map((market) => {
     const countryData =
       cache[datasetName] && cache[datasetName][market.country_name]
     const countryRow = Object.keys(config.columns).map((columnKey) => {
       const cellConfig = config.columns[columnKey]
       return (
-        <td key={columnKey} className={`${columnKey} ${cellConfig.className || ''}`}>
+        <td
+          key={columnKey}
+          className={`${columnKey} p-v-xs ${cellConfig.className || ''}`}
+        >
           {countryData ? (
-            config.columns[columnKey].render(countryData)
+            <>
+              {cellConfig.render(countryData)}
+              {yearDiv(
+                (cellConfig.year || (() => null))(countryData),
+                baseYear
+              )}
+            </>
           ) : (
             <div className="loading">&nbsp;</div>
           )}
@@ -102,20 +141,20 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        <td className="p-v-xs name nowrap">
-            <button
-              type="button"
-              onClick={removeMarket}
-              className="button button--only-icon button--tertiary button--small m-r-xxs"
-              data-id={market.country_iso2_code}
-              aria-label={`Remove ${market.country_name}`}
-            >
-              <i className="fa fa-trash-alt icon--border" />
-            </button>
-            <span className="body-l-b" id={`market-${market.country_name}`}>
-              {market.country_name}
-            </span>
-        </td>
+        <th className="p-v-xs  p-f-l name relative">
+          <button
+            type="button"
+            onClick={removeMarket}
+            className="button button--only-icon button--tertiary button--small f-l"
+            data-id={market.country_iso2_code}
+            aria-label={`Remove ${market.country_name}`}
+          >
+            <i className="fa fa-trash-alt icon--border" />
+          </button>
+          <div className="body-l-b" id={`market-${market.country_name}`}>
+            {market.country_name}
+          </div>
+        </th>
         {countryRow}
       </tr>
     )
@@ -126,12 +165,27 @@ export default function DataTable(props) {
       <table className="m-v-0 border-blue-deep-20 valign-middle">
         <thead>
           <tr>
-            <th className="body-s-b">&nbsp;</th>
+            <th className="body-l-b">&nbsp;</th>
             {Object.keys(config.columns).map((columnKey) => {
               const cellConfig = config.columns[columnKey]
               return (
-                <th className={`body-s-b ${columnKey} ${cellConfig.className || ''}`} key={columnKey}>
+                <th
+                  className={`body-l-b p-b-xs ${columnKey} ${
+                    cellConfig.className || ''
+                  }`}
+                  key={columnKey}
+                >
                   {config.columns[columnKey].name}
+                  {config.columns[columnKey].tooltip && (
+                    <div>
+                      <Tooltip
+                        title={cellConfig.tooltip.title}
+                        content={cellConfig.tooltip.content}
+                        position={cellConfig.tooltip.position}
+                        className="text-align-left body-m"
+                      />
+                    </div>
+                  )}
                 </th>
               )
             })}
@@ -139,6 +193,11 @@ export default function DataTable(props) {
         </thead>
         <tbody>{tableBody}</tbody>
       </table>
+      {baseYear && (
+        <div className="base-year body-m m-t-xs">
+          Displaying data from {baseYear} unless otherwise indicated.
+        </div>
+      )}
       {config.sourceAttributions &&
         sourceAttribution(config.sourceAttributions)}
     </span>

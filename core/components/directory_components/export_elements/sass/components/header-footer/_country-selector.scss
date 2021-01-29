@@ -1,0 +1,158 @@
+
+// COUNTRY SELECTOR BANNER
+// ========================
+
+.country-selector-dialog {
+  border-bottom: 1px solid $stone;
+  padding: 0;
+
+  h2 {
+    font-family: $brand-font;
+    font-weight: 700;
+    font-size: 22px;
+  }
+
+  .countries {
+    position: relative;
+    margin: 20px 0 30px;
+  }
+
+  .button-container {
+    float: left;
+    width: 50%;
+    padding-left: 15px;
+
+    .button {
+      font-family: $brand-font;
+      font-weight: 700;
+      padding: 10px 20px;
+      height: 49px;
+    }
+  }
+
+  .form-group {
+    margin: 0;
+  }
+
+  .select-container {
+    float: left;
+    width: 50%;
+    position: relative;
+
+    label {
+      font-size: 0;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    .flag-icon {
+      position: absolute;
+      top: 6px;
+      left: 10px;
+      height: 36px;
+      width: 40px;
+    }
+  }
+
+}
+
+// since both banners are white otherwise,
+// change the cookie banner background to stone colour
+.cookie-notice {
+  margin: 0;
+  padding: 10px 0;
+  background: $stone-30;
+}
+
+.country-selector-activator {
+  @include button-reset;
+  padding: 0;
+  cursor: pointer;
+
+  &:focus,
+  &:focus:active {
+    @include focus;
+  }
+
+  &:focus:active {
+    color: $great-blue;
+    background: $focus-yellow;
+  }
+}
+
+@media (max-width: 640px) {
+  .country-selector-dialog {
+    select {
+      height: 49px;
+    }
+
+    .select-container,
+    .button-container {
+      width: 100%;
+    }
+
+    .button-container {
+      padding: 0;
+      margin-top: 15px;
+    }
+  }
+}
+
+// JS ENABLED STYLES
+body.js-enabled {
+  .country-selector-dialog {
+    select {
+      padding-left: 60px;
+    }
+  }
+
+  .close-button {
+    @include button-reset;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    font-size: 0;
+    width: 20px;
+    height: 20px;
+
+    &:focus,
+    &:focus:active {
+      @include focus;
+    }
+
+    &:focus:active {
+      background: $focus-yellow;
+    }
+
+    &:before {
+      @include up-chevron-1($mid-blue);
+      margin: 0;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      left: 4px;
+      top: 10px;
+    }
+
+    &:after {
+      @include down-chevron-1($mid-blue);
+      margin: 0;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      left: 4px;
+      top: -4px;
+    }
+
+    &:hover {
+      &:before,
+      &:after {
+        border-color: $light-blue;
+      }
+    }
+  }
+
+}

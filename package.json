@@ -12,6 +12,9 @@
     "storybook-publish": "dsm-storybook publish",
     "storybook-build": "build-storybook"
   },
+  "jest": {
+    "globalSetup": "reacy-components/setupJest.js"
+  },
   "engines": {
     "node": ">=12.16.1"
   },
@@ -29,6 +32,7 @@
   "devDependencies": {
     "@babel/core": "7.8.3",
     "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
     "@storybook/addon-a11y": "5.3.18",
@@ -66,6 +70,7 @@
     "file-loader": "^5.1.0",
     "identity-obj-proxy": "3.0.0",
     "jest": "25.1.0",
+    "jest-environment-jsdom-fifteen": "^1.0.2",
     "mini-css-extract-plugin": "0.9.0",
     "node-fetch": "2.6.1",
     "node-sass": "^4.14.1",

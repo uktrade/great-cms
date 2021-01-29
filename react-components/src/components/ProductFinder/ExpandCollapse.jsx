@@ -2,7 +2,14 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 export default function ExpandCollapse(props) {
-  const { buttonLabel, expandedButtonLabel, defaultExpanded, children } = props
+  const {
+    buttonLabel,
+    buttonClass,
+    expandedButtonLabel,
+    defaultExpanded,
+    children,
+    buttonBefore,
+  } = props
   const [expanded, setExpanded] = useState(defaultExpanded)
   const [sectionHeight, setSectionHeight] = useState()
 
@@ -14,10 +21,21 @@ export default function ExpandCollapse(props) {
     setSectionHeight((_section && _section.scrollHeight) || sectionHeight)
   }
 
+  const toggleButton = (
+    <button
+      type="button"
+      className={buttonClass || 'button button--tertiary'}
+      onClick={toggleExpand}
+    >
+      {expanded ? expandedButtonLabel || buttonLabel : buttonLabel}
+    </button>
+  )
+
   return (
-    <div>
+    <>
+      {buttonBefore && toggleButton}
       <div
-        className={`expander ${
+        className={`f-l expander ${
           expanded ? 'expander-expanded' : 'expander-collapsed'
         }`}
         style={{
@@ -29,19 +47,15 @@ export default function ExpandCollapse(props) {
       >
         {children}
       </div>
-      <button
-        type="button"
-        className="button button--tertiary"
-        onClick={toggleExpand}
-      >
-        {expanded ? expandedButtonLabel || buttonLabel : buttonLabel}
-      </button>
-    </div>
+      {!buttonBefore && toggleButton}
+    </>
   )
 }
 
 ExpandCollapse.propTypes = {
-  buttonLabel: PropTypes.string.isRequired,
+  buttonLabel: PropTypes.string,
+  buttonClass: PropTypes.string,
+  buttonBefore: PropTypes.bool,
   expandedButtonLabel: PropTypes.string,
   defaultExpanded: PropTypes.bool,
   children: PropTypes.oneOfType([
@@ -53,4 +67,7 @@ ExpandCollapse.propTypes = {
 ExpandCollapse.defaultProps = {
   defaultExpanded: false,
   expandedButtonLabel: '',
+  buttonLabel: '',
+  buttonClass: '',
+  buttonBefore: false,
 }

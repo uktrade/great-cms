@@ -1,0 +1,25 @@
+@import './contact';
+
+body.js-enabled {
+
+  #id_company_type_other-container {
+    label {
+      display: none;
+    }
+  }
+
+  #id_company_type_other-container {
+    position: relative;
+    margin-left: 10px;
+    top: -20px;
+    border-left: 4px solid #D7D7D7;
+    padding-left: 20px;
+    margin-bottom: 10px;
+
+    @media (max-width: 769px) {
+      top: 0;
+    }
+  }
+
+}
+

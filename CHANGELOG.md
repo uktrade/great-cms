@@ -4,11 +4,41 @@
 
 ### Implemented enhancements
 
+- GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
+- GP2-1402 - Update content for Funding and Credit section
+- GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
+- GP2-1338 - Port v1 ArticlePage template + model
+- GP2-1345 - Where to export - site header
+- GP2-1351 - Where to export - page structure
+- GP2-1175 - Funding and credit: 'Funding options' element
+- GP2-1241 - Funding and credit: 'Your total export cost' element
+- GP2-1174 - Funding and credit: 'How much you might need to borrow' element
+- GP2- 1341-1 - Improvement of Content Linking UI for CaseStudy
+- GP2-1179 - Getting paid - Incoterms
+- GP2-1337 - Port/Rebuild ArticleListingPage from V1
+- GP2-1334 - Markets homepage grid, incl sorting and pagination
+- GP2-1341-1 - Improvement of Content Linking UI for CaseStudy
+- GP2-1346 - Compare markets - society tab enhancements
+- GP2-1178 - add payment terms fields
+- GP2-1368 - Wire up link from country_guide.html to /advice/ slug
+- GP2- 1342 - Added related pages to CaseStudy listing view
+- GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
+- GP2-1348 - Compare markets - economy/population tab enhancements
+- GP2-1332 - Markets homepage
+- GP2-1336 - Advice homepage
+- GP2-1363 - Drop custom Django view serving /markets/
+- GP2-1176 - Getting paid - Page structure
+- GP2- 1341 - Added Case Study Content Linking UI
+- GP2-1340 - Analytics - product name relabelled
+- GP2-1339 - Analytics - search again
+- GP2-1260 - Compare markets - tooltips
+- GP2-1132 - Product classifier - surface definitions
 - GP2-341 - Adaptation language info and stats update
 - GP2-1270 - income data for economy tab
 - GP2-1318 - Compare markets - refactor and loading twinkle
 - GP2-1265 - Compare markets - society data attribution
 - GP2-1258 - Compare markets - integrate society data
+- GP2-1284 - Port over CountryGuidePage from BAU, including base template, header, footer, etc
 - GP2-1270 - income data for economy tab
 - GP2-1259 - Styling for compare markets datatable from great-styles
 - GP2-1309 - Remove tooltips
@@ -38,10 +68,26 @@
 - GP2-974 - target market research page
 - GP2-285 - cost and price be
 - GP2-1323 - enable ep sections
-- GP2-1321 - add TM  learning component
+- GP2-1321 - add TM learning component
+- GP2-1306 - learning data
+- GP2-1168 - export plan lessons
+- NOTICKET - upgrade admin include export plan data
+- GP2-1139 - save EP progress
+- GP2-1382 - getting paid structure be
 
 ### Fixed bugs
 
+- No ticket - fix button styling issue after button refactor work
+- No ticket - Fix ignored BAU react unit tests
+- GP2-1408 - Fix date formatting of articles on article list page template
+- GP2-1407 - Ensure ArticlePage is rendered correctly as a child of TopicLandingPage
+- GP2-1360 - Personalisation bar population on form pages
+- GP2-1375 - Fix image-types for advice and markets hero
+- GP2-1365 - Add bulleted list styles to rich text block
+- GP2-1364 - Fix extra spacing for first element in rich text block
+- GP2-1366 - minor fix of help text for rich-text areas
+- GP2-1367 - minor fix of link field label
+- No ticket - Next lesson button showing blue underline
 - No ticket - Remove tooltip from languages panel on adaptation for tarket market
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared

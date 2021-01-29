@@ -1,0 +1,114 @@
+
+// MODAL
+// ======
+
+.Modal-Container {
+  z-index: 11;
+  position: fixed;
+  display: none;
+  padding: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  .content {
+    width: calc(100% - 60px);
+    max-width: 900px;
+    margin: 30px auto 0;
+    border: $light-grey solid 1px;
+    max-height: calc(100vh - 60px);
+    padding: 15px;
+    overflow: hidden;
+    background-color: $white;
+    position: relative;
+    z-index: 0;
+
+    details {
+      margin: 15px 0 5px;
+    }
+
+    video {
+      width: 100%;
+    }
+  }
+
+  .close {
+    background: $white;
+    padding: 15px;
+    color: $active-blue;
+    cursor: pointer;
+    font-size: inherit;
+    position: absolute;
+    text-decoration: underline;
+    right: 30px;
+    top: 30px;
+    z-index: 1;
+    width: auto;
+
+    &:focus {
+      @include focus;
+    }
+  }
+}
+
+.Modal-Overlay {
+  z-index: 10;
+  background-color: $black;
+  display: none;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0.4;
+  position: fixed;
+}
+
+//MOBILE
+@media (max-width: 480px) {
+  .Modal-Container  {
+    .content {
+      width: calc(100% - 30px);
+    }
+
+    .content {
+      margin: 15px;
+      padding: 20px 15px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .Modal-Container  {
+    .close {
+      right: 15px;
+      top: 20px;
+      padding: 10px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .Modal-Container .content {
+    margin: 30px;
+  }
+}
+
+@media (max-height: 650px) {
+  .Modal-Container .content video {
+   max-height: 250px;
+   margin: 0 auto;
+  }
+
+  .close {
+    right: 15px;
+    top: 20px;
+  }
+
+  .content {
+    margin: 15px;
+    padding: 20px 15px;
+  }
+ }
+
+

@@ -7,6 +7,10 @@ import {
   mapArray,
   getValue,
   getLabel,
+  formatLessonLearned,
+  normaliseValues,
+  millify,
+  stripPercentage,
 } from '@src/Helpers'
 
 test('slugify', (done) => {
@@ -140,6 +144,73 @@ test('mapArray', () => {
   expect(result.keyTwo.name).toEqual('value2')
 })
 
+describe('Number formats', () => {
+  it('normaliseValues', () => {
+    [
+      {str:'123', dp:1, expect:['123']},
+      {str:'123.4556', dp:1, expect:['123.5']},
+      {str:'123.4556', dp:2, expect:['123.46']},
+      {str:'123.4556', dp:0, expect:['123']},
+      {str:null, dp:0, expect:'Data not available'},
+      {str:'0', dp:0, expect:['0']},
+      {str:'-1', dp:0, expect:['-1']},
+    ].forEach((test) => {
+      expect(normaliseValues(test.str, test.dp)).toEqual(test.expect)
+    })
+  })
+  it('millify', () => {
+    [
+      {num:123, dp:1, expect:'123'},
+      {num:123456, dp:1, expect:'123,456'},
+      {num:1234567, dp:1, expect:'1.2 million'},
+      {num:1000000, dp:1, expect:'1.0 million'},
+      {num:1555555555, dp:1, expect:'1.6 billion'},
+      {num:2444444444444, dp:1, expect:'2.4 trillion'},
+      {num:0, dp:1, expect:'0'},
+      {num:null, dp:1, expect:null},
+
+    ].forEach((test) => {
+      expect(millify(test.num)).toEqual(test.expect)
+    })    
+  })
+  it('stripPercentage', () => {
+    [
+      {str:'country1', expect:'country'},
+      {str:'country.1', expect:'country'},
+      {str:'country1.2', expect:'country'},
+      {str:'country1.23', expect:'country'},
+      {str:'country 1', expect:'country'},
+      {str:'country .1', expect:'country'},
+      {str:'country 1.2', expect:'country'},
+      {str:'country 1.23', expect:'country'},
+      {str:'country .1', expect:'country'},
+      {str:'country 1.2', expect:'country'},
+      {str:'country 1.23', expect:'country'},
+      {str:'country1%', expect:'country'},
+      {str:'country.1%', expect:'country'},
+      {str:'country1.2%', expect:'country'},
+      {str:'country1.23%', expect:'country'},
+      {str:'country 1%', expect:'country'},
+      {str:'country .1%', expect:'country'},
+      {str:'country 1.2%', expect:'country'},
+      {str:'country 1.23%', expect:'country'},
+      {str:'country .1%', expect:'country'},
+      {str:'country 1.2%', expect:'country'},
+      {str:'country 1.23%', expect:'country'},
+      {str:'country>1%', expect:'country'},
+      {str:'country <.1%', expect:'country'},
+      {str:'country >1.2%', expect:'country'},
+      {str:'country <1.23%', expect:'country'},
+      {str:'country >.1%', expect:'country'},
+      {str:'country <1.2%', expect:'country'},
+      {str:'country >1.23%', expect:'country'},
+      {str:null, expect:null},
+    ].forEach((test) => {
+      expect(stripPercentage(test.str)).toEqual(test.expect)
+    })
+  })
+})
+
 describe('getLabel', () => {
   it('Should return a label', () => {
     const list = [
@@ -175,5 +246,34 @@ describe('getValue', () => {
     ]
     expect(getValue(list, 'hour')).toEqual('')
     expect(getValue(list, '')).toEqual('')
+  })
+})
+
+describe('formatLessonLearned', () => {
+  const lesson = {
+    'managing-exchange-rates': {
+      category: 'Exchange rates and moving money',
+      title: 'Managing exchange rates',
+      duration: '4 min',
+      url:
+        '/learn/categories/funding-financing-and-getting-paid/exchange-rates-and-moving-money/managing-exchange-rates/',
+    },
+  }
+
+  const section = {
+    lessons: ['managing-exchange-rates', 'another-lesson'],
+    url: '/back-to',
+  }
+
+  it('Should return a lesson', () => {
+    expect(formatLessonLearned(lesson, section, 0)).toEqual({
+      ...lesson['managing-exchange-rates'],
+      url: `${lesson['managing-exchange-rates'].url}?return-link=${section.url}`,
+    })
+  })
+
+  it('Should have no lesson', () => {
+    expect(formatLessonLearned(lesson, section, 1)).toEqual({})
+    expect(formatLessonLearned(lesson, { lessons: [] }, 1)).toEqual({})
   })
 })

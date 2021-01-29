@@ -129,3 +129,20 @@ react-components/dist/magna.css
 react-components/dist/magna.css.map
 react-components/dist/styles.js
 react-components/dist/styles.js.map
+
+#BAU generated files not needed
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie6.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie6.min.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie7.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie7.min.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie8.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie8.min.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation.min.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie6.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie6.min.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie7.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie7.min.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie8.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie8.min.css
+core/components/directory_components/static/directory_components/export_elements/stylesheets/maps/

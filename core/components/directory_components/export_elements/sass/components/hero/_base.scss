@@ -1,0 +1,111 @@
+
+@import '../partials/spacings';
+@import '../partials/typography';
+
+// Hero banner
+
+.great-hero-text {
+  color: $white;
+}
+
+.great-hero-heading {
+  @include brand-xlarge;
+}
+
+.great-hero-subheading {
+  @include brand-large;
+}
+
+.great-hero-description {
+  margin-bottom: 0;
+  font-family: $brand-font;
+}
+
+.great-hero {
+  position: relative;
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 200px;
+  background-position: 50%;
+  background-size: cover;
+
+  & > .container {
+    min-height: 200px;
+    position: relative;
+    overflow: visible;
+    padding-top: 45px;
+  }
+}
+
+.great-hero-no-image {
+  background-color: $hero-blue;
+}
+
+.great-hero-title {
+  color: $white;
+  max-width: 700px;
+  background-color: $hero-blue;
+  border-bottom: $flag-red solid 6px;
+  bottom: -6px;
+  left: 0;
+  padding: 30px;
+  position: absolute;
+  width: auto;
+
+  h1 > span {
+    display: block;
+  }
+}
+
+@media (max-width: 1100px) {
+  .great-hero-title {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 641px) {
+  .great-hero,
+  .great-hero > .container {
+    min-height: 345px;
+  }
+
+  .great-hero-title {
+    min-width: 470px;
+  }
+}
+
+// Hero with CTA
+
+.great-hero-with-cta {
+  @extend .great-hero;
+
+  h1 {
+    margin-top: 0;
+  }
+
+  h2 {
+    margin-bottom: $spacing-3;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 640px) {
+  .great-hero-with-cta {
+    .great-hero-text h2 {
+      width: 70%;
+    }
+
+    .great-hero-brand {
+      bottom: 0;
+      top: auto;
+
+      img {
+        height: 80px;
+      }
+    }
+  }
+}

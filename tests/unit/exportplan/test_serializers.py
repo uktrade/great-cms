@@ -1,7 +1,9 @@
 import json
 from collections import OrderedDict
+from datetime import datetime
 
 import pytest
+from freezegun import freeze_time
 
 from exportplan import serializers
 
@@ -337,4 +339,46 @@ def test_json_to_presentaion(cost_pricing_data):
                 'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
             },
         }
+    )
+
+
+@freeze_time('2012-01-14 03:21:34')
+def test_ui_progress_serializer():
+
+    data = {'ui_progress': {'sectiona_a': {'is_complete': True, 'modified': datetime.now()}}}
+    serializer = serializers.ExportPlanSerializer(data=data)
+    serializer.is_valid()
+    assert serializer.is_valid()
+    assert serializer.data == {
+        'ui_progress': {
+            'sectiona_a': OrderedDict([('is_complete', True), ('date_last_visited', '2012-01-14T03:21:34+00:00')])
+        }
+    }
+
+
+def test_payment_method_serializer():
+
+    data = {
+        'getting_paid': {
+            'payment_method': {'method': ['TTE', 'EFG'], 'notes': 'method 1'},
+            'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
+            'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
+        }
+    }
+    serializer = serializers.ExportPlanSerializer(data=data)
+
+    assert serializer.is_valid(raise_exception=True)
+    assert serializer.validated_data == OrderedDict(
+        [
+            (
+                'getting_paid',
+                OrderedDict(
+                    [
+                        ('payment_method', OrderedDict([('method', ['TTE', 'EFG']), ('notes', 'method 1')])),
+                        ('payment_terms', OrderedDict([('method', ['FFE', 'TMP']), ('notes', 'method 2')])),
+                        ('incoterms', OrderedDict([('method', ['RME', 'ECM']), ('notes', 'method 3')])),
+                    ]
+                ),
+            )
+        ]
     )

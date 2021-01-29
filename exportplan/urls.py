@@ -45,6 +45,12 @@ urlpatterns = [
         name='costs-and-pricing',
     ),
     path(
+        'section/funding-and-credit/',
+        login_required(views.FundingAndCreditView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'funding-and-credit'},
+        name='funding-and-credit',
+    ),
+    path(
         'section/<slug:slug>/',
         login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
         name='section',
@@ -118,5 +124,20 @@ urlpatterns = [
         'api/target-markets-documents/delete/',
         skip_ga360(api.TargetMarketDocumentsDestroyAPIView.as_view()),
         name='api-target-markets-documents-delete',
+    ),
+    path(
+        'api/funding-credit-options/create/',
+        skip_ga360(api.FundingCreditOptionsCreateAPIView.as_view()),
+        name='api-funding-credit-options-create',
+    ),
+    path(
+        'api/funding-credit-options/update/',
+        skip_ga360(api.FundingCreditOptionsUpdateAPIView.as_view()),
+        name='api-funding-credit-options-update',
+    ),
+    path(
+        'api/funding-credit-options/delete/',
+        skip_ga360(api.FundingCreditOptionsDestroyAPIView.as_view()),
+        name='api-funding-credit-options-delete',
     ),
 ]

@@ -1,4 +1,5 @@
 import json
+from collections import OrderedDict
 from io import BytesIO
 from unittest import mock
 
@@ -6,6 +7,7 @@ import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.utils.text import slugify
+from freezegun import freeze_time
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
@@ -82,9 +84,9 @@ def test_export_plan_builder_landing_page(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
-@mock.patch.object(helpers, 'get_all_lesson_details', return_value={})
+@mock.patch.object(helpers, 'get_lesson_details', return_value={})
 @mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(mock_get_create_exportplan, mock_get_all_lessons, export_plan_data, slug, client, user):
+def test_exportplan_sections(mock_get_create_exportplan, mock_get_lessons, export_plan_data, slug, client, user):
     mock_get_create_exportplan.return_value = export_plan_data
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -164,21 +166,24 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, client, use
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_all_lesson_details')
-def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, user):
+@mock.patch.object(helpers, 'get_lesson_details')
+def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
     client.force_login(user)
 
-    mock_get_all_lesson_details.return_value = {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
     slug = slugify('About your business')
+    lessons = data.SECTIONS[slug]['lessons']
+    mock_get_lesson_details.return_value = {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
 
-    assert mock_get_all_lesson_details.call_count == 1
+    assert mock_get_lesson_details.call_count == 1
+    assert mock_get_lesson_details.call_args == mock.call(lessons)
 
-    assert response.context_data['lesson_details'] == {'lesson1': {'title': 'my lesson', 'url': 'my url'}}
+    assert response.context_data['lesson_details'] == {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
 
 
+@freeze_time('2012-01-14 03:21:34')
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'slug, next_slug',
@@ -188,22 +193,37 @@ def test_about_your_business_has_lessons(mock_get_all_lesson_details, client, us
         ('target-markets-research', 'adaptation-for-your-target-market'),
         ('adaptation-for-your-target-market', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
-        ('costs-and-pricing', 'finance'),
-        ('finance', 'payment-methods'),
+        ('costs-and-pricing', 'funding-and-credit'),
+        ('funding-and-credit', 'payment-methods'),
         ('payment-methods', 'travel-and-business-policies'),
         ('travel-and-business-policies', 'business-risk'),
         ('business-risk', None),
     ),
 )
-def test_export_plan_mixin(export_plan_data, slug, next_slug, client, user):
+def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export_plan_client, client, user):
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
+    assert mock_update_export_plan_client.call_count == 1
+    assert mock_update_export_plan_client.call_args == mock.call(
+        data={'ui_progress': {slug: OrderedDict([('date_last_visited', '2012-01-14T03:21:34+00:00')])}},
+        id=1,
+        sso_session_id='123',
+    )
     assert response.status_code == 200
     assert response.context_data['next_section'] == data.SECTIONS.get(next_slug)
     assert response.context_data['current_section'] == data.SECTIONS[slug]
-    assert response.context_data['sections'] == data.SECTION_URLS
+    assert response.context_data['sections'][0] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+        'disabled': False,
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'is_complete': 'True',
+    }
     assert response.context_data['export_plan'] == export_plan_data
+    assert response.context_data['export_plan_progress'] == {
+        'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
+    }
 
 
 @pytest.mark.django_db
@@ -290,6 +310,20 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
             }
         }
     )
+
+
+@pytest.mark.django_db
+def test_funding_and_credit(export_plan_data, client, user):
+    url = reverse('exportplan:funding-and-credit')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+    assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'bank-loan'}
+    assert response.context_data['funding_and_credit'] == export_plan_data['funding_and_credit']
+    assert response.context_data['estimated_costs_per_unit'] == '76.59'
+    assert response.context_data['funding_credit_options'] == json.dumps(export_plan_data['funding_credit_options'])
 
 
 @pytest.mark.django_db

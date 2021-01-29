@@ -1,0 +1,18 @@
+@import './contact';
+
+body.js-enabled {
+
+  #id_source_other-container,
+  #id_industry_other-container {
+    position: relative;
+    margin-left: 10px;
+    top: -20px;
+    border-left: 4px solid $light-grey;
+    padding-left: 20px;
+    margin-bottom: 10px;
+
+    @media (max-width: 769px) {
+      top: 0;
+    }
+  }
+}

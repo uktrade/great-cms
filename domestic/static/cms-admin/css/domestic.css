@@ -1,0 +1,41 @@
+/* Wagtail admin CSS for the domestic app - also see domestic-editor.css */
+
+.language-names-list {
+  display: block;
+  font-style: italic;
+  color: #aaa;
+}
+
+/* Fix styling for custom group list checkboxes on user update view */
+.group_with_summaries_multiple_choice_field ul li label {
+  display: block;
+  font-weight: normal;
+  float: none;
+  width: auto;
+  padding: 0.4em 0;
+}
+@media (min-width: 50em) {
+  .group_with_summaries_multiple_choice_field .field-content {
+    padding-top: 1em;
+  }
+}
+
+dl.dl-horizontal dt {
+  color: #333;
+  font-weight: bold;
+  text-transform: none;
+  font-size: 1em;
+}
+dl.dl-horizontal dd {
+  color: #555;
+}
+@media (min-width: 960px) {
+  dl.dl-horizontal dt {
+    width: 120px;
+  }
+  dl.dl-horizontal dd {
+    padding-left: 130px;
+    position: relative;
+    margin-top: -1.5em;
+  }
+}

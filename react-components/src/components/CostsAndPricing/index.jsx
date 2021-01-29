@@ -1,11 +1,12 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
+import { formatLessonLearned } from '@src/Helpers'
 
 import { Direct } from './Direct'
 import { Overhead } from './Overhead'
-import { Units } from './Units'
 import { GrossPrice } from './GrossPrice'
+import { Units } from './Units'
 import {
   direct,
   overhead,
@@ -34,6 +35,8 @@ export const CostsAndPricing = memo(
     initialData,
     currencies,
     init,
+    lessonDetails,
+    currentSection,
   }) => {
     useState(() => {
       init({
@@ -130,6 +133,7 @@ export const CostsAndPricing = memo(
                 prepend={currency}
                 description={`<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the ${country}</h2><p class="m-t-xs">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ${country}</p>`}
                 {...localTaxes}
+                lesson={formatLessonLearned(lessonDetails, currentSection, 0)}
               />
               <Input
                 onChange={(x) => onChange(x, duty)}
@@ -137,6 +141,7 @@ export const CostsAndPricing = memo(
                 hideLabel
                 prepend={currency}
                 {...duty}
+                lesson={formatLessonLearned(lessonDetails, currentSection, 1)}
               />
             </div>
             <div className="c-1-12-m c-1-4-xl">&nbsp;</div>
@@ -148,6 +153,7 @@ export const CostsAndPricing = memo(
               <div className="c-1-4">&nbsp;</div>
               <div className="c-1-1 c-2-3-m c-1-2-xl">
                 <GrossPrice
+                  lesson={formatLessonLearned(lessonDetails, currentSection, 2)}
                   country={country}
                   currency={currency}
                   GrossPriceUnit={data.gross_price_per_unit}
@@ -177,21 +183,45 @@ export const CostsAndPricing = memo(
 CostsAndPricing.propTypes = {
   currency: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
-  data: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  data: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string,
+          label: PropTypes.string,
+        })
+      ),
+    ])
+  ).isRequired,
   update: PropTypes.func.isRequired,
   init: PropTypes.func.isRequired,
-  units: PropTypes.arrayOf({
-    value: PropTypes.string,
-    label: PropTypes.string,
+  units: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
+  currencies: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
+  exportTimeframe: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
+  totals: PropTypes.shape({
+    calculated_cost_pricing: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
-  currencies: PropTypes.arrayOf({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  }).isRequired,
-  exportTimeframe: PropTypes.arrayOf({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  }).isRequired,
-  totals: PropTypes.oneOfType([PropTypes.string]).isRequired,
   initialData: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  lessonDetails: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  currentSection: PropTypes.shape({
+    url: PropTypes.string,
+    lessons: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
 }

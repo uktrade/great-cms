@@ -1,0 +1,68 @@
+@import '../partials/vars';
+@import '../partials/mixins';
+
+.accordion-divider {
+  border-top: 1px solid $light-grey;
+
+  &:last-child {
+    border-bottom: 1px solid $light-grey;
+  }
+}
+
+.accordion-expander {
+  text-decoration: none;
+  color: $active-blue;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 88px;
+
+  &:focus {
+    @include focus;
+  }
+
+  &:after {
+    content: '+';
+    font-weight: 700;
+    font-size: 36px;
+    position: absolute;
+    right: $spacing-4;
+    color: black;
+  }
+
+  &.active {
+    border-bottom: 0;
+
+    &:after {
+      content: '–';
+      }
+  }
+}
+
+.accordion-content.Expander.collapsed {
+  display: none;
+}
+
+.accordion-icon {
+  height: 60px;
+  width: 60px;
+}
+
+.accordion-content {
+  .with-arrow {
+    margin: 0;
+
+    &:before {
+      display: none;
+    }
+    &:after {
+      content: '➔';
+      margin-left: 0;
+    }
+  }
+
+  .subsection-icon {
+    height: 50px;
+  }
+}

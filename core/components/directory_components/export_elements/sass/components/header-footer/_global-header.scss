@@ -1,0 +1,30 @@
+@import '../../partials/colours';
+@import '../../partials/mixins';
+
+.great-domestic-international-links {
+  a {
+    color: $mid-grey;
+  }
+
+  .active {
+    color: $great-blue;
+
+    &:after {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 4px;
+      background-color: $flag-red;
+      content: '';
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .great-global-header {
+    @include float-clear;
+    height: auto;
+  }
+}
