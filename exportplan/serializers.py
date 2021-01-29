@@ -204,11 +204,8 @@ class GettingPaidSerializer(serializers.Serializer):
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     class IncotermsSerializer(serializers.Serializer):
-        transport = serializers.ListField(child=serializers.CharField(), required=False)
+        transport = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-
-        def validate_transport(self, value):
-            return value[0].split(',')
 
     payment_method = PaymentMethodSerializer(required=False)
     payment_terms = PaymentTermsSerializer(required=False)
