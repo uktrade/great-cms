@@ -22,7 +22,7 @@ class ExportPlanDashboardPage(
         request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context = super().get_context(request)
         context['sections'] = helpers.build_export_plan_sections(request.user.export_plan)
-
+        context['export_plan_progress'] = helpers.calculate_ep_progress(request.user.export_plan)
         self.set_ga360_payload(
             page_id=self.id,
             business_unit=settings.GA360_BUSINESS_UNIT,
