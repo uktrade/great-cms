@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from great_components.mixins import GA360Mixin
@@ -161,10 +162,13 @@ class Product(models.Model):
 class Region(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    panels = [FieldPanel('name')]
+
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
-
-    panels = [FieldPanel('name')]
 
 
 @register_snippet
@@ -175,23 +179,35 @@ class Country(models.Model):
 
     panels = [
         FieldPanel('name'),
+        FieldPanel('region'),
     ]
-
-    def __str__(self):
-        return self.name
 
     class Meta:
         verbose_name_plural = 'Countries'
+        ordering = ('name',)
+
+    def save(self, *args, **kwargs):
+        # Automatically set slug on save, if not already set
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 @register_snippet
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    panels = [FieldPanel('name')]
+
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
-
-    panels = [FieldPanel('name')]
 
 
 @register_snippet
@@ -199,10 +215,13 @@ class IndustryTag(models.Model):
     name = models.CharField(max_length=100, unique=True)
     icon = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 
+    panels = [FieldPanel('name'), ImageChooserPanel('icon')]
+
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
-
-    panels = [FieldPanel('name'), ImageChooserPanel('icon')]
 
 
 class TimeStampedModel(models.Model):
