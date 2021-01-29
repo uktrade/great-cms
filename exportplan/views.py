@@ -302,7 +302,9 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
             'Water transport': choices_to_key_value(choices.WATER_TRANSPORT_OPTIONS),
         }
         context['transport_choices'] = transport_choices
+
         context['getting_paid_data'] = json.dumps(self.export_plan['getting_paid'])
+
         return context
 
 

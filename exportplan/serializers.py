@@ -193,12 +193,26 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
 
 class GettingPaidSerializer(serializers.Serializer):
     class PaymentMethodSerializer(serializers.Serializer):
-        method = serializers.ListField(child=serializers.CharField(), required=False)
+        methods = serializers.ListField(child=serializers.CharField(), required=False)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
+        def validate_methods(self, value):
+            return value[0].split(',')
+
+    class PaymentTermsSerializer(serializers.Serializer):
+        terms = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+
+    class IncotermsSerializer(serializers.Serializer):
+        transport = serializers.ListField(child=serializers.CharField(), required=False)
+        notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+
+        def validate_transport(self, value):
+            return value[0].split(',')
+
     payment_method = PaymentMethodSerializer(required=False)
-    payment_terms = PaymentMethodSerializer(required=False)
-    incoterms = PaymentMethodSerializer(required=False)
+    payment_terms = PaymentTermsSerializer(required=False)
+    incoterms = IncotermsSerializer(required=False)
 
 
 class ExportPlanSerializer(serializers.Serializer):
