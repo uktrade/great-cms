@@ -213,7 +213,13 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export
     assert response.status_code == 200
     assert response.context_data['next_section'] == data.SECTIONS.get(next_slug)
     assert response.context_data['current_section'] == data.SECTIONS[slug]
-    assert response.context_data['sections'] == data.SECTION_URLS
+    assert response.context_data['sections'][0] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+        'disabled': False,
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'is_complete': 'True',
+    }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
         'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
