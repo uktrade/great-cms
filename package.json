@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest -w 1 react-components/ --testPathIgnorePatterns=\"/core/components/react-components/*\"",
+    "test": "jest -w 1 react-components/",
     "test:dev": "jest --watch",
     "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
     "build-dev": "webpack --config react-components/webpack.config.js --mode development",
@@ -11,6 +11,9 @@
     "storybook": "start-storybook",
     "storybook-publish": "dsm-storybook publish",
     "storybook-build": "build-storybook"
+  },
+  "jest": {
+    "globalSetup": "reacy-components/setupJest.js"
   },
   "engines": {
     "node": ">=12.16.1"
@@ -29,6 +32,7 @@
   "devDependencies": {
     "@babel/core": "7.8.3",
     "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
     "@storybook/addon-a11y": "5.3.18",
