@@ -249,7 +249,7 @@ def get_current_url(slug, export_plan):
 def build_export_plan_sections(export_plan):
     sections = data.SECTIONS
     for slug, values in sections.items():
-        values['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', 'False')
+        values['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
     return list(sections.values())
 
 

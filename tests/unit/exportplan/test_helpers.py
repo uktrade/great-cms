@@ -557,5 +557,5 @@ def test_calculate_ep_progress(mock_get_exportplan, ui_progress_data, complete, 
 
 def test_build_export_plan_sections(export_plan_data):
     sections = helpers.build_export_plan_sections(export_plan_data)
-    assert sections[0]['is_complete'] == 'True'
-    assert sections[1]['is_complete'] == 'False'
+    assert sections[0]['is_complete'] is True
+    assert sections[1]['is_complete'] is False

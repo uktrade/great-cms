@@ -52,7 +52,7 @@ def export_plan_data(cost_pricing_data):
             'target-markets-research': {'target_ages': ['35-40']},
         },
         'ui_progress': {
-            'about-your-business': {'is_complete': 'True', 'date_last_visited': '2012-01-14T03:21:34+00:00'}
+            'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'}
         },
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],

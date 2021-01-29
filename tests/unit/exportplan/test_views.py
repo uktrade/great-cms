@@ -218,7 +218,7 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export
         'url': '/export-plan/section/about-your-business/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
-        'is_complete': 'True',
+        'is_complete': True,
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
