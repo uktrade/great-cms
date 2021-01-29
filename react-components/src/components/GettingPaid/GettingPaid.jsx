@@ -40,25 +40,35 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
           </p>
           <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
             <div className="target-market-documents-form">
-              {formFields.map(({ group }) => (
-                <div className="user-form-group" key={group[0].id}>
-                  <Select
-                    label={group[0].label}
-                    id={group[0].id}
-                    name={group[0].name}
-                    options={group[0].options}
-                    selected=""
-                    onChange={onChange}
-                  />
-                  <TextArea
-                    onChange={onChange}
-                    label={group[1].label}
-                    id={group[1].id}
-                    value={state[group[1].id]}
-                    placeholder={group[1].placeholder}
-                  />
-                </div>
-              ))}
+              {formFields.map(({ group }) => {
+                const select = group[0]
+                const textarea = group[1]
+                const options = Array.isArray(select.options)
+                  ? select.options
+                  : Object.keys(select.options).flatMap(
+                      (x) => select.options[x]
+                    )
+
+                return (
+                  <div className="user-form-group" key={select.id}>
+                    <Select
+                      label={select.label}
+                      id={select.id}
+                      name={select.name}
+                      options={select.options}
+                      selected={getLabel(options, state[select.id])}
+                      onChange={onChange}
+                    />
+                    <TextArea
+                      onChange={onChange}
+                      label={textarea.label}
+                      id={textarea.id}
+                      value={state[textarea.id]}
+                      placeholder={textarea.placeholder}
+                    />
+                  </div>
+                )
+              })}
               <p className="body-s text-blue-deep-50 m-b-0">
                 Incoterms® and the Incoterms® 2020 logo are trademarks of ICC.
                 Use of these trademarks does not imply association with,
