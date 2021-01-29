@@ -136,34 +136,35 @@ export const Select = ({
         ref={element}
       >
         <li>{placeholder}</li>
-        {options.map((item, i) =>
-          item.name ? (
-            <ul className="m-0" key={item.name}>
-              <li className="body-m-b">{item.name}</li>
-              {item.options.map((li, index) => (
-                <Item
-                  key={li.label}
-                  onClick={() => selectOption(li)}
-                  onKeyDown={(e) => focusNext(e, index + 1, li, i)}
-                  selected={li.label === input}
-                  label={li.label}
-                  forwardedRef={(el) => (liRef.current[index] = el)}
-                >
-                  {li.label}
-                </Item>
-              ))}
-            </ul>
-          ) : (
-            <Item
-              key={item.label}
-              onClick={() => selectOption(item)}
-              onKeyDown={(e) => focusNext(e, i, item)}
-              selected={item.label === input}
-              label={item.label}
-              forwardedRef={(el) => (liRef.current[i] = el)}
-            />
-          )
-        )}
+
+        {Array.isArray(options)
+          ? options.map((item, i) => (
+              <Item
+                key={item.label}
+                onClick={() => selectOption(item)}
+                onKeyDown={(e) => focusNext(e, i, item)}
+                selected={item.label === input}
+                label={item.label}
+                forwardedRef={(el) => (liRef.current[i] = el)}
+              />
+            ))
+          : Object.keys(options).map((category, i) => (
+              <ul className="m-0" key={category}>
+                <li className="body-m-b">{category}</li>
+                {options[category].map((li, index) => (
+                  <Item
+                    key={li.label}
+                    onClick={() => selectOption(li)}
+                    onKeyDown={(e) => focusNext(e, index + 1, li, i)}
+                    selected={li.label === input}
+                    label={li.label}
+                    forwardedRef={(el) => (liRef.current[index] = el)}
+                  >
+                    {li.label}
+                  </Item>
+                ))}
+              </ul>
+            ))}
       </ul>
     </div>
   )

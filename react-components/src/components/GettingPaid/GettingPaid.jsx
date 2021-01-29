@@ -47,10 +47,9 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                     id={group[0].id}
                     name={group[0].name}
                     options={group[0].options}
-                    selected={getLabel(group[0].options, state[group[0].id])}
+                    selected=""
                     onChange={onChange}
                   />
-                  {getLabel(group[0].options, state[group[1].id])}
                   <TextArea
                     onChange={onChange}
                     label={group[1].label}

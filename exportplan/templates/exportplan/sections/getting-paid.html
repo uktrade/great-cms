@@ -25,12 +25,7 @@
     magna.createGettingPaid({
       element: document.getElementById('getting-paid'),
       field: 'getting_paid',
-      formData: {
-        payment_terms: 'credit',
-        payments_notes: 'This is a note for payments',
-        incoterms: 'collection',
-        incoterms_notes: 'This is a an incoterm note',
-      },
+      formData: {{getting_paid_data}},
       formFields: [
           {
             group: [
@@ -39,13 +34,7 @@
                 id: 'payment_terms',
                 label: 'Payments terms',
                 field_type: 'Select',
-                options: [
-                  { value: 'payment', label: 'Payment in advance' },
-                  { value: 'credit', label: 'Letter of credit' },
-                  { value: 'collection', label: 'Bank collection or documentary collections (D/C)' },
-                  { value: 'account', label: 'Open account' },
-                  { value: 'other', label: 'other' },
-                ],
+                options: {{ payment_term_choices|safe }},
               },
               {
                 name: 'Add notes',
@@ -60,27 +49,10 @@
             group: [
               {
                 name: 'incoterms',
-                id: 'incoterms',
+                id: 'transport_choices',
                 label: 'Incoterms®',
                 field_type: 'Select',
-                options: [
-                  {
-                    name: 'All forms of transport',
-                    options: [
-                      { value: 'works', label: 'Ex Works' },
-                      { value: 'career', label: 'Free Carrier' },
-                      { value: 'carriage', label: 'Carriage Paid To (CPT)' },
-                    ],
-                  },
-                  {
-                    name: 'Water transport',
-                    options: [
-                      { value: 'free', label: 'Free Alongside Ship (FAS)' },
-                      { value: 'board', label: 'Free on Board (FOB)' },
-                      { value: 'freight', label: 'Cost and Freight (CFR)' },
-                    ],
-                  },
-                ],
+                options: {{ transport_choices|safe}}
               },
               {
                 name: 'Add notes',
