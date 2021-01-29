@@ -451,11 +451,11 @@ def test_get_current_url_product_required_not_in_check(mock_get_exportplan):
 @pytest.mark.parametrize(
     'ui_progress_data, expected',
     [
-        [{}, 'False'],
-        [{'target-markets': {'is_complete': 'True'}}, 'False'],
-        [{'about-your-business': {}}, 'False'],
-        [{'about-your-business': {'is_complete': 'False'}}, 'False'],
-        [{'about-your-business': {'is_complete': 'True'}, 'Target-markets': {'is_complete': 'True'}}, 'True'],
+        [{}, False],
+        [{'target-markets': {'is_complete': True}}, False],
+        [{'about-your-business': {}}, False],
+        [{'about-your-business': {'is_complete': False}}, False],
+        [{'about-your-business': {'is_complete': True}, 'Target-markets': {'is_complete': True}}, True],
     ],
 )
 @mock.patch.object(helpers, 'get_exportplan')

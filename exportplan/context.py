@@ -1,5 +1,5 @@
 from core.context import AbstractPageContextProvider
-from exportplan import data
+from exportplan import helpers
 
 
 class ExportPlanDashboardPageContextProvider(AbstractPageContextProvider):
@@ -8,6 +8,7 @@ class ExportPlanDashboardPageContextProvider(AbstractPageContextProvider):
 
     @staticmethod
     def get_context_data(request, page):
+
         return {
-            'sections': data.SECTION_TITLES,
+            'sections': helpers.build_export_plan_sections(request.user.export_plan),
         }
