@@ -1,14 +1,10 @@
 {% load to_json %}
 <div id="section-complete">
-  <p class="h-xs m-b-0 text-white">Section complete section</p>
-  <p class="h-xs m-b-0 text-white">{{ current_section }}</p>
 </div>
 
 {% block body_js %}
   <script type="text/javascript">
     var element = document.getElementById('section-complete');
-    console.log(element)
-
     magna.sectionComplete({
       element: element,
       current_section: {{ current_section|to_json}},

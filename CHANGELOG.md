@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1199 - Mark section as complete
 - GP2-1402 - Update content for Funding and Credit section
 - GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
 - GP2-1338 - Port v1 ArticlePage template + model

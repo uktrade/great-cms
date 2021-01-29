@@ -73184,8 +73184,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SectionComplete", function() { return SectionComplete; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -73201,43 +73201,56 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-
- // import PropTypes from 'prop-types'
 
 
 var SectionComplete = function SectionComplete(_ref) {
-  var params = _extends({}, _ref);
+  var current_section = _ref.current_section;
+  var is_complete = current_section.is_complete,
+      url = current_section.url;
+  var current_section_slug = url.split('/')[3];
 
-  var current_section = params.current_section;
-  var current_section_slug = current_section.url.split('/')[3];
-
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(current_section.is_complete),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(is_complete),
       _useState2 = _slicedToArray(_useState, 2),
       isComplete = _useState2[0],
-      setIsComplete = _useState2[1]; // debugger
-
+      setIsComplete = _useState2[1];
 
   var toggleComplete = function toggleComplete() {
-    setIsComplete(!isComplete);
     var field_obj = {
       ui_progress: _defineProperty({}, current_section_slug, {
-        is_complete: isComplete
+        is_complete: !isComplete
       })
     };
     update(field_obj);
   };
 
   var update = function update(field) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {})["catch"](function () {});
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {
+      setIsComplete(!isComplete);
+    })["catch"](function () {});
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--tertiary",
-    onClick: toggleComplete
-  }, "You complete me. Currently ", current_section_slug, " :", ' ', !isComplete ? 'True' : 'False', ".");
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-m text-white m-b-xs"
+  }, "Section complete?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "great-checkbox great-checkbox--large great-checkbox--section-complete"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    id: "checkbox_complete",
+    onChange: toggleComplete,
+    checked: isComplete ? true : false
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "checkbox_complete"
+  }, "Yes")));
+};
+SectionComplete.propTypes = {
+  current_section: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    is_complete: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired,
+    url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    lessons: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string),
+    disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+  })
 };
 
 /***/ }),
