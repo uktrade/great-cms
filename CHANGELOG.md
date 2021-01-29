@@ -75,6 +75,8 @@
 
 ### Fixed bugs
 
+- No ticket - fix button styling issue after button refactor work
+- No ticket - Fix ignored BAU react unit tests
 - GP2-1408 - Fix date formatting of articles on article list page template
 - GP2-1407 - Ensure ArticlePage is rendered correctly as a child of TopicLandingPage
 - GP2-1360 - Personalisation bar population on form pages
