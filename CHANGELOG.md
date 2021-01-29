@@ -7,6 +7,8 @@
 - GP2-1402 - Update content for Funding and Credit section
 - GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
 - GP2-1338 - Port v1 ArticlePage template + model
+- GP2-1345 - Where to export - site header
+- GP2-1351 - Where to export - page structure
 - GP2-1175 - Funding and credit: 'Funding options' element
 - GP2-1241 - Funding and credit: 'Your total export cost' element
 - GP2-1174 - Funding and credit: 'How much you might need to borrow' element

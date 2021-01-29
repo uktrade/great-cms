@@ -13,7 +13,7 @@ import ComparisonTables from './ComparisonTables'
 const maxSelectedLength = 3
 
 function CompareMarkets(props) {
-  const { selectedProduct, tabs } = props
+  const { selectedProduct, tabs, ctaContainer } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const [cookies, setCookie] = useCookies(['comparisonMarkets'])
@@ -85,21 +85,15 @@ function CompareMarkets(props) {
         triggerButton={triggerButton}
       />
     )
-  } else {
-    // Either We're missing a product or any countries
-    tabsContainer = (
-      <section className="container">
-        <div className="grid">
-          <div className="c-1-4-l">&nbsp;</div>
-          <div className="c-1-2-l">{triggerButton}</div>
-        </div>
-      </section>
-    )
   }
 
   return (
     <span>
       {tabsContainer}
+      {(!selectedProduct || !selectedLength) &&
+        ReactDOM.createPortal(triggerButton, ctaContainer)
+      }
+
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
         setIsOpen={setProductModalIsOpen}
@@ -130,6 +124,7 @@ CompareMarkets.propTypes = {
     commodity_code: PropTypes.string,
   }),
   tabs: PropTypes.string.isRequired,
+  ctaContainer: PropTypes.node.isRequired,
 }
 
 CompareMarkets.defaultProps = {
@@ -140,7 +135,10 @@ export default function createCompareMarkets({ ...params }) {
   const tabs = params.element.getAttribute('data-tabs')
   ReactDOM.render(
     <Provider store={Services.store}>
-      <ConnectedCompareMarkets tabs={tabs} />
+      <ConnectedCompareMarkets
+        tabs={tabs}
+        ctaContainer={params.cta_container}
+      />
     </Provider>,
     params.element
   )

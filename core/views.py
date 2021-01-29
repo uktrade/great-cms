@@ -98,7 +98,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
         )
 
     template_name = 'core/compare_countries.html'
-    title = 'Compare countries'
+    title = 'Where to export'
 
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()
