@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
-import { getLabel } from '@src/Helpers'
+import { getLabel, getValue } from '@src/Helpers'
 import Services from '@src/Services'
 
 export const GettingPaid = memo(({ formFields, formData, field }) => {
@@ -16,12 +16,15 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
 
   const debounceUpdate = useDebounce(update)
 
-  const onChange = (data) => {
+  const onChange = (data, notes, isNotes = false) => {
+    const note = isNotes ? { notes: data[isNotes] } : data
+
     setState({
       ...state,
       ...data,
     })
-    debounceUpdate({ [field]: data })
+
+    debounceUpdate({ [field]: { ...note, ...notes } })
   }
 
   return (
@@ -48,6 +51,7 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                   : Object.keys(select.options).flatMap(
                       (x) => select.options[x]
                     )
+                const selected = getLabel(options, state[select.id])
 
                 return (
                   <div className="user-form-group" key={select.id}>
@@ -56,11 +60,19 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                       id={select.id}
                       name={select.name}
                       options={select.options}
-                      selected={getLabel(options, state[select.id])}
-                      onChange={onChange}
+                      selected={selected}
+                      update={(data) =>
+                        onChange(data, { notes: state[textarea.id] })
+                      }
                     />
                     <TextArea
-                      onChange={onChange}
+                      onChange={(data) =>
+                        onChange(
+                          data,
+                          { [select.id]: getValue(options, selected) },
+                          textarea.id
+                        )
+                      }
                       label={textarea.label}
                       id={textarea.id}
                       value={state[textarea.id]}

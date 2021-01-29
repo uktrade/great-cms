@@ -30,8 +30,8 @@
         {
             group: [
               {
-                name: 'payment_methods',
-                id: 'payment_methods',
+                name: 'methods',
+                id: 'methods',
                 label: 'Payments methods',
                 field_type: 'Select',
                 options: {{ payment_method_choices|safe }},
@@ -48,8 +48,8 @@
         {
             group: [
               {
-                name: 'payment_terms',
-                id: 'payment_terms',
+                name: 'terms',
+                id: 'terms',
                 label: 'Payments terms',
                 field_type: 'Select',
                 options: {{ payment_term_choices|safe }},
@@ -66,8 +66,8 @@
           {
             group: [
               {
-                name: 'incoterms',
-                id: 'transport_choices',
+                name: 'transport',
+                id: 'transport',
                 label: 'Incoterms®',
                 field_type: 'Select',
                 options: {{ transport_choices|safe}}
