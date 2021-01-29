@@ -79,7 +79,13 @@ def test_export_plan_builder_landing_page(
 
     response = client.get('/export-plan/dashboard/')
     assert response.status_code == 200
-    assert response.context['sections'] == data.SECTION_TITLES
+    assert response.context['sections'][0] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+        'disabled': False,
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'is_complete': True,
+    }
 
 
 @pytest.mark.django_db
