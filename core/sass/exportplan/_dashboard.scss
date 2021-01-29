@@ -106,3 +106,9 @@
 .media__body {
   flex: 1;
 }
+
+.progress-bar {
+  &--white-track {
+    background-color: white;
+  }
+}

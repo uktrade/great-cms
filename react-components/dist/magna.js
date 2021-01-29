@@ -76412,6 +76412,7 @@ var createDashboard = function createDashboard(_ref) {
   var element = _ref.element,
       params = _objectWithoutProperties(_ref, ["element"]);
 
+  debugger;
   react_dom__WEBPACK_IMPORTED_MODULE_0___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_src_components_Dashboard__WEBPACK_IMPORTED_MODULE_2__["Dashboard"], params), element);
 };
 var createDisabledButton = function createDisabledButton(_ref2) {

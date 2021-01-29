@@ -6,7 +6,6 @@ export const SectionComplete = ({ current_section }) => {
   const { is_complete, url } = current_section
   const current_section_slug = url.split('/')[3]
   const [isComplete, setIsComplete] = useState(is_complete)
-
   const toggleComplete = () => {
     const field_obj = {
       ui_progress: {
