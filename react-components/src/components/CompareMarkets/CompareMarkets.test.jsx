@@ -231,14 +231,17 @@ afterEach(() => {
 
 it('Forces product chooser when no product', () => {
 
-  container.innerHTML = '<span id="compare-market-container" ></span>'
+  container.innerHTML = '<span id="cta-container"></span><span id="compare-market-container" ></span>'
   const dataTabs = '{ "population": true, "economy": true, "society": true }'
   container
     .querySelector('#compare-market-container')
     .setAttribute('data-tabs', dataTabs)
 
   act(() => {
-    CompareMarkets({ element: container.querySelector('span') })
+    CompareMarkets({
+      element: container.querySelector('span'),
+      cta_container: container.querySelector('#cta-container'),
+    })
   })
   expect(document.body.querySelector('.product-finder')).toBeFalsy()
   // Click the button and check it opens product finder
@@ -280,7 +283,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
     actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
   )
 
-  container.innerHTML = '<span id="compare-market-container" ></span>'
+  container.innerHTML = '<span id="cta-container"></span><span id="compare-market-container" ></span>'
   const dataTabs = '{ "population": true, "economy": true, "society": true }'
   container
     .querySelector('#compare-market-container')
@@ -289,6 +292,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
   act(() => {
     CompareMarkets({
       element: container.querySelector('#compare-market-container'),
+      cta_container: container.querySelector('#cta-container'),
     })
   })
   // check mock directory api data...
@@ -357,7 +361,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
 
 it('Select market from selection area', async () => {
   container.innerHTML =
-    '<span id="compare-market-container" data-productname="my product" data-productcode="123456"></span><span id="comparison-market-selector"></span>'
+    '<span id="cta-container"></span><span id="compare-market-container" data-productname="my product" data-productcode="123456"></span><span id="comparison-market-selector"></span>'
   const dataTabs = '{"population":true, "economy":true, "society": true}'
   container
     .querySelector('#compare-market-container')
@@ -381,6 +385,7 @@ it('Select market from selection area', async () => {
   act(() => {
     CompareMarkets({
       element: container.querySelector('#compare-market-container'),
+      cta_container: container.querySelector('#cta-container'),
     })
     SelectMarket({
       element: container.querySelector('#comparison-market-selector'),
