@@ -25,9 +25,10 @@
     magna.createGettingPaid({
       element: document.getElementById('getting-paid'),
       field: 'getting_paid',
-      formData: {{getting_paid_data}},
+      formData: {{getting_paid_data|safe}},
       formFields: [
         {
+            field: 'payment_method',
             group: [
               {
                 name: 'methods',
@@ -46,6 +47,7 @@
             ],
           },
         {
+          field: 'payment_terms',
             group: [
               {
                 name: 'terms',
@@ -64,6 +66,7 @@
             ],
           },
           {
+            field: 'incoterms',
             group: [
               {
                 name: 'transport',

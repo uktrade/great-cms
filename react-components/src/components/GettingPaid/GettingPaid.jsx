@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { useDebounce } from '@src/components/hooks/useDebounce'
@@ -16,15 +16,18 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
 
   const debounceUpdate = useDebounce(update)
 
-  const onChange = (data, notes, isNotes = false) => {
-    const note = isNotes ? { notes: data[isNotes] } : data
+  const onChange = (updatedField, otherProps, section, isNotes = false) => {
+    const note = isNotes ? { notes: updatedField[isNotes] } : updatedField
 
     setState({
       ...state,
-      ...data,
+      [section]: {
+        ...state[section],
+        ...note,
+      },
     })
 
-    debounceUpdate({ [field]: { ...note, ...notes } })
+    debounceUpdate({ [field]: { [section]: { ...note, ...otherProps } } })
   }
 
   return (
@@ -43,7 +46,7 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
           </p>
           <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
             <div className="target-market-documents-form">
-              {formFields.map(({ group }) => {
+              {formFields.map(({ group, field: key }) => {
                 const select = group[0]
                 const textarea = group[1]
                 const options = Array.isArray(select.options)
@@ -51,7 +54,10 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                   : Object.keys(select.options).flatMap(
                       (x) => select.options[x]
                     )
-                const selected = getLabel(options, state[select.id])
+                const selected = getLabel(
+                  options,
+                  state[key] ? state[key][select.id] : ''
+                )
 
                 return (
                   <div className="user-form-group" key={select.id}>
@@ -62,7 +68,7 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                       options={select.options}
                       selected={selected}
                       update={(data) =>
-                        onChange(data, { notes: state[textarea.id] })
+                        onChange(data, { notes: state[textarea.id] }, key)
                       }
                     />
                     <TextArea
@@ -70,12 +76,13 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                         onChange(
                           data,
                           { [select.id]: getValue(options, selected) },
+                          key,
                           textarea.id
                         )
                       }
                       label={textarea.label}
                       id={textarea.id}
-                      value={state[textarea.id]}
+                      value={state[key] ? state[key].notes : ''}
                       placeholder={textarea.placeholder}
                     />
                   </div>

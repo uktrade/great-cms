@@ -69711,13 +69711,13 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
 
   var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
 
-  var _onChange2 = function onChange(data, notes) {
-    var isNotes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var _onChange2 = function onChange(updatedField, otherProps, section) {
+    var isNotes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
     var note = isNotes ? {
-      notes: data[isNotes]
-    } : data;
-    setState(_objectSpread(_objectSpread({}, state), data));
-    debounceUpdate(_defineProperty({}, field, _objectSpread(_objectSpread({}, note), notes)));
+      notes: updatedField[isNotes]
+    } : updatedField;
+    setState(_objectSpread(_objectSpread({}, state), {}, _defineProperty({}, section, _objectSpread(_objectSpread({}, state[section]), note))));
+    debounceUpdate(_defineProperty({}, field, _defineProperty({}, section, _objectSpread(_objectSpread({}, note), otherProps))));
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -69735,13 +69735,14 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "target-market-documents-form"
   }, formFields.map(function (_ref2) {
-    var group = _ref2.group;
+    var group = _ref2.group,
+        key = _ref2.field;
     var select = group[0];
     var textarea = group[1];
     var options = Array.isArray(select.options) ? select.options : Object.keys(select.options).flatMap(function (x) {
       return select.options[x];
     });
-    var selected = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(options, state[select.id]);
+    var selected = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(options, state[key] ? state[key][select.id] : '');
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-form-group",
       key: select.id
@@ -69754,15 +69755,15 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
       update: function update(data) {
         return _onChange2(data, {
           notes: state[textarea.id]
-        });
+        }, key);
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
       onChange: function onChange(data) {
-        return _onChange2(data, _defineProperty({}, select.id, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValue"])(options, selected)), textarea.id);
+        return _onChange2(data, _defineProperty({}, select.id, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValue"])(options, selected)), key, textarea.id);
       },
       label: textarea.label,
       id: textarea.id,
-      value: state[textarea.id],
+      value: state[key] ? state[key].notes : '',
       placeholder: textarea.placeholder
     }));
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
