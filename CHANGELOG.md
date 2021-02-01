@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1411 - Allow type of article in ArticlePage to be blank, not just null
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
 - GP2-1402 - Update content for Funding and Credit section
 - GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
