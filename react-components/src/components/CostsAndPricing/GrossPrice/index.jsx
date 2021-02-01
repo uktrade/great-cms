@@ -119,7 +119,7 @@ export const GrossPrice = memo(
           <div className="c-1-2 m-b-s">
             <div className="bg-white radius p-xs">
               <i className="fas fa-pound-sign text-blue-deep-60 fa-lg" />
-              <p className="m-t-xxs m-b-0">Your potential per unit</p>
+              <p className="m-t-xxs m-b-0">Your potential total profit</p>
               <h3 className="h-s p-t-0 p-b-0">
                 {currency} {potentialPerUnit}
               </h3>
