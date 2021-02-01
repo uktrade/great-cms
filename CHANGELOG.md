@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- no-ticket - django version upgraded to 2.2.18
 - GP2-1424 - Cost and pricing page - local taxes section
 - GP2-1423 - Cost and pricing page - content change
 - GP2-1411 - Allow type of article in ArticlePage to be blank, not just null
