@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { capitalize } from '@src/Helpers'
+import ExpandCollapse from './ExpandCollapse'
 
 
 function ValueItem(props) {
@@ -28,7 +29,18 @@ function ValueItem(props) {
         onChange={changeValue}
         style={{width:'71px',textAlign:'center'}}
       />
-      <span className="text-black-50 m-f-xxs">%</span><span className="m-f-xs">{capitalize(option.name)}</span>
+      <span className="text-black-50 m-f-xxs">%</span>
+      <span className="m-f-xs">
+        {capitalize(option.name)}
+        {option.def && (
+          <ExpandCollapse
+            buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
+            buttonBefore
+          >
+            <div className="g-panel f-l m-v-xs">{option.def}</div>
+          </ExpandCollapse>
+        )}
+      </span>
     </label>
   )
 }
@@ -38,6 +50,7 @@ ValueItem.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
     value: PropTypes.string,
+    def: PropTypes.string,
   }).isRequired,
   valueChange: PropTypes.func.isRequired
 }
@@ -108,6 +121,7 @@ Interaction.propTypes = {
         PropTypes.shape({
           value: PropTypes.string,
           name: PropTypes.string,
+          def: PropTypes.string,
           id: PropTypes.string,
         })
       ),

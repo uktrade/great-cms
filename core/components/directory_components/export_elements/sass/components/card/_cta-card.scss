@@ -1,0 +1,73 @@
+
+// CTA CARD AND BUTTON/LINK
+// =========================
+
+.cta-card {
+  img {
+    width: 100%;
+  }
+
+  .link-container {
+    margin: -25px 30px 0;
+  }
+}
+
+a.cta-link:focus {
+  outline: 0;
+}
+
+a.cta-link:active:focus {
+  background-color: transparent;
+}
+
+.cta-link {
+  text-decoration: none;
+  font-weight: 700;
+  font-family: $brand-font;
+  font-size: 24px;
+
+  span {
+    color: $white;
+    background-color: $active-blue;
+    display: inline-block;
+    padding: 15px;
+  }
+
+  &:focus span {
+    @include focus;
+  }
+
+  &:hover {
+    span {
+      background-color: darken($active-blue, 5);
+    }
+
+    &:after {
+      color: darken($active-blue, 5);
+    }
+  }
+
+  &:active span {
+    color: $great-blue;
+    background-color: $focus-yellow;
+  }
+
+  &.with-arrow {
+    &:hover:after {
+      color: darken($active-blue, 5);
+    }
+
+    &:active:after {
+      color: $great-blue;
+    }
+
+    &:after {
+      display: inline-block;
+      margin-top: 15px;
+      margin-left: 15px;
+      font: inherit;
+      color: $active-blue;
+      content: '➞';
+    }
+  }
+}

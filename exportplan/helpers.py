@@ -2,8 +2,9 @@ import pytz
 from iso3166 import countries_by_alpha3
 
 from core import models
+from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
-from exportplan import data
+from exportplan import data, serializers
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -66,6 +67,12 @@ def get_comtrade_historical_import_data(commodity_code, country):
 
 def get_population_data_by_country(countries):
     response = api_client.dataservices.get_population_data_by_country(countries=countries)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_society_data_by_country(countries):
+    response = api_client.dataservices.get_society_data_by_country(countries=countries)
     response.raise_for_status()
     return response.json()
 
@@ -162,10 +169,36 @@ def delete_target_market_documents(sso_session_id, data):
     return response
 
 
+def create_funding_credit_options(sso_session_id, data):
+    response = api_client.exportplan.funding_credit_options_create(sso_session_id=sso_session_id, data=data)
+    response.raise_for_status()
+    return response.json()
+
+
+def update_funding_credit_options(sso_session_id, data):
+    response = api_client.exportplan.funding_credit_options_update(
+        sso_session_id=sso_session_id, id=data['pk'], data=data
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def delete_funding_credit_options(sso_session_id, data):
+    response = api_client.exportplan.funding_credit_options_delete(sso_session_id=sso_session_id, id=data['pk'])
+    response.raise_for_status()
+    return response
+
+
 def get_country_data(country):
     response = api_client.dataservices.get_country_data(country)
     response.raise_for_status()
     return response.json()
+
+
+def get_global_demographic_data(country):
+    country_data = get_country_data(country)
+    factbook_data = get_cia_world_factbook_data(country=country, key='people,languages')
+    return {**country_data, **factbook_data}
 
 
 def get_cia_world_factbook_data(country, key):
@@ -180,22 +213,23 @@ def get_population_data(country, target_ages):
     return response.json()
 
 
-def get_check_duties_link(exportplan):
+def get_check_duties_link(export_plan):
     # TODO Once requirements have been defined pick country code from export plan
     url = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     return url
 
 
-def get_all_lesson_details():
-    lessons = {}
-    for lesson in models.DetailPage.objects.live().specific():
-        lessons[lesson.slug] = {
-            'topic_name': lesson.topic_title,
-            'title': lesson.title,
-            'estimated_read_duration': lesson.estimated_read_duration,
-            'url': lesson.url,
-        }
-    return lessons
+def get_lesson_details(lessons):
+    lessons_details = {}
+    if len(lessons) > 0:
+        for lesson in models.DetailPage.objects.live().filter(slug__in=lessons):
+            lessons_details[lesson.slug] = {
+                'category': lesson.topic_title,
+                'title': lesson.title,
+                'duration': format_timedelta(lesson.estimated_read_duration),
+                'url': lesson.url,
+            }
+    return lessons_details
 
 
 def get_current_url(slug, export_plan):
@@ -208,4 +242,40 @@ def get_current_url(slug, export_plan):
     if slug in data.PRODUCT_REQUIRED:
         if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
             current_url['product_required'] = True
+    current_url['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', 'False')
     return current_url
+
+
+def build_export_plan_sections(export_plan):
+    sections = data.SECTIONS
+    for slug, values in sections.items():
+        values['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', 'False')
+    return list(sections.values())
+
+
+def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, section_name):
+    if (not export_plan.get('ui_options') or not export_plan['ui_options'].get(section_name, {})) or (
+        export_plan['ui_options'].get(section_name, {}).get('target_ages') != target_ages
+    ):
+        update_exportplan(
+            sso_session_id=sso_session_id,
+            id=export_plan['pk'],
+            data={'ui_options': {section_name: {'target_ages': target_ages}}},
+        )
+
+
+def calculated_cost_pricing(exportplan_data):
+    calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing
+    return {'calculated_cost_pricing': calculated_pricing}
+
+
+def calculate_ep_progress(exportplan_data):
+    progress_items = exportplan_data.get('ui_progress', {})
+    completed = [True for v in progress_items.values() if v.get('is_complete')]
+    return {
+        'export_plan_progress': {
+            'sections_completed': len(completed),
+            'sections_total': len(data.SECTION_SLUGS),
+            'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
+        }
+    }

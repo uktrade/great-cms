@@ -1,12 +1,25 @@
 from unittest import mock
 
 import pytest
+from bs4 import BeautifulSoup
+from django.test import RequestFactory
+from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
-from core import mixins
+from core import mixins, models as core_models
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
-from domestic.models import DomesticDashboard, DomesticHomePage
+from domestic.models import (
+    ArticleListingPage,
+    ArticlePage,
+    CountryGuidePage,
+    DomesticDashboard,
+    DomesticHomePage,
+    MarketsTopicLandingPage,
+    TopicLandingPage,
+    industry_accordions_validation,
+    main_statistics_validation,
+)
 from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -15,7 +28,15 @@ from tests.unit.core.factories import (
     ListPageFactory,
     TopicPageFactory,
 )
-from .factories import DomesticDashboardFactory, DomesticHomePageFactory
+from .factories import (
+    ArticleListingPageFactory,
+    ArticlePageFactory,
+    CountryGuidePageFactory,
+    DomesticDashboardFactory,
+    DomesticHomePageFactory,
+    MarketsTopicLandingPageFactory,
+    TopicLandingPageFactory,
+)
 
 
 class DomesticHomePageTests(WagtailPageTests):
@@ -144,3 +165,1028 @@ def test_dashboard_page_routing(
     )
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['plan'].value.get('enabled') is False
+
+
+@pytest.mark.django_db
+def test_can_create_country_guide_page(
+    domestic_homepage,
+    domestic_site,
+):
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test country',
+    )
+    assert page.title == 'Test country'
+    assert page.slug == 'test-country'
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'data,expected',
+    (
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_1_title': 'Col 1 title',
+                'fact_sheet_column_1_teaser': 'Col 1 teaser',
+                'fact_sheet_column_1_body': 'Col 1 body',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                'fact_sheet_column_2_teaser': 'Col 2 teaser',
+                'fact_sheet_column_2_body': 'Col 2 body',
+            },
+            [
+                {
+                    'title': 'Col 1 title',
+                    'teaser': 'Col 1 teaser',
+                    'body': 'Col 1 body',
+                },
+                {
+                    'title': 'Col 2 title',
+                    'teaser': 'Col 2 teaser',
+                    'body': 'Col 2 body',
+                },
+            ],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_1_title': 'Col 1 title',
+                'fact_sheet_column_1_teaser': 'Col 1 teaser',
+                'fact_sheet_column_1_body': 'Col 1 body',
+            },
+            [
+                {
+                    'title': 'Col 1 title',
+                    'teaser': 'Col 1 teaser',
+                    'body': 'Col 1 body',
+                },
+            ],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                'fact_sheet_column_2_teaser': 'Col 2 teaser',
+                'fact_sheet_column_2_body': 'Col 2 body',
+            },
+            [
+                {
+                    'title': 'Col 2 title',
+                    'teaser': 'Col 2 teaser',
+                    'body': 'Col 2 body',
+                },
+            ],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+            },
+            [],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                # 'fact_sheet_column_1_title': 'Col 1 title',  # Not OK to be missing
+                'fact_sheet_column_1_teaser': 'Col 1 teaser',
+                'fact_sheet_column_1_body': 'Col 1 body',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                'fact_sheet_column_2_teaser': 'Col 2 teaser',
+                # 'fact_sheet_column_2_body': 'Col 2 body',  # Not OK to be missing
+            },
+            [],
+        ),
+        (
+            {
+                'fact_sheet_title': 'test fact sheet',
+                'fact_sheet_teaser': 'test fact sheet teaser',
+                'fact_sheet_column_1_title': 'Col 1 title',
+                # 'fact_sheet_column_1_teaser': 'Col 1 teaser',  # OK to be missing
+                'fact_sheet_column_1_body': 'Col 1 body',
+                'fact_sheet_column_2_title': 'Col 2 title',
+                # 'fact_sheet_column_2_teaser': 'Col 2 teaser',  # OK to be missing
+                'fact_sheet_column_2_body': 'Col 2 body',
+            },
+            [
+                {
+                    'title': 'Col 1 title',
+                    'teaser': '',
+                    'body': 'Col 1 body',
+                },
+                {
+                    'title': 'Col 2 title',
+                    'teaser': '',
+                    'body': 'Col 2 body',
+                },
+            ],
+        ),
+    ),
+    ids=[
+        'both cols',
+        'only first',
+        'only second',
+        'no cols',
+        'missing key data',
+        'missing optional data',
+    ],
+)
+def test_fact_sheet_columns(
+    data,
+    expected,
+    domestic_homepage,
+    domestic_site,
+):
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        **data,
+    )
+    assert page.fact_sheet_columns == expected
+
+
+@pytest.mark.parametrize(
+    'data,expected',
+    (
+        (
+            {
+                'intro_cta_one_title': 'CTA 1 title',
+                'intro_cta_one_link': 'https://example.com/1/',
+                'intro_cta_two_title': 'CTA 2 title',
+                'intro_cta_two_link': 'https://example.com/2/',
+                'intro_cta_three_title': 'CTA 3 title',
+                'intro_cta_three_link': 'https://example.com/3/',
+            },
+            [
+                {
+                    'title': 'CTA 1 title',
+                    'link': 'https://example.com/1/',
+                },
+                {
+                    'title': 'CTA 2 title',
+                    'link': 'https://example.com/2/',
+                },
+                {
+                    'title': 'CTA 3 title',
+                    'link': 'https://example.com/3/',
+                },
+            ],
+        ),
+        (
+            {
+                'intro_cta_one_title': 'CTA 1 title',
+                'intro_cta_one_link': 'https://example.com/1/',
+                'intro_cta_three_title': 'CTA 3 title',
+                'intro_cta_three_link': 'https://example.com/3/',
+            },
+            [
+                {
+                    'title': 'CTA 1 title',
+                    'link': 'https://example.com/1/',
+                },
+                {
+                    'title': 'CTA 3 title',
+                    'link': 'https://example.com/3/',
+                },
+            ],
+        ),
+        (
+            {
+                'intro_cta_two_title': 'CTA 2 title',
+                'intro_cta_two_link': 'https://example.com/2/',
+            },
+            [
+                {
+                    'title': 'CTA 2 title',
+                    'link': 'https://example.com/2/',
+                },
+            ],
+        ),
+        (
+            {},
+            [],
+        ),
+        (
+            {
+                'intro_cta_one_title': 'CTA 1 title',
+                'intro_cta_one_link': 'https://example.com/1/',
+                'intro_cta_two_title': 'CTA 2 title',  #  missing link
+                'intro_cta_three_link': 'https://example.com/3/',  # missing title
+            },
+            [
+                {
+                    'title': 'CTA 1 title',
+                    'link': 'https://example.com/1/',
+                },
+            ],
+        ),
+    ),
+    ids=[
+        'all CTAs',
+        'two CTAs',
+        'One CTA',
+        'No CTAs',
+        'missing key fields',
+    ],
+)
+@pytest.mark.django_db
+def test_intro_ctas(
+    data,
+    expected,
+    domestic_homepage,
+    domestic_site,
+):
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        **data,
+    )
+    assert page.intro_ctas == expected
+
+
+@pytest.mark.parametrize(
+    'related_page_data',
+    (
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        ({'title': 'Article THREE', 'rel_name': 'related_page_three'},),
+        (),
+    ),
+    ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
+)
+@pytest.mark.django_db
+def test_country_guide_page__related_pages(
+    related_page_data,
+    domestic_homepage,
+    domestic_site,
+):
+
+    kwargs = {}
+
+    for data in related_page_data:
+        kwargs[data['rel_name']] = ArticlePageFactory(article_title=data['title'])
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        **kwargs,
+    )
+    assert [x for x in page.related_pages] == [x for x in kwargs.values()]
+
+
+@pytest.mark.parametrize(
+    'blocks_to_create,expected_exception_message',
+    (
+        (1, 'There must be between two and six statistics in this panel'),
+        (2, None),
+        (3, None),
+        (4, None),
+        (5, None),
+        (6, None),
+        (7, 'There must be between two and six statistics in this panel'),
+    ),
+)
+def test_main_statistics_validation(blocks_to_create, expected_exception_message):
+    value = [mock.Mock() for x in range(blocks_to_create)]
+
+    if expected_exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            main_statistics_validation(value)
+            assert ctx.message == expected_exception_message
+    else:
+        try:
+            main_statistics_validation(value)  #
+        except Exception as e:
+            assert False, f'Should not have got a {e}'
+
+
+@pytest.mark.parametrize(
+    'blocks_to_create,expected_exception_message',
+    (
+        (1, None),
+        (2, None),
+        (3, None),
+        (4, None),
+        (5, None),
+        (6, None),
+        (7, 'There must be no more than six industry blocks in this panel'),
+    ),
+)
+def test_industry_accordions_validation(blocks_to_create, expected_exception_message):
+
+    value = [mock.Mock() for x in range(blocks_to_create)]
+
+    if expected_exception_message:
+        with pytest.raises(StreamBlockValidationError) as ctx:
+            industry_accordions_validation(value)
+            assert ctx.message == expected_exception_message
+    else:
+        try:
+            industry_accordions_validation(value)  #
+        except Exception as e:
+            assert False, f'Should not have got a {e}'
+
+
+# BaseContentPage is abstract but had some methods on it
+
+
+@pytest.mark.django_db
+def test_base_content_page__ancestors_in_app(
+    domestic_homepage,
+    domestic_site,
+):
+
+    advice_topic_page = TopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+    )
+
+    article_page = ArticlePageFactory(
+        article_title='test article',
+        parent=advice_topic_page,
+    )
+
+    assert article_page.get_ancestors_in_app() == [
+        # NB: domestic homepage is deliberately NOT in this list
+        advice_topic_page.page_ptr,
+        # NB: article_page is deliberately NOT in this list
+    ]
+
+
+@pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
+def test_base_content_page__ancestors_in_app__involving_folder_pages():
+    pass
+
+
+@pytest.mark.django_db
+def test_base_content_page__get_breadcrumbs(
+    domestic_homepage,
+    domestic_site,
+):
+    advice_topic_page = TopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+    )
+
+    article_page = ArticlePageFactory(
+        article_title='test article',
+        parent=advice_topic_page,
+    )
+    assert article_page.get_breadcrumbs() == [
+        # NB: domestic homepage is deliberately NOT in this list
+        {
+            'title': advice_topic_page.title,
+            'url': advice_topic_page.url,
+        },
+        {
+            'title': article_page.title,
+            'url': article_page.url,
+        }
+        # NB: article_page IS in this list
+    ]
+
+
+@pytest.mark.skip(reason='We need more of the page tree ported before we can test this.')
+def test_base_content_page__get_breadcrumbs__using_breadcrumbs_label_field():
+    pass
+
+
+class TopicLandingPageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            TopicLandingPage,
+            {DomesticHomePage},
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            TopicLandingPage,
+            {
+                ArticlePage,
+                ArticleListingPage,
+            },
+        )
+
+    def test_slug_is_autogenerated(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+
+        hello_page = DomesticHomePage(title='Hello world')
+        homepage.add_child(instance=hello_page)
+
+        advice_topic_page = TopicLandingPage(
+            title='Advice',
+        )
+        homepage.add_child(instance=advice_topic_page)
+        retrieved_page_1 = TopicLandingPage.objects.get(id=advice_topic_page.id)
+        self.assertEqual(retrieved_page_1.slug, 'advice')
+
+    def test_child_pages(self):
+
+        advice_topic_page = TopicLandingPageFactory(
+            title='Advice',
+        )
+        article_list_one = ArticleListingPage(
+            title='list one',
+            landing_page_title='List One',
+        )
+        article_list_two = ArticleListingPage(
+            title='list two',
+            landing_page_title='List Two',
+        )
+        article_list_three = ArticleListingPage(
+            title='list three',
+            landing_page_title='List Three',
+        )
+
+        # note deliberate out-of-sequence ordering here
+        advice_topic_page.add_child(instance=article_list_two)
+        advice_topic_page.add_child(instance=article_list_one)
+        advice_topic_page.add_child(instance=article_list_three)
+
+        advice_topic_page.refresh_from_db()
+
+        self.assertEqual(
+            [x for x in advice_topic_page.child_pages()],
+            [article_list_two, article_list_one, article_list_three],
+        )
+
+        article_list_three.live = False
+        article_list_three.save()
+
+        self.assertEqual(
+            [x for x in advice_topic_page.child_pages()],
+            [article_list_two, article_list_one],
+        )
+
+
+class MarketsTopicLandingPageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            MarketsTopicLandingPage,
+            {DomesticHomePage},
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            MarketsTopicLandingPage,
+            {CountryGuidePage},
+        )
+
+    def test_slug_is_autogenerated(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+
+        hello_page = DomesticHomePage(title='Hello world')
+        homepage.add_child(instance=hello_page)
+        markets_topic_page = MarketsTopicLandingPage(
+            title='Markets',
+        )
+        homepage.add_child(instance=markets_topic_page)
+        retrieved_page_2 = MarketsTopicLandingPage.objects.get(
+            id=markets_topic_page.id,
+        )
+        self.assertEqual(retrieved_page_2.slug, 'markets')
+
+    def _make_country_guide_pages(self, parent_page, count):
+        for i in range(count):
+            CountryGuidePageFactory(
+                parent=parent_page,
+                title=f'Test GCP {i}',
+                live=True,
+            )
+
+    def test_sort_results(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+        self._make_country_guide_pages(markets_topic_page, 23)
+
+        pages = CountryGuidePage.objects.all()
+
+        # Order by title
+        request = RequestFactory().get('/?sortby=title')
+        sorted_pages = markets_topic_page.sort_results(
+            request,
+            pages,
+        )
+
+        self.assertEqual(sorted_pages[0], CountryGuidePage.objects.get(title='Test GCP 0'))
+        self.assertEqual([x for x in pages.order_by('title')], [y for y in sorted_pages])
+
+        # Last amended
+        request = RequestFactory().get('/?sortby=last_published_at')
+        sorted_pages = markets_topic_page.sort_results(
+            request,
+            pages,
+        )
+
+        self.assertEqual(sorted_pages[0], pages.order_by('last_published_at').first())
+        self.assertEqual([x for x in pages.order_by('last_published_at')], [y for y in sorted_pages])
+
+    def test_sort_results__sanitises_input(self):
+
+        mock_pages_queryset = mock.Mock(name='mock_pages_queryset')
+        markets_page = MarketsTopicLandingPageFactory()
+
+        for bad_args in (
+            '?sortby=body',
+            '?sortby=created_at',
+            '?sortby=;delete * from auth_user',
+            '?sortby=;delete%20*%20from%20auth_user',
+            '?other=foo',
+        ):
+            with self.subTest(bad_args=bad_args):
+                mock_pages_queryset.order_by.reset_mock()
+                request = RequestFactory().get(f'/{bad_args}')
+                markets_page.sort_results(
+                    request,
+                    mock_pages_queryset,
+                )
+                # 'title' is the fallback sort_by field
+                mock_pages_queryset.order_by.assert_called_once_with('title')
+
+    def test_get_context(self):
+
+        request = RequestFactory().get('/?sortby=last_published_at')
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+        output = markets_topic_page.get_context(request)
+
+        self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(output['sortby'], 'last_published_at')
+
+    def test_get_context__pagination(self):
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+        assert CountryGuidePage.objects.count() == 21
+
+        request = RequestFactory().get('/?page=1')  # 1-18 should be on page 1
+        output = markets_topic_page.get_context(request)
+        self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(
+            output['paginated_results'][0],
+            CountryGuidePage.objects.first(),
+        )
+        output = markets_topic_page.get_context(request)
+
+        request = RequestFactory().get('/?page=2')  # 19-21 should be on page 2
+        output = markets_topic_page.get_context(request)
+
+        self.assertEqual(len(output['paginated_results']), 3)
+        # final result should be the last CGP
+        self.assertEqual(
+            output['paginated_results'][2],
+            CountryGuidePage.objects.order_by('title').last(),
+        )
+
+    def test_get_context__handles_paginator_abuse(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+
+        for bad_args in (
+            '?page=112312312312413124',  # will raise EmptyPage
+            '?page=BAD WORDS',  # will raise PageNotAnInteger
+            '?page=;delete * from auth_user',  # will raise PageNotAnInteger
+            '?page=;delete%20*%20from%20auth_user',  # will raise PageNotAnInteger
+        ):
+            with self.subTest(bad_args=bad_args):
+                request = RequestFactory().get(f'/{bad_args}')
+
+                output = markets_topic_page.get_context(request)
+
+                self.assertEqual(len(output['paginated_results']), 18)
+                # defaults to the first page of results
+                self.assertEqual(
+                    output['paginated_results'][0],
+                    CountryGuidePage.objects.first(),
+                )
+
+
+class MarketsTopicLandingPageFilteringTests(WagtailPageTests):
+
+    fixtures = ['markets_filtering_fixtures.json']
+
+    def setUp(self):
+        # Ensure we have the expected data loaded (from the fixture)
+        assert core_models.IndustryTag.objects.count() == 42
+        assert core_models.Region.objects.count() == 22
+        assert core_models.Country.objects.count() == 269
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=self.markets_topic_page)
+
+    def _make_simplistic_country_guide_pages(self, parent_page, count):
+        for i in range(count):
+            CountryGuidePageFactory(
+                parent=parent_page,
+                title=f'Test GCP {i}',
+                live=True,
+            )
+
+    def _build_market_guide_for_filtering_tests(self, parent_page):
+        self.country_lookup = {}
+
+        for country_name in [
+            'Brazil',
+            'Australia',
+            'France',
+            'New Zealand',
+            'Germany',
+            'United States',
+        ]:
+            self.country_lookup[country_name] = CountryGuidePageFactory(
+                parent=parent_page,
+                title=country_name,
+                live=True,
+                country=core_models.Country.objects.get(
+                    name=country_name,
+                ),
+            )
+
+        _get_tag = core_models.IndustryTag.objects.get
+
+        self.country_lookup['Australia'].tags.add(_get_tag(name='Sport'))
+        self.country_lookup['Brazil'].tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['Brazil'].tags.add(_get_tag(name='Engineering'))
+        self.country_lookup['France'].tags.add(_get_tag(name='Aerospace'))
+        self.country_lookup['France'].tags.add(_get_tag(name='Food and drink'))
+        self.country_lookup['France'].tags.add(_get_tag(name='Technology'))
+        self.country_lookup['Germany'].tags.add(_get_tag(name='Technology'))
+        self.country_lookup['United States'].tags.add(_get_tag(name='Leisure and tourism'))
+        self.country_lookup['New Zealand'].tags.add(_get_tag(name='Leisure and tourism'))
+
+        for cgp in self.country_lookup.values():
+            cgp.save()  # To persist the tags
+
+    def test_get_relevant_markets__no_filtering(self):
+        self._make_simplistic_country_guide_pages(self.markets_topic_page, 23)
+
+        request = RequestFactory().get('/markets/')
+
+        self.assertEqual(
+            self.markets_topic_page.get_relevant_markets(request).count(),
+            23,
+        )
+
+    def test_get_relevant_markets__filtering__single_sector(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace')
+        results = self.markets_topic_page.get_relevant_markets(request)
+
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Brazil'],
+                self.country_lookup['France'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__multiple_sectors(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace&sector=Technology')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Brazil'],
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+            ],
+        )
+
+        request = RequestFactory().get('/markets/?sector=Sport&sector=Leisure+and+tourism')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Australia'],
+                self.country_lookup['New Zealand'],
+                self.country_lookup['United States'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__single_region(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?region=Western+Europe')
+        results = self.markets_topic_page.get_relevant_markets(request)
+
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__multiple_regions(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?region=Western+Europe&region=Oceania')
+        results = self.markets_topic_page.get_relevant_markets(request)
+
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Australia'],
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+                self.country_lookup['New Zealand'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__single_region_and_single_sector(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace&region=South+America')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Brazil'],
+            ],
+        )
+
+        request = RequestFactory().get('/markets/?sector=Leisure+and+tourism&region=North+America')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['United States'],
+            ],
+        )
+
+        request = RequestFactory().get('/markets/?region=Western+Europe&sector=Technology')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['France'],
+                self.country_lookup['Germany'],
+            ],
+        )
+
+    def test_get_relevant_markets__filtering__multiple_regions_and_sectors(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Aerospace&sector=Sport&region=South+America&region=Oceania')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual(
+            [x for x in results],
+            [
+                self.country_lookup['Australia'],
+                self.country_lookup['Brazil'],
+            ],
+        )
+
+    def test_get_relevant_markets__no_results(self):
+        self._build_market_guide_for_filtering_tests(
+            parent_page=self.markets_topic_page,
+        )
+        request = RequestFactory().get('/markets/?sector=Mining')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual([x for x in results], [])
+
+        request = RequestFactory().get('/markets/?region=Antarctica')
+        results = self.markets_topic_page.get_relevant_markets(request)
+        self.assertEqual([x for x in results], [])
+
+
+@pytest.mark.django_db
+def test_markets_page__no_results__page_content(
+    domestic_homepage,
+    domestic_site,
+    client,
+):
+
+    markets_topic_page = MarketsTopicLandingPageFactory(
+        title='Markets',
+        slug='markets',
+        parent=domestic_homepage,
+    )
+
+    response = client.get(markets_topic_page.url + '?region=Antarctica')
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    body_text = soup.get_text().replace('  ', '').replace('\n', '')
+
+    links = soup.find_all('a')
+
+    # lack of space `inAntarctica` is correct for this test, where we've stripped whitespace
+    assert ("Currently, we don't have any market guides with information inAntarctica.") in body_text
+
+    assert (
+        'There are other ways the Department for International Trade '
+        'can help you sell your product in an overseas market.'
+    ) in body_text
+
+    # Brittle tests warning
+    assert str(links[19]) == (
+        '<a class="link" href="https://www.great.gov.uk/export-opportunities/">'
+        'Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>'
+    )
+
+    assert str(links[20]) == (
+        '<a class="link" href="https://www.great.gov.uk/contact/office-finder">'
+        'Get in touch with a trade adviser to discuss your export business plan</a>'
+    )
+
+    assert str(links[21]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
+
+
+class ArticleListingPageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            ArticleListingPage,
+            {
+                CountryGuidePage,
+                TopicLandingPage,
+            },
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            ArticleListingPage,
+            {
+                ArticlePage,
+            },
+        )
+
+    def test_get_articles(self):
+
+        listing_page = ArticleListingPageFactory(
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
+        )
+        for i in range(5):
+            _title = f'Article {i}'
+            ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
+
+        last_article = ArticlePage.objects.last()
+
+        orphan_article = ArticlePageFactory(
+            title='Orphan',
+            article_title='Orphan',
+            parent=None,
+        )
+
+        self.assertEqual(
+            # QuerySets are not directly comparable
+            [x for x in listing_page.get_articles()],
+            [x for x in ArticlePage.objects.exclude(id=orphan_article.id)],
+        )
+
+        last_article.live = False
+        last_article.save()
+        self.assertEqual(
+            # QuerySets are not directly comparable
+            [x for x in listing_page.get_articles()],
+            [
+                x
+                for x in ArticlePage.objects.exclude(
+                    id__in=[orphan_article.id, last_article.id],
+                )
+            ],
+        )
+
+    def test_get_articles_count(self):
+        listing_page = ArticleListingPageFactory(
+            title='Test listing page',
+            landing_page_title='Test Listing Page',
+        )
+        for i in range(5):
+            _title = f'Article {i}'
+            ArticlePageFactory(title=_title, article_title=_title, parent=listing_page)
+
+        last_article = ArticlePage.objects.last()
+
+        ArticlePageFactory(
+            title='Orphan',
+            article_title='Orphan',
+            parent=None,
+        )
+
+        self.assertEqual(ArticlePage.objects.count(), 6)
+        self.assertEqual(listing_page.get_articles_count(), 5)
+
+        last_article.live = False
+        last_article.save()
+        self.assertEqual(listing_page.get_articles_count(), 4)
+
+
+class ArticlePageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            ArticlePage,
+            {
+                CountryGuidePage,
+                ArticleListingPage,
+                TopicLandingPage,
+            },
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            ArticlePage,
+            {},
+        )
+
+    def test_get_context(self):
+
+        request = RequestFactory().get('/example-path/')
+
+        page = ArticlePageFactory(
+            title='Test Article Page',
+            article_title='Test Article',
+        )
+
+        # ArticlePage subclasses SocialLinksPageMixin, which populates
+        # the 'social_links' key in the context
+        with mock.patch('domestic.models.build_social_links') as mock_build_social_links:
+            output = page.get_context(request=request)
+
+        mock_build_social_links.assert_called_once_with(request, 'Test Article Page')
+        assert 'social_links' in output
+
+
+@pytest.mark.parametrize(
+    'related_page_data',
+    (
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+        ),
+        ({'title': 'Article THREE', 'rel_name': 'related_page_three'},),
+        (),
+    ),
+    ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
+)
+@pytest.mark.django_db
+def test_article_page__related_pages(
+    related_page_data,
+    domestic_homepage,
+    domestic_site,
+):
+
+    kwargs = {}
+
+    for data in related_page_data:
+        kwargs[data['rel_name']] = ArticlePageFactory(article_title=data['title'])
+
+    page = ArticlePageFactory(
+        parent=domestic_homepage,
+        title='Test Article Page',
+        article_title='Test Article',
+        **kwargs,
+    )
+    assert [x for x in page.related_pages] == [x for x in kwargs.values()]

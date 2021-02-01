@@ -107,8 +107,11 @@ def test_about_your_business_form_view(mock_get_export_plan, about_your_business
 
 
 @pytest.mark.django_db
+@patch.object(helpers, 'get_cia_world_factbook_data')
 @patch.object(helpers, 'get_or_create_export_plan')
-def test_market_markets_research_form_view(mock_get_export_plan, target_markets_research_data, client, user):
+def test_market_markets_research_form_view(
+    mock_get_export_plan, mock_cia_factbook_data, target_markets_research_data, client, user
+):
     mock_get_export_plan.return_value = {
         'pk': 1,
         'target_markets_research': target_markets_research_data,
@@ -166,6 +169,6 @@ def test_objectives_form_view_submission(
     client.force_login(user)
     response = client.post(url, objectives_form_data)
 
-    assert mock_update_exportplan.call_count == 1
+    assert mock_update_exportplan.call_count == 2
     assert response.status_code == 302
     assert response.url == url

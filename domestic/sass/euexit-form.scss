@@ -1,0 +1,25 @@
+@import 'partials/colours';
+@import 'components/form-wizard';
+
+#content {
+  background: $white;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .body-text {
+    margin-bottom: 50px;
+  }
+
+  .form-label,
+  .form-hint {
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-top: 20px;
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}

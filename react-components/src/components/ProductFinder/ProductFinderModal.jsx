@@ -2,21 +2,22 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
+import actions from '@src/actions'
 import { capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
-import ClassificationTree from './ClassificationTree'
+import StartEndPage from './StartEndPage'
 import { analytics } from '../../Helpers'
-
+import ReactHtmlParser from 'react-html-parser'
 
 export default function ProductFinderModal(props) {
-  const { modalIsOpen, setIsOpen, setSelectedProduct } = props;
+  const { modalIsOpen, setIsOpen, selectedProduct } = props
 
   let scrollOuter
-
+  const [isSearching, setSearching] = useState(false)
   const [searchResults, setSearchResults] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -26,17 +27,18 @@ export default function ProductFinderModal(props) {
   useEffect(() => {
     if (modalIsOpen) {
       analytics({
-        'event': 'addProductPageview',
-        'virtualPageUrl': '/add-product-modal/search_entry',
-        'virtualPageTitle': 'Add Product Modal - Search Entry',
+        event: 'addProductPageview',
+        virtualPageUrl: '/add-product-modal/search_entry',
+        virtualPageTitle: 'Add Product Modal - Search Entry',
         productKeyword: null,
-        productCode: null
+        productCode: null,
       })
     }
   }, [modalIsOpen])
 
   const closeModal = () => {
     setIsOpen(false)
+    setSearching(false)
     setSearchResults()
   }
 
@@ -47,8 +49,13 @@ export default function ProductFinderModal(props) {
 
   const setScrollShadow = () => {
     if (scrollOuter) {
-      const bottomOverflow = scrollOuter.scrollHeight - (scrollOuter.scrollTop + scrollOuter.clientHeight)
-      setIsScrolled({ top: scrollOuter.scrollTop > 0, bottom: bottomOverflow > 0 })
+      const bottomOverflow =
+        scrollOuter.scrollHeight -
+        (scrollOuter.scrollTop + scrollOuter.clientHeight)
+      setIsScrolled({
+        top: scrollOuter.scrollTop > 0,
+        bottom: bottomOverflow > 0,
+      })
     }
   }
 
@@ -59,37 +66,26 @@ export default function ProductFinderModal(props) {
 
   const resetScroll = () => {
     if (scrollOuter) {
-      scrollOuter.scrollTop = 0;
-      setScrollShadow();
+      scrollOuter.scrollTop = 0
+      setScrollShadow()
     }
   }
 
-  const saveProduct = () => {
-    const productName = capitalize(searchResults.currentItemName)
-    const searchQuery = capitalize(searchResults.productDescription)
-    setSelectedProduct({
-      name: productName,
-      code: searchResults.hsCode
-    })
-    analytics({
-      event: 'addProductSuccess',
-      productKeyword: searchQuery,
-      productCode: searchResults.hsCode
-    })
-
-    Services.updateExportPlan({
-        export_commodity_codes: [{
-          commodity_name: productName,
-          commodity_code: searchResults.hsCode
-        }]
+  const saveProduct = (commodityCode, commodityName) => {
+    Services.store.dispatch(
+      actions.setProduct({
+        commodity_name: commodityName,
+        commodity_code: commodityCode,
       })
-      .then(() => {
-        closeModal()
-        window.location.reload()
+    )
+    if (searchResults) {
+      analytics({
+        event: 'addProductSuccess',
+        productKeyword: commodityName,
+        productCode: commodityCode,
       })
-      .catch(() => {
-        closeModal()
-      })
+    }
+    closeModal()
   }
 
   const renderSearchResults = (newSearchResults) => {
@@ -99,7 +95,7 @@ export default function ProductFinderModal(props) {
   }
 
   const responseAnalytics = (result) => {
-    const searchQuery = capitalize(result.productDescription);
+    const searchQuery = capitalize(result.productDescription)
     if (result.hsCode) {
       // product found
       analytics({
@@ -107,7 +103,7 @@ export default function ProductFinderModal(props) {
         virtualPageUrl: '/add-product-modal/product-found',
         virtualPageTitle: 'Add Product Modal - Product Found',
         productKeyword: searchQuery,
-        productCode: result.hsCode
+        productCode: result.hsCode,
       })
     } else if (result.currentQuestionInteraction) {
       if (result.knownInteractions.length === 0) {
@@ -116,7 +112,7 @@ export default function ProductFinderModal(props) {
           event: 'addProductPageview',
           virtualPageUrl: '/add-product-modal/tell-us-more',
           virtualPageTitle: 'Add Product Modal - Tell Us More',
-          productKeyword: searchQuery
+          productKeyword: searchQuery,
         })
       }
     } else {
@@ -125,7 +121,7 @@ export default function ProductFinderModal(props) {
         event: 'addProductPageview',
         virtualPageUrl: '/add-product-modal/no-results',
         virtualPageTitle: 'Add Product Modal - No Results',
-        productKeyword: searchQuery
+        productKeyword: searchQuery,
       })
     }
   }
@@ -159,32 +155,39 @@ export default function ProductFinderModal(props) {
   }
 
   const backToSearch = () => {
+    setSearching(true)
     renderSearchResults()
+    analytics({
+      event: 'searchProductAgain',
+    })
   }
 
   const Section = (title, sectionDetails) => {
-    if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map) return ''
+    if (!sectionDetails || sectionDetails.length === 0 || !sectionDetails.map)
+      return ''
     return (
-      <section className="p-h-l">
+      <section className="p-h-s">
         <h3 className="h-m p-v-xs">{title}</h3>
-          {(sectionDetails || []).map((value) => {
-            return value.type === 'SELECTION' ? 
-              (<Interaction 
-                txId={searchResults.txId} 
-                proddesc={searchResults.proddesc} 
-                key={value.id} 
-                attribute={value} 
-                isItemChoice={sectionDetails.isItemChoice} 
-                processResponse={processResponse}
-              />) : 
-              (<ValueInteraction 
-                txId={searchResults.txId} 
-                key={value.id} 
-                attribute={value} 
-                processResponse={processResponse} 
-                mixedContentError={searchResults.mixedContentError}
-              />)
-          })}
+        {(sectionDetails || []).map((value) => {
+          return value.type === 'SELECTION' ? (
+            <Interaction
+              txId={searchResults.txId}
+              proddesc={searchResults.proddesc}
+              key={value.id}
+              attribute={value}
+              isItemChoice={sectionDetails.isItemChoice}
+              processResponse={processResponse}
+            />
+          ) : (
+            <ValueInteraction
+              txId={searchResults.txId}
+              key={value.id}
+              attribute={value}
+              processResponse={processResponse}
+              mixedContentError={searchResults.mixedContentError}
+            />
+          )
+        })}
       </section>
     )
   }
@@ -196,92 +199,73 @@ export default function ProductFinderModal(props) {
           <div className="c-fullwidth">
             <span className="bold p-t-0">{capitalize(interaction.label)}</span>
             <p className="m-v-xxs">
-              {capitalize(interaction.selectedString)} 
-              {interaction.selectedString === 'other' ? ` ${interaction.unselectedString}` : ''}
-              {' '}<button 
-                type="button" 
-                className="change-known-button link link--underline body-m" 
-                onClick={() => onChangeClick(interaction)}>Change</button>
+              {capitalize(interaction.selectedString)}
+              {interaction.selectedString === 'other'
+                ? ` ${interaction.unselectedString}`
+                : ''}{' '}
+              <button
+                type="button"
+                className="change-known-button link link--underline body-m"
+                onClick={() => onChangeClick(interaction)}
+              >
+                Change
+              </button>
             </p>
-           </div>
-        </div>)
+          </div>
+        </div>
+      )
     })
     return content
   }
 
   const sectionAssumptions = (sectionDetails) => {
-    return sectionDetails && sectionDetails.length && (
-      <section className="p-h-l">
-        <h3 className="h-s p-0">Assumptions</h3>
-        <p className="m-v-xxs">We&apos;ve answered some questions for you. View and change these if they&apos;re wrong.</p>
-        <ExpandCollapse buttonLabel={ `View assumptions (${sectionDetails.length})`} expandedButtonLabel="Hide assumptions">{readOnlyContent(sectionDetails)}</ExpandCollapse> 
-      </section>
-    ) || ''
+    return (
+      (sectionDetails && sectionDetails.length && (
+        <section className="p-h-s">
+          <h3 className="h-s p-0">Assumptions</h3>
+          <p className="m-v-xxs">
+            We&apos;ve answered some questions for you. View and change these if
+            they&apos;re wrong.
+          </p>
+          <ExpandCollapse
+            buttonLabel={`View assumptions (${sectionDetails.length})`}
+            expandedButtonLabel="Hide assumptions"
+          >
+            {readOnlyContent(sectionDetails)}
+          </ExpandCollapse>
+        </section>
+      )) ||
+      ''
+    )
   }
 
   const sectionProductDetails = (sectionDetails) => {
-    return sectionDetails && sectionDetails.length && (
-      <div>
-        <section className="p-h-l">
-          <h3 className="h-s p-0">Product details</h3>
-          <p className="m-v-xxs">Things you&apos;ve told us about your product.</p>
-          {readOnlyContent(sectionDetails)}
-        </section>
-        <hr className="hr bg-black-10 m-h-l" />
-      </div>
-    ) || ''
+    return (
+      (sectionDetails && sectionDetails.length && (
+        <div>
+          <section className="p-h-s">
+            <h3 className="h-s p-0">Product details</h3>
+            <p className="m-v-xxs">
+              Things you&apos;ve told us about your product.
+            </p>
+            {readOnlyContent(sectionDetails)}
+          </section>
+          <hr className="hr bg-black-10 m-h-s" />
+        </div>
+      )) ||
+      ''
+    )
   }
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-l m-b-s">
+      <section className="m-h-s m-b-s body-l">
         <div className="h-m p-b-s">Match found</div>
-        <div className="box box--no-pointer">
-        <h3 className="h-xs p-v-0">{capitalize(_searchResults.currentItemName)}</h3>
-        <div className="body-l">HS Code: {_searchResults.hsCode}</div>
-        <ClassificationTree hsCode={_searchResults.hsCode} />
-          <button 
-            className="button button--primary" 
-            type="button" 
-            onClick={saveProduct}
-          >
-            Save product
-          </button>
-        </div>
-      </section>
-    )
-  }
-
-  const sectionNoResults = (_searchResults) => {
-    return (
-      <section className="m-h-l">
-        <div className="box box--no-pointer p-h-s p-t-s p-b-xs m-t-xs">
-          <h3 className="h-m p-t-xxs">No results found for &lsquo;{_searchResults.productDescription}&rsquo;</h3>
-          <h4 className="h-xs">Search tips</h4>
-          <ul className="list-dot m-v-xxs p-f-xs">
-            <li>Check for spelling mistakes</li>
-            <li>Try a more generic search term for describing your product, like sofa instead of settee</li>
-          </ul>
-          <h4 className="h-xs">Example searches</h4>
-          <ul className="list-dot m-v-xxs p-f-xs">
-            <li>frozen atlantic salmon</li>
-            <li>strawberries</li>
-            <li>fresh cut snowdrop</li>
-            <li>Woven mens blazer, 75% wool, 25% cotton</li>
-          </ul>
-        </div>
-      </section>
-    )
-  }
-  const sectionMultiItem = () => {
-    return (
-      <section className="m-h-l">
-        <div className="box box--no-pointer p-h-s p-v-xs m-t-xs">
-          <p>
-            The item you are classifying is considered a complex item (or set) which normally requires each component to be classified separately. 
-            Alternatively, you may request a binding classification ruling for your complex item (or set) from Customs in the country of import.
-          </p>
-        </div>
+        <StartEndPage
+          commodityCode={_searchResults.hsCode}
+          defaultCommodityName={capitalize(_searchResults.currentItemName)}
+          saveProduct={saveProduct}
+        />
       </section>
     )
   }
@@ -317,112 +301,232 @@ export default function ProductFinderModal(props) {
     }
     const assumptions = buildMap(results.assumedInteractions)
     const known = buildMap(results.knownInteractions)
-    let itemChoice = buildMap([results.currentItemInteraction]);
-    (itemChoice || {}).isItemChoice = true
+    let itemChoice = buildMap([results.currentItemInteraction])
+    ;(itemChoice || {}).isItemChoice = true
 
-    // *********************   Kill item choice so we can just use question 
+    // *********************   Kill item choice so we can just use question
     itemChoice = null
 
-    if (searchResults.multiItemError) {
-      return sectionMultiItem(searchResults)
-    }
-
-    if (searchResults.txId && !questions && !searchResults.hsCode) {
-      return sectionNoResults(searchResults)
-    }
-
-    const sections = itemChoice && !searchResults.hsCode ?
-      // If the item is ambiguous - supress other sections
-      <div>
-        {Section('Please choose your item', itemChoice)}
-      </div> :
-      <div>
-        {!showingInteraction && searchResults.hsCode && sectionFound(searchResults)}
-        {(!searchResults.hsCode || showingInteraction) && Section(`Tell us more about "${searchResults.currentItemName}"`, questions)}
-        {((known || questions) && !showingInteraction ) ? (<hr className="hr bg-red-deep-100 m-h-l"/>) : ''}
-        {!showingInteraction && sectionProductDetails(known)} 
-        {!showingInteraction && sectionAssumptions(assumptions)}
-      </div>
+    const sections =
+      itemChoice && !searchResults.hsCode ? (
+        // If the item is ambiguous - supress other sections
+        <div>{Section('Please choose your item', itemChoice)}</div>
+      ) : (
+        <div>
+          {!showingInteraction &&
+            searchResults.hsCode &&
+            sectionFound(searchResults)}
+          {(!searchResults.hsCode || showingInteraction) &&
+            Section(
+              `Tell us more about "${searchResults.currentItemName}"`,
+              questions
+            )}
+          {(known || questions) && !showingInteraction ? (
+            <hr className="hr bg-red-deep-100 m-h-s" />
+          ) : (
+            ''
+          )}
+          {!showingInteraction && sectionProductDetails(known)}
+          {!showingInteraction && sectionAssumptions(assumptions)}
+        </div>
+      )
 
     return sections
   }
 
-  const searchBox = () => {
+  const searchBox = (error) => {
     return (
-      <div className="p-h-l p-v-l">
-        <h3 className="h-m p-t-0 p-b-xxs">Search by name</h3>
-        <div>Find the product you want to export</div>
+      <div className="p-h-s p-t-l">
+        <h3 className="h-m p-t-0 p-b-xxs">Add product</h3>
+        <div>
+          Adding a product personalises lessons and other content for you.
+        </div>
+        {error && <div className="form-group-error p-v-xs m-v-xs">{error}</div>}
         <div className="flex-centre m-t-xs search-input">
-            <SearchInput
-              onChange={setSearchTerm}
-              onKeyReturn={search}
-              autoFocus
-            />
-          <button 
-            className="search-button button button--small button--only-icon m-f-xs" 
-            disabled={!searchTerm} 
-            type="button" 
+          <SearchInput
+            id="search-input"
+            onChange={setSearchTerm}
+            onKeyReturn={search}
+            autoFocus
+            iconClass="fa-search"
+            placeholder="ie: fresh strawberries"
+          />
+          <button
+            className="search-button button button--small button--only-icon m-f-xs"
+            disabled={!searchTerm}
+            type="button"
             onClick={search}
           >
-            <i className="fa fa-arrow-right"/>
+            <i className="fa fa-arrow-right" />
           </button>
+        </div>
+        <div className="box box--no-pointer m-t-s">
+          When you search for a product you may have to answer a few questions
+          before you find a match.
+        </div>
+        <div className="box box--no-pointer m-t-s">
+          <p className="m-t-0 m-b-xs">
+            This is because we use HS (
+            <span className="body-l-b">harmonised system</span>) codes to
+            classify goods.
+          </p>
+          <p className="m-v-0">
+            Think of it like the folder structure on a computer.
+          </p>
+        </div>
+        <div className="box box--no-pointer m-t-s m-h-0 grid">
+          <div className="c-1-2 p-h-0">
+            <p className="m-t-0 m-b-xs">
+              You might see your product as &quot;delicious green apples from
+              the valley&quot;.
+            </p>
+            <p className="m-v-0">
+              But the system sees &quot;fruits; apples; fresh&quot;.
+            </p>
+          </div>
+          <div className="c-1-2">
+            <img
+              className="w-full"
+              src="/static/images/apples-oranges-with-hs6.svg "
+              alt=""
+            />
+          </div>
+        </div>
+        <div className="box box--no-pointer m-t-s">
+          <p className="m-t-0 m-b-xs">
+            You don&apos;t have to find a perfect match.
+          </p>
+          <p className="m-v-0">
+            Find a close match, then feel free to relabel it.
+          </p>
         </div>
       </div>
     )
   }
 
-  const scrollerClass = `scroll-area ${isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''} ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
+  const showProduct = () => {
+    // When modal is opened - it shows the last selected product
+    // rather than jumping directly into search
+    return (
+      <div className="p-h-s p-t-l">
+        <section className="m-b-s body-l">
+          <h2 className="h-m p-b-s">Your product</h2>
+          <StartEndPage
+            commodityCode={selectedProduct.commodity_code || ''}
+            defaultCommodityName={
+              ReactHtmlParser(selectedProduct.commodity_name) || ''
+            }
+            saveProduct={saveProduct}
+            label="You can rename this to match your exact product"
+            buttonLabel="Update product name"
+            allowSaveSameName={false}
+          />
+          <p>
+            If you&apos;ve created an Export Plan, make sure you update it to
+            reflect your new product. You can change product at any time.
+          </p>
+          <button
+            type="button"
+            className="button button--tertiary button--icon"
+            onClick={backToSearch}
+          >
+            <i className="fas fa-arrow-left" />
+            Search again
+          </button>
+        </section>
+      </div>
+    )
+  }
+
+  const searchPages = () => {
+    // When in searching mode.  If there are searchResults will show a refinement/result page
+    // otherwise the search box page.
+    let error = ''
+    if (
+      searchResults &&
+      (!searchResults.txId ||
+        (!searchResults.currentQuestionInteraction && !searchResults.hsCode))
+    ) {
+      error =
+        'No results found. Check your spelling and use the search tips below.'
+    }
+    if (searchResults && searchResults.multiItemError) {
+      error = (
+        <div>
+          <p className="m-t-0">
+            We couldn&apos;t find a match because your search had too many
+            product names.
+          </p>
+          <p className="m-b-0">
+            Try searching for a broader term or use the search tips below.
+          </p>
+        </div>
+      )
+    }
+    return !searchResults || error ? (
+      searchBox(error)
+    ) : (
+      <span>
+        <button
+          type="button"
+          className="back-button m-f-s m-t-m"
+          onClick={backToSearch}
+        >
+          <i className="fa fa-arrow-circle-left m-r-xs" />
+          Search again
+        </button>
+        {searchResults && resultsDisplay(searchResults)}
+      </span>
+    )
+  }
+
+  const scrollerClass = `scroll-area ${
+    isScrolled && isScrolled.top ? 'scroll-shadow-top' : ''
+  } ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
   const headerHeight = '0px'
 
   return (
     <span>
-      <ReactModal 
-        isOpen={modalIsOpen} 
-        onRequestClose={closeModal} 
+      <ReactModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
         className="modal max-modal p-v-s p-h-l"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         shouldCloseOnOverlayClick={false}
         style={{
-          content:{
-            width:'auto',
-            left: '100px',
-            right: '100px',
+          content: {
+            maxWidth: '630px',
+            left: 'auto',
+            right: 'auto',
             overflow: 'hidden',
-          }
+          },
         }}
       >
         <form className="product-finder text-blue-deep-80">
-          <div style={{height:headerHeight}}>
+          <div style={{ height: headerHeight }}>
             {/* nothing in the modal header for the time being */}
           </div>
-          <div 
-            className={scrollerClass} 
-            style={{marginTop:headerHeight}} 
+          <div
+            className={scrollerClass}
+            style={{ marginTop: headerHeight }}
             onScroll={onScroll}
           >
-            <button 
-              id="dialog-close" 
-              type="button" 
-              aria-label="Close" 
-              className="pull-right m-r-0 dialog-close" 
+            <button
+              id="dialog-close"
+              type="button"
+              aria-label="Close"
+              className="pull-right m-r-0 dialog-close"
               onClick={closeModal}
             />
             {spinner}
-            <div 
+            <div
               className="scroll-inner p-b-m"
-              ref={(_scrollInner) => {scrollOuter = _scrollInner || scrollOuter}}
+              ref={(_scrollInner) => {
+                scrollOuter = _scrollInner || scrollOuter
+              }}
             >
-              {!searchResults ? searchBox() : (
-                <button 
-                  type="button" 
-                  className="back-button m-f-l m-t-m" 
-                  onClick={backToSearch} 
-                >
-                  <i className="fa fa-arrow-circle-left m-r-xs"/>
-                  Search again
-                </button>)}
-              {searchResults && resultsDisplay(searchResults)}
+              {isSearching || !selectedProduct ? searchPages() : showProduct()}
             </div>
           </div>
         </form>
@@ -434,5 +538,11 @@ export default function ProductFinderModal(props) {
 ProductFinderModal.propTypes = {
   modalIsOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  setSelectedProduct: PropTypes.func.isRequired,
+  selectedProduct: PropTypes.shape({
+    commodity_name: PropTypes.string,
+    commodity_code: PropTypes.string,
+  }),
+}
+ProductFinderModal.defaultProps = {
+  selectedProduct: null,
 }

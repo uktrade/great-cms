@@ -1,0 +1,158 @@
+.markets-landing {
+
+    .markets-header {
+        position: relative;
+        padding-top: 70px;
+    }
+
+    .controls {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+
+        label {
+            display: none;
+        }
+        @media (max-width: 640px) {
+            .mobile-filter-toggle,
+            .sort-control {
+                width: 50%;
+                float: left;
+                margin-bottom: 0;
+                height: 43px;
+                border: 2px solid $stone;
+                background-color: $white;
+                color: $grey;
+                font-family: $brand-font-standard;
+                line-height: 1em;
+                font-size: 19px;
+                font-weight: normal;
+                text-align: center;
+                text-align-last: center;
+                cursor: pointer;
+            }
+        }
+    }
+    .card {
+        min-height: 0;
+        .heading-large {
+            font-size: 16px;
+        }
+
+        .subheading {
+            font-size: 14px;
+        }
+
+
+        .card-image {
+            display: none;
+        }
+
+        .card-inner {
+            > :last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (min-width: 641px) {
+            .heading-large {
+                font-size: 19px;
+            }
+            .subheading {
+                font-size: 15px;
+            }
+
+            .card-image {
+                display: block;
+            }
+        }
+    }
+
+    .pagination {
+        width: 100%;
+        ol {
+            display: none;
+        }
+    }
+
+    @media(min-width: 641px) {
+
+        .markets-header {
+            padding-top: 0;
+        }
+        .controls {
+            position: static;
+            .sort-control {
+                width: auto;
+                min-width: 200px;
+                padding-right: 60px;
+                background-color: $white;
+            }
+            label {
+                display: inline;
+            }
+            .mobile-filter-toggle {
+                display: none;
+            }
+        }
+
+        .pagination {
+            ol {
+                display: block;
+            }
+        }
+    }
+
+    @media (min-width: 1025px){
+        .pagination {
+            width: 75%;
+        }
+    }
+
+    .js-enabled & {
+        input[type=submit] {
+            display: none;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .card {
+            margin-bottom: 15px;
+            .card-inner {
+                padding: 20px;
+
+                > :last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+.accessibility-skip-to-section {
+    font-weight: 400;
+    background-color: transparent;
+    color: $white;
+    display: inline-block;
+    padding: 15px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -1000px;
+    z-index: -1;
+
+    &:hover {
+        z-index: 10;
+    }
+
+    &:focus {
+      outline: 3px solid $focus-yellow;
+      outline-offset: 0;
+      background-color: $focus-yellow;
+      color: $dark-blue;
+      left: 0;
+      text-indent: 0;
+      top: 0;
+      z-index: 10;
+    }
+  }

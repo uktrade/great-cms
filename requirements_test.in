@@ -27,7 +27,7 @@ flake8==3.8.4
 pre-commit-hooks==3.3.0
 
 flake8-quotes
-flake8-blind-except
+flake8-blind-except==0.1.*
 flake8-debugger
 flake8-print
 flake8-quotes
@@ -36,3 +36,4 @@ pep8-naming
 pylint-django
 codecov
 ipython==7.16.1
+dateparser==0.7.2

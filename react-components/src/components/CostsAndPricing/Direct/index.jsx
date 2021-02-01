@@ -32,11 +32,13 @@ Direct.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
-      heading: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
+      placeholder: PropTypes.string.isRequired,
+      tooltip: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      field: PropTypes.string.isRequired,
     })
   ).isRequired,
   currency: PropTypes.string.isRequired,
-  data: PropTypes.objectOf(PropTypes.number).isRequired,
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
   update: PropTypes.func.isRequired,
 }

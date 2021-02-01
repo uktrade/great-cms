@@ -6,8 +6,11 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.http import HttpResponseRedirect
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from great_components.mixins import GA360Mixin
@@ -156,18 +159,69 @@ class Product(models.Model):
 
 
 @register_snippet
-class Country(models.Model):
-    name = models.CharField(max_length=255)
+class Region(models.Model):
+    name = models.CharField(max_length=100, unique=True)
 
-    panels = [
-        FieldPanel('name'),
-    ]
+    panels = [FieldPanel('name')]
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
 
+
+@register_snippet
+class Country(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=100, unique=True)
+    region = models.ForeignKey(Region, null=True, blank=True, on_delete=models.SET_NULL)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('region'),
+    ]
+
     class Meta:
         verbose_name_plural = 'Countries'
+        ordering = ('name',)
+
+    def save(self, *args, **kwargs):
+        # Automatically set slug on save, if not already set
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+@register_snippet
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    panels = [FieldPanel('name')]
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+
+@register_snippet
+class IndustryTag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    icon = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+
+    panels = [FieldPanel('name'), ImageChooserPanel('icon')]
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
 
 
 class TimeStampedModel(models.Model):
@@ -895,6 +949,40 @@ def case_study_body_validation(value):
             )
 
 
+class MagnaPageChooserPanel(PageChooserPanel):
+    show_label = False
+
+    field_template = 'admin/wagtailadmin/edit_handlers/field_panel_field.html'
+
+    def render_as_field(self):
+        instance_obj = self.get_chosen_item()
+        context = {
+            'field': self.bound_field,
+            self.object_type_name: instance_obj,
+            'is_chosen': bool(instance_obj),  # DEPRECATED - passed to templates for backwards compatibility only
+            # Added obj_type on base class method render_as_field
+            'obj_type': instance_obj.specific.__class__.__name__ if instance_obj else None,
+        }
+        return mark_safe(render_to_string(self.field_template, context))
+
+
+class CaseStudyRelatedPages(Orderable):
+    case_study = ParentalKey(
+        'core.CaseStudy',
+        related_name='related_pages',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    page = models.ForeignKey('wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+    panels = [
+        MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]),
+    ]
+
+    class Meta:
+        unique_together = ['case_study', 'page']
+
+
 @register_snippet
 class CaseStudy(ClusterableModel):
     """Dedicated snippet for use as a case study. Supports personalised
@@ -964,7 +1052,17 @@ class CaseStudy(ClusterableModel):
             heading='Case Study content',
         ),
         MultiFieldPanel(
-            [FieldPanel('hs_code_tags'), FieldPanel('country_code_tags')], heading='Case Study tags for Personalisation'
+            [
+                FieldPanel('hs_code_tags'),
+                FieldPanel('country_code_tags'),
+            ],
+            heading='Case Study tags for Personalisation',
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel('related_pages', label='Related pages'),
+            ],
+            heading='Related Lesson, Topic & Module, also used for Personalisation',
         ),
     ]
 

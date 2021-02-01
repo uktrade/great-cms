@@ -1,0 +1,37 @@
+div.chosen.Topic.Page:before,
+.TopicPage .chooser .chosen:before,
+.chooser .unchosen:before {
+    color: #4B426D;
+}
+div.chosen.Curated.List.Page:before,
+.CuratedListPage .chooser .chosen:before,
+.chooser .unchosen:before {
+    color: #EB4F4D;
+}
+
+div.chosen.Detail.Page:before,
+.DetailPage .chooser .chosen:before,
+.chooser .unchosen:before {
+    color: #007EA3;
+}
+
+span.title.Detail.Page:before,
+.DetailPage span.title:before {
+    content: "LESSON: ";
+    font-weight: bold;
+}
+span.title.Curated.List.Page:before,
+.CuratedListPage span.title:before {
+    content: "MODULE: ";
+    font-weight: bold;
+}
+
+span.title.Topic.Page:before,
+.TopicPage span.title:before {
+    content: "TOPIC: ";
+    font-weight: bold;
+}
+
+button[id^="related_pages-"]{
+    display: none;
+}

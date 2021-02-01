@@ -1,6 +1,7 @@
 import csv
 import functools
 import math
+import urllib
 from collections import Counter
 from difflib import SequenceMatcher
 from io import StringIO
@@ -17,6 +18,7 @@ from core.serializers import parse_events, parse_opportunities
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
+from exportplan import helpers as exportplan_helpers
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
@@ -339,3 +341,78 @@ def millify(n):
     mill_names = ['', ' thousand', ' million', ' billion', ' trillion']
     mill_idx = max(0, min(len(mill_names) - 1, int(math.floor(0 if n == 0 else math.log10(abs(n)) / 3))))
     return '{0:.2f}{unit}'.format(n / 10 ** (3 * mill_idx), unit=mill_names[mill_idx])
+
+
+def get_comtrade_data(countries_list, commodity_code):
+    response_data = {}
+    for country in countries_list:
+        json_data = api_client.dataservices.get_last_year_import_data(
+            country=country, commodity_code=commodity_code
+        ).json()
+
+        # Todo: Refactor repeated code
+        import_data = json_data['last_year_data'] if 'last_year_data' in json_data else {}
+        if import_data:
+            if 'trade_value' in import_data and import_data['trade_value']:
+                import_data['trade_value_raw'] = import_data['trade_value']
+                import_data['trade_value'] = millify(import_data['trade_value'])
+
+            if 'year_on_year_change' in import_data and import_data['year_on_year_change']:
+                import_data['year_on_year_change'] = import_data['year_on_year_change']
+        json_data_from_uk = api_client.dataservices.get_last_year_import_data_from_uk(
+            country=country, commodity_code=commodity_code
+        ).json()
+
+        # Todo: Refactor repeated code
+
+        import_data_from_uk = json_data_from_uk['last_year_data'] if 'last_year_data' in json_data_from_uk else {}
+        if import_data_from_uk and 'trade_value' in import_data_from_uk and import_data_from_uk['trade_value']:
+            import_data_from_uk['trade_value_raw'] = import_data_from_uk['trade_value']
+            import_data_from_uk['trade_value'] = millify(import_data_from_uk['trade_value'])
+
+        country_data = exportplan_helpers.get_country_data(country)
+        response_data[country] = {
+            'import_from_world': import_data if import_data else {},
+            'import_data_from_uk': import_data_from_uk if import_data_from_uk else {},
+            **country_data,
+        }
+    return response_data
+
+
+def build_social_link(template, request, title):
+    text_to_encode = 'Export Readiness - ' + title + ' '
+    return template.format(
+        url=request.build_absolute_uri(),
+        text=urllib.parse.quote(text_to_encode),
+    )
+
+
+def build_twitter_link(request, title):
+    template = 'https://twitter.com/intent/tweet?text={text}{url}'
+    return build_social_link(template, request, title)
+
+
+def build_facebook_link(request, title):
+    # note that the 'title' is not used
+    template = 'https://www.facebook.com/share.php?u={url}'
+    return build_social_link(template, request, title)
+
+
+def build_linkedin_link(request, title):
+    template = 'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={text}&source=LinkedIn'
+    return build_social_link(template, request, title)
+
+
+def build_email_link(request, title):
+    template = 'mailto:?body={url}&subject={text}'
+    return build_social_link(template, request, title)
+
+
+def build_social_links(request, title):
+    kwargs = {'request': request, 'title': title}
+    return {
+        'facebook': build_facebook_link(**kwargs),
+        'twitter': build_twitter_link(**kwargs),
+        'linkedin': build_linkedin_link(**kwargs),
+        'email': build_email_link(**kwargs),
+    }

@@ -1,0 +1,70 @@
+// FONT vars and mixins
+// ------------------------------
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+@import url(https://fonts.googleapis.com/css?family=Overpass:400,800);
+
+$brand-font-standard: 'Roboto', arial, helvetica, verdana, sans-serif;
+$brand-font-alternative: 'Overpass', arial, helvetica, verdana, sans-serif;
+$brand-font-serif: georgia, verdana, serif;
+
+
+// HEADING mixins
+@mixin heading-m {
+  font-family: $brand-font-standard;
+  font-size:   36px;
+  font-weight: 600;
+  line-height: 1.1em;
+  margin: 0 0 1em 0;
+}
+
+// CONTENT mixins
+@mixin body-xl {
+  font-family: $brand-font-standard;
+  font-size:   32px;
+  font-weight: 400;
+  line-height: 1.25em;
+}
+
+@mixin body-l {
+  font-family: $brand-font-standard;
+  font-size:   24px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+
+@mixin body-m {
+  font-family: $brand-font-standard;
+  font-size:   19px;
+  font-weight: 400;
+  line-height: 1.58em;
+}
+
+@mixin body-s {
+  font-family: $brand-font-standard;
+  font-size:   15px;
+  font-weight: 400;
+  line-height: 1.47em;
+}
+
+@mixin body-s-mob {
+  font-family: $brand-font-standard;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.54em;
+}
+
+// SPECIAL
+@mixin quote {
+  font-family: $brand-font-serif;
+  font-size:   24px;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+@mixin quote-mob {
+  font-family: $brand-font-serif;
+  font-size:   16px;
+  font-weight: 400;
+  line-height: 1.88em;
+}

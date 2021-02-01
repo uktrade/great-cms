@@ -2,8 +2,11 @@ import time
 from unittest import mock
 
 import pytest
+from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.db import IntegrityError
+from django.test import RequestFactory, TestCase
+from wagtail.admin.edit_handlers import ObjectList
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
@@ -14,12 +17,19 @@ from wagtail_factories import ImageFactory
 from core.mixins import AuthenticatedUserRequired
 from core.models import (
     AbstractObjectHash,
+    CaseStudyRelatedPages,
+    Country,
     CuratedListPage,
     DetailPage,
+    IndustryTag,
     InterstitialPage,
     LandingPage,
     LessonPlaceholderPage,
     ListPage,
+    MagnaPageChooserPanel,
+    Product,
+    Region,
+    Tag,
     TopicPage,
     case_study_body_validation,
 )
@@ -200,7 +210,7 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         ('/export-plan/section/adaptation-for-your-target-market/', 'Adaptation for your target market'),
         ('/export-plan/section/marketing-approach/', 'Marketing approach'),
         ('/export-plan/section/costs-and-pricing/', 'Costs and pricing'),
-        ('/export-plan/section/finance/', 'Finance'),
+        ('/export-plan/section/funding-and-credit/', 'Funding and Credit'),
         ('/export-plan/section/payment-methods/', 'Payment methods'),
         ('/export-plan/section/travel-and-business-policies/', 'Travel and business policies'),
         ('/export-plan/section/business-risk/', 'Business risk'),
@@ -218,7 +228,7 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         'Seeking: Marketing approach',
         'Seeking: Costs and pricing',
         'Seeking: Payment methods',
-        'Seeking: Finance',
+        'Seeking: Funding and Credit',
         'Seeking: Travel and business policies',
         'Seeking: Business risk',
         'Valid backlink with querystring does not break name lookup',
@@ -541,3 +551,133 @@ class TestGreatMedia(TestCase):
                 }
             ],
         )
+
+
+class TestSmallSnippets(TestCase):
+    # Most snippets are generally small models. Move them out of this test case
+    # into their own if/when they gain any custom methods beyond __str__
+
+    def test_region(self):
+        region = Region.objects.create(name='Test Region')
+        self.assertEqual(region.name, 'Test Region')
+        self.assertEqual(f'{region}', 'Test Region')  #  tests __str__
+
+    def test_country(self):
+        region = Region.objects.create(name='Test Region')
+
+        # NB: slugs are not automatically set.
+        # The SlugField is about valiation, not auto-population by default
+        country1 = Country.objects.create(
+            name='Test Country',
+            slug='test-country',
+        )
+        country2 = Country.objects.create(
+            name='Other Country',
+            slug='other-country',
+            region=region,
+        )
+        country_unicode = Country.objects.create(
+            name='Téßt Country',
+            slug='tt-country',
+        )
+
+        self.assertEqual(country1.name, 'Test Country')
+        self.assertEqual(country1.slug, 'test-country')
+        self.assertEqual(country1.region, None)
+        self.assertEqual(f'{country1}', 'Test Country')  #  tests __str__
+
+        self.assertEqual(country2.name, 'Other Country')
+        self.assertEqual(country2.slug, 'other-country')
+        self.assertEqual(country2.region, region)
+
+        self.assertEqual(country_unicode.name, 'Téßt Country')
+        # by default, ASCII only - https://docs.djangoproject.com/en/2.2/ref/utils/#django.utils.text.slugify
+        self.assertEqual(country_unicode.slug, 'tt-country')
+        self.assertEqual(country_unicode.region, None)
+        self.assertEqual(f'{country_unicode}', 'Téßt Country')  #  tests __str__
+
+    def test_country_sets_slug_on_save(self):
+        country = Country.objects.create(name='Test Country')
+        country.refresh_from_db()
+        self.assertEqual(country.slug, 'test-country')
+
+        # Slug is set only on first save, if not already set
+        country_2 = Country.objects.create(name='Another Country')
+        self.assertEqual(country_2.slug, 'another-country')
+        country_2.name = 'Changed country name'
+        country_2.save()
+        country_2.refresh_from_db()
+        self.assertEqual(
+            country_2.slug,
+            'another-country',
+            'Slug should not have changed',
+        )
+
+        # Can specify slug up-front
+        country_3 = Country.objects.create(
+            name='Country Three',
+            slug='somewhere',
+        )
+        country_3.refresh_from_db()
+        self.assertEqual(country_3.slug, 'somewhere')
+
+        # Can't reuse slug
+        with self.assertRaises(IntegrityError):
+            Country.objects.create(name='Test Country')
+
+    def test_product(self):
+        product = Product.objects.create(name='Test Product')
+        self.assertEqual(product.name, 'Test Product')
+        self.assertEqual(f'{product}', 'Test Product')  #  tests __str__
+
+    def test_tag(self):
+        tag = Tag.objects.create(name='Test Tag')
+        self.assertEqual(tag.name, 'Test Tag')
+        self.assertEqual(f'{tag}', 'Test Tag')  #  tests __str__
+
+    def test_industry_tag(self):
+        tag = IndustryTag.objects.create(name='Test IndustryTag')
+        self.assertEqual(tag.name, 'Test IndustryTag')
+        self.assertEqual(f'{tag}', 'Test IndustryTag')  #  tests __str__
+
+
+class TestMagnaPageChooserPanel(TestCase):
+    def setUp(self):
+        self.request = RequestFactory().get('/')
+        user = AnonymousUser()  # technically, Anonymous users cannot access the admin
+        self.request.user = user
+
+        model = CaseStudyRelatedPages  # a model with a foreign key to Page which we want to render as a page chooser
+
+        # a MagnaPageChooserPanel class that works on CaseStudyRelatedPages's 'page' field
+        self.edit_handler = ObjectList(
+            [MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage])]
+        ).bind_to(model=model, request=self.request)
+        self.my_page_chooser_panel = self.edit_handler.children[0]
+
+        # build a form class containing the fields that MyPageChooserPanel wants
+        self.PageChooserForm = self.edit_handler.get_form_class()
+
+        # a test instance of PageChooserModel, pointing to the 'christmas' page
+        self.detail_page = DetailPageFactory(slug='detail-page')
+        self.test_instance = model.objects.create(page=self.detail_page)
+
+        self.form = self.PageChooserForm(instance=self.test_instance)
+        self.page_chooser_panel = self.my_page_chooser_panel.bind_to(instance=self.test_instance, form=self.form)
+
+    def test_magna_page_chooser_panel_target_models(self):
+        result = (
+            MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage])
+            .bind_to(model=MagnaPageChooserPanel)
+            .target_models()
+        )
+        self.assertEqual(result, [DetailPage, CuratedListPage, TopicPage])
+
+    def test_magna_page_chooser_panel_render_as_empty_field(self):
+        test_instance = CaseStudyRelatedPages()
+        form = self.PageChooserForm(instance=test_instance)
+        page_chooser_panel = self.my_page_chooser_panel.bind_to(instance=test_instance, form=form, request=self.request)
+        result = page_chooser_panel.render_as_field()
+
+        self.assertIn('<span class="title"></span>', result)
+        self.assertIn('Choose a page', result)

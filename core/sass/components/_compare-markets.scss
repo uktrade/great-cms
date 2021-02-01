@@ -1,0 +1,48 @@
+@import 'helpers/colours';
+
+.market-details {
+  table {
+    table-layout: fixed;
+    td {
+      &.align-top {
+        vertical-align: top;
+      }
+    }
+    thead th {
+      vertical-align: bottom;
+    }
+    tbody th button {
+      position: absolute;
+      left: 0;
+      margin-top: -5px;
+    }
+  }
+
+  .tooltip__content {
+    padding-right: 20px;
+    p {
+      margin: 20px 0;
+      &:first-child,
+      &:last-child {
+        margin: 10px 0;
+      }
+    }
+  }
+}
+
+table .loading {
+  animation: shimmer 5s infinite linear;
+  background: linear-gradient(to right, #e9e7ed 20%, #faf8fe 50%, #e9e7ed 66%);
+  background-size: 1000px 100%;
+  border-radius: 4px;
+  height: 20px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}

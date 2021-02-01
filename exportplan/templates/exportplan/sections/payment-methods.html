@@ -1,13 +1,97 @@
 {% extends 'exportplan/section.html' %}
 
-{% block intro_content %}
-<h1 class="h-xl">Payment methods</h1>
-{% lorem 1 p random %}
-{% endblock %}
+{% block intro_title %}Getting paid{% endblock %}
+{% block intro_description %}How and when you get paid directly affects your business cashflow so it's important to get it right. <br /><br /> This page helps you outline your plans for getting paid from abroad.{% endblock %}
 
 {% block main_content %}
-{% lorem 2 p random %}
+<div class="g-panel">
+  <p>To get paid the right amount and get paid on time, you'll need to think about your intended:</p>
+  <ul class="list-dot">
+    <li>payment terms</li>
+    <li>payment methods</li>
+    <li>Incoterms® (international commercial terms)</li>
+  </ul>
+  <p>To make it easier, we've created a list of options for each one.</p>
+</div>
 {% endblock %}
 
 {% block user_input %}
+<div id="getting-paid"></div>
+{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    magna.createGettingPaid({
+      element: document.getElementById('getting-paid'),
+      field: 'getting_paid',
+      formData: {
+        payment_terms: 'credit',
+        payments_notes: 'This is a note for payments',
+        incoterms: 'collection',
+        incoterms_notes: 'This is a an incoterm note',
+      },
+      formFields: [
+          {
+            group: [
+              {
+                name: 'payment_terms',
+                id: 'payment_terms',
+                label: 'Payments terms',
+                field_type: 'Select',
+                options: [
+                  { value: 'payment', label: 'Payment in advance' },
+                  { value: 'credit', label: 'Letter of credit' },
+                  { value: 'collection', label: 'Bank collection or documentary collections (D/C)' },
+                  { value: 'account', label: 'Open account' },
+                  { value: 'other', label: 'other' },
+                ],
+              },
+              {
+                name: 'Add notes',
+                label: 'Add notes',
+                field_type: 'Textarea',
+                placeholder: 'Add note',
+                id: 'payments_notes'
+              },
+            ],
+          },
+          {
+            group: [
+              {
+                name: 'incoterms',
+                id: 'incoterms',
+                label: 'Incoterms®',
+                field_type: 'Select',
+                options: [
+                  {
+                    name: 'All forms of transport',
+                    options: [
+                      { value: 'works', label: 'Ex Works' },
+                      { value: 'career', label: 'Free Carrier' },
+                      { value: 'carriage', label: 'Carriage Paid To (CPT)' },
+                    ],
+                  },
+                  {
+                    name: 'Water transport',
+                    options: [
+                      { value: 'free', label: 'Free Alongside Ship (FAS)' },
+                      { value: 'board', label: 'Free on Board (FOB)' },
+                      { value: 'freight', label: 'Cost and Freight (CFR)' },
+                    ],
+                  },
+                ],
+              },
+              {
+                name: 'Add notes',
+                label: 'Add notes',
+                field_type: 'Textarea',
+                placeholder: 'Add note',
+                id: 'incoterms_notes'
+              },
+            ],
+          },
+        ],
+    })
+  </script>
 {% endblock %}

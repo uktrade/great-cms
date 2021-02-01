@@ -112,7 +112,7 @@ $desktop: 1024px;
     display: none;
 
     @include tablet {
-      display: inline-block;
+      display: inline-flex;
     }
   }
 }
@@ -184,7 +184,7 @@ $desktop: 1024px;
   }
 }
 
-.learn__category-image { 
+.learn__category-image {
   border-bottom-right-radius: 10px;
   max-width: 100%;
   height: auto;
@@ -337,7 +337,7 @@ $desktop: 1024px;
 
 .learn__lesson-item-link--completed {
   display: inline-block;
-  
+
   @include tablet {
     float: right;
   }
@@ -409,17 +409,17 @@ $desktop: 1024px;
       }
     }
   }
-  
+
   @include tablet {
     > i {
       width: 70px;
-  
+
       &:before {
         font-size: 40px;
       }
     }
   }
-} 
+}
 
 #lesson-page {
   details {
@@ -665,11 +665,11 @@ $desktop: 1024px;
     h2, h3, h4 {
       color: $blue-deep-80;
     }
-  
+
     > ul {
       margin: 0;
     }
-  
+
     > ul.list-bullet > li {
       position: static;
       padding-left: 0;
@@ -859,7 +859,7 @@ $desktop: 1024px;
           position: absolute;
           top: 0;
           right: calc(-100% - 30px);
-  
+
           @include tablet {
             display: block;
           }

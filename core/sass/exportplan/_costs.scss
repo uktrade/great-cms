@@ -3,16 +3,25 @@
   display: block;
   padding: 0 20px;
 
+  &--funding {
+    padding: 1px 20px;
+  }
+
   td {
     border: 0;
     padding: 10px 5px 20px;
     position: relative;
-    width: 50%;
+    display: block;
+    width: 100%;
 
-    @include breakpoint(lg_lt) {
-      display: block;
-      width: 100%;
+    @include breakpoint(sm) {
+      display: table-cell;
+      width: 50%;
     }
+  }
+
+  .border-none {
+    border: none;
   }
 
   tr {
@@ -23,29 +32,12 @@
     }
   }
 
-  .form-group {
-    position: absolute;
-    right: 0;
-    top: 25px;
-
-    @include breakpoint(lg_lt) {
-      position: relative;
-      right: auto;
-      top: auto;
-    }
-
-    input {
-      text-align: right;
-      width: 100%;
-
-      @include tablet {
-        width: 140px;
-      }
-    }
-  }
-
   .form-label {
     @extend .body-l-b;
+  }
+
+  .button--add i {
+    padding-right: 10px;
   }
 
   &--total {
@@ -57,6 +49,14 @@
 
     .total {
       text-align: right;
+    }
+  }
+
+  &--total {
+    td {
+      padding-top: 20px;
+      display: table-cell;
+      width: 50%;
     }
   }
 }

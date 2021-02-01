@@ -21,8 +21,8 @@
     <script type="text/javascript" src="{% static 'magna.js' %}"></script>
 
     <script type="text/javascript">
-      var product = '{{ export_plan.export_commodity_codes.0.commodity_code }}';
-      var country = '{{ export_plan.export_countries.0.country_name }}';
+      var product = '{{ request.user.export_plan.export_commodity_codes.0.commodity_code }}';
+      var country = '{{ request.user.export_plan.export_countries.0.country_name }}';
       var dataLayer = window.dataLayer || []
       dataLayer.push({
         'productAdded': product || "False",
@@ -45,12 +45,19 @@
           apiRouteToMarketCreateUrl: '{% url "exportplan:api-route-to-markets-create" %}',
           apiRouteToMarketUpdateUrl: '{% url "exportplan:api-route-to-markets-update" %}',
           apiRouteToMarketDeleteUrl: '{% url "exportplan:api-route-to-markets-delete" %}',
+          apiTargetMarketDocumentsCreateUrl: '{% url "exportplan:api-target-markets-documents-create" %}',
+          apiTargetMarketDocumentsUpdateUrl: '{% url "exportplan:api-target-markets-documents-update" %}',
+          apiTargetMarketDocumentsDeleteUrl: '{% url "exportplan:api-target-markets-documents-delete" %}',
+          apiFundingCreditOptionsCreateUrl: '{% url "exportplan:api-funding-credit-options-create" %}',
+          apiFundingCreditOptionsUpdateUrl: '{% url "exportplan:api-funding-credit-options-update" %}',
+          apiFundingCreditOptionsDeleteUrl: '{% url "exportplan:api-funding-credit-options-delete" %}',
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
-          countryDataUrl: '{% url "exportplan:api-country-data" %}',
+          countryAgeGroupDataUrl: '{% url "exportplan:api-target-age-country-population-data" %}',
           populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
-          marketingCountryData: '{% url "exportplan:api-marketing-country-data" %}',
+          updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" %}',
+          societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "dashboard" %}',
@@ -65,6 +72,7 @@
           userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
           refreshOnMarketChange: {% if no_refresh_on_market_change %}false{%else%}true{% endif %},
+          urlCostsAndPricing: '{% url "exportplan:costs-and-pricing"%}'
       });
     </script>
 {% endblock %}
@@ -107,8 +115,8 @@
           signup: false,
         },
         exportPlan:{
-          products: {{export_plan.export_commodity_codes|to_json}},
-          markets: {{export_plan.export_countries|to_json }}
+          products: {{request.user.export_plan.export_commodity_codes|to_json}},
+          markets: {{request.user.export_plan.export_countries|to_json }}
         },
       })
 

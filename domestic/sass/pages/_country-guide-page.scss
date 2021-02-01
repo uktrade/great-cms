@@ -1,0 +1,98 @@
+
+// COUNTRY GUIDE PAGE
+// ==================
+
+@import '../components/accordion';
+@import '../partials/typography.scss';
+
+.country-guide-page {
+
+  .teaser-section {
+    .content-list li {
+      margin-bottom: 0.75em;
+    }
+
+    @media (min-width: 769px) {
+      .teaser {
+        padding-right: 1 / 9 * 100%;
+      }
+    }
+    @media (max-width: 768px) {
+      .links {
+        display: none;
+      }
+    }
+  }
+
+  @media (min-width: 769px) {
+    .section-one-body {
+      padding-right: calc(100% / 12);
+    }
+  }
+
+  .section-one-body {
+    h2:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .case-study {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+
+    .container {
+      min-height: 597px;
+      display: flex;
+      align-items: center;
+
+      .grid-row {
+        flex-grow: 1
+      }
+    }
+
+    .decorative-line {
+      width: 50%;
+    }
+
+    @media (max-width: 640px) {
+      .button {
+        width: auto;
+      }
+    }
+
+    .button::after {
+      content: '→';
+      margin-left: 1em;
+    }
+  }
+
+  .next-steps .container {
+    padding: 150px 0;
+
+    @media (min-width: 961px) {
+      .cta-link {
+        font-size: 36px;
+      }
+    }
+
+    .with-arrow {
+      margin: 0;
+
+      &:before {
+        display: none;
+      }
+      &:after {
+        content: '➔';
+        margin-left: 0;
+      }
+    }
+  }
+
+  .news-events {
+    .card {
+      height: 100%;
+    }
+  }
+}

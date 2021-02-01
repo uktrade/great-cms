@@ -1,72 +1,67 @@
-{% extends 'exportplan/section.html' %}
+{% extends "core/base.html" %}
 {% load static %}
-{% load set %}
 {% load wagtailcore_tags %}
 
-{% block banner_image %}
-    {% static 'images/ep-placeholder.svg' %}
-{% endblock %}
+{% block content %}
+  <div id="where-to-export"">
+      <section class="bg-white">
+          <div class="container p-t-m p-b-m">
+              <div class="grid">
+                  <div class="c-1-2-l">
+                      <div class="">
+                          <h1 class="h-l p-b-0">{{ page.title }}</h1>
+                          <div class="">
+                            <p class="body-l">Exporting to the right country is essential. Compare country data to make the right decision.</p>
+                            <p class="body-l">Select up to three countries to compare data about your product.</p>
+                          </div>
+                          {% if data_tabs_enabled %}
+                            <div id="cta-container"></div>
+                          {% endif %}
+                      </div>
+                  </div>
 
-{% block intro_title %}Compare countries{% endblock %}
-{% block intro_description %}Exporting to the right country is essential. 
-This page helps you compare country data to make the right decision.{% endblock %}
-
-{% block sidebar %}{% endblock %}
-
-{% block mainclasses %}text-blue-deep-80 {% endblock %}
-
-{% block main_content %}
-    {% if not data_tabs_enabled %}
-        <div class="g-panel">
-            <p>This section isn’t available yet</p>
-            <p>This Beta version is limited</p>
-        </div>
-        <div class="m-v-xl">
-            <button class="button button--tertiary" disabled>Coming soon</button>
-        </div>
-    {% else %}
-        <div class="g-panel">
-          <p>Add a country to find data that's relevant to your product. This will help you to understand:</p>
-          <ul class="list-dot">
-            <li>the appetite for your product in different countries</li>
-            <li>economic and cultural factors</li>
-            <li>any challenges you could encounter</li>
-          </ul>
-          <p>You can then start making an informed decision about where to expand your business.</p>
-        </div>
-    {% endif %}
-
-{% endblock %}
-
-{% block additional_content %}
+                  <div class="c-1-2-l only-desktop">
+                    <img src={% block banner_image %}{% static 'images/where-to-export.png' %}{% endblock %} alt="" class="max-width-80 m-r-auto m-f-auto" />
+                  </div>
+              </div>
+          </div>
+      </section>
+  </div>
+  {% if data_tabs_enabled %}
     <div class="hidden" id="next-steps">
-        {% for component in dashboard_components %}
-            {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
-                <article class="dashboard__routing-block c-1-2 wide">
-                    {% include_block component with wide=True %}
-                </article>
-            {% endif %}
-        {% endfor %}
+      {% for component in dashboard_components %}
+          {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
+              <article class="dashboard__routing-block c-1-2 wide">
+                  {% include_block component with wide=True %}
+              </article>
+          {% endif %}
+      {% endfor %}
     </div>
-    {% if data_tabs_enabled %}
-      <div id="open-product-finder" class="m-v-l"
-        data-productname="{{ export_plan.export_commodity_codes.0.commodity_name }}"
-        data-productcode="{{ export_plan.export_commodity_codes.0.commodity_code }}"
-        data-tabs="{{ data_tabs_enabled }}">
-      </div>
 
-        <div id="comparison-market-selector" class="p-v-l m-v-l" />
+    <div id="open-product-finder" class="m-v-l"
+      data-productname="{{ request.user.export_plan.export_commodity_codes.0.commodity_name }}"
+      data-productcode="{{ request.user.export_plan.export_commodity_codes.0.commodity_code }}"
+      data-tabs="{{ data_tabs_enabled }}">
+    </div>
 
-        <script>
-          magna.CompareMarkets({
-            element: document.querySelector("#open-product-finder")
-          })
-          magna.SelectComparisonMarket({
-            element: document.querySelector("#comparison-market-selector")
-          })
-        </script>
-    {% endif %}
+    <div id="comparison-market-selector" class="p-v-l m-v-l" />
+
+    <script>
+      magna.CompareMarkets({
+        element: document.querySelector("#open-product-finder"),
+        cta_container: document.querySelector("#cta-container")
+      })
+      magna.SelectComparisonMarket({
+        element: document.querySelector("#comparison-market-selector")
+      })
+    </script>
+  {% else %}
+    <div class="g-panel">
+      <p>This section isn’t available yet</p>
+      <p>This Beta version is limited</p>
+    </div>
+    <div class="m-v-xl">
+        <button class="button button--tertiary" disabled>Coming soon</button>
+    </div>
+  {% endif %}
 {% endblock %}
-
-{% block next_section %}{% endblock %}
-{% block back_button %}{% endblock %}

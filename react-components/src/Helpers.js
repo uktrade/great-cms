@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const slugify = (string) => {
   return string
     .toLowerCase()
@@ -28,10 +26,13 @@ const analytics = (data) => {
   dataLayer.push(data)
 }
 
-const normaliseValues = (str) => {
+const normaliseValues = (str, places = 1, fixed = false) => {
+  const pow = Math.pow(10, places)
   if (str) {
-    var values = str.replace(/\d+(\.\d+)?/g, ($0) => {
-      return Math.round(parseFloat($0) * 10) / 10
+    var values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
+      return fixed
+        ? parseFloat($0).toFixed(places)
+        : Math.round(parseFloat($0) * pow) / pow
     })
     values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
       return Math.round($0)
@@ -42,8 +43,58 @@ const normaliseValues = (str) => {
   }
 }
 
+let millify = (value) => {
+  const floatValue = parseFloat(value)
+  if (floatValue) {
+    const names = ['million', 'billion', 'trillion']
+    const oom = Math.floor(Math.log10(Math.abs(floatValue)) / 3)
+    if (oom <= 1) return Math.round(floatValue).toLocaleString()
+    return `${(value / Math.pow(10, oom * 3)).toFixed(1)} ${names[oom - 2]}`
+  }
+  return value === null ? value : ''+value
+}
+
+const stripPercentage = (str) => {
+  // The regular expression matches an integer or float with or without leading
+  // digit at the end of the string, not necessarily preceded by a space and not
+  // necessarily succeded  by a percent symbol.
+  // e.g. 'text.1(+)(%)', 'text .1(+)(%)', 'text 1(+).1(+)(%)' and combinations
+  if (str) {
+    const regex = /\s?\<?\>?\.?\d*\.?\d+\%?$/
+    return str.replace(regex, '')
+  }
+
+  return str
+}
+
 const isObject = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
+}
+
+const isArray = (arr) => {
+  return Object.prototype.toString.call(arr) === '[object Array]'
+}
+
+const get = (obj, path, def=null) => {
+  // get a value from an object based on dot-separated path
+  let out = obj
+  const pathSplit = path.split('.')
+  for (var i = 0; i < pathSplit.length; i++) {
+    if (!isObject(out)) {
+      return def
+    }
+    out = out[pathSplit[i]]
+  }
+  return out
+}
+
+const mapArray = (array, key) => {
+  // Generates an object from an array, using the given key
+  const out = {}
+  array.forEach((entry) => {
+    out[entry[key]] = entry
+  })
+  return out
 }
 
 const sectionQuestionMapping = {
@@ -63,6 +114,24 @@ const sectionQuestionMapping = {
     'What’s the avg price for your product in the selected country?',
 }
 
+const getLabel = (list, selected) => {
+  const hasValue = list.find((x) => x.value === selected)
+  return selected && hasValue ? hasValue.label : ''
+}
+
+const getValue = (list, selected) => {
+  const hasLabel = list.find((x) => x.label === selected)
+  return selected && hasLabel ? hasLabel.value : ''
+}
+
+const formatLessonLearned = (lesson, section, id) =>
+  lesson[section.lessons[id]]
+    ? {
+        ...lesson[section.lessons[id]],
+        url: `${lesson[section.lessons[id]].url}?return-link=${section.url}`,
+      }
+    : {}
+
 export {
   slugify,
   addItemToList,
@@ -71,4 +140,12 @@ export {
   sectionQuestionMapping,
   normaliseValues,
   isObject,
+  isArray,
+  get,
+  mapArray,
+  getLabel,
+  getValue,
+  formatLessonLearned,
+  millify,
+  stripPercentage,
 }

@@ -39,6 +39,18 @@ urlpatterns = [
         name='business-objectives',
     ),
     path(
+        'section/costs-and-pricing/',
+        login_required(views.CostsAndPricingView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'costs-and-pricing'},
+        name='costs-and-pricing',
+    ),
+    path(
+        'section/funding-and-credit/',
+        login_required(views.FundingAndCreditView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'funding-and-credit'},
+        name='funding-and-credit',
+    ),
+    path(
         'section/<slug:slug>/',
         login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
         name='section',
@@ -66,9 +78,19 @@ urlpatterns = [
         name='api-population-data-by-country',
     ),
     path(
-        'api/marketing-country-data/',
-        skip_ga360(api.RetrieveMarketingCountryData.as_view()),
-        name='api-marketing-country-data',
+        'api/target-age-country-population-data/',
+        skip_ga360(api.TargetAgeCountryPopulationData.as_view()),
+        name='api-target-age-country-population-data',
+    ),
+    path(
+        'api/society-data-by-country/',
+        skip_ga360(api.ExportPlanSocietyDataByCountryView.as_view()),
+        name='api-society-data-by-country',
+    ),
+    path(
+        'api/calculate-cost-and-pricing/',
+        skip_ga360(api.UpdateCalculateCostAndPricingAPIView.as_view()),
+        name='api-calculate-cost-and-pricing',
     ),
     path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
     path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),
@@ -102,5 +124,20 @@ urlpatterns = [
         'api/target-markets-documents/delete/',
         skip_ga360(api.TargetMarketDocumentsDestroyAPIView.as_view()),
         name='api-target-markets-documents-delete',
+    ),
+    path(
+        'api/funding-credit-options/create/',
+        skip_ga360(api.FundingCreditOptionsCreateAPIView.as_view()),
+        name='api-funding-credit-options-create',
+    ),
+    path(
+        'api/funding-credit-options/update/',
+        skip_ga360(api.FundingCreditOptionsUpdateAPIView.as_view()),
+        name='api-funding-credit-options-update',
+    ),
+    path(
+        'api/funding-credit-options/delete/',
+        skip_ga360(api.FundingCreditOptionsDestroyAPIView.as_view()),
+        name='api-funding-credit-options-delete',
     ),
 ]

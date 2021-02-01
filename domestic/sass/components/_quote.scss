@@ -1,0 +1,64 @@
+// Quote Component
+// ---------------------------
+
+.quote {
+  background-color: $stone-light;
+  padding: $spacing-3;
+  margin-bottom: $spacing-3;
+  
+  cite {
+    @include body-s;
+  }
+  
+  .company { 
+    border-left: $black solid 1px;
+    padding-left: 0.5em;
+  }
+
+  .name {
+    display: block;
+    font-weight: 600;
+  }
+
+  .role { 
+    margin-right: 0.5em;
+  }
+
+  .text {
+    @include quote;
+    display: block;
+    margin-bottom: $spacing-4;
+    
+    &:after {
+      content: close-quote;
+      visibility: hidden;
+    }
+  
+    &:before {
+      color: $stone;
+      content: '"';
+      display: block;
+      font-family: sans-serif;
+      font-size: 120px;
+      font-weight: 600;
+      height: 60px;
+      left: -5px;
+      line-height: 120px;
+      position: relative;
+    }
+  }
+}
+
+
+// MOBILE
+@media screen and (max-width: 420px) {
+  .quote {
+    cite {
+      @include body-s-mob;
+    }
+  
+    .text {
+      @include quote-mob;
+    }
+  }
+}

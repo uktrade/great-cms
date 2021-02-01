@@ -1,0 +1,65 @@
+@import '!elements/forms';
+@import '../../sass/partials/colours';
+@import '../../sass/partials/mixins';
+@import '../../sass/partials/spacings';
+
+// Django renders the multiple choice checkbox widgets in lists
+// This is to make sure they have adequate spacing
+ul.select-multiple li .multiple-choice {
+  margin-bottom: 10px;
+}
+
+ul.select-multiple {
+  margin-top: 10px;
+}
+
+select:focus,
+input:focus,
+a:focus {
+  @include focus;
+}
+
+.form-control:focus {
+  border-width: 4px;
+  margin: -2px;
+}
+
+a:focus:active {
+  background-color: $focus-yellow;
+}
+
+// File upload
+
+input[type='file'] {
+  background: $stone-40;
+  border: 1px solid $stone;
+  padding: $spacing-4;
+}
+
+select.form-control {
+  padding: 10px;
+  /* add arrow */
+  background: linear-gradient(45deg, transparent 50%, $black 50%), linear-gradient(135deg, $black 50%, transparent 50%), linear-gradient(to right, $white, $white);
+  background-position: calc(100% - 23px) calc(1em), calc(100% - 13px) calc(1em);
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+
+  // Disable inner shadow and remove rounded corners
+  border-radius: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+// Hide dropdown arrow in IE11
+select.form-control::-ms-expand {
+  display: none;
+}
+
+.form-label,
+.form-hint {
+  padding-bottom: .25em;
+}

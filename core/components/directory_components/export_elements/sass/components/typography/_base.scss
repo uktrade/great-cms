@@ -1,0 +1,18 @@
+
+@import '../partials/typography';
+
+main,
+.font-xxlarge,
+.bold-xxlarge,
+.font-xlarge,
+.bold-xlarge,
+.font-large,
+.bold-large,
+.font-medium,
+.bold-medium,
+.font-small,
+.bold-small,
+.font-xsmall,
+.bold-xsmall {
+  line-height: $line-height;
+}
