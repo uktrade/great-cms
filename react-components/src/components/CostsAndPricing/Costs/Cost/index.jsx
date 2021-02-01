@@ -12,7 +12,7 @@ export const Cost = memo(
           <label className="form-label p-b-xs" htmlFor={id}>
             {label}
           </label>
-          {tooltip && <Tooltip content={tooltip} />}
+          {tooltip.content && <Tooltip {...tooltip} />}
         </td>
         <td>
           <Input
@@ -36,7 +36,7 @@ Cost.propTypes = {
   id: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.objectOf(PropTypes.string),
   value: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,

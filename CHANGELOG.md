@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
 - GP2-1424 - Cost and pricing page - local taxes section
 - GP2-1423 - Cost and pricing page - content change
 - GP2-1411 - Allow type of article in ArticlePage to be blank, not just null

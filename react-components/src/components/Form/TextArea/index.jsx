@@ -50,7 +50,7 @@ TextArea.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   description: PropTypes.string,
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.objectOf(PropTypes.string),
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
@@ -71,7 +71,7 @@ TextArea.defaultProps = {
   placeholder: '',
   value: '',
   description: '',
-  tooltip: '',
+  tooltip: {},
   example: {},
   hideLabel: false,
   lesson: {},

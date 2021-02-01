@@ -135,7 +135,10 @@ describe('FormGroup', () => {
   })
 
   it('Should have a Tooltip', () => {
-    const { getByTitle } = setup({ ...props, tooltip: 'This is a tooltip' })
+    const { getByTitle } = setup({
+      ...props,
+      tooltip: { content: 'This is a tooltip' },
+    })
     expect(getByTitle('Click to view Educational moment')).toBeInTheDocument()
   })
 })
