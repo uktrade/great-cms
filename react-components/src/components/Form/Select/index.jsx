@@ -192,7 +192,7 @@ Select.propTypes = {
     ),
   ]).isRequired,
   description: PropTypes.string,
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.objectOf(PropTypes.string),
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
@@ -207,7 +207,7 @@ Select.propTypes = {
 Select.defaultProps = {
   selected: '',
   description: '',
-  tooltip: '',
+  tooltip: {},
   example: {},
   hideLabel: false,
   placeholder: 'Select one',

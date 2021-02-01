@@ -66,7 +66,7 @@ RouteToMarketSection.propTypes = {
   label: PropTypes.string.isRequired,
   example: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  tooltip: PropTypes.string.isRequired,
+  tooltip: PropTypes.objectOf(PropTypes.string).isRequired,
   field: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
