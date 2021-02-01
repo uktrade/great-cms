@@ -51,7 +51,7 @@ export default function StartEndPage(props) {
           label={label}
           id="input-commodity-name"
           onChange={setCommodityName}
-          defaultValue={ReactHtmlParser(commodityName)}
+          defaultValue={ReactHtmlParser(commodityName).toString()}
           iconClass="fa-pencil-alt"
           onKeyReturn={saveNamedProduct}
           maxWidth="15em"

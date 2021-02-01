@@ -414,7 +414,7 @@ export default function ProductFinderModal(props) {
           <StartEndPage
             commodityCode={selectedProduct.commodity_code || ''}
             defaultCommodityName={
-              ReactHtmlParser(selectedProduct.commodity_name) || ''
+              ReactHtmlParser(selectedProduct.commodity_name).toString() || ''
             }
             saveProduct={saveProduct}
             label="You can rename this to match your exact product"

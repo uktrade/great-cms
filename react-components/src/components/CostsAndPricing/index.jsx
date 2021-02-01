@@ -102,12 +102,16 @@ export const CostsAndPricing = memo(
                 hideLabel
                 prepend={currency}
                 {...costPerUnit}
-                example={{
-                  ...costPerUnit.example,
-                  header: costPerUnit.example.header(
-                    `${currency} ${data.estimated_costs_per_unit}`
-                  ),
-                }}
+                example={
+                  data.estimated_costs_per_unit
+                    ? {
+                        ...costPerUnit.example,
+                        header: costPerUnit.example.header(
+                          `${currency} ${data.estimated_costs_per_unit}`
+                        ),
+                      }
+                    : {}
+                }
               />
 
               <Input
@@ -131,7 +135,7 @@ export const CostsAndPricing = memo(
                 value={data.local_tax_charges}
                 hideLabel
                 prepend={currency}
-                description={`<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the ${country}</h2><p class="m-t-xs">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p><p>To help you, we've calculated how much tax you'll pay per unit when exporting to ${country}</p>`}
+                description={`<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the ${country}</h2><p class="m-t-xs m-b-0">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p>`}
                 {...localTaxes}
                 lesson={formatLessonLearned(lessonDetails, currentSection, 0)}
               />

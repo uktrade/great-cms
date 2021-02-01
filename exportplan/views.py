@@ -287,6 +287,24 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         return context
 
 
+class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = 'Getting paid'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['payment_method_choices'] = choices_to_key_value(choices.PAYMENT_METHOD_OPTIONS)
+        context['payment_term_choices'] = choices_to_key_value(choices.PAYMENT_TERM_OPTIONS)
+        transport_choices = {
+            'All forms of transport': choices_to_key_value(choices.TRANSPORT_OPTIONS),
+            'Water transport': choices_to_key_value(choices.WATER_TRANSPORT_OPTIONS),
+        }
+        context['transport_choices'] = transport_choices
+
+        context['getting_paid_data'] = json.dumps(self.export_plan['getting_paid'])
+
+        return context
+
+
 class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Funding And Credit'
 

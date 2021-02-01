@@ -4,6 +4,11 @@
 
 ### Implemented enhancements
 
+- GP2-1425 - Cost and pricing - Estimate element
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
+- GP2-1424 - Cost and pricing page - local taxes section
+- GP2-1423 - Cost and pricing page - content change
+- GP2-1411 - Allow type of article in ArticlePage to be blank, not just null
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
 - GP2-1402 - Update content for Funding and Credit section
 - GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
@@ -76,6 +81,7 @@
 - GP2-1382 - getting paid structure be
 - NOTICKET - refactor user exportplan
 
+- GP2-1382 - getting paid structure integration
 ### Fixed bugs
 
 - No ticket - fix button styling issue after button refactor work

@@ -616,7 +616,11 @@ class ArticlePage(
     ]
     subpage_types = []
 
-    type_of_article = models.TextField(choices=ARTICLE_TYPES, null=True)
+    type_of_article = models.TextField(
+        choices=ARTICLE_TYPES,
+        null=True,
+        blank=True,
+    )
 
     article_title = models.TextField()
     article_subheading = models.TextField(
