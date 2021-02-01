@@ -78,7 +78,9 @@ export const FormGroup = memo(
                 Lesson
               </button>
             )}
-            {tooltip && <Tooltip content={tooltip} className="inline-block" />}
+            {tooltip.content && (
+              <Tooltip {...tooltip} className="inline-block" />
+            )}
           </div>
         )}
 
@@ -109,7 +111,10 @@ export const FormGroup = memo(
 FormGroup.propTypes = {
   children: PropTypes.element.isRequired,
   errors: PropTypes.arrayOf(PropTypes.string),
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.shape({
+    content: PropTypes.string,
+    title: PropTypes.string,
+  }),
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -131,7 +136,7 @@ FormGroup.propTypes = {
 FormGroup.defaultProps = {
   errors: [],
   description: '',
-  tooltip: '',
+  tooltip: {},
   example: {},
   hideLabel: false,
   lesson: {},
