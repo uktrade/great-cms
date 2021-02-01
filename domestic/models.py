@@ -7,6 +7,7 @@ from django.db import models
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
@@ -663,8 +664,21 @@ class ArticlePage(
         blank=True,
         help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
     )
-    article_body_text = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
+    article_body = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(features=RICHTEXT_FEATURES__REDUCED),
+            ),
+            (
+                'pull_quote',
+                core_blocks.PullQuoteBlock(
+                    template='domestic/blocks/pull_quote_block.html',
+                ),
+            ),
+        ],
+        null=True,
+        blank=True,
     )
 
     cta_title = models.CharField(
