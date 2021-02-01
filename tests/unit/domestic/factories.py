@@ -71,7 +71,6 @@ class ArticleListingPageFactory(wagtail_factories.PageFactory):
 class ArticlePageFactory(wagtail_factories.PageFactory):
 
     type_of_article = constants.ARTICLE_TYPES[1][0]
-    article_body_text = factory.fuzzy.FuzzyText(length=255)
 
     class Meta:
         model = ArticlePage
