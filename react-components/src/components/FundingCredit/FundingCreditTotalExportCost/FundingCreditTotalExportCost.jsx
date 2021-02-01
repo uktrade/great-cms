@@ -7,7 +7,7 @@ import { useDebounce } from '@src/components/hooks/useDebounce'
 export const FundingCreditTotalExportCost = memo(({ ...data }) => {
   const { estimated_costs_per_unit, formData, currency } = data
   const [formValue, setFormValue] = useState(
-    formData.override_estimated_total_cost
+    formData['override_estimated_total_cost']
   )
 
   const update = (field) => {
@@ -20,7 +20,7 @@ export const FundingCreditTotalExportCost = memo(({ ...data }) => {
 
   const inputData = {
     onChange: (fieldItem) => {
-      setFormValue(fieldItem.override_estimated_total_cost)
+      setFormValue(fieldItem['override_estimated_total_cost'])
       debounceUpdate({
         funding_and_credit: fieldItem,
       })
@@ -31,6 +31,7 @@ export const FundingCreditTotalExportCost = memo(({ ...data }) => {
     label: 'Total export cost',
     id: 'override_estimated_total_cost',
     placeholder: '0',
+    tooltip: null,
     type: 'number',
     field: 'override_estimated_total_cost',
     example:

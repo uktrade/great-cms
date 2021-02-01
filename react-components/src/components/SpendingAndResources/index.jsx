@@ -35,6 +35,7 @@ export const SpendingAndResources = ({ field, formFields, formData }) => {
     <>
       {formFields.map((item) => (
         <TextArea
+          tooltip={item.tooltip}
           label={item.label}
           example={{ content: item.example }}
           key={item.name}

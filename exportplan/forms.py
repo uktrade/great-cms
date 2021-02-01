@@ -347,6 +347,7 @@ class ExportPlanMarketingApproachForm(forms.Form):
                     '<li>the areas where your business will need support</li><li>external agencies or '
                     'people you will work with and what they will be doing</li>'
                 ),
+                'tooltip': None,
             }
         ),
     )
