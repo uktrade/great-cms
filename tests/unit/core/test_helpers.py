@@ -451,7 +451,6 @@ def test_get_country_data(mock_country_data, client):
     mock_country_data.return_value = germany_data
 
     response = helpers.get_country_data(countries_list=['Germany'])
-    print('********  Response', response)
     assert 'Germany' in response.keys()
     assert response.get('Germany') == germany_data
 
