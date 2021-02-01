@@ -5,6 +5,7 @@
 ### Implemented enhancements
 
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
+- GP2-1412 - Update RichtextField features allowed on ArticlePage
 - GP2-1402 - Update content for Funding and Credit section
 - GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
 - GP2-1338 - Port v1 ArticlePage template + model

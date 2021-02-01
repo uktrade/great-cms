@@ -14,7 +14,11 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
-from core.constants import ARTICLE_TYPES, VIDEO_TRANSCRIPT_HELP_TEXT
+from core.constants import (
+    ARTICLE_TYPES,
+    RICHTEXT_FEATURES__ARTICLE,
+    VIDEO_TRANSCRIPT_HELP_TEXT,
+)
 from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from directory_constants import choices
@@ -647,7 +651,9 @@ class ArticlePage(
         blank=True,
         help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
     )
-    article_body_text = RichTextField()
+    article_body_text = RichTextField(
+        features=RICHTEXT_FEATURES__ARTICLE,
+    )
 
     cta_title = models.CharField(
         max_length=255,
