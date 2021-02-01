@@ -96,7 +96,7 @@ def test_multiple_modules(domestic_homepage, client, user):
 
     request = HttpRequest()
     request.user = user
-    request.user.export_plan = {}
+    request.user.export_plan.data = {}
     page1_response = detail_page_1.serve(request)
     page2_response = detail_page_2.serve(request)
     page3_response = detail_page_3.serve(request)
@@ -174,7 +174,7 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
 
     request = HttpRequest()
     request.user = user
-    request.user.export_plan = {}
+    request.user.export_plan.data = {}
     page1_response = detail_page_1.serve(request)
     page2_response = detail_page_2.serve(request)
     page3_response = detail_page_3.serve(request)
@@ -407,7 +407,7 @@ def test_selected_personalised_choices(
 ):
     request = rf.get('/')
     request.user = user
-    request.user.export_plan = mock.MagicMock()
+    request.user.export_plan.data = mock.MagicMock()
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
         commodity_code, country, region = get_personalised_choices(mocked_export_plan)
 

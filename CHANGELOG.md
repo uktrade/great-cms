@@ -74,6 +74,7 @@
 - NOTICKET - upgrade admin include export plan data
 - GP2-1139 - save EP progress
 - GP2-1382 - getting paid structure be
+- NOTICKET - refactor user exportplan
 
 ### Fixed bugs
 

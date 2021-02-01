@@ -92,13 +92,8 @@ def test_target_markets_research_form_empty_fields():
 
 
 @pytest.mark.django_db
-@patch.object(helpers, 'get_or_create_export_plan')
-def test_about_your_business_form_view(mock_get_export_plan, about_your_business_form_data, client, user):
-    mock_get_export_plan.return_value = {
-        'pk': 1,
-        'about_your_business': about_your_business_form_data,
-        'export_countries': [{'country_name': 'Netherlands'}],
-    }
+def test_about_your_business_form_view(export_plan_data, patch_get_export_plan, client, user):
+    export_plan_data['about_your_business'] = about_your_business_form_data
     url = reverse('exportplan:about-your-business')
     client.force_login(user)
     response = client.get(url)

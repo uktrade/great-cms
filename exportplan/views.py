@@ -28,23 +28,19 @@ class ExportPlanMixin:
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
         serializer.is_valid()
         helpers.update_exportplan(
-            id=self.export_plan['pk'], sso_session_id=self.request.user.session_id, data=serializer.data
+            id=self.request.user.export_plan.data['pk'], sso_session_id=self.request.user.session_id, data=serializer.data
         )
         return super().dispatch(request, *args, **kwargs)
 
     @cached_property
-    def export_plan(self):
-        return helpers.get_or_create_export_plan(self.request.user)
-
-    @cached_property
     def export_country_name(self):
-        if self.export_plan.get('export_countries'):
-            return self.export_plan['export_countries'][0]['country_name']
+        if self.request.user.export_plan.data.get('export_countries'):
+            return self.request.user.export_plan.data['export_countries'][0]['country_name']
 
     @cached_property
     def export_commodity_code(self):
-        if self.export_plan.get('export_commodity_codes'):
-            return self.export_plan['export_commodity_codes'][0]['commodity_code']
+        if self.request.user.export_plan.data.get('export_commodity_codes'):
+            return self.request.user.export_plan.data['export_commodity_codes'][0]['commodity_code']
 
     @property
     def next_section(self):
@@ -54,22 +50,22 @@ class ExportPlanMixin:
 
     @property
     def current_section(self):
-        return helpers.get_current_url(self.slug, self.export_plan)
+        return helpers.get_current_url(self.slug, self.request.user.export_plan.data)
 
     @property
     def export_plan_progress(self):
-        return helpers.calculate_ep_progress(self.export_plan)
+        return helpers.calculate_ep_progress(self.request.user.export_plan.data)
 
     def get_context_data(self, **kwargs):
         industries = [name for _, name in choices.INDUSTRIES]
         country_choices = choices_to_key_value(choices.COUNTRY_CHOICES)
-        sections = helpers.build_export_plan_sections(self.export_plan)
+        sections = helpers.build_export_plan_sections(self.request.user.export_plan.data)
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
             export_plan_progress=self.export_plan_progress,
             sections=sections,
-            export_plan=self.export_plan,
+            export_plan=self.request.user.export_plan.data,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
             **kwargs,
@@ -167,22 +163,22 @@ class ExportPlanMarketingApproachView(
     title = 'Marketing approach'
 
     def get_initial(self):
-        return self.export_plan['marketing_approach']
+        return self.request.user.export_plan.data['marketing_approach']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         route_choices = choices_to_key_value(choices.MARKET_ROUTE_CHOICES)
         promotional_choices = choices_to_key_value(choices.PRODUCT_PROMOTIONAL_CHOICES)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
-        context['route_to_markets'] = json.dumps(self.export_plan['route_to_markets'])
+        context['route_to_markets'] = json.dumps(self.request.user.export_plan.data['route_to_markets'])
         context['route_choices'] = route_choices
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
         context['demographic_data'] = helpers.get_global_demographic_data(
-            self.export_plan['export_countries'][0]['country_name']
+            self.request.user.export_plan.data['export_countries'][0]['country_name']
         )
         context['selected_age_groups'] = json.dumps(
-            self.export_plan['ui_options'].get(self.slug, {}).get('target_ages', [])
+            self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
         )
         return context
 
@@ -194,16 +190,16 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
     title = 'Adaptation for your target market'
 
     def get_initial(self):
-        return self.export_plan['adaptation_target_market']
+        return self.request.user.export_plan.data['adaptation_target_market']
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
         # To do pass lanaguage from export_plan object rather then  hardcoded
         context['language_data'] = helpers.get_cia_world_factbook_data(
             country=self.export_country_name, key='people,languages'
         )
-        context['target_market_documents'] = json.dumps(self.export_plan['target_market_documents'])
+        context['target_market_documents'] = json.dumps(self.request.user.export_plan.data['target_market_documents'])
 
         return context
 
@@ -217,7 +213,7 @@ class ExportPlanTargetMarketsResearchView(
     title = 'Target market research'
 
     def get_initial(self):
-        return self.export_plan['target_markets_research']
+        return self.request.user.export_plan.data['target_markets_research']
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -235,7 +231,7 @@ class ExportPlanTargetMarketsResearchView(
 
             context['insight_data'] = json.dumps(insight_data)
             context['selected_age_groups'] = json.dumps(
-                self.export_plan['ui_options'].get(self.slug, {}).get('target_ages', [])
+                self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
             )
         return context
 
@@ -249,24 +245,24 @@ class ExportPlanBusinessObjectivesView(
 
     def form_valid(self, form):
         helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id, id=self.export_plan['pk'], data=form.cleaned_data
+            sso_session_id=self.request.user.session_id, id=self.request.user.export_plan.data['pk'], data=form.cleaned_data
         )
         return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['objectives'] = json.dumps(self.export_plan['company_objectives'])
+        context['objectives'] = json.dumps(self.request.user.export_plan.data['company_objectives'])
         return context
 
     def get_initial(self):
-        return self.export_plan['objectives']
+        return self.request.user.export_plan.data['objectives']
 
 
 class ExportPlanAboutYourBusinessView(
     PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
 ):
     def get_initial(self):
-        return self.export_plan['about_your_business']
+        return self.request.user.export_plan.data['about_your_business']
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
@@ -279,15 +275,15 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['check_duties_link'] = helpers.get_check_duties_link(self.export_plan)
+        context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
         context['export_unit_choices'] = choices_to_key_value(choices.EXPORT_UNITS)
         context['export_timeframe_choices'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
         currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
         context['currency_choices'] = choices_to_key_value(currency_choices)
         context['costs_and_pricing_data'] = serializers.ExportPlanSerializer().cost_and_pricing_to_json(
-            self.export_plan
+            self.request.user.export_plan.data
         )
-        context['calculated_pricing'] = json.dumps(helpers.calculated_cost_pricing(self.export_plan))
+        context['calculated_pricing'] = json.dumps(helpers.calculated_cost_pricing(self.request.user.export_plan.data))
         return context
 
 
@@ -297,13 +293,13 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['funding_options'] = choices_to_key_value(choices.FUNDING_OPTIONS)
-        context['funding_and_credit'] = self.export_plan['funding_and_credit']
+        context['funding_and_credit'] = self.request.user.export_plan.data['funding_and_credit']
 
-        calculated_pricing = helpers.calculated_cost_pricing(self.export_plan)
+        calculated_pricing = helpers.calculated_cost_pricing(self.request.user.export_plan.data)
         context['estimated_costs_per_unit'] = calculated_pricing['calculated_cost_pricing'].get(
             'estimated_costs_per_unit', ''
         )
-        context['funding_credit_options'] = json.dumps(self.export_plan.get('funding_credit_options', []))
+        context['funding_credit_options'] = json.dumps(self.request.user.export_plan.data.get('funding_credit_options', []))
         return context
 
 

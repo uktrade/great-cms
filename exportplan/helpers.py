@@ -279,3 +279,17 @@ def calculate_ep_progress(exportplan_data):
             'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
         }
     }
+
+
+class ExportPlanParser:
+    """
+    Parse the export plan details provided by directory-api's exportplan
+    serializer
+
+    """
+
+    def __init__(self, data):
+        self.data = data
+
+    def __bool__(self):
+        return bool(self.data)

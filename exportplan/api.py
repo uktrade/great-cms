@@ -120,7 +120,7 @@ class TargetAgeCountryPopulationData(APIView):
         helpers.update_ui_options_target_ages(
             sso_session_id=self.request.user.session_id,
             target_ages=target_ages,
-            export_plan=self.request.user.export_plan,
+            export_plan=self.request.user.export_plan.data,
             section_name=section_name,
         )
 

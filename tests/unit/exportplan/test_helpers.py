@@ -559,3 +559,9 @@ def test_build_export_plan_sections(export_plan_data):
     sections = helpers.build_export_plan_sections(export_plan_data)
     assert sections[0]['is_complete'] == 'True'
     assert sections[1]['is_complete'] == 'False'
+
+
+def test_export_plan_parser(export_plan_data):
+
+    ep_parser = helpers.ExportPlanParser(export_plan_data)
+    assert ep_parser.data == export_plan_data

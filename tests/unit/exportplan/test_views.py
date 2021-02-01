@@ -62,9 +62,7 @@ def test_export_plan_landing_page(client, exportplan_homepage, user, mock_get_co
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_export_plan_builder_landing_page(
-    mock_get_create_export_plan,
     client,
     exportplan_dashboard,
     user,
@@ -72,7 +70,6 @@ def test_export_plan_builder_landing_page(
     company_profile_data,
     export_plan_data,
 ):
-    mock_get_create_export_plan.return_value = export_plan_data
     mock_get_company_profile.return_value = company_profile_data
 
     client.force_login(user)
@@ -85,9 +82,7 @@ def test_export_plan_builder_landing_page(
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_lesson_details', return_value={})
-@mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(mock_get_create_exportplan, mock_get_lessons, export_plan_data, slug, client, user):
-    mock_get_create_exportplan.return_value = export_plan_data
+def test_exportplan_sections(mock_get_lessons, slug, client, user):
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
     assert response.status_code == 200
@@ -237,7 +232,7 @@ def test_404_when_invalid_section_slug(client, user):
 @pytest.mark.django_db
 def test_url_with_export_plan_country_selected(mock_get_comtrade_data, mock_get_create_export_plan, client, user):
     # Remove countries selection
-    mock_get_create_export_plan.return_value.update({'export_countries': None})
+    user.export_plan.data.update({'export_countries': None})
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
     response = client.get(url)
@@ -371,6 +366,6 @@ def test_exportplan_dashboard(
     client.force_login(user)
     dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
     context_data = dashboard.get_context(get_request)
-    assert context_data.get('export_plan').get('id') == 1
+    assert context_data.get('export_plan').get('pk') == 1
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
