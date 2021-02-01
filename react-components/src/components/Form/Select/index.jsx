@@ -175,12 +175,22 @@ Select.propTypes = {
   update: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   selected: PropTypes.string,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string,
-      label: PropTypes.string,
-    })
-  ).isRequired,
+  options: PropTypes.oneOfType([
+    PropTypes.objectOf(
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string,
+          label: PropTypes.string,
+        })
+      )
+    ),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+      })
+    ),
+  ]).isRequired,
   description: PropTypes.string,
   tooltip: PropTypes.string,
   example: PropTypes.shape({

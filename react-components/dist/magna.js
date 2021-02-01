@@ -68837,10 +68837,13 @@ Select.propTypes = {
   update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  })).isRequired,
+  }))), prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }))]).isRequired,
   description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
@@ -69773,11 +69776,11 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
   }, "\xA0")));
 });
 GettingPaid.propTypes = {
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }))]))))).isRequired,
-  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired,
+  }))]))).isRequired,
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string]))])).isRequired,
   field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
 };
 

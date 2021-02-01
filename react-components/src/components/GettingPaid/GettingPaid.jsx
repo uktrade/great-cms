@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { useDebounce } from '@src/components/hooks/useDebounce'
@@ -108,23 +108,22 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
 GettingPaid.propTypes = {
   formFields: PropTypes.arrayOf(
     PropTypes.objectOf(
-      PropTypes.arrayOf(
-        PropTypes.objectOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.arrayOf(
-              PropTypes.shape({
-                value: PropTypes.string,
-                label: PropTypes.string,
-              })
-            ),
-          ])
-        )
-      )
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(
+          PropTypes.shape({
+            value: PropTypes.string,
+            label: PropTypes.string,
+          })
+        ),
+      ])
     )
   ).isRequired,
   formData: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
+    ])
   ).isRequired,
   field: PropTypes.string.isRequired,
 }
