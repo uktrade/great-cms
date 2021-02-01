@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
-import { getLabel } from '@src/Helpers'
+import { getLabel, getValue } from '@src/Helpers'
 import Services from '@src/Services'
 
 export const GettingPaid = memo(({ formFields, formData, field }) => {
@@ -16,12 +16,18 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
 
   const debounceUpdate = useDebounce(update)
 
-  const onChange = (data) => {
+  const onChange = (updatedField, otherProps, section, isNotes = false) => {
+    const note = isNotes ? { notes: updatedField[isNotes] } : updatedField
+
     setState({
       ...state,
-      ...data,
+      [section]: {
+        ...state[section],
+        ...note,
+      },
     })
-    debounceUpdate({ [field]: data })
+
+    debounceUpdate({ [field]: { [section]: { ...note, ...otherProps } } })
   }
 
   return (
@@ -40,26 +46,48 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
           </p>
           <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
             <div className="target-market-documents-form">
-              {formFields.map(({ group }) => (
-                <div className="user-form-group" key={group[0].id}>
-                  <Select
-                    label={group[0].label}
-                    id={group[0].id}
-                    name={group[0].name}
-                    options={group[0].options}
-                    selected={getLabel(group[0].options, state[group[0].id])}
-                    onChange={onChange}
-                  />
-                  {getLabel(group[0].options, state[group[1].id])}
-                  <TextArea
-                    onChange={onChange}
-                    label={group[1].label}
-                    id={group[1].id}
-                    value={state[group[1].id]}
-                    placeholder={group[1].placeholder}
-                  />
-                </div>
-              ))}
+              {formFields.map(({ group, field: key }) => {
+                const select = group[0]
+                const textarea = group[1]
+                const options = Array.isArray(select.options)
+                  ? select.options
+                  : Object.keys(select.options).flatMap(
+                      (x) => select.options[x]
+                    )
+                const selected = getLabel(
+                  options,
+                  state[key] ? state[key][select.id] : ''
+                )
+
+                return (
+                  <div className="user-form-group" key={select.id}>
+                    <Select
+                      label={select.label}
+                      id={select.id}
+                      name={select.name}
+                      options={select.options}
+                      selected={selected}
+                      update={(data) =>
+                        onChange(data, { notes: state[textarea.id] }, key)
+                      }
+                    />
+                    <TextArea
+                      onChange={(data) =>
+                        onChange(
+                          data,
+                          { [select.id]: getValue(options, selected) },
+                          key,
+                          textarea.id
+                        )
+                      }
+                      label={textarea.label}
+                      id={textarea.id}
+                      value={state[key] ? state[key].notes : ''}
+                      placeholder={textarea.placeholder}
+                    />
+                  </div>
+                )
+              })}
               <p className="body-s text-blue-deep-50 m-b-0">
                 Incoterms® and the Incoterms® 2020 logo are trademarks of ICC.
                 Use of these trademarks does not imply association with,
@@ -80,23 +108,22 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
 GettingPaid.propTypes = {
   formFields: PropTypes.arrayOf(
     PropTypes.objectOf(
-      PropTypes.arrayOf(
-        PropTypes.objectOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.arrayOf(
-              PropTypes.shape({
-                value: PropTypes.string,
-                label: PropTypes.string,
-              })
-            ),
-          ])
-        )
-      )
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(
+          PropTypes.shape({
+            value: PropTypes.string,
+            label: PropTypes.string,
+          })
+        ),
+      ])
     )
   ).isRequired,
   formData: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
+    ])
   ).isRequired,
   field: PropTypes.string.isRequired,
 }
