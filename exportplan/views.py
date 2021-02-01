@@ -63,11 +63,12 @@ class ExportPlanMixin:
     def get_context_data(self, **kwargs):
         industries = [name for _, name in choices.INDUSTRIES]
         country_choices = choices_to_key_value(choices.COUNTRY_CHOICES)
+        sections = helpers.build_export_plan_sections(self.export_plan)
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
             export_plan_progress=self.export_plan_progress,
-            sections=data.SECTION_URLS,
+            sections=sections,
             export_plan=self.export_plan,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),

@@ -36,7 +36,54 @@
     <div class="container">
       <form id="sectors-form" action="" method="GET">
           <div class="grid-row">
-            <div class="column-third column-quarter-xl">&nbsp;</div>
+            <div class="column-third column-quarter-xl">
+              <div class="filters">
+              <a id="skip-link" class="accessibility-skip-to-section" href="#markets-results">Skip filters and go to the market results.</a>
+                <h2 class="heading-small margin-top-0 margin-bottom-30 margin-bottom-15-m" id="filters-heading">
+                  <span>Filter markets guides</span>
+                </h2>
+                <span class="verbose">Selecting a filter with Javascript enabled will refresh the page.</span>
+                <ul>
+                  <li class="filter-section">
+                    <input type="checkbox" id="sectors" checked />
+                    <label for="sectors" role="button">High potential sectors for UK business</label>
+                    <div class="options checkbox-small">
+                      <ul>
+                        {% for sector in sector_list %}
+                        <li class="multiple-choice margin-bottom-0">
+                          <input type="checkbox" value="{{ sector.name }}" id="sector_{{ sector.id }}" name="sector" {% if sector.name in selected_sectors %} checked {% endif %} />
+                          <label for="sector_{{ sector.id }}">
+                            {{ sector.name }}
+                          </label>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="filter-section">
+                    <input type="checkbox" id="regions" checked />
+                    <label for="regions" role="button">World regions</label>
+                    <div class="options checkbox-small full-height">
+                        <ul>
+                          {% for region in regions_list %}
+                          <li class="multiple-choice margin-bottom-0">
+                            <input type="checkbox" value="{{ region.name }}" id="region_{{ region.id }}" name="region" {% if region.name in selected_regions %} checked {% endif %} />
+                            <label for="region_{{ region.id }}">
+                              {{ region.name|title }}
+                            </label>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                  </li>
+
+                </ul>
+                <div class="filters-sticky-footer" id="filters-sticky-footer">
+                  <a href="#" class="cancel link">Cancel</a>
+                  <a href="#" class="button update" role="button">Update<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                </div>
+              </div>
+            </div>
             <div class="column-two-thirds column-three-quarters-xl" id="markets-results">
               <div class="markets-header">
                 {% if number_of_results == 0 %}
@@ -74,7 +121,7 @@
                   {% endif %}
                 {% endif %}
                 {% if selected_sectors or selected_regions %}
-                  <p class="margin-bottom-45-m"><a href="" class="view-markets link bold margin-top-15">Clear all filters</a></p>
+                  <p class="margin-bottom-45-m"><a href="{{request.path}}" class="view-markets link bold margin-top-15">Clear all filters</a></p>
                 {% endif %}
 
                 <div class="controls margin-bottom-45-m">

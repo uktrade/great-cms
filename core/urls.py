@@ -21,7 +21,7 @@ def anonymous_user_required(function):
 
 urlpatterns = [
     path(
-        'compare-countries/',
+        'where-to-export/',
         login_required(views.CompareCountriesView.as_view(), login_url=LOGIN_URL),
         name='compare-countries',
     ),

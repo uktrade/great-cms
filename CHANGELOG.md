@@ -4,9 +4,13 @@
 
 ### Implemented enhancements
 
+- GP2-1411 - Allow type of article in ArticlePage to be blank, not just null
+- GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
 - GP2-1402 - Update content for Funding and Credit section
 - GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
 - GP2-1338 - Port v1 ArticlePage template + model
+- GP2-1345 - Where to export - site header
+- GP2-1351 - Where to export - page structure
 - GP2-1175 - Funding and credit: 'Funding options' element
 - GP2-1241 - Funding and credit: 'Your total export cost' element
 - GP2-1174 - Funding and credit: 'How much you might need to borrow' element
@@ -74,8 +78,11 @@
 - GP2-1382 - getting paid structure integration
 ### Fixed bugs
 
+- No ticket - fix button styling issue after button refactor work
+- No ticket - Fix ignored BAU react unit tests
 - GP2-1408 - Fix date formatting of articles on article list page template
 - GP2-1407 - Ensure ArticlePage is rendered correctly as a child of TopicLandingPage
+- GP2-1360 - Personalisation bar population on form pages
 - GP2-1375 - Fix image-types for advice and markets hero
 - GP2-1365 - Add bulleted list styles to rich text block
 - GP2-1364 - Fix extra spacing for first element in rich text block

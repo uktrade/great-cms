@@ -1,3 +1,5 @@
+from urllib.parse import unquote_plus
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -14,7 +16,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
 from core.constants import ARTICLE_TYPES, VIDEO_TRANSCRIPT_HELP_TEXT
 from core.helpers import build_social_links
-from core.models import CMSGenericPage, Country, IndustryTag, Tag
+from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from directory_constants import choices
 from domestic import cms_panels
 from domestic.helpers import build_route_context, get_lesson_completion_status
@@ -194,6 +196,10 @@ class MarketsTopicLandingPage(
 
     MAX_PER_PAGE = 18
 
+    SORTBY_QUERYSTRING_NAME = 'sortby'
+    REGION_QUERYSTRING_NAME = 'region'
+    SECTOR_QUERYSTRING_NAME = 'sector'
+
     template = 'domestic/topic_landing_pages/markets.html'
 
     subpage_types = [
@@ -228,10 +234,25 @@ class MarketsTopicLandingPage(
         return pages.order_by(sort_option)
 
     def get_relevant_markets(self, request):
-        # TO COME: filtering
+        market_pages_qs = CountryGuidePage.objects.child_of(self).live().public().specific()
+        # querystring args come in as plus-quoted strings which are the name
+        sectors = [unquote_plus(x) for x in self.get_selected_sectors(request)]
+        regions = [unquote_plus(x) for x in self.get_selected_regions(request)]
 
-        market_pages = CountryGuidePage.objects.child_of(self).live().public()
-        return self.sort_results(request=request, pages=market_pages)
+        #  We need to only apply these if truthy, else we end up getting no results
+        if sectors:
+            market_pages_qs = market_pages_qs.filter(
+                tags__name__in=sectors,
+            )
+        if regions:
+            market_pages_qs = market_pages_qs.filter(
+                country__region__name__in=regions,
+            )
+
+        return self.sort_results(
+            request=request,
+            pages=market_pages_qs.distinct(),
+        )
 
     def paginate_data(self, request, pages):
         paginator = Paginator(pages, self.MAX_PER_PAGE)
@@ -244,6 +265,18 @@ class MarketsTopicLandingPage(
 
         return paginated_results
 
+    def get_regions_list(self):
+        return Region.objects.order_by('name').all()
+
+    def get_sector_list(self):
+        return IndustryTag.objects.order_by('name').all()
+
+    def get_selected_sectors(self, request) -> list:
+        return request.GET.getlist(self.SECTOR_QUERYSTRING_NAME)
+
+    def get_selected_regions(self, request) -> list:
+        return request.GET.getlist(self.REGION_QUERYSTRING_NAME)
+
     def get_context(self, request):
         context = super().get_context(request)
         relevant_markets = self.get_relevant_markets(request)
@@ -251,6 +284,15 @@ class MarketsTopicLandingPage(
 
         context['sortby_options'] = self.sortby_options
         context['sortby'] = self._get_sortby(request)
+
+        context['sector_list'] = self.get_sector_list()
+        context['regions_list'] = self.get_regions_list()
+
+        context['selected_sectors'] = self.get_selected_sectors(request)
+        context['selected_regions'] = self.get_selected_regions(request)
+
+        context['number_of_regions'] = len(context['selected_regions'])
+
         context['paginated_results'] = paginated_results
         context['number_of_results'] = relevant_markets.count()
 
@@ -478,8 +520,18 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         related_name='+',
     )
 
-    tags = ParentalManyToManyField(IndustryTag, verbose_name='Industry tag', blank=True)
-    country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    tags = ParentalManyToManyField(
+        IndustryTag,
+        verbose_name='Industry tag',
+        blank=True,
+    )
+    country = models.ForeignKey(
+        Country,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     @property
     def fact_sheet_columns(self):
@@ -564,7 +616,11 @@ class ArticlePage(
     ]
     subpage_types = []
 
-    type_of_article = models.TextField(choices=ARTICLE_TYPES, null=True)
+    type_of_article = models.TextField(
+        choices=ARTICLE_TYPES,
+        null=True,
+        blank=True,
+    )
 
     article_title = models.TextField()
     article_subheading = models.TextField(

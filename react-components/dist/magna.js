@@ -66774,7 +66774,8 @@ var maxSelectedLength = 3;
 
 function CompareMarkets(props) {
   var selectedProduct = props.selectedProduct,
-      tabs = props.tabs;
+      tabs = props.tabs,
+      ctaContainer = props.ctaContainer;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -66851,20 +66852,9 @@ function CompareMarkets(props) {
       removeMarket: removeMarket,
       triggerButton: triggerButton
     });
-  } else {
-    // Either We're missing a product or any countries
-    tabsContainer = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-      className: "container"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "grid"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-4-l"
-    }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-2-l"
-    }, triggerButton)));
   }
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, tabsContainer, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, tabsContainer, (!selectedProduct || !selectedLength) && react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.createPortal(triggerButton, ctaContainer), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_ProductFinderModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
     modalIsOpen: productModalIsOpen,
     setIsOpen: setProductModalIsOpen
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProductFinder_CountryFinderModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
@@ -66889,7 +66879,8 @@ CompareMarkets.propTypes = {
     commodity_name: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
     commodity_code: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
   }),
-  tabs: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired
+  tabs: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
+  ctaContainer: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.node.isRequired
 };
 CompareMarkets.defaultProps = {
   selectedProduct: null
@@ -66901,7 +66892,8 @@ function createCompareMarkets(_ref) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
     store: _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].store
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ConnectedCompareMarkets, {
-    tabs: tabs
+    tabs: tabs,
+    ctaContainer: params.cta_container
   })), params.element);
 }
 
@@ -68793,28 +68785,13 @@ var Select = function Select(_ref) {
     className: "select__list body-l bg-white radius ".concat(isOpen ? '' : 'hidden'),
     "aria-expanded": isOpen,
     ref: element
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, placeholder), Array.isArray(options) ? options.map(function (item, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_5__["Item"], {
-      key: item.label,
-      onClick: function onClick() {
-        return selectOption(item);
-      },
-      onKeyDown: function onKeyDown(e) {
-        return focusNext(e, i, item);
-      },
-      selected: item.label === input,
-      label: item.label,
-      forwardedRef: function forwardedRef(el) {
-        return liRef.current[i] = el;
-      }
-    });
-  }) : Object.keys(options).map(function (category, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, placeholder), options.map(function (item, i) {
+    return item.name ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "m-0",
-      key: category
+      key: item.name
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: "body-m-b"
-    }, category), options[category].map(function (li, index) {
+    }, item.name), item.options.map(function (li, index) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_5__["Item"], {
         key: li.label,
         onClick: function onClick() {
@@ -68829,7 +68806,20 @@ var Select = function Select(_ref) {
           return liRef.current[index] = el;
         }
       }, li.label);
-    }));
+    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_5__["Item"], {
+      key: item.label,
+      onClick: function onClick() {
+        return selectOption(item);
+      },
+      onKeyDown: function onKeyDown(e) {
+        return focusNext(e, i, item);
+      },
+      selected: item.label === input,
+      label: item.label,
+      forwardedRef: function forwardedRef(el) {
+        return liRef.current[i] = el;
+      }
+    });
   })));
 };
 Select.propTypes = {
@@ -68837,13 +68827,10 @@ Select.propTypes = {
   update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }))), prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }))]).isRequired,
+  })).isRequired,
   description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
@@ -69714,13 +69701,9 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
 
   var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
 
-  var _onChange2 = function onChange(updatedField, otherProps, section) {
-    var isNotes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-    var note = isNotes ? {
-      notes: updatedField[isNotes]
-    } : updatedField;
-    setState(_objectSpread(_objectSpread({}, state), {}, _defineProperty({}, section, _objectSpread(_objectSpread({}, state[section]), note))));
-    debounceUpdate(_defineProperty({}, field, _defineProperty({}, section, _objectSpread(_objectSpread({}, note), otherProps))));
+  var onChange = function onChange(data) {
+    setState(_objectSpread(_objectSpread({}, state), data));
+    debounceUpdate(_defineProperty({}, field, data));
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -69738,36 +69721,23 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "target-market-documents-form"
   }, formFields.map(function (_ref2) {
-    var group = _ref2.group,
-        key = _ref2.field;
-    var select = group[0];
-    var textarea = group[1];
-    var options = Array.isArray(select.options) ? select.options : Object.keys(select.options).flatMap(function (x) {
-      return select.options[x];
-    });
-    var selected = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(options, state[key] ? state[key][select.id] : '');
+    var group = _ref2.group;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-form-group",
-      key: select.id
+      key: group[0].id
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_4__["Select"], {
-      label: select.label,
-      id: select.id,
-      name: select.name,
-      options: select.options,
-      selected: selected,
-      update: function update(data) {
-        return _onChange2(data, {
-          notes: state[textarea.id]
-        }, key);
-      }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
-      onChange: function onChange(data) {
-        return _onChange2(data, _defineProperty({}, select.id, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValue"])(options, selected)), key, textarea.id);
-      },
-      label: textarea.label,
-      id: textarea.id,
-      value: state[key] ? state[key].notes : '',
-      placeholder: textarea.placeholder
+      label: group[0].label,
+      id: group[0].id,
+      name: group[0].name,
+      options: group[0].options,
+      selected: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(group[0].options, state[group[0].id]),
+      onChange: onChange
+    }), Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(group[0].options, state[group[1].id]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
+      onChange: onChange,
+      label: group[1].label,
+      id: group[1].id,
+      value: state[group[1].id],
+      placeholder: group[1].placeholder
     }));
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "body-s text-blue-deep-50 m-b-0"
@@ -69776,11 +69746,11 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
   }, "\xA0")));
 });
 GettingPaid.propTypes = {
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }))]))).isRequired,
-  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string]))])).isRequired,
+  }))]))))).isRequired,
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired,
   field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
 };
 
@@ -70459,7 +70429,7 @@ function Menu(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-book"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Learn to export"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "/compare-countries/",
+      href: "/where-to-export/",
       className: "link"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-map-marker-alt"
@@ -71364,7 +71334,7 @@ function CountryFinderModal(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "m-v-xs"
   }, "Compare stats for over 180 countries to find the best place to target your exports."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/compare-countries/",
+    href: "/where-to-export/",
     className: "button button--secondary"
   }, "Compare Markets"))));
   /* Filtered list of markets */
