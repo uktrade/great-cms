@@ -7,19 +7,20 @@ BACKLINK_QUERYSTRING_NAME = 'return-link'
 # Define a strict subset of rich-text features only includes linebreaks
 RICHTEXT_FEATURES__MINIMAL = ()
 
-# Define rich-text features that enable the off-by-default blockquote element
-RICHTEXT_FEATURES__ARTICLE = (
+
+# Define rich-text features that disable embeds, images and document links
+RICHTEXT_FEATURES__REDUCED = (
     'h2',
     'h3',
     'h4',
-    # 'h5', 'h6'  # also available if we want
+    # 'h5', 'h6'  # also available if we want, but be sure we do
     'bold',
     'italic',
     'ol',
     'ul',
     'hr',
     'link',
-    'blockquote',
+    # 'blockquote', # NOT used - use a PullQuoteBlock in a StreamField, or similar
 )
 
 AWS_S3_MAIN_HOSTNAME_OPTIONS = [

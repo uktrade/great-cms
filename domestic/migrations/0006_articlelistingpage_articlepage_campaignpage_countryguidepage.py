@@ -42,6 +42,7 @@ class Migration(migrations.Migration):
                             ('Campaign', 'Campaign'),
                         ],
                         null=True,
+                        blank=True,
                     ),
                 ),
                 ('article_title', models.TextField()),
