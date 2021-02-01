@@ -16,7 +16,6 @@ export const RouteToMarketSection = memo(
               name={item.name}
               id={`${item.name}-${field.pk}`}
               options={item.options}
-              tooltip={tooltip}
               selected={
                 field[item.name] &&
                 item.options.find((x) => x.value === field[item.name])
@@ -66,7 +65,6 @@ RouteToMarketSection.propTypes = {
   label: PropTypes.string.isRequired,
   example: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  tooltip: PropTypes.objectOf(PropTypes.string).isRequired,
   field: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
