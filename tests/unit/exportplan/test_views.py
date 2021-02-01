@@ -230,12 +230,14 @@ def test_404_when_invalid_section_slug(client, user):
 
 
 @pytest.mark.django_db
-def test_url_with_export_plan_country_selected(mock_get_comtrade_data, mock_get_create_export_plan, client, user):
+def test_url_with_export_plan_country_selected(mock_get_comtrade_data, export_plan_data, client, user):
     # Remove countries selection
     user.export_plan.data.update({'export_countries': None})
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
     response = client.get(url)
+    # Set the countries back
+    user.export_plan.data.update({'export_countries': export_plan_data['export_countries']})
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 0
 

@@ -28,7 +28,9 @@ class ExportPlanMixin:
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
         serializer.is_valid()
         helpers.update_exportplan(
-            id=self.request.user.export_plan.data['pk'], sso_session_id=self.request.user.session_id, data=serializer.data
+            id=self.request.user.export_plan.data['pk'],
+            sso_session_id=self.request.user.session_id,
+            data=serializer.data,
         )
         return super().dispatch(request, *args, **kwargs)
 
@@ -245,7 +247,9 @@ class ExportPlanBusinessObjectivesView(
 
     def form_valid(self, form):
         helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id, id=self.request.user.export_plan.data['pk'], data=form.cleaned_data
+            sso_session_id=self.request.user.session_id,
+            id=self.request.user.export_plan.data['pk'],
+            data=form.cleaned_data,
         )
         return super().form_valid(form)
 
@@ -300,7 +304,7 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
         }
         context['transport_choices'] = transport_choices
 
-        context['getting_paid_data'] = json.dumps(self.export_plan['getting_paid'])
+        context['getting_paid_data'] = json.dumps(self.request.user.export_plan.data['getting_paid'])
 
         return context
 
@@ -317,7 +321,9 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
         context['estimated_costs_per_unit'] = calculated_pricing['calculated_cost_pricing'].get(
             'estimated_costs_per_unit', ''
         )
-        context['funding_credit_options'] = json.dumps(self.request.user.export_plan.data.get('funding_credit_options', []))
+        context['funding_credit_options'] = json.dumps(
+            self.request.user.export_plan.data.get('funding_credit_options', [])
+        )
         return context
 
 
