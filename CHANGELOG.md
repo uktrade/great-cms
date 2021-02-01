@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
 - GP2-1424 - Cost and pricing page - local taxes section
 - GP2-1423 - Cost and pricing page - content change
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
@@ -78,7 +79,7 @@
 - NOTICKET - upgrade admin include export plan data
 - GP2-1139 - save EP progress
 - GP2-1382 - getting paid structure be
-
+- GP2-1382 - getting paid structure integration
 ### Fixed bugs
 
 - No ticket - fix button styling issue after button refactor work

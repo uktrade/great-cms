@@ -33,7 +33,7 @@ Direct.propTypes = {
       label: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
       placeholder: PropTypes.string.isRequired,
-      tooltip: PropTypes.string.isRequired,
+      tooltip: PropTypes.objectOf(PropTypes.string),
       type: PropTypes.string.isRequired,
       field: PropTypes.string.isRequired,
     })

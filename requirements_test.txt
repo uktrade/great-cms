@@ -67,7 +67,7 @@ codecov==2.1.11
     # via -r requirements_test.in
 configargparse==1.2.3
     # via locust
-coverage==5.3.1
+coverage==5.4
     # via
     #   codecov
     #   pytest-cov
@@ -92,7 +92,7 @@ directory-client-core==6.3.0
     #   directory-api-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-constants==20.20.0
+directory-constants==20.22.0
     # via
     #   -r requirements.in
     #   great-components
@@ -171,7 +171,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==5.7.0
+faker==5.8.0
     # via factory-boy
 flake8-blind-except==0.1.1
     # via -r requirements_test.in
@@ -263,7 +263,7 @@ l18n==2020.6.1
     # via wagtail
 lazy-object-proxy==1.4.3
     # via astroid
-locust==1.4.1
+locust==1.4.3
     # via -r requirements_test.in
 lxml==4.6.2
     # via pyquery
@@ -389,7 +389,7 @@ pytz==2020.1
     #   django-modelcluster
     #   l18n
     #   tzlocal
-pyzmq==21.0.1
+pyzmq==22.0.0
     # via locust
 readtime==1.1.1
     # via -r requirements.in

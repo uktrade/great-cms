@@ -12,6 +12,8 @@ TARGET_MARKETS_RESEARCH = 'Target markets research'
 ADAPTATION_TARGET_MARKET = 'Adaptation for your target market'
 MARKETING_APPROACH = 'Marketing approach'
 COSTS_AND_PRICING = 'Costs and pricing'
+FINANCE = 'Finance'
+GETTING_PAID = 'Getting paid'
 FUNDING_AND_CREDIT = 'Funding and Credit'
 PAYMENT_METHODS = 'Payment methods'
 TRAVEL_AND_BUSINESS_POLICIES = 'Travel and business policies'
@@ -27,6 +29,8 @@ COUNTRY_REQUIRED = [
     slugify(ADAPTATION_TARGET_MARKET),
     slugify(MARKETING_APPROACH),
     slugify(COSTS_AND_PRICING),
+    slugify(FINANCE),
+    slugify(GETTING_PAID),
     slugify(FUNDING_AND_CREDIT),
     slugify(PAYMENT_METHODS),
     slugify(TRAVEL_AND_BUSINESS_POLICIES),
@@ -107,11 +111,11 @@ SECTIONS = OrderedDict(
             'disabled': True if FUNDING_AND_CREDIT in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(FUNDING_AND_CREDIT, []),
         },
-        slugify(PAYMENT_METHODS): {
-            'title': PAYMENT_METHODS,
-            'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(PAYMENT_METHODS)}),
-            'disabled': True if PAYMENT_METHODS in SECTIONS_DISABLED else False,
-            'lessons': LESSONS.get(PAYMENT_METHODS, []),
+        slugify(GETTING_PAID): {
+            'title': GETTING_PAID,
+            'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(GETTING_PAID)}),
+            'disabled': True if GETTING_PAID in SECTIONS_DISABLED else False,
+            'lessons': LESSONS.get(GETTING_PAID, []),
         },
         slugify(TRAVEL_AND_BUSINESS_POLICIES): {
             'title': TRAVEL_AND_BUSINESS_POLICIES,

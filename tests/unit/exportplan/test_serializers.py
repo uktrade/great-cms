@@ -360,23 +360,23 @@ def test_payment_method_serializer():
 
     data = {
         'getting_paid': {
-            'payment_method': {'method': ['TTE', 'EFG'], 'notes': 'method 1'},
-            'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
-            'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
+            'payment_method': {'methods': ['BACS, BT'], 'notes': 'method 1'},
+            'payment_terms': {'terms': 'TMP', 'notes': 'method 2'},
+            'incoterms': {'transport': 'RME', 'notes': 'method 3'},
         }
     }
     serializer = serializers.ExportPlanSerializer(data=data)
-
     assert serializer.is_valid(raise_exception=True)
+
     assert serializer.validated_data == OrderedDict(
         [
             (
                 'getting_paid',
                 OrderedDict(
                     [
-                        ('payment_method', OrderedDict([('method', ['TTE', 'EFG']), ('notes', 'method 1')])),
-                        ('payment_terms', OrderedDict([('method', ['FFE', 'TMP']), ('notes', 'method 2')])),
-                        ('incoterms', OrderedDict([('method', ['RME', 'ECM']), ('notes', 'method 3')])),
+                        ('payment_method', OrderedDict([('methods', ['BACS', ' BT']), ('notes', 'method 1')])),
+                        ('payment_terms', OrderedDict([('terms', 'TMP'), ('notes', 'method 2')])),
+                        ('incoterms', OrderedDict([('transport', 'RME'), ('notes', 'method 3')])),
                     ]
                 ),
             )
