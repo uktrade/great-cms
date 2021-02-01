@@ -79,7 +79,7 @@
 - NOTICKET - upgrade admin include export plan data
 - GP2-1139 - save EP progress
 - GP2-1382 - getting paid structure be
-
+- GP2-1382 - getting paid structure integration
 ### Fixed bugs
 
 - No ticket - fix button styling issue after button refactor work

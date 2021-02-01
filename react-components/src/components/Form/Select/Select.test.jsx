@@ -13,22 +13,16 @@ const props = {
   ],
 }
 
-const propsCategories = [
-  {
-    name: 'All forms of transport',
-    options: [
-      { value: 'item_one', label: 'item one' },
-      { value: 'item_two', label: 'item two' },
-    ],
-  },
-  {
-    name: 'Water transport',
-    options: [
-      { value: 'item_three', label: 'item three' },
-      { value: 'item_four', label: 'item four' },
-    ],
-  },
-]
+const propsCategories = {
+  'All forms of transport': [
+    { value: 'item_one', label: 'item one' },
+    { value: 'item_two', label: 'item two' },
+  ],
+  'Water transport': [
+    { value: 'item_three', label: 'item three' },
+    { value: 'item_four', label: 'item four' },
+  ],
+}
 
 const setup = ({ ...data }) => {
   const actions = {
@@ -107,8 +101,8 @@ describe('Select', () => {
 
       await waitFor(() => {
         expect(queryByRole('listbox')).toBeInTheDocument()
-        expect(getByText(propsCategories[0].name)).toBeInTheDocument()
-        expect(getByText(propsCategories[1].name)).toBeInTheDocument()
+        expect(getByText('All forms of transport')).toBeInTheDocument()
+        expect(getByText('Water transport')).toBeInTheDocument()
       })
     })
     it('Should select a sub category', async () => {
