@@ -343,7 +343,7 @@ def millify(n):
     return '{0:.2f}{unit}'.format(n / 10 ** (3 * mill_idx), unit=mill_names[mill_idx])
 
 
-def get_comtrade_data(countries_list, commodity_code):
+def get_comtrade_data(countries_list, commodity_code, with_country_data=True):
     response_data = {}
     for country in countries_list:
         json_data = api_client.dataservices.get_last_year_import_data(
@@ -370,12 +370,20 @@ def get_comtrade_data(countries_list, commodity_code):
             import_data_from_uk['trade_value_raw'] = import_data_from_uk['trade_value']
             import_data_from_uk['trade_value'] = millify(import_data_from_uk['trade_value'])
 
-        country_data = exportplan_helpers.get_country_data(country)
+        country_data = exportplan_helpers.get_country_data(country) if with_country_data else {}
         response_data[country] = {
             'import_from_world': import_data if import_data else {},
             'import_data_from_uk': import_data_from_uk if import_data_from_uk else {},
             **country_data,
         }
+
+    return response_data
+
+
+def get_country_data(countries_list):
+    response_data = {}
+    for country in countries_list:
+        response_data[country] = exportplan_helpers.get_country_data(country)
     return response_data
 
 

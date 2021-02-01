@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import tabConfiguration from './TabConfiguration'
 import DataTable from './DataTable'
 import Tabs from './Tabs'
 import { isObject, get } from '../../Helpers'
+
+import economyTabConfig from './TabConfigEconomy'
+import populationTabConfig from './TabConfigPopulation'
+import societyTabConfig from './TabConfigSociety'
 
 export default function ComparisonTables(props) {
   const {
@@ -27,7 +30,12 @@ export default function ComparisonTables(props) {
     }
   }
 
-  const tabConfig = tabConfiguration(selectedProduct)
+  const tabConfig = {
+    population: populationTabConfig,
+    economy: economyTabConfig,
+    society: societyTabConfig,
+  }
+
   return (
     <>
       <Tabs setActiveTab={setActiveTab} showTabs={!!listOfTabs.length}>

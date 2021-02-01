@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip } from '@components/tooltip/Tooltip'
-import { isArray, isObject, mapArray } from '../../Helpers'
+import { isArray, mapArray, deepAssign } from '../../Helpers'
 
 let cache = {}
+const DATA_NA = 'Data not available'
 
 export default function DataTable(props) {
   const {
@@ -13,7 +14,103 @@ export default function DataTable(props) {
     commodityCode,
     removeMarket,
   } = props
-  const [, setLoading] = useState(true)
+  const [lCache, setLCache] = useState(
+    (cache[datasetName] = cache[datasetName] || {})
+  )
+
+  const dataIn = (data) => {
+    cache[datasetName] = deepAssign(cache[datasetName], data)
+    setLCache(cache[datasetName])
+  }
+
+  const flagArray = (array, value) => {
+    // Generates an object from an array,
+    const out = {}
+    array.forEach((entry) => {
+      out[entry] = value
+    })
+    return out
+  }
+
+  const setLoadingIndicators = (countries, columnList) => {
+    // Set the columns in the countries provided - to loading
+    const loadingIndicators = {}
+    countries.forEach((country) => {
+      loadingIndicators[country] = { loading: flagArray(columnList, 1) }
+    })
+    dataIn(loadingIndicators)
+  }
+
+  const getChunk = (countries, columnList, requestFunction) => {
+    // Get a chunk of the table.
+    // Pass in an array of countries, an array of column names and a request function
+    return new Promise((resolve, reject) => {
+      requestFunction(countries, cache.commodityCode)
+        .then((result) => {
+          let data = result
+          if (isArray(data)) {
+            data = mapArray(data, 'country')
+          }
+          countries.forEach((country) => {
+            data[country] = data[country] || {}
+            data[country].loading = flagArray(columnList, 0)
+          })
+          dataIn(data)
+          resolve()
+        })
+        .catch(() => {
+          const clear = {}
+          countries.forEach((country) => {
+            clear[country] = { loading: flagArray(columnList, 0) }
+          })
+          dataIn(clear)
+          reject()
+        })
+    })
+  }
+
+  const getByCountrySequential = (countries, columnList, requestFunction) => {
+    // gets chunk for one country at a time - but sequentially - i.e. only one request in flight
+    const localCountries = [...countries]
+    const country = localCountries.shift()
+    getChunk([country], columnList, requestFunction).finally(() => {
+      if (localCountries.length) {
+        getByCountrySequential(localCountries, columnList, requestFunction)
+      }
+    })
+  }
+
+  const getTableData = (missingCountries) => {
+    // Collect the retrieval groups.
+    // Any columns without a group are collected as the default group
+    const groups = {}
+    Object.keys(config.columns).forEach((columnName) => {
+      const groupName = config.columns[columnName].group || 'default'
+      groups[groupName] = groups[groupName] || []
+      groups[groupName].push(columnName)
+    })
+    // Make a request for each group using the group config.
+    Object.keys(groups).forEach((groupName) => {
+      const groupDef = (config.groups && config.groups[groupName]) || {
+        dataFunction: config.dataFunction,
+      }
+      const columnList = groups[groupName]
+      setLoadingIndicators(missingCountries, columnList)
+      if (groupDef.splitCountries) {
+        missingCountries.forEach((country) => {
+          getChunk([country], columnList, groupDef.dataFunction)
+        })
+      } else if (groupDef.splitCountriesSequential) {
+        getByCountrySequential(
+          missingCountries,
+          columnList,
+          groupDef.dataFunction
+        )
+      } else {
+        getChunk(missingCountries, columnList, groupDef.dataFunction)
+      }
+    })
+  }
 
   useEffect(() => {
     // Wipe cache if commodity code changes
@@ -24,40 +121,18 @@ export default function DataTable(props) {
     const countries = Object.values(comparisonMarkets).map(
       (country) => country.country_name
     )
-    const missingCountries = countries.filter(
-      (country) => !cache[datasetName][country]
-    )
+    const missingCountries = countries.filter((country) => !lCache[country])
+    setLCache(lCache)
+
     if (missingCountries.length) {
-      setLoading(true)
-      config
-        .dataFunction(missingCountries, commodityCode)
-        .then((result) => {
-          let newData = result
-          // If the result is an array, make an object keyed by country
-          if (isArray(result)) {
-            newData = mapArray(result, 'country')
-          } else if (isObject(result) && !result[missingCountries[0]]) {
-            newData = mapArray(Object.values(result), 'country')
-          }
-          // or it could be an object already keyed by country
-          cache[datasetName] = Object.assign(cache[datasetName], newData)
-          setLoading(false)
-        })
-        .catch(() => {
-          missingCountries.forEach((country) => {
-            cache[datasetName][country] = {}
-          })
-          setLoading(false)
-        })
-    } else {
-      setLoading(false)
+      getTableData(missingCountries)
     }
   }, [commodityCode, comparisonMarkets])
 
   const yearDiv = (year, baseYear) => {
     return (
       year &&
-      (String(year) !== baseYear) && (
+      String(year) !== baseYear && (
         <div className="body-m text-black-60 display-year">{year}</div>
       )
     )
@@ -111,6 +186,23 @@ export default function DataTable(props) {
     return years[a] < years[b] ? 1 : -1
   })[0]
 
+  const renderCell = (cellConfig, countryData) => {
+    try {
+      const value = cellConfig.render(countryData)
+      if (!value) {
+        throw new Error()
+      }
+      return (
+        <>
+          {value}
+          {yearDiv((cellConfig.year || (() => null))(countryData), baseYear)}
+        </>
+      )
+    } catch {
+      return DATA_NA
+    }
+  }
+
   const tableBody = Object.values(comparisonMarkets).map((market) => {
     const countryData =
       cache[datasetName] && cache[datasetName][market.country_name]
@@ -121,14 +213,9 @@ export default function DataTable(props) {
           key={columnKey}
           className={`${columnKey} p-v-xs ${cellConfig.className || ''}`}
         >
-          {countryData ? (
-            <>
-              {cellConfig.render(countryData)}
-              {yearDiv(
-                (cellConfig.year || (() => null))(countryData),
-                baseYear
-              )}
-            </>
+          {countryData &&
+          (!countryData.loading || !countryData.loading[columnKey]) ? (
+            <>{renderCell(cellConfig, countryData)}</>
           ) : (
             <div className="loading">&nbsp;</div>
           )}
@@ -211,6 +298,7 @@ DataTable.propTypes = {
     columns: PropTypes.instanceOf(Object),
     sourceAttributions: PropTypes.instanceOf(Array),
     dataFunction: PropTypes.func,
+    groups: PropTypes.instanceOf(Object),
   }).isRequired,
   commodityCode: PropTypes.string.isRequired,
   removeMarket: PropTypes.func.isRequired,
