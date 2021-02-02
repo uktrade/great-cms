@@ -34,3 +34,14 @@ def test_com_trade_data_view(mock_country_data, mock_uk_data, mock_world_data, c
     assert 'Germany' in json_response.keys()
 
     assert ['import_from_world', 'import_data_from_uk'] == list(json_response['Germany'].keys())
+
+
+@mock.patch.object(exportplan_helpers, 'get_country_data')
+@pytest.mark.django_db
+def test_country_data_view(mock_country_data, client):
+    country_data = {'consumer_price_index': {'value': '112.67'}}
+    mock_country_data.return_value = {'country_data': country_data}
+    url = reverse('core:api-country-data')
+    json_response = client.get(url + '?countries=Germany,France').json()
+    assert json_response['France']['country_data'] == country_data
+    assert json_response['Germany']['country_data'] == country_data

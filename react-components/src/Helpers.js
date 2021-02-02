@@ -51,7 +51,7 @@ let millify = (value) => {
     if (oom <= 1) return Math.round(floatValue).toLocaleString()
     return `${(value / Math.pow(10, oom * 3)).toFixed(1)} ${names[oom - 2]}`
   }
-  return value === null ? value : ''+value
+  return value === null ? value : '' + value
 }
 
 const stripPercentage = (str) => {
@@ -75,7 +75,7 @@ const isArray = (arr) => {
   return Object.prototype.toString.call(arr) === '[object Array]'
 }
 
-const get = (obj, path, def=null) => {
+const get = (obj, path, def = null) => {
   // get a value from an object based on dot-separated path
   let out = obj
   const pathSplit = path.split('.')
@@ -93,6 +93,18 @@ const mapArray = (array, key) => {
   const out = {}
   array.forEach((entry) => {
     out[entry[key]] = entry
+  })
+  return out
+}
+
+const deepAssign = (obj1, obj2) => {
+  let out = { ...obj1 }
+  Object.keys(obj2).forEach((key) => {
+    if (out[key] && isObject(out[key]) && isObject(obj2[key])) {
+      out[key] = deepAssign(out[key], obj2[key])
+    } else {
+      out[key] = obj2[key]
+    }
   })
   return out
 }
@@ -148,4 +160,5 @@ export {
   formatLessonLearned,
   millify,
   stripPercentage,
+  deepAssign,
 }
