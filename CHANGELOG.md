@@ -6,6 +6,7 @@
 
 - GP2-1240 - Mark sections as complete
 - GP2-1425 - Cost and pricing - Estimate element
+- GP2-1435 - Split data retrieval on 'Where to export' data table
 - GP2-1426 - Cost and pricing - Change to the title of the tool-tip
 - no-ticket - django version upgraded to 2.2.18
 - GP2-1424 - Cost and pricing page - local taxes section
