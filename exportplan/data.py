@@ -12,7 +12,6 @@ TARGET_MARKETS_RESEARCH = 'Target markets research'
 ADAPTATION_TARGET_MARKET = 'Adaptation for your target market'
 MARKETING_APPROACH = 'Marketing approach'
 COSTS_AND_PRICING = 'Costs and pricing'
-FINANCE = 'Finance'
 GETTING_PAID = 'Getting paid'
 FUNDING_AND_CREDIT = 'Funding and Credit'
 PAYMENT_METHODS = 'Payment methods'
@@ -29,7 +28,6 @@ COUNTRY_REQUIRED = [
     slugify(ADAPTATION_TARGET_MARKET),
     slugify(MARKETING_APPROACH),
     slugify(COSTS_AND_PRICING),
-    slugify(FINANCE),
     slugify(GETTING_PAID),
     slugify(FUNDING_AND_CREDIT),
     slugify(PAYMENT_METHODS),

@@ -8,6 +8,6 @@ export const createDashboard = ({ element, ...params }) => {
   ReactDOM.render(<Dashboard {...params} />, element)
 }
 
-export const createDisabledButton = ({ element}) => {
+export const createDisabledButton = ({ element }) => {
   ReactDOM.render(<Buttons />, element)
 }
