@@ -51,9 +51,7 @@ def export_plan_data(cost_pricing_data):
             'marketing-approach': {'target_ages': ['25-29', '47-49']},
             'target-markets-research': {'target_ages': ['35-40']},
         },
-        'ui_progress': {
-            'about-your-business': {'is_complete': 'True', 'date_last_visited': '2012-01-14T03:21:34+00:00'}
-        },
+        'ui_progress': {'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'}},
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
@@ -65,6 +63,11 @@ def export_plan_data(cost_pricing_data):
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
         'funding_and_credit': {'override_estimated_total_cost': '34.23', 'funding_amount_required': '45.99'},
+        'getting_paid': {
+            'payment_method': {'method': ['TTE', 'EFG'], 'notes': 'method 1'},
+            'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
+            'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
+        },
         'pk': 1,
         'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }

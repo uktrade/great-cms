@@ -79,7 +79,13 @@ def test_export_plan_builder_landing_page(
 
     response = client.get('/export-plan/dashboard/')
     assert response.status_code == 200
-    assert response.context['sections'] == data.SECTION_TITLES
+    assert response.context['sections'][0] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+        'disabled': False,
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'is_complete': False,
+    }
 
 
 @pytest.mark.django_db
@@ -194,8 +200,8 @@ def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
         ('adaptation-for-your-target-market', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
         ('costs-and-pricing', 'funding-and-credit'),
-        ('funding-and-credit', 'payment-methods'),
-        ('payment-methods', 'travel-and-business-policies'),
+        ('funding-and-credit', 'getting-paid'),
+        ('getting-paid', 'travel-and-business-policies'),
         ('travel-and-business-policies', 'business-risk'),
         ('business-risk', None),
     ),
@@ -218,7 +224,7 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export
         'url': '/export-plan/section/about-your-business/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
-        'is_complete': 'True',
+        'is_complete': True,
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
@@ -313,6 +319,32 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
 
 
 @pytest.mark.django_db
+def test_getting_paid(export_plan_data, client, user):
+    url = reverse('exportplan:getting-paid')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['payment_method_choices'][0] == {
+        'label': 'International bank transfers',
+        'value': 'INTERNATIONAL_BANK_TRANSFER',
+    }
+    assert response.context_data['payment_term_choices'][0] == {
+        'label': 'Payment in advance',
+        'value': 'PAYMENT_IN_ADVANCE',
+    }
+    assert response.context_data['transport_choices']['All forms of transport'][0] == {
+        'label': 'Ex Works (EXW)',
+        'value': 'EX_WORKS',
+    }
+    assert response.context_data['transport_choices']['Water transport'][0] == {
+        'label': 'Free Alongside Ship (FAS)',
+        'value': 'FREE_ALONG_SHIP',
+    }
+    assert response.context_data['getting_paid_data'] == json.dumps(export_plan_data['getting_paid'])
+
+
+@pytest.mark.django_db
 def test_funding_and_credit(export_plan_data, client, user):
     url = reverse('exportplan:funding-and-credit')
     client.force_login(user)
@@ -320,7 +352,7 @@ def test_funding_and_credit(export_plan_data, client, user):
 
     assert response.status_code == 200
 
-    assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'bank-loan'}
+    assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'BANK_LOAN'}
     assert response.context_data['funding_and_credit'] == export_plan_data['funding_and_credit']
     assert response.context_data['estimated_costs_per_unit'] == '76.59'
     assert response.context_data['funding_credit_options'] == json.dumps(export_plan_data['funding_credit_options'])
@@ -357,7 +389,13 @@ def test_service_page_context(client, user):
     url = reverse('exportplan:service-page')
     response = client.get(url)
     assert response.status_code == 200
-    assert response.context['sections'] == list(data.SECTIONS.values())
+    assert response.context['sections'][0] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+        'disabled': False,
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'is_complete': True,
+    }
 
 
 @pytest.mark.django_db
@@ -374,3 +412,6 @@ def test_exportplan_dashboard(
     assert context_data.get('export_plan').get('id') == 1
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
+    assert context_data['export_plan_progress'] == {
+        'export_plan_progress': {'sections_total': 10, 'sections_completed': 0, 'percentage_completed': 0}
+    }

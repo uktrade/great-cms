@@ -1,3 +1,4 @@
+import json
 from unittest import mock
 
 import pytest
@@ -1190,3 +1191,84 @@ def test_article_page__related_pages(
         **kwargs,
     )
     assert [x for x in page.related_pages] == [x for x in kwargs.values()]
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'quote,attribution,role,organisation,organisation_link',
+    (
+        (
+            'Quote here',
+            'Alice McTest',
+            'CEO',
+            'Test Company Name',
+            'http://example.com',
+        ),
+        (
+            'Quote here',
+            'Alice McTest',
+            None,
+            'Test Company Name',
+            'http://example.com',
+        ),
+        (
+            'Quote here',
+            'Alice McTest',
+            'CEO',
+            'Test Company Name',
+            None,
+        ),
+        (
+            'Quote here',
+            'Alice McTest',
+            'CEO',
+            None,
+            'http://example.com',  # SHOULD NOT BE RENDERED
+        ),
+        ('Quote here', 'Alice McTest', 'CEO', None, None),
+        ('Quote here', 'Alice McTest', None, None, None),
+        ('Quote here', None, None, None, None),
+    ),
+)
+def test_article_body_pull_quote_block(
+    domestic_homepage,
+    quote,
+    attribution,
+    role,
+    organisation,
+    organisation_link,
+):
+    page = ArticlePageFactory(
+        parent=domestic_homepage,
+        title='Test Article Page',
+        article_title='Test Article',
+    )
+    page.article_body = json.dumps(
+        [
+            {
+                'type': 'pull_quote',
+                'value': {
+                    'quote': quote,
+                    'attribution': attribution,
+                    'role': role,
+                    'organisation': organisation,
+                    'organisation_link': organisation_link,
+                },
+            }
+        ]
+    )
+    page.save()
+
+    rendered_block = page.article_body[0].render_as_block()
+
+    for field_ in [quote, attribution, role, organisation]:
+        if field_ is not None:
+            assert field_ in rendered_block
+
+    if organisation is not None:
+        assert organisation in rendered_block
+        if organisation_link is not None:
+            assert organisation_link in rendered_block
+
+    if organisation_link and not organisation:
+        assert organisation_link not in rendered_block

@@ -1,0 +1,14 @@
+{% load to_json %}
+<div id="section-complete">
+</div>
+
+{% block body_js %}
+  <script type="text/javascript">
+    var element = document.getElementById('section-complete');
+    magna.sectionComplete({
+      element: element,
+      current_section: {{ current_section|to_json}},
+      export_plan_progress: {{ export_plan_progress|to_json }},
+    })
+  </script>
+{% endblock %}

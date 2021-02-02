@@ -443,6 +443,18 @@ def test_get_comdtrade_data(mock_country_data, mock_uk_data, mock_world_data, cl
     assert ['import_from_world', 'import_data_from_uk'] == list(response['Germany'].keys())
 
 
+@mock.patch.object(exportplan_helpers, 'get_country_data')
+@pytest.mark.django_db
+def test_get_country_data(mock_country_data, client):
+    germany_data = {'country_data': {'consumer_price_index': {'value': 112.332}}}
+
+    mock_country_data.return_value = germany_data
+
+    response = helpers.get_country_data(countries_list=['Germany'])
+    assert 'Germany' in response.keys()
+    assert response.get('Germany') == germany_data
+
+
 def test_build_twitter_link(rf):
     actual = helpers.build_twitter_link(
         request=rf.get(

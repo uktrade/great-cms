@@ -6,7 +6,6 @@ import { analytics } from '../../Helpers'
 
 export const Dashboard = ({ sections }) => {
   const [modal, setModal] = useState(false)
-
   const openComingSoonModal = (e) => {
     setModal(true)
     // record click on disable section
@@ -19,9 +18,13 @@ export const Dashboard = ({ sections }) => {
   return (
     <>
       <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-      {sections.map(({ title, url, disabled }) => (
+      {sections.map(({ title, url, disabled, is_complete }) => (
         <div className="c-1-3-xl c-1-2-m" key={url}>
-          <div className="bg-white m-b-s section-list__item">
+          <div
+            className={`bg-white m-b-s section-list__item ${
+              is_complete ? 'section-list__item--is-complete' : ''
+            }`}
+          >
             {disabled ? (
               <div
                 className="w-full link section-list__disabled section-list__link"
@@ -58,7 +61,12 @@ export const Dashboard = ({ sections }) => {
                 href={url}
                 title={title}
               >
-                <div className="bg-blue-deep-20 section-list__image-container">
+                <div
+                  className={`${
+                    is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
+                  } section-list__image-container`}
+                  data-complete={is_complete ? 'Complete' : ''}
+                >
                   <img
                     className="w-full p-h-s p-t-m p-b-s"
                     src="/static/images/ep-placeholder.svg"

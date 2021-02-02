@@ -70,7 +70,9 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             value={formData[item.name]}
             onChange={handleChange}
             update={handleChange}
-            tooltip={item.tooltip}
+            tooltip={{
+              content: item.tooltip,
+            }}
             example={{
               content: item.example,
             }}

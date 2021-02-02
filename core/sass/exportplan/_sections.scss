@@ -8,7 +8,7 @@
     position: relative;
     width: 100%;
 
-    @include breakpoint(lg){
+    @include breakpoint(lg) {
       width: 679px;
     }
   }
@@ -17,12 +17,21 @@
 .lesson__back {
   margin-top: 30px;
 
-  @include breakpoint(lg){
+  @include breakpoint(lg) {
     float: right;
     width: 245px;
 
     &--bottom {
       margin-top: 315px;
+    }
+  }
+}
+
+.great-checkbox--section-complete {
+  label {
+    font-size: var(--font-size-title-2);
+    @include breakpoint(sm) {
+      font-size: var(--font-size-title-3);
     }
   }
 }

@@ -1,5 +1,6 @@
 {% extends "core/base.html" %}
 {% load static %}
+{% load to_json %}
 
 {% block css_layout_class %}export-plan{% endblock %}
 
@@ -44,6 +45,7 @@
       <div class="grid">
         <div class="c-1-4-l">&nbsp;</div>
         <div class="c-2-3-m c-1-2-xl">
+          {% block section_complete %}{% include "exportplan/includes/section_complete.html" %}{% endblock %}
           {% if next_section and not next_section.disabled %}
             <p class="h-xs m-b-0 text-white">Next</p>
             <a class="text-red-80 link" href="{{ next_section.url }}" title="{{ next_section.title }}"><span class="inline-block h-l text-red-80 link--underline p-0 m-b-xs">{{ next_section.title }}</span> <br /><i class="fas fa-arrow-circle-right text-red-80"></i> </a>
@@ -57,7 +59,5 @@
     </div>
   </section>
   {% endblock %}
-
 </div>
-
 {% endblock %}

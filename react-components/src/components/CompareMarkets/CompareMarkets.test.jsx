@@ -41,7 +41,7 @@ const populationApiResponse = [
     total_population: '60.46 million',
     total_population_raw: 60463456,
     cpi: { value: '110.62', year: 2019 },
-  },
+  }
 ]
 
 const economyApiResponse = {
@@ -58,6 +58,25 @@ const economyApiResponse = {
       country_name: 'Germany',
       year_on_year_change: '0.736',
     },
+  },
+  Netherlands: {
+    import_from_world: {
+      year: '2019',
+      trade_value_raw: 21670,
+      country_name: 'Netherlands',
+      year_on_year_change: '2.751',
+    },
+    import_data_from_uk: {
+      year: '2019',
+      trade_value_raw: 135150,
+      country_name: 'Netherlands',
+      year_on_year_change: '0.736',
+    },
+  },
+}
+
+const countryDataApiResponse = {
+  Germany: {
     country_data: {
       consumer_price_index: {
         country_name: 'Germany',
@@ -95,18 +114,6 @@ const economyApiResponse = {
     },
   },
   Netherlands: {
-    import_from_world: {
-      year: '2019',
-      trade_value_raw: 21670,
-      country_name: 'Netherlands',
-      year_on_year_change: '2.751',
-    },
-    import_data_from_uk: {
-      year: '2019',
-      trade_value_raw: 135150,
-      country_name: 'Netherlands',
-      year_on_year_change: '0.736',
-    },
     country_data: {
       consumer_price_index: {
         country_name: 'Netherlands',
@@ -120,8 +127,6 @@ const economyApiResponse = {
       },
     },
   },
-
-
 }
 
 const economyTabTests = [
@@ -213,12 +218,14 @@ beforeEach(() => {
     apiCountriesUrl: '/api/countries/',
     apiSuggestedCountriesUrl: '/api/suggestedcountries/',
     populationByCountryUrl: '/export-plan/api/country-data/',
+    apiCountryDataUrl: '/api/data-service/countrydata/',
     apiComTradeDataUrl: '/api/data-service/comtrade/',
     societyByCountryUrl: '/export-plan/api/society-data/',
   })
   countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
   fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
   fetchMock.get(/\/export-plan\/api\/country-data\//, populationApiResponse)
+  fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)  
   fetchMock.get(/\/api\/data-service\/comtrade\//, economyApiResponse)
   fetchMock.get(/\/export-plan\/api\/society-data\//, societyApiResponse)
 })
@@ -298,18 +305,19 @@ it('Allows selection of markets and fetch data when product selected', async () 
   // check mock directory api data...
   await waitFor(() => {
     expect( container.querySelector('#market-Germany .name')).toBeTruthy()
+  
+    const rowGermany = container.querySelector('#market-Germany')
+    expect(rowGermany.querySelector('.name').textContent).toMatch('Germany')
+    expect(rowGermany.querySelector('.total_population').textContent).toMatch(
+      '60.5 million'
+    )
+    expect(rowGermany.querySelector('.internet_usage').textContent).toMatch('74%')
+    expect(rowGermany.querySelector('.urban_population .primary').textContent).toMatch('69%')
+    expect(rowGermany.querySelector('.urban_population .secondary').textContent).toMatch('42.0 million')
+    expect(rowGermany.querySelector('.rural_population').textContent).toMatch(
+      /28%\s*17.1 million/
+    )
   })
-  const rowGermany = container.querySelector('#market-Germany')
-  expect(rowGermany.querySelector('.name').textContent).toMatch('Germany')
-  expect(rowGermany.querySelector('.total_population').textContent).toMatch(
-    '60.5 million'
-  )
-  expect(rowGermany.querySelector('.internet_usage').textContent).toMatch('74%')
-  expect(rowGermany.querySelector('.urban_population .primary').textContent).toMatch('69%')
-  expect(rowGermany.querySelector('.urban_population .secondary').textContent).toMatch('42.0 million')
-  expect(rowGermany.querySelector('.rural_population').textContent).toMatch(
-    /28%\s*17.1 million/
-  )
 
   // check economy data
   const economy_tab = container.querySelector('.tab-list-item:nth-of-type(2)')
@@ -367,17 +375,16 @@ it('Select market from selection area', async () => {
     .querySelector('#compare-market-container')
     .setAttribute('data-tabs', dataTabs)
 
+
   // set up existing product in store
   let selectedProduct = {
     commodity_code: '123456',
     commodity_name: 'my product',
   }
-
   Object.defineProperty(window.document, 'cookie', {
     writable: true,
     value: 'comparisonMarkets=',
   });
-
   Services.store.dispatch(
     actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
   )
@@ -435,11 +442,13 @@ it('Select market from selection area', async () => {
     suggested = finder.querySelector(`.suggested-markets button[data-id=SE]`)
     expect(suggested).toBeTruthy()
   })
+
   act(() => {
     Simulate.click(suggested)
   })
+
   await waitFor(() => {
-    expect(container.querySelector('button.add-market').textContent).toMatch(
+    expect(container.querySelector('button.add-market') && container.querySelector('button.add-market').textContent).toMatch(
       'Add country 3 of 3'
     )
   })
