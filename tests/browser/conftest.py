@@ -284,13 +284,25 @@ def mock_get_comtrade_last_year_import_data():
 
 
 @pytest.fixture
+def mock_get_export_plan():
+    return_value = {
+        'pk': 1,
+        'target_markets': [JAPAN],
+        'target_markets_research': {'demand': 'high'},
+        'export_countries': [{'country_name': 'China', 'country_iso2_code': 'CN'}],
+    }
+    with patch.object(exportplan_helpers, 'get_exportplan', return_value=return_value) as patched:
+        yield patched
+
+
+@pytest.fixture
 def mock_get_user_context_export_plan():
     return_value = {
         'pk': 1,
         'target_markets': [JAPAN],
         'target_markets_research': {'demand': 'high'},
     }
-    with patch.object(models, 'get_exportplan', return_value=return_value) as patched:
+    with patch.object(models, 'get_or_create_export_plan', return_value=return_value) as patched:
         yield patched
 
 
