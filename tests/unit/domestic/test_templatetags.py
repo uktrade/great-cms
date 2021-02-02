@@ -284,7 +284,7 @@ def test_industry_accordion_case_study_is_viable(data, expected):
             [
                 ('article_teaser', ''),
                 ('search_description', ''),
-                ('article_body_text', 'lorem ipsum dolor sit amet' * 50),
+                ('article_body', 'lorem ipsum dolor sit amet' * 50),
             ],
             ('lorem ipsum dolor sit amet' * 50)[:150],
         ),
@@ -292,7 +292,7 @@ def test_industry_accordion_case_study_is_viable(data, expected):
             [
                 ('article_teaser', ''),
                 ('search_description', ''),
-                ('article_body_text', 'lorem ipsum dolor sit amet'),
+                ('article_body', 'lorem ipsum dolor sit amet'),
             ],
             'lorem ipsum dolor sit amet',
         ),
@@ -300,7 +300,7 @@ def test_industry_accordion_case_study_is_viable(data, expected):
             [
                 ('article_teaser', ''),
                 ('search_description', ''),
-                ('article_body_text', ''),
+                ('article_body', ''),
             ],
             '',
         ),
@@ -310,7 +310,11 @@ def test_get_meta_description(attrs_to_set, expected):
 
     page = mock.Mock()
     for attr, value in attrs_to_set:
-        setattr(page, attr, value)
+        if attr == 'article_body':
+            # special case, mocking method on article_body streamfield
+            page.article_body.render_as_block.return_value = value
+        else:
+            setattr(page, attr, value)
 
     assert get_meta_description(page) == expected
 

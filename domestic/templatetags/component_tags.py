@@ -162,8 +162,14 @@ def get_meta_description(page):
 
     description = page.article_teaser if page.article_teaser else page.search_description
 
-    if not description and page.article_body_text:
-        html = BeautifulSoup(page.article_body_text, 'html.parser')
+    if not description and page.article_body:
+        #  article_body is a streamfield with rich-text blocks in it
+
+        html = BeautifulSoup(
+            page.article_body.render_as_block(),
+            'html.parser',
+            # Note that this excludes pull quotes
+        )
         body_text = html.findAll(text=True)
         description = ''.join(body_text)[:META_DESCRIPTION_TEXT_LENGTH]
 
