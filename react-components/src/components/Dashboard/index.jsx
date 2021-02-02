@@ -32,9 +32,7 @@ export const Dashboard = ({ sections }) => {
                 aria-hidden="true"
                 role="button"
               >
-                <div
-                  className={`bg-blue-deep-20 section-list__image-container`}
-                >
+                <div className="bg-blue-deep-20 section-list__image-container">
                   <span
                     className="section-list__coming bg-blue-deep-80 text-white body-m p-xxs"
                     data-sectiontitle={title}

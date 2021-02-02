@@ -44,8 +44,8 @@ SectionComplete.propTypes = {
   current_section: PropTypes.shape({
     is_complete: PropTypes.bool.isRequired,
     url: PropTypes.string.isRequired,
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
     lessons: PropTypes.arrayOf(PropTypes.string),
-    disabled: PropTypes.bool,
+    disabled: PropTypes.bool.isRequired,
   }),
 }
