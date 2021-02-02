@@ -42,10 +42,7 @@ export const SectionComplete = ({ current_section }) => {
 }
 SectionComplete.propTypes = {
   current_section: PropTypes.shape({
-    is_complete: PropTypes.bool.isRequired,
-    url: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    lessons: PropTypes.arrayOf(PropTypes.string),
-    disabled: PropTypes.bool.isRequired,
-  }),
+    is_complete: PropTypes.bool,
+    url: PropTypes.string,
+  }).isRequired,
 }
