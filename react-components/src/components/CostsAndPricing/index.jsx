@@ -102,12 +102,16 @@ export const CostsAndPricing = memo(
                 hideLabel
                 prepend={currency}
                 {...costPerUnit}
-                example={{
-                  ...costPerUnit.example,
-                  header: costPerUnit.example.header(
-                    `${currency} ${data.estimated_costs_per_unit}`
-                  ),
-                }}
+                example={
+                  data.estimated_costs_per_unit
+                    ? {
+                        ...costPerUnit.example,
+                        header: costPerUnit.example.header(
+                          `${currency} ${data.estimated_costs_per_unit}`
+                        ),
+                      }
+                    : {}
+                }
               />
 
               <Input
