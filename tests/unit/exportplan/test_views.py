@@ -99,7 +99,7 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
     client.force_login(user)
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
-    assert response.context_data['route_to_markets'] == '{"route": "test"}'
+    assert response.context_data['route_to_markets'] == {'route': 'test'}
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
@@ -107,7 +107,7 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
         **mock_get_country_data.return_value,
         **mock_get_cia_world_factbook_data.return_value,
     }
-    assert response.context_data['selected_age_groups'] == '["25-29", "47-49"]'
+    assert response.context_data['selected_age_groups'] == ['25-29', '47-49']
 
 
 @pytest.mark.django_db
@@ -256,8 +256,8 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
     response = client.get(url)
 
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['insight_data'] == json.dumps(mock_get_comtrade_data.return_value)
-    assert response.context_data['selected_age_groups'] == '["35-40"]'
+    assert response.context_data['insight_data'] == mock_get_comtrade_data.return_value
+    assert response.context_data['selected_age_groups'] == ['35-40']
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 1
 
@@ -300,19 +300,17 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
             },
         }
     )
-    assert response.context_data['calculated_pricing'] == json.dumps(
-        {
-            'calculated_cost_pricing': {
-                'total_direct_costs': '15.00',
-                'total_overhead_costs': '1355.00',
-                'profit_per_unit': '6.00',
-                'potential_total_profit': '132.00',
-                'gross_price_per_unit': '42.36',
-                'total_export_costs': '1685.00',
-                'estimated_costs_per_unit': '76.59',
-            }
+    assert response.context_data['calculated_pricing'] == {
+        'calculated_cost_pricing': {
+            'total_direct_costs': '15.00',
+            'total_overhead_costs': '1355.00',
+            'profit_per_unit': '6.00',
+            'potential_total_profit': '132.00',
+            'gross_price_per_unit': '42.36',
+            'total_export_costs': '1685.00',
+            'estimated_costs_per_unit': '76.59',
         }
-    )
+    }
 
 
 @pytest.mark.django_db
@@ -338,7 +336,7 @@ def test_getting_paid(export_plan_data, client, user):
         'label': 'Free Alongside Ship (FAS)',
         'value': 'FREE_ALONG_SHIP',
     }
-    assert response.context_data['getting_paid_data'] == json.dumps(export_plan_data['getting_paid'])
+    assert response.context_data['getting_paid_data'] == export_plan_data['getting_paid']
 
 
 @pytest.mark.django_db
@@ -352,7 +350,7 @@ def test_funding_and_credit(export_plan_data, client, user):
     assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'BANK_LOAN'}
     assert response.context_data['funding_and_credit'] == export_plan_data['funding_and_credit']
     assert response.context_data['estimated_costs_per_unit'] == '76.59'
-    assert response.context_data['funding_credit_options'] == json.dumps(export_plan_data['funding_credit_options'])
+    assert response.context_data['funding_credit_options'] == export_plan_data['funding_credit_options']
 
 
 @pytest.mark.django_db
