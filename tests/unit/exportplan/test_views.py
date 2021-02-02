@@ -413,5 +413,5 @@ def test_exportplan_dashboard(
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
     assert context_data['export_plan_progress'] == {
-            'export_plan_progress': {'sections_total': 10, 'sections_completed': 0, 'percentage_completed': 0}
-        }
+        'export_plan_progress': {'sections_total': 10, 'sections_completed': 0, 'percentage_completed': 0}
+    }
