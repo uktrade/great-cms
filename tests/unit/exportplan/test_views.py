@@ -79,7 +79,13 @@ def test_export_plan_builder_landing_page(
 
     response = client.get('/export-plan/dashboard/')
     assert response.status_code == 200
-    assert response.context['sections'] == data.SECTION_TITLES
+    assert response.context['sections'][0] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+        'disabled': False,
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'is_complete': False,
+    }
 
 
 @pytest.mark.django_db
@@ -383,7 +389,13 @@ def test_service_page_context(client, user):
     url = reverse('exportplan:service-page')
     response = client.get(url)
     assert response.status_code == 200
-    assert response.context['sections'] == list(data.SECTIONS.values())
+    assert response.context['sections'][0] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+        'disabled': False,
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'is_complete': False,
+    }
 
 
 @pytest.mark.django_db
@@ -400,3 +412,6 @@ def test_exportplan_dashboard(
     assert context_data.get('export_plan').get('id') == 1
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
+    assert context_data['export_plan_progress'] == {
+        'export_plan_progress': {'sections_total': 10, 'sections_completed': 0, 'percentage_completed': 0}
+    }
