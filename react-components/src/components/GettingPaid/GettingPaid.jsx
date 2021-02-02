@@ -67,9 +67,16 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                       name={select.name}
                       options={select.options}
                       selected={selected}
-                      update={(data) =>
-                        onChange(data, { notes: state[textarea.id] }, key)
-                      }
+                      update={(data) => {
+                        const list = select.options.filter((x) =>
+                          data[select.id].includes(x.label)
+                        )
+                        const dd = Object.keys(list).map((y) => list[y].value)
+
+                        console.log({ [select.id]: dd })
+                        // onChange({ select.id: dd }, { notes: state[key].notes }, key)
+                      }}
+                      multiSelect={select.multiSelect}
                     />
                     <TextArea
                       onChange={(data) =>

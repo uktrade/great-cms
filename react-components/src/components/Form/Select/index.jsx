@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Input } from '@src/components/Form/Input'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
 import { useNoScroll } from '@src/components/hooks/useNoScroll'
 import { Item } from '@src/components/Form/Select/Item'
+import { FormGroup } from '@src/components/Form/FormGroup'
 
 const ENTER_KEY_CODE = 13
 const DOWN_ARROW_KEY_CODE = 40
@@ -23,6 +23,7 @@ export const Select = ({
   placeholder,
   id,
   className,
+  multiSelect,
 }) => {
   const [input, setInput] = useState(selected)
   const [isOpen, setIsOpen] = useState(false)
@@ -34,10 +35,37 @@ export const Select = ({
     setInput(selected)
   }, [selected])
 
+  const selectedItem = () => {
+    if (!input || input.length <= 0) return placeholder
+    if (multiSelect) {
+      return input.map((item) => (
+        <button
+          className="tag tag--icon tag--secondary tag--small m-r-xs"
+          type="button"
+          key={item}
+          onClick={() => {
+            const items = input.filter((x) => x !== item)
+            setInput(items)
+            update({ [name]: items })
+          }}
+        >
+          {item} <i className="fas fa-times-circle" />
+        </button>
+      ))
+    }
+    return input
+  }
+
   const selectOption = (item) => {
-    setInput(item.label)
-    setIsOpen(false)
-    update({ [name]: item.value })
+    if (multiSelect) {
+      const items = [...new Set([...input, item.label])]
+      setInput(items)
+      update({ [name]: items })
+    } else {
+      setInput(item.label)
+      setIsOpen(false)
+      update({ [name]: item.value })
+    }
   }
 
   const focusNext = (e, i, item, subSection = null) => {
@@ -97,36 +125,44 @@ export const Select = ({
 
   return (
     <div className={`select ${className}`}>
-      <Input
+      <FormGroup
         label={label}
         id={id || label}
         name={label}
         readOnly
-        value={input}
-        placeholder={placeholder}
         description={description}
         tooltip={tooltip}
         example={example}
         tabIndex="-1"
         hideLabel={hideLabel}
-        onChange={() => {}}
       />
-      <button
+      <div
         className={`select__button text-blue-deep-20 button--toggle ${
           isOpen ? 'select__button--close' : ''
         }`}
-        type="button"
-        aria-haspopup="listbox"
-        onClick={() => setIsOpen(!isOpen)}
-        tabIndex="0"
-        onKeyDown={toggle}
       >
-        <i
-          className={`fas button--toggle ${
-            isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'
-          }`}
-        />
-      </button>
+        <button
+          aria-haspopup="listbox"
+          tabIndex="0"
+          onKeyDown={toggle}
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="f-r button--toggle"
+        >
+          <i
+            className={`fas button--toggle ${
+              isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'
+            }`}
+          />
+        </button>
+      </div>
+      <div
+        className={`select__placeholder bg-white radius ${
+          !isOpen ? '' : 'hidden'
+        }`}
+      >
+        {selectedItem()}
+      </div>
       <ul
         role="listbox"
         className={`select__list body-l bg-white radius ${
@@ -135,11 +171,12 @@ export const Select = ({
         aria-expanded={isOpen}
         ref={element}
       >
-        <li>{placeholder}</li>
+        <li>{selectedItem()}</li>
 
         {Array.isArray(options)
           ? options.map((item, i) => (
               <Item
+                isDisabled={input.includes(item.label)}
                 key={item.label}
                 onClick={() => selectOption(item)}
                 onKeyDown={(e) => focusNext(e, i, item)}
@@ -202,6 +239,7 @@ Select.propTypes = {
   placeholder: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,
+  multiSelect: false,
 }
 
 Select.defaultProps = {
@@ -213,4 +251,5 @@ Select.defaultProps = {
   placeholder: 'Select one',
   id: '',
   className: 'm-b-l',
+  multiSelect: false,
 }
