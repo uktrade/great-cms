@@ -6,9 +6,7 @@ import { useDebounce } from '@src/components/hooks/useDebounce'
 
 export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
   const { formData, currency } = data
-  const [formValue, setFormValue] = useState(
-    formData['funding_amount_required']
-  )
+  const [formValue, setFormValue] = useState(formData.funding_amount_required)
 
   const update = (field) => {
     Services.updateExportPlan(field)
@@ -20,7 +18,7 @@ export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
 
   const inputData = {
     onChange: (fieldItem) => {
-      setFormValue(fieldItem['funding_amount_required'])
+      setFormValue(fieldItem.funding_amount_required)
       debounceUpdate({
         funding_and_credit: fieldItem,
       })
@@ -31,7 +29,6 @@ export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
     label: 'How much funding you need',
     id: 'funding_amount_required',
     placeholder: '0',
-    tooltip: null,
     type: 'number',
     field: 'funding_amount_required',
   }

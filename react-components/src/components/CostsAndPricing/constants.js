@@ -114,10 +114,8 @@ export const costPerUnit = {
   example: {
     header: (cost) => `Your estimate cost per unit is ${cost}`,
     buttonTitle: 'Estimate',
-    content: {
-      content:
-        '<p class="m-b-0">We calculated this by:</p><ul class="list-dot"><li>taking your total overhead costs</li><li>dividing it by the number of units you want to export</li><li>adding this to your direct costs</li></ul><p class="m-v-0">You may want to adjust this estimate, especially if your overhead costs are varied.</p>',
-    },
+    content:
+      '<p class="m-b-0">We calculated this by:</p><ul class="list-dot"><li>taking your total overhead costs</li><li>dividing it by the number of units you want to export</li><li>adding this to your direct costs</li></ul><p class="m-v-0">You may want to adjust this estimate, especially if your overhead costs are varied.</p>',
   },
   field: 'total_cost_and_price',
 }
