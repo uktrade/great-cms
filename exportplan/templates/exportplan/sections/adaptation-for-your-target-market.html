@@ -1,5 +1,6 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
+{% load to_json %}
 
 {% block intro_title %}Adaptation for your target market{%endblock %}
 {% block intro_description %}
@@ -126,7 +127,7 @@ your target market.
     element: element,
     field: 'adaptation_target_market',
     formData: {{ form_initial|safe }},
-    formDataUserDocs: {{ target_market_documents|safe }},
+    formDataUserDocs: {{ target_market_documents|to_json }},
     companyexportplan: {{ export_plan.pk }}
   })
 

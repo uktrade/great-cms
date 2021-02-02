@@ -1,5 +1,5 @@
 {% extends 'exportplan/section.html' %}
-
+{% load to_json %}
 {% block intro_title %}Getting paid{% endblock %}
 {% block intro_description %}How and when you get paid directly affects your business cashflow so it's important to get it right. <br /><br /> This page helps you outline your plans for getting paid from abroad.{% endblock %}
 
@@ -25,7 +25,7 @@
     magna.createGettingPaid({
       element: document.getElementById('getting-paid'),
       field: 'getting_paid',
-      formData: {{getting_paid_data|safe}},
+      formData: {{getting_paid_data|to_json|safe}},
       formFields: [
         {
             field: 'payment_method',

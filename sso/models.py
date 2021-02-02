@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.functional import cached_property
 
 from core.helpers import CompanyParser
-from exportplan.helpers import ExportPlanParser, get_exportplan
+from exportplan.helpers import ExportPlanParser, get_or_create_export_plan
 from sso import helpers
 
 
@@ -36,7 +36,7 @@ class BusinessSSOUser(AbstractUser):
 
     @cached_property
     def export_plan(self):
-        exportplan = get_exportplan(self.session_id)
+        exportplan = get_or_create_export_plan(self)
         if exportplan:
             return ExportPlanParser(exportplan)
 
