@@ -7,6 +7,7 @@ from django.db import models
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
@@ -14,7 +15,11 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
-from core.constants import ARTICLE_TYPES, VIDEO_TRANSCRIPT_HELP_TEXT
+from core.constants import (
+    ARTICLE_TYPES,
+    RICHTEXT_FEATURES__REDUCED,
+    VIDEO_TRANSCRIPT_HELP_TEXT,
+)
 from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from directory_constants import choices
@@ -81,7 +86,11 @@ class DomesticHomePage(
     Page,
 ):
 
-    body = RichTextField(null=True, blank=True)
+    body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
     button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
     image = models.ForeignKey(
         get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
@@ -166,7 +175,7 @@ class TopicLandingBasePage(BaseContentPage):
         null=True,
         blank=True,
     )
-    banner_text = RichTextField(blank=True)
+    banner_text = RichTextField(features=RICHTEXT_FEATURES__REDUCED, blank=True)
     teaser = models.TextField(blank=True)
 
 
@@ -389,6 +398,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     )
 
     section_one_body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         verbose_name='3 unique selling points markdown',
         help_text='Use H2s for the 3 subheadings',
@@ -470,6 +480,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         verbose_name="Summary for 'Tax and customs'",
     )
     fact_sheet_column_1_body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
         blank=True,
         verbose_name="Detailed text for 'Tax and customs'",
         help_text='Use H4 for each subcategory heading. Maximum five sub categories. Aim for 50 words each.',
@@ -485,6 +496,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         verbose_name="Summary for 'Protecting your business'",
     )
     fact_sheet_column_2_body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
         blank=True,
         verbose_name="Detailed text for 'Protecting your business'",
         help_text='Use H4 for each sub category heading. Maximum five sub categories. Aim for 50 words each.',
@@ -647,11 +659,27 @@ class ArticlePage(
         related_name='+',
     )
     article_video_transcript = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
         help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
     )
-    article_body_text = RichTextField()
+    article_body = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(features=RICHTEXT_FEATURES__REDUCED),
+            ),
+            (
+                'pull_quote',
+                core_blocks.PullQuoteBlock(
+                    template='domestic/blocks/pull_quote_block.html',
+                ),
+            ),
+        ],
+        null=True,
+        blank=True,
+    )
 
     cta_title = models.CharField(
         max_length=255,
@@ -740,6 +768,7 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
     )
 
     list_teaser = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
     )
@@ -768,7 +797,9 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
     )
 
     section_one_heading = models.CharField(max_length=255)
-    section_one_intro = RichTextField()
+    section_one_intro = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
     section_one_image = models.ForeignKey(
         'core.AltTextImage',
         null=True,
@@ -785,7 +816,9 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
         related_name='+',
     )
     selling_point_one_heading = models.CharField(max_length=255)
-    selling_point_one_content = RichTextField()
+    selling_point_one_content = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
 
     selling_point_two_icon = models.ForeignKey(
         'core.AltTextImage',
@@ -799,7 +832,11 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
         null=True,
         blank=True,
     )
-    selling_point_two_content = RichTextField(null=True, blank=True)
+    selling_point_two_content = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
 
     selling_point_three_icon = models.ForeignKey(
         'core.AltTextImage',
@@ -814,6 +851,7 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
         blank=True,
     )
     selling_point_three_content = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
     )
@@ -832,7 +870,9 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
     section_two_heading = models.CharField(
         max_length=255,
     )
-    section_two_intro = RichTextField()
+    section_two_intro = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
 
     section_two_image = models.ForeignKey(
         'core.AltTextImage',
@@ -856,7 +896,9 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
     related_content_heading = models.CharField(
         max_length=255,
     )
-    related_content_intro = RichTextField()
+    related_content_intro = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
 
     related_page_one = models.ForeignKey(
         'domestic.ArticlePage',

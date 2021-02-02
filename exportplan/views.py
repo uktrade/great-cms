@@ -5,7 +5,6 @@ import sentry_sdk
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
@@ -33,16 +32,6 @@ class ExportPlanMixin:
             data=serializer.data,
         )
         return super().dispatch(request, *args, **kwargs)
-
-    @cached_property
-    def export_country_name(self):
-        if self.request.user.export_plan.data.get('export_countries'):
-            return self.request.user.export_plan.data['export_countries'][0]['country_name']
-
-    @cached_property
-    def export_commodity_code(self):
-        if self.request.user.export_plan.data.get('export_commodity_codes'):
-            return self.request.user.export_plan.data['export_commodity_codes'][0]['commodity_code']
 
     @property
     def next_section(self):
@@ -199,7 +188,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
         context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
         # To do pass lanaguage from export_plan object rather then  hardcoded
         context['language_data'] = helpers.get_cia_world_factbook_data(
-            country=self.export_country_name, key='people,languages'
+            country=self.request.user.export_plan.export_country_name, key='people,languages'
         )
         context['target_market_documents'] = json.dumps(self.request.user.export_plan.data['target_market_documents'])
 
@@ -219,16 +208,17 @@ class ExportPlanTargetMarketsResearchView(
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['country_name'] = self.export_country_name
+        kwargs['country_name'] = self.request.user.export_plan.export_country_name
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
         context['target_age_group_choices'] = target_age_group_choices
-        if self.export_country_name and self.export_commodity_code:
+        if self.request.user.export_plan.export_country_name and self.request.user.export_plan.export_commodity_code:
             insight_data = get_comtrade_data(
-                countries_list=[self.export_country_name], commodity_code=self.export_commodity_code
+                countries_list=[self.request.user.export_plan.export_country_name],
+                commodity_code=self.request.user.export_plan.export_commodity_code
             )
 
             context['insight_data'] = json.dumps(insight_data)

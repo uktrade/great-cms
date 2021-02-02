@@ -329,3 +329,33 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
 
     class Meta:
         template = 'domestic/content/blocks/accordions.html'
+
+
+class PullQuoteBlock(blocks.StructBlock):
+    # Note: this does not have a default template; we can add one when
+    # there is a single standard style for all of Magna
+
+    quote = blocks.TextBlock()
+    attribution = blocks.CharBlock(
+        max_length=255,
+        label='Who said it?',
+        required=False,
+    )
+    role = blocks.CharBlock(
+        max_length=255,
+        label='Their role',
+        required=False,
+    )
+    organisation = blocks.CharBlock(
+        max_length=255,
+        label='Their organisation',
+        required=False,
+    )
+    organisation_link = blocks.URLBlock(
+        max_length=255,
+        label='Link to organisation site',
+        required=False,
+    )
+
+    class Meta:
+        icon = 'fa-quote-left'

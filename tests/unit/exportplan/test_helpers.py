@@ -451,11 +451,11 @@ def test_get_current_url_product_required_not_in_check(mock_get_exportplan):
 @pytest.mark.parametrize(
     'ui_progress_data, expected',
     [
-        [{}, 'False'],
-        [{'target-markets': {'is_complete': 'True'}}, 'False'],
-        [{'about-your-business': {}}, 'False'],
-        [{'about-your-business': {'is_complete': 'False'}}, 'False'],
-        [{'about-your-business': {'is_complete': 'True'}, 'Target-markets': {'is_complete': 'True'}}, 'True'],
+        [{}, False],
+        [{'target-markets': {'is_complete': True}}, False],
+        [{'about-your-business': {}}, False],
+        [{'about-your-business': {'is_complete': False}}, False],
+        [{'about-your-business': {'is_complete': True}, 'Target-markets': {'is_complete': True}}, True],
     ],
 )
 @mock.patch.object(helpers, 'get_exportplan')
@@ -557,11 +557,13 @@ def test_calculate_ep_progress(mock_get_exportplan, ui_progress_data, complete, 
 
 def test_build_export_plan_sections(export_plan_data):
     sections = helpers.build_export_plan_sections(export_plan_data)
-    assert sections[0]['is_complete'] == 'True'
-    assert sections[1]['is_complete'] == 'False'
+    assert sections[0]['is_complete'] is True
+    assert sections[1]['is_complete'] is False
 
 
 def test_export_plan_parser(export_plan_data):
 
     ep_parser = helpers.ExportPlanParser(export_plan_data)
     assert ep_parser.data == export_plan_data
+    assert ep_parser.export_country_name == export_plan_data['export_countries'][0]['country_name']
+    assert ep_parser.export_commodity_code == export_plan_data['export_commodity_codes'][0]['commodity_code']

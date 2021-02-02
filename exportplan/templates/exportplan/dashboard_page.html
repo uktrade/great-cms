@@ -1,4 +1,3 @@
-
 {% extends "core/base.html" %}
 
 {% load to_json %}
@@ -25,7 +24,6 @@
     <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
     <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
     {% endif %}
-
     <div id="buttons-disabled" class="m-t-m">
       <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
         <i class="fas fa-download"></i>
@@ -34,6 +32,14 @@
     </div>
   </aside>
   <div class="export-plan-dashboard__container container">
+    <div id="section-progress">
+      <div class="m-h-s m-t-m">
+        <div class="progress-bar progress-bar--white-track">
+          <span style="width: {% widthratio export_plan_progress.export_plan_progress.sections_completed export_plan_progress.export_plan_progress.sections_total 100 %}%"></span>
+        </div>
+        <p class="body-m-b m-t-xxs m-b-0">{{ export_plan_progress.export_plan_progress.sections_completed }} out of {{ export_plan_progress.export_plan_progress.sections_total }} export plan sections complete</p>
+      </div>
+    </div>
     <div class="section-list p-v-m p-h-s" id="section-list">
       <div class="media media--middle m-b-l">
         <div class="media__figure">
@@ -78,7 +84,7 @@
     magna.createDashboard({
       element: element,
       sections: {{ sections|to_json}},
-      current_section: {{ current_section|to_json}},
+      export_plan_progress: {{ export_plan_progress|to_json }},
     })
 
     var buttonsDisabled = document.getElementById('buttons-disabled');

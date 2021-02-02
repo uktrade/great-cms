@@ -38,7 +38,7 @@ import {
   createDashboard,
   createDisabledButton,
 } from '@src/views/sections/Dashboard'
-import { sectionSidebar } from '@src/views/sections'
+import { sectionSidebar, sectionComplete } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
 import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
@@ -88,4 +88,5 @@ export default {
   STEP_VERIFICATION_CODE,
   Tour,
   sectionSidebar,
+  sectionComplete,
 }
