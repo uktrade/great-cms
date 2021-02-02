@@ -81,6 +81,8 @@
 - GP2-1139 - save EP progress
 - GP2-1382 - getting paid structure be
 - GP2-1382 - getting paid structure integration
+- GP2-1199 - Mark section as complete
+
 ### Fixed bugs
 
 - No ticket - fix button styling issue after button refactor work
