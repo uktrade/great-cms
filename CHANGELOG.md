@@ -12,7 +12,9 @@
 - GP2-1424 - Cost and pricing page - local taxes section
 - GP2-1423 - Cost and pricing page - content change
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+
 ### Fixed bugs
+- GP2-1397 - Render HTML definitions in product classifier.
 
 
 ## [1.2.0](https://github.com/uktrade/great-cms/releases/tag/1.2.0)

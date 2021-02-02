@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 import Services from '@src/Services'
 import { capitalize } from '@src/Helpers'
 import ExpandCollapse from './ExpandCollapse'
+
 
 function RadioButtons(props) {
   const { attribute, valueChange } = props
@@ -64,7 +66,7 @@ function RadioButtons(props) {
             buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
             buttonBefore
           >
-            <div className="g-panel f-l m-v-xs">{option.def}</div>
+            <div className="g-panel f-l m-v-xs">{ReactHtmlParser(option.def)}</div>
           </ExpandCollapse>
         )}
       </label>
