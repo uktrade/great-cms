@@ -84,6 +84,7 @@
 - GP2-1199 - Mark section as complete
 
 ### Fixed bugs
+- GP2-1445 - Typography tweaks for BAU article pages
 - No ticket - fix button styling issue after button refactor work
 - No ticket - Fix ignored BAU react unit tests
 - GP2-1408 - Fix date formatting of articles on article list page template
