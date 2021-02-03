@@ -157,7 +157,7 @@ export const Select = ({
         </button>
       </div>
       <div
-        className={`select__placeholder bg-white radius ${
+        className={`select__placeholder text-blue-deep-60 bg-white radius ${
           !isOpen ? '' : 'hidden'
         }`}
       >
