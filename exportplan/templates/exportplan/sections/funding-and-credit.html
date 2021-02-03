@@ -1,6 +1,6 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
-
+{% load to_json %}
 {% block intro_title %}Funding and credit{%endblock %}
 
 {% block intro_description %}
@@ -74,7 +74,7 @@ There are however lots of financing options available to help you export, the ri
     element: element,
     currency: 'GBP',
     options: {{ funding_options|safe }},
-    formData: {{ funding_credit_options|safe }},
+    formData: {{ funding_credit_options|to_json|safe }},
     companyexportplan: {{ export_plan.pk }}
   })
 </script>

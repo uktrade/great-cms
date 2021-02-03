@@ -79,8 +79,8 @@
       element,
       groups: {{ target_age_group_choices|safe }},
       country: '{{ export_plan.export_countries.0.country_name }}',
-      insight: {{ demographic_data|safe }},
-      selected: {{ selected_age_groups|safe }},
+      insight: {{ demographic_data|to_json }},
+      selected: {{ selected_age_groups|to_json }},
       currentSection: {{ current_section|to_json}},
     })
 
@@ -88,8 +88,8 @@
     magna.createSpendingAndResources({
       element,
       field: 'marketing_approach',
-      formData: {{ form_initial|safe }},
-      formFields: {{ form_fields|safe }},
+      formData: {{ form_initial|to_json }},
+      formFields: {{ form_fields|to_json }},
     })
 
     element = document.getElementById('route-to-market');
@@ -99,12 +99,12 @@
         data: [
           {
             label: 'Route to market',
-            options: {{ route_choices|safe }},
+            options: {{ route_choices|to_json }},
             name: 'route',
           },
           {
             label: 'How will we promote your product?',
-            options: {{ promotional_choices|safe }},
+            options: {{ promotional_choices|to_json }},
             name: 'promote',
           }
         ],
@@ -112,7 +112,7 @@
         label: 'Explain in your words why you selected this route to market and promotional channel',
         name: 'market_promotional_channel',
       },
-      fields: {{ route_to_markets|safe }},
+      fields: {{ route_to_markets|to_json }},
       formFields: {
         route: '',
         promote: '',

@@ -232,27 +232,6 @@ def get_lesson_details(lessons):
     return lessons_details
 
 
-def get_current_url(slug, export_plan):
-    current_url = data.SECTIONS[slug]
-    current_url.pop('country_required', None)
-    current_url.pop('product_required', None)
-    if slug in data.COUNTRY_REQUIRED:
-        if not export_plan.get('export_countries') or len(export_plan['export_countries']) == 0:
-            current_url['country_required'] = True
-    if slug in data.PRODUCT_REQUIRED:
-        if not export_plan.get('export_commodity_codes') or len(export_plan['export_commodity_codes']) == 0:
-            current_url['product_required'] = True
-    current_url['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
-    return current_url
-
-
-def build_export_plan_sections(export_plan):
-    sections = data.SECTIONS
-    for slug, values in sections.items():
-        values['is_complete'] = export_plan.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
-    return list(sections.values())
-
-
 def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, section_name):
     if (not export_plan.get('ui_options') or not export_plan['ui_options'].get(section_name, {})) or (
         export_plan['ui_options'].get(section_name, {}).get('target_ages') != target_ages
@@ -264,18 +243,59 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
         )
 
 
-def calculated_cost_pricing(exportplan_data):
-    calculated_pricing = serializers.ExportPlanSerializer(data=exportplan_data).calculate_cost_pricing
-    return {'calculated_cost_pricing': calculated_pricing}
+class ExportPlanParser:
+    """
+    Parse the export plan details provided by directory-api's exportplan
+    serializer
 
+    """
 
-def calculate_ep_progress(exportplan_data):
-    progress_items = exportplan_data.get('ui_progress', {})
-    completed = [True for v in progress_items.values() if v.get('is_complete')]
-    return {
-        'export_plan_progress': {
-            'sections_completed': len(completed),
-            'sections_total': len(data.SECTION_SLUGS),
-            'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
+    def __init__(self, data):
+        self.data = data
+
+    def __bool__(self):
+        return bool(self.data)
+
+    @property
+    def export_country_name(self):
+        if self.data.get('export_countries'):
+            return self.data['export_countries'][0]['country_name']
+
+    @property
+    def export_commodity_code(self):
+        if self.data.get('export_commodity_codes'):
+            return self.data['export_commodity_codes'][0]['commodity_code']
+
+    def build_current_url(self, slug):
+        current_url = data.SECTIONS[slug]
+        current_url.pop('country_required', None)
+        current_url.pop('product_required', None)
+        if slug in data.COUNTRY_REQUIRED:
+            if not self.data.get('export_countries') or len(self.data['export_countries']) == 0:
+                current_url['country_required'] = True
+        if slug in data.PRODUCT_REQUIRED:
+            if not self.data.get('export_commodity_codes') or len(self.data['export_commodity_codes']) == 0:
+                current_url['product_required'] = True
+        current_url['is_complete'] = self.data.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
+        return current_url
+
+    def build_export_plan_sections(self):
+        sections = data.SECTIONS
+        for slug, values in sections.items():
+            values['is_complete'] = self.data.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
+        return list(sections.values())
+
+    def calculated_cost_pricing(self):
+        calculated_pricing = serializers.ExportPlanSerializer(data=self.data).calculate_cost_pricing
+        return {'calculated_cost_pricing': calculated_pricing}
+
+    def calculate_ep_progress(self):
+        progress_items = self.data.get('ui_progress', {})
+        completed = [True for v in progress_items.values() if v.get('is_complete')]
+        return {
+            'export_plan_progress': {
+                'sections_completed': len(completed),
+                'sections_total': len(data.SECTION_SLUGS),
+                'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
+            }
         }
-    }

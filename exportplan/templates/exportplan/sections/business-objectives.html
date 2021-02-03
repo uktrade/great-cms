@@ -1,5 +1,6 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
+{% load to_json %}
 
 {% block intro_title %}Business objectives{% endblock %}
 {% block intro_description %} To build a strong Export Plan you need to have goals and milestones. This page helps you to record these so you can meet them later on.{% endblock %}
@@ -62,7 +63,7 @@
     var objectives = document.getElementById('objectives-form--objectives');
     magna.createObjectivesList({
       element: objectives,
-      objectives: {{ objectives|safe }},
+      objectives: {{ objectives|to_json|safe }},
       exportPlanID: {{ export_plan.pk }}
     })
   </script>
