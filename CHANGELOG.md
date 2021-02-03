@@ -14,6 +14,7 @@
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 
 ### Fixed bugs
+- GP2-1419 - Fix ex-ops induced blow-up on dashboard.
 - GP2-1397 - Render HTML definitions in product classifier.
 
 
