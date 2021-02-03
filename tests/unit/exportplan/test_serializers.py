@@ -374,7 +374,7 @@ def test_payment_method_serializer():
                 'getting_paid',
                 OrderedDict(
                     [
-                        ('payment_method', OrderedDict([('methods', ['BACS', ' BT']), ('notes', 'method 1')])),
+                        ('payment_method', OrderedDict([('methods', ['BACS', 'BT']), ('notes', 'method 1')])),
                         ('payment_terms', OrderedDict([('terms', 'TMP'), ('notes', 'method 2')])),
                         ('incoterms', OrderedDict([('transport', 'RME'), ('notes', 'method 3')])),
                     ]
