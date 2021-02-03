@@ -1,0 +1,27 @@
+{% extends 'domestic/base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from component_tags %}
+
+{% block head_title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+  {% block breadcrumbs %}
+  <div class="container">
+    {% with current_page=page.tree_based_breadcrumbs|last %}
+      {% breadcrumbs current_page.title %}
+        <a href="/">great.gov.uk</a>
+        {% for crumb in page.tree_based_breadcrumbs|slice:':-1' %}
+          <a href="{{ crumb.url }}">{{ crumb.title }}</a>
+        {% endfor %}
+      {% endbreadcrumbs %}
+    {% endwith %}
+  </div>
+  {% endblock %}
+    {% comment %}
+        Note that the page.body used here has richtext blocks which
+        can contain a H1, so there's no need to add a H1 in
+        the markup above
+    {% endcomment %}
+  {% include 'domestic/includes/cms_content.html' %}
+{% endblock %}
