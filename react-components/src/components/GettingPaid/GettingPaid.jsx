@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
-import { getLabel, getValue } from '@src/Helpers'
+import { getLabel, getLabels, getValue, getValues } from '@src/Helpers'
 import Services from '@src/Services'
 
 export const GettingPaid = memo(({ formFields, formData, field }) => {
@@ -54,10 +54,9 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                   : Object.keys(select.options).flatMap(
                       (x) => select.options[x]
                     )
-                const selected = getLabel(
-                  options,
-                  state[key] ? state[key][select.id] : ''
-                )
+                const selected = select.multiSelect
+                  ? getLabels(options, state[key] ? state[key][select.id] : [])
+                  : getLabel(options, state[key] ? state[key][select.id] : '')
 
                 return (
                   <div className="user-form-group" key={select.id}>
@@ -68,13 +67,15 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                       options={select.options}
                       selected={selected}
                       update={(data) => {
-                        const list = select.options.filter((x) =>
-                          data[select.id].includes(x.label)
+                        onChange(
+                          {
+                            [select.id]: select.multiSelect
+                              ? getValues(select.options, data[select.id])
+                              : data[select.id],
+                          },
+                          { notes: state[key] ? state[key].notes : '' },
+                          key
                         )
-                        const dd = Object.keys(list).map((y) => list[y].value)
-
-                        console.log({ [select.id]: dd })
-                        // onChange({ select.id: dd }, { notes: state[key].notes }, key)
                       }}
                       multiSelect={select.multiSelect}
                     />
@@ -82,7 +83,11 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                       onChange={(data) =>
                         onChange(
                           data,
-                          { [select.id]: getValue(options, selected) },
+                          {
+                            [select.id]: select.multiSelect
+                              ? getValues(options, selected)
+                              : getValue(options, selected),
+                          },
                           key,
                           textarea.id
                         )
