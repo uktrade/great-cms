@@ -64759,7 +64759,7 @@ module.exports = function(originalModule) {
 /*!*****************************************!*\
   !*** ./react-components/src/Helpers.js ***!
   \*****************************************/
-/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, isArray, get, mapArray, getLabel, getValue, formatLessonLearned, millify, stripPercentage */
+/*! exports provided: slugify, addItemToList, capitalize, analytics, sectionQuestionMapping, normaliseValues, isObject, isArray, get, mapArray, getLabel, getValue, getLabels, getValues, formatLessonLearned, millify, stripPercentage, deepAssign */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64776,9 +64776,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapArray", function() { return mapArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLabel", function() { return getLabel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return getValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLabels", function() { return getLabels; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValues", function() { return getValues; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatLessonLearned", function() { return formatLessonLearned; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "millify", function() { return millify; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "stripPercentage", function() { return stripPercentage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deepAssign", function() { return deepAssign; });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -64837,9 +64840,9 @@ var normaliseValues = function normaliseValues(str) {
       return Math.round($0);
     });
     return values.split(/\(([^)]+)\)/);
-  } else {
-    return 'Data not available';
   }
+
+  return 'Data not available';
 };
 
 var millify = function millify(value) {
@@ -64852,7 +64855,7 @@ var millify = function millify(value) {
     return "".concat((value / Math.pow(10, oom * 3)).toFixed(1), " ").concat(names[oom - 2]);
   }
 
-  return value === null ? value : '' + value;
+  return value === null ? value : "".concat(value);
 };
 
 var stripPercentage = function stripPercentage(str) {
@@ -64902,6 +64905,19 @@ var mapArray = function mapArray(array, key) {
   return out;
 };
 
+var deepAssign = function deepAssign(obj1, obj2) {
+  var out = _objectSpread({}, obj1);
+
+  Object.keys(obj2).forEach(function (key) {
+    if (out[key] && isObject(out[key]) && isObject(obj2[key])) {
+      out[key] = deepAssign(out[key], obj2[key]);
+    } else {
+      out[key] = obj2[key];
+    }
+  });
+  return out;
+};
+
 var sectionQuestionMapping = {
   story: 'How you started',
   location: "Where you're based",
@@ -64928,6 +64944,24 @@ var getValue = function getValue(list, selected) {
     return x.label === selected;
   });
   return selected && hasLabel ? hasLabel.value : '';
+};
+
+var getLabels = function getLabels(list, items) {
+  var selected = list.filter(function (x) {
+    return items.includes(x.value);
+  });
+  return Object.keys(selected).map(function (y) {
+    return selected[y].label;
+  });
+};
+
+var getValues = function getValues(list, items) {
+  var selected = list.filter(function (x) {
+    return items.includes(x.label);
+  });
+  return Object.keys(selected).map(function (y) {
+    return selected[y].value;
+  });
 };
 
 var formatLessonLearned = function formatLessonLearned(lesson, section, id) {
@@ -65290,6 +65324,13 @@ var responseHandler = function responseHandler(response) {
       return responseHandler(response).json();
     });
   },
+  getCountryData: function getCountryData(countries) {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiCountryDataUrl, {
+      countries: countries
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
   getCountryAgeGroupData: function getCountryAgeGroupData(data) {
     return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].countryAgeGroupDataUrl, data).then(function (response) {
       return responseHandler(response).json();
@@ -65533,7 +65574,8 @@ __webpack_require__.r(__webpack_exports__);
   STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_23__["STEP_CREDENTIALS"],
   STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_23__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
-  sectionSidebar: _src_views_sections__WEBPACK_IMPORTED_MODULE_18__["sectionSidebar"]
+  sectionSidebar: _src_views_sections__WEBPACK_IMPORTED_MODULE_18__["sectionSidebar"],
+  sectionComplete: _src_views_sections__WEBPACK_IMPORTED_MODULE_18__["sectionComplete"]
 });
 
 /***/ }),
@@ -65850,10 +65892,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _TabConfiguration__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TabConfiguration */ "./react-components/src/components/CompareMarkets/TabConfiguration.jsx");
-/* harmony import */ var _DataTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DataTable */ "./react-components/src/components/CompareMarkets/DataTable.jsx");
-/* harmony import */ var _Tabs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Tabs */ "./react-components/src/components/CompareMarkets/Tabs.jsx");
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _DataTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DataTable */ "./react-components/src/components/CompareMarkets/DataTable.jsx");
+/* harmony import */ var _Tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Tabs */ "./react-components/src/components/CompareMarkets/Tabs.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _TabConfigEconomy__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TabConfigEconomy */ "./react-components/src/components/CompareMarkets/TabConfigEconomy.jsx");
+/* harmony import */ var _TabConfigPopulation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TabConfigPopulation */ "./react-components/src/components/CompareMarkets/TabConfigPopulation.jsx");
+/* harmony import */ var _TabConfigSociety__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TabConfigSociety */ "./react-components/src/components/CompareMarkets/TabConfigSociety.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -65865,6 +65909,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -65886,7 +65932,7 @@ function ComparisonTables(props) {
 
   var tabs = JSON.parse(tabsJson);
 
-  if (!Object(_Helpers__WEBPACK_IMPORTED_MODULE_5__["isObject"])(tabs)) {
+  if (!Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["isObject"])(tabs)) {
     tabs = JSON.parse(tabs);
   }
 
@@ -65902,8 +65948,12 @@ function ComparisonTables(props) {
     }
   }
 
-  var tabConfig = Object(_TabConfiguration__WEBPACK_IMPORTED_MODULE_2__["default"])(selectedProduct);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tabs__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  var tabConfig = {
+    population: _TabConfigPopulation__WEBPACK_IMPORTED_MODULE_6__["default"],
+    economy: _TabConfigEconomy__WEBPACK_IMPORTED_MODULE_5__["default"],
+    society: _TabConfigSociety__WEBPACK_IMPORTED_MODULE_7__["default"]
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], {
     setActiveTab: setActiveTab,
     showTabs: !!listOfTabs.length
   }, listOfTabs.map(function (item) {
@@ -65915,12 +65965,12 @@ function ComparisonTables(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius"
   }, listOfTabs.map(function (item) {
-    return activeTab === item.toUpperCase() && tabConfig[item] && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DataTable__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    return activeTab === item.toUpperCase() && tabConfig[item] && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DataTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: item,
       datasetName: item,
       config: tabConfig[item],
       comparisonMarkets: comparisonMarkets,
-      commodityCode: Object(_Helpers__WEBPACK_IMPORTED_MODULE_5__["get"])(selectedProduct, 'commodity_code'),
+      commodityCode: Object(_Helpers__WEBPACK_IMPORTED_MODULE_4__["get"])(selectedProduct, 'commodity_code'),
       removeMarket: removeMarket
     });
   }), triggerButton));
@@ -65955,6 +66005,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @components/tooltip/Tooltip */ "./node_modules/great-styles/dist/components/tooltip/Tooltip.js");
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -65972,6 +66030,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var cache = {};
+var DATA_NA = 'Data not available';
 function DataTable(props) {
   var datasetName = props.datasetName,
       config = props.config,
@@ -65979,9 +66038,106 @@ function DataTable(props) {
       commodityCode = props.commodityCode,
       removeMarket = props.removeMarket;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(cache[datasetName] = cache[datasetName] || {}),
       _useState2 = _slicedToArray(_useState, 2),
-      setLoading = _useState2[1];
+      lCache = _useState2[0],
+      setLCache = _useState2[1];
+
+  var dataIn = function dataIn(data) {
+    cache[datasetName] = Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["deepAssign"])(cache[datasetName], data);
+    setLCache(cache[datasetName]);
+  };
+
+  var flagArray = function flagArray(array, value) {
+    // Generates an object from an array,
+    var out = {};
+    array.forEach(function (entry) {
+      out[entry] = value;
+    });
+    return out;
+  };
+
+  var setLoadingIndicators = function setLoadingIndicators(countries, columnList) {
+    // Set the columns in the countries provided - to loading
+    var loadingIndicators = {};
+    countries.forEach(function (country) {
+      loadingIndicators[country] = {
+        loading: flagArray(columnList, 1)
+      };
+    });
+    dataIn(loadingIndicators);
+  };
+
+  var getChunk = function getChunk(countries, columnList, requestFunction) {
+    // Get a chunk of the table.
+    // Pass in an array of countries, an array of column names and a request function
+    return new Promise(function (resolve, reject) {
+      requestFunction(countries, cache.commodityCode).then(function (result) {
+        var data = result;
+
+        if (Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["isArray"])(data)) {
+          data = Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["mapArray"])(data, 'country');
+        }
+
+        countries.forEach(function (country) {
+          data[country] = data[country] || {};
+          data[country].loading = flagArray(columnList, 0);
+        });
+        dataIn(data);
+        resolve();
+      })["catch"](function () {
+        var clear = {};
+        countries.forEach(function (country) {
+          clear[country] = {
+            loading: flagArray(columnList, 0)
+          };
+        });
+        dataIn(clear);
+        reject();
+      });
+    });
+  };
+
+  var getByCountrySequential = function getByCountrySequential(countries, columnList, requestFunction) {
+    // gets chunk for one country at a time - but sequentially - i.e. only one request in flight
+    var localCountries = _toConsumableArray(countries);
+
+    var country = localCountries.shift();
+    getChunk([country], columnList, requestFunction)["finally"](function () {
+      if (localCountries.length) {
+        getByCountrySequential(localCountries, columnList, requestFunction);
+      }
+    });
+  };
+
+  var getTableData = function getTableData(missingCountries) {
+    // Collect the retrieval groups.
+    // Any columns without a group are collected as the default group
+    var groups = {};
+    Object.keys(config.columns).forEach(function (columnName) {
+      var groupName = config.columns[columnName].group || 'default';
+      groups[groupName] = groups[groupName] || [];
+      groups[groupName].push(columnName);
+    }); // Make a request for each group using the group config.
+
+    Object.keys(groups).forEach(function (groupName) {
+      var groupDef = config.groups && config.groups[groupName] || {
+        dataFunction: config.dataFunction
+      };
+      var columnList = groups[groupName];
+      setLoadingIndicators(missingCountries, columnList);
+
+      if (groupDef.splitCountries) {
+        missingCountries.forEach(function (country) {
+          getChunk([country], columnList, groupDef.dataFunction);
+        });
+      } else if (groupDef.splitCountriesSequential) {
+        getByCountrySequential(missingCountries, columnList, groupDef.dataFunction);
+      } else {
+        getChunk(missingCountries, columnList, groupDef.dataFunction);
+      }
+    });
+  };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Wipe cache if commodity code changes
@@ -65996,31 +66152,12 @@ function DataTable(props) {
       return country.country_name;
     });
     var missingCountries = countries.filter(function (country) {
-      return !cache[datasetName][country];
+      return !lCache[country];
     });
+    setLCache(lCache);
 
     if (missingCountries.length) {
-      setLoading(true);
-      config.dataFunction(missingCountries, commodityCode).then(function (result) {
-        var newData = result; // If the result is an array, make an object keyed by country
-
-        if (Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["isArray"])(result)) {
-          newData = Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["mapArray"])(result, 'country');
-        } else if (Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["isObject"])(result) && !result[missingCountries[0]]) {
-          newData = Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["mapArray"])(Object.values(result), 'country');
-        } // or it could be an object already keyed by country
-
-
-        cache[datasetName] = Object.assign(cache[datasetName], newData);
-        setLoading(false);
-      })["catch"](function () {
-        missingCountries.forEach(function (country) {
-          cache[datasetName][country] = {};
-        });
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
+      getTableData(missingCountries);
     }
   }, [commodityCode, comparisonMarkets]);
 
@@ -66065,6 +66202,23 @@ function DataTable(props) {
   var baseYear = Object.keys(years).sort(function (a, b) {
     return years[a] < years[b] ? 1 : -1;
   })[0];
+
+  var renderCell = function renderCell(cellConfig, countryData) {
+    try {
+      var value = cellConfig.render(countryData);
+
+      if (!value) {
+        throw new Error();
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, value, yearDiv((cellConfig.year || function () {
+        return null;
+      })(countryData), baseYear));
+    } catch (_unused) {
+      return DATA_NA;
+    }
+  };
+
   var tableBody = Object.values(comparisonMarkets).map(function (market) {
     var countryData = cache[datasetName] && cache[datasetName][market.country_name];
     var countryRow = Object.keys(config.columns).map(function (columnKey) {
@@ -66072,9 +66226,7 @@ function DataTable(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         key: columnKey,
         className: "".concat(columnKey, " p-v-xs ").concat(cellConfig.className || '')
-      }, countryData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, cellConfig.render(countryData), yearDiv((cellConfig.year || function () {
-        return null;
-      })(countryData), baseYear)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, countryData && (!countryData.loading || !countryData.loading[columnKey]) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, renderCell(cellConfig, countryData)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading"
       }, "\xA0"));
     });
@@ -66121,7 +66273,8 @@ DataTable.propTypes = {
   config: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     columns: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.instanceOf(Object),
     sourceAttributions: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.instanceOf(Array),
-    dataFunction: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func
+    dataFunction: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
+    groups: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.instanceOf(Object)
   }).isRequired,
   commodityCode: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   removeMarket: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
@@ -66318,9 +66471,248 @@ Tab.propTypes = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/CompareMarkets/TabConfiguration.jsx":
+/***/ "./react-components/src/components/CompareMarkets/TabConfigEconomy.jsx":
 /*!*****************************************************************************!*\
-  !*** ./react-components/src/components/CompareMarkets/TabConfiguration.jsx ***!
+  !*** ./react-components/src/components/CompareMarkets/TabConfigEconomy.jsx ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+
+
+
+
+var rankOutOf = function rankOutOf(data, key) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, data[key], " of ", data.total);
+};
+
+var sign = function sign(value) {
+  return ['-', '', '+'][Math.sign(value) + 1];
+};
+
+var importValueAndChange = function importValueAndChange(importValue) {
+  if (!importValue.trade_value_raw) {
+    throw new Error();
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-l primary"
+  }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(importValue.trade_value_raw)), importValue.year_on_year_change && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-m secondary text-black-60"
+  }, sign(importValue.year_on_year_change), Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(importValue.year_on_year_change), "% vs", ' ', importValue.year - 1));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  sourceAttributions: [{
+    title: 'Trade data',
+    linkText: 'UN Comtrade',
+    linkTarget: 'https://comtrade.un.org/data',
+    text: 'Copyright United Nations 2020.'
+  }, {
+    title: 'GDP per capita',
+    preLinkText: '(current US$)',
+    linkText: 'World Bank, OECD',
+    linkTarget: 'https://data.worldbank.org/indicator/NY.GDP.PCAP.CD',
+    text: 'CC BY 4.0.'
+  }, {
+    title: 'Ease of Doing Business Scores',
+    linkText: 'World Bank',
+    linkTarget: 'https://www.doingbusiness.org/en/data/doing-business-score',
+    text: 'CC BY 4.0.'
+  }, {
+    title: 'Corruption Perceptions Index',
+    linkText: 'Transparency International',
+    linkTarget: 'https://www.transparency.org/en/cpi/2019/results/table',
+    text: 'CC BY-ND 4.0'
+  }],
+  columns: {
+    'world-import-value': {
+      name: 'Worldwide import value (USD)',
+      className: 'text-align-right',
+      render: function render(data) {
+        return importValueAndChange(data.import_from_world);
+      },
+      year: function year(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'import_from_world.year');
+      },
+      group: 'import'
+    },
+    'uk-import-value': {
+      name: 'Import value from the UK (USD)',
+      className: 'text-align-right',
+      render: function render(data) {
+        return importValueAndChange(data.import_data_from_uk);
+      },
+      year: function year(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'import_data_from_uk.year');
+      },
+      group: 'import'
+    },
+    'avg-income': {
+      name: 'Adjusted net national income per capita (USD)',
+      className: 'text-align-right',
+      render: function render(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.income.value'));
+      },
+      year: function year(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.income.year');
+      },
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: "\n          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers in a country.</p>\n          <p>Each year, the World Bank publishes figures for all countries by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>\n          <p>ANNIPC gives you an idea of how much consumers in your country earn, whether they can comfortably afford your products and at what price.</p>\n         "
+      }
+    },
+    'eod-business': {
+      name: 'Ease of doing business rank ',
+      className: 'text-align-right',
+      render: function render(data) {
+        return rankOutOf(data.country_data.ease_of_doing_bussiness, 'rank');
+      },
+      year: function year(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.ease_of_doing_bussiness.year');
+      },
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: "\n          <p>The Ease of Doing Business rank indicates whether doing business in a country is easy or difficult.</p>\n          <p>Every year, the World Bank ranks all countries from 1 (easy to do business) to 190 (hard to do business).</p>\n          <p>Knowing the rank of your target country can help you decide whether to enter a market and whether you need professional help to do so.</p>\n         "
+      }
+    },
+    cpi: {
+      name: 'Corruption Perceptions Index',
+      className: 'text-align-right',
+      render: function render(data) {
+        return rankOutOf(data.country_data.corruption_perceptions_index, 'rank');
+      },
+      year: function year(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.corruption_perceptions_index.year');
+      },
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: "\n          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>\n          <p>The index ranks countries and territories by the corruption of their public sector, according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>\n          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>\n         "
+      }
+    }
+  },
+  groups: {
+    "import": {
+      dataFunction: _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getComTradeData,
+      splitCountriesSequential: true
+    }
+  },
+  dataFunction: _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getCountryData
+});
+
+/***/ }),
+
+/***/ "./react-components/src/components/CompareMarkets/TabConfigPopulation.jsx":
+/*!********************************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/TabConfigPopulation.jsx ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+
+
+
+
+var populationPercentActual = function populationPercentActual(group, population) {
+  if (group && population) {
+    var percentage = Math.round(group * 100 / population);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-l primary"
+    }, percentage, "%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "body-m secondary"
+    }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(group), " "));
+  }
+
+  throw new Error();
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  sourceAttributions: [{
+    title: 'Population data',
+    linkText: 'United Nations',
+    linkTarget: 'https://population.un.org/wup/Download/',
+    text: 'CC BY 3.0 IGO.'
+  }, {
+    title: 'Urban and Rural Populations',
+    linkText: 'United Nations',
+    linkTarget: 'https://population.un.org/wup/Download/',
+    text: 'CC BY 3.0 IGO.'
+  }, {
+    title: 'Access to internet',
+    linkText: 'International Telecommunications Union',
+    linkTarget: 'https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en'
+  }],
+  columns: {
+    total_population: {
+      name: 'Total Population',
+      className: 'text-align-right',
+      render: function render(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(data.total_population_raw);
+      }
+    },
+    urban_population: {
+      name: 'Living in urban areas',
+      className: 'text-align-right',
+      render: function render(data) {
+        return populationPercentActual(data.urban_population_total * 1000, data.total_population_raw);
+      }
+    },
+    rural_population: {
+      name: 'Living in rural areas',
+      className: 'text-align-right',
+      render: function render(data) {
+        return populationPercentActual(data.rural_population_total * 1000, data.total_population_raw);
+      }
+    },
+    internet_usage: {
+      name: 'Access to internet',
+      className: 'text-align-right',
+      render: function render(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])("".concat(data.internet_usage.value, "%"));
+      },
+      year: function year(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'internet_usage.year');
+      }
+    },
+    cpi: {
+      name: 'Consumer Price Index',
+      className: 'text-align-right',
+      render: function render(data) {
+        return data.cpi.value;
+      },
+      year: function year(data) {
+        return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'cpi.year');
+      },
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: "\n          <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>\n          <p>All countries start at 100. A higher number indicates prices are growing quickly, while a lower number indicates they are rising slowly.</p>\n          <p>Knowing the CPI of your target country gives you a better idea of what prices consumers expect for your product and how much they expect those prices to change.</p>\n         "
+      }
+    }
+  },
+  dataFunction: _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getPopulationByCountryData
+});
+
+/***/ }),
+
+/***/ "./react-components/src/components/CompareMarkets/TabConfigSociety.jsx":
+/*!*****************************************************************************!*\
+  !*** ./react-components/src/components/CompareMarkets/TabConfigSociety.jsx ***!
   \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -66340,23 +66732,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var DATA_NA = 'Data not available';
-
-var populationPercentActual = function populationPercentActual(group, population) {
-  if (group && population) {
-    var percentage = Math.round(group * 100 / population);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-l primary"
-    }, percentage, "%"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-m secondary"
-    }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(group), " "));
-  }
-
-  return DATA_NA;
-};
 
 var rankOutOf = function rankOutOf(data, key) {
-  return data && data[key] && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, data[key], " of ", data.total) || DATA_NA;
+  return data && data[key] && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, data[key], " of ", data.total);
 };
 
 var formatEntry = function formatEntry(data) {
@@ -66380,30 +66758,20 @@ var getEntries = function getEntries() {
 };
 
 var language = function language(data) {
-  var entries = getEntries(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'language'));
-
-  if (data && entries) {
-    var year = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'date');
-    var note = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'note');
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-m text-black-60 display-note"
-    }, year, year && note && '. ', note && Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["capitalize"])(note)));
-  }
-
-  return DATA_NA;
+  var entries = getEntries(data.language);
+  var date = data.date,
+      note = data.note;
+  return entries && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-m text-black-60 display-note"
+  }, date, date && note && '. ', note && Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["capitalize"])(note)));
 };
 
 var religion = function religion(data) {
-  var entries = getEntries(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'religion'));
-
-  if (data && entries) {
-    var year = Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'date');
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, year && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-m text-black-60 display-year"
-    }, year));
-  }
-
-  return DATA_NA;
+  var entries = getEntries(data.religion);
+  var year = data.date;
+  return entries && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, entries, year && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-m text-black-60 display-year"
+  }, year));
 };
 
 var ruleOfLawRanking = function ruleOfLawRanking(data) {
@@ -66411,240 +66779,59 @@ var ruleOfLawRanking = function ruleOfLawRanking(data) {
   var rankingTotal = 131;
   var year = 2020;
 
-  if (data) {
-    var decorated = _objectSpread(_objectSpread({}, data), {}, {
-      total: rankingTotal,
-      year: year
-    });
+  var decorated = _objectSpread(_objectSpread({}, data), {}, {
+    total: rankingTotal,
+    year: year
+  });
 
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rankOutOf(decorated, 'rank'), decorated.year && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "body-m text-black-60 display-year"
-    }, decorated.year));
-  }
-
-  return DATA_NA;
+  return data && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, rankOutOf(decorated, 'rank'), decorated.year && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-m text-black-60 display-year"
+  }, decorated.year));
 };
 
-var sign = function sign(value) {
-  return ['-', '', '+'][Math.sign(value) + 1];
-};
-
-var importValueAndChange = function importValueAndChange(importValue) {
-  return importValue && importValue.trade_value_raw && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "body-l primary"
-  }, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(importValue.trade_value_raw) || DATA_NA), importValue.year_on_year_change && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "body-m secondary text-black-60"
-  }, sign(importValue.year_on_year_change), Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])(importValue.year_on_year_change), "% vs", ' ', importValue.year - 1)) || DATA_NA;
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  var populationTabConfig = {
-    sourceAttributions: [{
-      title: 'Population data',
-      linkText: 'United Nations',
-      linkTarget: 'https://population.un.org/wup/Download/',
-      text: 'CC BY 3.0 IGO.'
-    }, {
-      title: 'Urban and Rural Populations',
-      linkText: 'United Nations',
-      linkTarget: 'https://population.un.org/wup/Download/',
-      text: 'CC BY 3.0 IGO.'
-    }, {
-      title: 'Access to internet',
-      linkText: 'International Telecommunications Union',
-      linkTarget: 'https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en'
-    }],
-    columns: {
-      total_population: {
-        name: 'Total Population',
-        className: 'text-align-right',
-        render: function render(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(data.total_population_raw) || DATA_NA;
-        }
-      },
-      urban_population: {
-        name: 'Living in urban areas',
-        className: 'text-align-right',
-        render: function render(data) {
-          return populationPercentActual(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'urban_population_total', 0) * 1000, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'total_population_raw'));
-        }
-      },
-      rural_population: {
-        name: 'Living in rural areas',
-        className: 'text-align-right',
-        render: function render(data) {
-          return populationPercentActual(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'rural_population_total', 0) * 1000, Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'total_population_raw'));
-        }
-      },
-      internet_usage: {
-        name: 'Access to internet',
-        className: 'text-align-right',
-        render: function render(data) {
-          return data.internet_usage ? Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["normaliseValues"])("".concat(data.internet_usage.value, "%")) : 'Data not available';
-        },
-        year: function year(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'internet_usage.year');
-        }
-      },
-      cpi: {
-        name: 'Consumer Price Index',
-        className: 'text-align-right',
-        render: function render(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'cpi.value') || 'Data not available';
-        },
-        year: function year(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'cpi.year');
-        },
-        tooltip: {
-          position: 'right',
-          title: '',
-          content: "\n          <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>\n          <p>All countries start at 100. A higher number indicates prices are growing quickly, while a lower number indicates they are rising slowly.</p>\n          <p>Knowing the CPI of your target country gives you a better idea of what prices consumers expect for your product and how much they expect those prices to change.</p>\n         "
-        }
+/* harmony default export */ __webpack_exports__["default"] = ({
+  sourceAttributions: [{
+    title: 'Religion',
+    linkText: 'Central Intelligence Agency',
+    linkTarget: 'https://www.cia.gov/the-world-factbook'
+  }, {
+    title: 'Languages',
+    linkText: 'Central Intelligence Agency',
+    linkTarget: 'https://www.cia.gov/the-world-factbook'
+  }, {
+    title: 'Rule of law',
+    linkText: 'The Global Innovation Index 2020',
+    linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report'
+  }],
+  columns: {
+    religion: {
+      name: 'Religion',
+      className: 'align-top',
+      render: function render(data) {
+        return religion(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'religions'));
       }
     },
-    dataFunction: _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getPopulationByCountryData
-  };
-  var economyTabConfig = {
-    sourceAttributions: [{
-      title: 'Trade data',
-      linkText: 'UN Comtrade',
-      linkTarget: 'https://comtrade.un.org/data',
-      text: 'Copyright United Nations 2020.'
-    }, {
-      title: 'GDP per capita',
-      preLinkText: '(current US$)',
-      linkText: 'World Bank, OECD',
-      linkTarget: 'https://data.worldbank.org/indicator/NY.GDP.PCAP.CD',
-      text: 'CC BY 4.0.'
-    }, {
-      title: 'Ease of Doing Business Scores',
-      linkText: 'World Bank',
-      linkTarget: 'https://www.doingbusiness.org/en/data/doing-business-score',
-      text: 'CC BY 4.0.'
-    }, {
-      title: 'Corruption Perceptions Index',
-      linkText: 'Transparency International',
-      linkTarget: 'https://www.transparency.org/en/cpi/2019/results/table',
-      text: 'CC BY-ND 4.0'
-    }],
-    columns: {
-      'world-import-value': {
-        name: 'Worldwide import value (USD)',
-        className: 'text-align-right',
-        render: function render(data) {
-          return importValueAndChange(data.import_from_world);
-        },
-        year: function year(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'import_from_world.year');
-        }
-      },
-      'uk-import-value': {
-        name: 'Import value from the UK (USD)',
-        className: 'text-align-right',
-        render: function render(data) {
-          return importValueAndChange(data.import_data_from_uk);
-        },
-        year: function year(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'import_data_from_uk.year');
-        }
-      },
-      'avg-income': {
-        name: 'Adjusted net national income per capita (USD)',
-        className: 'text-align-right',
-        render: function render(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["millify"])(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.income.value'));
-        },
-        year: function year(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.income.year');
-        },
-        tooltip: {
-          position: 'right',
-          title: '',
-          content: "\n          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers in a country.</p>\n          <p>Each year, the World Bank publishes figures for all countries by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>\n          <p>ANNIPC gives you an idea of how much consumers in your country earn, whether they can comfortably afford your products and at what price.</p>\n         "
-        }
-      },
-      'eod-business': {
-        name: 'Ease of doing business rank ',
-        className: 'text-align-right',
-        render: function render(data) {
-          return rankOutOf(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.ease_of_doing_bussiness'), 'rank');
-        },
-        year: function year(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.ease_of_doing_bussiness.year');
-        },
-        tooltip: {
-          position: 'right',
-          title: '',
-          content: "\n          <p>The Ease of Doing Business rank indicates whether doing business in a country is easy or difficult.</p>\n          <p>Every year, the World Bank ranks all countries from 1 (easy to do business) to 190 (hard to do business).</p>\n          <p>Knowing the rank of your target country can help you decide whether to enter a market and whether you need professional help to do so.</p>\n         "
-        }
-      },
-      cpi: {
-        name: 'Corruption Perceptions Index',
-        className: 'text-align-right',
-        render: function render(data) {
-          return rankOutOf(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.corruption_perceptions_index'), 'rank');
-        },
-        year: function year(data) {
-          return Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'country_data.corruption_perceptions_index.year');
-        },
-        tooltip: {
-          position: 'right',
-          title: '',
-          content: "\n          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>\n          <p>The index ranks countries and territories by the corruption of their public sector, according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>\n          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>\n         "
-        }
+    language: {
+      name: 'Language',
+      className: 'align-top',
+      render: function render(data) {
+        return language(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'languages'));
       }
     },
-    dataFunction: _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getComTradeData
-  };
-  var societyTabConfig = {
-    sourceAttributions: [{
-      title: 'Religion',
-      linkText: 'Central Intelligence Agency',
-      linkTarget: 'https://www.cia.gov/the-world-factbook'
-    }, {
-      title: 'Languages',
-      linkText: 'Central Intelligence Agency',
-      linkTarget: 'https://www.cia.gov/the-world-factbook'
-    }, {
-      title: 'Rule of law',
-      linkText: 'The Global Innovation Index 2020',
-      linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report'
-    }],
-    columns: {
-      religion: {
-        name: 'Religion',
-        className: 'align-top',
-        render: function render(data) {
-          return religion(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'religions'));
-        }
+    'rule-of-law': {
+      name: 'Rule of Law ranking',
+      className: 'align-top',
+      render: function render(data) {
+        return ruleOfLawRanking(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'rule_of_law'));
       },
-      language: {
-        name: 'Language',
-        className: 'align-top',
-        render: function render(data) {
-          return language(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'languages'));
-        }
-      },
-      'rule-of-law': {
-        name: 'Rule of Law ranking',
-        className: 'align-top',
-        render: function render(data) {
-          return ruleOfLawRanking(Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["get"])(data, 'rule_of_law'));
-        },
-        tooltip: {
-          position: 'right',
-          title: '',
-          content: "\n          <p>The strength of the law varies from country to country.</p>\n          <p>Each year, the Global Innovation Index ranks countries from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, the police, and the courts.</p>\n          <p>This gives you an idea of how easy may be to follow regulations and take legal action if something goes wrong.</p>\n         "
-        }
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: "\n          <p>The strength of the law varies from country to country.</p>\n          <p>Each year, the Global Innovation Index ranks countries from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, the police, and the courts.</p>\n          <p>This gives you an idea of how easy may be to follow regulations and take legal action if something goes wrong.</p>\n         "
       }
-    },
-    dataFunction: _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getSocietyByCountryData
-  };
-  return {
-    population: populationTabConfig,
-    economy: economyTabConfig,
-    society: societyTabConfig
-  };
+    }
+  },
+  dataFunction: _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].getSocietyByCountryData
 });
 
 /***/ }),
@@ -68022,12 +68209,13 @@ var Dashboard = function Dashboard(_ref) {
   }), sections.map(function (_ref2) {
     var title = _ref2.title,
         url = _ref2.url,
-        disabled = _ref2.disabled;
+        disabled = _ref2.disabled,
+        is_complete = _ref2.is_complete;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-1-3-xl c-1-2-m",
       key: url
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "bg-white m-b-s section-list__item"
+      className: "bg-white m-b-s section-list__item ".concat(is_complete ? 'section-list__item--is-complete' : '')
     }, disabled ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "w-full link section-list__disabled section-list__link",
       onClick: openComingSoonModal,
@@ -68053,7 +68241,8 @@ var Dashboard = function Dashboard(_ref) {
       href: url,
       title: title
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "bg-blue-deep-20 section-list__image-container"
+      className: "".concat(is_complete ? 'bg-green-30' : 'bg-blue-deep-20', " section-list__image-container"),
+      "data-complete": is_complete ? 'Complete' : ''
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       className: "w-full p-h-s p-t-m p-b-s",
       src: "/static/images/ep-placeholder.svg",
@@ -68610,11 +68799,12 @@ var Item = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       onKeyDown = _ref.onKeyDown,
       selected = _ref.selected,
       label = _ref.label,
-      forwardedRef = _ref.forwardedRef;
+      forwardedRef = _ref.forwardedRef,
+      isDisabled = _ref.isDisabled;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     tabIndex: "0",
     role: "option",
-    className: "select__list--item",
+    className: "select__list--item ".concat(isDisabled ? 'text-black-50' : ''),
     onClick: onClick,
     onKeyDown: onKeyDown,
     "aria-selected": selected,
@@ -68626,7 +68816,11 @@ Item.propTypes = {
   onKeyDown: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   selected: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired,
   label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  forwardedRef: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.elementType.isRequired
+  forwardedRef: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.elementType.isRequired,
+  isDisabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+};
+Item.defaultProps = {
+  isDisabled: false
 };
 
 /***/ }),
@@ -68645,12 +68839,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/Input */ "./react-components/src/components/Form/Input/index.jsx");
-/* harmony import */ var _src_components_hooks_useOnOutsideClick__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useOnOutsideClick */ "./react-components/src/components/hooks/useOnOutsideClick/index.jsx");
-/* harmony import */ var _src_components_hooks_useNoScroll__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useNoScroll */ "./react-components/src/components/hooks/useNoScroll/index.jsx");
-/* harmony import */ var _src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Form/Select/Item */ "./react-components/src/components/Form/Select/Item.jsx");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _src_components_hooks_useOnOutsideClick__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useOnOutsideClick */ "./react-components/src/components/hooks/useOnOutsideClick/index.jsx");
+/* harmony import */ var _src_components_hooks_useNoScroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useNoScroll */ "./react-components/src/components/hooks/useNoScroll/index.jsx");
+/* harmony import */ var _src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Select/Item */ "./react-components/src/components/Form/Select/Item.jsx");
+/* harmony import */ var _src_components_Form_FormGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Form/FormGroup */ "./react-components/src/components/Form/FormGroup/index.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -68658,6 +68850,8 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -68708,20 +68902,48 @@ var Select = function Select(_ref) {
 
   var liRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])([]);
 
-  var _useOnOutsideClick = Object(_src_components_hooks_useOnOutsideClick__WEBPACK_IMPORTED_MODULE_3__["useOnOutsideClick"])(function () {
+  var _useOnOutsideClick = Object(_src_components_hooks_useOnOutsideClick__WEBPACK_IMPORTED_MODULE_2__["useOnOutsideClick"])(function () {
     return setIsOpen(false);
   }),
       _useOnOutsideClick2 = _slicedToArray(_useOnOutsideClick, 1),
       element = _useOnOutsideClick2[0];
 
-  Object(_src_components_hooks_useNoScroll__WEBPACK_IMPORTED_MODULE_4__["useNoScroll"])(isOpen);
+  Object(_src_components_hooks_useNoScroll__WEBPACK_IMPORTED_MODULE_3__["useNoScroll"])(isOpen);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setInput(selected);
   }, [selected]);
 
+  var selectedItem = function selectedItem() {
+    if (!input || input.length <= 0) return placeholder;
+
+    if (multiSelect) {
+      return input.map(function (item) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "tag tag--icon tag--secondary tag--small m-r-xs",
+          type: "button",
+          key: item,
+          onClick: function onClick() {
+            var items = input.filter(function (x) {
+              return x !== item;
+            });
+            setInput(items);
+            update(_defineProperty({}, name, items));
+          }
+        }, item, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fas fa-times-circle"
+        }));
+      });
+    }
+
+    return input;
+  };
+
   var selectOption = function selectOption(item) {
     if (multiSelect) {
-      setInput([].concat(_toConsumableArray(input), [item.label]));
+      var items = _toConsumableArray(new Set([].concat(_toConsumableArray(input), [item.label])));
+
+      setInput(items);
+      update(_defineProperty({}, name, items));
     } else {
       setInput(item.label);
       setIsOpen(false);
@@ -68794,54 +69016,41 @@ var Select = function Select(_ref) {
     }
   };
 
-  var selectedItem = function selectedItem() {
-    if (!input || input.length <= 0) return placeholder;
-
-    if (multiSelect) {
-      return input.map(function (x) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          type: "button",
-          key: x
-        }, x);
-      });
-    }
-
-    return input;
-  };
-
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "select ".concat(className)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_FormGroup__WEBPACK_IMPORTED_MODULE_5__["FormGroup"], {
     label: label,
     id: id || label,
     name: label,
     readOnly: true,
-    value: input,
-    placeholder: placeholder,
     description: description,
     tooltip: tooltip,
     example: example,
     tabIndex: "-1",
-    hideLabel: hideLabel,
-    onChange: function onChange() {}
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "select__button text-blue-deep-20 button--toggle ".concat(isOpen ? 'select__button--close' : ''),
-    type: "button",
+    hideLabel: hideLabel
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "select__button text-blue-deep-20 button--toggle ".concat(isOpen ? 'select__button--close' : '')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     "aria-haspopup": "listbox",
+    tabIndex: "0",
+    onKeyDown: toggle,
+    type: "button",
     onClick: function onClick() {
       return setIsOpen(!isOpen);
     },
-    tabIndex: "0",
-    onKeyDown: toggle
+    className: "f-r button--toggle"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas button--toggle ".concat(isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort')
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "select__placeholder bg-white radius ".concat(!isOpen ? '' : 'hidden')
+  }, selectedItem()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     role: "listbox",
     className: "select__list body-l bg-white radius ".concat(isOpen ? '' : 'hidden'),
     "aria-expanded": isOpen,
     ref: element
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, selectedItem()), Array.isArray(options) ? options.map(function (item, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_5__["Item"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_4__["Item"], {
+      isDisabled: input.includes(item.label),
       key: item.label,
       onClick: function onClick() {
         return selectOption(item);
@@ -68862,7 +69071,7 @@ var Select = function Select(_ref) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: "body-m-b"
     }, category), options[category].map(function (li, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_5__["Item"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_4__["Item"], {
         key: li.label,
         onClick: function onClick() {
           return selectOption(li);
@@ -69763,7 +69972,7 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
 
   var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
 
-  var _onChange2 = function onChange(updatedField, otherProps, section) {
+  var _onChange3 = function onChange(updatedField, otherProps, section) {
     var isNotes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
     var note = isNotes ? {
       notes: updatedField[isNotes]
@@ -69794,7 +70003,7 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
     var options = Array.isArray(select.options) ? select.options : Object.keys(select.options).flatMap(function (x) {
       return select.options[x];
     });
-    var selected = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(options, state[key] ? state[key][select.id] : '');
+    var selected = select.multiSelect ? Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabels"])(options, state[key] ? state[key][select.id] : []) : Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getLabel"])(options, state[key] ? state[key][select.id] : '');
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-form-group",
       key: select.id
@@ -69805,14 +70014,14 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
       options: select.options,
       selected: selected,
       update: function update(data) {
-        return _onChange2(data, {
-          notes: state[textarea.id]
+        _onChange3(_defineProperty({}, select.id, select.multiSelect ? Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValues"])(select.options, data[select.id]) : data[select.id]), {
+          notes: state[key] ? state[key].notes : ''
         }, key);
       },
       multiSelect: select.multiSelect
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
       onChange: function onChange(data) {
-        return _onChange2(data, _defineProperty({}, select.id, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValue"])(options, selected)), key, textarea.id);
+        return _onChange3(data, _defineProperty({}, select.id, select.multiSelect ? Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValues"])(options, selected) : Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["getValue"])(options, selected)), key, textarea.id);
       },
       label: textarea.label,
       id: textarea.id,
@@ -73241,6 +73450,86 @@ RouteToMarket.propTypes = {
 
 /***/ }),
 
+/***/ "./react-components/src/components/SectionComplete/SectionComplete.jsx":
+/*!*****************************************************************************!*\
+  !*** ./react-components/src/components/SectionComplete/SectionComplete.jsx ***!
+  \*****************************************************************************/
+/*! exports provided: SectionComplete */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SectionComplete", function() { return SectionComplete; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+var SectionComplete = function SectionComplete(_ref) {
+  var current_section = _ref.current_section;
+  var is_complete = current_section.is_complete,
+      url = current_section.url;
+  var current_section_slug = url.split('/')[3];
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(is_complete),
+      _useState2 = _slicedToArray(_useState, 2),
+      isComplete = _useState2[0],
+      setIsComplete = _useState2[1];
+
+  var toggleComplete = function toggleComplete() {
+    var field_obj = {
+      ui_progress: _defineProperty({}, current_section_slug, {
+        is_complete: !isComplete
+      })
+    };
+    update(field_obj);
+  };
+
+  var update = function update(field) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {
+      setIsComplete(!isComplete);
+    })["catch"](function () {});
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-m text-white m-b-xs"
+  }, "Section complete?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "great-checkbox great-checkbox--large great-checkbox--section-complete"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    id: "checkbox_complete",
+    onChange: toggleComplete,
+    checked: isComplete ? true : false
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "checkbox_complete"
+  }, "Yes")));
+};
+SectionComplete.propTypes = {
+  current_section: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    is_complete: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+    url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired
+};
+
+/***/ }),
+
 /***/ "./react-components/src/components/Sidebar/ComingSoon/index.jsx":
 /*!**********************************************************************!*\
   !*** ./react-components/src/components/Sidebar/ComingSoon/index.jsx ***!
@@ -76634,20 +76923,23 @@ var createDataSnapShot = function createDataSnapShot(_ref2) {
 /*!*******************************************************!*\
   !*** ./react-components/src/views/sections/index.jsx ***!
   \*******************************************************/
-/*! exports provided: sectionSidebar */
+/*! exports provided: sectionSidebar, sectionComplete */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionSidebar", function() { return sectionSidebar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionComplete", function() { return sectionComplete; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Sidebar */ "./react-components/src/components/Sidebar/index.jsx");
+/* harmony import */ var _src_components_SectionComplete_SectionComplete__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/SectionComplete/SectionComplete */ "./react-components/src/components/SectionComplete/SectionComplete.jsx");
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 
 
 
@@ -76657,6 +76949,12 @@ var sectionSidebar = function sectionSidebar(_ref) {
       params = _objectWithoutProperties(_ref, ["element"]);
 
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Sidebar__WEBPACK_IMPORTED_MODULE_2__["Sidebar"], params), element);
+};
+var sectionComplete = function sectionComplete(_ref2) {
+  var element = _ref2.element,
+      params = _objectWithoutProperties(_ref2, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_SectionComplete_SectionComplete__WEBPACK_IMPORTED_MODULE_3__["SectionComplete"], params), element);
 };
 
 /***/ }),
