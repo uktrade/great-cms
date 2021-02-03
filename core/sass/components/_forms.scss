@@ -99,24 +99,3 @@
     text-align: left;
   }
 }
-
-.select {
-  &__placeholder {
-    border: 2px solid #d2d0da;
-    color: #787191;
-    min-height: 50px;
-    padding: 10px 15px;
-  }
-}
-
-.select__button--close {
-  bottom: 0;
-}
-
-.select__list {
-  margin-top: 0;
-}
-
-.button--toggle {
-  top: 84px
-}

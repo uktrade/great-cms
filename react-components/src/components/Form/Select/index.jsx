@@ -157,7 +157,7 @@ export const Select = ({
         </button>
       </div>
       <div
-        className={`select__placeholder bg-white radius ${
+        className={`select__placeholder text-blue-deep-60 bg-white radius ${
           !isOpen ? '' : 'hidden'
         }`}
       >
@@ -165,7 +165,7 @@ export const Select = ({
       </div>
       <ul
         role="listbox"
-        className={`select__list body-l bg-white radius ${
+        className={`select__list m-t-0 body-l bg-white radius ${
           isOpen ? '' : 'hidden'
         }`}
         aria-expanded={isOpen}
