@@ -135,74 +135,78 @@ export const Select = ({
         example={example}
         tabIndex="-1"
         hideLabel={hideLabel}
-      />
-      <div
-        className={`select__button text-blue-deep-20 button--toggle ${
-          isOpen ? 'select__button--close' : ''
-        }`}
       >
-        <button
-          aria-haspopup="listbox"
-          tabIndex="0"
-          onKeyDown={toggle}
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className="f-r button--toggle"
-        >
-          <i
-            className={`fas button--toggle ${
-              isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'
+        <>
+          {' '}
+          <div
+            className={`select__button text-blue-deep-20 button--toggle ${
+              isOpen ? 'select__button--close' : ''
             }`}
-          />
-        </button>
-      </div>
-      <div
-        className={`select__placeholder text-blue-deep-60 bg-white radius ${
-          !isOpen ? '' : 'hidden'
-        }`}
-      >
-        {selectedItem()}
-      </div>
-      <ul
-        role="listbox"
-        className={`select__list m-t-0 body-l bg-white radius ${
-          isOpen ? '' : 'hidden'
-        }`}
-        aria-expanded={isOpen}
-        ref={element}
-      >
-        <li>{selectedItem()}</li>
-
-        {Array.isArray(options)
-          ? options.map((item, i) => (
-              <Item
-                isDisabled={input.includes(item.label)}
-                key={item.label}
-                onClick={() => selectOption(item)}
-                onKeyDown={(e) => focusNext(e, i, item)}
-                selected={item.label === input}
-                label={item.label}
-                forwardedRef={(el) => (liRef.current[i] = el)}
+          >
+            <button
+              aria-haspopup="listbox"
+              tabIndex="0"
+              onKeyDown={toggle}
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              className="f-r button--toggle"
+            >
+              <i
+                className={`fas button--toggle ${
+                  isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort'
+                }`}
               />
-            ))
-          : Object.keys(options).map((category, i) => (
-              <ul className="m-0" key={category}>
-                <li className="body-m-b">{category}</li>
-                {options[category].map((li, index) => (
+            </button>
+          </div>
+          <div
+            className={`select__placeholder text-blue-deep-60 bg-white radius ${
+              !isOpen ? '' : 'hidden'
+            }`}
+          >
+            {selectedItem()}
+          </div>
+          <ul
+            role="listbox"
+            className={`select__list m-t-0 body-l bg-white radius ${
+              isOpen ? '' : 'hidden'
+            }`}
+            aria-expanded={isOpen}
+            ref={element}
+          >
+            <li>{selectedItem()}</li>
+
+            {Array.isArray(options)
+              ? options.map((item, i) => (
                   <Item
-                    key={li.label}
-                    onClick={() => selectOption(li)}
-                    onKeyDown={(e) => focusNext(e, index + 1, li, i)}
-                    selected={li.label === input}
-                    label={li.label}
-                    forwardedRef={(el) => (liRef.current[index] = el)}
-                  >
-                    {li.label}
-                  </Item>
+                    isDisabled={input.includes(item.label)}
+                    key={item.label}
+                    onClick={() => selectOption(item)}
+                    onKeyDown={(e) => focusNext(e, i, item)}
+                    selected={item.label === input}
+                    label={item.label}
+                    forwardedRef={(el) => (liRef.current[i] = el)}
+                  />
+                ))
+              : Object.keys(options).map((category, i) => (
+                  <ul className="m-0" key={category}>
+                    <li className="body-m-b">{category}</li>
+                    {options[category].map((li, index) => (
+                      <Item
+                        key={li.label}
+                        onClick={() => selectOption(li)}
+                        onKeyDown={(e) => focusNext(e, index + 1, li, i)}
+                        selected={li.label === input}
+                        label={li.label}
+                        forwardedRef={(el) => (liRef.current[index] = el)}
+                      >
+                        {li.label}
+                      </Item>
+                    ))}
+                  </ul>
                 ))}
-              </ul>
-            ))}
-      </ul>
+          </ul>
+        </>
+      </FormGroup>
     </div>
   )
 }
@@ -211,7 +215,10 @@ Select.propTypes = {
   label: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  selected: PropTypes.string,
+  selected: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   options: PropTypes.oneOfType([
     PropTypes.objectOf(
       PropTypes.arrayOf(
@@ -239,7 +246,7 @@ Select.propTypes = {
   placeholder: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,
-  multiSelect: false,
+  multiSelect: PropTypes.bool,
 }
 
 Select.defaultProps = {

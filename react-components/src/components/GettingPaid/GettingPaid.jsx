@@ -134,7 +134,12 @@ GettingPaid.propTypes = {
   formData: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
+      PropTypes.objectOf(
+        PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.arrayOf(PropTypes.string),
+        ])
+      ),
     ])
   ).isRequired,
   field: PropTypes.string.isRequired,
