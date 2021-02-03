@@ -165,7 +165,7 @@ export const Select = ({
       </div>
       <ul
         role="listbox"
-        className={`select__list body-l bg-white radius ${
+        className={`select__list m-t-0 body-l bg-white radius ${
           isOpen ? '' : 'hidden'
         }`}
         aria-expanded={isOpen}
