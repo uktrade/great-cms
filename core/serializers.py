@@ -36,7 +36,6 @@ def _date_format(string):
 
 
 def parse_opportunities(results):
-
     return [
         {
             'title': result['title'],
