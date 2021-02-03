@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1190 - Step 1 of 1 in removing wagtail-personalisation: unplug it from live code
 - GP2-1240 - Mark sections as complete
 - GP2-1425 - Cost and pricing - Estimate element
 - GP2-1435 - Split data retrieval on 'Where to export' data table
