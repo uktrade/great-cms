@@ -62,9 +62,7 @@ def test_export_plan_landing_page(client, exportplan_homepage, user, mock_get_co
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_or_create_export_plan')
 def test_export_plan_builder_landing_page(
-    mock_get_create_export_plan,
     client,
     exportplan_dashboard,
     user,
@@ -72,7 +70,6 @@ def test_export_plan_builder_landing_page(
     company_profile_data,
     export_plan_data,
 ):
-    mock_get_create_export_plan.return_value = export_plan_data
     mock_get_company_profile.return_value = company_profile_data
 
     client.force_login(user)
@@ -84,16 +81,14 @@ def test_export_plan_builder_landing_page(
         'url': '/export-plan/section/about-your-business/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
-        'is_complete': False,
+        'is_complete': True,
     }
 
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_lesson_details', return_value={})
-@mock.patch.object(helpers, 'get_or_create_export_plan')
-def test_exportplan_sections(mock_get_create_exportplan, mock_get_lessons, export_plan_data, slug, client, user):
-    mock_get_create_exportplan.return_value = export_plan_data
+def test_exportplan_sections(mock_get_lessons, slug, client, user):
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
     assert response.status_code == 200
@@ -104,7 +99,7 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
     client.force_login(user)
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
-    assert response.context_data['route_to_markets'] == '{"route": "test"}'
+    assert response.context_data['route_to_markets'] == {'route': 'test'}
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
@@ -112,7 +107,7 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
         **mock_get_country_data.return_value,
         **mock_get_cia_world_factbook_data.return_value,
     }
-    assert response.context_data['selected_age_groups'] == '["25-29", "47-49"]'
+    assert response.context_data['selected_age_groups'] == ['25-29', '47-49']
 
 
 @pytest.mark.django_db
@@ -241,12 +236,14 @@ def test_404_when_invalid_section_slug(client, user):
 
 
 @pytest.mark.django_db
-def test_url_with_export_plan_country_selected(mock_get_comtrade_data, mock_get_create_export_plan, client, user):
+def test_url_with_export_plan_country_selected(mock_get_comtrade_data, export_plan_data, client, user):
     # Remove countries selection
-    mock_get_create_export_plan.return_value.update({'export_countries': None})
+    user.export_plan.data.update({'export_countries': None})
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
     response = client.get(url)
+    # Set the countries back
+    user.export_plan.data.update({'export_countries': export_plan_data['export_countries']})
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 0
 
@@ -259,8 +256,8 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
     response = client.get(url)
 
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['insight_data'] == json.dumps(mock_get_comtrade_data.return_value)
-    assert response.context_data['selected_age_groups'] == '["35-40"]'
+    assert response.context_data['insight_data'] == mock_get_comtrade_data.return_value
+    assert response.context_data['selected_age_groups'] == ['35-40']
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 1
 
@@ -303,19 +300,17 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
             },
         }
     )
-    assert response.context_data['calculated_pricing'] == json.dumps(
-        {
-            'calculated_cost_pricing': {
-                'total_direct_costs': '15.00',
-                'total_overhead_costs': '1355.00',
-                'profit_per_unit': '6.00',
-                'potential_total_profit': '132.00',
-                'gross_price_per_unit': '42.36',
-                'total_export_costs': '1685.00',
-                'estimated_costs_per_unit': '76.59',
-            }
+    assert response.context_data['calculated_pricing'] == {
+        'calculated_cost_pricing': {
+            'total_direct_costs': '15.00',
+            'total_overhead_costs': '1355.00',
+            'profit_per_unit': '6.00',
+            'potential_total_profit': '132.00',
+            'gross_price_per_unit': '42.36',
+            'total_export_costs': '1685.00',
+            'estimated_costs_per_unit': '76.59',
         }
-    )
+    }
 
 
 @pytest.mark.django_db
@@ -341,7 +336,7 @@ def test_getting_paid(export_plan_data, client, user):
         'label': 'Free Alongside Ship (FAS)',
         'value': 'FREE_ALONG_SHIP',
     }
-    assert response.context_data['getting_paid_data'] == json.dumps(export_plan_data['getting_paid'])
+    assert response.context_data['getting_paid_data'] == export_plan_data['getting_paid']
 
 
 @pytest.mark.django_db
@@ -355,7 +350,7 @@ def test_funding_and_credit(export_plan_data, client, user):
     assert response.context_data['funding_options'][0] == {'label': 'Bank loan', 'value': 'BANK_LOAN'}
     assert response.context_data['funding_and_credit'] == export_plan_data['funding_and_credit']
     assert response.context_data['estimated_costs_per_unit'] == '76.59'
-    assert response.context_data['funding_credit_options'] == json.dumps(export_plan_data['funding_credit_options'])
+    assert response.context_data['funding_credit_options'] == export_plan_data['funding_credit_options']
 
 
 @pytest.mark.django_db
@@ -409,9 +404,9 @@ def test_exportplan_dashboard(
     client.force_login(user)
     dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
     context_data = dashboard.get_context(get_request)
-    assert context_data.get('export_plan').get('id') == 1
+    assert context_data.get('export_plan').get('pk') == 1
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
     assert context_data['export_plan_progress'] == {
-        'export_plan_progress': {'sections_total': 10, 'sections_completed': 0, 'percentage_completed': 0}
+        'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
     }

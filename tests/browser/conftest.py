@@ -302,7 +302,7 @@ def mock_get_user_context_export_plan():
         'target_markets': [JAPAN],
         'target_markets_research': {'demand': 'high'},
     }
-    with patch.object(models, 'get_exportplan', return_value=return_value) as patched:
+    with patch.object(models, 'get_or_create_export_plan', return_value=return_value) as patched:
         yield patched
 
 

@@ -92,13 +92,8 @@ def test_target_markets_research_form_empty_fields():
 
 
 @pytest.mark.django_db
-@patch.object(helpers, 'get_or_create_export_plan')
-def test_about_your_business_form_view(mock_get_export_plan, about_your_business_form_data, client, user):
-    mock_get_export_plan.return_value = {
-        'pk': 1,
-        'about_your_business': about_your_business_form_data,
-        'export_countries': [{'country_name': 'Netherlands'}],
-    }
+def test_about_your_business_form_view(export_plan_data, client, user):
+    export_plan_data['about_your_business'] = about_your_business_form_data
     url = reverse('exportplan:about-your-business')
     client.force_login(user)
     response = client.get(url)
@@ -145,13 +140,7 @@ def test_objectives_form_empty_fields():
 
 @pytest.mark.django_db
 @patch.object(helpers, 'update_exportplan')
-@patch.object(helpers, 'get_or_create_export_plan')
-def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, objectives_form_data, client, user):
-    mock_get_export_plan.return_value = {
-        'pk': 1,
-        **objectives_form_data,
-        'company_objectives': [],
-    }
+def test_objectives_form_view(mock_update_exportplan, objectives_form_data, client, user):
     url = reverse('exportplan:business-objectives')
     client.force_login(user)
     response = client.get(url)
@@ -161,10 +150,7 @@ def test_objectives_form_view(mock_get_export_plan, mock_update_exportplan, obje
 
 @pytest.mark.django_db
 @patch.object(helpers, 'update_exportplan')
-@patch.object(helpers, 'get_or_create_export_plan')
-def test_objectives_form_view_submission(
-    mock_get_export_plan, mock_update_exportplan, objectives_form_data, client, user
-):
+def test_objectives_form_view_submission(mock_update_exportplan, objectives_form_data, client, user):
     url = reverse('exportplan:business-objectives')
     client.force_login(user)
     response = client.post(url, objectives_form_data)
