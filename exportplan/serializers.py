@@ -196,9 +196,6 @@ class GettingPaidSerializer(serializers.Serializer):
         methods = serializers.ListField(child=serializers.CharField(), required=False)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
-        def validate_methods(self, value):
-            return value[0].split(',')
-
     class PaymentTermsSerializer(serializers.Serializer):
         terms = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])

@@ -360,7 +360,7 @@ def test_payment_method_serializer():
 
     data = {
         'getting_paid': {
-            'payment_method': {'methods': ['BACS, BT'], 'notes': 'method 1'},
+            'payment_method': {'methods': ['BACS', 'BT'], 'notes': 'method 1'},
             'payment_terms': {'terms': 'TMP', 'notes': 'method 2'},
             'incoterms': {'transport': 'RME', 'notes': 'method 3'},
         }
