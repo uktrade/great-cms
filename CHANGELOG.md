@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
 - GP2-1240 - Mark sections as complete
 - GP2-1344 - added trading bloc logic to search case study
 - GP2-1425 - Cost and pricing - Estimate element
