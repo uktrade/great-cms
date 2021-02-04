@@ -6,13 +6,14 @@ import Services from '@src/Services'
 import { connect, Provider } from 'react-redux'
 import actions from '@src/actions'
 import { getMarkets } from '@src/reducers'
-import { analytics } from '../../Helpers'
+import { analytics, get } from '../../Helpers'
 
 function SelectMarket(props) {
+  const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
   const { market, setMarket } = props
-  const [cookies] = useCookies(['comparisonMarkets'])
+  const [cookies] = useCookies([cookieName])
 
-  const comparisonMarkets = Object.values(cookies.comparisonMarkets || {})
+  const comparisonMarkets = Object.values(cookies[cookieName] || {})
 
   const clickMarket = (clickedMarket) => {
     const marketNames = comparisonMarkets.map((v) => v.country_name)
