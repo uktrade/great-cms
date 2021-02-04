@@ -9,7 +9,7 @@ RICHTEXT_FEATURES__MINIMAL = ()
 
 
 # Define rich-text features that disable embeds, images and document links
-RICHTEXT_FEATURES__REDUCED = (
+RICHTEXT_FEATURES__REDUCED = [
     'h2',
     'h3',
     'h4',
@@ -21,7 +21,10 @@ RICHTEXT_FEATURES__REDUCED = (
     'hr',
     'link',
     # 'blockquote', # NOT used - use a PullQuoteBlock in a StreamField, or similar
-)
+]
+
+# For certain pages, we want them to be able to define their main page header, too
+RICHTEXT_FEATURES__REDUCED__ALLOW_H1 = ['h1'] + RICHTEXT_FEATURES__REDUCED
 
 AWS_S3_MAIN_HOSTNAME_OPTIONS = [
     # https://docs.aws.amazon.com/general/latest/gr/s3.html

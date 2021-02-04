@@ -1,0 +1,16 @@
+{% extends 'domestic/base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from component_tags %}
+
+{% block head_title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+    {% block breadcrumbs %}
+      {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
+    </div>
+  {% include 'domestic/includes/cms_content.html' %}
+{% endblock %}
