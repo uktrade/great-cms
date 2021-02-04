@@ -37,7 +37,24 @@ class Migration(migrations.Migration):
                                 wagtail.core.blocks.RichTextBlock(
                                     features=['h1', 'h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr', 'link']
                                 ),
-                            )
+                            ),
+                            (
+                                'table',
+                                wagtail.contrib.table_block.blocks.TableBlock(
+                                    table_options={
+                                        'autoColumnSize': False,
+                                        'colHeaders': True,
+                                        'editor': 'text',
+                                        'height': 108,
+                                        'minSpareRows': 0,
+                                        'renderer': 'text',
+                                        'rowHeaders': False,
+                                        'startCols': 2,
+                                        'startRows': 3,
+                                        'stretchH': 'all',
+                                    }
+                                ),
+                            ),
                         ]
                     ),
                 ),
