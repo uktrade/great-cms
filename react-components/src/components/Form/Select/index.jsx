@@ -137,11 +137,12 @@ export const Select = ({
         hideLabel={hideLabel}
       >
         <>
-          {' '}
           <div
             className={`select__button text-blue-deep-20 button--toggle ${
               isOpen ? 'select__button--close' : ''
             }`}
+            role="region"
+            aria-label={label}
           >
             <button
               aria-haspopup="listbox"
@@ -173,7 +174,7 @@ export const Select = ({
             aria-expanded={isOpen}
             ref={element}
           >
-            <li>{selectedItem()}</li>
+            <li>{placeholder}</li>
 
             {Array.isArray(options)
               ? options.map((item, i) => (
