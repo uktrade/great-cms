@@ -1,0 +1,13 @@
+{% load wagtailcore_tags %}
+
+<section>
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds rich-text">
+        {% for block in page.body %}
+            {% include_block block %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
