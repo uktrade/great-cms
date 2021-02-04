@@ -72,7 +72,7 @@ export const Select = ({
     const next = i + 1
     const prev = i - 1
     const section = subSection + 1
-    const currentElement = element.current.children[section]
+    const currentElement = element.current.children[section].children[0]
 
     switch (e.keyCode) {
       case ENTER_KEY_CODE:
@@ -83,7 +83,7 @@ export const Select = ({
           const nextSection = element.current.children[section + 1]
           const nextElement = currentElement.children[next]
             ? currentElement.children[next]
-            : nextSection.children[1]
+            : nextSection.children[0].children[1]
           nextElement.focus()
         } else if (next < liRef.current.length) liRef.current[next].focus()
         break
@@ -92,7 +92,9 @@ export const Select = ({
           const nextSection = element.current.children[section - 1]
           const nextElement = currentElement.children[prev - 1]
             ? currentElement.children[prev]
-            : nextSection.children[nextSection.children.length - 1]
+            : nextSection.children[0].children[
+                nextSection.children[0].children.length - 1
+              ]
           nextElement.focus()
         } else if (prev >= 0) liRef.current[prev].focus()
         break
@@ -109,8 +111,11 @@ export const Select = ({
     switch (e.keyCode) {
       case DOWN_ARROW_KEY_CODE:
         setIsOpen(true)
-        if (firstElement.nodeName === 'UL') {
-          firstElement.children[1].focus()
+        if (
+          firstElement.children[0] &&
+          firstElement.children[0].nodeName === 'UL'
+        ) {
+          firstElement.children[0].children[1].focus()
         } else {
           firstElement.focus()
         }
@@ -189,21 +194,23 @@ export const Select = ({
                   />
                 ))
               : Object.keys(options).map((category, i) => (
-                  <ul className="m-0" key={category}>
-                    <li className="body-m-b">{category}</li>
-                    {options[category].map((li, index) => (
-                      <Item
-                        key={li.label}
-                        onClick={() => selectOption(li)}
-                        onKeyDown={(e) => focusNext(e, index + 1, li, i)}
-                        selected={li.label === input}
-                        label={li.label}
-                        forwardedRef={(el) => (liRef.current[index] = el)}
-                      >
-                        {li.label}
-                      </Item>
-                    ))}
-                  </ul>
+                  <li className="sub-section" key={category}>
+                    <ul className="m-0">
+                      <li className="body-m-b">{category}</li>
+                      {options[category].map((li, index) => (
+                        <Item
+                          key={li.label}
+                          onClick={() => selectOption(li)}
+                          onKeyDown={(e) => focusNext(e, index + 1, li, i)}
+                          selected={li.label === input}
+                          label={li.label}
+                          forwardedRef={(el) => (liRef.current[index] = el)}
+                        >
+                          {li.label}
+                        </Item>
+                      ))}
+                    </ul>
+                  </li>
                 ))}
           </ul>
         </>
