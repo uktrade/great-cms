@@ -249,9 +249,9 @@ def mock_get_create_export_plan(patch_get_create_export_plan):
 
 
 @pytest.fixture
-def patch_get_export_plan(export_plan_data):
+def patch_sso_models_get_or_create_export_plan(export_plan_data):
     # TODO merge this and above patch so we use singe unified way of getting export plan
-    yield mock.patch('sso.models.get_exportplan', return_value=export_plan_data)
+    yield mock.patch('sso.models.get_or_create_export_plan', return_value=export_plan_data)
 
 
 @pytest.fixture(autouse=False)
@@ -414,10 +414,10 @@ def patch_set_user_page_view():
 
 
 @pytest.fixture
-def patch_export_plan():
+def patch_export_plan(export_plan_data):
     yield mock.patch(
         'directory_api_client.api_client.exportplan.exportplan_list',
-        return_value=create_response(status_code=200, json_body=[{'id': 1}]),
+        return_value=create_response(status_code=200, json_body=[export_plan_data]),
     ).start()
 
 

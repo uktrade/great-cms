@@ -188,7 +188,7 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
 
     request = rf.get(lesson_page_url)
     request.user = user
-    request.user.export_plan = mock.Mock('mocked-export-plan')
+    request.user.export_plan.data = mock.Mock('mocked-export-plan')
 
     context = detail_page.get_context(request)
 

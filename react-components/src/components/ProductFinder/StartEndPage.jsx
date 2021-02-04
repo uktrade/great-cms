@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 import ClassificationTree from './ClassificationTree'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
-import ReactHtmlParser from 'react-html-parser'
+
 
 const checkChars = /^[a-zA-Z0-9\s~!@#£$%°^&*()-_+={}[\]|\\/:;"'<>,.?]*$/
 const testInput = /[a-zA-Z]+/

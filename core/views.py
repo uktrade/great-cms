@@ -104,7 +104,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
         dashboard = DomesticDashboard.objects.live().first()
         context = super().get_context_data(**kwargs)
         if self.request.user and hasattr(self.request.user, 'export_plan'):
-            context['export_plan'] = self.request.user.export_plan
+            context['export_plan'] = self.request.user.export_plan.data
             context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
             context['dashboard_components'] = dashboard.components if dashboard else None
             context['no_refresh_on_market_change'] = True

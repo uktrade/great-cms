@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
+import ReactHtmlParser from 'react-html-parser'
 import Services from '@src/Services'
 import actions from '@src/actions'
 import { capitalize } from '@src/Helpers'
@@ -11,7 +12,7 @@ import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
 import { analytics } from '../../Helpers'
-import ReactHtmlParser from 'react-html-parser'
+
 
 export default function ProductFinderModal(props) {
   const { modalIsOpen, setIsOpen, selectedProduct } = props

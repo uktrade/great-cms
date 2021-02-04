@@ -5,6 +5,7 @@ from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 
 from core import blocks as core_blocks
+from exportplan.helpers import ExportPlanParser
 from tests.unit.core.factories import (
     CaseStudyFactory,
     ContentModuleFactory,
@@ -146,9 +147,8 @@ def test_case_study_static_block_annotate_with_no_personalisation_selection(rf, 
     case_study_2.hs_code_tags.add('334455')
     case_study_2.country_code_tags.add('Europe', 'DE')
     case_study_2.save()
-
     # Empty personalisation selection
-    mocked_export_plan = dict()
+    mocked_export_plan = ExportPlanParser(dict())
 
     request = rf.get('/', {})
     request.user = user
@@ -173,22 +173,24 @@ def test_case_study_static_block_annotate_with_only_country_selection(rf, user):
     case_study_2.save()
 
     # country personalisation selection
-    mocked_export_plan = {
-        'export_countries': [
-            {
-                'region': 'Asia Pacific',
-                'country_name': 'Australia',
-                'country_iso2_code': 'AU',
-            }
-        ]
-    }
+    mocked_export_plan = ExportPlanParser(
+        {
+            'export_countries': [
+                {
+                    'region': 'Asia Pacific',
+                    'country_name': 'Australia',
+                    'country_iso2_code': 'AU',
+                }
+            ]
+        }
+    )
 
     request = rf.get('/', {})
     request.user = user
     request.user.export_plan = mock.MagicMock()
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
         block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = {'request': request, 'export_plan': request.user.export_plan.data}
         context = block._annotate_with_case_study(context)
         assert 'case_study' in context
         assert context['case_study'] == case_study_2
@@ -207,14 +209,16 @@ def test_case_study_static_block_annotate_with_only_product_selection(rf, user):
     case_study_2.save()
 
     # product personalisation selection
-    mocked_export_plan = {'export_commodity_codes': [{'commodity_code': '334455', 'commodity_name': 'Blah'}]}
+    mocked_export_plan = ExportPlanParser(
+        {'export_commodity_codes': [{'commodity_code': '334455', 'commodity_name': 'Blah'}]}
+    )
 
     request = rf.get('/', {})
     request.user = user
     request.user.export_plan = mock.MagicMock()
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
         block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = {'request': request, 'export_plan': request.user.export_plan.data}
         context = block._annotate_with_case_study(context)
         assert 'case_study' in context
         assert context['case_study'] == case_study_2
@@ -226,17 +230,19 @@ def test_case_study_static_block_annotate_with_case_study_with_no_tags(rf, user)
     CaseStudyFactory()
 
     # personalised selection exist in export plan
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Blah'}],
-        'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
-    }
+    mocked_export_plan = ExportPlanParser(
+        {
+            'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Blah'}],
+            'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
+        }
+    )
 
     request = rf.get('/', {})
     request.user = user
     request.user.export_plan = mock.MagicMock()
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
         block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = {'request': request, 'export_plan': request.user.export_plan.data}
         context = block._annotate_with_case_study(context)
         assert 'case_study' not in context
 
@@ -253,10 +259,12 @@ def test_case_study_static_block_annotate_with_case_study_with_tags_and_personal
     case_study_2.country_code_tags.add('Europe', 'DE')
     case_study_2.save()
 
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
-    }
+    mocked_export_plan = ExportPlanParser(
+        {
+            'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
+            'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
+        }
+    )
 
     request = rf.get('/')
     request.user = user
@@ -264,7 +272,7 @@ def test_case_study_static_block_annotate_with_case_study_with_tags_and_personal
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
         block = core_blocks.CaseStudyStaticBlock()
 
-        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = {'request': request, 'export_plan': request.user.export_plan.data}
         context = block._annotate_with_case_study(context)
         assert 'case_study' in context
         assert 'case_study' in block.get_context(value=None, parent_context=context)
@@ -284,17 +292,19 @@ def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(r
     case_study_2.country_code_tags.add('Europe', 'ES')
     case_study_2.save()
 
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Europe', 'country_name': 'Spain', 'country_iso2_code': 'ES'}],
-    }
+    mocked_export_plan = ExportPlanParser(
+        {
+            'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
+            'export_countries': [{'region': 'Europe', 'country_name': 'Spain', 'country_iso2_code': 'ES'}],
+        }
+    )
 
     request = rf.get('/')
     request.user = user
     request.user.export_plan = mock.MagicMock()
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
         block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = {'request': request, 'export_plan': request.user.export_plan.data}
         context = block._annotate_with_case_study(context)
         assert 'case_study' in context
         assert context['case_study'] == case_study_2
