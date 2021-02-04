@@ -18,6 +18,7 @@ from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
 from core.constants import (
     ARTICLE_TYPES,
     RICHTEXT_FEATURES__REDUCED,
+    RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.helpers import build_social_links
@@ -930,4 +931,25 @@ class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
     )
     cta_box_button_text = models.CharField(
         max_length=255,
+    )
+
+
+class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
+    """General-purpose guidance page type, useful for Terms and Conditions,
+    Privacy Polcies and other legal or informational content
+
+    This model may need to be moved to core once V1 and V2 CSS is fully merged
+    """
+
+    template = 'domestic/content/guidance_page.html'
+
+    body = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(
+                    features=RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
+                ),
+            ),
+        ]
     )

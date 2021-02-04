@@ -369,3 +369,21 @@ class TopicLandingPagePanels:
 
 class MarketsTopicLandingPagePanels(TopicLandingPagePanels):
     pass
+
+
+class GuidancePagePanels:
+    content_panels = [
+        StreamFieldPanel('body'),
+    ]
+    settings_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('title'),
+            ],
+            help_text=(
+                'IMPORTANT: this page title is only used in the HTML <title>. '
+                'You must add a H1 in rich text for the page'
+            ),
+        ),
+        FieldPanel('slug'),
+    ]

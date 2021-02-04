@@ -161,7 +161,7 @@ def test_case_study_static_block_annotate_with_no_personalisation_selection(rf, 
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_only_country_selection(rf, user):
+def test_case_study_static_block_annotate_with_only_country_selection(mock_trading_blocs, rf, user):
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')
     case_study_1.country_code_tags.add('Europe', 'ES')
@@ -197,7 +197,7 @@ def test_case_study_static_block_annotate_with_only_country_selection(rf, user):
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_only_product_selection(rf, user):
+def test_case_study_static_block_annotate_with_only_product_selection(mock_trading_blocs, rf, user):
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')
     case_study_1.country_code_tags.add('Europe', 'ES')
@@ -225,7 +225,7 @@ def test_case_study_static_block_annotate_with_only_product_selection(rf, user):
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_case_study_with_no_tags(rf, user):
+def test_case_study_static_block_annotate_with_case_study_with_no_tags(mock_trading_blocs, rf, user):
     CaseStudyFactory()
     CaseStudyFactory()
 
@@ -248,7 +248,9 @@ def test_case_study_static_block_annotate_with_case_study_with_no_tags(rf, user)
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_case_study_with_tags_and_personalised_selection(rf, user):
+def test_case_study_static_block_annotate_with_case_study_with_tags_and_personalised_selection(
+    mock_trading_blocs, rf, user
+):
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')
     case_study_1.country_code_tags.add('Europe', 'ES')
@@ -308,6 +310,36 @@ def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(r
         context = block._annotate_with_case_study(context)
         assert 'case_study' in context
         assert context['case_study'] == case_study_2
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_annotate_with_trading_blocs_tags(mock_trading_blocs, rf, user):
+    case_study_1 = CaseStudyFactory()
+    case_study_1.hs_code_tags.add('123456', '1234')
+    case_study_1.country_code_tags.add('South Asia Free Trade Area (SAFTA)', 'ES')
+    case_study_1.save()
+
+    # Another case study with same tags as latest modified
+    case_study_2 = CaseStudyFactory()
+    case_study_2.hs_code_tags.add('123456', '1234')
+    case_study_2.country_code_tags.add('Europe', 'ES')
+    case_study_2.save()
+
+    mocked_export_plan = {
+        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
+        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
+    }
+
+    request = rf.get('/')
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        block = core_blocks.CaseStudyStaticBlock()
+        context = {'request': request, 'export_plan': request.user.export_plan}
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' in context
+        # India belongs to South Asia Free Trade Area (SAFTA) trading blocs
+        assert context['case_study'] == case_study_1
 
 
 @pytest.mark.django_db
