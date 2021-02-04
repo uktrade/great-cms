@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1177 - Getting paid - Payment methods element
 - GP2-1240 - Mark sections as complete
 - GP2-1425 - Cost and pricing - Estimate element
 - GP2-1435 - Split data retrieval on 'Where to export' data table
