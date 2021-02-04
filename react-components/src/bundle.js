@@ -34,6 +34,8 @@ import {
   createObjectivesList,
 } from '@src/views/sections/Objectives'
 import { createCostsAndPricing } from '@src/views/sections/CostsAndPricing'
+import { travelPlanSnapshot } from '@src/views/sections/TravelPlan/TravelPlan'
+
 import {
   createDashboard,
   createDisabledButton,
@@ -74,6 +76,7 @@ export default {
   fundingCreditTotalExportCost,
   fundingCreditHowMuchFunding,
   fundingCreditFundingCreditOptions,
+  travelPlanSnapshot,
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,
