@@ -17,6 +17,7 @@
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 
 ### Fixed bugs
+- GP2-1361 - Compare markets - align cookies to user.
 - GP2-1397 - Render HTML definitions in product classifier.
 
 
