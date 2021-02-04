@@ -6,17 +6,11 @@
 {% block head_title %}{{ page.title }}{% endblock %}
 
 {% block content %}
-  {% block breadcrumbs %}
-  <div class="container">
-    {% with current_page=page.tree_based_breadcrumbs|last %}
-      {% breadcrumbs current_page.title %}
-        <a href="/">great.gov.uk</a>
-        {% for crumb in page.tree_based_breadcrumbs|slice:':-1' %}
-          <a href="{{ crumb.url }}">{{ crumb.title }}</a>
-        {% endfor %}
-      {% endbreadcrumbs %}
-    {% endwith %}
-  </div>
-  {% endblock %}
+
+    <div class="container">
+    {% block breadcrumbs %}
+      {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
+    </div>
   {% include 'domestic/includes/cms_content.html' %}
 {% endblock %}
