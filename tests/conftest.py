@@ -441,3 +441,53 @@ def patch_get_suggested_markets():
         'directory_api_client.api_client.dataservices.suggested_countries_by_hs_code',
         return_value=create_response(status_code=200, json_body=body),
     ).start()
+
+
+@pytest.fixture
+def mock_trading_blocs():
+    body = [
+        {
+            'membership_code': 'CTTB0124',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00020',
+            'trading_bloc_name': 'Regional Comprehensive Economic Partnership (RCEP)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0127',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00023',
+            'trading_bloc_name': 'South Asian Association for Regional Cooperation (SAARC)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0126',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00022',
+            'trading_bloc_name': 'South Asia Free Trade Area (SAFTA)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00021',
+            'trading_bloc_name': 'Regional Economic Comprehensive Economic Partnership (RCEP)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+    ]
+    yield mock.patch(
+        'directory_api_client.api_client.dataservices.trading_blocs_by_country',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()

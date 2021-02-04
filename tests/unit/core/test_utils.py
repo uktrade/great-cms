@@ -204,7 +204,7 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
             '123456',
             'IN',
             'Asia',
-            11,
+            15,
             [
                 {
                     'hs_code_tags__name': '123456',
@@ -232,13 +232,17 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
                 {'hs_code_tags__name': '12'},
                 {'country_code_tags__name': 'IN'},
                 {'country_code_tags__name': 'Asia'},
+                {'country_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'country_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'country_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'country_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
             ],
         ),
         (
             '1234',
             'IN',
             'Asia',
-            8,
+            12,
             [
                 {
                     'hs_code_tags__name': '1234',
@@ -257,13 +261,17 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
                 {'hs_code_tags__name': '12'},
                 {'country_code_tags__name': 'IN'},
                 {'country_code_tags__name': 'Asia'},
+                {'country_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'country_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'country_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'country_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
             ],
         ),
         (
             '12',
             'IN',
             'Asia',
-            5,
+            9,
             [
                 {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
                 {
@@ -273,13 +281,17 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
                 {'hs_code_tags__name': '12'},
                 {'country_code_tags__name': 'IN'},
                 {'country_code_tags__name': 'Asia'},
+                {'country_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'country_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'country_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'country_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
             ],
         ),
         (
             '123456',
             'IN',
             None,
-            7,
+            11,
             [
                 {
                     'hs_code_tags__name': '123456',
@@ -294,13 +306,17 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
                 {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
                 {'hs_code_tags__name': '12'},
                 {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'country_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'country_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'country_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
             ],
         ),
         (
             '1234',
             'IN',
             None,
-            5,
+            9,
             [
                 {
                     'hs_code_tags__name': '1234',
@@ -310,17 +326,25 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
                 {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
                 {'hs_code_tags__name': '12'},
                 {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'country_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'country_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'country_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
             ],
         ),
         (
             '12',
             'IN',
             None,
-            3,
+            7,
             [
                 {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
                 {'hs_code_tags__name': '12'},
                 {'country_code_tags__name': 'IN'},
+                {'country_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'country_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'country_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'country_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
             ],
         ),
         (
@@ -348,7 +372,9 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
         (None, None, None, 0, []),
     ],
 )
-def test_personalised_filter_condition(hs_code, country, region, expected_length, expected_filter_dict):
+def test_personalised_filter_condition(
+    mock_trading_blocs, hs_code, country, region, expected_length, expected_filter_dict
+):
     filter_cond = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
 
     assert filter_cond == expected_filter_dict
