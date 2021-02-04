@@ -429,11 +429,10 @@ it('Select market from selection area', async () => {
   const marketSelectionBar = container.querySelector(
     '#comparison-market-selector'
   )
-  console.log('******** ', marketSelectionBar.querySelectorAll('button'))
   expect(marketSelectionBar.querySelector('button').textContent).toMatch(
     'Germany'
   )
-  
+
   // Select a country
   act(() => {
     Simulate.click(container.querySelector('button.add-market'))
