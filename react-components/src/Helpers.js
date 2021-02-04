@@ -135,12 +135,12 @@ const getValue = (list, selected) => {
   return selected && hasLabel ? hasLabel.value : ''
 }
 
-const getLabels = (list, items) => {
+const getLabels = (list, items = []) => {
   const selected = list.filter((x) => items.includes(x.value))
   return Object.keys(selected).map((y) => selected[y].label)
 }
 
-const getValues = (list, items) => {
+const getValues = (list, items = []) => {
   const selected = list.filter((x) => items.includes(x.label))
   return Object.keys(selected).map((y) => selected[y].value)
 }
