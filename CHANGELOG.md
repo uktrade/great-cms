@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1177 - Getting paid - Payment methods element
 - GP2-1469 - Add table block to GuidancePage.body
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
 - GP2-1240 - Mark sections as complete
@@ -108,6 +109,7 @@
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
+- NOTICKET - Fix getting paid bug
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
 
