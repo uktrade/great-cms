@@ -98,8 +98,9 @@ describe('FormElements', () => {
       const { getByRole, getByLabelText, container } = setup({ ...props })
       expect(getByRole('listbox'))
       expect(getByLabelText('Your business performance'))
-      expect(container.querySelectorAll('input')[1])
-      expect(container.querySelectorAll('input')[1].id).toEqual('performance')
+      expect(container.querySelectorAll('li')[1].textContent).toEqual(
+        'Below £83,000 (Below VAT registered)'
+      )
     })
   })
 
