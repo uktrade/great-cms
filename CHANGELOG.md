@@ -5,6 +5,7 @@
 ### Implemented enhancements
 
 - GP2-1177 - Getting paid - Payment methods element
+- GP2-1469 - Add table block to GuidancePage.body
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
 - GP2-1240 - Mark sections as complete
 - GP2-1344 - added trading bloc logic to search case study
