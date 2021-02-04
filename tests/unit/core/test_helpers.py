@@ -546,3 +546,20 @@ def test_build_social_links(rf):
     }
 
     assert actual == expected
+
+
+def test_get_trading_blocs_by_country(mock_trading_blocs):
+    trading_blocs = helpers.get_trading_blocs_by_country('IN')
+    assert trading_blocs[0].get('country_territory_name') == 'India'
+    assert len(trading_blocs) == 4
+
+
+def test_get_trading_blocs_name(mock_trading_blocs):
+    trading_blocs = helpers.get_trading_blocs_name('IN')
+    assert trading_blocs == [
+        'Regional Comprehensive Economic Partnership (RCEP)',
+        'South Asian Association for Regional Cooperation (SAARC)',
+        'South Asia Free Trade Area (SAFTA)',
+        'Regional Economic Comprehensive Economic Partnership (RCEP)',
+    ]
+    assert len(trading_blocs) == 4

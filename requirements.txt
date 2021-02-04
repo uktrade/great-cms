@@ -41,7 +41,7 @@ cssselect==1.1.0
     # via pyquery
 dateparser==0.7.2
     # via -r requirements.in
-directory-api-client==22.12.0
+directory-api-client==22.13.0
     # via -r requirements.in
 directory-client-core==6.3.0
     # via
