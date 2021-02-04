@@ -45,3 +45,18 @@ ARTICLE_TYPES = [
 ]
 
 VIDEO_TRANSCRIPT_HELP_TEXT = 'If the video is present, a transcript must be provided.'
+
+# Options for https://docs.wagtail.io/en/v2.8.1/reference/contrib/table_block.html
+TABLEBLOCK_OPTIONS = {
+    'minSpareRows': 0,
+    'startRows': 3,
+    'startCols': 2,
+    'colHeaders': True,
+    'rowHeaders': False,
+    'contextMenu': True,
+    'editor': 'text',
+    'stretchH': 'all',
+    'height': 108,  #  optimised for 3 rows by default (ie, 1 row == 36px)
+    'renderer': 'text',
+    'autoColumnSize': False,
+}
