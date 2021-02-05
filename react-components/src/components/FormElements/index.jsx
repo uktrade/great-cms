@@ -88,6 +88,7 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
                     .label
                 : ''
             }
+            lesson={item.lesson}
           />
         )
       })}

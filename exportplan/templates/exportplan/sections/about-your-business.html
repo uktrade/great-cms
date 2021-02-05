@@ -1,5 +1,6 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
+{% load to_json %}
 
 {% block banner_image %}
   {% static 'images/ep-placeholder.svg' %}
@@ -17,14 +18,7 @@ You know your business and product inside out. Your bank manager or a potential 
 {% block user_input %}
 <section class="container">
   <div class="grid">
-    <div class="c-1-4-l">
-      <div class="lesson__back">
-        {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
-        <div class="lesson__back lesson__back--bottom">
-          {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
-        </div>
-      </div>
-    </div>
+    <div class="c-1-4-l">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
       <form class="" action="" method="post" id="about-your-business-form">
         {% csrf_token %}
@@ -55,6 +49,7 @@ You know your business and product inside out. Your bank manager or a potential 
           example:
             'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.',
           placeholder: '',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
         },
         {
           name: 'location',

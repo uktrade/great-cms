@@ -49,6 +49,7 @@ import {
 } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
 import { setConfig } from '@src/config'
+import { formatLessonLearned } from '@src/Helpers'
 import '@babel/polyfill'
 
 export default {
@@ -89,4 +90,5 @@ export default {
   Tour,
   sectionSidebar,
   sectionComplete,
+  formatLessonLearned,
 }
