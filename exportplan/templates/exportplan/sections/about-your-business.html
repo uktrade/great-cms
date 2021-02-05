@@ -97,40 +97,7 @@ You know your business and product inside out. Your bank manager or a potential 
           example: '',
           description: 'What is the annual turnover of your business?',
           currency: '',
-          choices: [
-            {
-              value: '<83k',
-              label: 'Below £83,000 (Below VAT registered)',
-            },
-            {
-              value: '83k-499.999k',
-              label: '£83,000 up to £499,999',
-            },
-            {
-              value: '50k-1999.999k',
-              label: '£500,000 up to £1,999,999',
-            },
-            {
-              value: '2m-4999.999k',
-              label: '£2 million up to £4,999,999',
-            },
-            {
-              value: '5m-9999.999k',
-              label: '£5 million up to £9,999,999',
-            },
-            {
-              value: '10m-49999.999k',
-              label: '£10 million up to £49,999,999',
-            },
-            {
-              value: '50m+',
-              label: '£50 million or over',
-            },
-            {
-              value: '',
-              label: "Don't know",
-            },
-          ],
+          choices: {{ turnover_choices }},
         },
       ]
     })

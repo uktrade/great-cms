@@ -258,6 +258,11 @@ class ExportPlanAboutYourBusinessView(
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'About your business'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['turnover_choices'] = choices_to_key_value(choices.TURNOVER_CHOICES)
+        return context
+
 
 class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     success_url = reverse_lazy('exportplan:about-your-business')
