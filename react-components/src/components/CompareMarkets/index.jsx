@@ -5,7 +5,7 @@ import Services from '@src/Services'
 import { getProducts } from '@src/reducers'
 import { connect, Provider } from 'react-redux'
 import { useCookies } from 'react-cookie'
-import { analytics } from '../../Helpers'
+import { analytics, get } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
@@ -14,16 +14,18 @@ const maxSelectedLength = 3
 
 function CompareMarkets(props) {
   const { selectedProduct, tabs, ctaContainer } = props
+
+  const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
-  const [cookies, setCookie] = useCookies(['comparisonMarkets'])
+  const [cookies, setCookie] = useCookies([cookieName])
 
   const openModal = () => {
     setProductModalIsOpen(!selectedProduct)
     setMarketModalIsOpen(!!selectedProduct)
   }
 
-  const comparisonMarkets = cookies.comparisonMarkets || {}
+  const comparisonMarkets = cookies[cookieName] || {}
   const selectedLength = Object.keys(comparisonMarkets).length || 0
 
   const pushAnalytics = (markets) => {
@@ -37,17 +39,17 @@ function CompareMarkets(props) {
   }
 
   const addCountry = (country) => {
-    const newComparisonMarkets = cookies.comparisonMarkets || {}
+    const newComparisonMarkets = cookies[cookieName] || {}
     newComparisonMarkets[country.country_iso2_code] = country
-    setCookie('comparisonMarkets', newComparisonMarkets)
+    setCookie(cookieName, newComparisonMarkets)
     pushAnalytics(newComparisonMarkets)
   }
 
   const removeMarket = (evt) => {
     const id = evt.target.closest('button').getAttribute('data-id')
-    const tmpMarkets = cookies.comparisonMarkets || {}
+    const tmpMarkets = cookies[cookieName] || {}
     delete tmpMarkets[id]
-    setCookie('comparisonMarkets', tmpMarkets)
+    setCookie(cookieName, tmpMarkets)
     pushAnalytics(tmpMarkets)
   }
 
@@ -91,8 +93,7 @@ function CompareMarkets(props) {
     <span>
       {tabsContainer}
       {(!selectedProduct || !selectedLength) &&
-        ReactDOM.createPortal(triggerButton, ctaContainer)
-      }
+        ReactDOM.createPortal(triggerButton, ctaContainer)}
 
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
@@ -124,7 +125,7 @@ CompareMarkets.propTypes = {
     commodity_code: PropTypes.string,
   }),
   tabs: PropTypes.string.isRequired,
-  ctaContainer: PropTypes.node.isRequired,
+  ctaContainer: PropTypes.instanceOf(Element).isRequired,
 }
 
 CompareMarkets.defaultProps = {

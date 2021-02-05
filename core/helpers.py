@@ -424,3 +424,14 @@ def build_social_links(request, title):
         'linkedin': build_linkedin_link(**kwargs),
         'email': build_email_link(**kwargs),
     }
+
+
+def get_trading_blocs_by_country(iso2):
+    response = api_client.dataservices.trading_blocs_by_country(iso2=iso2)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_trading_blocs_name(iso2):
+    trading_blocs = get_trading_blocs_by_country(iso2)
+    return [item['trading_bloc_name'] for item in trading_blocs if item]

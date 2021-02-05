@@ -70,7 +70,11 @@
           passwordResetUrl: '{{ javascript_components.password_reset_url }}',
           removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
-          userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+          user: {
+            id: '{{ request.user.id }}',
+            name: '{{ request.user.get_username }}',
+            isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+          },
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
           refreshOnMarketChange: {% if no_refresh_on_market_change %}false{%else%}true{% endif %},
           urlCostsAndPricing: '{% url "exportplan:costs-and-pricing"%}'

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
-import { getLabel, getValue } from '@src/Helpers'
+import { getLabel, getLabels, getValue, getValues } from '@src/Helpers'
 import Services from '@src/Services'
 
 export const GettingPaid = memo(({ formFields, formData, field }) => {
@@ -54,10 +54,9 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                   : Object.keys(select.options).flatMap(
                       (x) => select.options[x]
                     )
-                const selected = getLabel(
-                  options,
-                  state[key] ? state[key][select.id] : ''
-                )
+                const selected = select.multiSelect
+                  ? getLabels(options, state[key] ? state[key][select.id] : [])
+                  : getLabel(options, state[key] ? state[key][select.id] : '')
 
                 return (
                   <div className="user-form-group" key={select.id}>
@@ -67,15 +66,28 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
                       name={select.name}
                       options={select.options}
                       selected={selected}
-                      update={(data) =>
-                        onChange(data, { notes: state[textarea.id] }, key)
-                      }
+                      update={(data) => {
+                        onChange(
+                          {
+                            [select.id]: select.multiSelect
+                              ? getValues(select.options, data[select.id])
+                              : data[select.id],
+                          },
+                          { notes: state[key] ? state[key].notes : '' },
+                          key
+                        )
+                      }}
+                      multiSelect={select.multiSelect}
                     />
                     <TextArea
                       onChange={(data) =>
                         onChange(
                           data,
-                          { [select.id]: getValue(options, selected) },
+                          {
+                            [select.id]: select.multiSelect
+                              ? getValues(options, selected)
+                              : getValue(options, selected),
+                          },
                           key,
                           textarea.id
                         )
@@ -122,7 +134,12 @@ GettingPaid.propTypes = {
   formData: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
+      PropTypes.objectOf(
+        PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.arrayOf(PropTypes.string),
+        ])
+      ),
     ])
   ).isRequired,
   field: PropTypes.string.isRequired,

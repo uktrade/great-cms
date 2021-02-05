@@ -2,8 +2,10 @@ from unittest import mock
 
 import pytest
 from bs4 import BeautifulSoup
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.template import Context, Template
+from django.test import override_settings
 
 from domestic.templatetags.component_tags import (
     get_meta_description,
@@ -47,6 +49,67 @@ def test_breadcrumbs_simple(rf):
         '<div class="container">\n'
         '<nav aria-label="Breadcrumb" class="breadcrumbs">\n'
         '<ol>\n'
+        '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
+        '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
+        '<li aria-current="page"><span>Examples</span></li>'
+        '</ol>\n'
+        '</nav>\n</div>'
+    )
+
+
+def test_breadcrumbs_simple__root_url_override(rf):
+    #  Tests our ability to override the URL for the hard-coded root breadcrumb
+    template = Template(
+        '{% load breadcrumbs from component_tags %}'
+        '{% block breadcrumbs %}'
+        '<div class="container">'
+        '{% breadcrumbs "Examples" %}'
+        '<a href="{{BREADCRUMBS_ROOT_URL}}">great.gov.uk</a>'
+        '<a href="/path/to/">EXAMPLE LINK ONE</a>'
+        '<a href="/path/to/something">EXAMPLE LINK TWO</a>'
+        '{% endbreadcrumbs %}'
+        '</div>'
+        '{% endblock %}'
+    )
+
+    # Check the default value
+    assert settings.BREADCRUMBS_ROOT_URL == 'https://great.gov.uk/'
+    context = Context(
+        {
+            'request': rf.get('/'),
+            'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,  # set via context processor, normally
+        }
+    )
+    html = template.render(context)
+
+    assert html == (
+        '<div class="container">\n'
+        '<nav aria-label="Breadcrumb" class="breadcrumbs">\n'
+        '<ol>\n'
+        '<li><a href="https://great.gov.uk/">great.gov.uk</a></li>'
+        '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
+        '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
+        '<li aria-current="page"><span>Examples</span></li>'
+        '</ol>\n'
+        '</nav>\n</div>'
+    )
+
+    # check a different setting gets a different result
+    with override_settings(BREADCRUMBS_ROOT_URL='http://test.example.com/'):
+        assert settings.BREADCRUMBS_ROOT_URL == 'http://test.example.com/'
+        context = Context(
+            {
+                'request': rf.get('/'),
+                'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,  # set via context processor, normally
+            }
+        )
+        html = template.render(context)
+
+    assert html == (
+        '<div class="container">\n'
+        '<nav aria-label="Breadcrumb" class="breadcrumbs">\n'
+        '<ol>\n'
+        '<li><a href="http://test.example.com/">great.gov.uk</a></li>'
         '<li><a href="/path/to/">EXAMPLE LINK ONE</a></li>'
         '<li><a href="/path/to/something">EXAMPLE LINK TWO</a></li>'
         '<li aria-current="page"><span>Examples</span></li>'

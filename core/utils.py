@@ -123,11 +123,17 @@ def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, regi
     @param region: region of the selected country ( for example 'Asia')
     @return: filter dict
     """
+    from core.helpers import get_trading_blocs_name
 
     filter_args, unique_hs_codes = [], []
-    # Removing null item then added None to filter against product_code crieatria
+    # Removing null item then added None to filter against product_code criteria
     region_list = [i for i in [country, region] if i] + [None]
     is_region = any(region_list)
+
+    if country:
+        # fetch trading block for the country
+        trading_blocs = get_trading_blocs_name(country)
+        is_trading_blocs = any(trading_blocs)
 
     if hs_code:
         hs_codes = [hs_code[i] for i in [slice(6), slice(4), slice(2)]]
@@ -140,8 +146,12 @@ def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, regi
         ]
     elif unique_hs_codes:
         filter_args = [create_filter_dict(product_code=code, target_area=None) for code in unique_hs_codes]
+
     if is_region:
         filter_args = filter_args + [create_filter_dict(product_code=None, target_area=area) for area in region_list]
+
+    if country and is_trading_blocs:
+        filter_args = filter_args + [create_filter_dict(product_code=None, target_area=area) for area in trading_blocs]
 
     return [i for i in filter_args if i]
 
