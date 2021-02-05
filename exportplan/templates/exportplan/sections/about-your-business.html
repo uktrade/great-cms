@@ -69,35 +69,25 @@ You know your business and product inside out. Your bank manager or a potential 
           label: 'How you make your products',
           field_type: 'Textarea',
           placeholder: '',
-          tooltip: '',
           example:
             'We use vacuum distillation instead of traditional pot distillation. This  preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.',
-          description: '',
-          currency: '',
-          choices: '',
         },
         {
           name: 'packaging',
           label: 'Your product packaging',
           field_type: 'Textarea',
           placeholder: '',
-          tooltip: '',
           example:
             'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>Our distribution and delivery boxes are 100% recycled cardboard.Each features our distinctive Dove label.',
-          description: '',
-          currency: '',
-          choices: '',
         },
         {
           name: 'performance',
           label: 'Your business performance',
           field_type: 'Select',
           placeholder: 'Select one',
-          tooltip: '',
-          example: '',
           description: 'What is the annual turnover of your business?',
           currency: '',
-          choices: {{ turnover_choices }},
+          choices: {{ turnover_choices|safe }},
         },
       ]
     })
