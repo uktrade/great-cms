@@ -60,6 +60,20 @@ Create a travel plan that will help you prepare everything you need for your upc
     </div>
   </div>
 </section>
+
+<section class="container m-b-l">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
+      <h2 class="h-m m-b-xs">Planned travel</h2>
+      <p>It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals.</p>
+      <p>Add all your upcoming trips and important information about them in the following tool.</p>
+      <div id="planned-travel"></div>
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</section>
+
 {% endblock %}
 
 {% block body_js %}
@@ -73,6 +87,17 @@ Create a travel plan that will help you prepare everything you need for your upc
       heading: "Something",
       description: "Something else"
     }
+  })
+  element = document.getElementById('planned-travel');
+  magna.plannedTravel({
+    element: element,
+    formData: {{ funding_credit_options|to_json|safe }},
+    companyexportplan: {{ export_plan.pk }},
+    tooltip: {
+      heading: "Something",
+      description: "Something else"
+    },
+    lesson: {},
   })
 </script>
 {% endblock %}
