@@ -45,7 +45,94 @@ You know your business and product inside out. Your bank manager or a potential 
       element: element,
       field: 'about_your_business',
       formData: {{ form_initial|safe }},
-      formFields: {{ form_fields|safe }},
+      formFields: [
+        {
+          name: 'story',
+          label: 'How you started',
+          field_type: 'Textarea',
+          tooltip:
+            'It’s best to stick to the facts and keep things simple for each bit of text you add to your plan.',
+          example:
+            'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.',
+          placeholder: '',
+        },
+        {
+          name: 'location',
+          label: "Where you're based",
+          field_type: 'Textarea',
+          placeholder: '',
+          example:
+            'By 2015 the garage was too small for the volumes we produced so we moved to larger premises in rented, shared business space in Shrewsbury.',
+        },
+        {
+          name: 'processes',
+          label: 'How you make your products',
+          field_type: 'Textarea',
+          placeholder: '',
+          tooltip: '',
+          example:
+            'We use vacuum distillation instead of traditional pot distillation. This  preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.',
+          description: '',
+          currency: '',
+          choices: '',
+        },
+        {
+          name: 'packaging',
+          label: 'Your product packaging',
+          field_type: 'Textarea',
+          placeholder: '',
+          tooltip: '',
+          example:
+            'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>Our distribution and delivery boxes are 100% recycled cardboard.Each features our distinctive Dove label.',
+          description: '',
+          currency: '',
+          choices: '',
+        },
+        {
+          name: 'performance',
+          label: 'Your business performance',
+          field_type: 'Select',
+          placeholder: 'Select one',
+          tooltip: '',
+          example: '',
+          description: 'What is the annual turnover of your business?',
+          currency: '',
+          choices: [
+            {
+              value: '<83k',
+              label: 'Below £83,000 (Below VAT registered)',
+            },
+            {
+              value: '83k-499.999k',
+              label: '£83,000 up to £499,999',
+            },
+            {
+              value: '50k-1999.999k',
+              label: '£500,000 up to £1,999,999',
+            },
+            {
+              value: '2m-4999.999k',
+              label: '£2 million up to £4,999,999',
+            },
+            {
+              value: '5m-9999.999k',
+              label: '£5 million up to £9,999,999',
+            },
+            {
+              value: '10m-49999.999k',
+              label: '£10 million up to £49,999,999',
+            },
+            {
+              value: '50m+',
+              label: '£50 million or over',
+            },
+            {
+              value: '',
+              label: "Don't know",
+            },
+          ],
+        },
+      ]
     })
   </script>
 {% endblock %}
