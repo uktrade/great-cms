@@ -80,7 +80,7 @@ def test_export_plan_builder_landing_page(
         'title': 'About your business',
         'url': '/export-plan/section/about-your-business/',
         'disabled': False,
-        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting', 'move-accidental-exporting-strategic-exporting'],
         'is_complete': True,
     }
 
@@ -218,7 +218,7 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export
         'title': 'About your business',
         'url': '/export-plan/section/about-your-business/',
         'disabled': False,
-        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting', 'move-accidental-exporting-strategic-exporting'],
         'is_complete': True,
     }
     assert response.context_data['export_plan'] == export_plan_data
@@ -388,7 +388,7 @@ def test_service_page_context(client, user):
         'title': 'About your business',
         'url': '/export-plan/section/about-your-business/',
         'disabled': False,
-        'lessons': ['move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting', 'move-accidental-exporting-strategic-exporting'],
         'is_complete': True,
     }
 
