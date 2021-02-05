@@ -1,0 +1,19 @@
+{% load static %}
+{% load wagtailcore_tags %}
+{% load url_map %}
+
+<header class="shared-header">
+    <div class="container">
+        <a class="great-header-logo" data-ga-value="logo" href="https://www.great.gov.uk" id="great-header-logo">
+            <img alt="Exporting is Great" src="{% static 'images/eig-logo-stacked.svg' %}" width="150">
+        </a>
+        <p>Shared header</p>
+
+        {% path_match "^\/advice\/" as in_bau %}
+        {% if in_bau %}
+        <p>Logged out(BAU)</p>
+        {% else %}
+        <p>Logged in(Magna)</p>
+        {% endif %}
+    </div>
+</header>
