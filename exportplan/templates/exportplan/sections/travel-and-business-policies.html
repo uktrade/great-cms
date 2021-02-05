@@ -91,7 +91,7 @@ Create a travel plan that will help you prepare everything you need for your upc
   element = document.getElementById('planned-travel');
   magna.plannedTravel({
     element: element,
-    formData: {{ funding_credit_options|to_json|safe }},
+    formData: [{"value": "Something", "pk": 17}, {"value": "Something else", "pk": 16}],
     companyexportplan: {{ export_plan.pk }},
     tooltip: {
       heading: "Something",

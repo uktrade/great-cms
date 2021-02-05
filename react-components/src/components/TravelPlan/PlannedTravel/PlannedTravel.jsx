@@ -41,7 +41,7 @@ export const PlannedTravel = ({ formData, companyexportplan }) => {
   const onChange = (id, value) => {
     const field = trips.find((x) => x.pk === id)
     field.companyexportplan = companyexportplan
-    const updatedTrips = funding.map((x) =>
+    const updatedTrips = trips.map((x) =>
       x.pk === id ? { ...x, ...value } : x
     )
     setTrips(updatedTrips)

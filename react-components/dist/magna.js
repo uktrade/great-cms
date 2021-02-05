@@ -75168,7 +75168,7 @@ var PlannedTravel = function PlannedTravel(_ref) {
       return x.pk === id;
     });
     field.companyexportplan = companyexportplan;
-    var updatedTrips = funding.map(function (x) {
+    var updatedTrips = trips.map(function (x) {
       return x.pk === id ? _objectSpread(_objectSpread({}, x), value) : x;
     });
     setTrips(updatedTrips);
@@ -75236,7 +75236,9 @@ var Trip = function Trip(_ref) {
     hideLabel: true,
     value: value,
     onChange: function onChange(e) {
-      return _onChange(id, e);
+      return _onChange(id, {
+        value: e[id]
+      });
     },
     formGroupClassName: "m-b-0"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {

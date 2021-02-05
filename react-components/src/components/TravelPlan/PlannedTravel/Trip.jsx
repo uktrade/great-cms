@@ -14,7 +14,7 @@ export const Trip = ({ id, value, onChange, deleteTrip }) => {
             label={'label'}
             hideLabel
             value={value}
-            onChange={(e) => onChange(id, e)}
+            onChange={(e) => onChange(id, { value: e[id] })}
             formGroupClassName="m-b-0"
           />
         </td>
