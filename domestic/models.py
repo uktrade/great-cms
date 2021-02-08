@@ -403,7 +403,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     section_one_body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
-        verbose_name='3 unique selling points markdown',
+        verbose_name='3 unique selling points',
         help_text='Use H2s for the 3 subheadings',
     )
     section_one_image = models.ForeignKey(
