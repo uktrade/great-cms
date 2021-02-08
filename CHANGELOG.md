@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1190 - Step 1 of 1 in removing wagtail-personalisation: unplug it from live code
 - GP2-1484 - Add override option for root link in breadcrumbs for ex-V1 pages
 - GP2-1177 - Getting paid - Payment methods element
 - GP2-1469 - Add table block to GuidancePage.body

@@ -13,43 +13,13 @@ from core.templatetags.content_tags import (
     is_placeholder_page,
 )
 from core.templatetags.object_tags import get_item
-from core.templatetags.personalised_blocks import render_video_block
 from core.templatetags.progress_bar import progress_bar
 from core.templatetags.url_map import path_match
 from core.templatetags.video_tags import render_video
 from tests.unit.core import factories
 
 
-def test_render_personalised_video_block_tag__with_thumbnail():
-    mock_thumbnail = mock.Mock(name='thumbnail')
-    mock_thumbnail.url = 'https://example.com/thumb.png'
-    video_mock = mock.Mock(
-        name='video_mock',
-        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
-        thumbnail=mock_thumbnail,
-    )
-    block = dict(width=20, height=20, video=video_mock)
-    html = render_video_block(block)
-
-    assert '<video poster="https://example.com/thumb.png" width="20" height="20" controls>' in html
-    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
-    assert 'Your browser does not support the video tag.' in html
-
-
-def test_render_personalised_video_block_tag__without_thumbnail():
-    video_mock = mock.Mock(
-        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
-        thumbnail=None,
-    )
-    block = dict(width=20, height=20, video=video_mock)
-    html = render_video_block(block)
-
-    assert '<video width="20" height="20" controls>' in html
-    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
-    assert 'Your browser does not support the video tag.' in html
-
-
-def test_general_render_video_tag__with_thumbnail():
+def test_render_video_tag__with_thumbnail():
     mock_thumbnail = mock.Mock(name='thumbnail')
     mock_thumbnail.url = 'https://example.com/thumb.png'
 
@@ -67,7 +37,7 @@ def test_general_render_video_tag__with_thumbnail():
     assert 'Your browser does not support the video tag.' in html
 
 
-def test_general_render_video_tag__without_thumbnail():
+def test_render_video_tag__without_thumbnail():
     video_mock = mock.Mock(
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
