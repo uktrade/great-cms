@@ -29,7 +29,7 @@ export const Trips = ({ formData, onChange, deleteTrip, addTrip }) => {
         className="button button--large button--icon"
         onClick={addTrip}
       >
-        <i class="fas fa-plus-circle"></i>Add a trip
+        <i className="fas fa-plus-circle"></i>Add a trip
       </button>
     </>
   )

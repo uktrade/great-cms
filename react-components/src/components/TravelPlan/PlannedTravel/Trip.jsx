@@ -10,7 +10,7 @@ export const Trip = ({ id, value, onChange, deleteTrip, index }) => {
         <td>
           <p className="body-l m-v-xs m-b-s">Trip {index}</p>
           <TextArea
-            id={id}
+            id={id.toString()}
             type="text"
             label={'label'}
             hideLabel
