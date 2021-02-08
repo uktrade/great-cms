@@ -5,6 +5,8 @@
 ### Implemented enhancements
 - GP2-1208 - marketing approach
 - GP2-1208 - create a hook to make endpoint, debounce, save and error state resuable
+
+- GP2-1470 - Port PerformanceDashboardPage from V1
 - GP2-1449 - Product classifier responsive layout
 - GP2-1190 - Step 1 of 1 in removing wagtail-personalisation: unplug it from live code
 - GP2-1484 - Add override option for root link in breadcrumbs for ex-V1 pages
