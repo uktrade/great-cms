@@ -473,7 +473,7 @@ export default function ProductFinderModal(props) {
           className="back-button m-f-s m-t-m"
           onClick={backToSearch}
         >
-          <i className="fa fa-arrow-circle-left m-r-xs" />
+          <i className="fa fa-arrow-circle-left" />
           Search again
         </button>
         {searchResults && resultsDisplay(searchResults)}
@@ -491,18 +491,10 @@ export default function ProductFinderModal(props) {
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        className="modal max-modal p-v-s p-h-l"
+        className="modal centre-modal-content p-v-s p-h-l"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         shouldCloseOnOverlayClick={false}
-        style={{
-          content: {
-            maxWidth: '630px',
-            left: 'auto',
-            right: 'auto',
-            overflow: 'hidden',
-          },
-        }}
       >
         <form className="product-finder text-blue-deep-80">
           <div style={{ height: headerHeight }}>
