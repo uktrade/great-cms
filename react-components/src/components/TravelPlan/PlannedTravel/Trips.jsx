@@ -5,29 +5,33 @@ import { Trip } from './Trip'
 
 export const Trips = ({ formData, onChange, deleteTrip, addTrip }) => {
   return (
-    <div className="costs costs--funding bg-blue-deep-10 p-v-s">
-      <table className="m-b-0">
-        <tbody>
-          {formData.map(({ pk, value }) => (
-            <Trip
-              key={pk}
-              id={pk}
-              value={value}
-              onChange={onChange}
-              deleteTrip={deleteTrip}
-            />
-          ))}
-        </tbody>
-      </table>
+    <>
+      {formData.length !== 0 && (
+        <div className="costs costs--trips bg-blue-deep-10 p-v-s m-b-s">
+          <table className="m-v-0">
+            <tbody>
+              {formData.map(({ pk, value }, i) => (
+                <Trip
+                  index={i + 1}
+                  key={pk}
+                  id={pk}
+                  value={value}
+                  onChange={onChange}
+                  deleteTrip={deleteTrip}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       <button
         type="button"
-        className="button button--secondary button--icon button--small button--add"
+        className="button button--large button--icon"
         onClick={addTrip}
       >
-        <i className="fas fa-plus-circle" />
-        <span>Add a trip</span>
+        <i class="fas fa-plus-circle"></i>Add a trip
       </button>
-    </div>
+    </>
   )
 }
 

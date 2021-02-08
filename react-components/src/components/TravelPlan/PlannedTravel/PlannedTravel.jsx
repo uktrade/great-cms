@@ -1,10 +1,16 @@
 import React, { memo, useState } from 'react'
 // import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import { Trips } from './Trips'
 import { useDebounce } from '@src/components/hooks/useDebounce'
+import { Learning } from '@src/components/Learning/Learning'
+import { Trips } from './Trips'
 
-export const PlannedTravel = ({ formData, companyexportplan }) => {
+export const PlannedTravel = ({
+  formData,
+  companyexportplan,
+  lesson,
+  tooltip,
+}) => {
   const [trips, setTrips] = useState(formData)
 
   const addTrip = () => {
@@ -14,18 +20,13 @@ export const PlannedTravel = ({ formData, companyexportplan }) => {
 
     Services.createFundingCreditOption({ ...newTrip })
       .then((data) => setTrips([...trips, data]))
-      .then(() => {
-        const newElement = document.getElementById(`Trip ${trips.length + 1}`)
-          .parentNode
-        newElement.scrollIntoView()
-      })
       .catch(() => {})
   }
 
   const deleteTrip = (id) => {
     Services.deleteFundingCreditOption(id)
       .then(() => {
-        setTrips(funding.filter((x) => x.pk !== id))
+        setTrips(trips.filter((x) => x.pk !== id))
       })
       .catch(() => {})
   }
@@ -39,6 +40,7 @@ export const PlannedTravel = ({ formData, companyexportplan }) => {
   const debounceUpdate = useDebounce(update)
 
   const onChange = (id, value) => {
+    value = { value: value }
     const field = trips.find((x) => x.pk === id)
     field.companyexportplan = companyexportplan
     const updatedTrips = trips.map((x) =>
@@ -49,7 +51,16 @@ export const PlannedTravel = ({ formData, companyexportplan }) => {
   }
   return (
     <>
-      <h3 className="h-s">Planned travel</h3>
+      <h2 className="h-m m-b-xs">Planned travel</h2>
+      <p>
+        It is likely you will have to go on business trips to your chosen
+        markets to build relationships and seal those all important deals.
+      </p>
+      <p>
+        Add all your upcoming trips and important information about them in the
+        following tool.
+      </p>
+      <Learning tooltip={tooltip} lesson={lesson} />
       <Trips
         formData={trips}
         deleteTrip={deleteTrip}
