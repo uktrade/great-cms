@@ -65,10 +65,11 @@ Create a travel plan that will help you prepare everything you need for your upc
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <h2 class="h-m m-b-xs">Planned travel</h2>
-      <p>It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals.</p>
-      <p>Add all your upcoming trips and important information about them in the following tool.</p>
-      <div id="planned-travel"></div>
+      <div id="planned-travel">
+        <h2 class="h-m m-b-xs">Planned travel</h2>
+        <p>It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals.</p>
+        <p>Add all your upcoming trips and important information about them in the following tool.</p>
+      </div>
     </div>
     <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
   </div>
@@ -84,8 +85,8 @@ Create a travel plan that will help you prepare everything you need for your upc
     element: element,
     languages: {'cia_factbook_data': {'languages': {'language': [{'name': 'Japanese'}]}}},
     tooltip: {
-      heading: "Something",
-      description: "Something else"
+      title: "Something",
+      content: "Something else"
     }
   })
   element = document.getElementById('planned-travel');
@@ -94,10 +95,22 @@ Create a travel plan that will help you prepare everything you need for your upc
     formData: [{"value": "Something", "pk": 17}, {"value": "Something else", "pk": 16}],
     companyexportplan: {{ export_plan.pk }},
     tooltip: {
-      heading: "Something",
-      description: "Something else"
+      content: `
+      <p>Make sure you record how often you'll need to visit your chosen market and what actions or events you need to record to have a successful trip.</p>
+      <p>Things you need to think about to make sure you have a successful business trip:</p>
+      <ul>
+        <li>any visas you need</li>
+        <li>trip itinerary</li>
+        <li>flights and hotels</li>
+      </ul>
+      `
     },
-    lesson: {},
+    lesson: {
+      url: "/",
+      title: "Safety when operating abroad",
+      category: "TBD",
+      duration: "3 minutes",
+    }
   })
 </script>
 {% endblock %}

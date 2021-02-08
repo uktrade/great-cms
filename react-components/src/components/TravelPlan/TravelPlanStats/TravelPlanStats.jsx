@@ -25,8 +25,8 @@ export const TravelPlanStats = memo(({ languages, tooltip }) => {
               {tooltip && (
                 <Tooltip
                   id="languages-in-target-market-tooltip"
-                  title={tooltip.heading}
-                  content={`<p>${tooltip.description}</p>`}
+                  title={tooltip.title}
+                  content={`<p>${tooltip.content}</p>`}
                   className="m-t-xs"
                 />
               )}
