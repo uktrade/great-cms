@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 
 import { Tooltip } from '@components/tooltip/Tooltip'
-import ErrorList from '@src/components//ErrorList'
+import ErrorList from '@src/components/ErrorList'
 import { LessonLearn } from '@src/components/LessonLearn'
 
 export const FormGroup = memo(
