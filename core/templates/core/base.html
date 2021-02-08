@@ -19,6 +19,7 @@
 {% block head_js %}
   {{ block.super }}
     <script type="text/javascript" src="{% static 'magna.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
 
     <script type="text/javascript">
       var product = '{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}';
