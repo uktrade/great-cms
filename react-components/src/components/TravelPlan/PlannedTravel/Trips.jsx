@@ -35,23 +35,13 @@ export const Trips = ({ formData, onChange, deleteTrip, addTrip }) => {
   )
 }
 
-// Options.propTypes = {
+// Trips.propTypes = {
 //   formData: PropTypes.arrayOf(
 //     PropTypes.shape({
-//       amount: PropTypes.number,
-//       companyexportplan: PropTypes.number.isRequired,
-//       funding_option: PropTypes.string,
-//       pk: PropTypes.number.isRequired,
+//       pk: PropTypes.number,
 //     })
 //   ).isRequired,
-//   selectData: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     options: PropTypes.array.isRequired,
-//     placeholder: PropTypes.string.isRequired,
-//   }).isRequired,
-//   currency: PropTypes.string.isRequired,
 //   onChange: PropTypes.func.isRequired,
-//   deleteFunding: PropTypes.func.isRequired,
-//   addFunding: PropTypes.func.isRequired,
+//   deleteTrip: PropTypes.func.isRequired,
+//   addTrip: PropTypes.func.isRequired,
 // }

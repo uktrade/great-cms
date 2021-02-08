@@ -36,16 +36,10 @@ export const Trip = ({ id, value, onChange, deleteTrip, index }) => {
   )
 }
 
-// Option.propTypes = {
+// Trip.propTypes = {
+//   index: PropTypes.number.isRequired,
 //   id: PropTypes.number.isRequired,
-//   value: PropTypes.number.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   selectData: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     options: PropTypes.array.isRequired,
-//     placeholder: PropTypes.string.isRequired,
-//   }).isRequired,
+//   value: PropTypes.string.isRequired,
 //   onChange: PropTypes.func.isRequired,
 //   deleteFunding: PropTypes.func.isRequired,
 // }
