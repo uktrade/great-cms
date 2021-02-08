@@ -1049,7 +1049,7 @@ class PerformanceDashboardPage(
         if self.landing_dashboard:
             self.slug = field_values['slug']
         else:
-            self.slug_as_child = field_values['slug_as_child']
+            self.slug = field_values['slug_as_child']
 
         return super().save(*args, **kwargs)
 
