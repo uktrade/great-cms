@@ -13,7 +13,7 @@ export const TravelPlanStats = memo(({ languages, tooltip }) => {
   )
 
   return (
-    <ToggleSnapshot isOpen={true}>
+    <ToggleSnapshot isOpen={false}>
       <div className="width-full">
         <div className="grid">
           <div className="c-full">
