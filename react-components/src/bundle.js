@@ -36,6 +36,8 @@ import {
 import { createCostsAndPricing } from '@src/views/sections/CostsAndPricing'
 import {
   travelPlanSnapshot,
+  travelPlanCultureRules,
+  travelPlanVisaInformation,
   plannedTravel,
 } from '@src/views/sections/TravelPlan/TravelPlan'
 
@@ -80,6 +82,8 @@ export default {
   fundingCreditHowMuchFunding,
   fundingCreditFundingCreditOptions,
   travelPlanSnapshot,
+  travelPlanCultureRules,
+  travelPlanVisaInformation,
   plannedTravel,
   ProductFinderButton,
   CountryFinderButton,
