@@ -13,14 +13,16 @@ const trimAndCapitalize = (str) => {
 
 function TreeBranch(props) {
   const { level, hsCode } = props
+if (!level) {
+  return null
+}
   if (!level.type || level.type === 'SECTION')
     return <TreeBranch level={level.children[0]} hsCode={hsCode} />
   const arrow = level.type !== 'CHAPTER' && (
     <i className="fa fa-level-up-alt classification-tree__arrow" />
   )
-
   return (
-    <div className="body-l classification-tree__item">
+    <div className="classification-tree__item">
       {arrow}
       <span>{trimAndCapitalize(level.desc)}</span>
       {(level.code || '').substring(0, hsCode.length) !== hsCode ? (
@@ -44,18 +46,21 @@ export default function ClassificationTree(props) {
 
   useEffect(() => {
     if (!schedule) {
-      Services.lookupProductSchedule({ hsCode }).then((results) =>
+      Services.lookupProductSchedule({ hsCode }).then((results) => {
         setSchedule(results)
+      }
       )
     }
   }, [hsCode])
 
   return (
-    <div className="classification-tree g-panel m-v-xs">
-      {(schedule && <TreeBranch level={schedule} hsCode={hsCode} />) || (
-        <Spinner text="" />
-      )}
-    </div>
+    <>
+      {(schedule && schedule.children && schedule.children.length && (
+        <div className="classification-tree g-panel m-v-xs">
+          <TreeBranch level={schedule} hsCode={hsCode} />
+        </div>
+      )) || (schedule &&  <div className="classification-tree m-v-xs form-group-error">Unable to show classification tree</div>) || <Spinner text="" />}
+    </>
   )
 }
 

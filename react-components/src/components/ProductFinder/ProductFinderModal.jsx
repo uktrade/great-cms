@@ -260,7 +260,7 @@ export default function ProductFinderModal(props) {
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-s m-b-s body-l">
+      <section className="m-h-s m-b-s">
         <div className="h-m p-b-s">Match found</div>
         <StartEndPage
           commodityCode={_searchResults.hsCode}
@@ -410,7 +410,7 @@ export default function ProductFinderModal(props) {
     // rather than jumping directly into search
     return (
       <div className="p-h-s p-t-l">
-        <section className="m-b-s body-l">
+        <section className="m-b-s">
           <h2 className="h-m p-b-s">Your product</h2>
           <StartEndPage
             commodityCode={selectedProduct.commodity_code || ''}
