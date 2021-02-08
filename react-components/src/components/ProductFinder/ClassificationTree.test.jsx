@@ -80,7 +80,7 @@ describe('Classification tree', () => {
     fetchMock.restore()
   })
 
-  it('Classification tree Renders a classification tree', async () => {
+  it('Renders a classification tree', async () => {
     const hsCode = '123456'
     fetchMock.get(/\/api\/lookup-product-schedule\//, mockResponse)
 
@@ -104,7 +104,7 @@ describe('Classification tree', () => {
     )
   })
 
-  it('Classification tree Renders an error', async () => {
+  it('Renders an error', async () => {
     fetchMock.get(/\/api\/lookup-product-schedule\//, mockErrorResponse)
     act(() => {
       ReactDOM.render(<ClassificationTree hsCode={'123462'} />, container)
