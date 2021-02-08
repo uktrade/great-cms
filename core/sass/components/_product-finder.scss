@@ -31,19 +31,26 @@
     text-align: center;
   }
 
-
   button[disabled]:hover {
     background: $colour-red-80;
   }
 
   button.back-button {
     i {
-      font-size: 30px;
       position: relative;
       top: 5px;
       transition: color 0.2s;
+      margin-right: 15px;
+      font-size: 30px;
     }
-
+    @include breakpoint(md_lt) {
+      font-size: 16px;
+      i {
+        top: 1px;
+        margin-right: 5px;
+        font-size: 16px;
+      }
+    }
     &:hover {
       i {
         color: $blue-deep-100;
@@ -80,9 +87,13 @@
     color: $blue-deep-60;
     background-color: $black-10;
   }
+  @include breakpoint(md_lt) {
+    position: inline;
+    font-size: 36px;
+    top: 20px;
+    right: 20px;
+  }
 }
-
-
 
 .scroll-area {
   @include stretch;
@@ -160,11 +171,10 @@
       }
     }
   }
-
 }
 
 .accordion {
-  >.expander-section {
+  > .expander-section {
     position: relative;
 
     .fa {
@@ -185,19 +195,32 @@
   }
 }
 
-.modal.large-modal-content {
-  width: auto;
-  left: 100px;
-  right: 100px;
-  top: 50px;
-  bottom: 50px;
-  overflow: hidden;
-  @include breakpoint(md_lt) {
-    left: 0;
-    right:0;
-    bottom: 0;
-    top: 0;
-    border-radius: 0;
+.modal {
+  &.large-modal-content {
+    width: auto;
+    left: 100px;
+    right: 100px;
+  }
+  &.centre-modal-content {
+    left: auto;
+    right: auto;
+    width: 630px;
+  }
+
+  &.large-modal-content,
+  &.centre-modal-content {
+    top: 50px;
+    bottom: 50px;
+    overflow: hidden;
+    @include breakpoint(md_lt) {
+      width: auto;
+      height: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      border-radius: 0;
+    }
   }
 
   .only-mobile {
@@ -211,7 +234,19 @@
     }
   }
 }
+
 .p-v-4 {
   padding-top: 4px;
   padding-bottom: 4px;
+}
+
+// Tweak to positioning of radio buttons in mobile view
+.multiple-choice {
+  [type='radio'] + label {
+    @include breakpoint(sm_lt) {
+      position: absolute;
+      left: 0;
+      top: 2px;
+    }
+  }
 }

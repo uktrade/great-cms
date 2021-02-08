@@ -1,6 +1,6 @@
 .rich-text,
 .block-text {
-    h2, h3, h4 {
+    h1, h2, h3, h4 {
         font-family: Overpass, Roboto, arial, helvetica, verdana;
         font-weight: 700;
         text-transform: none;
@@ -10,6 +10,19 @@
     b,
     b i {
         font-weight: bold;
+    }
+
+    h1 {
+        font-size: 32px;
+        line-height: 1.09375;
+        margin-top: .46875em;
+        margin-bottom: .9375em;
+
+        @media (min-width: 641px) {
+            font-size: 48px;
+            line-height: 1.04167;
+            margin-top: .625em;
+        }
     }
 
     h2 {
@@ -89,11 +102,10 @@
     }
 
     ol {
-        padding: 0;
+        padding: 0 0 0 20px;
         margin-top: 5px;
         margin-bottom: 20px;
         list-style-type: decimal;
-        list-style-position: inside;
 
         li {
             margin-bottom: 5px;

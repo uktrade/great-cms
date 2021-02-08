@@ -45,25 +45,17 @@ describe('Select', () => {
 
   describe('Input', () => {
     it('Should have selected value', () => {
-      const { getByLabelText } = setup(props)
-      const input = getByLabelText(props.label)
-
-      expect(input.value).toEqual(props.selected)
-      expect(input.id).toEqual(props.label)
-      expect(input.name).toEqual(props.label)
-    })
-
-    it('should have no value', () => {
-      const { getByLabelText } = setup({ ...props, selected: '' })
-      const input = getByLabelText(props.label)
-
-      expect(input.value).toEqual('')
+      const { getByText } = setup(props)
+      expect(getByText(props.label)).toBeInTheDocument()
     })
   })
 
   describe('Dropdown', () => {
     it('Should show dropdown and 2 items', async () => {
-      const { queryByRole, getByText, getByRole } = setup({ ...props })
+      const { queryByRole, getByText, getByRole } = setup({
+        ...props,
+        selected: '',
+      })
 
       fireEvent.click(getByRole('button'))
 
@@ -77,7 +69,10 @@ describe('Select', () => {
 
   describe('Update', () => {
     it('Should fire', async () => {
-      const { actions, getByText, getByRole } = setup({ ...props })
+      const { actions, getByText, getByRole } = setup({
+        ...props,
+        selected: '',
+      })
 
       fireEvent.click(getByRole('button'))
       await waitFor(() => {
@@ -108,6 +103,7 @@ describe('Select', () => {
     it('Should select a sub category', async () => {
       const { actions, getByText, getByRole } = setup({
         ...props,
+        selected: '',
         options: propsCategories,
       })
 
