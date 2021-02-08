@@ -37,8 +37,6 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
-from wagtail_personalisation.blocks import PersonalisedStructBlock
-from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
@@ -252,7 +250,6 @@ class TimeStampedModel(models.Model):
 
 
 class CMSGenericPage(
-    PersonalisablePageMixin,
     mixins.EnableTourMixin,
     mixins.ExportPlanMixin,
     mixins.AuthenticatedUserRequired,
@@ -603,17 +600,17 @@ class DetailPage(CMSGenericPage):
         [
             (
                 'paragraph',
-                PersonalisedStructBlock(
+                blocks.StructBlock(
                     [('paragraph', blocks.RichTextBlock())],
-                    template='core/personalised_page_struct_paragraph_block.html',
+                    template='core/struct_paragraph_block.html',
                     icon='fa-font',
                 ),
             ),
             (
                 'video',
-                PersonalisedStructBlock(
+                blocks.StructBlock(
                     [('video', core_blocks.VideoBlock())],
-                    template='core/personalised_page_struct_video_block.html',
+                    template='core/struct_video_block.html',
                     icon='fa-play',
                 ),
             ),
