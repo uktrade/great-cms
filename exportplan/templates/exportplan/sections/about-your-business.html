@@ -38,7 +38,7 @@ You know your business and product inside out. Your bank manager or a potential 
     magna.aboutYourBusinessForm({
       element: element,
       field: 'about_your_business',
-      formData: {{ form_initial|safe }},
+      formData: {{ about_your_business_data|to_json }},
       formFields: [
         {
           name: 'story',
