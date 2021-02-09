@@ -41,7 +41,7 @@ cssselect==1.1.0
     # via pyquery
 dateparser==0.7.2
     # via -r requirements.in
-directory-api-client==22.13.0
+directory-api-client==22.14.0
     # via -r requirements.in
 directory-client-core==6.3.0
     # via
@@ -124,7 +124,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==5.8.0
+faker==6.0.0
     # via factory-boy
 freezegun==0.1.5
     # via -r requirements.in
@@ -268,7 +268,7 @@ tzlocal==2.1
     # via dateparser
 ua-parser==0.10.0
     # via user-agents
-unidecode==1.1.2
+unidecode==1.2.0
     # via wagtail
 urllib3==1.25.11
     # via
