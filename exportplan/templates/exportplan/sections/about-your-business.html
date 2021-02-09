@@ -1,5 +1,6 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
+{% load to_json %}
 
 {% block banner_image %}
   {% static 'images/ep-placeholder.svg' %}
@@ -17,14 +18,7 @@ You know your business and product inside out. Your bank manager or a potential 
 {% block user_input %}
 <section class="container">
   <div class="grid">
-    <div class="c-1-4-l">
-      <div class="lesson__back">
-        {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
-        <div class="lesson__back lesson__back--bottom">
-          {% include 'exportplan/includes/lesson_details.html' with lesson_name='move-accidental-exporting-strategic-exporting' %}
-        </div>
-      </div>
-    </div>
+    <div class="c-1-4-l">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
       <form class="" action="" method="post" id="about-your-business-form">
         {% csrf_token %}
@@ -40,12 +34,60 @@ You know your business and product inside out. Your bank manager or a potential 
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('about-your-business-form');
     magna.aboutYourBusinessForm({
-      element: element,
+      element: document.getElementById('about-your-business-form'),
       field: 'about_your_business',
-      formData: {{ form_initial|safe }},
-      formFields: {{ form_fields|safe }},
+      formData: {{ about_your_business_data|to_json }},
+      formFields: [
+        {
+          name: 'story',
+          label: 'How you started',
+          field_type: 'Textarea',
+          tooltip: {
+            content: 'It’s best to stick to the facts and keep things simple for each bit of text you add to your plan.'
+          },
+          example: {
+            content: 'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.'
+          },
+          placeholder: '',
+        },
+        {
+          name: 'location',
+          label: "Where you're based",
+          field_type: 'Textarea',
+          placeholder: '',
+          example: {
+            content: 'By 2015 the garage was too small for the volumes we produced so we moved to larger premises in rented, shared business space in Shrewsbury.'
+          }
+        },
+        {
+          name: 'processes',
+          label: 'How you make your products',
+          field_type: 'Textarea',
+          placeholder: '',
+          example:{
+            content: 'We use vacuum distillation instead of traditional pot distillation. This  preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.'
+          },
+        },
+        {
+          name: 'packaging',
+          label: 'Your product packaging',
+          field_type: 'Textarea',
+          placeholder: '',
+          example: {
+            content: 'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>Our distribution and delivery boxes are 100% recycled cardboard.Each features our distinctive Dove label.'
+          },
+        },
+        {
+          name: 'performance',
+          label: 'Your business performance',
+          field_type: 'Select',
+          placeholder: 'Select one',
+          description: 'What is the annual turnover of your business?',
+          currency: '',
+          choices: {{ turnover_choices|safe }},
+        },
+      ]
     })
   </script>
 {% endblock %}

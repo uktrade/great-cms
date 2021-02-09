@@ -42,12 +42,8 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             value={formData[item.name]}
             onChange={handleChange}
             update={handleChange}
-            tooltip={{
-              content: item.tooltip,
-            }}
-            example={{
-              content: item.example,
-            }}
+            tooltip={item.tooltip}
+            example={item.example}
             description={item.description}
             key={item.name}
             prepend={item.currency ? item.currency : null}
@@ -59,6 +55,7 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
                 ? getLabel(item.choices, formData[item.name])
                 : ''
             }
+            lesson={item.lesson}
           />
         )
       })}
