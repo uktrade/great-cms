@@ -234,15 +234,17 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
         return context
 
 
-class ExportPlanAboutYourBusinessView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    def get_initial(self):
-        return self.request.user.export_plan.data['about_your_business']
+class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'About your business'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['turnover_choices'] = choices_to_key_value(choices.TURNOVER_CHOICES)
+        context['about_your_business_data'] = self.request.user.export_plan.data['about_your_business']
+        return context
 
 
 class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
