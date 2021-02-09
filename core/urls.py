@@ -70,4 +70,6 @@ urlpatterns = [
     path('api/check/', skip_ga360(views_api.CheckView.as_view()), name='api-check'),
     path('api/data-service/comtrade/', skip_ga360(views_api.ComTradeDataView.as_view()), name='api-comtrade-data'),
     path('api/data-service/countrydata/', skip_ga360(views_api.CountryDataView.as_view()), name='api-country-data'),
+    # To be removed once page is integrsted with wagtail
+    path('domestic-homepage/', skip_ga360(views.DomesticHomepage.as_view()), name='domestic-homepage'),
 ]

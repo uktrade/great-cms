@@ -1,0 +1,209 @@
+{% extends './base.html' %}
+
+{% load static from staticfiles %}
+
+{% block og_image %}{{ page.hero_thumbnail.url }}{% endblock %}
+
+{% block head_js %}
+  {{ block.super }}
+  <script src="{% static 'js/dit.classes.Modal.js' %}"></script>
+  <script src="{% static 'js/dit.components.video.js' %}"></script>
+  <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
+
+{% block head_title %}Welcome to great.gov.uk - export guidance and services{% endblock %}
+
+{% block css_layout_class %}landing-page{% endblock %}
+
+{% block content %}
+
+{% include 'components/hero_with_cta.html' with image=page.hero_image.url heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+
+<section class="padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
+  <div class="container wrap-tight">
+    <h2 class="heading-large margin-bottom-30">{{ page.how_dit_helps_title }}</h2>
+    <div class="grid-row wrap-tight">
+      {% for column in page.how_dit_helps_columns %}
+          <div class="column-third-m column-full">
+            {% include 'components/card.html' with title=column.text subheading=column.source url=column.url img_src=column.image.url html_snippet=column.content no_padding_card=True transparent_card=True %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <br />
+    {% include 'components/informative_banner.html' with banner_label='Report a trade barrier' banner_content='Tell us about trade barriers affecting your business, including COVID-19, so we can help fix them. <a href="https://www.great.gov.uk/report-trade-barrier/">Report a trade barrier</a>' %}
+    <br />
+</section>
+
+{% if page.chevron_text or page.chevron_links %}
+<section class="prepare-for-brexit-section padding-bottom-15 padding-bottom-30-m">
+  <div class="container padding-top-45 padding-top-60-m">
+  {% if page.chevron_url and page.chevron_text %}
+    <div class="chevron-banner margin-bottom-45">
+      <div class="chevron-banner__link-container">
+      <a href="{{ page.chevron_url }}" class="chevron-banner__link">{{ page.chevron_text }}</a>
+      </div>
+    </div>
+  {% endif %}
+  {% if page.chevron_links %}
+    {% if not page.chevron_text %}
+      <h2 class="heading-large margin-bottom-30 margin-top-0">Prepare your business for Brexit</h2>
+    {% endif %}
+    <div class="flex-grid{% if not page.chevron_url %} margin-top-30{% endif %}">
+        {% for link in page.chevron_links %}
+          <div class="column-third-m column-full">
+            {% include 'components/card.html' with title=link.text subheading=link.source url=link.url no_padding_card=True transparent_card=True %}
+          </div>
+        {% endfor %}
+    </div>
+  {% endif %}
+  </div>
+</section>
+{% endif %}
+
+<section class="sector-potential-section padding-bottom-0">
+  <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m">
+    <div class="container padding-bottom-45-m">
+      <div class="width-full width-two-thirds-l">
+          <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
+          <p>Use our guides to identify new export markets and inform your international sales plan.</p>
+          <form class="sector-potential-form" action="" method="GET">
+            {{ sector_form }}
+            <button type="submit" class="button margin-top-15 show-markets" id="sector-submit">Show markets</button>
+            <span class="verbose">Select a sector to enable the submit button.</span>
+          </form>
+        </div>
+      </div>
+      <div class="container sector-selector-quick-links">
+        <hr class="quick-links-separator ">
+        <ul class="grid-row">
+          {% for sector in sector_list %}
+            {% if sector.pages_count > 0 %}
+            <li>
+              <a href="/?sector={{ sector.name }}" class="quick-link link">
+                <img src="{{ sector.icon.url }}" alt="" class="quick-links-icon">
+                <span class="sector-name">{{ sector.name }}</span>
+                <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
+              </a>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="margin-top-15 margin-top-60-m">
+        <div class="container">
+          <a href="/" class="view-markets link bold">View all market guides</a>
+        </div>
+      </div>
+  </div>
+</section>
+
+{% if page.madb_title and page.madb_image.url %}
+<section class="export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
+  <div class="container padding-top-45 padding-top-60">
+    <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.madb_title }}</h2>
+    <div class="grid-row">
+      <div class="column-full column-half-l">
+        <img src="{{ page.madb_image.url }}" class="width-full" alt="{{ page.madb_image_alt }}" />
+      </div>
+      <div class="column-full column-half-l content-column">
+        <div class="wrap-tight padding-bottom-30 rich-text">
+          {{ page.madb_content }}
+        </div>
+        <div class="centre-children">
+          <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if page.campaign or page.what_is_new_pages %}
+<section class="padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
+  <div class="container">
+    <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.what_is_new_title|default:"What's new" }}</h2>
+  {% if page.campaign %}
+    <div class="campaign-section {% if page.what_is_new_pages %}margin-bottom-45 {% endif %}">
+      <div class="campaign-heading-container">
+        <h3 class="heading-large margin-0 campaign-heading"><span class="if-we-can">If we can </span><span class="if-we-can">you can</span></h3>
+      </div>
+      <div class="campaign-image-container">
+        <img src="{{ page.campaign.0.image.url }}" alt="" class="width-full">
+      </div>
+      <div class="campaign-content-container">
+        <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
+          <p class="heading-medium margin-bottom-30 margin-top-0">{{ page.campaign.0.subheading }}</p>
+          <a href="{{ page.campaign.0.video.url }}" class="button button-video margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if page.what_is_new_pages %}
+    <div class="grid-row">
+      {% for page in page.what_is_new_pages %}
+          <div class="column-third-m column-full">
+            {% include 'components/card.html' with title=page.text subheading=page.source url=page.url img_src=page.image.url img_alt=page.image_alt html_snippet=page.content no_padding_card=True transparent_card=True %}
+          </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  </div>
+</section>
+{% endif %}
+
+
+<div class="campaign-video-transcript" id="campaign-video-transcript">
+  <details closed>
+    <summary><span class="bold font-overpass">View video trancript</span></summary>
+    <div class="campaign-video-transcript-text rich-text" id="campaign-video-transcript-text">{{ page.campaign.0.video_transcript }}</div>
+  </details>
+</div>
+
+
+
+{% endblock %}
+
+
+{% block body_js %}
+{{ block.super }}
+<script>
+
+    var sectorFormSubmitToggle = function() {
+
+      var $sectorform, $industrySelector, $submitBtn,
+          disabledToggleState = false;
+
+        function init() {
+          $sectorform = $('.sector-potential-section .sector-potential-form');
+          $industrySelector = $('select', $sectorform);
+          $submitBtn = $('#sector-submit');
+
+          $industrySelector.on('change', toggleSubmitBtnState);
+          toggleSubmitBtnState();
+        }
+
+        function toggleSubmitBtnState() {
+          disabledToggleState = $industrySelector.val() === '' ? true : false;
+          $submitBtn.attr({
+          'disabled': disabledToggleState,
+          'aria-disabled': disabledToggleState
+        });
+      }
+
+      return {
+        init: init
+      };
+
+    }();
+
+  $(function() {
+    sectorFormSubmitToggle.init();
+  });
+</script>
+
+
+{% endblock %}

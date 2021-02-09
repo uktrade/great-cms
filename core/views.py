@@ -277,3 +277,7 @@ class ContactUsHelpFormView(PageTitleMixin, FormView):
 
 class ContactUsHelpSuccessView(TemplateView):
     template_name = 'core/contact-us-help-form-success.html'
+
+
+class DomesticHomepage(TemplateView):
+    template_name = 'domestic/landing_page.html'
