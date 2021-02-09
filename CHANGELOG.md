@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- no-ticket - tidy up BAU folder structures
 - GP2-1208 - marketing approach
 - GP2-1208 - create a hook to make endpoint, debounce, save and error state resuable
 - GP2-1449 - Product classifier responsive layout
