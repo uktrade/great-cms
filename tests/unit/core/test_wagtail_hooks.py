@@ -255,12 +255,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
             ('Video', factories.SimpleVideoBlockFactory(video=video_for_hero)),
         ],
         objective=[('paragraph', RichText(reading_content))],
-        body=[
-            # For now, the body ONLY contains PersonalisedStructBlocks, which don't
-            # count towards page read or view time.
-            # WARNING: These is a fiddle to set up in tests, so estimate appropriate
-            # time for if/when we need to.
-        ],
+        body=[],  # if needed StreamField rich-text and video content can be added
     )
     # Every real-world page will have a revision, so the test needs one, too
     revision = detail_page.save_revision()
@@ -299,12 +294,7 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
             ('Video', factories.SimpleVideoBlockFactory(video=video_for_hero)),
         ],
         objective=[],
-        body=[
-            # For now, the body ONLY contains PersonalisedStructBlocks, which don't
-            # count towards page read or view time.
-            # WARNING: These is a fiddle to set up in tests, so estimate appropriate
-            # time for if/when we need to.
-        ],
+        body=[],  # if needed StreamField rich-text and video content can be added
     )
     # Every real-world page will have a revision, so the test needs one, too
     revision = detail_page.save_revision()

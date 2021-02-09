@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.core',
     'wagtail.contrib.routable_page',
+    'wagtail.contrib.settings',
     'wagtailmedia',
     'wagtailcache',
     'wagtail_personalisation',
@@ -108,6 +109,7 @@ TEMPLATES = [
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
+                'core.context_processors.migration_support_vars',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -521,3 +523,8 @@ else:
 
 GREAT_SUPPORT_EMAIL = env.str('GREAT_SUPPORT_EMAIL', 'great.support@trade.gov.uk')
 DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-international-trade')
+
+# V1 to V2 migration settings
+# (These will be short-lived as we gradually cut over from V1 to V2 for all traffic)
+
+BREADCRUMBS_ROOT_URL = env.bool('BREADCRUMBS_ROOT_URL', 'https://great.gov.uk/')

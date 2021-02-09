@@ -34,9 +34,8 @@ You know your business and product inside out. Your bank manager or a potential 
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('about-your-business-form');
     magna.aboutYourBusinessForm({
-      element: element,
+      element: document.getElementById('about-your-business-form'),
       field: 'about_your_business',
       formData: {{ about_your_business_data|to_json }},
       formFields: [
@@ -44,36 +43,40 @@ You know your business and product inside out. Your bank manager or a potential 
           name: 'story',
           label: 'How you started',
           field_type: 'Textarea',
-          tooltip:
-            'It’s best to stick to the facts and keep things simple for each bit of text you add to your plan.',
-          example:
-            'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.',
+          tooltip: {
+            content: 'It’s best to stick to the facts and keep things simple for each bit of text you add to your plan.'
+          },
+          example: {
+            content: 'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.'
+          },
           placeholder: '',
-          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
         },
         {
           name: 'location',
           label: "Where you're based",
           field_type: 'Textarea',
           placeholder: '',
-          example:
-            'By 2015 the garage was too small for the volumes we produced so we moved to larger premises in rented, shared business space in Shrewsbury.',
+          example: {
+            content: 'By 2015 the garage was too small for the volumes we produced so we moved to larger premises in rented, shared business space in Shrewsbury.'
+          }
         },
         {
           name: 'processes',
           label: 'How you make your products',
           field_type: 'Textarea',
           placeholder: '',
-          example:
-            'We use vacuum distillation instead of traditional pot distillation. This  preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.',
+          example:{
+            content: 'We use vacuum distillation instead of traditional pot distillation. This  preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.'
+          },
         },
         {
           name: 'packaging',
           label: 'Your product packaging',
           field_type: 'Textarea',
           placeholder: '',
-          example:
-            'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>Our distribution and delivery boxes are 100% recycled cardboard.Each features our distinctive Dove label.',
+          example: {
+            content: 'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>Our distribution and delivery boxes are 100% recycled cardboard.Each features our distinctive Dove label.'
+          },
         },
         {
           name: 'performance',

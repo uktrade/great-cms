@@ -1,10 +1,9 @@
 import factory
 import factory.fuzzy
 import wagtail_factories
-import wagtail_personalisation.models
 from django.utils.text import slugify
 
-from core import blocks, models, rules
+from core import blocks, models
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
 
@@ -107,45 +106,6 @@ class DetailPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = models.DetailPage
         django_get_or_create = ['slug', 'parent']
-
-
-class SegmentFactory(factory.DjangoModelFactory):
-    name = factory.Faker('word')
-    status = wagtail_personalisation.models.Segment.STATUS_ENABLED
-
-    class Meta:
-        model = wagtail_personalisation.models.Segment
-
-
-class MatchProductExpertiseFactory(factory.django.DjangoModelFactory):
-    segment = factory.SubFactory(SegmentFactory)
-    product = factory.SubFactory(ProductFactory)
-
-    class Meta:
-        model = rules.MatchProductExpertise
-
-
-class MatchCountryQuerystringFactory(factory.django.DjangoModelFactory):
-    segment = factory.SubFactory(SegmentFactory)
-    country = factory.SubFactory(CountryFactory)
-
-    class Meta:
-        model = rules.MatchCountryQuerystring
-
-
-class MatchFirstCountryOfInterestFactory(factory.django.DjangoModelFactory):
-    segment = factory.SubFactory(SegmentFactory)
-    country = factory.SubFactory(CountryFactory)
-
-    class Meta:
-        model = rules.MatchFirstCountryOfInterestRule
-
-
-class MatchFirstIndustryOfInterestFactory(factory.django.DjangoModelFactory):
-    segment = factory.SubFactory(SegmentFactory)
-
-    class Meta:
-        model = rules.MatchFirstIndustryOfInterestRule
 
 
 class TourFactory(factory.django.DjangoModelFactory):
