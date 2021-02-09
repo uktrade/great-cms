@@ -16,10 +16,7 @@ from domestic.templatetags.component_tags import (
 
 
 def test_static_absolute(rf):
-    template = Template(
-        '{% load static_absolute from component_tags %}'
-        '{% static_absolute "images/favicon.ico" %}'
-    )
+    template = Template('{% load static_absolute from component_tags %}' '{% static_absolute "images/favicon.ico" %}')
 
     context = Context({'request': rf.get('/')})
     html = template.render(context)
