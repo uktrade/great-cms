@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Select } from '@src/components/Form/Select'
 import { TextArea } from '@src/components/Form/TextArea'
+import { getLabel } from '@src/Helpers'
 
 export const RouteToMarketSection = memo(
   ({ data, label, example, name, onChange, deleteTable, field, tooltip }) => {
@@ -16,12 +17,7 @@ export const RouteToMarketSection = memo(
               name={item.name}
               id={`${item.name}-${field.pk}`}
               options={item.options}
-              selected={
-                field[item.name] &&
-                item.options.find((x) => x.value === field[item.name])
-                  ? item.options.find((x) => x.value === field[item.name]).label
-                  : ''
-              }
+              selected={getLabel(item.options, field[item.name])}
             />
             <hr className="hr hr--light" />
           </div>
