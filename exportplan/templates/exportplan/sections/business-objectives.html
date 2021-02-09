@@ -56,7 +56,7 @@
     magna.createObjectivesReasons({
       element: document.getElementById('objectives-reasons'),
       field: 'objectives',
-      formData: {{ objectives|safe }},
+      formData: {{ objectives|to_json|safe }},
       formFields: [
         {
           name: 'rationale',
