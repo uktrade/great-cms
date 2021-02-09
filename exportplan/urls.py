@@ -57,6 +57,12 @@ urlpatterns = [
         name='funding-and-credit',
     ),
     path(
+        'section/travel-and-business-policies/',
+        login_required(views.TravelBusinessPoliciesView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'travel-and-business-policies'},
+        name='travel-and-business-policies',
+    ),
+    path(
         'section/<slug:slug>/',
         login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
         name='section',
@@ -101,6 +107,9 @@ urlpatterns = [
     path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
     path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),
     path('api/objectives/delete/', skip_ga360(api.ObjectivesDestroyAPIView.as_view()), name='api-objectives-delete'),
+    path(
+        'api/model-object/manage/', skip_ga360(api.ModelObjectManageAPIView.as_view()), name='api-model-object-manage'
+    ),
     path(
         'api/route-to-markets/create/',
         skip_ga360(api.RouteToMarketsCreateAPIView.as_view()),
