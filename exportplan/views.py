@@ -224,28 +224,14 @@ class ExportPlanTargetMarketsResearchView(
         return context
 
 
-class ExportPlanBusinessObjectivesView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    form_class = forms.ExportPlanBusinessObjectivesForm
-    success_url = reverse_lazy('exportplan:business-objectives')
+class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Business objectives'
-
-    def form_valid(self, form):
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.request.user.export_plan.data['pk'],
-            data=form.cleaned_data,
-        )
-        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['objectives'] = self.request.user.export_plan.data['company_objectives']
+        context['company_objectives'] = self.request.user.export_plan.data['company_objectives']
+        context['objectives'] = self.request.user.export_plan.data['objectives']
         return context
-
-    def get_initial(self):
-        return self.request.user.export_plan.data['objectives']
 
 
 class ExportPlanAboutYourBusinessView(
