@@ -78,6 +78,7 @@ You know your business and product inside out. Your bank manager or a potential 
           example: {
             content: 'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li><li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>Our distribution and delivery boxes are 100% recycled cardboard.Each features our distinctive Dove label.'
           },
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
         },
         {
           name: 'performance',
