@@ -22,7 +22,7 @@
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 
 ### Fixed bugs
-
+- GP2-1514 - Fix ordering when selecting most recently updatet on MarketsTopicPage
 - GP2-1482 - Handle errors in product clasification request.
 - GP2-1361 - Compare markets - align cookies to user.
 - GP2-1397 - Render HTML definitions in product classifier.

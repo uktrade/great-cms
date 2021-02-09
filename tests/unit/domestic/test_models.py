@@ -1,9 +1,11 @@
 import json
+from datetime import timedelta
 from unittest import mock
 
 import pytest
 from bs4 import BeautifulSoup
 from django.test import RequestFactory
+from django.utils.timezone import now as tz_now
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
@@ -665,11 +667,13 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         self.assertEqual(retrieved_page_2.slug, 'markets')
 
     def _make_country_guide_pages(self, parent_page, count):
+        _now = tz_now()
         for i in range(count):
             CountryGuidePageFactory(
                 parent=parent_page,
                 title=f'Test GCP {i}',
                 live=True,
+                last_published_at=_now - timedelta(minutes=i),
             )
 
     def test_sort_results(self):
@@ -691,15 +695,17 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         self.assertEqual(sorted_pages[0], CountryGuidePage.objects.get(title='Test GCP 0'))
         self.assertEqual([x for x in pages.order_by('title')], [y for y in sorted_pages])
 
-        # Last amended
+        # Last published at
         request = RequestFactory().get('/?sortby=last_published_at')
         sorted_pages = markets_topic_page.sort_results(
             request,
             pages,
         )
 
-        self.assertEqual(sorted_pages[0], pages.order_by('last_published_at').first())
-        self.assertEqual([x for x in pages.order_by('last_published_at')], [y for y in sorted_pages])
+        # Note that the results are flipped from ascending to descending to show
+        # most recently edited first
+        self.assertEqual(sorted_pages[0], pages.order_by('-last_published_at').first())
+        self.assertEqual([x for x in pages.order_by('-last_published_at')], [y for y in sorted_pages])
 
     def test_sort_results__sanitises_input(self):
 
