@@ -1,20 +1,14 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useDebounce } from '@src/components/hooks/useDebounce'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import { getLabel, getLabels, getValue, getValues } from '@src/Helpers'
-import Services from '@src/Services'
+import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 
 export const GettingPaid = memo(({ formFields, formData, field }) => {
   const [state, setState] = useState(formData)
-
-  const update = (data) => {
-    Services.updateExportPlan(data).then(() => {})
-  }
-
-  const debounceUpdate = useDebounce(update)
+  const [update] = useUpdateExportPlan(field)
 
   const onChange = (updatedField, otherProps, section, isNotes = false) => {
     const note = isNotes ? { notes: updatedField[isNotes] } : updatedField
@@ -27,7 +21,7 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
       },
     })
 
-    debounceUpdate({ [field]: { [section]: { ...note, ...otherProps } } })
+    update({ [field]: { [section]: { ...note, ...otherProps } } })
   }
 
   return (

@@ -111,7 +111,6 @@ describe('FormElements', () => {
     fireEvent.change(container.querySelector('textarea'), {
       target: { value: 'Good Day' },
     })
-    expect(getByText('Saving...'))
     await waitFor(() => {
       expect(Services.updateExportPlan).toHaveBeenCalledTimes(1)
       expect(Services.updateExportPlan).toHaveBeenLastCalledWith({
@@ -136,7 +135,6 @@ describe('FormElements', () => {
     fireEvent.change(container.querySelector('textarea'), {
       target: { value: 'Good Day' },
     })
-    expect(getByText('Saving...'))
     await waitFor(() => {
       expect(Services.updateExportPlan).toHaveBeenCalledTimes(1)
       expect(Services.updateExportPlan).toHaveBeenLastCalledWith({
@@ -148,6 +146,19 @@ describe('FormElements', () => {
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
       expect(getByText('an error has occurred'))
+    })
+  })
+
+  it('should be in saving state', async () => {
+    Services.updateExportPlan = jest.fn(() => Promise.resolve())
+
+    const { container, getByText } = setup({ ...props })
+    fireEvent.change(container.querySelector('textarea'), {
+      target: { value: 'Good Day' },
+    })
+
+    await waitFor(() => {
+      expect(getByText('Saving...'))
     })
   })
 })
