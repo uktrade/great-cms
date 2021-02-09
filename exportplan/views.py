@@ -248,7 +248,7 @@ class ExportPlanBusinessObjectivesView(
         return self.request.user.export_plan.data['objectives']
 
 
-class ExportPlanAboutYourBusinessView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')

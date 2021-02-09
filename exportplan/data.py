@@ -50,10 +50,6 @@ PRODUCT_REQUIRED = [
 # on the UI page
 
 LESSONS = {
-    ABOUT_YOUR_BUSINESS: [
-        'move-accidental-exporting-strategic-exporting',
-        'move-accidental-exporting-strategic-exporting',
-    ],
     OBJECTIVES: ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
     MARKETING_APPROACH: ['sell-direct-your-customer'],
     TARGET_MARKETS_RESEARCH: [
