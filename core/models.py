@@ -1115,12 +1115,6 @@ class CaseStudyScoringSettings(BaseSetting):
         decimal_places=3,
         max_digits=5,
     )
-    no_product = models.DecimalField(
-        help_text='This is the score we give if a case study matches the HS code product attribute ',
-        default=0,
-        decimal_places=3,
-        max_digits=5,
-    )
     product_hs6 = models.DecimalField(
         help_text='This is the score we give if a case study matches the HS code product tag at the HS6 level ',
         default=8,
@@ -1136,12 +1130,6 @@ class CaseStudyScoringSettings(BaseSetting):
     product_hs2 = models.DecimalField(
         help_text='This is the score we give if a case study matches the HS code product tag at the HS2 level ',
         default=2,
-        decimal_places=3,
-        max_digits=5,
-    )
-    no_country = models.DecimalField(
-        help_text='This is the score we give if a case study matches the country tag',
-        default=0,
         decimal_places=3,
         max_digits=5,
     )
@@ -1184,13 +1172,6 @@ class CaseStudyScoringSettings(BaseSetting):
     other_country_exact = models.DecimalField(
         help_text='This is the score we deduct if a case study matches for another country tag at a country level',
         default=-0.25,
-        decimal_places=3,
-        max_digits=5,
-    )
-    other_lesson_tags = models.DecimalField(
-        help_text='This is the score we deduct for a case study should it have '
-        'an association at this level in our information architecture',
-        default=-0.125,
         decimal_places=3,
         max_digits=5,
     )
@@ -1247,6 +1228,65 @@ class CaseStudyScoringSettings(BaseSetting):
         default=2,
         decimal_places=3,
         max_digits=5,
+    )
+    other_module_tags = models.DecimalField(
+        help_text='This is the score we deduct for a case study should it have an association at '
+        'this level in our information architecture',
+        default=-0.5,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_topics_tags = models.DecimalField(
+        help_text='This is the score we deduct for a case study should it have an association at '
+        'this level in our information architecture',
+        default=-0.25,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_lesson_tags = models.DecimalField(
+        help_text='This is the score we deduct for a case study should it have an association at '
+        'this level in our information architecture',
+        default=-0.1,
+        decimal_places=3,
+        max_digits=5,
+    )
+
+    first_tab_panels = [
+        FieldPanel('module'),
+        FieldPanel('topic'),
+        FieldPanel('lesson'),
+        FieldPanel('product_hs6'),
+        FieldPanel('product_hs4'),
+        FieldPanel('product_hs2'),
+        FieldPanel('country_region'),
+        FieldPanel('country_exact'),
+        FieldPanel('other_product_hs6'),
+        FieldPanel('other_product_hs4'),
+        FieldPanel('other_product_hs2'),
+        FieldPanel('other_country_region'),
+        FieldPanel('other_country_exact'),
+        FieldPanel('recency_3_months'),
+        FieldPanel('recency_6_months'),
+        FieldPanel('recency_9_months'),
+        FieldPanel('recency_12_months'),
+        FieldPanel('recency_15_months'),
+        FieldPanel('recency_18_months'),
+        FieldPanel('recency_21_months'),
+        FieldPanel('recency_24_months'),
+        FieldPanel('trading_blocs'),
+        FieldPanel('other_lesson_tags'),
+        FieldPanel('other_module_tags'),
+        FieldPanel('other_topics_tags'),
+    ]
+    second_tab_panels = [
+        FieldPanel('threshold'),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(first_tab_panels, heading='Scoring'),
+            ObjectList(second_tab_panels, heading='Threshold'),
+        ]
     )
 
     class Meta:
