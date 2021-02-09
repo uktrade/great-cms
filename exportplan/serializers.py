@@ -376,6 +376,12 @@ class FundingCreditOptionsSerializer(serializers.Serializer):
     pk = serializers.IntegerField()
 
 
+class BusinessTripsSerializer(serializers.Serializer):
+    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
 class NewFundingCreditOptionsSerializer(FundingCreditOptionsSerializer):
     pk = serializers.IntegerField(required=False)
 
@@ -394,3 +400,7 @@ class NewObjectiveSerializer(CompanyObjectiveSerializer):
 
 class PkOnlySerializer(serializers.Serializer):
     pk = serializers.IntegerField()
+
+
+class NewBusinessTripsSerializer(BusinessTripsSerializer):
+    pk = serializers.IntegerField(required=False)

@@ -110,6 +110,7 @@
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
 - NOTICKET - Fix getting paid bug
+- GP2-1180 - travel bus BE
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
 
