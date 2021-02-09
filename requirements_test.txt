@@ -85,7 +85,7 @@ decorator==4.4.2
     # via
     #   ipython
     #   traitlets
-directory-api-client==22.13.0
+directory-api-client==22.14.0
     # via -r requirements.in
 directory-client-core==6.3.0
     # via
