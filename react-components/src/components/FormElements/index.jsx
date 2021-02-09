@@ -45,9 +45,7 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             tooltip={{
               content: item.tooltip,
             }}
-            example={{
-              content: item.example,
-            }}
+            example={item.example}
             description={item.description}
             key={item.name}
             prepend={item.currency ? item.currency : null}
