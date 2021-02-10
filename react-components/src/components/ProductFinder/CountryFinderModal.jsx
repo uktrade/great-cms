@@ -193,18 +193,17 @@ export default function CountryFinderModal(props) {
   /*   Compare markets section  */
   const compareMarketsSection = (
     <div>
-      <h3 className="h-s p-t-xs">Compare countries</h3>
+      <h3 className="h-s p-t-xs">Where to export</h3>
       <div className="grid">
         <div className="c-full">
           <p className="m-v-xs">
-            Compare stats for over 180 countries to find the best place to target
-            your exports.
+            Compare data for different places to make an informed choice about where to export.
           </p>
           <a
             href="/where-to-export/"
             className="button button--secondary"
           >
-            Compare Markets
+            Compare places
           </a>
         </div>
       </div>
@@ -274,7 +273,7 @@ export default function CountryFinderModal(props) {
             className="button button--secondary button--full-width m-b-s"
             onClick={() => setMobilePage('compare')}
           >
-            Compare markets
+            Compare places
           </button>
         )}
         <button
