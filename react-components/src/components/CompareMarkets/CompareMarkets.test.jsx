@@ -404,7 +404,7 @@ it('Select market from selection area', async () => {
 
   })
   expect(container.querySelector('button.add-market').textContent).toMatch(
-    'Add country to compare'
+    'Add a place'
   )
 
   // Select a country
@@ -422,7 +422,7 @@ it('Select market from selection area', async () => {
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add country 2 of 3'
+      'Add place 2 of 3'
       )
   })
   // check that the country appears in the selection section at the page base
@@ -449,7 +449,7 @@ it('Select market from selection area', async () => {
 
   await waitFor(() => {
     expect(container.querySelector('button.add-market') && container.querySelector('button.add-market').textContent).toMatch(
-      'Add country 3 of 3'
+      'Add place 3 of 3'
     )
   })
 
