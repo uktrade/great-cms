@@ -328,7 +328,7 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
     case_study = CountryGuideCaseStudyBlock(required=False)
 
     class Meta:
-        template = 'domestic/content/blocks/accordions.html'
+        template = 'domestic/includes/blocks/accordions.html'
 
 
 class PullQuoteBlock(blocks.StructBlock):

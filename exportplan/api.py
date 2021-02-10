@@ -1,6 +1,8 @@
+import importlib
 from datetime import datetime
 
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -293,3 +295,59 @@ class FundingCreditOptionsDestroyAPIView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             helpers.delete_funding_credit_options(self.request.user.session_id, serializer.validated_data)
             return Response({})
+
+
+class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
+    serializer_name_map = {
+        'businesstrips': 'BusinessTrips',
+    }
+
+    serializer_classes = importlib.import_module('exportplan.serializers')
+    permission_classes = [IsAuthenticated]
+
+    def get_model_name(self):
+        try:
+            model_name = self.serializer_name_map[self.request.data['model_name'].lower()]
+        except KeyError:
+            raise ValidationError('Incorrect or no model_name provided')
+        return model_name
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.update_model_object(
+                sso_session_id=self.request.user.session_id,
+                data=serializer.validated_data,
+                model_name=self.get_model_name(),
+            )
+            return Response(response)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            helpers.delete_model_object(
+                sso_session_id=self.request.user.session_id,
+                data=serializer.validated_data,
+                model_name=self.get_model_name(),
+            )
+            return Response({})
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.create_model_object(
+                sso_session_id=self.request.user.session_id,
+                data=serializer.validated_data,
+                model_name=self.get_model_name(),
+            )
+            return Response(response)
+
+    def get_serializer_class(self):
+        serializer_class = serializers.PkOnlySerializer
+        model_name = self.get_model_name()
+        if self.request.method == 'PATCH':
+            serializer_class = getattr(self.serializer_classes, f'{model_name}Serializer')
+        elif self.request.method == 'POST':
+            serializer_class = getattr(self.serializer_classes, f'New{model_name}Serializer')
+
+        return serializer_class

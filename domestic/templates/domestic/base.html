@@ -27,13 +27,13 @@
         </title>
 
         {% block head_favicon %}
-            <link href='{% static 'directory_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
-            <!--[if IE]> <link rel="icon" href="{% static 'directory_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+            <link href='{% static 'images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
+            <!--[if IE]> <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
         {% endblock %}
 
         {% block head_css %}
-            <link href="{% static 'directory_components/export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
-            <link href="{% static 'directory_components/export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+            <link href="{% static 'stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+            <link href="{% static 'stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
             {{ block.super }}
             <link href="{% static 'styles/main.css' %}" rel="stylesheet" type="text/css" />
         {% endblock %}
@@ -50,14 +50,14 @@
         </noscript>
 
         {% block vendor_js %}
-            <script src="{% static 'directory_components/js/vendor/details-polyfill.js' %}"></script>
-            <script src="{% static 'directory_components/js/vendor/jquery-3.5.1.min.js' %}"></script>
+            <script src="{% static 'js/vendor/details-polyfill.js' %}"></script>
+            <script src="{% static 'js/vendor/jquery-3.5.1.min.js' %}"></script>
         {% endblock %}
 
         {% block head_js %}
             <script src="{% static 'js/dit.js' %}"></script>
-            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script> {% endcomment %}
-            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'directory_components/js/reactComponents.js' %}"></script> {% endcomment %}
+            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'js/dit.components.cookie-notice.js' %}"></script> {% endcomment %}
+            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'js/reactComponents.js' %}"></script> {% endcomment %}
             <script>
               // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
               window.onpageshow = function (event) {
@@ -69,7 +69,7 @@
         {% endblock %}
 
         {% block head_js_ga360 %}
-            <script src="{% static 'directory_components/js/dit.tagging.js' %}"></script>
+            <script src="{% static 'js/dit.tagging.js' %}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];
                 {% if ga360 and not skip_ga360 %}
@@ -87,9 +87,9 @@
         {% endblock %}
 
         {% block header_js %}
-            <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>
-            <script src="{% static 'directory_components/js/dit.utils.js' %}"></script>
-            <script src="{% static 'directory_components/js/dit.components.header.js' %}"></script>
+            <script src="{% static 'js/dit.responsive.js' %}"></script>
+            <script src="{% static 'js/dit.utils.js' %}"></script>
+            <script src="{% static 'js/dit.components.header.js' %}"></script>
         {% endblock %}
 
         {% block head_other %}
@@ -101,7 +101,7 @@
             {% comment %} There are one or two OG image tags rendered.
                 This is the first/default one, which can be overridden at the template level
             {% endcomment %}
-            <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
+            <meta property="og:image" content="{% block og_image %}{% static_absolute 'images/opengraph-image.png' %}{% endblock %}">
             <meta property="og:url" content="{{ request.build_absolute_uri }}" />
             {% endif %}
 

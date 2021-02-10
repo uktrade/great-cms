@@ -212,6 +212,9 @@ class MarketsTopicLandingPage(
     REGION_QUERYSTRING_NAME = 'region'
     SECTOR_QUERYSTRING_NAME = 'sector'
 
+    SORTBY_OPTION_TITLE = 'title'
+    SORTBY_OPTION_LAST_PUBLISHED = 'last_published_at'
+
     template = 'domestic/topic_landing_pages/markets.html'
 
     subpage_types = [
@@ -224,8 +227,8 @@ class MarketsTopicLandingPage(
         # default-sorted by 'heading' instead. Therefore this may need amending
         # if the resulting behaviour isn't _quite_ what we're expecting.
         options = [
-            {'value': 'title', 'label': 'Market A-Z'},
-            {'value': 'last_published_at', 'label': 'Recently updated'},
+            {'value': self.SORTBY_OPTION_TITLE, 'label': 'Market A-Z'},
+            {'value': self.SORTBY_OPTION_LAST_PUBLISHED, 'label': 'Recently updated'},
         ]
         return options
 
@@ -242,6 +245,10 @@ class MarketsTopicLandingPage(
     def sort_results(self, request, pages):
 
         sort_option = self._get_sortby(request)
+
+        # Sorting by last_published_at needs to be DESC not ASC
+        if sort_option == self.SORTBY_OPTION_LAST_PUBLISHED:
+            sort_option = '-' + sort_option
 
         return pages.order_by(sort_option)
 
@@ -337,7 +344,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     class Meta:
         ordering = ['-heading', '-title']
 
-    template = 'domestic/content/country_guide.html'
+    template = 'domestic/country_guide.html'
 
     parent_page_types = [
         'domestic.DomesticHomePage',  # TODO: remove this
@@ -403,7 +410,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     section_one_body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
-        verbose_name='3 unique selling points markdown',
+        verbose_name='3 unique selling points',
         help_text='Use H2s for the 3 subheadings',
     )
     section_one_image = models.ForeignKey(
@@ -744,7 +751,7 @@ class ArticlePage(
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
-    template = 'domestic/content/article_listing_page.html'
+    template = 'domestic/article_listing_page.html'
 
     parent_page_types = [
         'domestic.CountryGuidePage',
@@ -943,7 +950,7 @@ class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
     This model may need to be moved to core once V1 and V2 CSS is fully merged
     """
 
-    template = 'domestic/content/guidance_page.html'
+    template = 'domestic/guidance_page.html'
 
     body = StreamField(
         [

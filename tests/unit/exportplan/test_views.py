@@ -76,12 +76,12 @@ def test_export_plan_builder_landing_page(
 
     response = client.get('/export-plan/dashboard/')
     assert response.status_code == 200
-    assert response.context['sections'][0] == {
-        'title': 'About your business',
-        'url': '/export-plan/section/about-your-business/',
+    assert response.context['sections'][1] == {
+        'title': 'Business objectives',
+        'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['move-accidental-exporting-strategic-exporting'],
-        'is_complete': True,
+        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'is_complete': False,
     }
 
 
@@ -168,10 +168,10 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, client, use
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_lesson_details')
-def test_about_your_business_has_lessons(mock_get_lesson_details, client, user):
+def test_business_objectives_has_lessons(mock_get_lesson_details, client, user):
     client.force_login(user)
 
-    slug = slugify('About your business')
+    slug = slugify('Business objectives')
     lessons = data.SECTIONS[slug]['lessons']
     mock_get_lesson_details.return_value = {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -214,12 +214,13 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export
     assert response.status_code == 200
     assert response.context_data['next_section'] == data.SECTIONS.get(next_slug)
     assert response.context_data['current_section'] == data.SECTIONS[slug]
-    assert response.context_data['sections'][0] == {
-        'title': 'About your business',
-        'url': '/export-plan/section/about-your-business/',
+
+    assert response.context_data['sections'][1] == {
+        'title': 'Business objectives',
+        'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['move-accidental-exporting-strategic-exporting'],
-        'is_complete': True,
+        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'is_complete': False,
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
@@ -384,12 +385,12 @@ def test_service_page_context(client, user):
     url = reverse('exportplan:service-page')
     response = client.get(url)
     assert response.status_code == 200
-    assert response.context['sections'][0] == {
-        'title': 'About your business',
-        'url': '/export-plan/section/about-your-business/',
+    assert response.context['sections'][1] == {
+        'title': 'Business objectives',
+        'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['move-accidental-exporting-strategic-exporting'],
-        'is_complete': True,
+        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'is_complete': False,
     }
 
 

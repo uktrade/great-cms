@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
             model_name='countryguidepage',
             name='section_one_body',
             field=wagtail.core.fields.RichTextField(
-                help_text='Use H2s for the 3 subheadings', null=True, verbose_name='3 unique selling points markdown'
+                help_text='Use H2s for the 3 subheadings', null=True, verbose_name='3 unique selling points'
             ),
         ),
     ]

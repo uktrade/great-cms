@@ -119,16 +119,6 @@ def test_market_markets_research_form_view(
     assert response.status_code == 200
 
 
-def test_objectives_form_valid(objectives_form_data):
-    form = forms.ExportPlanBusinessObjectivesForm(data=objectives_form_data)
-    assert form.is_valid()
-
-
-def test_objectives_form_missing_fields():
-    form = forms.ExportPlanBusinessObjectivesForm(data={})
-    assert form.is_valid()
-
-
 def test_objectives_form_empty_fields():
     form = forms.ExportPlanAboutYourBusinessForm(
         data={
@@ -136,25 +126,3 @@ def test_objectives_form_empty_fields():
         }
     )
     assert form.is_valid()
-
-
-@pytest.mark.django_db
-@patch.object(helpers, 'update_exportplan')
-def test_objectives_form_view(mock_update_exportplan, objectives_form_data, client, user):
-    url = reverse('exportplan:business-objectives')
-    client.force_login(user)
-    response = client.get(url)
-
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-@patch.object(helpers, 'update_exportplan')
-def test_objectives_form_view_submission(mock_update_exportplan, objectives_form_data, client, user):
-    url = reverse('exportplan:business-objectives')
-    client.force_login(user)
-    response = client.post(url, objectives_form_data)
-
-    assert mock_update_exportplan.call_count == 2
-    assert response.status_code == 302
-    assert response.url == url
