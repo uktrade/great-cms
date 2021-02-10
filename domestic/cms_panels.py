@@ -387,3 +387,21 @@ class GuidancePagePanels:
         ),
         FieldPanel('slug'),
     ]
+
+
+class PerformanceDashboardPagePanels:
+
+    content_panels = [
+        MultiFieldPanel(
+            heading='Heading and description',
+            children=[
+                FieldPanel('description'),
+                FieldPanel('product_link'),
+            ],
+        ),
+        StreamFieldPanel(
+            'body',
+            heading='Data columns',
+        ),
+        FieldPanel('guidance_notes'),
+    ]
