@@ -53,7 +53,6 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    console.log({{ lesson_details|safe }})
     magna.createTargetMarketResearchForm({
       element: document.getElementById('target-markets-research'),
       field: 'target_markets_research',
