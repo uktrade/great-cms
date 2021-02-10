@@ -35,7 +35,7 @@ cffi==1.14.4
     # via cryptography
 chardet==4.0.0
     # via requests
-cryptography==3.2
+cryptography==3.3.2
     # via -r requirements.in
 cssselect==1.1.0
     # via pyquery
