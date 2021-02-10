@@ -3,6 +3,8 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GP2-1420 - Where to export copy updates
+- GP2-1442 - Source attribution updates
 - GP2-1208 - marketing approach
 - GP2-1208 - create a hook to make endpoint, debounce, save and error state resuable
 - GP2-1449 - Product classifier responsive layout
