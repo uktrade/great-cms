@@ -95,17 +95,17 @@ export default {
   sourceAttributions: [
     {
       title: 'Religion',
-      linkText: 'Central Intelligence Agency',
+      linkText: 'Central Intelligence Agency.',
       linkTarget: 'https://www.cia.gov/the-world-factbook',
     },
     {
       title: 'Languages',
-      linkText: 'Central Intelligence Agency',
+      linkText: 'Central Intelligence Agency.',
       linkTarget: 'https://www.cia.gov/the-world-factbook',
     },
     {
       title: 'Rule of law',
-      linkText: 'The Global Innovation Index 2020',
+      linkText: 'The Global Innovation Index 2020.',
       linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report',
     },
   ],
@@ -129,9 +129,9 @@ export default {
         position: 'right',
         title: '',
         content: `
-          <p>The strength of the law varies from country to country.</p>
-          <p>Each year, the Global Innovation Index ranks countries from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, the police, and the courts.</p>
-          <p>This gives you an idea of how easy may be to follow regulations and take legal action if something goes wrong.</p>
+          <p>The strength of the law varies from place to place.</p>
+          <p>The rank is from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, police, and the courts.</p>
+          <p>This indicates how hard it may be to follow regulations and take legal action if something goes wrong.</p>
          `,
       },
     },

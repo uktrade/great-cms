@@ -31,9 +31,14 @@ export default {
     },
     {
       title: 'Access to internet',
-      linkText: 'International Telecommunications Union',
+      linkText: 'International Telecommunications Union.',
       linkTarget:
         'https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en',
+    },
+    {
+      title: 'Consumer price index',
+      linkText: 'International Monetary Fund',
+      linkTarget: 'https://data.imf.org/?sk=4FFB52B2-3653-409A-B471-D47B46D904B5',
     },
   ],
 
@@ -77,8 +82,8 @@ export default {
         title: '',
         content: `
           <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>
-          <p>All countries start at 100. A higher number indicates prices are growing quickly, while a lower number indicates they are rising slowly.</p>
-          <p>Knowing the CPI of your target country gives you a better idea of what prices consumers expect for your product and how much they expect those prices to change.</p>
+          <p>A higher number indicates prices are growing quickly and a lower number indicates they’re rising slowly.</p>
+          <p>CPI gives you an idea of the cost of living and how much those costs have changed.</p>
          `,
       },
     },

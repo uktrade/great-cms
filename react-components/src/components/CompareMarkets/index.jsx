@@ -59,8 +59,8 @@ function CompareMarkets(props) {
     buttonClass = `add-market m-t-xs ${buttonClass}`
     buttonLabel =
       selectedLength > 0
-        ? `Add country ${selectedLength + 1} of ${maxSelectedLength}`
-        : 'Add country to compare'
+        ? `Add place ${selectedLength + 1} of ${maxSelectedLength}`
+        : 'Add a place'
   }
   const triggerButton =
     selectedLength < maxSelectedLength ? (
