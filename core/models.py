@@ -1286,7 +1286,7 @@ class CaseStudyScoringSettings(BaseSetting):
 
     scoring_tab_panels = [
         MultiFieldPanel(first_tab_first_row_panels, heading='Positive scores'),
-        MultiFieldPanel(first_tab_second_row_panels, heading='Dampering scores'),
+        MultiFieldPanel(first_tab_second_row_panels, heading='Dampening scores'),
     ]
 
     edit_handler = TabbedInterface(
