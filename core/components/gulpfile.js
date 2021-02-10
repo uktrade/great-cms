@@ -17,12 +17,12 @@ const FLAGS_SRC = [
   `${PROJECT_DIR}/node_modules/flag-icon-css/**/*.svg`,
   `${PROJECT_DIR}/node_modules/flag-icon-css/**/*.min.css`,
 ];
-const FLAGS_DEST = `${PROJECT_DIR}/directory_components/static/directory_components/vendor/flag-icons`;
+const FLAGS_DEST = `${PROJECT_DIR}/static/vendor/flag-icons`;
 
 // Sass lint -----------------------------
 
 gulp.task('lint:sass', function () {
-  return gulp.src('directory_components/export_elements/**/*.scss')
+  return gulp.src('/**/*.scss')
     .pipe(sassLint({
       options: {
         formatter: 'stylish',
@@ -48,17 +48,17 @@ gulp.task('test', () => {
 });
 
 // Clean task ----------------------------
-// Deletes the /directory_components/static/directory_components/export_elements directory
+// Deletes the /static/stylesheets/ directory
 // ---------------------------------------
 
 gulp.task('clean', () => {
-  return del('directory_components/static/directory_components/export_elements');
+  return del('/static/stylesheets/');
 });
 
 // GovUK styles build task ---------------
 // Compiles CSS from Sass
 // Output both a minified and non-minified version into
-// /directory_components/static/directory_components/export_elements/stylesheets/
+// /static/stylesheets/
 // ---------------------------------------
 
 gulp.task('styles:govuk', function() {
@@ -74,28 +74,28 @@ gulp.task('styles:govuk', function() {
       browsers: ['last 2 versions'],
       cascade: false
     }))
-    .pipe(gulp.dest('directory_components/static/directory_components/export_elements/stylesheets'))
+    .pipe(gulp.dest('static/stylesheets'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest('directory_components/static/directory_components/export_elements/stylesheets'));
+    .pipe(gulp.dest('static/stylesheets'));
 });
 
 // Export-elements-specific component styling
 
 gulp.task('styles:components', () => {
-  return gulp.src('directory_components/export_elements/sass/components/elements-components.scss')
+  return gulp.src('sass/components/elements-components.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
     }))
-    .pipe(gulp.dest('directory_components/static/directory_components/export_elements/stylesheets'))
+    .pipe(gulp.dest('static/stylesheets'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest('directory_components/static/directory_components/export_elements/stylesheets'));
+    .pipe(gulp.dest('static/stylesheets'));
 });
 
 // Flag icons
@@ -113,7 +113,7 @@ gulp.task('styles', [
 ]);
 
 // Images build task ---------------------
-// Copies images to /directory_components/static/directory_components/export_elements/images
+// Copies images to /static/images
 // ---------------------------------------
 
 gulp.task('images', () => {
@@ -121,12 +121,12 @@ gulp.task('images', () => {
     'node_modules/govuk-elements/assets/images/**/*',
     'node_modules/govuk_frontend_toolkit/images/**/*'
   ])
-    .pipe(gulp.dest('directory_components/static/directory_components/export_elements/images'));
+    .pipe(gulp.dest('static/images'));
 });
 
 // Build task ----------------------------
 // Runs tasks that copy assets to the
-// /directory_components/static/directory_components/export_elements directory.
+// /static/ directory.
 // ---------------------------------------
 
 gulp.task('build', cb => {
@@ -139,7 +139,7 @@ gulp.task('build', cb => {
 
 gulp.task('watch', () => {
   return gulp.watch([
-    './directory_components/export_elements/**/*.scss'
+    './**/*.scss'
   ], ['styles']);
 });
 

@@ -3,6 +3,8 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- no-ticket - tidy up BAU folder structures
 - GP2-1420 - Where to export copy updates
 - GP2-1442 - Source attribution updates
 - GP2-1208 - marketing approach
