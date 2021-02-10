@@ -53,6 +53,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
+    console.log({{ lesson_details|safe }})
     magna.createTargetMarketResearchForm({
       element: document.getElementById('target-markets-research'),
       field: 'target_markets_research',
@@ -68,6 +69,7 @@
           },
           description:
             'Demand for your product will be shaped by factors such as a country’s economy and population. Make sure you include any useful figures as these will underpin your understanding of the market.',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
         },
         {
           name: 'competitors',
@@ -79,6 +81,8 @@
           },
           description:
             'Consider including businesses that sell similar products, as well as the other brands or companies operating in the country.',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
+
         },
         {
           name: 'trend',
@@ -90,6 +94,7 @@
           },
           description:
             'Describe what you know about the product market in the Spain. What’s popular right now? Are there new products on the market? Where do people buy it?',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
         },
         {
           name: 'unqiue_selling_proposition',
