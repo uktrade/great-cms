@@ -65510,11 +65510,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_Lesson_ComingSoon__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @src/components/Lesson/ComingSoon */ "./react-components/src/components/Lesson/ComingSoon/index.jsx");
 /* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_27___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_27__);
-
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_26___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_26__);
 
 
 
@@ -65571,7 +65569,7 @@ __webpack_require__.r(__webpack_exports__);
   SelectComparisonMarket: _src_components_CompareMarkets_SelectMarket__WEBPACK_IMPORTED_MODULE_8__["default"],
   ModalMenu: _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_6__["default"],
   createLogin: _src_views_Login__WEBPACK_IMPORTED_MODULE_2__["createLogin"],
-  setConfig: _src_config__WEBPACK_IMPORTED_MODULE_26__["setConfig"],
+  setConfig: _src_config__WEBPACK_IMPORTED_MODULE_25__["setConfig"],
   setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_24__["default"].setInitialState,
   Signup: _src_views_Signup_Container__WEBPACK_IMPORTED_MODULE_0__["default"],
   SignupModal: _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -65579,8 +65577,7 @@ __webpack_require__.r(__webpack_exports__);
   STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_23__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
   sectionSidebar: _src_views_sections__WEBPACK_IMPORTED_MODULE_18__["sectionSidebar"],
-  sectionComplete: _src_views_sections__WEBPACK_IMPORTED_MODULE_18__["sectionComplete"],
-  formatLessonLearned: _src_Helpers__WEBPACK_IMPORTED_MODULE_25__["formatLessonLearned"]
+  sectionComplete: _src_views_sections__WEBPACK_IMPORTED_MODULE_18__["sectionComplete"]
 });
 
 /***/ }),
@@ -66230,7 +66227,7 @@ function DataTable(props) {
       var cellConfig = config.columns[columnKey];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         key: columnKey,
-        className: "".concat(columnKey, " p-v-xs ").concat(cellConfig.className || '')
+        className: "".concat(columnKey, " p-v-xs body-l ").concat(cellConfig.className || '')
       }, countryData && (!countryData.loading || !countryData.loading[columnKey]) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, renderCell(cellConfig, countryData)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading"
       }, "\xA0"));
@@ -66521,13 +66518,13 @@ var importValueAndChange = function importValueAndChange(importValue) {
     linkTarget: 'https://comtrade.un.org/data',
     text: 'Copyright United Nations 2020.'
   }, {
-    title: 'GDP per capita',
+    title: 'Adjusted net national income per capita',
     preLinkText: '(current US$)',
-    linkText: 'World Bank, OECD',
-    linkTarget: 'https://data.worldbank.org/indicator/NY.GDP.PCAP.CD',
+    linkText: 'World Bank',
+    linkTarget: 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD',
     text: 'CC BY 4.0.'
   }, {
-    title: 'Ease of Doing Business Scores',
+    title: 'Ease of Doing Business Rank',
     linkText: 'World Bank',
     linkTarget: 'https://www.doingbusiness.org/en/data/doing-business-score',
     text: 'CC BY 4.0.'
@@ -66572,11 +66569,11 @@ var importValueAndChange = function importValueAndChange(importValue) {
       tooltip: {
         position: 'right',
         title: '',
-        content: "\n          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers in a country.</p>\n          <p>Each year, the World Bank publishes figures for all countries by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>\n          <p>ANNIPC gives you an idea of how much consumers in your country earn, whether they can comfortably afford your products and at what price.</p>\n         "
+        content: "\n          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers.</p>\n          <p>Each year, the World Bank calculates ANNIPC by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>\n          <p>ANNIPC gives you an idea of how much consumers earn, whether they can comfortably afford your products and at what price.</p>\n         "
       }
     },
     'eod-business': {
-      name: 'Ease of doing business rank ',
+      name: 'Ease of doing business rank',
       className: 'text-align-right',
       render: function render(data) {
         return rankOutOf(data.country_data.ease_of_doing_bussiness, 'rank');
@@ -66587,7 +66584,7 @@ var importValueAndChange = function importValueAndChange(importValue) {
       tooltip: {
         position: 'right',
         title: '',
-        content: "\n          <p>The Ease of Doing Business rank indicates whether doing business in a country is easy or difficult.</p>\n          <p>Every year, the World Bank ranks all countries from 1 (easy to do business) to 190 (hard to do business).</p>\n          <p>Knowing the rank of your target country can help you decide whether to enter a market and whether you need professional help to do so.</p>\n         "
+        content: "\n          <p>The Ease of Doing Business rank indicates how easy or hard it is to do business somewhere.</p>\n          <p>The rank is from 1 (easy to do business) to 190 (hard to do business).</p>\n          <p>This  can help you decide whether to export somewhere and whether you need professional help to do so.</p>\n         "
       }
     },
     cpi: {
@@ -66602,7 +66599,7 @@ var importValueAndChange = function importValueAndChange(importValue) {
       tooltip: {
         position: 'right',
         title: '',
-        content: "\n          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>\n          <p>The index ranks countries and territories by the corruption of their public sector, according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>\n          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>\n         "
+        content: "\n          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>\n          <p>The index ranks  public-sector corruption  according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>\n          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>\n         "
       }
     }
   },
@@ -66660,8 +66657,12 @@ var populationPercentActual = function populationPercentActual(group, population
     text: 'CC BY 3.0 IGO.'
   }, {
     title: 'Access to internet',
-    linkText: 'International Telecommunications Union',
+    linkText: 'International Telecommunications Union.',
     linkTarget: 'https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en'
+  }, {
+    title: 'Consumer price index',
+    linkText: 'International Monetary Fund',
+    linkTarget: 'https://data.imf.org/?sk=4FFB52B2-3653-409A-B471-D47B46D904B5'
   }],
   columns: {
     total_population: {
@@ -66707,7 +66708,7 @@ var populationPercentActual = function populationPercentActual(group, population
       tooltip: {
         position: 'right',
         title: '',
-        content: "\n          <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>\n          <p>All countries start at 100. A higher number indicates prices are growing quickly, while a lower number indicates they are rising slowly.</p>\n          <p>Knowing the CPI of your target country gives you a better idea of what prices consumers expect for your product and how much they expect those prices to change.</p>\n         "
+        content: "\n          <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>\n          <p>A higher number indicates prices are growing quickly and a lower number indicates they\u2019re rising slowly.</p>\n          <p>CPI gives you an idea of the cost of living and how much those costs have changed.</p>\n         "
       }
     }
   },
@@ -66798,15 +66799,15 @@ var ruleOfLawRanking = function ruleOfLawRanking(data) {
 /* harmony default export */ __webpack_exports__["default"] = ({
   sourceAttributions: [{
     title: 'Religion',
-    linkText: 'Central Intelligence Agency',
+    linkText: 'Central Intelligence Agency.',
     linkTarget: 'https://www.cia.gov/the-world-factbook'
   }, {
     title: 'Languages',
-    linkText: 'Central Intelligence Agency',
+    linkText: 'Central Intelligence Agency.',
     linkTarget: 'https://www.cia.gov/the-world-factbook'
   }, {
     title: 'Rule of law',
-    linkText: 'The Global Innovation Index 2020',
+    linkText: 'The Global Innovation Index 2020.',
     linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report'
   }],
   columns: {
@@ -66833,7 +66834,7 @@ var ruleOfLawRanking = function ruleOfLawRanking(data) {
       tooltip: {
         position: 'right',
         title: '',
-        content: "\n          <p>The strength of the law varies from country to country.</p>\n          <p>Each year, the Global Innovation Index ranks countries from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, the police, and the courts.</p>\n          <p>This gives you an idea of how easy may be to follow regulations and take legal action if something goes wrong.</p>\n         "
+        content: "\n          <p>The strength of the law varies from place to place.</p>\n          <p>The rank is from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, police, and the courts.</p>\n          <p>This indicates how hard it may be to follow regulations and take legal action if something goes wrong.</p>\n         "
       }
     }
   },
@@ -67026,7 +67027,7 @@ function CompareMarkets(props) {
 
   if (selectedProduct) {
     buttonClass = "add-market m-t-xs ".concat(buttonClass);
-    buttonLabel = selectedLength > 0 ? "Add country ".concat(selectedLength + 1, " of ").concat(maxSelectedLength) : 'Add country to compare';
+    buttonLabel = selectedLength > 0 ? "Add place ".concat(selectedLength + 1, " of ").concat(maxSelectedLength) : 'Add a place';
   }
 
   var triggerButton = selectedLength < maxSelectedLength ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -70691,12 +70692,12 @@ function Menu(props) {
       className: "link"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-map-marker-alt"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Compare countries"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Where to export"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       href: "/export-plan/dashboard/",
       className: "link"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-folder"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Build an export plan"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Make an export plan"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "m-v-xxs"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       href: "/contact-us/help/",
@@ -71290,7 +71291,7 @@ var CountryFinderButton = function CountryFinderButton(props) {
     type: "button",
     className: buttonClass,
     onClick: openModal
-  }, market && market.country_name || 'add country', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+  }, market && market.country_name || 'add place', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fa ".concat(market ? 'fa-edit' : 'fa-plus')
   }));
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, triggerButton, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CountryFinderModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
@@ -71558,7 +71559,7 @@ function CountryFinderModal(props) {
 
   var suggestedSection = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-s"
-  }, "Suggested markets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, "Suggested places"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "m-v-xs"
   }, "Add a product so that we can suggest export markets."));
 
@@ -71581,7 +71582,7 @@ function CountryFinderModal(props) {
       className: "suggested-markets"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       className: "h-s"
-    }, "Suggested markets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    }, "Suggested places"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-v-xs"
     }, "These are based on the size of the market for your product, export distance, tariffs and costs."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "m-v-xs"
@@ -71592,21 +71593,21 @@ function CountryFinderModal(props) {
 
   var compareMarketsSection = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-s p-t-xs"
-  }, "Compare countries"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Where to export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "m-v-xs"
-  }, "Compare stats for over 180 countries to find the best place to target your exports."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, "Compare data for different places to make an informed choice about where to export."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/where-to-export/",
     className: "button button--secondary"
-  }, "Compare Markets"))));
+  }, "Compare places"))));
   /* Filtered list of markets */
 
   var marketListSection = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-s p-t-xs"
-  }, "List of markets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, "List of places"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "m-v-xs"
   }, "If you have an idea of where you want to export, choose from the list below. ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "You can change this at any time."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
@@ -71636,25 +71637,25 @@ function CountryFinderModal(props) {
       className: "only-mobile"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
       className: "h-l m-t-s p-b-xs"
-    }, !isCompareCountries ? 'Choose a target market' : 'Choose markets for comparison')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !isCompareCountries ? 'There are 3 ways to choose a target export market' : 'There are 2 ways to choose a market for comparison'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, !isCompareCountries ? 'Choose a place' : 'Choose a place to compare')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, !isCompareCountries ? 'There are 3 ways to choose a target export market' : 'There are 2 ways to choose a place to compare'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
       className: "button button--secondary button--full-width m-b-s",
       onClick: function onClick() {
         return setMobilePage('suggested');
       }
-    }, "Suggested markets"), !isCompareCountries && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, "Suggested places"), !isCompareCountries && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
       className: "button button--secondary button--full-width m-b-s",
       onClick: function onClick() {
         return setMobilePage('compare');
       }
-    }, "Compare markets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, "Compare places"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
       className: "button button--secondary button--full-width m-b-s",
       onClick: function onClick() {
         return setMobilePage('list');
       }
-    }, "List of markets")),
+    }, "List of places")),
     suggested: suggestedSection,
     compare: compareMarketsSection,
     list: marketListSection
@@ -71685,7 +71686,7 @@ function CountryFinderModal(props) {
     className: "only-desktop"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-l m-t-s p-b-xs"
-  }, isCompareCountries ? 'Choose markets for comparison' : 'Choose a target market')), suggestedSection, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+  }, "Choose a place")), suggestedSection, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr bg-red-deep-100"
   }), !isCompareCountries && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, compareMarketsSection, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "hr bg-red-deep-100"

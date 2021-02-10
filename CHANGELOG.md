@@ -3,6 +3,12 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- GP2-1470 - Port PerformanceDashboardPage from V1
+- no-ticket - fix collectstatic errors
+- no-ticket - tidy up BAU folder structures
+- GP2-1420 - Where to export copy updates
+- GP2-1442 - Source attribution updates
 - GP2-1208 - marketing approach
 - GP2-1208 - create a hook to make endpoint, debounce, save and error state resuable
 - GP2-1449 - Product classifier responsive layout
@@ -11,7 +17,6 @@
 - GP2-1177 - Getting paid - Payment methods element
 - GP2-1469 - Add table block to GuidancePage.body
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
-
 - GP2-1439 - CMS admin UI for case study scoring
 - GP2-1240 - Mark sections as complete
 - GP2-1344 - added trading bloc logic to search case study
