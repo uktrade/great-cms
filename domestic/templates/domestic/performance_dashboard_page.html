@@ -21,9 +21,7 @@ Performance dashboard - great.gov.uk
 
 <section>
   <div class="container">
-
     <div class="performance">
-
       <p class="font-small subheading">Performance dashboard</p>
       <h2 class="heading-large">{{ page.heading }}</h2>
       <div class="grid-row">
@@ -32,13 +30,11 @@ Performance dashboard - great.gov.uk
           <p>Visit <a href="{{ page.product_link }}" class="link">{{ page.heading }}</a></p>
         </div>
       </div>
-
       <div class="grid-row performance-stats">
         {% for data_block in page.body %}
             {% include_block data_block %}
         {% endfor %}
       </div>
-
       {% if page.guidance_notes %}
       <div class="grid-row">
         <div class="column-half rich-text">
@@ -46,7 +42,6 @@ Performance dashboard - great.gov.uk
         </div>
       </div>
       {% endif %}
-
     </div>
 
     {% if page.landing_dashboard and page.get_child_dashboards %}
@@ -57,15 +52,13 @@ Performance dashboard - great.gov.uk
         {% for child_dashboard in page.get_child_dashboards %}
         <li>
             <a class="link" href="{{child_dashboard.url}}">
-                {{child_dashboard.title}}
+              {{child_dashboard.title}}
             </a>
         </li>
         {% endfor %}
       </ul>
     </div>
     {% endif %}
-
   </div>
 </section>
-
 {% endblock %}
