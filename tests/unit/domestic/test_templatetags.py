@@ -16,15 +16,12 @@ from domestic.templatetags.component_tags import (
 
 
 def test_static_absolute(rf):
-    template = Template(
-        '{% load static_absolute from component_tags %}'
-        '{% static_absolute "directory_components/images/favicon.ico" %}'
-    )
+    template = Template('{% load static_absolute from component_tags %}' '{% static_absolute "images/favicon.ico" %}')
 
     context = Context({'request': rf.get('/')})
     html = template.render(context)
 
-    assert html == ('http://testserver/static/directory_components/images/favicon.ico')
+    assert html == ('http://testserver/static/images/favicon.ico')
 
 
 def test_breadcrumbs_simple(rf):

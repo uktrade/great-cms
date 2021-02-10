@@ -344,7 +344,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     class Meta:
         ordering = ['-heading', '-title']
 
-    template = 'domestic/content/country_guide.html'
+    template = 'domestic/country_guide.html'
 
     parent_page_types = [
         'domestic.DomesticHomePage',  # TODO: remove this
@@ -751,7 +751,7 @@ class ArticlePage(
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
-    template = 'domestic/content/article_listing_page.html'
+    template = 'domestic/article_listing_page.html'
 
     parent_page_types = [
         'domestic.CountryGuidePage',
@@ -950,7 +950,7 @@ class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
     This model may need to be moved to core once V1 and V2 CSS is fully merged
     """
 
-    template = 'domestic/content/guidance_page.html'
+    template = 'domestic/guidance_page.html'
 
     body = StreamField(
         [
