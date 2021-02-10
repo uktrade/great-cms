@@ -68,6 +68,11 @@ def export_plan_data(cost_pricing_data):
             'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
             'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
         },
+        'business_trips': {'note': 'trip 1'},
+        'travel_business_policies': {
+            'travel_information': 'All travel to be business class',
+            'visa_information': {'is_required': True, 'duration': '10 Months'},
+        },
         'pk': 1,
         'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }

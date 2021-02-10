@@ -53,17 +53,27 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var rationale = document.getElementById('objectives-reasons');
     magna.createObjectivesReasons({
-      element: rationale,
+      element: document.getElementById('objectives-reasons'),
       field: 'objectives',
-      formData: {{ form_initial|safe }},
-      formFields: {{ form_fields|safe }},
+      formData: {{ objectives|to_json|safe }},
+      formFields: [
+        {
+          name: 'rationale',
+          label: 'Why you want to export',
+          field_type: 'Textarea',
+          placeholder: 'Add some text',
+          example: {
+            content: 'A desire for taste lacking in big brands is creating a buzz around "craft" gin distilleries  - especially those in the UK. Dove gin is what we anticipate is long term growth in major cities in Europe, Asia and the US.'
+          },
+          description:
+            '<p>What are the main reasons you want to export?</p><p>Common reasons for exporting include:</p><ul class="list-dot"><li>grow the business by selling overseas</li><li>maintain growth when sales in the UK have levelled off</li><li>spread risk evenly by selling in countries other than the UK</li><li>widen your customer base</li></ul> <p class="g-panel">Planning and thinking about your export objectives will help you make the most out of any export opportunities you are interested in.</p>',
+        },
+      ],
     })
-    var objectives = document.getElementById('objectives-form--objectives');
     magna.createObjectivesList({
-      element: objectives,
-      objectives: {{ objectives|to_json|safe }},
+      element: document.getElementById('objectives-form--objectives'),
+      objectives: {{ company_objectives|to_json|safe }},
       exportPlanID: {{ export_plan.pk }}
     })
   </script>
