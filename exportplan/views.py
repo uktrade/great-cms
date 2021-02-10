@@ -191,21 +191,9 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
         return context
 
 
-class ExportPlanTargetMarketsResearchView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    form_class = forms.ExportPlanTargetMarketsResearchForm
-    success_url = reverse_lazy('exportplan:target-markets-research')
+class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'target-markets-research'
     title = 'Target market research'
-
-    def get_initial(self):
-        return self.request.user.export_plan.data['target_markets_research']
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['country_name'] = self.request.user.export_plan.export_country_name
-        return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -221,6 +209,7 @@ class ExportPlanTargetMarketsResearchView(
             context['selected_age_groups'] = (
                 self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
             )
+        context['target_markets_research'] = self.request.user.export_plan.data['target_markets_research']
         return context
 
 
