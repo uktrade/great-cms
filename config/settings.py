@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.core',
     'wagtail.contrib.routable_page',
+    'wagtail.contrib.settings',
     'wagtailmedia',
     'wagtailcache',
     'wagtail_personalisation',

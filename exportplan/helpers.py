@@ -243,6 +243,30 @@ def update_ui_options_target_ages(sso_session_id, target_ages, export_plan, sect
         )
 
 
+def create_model_object(sso_session_id, data, model_name):
+    response = api_client.exportplan.model_object_create(
+        sso_session_id=sso_session_id, data=data, model_name=model_name
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def update_model_object(sso_session_id, model_name, data):
+    response = api_client.exportplan.model_object_update(
+        sso_session_id=sso_session_id, id=data['pk'], data=data, model_name=model_name
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def delete_model_object(sso_session_id, model_name, data):
+    response = api_client.exportplan.model_object_delete(
+        sso_session_id=sso_session_id, id=data['pk'], model_name=model_name
+    )
+    response.raise_for_status()
+    return response
+
+
 class ExportPlanParser:
     """
     Parse the export plan details provided by directory-api's exportplan

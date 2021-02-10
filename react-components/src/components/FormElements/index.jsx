@@ -6,7 +6,7 @@ import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import { Input } from '@src/components/Form/Input'
 import Spinner from '@src/components/Spinner/Spinner'
-import { sectionQuestionMapping } from '@src/Helpers'
+import { getLabel, sectionQuestionMapping } from '@src/Helpers'
 import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 
 export const FormElements = memo(({ formData: form, field, formFields }) => {
@@ -42,12 +42,8 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             value={formData[item.name]}
             onChange={handleChange}
             update={handleChange}
-            tooltip={{
-              content: item.tooltip,
-            }}
-            example={{
-              content: item.example,
-            }}
+            tooltip={item.tooltip}
+            example={item.example}
             description={item.description}
             key={item.name}
             prepend={item.currency ? item.currency : null}
@@ -56,10 +52,10 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             type={fieldType === 'NumberInput' ? 'number' : 'text'}
             selected={
               formData[item.name] && item.choices
-                ? item.choices.find((x) => x.value === formData[item.name])
-                    .label
+                ? getLabel(item.choices, formData[item.name])
                 : ''
             }
+            lesson={item.lesson}
           />
         )
       })}
