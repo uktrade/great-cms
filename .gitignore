@@ -131,18 +131,18 @@ react-components/dist/styles.js
 react-components/dist/styles.js.map
 
 #BAU generated files not needed
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie6.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie6.min.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie7.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie7.min.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie8.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation-ie8.min.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/elements-documentation.min.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie6.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie6.min.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie7.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie7.min.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie8.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/govuk-elements-styles-ie8.min.css
-core/components/directory_components/static/directory_components/export_elements/stylesheets/maps/
+core/components/static/stylesheets/elements-documentation-ie6.css
+core/components/static/stylesheets/elements-documentation-ie6.min.css
+core/components/static/stylesheets/elements-documentation-ie7.css
+core/components/static/stylesheets/elements-documentation-ie7.min.css
+core/components/static/stylesheets/elements-documentation-ie8.css
+core/components/static/stylesheets/elements-documentation-ie8.min.css
+core/components/static/stylesheets/elements-documentation.css
+core/components/static/stylesheets/elements-documentation.min.css
+core/components/static/stylesheets/govuk-elements-styles-ie6.css
+core/components/static/stylesheets/govuk-elements-styles-ie6.min.css
+core/components/static/stylesheets/govuk-elements-styles-ie7.css
+core/components/static/stylesheets/govuk-elements-styles-ie7.min.css
+core/components/static/stylesheets/govuk-elements-styles-ie8.css
+core/components/static/stylesheets/govuk-elements-styles-ie8.min.css
+core/components/static/stylesheets/maps/

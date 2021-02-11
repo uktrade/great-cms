@@ -5,7 +5,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
-from core.constants import RICHTEXT_FEATURES__MINIMAL
+from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
 from core.utils import (
     get_personalised_case_study_orm_filter_args,
     get_personalised_choices,
@@ -328,7 +328,7 @@ class CountryGuideIndustryBlock(blocks.StructBlock):
     case_study = CountryGuideCaseStudyBlock(required=False)
 
     class Meta:
-        template = 'domestic/content/blocks/accordions.html'
+        template = 'domestic/includes/blocks/accordions.html'
 
 
 class PullQuoteBlock(blocks.StructBlock):
@@ -359,3 +359,16 @@ class PullQuoteBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'fa-quote-left'
+
+
+class PerformanceDashboardDataBlock(blocks.StructBlock):
+
+    data_title = blocks.CharBlock(max_length=100)
+    data_value = blocks.CharBlock(max_length=100)
+    data_period = blocks.CharBlock(max_length=100)
+    data_description = blocks.RichTextBlock(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
+
+    class Meta:
+        template = 'domestic/blocks/performance_dash_data_block.html'

@@ -1251,7 +1251,7 @@ class CaseStudyScoringSettings(BaseSetting):
         max_digits=5,
     )
 
-    first_tab_panels = [
+    first_tab_first_row_panels = [
         FieldPanel('module'),
         FieldPanel('topic'),
         FieldPanel('lesson'),
@@ -1260,11 +1260,6 @@ class CaseStudyScoringSettings(BaseSetting):
         FieldPanel('product_hs2'),
         FieldPanel('country_region'),
         FieldPanel('country_exact'),
-        FieldPanel('other_product_hs6'),
-        FieldPanel('other_product_hs4'),
-        FieldPanel('other_product_hs2'),
-        FieldPanel('other_country_region'),
-        FieldPanel('other_country_exact'),
         FieldPanel('recency_3_months'),
         FieldPanel('recency_6_months'),
         FieldPanel('recency_9_months'),
@@ -1274,18 +1269,30 @@ class CaseStudyScoringSettings(BaseSetting):
         FieldPanel('recency_21_months'),
         FieldPanel('recency_24_months'),
         FieldPanel('trading_blocs'),
+    ]
+    first_tab_second_row_panels = [
+        FieldPanel('other_product_hs6'),
+        FieldPanel('other_product_hs4'),
+        FieldPanel('other_product_hs2'),
+        FieldPanel('other_country_region'),
+        FieldPanel('other_country_exact'),
         FieldPanel('other_lesson_tags'),
         FieldPanel('other_module_tags'),
         FieldPanel('other_topics_tags'),
     ]
-    second_tab_panels = [
+    threshold_tab_panels = [
         FieldPanel('threshold'),
+    ]
+
+    scoring_tab_panels = [
+        MultiFieldPanel(first_tab_first_row_panels, heading='Positive scores'),
+        MultiFieldPanel(first_tab_second_row_panels, heading='Dampening scores'),
     ]
 
     edit_handler = TabbedInterface(
         [
-            ObjectList(first_tab_panels, heading='Scoring'),
-            ObjectList(second_tab_panels, heading='Threshold'),
+            ObjectList(scoring_tab_panels, heading='Scoring'),
+            ObjectList(threshold_tab_panels, heading='Threshold'),
         ]
     )
 

@@ -191,21 +191,9 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
         return context
 
 
-class ExportPlanTargetMarketsResearchView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    form_class = forms.ExportPlanTargetMarketsResearchForm
-    success_url = reverse_lazy('exportplan:target-markets-research')
+class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'target-markets-research'
     title = 'Target market research'
-
-    def get_initial(self):
-        return self.request.user.export_plan.data['target_markets_research']
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['country_name'] = self.request.user.export_plan.export_country_name
-        return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -221,42 +209,31 @@ class ExportPlanTargetMarketsResearchView(
             context['selected_age_groups'] = (
                 self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
             )
+        context['target_markets_research'] = self.request.user.export_plan.data['target_markets_research']
         return context
 
 
-class ExportPlanBusinessObjectivesView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    form_class = forms.ExportPlanBusinessObjectivesForm
-    success_url = reverse_lazy('exportplan:business-objectives')
+class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Business objectives'
-
-    def form_valid(self, form):
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id,
-            id=self.request.user.export_plan.data['pk'],
-            data=form.cleaned_data,
-        )
-        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['objectives'] = self.request.user.export_plan.data['company_objectives']
+        context['company_objectives'] = self.request.user.export_plan.data['company_objectives']
+        context['objectives'] = self.request.user.export_plan.data['objectives']
         return context
 
-    def get_initial(self):
-        return self.request.user.export_plan.data['objectives']
 
-
-class ExportPlanAboutYourBusinessView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    def get_initial(self):
-        return self.request.user.export_plan.data['about_your_business']
+class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
 
     form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'About your business'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['turnover_choices'] = choices_to_key_value(choices.TURNOVER_CHOICES)
+        context['about_your_business_data'] = self.request.user.export_plan.data['about_your_business']
+        return context
 
 
 class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
@@ -309,6 +286,16 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
         )
         context['funding_credit_options'] = self.request.user.export_plan.data.get('funding_credit_options', [])
 
+        return context
+
+
+class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = '`Travel And Business Policies'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
+        context['business_trips'] = self.request.user.export_plan.data['business_trips']
         return context
 
 
