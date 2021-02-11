@@ -96,12 +96,12 @@ def get_personalised_choices(export_plan):
     return hs_tag, country, region
 
 
-def create_filter_dict(product_code=None, target_area=None):
+def create_filter_dict(product_code=None, target_area=None, trading_bloc=None):
     """
      Helper function to create filter dict based on product and target area
 
     @param product_code: HS code ( HS6, HS4 or HS2)
-    @param target_area: country_iso or region
+    @param target_area: country_iso or region, trading_bloc
     @return: dict
     """
 
@@ -110,6 +110,8 @@ def create_filter_dict(product_code=None, target_area=None):
         result['hs_code_tags__name'] = product_code
     if target_area:
         result['country_code_tags__name'] = target_area
+    if trading_bloc:
+        result['trading_bloc_code_tags__name'] = trading_bloc
     return result
 
 
@@ -145,13 +147,13 @@ def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, regi
             create_filter_dict(product_code=code, target_area=area) for code in unique_hs_codes for area in region_list
         ]
     elif unique_hs_codes:
-        filter_args = [create_filter_dict(product_code=code, target_area=None) for code in unique_hs_codes]
+        filter_args = [create_filter_dict(product_code=code) for code in unique_hs_codes]
 
     if is_region:
-        filter_args = filter_args + [create_filter_dict(product_code=None, target_area=area) for area in region_list]
+        filter_args = filter_args + [create_filter_dict(target_area=area) for area in region_list]
 
     if country and is_trading_blocs:
-        filter_args = filter_args + [create_filter_dict(product_code=None, target_area=area) for area in trading_blocs]
+        filter_args = filter_args + [create_filter_dict(trading_bloc=area) for area in trading_blocs]
 
     return [i for i in filter_args if i]
 

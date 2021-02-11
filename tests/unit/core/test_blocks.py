@@ -316,7 +316,7 @@ def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(r
 def test_case_study_static_block_annotate_with_trading_blocs_tags(mock_trading_blocs, rf, user):
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add('South Asia Free Trade Area (SAFTA)', 'ES')
+    case_study_1.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'ES')
     case_study_1.save()
 
     # Another case study with same tags as latest modified
