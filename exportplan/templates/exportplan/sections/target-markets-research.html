@@ -37,17 +37,7 @@
 
 <section class="container">
   <div class="grid">
-    <div class="c-1-4 m-t-s">
-      <div class="lesson__back">
-        {% include 'exportplan/includes/lesson_details.html' with lesson_name='quantifying-customer-demand-how-much-might-you-sell' %}
-      </div>
-      <div class="lesson__back">
-        {% include 'exportplan/includes/lesson_details.html' with lesson_name='using-what-you-know-to-help-inform-your-positioning-and-competitive-advantage' %}
-      </div>
-      <div class="lesson__back">
-        {% include 'exportplan/includes/lesson_details.html' with lesson_name='understand-market-trends' %}
-      </div>
-    </div>
+    <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
       <form class="" action="" method="post" id="target-markets-research">
         {% csrf_token %}
@@ -63,17 +53,71 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('target-markets-research');
     magna.createTargetMarketResearchForm({
-      element: element,
+      element: document.getElementById('target-markets-research'),
       field: 'target_markets_research',
-      formData: {{ form_initial|safe }},
-      formFields: {{ form_fields|safe }},
+      formData: {{ target_markets_research|safe }},
+      formFields: [
+        {
+          name: 'demand',
+          label: 'Describe the consumer demand for your product in the Spain',
+          field_type: 'Textarea',
+          placeholder: '',
+          example: {
+            content: '<p>Gin imports are hugely on the rise in Australia. The market was worth over 60 million USD in 2019, a massive increase of 25% year on year. This is predicted to continue growing at 9%.</p> <p>Meanwhile, UK gin imports were worth 12 million USD in 2019. This is a market that’s thirsty for gin and very open to new products. In the past 5 years over 75 new distilleries have opened.</p> <p>Our target age group, 25-54 year olds, makes up 40% of the population. The average income is also increasing - currently 45,000 USD, up 3% compared to 2019.</p> <p>Australia is also a straightforward export market despite its distance. There are no trade barriers, they speak the same language and have similar tastes in other beverages such as beer and wine.</p>'
+          },
+          description:
+            'Demand for your product will be shaped by factors such as a country’s economy and population. Make sure you include any useful figures as these will underpin your understanding of the market.',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
+        },
+        {
+          name: 'competitors',
+          label: 'Who are your competitors in the Spain?',
+          field_type: 'Textarea',
+          placeholder: '',
+          example: {
+            content: '<ul><li>Poor Tom’s Gin</li> <li>The Melbourne Gin Company - main local competitor</li><li>Butlers Gin (UK)</li> <li>Plymouth Gin (UK) - main British export competitor</li></ul>'
+          },
+          description:
+            'Consider including businesses that sell similar products, as well as the other brands or companies operating in the country.',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
+
+        },
+        {
+          name: 'trend',
+          label: 'What are the product trends in the Spain?',
+          field_type: 'Textarea',
+          placeholder: '',
+          example: {
+            content: '<p>There are already over 100 craft gin distilleries in Australia. The main trend seems to be using native Australian ingredients to create a modern twist on traditional gin flavours.</p> <p>The market is fairly similar to the UK in terms of consumption and age. Gin bars are on the increase in the main cities. Online gin clubs that offer monthly gin subscriptions to their members are also popular.</p>'
+          },
+          description:
+            'Describe what you know about the product market in the Spain. What’s popular right now? Are there new products on the market? Where do people buy it?',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
+        },
+        {
+          name: 'unqiue_selling_proposition',
+          label: 'What’s your unique selling proposition for the Spain?',
+          field_type: 'Textarea',
+          placeholder: '',
+          example: {
+            content: 'Dove Gin’s historic backstory is definitely appealing and will make us stand out from the competition. We also know our product design is very appealing and unique.',
+          },
+          description:
+            'Explain your product’s particular appeal to consumers in the Spain. Why would they buy it rather than another brand?',
+        },
+        {
+          name: 'average_price',
+          label: 'What’s the avg price for your product in the Spain?',
+          field_type: 'NumberInput',
+          placeholder: '0.00',
+          currency: 'GBP',
+        },
+      ],
     })
 
-    element = document.getElementById('target-age-groups');
     magna.createDataSnapShot({
-      element,
+      element: document.getElementById('target-age-groups'),
       groups: {{ target_age_group_choices|safe }},
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ insight_data|to_json|safe }},
