@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1551 - Seperated case study tag for trading bloc
 - GP2-1470 - Port PerformanceDashboardPage from V1
 - no-ticket - fix collectstatic errors
 - no-ticket - tidy up BAU folder structures

@@ -870,6 +870,18 @@ class PersonalisationCountryTag(TagBase):
         verbose_name_plural = 'Country tags for personalisation'
 
 
+class PersonalisationTradingBlocTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be an Trading blocs
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Trading bloc tag for personalisation'
+        verbose_name_plural = 'Trading bloc tags for personalisation'
+
+
 # If you're wondering what's going on here:
 # https://docs.wagtail.io/en/stable/reference/pages/model_recipes.html#custom-tag-models
 
@@ -886,6 +898,15 @@ class CountryTaggedCaseStudy(ItemBase):
         PersonalisationCountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE
     )
     content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
+
+
+class TradingBlocTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationTradingBlocTag, related_name='trading_bloc_tagged_case_studies', on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to='core.CaseStudy', on_delete=models.CASCADE, related_name='trading_bloc_tagged_items'
+    )
 
 
 def _high_level_validation(value, error_messages):
@@ -1035,6 +1056,9 @@ class CaseStudy(ClusterableModel):
     country_code_tags = ClusterTaggableManager(
         through='core.CountryTaggedCaseStudy', blank=True, verbose_name='Country tags'
     )
+    trading_bloc_code_tags = ClusterTaggableManager(
+        through='core.TradingBlocTaggedCaseStudy', blank=True, verbose_name='Trading bloc tags'
+    )
 
     created = CreationDateTimeField('created', null=True)
     modified = ModificationDateTimeField('modified', null=True)
@@ -1053,6 +1077,7 @@ class CaseStudy(ClusterableModel):
             [
                 FieldPanel('hs_code_tags'),
                 FieldPanel('country_code_tags'),
+                FieldPanel('trading_bloc_code_tags'),
             ],
             heading='Case Study tags for Personalisation',
         ),
