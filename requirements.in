@@ -30,7 +30,7 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 great-components==1.1.*
-directory-api-client==22.13.*
+directory-api-client==22.14.*
 directory-constants==20.22.*
 directory-forms-api-client==5.3.*
 directory-sso-api-client>=6.5.*
@@ -48,7 +48,7 @@ iso3166==1.0.1
 freezegun==0.1.5
 sphinx==1.8.*
 readtime==1.*
-cryptography==3.2
+cryptography==3.3.2
 pillow>=7.1.0
 factory-boy==2.12.*
 dateparser==0.7.2

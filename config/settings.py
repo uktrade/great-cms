@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.core',
     'wagtail.contrib.routable_page',
+    'wagtail.contrib.settings',
     'wagtailmedia',
     'wagtailcache',
     'wagtail_personalisation',
@@ -175,7 +176,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     str(ROOT_DIR('core/static')),
-    str(ROOT_DIR('core/components/directory_components/static')),
+    str(ROOT_DIR('core/components/static')),
     str(ROOT_DIR('domestic/static')),
     str(ROOT_DIR('react-components/dist')),
 ]

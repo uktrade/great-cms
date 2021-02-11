@@ -55,6 +55,7 @@ import {
   STEP_VERIFICATION_CODE,
 } from '@src/views/SignupModal/Component/'
 import Services from '@src/Services'
+import { formatLessonLearned } from '@src/Helpers'
 import { setConfig } from '@src/config'
 import '@babel/polyfill'
 
@@ -100,4 +101,5 @@ export default {
   Tour,
   sectionSidebar,
   sectionComplete,
+  formatLessonLearned,
 }

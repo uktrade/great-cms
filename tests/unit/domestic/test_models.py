@@ -1,13 +1,15 @@
 import json
+from datetime import timedelta
 from unittest import mock
 
 import pytest
 from bs4 import BeautifulSoup
 from django.test import RequestFactory
+from django.utils.timezone import now as tz_now
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.tests.utils import WagtailPageTests
 
-from core import mixins, models as core_models
+from core import mixins, models as core_models, service_urls
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
 from domestic.models import (
@@ -16,7 +18,9 @@ from domestic.models import (
     CountryGuidePage,
     DomesticDashboard,
     DomesticHomePage,
+    GuidancePage,
     MarketsTopicLandingPage,
+    PerformanceDashboardPage,
     TopicLandingPage,
     industry_accordions_validation,
     main_statistics_validation,
@@ -36,6 +40,7 @@ from .factories import (
     DomesticDashboardFactory,
     DomesticHomePageFactory,
     MarketsTopicLandingPageFactory,
+    PerformanceDashboardPageFactory,
     TopicLandingPageFactory,
 )
 
@@ -665,11 +670,13 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         self.assertEqual(retrieved_page_2.slug, 'markets')
 
     def _make_country_guide_pages(self, parent_page, count):
+        _now = tz_now()
         for i in range(count):
             CountryGuidePageFactory(
                 parent=parent_page,
                 title=f'Test GCP {i}',
                 live=True,
+                last_published_at=_now - timedelta(minutes=i),
             )
 
     def test_sort_results(self):
@@ -691,15 +698,17 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
         self.assertEqual(sorted_pages[0], CountryGuidePage.objects.get(title='Test GCP 0'))
         self.assertEqual([x for x in pages.order_by('title')], [y for y in sorted_pages])
 
-        # Last amended
+        # Last published at
         request = RequestFactory().get('/?sortby=last_published_at')
         sorted_pages = markets_topic_page.sort_results(
             request,
             pages,
         )
 
-        self.assertEqual(sorted_pages[0], pages.order_by('last_published_at').first())
-        self.assertEqual([x for x in pages.order_by('last_published_at')], [y for y in sorted_pages])
+        # Note that the results are flipped from ascending to descending to show
+        # most recently edited first
+        self.assertEqual(sorted_pages[0], pages.order_by('-last_published_at').first())
+        self.assertEqual([x for x in pages.order_by('-last_published_at')], [y for y in sorted_pages])
 
     def test_sort_results__sanitises_input(self):
 
@@ -1272,3 +1281,120 @@ def test_article_body_pull_quote_block(
 
     if organisation_link and not organisation:
         assert organisation_link not in rendered_block
+
+
+class PerformanceDashboardPageTests(WagtailPageTests):
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            PerformanceDashboardPage,
+            {
+                PerformanceDashboardPage,
+                GuidancePage,
+            },
+        )
+
+    def test_get_child_dashboards(self):
+
+        main_dash = PerformanceDashboardPageFactory(
+            product_link=service_urls.SERVICES_GREAT_DOMESTIC,
+        )
+
+        child_soo = PerformanceDashboardPageFactory(
+            product_link=service_urls.SERVICES_SOO,
+            parent=main_dash,
+        )
+
+        child_invest = PerformanceDashboardPageFactory(
+            product_link=service_urls.SERVICES_INVEST,
+            parent=main_dash,
+        )
+
+        child_exopps = PerformanceDashboardPageFactory(
+            product_link=service_urls.SERVICES_EXOPPS,
+            parent=main_dash,
+        )
+
+        child_fab = PerformanceDashboardPageFactory(
+            product_link=service_urls.SERVICES_FAB,
+            parent=main_dash,
+        )
+
+        self.assertEqual(
+            [x for x in main_dash.get_child_dashboards()],
+            [
+                child_soo,
+                child_invest,
+                child_exopps,
+                child_fab,
+            ],
+        )
+
+        child_exopps.live = False
+        child_exopps.save()
+
+        self.assertEqual(
+            [x for x in main_dash.get_child_dashboards()],
+            [
+                child_soo,
+                child_invest,
+                child_fab,
+            ],
+        )
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'product_link, expected',
+    (
+        (
+            service_urls.SERVICES_GREAT_DOMESTIC,
+            {
+                'title': 'Great.gov.uk Performance Dashboard',
+                'slug': 'performance-dashboard',
+                'heading': 'Great.gov.uk',
+                'landing_dashboard': True,
+            },
+        ),
+        (
+            service_urls.SERVICES_SOO,
+            {
+                'title': 'Selling Online Overseas Performance Dashboard',
+                'slug': 'selling-online-overseas',
+                'heading': 'Selling Online Overseas',
+                'landing_dashboard': False,
+            },
+        ),
+        (
+            service_urls.SERVICES_EXOPPS,
+            {
+                'title': 'Export Opportunities Performance Dashboard',
+                'slug': 'export-opportunities',
+                'heading': 'Export Opportunities',
+                'landing_dashboard': False,
+            },
+        ),
+        (
+            service_urls.SERVICES_FAB,
+            {
+                'title': 'Business Profiles Performance Dashboard',
+                'slug': 'trade-profiles',
+                'heading': 'Business Profiles',
+                'landing_dashboard': False,
+            },
+        ),
+        (
+            service_urls.SERVICES_INVEST,
+            {
+                'title': 'Invest in Great Britain Performance Dashboard',
+                'slug': 'invest',
+                'heading': 'Invest in Great Britain',
+                'landing_dashboard': False,
+            },
+        ),
+    ),
+)
+def test_performance_dashboard_auto_population(product_link, expected):
+    dash = PerformanceDashboardPageFactory(product_link=product_link)
+
+    for key in ['title', 'heading', 'landing_dashboard', 'slug']:
+        assert getattr(dash, key) == expected[key]

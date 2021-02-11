@@ -3,6 +3,12 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- GP2-1470 - Port PerformanceDashboardPage from V1
+- no-ticket - fix collectstatic errors
+- no-ticket - tidy up BAU folder structures
+- GP2-1420 - Where to export copy updates
+- GP2-1442 - Source attribution updates
 - GP2-1208 - marketing approach
 - GP2-1208 - create a hook to make endpoint, debounce, save and error state resuable
 - GP2-1449 - Product classifier responsive layout
@@ -11,6 +17,7 @@
 - GP2-1177 - Getting paid - Payment methods element
 - GP2-1469 - Add table block to GuidancePage.body
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
+- GP2-1439 - CMS admin UI for case study scoring
 - GP2-1240 - Mark sections as complete
 - GP2-1344 - added trading bloc logic to search case study
 - GP2-1425 - Cost and pricing - Estimate element
@@ -22,7 +29,7 @@
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 
 ### Fixed bugs
-
+- GP2-1514 - Fix ordering when selecting most recently updatet on MarketsTopicPage
 - GP2-1482 - Handle errors in product clasification request.
 - GP2-1361 - Compare markets - align cookies to user.
 - GP2-1397 - Render HTML definitions in product classifier.
@@ -116,6 +123,7 @@
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
 - NOTICKET - Fix getting paid bug
+- GP2-1180 - travel bus BE
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
 

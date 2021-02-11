@@ -88,13 +88,13 @@ export function Menu(props) {
         <li>
           <a href="/where-to-export/" className="link">
             <i className="fa fa-map-marker-alt" />
-            <span>Compare countries</span>
+            <span>Where to export</span>
           </a>
         </li>
         <li>
           <a href="/export-plan/dashboard/" className="link">
             <i className="fa fa-folder" />
-            <span>Build an export plan</span>
+            <span>Make an export plan</span>
           </a>
         </li>
         <hr className="m-v-xxs" />

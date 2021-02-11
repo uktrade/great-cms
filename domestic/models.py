@@ -9,13 +9,13 @@ from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.core.blocks.field_block import RichTextBlock
-from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
+from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins, service_urls
 from core.constants import (
     ARTICLE_TYPES,
     RICHTEXT_FEATURES__REDUCED,
@@ -212,6 +212,9 @@ class MarketsTopicLandingPage(
     REGION_QUERYSTRING_NAME = 'region'
     SECTOR_QUERYSTRING_NAME = 'sector'
 
+    SORTBY_OPTION_TITLE = 'title'
+    SORTBY_OPTION_LAST_PUBLISHED = 'last_published_at'
+
     template = 'domestic/topic_landing_pages/markets.html'
 
     subpage_types = [
@@ -224,8 +227,8 @@ class MarketsTopicLandingPage(
         # default-sorted by 'heading' instead. Therefore this may need amending
         # if the resulting behaviour isn't _quite_ what we're expecting.
         options = [
-            {'value': 'title', 'label': 'Market A-Z'},
-            {'value': 'last_published_at', 'label': 'Recently updated'},
+            {'value': self.SORTBY_OPTION_TITLE, 'label': 'Market A-Z'},
+            {'value': self.SORTBY_OPTION_LAST_PUBLISHED, 'label': 'Recently updated'},
         ]
         return options
 
@@ -242,6 +245,10 @@ class MarketsTopicLandingPage(
     def sort_results(self, request, pages):
 
         sort_option = self._get_sortby(request)
+
+        # Sorting by last_published_at needs to be DESC not ASC
+        if sort_option == self.SORTBY_OPTION_LAST_PUBLISHED:
+            sort_option = '-' + sort_option
 
         return pages.order_by(sort_option)
 
@@ -337,7 +344,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     class Meta:
         ordering = ['-heading', '-title']
 
-    template = 'domestic/content/country_guide.html'
+    template = 'domestic/country_guide.html'
 
     parent_page_types = [
         'domestic.DomesticHomePage',  # TODO: remove this
@@ -403,7 +410,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     section_one_body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
-        verbose_name='3 unique selling points markdown',
+        verbose_name='3 unique selling points',
         help_text='Use H2s for the 3 subheadings',
     )
     section_one_image = models.ForeignKey(
@@ -744,7 +751,7 @@ class ArticlePage(
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
-    template = 'domestic/content/article_listing_page.html'
+    template = 'domestic/article_listing_page.html'
 
     parent_page_types = [
         'domestic.CountryGuidePage',
@@ -943,7 +950,7 @@ class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
     This model may need to be moved to core once V1 and V2 CSS is fully merged
     """
 
-    template = 'domestic/content/guidance_page.html'
+    template = 'domestic/guidance_page.html'
 
     body = StreamField(
         [
@@ -956,3 +963,103 @@ class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
             ('table', TableBlock(table_options=TABLEBLOCK_OPTIONS)),
         ]
     )
+
+
+class PerformanceDashboardPage(
+    cms_panels.PerformanceDashboardPagePanels,
+    BaseContentPage,
+):
+    template = 'domestic/performance_dashboard_page.html'
+
+    subpage_types = [
+        'domestic.PerformanceDashboardPage',
+        'domestic.GuidancePage',
+    ]
+
+    heading = models.CharField(max_length=255)
+    description = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
+    )
+
+    body = StreamField(
+        StreamBlock(
+            [
+                (
+                    'data_block',
+                    core_blocks.PerformanceDashboardDataBlock(),
+                ),
+            ],
+            min_num=1,
+            max_num=4,
+        )
+    )
+
+    guidance_notes = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        blank=True,
+        null=True,
+    )
+
+    landing_dashboard = models.BooleanField(
+        default=False, help_text='Will this page act as landing page for other dashboards?'
+    )
+
+    # `service_mapping` is used in conjunction with product_link to auto-populate certain data
+    service_mapping = {
+        service_urls.SERVICES_GREAT_DOMESTIC: {
+            'slug': 'performance-dashboard',
+            'heading': 'Great.gov.uk',
+            'landing_dashboard': True,
+        },
+        # the following pages MUST be created as children of the one above
+        service_urls.SERVICES_SOO: {
+            'slug_as_child': 'selling-online-overseas',
+            'heading': 'Selling Online Overseas',
+            'landing_dashboard': False,
+        },
+        service_urls.SERVICES_EXOPPS: {
+            'slug_as_child': 'export-opportunities',
+            'heading': 'Export Opportunities',
+            'landing_dashboard': False,
+        },
+        service_urls.SERVICES_FAB: {
+            'slug_as_child': 'trade-profiles',
+            'heading': 'Business Profiles',
+            'landing_dashboard': False,
+        },
+        service_urls.SERVICES_INVEST: {
+            'slug_as_child': 'invest',
+            'heading': 'Invest in Great Britain',
+            'landing_dashboard': False,
+        },
+    }
+
+    product_link = models.CharField(
+        choices=[(key, val['heading']) for key, val in service_mapping.items()],
+        max_length=255,
+        unique=True,
+        help_text=(
+            'The slug and page heading are inferred from the product '
+            'link. The first option should be the first performance '
+            'dashboard page and the rest should be used for CHILDREN of '
+            'that main dashboard.'
+        ),
+    )
+
+    def save(self, *args, **kwargs):
+        # Auto-populate certain values based on what was selected as
+        # self.product_link
+        field_values = self.service_mapping[self.product_link]
+        self.title = field_values['heading'] + ' Performance Dashboard'
+        self.heading = field_values['heading']
+        self.landing_dashboard = field_values['landing_dashboard']
+        if self.landing_dashboard:
+            self.slug = field_values['slug']
+        else:
+            self.slug = field_values['slug_as_child']
+
+        return super().save(*args, **kwargs)
+
+    def get_child_dashboards(self):
+        # Get any live, public dashboards that hang off this page
+        return PerformanceDashboardPage.objects.descendant_of(self).specific().live().public()
