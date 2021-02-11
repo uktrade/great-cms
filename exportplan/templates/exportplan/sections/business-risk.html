@@ -1,21 +1,73 @@
 {% extends 'exportplan/section.html' %}
+{% load to_json %}
 
-{% block intro_content %}
-<h1 class="h-xl">Business risk</h1>
-<p>There will always be risks when doing business abroad, but being prepared and developing a plan will mean you can mitigate those risks and safeguard your business.</p>
+{% block intro_title %}Business risk{%endblock %}
+{% block intro_description %}
+There will always be risks when doing business abroad. Having a plan before you travel will help you mitigate risks your business faces.
 {% endblock %}
-
 {% block main_content %}
-<p>Make sure you’ve recorded risks you might encounter when exporting, and how you’ll lessen or avoid them.</p>
-<p>The main categories to consider are:</p>
-<ul class="list-bullet">
-  <li>commercial risk, including protecting your intellectual property</li>
-  <li>political risk</li>
-  <li>economic risk</li>
-  <li>bribery, corruption and human rights violation risks</li>
-</ul>
-<p><a href="#">See examples</a></p>
+<div class="g-panel m-b-s">
+  <p>
+    Recording the risks you may encouter when exporting will require some careful planning. Some of the things you will need to think about are:
+  </p>
+  <ul class="list-dot">
+    <li>commercial risk including intellectual property</li>
+    <li>political risk</li>
+    <li>economic risk</li>
+    <li>bribery and corruption</li>
+    <li>human rights violations</li>
+  </ul>
+</div>
 {% endblock %}
 
 {% block user_input %}
+<section class="container m-b-l">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
+      <div id="business-risks">
+        <h2 class="h-m m-b-xs">Risks</h2>
+        <p>
+          Record any risks you think your business may face in the following
+          table.
+        </p>
+        <p>These should be specific risks your business faces when exporting.</p>
+      </div>
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</section>
+{% endblock %}
+
+
+{% block body_js %}
+{{ block.super }}
+<script type="text/javascript">
+  element = document.getElementById('business-risks');
+  magna.businessRisks({
+    element: element,
+    formData: [
+      {
+        value: "Something",
+        pk: 17, 
+        tooltip: {
+          content: `<p>Content</p>`
+        }, 
+        lesson: {
+          url: "/",
+          title: "Safety when operating abroad",
+          category: "TBD",
+          duration: "3 minutes",
+        },
+      },
+    ],
+    companyexportplan: {{ export_plan.pk }},
+    lesson: {
+      url: "/",
+      title: "Safety when operating abroad",
+      category: "TBD",
+      duration: "3 minutes",
+    }
+  })
+</script>
 {% endblock %}
