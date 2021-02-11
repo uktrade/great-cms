@@ -98,6 +98,7 @@
           },
           description:
             '<p class="m-0">To make sure you have the right amount of marketing resources write down:</p><ul class="list-dot"><li>what marketing you can do in-house</li><li>the areas where your business will need support</li><li>external agencies or people you will work with and what they will be doing</li>',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
         }
       ],
     })
@@ -110,14 +111,18 @@
             label: 'Route to market',
             options: {{ route_choices|to_json }},
             name: 'route',
+            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
           },
           {
             label: 'How will we promote your product?',
             options: {{ promotional_choices|to_json }},
             name: 'promote',
+            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
           }
         ],
-        example: `<p>We've found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>`,
+        example: {
+          content: `<p>We've found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>`
+        },
         label: 'Explain in your words why you selected this route to market and promotional channel',
         name: 'market_promotional_channel',
       },
