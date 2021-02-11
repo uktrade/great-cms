@@ -3,7 +3,7 @@ import React, { memo, useState } from 'react'
 import { FormElements } from '@src/components/FormElements'
 
 export const VisaInformation = (params) => {
-  const [needVisa, setNeedVisa] = useState(true)
+  const [needVisa, setNeedVisa] = useState(false)
 
   const onNeedVisaChange = (event) => {
     const value = event.target.value
@@ -11,7 +11,7 @@ export const VisaInformation = (params) => {
   }
 
   return (
-    <>
+    <div className="m-b-s">
       <h2 className="h-s m-b-xs">Visa information</h2>
       <p>
         Find out if you need a visa for your trip using gov.uk{' '}
@@ -53,6 +53,6 @@ export const VisaInformation = (params) => {
           <FormElements {...params} formGroupClassName="form-group--small" />
         </div>
       )}
-    </>
+    </div>
   )
 }
