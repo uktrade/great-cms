@@ -11,9 +11,9 @@
     >
   {% endif %}
     {% block image %}
-        {% if page_image %}
-            {% image page_image fill-640x360 as thumbnail %}
-            <img src="{{ thumbnail.url }}" alt="{{ page_image.alt_text }}" class="card-image"{% if card_id %} id="{{ card_id|add:'-image' }}"{% endif %}>
+        {% if card_image %}
+            {% image card_image fill-640x360 as thumbnail %}
+            <img src="{{ thumbnail.url }}" alt="{{ card_image.alt_text }}" class="card-image"{% if card_id %} id="{{ card_id|add:'-image' }}"{% endif %}>
         {% endif %}
     {% endblock %}
     <div class="card-inner">
