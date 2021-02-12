@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Risks } from '@src/components/BusinessRisk/Risks/Risks'
+import { BusinessRisks } from '@src/components/BusinessRisk/BusinessRisks/BusinessRisks'
 
 export const businessRisks = ({ element, ...params }) => {
-  ReactDOM.render(<Risks {...params} />, element)
+  ReactDOM.render(<BusinessRisks {...params} />, element)
 }

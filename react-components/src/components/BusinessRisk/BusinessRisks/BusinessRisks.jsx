@@ -4,7 +4,52 @@ import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
 
-export const Risks = ({ formData, companyexportplan, lesson }) => {
+const RadioItem = ({ id, group, value, label, handleOnChange, selected }) => {
+  return (
+    <div>
+      <input
+        type="radio"
+        name={group}
+        id={id}
+        value={value}
+        onChange={(e) => handleOnChange(id, e)}
+        checked={selected === id}
+      />
+      <label htmlFor={id}>{label}</label>
+    </div>
+  )
+}
+
+const Radiogroup = ({ list }) => {
+  const [selected, setSelected] = useState(list.selectedId || null)
+  const [radioState, setRadioState] = useState(list)
+
+  const handleOnChange = (id) => {
+    setSelected(id)
+    setRadioState({ ...radioState, selectedId: selected })
+    // console.log(selected);
+  }
+
+  return (
+    <>
+      {radioState.list.map((item) => {
+        return (
+          <RadioItem
+            key={item.id}
+            id={item.id}
+            group={item.group}
+            value={item.value}
+            label={item.label}
+            selected={selected}
+            handleOnChange={handleOnChange}
+          />
+        )
+      })}
+    </>
+  )
+}
+
+export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
   const [risks, setRisks] = useState(formData)
   // debugger
   const addRisk = () => {
@@ -43,6 +88,37 @@ export const Risks = ({ formData, companyexportplan, lesson }) => {
     setRisks(updatedRisks)
     debounceUpdate(field, value)
   }
+
+  const list = {
+    selectedId: 'one',
+    list: [
+      {
+        id: 'one',
+        group: 'group',
+        value: 'one',
+        label: 'Label one',
+      },
+      {
+        id: 'two',
+        group: 'group',
+        value: 'two',
+        label: 'Label two',
+      },
+      {
+        id: 'three',
+        group: 'group',
+        value: 'three',
+        label: 'Label three',
+      },
+      {
+        id: 'four',
+        group: 'group',
+        value: 'four',
+        label: 'Label four',
+      },
+    ],
+  }
+
   return (
     <>
       <h2 className="h-m m-b-xs">Risks</h2>
@@ -52,6 +128,7 @@ export const Risks = ({ formData, companyexportplan, lesson }) => {
       </p>
       <p>These should be specific risks your business faces when exporting.</p>
       <Learning lesson={lesson} />
+      <Radiogroup list={list} />
       {/* <Risks
         formData={risks}
         deleteRisk={deleteRisk}
@@ -62,7 +139,7 @@ export const Risks = ({ formData, companyexportplan, lesson }) => {
   )
 }
 
-// Risks.propTypes = {
+// BusinessRisks.propTypes = {
 //   formData: PropTypes.arrayOf(
 //     PropTypes.shape({
 //       companyexportplan: PropTypes.number,
@@ -72,6 +149,6 @@ export const Risks = ({ formData, companyexportplan, lesson }) => {
 //   companyexportplan: PropTypes.number.isRequired,
 // }
 
-// Risks.defaultProps = {
+// BusinessRisks.defaultProps = {
 //   formData: [],
 // }

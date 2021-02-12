@@ -65503,18 +65503,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_views_sections_Objectives__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @src/views/sections/Objectives */ "./react-components/src/views/sections/Objectives/index.jsx");
 /* harmony import */ var _src_views_sections_CostsAndPricing__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @src/views/sections/CostsAndPricing */ "./react-components/src/views/sections/CostsAndPricing/index.jsx");
 /* harmony import */ var _src_views_sections_TravelPlan_TravelPlan__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @src/views/sections/TravelPlan/TravelPlan */ "./react-components/src/views/sections/TravelPlan/TravelPlan.jsx");
-/* harmony import */ var _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/views/sections/Dashboard */ "./react-components/src/views/sections/Dashboard/index.jsx");
-/* harmony import */ var _src_views_sections__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/views/sections */ "./react-components/src/views/sections/index.jsx");
-/* harmony import */ var _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/components/MarkLessonAsComplete/MarkLessonAsComplete */ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx");
-/* harmony import */ var _src_components_VideoTranscript_VideoTranscript__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/components/VideoTranscript/VideoTranscript */ "./react-components/src/components/VideoTranscript/VideoTranscript.jsx");
-/* harmony import */ var _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @src/components/CaseStudy/CaseStudy */ "./react-components/src/components/CaseStudy/CaseStudy.jsx");
-/* harmony import */ var _src_components_Lesson_ComingSoon__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @src/components/Lesson/ComingSoon */ "./react-components/src/components/Lesson/ComingSoon/index.jsx");
-/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_28___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_28__);
+/* harmony import */ var _src_views_sections_BusinessRisk_BusinessRisk__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @src/views/sections/BusinessRisk/BusinessRisk */ "./react-components/src/views/sections/BusinessRisk/BusinessRisk.jsx");
+/* harmony import */ var _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @src/views/sections/Dashboard */ "./react-components/src/views/sections/Dashboard/index.jsx");
+/* harmony import */ var _src_views_sections__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @src/views/sections */ "./react-components/src/views/sections/index.jsx");
+/* harmony import */ var _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @src/components/MarkLessonAsComplete/MarkLessonAsComplete */ "./react-components/src/components/MarkLessonAsComplete/MarkLessonAsComplete.jsx");
+/* harmony import */ var _src_components_VideoTranscript_VideoTranscript__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @src/components/VideoTranscript/VideoTranscript */ "./react-components/src/components/VideoTranscript/VideoTranscript.jsx");
+/* harmony import */ var _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @src/components/CaseStudy/CaseStudy */ "./react-components/src/components/CaseStudy/CaseStudy.jsx");
+/* harmony import */ var _src_components_Lesson_ComingSoon__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @src/components/Lesson/ComingSoon */ "./react-components/src/components/Lesson/ComingSoon/index.jsx");
+/* harmony import */ var _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @src/views/SignupModal/Component/ */ "./react-components/src/views/SignupModal/Component.jsx");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_29__);
+
 
 
 
@@ -65545,7 +65547,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  createMarkLessonAsComplete: _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_20__["createMarkLessonAsComplete"],
+  createMarkLessonAsComplete: _src_components_MarkLessonAsComplete_MarkLessonAsComplete__WEBPACK_IMPORTED_MODULE_21__["createMarkLessonAsComplete"],
   createRouteToMarket: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_9__["createRouteToMarket"],
   aboutYourBusinessForm: _src_views_sections_AboutYourBusiness__WEBPACK_IMPORTED_MODULE_10__["aboutYourBusinessForm"],
   createTargetMarketResearchForm: _src_views_sections_TargetMarketResearch__WEBPACK_IMPORTED_MODULE_13__["createTargetMarketResearchForm"],
@@ -65553,16 +65555,16 @@ __webpack_require__.r(__webpack_exports__);
   adaptToTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__["adaptToTargetMarketForm"],
   documentsForTargetMarketForm: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__["documentsForTargetMarketForm"],
   statsForYourTargetMarket: _src_views_sections_AdaptationForYourTargetMarket__WEBPACK_IMPORTED_MODULE_14__["statsForYourTargetMarket"],
-  createComingSoonModal: _src_components_Lesson_ComingSoon__WEBPACK_IMPORTED_MODULE_23__["createComingSoonModal"],
+  createComingSoonModal: _src_components_Lesson_ComingSoon__WEBPACK_IMPORTED_MODULE_24__["createComingSoonModal"],
   createSpendingAndResources: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_9__["createSpendingAndResources"],
   createTargetAgeGroupInsights: _src_views_sections_MarketingApproach__WEBPACK_IMPORTED_MODULE_9__["createTargetAgeGroupInsights"],
   createGettingPaid: _src_views_sections_GettingPaid__WEBPACK_IMPORTED_MODULE_12__["createGettingPaid"],
   createObjectivesList: _src_views_sections_Objectives__WEBPACK_IMPORTED_MODULE_15__["createObjectivesList"],
   createObjectivesReasons: _src_views_sections_Objectives__WEBPACK_IMPORTED_MODULE_15__["createObjectivesReasons"],
-  createVideoTranscript: _src_components_VideoTranscript_VideoTranscript__WEBPACK_IMPORTED_MODULE_21__["createVideoTranscript"],
-  createDashboard: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_18__["createDashboard"],
-  createDisabledButton: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_18__["createDisabledButton"],
-  createCaseStudy: _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_22__["createCaseStudy"],
+  createVideoTranscript: _src_components_VideoTranscript_VideoTranscript__WEBPACK_IMPORTED_MODULE_22__["createVideoTranscript"],
+  createDashboard: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_19__["createDashboard"],
+  createDisabledButton: _src_views_sections_Dashboard__WEBPACK_IMPORTED_MODULE_19__["createDisabledButton"],
+  createCaseStudy: _src_components_CaseStudy_CaseStudy__WEBPACK_IMPORTED_MODULE_23__["createCaseStudy"],
   createCostsAndPricing: _src_views_sections_CostsAndPricing__WEBPACK_IMPORTED_MODULE_16__["createCostsAndPricing"],
   fundingCreditTotalExportCost: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["fundingCreditTotalExportCost"],
   fundingCreditHowMuchFunding: _src_views_sections_FundingCredit_FundingCredit__WEBPACK_IMPORTED_MODULE_11__["fundingCreditHowMuchFunding"],
@@ -65571,22 +65573,23 @@ __webpack_require__.r(__webpack_exports__);
   travelPlanCultureRules: _src_views_sections_TravelPlan_TravelPlan__WEBPACK_IMPORTED_MODULE_17__["travelPlanCultureRules"],
   travelPlanVisaInformation: _src_views_sections_TravelPlan_TravelPlan__WEBPACK_IMPORTED_MODULE_17__["travelPlanVisaInformation"],
   plannedTravel: _src_views_sections_TravelPlan_TravelPlan__WEBPACK_IMPORTED_MODULE_17__["plannedTravel"],
+  businessRisks: _src_views_sections_BusinessRisk_BusinessRisk__WEBPACK_IMPORTED_MODULE_18__["businessRisks"],
   ProductFinderButton: _src_components_ProductFinder_ProductFinderButton__WEBPACK_IMPORTED_MODULE_4__["default"],
   CountryFinderButton: _src_components_ProductFinder_CountryFinderButton__WEBPACK_IMPORTED_MODULE_5__["default"],
   CompareMarkets: _src_components_CompareMarkets__WEBPACK_IMPORTED_MODULE_7__["default"],
   SelectComparisonMarket: _src_components_CompareMarkets_SelectMarket__WEBPACK_IMPORTED_MODULE_8__["default"],
   ModalMenu: _src_components_ModalMenu__WEBPACK_IMPORTED_MODULE_6__["default"],
   createLogin: _src_views_Login__WEBPACK_IMPORTED_MODULE_2__["createLogin"],
-  setConfig: _src_config__WEBPACK_IMPORTED_MODULE_27__["setConfig"],
-  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_25__["default"].setInitialState,
+  setConfig: _src_config__WEBPACK_IMPORTED_MODULE_28__["setConfig"],
+  setInitialState: _src_Services__WEBPACK_IMPORTED_MODULE_26__["default"].setInitialState,
   Signup: _src_views_Signup_Container__WEBPACK_IMPORTED_MODULE_0__["default"],
   SignupModal: _src_views_SignupModal_Container__WEBPACK_IMPORTED_MODULE_1__["default"],
-  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_24__["STEP_CREDENTIALS"],
-  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_24__["STEP_VERIFICATION_CODE"],
+  STEP_CREDENTIALS: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_25__["STEP_CREDENTIALS"],
+  STEP_VERIFICATION_CODE: _src_views_SignupModal_Component___WEBPACK_IMPORTED_MODULE_25__["STEP_VERIFICATION_CODE"],
   Tour: _src_views_Tour_Container__WEBPACK_IMPORTED_MODULE_3__["default"],
-  sectionSidebar: _src_views_sections__WEBPACK_IMPORTED_MODULE_19__["sectionSidebar"],
-  sectionComplete: _src_views_sections__WEBPACK_IMPORTED_MODULE_19__["sectionComplete"],
-  formatLessonLearned: _src_Helpers__WEBPACK_IMPORTED_MODULE_26__["formatLessonLearned"]
+  sectionSidebar: _src_views_sections__WEBPACK_IMPORTED_MODULE_20__["sectionSidebar"],
+  sectionComplete: _src_views_sections__WEBPACK_IMPORTED_MODULE_20__["sectionComplete"],
+  formatLessonLearned: _src_Helpers__WEBPACK_IMPORTED_MODULE_27__["formatLessonLearned"]
 });
 
 /***/ }),
@@ -65763,6 +65766,202 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
     className: "fas fa-plus-circle"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add another document")));
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/BusinessRisk/BusinessRisks/BusinessRisks.jsx":
+/*!**************************************************************************************!*\
+  !*** ./react-components/src/components/BusinessRisk/BusinessRisks/BusinessRisks.jsx ***!
+  \**************************************************************************************/
+/*! exports provided: BusinessRisks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BusinessRisks", function() { return BusinessRisks; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+ // import PropTypes from 'prop-types'
+
+
+
+
+
+var RadioItem = function RadioItem(_ref) {
+  var id = _ref.id,
+      group = _ref.group,
+      value = _ref.value,
+      label = _ref.label,
+      handleOnChange = _ref.handleOnChange,
+      selected = _ref.selected;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "radio",
+    name: group,
+    id: id,
+    value: value,
+    onChange: function onChange(e) {
+      return handleOnChange(id, e);
+    },
+    checked: selected === id
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: id
+  }, label));
+};
+
+var Radiogroup = function Radiogroup(_ref2) {
+  var list = _ref2.list;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(list.selectedId || null),
+      _useState2 = _slicedToArray(_useState, 2),
+      selected = _useState2[0],
+      setSelected = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(list),
+      _useState4 = _slicedToArray(_useState3, 2),
+      radioState = _useState4[0],
+      setRadioState = _useState4[1];
+
+  var handleOnChange = function handleOnChange(id) {
+    setSelected(id);
+    setRadioState(_objectSpread(_objectSpread({}, radioState), {}, {
+      selectedId: selected
+    })); // console.log(selected);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, radioState.list.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioItem, {
+      key: item.id,
+      id: item.id,
+      group: item.group,
+      value: item.value,
+      label: item.label,
+      selected: selected,
+      handleOnChange: handleOnChange
+    });
+  }));
+};
+
+var BusinessRisks = function BusinessRisks(_ref3) {
+  var formData = _ref3.formData,
+      companyexportplan = _ref3.companyexportplan,
+      lesson = _ref3.lesson;
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
+      _useState6 = _slicedToArray(_useState5, 2),
+      risks = _useState6[0],
+      setRisks = _useState6[1]; // debugger
+
+
+  var addRisk = function addRisk() {
+    var newRisk = {};
+    newRisk.companyexportplan = companyexportplan;
+    newRisk.value = '';
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].createFundingCreditOption(_objectSpread({}, newRisk)).then(function (data) {
+      return setRisks([].concat(_toConsumableArray(risks), [data]));
+    })["catch"](function () {});
+  };
+
+  var deleteRisk = function deleteRisk(id) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].deleteFundingCreditOption(id).then(function () {
+      setRisks(risks.filter(function (x) {
+        return x.pk !== id;
+      }));
+    })["catch"](function () {});
+  };
+
+  var update = function update(field, value) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].updateFundingCreditOption(_objectSpread(_objectSpread({}, field), value)).then(function () {})["catch"](function () {});
+  };
+
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
+
+  var onChange = function onChange(id, value) {
+    value = {
+      value: value
+    };
+    var field = risks.find(function (x) {
+      return x.pk === id;
+    });
+    field.companyexportplan = companyexportplan;
+    var updatedRisks = risks.map(function (x) {
+      return x.pk === id ? _objectSpread(_objectSpread({}, x), value) : x;
+    });
+    setRisks(updatedRisks);
+    debounceUpdate(field, value);
+  };
+
+  var list = {
+    selectedId: 'one',
+    list: [{
+      id: 'one',
+      group: 'group',
+      value: 'one',
+      label: 'Label one'
+    }, {
+      id: 'two',
+      group: 'group',
+      value: 'two',
+      label: 'Label two'
+    }, {
+      id: 'three',
+      group: 'group',
+      value: 'three',
+      label: 'Label three'
+    }, {
+      id: 'four',
+      group: 'group',
+      value: 'four',
+      label: 'Label four'
+    }]
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "h-m m-b-xs"
+  }, "Risks"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Record any risks you think your business may face in the following table."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "These should be specific risks your business faces when exporting."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__["Learning"], {
+    lesson: lesson
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Radiogroup, {
+    list: list
+  }));
+}; // BusinessRisks.propTypes = {
+//   formData: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       companyexportplan: PropTypes.number,
+//       pk: PropTypes.number,
+//     })
+//   ).isRequired,
+//   companyexportplan: PropTypes.number.isRequired,
+// }
+// BusinessRisks.defaultProps = {
+//   formData: [],
+// }
 
 /***/ }),
 
@@ -77066,6 +77265,37 @@ Table.propTypes = {
     heading: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
   })
+};
+
+/***/ }),
+
+/***/ "./react-components/src/views/sections/BusinessRisk/BusinessRisk.jsx":
+/*!***************************************************************************!*\
+  !*** ./react-components/src/views/sections/BusinessRisk/BusinessRisk.jsx ***!
+  \***************************************************************************/
+/*! exports provided: businessRisks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "businessRisks", function() { return businessRisks; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_BusinessRisk_BusinessRisks_BusinessRisks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/BusinessRisk/BusinessRisks/BusinessRisks */ "./react-components/src/components/BusinessRisk/BusinessRisks/BusinessRisks.jsx");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var businessRisks = function businessRisks(_ref) {
+  var element = _ref.element,
+      params = _objectWithoutProperties(_ref, ["element"]);
+
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_BusinessRisk_BusinessRisks_BusinessRisks__WEBPACK_IMPORTED_MODULE_2__["BusinessRisks"], params), element);
 };
 
 /***/ }),
