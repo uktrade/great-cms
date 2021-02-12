@@ -7,21 +7,6 @@ import { Direct } from './Direct'
 import { Overhead } from './Overhead'
 import { GrossPrice } from './GrossPrice'
 import { Units } from './Units'
-import {
-  direct,
-  overhead,
-  costPerUnit,
-  averagePrice,
-  netPrice,
-  localTaxes,
-  duty,
-  unitsToExport,
-  exportUnits,
-  grossPriceUnitSelect,
-  timeframe,
-  timeframeUnits,
-  grossPriceCurrency,
-} from './constants'
 
 export const CostsAndPricing = memo(
   ({
@@ -37,6 +22,21 @@ export const CostsAndPricing = memo(
     init,
     lessonDetails,
     currentSection,
+    formFields: {
+      direct,
+      overhead,
+      costPerUnit,
+      averagePrice,
+      netPrice,
+      localTaxes,
+      duty,
+      unitsToExport,
+      exportUnits,
+      grossPriceUnitSelect,
+      timeframe,
+      timeframeUnits,
+      grossPriceCurrency,
+    },
   }) => {
     useState(() => {
       init({
@@ -75,9 +75,7 @@ export const CostsAndPricing = memo(
                 update={update}
               />
               <Units
-                description={
-                  '<h2 class="h-m p-b-xs p-t-m">Total costs and price</h2><p>Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don\'t worry, we will tell you what you need to do. </p><h2 class="h-xs p-t-0 p-b-0">Number of units you want to export</h2><p class="m-t-xs">First, record how many units you want to export over a given period of time.</p><p class="m-b-xs">The more accurate you are, the better your plan will be.</p>'
-                }
+                description={unitsToExport.description}
                 update={update}
                 input={{ ...unitsToExport, value: data.units_to_export }}
                 select={{
@@ -113,31 +111,30 @@ export const CostsAndPricing = memo(
                     : {}
                 }
               />
-
               <Input
                 onChange={(x) => onChange(x, averagePrice)}
                 value={data.average_price_per_unit}
                 hideLabel
                 prepend={currency}
-                description={`<h2 class="h-xs p-t-xs p-b-0">Average price per unit in the ${country}</h2><p class="m-t-xs">Find the average price of similar products in your target market. Do some research using:</p><ul class="list-dot"><li>online retailers</li><li>web searches</li><li>store prices</li></ul><p>Then find the average of these prices and enter the figure below.</p><p class="m-b-0">Remember to convert the figure to GBP before entering it.</p>`}
                 {...averagePrice}
+                description={averagePrice.description(country)}
               />
               <Input
                 onChange={(x) => onChange(x, netPrice)}
                 value={data.net_price}
                 hideLabel
                 prepend={currency}
-                description={`<h2 class="h-xs p-t-0 p-b-0">Your net price per unit in the ${country}</h2><p class="m-t-xs">Deciding on what price your product will be sold for in retailers can be a difficult decision.</p><p class="m-b-0">You want to make sure you sell your product for more than it cost to make it, this way you make a profit on every unit sold.</p>`}
                 {...netPrice}
+                description={netPrice.description(country)}
               />
               <Input
                 onChange={(x) => onChange(x, localTaxes)}
                 value={data.local_tax_charges}
                 hideLabel
                 prepend={currency}
-                description={`<h2 class="h-xs p-t-0 p-b-0">Local taxes and charges in the ${country}</h2><p class="m-t-xs m-b-0">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p>`}
                 {...localTaxes}
                 lesson={formatLessonLearned(lessonDetails, currentSection, 0)}
+                description={localTaxes.description(country)}
               />
               <Input
                 onChange={(x) => onChange(x, duty)}
@@ -228,4 +225,7 @@ CostsAndPricing.propTypes = {
     url: PropTypes.string,
     lessons: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
+  formFields: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.func])
+  ).isRequired,
 }
