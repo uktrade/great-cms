@@ -23,6 +23,7 @@ from core.constants import (
     TABLEBLOCK_OPTIONS,
     VIDEO_TRANSCRIPT_HELP_TEXT,
 )
+from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from directory_constants import choices
@@ -88,6 +89,10 @@ class DomesticHomePage(
     mixins.AnonymousUserRequired,
     Page,
 ):
+    # Note that this is was the original homepage for Magna/V2 MPV.
+    # The V1 homepage model has been ported/re-implemented further down,
+    # as GreatDomesticHomePage.
+    # This DomesticHomePage class will likely be removed
 
     body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
@@ -150,6 +155,95 @@ class DomesticDashboard(
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
+
+
+class GreatDomesticHomePage(cms_panels.GreatDomesticHomePagePanels, BaseContentPage):
+    """This is the main homepge for """
+
+    template = 'domestic/landing_page.html'
+
+    # hero
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_text = models.TextField(null=True, blank=True)
+    hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
+    hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
+
+    # EU exit chevrons StreamField WAS here in V1 - no longer the case
+
+    # how DIT helps
+    how_dit_helps_title = models.TextField(null=True, blank=True)
+    how_dit_helps_columns = single_struct_block_stream_field_factory(
+        field_name='columns',
+        block_class_instance=core_blocks.LinkWithImageAndContentBlock(),
+        max_num=3,
+        null=True,
+        blank=True,
+    )
+
+    # Market access database
+    madb_title = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Title',
+    )
+    madb_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Image',
+        #
+    )
+    # equivalent of madb_image_alt field's now provided by core.AltTextImage
+
+    madb_content = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+        verbose_name='Content',
+    )
+    madb_cta_text = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='CTA text',
+    )
+    madb_cta_url = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='CTA URL',
+    )
+
+    # what's new
+    what_is_new_title = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    what_is_new_pages = single_struct_block_stream_field_factory(
+        field_name='pages',
+        block_class_instance=core_blocks.LinkWithImageAndContentBlock(),
+        max_num=6,
+        null=True,
+        blank=True,
+    )
+
+    campaign = single_struct_block_stream_field_factory(
+        field_name='campaign',
+        block_class_instance=core_blocks.CampaignBlock(),
+        max_num=1,
+        null=True,
+        blank=True,
+    )
 
 
 class TopicLandingBasePage(BaseContentPage):

@@ -1,4 +1,24 @@
-<section class="great-hero {% if not image %}great-hero-no-image{% endif %}" id="hero" {% if image %}style="background-image: url({{ image }})"{% endif %}>
+{% comment %}
+
+Params:
+    hero_image - Image not Rendition
+    heading - text
+
+    Optional:
+        cta_text - text
+        cta_link - URL
+
+        subheading - text  # Not used for GreatDomesticHomepage
+        subtitle - text  # Not used for GreatDomesticHomepage
+
+{% endcomment %}
+
+
+{% load wagtailimages_tags %}
+
+{% image hero_image original as rendition %}
+
+<section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}" id="hero" {% if hero_image %}style="background-image: url({{ rendition.url }})"{% endif %}>
     <div class="container padding-top-90-l padding-top-45 padding-bottom-45-l">
       <div class="great-hero-text width-half-xl width-two-thirds-l width-full">
         <h1 class="heading-xlarge {% if subheading %} margin-bottom-0 {% else %} margin-bottom-30 {% endif %} ">{{ heading }}</h1>

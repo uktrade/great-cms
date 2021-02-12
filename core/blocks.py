@@ -372,3 +372,31 @@ class PerformanceDashboardDataBlock(blocks.StructBlock):
 
     class Meta:
         template = 'domestic/blocks/performance_dash_data_block.html'
+
+
+class LinkWithImageAndContentBlock(blocks.StructBlock):
+    source = blocks.CharBlock(help_text='The source or the type of the link, e.g. GOV.UK/Advice')
+    text = blocks.CharBlock()
+    url = blocks.CharBlock()  # not a URL block to allow relative links
+    image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
+    content = blocks.RichTextBlock()
+
+
+class VideoChooserBlock(AbstractMediaChooserBlock):
+    def render_basic(self, value, context=None):
+        """We don't need any HTML rendering"""
+        if not value:
+            return ''
+        return value.file.url
+
+
+class CampaignBlock(blocks.StructBlock):
+    heading = blocks.CharBlock()
+    subheading = blocks.CharBlock()
+    related_link_text = blocks.CharBlock()
+    related_link_url = blocks.CharBlock()
+    image = ImageChooserBlock()
+    video = VideoChooserBlock()
+
+    class Meta:
+        icon = 'media'
