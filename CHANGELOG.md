@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 
+- GP2-1551 - Seperated case study tag for trading bloc
 - GP2-1470 - Port PerformanceDashboardPage from V1
 - no-ticket - fix collectstatic errors
 - no-ticket - tidy up BAU folder structures
@@ -29,6 +30,7 @@
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 
 ### Fixed bugs
+- GP2-1446 - Increase input clear button size
 - GP2-1514 - Fix ordering when selecting most recently updatet on MarketsTopicPage
 - GP2-1482 - Handle errors in product clasification request.
 - GP2-1361 - Compare markets - align cookies to user.
