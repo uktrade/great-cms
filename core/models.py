@@ -797,10 +797,12 @@ class DetailPage(CMSGenericPage):
             # a child of another page type...
             page_topic_helper = PageTopicHelper(self)
             next_lesson = page_topic_helper.get_next_lesson()
+            context['current_lesson'] = self
             context['current_module'] = page_topic_helper.module
             if page_topic_helper:
                 topic_page = page_topic_helper.get_page_topic()
                 if topic_page:
+                    context['current_topic'] = topic_page
                     context['page_topic'] = topic_page.title
 
             if next_lesson:
