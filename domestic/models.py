@@ -158,7 +158,10 @@ class DomesticDashboard(
 
 
 class GreatDomesticHomePage(cms_panels.GreatDomesticHomePagePanels, BaseContentPage):
-    """This is the main homepge for """
+    """This is the main homepge for Great.gov.uk, ported and adapted from V1
+
+    It will eventually replace DomesticHomePage (above) in usage.
+    """
 
     template = 'domestic/landing_page.html'
 
