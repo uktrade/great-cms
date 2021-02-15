@@ -52,7 +52,7 @@ Performance dashboard - great.gov.uk
         {% for child_dashboard in page.get_child_dashboards %}
         <li>
             <a class="link" href="{{child_dashboard.url}}">
-              {{child_dashboard.title}}
+              {{child_dashboard.heading}}
             </a>
         </li>
         {% endfor %}
