@@ -4,49 +4,66 @@ import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
 
-const RadioItem = ({ id, group, value, label, handleOnChange, selected }) => {
+const RadioItem = ({ id, group, value, label, onChange, selected }) => {
   return (
-    <div>
+    <div className="great-radiogroup__item">
       <input
+        className="great-radiogroup__input"
         type="radio"
         name={group}
         id={id}
         value={value}
-        onChange={(e) => handleOnChange(id, e)}
+        onChange={(e) => onChange(id, e)}
         checked={selected === id}
       />
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className="great-radiogroup__label">
+        {label}
+      </label>
     </div>
   )
 }
 
-const Radiogroup = ({ list }) => {
-  const [selected, setSelected] = useState(list.selectedId || null)
-  const [radioState, setRadioState] = useState(list)
+const Radiogroup = ({ radioList, className, type, buttonType }) => {
+  const [selected, setSelected] = useState(radioList.selectedId || null)
+  const [radioState, setRadioState] = useState(radioList)
 
   const handleOnChange = (id) => {
     setSelected(id)
     setRadioState({ ...radioState, selectedId: selected })
-    // console.log(selected);
   }
 
   return (
     <>
-      {radioState.list.map((item) => {
-        return (
-          <RadioItem
-            key={item.id}
-            id={item.id}
-            group={item.group}
-            value={item.value}
-            label={item.label}
-            selected={selected}
-            handleOnChange={handleOnChange}
-          />
-        )
-      })}
+      <h3 className="form-label">{radioList.label}</h3>
+      <radiogroup
+        className={`
+          great-radiogroup 
+          ${type === 'button' ? 'great-radiogroup--button' : ''}
+          ${buttonType === 'temperature' ? 'great-radiogroup--temperature' : ''}
+          ${className}
+        `}
+      >
+        {radioState.options.map((item) => {
+          return (
+            <RadioItem
+              key={item.pk}
+              id={item.pk}
+              group={item.group}
+              value={item.value}
+              label={item.label}
+              selected={selected}
+              onChange={handleOnChange}
+            />
+          )
+        })}
+      </radiogroup>
     </>
   )
+}
+Radiogroup.defaultProps = {
+  className: 'm-b-xs',
+  type: 'button',
+  buttonType: 'temperature',
 }
 
 export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
@@ -89,32 +106,75 @@ export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
     debounceUpdate(field, value)
   }
 
-  const list = {
-    selectedId: 'one',
-    list: [
+  const options_risk_likelihood = {
+    selectedId: 4,
+    label: 'Risk likelihood',
+    options: [
       {
-        id: 'one',
-        group: 'group',
-        value: 'one',
-        label: 'Label one',
+        pk: 1,
+        group: 'options_risk_likelihood',
+        value: 'rare',
+        label: 'Rare',
       },
       {
-        id: 'two',
-        group: 'group',
-        value: 'two',
-        label: 'Label two',
+        pk: 2,
+        group: 'options_risk_likelihood',
+        value: 'unlikely',
+        label: 'Unlikely',
       },
       {
-        id: 'three',
-        group: 'group',
-        value: 'three',
-        label: 'Label three',
+        pk: 3,
+        group: 'options_risk_likelihood',
+        value: 'possible',
+        label: 'Possible',
       },
       {
-        id: 'four',
-        group: 'group',
-        value: 'four',
-        label: 'Label four',
+        pk: 4,
+        group: 'options_risk_likelihood',
+        value: 'likely',
+        label: 'Likely',
+      },
+      {
+        pk: 5,
+        group: 'options_risk_likelihood',
+        value: 'certain',
+        label: 'Certain',
+      },
+    ],
+  }
+  const options_risk_impact = {
+    selectedId: 8,
+    label: 'Risk impact',
+    options: [
+      {
+        pk: 6,
+        group: 'options_risk_impact',
+        value: 'trivial',
+        label: 'Trivial',
+      },
+      {
+        pk: 7,
+        group: 'options_risk_impact',
+        value: 'minor',
+        label: 'Minor',
+      },
+      {
+        pk: 8,
+        group: 'options_risk_impact',
+        value: 'moderate',
+        label: 'Moderate',
+      },
+      {
+        pk: 9,
+        group: 'options_risk_impact',
+        value: 'major',
+        label: 'Major',
+      },
+      {
+        pk: 10,
+        group: 'options_risk_impact',
+        value: 'severe',
+        label: 'Severe',
       },
     ],
   }
@@ -128,7 +188,8 @@ export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
       </p>
       <p>These should be specific risks your business faces when exporting.</p>
       <Learning lesson={lesson} />
-      <Radiogroup list={list} />
+      <Radiogroup radioList={options_risk_likelihood} />
+      <Radiogroup radioList={options_risk_impact} />
       {/* <Risks
         formData={risks}
         deleteRisk={deleteRisk}
