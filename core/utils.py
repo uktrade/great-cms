@@ -96,7 +96,7 @@ def get_personalised_choices(export_plan):
     return hs_tag, country, region
 
 
-def create_filter_dict(product_code=None, target_area=None, trading_bloc=None):
+def create_filter_dict(product_code=None, country=None, region=None, trading_bloc=None):
     """
      Helper function to create filter dict based on product and target area
 
@@ -108,8 +108,10 @@ def create_filter_dict(product_code=None, target_area=None, trading_bloc=None):
     result = dict()
     if product_code:
         result['hs_code_tags__name'] = product_code
-    if target_area:
-        result['country_code_tags__name'] = target_area
+    if country:
+        result['country_code_tags__name'] = country
+    if region:
+        result['region_code_tags__name'] = region
     if trading_bloc:
         result['trading_bloc_code_tags__name'] = trading_bloc
     return result
@@ -127,33 +129,24 @@ def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, regi
     """
     from core.helpers import get_trading_blocs_name
 
-    filter_args, unique_hs_codes = [], []
-    # Removing null item then added None to filter against product_code criteria
-    region_list = [i for i in [country, region] if i] + [None]
-    is_region = any(region_list)
-
-    if country:
-        # fetch trading block for the country
-        trading_blocs = get_trading_blocs_name(country)
-        is_trading_blocs = any(trading_blocs)
-
+    filter_args, unique_hs_codes, trading_blocs = [], [], None
     if hs_code:
         hs_codes = [hs_code[i] for i in [slice(6), slice(4), slice(2)]]
         # Removing identical item while keeping order of item
         unique_hs_codes = sorted(set(hs_codes), key=hs_codes.index)
 
-    if unique_hs_codes and is_region:
-        filter_args = [
-            create_filter_dict(product_code=code, target_area=area) for code in unique_hs_codes for area in region_list
-        ]
-    elif unique_hs_codes:
-        filter_args = [create_filter_dict(product_code=code) for code in unique_hs_codes]
+        for code in unique_hs_codes:
+            filter_args += [create_filter_dict(product_code=code, country=country)] if country else []
+            filter_args += [(create_filter_dict(product_code=code, region=region))] if region else []
+            filter_args += [(create_filter_dict(product_code=code))]  # solo hs_lookup
 
-    if is_region:
-        filter_args = filter_args + [create_filter_dict(target_area=area) for area in region_list]
+    filter_args += [(create_filter_dict(country=country))] if country else []
+    filter_args += [create_filter_dict(region=region)] if region else []
 
-    if country and is_trading_blocs:
-        filter_args = filter_args + [create_filter_dict(trading_bloc=area) for area in trading_blocs]
+    if country:
+        trading_blocs = get_trading_blocs_name(country)
+        if trading_blocs:
+            filter_args += [create_filter_dict(trading_bloc=area) for area in trading_blocs]
 
     return [i for i in filter_args if i]
 
@@ -251,20 +244,15 @@ def get_cs_score_by_hs_codes(cs_obj, setting, hs_code):
 def get_cs_score_by_region(cs_obj, setting, country, region):
     score = 0
     region_mapping = {'country': 'country_exact', 'region': 'country_region'}
-    cs_tagged_regions = [str(item) for item in cs_obj.country_code_tags.all()]
-    for region_key, region_setting in region_mapping.items():
-        # positive scoring
-        if eval(region_key) in cs_tagged_regions:
-            score += getattr(setting, region_setting)
-        dampening_country_list = [item for item in cs_tagged_regions if len(item) == 2 and item != country]
-        # dampening scoring
-        if region_key == 'country':
-            for other_item in dampening_country_list:
-                score += getattr(setting, f'other_{region_setting}')
-        else:
-            dampening_region_list = [item for item in cs_tagged_regions if len(item) != 2 and item != region]
-            for other_item in dampening_region_list:
-                score += getattr(setting, f'other_{region_setting}')
+    cs_tagged_country = [str(item) for item in cs_obj.country_code_tags.all()]  # noqa
+    cs_tagged_region = [str(item) for item in cs_obj.region_code_tags.all()]  # noqa
+    for key, setting_key in region_mapping.items():
+        if eval(str(key)) in eval(f'cs_tagged_{key}'):
+            score += getattr(setting, region_mapping.get(key))
+
+        for other_region in eval(f'cs_tagged_{key}'):
+            if other_region != eval(key):
+                score += getattr(setting, f'other_{str(setting_key)}')
 
     return score
 
