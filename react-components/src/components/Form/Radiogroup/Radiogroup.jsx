@@ -2,19 +2,19 @@ import React, { memo, useState } from 'react'
 // import PropTypes from 'prop-types'
 import { RadiogroupItem } from './RadiogroupItem'
 
-export const Radiogroup = ({ radioList, className, type, buttonType }) => {
-  const [selected, setSelected] = useState(radioList.selectedId || null)
-  const [radioState, setRadioState] = useState(radioList)
+export const Radiogroup = ({ radiogroup, className, type, buttonType }) => {
+  const [selected, setSelected] = useState(radiogroup.selected || null)
+  const [radioState, setRadioState] = useState(radiogroup)
 
   const handleOnChange = (id) => {
     setSelected(id)
-    setRadioState({ ...radioState, selectedId: selected })
+    setRadioState({ ...radioState, selected })
   }
 
   return (
     <>
-      <h3 className="form-label">{radioList.label}</h3>
-      <radiogroup
+      <h3 className="form-label">{radiogroup.label}</h3>
+      <div
         className={`
           great-radiogroup 
           ${type === 'button' ? 'great-radiogroup--button' : ''}
@@ -22,20 +22,20 @@ export const Radiogroup = ({ radioList, className, type, buttonType }) => {
           ${className}
         `}
       >
-        {radioState.options.map((item) => {
+        {radioState.options.map(({ value }) => {
           return (
             <RadiogroupItem
-              key={item.pk}
-              id={item.pk}
-              group={item.group}
-              value={item.value}
-              label={item.label}
+              key={value}
+              id={value}
+              group={radiogroup.field}
+              value={value}
+              label={value.charAt(0).toUpperCase() + value.slice(1)}
               selected={selected}
               onChange={handleOnChange}
             />
           )
         })}
-      </radiogroup>
+      </div>
     </>
   )
 }

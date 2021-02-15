@@ -4,6 +4,7 @@ import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
 import { Radiogroup } from '@src/components/Form/Radiogroup/Radiogroup'
+import { risk_likelihood_options, risk_impact_options } from './constants'
 
 export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
   const [risks, setRisks] = useState(formData)
@@ -46,76 +47,16 @@ export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
   }
 
   const options_risk_likelihood = {
-    selectedId: 4,
     label: 'Risk likelihood',
-    options: [
-      {
-        pk: 1,
-        group: 'options_risk_likelihood',
-        value: 'rare',
-        label: 'Rare',
-      },
-      {
-        pk: 2,
-        group: 'options_risk_likelihood',
-        value: 'unlikely',
-        label: 'Unlikely',
-      },
-      {
-        pk: 3,
-        group: 'options_risk_likelihood',
-        value: 'possible',
-        label: 'Possible',
-      },
-      {
-        pk: 4,
-        group: 'options_risk_likelihood',
-        value: 'likely',
-        label: 'Likely',
-      },
-      {
-        pk: 5,
-        group: 'options_risk_likelihood',
-        value: 'certain',
-        label: 'Certain',
-      },
-    ],
+    field: 'options_risk_likelihood',
+    selected: 'rare',
+    options: risk_likelihood_options,
   }
   const options_risk_impact = {
-    selectedId: 8,
     label: 'Risk impact',
-    options: [
-      {
-        pk: 6,
-        group: 'options_risk_impact',
-        value: 'trivial',
-        label: 'Trivial',
-      },
-      {
-        pk: 7,
-        group: 'options_risk_impact',
-        value: 'minor',
-        label: 'Minor',
-      },
-      {
-        pk: 8,
-        group: 'options_risk_impact',
-        value: 'moderate',
-        label: 'Moderate',
-      },
-      {
-        pk: 9,
-        group: 'options_risk_impact',
-        value: 'major',
-        label: 'Major',
-      },
-      {
-        pk: 10,
-        group: 'options_risk_impact',
-        value: 'severe',
-        label: 'Severe',
-      },
-    ],
+    field: 'options_risk_impact',
+    selected: 'major',
+    options: risk_impact_options,
   }
 
   return (
@@ -127,8 +68,8 @@ export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
       </p>
       <p>These should be specific risks your business faces when exporting.</p>
       <Learning lesson={lesson} />
-      <Radiogroup radioList={options_risk_likelihood} />
-      <Radiogroup radioList={options_risk_impact} />
+      <Radiogroup radiogroup={options_risk_likelihood} />
+      <Radiogroup radiogroup={options_risk_impact} />
       {/* <Risks
         formData={risks}
         deleteRisk={deleteRisk}
