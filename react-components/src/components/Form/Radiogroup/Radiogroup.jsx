@@ -2,18 +2,25 @@ import React, { memo, useState } from 'react'
 // import PropTypes from 'prop-types'
 import { RadiogroupItem } from './RadiogroupItem'
 
-export const Radiogroup = ({ radiogroup, className, type, buttonType }) => {
-  const [selected, setSelected] = useState(radiogroup.selected || null)
-  const [radioState, setRadioState] = useState(radiogroup)
+export const Radiogroup = ({
+  options,
+  selected,
+  label,
+  hideLabel,
+  groupName,
+  className,
+  type,
+  buttonType,
+}) => {
+  const [selectedOption, setSelectedOption] = useState(selected || null)
 
   const handleOnChange = (id) => {
-    setSelected(id)
-    setRadioState({ ...radioState, selected })
+    setSelectedOption(id)
   }
 
   return (
     <>
-      <h3 className="form-label">{radiogroup.label}</h3>
+      {!hideLabel && <h3 className="form-label">{label}</h3>}
       <div
         className={`
           great-radiogroup 
@@ -22,15 +29,15 @@ export const Radiogroup = ({ radiogroup, className, type, buttonType }) => {
           ${className}
         `}
       >
-        {radioState.options.map(({ value }) => {
+        {options.map(({ value }) => {
           return (
             <RadiogroupItem
               key={value}
               id={value}
-              group={radiogroup.field}
+              group={groupName}
               value={value}
               label={value.charAt(0).toUpperCase() + value.slice(1)}
-              selected={selected}
+              selected={selectedOption}
               onChange={handleOnChange}
             />
           )
@@ -44,4 +51,5 @@ Radiogroup.defaultProps = {
   className: 'm-b-xs',
   type: 'button',
   buttonType: 'temperature',
+  label: null,
 }
