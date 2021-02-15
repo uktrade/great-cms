@@ -29,7 +29,7 @@
     <div class="grid-row wrap-tight">
       {% for column_block in page.how_dit_helps_columns %}
           <div class="column-third-m column-full">
-            {% include 'components/card.html' with title=column_block.value.text subheading=column.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True %}
+            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True %}
           </div>
         {% endfor %}
       </div>
