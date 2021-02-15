@@ -717,3 +717,17 @@ def test_case_study_score_with_recency(
         }
         setting = CaseStudyScoringSettings.for_request(context['request'])
         assert get_cs_score_by_recency(two_months_old_case_study, setting) == expected
+
+
+def test_video_chooser_block__render_basic():
+
+    vcblock = core_blocks.VideoChooserBlock()
+
+    assert vcblock.render_basic(None) == ''
+    assert vcblock.render_basic('') == ''
+
+    mock_value = mock.Mock(name='mock VideoChooserBlock value')
+
+    mock_value.file.url = 'mocked url attr'
+
+    assert vcblock.render_basic(mock_value) == 'mocked url attr'
