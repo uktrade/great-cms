@@ -369,7 +369,7 @@ export default function ProductFinderModal(props) {
       )
     },
     {
-      className: 'box box--no-pointer m-t-s',
+      className: 'box box--no-pointer m-t-s grid',
       innerHtml: (
         <>
           <div className="c-1-2 p-h-0">

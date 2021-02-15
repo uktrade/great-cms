@@ -72301,7 +72301,7 @@ function ProductFinderModal(props) {
       className: "m-v-0"
     }, "Think of it like the folder structure on a computer."))
   }, {
-    className: 'box box--no-pointer m-t-s',
+    className: 'box box--no-pointer m-t-s grid',
     innerHtml: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-1-2 p-h-0"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
