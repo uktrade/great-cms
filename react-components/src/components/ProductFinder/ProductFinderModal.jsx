@@ -408,8 +408,8 @@ export default function ProductFinderModal(props) {
     },
   ]
 
-  const renderInfoCards = (cards) => {
-    return cards.map((card, idx) =>
+  const renderInfoCards = () => {
+    return infoCards.map((card, idx) =>
       <div key={idx} className={card.className}>
         {card.innerHtml}
       </div>
@@ -443,13 +443,12 @@ export default function ProductFinderModal(props) {
         </div>
         {/* Desktop rendering with info cards displayed as a stack  */}
         <div className="only-desktop">
-          {renderInfoCards(infoCards)}
+          {renderInfoCards()}
         </div>
         {/* Mobile rendering with info cards displayed within a carousel  */}
         <div className="only-mobile">
-        {/* <Slider {...sliderSettings}>{infoCards}</Slider> */}
           <Slider {...sliderSettings}>
-            {renderInfoCards(infoCards)}
+            {renderInfoCards()}
           </Slider>
         </div>
       </div>
