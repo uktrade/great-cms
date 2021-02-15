@@ -3,10 +3,17 @@ import React, { memo, useState } from 'react'
 import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
-import { Radiogroup } from '@src/components/Form/Radiogroup/Radiogroup'
-import { risk_likelihood_options, risk_impact_options } from './constants'
+// import { Radiogroup } from '@src/components/Form/Radiogroup/Radiogroup'
+import { Risks } from './Risks'
+// import { risk_likelihood_options, risk_impact_options } from './constants'
 
-export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
+export const BusinessRisks = ({
+  formData,
+  companyexportplan,
+  lesson,
+  risk_likelihood_options,
+  risk_impact_options,
+}) => {
   const [risks, setRisks] = useState(formData)
   // debugger
   const addRisk = () => {
@@ -46,18 +53,18 @@ export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
     debounceUpdate(field, value)
   }
 
-  const options_risk_likelihood = {
-    label: 'Risk likelihood',
-    field: 'options_risk_likelihood',
-    selected: 'rare',
-    options: risk_likelihood_options,
-  }
-  const options_risk_impact = {
-    label: 'Risk impact',
-    field: 'options_risk_impact',
-    selected: 'major',
-    options: risk_impact_options,
-  }
+  // const options_risk_likelihood = {
+  //   label: 'Risk likelihood',
+  //   field: 'options_risk_likelihood',
+  //   selected: 'possible',
+  //   options: risk_likelihood_options,
+  // }
+  // const options_risk_impact = {
+  //   label: 'Risk impact',
+  //   field: 'options_risk_impact',
+  //   selected: 'minor',
+  //   options: risk_impact_options,
+  // }
 
   return (
     <>
@@ -68,14 +75,14 @@ export const BusinessRisks = ({ formData, companyexportplan, lesson }) => {
       </p>
       <p>These should be specific risks your business faces when exporting.</p>
       <Learning lesson={lesson} />
-      <Radiogroup radiogroup={options_risk_likelihood} />
-      <Radiogroup radiogroup={options_risk_impact} />
-      {/* <Risks
+      <Risks
         formData={risks}
         deleteRisk={deleteRisk}
         onChange={onChange}
         addRisk={addRisk}
-      /> */}
+        likelihoodOptions={risk_likelihood_options}
+        impactOptions={risk_impact_options}
+      />
     </>
   )
 }
