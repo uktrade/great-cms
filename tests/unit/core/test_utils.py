@@ -298,7 +298,6 @@ def test_personalised_filter_condition(
     mock_trading_blocs, hs_code, country, region, expected_length, expected_filter_dict
 ):
     filter_cond = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
-    print(filter_cond)
     assert filter_cond == expected_filter_dict
     assert len(filter_cond) == expected_length
 

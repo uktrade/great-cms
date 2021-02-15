@@ -176,12 +176,13 @@ def test_case_study_static_block_annotate_with_only_country_selection(mock_tradi
 
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add('Europe', 'ES')
+    case_study_1.country_code_tags.add('ES')
+    case_study_1.region_code_tags.add('Europe')
     case_study_1.save()
 
     case_study_2 = CaseStudyFactory()
     case_study_2.hs_code_tags.add('334455')
-    case_study_2.country_code_tags.add('Asia Pacific')
+    case_study_2.region_code_tags.add('Asia Pacific')
     case_study_2.save()
 
     # country personalisation selection
@@ -271,12 +272,22 @@ def test_case_study_static_block_annotate_with_case_study_with_tags_and_personal
 ):
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add('Europe', 'ES')
+    case_study_1.country_code_tags.add(
+        'ES',
+    )
+    case_study_1.region_code_tags.add(
+        'Europe',
+    )
     case_study_1.save()
 
     case_study_2 = CaseStudyFactory()
     case_study_2.hs_code_tags.add('334455')
-    case_study_2.country_code_tags.add('Europe', 'DE')
+    case_study_2.country_code_tags.add(
+        'DE',
+    )
+    case_study_1.region_code_tags.add(
+        'Europe',
+    )
     case_study_2.save()
 
     mocked_export_plan = ExportPlanParser(
@@ -444,7 +455,8 @@ def test_case_study_score_by_hs_code(rf, user, magna_site):
 @pytest.mark.django_db
 def test_case_study_score_by_region(rf, user, magna_site):
     case_study = CaseStudyFactory()
-    case_study.country_code_tags.add('IN', 'Asia', 'Europe')
+    case_study.country_code_tags.add('IN')
+    case_study.region_code_tags.add('Asia', 'Europe')
     case_study.save()
 
     mocked_export_plan = {

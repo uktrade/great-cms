@@ -244,20 +244,15 @@ def get_cs_score_by_hs_codes(cs_obj, setting, hs_code):
 def get_cs_score_by_region(cs_obj, setting, country, region):
     score = 0
     region_mapping = {'country': 'country_exact', 'region': 'country_region'}
-    cs_tagged_regions = [str(item) for item in cs_obj.country_code_tags.all()]
-    for region_key, region_setting in region_mapping.items():
-        # positive scoring
-        if eval(region_key) in cs_tagged_regions:
-            score += getattr(setting, region_setting)
-        dampening_country_list = [item for item in cs_tagged_regions if len(item) == 2 and item != country]
-        # dampening scoring
-        if region_key == 'country':
-            for other_item in dampening_country_list:
-                score += getattr(setting, f'other_{region_setting}')
-        else:
-            dampening_region_list = [item for item in cs_tagged_regions if len(item) != 2 and item != region]
-            for other_item in dampening_region_list:
-                score += getattr(setting, f'other_{region_setting}')
+    cs_tagged_country = [str(item) for item in cs_obj.country_code_tags.all()]  # noqa
+    cs_tagged_region = [str(item) for item in cs_obj.region_code_tags.all()]  # noqa
+    for key, setting_key in region_mapping.items():
+        if eval(str(key)) in eval(f'cs_tagged_{key}'):
+            score += getattr(setting, region_mapping.get(key))
+
+        for other_region in eval(f'cs_tagged_{key}'):
+            if other_region != eval(key):
+                score += getattr(setting, f'other_{str(setting_key)}')
 
     return score
 
