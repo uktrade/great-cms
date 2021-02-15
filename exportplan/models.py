@@ -3,7 +3,7 @@ from great_components.mixins import GA360Mixin
 from wagtail.core.models import Page
 
 from core import cms_slugs, mixins
-from exportplan import data
+from exportplan import helpers
 
 
 class ExportPlanDashboardPage(
@@ -21,7 +21,8 @@ class ExportPlanDashboardPage(
     def get_context(self, request):
         request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context = super().get_context(request)
-        context['sections'] = list(data.SECTIONS.values())
+        context['sections'] = helpers.build_export_plan_sections(request.user.export_plan)
+        context['export_plan_progress'] = helpers.calculate_ep_progress(request.user.export_plan)
 
         self.set_ga360_payload(
             page_id=self.id,

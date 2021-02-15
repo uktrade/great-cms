@@ -4,7 +4,25 @@
 
 ### Implemented enhancements
 
+- GP2-1240 - Mark sections as complete
+- GP2-1425 - Cost and pricing - Estimate element
+- GP2-1435 - Split data retrieval on 'Where to export' data table
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
+- no-ticket - django version upgraded to 2.2.18
+- GP2-1424 - Cost and pricing page - local taxes section
+- GP2-1423 - Cost and pricing page - content change
+- GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+### Fixed bugs
+
+
+## [1.2.0](https://github.com/uktrade/great-cms/releases/tag/1.2.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.1.0...1.2.0)
+
+### Implemented enhancements
+
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
+- GP2-1412 - Update RichtextField features allowed on ArticlePage
 - GP2-1402 - Update content for Funding and Credit section
 - GP2-1407 - Rename AdviceTopicLandingPage to just TopicLandingPage
 - GP2-1338 - Port v1 ArticlePage template + model
@@ -53,18 +71,6 @@
 - GP2-1127 - Renaming product at the end of product selection
 - GP2-1245 - Updated header contact link
 - GP2-1206 - Compare markets section on modal through compare markets (mobile and desktop)
-- GP2-1193 - Dynamic page title tags
-- GP2-1137 - Product finder endpage
-- GP2-1057 - Remove unused styles from great-styles
-- GP2-1109 - EP target market research responsive. Modal style updates (from great-styles).
-- GP2-1138 - Updated copy, refs, links and view name plus some styling tweaks for compare countries page
-- GP2-1196 - Exclude analytics' Universal Data Object variable from local event
-- GP2-1112 - Coming soon modal responsive styling
-- GP2-1018 - Economy data sources attributions and links
-- GP2-981 - Responsive support for Case Study component
-- GP2-1068 - Autoformat Python code with black and isort
-- GP2-1111 - EP responsive marketing approach changes
-- GP2-1029 - Population data sources attributions and links
 - GP2-974 - target market research page
 - GP2-285 - cost and price be
 - GP2-1323 - enable ep sections
@@ -74,9 +80,11 @@
 - NOTICKET - upgrade admin include export plan data
 - GP2-1139 - save EP progress
 - GP2-1382 - getting paid structure be
+- GP2-1382 - getting paid structure integration
+- GP2-1199 - Mark section as complete
 
 ### Fixed bugs
-
+- GP2-1445 - Typography tweaks for BAU article pages
 - No ticket - fix button styling issue after button refactor work
 - No ticket - Fix ignored BAU react unit tests
 - GP2-1408 - Fix date formatting of articles on article list page template
@@ -92,14 +100,6 @@
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
-- GP2-1309 - Marketing approach page - Content for tool-tips is not displayed
-- no-ticket - Prettify, lint and cleanup of product-finder and config boilerplate
-- GP2-1111 - Updates to Stats group.
-- GP2-1188 - Fixed IndexError on Target market research page if country is not selected
-- GP2-1038 - Force lowercase on email input field
-- GP2-1118 - Correct email input field type on login and signup forms
-- GP2-1191 - Intermittent data blank on target market selection
-- GP2-1192 - Landing page menu on right - react component updates.
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
 

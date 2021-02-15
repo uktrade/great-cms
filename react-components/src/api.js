@@ -110,6 +110,12 @@ export default {
     }).then((response) => responseHandler(response).json())
   },
 
+  getCountryData: (countries) => {
+    return get(config.apiCountryDataUrl, {
+      countries: countries,
+    }).then((response) => responseHandler(response).json())    
+  },
+
   getCountryAgeGroupData: (data) => {
     return get(config.countryAgeGroupDataUrl, data).then((response) =>
       responseHandler(response).json()

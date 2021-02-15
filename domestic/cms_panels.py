@@ -65,7 +65,7 @@ class ArticlePagePanels:
             ],
             help_text='If both video and image are specified, only the video will be shown',
         ),
-        FieldPanel('article_body_text'),
+        StreamFieldPanel('article_body'),
         MultiFieldPanel(
             heading='CTA fields',
             children=[

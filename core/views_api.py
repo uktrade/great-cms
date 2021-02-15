@@ -111,5 +111,14 @@ class ComTradeDataView(generics.GenericAPIView):
     def get(self, request):
         countries_list = request.GET.get('countries').split(',')
         commodity_code = request.GET.get('commodity_code')
-        response_data = helpers.get_comtrade_data(countries_list=countries_list, commodity_code=commodity_code)
+        response_data = helpers.get_comtrade_data(
+            countries_list=countries_list, commodity_code=commodity_code, with_country_data=False
+        )
+        return Response(response_data)
+
+
+class CountryDataView(generics.GenericAPIView):
+    def get(self, request):
+        countries_list = request.GET.get('countries').split(',')
+        response_data = helpers.get_country_data(countries_list=countries_list)
         return Response(response_data)
