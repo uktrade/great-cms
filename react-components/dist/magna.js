@@ -65784,6 +65784,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 /* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
+/* harmony import */ var _Risks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Risks */ "./react-components/src/components/BusinessRisk/BusinessRisks/Risks.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -65814,71 +65815,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+ // import { Radiogroup } from '@src/components/Form/Radiogroup/Radiogroup'
 
+ // import { risk_likelihood_options, risk_impact_options } from './constants'
 
-var RadioItem = function RadioItem(_ref) {
-  var id = _ref.id,
-      group = _ref.group,
-      value = _ref.value,
-      label = _ref.label,
-      handleOnChange = _ref.handleOnChange,
-      selected = _ref.selected;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "radio",
-    name: group,
-    id: id,
-    value: value,
-    onChange: function onChange(e) {
-      return handleOnChange(id, e);
-    },
-    checked: selected === id
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: id
-  }, label));
-};
+var BusinessRisks = function BusinessRisks(_ref) {
+  var formData = _ref.formData,
+      companyexportplan = _ref.companyexportplan,
+      lesson = _ref.lesson,
+      risk_likelihood_options = _ref.risk_likelihood_options,
+      risk_impact_options = _ref.risk_impact_options;
 
-var Radiogroup = function Radiogroup(_ref2) {
-  var list = _ref2.list;
-
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(list.selectedId || null),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
       _useState2 = _slicedToArray(_useState, 2),
-      selected = _useState2[0],
-      setSelected = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(list),
-      _useState4 = _slicedToArray(_useState3, 2),
-      radioState = _useState4[0],
-      setRadioState = _useState4[1];
-
-  var handleOnChange = function handleOnChange(id) {
-    setSelected(id);
-    setRadioState(_objectSpread(_objectSpread({}, radioState), {}, {
-      selectedId: selected
-    })); // console.log(selected);
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, radioState.list.map(function (item) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioItem, {
-      key: item.id,
-      id: item.id,
-      group: item.group,
-      value: item.value,
-      label: item.label,
-      selected: selected,
-      handleOnChange: handleOnChange
-    });
-  }));
-};
-
-var BusinessRisks = function BusinessRisks(_ref3) {
-  var formData = _ref3.formData,
-      companyexportplan = _ref3.companyexportplan,
-      lesson = _ref3.lesson;
-
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
-      _useState6 = _slicedToArray(_useState5, 2),
-      risks = _useState6[0],
-      setRisks = _useState6[1]; // debugger
+      risks = _useState2[0],
+      setRisks = _useState2[1]; // debugger
 
 
   var addRisk = function addRisk() {
@@ -65917,38 +65868,31 @@ var BusinessRisks = function BusinessRisks(_ref3) {
     });
     setRisks(updatedRisks);
     debounceUpdate(field, value);
-  };
+  }; // const options_risk_likelihood = {
+  //   label: 'Risk likelihood',
+  //   field: 'options_risk_likelihood',
+  //   selected: 'possible',
+  //   options: risk_likelihood_options,
+  // }
+  // const options_risk_impact = {
+  //   label: 'Risk impact',
+  //   field: 'options_risk_impact',
+  //   selected: 'minor',
+  //   options: risk_impact_options,
+  // }
 
-  var list = {
-    selectedId: 'one',
-    list: [{
-      id: 'one',
-      group: 'group',
-      value: 'one',
-      label: 'Label one'
-    }, {
-      id: 'two',
-      group: 'group',
-      value: 'two',
-      label: 'Label two'
-    }, {
-      id: 'three',
-      group: 'group',
-      value: 'three',
-      label: 'Label three'
-    }, {
-      id: 'four',
-      group: 'group',
-      value: 'four',
-      label: 'Label four'
-    }]
-  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m m-b-xs"
   }, "Risks"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Record any risks you think your business may face in the following table."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "These should be specific risks your business faces when exporting."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__["Learning"], {
     lesson: lesson
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Radiogroup, {
-    list: list
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Risks__WEBPACK_IMPORTED_MODULE_4__["Risks"], {
+    formData: risks,
+    deleteRisk: deleteRisk,
+    onChange: onChange,
+    addRisk: addRisk,
+    likelihoodOptions: risk_likelihood_options,
+    impactOptions: risk_impact_options
   }));
 }; // BusinessRisks.propTypes = {
 //   formData: PropTypes.arrayOf(
@@ -65961,6 +65905,170 @@ var BusinessRisks = function BusinessRisks(_ref3) {
 // }
 // BusinessRisks.defaultProps = {
 //   formData: [],
+// }
+
+/***/ }),
+
+/***/ "./react-components/src/components/BusinessRisk/BusinessRisks/Risk.jsx":
+/*!*****************************************************************************!*\
+  !*** ./react-components/src/components/BusinessRisk/BusinessRisks/Risk.jsx ***!
+  \*****************************************************************************/
+/*! exports provided: Risk */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Risk", function() { return Risk; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
+/* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
+/* harmony import */ var _src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Radiogroup/Radiogroup */ "./react-components/src/components/Form/Radiogroup/Radiogroup.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+ // import PropTypes from 'prop-types'
+
+
+
+ // import { Select } from '@src/components/Form/Select'
+
+var Risk = function Risk(_ref) {
+  var _React$createElement;
+
+  var id = _ref.id,
+      _onChange = _ref.onChange,
+      deleteRisk = _ref.deleteRisk,
+      notes = _ref.notes,
+      contingency_notes = _ref.contingency_notes,
+      index = _ref.index,
+      likelihoodOptions = _ref.likelihoodOptions,
+      impactOptions = _ref.impactOptions,
+      selected = _ref.selected;
+  // debugger
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "form-label m-v-0"
+  }, "Risk ", index), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_2__["Learning"], notes), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_1__["TextArea"], {
+    id: id,
+    type: "textarea",
+    hideLabel: true,
+    label: notes.label,
+    value: notes.value,
+    onChange: function onChange(e) {
+      return _onChange('input', id, e);
+    },
+    formGroupClassName: "m-b-0"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_3__["Radiogroup"], {
+    options: likelihoodOptions,
+    selected: selected.risk_likelihood_option,
+    groupName: Object.keys(selected.risk_likelihood_option),
+    label: "Risk likelihood"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_3__["Radiogroup"], {
+    options: impactOptions,
+    selected: selected.risk_impact_option,
+    groupName: Object.keys(selected.risk_impact_option),
+    label: "Risk impact"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "form-label m-v-0"
+  }, contingency_notes.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_2__["Learning"], contingency_notes), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_1__["TextArea"], (_React$createElement = {
+    id: id,
+    type: "textarea",
+    hideLabel: true,
+    label: contingency_notes.label
+  }, _defineProperty(_React$createElement, "hideLabel", true), _defineProperty(_React$createElement, "value", contingency_notes.value), _defineProperty(_React$createElement, "onChange", function onChange(e) {
+    return _onChange('input', id, e);
+  }), _defineProperty(_React$createElement, "formGroupClassName", "m-b-0"), _React$createElement)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "text-center",
+    colSpan: "2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    title: "Click to delete this funding option and its data.",
+    className: "button button--delete button--small button--only-icon button--tertiary",
+    onClick: function onClick() {
+      return deleteRisk(id);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-trash-alt"
+  })))));
+}; // Risk.propTypes = {
+//   id: PropTypes.number.isRequired,
+//   value: PropTypes.number.isRequired,
+//   currency: PropTypes.string.isRequired,
+//   selectData: PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     name: PropTypes.string.isRequired,
+//     options: PropTypes.array.isRequired,
+//     placeholder: PropTypes.string.isRequired,
+//   }).isRequired,
+//   onChange: PropTypes.func.isRequired,
+//   deleteRisk: PropTypes.func.isRequired,
+// }
+
+/***/ }),
+
+/***/ "./react-components/src/components/BusinessRisk/BusinessRisks/Risks.jsx":
+/*!******************************************************************************!*\
+  !*** ./react-components/src/components/BusinessRisk/BusinessRisks/Risks.jsx ***!
+  \******************************************************************************/
+/*! exports provided: Risks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Risks", function() { return Risks; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Risk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Risk */ "./react-components/src/components/BusinessRisk/BusinessRisks/Risk.jsx");
+ // import PropTypes from 'prop-types'
+
+
+var Risks = function Risks(_ref) {
+  var formData = _ref.formData,
+      onChange = _ref.onChange,
+      deleteRisk = _ref.deleteRisk,
+      addRisk = _ref.addRisk,
+      likelihoodOptions = _ref.likelihoodOptions,
+      impactOptions = _ref.impactOptions;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formData.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "costs costs--risks bg-blue-deep-10 p-v-s m-b-s"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "m-v-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formData.map(function (_ref2, i) {
+    var pk = _ref2.pk,
+        notes = _ref2.notes,
+        contingency_notes = _ref2.contingency_notes,
+        risk_likelihood_option = _ref2.risk_likelihood_option,
+        risk_impact_option = _ref2.risk_impact_option;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Risk__WEBPACK_IMPORTED_MODULE_1__["Risk"], {
+      index: i + 1,
+      key: pk,
+      id: pk,
+      notes: notes,
+      contingency_notes: contingency_notes,
+      onChange: onChange,
+      deleteRisk: deleteRisk,
+      likelihoodOptions: likelihoodOptions,
+      impactOptions: impactOptions,
+      selected: {
+        risk_likelihood_option: risk_likelihood_option,
+        risk_impact_option: risk_impact_option
+      }
+    });
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "button button--large button--icon",
+    onClick: addRisk
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-plus-circle"
+  }), "Add a risk"));
+}; // Risks.propTypes = {
+//   formData: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       pk: PropTypes.number,
+//     })
+//   ).isRequired,
+//   onChange: PropTypes.func.isRequired,
+//   deleteRisk: PropTypes.func.isRequired,
+//   addRisk: PropTypes.func.isRequired,
 // }
 
 /***/ }),
@@ -68991,6 +69099,121 @@ Input.defaultProps = {
   className: '',
   formGroupClassName: ''
 };
+
+/***/ }),
+
+/***/ "./react-components/src/components/Form/Radiogroup/Radiogroup.jsx":
+/*!************************************************************************!*\
+  !*** ./react-components/src/components/Form/Radiogroup/Radiogroup.jsx ***!
+  \************************************************************************/
+/*! exports provided: Radiogroup */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Radiogroup", function() { return Radiogroup; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _RadiogroupItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RadiogroupItem */ "./react-components/src/components/Form/Radiogroup/RadiogroupItem.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+ // import PropTypes from 'prop-types'
+
+
+var Radiogroup = function Radiogroup(_ref) {
+  var options = _ref.options,
+      selected = _ref.selected,
+      label = _ref.label,
+      hideLabel = _ref.hideLabel,
+      groupName = _ref.groupName,
+      className = _ref.className,
+      type = _ref.type,
+      buttonType = _ref.buttonType;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(selected || null),
+      _useState2 = _slicedToArray(_useState, 2),
+      selectedOption = _useState2[0],
+      setSelectedOption = _useState2[1];
+
+  var handleOnChange = function handleOnChange(id) {
+    setSelectedOption(id);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, !hideLabel && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "form-label"
+  }, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "\n          great-radiogroup \n          ".concat(type === 'button' ? 'great-radiogroup--button' : '', "\n          ").concat(buttonType === 'temperature' ? 'great-radiogroup--temperature' : '', "\n          ").concat(className, "\n        ")
+  }, options.map(function (_ref2) {
+    var value = _ref2.value;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RadiogroupItem__WEBPACK_IMPORTED_MODULE_1__["RadiogroupItem"], {
+      key: value,
+      id: value,
+      group: groupName,
+      value: value,
+      label: value.charAt(0).toUpperCase() + value.slice(1),
+      selected: selectedOption,
+      onChange: handleOnChange
+    });
+  })));
+};
+Radiogroup.defaultProps = {
+  className: 'm-b-xs',
+  type: 'button',
+  buttonType: 'temperature',
+  label: null
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/Form/Radiogroup/RadiogroupItem.jsx":
+/*!****************************************************************************!*\
+  !*** ./react-components/src/components/Form/Radiogroup/RadiogroupItem.jsx ***!
+  \****************************************************************************/
+/*! exports provided: RadiogroupItem */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RadiogroupItem", function() { return RadiogroupItem; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+ // import PropTypes from 'prop-types'
+
+var RadiogroupItem = function RadiogroupItem(_ref) {
+  var id = _ref.id,
+      group = _ref.group,
+      value = _ref.value,
+      label = _ref.label,
+      _onChange = _ref.onChange,
+      selected = _ref.selected;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "great-radiogroup__item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: "great-radiogroup__input",
+    type: "radio",
+    name: group,
+    id: id,
+    value: value,
+    onChange: function onChange(e) {
+      return _onChange(id, e);
+    },
+    checked: selected === id
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: id,
+    className: "great-radiogroup__label"
+  }, label));
+};
+RadiogroupItem.defaultProps = {};
 
 /***/ }),
 

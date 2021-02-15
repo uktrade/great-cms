@@ -20,7 +20,7 @@ export const Risk = ({
   // debugger
   return (
     <>
-      <tr className="border-none">
+      <tr>
         <td>
           <p className="form-label m-v-0">Risk {index}</p>
           <Learning {...notes} />
@@ -42,6 +42,8 @@ export const Risk = ({
           groupName={Object.keys(selected.risk_likelihood_option)}
           label="Risk likelihood"
         />
+      </tr>
+      <tr>
         <Radiogroup
           options={impactOptions}
           selected={selected.risk_impact_option}
@@ -49,7 +51,7 @@ export const Risk = ({
           label="Risk impact"
         />
       </tr>
-      <tr className="border-none">
+      <tr>
         <td>
           <p className="form-label m-v-0">{contingency_notes.label}</p>
           <Learning {...contingency_notes} />
