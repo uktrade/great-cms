@@ -73,12 +73,14 @@ export default function ProductFinderModal(props) {
   }
 
   const sliderSettings = {
+    centerMode: true,
+    centerPadding: '20px',
     dots: true,
-    infinite: true,
+    arrows: false,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
   }
 
   const saveProduct = (commodityCode, commodityName) => {
@@ -369,7 +371,7 @@ export default function ProductFinderModal(props) {
       )
     },
     {
-      className: 'box box--no-pointer m-t-s grid',
+      className: 'box box--no-pointer m-t-s inline-block',
       innerHtml: (
         <>
           <div className="c-1-2 p-h-0">
@@ -407,8 +409,10 @@ export default function ProductFinderModal(props) {
   ]
 
   const renderInfoCards = (cards) => {
-    return cards.map((card) =>
-      <div className={card.className}>{card.innerHtml}</div>
+    return cards.map((card, idx) =>
+      <div key={idx} className={card.className}>
+        {card.innerHtml}
+      </div>
   )}
 
   const searchBox = (error) => {
