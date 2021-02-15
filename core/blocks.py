@@ -7,6 +7,7 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 from core import models
 from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
 from core.utils import (
+    get_most_ranked_case_study,
     get_personalised_case_study_orm_filter_args,
     get_personalised_choices,
 )
@@ -247,13 +248,13 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
             return context
 
         hs_code, country, region = get_personalised_choices(context['export_plan'])
-
         filter_args = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
+
         queryset = models.CaseStudy.objects.all()
         for filter_arg in filter_args:
-            case_study = queryset.filter(**filter_arg)
-            if case_study.exists():
-                context['case_study'] = case_study.distinct().latest()
+            cs_queryset = queryset.filter(**filter_arg)
+            if cs_queryset.exists():
+                context['case_study'] = get_most_ranked_case_study(cs_queryset=cs_queryset, context=context)
                 break
 
         return context
