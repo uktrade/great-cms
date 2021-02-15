@@ -862,7 +862,6 @@ class PersonalisationHSCodeTag(TagBase):
 class PersonalisationCountryTag(TagBase):
     """Custom tag for personalisation.
     Tag value will be an ISO-2 Country code ('DE')
-    _OR_ a geographical string ('Europe')
     """
 
     # free_tagging = False  # DISABLED until tag data only comes via data migration
@@ -870,6 +869,18 @@ class PersonalisationCountryTag(TagBase):
     class Meta:
         verbose_name = 'Country tag for personalisation'
         verbose_name_plural = 'Country tags for personalisation'
+
+
+class PersonalisationRegionTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be a geographical string ('Europe')
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Region tag for personalisation'
+        verbose_name_plural = 'Region tags for personalisation'
 
 
 class PersonalisationTradingBlocTag(TagBase):
@@ -900,6 +911,13 @@ class CountryTaggedCaseStudy(ItemBase):
         PersonalisationCountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE
     )
     content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
+
+
+class RegionTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag, related_name='region_tagged_case_studies', on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='region_tagged_items')
 
 
 class TradingBlocTaggedCaseStudy(ItemBase):
@@ -1058,6 +1076,9 @@ class CaseStudy(ClusterableModel):
     country_code_tags = ClusterTaggableManager(
         through='core.CountryTaggedCaseStudy', blank=True, verbose_name='Country tags'
     )
+    region_code_tags = ClusterTaggableManager(
+        through='core.RegionTaggedCaseStudy', blank=True, verbose_name='Region tags'
+    )
     trading_bloc_code_tags = ClusterTaggableManager(
         through='core.TradingBlocTaggedCaseStudy', blank=True, verbose_name='Trading bloc tags'
     )
@@ -1079,6 +1100,7 @@ class CaseStudy(ClusterableModel):
             [
                 FieldPanel('hs_code_tags'),
                 FieldPanel('country_code_tags'),
+                FieldPanel('region_code_tags'),
                 FieldPanel('trading_bloc_code_tags'),
             ],
             heading='Case Study tags for Personalisation',
