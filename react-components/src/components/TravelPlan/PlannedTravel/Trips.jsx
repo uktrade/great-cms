@@ -10,12 +10,12 @@ export const Trips = ({ formData, onChange, deleteTrip, addTrip }) => {
         <div className="costs costs--trips bg-blue-deep-10 p-v-s m-b-s">
           <table className="m-v-0">
             <tbody>
-              {formData.map(({ pk, value }, i) => (
+              {formData.map(({ pk, note }, i) => (
                 <Trip
                   index={i + 1}
                   key={pk}
                   id={pk}
-                  value={value}
+                  note={note}
                   onChange={onChange}
                   deleteTrip={deleteTrip}
                 />

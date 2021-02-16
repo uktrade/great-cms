@@ -10,21 +10,24 @@ export const PlannedTravel = ({
   companyexportplan,
   lesson,
   tooltip,
+  model_name,
 }) => {
   const [trips, setTrips] = useState(formData)
 
   const addTrip = () => {
-    const newTrip = {}
-    newTrip.companyexportplan = companyexportplan
-    newTrip.value = ''
+    const newTrip = {
+      companyexportplan,
+      model_name,
+      note: '',
+    }
 
-    Services.createFundingCreditOption({ ...newTrip })
+    Services.apiModelObjectManage({ ...newTrip }, 'POST')
       .then((data) => setTrips([...trips, data]))
       .catch(() => {})
   }
 
   const deleteTrip = (id) => {
-    Services.deleteFundingCreditOption(id)
+    Services.apiModelObjectManage({ model_name, pk: id }, 'DELETE')
       .then(() => {
         setTrips(trips.filter((x) => x.pk !== id))
       })
@@ -32,7 +35,7 @@ export const PlannedTravel = ({
   }
 
   const update = (field, value) => {
-    Services.updateFundingCreditOption({ ...field, ...value })
+    Services.apiModelObjectManage({ model_name, ...field, ...value }, 'PATCH')
       .then(() => {})
       .catch(() => {})
   }
@@ -40,7 +43,7 @@ export const PlannedTravel = ({
   const debounceUpdate = useDebounce(update)
 
   const onChange = (id, value) => {
-    value = { value: value }
+    value = { note: value }
     const field = trips.find((x) => x.pk === id)
     field.companyexportplan = companyexportplan
     const updatedTrips = trips.map((x) =>

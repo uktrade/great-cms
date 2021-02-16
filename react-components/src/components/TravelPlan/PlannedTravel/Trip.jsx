@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 
 import { TextArea } from '@src/components/Form/TextArea'
 
-export const Trip = ({ id, value, onChange, deleteTrip, index }) => {
+export const Trip = ({ id, note, onChange, deleteTrip, index }) => {
   return (
     <>
       <tr className="border-none">
@@ -14,7 +14,7 @@ export const Trip = ({ id, value, onChange, deleteTrip, index }) => {
             type="text"
             label={'label'}
             hideLabel
-            value={value}
+            value={note}
             onChange={(e) => onChange(id, e[id])}
             formGroupClassName="m-b-0"
           />
