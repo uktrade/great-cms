@@ -107,7 +107,7 @@ Create a travel plan that will help you prepare everything you need for your upc
   })
   magna.travelPlanCultureRules({
     element: document.getElementById('culture-and-rules'),
-    field: 'travel_information',
+    field: 'travel_business_policies',
     formData: {{ travel_business_policies|to_json|safe }},
     formFields: [
       {
@@ -134,7 +134,7 @@ Create a travel plan that will help you prepare everything you need for your upc
   })
   magna.travelPlanVisaInformation({
     element: document.getElementById('visa-information'),
-    field: 'visa_information',
+    field: 'travel_business_policies',
     formData: {{ travel_business_policies|to_json|safe }},
     formFields: [
       {
