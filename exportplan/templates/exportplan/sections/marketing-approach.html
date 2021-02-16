@@ -46,11 +46,7 @@
 
 <section class="container m-b-l">
   <div class="grid">
-    <div class="c-1-4 m-t-s">
-      <div class="lesson__back width-full">
-        {% include 'exportplan/includes/lesson_details.html' with lesson_name='sell-direct-your-customer' %}
-      </div>
-    </div>
+    <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
       <h2 class="h-m m-b-xs">How will you get your product to customers in {{ export_plan.export_countries.0.country_name }}?</h2>
       <p>Make a list of the ways you'll get your product to customers by using the following dropdown list.</p>
@@ -74,9 +70,8 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('target-age-groups');
     magna.createTargetAgeGroupInsights({
-      element,
+      element: document.getElementById('target-age-groups'),
       groups: {{ target_age_group_choices|safe }},
       country: '{{ export_plan.export_countries.0.country_name }}',
       insight: {{ demographic_data|to_json }},
@@ -84,31 +79,46 @@
       currentSection: {{ current_section|to_json}},
     })
 
-    element = document.getElementById('resources');
     magna.createSpendingAndResources({
-      element,
+      element: document.getElementById('resources'),
       field: 'marketing_approach',
-      formData: {{ form_initial|to_json }},
-      formFields: {{ form_fields|to_json }},
+      formData: {{ marketing_approach|to_json }},
+      formFields: [
+        {
+          name: 'resources',
+          label: 'What marketing resources do you need?',
+          field_type: 'Textarea',
+          placeholder: '',
+          example: {
+            content: '<p>Right now it’s not practical for the team to travel to Australia, so we’re aiming to establish Dove Gin by creating a buzz from the UK.</p><p>Our research shows that the Australian gin market is similar to the UK. However as a niche British product (rather than local hero), we’ll have to adapt the current Dove Gin marketing strategy.</p><p>There are already over 100 craft gin distilleries in Australia, so we’re focused on what makes Dove Gin unique.</p><p>We’re capitalising on our historic recipe backstory to make us stand out from the competition. We also know our product design is very appealing - and tastes as good as it looks.</p><p>We’ll be working with our existing marketing agency Blue Sky to run paid social campaigns to raise awareness of our product in Australia.</p><p>Our agency will also help with search engine optimisation so that Dove Gin appears in search results for craft gin in Australia. We’re very active on our brand social media accounts. We’re building up our connections with Australian influencers - bar owners, gin bloggers and premium gin importers. Once we have an Australian distributor,we’ll be able to leverage their promotional channels to reach a wider audience, for example liquor store email marketing campaigns.</p>'
+          },
+          description:
+            '<p class="m-0">To make sure you have the right amount of marketing resources write down:</p><ul class="list-dot"><li>what marketing you can do in-house</li><li>the areas where your business will need support</li><li>external agencies or people you will work with and what they will be doing</li>',
+          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
+        }
+      ],
     })
 
-    element = document.getElementById('route-to-market');
     magna.createRouteToMarket({
-      element,
+      element: document.getElementById('route-to-market'),
       formData: {
         data: [
           {
             label: 'Route to market',
             options: {{ route_choices|to_json }},
             name: 'route',
+            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
           },
           {
             label: 'How will we promote your product?',
             options: {{ promotional_choices|to_json }},
             name: 'promote',
+            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
           }
         ],
-        example: `<p>We've found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>`,
+        example: {
+          content: `<p>We've found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia. Our sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product.</p><p>When we launched here, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too.</p><p>However to really meet our sales target, we need to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves.</p>`
+        },
         label: 'Explain in your words why you selected this route to market and promotional channel',
         name: 'market_promotional_channel',
       },

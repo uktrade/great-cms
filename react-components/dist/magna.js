@@ -67994,238 +67994,6 @@ Units.propTypes = {
 
 /***/ }),
 
-/***/ "./react-components/src/components/CostsAndPricing/constants.js":
-/*!**********************************************************************!*\
-  !*** ./react-components/src/components/CostsAndPricing/constants.js ***!
-  \**********************************************************************/
-/*! exports provided: direct, overhead, costPerUnit, averagePrice, netPrice, localTaxes, duty, unitsToExport, exportUnits, timeframe, timeframeUnits, grossPriceCurrency, grossPriceUnitSelect */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "direct", function() { return direct; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overhead", function() { return overhead; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "costPerUnit", function() { return costPerUnit; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "averagePrice", function() { return averagePrice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "netPrice", function() { return netPrice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "localTaxes", function() { return localTaxes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "duty", function() { return duty; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unitsToExport", function() { return unitsToExport; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exportUnits", function() { return exportUnits; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeframe", function() { return timeframe; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeframeUnits", function() { return timeframeUnits; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grossPriceCurrency", function() { return grossPriceCurrency; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grossPriceUnitSelect", function() { return grossPriceUnitSelect; });
-var direct = [{
-  label: 'Product cost',
-  id: 'product_costs',
-  placeholder: '0',
-  tooltip: {
-    content: '<p>These are the costs of the parts, materials or ingredients that go onto making the end product.</p><p>This does not include labour costs.</p>',
-    title: 'What are product costs?'
-  },
-  type: 'number',
-  field: 'direct_costs'
-}, {
-  label: 'Labour cost',
-  id: 'labour_costs',
-  placeholder: '0',
-  tooltip: {
-    content: '<p>These are the costs related to paying wages for employees who work on making your product directly including workers on your assembly line.</p>',
-    title: 'What are labour costs?'
-  },
-  type: 'number',
-  field: 'direct_costs'
-}, {
-  label: 'Additional margin',
-  id: 'other_direct_costs',
-  placeholder: '0',
-  tooltip: {},
-  type: 'number',
-  field: 'direct_costs'
-}];
-var overhead = [{
-  label: 'Product adaptation',
-  id: 'product_adaption',
-  placeholder: '0',
-  tooltip: {
-    content: '<p>These are any changes you need to make to sell abroad. This includes translations, rebranding, packaging and labelling, and meeting local regulations.</p>',
-    title: 'What is product adaptation?'
-  },
-  type: 'number',
-  field: 'overhead_costs'
-}, {
-  label: 'Freight and logistics',
-  id: 'freight_logistics',
-  placeholder: '0',
-  tooltip: {
-    content: '<p>Logistics is the process of getting your goods to their final destination.</p><p>A freight forwarder is a third-party agent that most UK companies use to transport their goods.</p>',
-    title: 'What is freight and logistics?'
-  },
-  type: 'number',
-  field: 'overhead_costs'
-}, {
-  label: 'Agent and distributor fees',
-  id: 'agent_distributor_fees',
-  placeholder: '0',
-  tooltip: {
-    content: '<p>An agent is someone who acts on your behalf to sell your product and a distributor is an independent contractor. They take your product and sell them to the customer with an added margin. Both of which will charge fees for their services.</p>',
-    title: 'What are agents and distributor fees?'
-  },
-  type: 'number',
-  field: 'overhead_costs'
-}, {
-  label: 'Marketing',
-  id: 'marketing',
-  placeholder: '0',
-  tooltip: {
-    content: '<p>This is how you promote your products abroad.</p><p>You can do marketing yourself or pay for marketing services, but either way there will probably be a cost.</p>',
-    title: 'What is marketing?'
-  },
-  type: 'number',
-  field: 'overhead_costs'
-}, {
-  label: 'Insurance',
-  id: 'insurance',
-  placeholder: '0',
-  tooltip: {
-    content: '<p>Like any business activity, exporting has its risks.</p><p>You can minimise these risks by looking at any challenges you might face and deciding whether you should insure against them.</p>',
-    title: 'What is insurance?'
-  },
-  type: 'number',
-  field: 'overhead_costs'
-}, {
-  label: 'Other overhead costs',
-  id: 'other_overhead_costs',
-  placeholder: '0',
-  tooltip: {},
-  type: 'number',
-  field: 'overhead_costs'
-}];
-var costPerUnit = {
-  label: 'Cost per unit',
-  id: 'final_cost_per_unit',
-  placeholder: '0',
-  type: 'number',
-  description: '<h2 class="h-xs p-t-0 p-b-0">Your final cost per unit</h2><p class="m-t-xs">Your final cost per unit is how much it costs your business to create one unit of your product.</p><p>To work this out you will need:</p><ul class="list-dot"><li>your total direct costs</li><li>your total overhead costs</li><li>the number of units you want to export</li></ul><p class="m-b-0">To help you, we\'ve created an estimate for you based on the figures you gave earlier.</p>',
-  example: {
-    header: function header(cost) {
-      return "Your estimate cost per unit is ".concat(cost);
-    },
-    buttonTitle: 'Estimate',
-    content: '<p class="m-b-0">We calculated this by:</p><ul class="list-dot"><li>taking your total overhead costs</li><li>dividing it by the number of units you want to export</li><li>adding this to your direct costs</li></ul><p class="m-v-0">You may want to adjust this estimate, especially if your overhead costs are varied.</p>'
-  },
-  field: 'total_cost_and_price'
-};
-var averagePrice = {
-  label: 'Average Price',
-  id: 'average_price_per_unit',
-  tooltip: '<h3>To calculate the average, add the prices together then divide by the number of prices.</h3><p>For example;</p><ul><li>product 1 costs €10</li><li>product 2 costs €12</li><li>product 3 costs €17</li></ul><p>10+12+17=39</p><p>39÷3=13</p><p>Finally, convert €13 into GBP at the current market rate to get the GBP average.</p>',
-  placeholder: '0',
-  type: 'number',
-  field: 'total_cost_and_price'
-};
-var netPrice = {
-  label: 'Net Price',
-  id: 'net_price',
-  tooltip: {
-    content: '<p>This is the price the customer pays for a single unit of your product before taxes have been added to the final price.</p>',
-    title: 'What is net price?'
-  },
-  type: 'number',
-  placeholder: '0',
-  example: {
-    content: '<p>To decide a final price for Dove gin we thought about:</p><ul><li>how much it cost to make one bottle of our gin</li><li>the average price for a bottle of gin in Australia</li></ul><p>This helped us decide where our product would sit in the market.</p><p>A bottle of our gin costs £15 to make, so to make a profit we had to charge over £15. Looking at Australian prices we decided on £25 a bottle in line with the market prices there. This gives us a profit margin of £10 on every unit sold.</p>'
-  },
-  field: 'total_cost_and_price'
-};
-var localTaxes = {
-  label: 'local Taxes',
-  id: 'local_tax_charges',
-  tooltip: {
-    content: "<p>These are the taxes charged by the UK government, the government of your target market, or both.</p><p>In the UK, our local sales tax is called VAT or goods and services tax (GST).</p><p>The rate of tax you pay depends on where you're exporting.</p><p>This means that if you change target country or export to more than one place, you'll need to recalculate your gross price per unit.</p>",
-    title: 'What are local sales taxes?'
-  },
-  type: 'number',
-  placeholder: '0',
-  example: {
-    buttonTitle: 'Local taxes',
-    content: "<p>The rate of tax you pay depends on where you're exporting to.</p><p>If you change your target country or export to more than one place, you'll need to recalculate your gross price per unit.</p>"
-  },
-  field: 'total_cost_and_price'
-};
-var duty = {
-  label: 'Duty',
-  id: 'duty_per_unit',
-  tooltip: '<h3>What are duties?</h3><p>Duties are fees charged by the government of your target market.</p><p>These are designed to keep markets competitive.</p><p>Duties are always charged on goods, while taxes can be charged on people and goods.</p>',
-  type: 'number',
-  placeholder: '0',
-  description: '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit Check how to export goods and choose the commodity code that best matches your product.</p>',
-  field: 'total_cost_and_price'
-};
-var unitsToExport = {
-  label: 'Number of units to exports',
-  id: 'units_to_export',
-  placeholder: '0',
-  type: 'number',
-  field: function field(x) {
-    return {
-      total_cost_and_price: {
-        units_to_export_first_period: x
-      }
-    };
-  }
-};
-var exportUnits = {
-  id: 'export_units',
-  label: 'select unit',
-  name: 'select units',
-  placeholder: 'Select unit',
-  field: 'total_cost_and_price'
-};
-var timeframe = {
-  label: 'Time frame to export',
-  id: 'time_frame',
-  placeholder: '0',
-  type: 'number',
-  field: function field(x) {
-    return {
-      total_cost_and_price: {
-        units_to_export_second_period: x
-      }
-    };
-  }
-};
-var timeframeUnits = {
-  id: 'export_time_frame',
-  label: 'select timeframe',
-  name: 'select units',
-  placeholder: 'Select unit',
-  field: 'total_cost_and_price'
-};
-var grossPriceCurrency = {
-  label: 'Gross Price currency',
-  id: 'gross_price_per_unit_invoicing',
-  tooltip: 'tooltip',
-  placeholder: '0',
-  type: 'number',
-  field: function field(x) {
-    return {
-      total_cost_and_price: {
-        gross_price_per_unit_invoicing_currency: x
-      }
-    };
-  }
-};
-var grossPriceUnitSelect = {
-  id: 'gross_price_per_unit_currency',
-  label: 'select unit',
-  name: 'select units',
-  placeholder: 'Select unit'
-};
-
-/***/ }),
-
 /***/ "./react-components/src/components/CostsAndPricing/container.jsx":
 /*!***********************************************************************!*\
   !*** ./react-components/src/components/CostsAndPricing/container.jsx ***!
@@ -68307,7 +68075,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Overhead__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Overhead */ "./react-components/src/components/CostsAndPricing/Overhead/index.jsx");
 /* harmony import */ var _GrossPrice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GrossPrice */ "./react-components/src/components/CostsAndPricing/GrossPrice/index.jsx");
 /* harmony import */ var _Units__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Units */ "./react-components/src/components/CostsAndPricing/Units/index.jsx");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./constants */ "./react-components/src/components/CostsAndPricing/constants.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -68315,7 +68082,6 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -68337,7 +68103,21 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
       currencies = _ref.currencies,
       init = _ref.init,
       lessonDetails = _ref.lessonDetails,
-      currentSection = _ref.currentSection;
+      currentSection = _ref.currentSection,
+      _ref$formFields = _ref.formFields,
+      direct = _ref$formFields.direct,
+      overhead = _ref$formFields.overhead,
+      costPerUnit = _ref$formFields.costPerUnit,
+      averagePrice = _ref$formFields.averagePrice,
+      netPrice = _ref$formFields.netPrice,
+      localTaxes = _ref$formFields.localTaxes,
+      duty = _ref$formFields.duty,
+      unitsToExport = _ref$formFields.unitsToExport,
+      exportUnits = _ref$formFields.exportUnits,
+      grossPriceUnitSelect = _ref$formFields.grossPriceUnitSelect,
+      timeframe = _ref$formFields.timeframe,
+      timeframeUnits = _ref$formFields.timeframeUnits,
+      grossPriceCurrency = _ref$formFields.grossPriceCurrency;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
     init(_objectSpread(_objectSpread(_objectSpread({}, totals), initialData), {}, {
       units: units,
@@ -68359,80 +68139,82 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
   }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-1 c-2-3-m c-1-2-xl"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Direct__WEBPACK_IMPORTED_MODULE_4__["Direct"], {
-    costs: _constants__WEBPACK_IMPORTED_MODULE_8__["direct"],
+    costs: direct,
     currency: currency,
     data: data,
     update: update
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Overhead__WEBPACK_IMPORTED_MODULE_5__["Overhead"], {
-    costs: _constants__WEBPACK_IMPORTED_MODULE_8__["overhead"],
+    costs: overhead,
     currency: currency,
     data: data,
     update: update
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_7__["Units"], {
-    description: '<h2 class="h-m p-b-xs p-t-m">Total costs and price</h2><p>Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don\'t worry, we will tell you what you need to do. </p><h2 class="h-xs p-t-0 p-b-0">Number of units you want to export</h2><p class="m-t-xs">First, record how many units you want to export over a given period of time.</p><p class="m-b-xs">The more accurate you are, the better your plan will be.</p>',
+    description: unitsToExport.description,
     update: update,
-    input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_8__["unitsToExport"]), {}, {
+    input: _objectSpread(_objectSpread({}, unitsToExport), {}, {
       value: data.units_to_export
     }),
-    select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_8__["exportUnits"]), {}, {
+    select: _objectSpread(_objectSpread({}, exportUnits), {}, {
       value: data.export_units,
       options: data.units
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Units__WEBPACK_IMPORTED_MODULE_7__["Units"], {
     description: '<p class="m-t-0 m-b-xs">over the next</p>',
     update: update,
-    input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_8__["timeframe"]), {}, {
+    input: _objectSpread(_objectSpread({}, timeframe), {}, {
       value: data.time_frame
     }),
-    select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_8__["timeframeUnits"]), {}, {
+    select: _objectSpread(_objectSpread({}, timeframeUnits), {}, {
       value: data.export_time_frame,
       options: data.timeframe
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_8__["costPerUnit"]);
+      return _onChange(x, costPerUnit);
     },
     value: data.final_cost_per_unit,
     hideLabel: true,
     prepend: currency
-  }, _constants__WEBPACK_IMPORTED_MODULE_8__["costPerUnit"], {
-    example: data.estimated_costs_per_unit ? _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_8__["costPerUnit"].example), {}, {
-      header: _constants__WEBPACK_IMPORTED_MODULE_8__["costPerUnit"].example.header("".concat(currency, " ").concat(data.estimated_costs_per_unit))
+  }, costPerUnit, {
+    example: data.estimated_costs_per_unit ? _objectSpread(_objectSpread({}, costPerUnit.example), {}, {
+      header: costPerUnit.example.header("".concat(currency, " ").concat(data.estimated_costs_per_unit))
     }) : {}
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_8__["averagePrice"]);
+      return _onChange(x, averagePrice);
     },
     value: data.average_price_per_unit,
     hideLabel: true,
-    prepend: currency,
-    description: "<h2 class=\"h-xs p-t-xs p-b-0\">Average price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Find the average price of similar products in your target market. Do some research using:</p><ul class=\"list-dot\"><li>online retailers</li><li>web searches</li><li>store prices</li></ul><p>Then find the average of these prices and enter the figure below.</p><p class=\"m-b-0\">Remember to convert the figure to GBP before entering it.</p>")
-  }, _constants__WEBPACK_IMPORTED_MODULE_8__["averagePrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
+    prepend: currency
+  }, averagePrice, {
+    description: averagePrice.description(country)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_8__["netPrice"]);
+      return _onChange(x, netPrice);
     },
     value: data.net_price,
     hideLabel: true,
-    prepend: currency,
-    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Your net price per unit in the ".concat(country, "</h2><p class=\"m-t-xs\">Deciding on what price your product will be sold for in retailers can be a difficult decision.</p><p class=\"m-b-0\">You want to make sure you sell your product for more than it cost to make it, this way you make a profit on every unit sold.</p>")
-  }, _constants__WEBPACK_IMPORTED_MODULE_8__["netPrice"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
+    prepend: currency
+  }, netPrice, {
+    description: netPrice.description(country)
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_8__["localTaxes"]);
+      return _onChange(x, localTaxes);
     },
     value: data.local_tax_charges,
     hideLabel: true,
-    prepend: currency,
-    description: "<h2 class=\"h-xs p-t-0 p-b-0\">Local taxes and charges in the ".concat(country, "</h2><p class=\"m-t-xs m-b-0\">You may need to pay tax on your exports and factor this into your gross price per unit to ensure you make a profit.</p>")
-  }, _constants__WEBPACK_IMPORTED_MODULE_8__["localTaxes"], {
-    lesson: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["formatLessonLearned"])(lessonDetails, currentSection, 0)
+    prepend: currency
+  }, localTaxes, {
+    lesson: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["formatLessonLearned"])(lessonDetails, currentSection, 0),
+    description: localTaxes.description(country)
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_2__["Input"], _extends({
     onChange: function onChange(x) {
-      return _onChange(x, _constants__WEBPACK_IMPORTED_MODULE_8__["duty"]);
+      return _onChange(x, duty);
     },
     value: data.duty_per_unit,
     hideLabel: true,
     prepend: currency
-  }, _constants__WEBPACK_IMPORTED_MODULE_8__["duty"], {
+  }, duty, {
     lesson: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["formatLessonLearned"])(lessonDetails, currentSection, 1)
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-12-m c-1-4-xl"
@@ -68454,10 +68236,10 @@ var CostsAndPricing = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
     potentialPerUnit: data.potential_total_profit,
     profitPerUnit: data.profit_per_unit,
     update: update,
-    input: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_8__["grossPriceCurrency"]), {}, {
+    input: _objectSpread(_objectSpread({}, grossPriceCurrency), {}, {
       value: data.gross_price_per_unit_invoicing
     }),
-    select: _objectSpread(_objectSpread({}, _constants__WEBPACK_IMPORTED_MODULE_8__["grossPriceUnitSelect"]), {}, {
+    select: _objectSpread(_objectSpread({}, grossPriceUnitSelect), {}, {
       value: data.gross_price_per_unit_currency,
       options: data.currencies
     })
@@ -68494,7 +68276,8 @@ CostsAndPricing.propTypes = {
   currentSection: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     lessons: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired
-  }).isRequired
+  }).isRequired,
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func])).isRequired
 };
 
 /***/ }),
@@ -69354,6 +69137,7 @@ var Select = function Select(_ref) {
       tooltip = _ref.tooltip,
       example = _ref.example,
       hideLabel = _ref.hideLabel,
+      lesson = _ref.lesson,
       placeholder = _ref.placeholder,
       id = _ref.id,
       className = _ref.className,
@@ -69495,6 +69279,7 @@ var Select = function Select(_ref) {
     description: description,
     tooltip: tooltip,
     example: example,
+    lesson: lesson,
     tabIndex: "-1",
     hideLabel: hideLabel
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69580,6 +69365,12 @@ Select.propTypes = {
     header: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
   }),
+  lesson: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    category: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    duration: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }),
   hideLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -69592,6 +69383,7 @@ Select.defaultProps = {
   tooltip: {},
   example: {},
   hideLabel: false,
+  lesson: {},
   placeholder: 'Select one',
   id: '',
   className: 'm-b-l',
@@ -70425,19 +70217,7 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
     update(_defineProperty({}, field, _defineProperty({}, section, _objectSpread(_objectSpread({}, note), otherProps))));
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "container p-t-l m-b-l"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "grid"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-4"
-  }, "\xA0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-1 c-2-3-m c-1-2-xl"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "h-l"
-  }, "Your payment methods"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Foreign buyers may have different expectations about how and when to pay for their imports."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "To avoid uncertainty and disappointment, carefully consider the options available."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "target-market-documents-form"
   }, formFields.map(function (_ref2) {
     var group = _ref2.group,
@@ -70472,11 +70252,7 @@ var GettingPaid = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_
       value: state[key] ? state[key].notes : '',
       placeholder: textarea.placeholder
     }));
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "body-s text-blue-deep-50 m-b-0"
-  }, "Incoterms\xAE and the Incoterms\xAE 2020 logo are trademarks of ICC. Use of these trademarks does not imply association with, approval of or sponsorship by ICC unless specifically stated above. The Incoterms\xAE Rules are protected by copyright owned by ICC. Further information on the Incoterm\xAE Rules may be obtained from the ICC website iccwbo.org.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-1-12-m c-1-4-xl"
-  }, "\xA0")));
+  }));
 });
 GettingPaid.propTypes = {
   formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
@@ -72752,15 +72528,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js");
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
-/* harmony import */ var _Interaction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Interaction */ "./react-components/src/components/ProductFinder/Interaction.jsx");
-/* harmony import */ var _ValueInteraction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ValueInteraction */ "./react-components/src/components/ProductFinder/ValueInteraction.jsx");
-/* harmony import */ var _ExpandCollapse__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ExpandCollapse */ "./react-components/src/components/ProductFinder/ExpandCollapse.jsx");
-/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
-/* harmony import */ var _StartEndPage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./StartEndPage */ "./react-components/src/components/ProductFinder/StartEndPage.jsx");
+/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-slick */ "./node_modules/react-slick/lib/index.js");
+/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_slick__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
+/* harmony import */ var _Interaction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Interaction */ "./react-components/src/components/ProductFinder/Interaction.jsx");
+/* harmony import */ var _ValueInteraction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ValueInteraction */ "./react-components/src/components/ProductFinder/ValueInteraction.jsx");
+/* harmony import */ var _ExpandCollapse__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ExpandCollapse */ "./react-components/src/components/ProductFinder/ExpandCollapse.jsx");
+/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
+/* harmony import */ var _StartEndPage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./StartEndPage */ "./react-components/src/components/ProductFinder/StartEndPage.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -72825,7 +72603,7 @@ function ProductFinderModal(props) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (modalIsOpen) {
-      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
         event: 'addProductPageview',
         virtualPageUrl: '/add-product-modal/search_entry',
         virtualPageTitle: 'Add Product Modal - Search Entry',
@@ -72868,14 +72646,25 @@ function ProductFinderModal(props) {
     }
   };
 
+  var sliderSettings = {
+    centerMode: true,
+    centerPadding: '20px',
+    dots: true,
+    arrows: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   var saveProduct = function saveProduct(commodityCode, commodityName) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_5__["default"].setProduct({
+    _src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_6__["default"].setProduct({
       commodity_name: commodityName,
       commodity_code: commodityCode
     }));
 
     if (searchResults) {
-      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
         event: 'addProductSuccess',
         productKeyword: commodityName,
         productCode: commodityCode
@@ -72892,11 +72681,11 @@ function ProductFinderModal(props) {
   };
 
   var responseAnalytics = function responseAnalytics(result) {
-    var searchQuery = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["capitalize"])(result.productDescription);
+    var searchQuery = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["capitalize"])(result.productDescription);
 
     if (result.hsCode) {
       // product found
-      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
         event: 'addProductPageview',
         virtualPageUrl: '/add-product-modal/product-found',
         virtualPageTitle: 'Add Product Modal - Product Found',
@@ -72906,7 +72695,7 @@ function ProductFinderModal(props) {
     } else if (result.currentQuestionInteraction) {
       if (result.knownInteractions.length === 0) {
         // 'tell us more', first response
-        Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
+        Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
           event: 'addProductPageview',
           virtualPageUrl: '/add-product-modal/tell-us-more',
           virtualPageTitle: 'Add Product Modal - Tell Us More',
@@ -72915,7 +72704,7 @@ function ProductFinderModal(props) {
       }
     } else {
       // product not found
-      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
         event: 'addProductPageview',
         virtualPageUrl: '/add-product-modal/no-results',
         virtualPageTitle: 'Add Product Modal - No Results',
@@ -72944,7 +72733,7 @@ function ProductFinderModal(props) {
     var query = searchTerm;
 
     if (query) {
-      processResponse(_src_Services__WEBPACK_IMPORTED_MODULE_4__["default"].lookupProduct({
+      processResponse(_src_Services__WEBPACK_IMPORTED_MODULE_5__["default"].lookupProduct({
         proddesc: query
       }));
     }
@@ -72957,7 +72746,7 @@ function ProductFinderModal(props) {
   var backToSearch = function backToSearch() {
     setSearching(true);
     renderSearchResults();
-    Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
+    Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["analytics"])({
       event: 'searchProductAgain'
     });
   };
@@ -72969,14 +72758,14 @@ function ProductFinderModal(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       className: "h-m p-v-xs"
     }, title), (sectionDetails || []).map(function (value) {
-      return value.type === 'SELECTION' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      return value.type === 'SELECTION' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_9__["default"], {
         txId: searchResults.txId,
         proddesc: searchResults.proddesc,
         key: value.id,
         attribute: value,
         isItemChoice: sectionDetails.isItemChoice,
         processResponse: processResponse
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ValueInteraction__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ValueInteraction__WEBPACK_IMPORTED_MODULE_10__["default"], {
         txId: searchResults.txId,
         key: value.id,
         attribute: value,
@@ -72995,9 +72784,9 @@ function ProductFinderModal(props) {
         className: "c-fullwidth"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "bold p-t-0"
-      }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["capitalize"])(interaction.label)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["capitalize"])(interaction.label)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "m-v-xxs"
-      }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["capitalize"])(interaction.selectedString), interaction.selectedString === 'other' ? " ".concat(interaction.unselectedString) : '', ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["capitalize"])(interaction.selectedString), interaction.selectedString === 'other' ? " ".concat(interaction.unselectedString) : '', ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: "change-known-button link link--underline body-m",
         onClick: function onClick() {
@@ -73015,7 +72804,7 @@ function ProductFinderModal(props) {
       className: "h-s p-0"
     }, "Assumptions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-v-xxs"
-    }, "We've answered some questions for you. View and change these if they're wrong."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExpandCollapse__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    }, "We've answered some questions for you. View and change these if they're wrong."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExpandCollapse__WEBPACK_IMPORTED_MODULE_11__["default"], {
       buttonLabel: "View assumptions (".concat(sectionDetails.length, ")"),
       expandedButtonLabel: "Hide assumptions"
     }, readOnlyContent(sectionDetails))) || '';
@@ -73038,9 +72827,9 @@ function ProductFinderModal(props) {
       className: "m-h-s m-b-s"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "h-m p-b-s"
-    }, "Match found"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StartEndPage__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    }, "Match found"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StartEndPage__WEBPACK_IMPORTED_MODULE_13__["default"], {
       commodityCode: _searchResults.hsCode,
-      defaultCommodityName: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_6__["capitalize"])(_searchResults.currentItemName),
+      defaultCommodityName: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_7__["capitalize"])(_searchResults.currentItemName),
       saveProduct: saveProduct
     }));
   };
@@ -73064,7 +72853,7 @@ function ProductFinderModal(props) {
 
   var spinner = isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "shim"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_8__["default"], {
     text: ""
   })) : '';
 
@@ -73091,6 +72880,51 @@ function ProductFinderModal(props) {
     return sections;
   };
 
+  var infoCards = [{
+    className: 'box box--no-pointer m-t-s',
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "When you search for a product you may have to answer a few questions before you find a match.")
+  }, {
+    className: 'box box--no-pointer m-t-s',
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-t-0 m-b-xs"
+    }, "This is because we use HS (", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "body-l-b"
+    }, "harmonised system"), ") codes to classify goods."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-v-0"
+    }, "Think of it like the folder structure on a computer."))
+  }, {
+    className: 'box box--no-pointer m-t-s inline-block',
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-1-2 p-h-0"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-t-0 m-b-xs"
+    }, "You might see your product as \"delicious green apples from the valley\"."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-v-0"
+    }, "But the system sees \"fruits; apples; fresh\".")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-1-2"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      className: "w-full",
+      src: "/static/images/apples-oranges-with-hs6.svg ",
+      alt: ""
+    })))
+  }, {
+    className: 'box box--no-pointer m-t-s',
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-t-0 m-b-xs"
+    }, "You don't have to find a perfect match."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-v-0"
+    }, "Find a close match, then feel free to relabel it."))
+  }];
+
+  var renderInfoCards = function renderInfoCards() {
+    return infoCards.map(function (card, idx) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        key: idx,
+        className: card.className
+      }, card.content);
+    });
+  };
+
   var searchBox = function searchBox(error) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "p-h-s p-t-l"
@@ -73100,7 +72934,7 @@ function ProductFinderModal(props) {
       className: "form-group-error p-v-xs m-v-xs"
     }, error), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "flex-centre m-t-xs search-input"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_12__["default"], {
       id: "search-input",
       onChange: setSearchTerm,
       onKeyReturn: search,
@@ -73115,36 +72949,10 @@ function ProductFinderModal(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "fa fa-arrow-right"
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "box box--no-pointer m-t-s"
-    }, "When you search for a product you may have to answer a few questions before you find a match."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "box box--no-pointer m-t-s"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "m-t-0 m-b-xs"
-    }, "This is because we use HS (", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "body-l-b"
-    }, "harmonised system"), ") codes to classify goods."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "m-v-0"
-    }, "Think of it like the folder structure on a computer.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "box box--no-pointer m-t-s m-h-0 grid"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-2 p-h-0"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "m-t-0 m-b-xs"
-    }, "You might see your product as \"delicious green apples from the valley\"."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "m-v-0"
-    }, "But the system sees \"fruits; apples; fresh\".")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-1-2"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-      className: "w-full",
-      src: "/static/images/apples-oranges-with-hs6.svg ",
-      alt: ""
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "box box--no-pointer m-t-s"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "m-t-0 m-b-xs"
-    }, "You don't have to find a perfect match."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "m-v-0"
-    }, "Find a close match, then feel free to relabel it.")));
+      className: "only-desktop"
+    }, renderInfoCards()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "only-mobile"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_slick__WEBPACK_IMPORTED_MODULE_4___default.a, sliderSettings, renderInfoCards())));
   };
 
   var showProduct = function showProduct() {
@@ -73156,7 +72964,7 @@ function ProductFinderModal(props) {
       className: "m-b-s"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
       className: "h-m p-b-s"
-    }, "Your product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StartEndPage__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    }, "Your product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StartEndPage__WEBPACK_IMPORTED_MODULE_13__["default"], {
       commodityCode: selectedProduct.commodity_code || '',
       defaultCommodityName: react_html_parser__WEBPACK_IMPORTED_MODULE_3___default()(selectedProduct.commodity_name).toString() || '',
       saveProduct: saveProduct,
@@ -73804,7 +73612,7 @@ var RouteToMarketSection = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
       _onChange = _ref.onChange,
       deleteTable = _ref.deleteTable,
       field = _ref.field,
-      tooltip = _ref.tooltip;
+      lesson = _ref.lesson;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-blue-deep-10 radius p-h-s p-b-xxs m-b-s"
   }, data.map(function (item) {
@@ -73818,21 +73626,19 @@ var RouteToMarketSection = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
       name: item.name,
       id: "".concat(item.name, "-").concat(field.pk),
       options: item.options,
-      selected: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["getLabel"])(item.options, field[item.name])
+      selected: Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["getLabel"])(item.options, field[item.name]),
+      lesson: lesson
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "hr hr--light"
     }));
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
     label: label,
-    example: {
-      content: example
-    },
+    example: example,
     onChange: function onChange(e) {
       return _onChange(field.pk, e);
     },
     value: field[name],
-    id: name,
-    tooltip: tooltip
+    id: name
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
@@ -73857,11 +73663,16 @@ RouteToMarketSection.propTypes = {
     })).isRequired
   }).isRequired).isRequired,
   label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string])),
   name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired,
   onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  deleteTable: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+  deleteTable: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  lesson: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string]))
+};
+RouteToMarketSection.defaultProps = {
+  lesson: {},
+  example: {}
 };
 
 /***/ }),

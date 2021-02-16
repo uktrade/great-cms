@@ -163,9 +163,9 @@
       {% for related_page in page.related_pages %}
         <div class="column-full column-half-l column-third-xl">
           {% if related_page.page_type == 'InternationalArticlePage' %}
-            {% include 'components/card.html' with card_id=related_page.meta.slug url=related_page.url page_image=related_page.article_image sub_heading='Article' title=related_page.title description=related_page.teaser %}
+            {% include 'components/card.html' with card_id=related_page.meta.slug url=related_page.url card_image=related_page.article_image sub_heading='Article' title=related_page.title description=related_page.teaser %}
           {% else %}
-            {% include 'components/card.html' with card_id=related_page.meta.slug url=related_page.url page_image=related_page.article_image sub_heading='Campaign' title=related_page.title description=related_page.teaser %}
+            {% include 'components/card.html' with card_id=related_page.meta.slug url=related_page.url card_image=related_page.article_image sub_heading='Campaign' title=related_page.title description=related_page.teaser %}
           {% endif %}
         </div>
       {% endfor %}
