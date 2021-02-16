@@ -9,7 +9,7 @@ RICHTEXT_FEATURES__MINIMAL = ()
 
 
 # Define rich-text features that disable embeds, images and document links
-RICHTEXT_FEATURES__REDUCED = (
+RICHTEXT_FEATURES__REDUCED = [
     'h2',
     'h3',
     'h4',
@@ -21,7 +21,10 @@ RICHTEXT_FEATURES__REDUCED = (
     'hr',
     'link',
     # 'blockquote', # NOT used - use a PullQuoteBlock in a StreamField, or similar
-)
+]
+
+# For certain pages, we want them to be able to define their main page header, too
+RICHTEXT_FEATURES__REDUCED__ALLOW_H1 = ['h1'] + RICHTEXT_FEATURES__REDUCED
 
 AWS_S3_MAIN_HOSTNAME_OPTIONS = [
     # https://docs.aws.amazon.com/general/latest/gr/s3.html
@@ -42,3 +45,18 @@ ARTICLE_TYPES = [
 ]
 
 VIDEO_TRANSCRIPT_HELP_TEXT = 'If the video is present, a transcript must be provided.'
+
+# Options for https://docs.wagtail.io/en/v2.8.1/reference/contrib/table_block.html
+TABLEBLOCK_OPTIONS = {
+    'minSpareRows': 0,
+    'startRows': 3,
+    'startCols': 2,
+    'colHeaders': True,
+    'rowHeaders': False,
+    'contextMenu': True,
+    'editor': 'text',
+    'stretchH': 'all',
+    'height': 108,  #  optimised for 3 rows by default (ie, 1 row == 36px)
+    'renderer': 'text',
+    'autoColumnSize': False,
+}

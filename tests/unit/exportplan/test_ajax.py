@@ -39,7 +39,7 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
     )
 
     assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
+    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -86,7 +86,7 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
     )
 
     assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
+    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -112,7 +112,7 @@ def test_ajax_sector_remove(mock_get_export_plan, mock_update_exportplan, client
     response = client.get(url)
 
     assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
+    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -148,7 +148,7 @@ def test_recommended_countries(
     response = client.get(url, {'sectors': 'Automotive,Electrical'})
 
     assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call(sso_session_id='123')
+    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -174,7 +174,7 @@ def test_recommended_countries_no_country(client, user):
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_ui_options_target_ages')
 def test_retrieve_marketing_target_age_data(
-    mock_update_ui_options, mock_get_population_data, mock_get_export_plan, export_plan_data, client, user
+    mock_update_ui_options, mock_get_population_data, export_plan_data, client, user
 ):
     client.force_login(user)
 
@@ -350,15 +350,150 @@ def test_create_route_to_market_api_view(mock_create_route_to_market, client, us
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'update_model_object')
+def test_model_object_update_api_view(mock_update_model_object, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-model-object-manage')
+
+    model_object = {'pk': 1, 'note': 'update note', 'companyexportplan': 1, 'model_name': 'businesstrips'}
+
+    mock_update_model_object.return_value = model_object
+
+    response = client.patch(url, model_object, content_type='application/json')
+
+    assert mock_update_model_object.call_count == 1
+    assert response.status_code == 200
+    assert mock_update_model_object.call_args == mock.call(
+        data=OrderedDict([('note', 'update note'), ('companyexportplan', 1), ('pk', 1)]),
+        model_name='BusinessTrips',
+        sso_session_id='123',
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_model_object')
+def test_model_object_create_api_view(mock_create_model_object, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-model-object-manage')
+
+    model_object = {'note': 'Some text', 'companyexportplan': 1, 'model_name': 'businesstrips'}
+
+    mock_create_model_object.return_value = {'pk': 1, **model_object}
+    response = client.post(url, model_object)
+
+    assert mock_create_model_object.call_count == 1
+    assert response.status_code == 200
+    assert mock_create_model_object.call_args == mock.call(
+        data=OrderedDict([('note', 'Some text'), ('companyexportplan', 1)]),
+        model_name='BusinessTrips',
+        sso_session_id='123',
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_model_object')
+def test_model_object_delete_api_view(mock_delete_model_object, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-model-object-manage')
+
+    model_object = {'pk': 1, 'model_name': 'BusinessTrips'}
+
+    mock_delete_model_object.return_value = {}
+
+    response = client.delete(url, model_object, content_type='application/json')
+
+    assert mock_delete_model_object.call_count == 1
+    assert response.status_code == 200
+    assert mock_delete_model_object.call_args == mock.call(
+        data=OrderedDict([('pk', 1)]), model_name='BusinessTrips', sso_session_id='123'
+    )
+
+
+@pytest.mark.parametrize(
+    'model_object_data, error',
+    (
+        ({}, ['Incorrect or no model_name provided']),
+        ({'model_name': 'businesstrips'}, {'pk': ['This field is required.']}),
+    ),
+)
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_model_object')
+def test_model_objects_validation_delete(mock_delete_model_object, model_object_data, error, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-model-object-manage')
+
+    model_object = model_object_data
+
+    mock_delete_model_object.return_value = {}
+
+    response = client.delete(url, model_object, content_type='application/json')
+    assert mock_delete_model_object.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == error
+
+
+@pytest.mark.parametrize(
+    'model_object_data, error',
+    (
+        ({}, ['Incorrect or no model_name provided']),
+        ({'model_name': 'businesstrips'}, {'companyexportplan': ['This field is required.']}),
+    ),
+)
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'update_model_object')
+def test_model_objects_validation_update(mock_update_model_object, model_object_data, error, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-model-object-manage')
+
+    model_object = model_object_data
+
+    mock_update_model_object.return_value = {}
+
+    response = client.post(url, model_object)
+
+    assert mock_update_model_object.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == error
+
+
+@pytest.mark.parametrize(
+    'model_object_data, error',
+    (
+        ({}, ['Incorrect or no model_name provided']),
+        ({'model_name': 'businesstrips'}, {'companyexportplan': ['This field is required.']}),
+    ),
+)
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_model_object')
+def test_model_objects_validation_create(mock_create_model_object, model_object_data, error, client, user):
+    client.force_login(user)
+
+    url = reverse('exportplan:api-model-object-manage')
+
+    model_object = model_object_data
+
+    mock_create_model_object.return_value = {}
+
+    response = client.post(url, model_object)
+
+    assert mock_create_model_object.call_count == 0
+    assert response.status_code == 400
+    assert response.json() == error
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_or_create_export_plan', return_value={'pk': 1, 'target_markets': []})
-def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
+def test_update_export_plan_api_view(mock_update_exportplan, client, user):
     client.force_login(user)
     mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
     url = reverse('exportplan:api-update-export-plan')
     response = client.post(url, {'target_markets': ['China', 'India']})
-    assert mock_get_or_create_export_plan.call_count == 1
-    assert mock_get_or_create_export_plan.call_args == mock.call(user)
+
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -369,16 +504,13 @@ def test_update_export_plan_api_view(mock_get_or_create_export_plan, mock_update
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
-def test_update_calculate_cost_and_pricing(
-    mock_update_exportplan, mock_get_create_export_plan, cost_pricing_data, client, user
-):
+def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_data, client, user):
+
     client.force_login(user)
     mock_update_exportplan.return_value = cost_pricing_data
     url = reverse('exportplan:api-calculate-cost-and-pricing')
 
     response = client.post(url, {'direct_costs': {'product_costs': '3.00'}}, content_type='application/json')
-    assert mock_get_create_export_plan.call_count == 1
-    assert mock_get_create_export_plan.call_args == mock.call(user)
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -403,16 +535,13 @@ def test_update_calculate_cost_and_pricing(
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_or_create_export_plan', return_value={'pk': 1, 'target_markets': []})
-def test_update_export_plan_ui_option_api_view(mock_get_or_create_export_plan, mock_update_exportplan, client, user):
+def test_update_export_plan_ui_option_api_view(mock_update_exportplan, client, user):
     client.force_login(user)
     mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
 
     url = reverse('exportplan:api-update-export-plan')
 
     response = client.post(url, {'ui_options': {'target_ages': ['25-34, 35-44']}}, content_type='application/json')
-    assert mock_get_or_create_export_plan.call_count == 1
-    assert mock_get_or_create_export_plan.call_args == mock.call(user)
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1

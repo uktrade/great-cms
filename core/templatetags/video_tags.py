@@ -20,9 +20,6 @@ def render_video(block):
     Includes a custom attribute on the video element so we can estimate
     page view time in our post-save hook, without clashing with the automatically
     added `duration` attribute that a browser may add to <video>.
-
-    This attribute is NOT present on a video used in a PersonalisedStructBlock – see
-    personalised_blocks.render_video_block()
     """
 
     if not block:

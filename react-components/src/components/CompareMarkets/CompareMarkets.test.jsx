@@ -221,6 +221,7 @@ beforeEach(() => {
     apiCountryDataUrl: '/api/data-service/countrydata/',
     apiComTradeDataUrl: '/api/data-service/comtrade/',
     societyByCountryUrl: '/export-plan/api/society-data/',
+    user: {id:'6'}
   })
   countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
   fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
@@ -276,7 +277,7 @@ it('Allows selection of markets and fetch data when product selected', async () 
 
   Object.defineProperty(window.document, 'cookie', {
     writable: true,
-    value: encodeURI(`comparisonMarkets=${JSON.stringify({
+    value: encodeURI(`comparisonMarkets_6=${JSON.stringify({
       NL:{country_name:'Netherlands',
         country_iso2_code:'NL'
       },
@@ -383,7 +384,7 @@ it('Select market from selection area', async () => {
   }
   Object.defineProperty(window.document, 'cookie', {
     writable: true,
-    value: 'comparisonMarkets=',
+    value: 'comparisonMarkets_6=',
   });
   Services.store.dispatch(
     actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
@@ -403,7 +404,7 @@ it('Select market from selection area', async () => {
 
   })
   expect(container.querySelector('button.add-market').textContent).toMatch(
-    'Add country to compare'
+    'Add a place'
   )
 
   // Select a country
@@ -421,10 +422,9 @@ it('Select market from selection area', async () => {
   })
   await waitFor(() => {
     expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add country 2 of 3'
-    )
+      'Add place 2 of 3'
+      )
   })
-
   // check that the country appears in the selection section at the page base
   const marketSelectionBar = container.querySelector(
     '#comparison-market-selector'
@@ -449,7 +449,7 @@ it('Select market from selection area', async () => {
 
   await waitFor(() => {
     expect(container.querySelector('button.add-market') && container.querySelector('button.add-market').textContent).toMatch(
-      'Add country 3 of 3'
+      'Add place 3 of 3'
     )
   })
 

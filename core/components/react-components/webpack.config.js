@@ -5,7 +5,7 @@ module.exports = {
         'reactComponents': './react-components/src/bundle.js',
     },
     output: {
-        path: path.resolve(__dirname, '../directory_components/static/directory_components/js/'),
+        path: path.resolve(__dirname, '../static/js/'),
         filename: '[name].js',
         publicPath: '',
         library: '[name]',

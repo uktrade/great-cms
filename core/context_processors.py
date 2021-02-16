@@ -31,3 +31,8 @@ def analytics_vars(request):
         'GOOGLE_TAG_MANAGER_ID': settings.GOOGLE_TAG_MANAGER_ID,
         'GOOGLE_TAG_MANAGER_ENV': settings.GOOGLE_TAG_MANAGER_ENV,
     }
+
+
+def migration_support_vars(request):
+    # Context vars that help with the migration from Great V1 to V2
+    return {'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL}

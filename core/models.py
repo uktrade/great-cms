@@ -28,6 +28,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.contrib.redirects.models import Redirect
+from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
@@ -37,8 +38,6 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
-from wagtail_personalisation.blocks import PersonalisedStructBlock
-from wagtail_personalisation.models import PersonalisablePageMixin
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
@@ -252,7 +251,6 @@ class TimeStampedModel(models.Model):
 
 
 class CMSGenericPage(
-    PersonalisablePageMixin,
     mixins.EnableTourMixin,
     mixins.ExportPlanMixin,
     mixins.AuthenticatedUserRequired,
@@ -603,17 +601,17 @@ class DetailPage(CMSGenericPage):
         [
             (
                 'paragraph',
-                PersonalisedStructBlock(
+                blocks.StructBlock(
                     [('paragraph', blocks.RichTextBlock())],
-                    template='core/personalised_page_struct_paragraph_block.html',
+                    template='core/struct_paragraph_block.html',
                     icon='fa-font',
                 ),
             ),
             (
                 'video',
-                PersonalisedStructBlock(
+                blocks.StructBlock(
                     [('video', core_blocks.VideoBlock())],
-                    template='core/personalised_page_struct_video_block.html',
+                    template='core/struct_video_block.html',
                     icon='fa-play',
                 ),
             ),
@@ -799,10 +797,12 @@ class DetailPage(CMSGenericPage):
             # a child of another page type...
             page_topic_helper = PageTopicHelper(self)
             next_lesson = page_topic_helper.get_next_lesson()
+            context['current_lesson'] = self
             context['current_module'] = page_topic_helper.module
             if page_topic_helper:
                 topic_page = page_topic_helper.get_page_topic()
                 if topic_page:
+                    context['current_topic'] = topic_page
                     context['page_topic'] = topic_page.title
 
             if next_lesson:
@@ -862,7 +862,6 @@ class PersonalisationHSCodeTag(TagBase):
 class PersonalisationCountryTag(TagBase):
     """Custom tag for personalisation.
     Tag value will be an ISO-2 Country code ('DE')
-    _OR_ a geographical string ('Europe')
     """
 
     # free_tagging = False  # DISABLED until tag data only comes via data migration
@@ -870,6 +869,30 @@ class PersonalisationCountryTag(TagBase):
     class Meta:
         verbose_name = 'Country tag for personalisation'
         verbose_name_plural = 'Country tags for personalisation'
+
+
+class PersonalisationRegionTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be a geographical string ('Europe')
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Region tag for personalisation'
+        verbose_name_plural = 'Region tags for personalisation'
+
+
+class PersonalisationTradingBlocTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be an Trading blocs
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Trading bloc tag for personalisation'
+        verbose_name_plural = 'Trading bloc tags for personalisation'
 
 
 # If you're wondering what's going on here:
@@ -888,6 +911,22 @@ class CountryTaggedCaseStudy(ItemBase):
         PersonalisationCountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE
     )
     content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
+
+
+class RegionTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag, related_name='region_tagged_case_studies', on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='region_tagged_items')
+
+
+class TradingBlocTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationTradingBlocTag, related_name='trading_bloc_tagged_case_studies', on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to='core.CaseStudy', on_delete=models.CASCADE, related_name='trading_bloc_tagged_items'
+    )
 
 
 def _high_level_validation(value, error_messages):
@@ -1037,6 +1076,12 @@ class CaseStudy(ClusterableModel):
     country_code_tags = ClusterTaggableManager(
         through='core.CountryTaggedCaseStudy', blank=True, verbose_name='Country tags'
     )
+    region_code_tags = ClusterTaggableManager(
+        through='core.RegionTaggedCaseStudy', blank=True, verbose_name='Region tags'
+    )
+    trading_bloc_code_tags = ClusterTaggableManager(
+        through='core.TradingBlocTaggedCaseStudy', blank=True, verbose_name='Trading bloc tags'
+    )
 
     created = CreationDateTimeField('created', null=True)
     modified = ModificationDateTimeField('modified', null=True)
@@ -1055,6 +1100,8 @@ class CaseStudy(ClusterableModel):
             [
                 FieldPanel('hs_code_tags'),
                 FieldPanel('country_code_tags'),
+                FieldPanel('region_code_tags'),
+                FieldPanel('trading_bloc_code_tags'),
             ],
             heading='Case Study tags for Personalisation',
         ),
@@ -1084,3 +1131,219 @@ class CaseStudy(ClusterableModel):
             '-modified',
             '-created',
         )
+
+
+@register_setting
+class CaseStudyScoringSettings(BaseSetting):
+    threshold = models.DecimalField(
+        help_text='This is the minimum score which a case study needs to have to be '
+        'considered before being presented to users. '
+        'This is calculated as the sum of the positive scores deducted by the dampening scores below.',
+        default=20,
+        decimal_places=3,
+        max_digits=5,
+    )
+    module = models.DecimalField(
+        help_text='This is the score we give a case study should it have an association '
+        'at this level in our information architecture',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
+    topic = models.DecimalField(
+        help_text='This is the score we give a case study should it have an association '
+        'at this level in our information architecture',
+        default=4,
+        decimal_places=3,
+        max_digits=5,
+    )
+    lesson = models.DecimalField(
+        help_text='This is the score we give a case study should it have an association '
+        'at this level in our information architecture',
+        default=8,
+        decimal_places=3,
+        max_digits=5,
+    )
+    product_hs6 = models.DecimalField(
+        help_text='This is the score we give if a case study matches the HS code product tag at the HS6 level ',
+        default=8,
+        decimal_places=3,
+        max_digits=5,
+    )
+    product_hs4 = models.DecimalField(
+        help_text='This is the score we give if a case study matches the HS code product tag at the HS4 level ',
+        default=4,
+        decimal_places=3,
+        max_digits=5,
+    )
+    product_hs2 = models.DecimalField(
+        help_text='This is the score we give if a case study matches the HS code product tag at the HS2 level ',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
+    country_region = models.DecimalField(
+        help_text='This is the score we give if a case study matches the country tag at a regional level',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
+    country_exact = models.DecimalField(
+        help_text='This is the score we give if a case study matches the country tag at a country level',
+        default=4,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_product_hs6 = models.DecimalField(
+        help_text='This is the score we deduct if a case study matches for another HS code at the HS6 level',
+        default=-0.5,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_product_hs4 = models.DecimalField(
+        help_text='This is the score we deduct if a case study matches for another HS code at the HS4 level',
+        default=-0.25,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_product_hs2 = models.DecimalField(
+        help_text='This is the score we deduct if a case study matches for another HS code at the HS2 level',
+        default=-0.125,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_country_region = models.DecimalField(
+        help_text='This is the score we deduct if a case study matches for another country tag at a regional level',
+        default=-0.125,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_country_exact = models.DecimalField(
+        help_text='This is the score we deduct if a case study matches for another country tag at a country level',
+        default=-0.25,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_3_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=8,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_6_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=4,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_9_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_12_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=1,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_15_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=0.5,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_18_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=0.25,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_21_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=0.125,
+        decimal_places=3,
+        max_digits=5,
+    )
+    recency_24_months = models.DecimalField(
+        help_text='This is the score we give if a case study has been published or modified in this time range',
+        default=0.0625,
+        decimal_places=3,
+        max_digits=5,
+    )
+    trading_blocs = models.DecimalField(
+        help_text='This is the score we give if a case study matches the country tag at a trading bloc level',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_module_tags = models.DecimalField(
+        help_text='This is the score we deduct for a case study should it have an association at '
+        'this level in our information architecture',
+        default=-0.5,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_topics_tags = models.DecimalField(
+        help_text='This is the score we deduct for a case study should it have an association at '
+        'this level in our information architecture',
+        default=-0.25,
+        decimal_places=3,
+        max_digits=5,
+    )
+    other_lesson_tags = models.DecimalField(
+        help_text='This is the score we deduct for a case study should it have an association at '
+        'this level in our information architecture',
+        default=-0.1,
+        decimal_places=3,
+        max_digits=5,
+    )
+
+    first_tab_first_row_panels = [
+        FieldPanel('module'),
+        FieldPanel('topic'),
+        FieldPanel('lesson'),
+        FieldPanel('product_hs6'),
+        FieldPanel('product_hs4'),
+        FieldPanel('product_hs2'),
+        FieldPanel('country_region'),
+        FieldPanel('country_exact'),
+        FieldPanel('recency_3_months'),
+        FieldPanel('recency_6_months'),
+        FieldPanel('recency_9_months'),
+        FieldPanel('recency_12_months'),
+        FieldPanel('recency_15_months'),
+        FieldPanel('recency_18_months'),
+        FieldPanel('recency_21_months'),
+        FieldPanel('recency_24_months'),
+        FieldPanel('trading_blocs'),
+    ]
+    first_tab_second_row_panels = [
+        FieldPanel('other_product_hs6'),
+        FieldPanel('other_product_hs4'),
+        FieldPanel('other_product_hs2'),
+        FieldPanel('other_country_region'),
+        FieldPanel('other_country_exact'),
+        FieldPanel('other_lesson_tags'),
+        FieldPanel('other_module_tags'),
+        FieldPanel('other_topics_tags'),
+    ]
+    threshold_tab_panels = [
+        FieldPanel('threshold'),
+    ]
+
+    scoring_tab_panels = [
+        MultiFieldPanel(first_tab_first_row_panels, heading='Positive scores'),
+        MultiFieldPanel(first_tab_second_row_panels, heading='Dampening scores'),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(scoring_tab_panels, heading='Scoring'),
+            ObjectList(threshold_tab_panels, heading='Threshold'),
+        ]
+    )
+
+    class Meta:
+        verbose_name = 'Case Study Scoring'

@@ -43,14 +43,14 @@ export default {
       text: 'Copyright United Nations 2020.',
     },
     {
-      title: 'GDP per capita',
+      title: 'Adjusted net national income per capita',
       preLinkText: '(current US$)',
-      linkText: 'World Bank, OECD',
-      linkTarget: 'https://data.worldbank.org/indicator/NY.GDP.PCAP.CD',
+      linkText: 'World Bank',
+      linkTarget: 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD',
       text: 'CC BY 4.0.',
     },
     {
-      title: 'Ease of Doing Business Scores',
+      title: 'Ease of Doing Business Rank',
       linkText: 'World Bank',
       linkTarget: 'https://www.doingbusiness.org/en/data/doing-business-score',
       text: 'CC BY 4.0.',
@@ -86,14 +86,14 @@ export default {
         position: 'right',
         title: '',
         content: `
-          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers in a country.</p>
-          <p>Each year, the World Bank publishes figures for all countries by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>
-          <p>ANNIPC gives you an idea of how much consumers in your country earn, whether they can comfortably afford your products and at what price.</p>
+          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers.</p>
+          <p>Each year, the World Bank calculates ANNIPC by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>
+          <p>ANNIPC gives you an idea of how much consumers earn, whether they can comfortably afford your products and at what price.</p>
          `,
       },
     },
     'eod-business': {
-      name: 'Ease of doing business rank ',
+      name: 'Ease of doing business rank',
       className: 'text-align-right',
       render: (data) =>
         rankOutOf(data.country_data.ease_of_doing_bussiness, 'rank'),
@@ -102,9 +102,9 @@ export default {
         position: 'right',
         title: '',
         content: `
-          <p>The Ease of Doing Business rank indicates whether doing business in a country is easy or difficult.</p>
-          <p>Every year, the World Bank ranks all countries from 1 (easy to do business) to 190 (hard to do business).</p>
-          <p>Knowing the rank of your target country can help you decide whether to enter a market and whether you need professional help to do so.</p>
+          <p>The Ease of Doing Business rank indicates how easy or hard it is to do business somewhere.</p>
+          <p>The rank is from 1 (easy to do business) to 190 (hard to do business).</p>
+          <p>This  can help you decide whether to export somewhere and whether you need professional help to do so.</p>
          `,
       },
     },
@@ -120,7 +120,7 @@ export default {
         title: '',
         content: `
           <p>The Corruption Perceptions Index is published every year by Transparency International.</p>
-          <p>The index ranks countries and territories by the corruption of their public sector, according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>
+          <p>The index ranks  public-sector corruption  according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>
           <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>
          `,
       },
