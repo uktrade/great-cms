@@ -72292,10 +72292,10 @@ function ProductFinderModal(props) {
 
   var infoCards = [{
     className: 'box box--no-pointer m-t-s',
-    innerHtml: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "When you search for a product you may have to answer a few questions before you find a match.")
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "When you search for a product you may have to answer a few questions before you find a match.")
   }, {
     className: 'box box--no-pointer m-t-s',
-    innerHtml: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-t-0 m-b-xs"
     }, "This is because we use HS (", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "body-l-b"
@@ -72304,7 +72304,7 @@ function ProductFinderModal(props) {
     }, "Think of it like the folder structure on a computer."))
   }, {
     className: 'box box--no-pointer m-t-s inline-block',
-    innerHtml: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-1-2 p-h-0"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-t-0 m-b-xs"
@@ -72319,7 +72319,7 @@ function ProductFinderModal(props) {
     })))
   }, {
     className: 'box box--no-pointer m-t-s',
-    innerHtml: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-t-0 m-b-xs"
     }, "You don't have to find a perfect match."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-v-0"
@@ -72331,7 +72331,7 @@ function ProductFinderModal(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         key: idx,
         className: card.className
-      }, card.innerHtml);
+      }, card.content);
     });
   };
 

@@ -349,7 +349,7 @@ export default function ProductFinderModal(props) {
   const infoCards = [
     {
       className: 'box box--no-pointer m-t-s',
-      innerHtml: (
+      content: (
         <p>
           When you search for a product you may have to answer a few questions
           before you find a match.
@@ -358,7 +358,7 @@ export default function ProductFinderModal(props) {
     },
     {
       className: 'box box--no-pointer m-t-s',
-      innerHtml: (
+      content: (
         <>
           <p className="m-t-0 m-b-xs">
             This is because we use HS (<span className="body-l-b">harmonised system</span>)
@@ -372,7 +372,7 @@ export default function ProductFinderModal(props) {
     },
     {
       className: 'box box--no-pointer m-t-s inline-block',
-      innerHtml: (
+      content: (
         <>
           <div className="c-1-2 p-h-0">
             <p className="m-t-0 m-b-xs">
@@ -395,7 +395,7 @@ export default function ProductFinderModal(props) {
     },
     {
       className: 'box box--no-pointer m-t-s',
-      innerHtml: (
+      content: (
         <>
           <p className="m-t-0 m-b-xs">
             You don&apos;t have to find a perfect match.
@@ -411,7 +411,7 @@ export default function ProductFinderModal(props) {
   const renderInfoCards = () => {
     return infoCards.map((card, idx) =>
       <div key={idx} className={card.className}>
-        {card.innerHtml}
+        {card.content}
       </div>
   )}
 
