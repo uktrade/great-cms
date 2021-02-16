@@ -145,6 +145,15 @@ def domestic_site(domestic_homepage, client):
     )
 
 
+@pytest.fixture
+def magna_site(domestic_homepage, client):
+    return SiteFactory(
+        root_page=domestic_homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+        is_default_site=True,
+    )
+
+
 @pytest.fixture(autouse=True)
 def auth_backend():
     patch = mock.patch(
@@ -492,6 +501,15 @@ def mock_trading_blocs():
             'country': 270,
         },
     ]
+    yield mock.patch(
+        'directory_api_client.api_client.dataservices.trading_blocs_by_country',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()
+
+
+@pytest.fixture
+def mock_no_trading_blocs():
+    body = []
     yield mock.patch(
         'directory_api_client.api_client.dataservices.trading_blocs_by_country',
         return_value=create_response(status_code=200, json_body=body),

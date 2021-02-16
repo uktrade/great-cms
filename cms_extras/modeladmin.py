@@ -36,6 +36,8 @@ class CaseStudyAdmin(ModelAdmin):
         '__str__',
         'associated_hs_code_tags',
         'associated_country_code_tags',
+        'associated_region_code_tags',
+        'associated_trading_bloc_code_tags',
         'get_related_pages',
         'modified',
     )
@@ -55,6 +57,12 @@ class CaseStudyAdmin(ModelAdmin):
 
     def associated_country_code_tags(self, obj):
         return [str(x) for x in obj.country_code_tags.all()]
+
+    def associated_region_code_tags(self, obj):
+        return [str(x) for x in obj.region_code_tags.all()]
+
+    def associated_trading_bloc_code_tags(self, obj):
+        return [str(x) for x in obj.trading_bloc_code_tags.all()]
 
     def get_related_pages(self, obj):
         page_mapping = {
