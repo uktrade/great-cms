@@ -43,13 +43,34 @@ export const BusinessRisks = ({
   const debounceUpdate = useDebounce(update)
 
   const onChange = (type, id, value) => {
-    debugger
-    value = { value: value }
     const field = risks.find((x) => x.pk === id)
     field.companyexportplan = companyexportplan
+
+    if (type === 'radio') {
+      value = {
+        [value.groupName]: value.value,
+      }
+    }
+    if (type === 'input') {
+      value = {
+        [value.field]: {
+          value: value.value,
+        },
+      }
+    }
+
     const updatedRisks = risks.map((x) =>
-      x.pk === id ? { ...x, ...value } : x
+      x.pk === id && type === 'radio'
+        ? { ...x, ...value }
+        : type === 'input'
+        ? // TODO: How to spread into child objects??
+          // notes: ...values, contingency_notes: ...value
+          // Currently this overwrites :/
+          { ...x, ...value }
+        : x
     )
+    console.log(value)
+    debugger
     setRisks(updatedRisks)
     debounceUpdate(field, value)
   }
