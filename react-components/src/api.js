@@ -43,21 +43,19 @@ const get = function (url, params) {
   })
 }
 
-const apiHTTP = {
-  async crud(url, data, method = 'GET') {
-    // GET method can't have a body
-    const body = method !== 'GET' ? { body: JSON.stringify(data) } : {}
-    return await fetch(url, {
-      method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': config.csrfToken,
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-      ...body,
-    })
-  },
+async function crud(url, data, method = 'GET') {
+  // GET method can't have a body
+  const body = method !== 'GET' ? { body: JSON.stringify(data) } : {}
+  return await fetch(url, {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': config.csrfToken,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    ...body,
+  })
 }
 
 const responseHandler = function (response) {
@@ -236,9 +234,9 @@ export default {
   },
 
   apiModelObjectManage: (data, method) => {
-    return apiHTTP
-      .crud(config.apiModelObjectManageUrl, data, method)
-      .then((response) => responseHandler(response).json())
+    return crud(config.apiModelObjectManageUrl, data, method).then((response) =>
+      responseHandler(response).json()
+    )
   },
 
   createObjective: (data) => {

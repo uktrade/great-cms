@@ -65265,43 +65265,47 @@ var get = function get(url, params) {
   });
 };
 
-var apiHTTP = {
-  crud: function crud(url, data) {
-    var _arguments = arguments;
-    return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var method, body;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              method = _arguments.length > 2 && _arguments[2] !== undefined ? _arguments[2] : 'GET';
-              // GET method can't have a body
-              body = method !== 'GET' ? {
-                body: JSON.stringify(data)
-              } : {};
-              _context.next = 4;
-              return fetch(url, _objectSpread({
-                method: method,
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_0__["config"].csrfToken,
-                  'X-Requested-With': 'XMLHttpRequest'
-                }
-              }, body));
+function crud(_x, _x2) {
+  return _crud.apply(this, arguments);
+}
 
-            case 4:
-              return _context.abrupt("return", _context.sent);
+function _crud() {
+  _crud = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url, data) {
+    var method,
+        body,
+        _args = arguments;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            method = _args.length > 2 && _args[2] !== undefined ? _args[2] : 'GET';
+            // GET method can't have a body
+            body = method !== 'GET' ? {
+              body: JSON.stringify(data)
+            } : {};
+            _context.next = 4;
+            return fetch(url, _objectSpread({
+              method: method,
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_0__["config"].csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            }, body));
 
-            case 5:
-            case "end":
-              return _context.stop();
-          }
+          case 4:
+            return _context.abrupt("return", _context.sent);
+
+          case 5:
+          case "end":
+            return _context.stop();
         }
-      }, _callee);
-    }))();
-  }
-};
+      }
+    }, _callee);
+  }));
+  return _crud.apply(this, arguments);
+}
 
 var responseHandler = function responseHandler(response) {
   if (response.status == 400) {
@@ -65474,7 +65478,7 @@ var responseHandler = function responseHandler(response) {
     });
   },
   apiModelObjectManage: function apiModelObjectManage(data, method) {
-    return apiHTTP.crud(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiModelObjectManageUrl, data, method).then(function (response) {
+    return crud(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiModelObjectManageUrl, data, method).then(function (response) {
       return responseHandler(response).json();
     });
   },
