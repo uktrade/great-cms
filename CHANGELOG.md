@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 - GP2-1440 - Ranking calculation for case study
+- GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
 - GP2-1470 - Port PerformanceDashboardPage from V1
 - no-ticket - fix collectstatic errors

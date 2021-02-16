@@ -244,6 +244,42 @@
   padding-bottom: 4px;
 }
 
+.slick-dots {
+  top: 10px;
+  bottom: unset;
+
+  & li  {
+    margin: 0;
+
+    & button:before {
+      font-size: 10px;
+      line-height: 10px;
+    }
+  }
+}
+
+.slick-list {
+  margin: 0 -7px;
+  top: 25px;
+
+  & .slick-track {
+    display: flex;
+
+    & .slick-slide {
+      height: inherit;
+
+      & > div {
+        padding: 0 10px;
+        height: 95%;
+
+        & > div {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
 // Tweak to positioning of radio buttons in mobile view
 .multiple-choice {
   [type='radio'] + label {
