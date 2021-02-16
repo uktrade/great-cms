@@ -43,6 +43,23 @@ const get = function (url, params) {
   })
 }
 
+const apiHTTP = {
+  async crud(url, data, method = 'GET') {
+    // GET method can't have a body
+    const body = method !== 'GET' ? { body: JSON.stringify(data) } : {}
+    return await fetch(url, {
+      method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': config.csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      ...body,
+    })
+  },
+}
+
 const responseHandler = function (response) {
   if (response.status == 400) {
     return response.json().then((error) => {
@@ -113,7 +130,7 @@ export default {
   getCountryData: (countries) => {
     return get(config.apiCountryDataUrl, {
       countries: countries,
-    }).then((response) => responseHandler(response).json())    
+    }).then((response) => responseHandler(response).json())
   },
 
   getCountryAgeGroupData: (data) => {
@@ -216,6 +233,12 @@ export default {
       config.apiFundingCreditOptionsUpdateUrl,
       data
     ).then((response) => responseHandler(response).json())
+  },
+
+  apiModelObjectManage: (data, method) => {
+    return apiHTTP
+      .crud(config.apiModelObjectManageUrl, data, method)
+      .then((response) => responseHandler(response).json())
   },
 
   createObjective: (data) => {
