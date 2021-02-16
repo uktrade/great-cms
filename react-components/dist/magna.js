@@ -65856,17 +65856,29 @@ var BusinessRisks = function BusinessRisks(_ref) {
   var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
 
   var onChange = function onChange(type, id, value) {
-    debugger;
-    value = {
-      value: value
-    };
     var field = risks.find(function (x) {
       return x.pk === id;
     });
     field.companyexportplan = companyexportplan;
+
+    if (type === 'radio') {
+      value = _defineProperty({}, value.groupName, value.value);
+    }
+
+    if (type === 'input') {
+      value = _defineProperty({}, value.field, {
+        value: value.value
+      });
+    }
+
     var updatedRisks = risks.map(function (x) {
-      return x.pk === id ? _objectSpread(_objectSpread({}, x), value) : x;
+      return x.pk === id && type === 'radio' ? _objectSpread(_objectSpread({}, x), value) : type === 'input' ? // TODO: How to spread into child objects??
+      // notes: ...values, contingency_notes: ...value
+      // Currently this overwrites :/
+      _objectSpread(_objectSpread({}, x), value) : x;
     });
+    console.log(value);
+    debugger;
     setRisks(updatedRisks);
     debounceUpdate(field, value);
   }; // const options_risk_likelihood = {
@@ -65953,7 +65965,10 @@ var Risk = function Risk(_ref) {
     label: notes.label,
     value: notes.value,
     onChange: function onChange(e) {
-      return _onChange('input', id, e);
+      return _onChange('input', id, {
+        field: 'notes',
+        value: e[id]
+      });
     },
     formGroupClassName: "m-b-0"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_3__["Radiogroup"], {
@@ -65980,7 +65995,10 @@ var Risk = function Risk(_ref) {
     hideLabel: true,
     label: contingency_notes.label
   }, _defineProperty(_React$createElement, "hideLabel", true), _defineProperty(_React$createElement, "value", contingency_notes.value), _defineProperty(_React$createElement, "onChange", function onChange(e) {
-    return _onChange('input', id, e);
+    return _onChange('input', id, {
+      field: 'contingency_notes',
+      value: e[id]
+    });
   }), _defineProperty(_React$createElement, "formGroupClassName", "m-b-0"), _React$createElement)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     className: "text-center",
     colSpan: "2"
