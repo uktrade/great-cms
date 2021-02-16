@@ -95,19 +95,18 @@ Create a travel plan that will help you prepare everything you need for your upc
 {% block body_js %}
 {{ block.super }}
 <script type="text/javascript">
-  element = document.getElementById('stats-for-target-market');
   magna.travelPlanSnapshot({
-    element: element,
-    languages: {'cia_factbook_data': {'languages': {'language': [{'name': 'Japanese'}]}}},
+    element: document.getElementById('stats-for-target-market'),
+    //languages: {'cia_factbook_data': {'languages': {'language': [{'name': 'Japanese'}]}}},
+    languages: {{ language_data|safe }},
     tooltip: {
       content: `
         Make sure you know what language business is conducted in in your target market. If you can't speak the language make sure you bring along an interpreter so you can communicate and have a successful trip.
       `
     }
   })
-  element = document.getElementById('culture-and-rules');
   magna.travelPlanCultureRules({
-    element: element,
+    element: document.getElementById('culture-and-rules'),
     field: 'travel_plan',
     formData: [],
     formFields: [
@@ -133,9 +132,8 @@ Create a travel plan that will help you prepare everything you need for your upc
       `
     },
   })
-  element = document.getElementById('visa-information');
   magna.travelPlanVisaInformation({
-    element: element,
+    element: document.getElementById('visa-information'),
     field: 'travel_plan_visa_information',
     formData: [],
     formFields: [
@@ -160,9 +158,8 @@ Create a travel plan that will help you prepare everything you need for your upc
     ],
     companyexportplan: {{ export_plan.pk }},
   })
-  element = document.getElementById('planned-travel');
   magna.plannedTravel({
-    element: element,
+    element: document.getElementById('planned-travel'),
     formData: [{"value": "Something", "pk": 17}, {"value": "Something else", "pk": 16}],
     companyexportplan: {{ export_plan.pk }},
     tooltip: {

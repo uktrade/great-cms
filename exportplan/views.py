@@ -291,6 +291,9 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         context = super().get_context_data(*args, **kwargs)
         context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
         context['business_trips'] = self.request.user.export_plan.data['business_trips']
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.request.user.export_plan.export_country_name, key='people,languages'
+        )
         return context
 
 
