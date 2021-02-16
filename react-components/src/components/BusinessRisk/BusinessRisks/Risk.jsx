@@ -4,7 +4,6 @@ import React, { memo } from 'react'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Learning } from '@src/components/Learning/Learning'
 import { Radiogroup } from '@src/components/Form/Radiogroup/Radiogroup'
-// import { Select } from '@src/components/Form/Select'
 
 export const Risk = ({
   id,
@@ -17,7 +16,6 @@ export const Risk = ({
   impactOptions,
   selected,
 }) => {
-  // debugger
   return (
     <>
       <tr>
@@ -39,16 +37,18 @@ export const Risk = ({
         <Radiogroup
           options={likelihoodOptions}
           selected={selected.risk_likelihood_option}
-          groupName={Object.keys(selected.risk_likelihood_option)}
+          groupName={Object.keys(selected)[0]}
           label="Risk likelihood"
+          update={(e) => onChange('radio', id, e)}
         />
       </tr>
       <tr>
         <Radiogroup
           options={impactOptions}
           selected={selected.risk_impact_option}
-          groupName={Object.keys(selected.risk_impact_option)}
+          groupName={Object.keys(selected)[1]}
           label="Risk impact"
+          update={(e) => onChange('radio', id, e)}
         />
       </tr>
       <tr>

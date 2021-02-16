@@ -42,7 +42,8 @@ export const BusinessRisks = ({
 
   const debounceUpdate = useDebounce(update)
 
-  const onChange = (id, value) => {
+  const onChange = (type, id, value) => {
+    debugger
     value = { value: value }
     const field = risks.find((x) => x.pk === id)
     field.companyexportplan = companyexportplan

@@ -65855,7 +65855,8 @@ var BusinessRisks = function BusinessRisks(_ref) {
 
   var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
 
-  var onChange = function onChange(id, value) {
+  var onChange = function onChange(type, id, value) {
+    debugger;
     value = {
       value: value
     };
@@ -65930,7 +65931,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
- // import { Select } from '@src/components/Form/Select'
 
 var Risk = function Risk(_ref) {
   var _React$createElement;
@@ -65944,7 +65944,6 @@ var Risk = function Risk(_ref) {
       likelihoodOptions = _ref.likelihoodOptions,
       impactOptions = _ref.impactOptions,
       selected = _ref.selected;
-  // debugger
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "form-label m-v-0"
   }, "Risk ", index), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_2__["Learning"], notes), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_1__["TextArea"], {
@@ -65960,13 +65959,19 @@ var Risk = function Risk(_ref) {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_3__["Radiogroup"], {
     options: likelihoodOptions,
     selected: selected.risk_likelihood_option,
-    groupName: Object.keys(selected.risk_likelihood_option),
-    label: "Risk likelihood"
+    groupName: Object.keys(selected)[0],
+    label: "Risk likelihood",
+    update: function update(e) {
+      return _onChange('radio', id, e);
+    }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_3__["Radiogroup"], {
     options: impactOptions,
     selected: selected.risk_impact_option,
-    groupName: Object.keys(selected.risk_impact_option),
-    label: "Risk impact"
+    groupName: Object.keys(selected)[1],
+    label: "Risk impact",
+    update: function update(e) {
+      return _onChange('radio', id, e);
+    }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "form-label m-v-0"
   }, contingency_notes.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_2__["Learning"], contingency_notes), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_1__["TextArea"], (_React$createElement = {
@@ -69138,15 +69143,20 @@ var Radiogroup = function Radiogroup(_ref) {
       groupName = _ref.groupName,
       className = _ref.className,
       type = _ref.type,
-      buttonType = _ref.buttonType;
+      buttonType = _ref.buttonType,
+      update = _ref.update;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(selected || null),
       _useState2 = _slicedToArray(_useState, 2),
       selectedOption = _useState2[0],
       setSelectedOption = _useState2[1];
 
-  var handleOnChange = function handleOnChange(id) {
-    setSelectedOption(id);
+  var handleUpdate = function handleUpdate(value, groupName) {
+    setSelectedOption(value);
+    update({
+      value: value,
+      groupName: groupName
+    });
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, !hideLabel && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -69162,7 +69172,9 @@ var Radiogroup = function Radiogroup(_ref) {
       value: value,
       label: value.charAt(0).toUpperCase() + value.slice(1),
       selected: selectedOption,
-      onChange: handleOnChange
+      update: function update(value, groupName) {
+        return handleUpdate(value, groupName);
+      }
     });
   })));
 };
@@ -69194,7 +69206,7 @@ var RadiogroupItem = function RadiogroupItem(_ref) {
       group = _ref.group,
       value = _ref.value,
       label = _ref.label,
-      _onChange = _ref.onChange,
+      update = _ref.update,
       selected = _ref.selected;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "great-radiogroup__item"
@@ -69204,8 +69216,8 @@ var RadiogroupItem = function RadiogroupItem(_ref) {
     name: group,
     id: id,
     value: value,
-    onChange: function onChange(e) {
-      return _onChange(id, e);
+    onChange: function onChange() {
+      return update(value, group);
     },
     checked: selected === id
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
