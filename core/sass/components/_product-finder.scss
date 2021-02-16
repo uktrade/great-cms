@@ -160,11 +160,15 @@
     float: left;
     width: 25px;
     height: 100%;
+    position: relative;
 
     .clear {
+      position: absolute;
       opacity: 0.5;
       transition: opacity 0.3s;
-      padding: 0;
+      padding: 15px;
+      top: -29px;
+      left: -13px;
 
       &:hover {
         opacity: 1;
@@ -238,6 +242,42 @@
 .p-v-4 {
   padding-top: 4px;
   padding-bottom: 4px;
+}
+
+.slick-dots {
+  top: 10px;
+  bottom: unset;
+
+  & li  {
+    margin: 0;
+
+    & button:before {
+      font-size: 10px;
+      line-height: 10px;
+    }
+  }
+}
+
+.slick-list {
+  margin: 0 -7px;
+  top: 25px;
+
+  & .slick-track {
+    display: flex;
+
+    & .slick-slide {
+      height: inherit;
+
+      & > div {
+        padding: 0 10px;
+        height: 95%;
+
+        & > div {
+          height: 100%;
+        }
+      }
+    }
+  }
 }
 
 // Tweak to positioning of radio buttons in mobile view

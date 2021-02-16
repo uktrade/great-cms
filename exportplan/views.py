@@ -141,15 +141,9 @@ class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanMarketingApproachView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    form_class = forms.ExportPlanMarketingApproachForm
+class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'marketing-approach'
     title = 'Marketing approach'
-
-    def get_initial(self):
-        return self.request.user.export_plan.data['marketing_approach']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -166,6 +160,7 @@ class ExportPlanMarketingApproachView(
         context['selected_age_groups'] = (
             self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
         )
+        context['marketing_approach'] = self.request.user.export_plan.data['marketing_approach']
 
         return context
 
@@ -296,6 +291,9 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         context = super().get_context_data(*args, **kwargs)
         context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
         context['business_trips'] = self.request.user.export_plan.data['business_trips']
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.request.user.export_plan.export_country_name, key='people,languages'
+        )
         return context
 
 

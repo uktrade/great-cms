@@ -6,7 +6,7 @@ import { TextArea } from '@src/components/Form/TextArea'
 import { getLabel } from '@src/Helpers'
 
 export const RouteToMarketSection = memo(
-  ({ data, label, example, name, onChange, deleteTable, field, tooltip }) => {
+  ({ data, label, example, name, onChange, deleteTable, field, lesson }) => {
     return (
       <div className="form-table bg-blue-deep-10 radius p-h-s p-b-xxs m-b-s">
         {data.map((item) => (
@@ -18,17 +18,17 @@ export const RouteToMarketSection = memo(
               id={`${item.name}-${field.pk}`}
               options={item.options}
               selected={getLabel(item.options, field[item.name])}
+              lesson={lesson}
             />
             <hr className="hr hr--light" />
           </div>
         ))}
         <TextArea
           label={label}
-          example={{ content: example }}
+          example={example}
           onChange={(e) => onChange(field.pk, e)}
           value={field[name]}
           id={name}
-          tooltip={tooltip}
         />
         <div className="text-center">
           <hr className="hr hr--light" />
@@ -59,11 +59,17 @@ RouteToMarketSection.propTypes = {
     }).isRequired
   ).isRequired,
   label: PropTypes.string.isRequired,
-  example: PropTypes.string.isRequired,
+  example: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
   name: PropTypes.string.isRequired,
   field: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
   onChange: PropTypes.func.isRequired,
   deleteTable: PropTypes.func.isRequired,
+  lesson: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
+}
+
+RouteToMarketSection.defaultProps = {
+  lesson: {},
+  example: {},
 }
