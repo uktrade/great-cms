@@ -65211,6 +65211,16 @@ var setMarket = function setMarket(market) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @src/config */ "./react-components/src/config.js");
 /* harmony import */ var _src_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/constants */ "./react-components/src/constants.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 /* eslint-disable */
 
 
@@ -65253,6 +65263,44 @@ var get = function get(url, params) {
       'X-Requested-With': 'XMLHttpRequest'
     }
   });
+};
+
+var apiHTTP = {
+  crud: function crud(url, data) {
+    var _arguments = arguments;
+    return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var method, body;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              method = _arguments.length > 2 && _arguments[2] !== undefined ? _arguments[2] : 'GET';
+              // GET method can't have a body
+              body = method !== 'GET' ? {
+                body: JSON.stringify(data)
+              } : {};
+              _context.next = 4;
+              return fetch(url, _objectSpread({
+                method: method,
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': _src_config__WEBPACK_IMPORTED_MODULE_0__["config"].csrfToken,
+                  'X-Requested-With': 'XMLHttpRequest'
+                }
+              }, body));
+
+            case 4:
+              return _context.abrupt("return", _context.sent);
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
 };
 
 var responseHandler = function responseHandler(response) {
@@ -65422,6 +65470,11 @@ var responseHandler = function responseHandler(response) {
   },
   updateFundingCreditOption: function updateFundingCreditOption(data) {
     return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiFundingCreditOptionsUpdateUrl, data).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  apiModelObjectManage: function apiModelObjectManage(data, method) {
+    return apiHTTP.crud(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiModelObjectManageUrl, data, method).then(function (response) {
       return responseHandler(response).json();
     });
   },
@@ -75049,7 +75102,8 @@ var PlannedTravel = function PlannedTravel(_ref) {
   var formData = _ref.formData,
       companyexportplan = _ref.companyexportplan,
       lesson = _ref.lesson,
-      tooltip = _ref.tooltip;
+      tooltip = _ref.tooltip,
+      model_name = _ref.model_name;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
       _useState2 = _slicedToArray(_useState, 2),
@@ -75057,16 +75111,21 @@ var PlannedTravel = function PlannedTravel(_ref) {
       setTrips = _useState2[1];
 
   var addTrip = function addTrip() {
-    var newTrip = {};
-    newTrip.companyexportplan = companyexportplan;
-    newTrip.value = '';
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].createFundingCreditOption(_objectSpread({}, newTrip)).then(function (data) {
+    var newTrip = {
+      companyexportplan: companyexportplan,
+      model_name: model_name,
+      note: ''
+    };
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(_objectSpread({}, newTrip), 'POST').then(function (data) {
       return setTrips([].concat(_toConsumableArray(trips), [data]));
     })["catch"](function () {});
   };
 
   var deleteTrip = function deleteTrip(id) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].deleteFundingCreditOption(id).then(function () {
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage({
+      model_name: model_name,
+      pk: id
+    }, 'DELETE').then(function () {
       setTrips(trips.filter(function (x) {
         return x.pk !== id;
       }));
@@ -75074,14 +75133,16 @@ var PlannedTravel = function PlannedTravel(_ref) {
   };
 
   var update = function update(field, value) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].updateFundingCreditOption(_objectSpread(_objectSpread({}, field), value)).then(function () {})["catch"](function () {});
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(_objectSpread(_objectSpread({
+      model_name: model_name
+    }, field), value), 'PATCH').then(function () {})["catch"](function () {});
   };
 
   var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
 
   var onChange = function onChange(id, value) {
     value = {
-      value: value
+      note: value
     };
     var field = trips.find(function (x) {
       return x.pk === id;
@@ -75146,7 +75207,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Trip = function Trip(_ref) {
   var id = _ref.id,
-      value = _ref.value,
+      note = _ref.note,
       _onChange = _ref.onChange,
       deleteTrip = _ref.deleteTrip,
       index = _ref.index;
@@ -75159,7 +75220,7 @@ var Trip = function Trip(_ref) {
     type: "text",
     label: 'label',
     hideLabel: true,
-    value: value,
+    value: note,
     onChange: function onChange(e) {
       return _onChange(id, e[id]);
     },
@@ -75214,12 +75275,12 @@ var Trips = function Trips(_ref) {
     className: "m-v-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formData.map(function (_ref2, i) {
     var pk = _ref2.pk,
-        value = _ref2.value;
+        note = _ref2.note;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trip__WEBPACK_IMPORTED_MODULE_1__["Trip"], {
       index: i + 1,
       key: pk,
       id: pk,
-      value: value,
+      note: note,
       onChange: onChange,
       deleteTrip: deleteTrip
     });
