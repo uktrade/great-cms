@@ -28,7 +28,9 @@ export const Risk = ({
             hideLabel
             label={notes.label}
             value={notes.value}
-            onChange={(e) => onChange('input', id, e)}
+            onChange={(e) =>
+              onChange('input', id, { field: 'notes', value: e[id] })
+            }
             formGroupClassName="m-b-0"
           />
         </td>
@@ -62,7 +64,12 @@ export const Risk = ({
             label={contingency_notes.label}
             hideLabel
             value={contingency_notes.value}
-            onChange={(e) => onChange('input', id, e)}
+            onChange={(e) =>
+              onChange('input', id, {
+                field: 'contingency_notes',
+                value: e[id],
+              })
+            }
             formGroupClassName="m-b-0"
           />
         </td>
