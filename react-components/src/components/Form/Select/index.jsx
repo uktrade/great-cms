@@ -20,6 +20,7 @@ export const Select = ({
   tooltip,
   example,
   hideLabel,
+  lesson,
   placeholder,
   id,
   className,
@@ -138,6 +139,7 @@ export const Select = ({
         description={description}
         tooltip={tooltip}
         example={example}
+        lesson={lesson}
         tabIndex="-1"
         hideLabel={hideLabel}
       >
@@ -250,6 +252,12 @@ Select.propTypes = {
     header: PropTypes.string,
     content: PropTypes.string,
   }),
+  lesson: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string,
+  }),
   hideLabel: PropTypes.bool,
   placeholder: PropTypes.string,
   id: PropTypes.string,
@@ -263,6 +271,7 @@ Select.defaultProps = {
   tooltip: {},
   example: {},
   hideLabel: false,
+  lesson: {},
   placeholder: 'Select one',
   id: '',
   className: 'm-b-l',
