@@ -23,6 +23,7 @@
 - GP2-1344 - added trading bloc logic to search case study
 
 ### Fixed bugs
+- GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
 - GP2-1514 - Fix ordering when selecting most recently updatet on MarketsTopicPage
