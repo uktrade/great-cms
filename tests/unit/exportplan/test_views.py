@@ -349,6 +349,16 @@ def test_download_export_plan(client, user):
 
 
 @pytest.mark.django_db
+def test_download_export_plan_file(client, user):
+    url = reverse('exportplan:pdf-download-file', kwargs={'download': 'true'})
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response._content_type_for_repr == ', "application/pdf"'
+    assert isinstance(type(response.content), type(bytes)) is True
+
+
+@pytest.mark.django_db
 def test_funding_and_credit(export_plan_data, client, user):
     url = reverse('exportplan:funding-and-credit')
     client.force_login(user)
