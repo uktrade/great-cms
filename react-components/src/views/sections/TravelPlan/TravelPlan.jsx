@@ -11,10 +11,12 @@ export const travelPlanSnapshot = ({ element, ...params }) => {
 }
 
 export const travelPlanCultureRules = ({ element, ...params }) => {
+  // debugger
   ReactDOM.render(<CultureRules {...params} />, element)
 }
 
 export const travelPlanVisaInformation = ({ element, ...params }) => {
+  debugger
   ReactDOM.render(<VisaInformation {...params} />, element)
 }
 

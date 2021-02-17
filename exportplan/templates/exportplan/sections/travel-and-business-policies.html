@@ -135,8 +135,11 @@ Create a travel plan that will help you prepare everything you need for your upc
   magna.travelPlanVisaInformation({
     element: document.getElementById('visa-information'),
     field: 'travel_business_policies',
-    formData: {{ travel_business_policies|to_json|safe }},
+    formData: {{ travel_visa_information|to_json|safe }},
     formFields: [
+      {
+        name: "visa_required"
+      },
       {
         field_type: "Textarea",
         label: "How and where will you get your visa",
@@ -152,7 +155,7 @@ Create a travel plan that will help you prepare everything you need for your upc
       {
         field_type: "Textarea",
         label: "Add notes",
-        name: "visa_notes",
+        name: "notes",
         placeholder: "Add some text",
       },
     ],
