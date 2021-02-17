@@ -379,11 +379,11 @@ class PDFDownload(View):
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "export_plan.pdf"
-            content = f"inline; filename={filename}"
-            download = request.GET.get("download")
+            filename = 'export_plan.pdf'
+            content = f'inline; filename={filename}'
+            download = request.GET.get('download')
             if download:
-                content = f"attachment; filename={filename}"
+                content = f'attachment; filename={filename}'
             response['Content-Disposition'] = content
             return response
-        return HttpResponse("Not found")
+        return HttpResponse('Not found')
