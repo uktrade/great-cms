@@ -1,0 +1,70 @@
+{% extends 'contact/soo/base.html' %}
+
+{% load static from static %}
+{% block breadcrumbs %}{% endblock %}
+{% block step_title_container %}{% endblock %}
+{% block step_title %}About your business{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'js/company-lookup.js' %}"></script>
+    <script type="text/javascript">
+      var $companyNumberContainer = $("#id_applicant-company_number-container");
+      var $companyNumberField = $("#id_applicant-company_number");
+      var $noCompanyNumber = $("#id_applicant-soletrader");
+      function hideCompanyNumberFieldContainer() {
+        $companyNumberField.val("");
+        $companyNumberContainer.hide();
+      }
+      // hide company number field container if checkbox is checked before page is loaded fully
+      if($noCompanyNumber.is(":checked")) {
+        hideCompanyNumberFieldContainer();
+      }
+
+      $(document).ready(function() {
+        var lookup = new GOVUK.components.CompaniesHouseNameLookup($("#id_applicant-company_name"), $companyNumberField);
+
+        // Hide and clear company number field if declare they have no number.
+        $noCompanyNumber.on("change", function() {
+          if(this.checked) {
+            hideCompanyNumberFieldContainer();
+          }
+          else {
+            $companyNumberContainer.show();
+          }
+        });
+
+        // Adjustments for the Companies House lookup on company name field and
+        // automatic population of the company number and postcode on selection.
+        lookup.bindContentEvents = function() {
+
+          // First allow the normal functionality to run.
+          GOVUK.components.CompaniesHouseNameLookup.prototype.bindContentEvents.call(lookup);
+
+          // Now add customisations for this SOO form (includes postcode population).
+          lookup._private.$list.on("click.CompaniesHouseNameLookup", function(event) {
+            var companies = GOVUK.data.getCompanyByName.response;
+            var selectedCompanyNumber = lookup._private.$field.val();
+            for(var i=0; i<companies.length; ++i) {
+              if(companies[i].company_number == selectedCompanyNumber) {
+                $("#id_applicant-company_postcode").val(companies[i].address.postal_code);
+              }
+            }
+
+            // Where has the auto-close gone??
+            lookup.close();
+          });
+        }
+
+        // In case user selects 'no companies house number' before filling in
+        // company name (unlikely), let's prevent the number lookup functionality.
+        lookup.search = function() {
+          if(! $noCompanyNumber.get(0).checked) {
+            GOVUK.components.SelectiveLookup.prototype.search.call(lookup);
+          }
+        }
+      });
+    </script>
+
+
+{% endblock %}

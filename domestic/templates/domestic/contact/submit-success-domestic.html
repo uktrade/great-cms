@@ -1,0 +1,11 @@
+{% extends "core/base.html" %}
+{% load static from staticfiles %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/contact.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+  {% include 'contact/submit-success-content.html' %}
+{% endblock %}
