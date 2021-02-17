@@ -3,7 +3,7 @@ const fs = require('fs');
 const resolve = require('@csstools/sass-import-resolve');
 
 
-const overridePath = path.join(__dirname, 'directory_components/export_elements/overrides/');
+const overridePath = path.join(__dirname, 'overrides/');
 const listDirectories = source =>
   fs.readdirSync(source)
     .map(name => path.join(source, name))

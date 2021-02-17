@@ -1,6 +1,8 @@
+import importlib
 from datetime import datetime
 
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,7 +21,7 @@ class ExportPlanCountryDataView(APIView):
         country = serializer.validated_data['country_name']
 
         # To make more efficient by removing get
-        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        export_plan = self.request.user.export_plan.data
         data = {'target_markets': export_plan['target_markets'] + [{'country_name': country}]}
         export_plan = helpers.update_exportplan(
             sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=data
@@ -40,8 +42,7 @@ class ExportPlanRemoveCountryDataView(APIView):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
         country = serializer.validated_data['country_name']
-        # To make more efficient by removing get
-        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        export_plan = self.request.user.export_plan.data
         data = [item for item in export_plan['target_markets'] if item['country_name'] != country]
         export_plan = helpers.update_exportplan(
             sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'target_markets': data}
@@ -58,7 +59,7 @@ class ExportPlanRemoveSectorView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        export_plan = self.request.user.export_plan.data
         updated_export_plan = helpers.update_exportplan(
             sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'sectors': []}
         )
@@ -91,8 +92,7 @@ class ExportPlanRecommendedCountriesDataView(APIView):
         serializer.is_valid(raise_exception=True)
         sectors = serializer.validated_data['sectors']
 
-        # To make more efficient by removing get export plan
-        export_plan = helpers.get_exportplan(sso_session_id=self.request.user.session_id)
+        export_plan = self.request.user.export_plan.data
         helpers.update_exportplan(
             sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'sectors': sectors}
         )
@@ -120,7 +120,7 @@ class TargetAgeCountryPopulationData(APIView):
         helpers.update_ui_options_target_ages(
             sso_session_id=self.request.user.session_id,
             target_ages=target_ages,
-            export_plan=self.request.user.export_plan,
+            export_plan=self.request.user.export_plan.data,
             section_name=section_name,
         )
 
@@ -135,12 +135,12 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            export_plan = helpers.get_or_create_export_plan(self.request.user)
+            export_plan = self.request.user.export_plan.data
             updated_export_plan = helpers.update_exportplan(
                 sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.data
             )
             # We now need the full export plan to calculate the totals
-            calculated_pricing = helpers.calculated_cost_pricing(updated_export_plan)
+            calculated_pricing = helpers.ExportPlanParser(updated_export_plan).calculated_cost_pricing()
             return Response(calculated_pricing)
 
 
@@ -151,7 +151,7 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            export_plan = helpers.get_or_create_export_plan(self.request.user)
+            export_plan = self.request.user.export_plan.data
             helpers.update_exportplan(
                 sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.validated_data
             )
@@ -295,3 +295,59 @@ class FundingCreditOptionsDestroyAPIView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             helpers.delete_funding_credit_options(self.request.user.session_id, serializer.validated_data)
             return Response({})
+
+
+class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
+    serializer_name_map = {
+        'businesstrips': 'BusinessTrips',
+    }
+
+    serializer_classes = importlib.import_module('exportplan.serializers')
+    permission_classes = [IsAuthenticated]
+
+    def get_model_name(self):
+        try:
+            model_name = self.serializer_name_map[self.request.data['model_name'].lower()]
+        except KeyError:
+            raise ValidationError('Incorrect or no model_name provided')
+        return model_name
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.update_model_object(
+                sso_session_id=self.request.user.session_id,
+                data=serializer.validated_data,
+                model_name=self.get_model_name(),
+            )
+            return Response(response)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            helpers.delete_model_object(
+                sso_session_id=self.request.user.session_id,
+                data=serializer.validated_data,
+                model_name=self.get_model_name(),
+            )
+            return Response({})
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            response = helpers.create_model_object(
+                sso_session_id=self.request.user.session_id,
+                data=serializer.validated_data,
+                model_name=self.get_model_name(),
+            )
+            return Response(response)
+
+    def get_serializer_class(self):
+        serializer_class = serializers.PkOnlySerializer
+        model_name = self.get_model_name()
+        if self.request.method == 'PATCH':
+            serializer_class = getattr(self.serializer_classes, f'{model_name}Serializer')
+        elif self.request.method == 'POST':
+            serializer_class = getattr(self.serializer_classes, f'New{model_name}Serializer')
+
+        return serializer_class

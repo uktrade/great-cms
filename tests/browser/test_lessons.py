@@ -119,7 +119,6 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
         title='test detail page 2',
         slug='test-detail-page-2',
     )
-
     visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
     should_not_see_any_element(browser, DashboardReadingProgress)
     # Setting a lesson complete should show progress card with 1/1 complete
@@ -127,5 +126,4 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
 
     visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
     should_see_all_elements(browser, DashboardReadingProgress)
-
     check_topic_read_progress(browser, clp_a, clp_a_lessons)

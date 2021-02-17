@@ -21,8 +21,8 @@
     <script type="text/javascript" src="{% static 'magna.js' %}"></script>
 
     <script type="text/javascript">
-      var product = '{{ request.user.export_plan.export_commodity_codes.0.commodity_code }}';
-      var country = '{{ request.user.export_plan.export_countries.0.country_name }}';
+      var product = '{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}';
+      var country = '{{ request.user.export_plan.data.export_countries.0.country_name }}';
       var dataLayer = window.dataLayer || []
       dataLayer.push({
         'productAdded': product || "False",
@@ -70,7 +70,11 @@
           passwordResetUrl: '{{ javascript_components.password_reset_url }}',
           removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
-          userIsAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+          user: {
+            id: '{{ request.user.id }}',
+            name: '{{ request.user.get_username }}',
+            isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+          },
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
           refreshOnMarketChange: {% if no_refresh_on_market_change %}false{%else%}true{% endif %},
           urlCostsAndPricing: '{% url "exportplan:costs-and-pricing"%}'
@@ -116,8 +120,8 @@
           signup: false,
         },
         exportPlan:{
-          products: {{request.user.export_plan.export_commodity_codes|to_json}},
-          markets: {{request.user.export_plan.export_countries|to_json }}
+          products: {{request.user.export_plan.data.export_commodity_codes|to_json}},
+          markets: {{request.user.export_plan.data.export_countries|to_json }}
         },
       })
 

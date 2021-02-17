@@ -1,5 +1,5 @@
 {% extends 'exportplan/section.html' %}
-
+{% load to_json %}
 {% block intro_title %}Getting paid{% endblock %}
 {% block intro_description %}How and when you get paid directly affects your business cashflow so it's important to get it right. <br /><br /> This page helps you outline your plans for getting paid from abroad.{% endblock %}
 
@@ -16,7 +16,34 @@
 {% endblock %}
 
 {% block user_input %}
-<div id="getting-paid"></div>
+<section class="container p-t-l m-b-l">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
+      <h3 class="h-l">Your payment methods</h3>
+      <p>
+        Foreign buyers may have different expectations about how and when to
+        pay for their imports.
+      </p>
+      <p>
+        To avoid uncertainty and disappointment, carefully consider the
+        options available.
+      </p>
+      <div class="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
+        <div id="getting-paid"></div>
+        <p class="body-s text-blue-deep-50 m-b-0">
+          Incoterms® and the Incoterms® 2020 logo are trademarks of ICC. Use of
+          these trademarks does not imply association with, approval of or
+          sponsorship by ICC unless specifically stated above. The Incoterms®
+          Rules are protected by copyright owned by ICC. Further information on
+          the Incoterm® Rules may be obtained from the ICC website iccwbo.org.
+        </p>
+      </div>
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</section>
+
 {% endblock %}
 
 {% block body_js %}
@@ -25,7 +52,7 @@
     magna.createGettingPaid({
       element: document.getElementById('getting-paid'),
       field: 'getting_paid',
-      formData: {{getting_paid_data|safe}},
+      formData: {{getting_paid_data|to_json|safe}},
       formFields: [
         {
             field: 'payment_method',
@@ -36,6 +63,7 @@
                 label: 'Payments methods',
                 field_type: 'Select',
                 options: {{ payment_method_choices|safe }},
+                multiSelect: true
               },
               {
                 name: 'Add notes',

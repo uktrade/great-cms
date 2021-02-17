@@ -211,7 +211,7 @@ export default function DataTable(props) {
       return (
         <td
           key={columnKey}
-          className={`${columnKey} p-v-xs ${cellConfig.className || ''}`}
+          className={`${columnKey} p-v-xs body-l ${cellConfig.className || ''}`}
         >
           {countryData &&
           (!countryData.loading || !countryData.loading[columnKey]) ? (

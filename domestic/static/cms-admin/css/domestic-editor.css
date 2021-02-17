@@ -35,6 +35,11 @@ body .image-chooser .chosen {
   width: 100% !important;
 }
 
+.field-content input[type=checkbox] {
+  background-color: #fff;
+  margin-top: 10px;
+}
+
 .cm-spell-error {
   background: none !important;
 }
