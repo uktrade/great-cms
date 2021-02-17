@@ -97,13 +97,12 @@ Create a travel plan that will help you prepare everything you need for your upc
 <script type="text/javascript">
   magna.travelPlanSnapshot({
     element: document.getElementById('stats-for-target-market'),
-    //languages: {'cia_factbook_data': {'languages': {'language': [{'name': 'Japanese'}]}}},
     languages: {{ language_data|safe }},
     tooltip: {
       content: `
-        Make sure you know what language business is conducted in in your target market. If you can't speak the language make sure you bring along an interpreter so you can communicate and have a successful trip.
+        <p>Make sure you know what language business is conducted in in your target market. If you can't speak the language make sure you bring along an interpreter so you can communicate and have a successful trip.</p>
       `
-    }
+    },
   })
   magna.travelPlanCultureRules({
     element: document.getElementById('culture-and-rules'),
@@ -166,7 +165,6 @@ Create a travel plan that will help you prepare everything you need for your upc
   magna.plannedTravel({
     element: document.getElementById('planned-travel'),
     formData: {{ business_trips|to_json|safe }},
-    //formData: [{"value": "Something", "pk": 17}, {"value": "Something else", "pk": 16}],
     model_name: 'businesstrips',
     companyexportplan: {{ export_plan.pk }},
     tooltip: {
@@ -185,7 +183,7 @@ Create a travel plan that will help you prepare everything you need for your upc
       title: "Safety when operating abroad",
       category: "TBD",
       duration: "3 minutes",
-    }
+    },
   })
 </script>
 {% endblock %}
