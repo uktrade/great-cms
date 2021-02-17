@@ -1327,7 +1327,7 @@ class CaseStudyScoringSettings(BaseSetting):
         FieldPanel('other_country_exact'),
         FieldPanel('other_lesson_tags'),
         FieldPanel('other_module_tags'),
-        FieldPanel('other_topics_tags'),
+        FieldPanel('other_topic_tags'),
     ]
     threshold_tab_panels = [
         FieldPanel('threshold'),
