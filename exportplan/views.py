@@ -358,7 +358,6 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
 
 class PDFDownload(View):
-
     def get(self, request, *args, **kwargs):
         context = {'export_plan': request.user.export_plan.data}
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
