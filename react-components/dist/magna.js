@@ -69908,7 +69908,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var Learning = function Learning(_ref) {
+var Learning = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var tooltip = _ref.tooltip,
       example = _ref.example,
       lesson = _ref.lesson,
@@ -69961,13 +69961,12 @@ var Learning = function Learning(_ref) {
   }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(example.content))), hasLesson && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_LessonLearn__WEBPACK_IMPORTED_MODULE_4__["LessonLearn"], _extends({}, lesson, {
     show: toggleLesson
   })))));
-};
+});
 Learning.propTypes = {
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
   }),
-  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     buttonTitle: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     header: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -69978,7 +69977,8 @@ Learning.propTypes = {
     title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     category: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     duration: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  })
+  }),
+  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 Learning.defaultProps = {
   tooltip: {},
@@ -75032,24 +75032,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CultureRules", function() { return CultureRules; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @components/tooltip/Tooltip */ "./node_modules/great-styles/dist/components/tooltip/Tooltip.js");
 /* harmony import */ var _components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
- // import PropTypes from 'prop-types'
 
 
 
 
-var CultureRules = function CultureRules(params) {
+var CultureRules = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (params) {
   var tooltip = params.tooltip;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m m-b-xs"
   }, "Culture and rules in your target market"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Every country will have different rules you have stick by whilst you are visiting."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Record any rules or information you need to conduct business in your target market."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_tooltip_Tooltip__WEBPACK_IMPORTED_MODULE_2__["Tooltip"], _extends({}, tooltip, {
     className: "inline-block"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], params));
+});
+CultureRules.propTypes = {
+  params: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      cultural_information: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      travel_information: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    })),
+    formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      field_type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+      placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    })).isRequired,
+    tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    }).isRequired)
+  })
 };
 
 /***/ }),
@@ -75066,10 +75086,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlannedTravel", function() { return PlannedTravel; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-/* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
-/* harmony import */ var _Trips__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Trips */ "./react-components/src/components/TravelPlan/PlannedTravel/Trips.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
+/* harmony import */ var _Trips__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Trips */ "./react-components/src/components/TravelPlan/PlannedTravel/Trips.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -75096,13 +75118,13 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
- // import PropTypes from 'prop-types'
 
 
 
 
 
-var PlannedTravel = function PlannedTravel(_ref) {
+
+var PlannedTravel = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var formData = _ref.formData,
       companyexportplan = _ref.companyexportplan,
       lesson = _ref.lesson,
@@ -75120,13 +75142,13 @@ var PlannedTravel = function PlannedTravel(_ref) {
       model_name: model_name,
       note: ''
     };
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(_objectSpread({}, newTrip), 'POST').then(function (data) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage(_objectSpread({}, newTrip), 'POST').then(function (data) {
       return setTrips([].concat(_toConsumableArray(trips), [data]));
     })["catch"](function () {});
   };
 
   var deleteTrip = function deleteTrip(id) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage({
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage({
       model_name: model_name,
       pk: id
     }, 'DELETE').then(function () {
@@ -75137,12 +75159,12 @@ var PlannedTravel = function PlannedTravel(_ref) {
   };
 
   var update = function update(field, value) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(_objectSpread(_objectSpread({
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage(_objectSpread(_objectSpread({
       model_name: model_name
     }, field), value), 'PATCH').then(function () {})["catch"](function () {});
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
 
   var onChange = function onChange(id, value) {
     value = {
@@ -75161,35 +75183,37 @@ var PlannedTravel = function PlannedTravel(_ref) {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m m-b-xs"
-  }, "Planned travel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add all your upcoming trips and important information about them in the following tool."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__["Learning"], {
+  }, "Planned travel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add all your upcoming trips and important information about them in the following tool."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_4__["Learning"], {
     tooltip: tooltip,
     lesson: lesson
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trips__WEBPACK_IMPORTED_MODULE_4__["Trips"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trips__WEBPACK_IMPORTED_MODULE_5__["Trips"], {
     formData: trips,
     deleteTrip: deleteTrip,
     onChange: onChange,
     addTrip: addTrip
   }));
-}; // FundingCreditOptions.propTypes = {
-//   formData: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       amount: PropTypes.number,
-//       companyexportplan: PropTypes.number.isRequired,
-//       funding_option: PropTypes.string,
-//       pk: PropTypes.number.isRequired,
-//     })
-//   ).isRequired,
-//   companyexportplan: PropTypes.number.isRequired,
-//   fundingCreditOptions: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     options: PropTypes.array.isRequired,
-//     placeholder: PropTypes.string.isRequired,
-//   }).isRequired,
-// }
-// FundingCreditOptions.defaultProps = {
-//   formData: [],
-// }
+});
+PlannedTravel.propTypes = {
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    note: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+    pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number
+  })),
+  companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  lesson: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    category: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    duration: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
+  model_name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
+PlannedTravel.defaultProps = {
+  formData: []
+};
 
 /***/ }),
 
@@ -75205,11 +75229,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Trip", function() { return Trip; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
- // import PropTypes from 'prop-types'
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
 
 
-var Trip = function Trip(_ref) {
+
+var Trip = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var id = _ref.id,
       note = _ref.note,
       _onChange = _ref.onChange,
@@ -75219,7 +75245,7 @@ var Trip = function Trip(_ref) {
     className: "border-none"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "body-l m-v-xs m-b-s"
-  }, "Trip ", index), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_1__["TextArea"], {
+  }, "Trip ", index), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__["TextArea"], {
     id: id.toString(),
     type: "text",
     label: 'label',
@@ -75242,13 +75268,14 @@ var Trip = function Trip(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-trash-alt"
   })))));
-}; // Trip.propTypes = {
-//   index: PropTypes.number.isRequired,
-//   id: PropTypes.number.isRequired,
-//   value: PropTypes.string.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   deleteFunding: PropTypes.func.isRequired,
-// }
+});
+Trip.propTypes = {
+  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  note: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  index: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  deleteTrip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
 
 /***/ }),
 
@@ -75264,11 +75291,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Trips", function() { return Trips; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Trip__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Trip */ "./react-components/src/components/TravelPlan/PlannedTravel/Trip.jsx");
- // import PropTypes from 'prop-types'
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Trip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Trip */ "./react-components/src/components/TravelPlan/PlannedTravel/Trip.jsx");
 
 
-var Trips = function Trips(_ref) {
+
+var Trips = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var formData = _ref.formData,
       onChange = _ref.onChange,
       deleteTrip = _ref.deleteTrip,
@@ -75280,7 +75309,7 @@ var Trips = function Trips(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formData.map(function (_ref2, i) {
     var pk = _ref2.pk,
         note = _ref2.note;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trip__WEBPACK_IMPORTED_MODULE_1__["Trip"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trip__WEBPACK_IMPORTED_MODULE_2__["Trip"], {
       index: i + 1,
       key: pk,
       id: pk,
@@ -75295,16 +75324,17 @@ var Trips = function Trips(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-plus-circle"
   }), "Add a trip"));
-}; // Trips.propTypes = {
-//   formData: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       pk: PropTypes.number,
-//     })
-//   ).isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   deleteTrip: PropTypes.func.isRequired,
-//   addTrip: PropTypes.func.isRequired,
-// }
+});
+Trips.propTypes = {
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    note: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    companyexportplan: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+    pk: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number
+  })).isRequired,
+  onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  deleteTrip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  addTrip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
 
 /***/ }),
 
@@ -75359,10 +75389,15 @@ var TravelPlanStats = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(functio
   }))))));
 });
 TravelPlanStats.propTypes = {
-  languages: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object.isRequired,
+  languages: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    category: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    duration: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  }).isRequired,
   tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    heading: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    description: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+    title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
   })
 };
 
@@ -75380,8 +75415,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VisaInformation", function() { return VisaInformation; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_components_hooks_useUpdateExportPlan_useUpdateExportPlan__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useUpdateExportPlan/useUpdateExportPlan */ "./react-components/src/components/hooks/useUpdateExportPlan/useUpdateExportPlan.jsx");
+/* harmony import */ var _src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/TextArea */ "./react-components/src/components/Form/TextArea/index.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -75395,18 +75439,45 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
- // import PropTypes from 'prop-types'
 
 
-var VisaInformation = function VisaInformation(params) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+
+
+var VisaInformation = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var formData = _ref.formData,
+      formFields = _ref.formFields,
+      name = _ref.name,
+      field = _ref.field,
+      travel_advice_link = _ref.travel_advice_link;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
       _useState2 = _slicedToArray(_useState, 2),
-      needVisa = _useState2[0],
-      setNeedVisa = _useState2[1];
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(Boolean(formData.visa_required) || false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      needVisa = _useState4[0],
+      setNeedVisa = _useState4[1];
+
+  var _useUpdateExportPlan = Object(_src_components_hooks_useUpdateExportPlan_useUpdateExportPlan__WEBPACK_IMPORTED_MODULE_2__["useUpdateExportPlan"])(field),
+      _useUpdateExportPlan2 = _slicedToArray(_useUpdateExportPlan, 1),
+      update = _useUpdateExportPlan2[0];
 
   var onNeedVisaChange = function onNeedVisaChange(event) {
-    var value = event.target.value;
-    setNeedVisa(value === 'true' ? true : false);
+    var value = event.target.value === 'true' ? true : false;
+
+    var visaRequired = _defineProperty({}, field, _defineProperty({}, name, {
+      visa_required: value
+    }));
+
+    setNeedVisa(value);
+    update(visaRequired);
+  };
+
+  var _onChange2 = function onChange(value, data) {
+    setState(_objectSpread(_objectSpread({}, state), data));
+    update(value);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75414,8 +75485,10 @@ var VisaInformation = function VisaInformation(params) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-s m-b-xs"
   }, "Visa information"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Find out if you need a visa for your trip using gov.uk", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/"
-  }, "Foreign Travel Advice"), " service. If you do, you'll be able to add the details here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    href: travel_advice_link,
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "Foreign Travel Advice"), ' ', "service. If you do, you'll be able to add the details here."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "great-radio m-b-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     id: "need-visa-false",
@@ -75447,9 +75520,34 @@ var VisaInformation = function VisaInformation(params) {
     className: "great-radio__label"
   }, "I need a visa")), needVisa && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "g-panel g-panel--radio m-b-s"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_1__["FormElements"], _extends({}, params, {
-    formGroupClassName: "form-group--small"
-  }))));
+  }, formFields.map(function (item, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_3__["TextArea"], _extends({
+      key: index
+    }, item, {
+      onChange: function onChange(data) {
+        _onChange2(_defineProperty({}, field, _defineProperty({}, name, data)), data);
+      },
+      value: state[item.name] ? state[item.name] : ''
+    }));
+  })));
+});
+VisaInformation.propTypes = {
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    how_long: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    how_where_visa: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    notes: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    visa_required: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
+  }).isRequired,
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    field_type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  })).isRequired,
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  travel_advice_link: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
 };
 
 /***/ }),
@@ -77348,14 +77446,12 @@ var travelPlanCultureRules = function travelPlanCultureRules(_ref2) {
   var element = _ref2.element,
       params = _objectWithoutProperties(_ref2, ["element"]);
 
-  // debugger
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_TravelPlan_CultureRules_CultureRules__WEBPACK_IMPORTED_MODULE_4__["CultureRules"], params), element);
 };
 var travelPlanVisaInformation = function travelPlanVisaInformation(_ref3) {
   var element = _ref3.element,
       params = _objectWithoutProperties(_ref3, ["element"]);
 
-  debugger;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_TravelPlan_VisaInformation_VisaInformation__WEBPACK_IMPORTED_MODULE_5__["VisaInformation"], params), element);
 };
 var plannedTravel = function plannedTravel(_ref4) {
