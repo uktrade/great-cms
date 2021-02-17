@@ -358,16 +358,12 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
 
 class PDFDownload(View):
+
     def get(self, request, *args, **kwargs):
         context = {'export_plan': request.user.export_plan.data}
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
-        if pdf:
-            response = HttpResponse(pdf, content_type='application/pdf')
-            filename = 'export_plan.pdf'
-            content = f'inline; filename={filename}'
-            download = request.GET.get('download')
-            if download:
-                content = f'attachment; filename={filename}'
-            response['Content-Disposition'] = content
-            return response
-        return HttpResponse('Not found')
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = 'export_plan.pdf'
+        content = f'inline; filename={filename}'
+        response['Content-Disposition'] = content
+        return response
