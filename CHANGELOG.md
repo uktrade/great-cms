@@ -1,6 +1,8 @@
 # Changelog
 
 ## Pre-release
+### Fixed bugs
+- NO TICKET - add document-link back in as rich-text option
 
 ### Implemented enhancements
 - GP2-1440 - Ranking calculation for case study
