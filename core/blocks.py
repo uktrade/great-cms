@@ -5,8 +5,9 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
-from core.constants import RICHTEXT_FEATURES__MINIMAL
+from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
 from core.utils import (
+    get_most_ranked_case_study,
     get_personalised_case_study_orm_filter_args,
     get_personalised_choices,
 )
@@ -247,13 +248,13 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
             return context
 
         hs_code, country, region = get_personalised_choices(context['export_plan'])
-
         filter_args = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
+
         queryset = models.CaseStudy.objects.all()
         for filter_arg in filter_args:
-            case_study = queryset.filter(**filter_arg)
-            if case_study.exists():
-                context['case_study'] = case_study.distinct().latest()
+            cs_queryset = queryset.filter(**filter_arg)
+            if cs_queryset.exists():
+                context['case_study'] = get_most_ranked_case_study(cs_queryset=cs_queryset, context=context)
                 break
 
         return context
@@ -359,3 +360,44 @@ class PullQuoteBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'fa-quote-left'
+
+
+class PerformanceDashboardDataBlock(blocks.StructBlock):
+
+    data_title = blocks.CharBlock(max_length=100)
+    data_value = blocks.CharBlock(max_length=100)
+    data_period = blocks.CharBlock(max_length=100)
+    data_description = blocks.RichTextBlock(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
+
+    class Meta:
+        template = 'domestic/blocks/performance_dash_data_block.html'
+
+
+class LinkWithImageAndContentBlock(blocks.StructBlock):
+    source = blocks.CharBlock(help_text='The source or the type of the link, e.g. GOV.UK/Advice')
+    text = blocks.CharBlock()
+    url = blocks.CharBlock()  # not a URL block to allow relative links
+    image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
+    content = blocks.RichTextBlock()
+
+
+class VideoChooserBlock(AbstractMediaChooserBlock):
+    def render_basic(self, value, context=None):
+        """We don't need any HTML rendering"""
+        if not value:
+            return ''
+        return value.file.url
+
+
+class CampaignBlock(blocks.StructBlock):
+    heading = blocks.CharBlock()
+    subheading = blocks.CharBlock()
+    related_link_text = blocks.CharBlock()
+    related_link_url = blocks.CharBlock()
+    image = ImageChooserBlock()
+    video = VideoChooserBlock()
+
+    class Meta:
+        icon = 'media'

@@ -4,9 +4,9 @@
 
     {% if page.article_image %}
         {% comment "This is the case for ArticlePage children" %} note we use page.title here, not page.article_title {% endcomment %}
-        {% include 'components/card.html' with url=page.url page_image=page.article_image title=page.title %}
+        {% include 'components/card.html' with url=page.url card_image=page.article_image title=page.title %}
     {% else %}
-        {% include 'components/card.html' with url=page.url page_image=page.hero_image title=page.landing_page_title|default:page.title %}
+        {% include 'components/card.html' with url=page.url card_image=page.hero_image title=page.landing_page_title|default:page.title %}
     {% endif %}
 
   </div>

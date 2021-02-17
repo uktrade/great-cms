@@ -797,10 +797,12 @@ class DetailPage(CMSGenericPage):
             # a child of another page type...
             page_topic_helper = PageTopicHelper(self)
             next_lesson = page_topic_helper.get_next_lesson()
+            context['current_lesson'] = self
             context['current_module'] = page_topic_helper.module
             if page_topic_helper:
                 topic_page = page_topic_helper.get_page_topic()
                 if topic_page:
+                    context['current_topic'] = topic_page
                     context['page_topic'] = topic_page.title
 
             if next_lesson:
@@ -860,7 +862,6 @@ class PersonalisationHSCodeTag(TagBase):
 class PersonalisationCountryTag(TagBase):
     """Custom tag for personalisation.
     Tag value will be an ISO-2 Country code ('DE')
-    _OR_ a geographical string ('Europe')
     """
 
     # free_tagging = False  # DISABLED until tag data only comes via data migration
@@ -868,6 +869,30 @@ class PersonalisationCountryTag(TagBase):
     class Meta:
         verbose_name = 'Country tag for personalisation'
         verbose_name_plural = 'Country tags for personalisation'
+
+
+class PersonalisationRegionTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be a geographical string ('Europe')
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Region tag for personalisation'
+        verbose_name_plural = 'Region tags for personalisation'
+
+
+class PersonalisationTradingBlocTag(TagBase):
+    """Custom tag for personalisation.
+    Tag value will be an Trading blocs
+    """
+
+    # free_tagging = False  # DISABLED until tag data only comes via data migration
+
+    class Meta:
+        verbose_name = 'Trading bloc tag for personalisation'
+        verbose_name_plural = 'Trading bloc tags for personalisation'
 
 
 # If you're wondering what's going on here:
@@ -886,6 +911,22 @@ class CountryTaggedCaseStudy(ItemBase):
         PersonalisationCountryTag, related_name='country_tagged_case_studies', on_delete=models.CASCADE
     )
     content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='country_tagged_items')
+
+
+class RegionTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationRegionTag, related_name='region_tagged_case_studies', on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(to='core.CaseStudy', on_delete=models.CASCADE, related_name='region_tagged_items')
+
+
+class TradingBlocTaggedCaseStudy(ItemBase):
+    tag = models.ForeignKey(
+        PersonalisationTradingBlocTag, related_name='trading_bloc_tagged_case_studies', on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to='core.CaseStudy', on_delete=models.CASCADE, related_name='trading_bloc_tagged_items'
+    )
 
 
 def _high_level_validation(value, error_messages):
@@ -1035,6 +1076,12 @@ class CaseStudy(ClusterableModel):
     country_code_tags = ClusterTaggableManager(
         through='core.CountryTaggedCaseStudy', blank=True, verbose_name='Country tags'
     )
+    region_code_tags = ClusterTaggableManager(
+        through='core.RegionTaggedCaseStudy', blank=True, verbose_name='Region tags'
+    )
+    trading_bloc_code_tags = ClusterTaggableManager(
+        through='core.TradingBlocTaggedCaseStudy', blank=True, verbose_name='Trading bloc tags'
+    )
 
     created = CreationDateTimeField('created', null=True)
     modified = ModificationDateTimeField('modified', null=True)
@@ -1053,6 +1100,8 @@ class CaseStudy(ClusterableModel):
             [
                 FieldPanel('hs_code_tags'),
                 FieldPanel('country_code_tags'),
+                FieldPanel('region_code_tags'),
+                FieldPanel('trading_bloc_code_tags'),
             ],
             heading='Case Study tags for Personalisation',
         ),
@@ -1236,7 +1285,7 @@ class CaseStudyScoringSettings(BaseSetting):
         decimal_places=3,
         max_digits=5,
     )
-    other_topics_tags = models.DecimalField(
+    other_topic_tags = models.DecimalField(
         help_text='This is the score we deduct for a case study should it have an association at '
         'this level in our information architecture',
         default=-0.25,
