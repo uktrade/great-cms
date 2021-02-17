@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import { Trip } from './Trip'
 
-export const Trips = ({ formData, onChange, deleteTrip, addTrip }) => {
+export const Trips = memo(({ formData, onChange, deleteTrip, addTrip }) => {
   return (
     <>
       {formData.length !== 0 && (
@@ -33,15 +33,17 @@ export const Trips = ({ formData, onChange, deleteTrip, addTrip }) => {
       </button>
     </>
   )
-}
+})
 
-// Trips.propTypes = {
-//   formData: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       pk: PropTypes.number,
-//     })
-//   ).isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   deleteTrip: PropTypes.func.isRequired,
-//   addTrip: PropTypes.func.isRequired,
-// }
+Trips.propTypes = {
+  formData: PropTypes.arrayOf(
+    PropTypes.shape({
+      note: PropTypes.string,
+      companyexportplan: PropTypes.number,
+      pk: PropTypes.number,
+    })
+  ).isRequired,
+  onChange: PropTypes.func.isRequired,
+  deleteTrip: PropTypes.func.isRequired,
+  addTrip: PropTypes.func.isRequired,
+}
