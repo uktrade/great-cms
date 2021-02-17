@@ -1,0 +1,58 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load breadcrumbs from component_tags %}
+
+{% block sharing_metadata %}{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/contact.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    {% block breadcrumbs %}
+        <div class="container">
+            {% breadcrumbs 'Contact' %}
+                <a href="/">great.gov.uk</a>
+                <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+            {% endbreadcrumbs %}
+        </div>
+    {% endblock %}
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" class="{% block form_class %}lg-2{% endblock %}" autocomplete="on">
+            <div class="exred-triage-form">
+                {% block step_title_container %}
+                    <h1 class="heading-xlarge">{% block step_title %}{% endblock %}</h1>
+                {% endblock %}
+                {% csrf_token %}
+                <div class="{% block form_contents_class %}{% endblock %}">
+                {% block extra_contents %}{% endblock %}
+                    <div class="input-field-container">
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                            {{ wizard.form.management_form }}
+                            {% for form in wizard.form.forms %}
+                                 {{ form }}
+                            {% endfor %}
+                        {% else %}
+                            {{ form }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if wizard.steps.step1 != wizard.steps.count %}
+                            <button type="submit" class="button button">Continue</button>
+                        {% else %}
+                            <button class="button next" type="submit">{% block submit_button_label %}Submit{% endblock %}</button>
+                        {% endif %}
+                        {% block extra_buttons %}{% endblock %}
+                    </div>
+                    {% block back_button %}
+                        {% if wizard.steps.prev %}
+                            <button name="wizard_goto_step" class="previous-step" type="submit" value="{{ wizard.steps.prev }}">Back</button>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

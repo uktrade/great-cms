@@ -1,0 +1,41 @@
+{% extends 'contact/wizard-domestic.html' %}
+
+{% load static from static %}
+{% load breadcrumbs success_box from directory_components %}
+
+{% block head_title %}{{ market_name|default:'' }} application - Selling Online Overseas -  great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/contact-selling-online-overseas.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="container">
+        {% breadcrumbs market_name %}
+            <a href="/">great.gov.uk</a>
+            <a href="{{ services_urls.soo }}">Selling Online Overseas</a>
+        {% endbreadcrumbs %}
+    </div>
+{% endblock %}
+
+{% block step_title_container %}
+{% if registration_complete %}
+    <div class="margin-bottom-60">
+        {% success_box heading="Account created" description="You can now continue with your application" %}
+    </div>
+{% endif %}
+    <h1 class="heading-xlarge width-full width-two-thirds-l">{{ market_name|default:'' }} - Application via Department for International Trade</h1>
+
+{% endblock %}
+{% block extra_contents %}
+{% if wizard.steps.prev %}
+    <button name="wizard_goto_step" class="previous-step padding-0 margin-bottom-30 margin-bottom-45-l" type="submit" value="{{ wizard.steps.prev }}">Back</button>
+{% endif %}
+<div class="step-counter mid-grey-text">Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</div>
+<h1 class="heading-large margin-top-0">{% block step_title %}{% endblock %}</h1>
+{% endblock %}
+{% block form_class %}soo-application-form step-{{ wizard.steps.step1 }} margin-bottom-90{% endblock %}
+{% block form_contents_class %}full-width width-two-thirds{% endblock %}
+{% block button_continue_label %}Save and continue{% endblock %}
+{% block back_button %}{% endblock %}

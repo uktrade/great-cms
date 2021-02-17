@@ -1,0 +1,23 @@
+{% extends 'contact/soo/base.html' %}
+
+{% load static from static %}
+{% block intro_text %}{% endblock %}
+
+{% block step_title_container %}
+    {{ block.super }}
+    <div class="width-full width-two-thirds-xl">
+        <p>Your answers to the questions below help us to decide the best way to support your business.  We've automatically used some details you gave us earlier.  You can update your details later on your account page.<br/>All fields are required unless marked as optional.</p>
+    </div>
+    <h2 class="heading-large background-stone-30 padding-15">Benefits of applying here</h3>
+    <div class="width-full width-two-thirds-xl">
+        <p>The Department for International Trade facilitates the introduction between you and the marketplace directly.</p>
+        <h4 class="heading-small">Save time</h4>
+        <p class="margin-bottom-0 margin-top-0">Your application will be 'fast tracked' through this channel, providing a direct route to the marketplace.</p>
+        <p class="margin-bottom-0 margin-top-0">Your application for this marketplace will be reviewed for suitability and we will respond to you within 5 working days.</p>
+        <h4 class="heading-small">Save money</h4>
+        <p class="margin-bottom-0 margin-top-0">If successfully matched, you may be able to get access to marketplace offers.</p>
+    </div>
+    <hr class="background-stone-30 margin-top-45 margin-bottom-45">
+{% endblock %}
+
+{% block step_title %}Your details{% endblock %}

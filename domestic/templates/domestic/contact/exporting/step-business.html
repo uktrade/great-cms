@@ -1,0 +1,81 @@
+{% extends 'contact/wizard-domestic.html' %}
+
+{% load static from static %}
+
+{% block head_title %}Your business details - great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/contact-exporting-advice-business-details.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block step_title %}Your business details{% endblock %}
+{% block extra_contents %}
+    <div id="form-step-body-text">
+        Your answers to the questions below help us to decide the best way to support your business
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'js/company-lookup.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+
+        var companyName = document.getElementById('id_business-organisation_name');
+        var companyTypeContainer = document.getElementById('id_business-company_type_0-container');
+        var companyTypeLimited = document.getElementById('id_business-company_type_0');
+        var limitedCompany = document.getElementById('id_business-company_type_0');
+        var companyTypeOther = document.getElementById('id_business-company_type_1');
+        var otherTypesContainer = document.getElementById('id_business-company_type_other-container');
+        var otherTypes = document.getElementById('id_business-company_type_other');
+        var companiesHouseInput =  document.getElementById('id_business-companies_house_number');
+        var companiesHouseInputContainer = document.getElementById('id_business-companies_house_number-container');
+        var industrySelect = document.getElementById('id_business-industry');
+        var industryOther = document.getElementById('id_business-industry_other');
+
+        GOVUK.utils.toggleRadioOtherOnClick(companyTypeOther, otherTypesContainer);
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [companyTypeContainer, companiesHouseInputContainer],
+            companyTypeOther
+        );
+        GOVUK.utils.toggleOtherOnSelect(industryOther, industrySelect);
+
+        function clearUpValuesOnTypeChange() {
+          limitedCompany.addEventListener('change', function(event) {
+            if (event.target.checked) {
+              otherTypes.value = '';
+            }
+          });
+          companyTypeOther.addEventListener('change', function(event) {
+            if (event.target.checked) {
+              companiesHouseInput.value = '';
+            }
+          })
+        }
+
+        function createCompaniesHouseLookup() {
+          $(document.body).on(
+            "click.SelectiveLookupCloseAll",
+            GOVUK.components.SelectiveLookup.closeAll
+          );
+          function maybePreventCompanyLookup(event) {
+            companyTypeOther.checked && event.stopImmediatePropagation();
+          }
+          companyName.addEventListener('keydown', maybePreventCompanyLookup);
+          companyName.addEventListener('keypress', maybePreventCompanyLookup);
+          companyName.addEventListener('keyup', maybePreventCompanyLookup);
+          companyName.addEventListener('input', maybePreventCompanyLookup);
+          return new GOVUK.components.CompaniesHouseNameLookup(
+            $(companyName),
+            $(companiesHouseInput)
+          );
+
+        }
+        createCompaniesHouseLookup();
+        clearUpValuesOnTypeChange();
+    </script>
+
+
+{% endblock %}

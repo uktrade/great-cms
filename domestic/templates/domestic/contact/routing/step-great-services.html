@@ -1,0 +1,26 @@
+{% extends 'contact/wizard-domestic.html' %}
+
+{% load static from static %}
+
+{% block head_title %}Account and services support - great.gov.uk{% endblock %}
+
+{% block step_title_container %}
+    <div id="form-step-body-text">
+        <h1 class="heading-large">great.gov.uk account and services support</h1>
+    </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var greatServicesChoiceContainer = document.getElementById('id_great-services-choice_0-container')
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [greatServicesChoiceContainer],
+            null,
+            "What services can we help you with?",
+            "heading-medium"
+        );
+    </script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% load static from staticfiles %}
+{% load add_export_elements_classes add_href_target breadcrumbs from directory_components %}
+
+{% block sharing_metadata %}{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/contact-guidance.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% breadcrumbs 'Exporting to the UK' %}
+            <a href="/">great.gov.uk</a>
+            <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+        {% endbreadcrumbs %}
+    </div>
+
+    <div class="container">
+        <section>
+            {{ page.body|add_export_elements_classes|add_href_target:request|safe }}
+        </section>
+        <p id="further-help-link">Or you can <a class="link" href="{% url 'contact-us-routing-form' step='exporting-to-uk' %}">continue to ask us a question</a>.</p>
+    </div>
+{% endblock %}

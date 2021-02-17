@@ -1,0 +1,28 @@
+{% load breadcrumbs message_box from directory_components %}
+
+<div class="container">
+    {% breadcrumbs 'Submitted' %}
+        <a href="/">great.gov.uk</a>
+        <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+    {% endbreadcrumbs %}
+</div>
+
+<section>
+  <div class="container">
+      <div class="grid-row">
+          <div class="column-two-thirds">
+              <div id="success-message-container">
+                {% message_box heading=page.heading description=page.body_text heading_level='h1' %}
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<section id="next-container" class="background-stone-30 padding-top-15-m">
+  <div class="container">
+    <h2 class="heading-large">{{ page.next_title }}</h2>
+    <p class="body-text">{{ page.next_body_text }}</p>
+    <a class="link" href="{{ next_url }}">{{ next_url_text|default:"Continue to great.gov.uk" }}</a>
+  </div>
+</section>
