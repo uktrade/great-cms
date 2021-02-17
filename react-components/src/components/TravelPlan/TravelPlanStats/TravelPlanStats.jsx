@@ -39,9 +39,14 @@ export const TravelPlanStats = memo(({ languages, tooltip }) => {
 })
 
 TravelPlanStats.propTypes = {
-  languages: PropTypes.object.isRequired,
+  languages: PropTypes.shape({
+    url: PropTypes.string,
+    title: PropTypes.string,
+    category: PropTypes.string,
+    duration: PropTypes.string,
+  }).isRequired,
   tooltip: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    content: PropTypes.string.isRequired,
   }),
 }
