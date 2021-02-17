@@ -1,0 +1,12 @@
+{% extends 'contact/wizard-domestic.html' %}
+
+{% load static from static %}
+
+{% block step_title %}{% endblock %}
+{% block extra_contents %}
+    <div id="form-step-body-text">
+        <h1 class="heading-large">What would you enquiry about?</h1>
+    </div>
+{% endblock %}
+
+{% block form_class %}{{ block.super }} collapse-paragraphs-spacing{% endblock %}

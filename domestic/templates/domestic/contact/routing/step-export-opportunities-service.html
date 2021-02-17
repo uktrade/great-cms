@@ -1,0 +1,24 @@
+{% extends 'contact/wizard-domestic.html' %}
+
+{% load static from static %}
+{% block head_title %}Export opportunities service - great.gov.uk{% endblock %}
+{% block step_title_container %}
+    <div id="form-step-body-text">
+        <h1 class="heading-large">Export opportunities service</h1>
+    </div>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var exportOpportunitiesChoiceContainer = document.getElementById('id_export-opportunities-choice_0-container')
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [exportOpportunitiesChoiceContainer],
+            null,
+            "How can we help with your export opportunities?",
+            "heading-medium"
+        );
+    </script>
+
+{% endblock %}

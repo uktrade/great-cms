@@ -1,0 +1,85 @@
+{% extends "core/base.html" %}
+{% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
+
+{% block head_title %}Find your local trade office - great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/office-finder.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% breadcrumbs 'Find trade office' %}
+            <a href="/">great.gov.uk</a>
+            <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+        {% endbreadcrumbs %}
+    </div>
+
+    <div class="container">
+        <section class="width-half" id="search-section">
+            <form method="get" enctype="multipart/form-data" autocomplete="on">
+                <h1 class="heading-large">Find your local trade office</h1>
+                <p>We have local trade offices based around the UK, within each office you can contact an international trade advisor.</p>
+                {{ form }}
+                <button type="submit" class="button button">Search</button>
+            </form>
+        </section>
+
+	{% if not office_details and other_offices %}
+	    <p> We couldn’t find an exact match for your postcode. You can contact a DIT office near you.</p>
+	{% endif %}
+
+        {% if office_details %}
+            <section class="width-half" id="results">
+                <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>
+                <hr>
+                <h3 class="heading-medium" id="office-name">{{ office_details.name }}</h3>
+                {{ office_details.address|linebreaks }}
+                <h3 class="heading-medium">Telephone</h3>
+                <p><a class="link" href="tel:{{ office_details.phone }}">{{ office_details.phone }}</a></p>
+                {% if office_details.phone_other %}
+                    <h3 class="heading-medium">{{ office_details.phone_other_comment }}</h3>
+                    <p><a class="link" href="tel:{{ office_details.phone_other }}">{{ office_details.phone_other }}</a></p>
+                {% endif %}
+                <br>
+                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
+            </section>
+        {% endif %}
+    </div>
+
+    <section class="container" id="other-results">
+        {% if other_offices %}
+            <div class="width-half">
+                <h2 class="heading-medium">Department for International Trade regional offices</h2>
+            </div>
+            {% for office in other_offices %}
+                <div class="grid-row">
+                    <h3 class="heading-small" id="office-name">{{ office.name }}</h3>
+
+                    <div class="column-one-quarter">
+                        {{ office.address|linebreaks }}
+                    </div>
+                    <div class="column-one-third">
+                        <h3 class="heading-small">Telephone</h3>
+                        <p><a class="link" href="tel:{{ office.phone }}">{{ office.phone }}</a></p>
+                        {% if office.phone_other %}
+                            <h3 class="heading-smal">{{ office.phone_other_comment }}</h3>
+                            <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
+                        {% endif %}
+                        <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="link">Contact {{ office.name }} office</a>
+                    </div>
+
+                </div>
+                <hr class="width-two-thirds">
+            {% endfor %}
+        {% endif %}
+    </section>
+
+    {% if office_details %}
+    <section class="container" >
+        <a href="{% url 'office-finder' %}" class="previous-step">Back</a>
+    </section>
+    {% endif %}
+{% endblock %}
