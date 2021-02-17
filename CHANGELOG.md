@@ -5,7 +5,39 @@
 - NO TICKET - add document-link back in as rich-text option
 
 ### Implemented enhancements
+- GP2-1440 - Ranking calculation for case study
+- GP2-1128 - Product Classifier - Mobile carousel
+- GP2-1551 - Seperated case study tag for trading bloc
+- GP2-1470 - Port PerformanceDashboardPage from V1
+- no-ticket - fix collectstatic errors
+- no-ticket - tidy up BAU folder structures
+- GP2-1420 - Where to export copy updates
+- GP2-1442 - Source attribution updates
+- GP2-1208 - marketing approach
+- GP2-1208 - create a hook to make endpoint, debounce, save and error state resuable
+- GP2-1449 - Product classifier responsive layout
+- GP2-1190 - Step 1 of 1 in removing wagtail-personalisation: unplug it from live code
+- GP2-1484 - Add override option for root link in breadcrumbs for ex-V1 pages
+- GP2-1177 - Getting paid - Payment methods element
+- GP2-1469 - Add table block to GuidancePage.body
+- GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
+- GP2-1439 - CMS admin UI for case study scoring
+- GP2-1344 - added trading bloc logic to search case study
 
+### Fixed bugs
+- GP2-1431 - Country chooser visual defects
+- GP2-1549 - Change text/field used for links to child Performance Dashboards
+- GP2-1446 - Increase input clear button size
+- GP2-1514 - Fix ordering when selecting most recently updatet on MarketsTopicPage
+- GP2-1482 - Handle errors in product clasification request.
+- GP2-1361 - Compare markets - align cookies to user.
+- GP2-1397 - Render HTML definitions in product classifier.
+
+## [1.3.0](https://github.com/uktrade/great-cms/releases/tag/1.3.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.2.0...1.3.0)
+
+### Implemented enhancements
 - GP2-1240 - Mark sections as complete
 - GP2-1425 - Cost and pricing - Estimate element
 - GP2-1435 - Split data retrieval on 'Where to export' data table
@@ -80,6 +112,8 @@
 - NOTICKET - upgrade admin include export plan data
 - GP2-1139 - save EP progress
 - GP2-1382 - getting paid structure be
+- NOTICKET - refactor user exportplan
+
 - GP2-1382 - getting paid structure integration
 - GP2-1199 - Mark section as complete
 
@@ -100,6 +134,8 @@
 - No ticket - Added missing population url
 - GP2-1310 - Data not loading for if made more than one country is compared
 - GP2-1067 - Fixed LessonCompleted component
+- NOTICKET - Fix getting paid bug
+- GP2-1180 - travel bus BE
 
 ## [1.0.1](https://github.com/uktrade/great-cms/releases/tag/1.0.1)
 

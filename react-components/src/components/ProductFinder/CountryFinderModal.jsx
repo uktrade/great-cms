@@ -152,7 +152,7 @@ export default function CountryFinderModal(props) {
   /*   Suggested markets section  */
   let suggestedSection = (
     <div>
-      <h3 className="h-s">Suggested markets</h3>
+      <h3 className="h-s">Suggested places</h3>
       <p className="m-v-xs">
         Add a product so that we can suggest export markets.
       </p>
@@ -180,7 +180,7 @@ export default function CountryFinderModal(props) {
     })
     suggestedSection = (
       <div className="suggested-markets">
-        <h3 className="h-s">Suggested markets</h3>
+        <h3 className="h-s">Suggested places</h3>
         <p className="m-v-xs">
           These are based on the size of the market for your product, export
           distance, tariffs and costs.
@@ -193,18 +193,17 @@ export default function CountryFinderModal(props) {
   /*   Compare markets section  */
   const compareMarketsSection = (
     <div>
-      <h3 className="h-s p-t-xs">Compare countries</h3>
+      <h3 className="h-s p-t-xs">Where to export</h3>
       <div className="grid">
         <div className="c-full">
           <p className="m-v-xs">
-            Compare stats for over 180 countries to find the best place to target
-            your exports.
+            Compare data for different places to make an informed choice about where to export.
           </p>
           <a
             href="/where-to-export/"
             className="button button--secondary"
           >
-            Compare Markets
+            Compare places
           </a>
         </div>
       </div>
@@ -214,7 +213,7 @@ export default function CountryFinderModal(props) {
   /* Filtered list of markets */
   const marketListSection = (
     <div>
-      <h3 className="h-s p-t-xs">List of markets</h3>
+      <h3 className="h-s p-t-xs">List of places</h3>
       <p className="m-v-xs">
         If you have an idea of where you want to export, choose from the list
         below. <br />
@@ -222,7 +221,7 @@ export default function CountryFinderModal(props) {
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
-          <SearchInput onChange={searchChange} iconClass="fa-search"/>
+          <SearchInput onChange={searchChange} iconClass="fa-search" placeholder="Search markets"/>
         </div>
       </div>
       <div className="grid">
@@ -250,15 +249,15 @@ export default function CountryFinderModal(props) {
         <div>
           <h2 className="h-l m-t-s p-b-xs">
             {!isCompareCountries
-              ? 'Choose a target market'
-              : 'Choose markets for comparison'
+              ? 'Choose a place'
+              : 'Choose a place to compare'
             }
           </h2>
         </div>
         <p>
           {!isCompareCountries
             ? 'There are 3 ways to choose a target export market'
-            : 'There are 2 ways to choose a market for comparison'
+            : 'There are 2 ways to choose a place to compare'
           }
         </p>
         <button
@@ -266,7 +265,7 @@ export default function CountryFinderModal(props) {
           className="button button--secondary button--full-width m-b-s"
           onClick={() => setMobilePage('suggested')}
         >
-          Suggested markets
+          Suggested places
         </button>
         {!isCompareCountries && (
           <button
@@ -274,7 +273,7 @@ export default function CountryFinderModal(props) {
             className="button button--secondary button--full-width m-b-s"
             onClick={() => setMobilePage('compare')}
           >
-            Compare markets
+            Compare places
           </button>
         )}
         <button
@@ -282,7 +281,7 @@ export default function CountryFinderModal(props) {
           className="button button--secondary button--full-width m-b-s"
           onClick={() => setMobilePage('list')}
         >
-          List of markets
+          List of places
         </button>
       </div>
     ),
@@ -304,7 +303,7 @@ export default function CountryFinderModal(props) {
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
       >
-        <div className="country-finder">
+        <div className="country-finder text-blue-deep-80">
           <div
             className={`scroll-area m-t-0 ${scrollerClass}`}
             onScroll={onScroll}
@@ -325,10 +324,7 @@ export default function CountryFinderModal(props) {
               <div className="only-desktop">
                 <div>
                   <h2 className="h-l m-t-s p-b-xs">
-                    {isCompareCountries
-                      ? 'Choose markets for comparison'
-                      : 'Choose a target market'
-                    }
+                    Choose a place
                   </h2>
                 </div>
                 {suggestedSection}

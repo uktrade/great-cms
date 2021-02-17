@@ -46,7 +46,7 @@ const mockResponse = {
           id: 'attrId2',
           name: 'name_2',
           value: 'false',
-          def: 'definition text'
+          def: 'definition text<br>on two lines'
         }
       ]
     }
@@ -134,7 +134,7 @@ describe('Product finder tests', () => {
     const definitionExpanders = finder.querySelectorAll('button.info')
     expect(definitionExpanders.length).toEqual(1)
     const panel = definitionExpanders[0].closest('label').querySelector('.g-panel') 
-    expect(panel.textContent).toMatch('definition text')
+    expect(panel.textContent).toMatch(/^definition texton two lines$/)
   })
 
   it('Back-tracks search', async () => {

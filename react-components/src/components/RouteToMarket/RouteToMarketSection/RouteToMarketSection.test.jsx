@@ -140,22 +140,20 @@ describe('RouteToMarketSection', () => {
 
   describe('Select', () => {
     it('Should have selected values', () => {
-      const { getAllByPlaceholderText } = setup({ ...props })
-      const input = getAllByPlaceholderText('Select one')
-      expect(input[0].value).toEqual('Joint ventures')
-      expect(input[1].value).toEqual('')
+      const { container } = setup({ ...props })
+      const selected = container.getElementsByClassName('select__placeholder')
+      expect(selected[0].textContent).toEqual('Joint ventures')
     })
 
     describe('Should have no selected values', () => {
       it('field empty', () => {
-        const { getAllByPlaceholderText } = setup({ ...props, field: {} })
-        const input = getAllByPlaceholderText('Select one')
-        expect(input[0].value).toEqual('')
-        expect(input[1].value).toEqual('')
+        const { container } = setup({ ...props, field: {} })
+        const selected = container.getElementsByClassName('select__placeholder')
+        expect(selected[0].textContent).toEqual('Select one')
       })
 
       it('field has inconsistent data', () => {
-        const { getAllByPlaceholderText } = setup({
+        const { container } = setup({
           ...props,
           field: {
             route: 'JOINT',
@@ -165,9 +163,8 @@ describe('RouteToMarketSection', () => {
             pk: 48,
           },
         })
-        const input = getAllByPlaceholderText('Select one')
-        expect(input[0].value).toEqual('')
-        expect(input[1].value).toEqual('')
+        const selected = container.getElementsByClassName('select__placeholder')
+        expect(selected[0].textContent).toEqual('Select one')
       })
     })
   })
