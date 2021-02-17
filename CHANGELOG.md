@@ -27,6 +27,7 @@
 - GP2-1424 - Cost and pricing page - local taxes section
 - GP2-1423 - Cost and pricing page - content change
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+- GP2-1405 - pdf EP Initial boiler plate creation
 
 ### Fixed bugs
 - GP2-1514 - Fix ordering when selecting most recently updatet on MarketsTopicPage

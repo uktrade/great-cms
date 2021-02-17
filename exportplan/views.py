@@ -2,10 +2,10 @@ import json
 from datetime import datetime
 
 import sentry_sdk
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
@@ -15,6 +15,7 @@ from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import data, forms, helpers, serializers
+from exportplan.utils import render_to_pdf
 
 
 class ExportPlanMixin:
@@ -370,3 +371,19 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+
+
+class PDFDownload(View):
+    def get(self, request, *args, **kwargs):
+        context = {'export_plan': request.user.export_plan.data}
+        pdf = render_to_pdf('exportplan/pdf_download.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "export_plan.pdf"
+            content = f"inline; filename={filename}"
+            download = request.GET.get("download")
+            if download:
+                content = f"attachment; filename={filename}"
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")

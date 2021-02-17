@@ -341,6 +341,14 @@ def test_getting_paid(export_plan_data, client, user):
 
 
 @pytest.mark.django_db
+def test_download_export_plan(client, user):
+    url = reverse('exportplan:pdf-download')
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_funding_and_credit(export_plan_data, client, user):
     url = reverse('exportplan:funding-and-credit')
     client.force_login(user)

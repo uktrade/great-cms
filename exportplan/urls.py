@@ -71,6 +71,7 @@ urlpatterns = [
     path(
         'service-page/', login_required(views.ExportPlanServicePage.as_view(), login_url=LOGIN_URL), name='service-page'
     ),
+    path('pdf-download/', login_required(views.PDFDownload.as_view(), login_url=LOGIN_URL), name='pdf-download'),
     path(
         'api/recommended-countries/',
         login_required(skip_ga360(api.ExportPlanRecommendedCountriesDataView.as_view()), login_url=LOGIN_URL),
