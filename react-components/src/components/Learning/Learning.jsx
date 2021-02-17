@@ -5,7 +5,7 @@ import ReactHtmlParser from 'react-html-parser'
 import { Tooltip } from '@components/tooltip/Tooltip'
 import { LessonLearn } from '@src/components/LessonLearn'
 
-export const Learning = ({ tooltip, example, lesson, className }) => {
+export const Learning = memo(({ tooltip, example, lesson, className }) => {
   const [toggleExample, setToggleExample] = useState(false)
   const [toggleLesson, setToggleLesson] = useState(false)
   const hasLesson = Object.keys(lesson).length > 0
@@ -76,14 +76,13 @@ export const Learning = ({ tooltip, example, lesson, className }) => {
       )}
     </>
   )
-}
+})
 
 Learning.propTypes = {
   tooltip: PropTypes.shape({
     content: PropTypes.string,
     title: PropTypes.string,
   }),
-  className: PropTypes.string,
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
@@ -95,6 +94,7 @@ Learning.propTypes = {
     category: PropTypes.string,
     duration: PropTypes.string,
   }),
+  className: PropTypes.string,
 }
 
 Learning.defaultProps = {
