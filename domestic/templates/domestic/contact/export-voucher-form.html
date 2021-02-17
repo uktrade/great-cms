@@ -1,6 +1,6 @@
-{% extends "core/base.html" %}
-{% load breadcrumbs from directory_components %}
-{% load static from staticfiles %}
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load breadcrumbs from component_tags %}
 
 {% block head_css %}
     {{ block.super }}

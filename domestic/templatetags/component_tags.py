@@ -208,3 +208,17 @@ def pagination(context, pagination_page, page_param_name='page'):
         'url': pagination_url,
         'pages_after_current': paginator.num_pages - pagination_page.number,
     }
+
+
+@register.inclusion_tag('components/message_box.html')
+def message_box(**kwargs):
+    return kwargs
+
+
+@register.inclusion_tag('components/message_box_with_icon.html')
+def success_box(**kwargs):
+    return {
+        'icon': '✓',
+        'heading_level': 'h3',
+        **kwargs,
+    }
