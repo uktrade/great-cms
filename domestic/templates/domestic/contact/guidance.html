@@ -1,6 +1,6 @@
-{% extends "core/base.html" %}
-{% load static from staticfiles %}
-{% load add_export_elements_classes add_href_target breadcrumbs from directory_components %}
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load breadcrumbs from component_tags %}
 
 {% block sharing_metadata %}{% endblock %}
 {% block head_title %}{{page.title}} - great.gov.uk{% endblock %}
@@ -17,8 +17,8 @@
         {% endbreadcrumbs %}
     </div>
     <div class="container">
-        <section>
-            {{ page.body|add_export_elements_classes|add_href_target:request|safe }}
+        <section class="rich-text">
+            {{ page.body|safe }}
         </section>
         <p id="further-help-link">Still need help? <a class="link" href="{% url 'contact-us-domestic' %}">Submit an enquiry</a></p>
     </div>

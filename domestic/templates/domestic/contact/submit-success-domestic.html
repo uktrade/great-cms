@@ -1,5 +1,5 @@
-{% extends "core/base.html" %}
-{% load static from staticfiles %}
+{% extends 'domestic/base.html' %}
+{% load static %}
 
 {% block head_css %}
     {{ block.super }}
@@ -7,5 +7,5 @@
 {% endblock %}
 
 {% block content %}
-  {% include 'contact/submit-success-content.html' %}
+  {% include 'domestic/contact/submit-success-content.html' %}
 {% endblock %}
