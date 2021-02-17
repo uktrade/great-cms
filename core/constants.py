@@ -20,6 +20,7 @@ RICHTEXT_FEATURES__REDUCED = [
     'ul',
     'hr',
     'link',
+    'document-link',  #  to allow links to Wagtail-held documents
     # 'blockquote', # NOT used - use a PullQuoteBlock in a StreamField, or similar
 ]
 
