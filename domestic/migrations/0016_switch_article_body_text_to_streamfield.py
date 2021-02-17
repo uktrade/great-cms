@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                     (
                         'text',
                         wagtail.core.blocks.RichTextBlock(
-                            features=('h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr', 'link')
+                            features=('h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr', 'link', 'document-link')
                         ),
                     ),
                     (

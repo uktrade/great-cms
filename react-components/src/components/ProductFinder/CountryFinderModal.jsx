@@ -221,7 +221,7 @@ export default function CountryFinderModal(props) {
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
-          <SearchInput onChange={searchChange} iconClass="fa-search"/>
+          <SearchInput onChange={searchChange} iconClass="fa-search" placeholder="Search markets"/>
         </div>
       </div>
       <div className="grid">
@@ -303,7 +303,7 @@ export default function CountryFinderModal(props) {
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
       >
-        <div className="country-finder">
+        <div className="country-finder text-blue-deep-80">
           <div
             className={`scroll-area m-t-0 ${scrollerClass}`}
             onScroll={onScroll}
