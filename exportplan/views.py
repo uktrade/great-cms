@@ -155,7 +155,7 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
         context['demographic_data'] = helpers.get_global_demographic_data(
-            self.request.user.export_plan.data['export_countries'][0]['country_name']
+            self.request.user.export_plan.export_country_name
         )
         context['selected_age_groups'] = (
             self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
