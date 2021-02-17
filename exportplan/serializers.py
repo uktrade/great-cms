@@ -210,7 +210,6 @@ class GettingPaidSerializer(serializers.Serializer):
 
 
 class TravelBusinessPoliciesSerializer(serializers.Serializer):
-
     class VisaInformationSerializer(serializers.Serializer):
         visa_required = serializers.BooleanField(required=False)
         how_where_visa = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
