@@ -11,7 +11,7 @@ Create a travel plan that will help you prepare everything you need for your upc
   <i class="fas fa-info-circle fa-lg"></i>
   <h3 class="h-s p-t-xs">COVID-19 travel guidance</h3>
   <p>
-    View the latest guidance for British people travelling overseas during the coronavirus (COVID-19) pandemic
+    <a href={{ travel_advice_covid19 }} target="_blank" rel="noopener noreferrer">View the latest guidance</a> for British people travelling overseas during the coronavirus (COVID-19) pandemic
   </p>
 </div>
 <div class="g-panel m-b-s">
@@ -135,26 +135,28 @@ Create a travel plan that will help you prepare everything you need for your upc
   magna.travelPlanVisaInformation({
     element: document.getElementById('visa-information'),
     field: 'travel_business_policies',
-    formData: {{ travel_visa_information|to_json|safe }},
+    name: "visa_information",
+    formData: {{ travel_business_policies.visa_information|to_json|safe }},
+    travel_advice_link: "{{ travel_advice_foreign }}",
     formFields: [
-      {
-        name: "visa_required"
-      },
       {
         field_type: "Textarea",
         label: "How and where will you get your visa",
-        name: "visa_how_where",
+        id: "how_where_visa",
+        name: "how_where_visa",
         placeholder: "Add some text",
       },
       {
         field_type: "Text",
         label: "How long will it last",
-        name: "visa_length",
+        id: "how_long",
+        name: "how_long",
         placeholder: "",
       },
       {
         field_type: "Textarea",
         label: "Add notes",
+        id: "notes",
         name: "notes",
         placeholder: "Add some text",
       },
