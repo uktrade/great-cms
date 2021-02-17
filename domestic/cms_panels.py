@@ -18,6 +18,53 @@ ACCORDION_FIELDS_HELP_TEXT = (
 )
 
 
+class GreatDomesticHomePagePanels:
+
+    content_panels = [
+        FieldPanel('title'),
+        MultiFieldPanel(
+            heading='Hero',
+            classname='collapsible',
+            children=[
+                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_text'),
+                FieldPanel('hero_cta_text'),
+                FieldPanel('hero_cta_url'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='How DIT helps',
+            classname='collapsible',
+            children=[FieldPanel('how_dit_helps_title'), StreamFieldPanel('how_dit_helps_columns')],
+        ),
+        MultiFieldPanel(
+            heading='Export goods from the UK',
+            classname='collapsible',
+            children=[
+                FieldPanel('madb_title'),
+                ImageChooserPanel('madb_image'),
+                FieldPanel('madb_content'),
+                FieldPanel('madb_cta_text'),
+                FieldPanel('madb_cta_url'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading="What's new",
+            classname='collapsible',
+            children=[
+                StreamFieldPanel('campaign'),
+                FieldPanel('what_is_new_title'),
+                StreamFieldPanel('what_is_new_pages'),
+            ],
+        ),
+        SearchEngineOptimisationPanel(),
+    ]
+
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
+
+
 class ArticleListingPagePanels:
 
     content_panels = [
@@ -386,4 +433,22 @@ class GuidancePagePanels:
             ),
         ),
         FieldPanel('slug'),
+    ]
+
+
+class PerformanceDashboardPagePanels:
+
+    content_panels = [
+        MultiFieldPanel(
+            heading='Heading and description',
+            children=[
+                FieldPanel('description'),
+                FieldPanel('product_link'),
+            ],
+        ),
+        StreamFieldPanel(
+            'body',
+            heading='Data columns',
+        ),
+        FieldPanel('guidance_notes'),
     ]

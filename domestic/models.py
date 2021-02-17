@@ -9,13 +9,13 @@ from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.core.blocks.field_block import RichTextBlock
-from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins
+from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins, service_urls
 from core.constants import (
     ARTICLE_TYPES,
     RICHTEXT_FEATURES__REDUCED,
@@ -23,6 +23,7 @@ from core.constants import (
     TABLEBLOCK_OPTIONS,
     VIDEO_TRANSCRIPT_HELP_TEXT,
 )
+from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from directory_constants import choices
@@ -88,6 +89,10 @@ class DomesticHomePage(
     mixins.AnonymousUserRequired,
     Page,
 ):
+    # Note that this is was the original homepage for Magna/V2 MPV.
+    # The V1 homepage model has been ported/re-implemented further down,
+    # as GreatDomesticHomePage.
+    # This DomesticHomePage class will likely be removed
 
     body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
@@ -150,6 +155,98 @@ class DomesticDashboard(
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
+
+
+class GreatDomesticHomePage(cms_panels.GreatDomesticHomePagePanels, BaseContentPage):
+    """This is the main homepge for Great.gov.uk, ported and adapted from V1
+
+    It will eventually replace DomesticHomePage (above) in usage.
+    """
+
+    template = 'domestic/landing_page.html'
+
+    # hero
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_text = models.TextField(null=True, blank=True)
+    hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
+    hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
+
+    # EU exit chevrons StreamField WAS here in V1 - no longer the case
+
+    # how DIT helps
+    how_dit_helps_title = models.TextField(null=True, blank=True)
+    how_dit_helps_columns = single_struct_block_stream_field_factory(
+        field_name='columns',
+        block_class_instance=core_blocks.LinkWithImageAndContentBlock(),
+        max_num=3,
+        null=True,
+        blank=True,
+    )
+
+    # Market access database
+    madb_title = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Title',
+    )
+    madb_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Image',
+        #
+    )
+    # equivalent of madb_image_alt field's now provided by core.AltTextImage
+
+    madb_content = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+        verbose_name='Content',
+    )
+    madb_cta_text = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='CTA text',
+    )
+    madb_cta_url = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='CTA URL',
+    )
+
+    # what's new
+    what_is_new_title = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    what_is_new_pages = single_struct_block_stream_field_factory(
+        field_name='pages',
+        block_class_instance=core_blocks.LinkWithImageAndContentBlock(),
+        max_num=6,
+        null=True,
+        blank=True,
+    )
+
+    campaign = single_struct_block_stream_field_factory(
+        field_name='campaign',
+        block_class_instance=core_blocks.CampaignBlock(),
+        max_num=1,
+        null=True,
+        blank=True,
+    )
 
 
 class TopicLandingBasePage(BaseContentPage):
@@ -963,3 +1060,103 @@ class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
             ('table', TableBlock(table_options=TABLEBLOCK_OPTIONS)),
         ]
     )
+
+
+class PerformanceDashboardPage(
+    cms_panels.PerformanceDashboardPagePanels,
+    BaseContentPage,
+):
+    template = 'domestic/performance_dashboard_page.html'
+
+    subpage_types = [
+        'domestic.PerformanceDashboardPage',
+        'domestic.GuidancePage',
+    ]
+
+    heading = models.CharField(max_length=255)
+    description = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
+    )
+
+    body = StreamField(
+        StreamBlock(
+            [
+                (
+                    'data_block',
+                    core_blocks.PerformanceDashboardDataBlock(),
+                ),
+            ],
+            min_num=1,
+            max_num=4,
+        )
+    )
+
+    guidance_notes = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        blank=True,
+        null=True,
+    )
+
+    landing_dashboard = models.BooleanField(
+        default=False, help_text='Will this page act as landing page for other dashboards?'
+    )
+
+    # `service_mapping` is used in conjunction with product_link to auto-populate certain data
+    service_mapping = {
+        service_urls.SERVICES_GREAT_DOMESTIC: {
+            'slug': 'performance-dashboard',
+            'heading': 'Great.gov.uk',
+            'landing_dashboard': True,
+        },
+        # the following pages MUST be created as children of the one above
+        service_urls.SERVICES_SOO: {
+            'slug_as_child': 'selling-online-overseas',
+            'heading': 'Selling Online Overseas',
+            'landing_dashboard': False,
+        },
+        service_urls.SERVICES_EXOPPS: {
+            'slug_as_child': 'export-opportunities',
+            'heading': 'Export Opportunities',
+            'landing_dashboard': False,
+        },
+        service_urls.SERVICES_FAB: {
+            'slug_as_child': 'trade-profiles',
+            'heading': 'Business Profiles',
+            'landing_dashboard': False,
+        },
+        service_urls.SERVICES_INVEST: {
+            'slug_as_child': 'invest',
+            'heading': 'Invest in Great Britain',
+            'landing_dashboard': False,
+        },
+    }
+
+    product_link = models.CharField(
+        choices=[(key, val['heading']) for key, val in service_mapping.items()],
+        max_length=255,
+        unique=True,
+        help_text=(
+            'The slug and page heading are inferred from the product '
+            'link. The first option should be the first performance '
+            'dashboard page and the rest should be used for CHILDREN of '
+            'that main dashboard.'
+        ),
+    )
+
+    def save(self, *args, **kwargs):
+        # Auto-populate certain values based on what was selected as
+        # self.product_link
+        field_values = self.service_mapping[self.product_link]
+        self.title = field_values['heading'] + ' Performance Dashboard'
+        self.heading = field_values['heading']
+        self.landing_dashboard = field_values['landing_dashboard']
+        if self.landing_dashboard:
+            self.slug = field_values['slug']
+        else:
+            self.slug = field_values['slug_as_child']
+
+        return super().save(*args, **kwargs)
+
+    def get_child_dashboards(self):
+        # Get any live, public dashboards that hang off this page
+        return PerformanceDashboardPage.objects.descendant_of(self).specific().live().public()

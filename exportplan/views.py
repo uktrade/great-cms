@@ -142,15 +142,9 @@ class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
         return [f'exportplan/sections/{self.slug}.html']
 
 
-class ExportPlanMarketingApproachView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    form_class = forms.ExportPlanMarketingApproachForm
+class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'marketing-approach'
     title = 'Marketing approach'
-
-    def get_initial(self):
-        return self.request.user.export_plan.data['marketing_approach']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -162,11 +156,12 @@ class ExportPlanMarketingApproachView(
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
         context['demographic_data'] = helpers.get_global_demographic_data(
-            self.request.user.export_plan.data['export_countries'][0]['country_name']
+            self.request.user.export_plan.export_country_name
         )
         context['selected_age_groups'] = (
             self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
         )
+        context['marketing_approach'] = self.request.user.export_plan.data['marketing_approach']
 
         return context
 
@@ -192,21 +187,9 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
         return context
 
 
-class ExportPlanTargetMarketsResearchView(
-    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
-):
-    form_class = forms.ExportPlanTargetMarketsResearchForm
-    success_url = reverse_lazy('exportplan:target-markets-research')
+class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'target-markets-research'
     title = 'Target market research'
-
-    def get_initial(self):
-        return self.request.user.export_plan.data['target_markets_research']
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['country_name'] = self.request.user.export_plan.export_country_name
-        return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -222,6 +205,7 @@ class ExportPlanTargetMarketsResearchView(
             context['selected_age_groups'] = (
                 self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
             )
+        context['target_markets_research'] = self.request.user.export_plan.data['target_markets_research']
         return context
 
 
