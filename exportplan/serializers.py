@@ -209,6 +209,19 @@ class GettingPaidSerializer(serializers.Serializer):
     incoterms = IncotermsSerializer(required=False)
 
 
+class TravelBusinessPoliciesSerializer(serializers.Serializer):
+
+    class VisaInformationSerializer(serializers.Serializer):
+        visa_required = serializers.BooleanField(required=False)
+        how_where_visa = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        how_long = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+
+    travel_information = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    cultural_information = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    visa_information = VisaInformationSerializer(required=False)
+
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -225,6 +238,7 @@ class ExportPlanSerializer(serializers.Serializer):
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
     funding_and_credit = FundingAndCreditSerializer(required=False)
     getting_paid = GettingPaidSerializer(required=False)
+    travel_business_policies = TravelBusinessPoliciesSerializer(required=False)
 
     def to_internal_value(self, data):
         internal_val = super().to_internal_value(data)
