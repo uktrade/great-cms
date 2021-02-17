@@ -1,6 +1,8 @@
 # Changelog
 
 ## Pre-release
+### Fixed bugs
+- NO TICKET - add document-link back in as rich-text option
 
 ### Implemented enhancements
 
@@ -12,8 +14,6 @@
 - GP2-1424 - Cost and pricing page - local taxes section
 - GP2-1423 - Cost and pricing page - content change
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
-### Fixed bugs
-
 
 ## [1.2.0](https://github.com/uktrade/great-cms/releases/tag/1.2.0)
 
