@@ -404,3 +404,20 @@ def test_travel_business_policies_serializer(export_plan_data):
             ),
         ]
     )
+
+
+def test_business_risks_serializer(export_plan_data):
+    business_risks_data = export_plan_data['business_risks'][0]
+    business_risks_data['companyexportplan'] = 1
+    serializer = serializers.BusinessRisksSerializer(data=business_risks_data)
+    serializer.is_valid()
+    assert serializer.validated_data == OrderedDict(
+        [
+            ('risk', 'new risk'),
+            ('contingency_plan', 'new contingency'),
+            ('risk_likelihood', 'LIKELY'),
+            ('risk_impact', 'MAJOR'),
+            ('companyexportplan', 1),
+            ('pk', 1),
+        ]
+    )

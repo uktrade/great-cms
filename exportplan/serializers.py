@@ -395,6 +395,15 @@ class BusinessTripsSerializer(serializers.Serializer):
     pk = serializers.IntegerField()
 
 
+class BusinessRisksSerializer(serializers.Serializer):
+    risk = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    contingency_plan = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_likelihood = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_impact = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
 class NewFundingCreditOptionsSerializer(FundingCreditOptionsSerializer):
     pk = serializers.IntegerField(required=False)
 
@@ -416,4 +425,8 @@ class PkOnlySerializer(serializers.Serializer):
 
 
 class NewBusinessTripsSerializer(BusinessTripsSerializer):
+    pk = serializers.IntegerField(required=False)
+
+
+class NewBusinessRisksSerializer(BusinessRisksSerializer):
     pk = serializers.IntegerField(required=False)

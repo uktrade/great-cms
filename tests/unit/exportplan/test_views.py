@@ -355,6 +355,19 @@ def test_funding_and_credit(export_plan_data, client, user):
 
 
 @pytest.mark.django_db
+def test_business_risk(export_plan_data, client, user):
+    url = reverse('exportplan:business-risk')
+    client.force_login(user)
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+    assert response.context_data['risk_likelihood_options'][0] == {'label': 'Rare', 'value': 'RARE'}
+    assert response.context_data['risk_impact_options'] == {'label': 'Trivial', 'value': 'TRIVIAL'}
+    assert response.context_data['business_risks'] == export_plan_data['business_risks']
+
+
+@pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
     reload_urlconf('exportplan.data')
