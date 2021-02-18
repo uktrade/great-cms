@@ -23,8 +23,6 @@ def env_vars(request):
     data = dict()
     data['great_support_email'] = settings.GREAT_SUPPORT_EMAIL
     data['dit_on_govuk'] = settings.DIT_ON_GOVUK
-    data['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
-    data['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
     return data
 
 
