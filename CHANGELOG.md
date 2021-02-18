@@ -9,6 +9,7 @@
 ### Implemented enhancements
 
 - GP2-1180 - Travel and business policies-page
+- GP2-1438 - Random picking for case study if they score same
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
