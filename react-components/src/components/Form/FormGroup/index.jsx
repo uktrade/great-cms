@@ -2,9 +2,7 @@ import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 
-import { Tooltip } from '@components/tooltip/Tooltip'
 import ErrorList from '@src/components/ErrorList'
-import { LessonLearn } from '@src/components/LessonLearn'
 import { Learning } from '@src/components/Learning/Learning'
 
 export const FormGroup = memo(
