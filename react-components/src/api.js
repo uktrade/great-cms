@@ -43,7 +43,7 @@ const get = function (url, params) {
   })
 }
 
-async function crud(url, data, method = 'GET') {
+async function greatApi(url, data, method = 'GET') {
   // GET method can't have a body
   const body = method !== 'GET' ? { body: JSON.stringify(data) } : {}
   return await fetch(url, {
@@ -234,9 +234,11 @@ export default {
   },
 
   apiModelObjectManage: (data, method) => {
-    return crud(config.apiModelObjectManageUrl, data, method).then((response) =>
-      responseHandler(response).json()
-    )
+    return greatApi(
+      config.apiModelObjectManageUrl,
+      data,
+      method
+    ).then((response) => responseHandler(response).json())
   },
 
   createObjective: (data) => {

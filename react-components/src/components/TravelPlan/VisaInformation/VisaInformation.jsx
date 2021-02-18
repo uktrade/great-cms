@@ -6,9 +6,7 @@ import { TextArea } from '@src/components/Form/TextArea'
 export const VisaInformation = memo(
   ({ formData, formFields, name, field, travel_advice_link }) => {
     const [state, setState] = useState(formData)
-    const [needVisa, setNeedVisa] = useState(
-      Boolean(formData.visa_required) || false
-    )
+    const [needVisa, setNeedVisa] = useState(formData.visa_required || false)
     const [update] = useUpdateExportPlan(field)
 
     const onNeedVisaChange = (event) => {
