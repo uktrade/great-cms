@@ -6,6 +6,7 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
+from django.conf import settings
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
@@ -155,7 +156,7 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
         context['demographic_data'] = helpers.get_global_demographic_data(
-            self.request.user.export_plan.data['export_countries'][0]['country_name']
+            self.request.user.export_plan.export_country_name
         )
         context['selected_age_groups'] = (
             self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
@@ -291,6 +292,11 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         context = super().get_context_data(*args, **kwargs)
         context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
         context['business_trips'] = self.request.user.export_plan.data['business_trips']
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.request.user.export_plan.export_country_name, key='people,languages'
+        )
+        context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
+        context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
         return context
 
 

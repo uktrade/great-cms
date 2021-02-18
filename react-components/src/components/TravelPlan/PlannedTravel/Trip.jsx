@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
 
-export const Trip = ({ id, value, onChange, deleteTrip, index }) => {
+export const Trip = memo(({ id, note, onChange, deleteTrip, index }) => {
   return (
     <>
       <tr className="border-none">
@@ -14,7 +14,7 @@ export const Trip = ({ id, value, onChange, deleteTrip, index }) => {
             type="text"
             label={'label'}
             hideLabel
-            value={value}
+            value={note}
             onChange={(e) => onChange(id, e[id])}
             formGroupClassName="m-b-0"
           />
@@ -34,12 +34,12 @@ export const Trip = ({ id, value, onChange, deleteTrip, index }) => {
       </tr>
     </>
   )
-}
+})
 
-// Trip.propTypes = {
-//   index: PropTypes.number.isRequired,
-//   id: PropTypes.number.isRequired,
-//   value: PropTypes.string.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   deleteFunding: PropTypes.func.isRequired,
-// }
+Trip.propTypes = {
+  id: PropTypes.number.isRequired,
+  note: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+  deleteTrip: PropTypes.func.isRequired,
+}

@@ -1285,7 +1285,7 @@ class CaseStudyScoringSettings(BaseSetting):
         decimal_places=3,
         max_digits=5,
     )
-    other_topics_tags = models.DecimalField(
+    other_topic_tags = models.DecimalField(
         help_text='This is the score we deduct for a case study should it have an association at '
         'this level in our information architecture',
         default=-0.25,
@@ -1327,7 +1327,7 @@ class CaseStudyScoringSettings(BaseSetting):
         FieldPanel('other_country_exact'),
         FieldPanel('other_lesson_tags'),
         FieldPanel('other_module_tags'),
-        FieldPanel('other_topics_tags'),
+        FieldPanel('other_topic_tags'),
     ]
     threshold_tab_panels = [
         FieldPanel('threshold'),

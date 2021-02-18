@@ -1,6 +1,5 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
-{% load to_json %}
 
 {% block intro_title %}Travel plan{%endblock %}
 {% block intro_description %}
@@ -11,7 +10,7 @@ Create a travel plan that will help you prepare everything you need for your upc
   <i class="fas fa-info-circle fa-lg"></i>
   <h3 class="h-s p-t-xs">COVID-19 travel guidance</h3>
   <p>
-    View the latest guidance for British people travelling overseas during the coronavirus (COVID-19) pandemic
+    <a href={{ travel_advice_covid19 }} target="_blank" rel="noopener noreferrer">View the latest guidance</a> for British people travelling overseas during the coronavirus (COVID-19) pandemic
   </p>
 </div>
 <div class="g-panel m-b-s">
@@ -93,95 +92,5 @@ Create a travel plan that will help you prepare everything you need for your upc
 {% endblock %}
 
 {% block body_js %}
-{{ block.super }}
-<script type="text/javascript">
-  element = document.getElementById('stats-for-target-market');
-  magna.travelPlanSnapshot({
-    element: element,
-    languages: {'cia_factbook_data': {'languages': {'language': [{'name': 'Japanese'}]}}},
-    tooltip: {
-      content: `
-        Make sure you know what language business is conducted in in your target market. If you can't speak the language make sure you bring along an interpreter so you can communicate and have a successful trip.
-      `
-    }
-  })
-  element = document.getElementById('culture-and-rules');
-  magna.travelPlanCultureRules({
-    element: element,
-    field: 'travel_plan',
-    formData: [],
-    formFields: [
-      {
-        description: "Find out about any important travel information by using the Foreign and Commonwealth and Development office travel advice.",
-        field_type: "Textarea",
-        label: "Travel information",
-        name: "travel_information",
-        placeholder: "Add some text",
-      },
-      {
-        description: "To build successful business relationships in your target market, research the culture of the place you are visiting. This will make sure you don't offend potential customers.",
-        field_type: "Textarea",
-        label: "Cultural information",
-        name: "cultural_information",
-        placeholder: "Add some text",
-      },
-    ],
-    companyexportplan: {{ export_plan.pk }},
-    tooltip: {
-      content: `
-        <p>Visit great.gov.uk market guides to find more information about your target market and its business culture.</p>
-      `
-    },
-  })
-  element = document.getElementById('visa-information');
-  magna.travelPlanVisaInformation({
-    element: element,
-    field: 'travel_plan_visa_information',
-    formData: [],
-    formFields: [
-      {
-        field_type: "Textarea",
-        label: "How and where will you get your visa",
-        name: "visa_how_where",
-        placeholder: "Add some text",
-      },
-      {
-        field_type: "Text",
-        label: "How long will it last",
-        name: "visa_length",
-        placeholder: "",
-      },
-      {
-        field_type: "Textarea",
-        label: "Add notes",
-        name: "visa_notes",
-        placeholder: "Add some text",
-      },
-    ],
-    companyexportplan: {{ export_plan.pk }},
-  })
-  element = document.getElementById('planned-travel');
-  magna.plannedTravel({
-    element: element,
-    formData: [{"value": "Something", "pk": 17}, {"value": "Something else", "pk": 16}],
-    companyexportplan: {{ export_plan.pk }},
-    tooltip: {
-      content: `
-        <p>Make sure you record how often you'll need to visit your chosen market and what actions or events you need to record to have a successful trip.</p>
-        <p>Things you need to think about to make sure you have a successful business trip:</p>
-        <ul>
-          <li>any visas you need</li>
-          <li>trip itinerary</li>
-          <li>flights and hotels</li>
-        </ul>
-      `
-    },
-    lesson: {
-      url: "/",
-      title: "Safety when operating abroad",
-      category: "TBD",
-      duration: "3 minutes",
-    }
-  })
-</script>
+{% include 'exportplan/includes/section_data/travel-and-business-policies__data.html' %}
 {% endblock %}

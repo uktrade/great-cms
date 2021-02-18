@@ -156,6 +156,8 @@ def choices_to_key_value(choices):
 
 
 def get_most_ranked_case_study(cs_queryset, context):
+    from random import randint
+
     from core.models import CaseStudyScoringSettings
 
     cs_score = dict()
@@ -177,10 +179,11 @@ def get_most_ranked_case_study(cs_queryset, context):
         # recency score
         cs_score[cs_obj] += get_cs_score_by_recency(cs_obj=cs_obj, setting=setting)
 
-    case_study = max(cs_score, key=cs_score.get)
+    case_study_to_surface = dict([(k, v) for k, v in cs_score.items() if v == max(cs_score.values())])
+    selected_case_study = [k for k, v in case_study_to_surface.items()][randint(0, len(case_study_to_surface) - 1)]
     # case study need to score above threshold
-    if cs_score[case_study] >= getattr(setting, 'threshold'):
-        return case_study
+    if cs_score[selected_case_study] >= getattr(setting, 'threshold'):
+        return selected_case_study
 
 
 def get_cs_score_by_recency(cs_obj, setting):
