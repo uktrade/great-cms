@@ -5,6 +5,7 @@
 - NO TICKET - add document-link back in as rich-text option
 
 ### Implemented enhancements
+- GP2-1404 - Select your product (modal window) - Product and country are not selected
 - GP2-1438 - Random picking for case study if they score same
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
