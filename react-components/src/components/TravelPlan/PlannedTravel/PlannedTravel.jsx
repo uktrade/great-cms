@@ -15,7 +15,7 @@ export const PlannedTravel = memo(
         model_name,
         note: '',
       }
-
+      debugger
       Services.apiModelObjectManage({ ...newTrip }, 'POST')
         .then((data) => setTrips([...trips, data]))
         .catch(() => {})
