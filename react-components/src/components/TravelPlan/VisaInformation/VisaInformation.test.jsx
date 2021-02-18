@@ -1,10 +1,11 @@
 import React from 'react'
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 
-import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
-
+import Services from '@src/Services'
+// import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 import { VisaInformation } from './VisaInformation'
 
+const field = 'travel_business_policies'
 const props = {
   formData: {
     how_long: '90 days',
@@ -68,5 +69,34 @@ describe('VisaInformation', () => {
     expect(getByText('How and where will you get your visa'))
     expect(getByText('How long will it last'))
     expect(getByText('Add notes'))
+  })
+
+  it('Should render no textareas', async () => {
+    Services.updateExportPlan = jest.fn(() =>
+      Promise.resolve({
+        travel_business_policies: {
+          visa_information: {
+            visa_required: false,
+          },
+        },
+      })
+    )
+
+    const { getByText, queryByText } = setup({
+      ...props,
+    })
+    fireEvent.click(getByText("I don't need a visa"))
+
+    expect(queryByText('How long will it last')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(Services.updateExportPlan).toHaveBeenCalledTimes(1)
+      expect(Services.updateExportPlan).toHaveBeenCalledWith({
+        travel_business_policies: {
+          visa_information: {
+            visa_required: false,
+          },
+        },
+      })
+    })
   })
 })
