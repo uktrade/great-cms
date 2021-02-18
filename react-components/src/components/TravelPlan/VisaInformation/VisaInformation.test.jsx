@@ -2,10 +2,8 @@ import React from 'react'
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 
 import Services from '@src/Services'
-// import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 import { VisaInformation } from './VisaInformation'
 
-const field = 'travel_business_policies'
 const props = {
   formData: {
     how_long: '90 days',
