@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 
 import { Learning } from './Learning'
 
@@ -32,15 +32,6 @@ const setup = ({ ...data }) => {
     ...component,
   }
 }
-
-beforeEach(() => {
-  jest.useFakeTimers()
-})
-
-afterEach(() => {
-  jest.useRealTimers()
-  cleanup()
-})
 
 describe('Learning', () => {
   describe('Should render learning buttons', () => {
