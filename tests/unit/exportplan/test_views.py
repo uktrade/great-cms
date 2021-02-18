@@ -363,7 +363,7 @@ def test_business_risk(export_plan_data, client, user):
     assert response.status_code == 200
 
     assert response.context_data['risk_likelihood_options'][0] == {'label': 'Rare', 'value': 'RARE'}
-    assert response.context_data['risk_impact_options'] == {'label': 'Trivial', 'value': 'TRIVIAL'}
+    assert response.context_data['risk_impact_options'][0] == {'label': 'Trivial', 'value': 'TRIVIAL'}
     assert response.context_data['business_risks'] == export_plan_data['business_risks']
 
 
