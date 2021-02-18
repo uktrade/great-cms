@@ -3,6 +3,7 @@
 ## Pre-release
 ### Fixed bugs
 - NO TICKET - add document-link back in as rich-text option
+- NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
 - GP2-1438 - Random picking for case study if they score same
