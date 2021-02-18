@@ -1,10 +1,14 @@
 # Changelog
 
 ## Pre-release
+
 ### Fixed bugs
+
 - NO TICKET - add document-link back in as rich-text option
 
 ### Implemented enhancements
+
+- GP2-1180 - Travel and business policies-page
 - GP2-1404 - Select your product (modal window) - Product and country are not selected
 - GP2-1438 - Random picking for case study if they score same
 - GP2-1440 - Ranking calculation for case study
@@ -27,6 +31,7 @@
 - GP2-1344 - added trading bloc logic to search case study
 
 ### Fixed bugs
+
 - GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
@@ -40,6 +45,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.2.0...1.3.0)
 
 ### Implemented enhancements
+
 - GP2-1240 - Mark sections as complete
 - GP2-1425 - Cost and pricing - Estimate element
 - GP2-1435 - Split data retrieval on 'Where to export' data table
@@ -120,6 +126,7 @@
 - GP2-1199 - Mark section as complete
 
 ### Fixed bugs
+
 - GP2-1445 - Typography tweaks for BAU article pages
 - No ticket - fix button styling issue after button refactor work
 - No ticket - Fix ignored BAU react unit tests
