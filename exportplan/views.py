@@ -2,8 +2,8 @@ import json
 from datetime import datetime
 
 import sentry_sdk
-from django.http import Http404, HttpResponse
 from django.conf import settings
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView, View
