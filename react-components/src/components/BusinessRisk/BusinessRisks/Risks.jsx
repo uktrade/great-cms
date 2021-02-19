@@ -21,10 +21,12 @@ export const Risks = ({
                 (
                   {
                     pk,
-                    notes,
-                    contingency_notes,
-                    risk_likelihood_option,
-                    risk_impact_option,
+                    risk,
+                    risk_extras,
+                    contingency_plan,
+                    contingency_plan_extras,
+                    risk_likelihood,
+                    risk_impact,
                   },
                   i
                 ) => (
@@ -32,13 +34,15 @@ export const Risks = ({
                     index={i + 1}
                     key={pk}
                     id={pk}
-                    notes={notes}
-                    contingency_notes={contingency_notes}
+                    risk={risk}
+                    risk_extras={risk_extras}
+                    contingency_plan={contingency_plan}
+                    contingency_plan_extras={contingency_plan_extras}
                     onChange={onChange}
                     deleteRisk={deleteRisk}
                     likelihoodOptions={likelihoodOptions}
                     impactOptions={impactOptions}
-                    selected={{ risk_likelihood_option, risk_impact_option }}
+                    selected={{ risk_likelihood, risk_impact }}
                   />
                 )
               )}

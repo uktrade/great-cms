@@ -9,8 +9,10 @@ export const Risk = ({
   id,
   onChange,
   deleteRisk,
-  notes,
-  contingency_notes,
+  risk,
+  risk_extras,
+  contingency_plan,
+  contingency_plan_extras,
   index,
   likelihoodOptions,
   impactOptions,
@@ -21,15 +23,15 @@ export const Risk = ({
       <tr>
         <td>
           <p className="form-label m-v-0">Risk {index}</p>
-          <Learning {...notes} />
+          <Learning {...risk_extras} />
           <TextArea
             id={id}
             type="textarea"
             hideLabel
-            label={notes.label}
-            value={notes.value}
+            label={risk_extras.label}
+            value={risk}
             onChange={(e) =>
-              onChange('input', id, { field: 'notes', value: e[id] })
+              onChange('input', id, { field: 'risk', value: e[id] })
             }
             formGroupClassName="m-b-0"
           />
@@ -37,8 +39,9 @@ export const Risk = ({
       </tr>
       <tr>
         <Radiogroup
+          id={id}
           options={likelihoodOptions}
-          selected={selected.risk_likelihood_option}
+          selected={selected.risk_likelihood}
           groupName={Object.keys(selected)[0]}
           label="Risk likelihood"
           update={(e) => onChange('radio', id, e)}
@@ -46,8 +49,9 @@ export const Risk = ({
       </tr>
       <tr>
         <Radiogroup
+          id={id}
           options={impactOptions}
-          selected={selected.risk_impact_option}
+          selected={selected.risk_impact}
           groupName={Object.keys(selected)[1]}
           label="Risk impact"
           update={(e) => onChange('radio', id, e)}
@@ -55,18 +59,18 @@ export const Risk = ({
       </tr>
       <tr>
         <td>
-          <p className="form-label m-v-0">{contingency_notes.label}</p>
-          <Learning {...contingency_notes} />
+          <p className="form-label m-v-0">{contingency_plan_extras.label}</p>
+          <Learning {...contingency_plan_extras} />
           <TextArea
             id={id}
             type="textarea"
             hideLabel
-            label={contingency_notes.label}
+            label={contingency_plan_extras.label}
             hideLabel
-            value={contingency_notes.value}
+            value={contingency_plan}
             onChange={(e) =>
               onChange('input', id, {
-                field: 'contingency_notes',
+                field: 'contingency_plan',
                 value: e[id],
               })
             }
