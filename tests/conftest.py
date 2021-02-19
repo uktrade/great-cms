@@ -79,6 +79,15 @@ def export_plan_data(cost_pricing_data):
                 'notes': 'no notes',
             },
         },
+        'business_risks': [
+            {
+                'risk': 'new risk',
+                'contingency_plan': 'new contingency',
+                'risk_likelihood': 'LIKELY',
+                'risk_impact': 'MAJOR',
+                'pk': 1,
+            }
+        ],
         'pk': 1,
         'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }
