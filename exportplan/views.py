@@ -2,11 +2,11 @@ import json
 from datetime import datetime
 
 import sentry_sdk
+from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-from django.conf import settings
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
@@ -297,6 +297,17 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         )
         context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
         context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
+        return context
+
+
+class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = 'Business Risk'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
+        context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
+        context['business_risks'] = self.request.user.export_plan.data['business_risks']
         return context
 
 
