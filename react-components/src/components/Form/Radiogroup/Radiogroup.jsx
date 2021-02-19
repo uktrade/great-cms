@@ -52,6 +52,6 @@ export const Radiogroup = ({
 Radiogroup.defaultProps = {
   className: 'm-b-xs',
   type: 'button',
-  buttonType: 'temperature',
+  buttonType: '',
   label: null,
 }

@@ -185,6 +185,11 @@
 
   .great-radiogroup__item {
     flex: 1 1 100%;
+
+    .great-radiogroup__input:checked + .great-radiogroup__label {
+      color: white;
+      background-color: $colour-blue-deep-80;
+    }
   }
 
   .great-radiogroup__item + .great-radiogroup__item .great-radiogroup__label {
