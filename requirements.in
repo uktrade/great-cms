@@ -53,5 +53,3 @@ cryptography==3.3.2
 pillow>=7.1.0
 factory-boy==2.12.*
 dateparser==0.7.2
-pisa==3.0.*
-xhtml2pdf==0.2.*
