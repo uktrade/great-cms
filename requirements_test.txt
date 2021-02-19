@@ -130,9 +130,11 @@ django-storages[boto3]==1.8
     # via -r requirements.in
 django-taggit==1.3.0
     # via wagtail
-django-treebeard==4.5
-    # via wagtail
-django==2.2.18
+django-treebeard==4.4
+    # via
+    #   -r requirements.in
+    #   wagtail
+django==2.2.19
     # via
     #   -r requirements.in
     #   directory-api-client

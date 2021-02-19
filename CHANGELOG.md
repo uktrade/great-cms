@@ -2,6 +2,8 @@
 
 ## Pre-release
 
+- NO TICKET - django 2.2.19 upgrade
+
 ### Fixed bugs
 
 - NO TICKET - add document-link back in as rich-text option
