@@ -46,13 +46,12 @@ export const BusinessRisks = ({
 
   const onChange = (type, id, value) => {
     const field = risks.find((x) => x.pk === id)
-    field[companyexportplan]
+
     if (type === 'radio') {
       value = {
         [value.key]: value.value,
       }
     }
-    debugger
     if (type === 'input') {
       value = {
         [value.field]: value.value,
@@ -61,6 +60,7 @@ export const BusinessRisks = ({
     const updatedRisks = risks.map((x) =>
       x.pk === id ? { ...x, ...value } : x
     )
+
     setRisks(updatedRisks)
     debounceUpdate(field, value)
   }
