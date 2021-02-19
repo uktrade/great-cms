@@ -7,6 +7,7 @@ from difflib import SequenceMatcher
 from io import StringIO
 from logging import getLogger
 
+import boto3
 import great_components.helpers
 import requests
 from django.conf import settings
@@ -435,3 +436,19 @@ def get_trading_blocs_by_country(iso2):
 def get_trading_blocs_name(iso2):
     trading_blocs = get_trading_blocs_by_country(iso2)
     return [item['trading_bloc_name'] for item in trading_blocs if item]
+
+
+def get_file_from_s3(bucket, key):
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID_DATA_SCIENCE,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_DATA_SCIENCE,
+        region_name=settings.AWS_S3_REGION_NAME_DATA_SCIENCE,
+    )
+    file_object = s3.get_object(Bucket=bucket, Key=key)
+    return file_object
+
+
+def get_s3_file_stream(file_name, bucket_name=settings.AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE):
+    s3_resource = get_file_from_s3(bucket_name, file_name)
+    return s3_resource['Body'].read().decode('utf-8')
