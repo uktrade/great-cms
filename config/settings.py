@@ -523,6 +523,8 @@ else:
 
 GREAT_SUPPORT_EMAIL = env.str('GREAT_SUPPORT_EMAIL', 'great.support@trade.gov.uk')
 DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-international-trade')
+TRAVEL_ADVICE_COVID19 = env.str('TRAVEL_ADVICE_COVID19', 'https://www.gov.uk/guidance/travel-advice-novel-coronavirus')
+TRAVEL_ADVICE_FOREIGN = env.str('TRAVEL_ADVICE_FOREIGN', 'https://www.gov.uk/foreign-travel-advice')
 
 # V1 to V2 migration settings
 # (These will be short-lived as we gradually cut over from V1 to V2 for all traffic)

@@ -17,6 +17,8 @@ export const TextArea = memo(
     example,
     hideLabel,
     lesson,
+    className,
+    formGroupClassName,
   }) => (
     <FormGroup
       errors={errors}
@@ -27,9 +29,10 @@ export const TextArea = memo(
       id={id}
       hideLabel={hideLabel}
       lesson={lesson}
+      formGroupClassName={formGroupClassName}
     >
       <textarea
-        className="form-control"
+        className={`form-control ${className}`}
         id={id}
         name={id}
         disabled={disabled}
@@ -63,6 +66,8 @@ TextArea.propTypes = {
     category: PropTypes.string,
     duration: PropTypes.string,
   }),
+  className: PropTypes.string,
+  formGroupClassName: PropTypes.string,
 }
 
 TextArea.defaultProps = {
@@ -75,4 +80,6 @@ TextArea.defaultProps = {
   example: {},
   hideLabel: false,
   lesson: {},
+  className: '',
+  formGroupClassName: '',
 }

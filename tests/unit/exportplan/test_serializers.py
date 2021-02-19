@@ -382,3 +382,25 @@ def test_payment_method_serializer():
             )
         ]
     )
+
+
+def test_travel_business_policies_serializer(export_plan_data):
+    serializer = serializers.TravelBusinessPoliciesSerializer(data=export_plan_data['travel_business_policies'])
+    serializer.is_valid()
+    assert serializer.validated_data == OrderedDict(
+        [
+            ('travel_information', 'All travel to be business class'),
+            ('cultural_information', 'Lots of culture'),
+            (
+                'visa_information',
+                OrderedDict(
+                    [
+                        ('visa_required', True),
+                        ('how_where_visa', 'uk'),
+                        ('how_long', '10 Months'),
+                        ('notes', 'no notes'),
+                    ]
+                ),
+            ),
+        ]
+    )
