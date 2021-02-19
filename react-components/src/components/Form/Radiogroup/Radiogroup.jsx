@@ -17,8 +17,11 @@ export const Radiogroup = ({
   const [selectedOption, setSelectedOption] = useState(selected || null)
 
   const handleUpdate = (value, groupName) => {
+    // Remove `id_` from groupname then send as as key.
+    const key = groupName.slice(String(id).length + 1)
+
     setSelectedOption(value)
-    update({ value, groupName })
+    update({ value, key })
   }
 
   return (

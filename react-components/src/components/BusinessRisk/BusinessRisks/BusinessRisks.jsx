@@ -48,11 +48,11 @@ export const BusinessRisks = ({
     const field = risks.find((x) => x.pk === id)
     field[companyexportplan]
     if (type === 'radio') {
-      const len = String(id).length + 1
       value = {
-        [value.groupName.slice(len)]: value.value,
+        [value.key]: value.value,
       }
     }
+    debugger
     if (type === 'input') {
       value = {
         [value.field]: value.value,
