@@ -63,6 +63,12 @@ urlpatterns = [
         name='travel-and-business-policies',
     ),
     path(
+        'section/business-risk/',
+        login_required(views.BusinessRiskView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'business-risk'},
+        name='business-risk',
+    ),
+    path(
         'section/<slug:slug>/',
         login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
         name='section',

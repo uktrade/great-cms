@@ -50,7 +50,7 @@ directory-client-core==6.3.0
     #   directory-api-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-constants==20.22.0
+directory-constants==20.23.0
     # via
     #   -r requirements.in
     #   great-components
@@ -87,8 +87,10 @@ django-storages[boto3]==1.8
 django-taggit==1.3.0
     # via wagtail
 django-treebeard==4.4
-    # via wagtail
-django==2.2.18
+    # via
+    #   -r requirements.in
+    #   wagtail
+django==2.2.19
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -126,7 +128,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==6.1.1
+faker==6.3.0
     # via factory-boy
 freezegun==0.1.5
     # via -r requirements.in

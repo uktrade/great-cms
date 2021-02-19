@@ -14,11 +14,10 @@ import { config } from '@src/config'
 import { combineReducers, reduceReducers } from 'redux'
 import costAndPricing from '@src/reducers/costsAndPricing'
 
-
 const saveToExportPlan = (payload) => {
-  api.updateExportPlan(payload).catch(() => {
-      // TODO: Add error confirmation here
-    })
+  return api.updateExportPlan(payload).catch(() => {
+    // TODO: Add error confirmation here
+  })
 }
 
 const initialState = {
@@ -32,7 +31,7 @@ const initialState = {
   },
 }
 
-//const cloneState = state => JSON.parse(JSON.stringify(state))
+const cloneState = (state) => JSON.parse(JSON.stringify(state))
 
 function setModalIsOpen(state, payload) {
   // should have only one modal open at a time
@@ -48,25 +47,25 @@ function setModalIsOpen(state, payload) {
 }
 
 function setProductsExpertise(state, payload) {
-  let newState = cloneState(state)
+  const newState = cloneState(state)
   newState.user.expertise.products = payload
   return newState
 }
 
 function setCountriesExpertise(state, payload) {
-  let newState = cloneState(state)
+  const newState = cloneState(state)
   newState.user.expertise.countries = payload
   return newState
 }
 
 function setPerformFeatureSKipCookieCheck(state, payload) {
-  let newState = cloneState(state)
+  const newState = cloneState(state)
   newState.performSkipFeatureCookieCheck = payload
   return newState
 }
 
 function setNextUrl(state, payload) {
-  let newState = cloneState(state)
+  const newState = cloneState(state)
   newState.nextUrl = payload
   return newState
 }
@@ -89,22 +88,31 @@ const baseReducers = (state = initialState, action) => {
 }
 
 const exportPlanReducer = (state, action) => {
-  let newState = Object.assign({}, state)
+  const newState = { ...state }
   switch (action.type) {
     case SET_PRODUCT:
-      saveToExportPlan({export_commodity_codes:[action.payload]})
-      const codeChanged = newState.products && (newState.products[0] && (newState.products[0].commodity_code != action.payload.commodity_code))
-      newState.products = [action.payload]
-      if (codeChanged && config.refreshOnMarketChange) {
-        window.location.reload()
-      }
+      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
+        () => {
+          const codeChanged =
+            (newState.products &&
+              newState.products[0] &&
+              newState.products[0].commodity_code) !==
+            action.payload.commodity_code
+          newState.products = [action.payload]
+          if (codeChanged && config.refreshOnMarketChange) {
+            window.location.reload()
+          }
+        }
+      )
+
       break
     case SET_MARKET:
-      saveToExportPlan({export_countries:[action.payload]})
-      newState.markets = [action.payload]
-      if (config.refreshOnMarketChange) {
-        window.location.reload()
-      }
+      saveToExportPlan({ export_countries: [action.payload] }).then(() => {
+        newState.markets = [action.payload]
+        if (config.refreshOnMarketChange) {
+          window.location.reload()
+        }
+      })
   }
   return newState
 }
@@ -117,19 +125,29 @@ const setInitialStateReducer = (state, action) => {
 }
 
 export const getModalIsOpen = (state, name) => state.modalIsOpen[name]
-export const getCountriesExpertise = state => state.user && state.user.expertise && state.user.expertise.countries
-export const getProductsExpertise = state => state.user && state.user.expertise && state.user.expertise.products
-export const getIndustriesExpertise = state => state.user && state.user.expertise && state.user.expertise.industries
-export const getPerformFeatureSKipCookieCheck = state => state.performSkipFeatureCookieCheck
-export const getNextUrl = state => state.nextUrl
+export const getCountriesExpertise = (state) =>
+  state.user && state.user.expertise && state.user.expertise.countries
+export const getProductsExpertise = (state) =>
+  state.user && state.user.expertise && state.user.expertise.products
+export const getIndustriesExpertise = (state) =>
+  state.user && state.user.expertise && state.user.expertise.industries
+export const getPerformFeatureSKipCookieCheck = (state) =>
+  state.performSkipFeatureCookieCheck
+export const getNextUrl = (state) => state.nextUrl
 
-export const getProducts = state => ((state.exportPlan && state.exportPlan.products) || [])[0]
-export const getMarkets = state => ((state.exportPlan && state.exportPlan.markets) || [])[0]
+export const getProducts = (state) =>
+  ((state.exportPlan && state.exportPlan.products) || [])[0]
+export const getMarkets = (state) =>
+  ((state.exportPlan && state.exportPlan.markets) || [])[0]
 
 const rootReducer = (state, action) => {
   state = baseReducers(state, action)
   state = setInitialStateReducer(state, action)
-  return combineReducers({ exportPlan: exportPlanReducer, modalIsOpen: setModalIsOpen, costAndPricing })(state, action)
+  return combineReducers({
+    exportPlan: exportPlanReducer,
+    modalIsOpen: setModalIsOpen,
+    costAndPricing,
+  })(state, action)
 }
 
 export default rootReducer
