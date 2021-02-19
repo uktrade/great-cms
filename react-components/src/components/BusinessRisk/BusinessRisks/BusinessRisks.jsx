@@ -8,26 +8,28 @@ import { Risks } from './Risks'
 // import { risk_likelihood_options, risk_impact_options } from './constants'
 
 export const BusinessRisks = ({
+  formFields,
   formData,
   companyexportplan,
   lesson,
   risk_likelihood_options,
   risk_impact_options,
+  model_name,
 }) => {
-  const [risks, setRisks] = useState(formData)
-  // debugger
+  const [risks, setRisks] = useState(formFields)
   const addRisk = () => {
-    const newRisk = {}
-    newRisk.companyexportplan = companyexportplan
-    newRisk.value = ''
+    const newRisk = {
+      companyexportplan,
+      model_name,
+    }
 
-    Services.createFundingCreditOption({ ...newRisk })
+    Services.apiModelObjectManage({ ...newRisk }, 'POST')
       .then((data) => setRisks([...risks, data]))
       .catch(() => {})
   }
 
   const deleteRisk = (id) => {
-    Services.deleteFundingCreditOption(id)
+    Services.apiModelObjectManage({ model_name, pk: id }, 'DELETE')
       .then(() => {
         setRisks(risks.filter((x) => x.pk !== id))
       })
@@ -35,7 +37,7 @@ export const BusinessRisks = ({
   }
 
   const update = (field, value) => {
-    Services.updateFundingCreditOption({ ...field, ...value })
+    Services.apiModelObjectManage({ model_name, ...field, ...value }, 'PATCH')
       .then(() => {})
       .catch(() => {})
   }
@@ -44,49 +46,24 @@ export const BusinessRisks = ({
 
   const onChange = (type, id, value) => {
     const field = risks.find((x) => x.pk === id)
-    field.companyexportplan = companyexportplan
-
+    field[companyexportplan]
     if (type === 'radio') {
+      const len = String(id).length + 1
       value = {
-        [value.groupName]: value.value,
+        [value.groupName.slice(len)]: value.value,
       }
     }
     if (type === 'input') {
       value = {
-        [value.field]: {
-          value: value.value,
-        },
+        [value.field]: value.value,
       }
     }
-
     const updatedRisks = risks.map((x) =>
-      x.pk === id && type === 'radio'
-        ? { ...x, ...value }
-        : type === 'input'
-        ? // TODO: How to spread into child objects??
-          // notes: ...values, contingency_notes: ...value
-          // Currently this overwrites :/
-          { ...x, ...value }
-        : x
+      x.pk === id ? { ...x, ...value } : x
     )
-    console.log(value)
-    debugger
     setRisks(updatedRisks)
     debounceUpdate(field, value)
   }
-
-  // const options_risk_likelihood = {
-  //   label: 'Risk likelihood',
-  //   field: 'options_risk_likelihood',
-  //   selected: 'possible',
-  //   options: risk_likelihood_options,
-  // }
-  // const options_risk_impact = {
-  //   label: 'Risk impact',
-  //   field: 'options_risk_impact',
-  //   selected: 'minor',
-  //   options: risk_impact_options,
-  // }
 
   return (
     <>
@@ -98,7 +75,7 @@ export const BusinessRisks = ({
       <p>These should be specific risks your business faces when exporting.</p>
       <Learning lesson={lesson} />
       <Risks
-        formData={risks}
+        formData={risks.map((item) => ({ ...item, ...formData }))}
         deleteRisk={deleteRisk}
         onChange={onChange}
         addRisk={addRisk}
