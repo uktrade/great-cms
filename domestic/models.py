@@ -31,7 +31,34 @@ from domestic import cms_panels
 from domestic.helpers import build_route_context, get_lesson_completion_status
 
 
-class BaseContentPage(Page):
+class DataLayerMixin(
+    Page,
+    mixins.WagtailGA360Mixin,
+    GA360Mixin,  # from great-components, but could be moved into great-cms
+):
+    """Mixin to automatically set the GA360/DataLayer payload on all pages
+    that implement it"""
+
+    class Meta:
+        abstract = True
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        self.set_ga360_payload(  # from GA360Mixin
+            page_id=self.id,
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section=self.slug,
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
+        return context
+
+
+class BaseContentPage(
+    DataLayerMixin,
+    Page,
+):
     """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
 
     promote_panels = []  #  Hide the Promote panel
@@ -87,6 +114,7 @@ class DomesticHomePage(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
     mixins.AnonymousUserRequired,
+    DataLayerMixin,
     Page,
 ):
     # Note that this is was the original homepage for Magna/V2 MPV.
@@ -119,8 +147,7 @@ class DomesticDashboard(
     mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
     mixins.ExportPlanMixin,
-    mixins.WagtailGA360Mixin,
-    GA360Mixin,
+    DataLayerMixin,
     Page,
 ):
 
@@ -140,14 +167,6 @@ class DomesticDashboard(
         context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
-
-        self.set_ga360_payload(  # from GA360Mixin
-            page_id=self.id,
-            business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=self.slug,
-        )
-        self.add_ga360_data_to_payload(request)
-        context['ga360'] = self.ga360_payload
 
         return context
 
