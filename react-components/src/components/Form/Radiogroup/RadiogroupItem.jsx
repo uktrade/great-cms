@@ -18,7 +18,7 @@ export const RadiogroupItem = ({
         id={id}
         value={value}
         onChange={() => update(value, group)}
-        checked={selected === id}
+        checked={selected === value}
       />
       <label htmlFor={id} className="great-radiogroup__label">
         {label}

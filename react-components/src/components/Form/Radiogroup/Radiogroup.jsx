@@ -12,6 +12,7 @@ export const Radiogroup = ({
   type,
   buttonType,
   update,
+  id,
 }) => {
   const [selectedOption, setSelectedOption] = useState(selected || null)
 
@@ -31,14 +32,14 @@ export const Radiogroup = ({
           ${className}
         `}
       >
-        {options.map(({ value }) => {
+        {options.map(({ value, label }) => {
           return (
             <RadiogroupItem
               key={value}
-              id={value}
-              group={groupName}
+              id={`${id}_${groupName}_${value}`}
+              group={`${id}_${groupName}`}
               value={value}
-              label={value.charAt(0).toUpperCase() + value.slice(1)}
+              label={label}
               selected={selectedOption}
               update={(value, groupName) => handleUpdate(value, groupName)}
             />
