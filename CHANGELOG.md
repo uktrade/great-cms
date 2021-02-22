@@ -7,12 +7,14 @@
 ### Fixed bugs
 
 - NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 - NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
 
 - GP2-1593 - Business Risks page elements
 - GP2-1181 - Business Risks page structure
+- GP2-1619 - Ensure all pages ported from V1 populate GA360/DataLayer data
 - GP2-1180 - Travel and business policies-page
 - GP2-1404 - Select your product (modal window) - Product and country are not selected
 - GP2-1438 - Random picking for case study if they score same
@@ -34,6 +36,15 @@
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
 - GP2-1439 - CMS admin UI for case study scoring
 - GP2-1344 - added trading bloc logic to search case study
+- GP2-1425 - Cost and pricing - Estimate element
+- GP2-1435 - Split data retrieval on 'Where to export' data table
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
+- no-ticket - django version upgraded to 2.2.18
+- GP2-1424 - Cost and pricing page - local taxes section
+- GP2-1423 - Cost and pricing page - content change
+- GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+- GP2-1405 - pdf EP Initial boiler plate creation
+
 
 ### Fixed bugs
 

@@ -18,6 +18,8 @@ appdirs==1.4.4
     # via black
 appnope==0.1.2
     # via ipython
+arabic-reshaper==2.1.1
+    # via xhtml2pdf
 astroid==2.4.2
     # via pylint
 attrs==20.3.0
@@ -203,6 +205,8 @@ flask==1.1.2
     #   locust
 freezegun==0.1.5
     # via -r requirements.in
+future==0.18.2
+    # via arabic-reshaper
 geoip2==2.9.0
     # via -r requirements.in
 gevent==21.1.2
@@ -218,7 +222,9 @@ greenlet==1.0.0
 gunicorn==19.5.0
     # via -r requirements.in
 html5lib==1.1
-    # via wagtail
+    # via
+    #   wagtail
+    #   xhtml2pdf
 idna==2.10
     # via requests
 imagesize==1.2.0
@@ -315,9 +321,13 @@ pillow==7.2.0
     #   -r requirements.in
     #   -r requirements_test.in
     #   directory-validators
+    #   reportlab
     #   wagtail
+    #   xhtml2pdf
 pip-tools==5.5.0
     # via -r requirements_test.in
+pisa==3.0.33
+    # via -r requirements.in
 pluggy==0.13.1
     # via
     #   allure-python-commons
@@ -359,6 +369,8 @@ pylint==2.6.2
     #   pylint-plugin-utils
 pyparsing==2.4.7
     # via packaging
+pypdf2==1.26.0
+    # via xhtml2pdf
 pyquery==1.4.3
     # via readtime
 pyrsistent==0.17.3
@@ -376,6 +388,8 @@ pytest==6.2.2
     #   pytest-cov
     #   pytest-django
     #   pytest-sugar
+python-bidi==0.4.2
+    # via xhtml2pdf
 python-dateutil==2.8.1
     # via
     #   botocore
@@ -401,6 +415,8 @@ regex==2020.11.13
     # via
     #   black
     #   dateparser
+reportlab==3.5.59
+    # via xhtml2pdf
 requests-mock==1.8.0
     # via -r requirements_test.in
 requests-oauthlib==1.3.0
@@ -443,11 +459,13 @@ six==1.15.0
     #   html5lib
     #   jsonschema
     #   l18n
+    #   python-bidi
     #   python-dateutil
     #   requests-mock
     #   sphinx
     #   traitlets
     #   w3lib
+    #   xhtml2pdf
 snowballstemmer==2.1.0
     # via sphinx
 soupsieve==2.2
@@ -538,6 +556,8 @@ willow==1.4
     # via wagtail
 wrapt==1.12.1
     # via astroid
+xhtml2pdf==0.2.5
+    # via -r requirements.in
 xlrd==2.0.1
     # via tablib
 xlsxwriter==1.3.7
