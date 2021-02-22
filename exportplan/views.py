@@ -2,10 +2,11 @@ import json
 from datetime import datetime
 
 import sentry_sdk
-from django.http import Http404
+from django.conf import settings
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
@@ -15,6 +16,7 @@ from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import data, forms, helpers, serializers
+from exportplan.utils import render_to_pdf
 
 
 class ExportPlanMixin:
@@ -155,7 +157,7 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
         context['demographic_data'] = helpers.get_global_demographic_data(
-            self.request.user.export_plan.data['export_countries'][0]['country_name']
+            self.request.user.export_plan.export_country_name
         )
         context['selected_age_groups'] = (
             self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
@@ -291,6 +293,22 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         context = super().get_context_data(*args, **kwargs)
         context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
         context['business_trips'] = self.request.user.export_plan.data['business_trips']
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.request.user.export_plan.export_country_name, key='people,languages'
+        )
+        context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
+        context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
+        return context
+
+
+class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = 'Business Risk'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
+        context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
+        context['business_risks'] = self.request.user.export_plan.data['business_risks']
         return context
 
 
@@ -354,3 +372,14 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+
+
+class PDFDownload(View):
+    def get(self, request, *args, **kwargs):
+        context = {'export_plan': request.user.export_plan.data}
+        pdf = render_to_pdf('exportplan/pdf_download.html', context)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = 'export_plan.pdf'
+        content = f'inline; filename={filename}'
+        response['Content-Disposition'] = content
+        return response

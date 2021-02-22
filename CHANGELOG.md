@@ -1,10 +1,21 @@
 # Changelog
 
 ## Pre-release
+
+- NO TICKET - django 2.2.19 upgrade
+
 ### Fixed bugs
+
 - NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+- NO TICKET - fix wagtail checkbox layout issue
+
 ### Implemented enhancements
+
+- GP2-1619 - Ensure all pages ported from V1 populate GA360/DataLayer data
+- GP2-1180 - Travel and business policies-page
+- GP2-1404 - Select your product (modal window) - Product and country are not selected
+- GP2-1438 - Random picking for case study if they score same
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
@@ -23,8 +34,18 @@
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
 - GP2-1439 - CMS admin UI for case study scoring
 - GP2-1344 - added trading bloc logic to search case study
+- GP2-1425 - Cost and pricing - Estimate element
+- GP2-1435 - Split data retrieval on 'Where to export' data table
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
+- no-ticket - django version upgraded to 2.2.18
+- GP2-1424 - Cost and pricing page - local taxes section
+- GP2-1423 - Cost and pricing page - content change
+- GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+- GP2-1405 - pdf EP Initial boiler plate creation
+
 
 ### Fixed bugs
+
 - GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
@@ -38,6 +59,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.2.0...1.3.0)
 
 ### Implemented enhancements
+
 - GP2-1240 - Mark sections as complete
 - GP2-1425 - Cost and pricing - Estimate element
 - GP2-1435 - Split data retrieval on 'Where to export' data table
@@ -118,6 +140,7 @@
 - GP2-1199 - Mark section as complete
 
 ### Fixed bugs
+
 - GP2-1445 - Typography tweaks for BAU article pages
 - No ticket - fix button styling issue after button refactor work
 - No ticket - Fix ignored BAU react unit tests

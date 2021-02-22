@@ -99,3 +99,62 @@
     text-align: left;
   }
 }
+
+.form-group--small {
+  label {
+    font-size: var(--font-size-body-3);
+  }
+}
+
+.great-radio {
+  display: flex;
+  position: relative;
+
+  &__input {
+    opacity: 0;
+    position: absolute;
+  }
+
+  &__label {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      background: #fff;
+      border: 2px solid $colour-blue-deep-60;
+      display: inline-block;
+      vertical-align: middle;
+      width: 32px;
+      height: 32px;
+      padding: 2px;
+      margin-right: 20px;
+      text-align: center;
+    }
+  }
+
+  &__input + &__label::before {
+    border-radius: 50%;
+  }
+
+  &__input:checked + &__label::before {
+    background: $colour-blue-deep-60;
+    box-shadow: inset 0px 0px 0px 9px #fff;
+  }
+
+  &__input:focus + &__label {
+    outline: #ffd000 solid 6px;
+  }
+}
+
+.g-panel--radio {
+  margin-left: 20px;
+  margin-top: 20px;
+  padding: 0 0 30px 30px;
+  &::before {
+    background: $colour-blue-deep-60;
+  }
+}

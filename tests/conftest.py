@@ -71,8 +71,23 @@ def export_plan_data(cost_pricing_data):
         'business_trips': {'note': 'trip 1'},
         'travel_business_policies': {
             'travel_information': 'All travel to be business class',
-            'visa_information': {'is_required': True, 'duration': '10 Months'},
+            'cultural_information': 'Lots of culture',
+            'visa_information': {
+                'visa_required': True,
+                'how_long': '10 Months',
+                'how_where_visa': 'uk',
+                'notes': 'no notes',
+            },
         },
+        'business_risks': [
+            {
+                'risk': 'new risk',
+                'contingency_plan': 'new contingency',
+                'risk_likelihood': 'LIKELY',
+                'risk_impact': 'MAJOR',
+                'pk': 1,
+            }
+        ],
         'pk': 1,
         'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }

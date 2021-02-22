@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from django.test import RequestFactory
 from django.utils.timezone import now as tz_now
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.models import Page
 from wagtail.tests.utils import WagtailPageTests
 
 from core import mixins, models as core_models, service_urls
@@ -16,6 +17,7 @@ from domestic.models import (
     ArticleListingPage,
     ArticlePage,
     CountryGuidePage,
+    DataLayerMixin,
     DomesticDashboard,
     DomesticHomePage,
     GuidancePage,
@@ -1398,3 +1400,31 @@ def test_performance_dashboard_auto_population(product_link, expected):
 
     for key in ['title', 'heading', 'landing_dashboard', 'slug']:
         assert getattr(dash, key) == expected[key]
+
+
+def test_all_domestic_models_implement_ga360_mixins():
+
+    from domestic import models as domestic_models
+
+    module_attributes = dir(domestic_models)
+    missing_mixin = []
+
+    concrete_models_allowed_not_to_include_mixin = [
+        Page,
+    ]
+
+    for attr in module_attributes:
+        try:
+            klass = getattr(domestic_models, attr)
+            if (
+                Page in klass.mro()
+                and klass not in concrete_models_allowed_not_to_include_mixin  # noqa W503
+                and klass._meta.abstract is not True  # noqa W503
+                and DataLayerMixin not in klass.mro()  # noqa W503
+            ):
+                missing_mixin.append(klass)
+        except AttributeError:
+            pass
+
+    if missing_mixin:
+        assert False, f'These Domestic pages do not implement the DataLayerMixin, but should: {missing_mixin}'

@@ -1,20 +1,96 @@
 {% extends 'exportplan/section.html' %}
+{% load static %}
 
-{% block intro_content %}
-<h1 class="h-xl">Travel and business policies</h1>
-<p>Creating a travel plan will help you focus on preparing for upcoming trips like applying for visas, booking meetings, flights and hotels.</p>
+{% block intro_title %}Travel plan{%endblock %}
+{% block intro_description %}
+Create a travel plan that will help you prepare everything you need for your upcoming business trips.
 {% endblock %}
-
 {% block main_content %}
-<p>Detail when and how often you’ll need to visit your market or markets.</p>
-<p>Related matters you might need to document include:</p>
-<ul class="list-bullet">
-  <li>updates to staff travel, gifts and expenses policies</li>
-  <li>a staff safety policy</li>
-  <li>an approach to any language and cultural issues</li>
-</ul>
-<p><a href="#">See examples</a></p>
+<div class="g-panel m-b-s">
+  <i class="fas fa-info-circle fa-lg"></i>
+  <h3 class="h-s p-t-xs">COVID-19 travel guidance</h3>
+  <p>
+    <a href={{ travel_advice_covid19 }} target="_blank" rel="noopener noreferrer">View the latest guidance</a> for British people travelling overseas during the coronavirus (COVID-19) pandemic
+  </p>
+</div>
+<div class="g-panel m-b-s">
+  <p>
+    There are lots of things you will have to think about to make sure you have a successful business trip. This section will help you to record everything you need for your business trips.
+  </p>
+</div>
+{% endblock %}
+{% block user_input %}
+<section class="bg-blue-deep-10 m-t-l p-b-m">
+  <div class="container">
+    <div class="grid flex-grid">
+      <div class="c-1-1 c-2-3-l c-1-2-xl m-h-auto">
+        <h2 class="h-xs p-t-l p-b-s">
+          Data Snapshot: exporting {{ export_plan.export_commodity_codes.0.commodity_name }} to
+          {{ export_plan.export_countries.0.country_name }}
+        </h2>
+        <div id="stats-for-target-market" class="flex-direction-column">
+          <div class="statistic">
+            <dl>
+              <dt class="statistic__caption">The main languages in your chosen market are:</dt>
+              <dd>
+                <ul class="h-m p-0 m-0">
+                  {% for language in language_data.cia_factbook_data.languages.language %}
+                  <li class="inline-block">
+                    {{language.name}} {% if language.note == 'official' and language.percent %} (official:
+                    {{language.percent}}%) {% elif language.note == 'official' %} (Official) {% elif language.percent %}
+                    ({{language.percent}}%) {% endif %} {% if not forloop.last %} , {% endif %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="container m-b-l">
+  <div class="grid">
+    <div class="c-1-4-l">&nbsp;</div>
+    <div class="c-1-1 c-1-2-l">
+      <small class="body-s text-blue-deep-50">Population statistics – <a href="#">United Nations</a>; Access to
+        Internet,Consumer Price Index - <a href="#">World Bank</a>; Languages - <a href="#">CIA World
+          Factbook</a>;</small>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
+      <div id="culture-and-rules">
+        <h2 class="h-m m-b-xs">Culture and rules in your target market</h2>
+        <p>Every country will have different rules you have stick by whilst you are visiting.</p>
+        <p>Record any rules or information you need to conduct business in your target market.</p>
+      </div>
+      <div id="visa-information"></div>
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</section>
+
+<section class="container m-b-l">
+  <div class="grid">
+    <div class="c-1-4">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
+      <div id="planned-travel">
+        <h2 class="h-m m-b-xs">Planned travel</h2>
+        <p>It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals.</p>
+        <p>Add all your upcoming trips and important information about them in the following tool.</p>
+      </div>
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</section>
+
 {% endblock %}
 
-{% block user_input %}
+{% block body_js %}
+{% include 'exportplan/includes/section_data/travel-and-business-policies__data.html' %}
 {% endblock %}
