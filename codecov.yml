@@ -17,6 +17,8 @@ coverage:
   precision: 2
   round: down
   range: "90...100"
+  ignore:
+    - core/management/commands/import_*
 
 
 parsers:
