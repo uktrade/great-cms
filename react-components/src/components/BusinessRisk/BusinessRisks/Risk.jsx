@@ -30,9 +30,7 @@ export const Risk = ({
             hideLabel
             label={risk_extras.label}
             value={risk}
-            onChange={(e) =>
-              onChange('input', id, { field: 'risk', value: e[id] })
-            }
+            onChange={(e) => onChange(id, { key: 'risk', value: e[id] })}
             formGroupClassName="m-b-0"
           />
         </td>
@@ -44,7 +42,7 @@ export const Risk = ({
           selected={selected.risk_likelihood}
           groupName={Object.keys(selected)[0]}
           label="Risk likelihood"
-          update={(e) => onChange('radio', id, e)}
+          update={(e) => onChange(id, e)}
         />
       </tr>
       <tr>
@@ -54,7 +52,7 @@ export const Risk = ({
           selected={selected.risk_impact}
           groupName={Object.keys(selected)[1]}
           label="Risk impact"
-          update={(e) => onChange('radio', id, e)}
+          update={(e) => onChange(id, e)}
         />
       </tr>
       <tr>
@@ -69,8 +67,8 @@ export const Risk = ({
             hideLabel
             value={contingency_plan}
             onChange={(e) =>
-              onChange('input', id, {
-                field: 'contingency_plan',
+              onChange(id, {
+                key: 'contingency_plan',
                 value: e[id],
               })
             }
