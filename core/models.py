@@ -864,7 +864,7 @@ class PersonalisationCountryTag(TagBase):
     Tag value will be an ISO-2 Country code ('DE')
     """
 
-    # free_tagging = False  # DISABLED until tag data only comes via data migration
+    free_tagging = False
 
     class Meta:
         verbose_name = 'Country tag for personalisation'
@@ -876,7 +876,7 @@ class PersonalisationRegionTag(TagBase):
     Tag value will be a geographical string ('Europe')
     """
 
-    # free_tagging = False  # DISABLED until tag data only comes via data migration
+    free_tagging = False
 
     class Meta:
         verbose_name = 'Region tag for personalisation'
@@ -888,7 +888,7 @@ class PersonalisationTradingBlocTag(TagBase):
     Tag value will be an Trading blocs
     """
 
-    # free_tagging = False  # DISABLED until tag data only comes via data migration
+    free_tagging = False
 
     class Meta:
         verbose_name = 'Trading bloc tag for personalisation'
