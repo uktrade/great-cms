@@ -28,7 +28,7 @@ export const Risk = ({
             id={String(id)}
             type="textarea"
             hideLabel
-            label={`Risk ${index}`}
+            label={`Risk ${index} label`}
             value={risk}
             onChange={(e) => onChange(id, { key: 'risk', value: e[id] })}
             formGroupClassName="m-b-0"
@@ -36,24 +36,28 @@ export const Risk = ({
         </td>
       </tr>
       <tr>
-        <Radiogroup
-          id={id}
-          options={likelihoodOptions}
-          selected={selected.risk_likelihood}
-          groupName={Object.keys(selected)[0]}
-          label="Risk likelihood"
-          update={(e) => onChange(id, e)}
-        />
+        <td>
+          <Radiogroup
+            id={id}
+            options={likelihoodOptions}
+            selected={selected.risk_likelihood}
+            groupName={Object.keys(selected)[0]}
+            label="Risk likelihood"
+            update={(e) => onChange(id, e)}
+          />
+        </td>
       </tr>
       <tr>
-        <Radiogroup
-          id={id}
-          options={impactOptions}
-          selected={selected.risk_impact}
-          groupName={Object.keys(selected)[1]}
-          label="Risk impact"
-          update={(e) => onChange(id, e)}
-        />
+        <td>
+          <Radiogroup
+            id={id}
+            options={impactOptions}
+            selected={selected.risk_impact}
+            groupName={Object.keys(selected)[1]}
+            label="Risk impact"
+            update={(e) => onChange(id, e)}
+          />
+        </td>
       </tr>
       <tr>
         <td>
