@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { RadiogroupItem } from './RadiogroupItem'
 
 export const Radiogroup = ({
@@ -17,7 +17,7 @@ export const Radiogroup = ({
   const [selectedOption, setSelectedOption] = useState(selected || null)
 
   const handleUpdate = (value, groupName) => {
-    // Remove `id_` from groupname then send as as key.
+    // Remove `id_` from groupname
     const key = groupName.slice(String(id).length + 1)
 
     setSelectedOption(value)
@@ -26,7 +26,7 @@ export const Radiogroup = ({
 
   return (
     <>
-      {!hideLabel && <h3 className="form-label">{label}</h3>}
+      {!hideLabel && <p className="form-label m-v-0">{label}</p>}
       <div
         className={`
           great-radiogroup 
@@ -53,9 +53,28 @@ export const Radiogroup = ({
   )
 }
 
+Radiogroup.propsTypes = {
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
+  selected: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  hideLabel: PropTypes.bool,
+  groupName: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  type: PropTypes.string,
+  buttonType: PropTypes.string,
+  update: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+}
+
 Radiogroup.defaultProps = {
   className: 'm-b-xs',
   type: 'button',
   buttonType: '',
-  label: null,
+  hideLabel: false,
+  label: '',
 }

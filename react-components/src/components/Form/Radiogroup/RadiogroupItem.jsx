@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 export const RadiogroupItem = ({
   id,
@@ -27,4 +27,11 @@ export const RadiogroupItem = ({
   )
 }
 
-RadiogroupItem.defaultProps = {}
+RadiogroupItem.protTypes = {
+  id: PropTypes.string.isRequired,
+  group: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  update: PropTypes.func.isRequired,
+  selected: PropTypes.string.isRequired,
+}
