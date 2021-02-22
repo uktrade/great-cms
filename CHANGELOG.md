@@ -3,7 +3,7 @@
 ## Pre-release
 ### Fixed bugs
 - NO TICKET - add document-link back in as rich-text option
-
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 ### Implemented enhancements
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
