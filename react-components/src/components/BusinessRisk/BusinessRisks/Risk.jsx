@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
 import { Learning } from '@src/components/Learning/Learning'
@@ -25,10 +25,10 @@ export const Risk = ({
           <p className="form-label m-v-0">Risk {index}</p>
           <Learning {...risk_extras} />
           <TextArea
-            id={id}
+            id={String(id)}
             type="textarea"
             hideLabel
-            label={risk_extras.label}
+            label={`Risk ${index}`}
             value={risk}
             onChange={(e) => onChange(id, { key: 'risk', value: e[id] })}
             formGroupClassName="m-b-0"
@@ -60,7 +60,7 @@ export const Risk = ({
           <p className="form-label m-v-0">{contingency_plan_extras.label}</p>
           <Learning {...contingency_plan_extras} />
           <TextArea
-            id={id}
+            id={String(id)}
             type="textarea"
             hideLabel
             label={contingency_plan_extras.label}
@@ -92,16 +92,44 @@ export const Risk = ({
   )
 }
 
-// Risk.propTypes = {
-//   id: PropTypes.number.isRequired,
-//   value: PropTypes.number.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   selectData: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     options: PropTypes.array.isRequired,
-//     placeholder: PropTypes.string.isRequired,
-//   }).isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   deleteRisk: PropTypes.func.isRequired,
-// }
+Risk.propTypes = {
+  id: PropTypes.number.isRequired,
+  risk: PropTypes.string.isRequired,
+  contingency_plan: PropTypes.string.isRequired,
+  risk_extras: PropTypes.shape({
+    example: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+    tooltip: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+  }).isRequired,
+  contingency_plan_extras: PropTypes.shape({
+    example: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+    label: PropTypes.string,
+    tooltip: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  likelihoodOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
+  impactOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
+  selected: PropTypes.shape({
+    risk_impact: PropTypes.string,
+    risk_likelihood: PropTypes.string,
+  }).isRequired,
+  onChange: PropTypes.func.isRequired,
+  deleteRisk: PropTypes.func.isRequired,
+}
