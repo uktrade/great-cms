@@ -1,11 +1,9 @@
 import React, { memo, useState } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
-// import { Radiogroup } from '@src/components/Form/Radiogroup/Radiogroup'
 import { Risks } from './Risks'
-// import { risk_likelihood_options, risk_impact_options } from './constants'
 
 export const BusinessRisks = ({
   formFields,
@@ -44,25 +42,14 @@ export const BusinessRisks = ({
 
   const debounceUpdate = useDebounce(update)
 
-  const onChange = (type, id, value) => {
+  const onChange = (id, { key, value }) => {
     const field = risks.find((x) => x.pk === id)
+    const data = { [key]: value }
 
-    if (type === 'radio') {
-      value = {
-        [value.key]: value.value,
-      }
-    }
-    if (type === 'input') {
-      value = {
-        [value.field]: value.value,
-      }
-    }
-    const updatedRisks = risks.map((x) =>
-      x.pk === id ? { ...x, ...value } : x
-    )
+    const updatedRisks = risks.map((x) => (x.pk === id ? { ...x, ...data } : x))
 
     setRisks(updatedRisks)
-    debounceUpdate(field, value)
+    debounceUpdate(field, data)
   }
 
   return (
@@ -86,16 +73,59 @@ export const BusinessRisks = ({
   )
 }
 
-// BusinessRisks.propTypes = {
-//   formData: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       companyexportplan: PropTypes.number,
-//       pk: PropTypes.number,
-//     })
-//   ).isRequired,
-//   companyexportplan: PropTypes.number.isRequired,
-// }
+BusinessRisks.propTypes = {
+  formData: PropTypes.shape({
+    contingency_plan_extras: PropTypes.shape({
+      example: PropTypes.shape({
+        content: PropTypes.string,
+      }),
+      label: PropTypes.string,
+      tooltip: PropTypes.shape({
+        content: PropTypes.string,
+      }),
+    }),
+    risk_extras: PropTypes.shape({
+      example: PropTypes.shape({
+        content: PropTypes.string,
+      }),
+      tooltip: PropTypes.shape({
+        content: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+  formFields: PropTypes.arrayOf(
+    PropTypes.shape({
+      companyexportplan: PropTypes.number,
+      contingency_plan: PropTypes.string,
+      pk: PropTypes.number,
+      risk: PropTypes.string,
+      risk_impact: PropTypes.string,
+      risk_likelihood: PropTypes.string,
+    })
+  ),
+  companyexportplan: PropTypes.number.isRequired,
+  lesson: PropTypes.shape({
+    category: PropTypes.string,
+    duration: PropTypes.string,
+    title: PropTypes.string,
+    url: PropTypes.string,
+  }),
+  risk_likelihood_options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
+  risk_impact_options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
+  model_name: PropTypes.string.isRequired,
+}
 
-// BusinessRisks.defaultProps = {
-//   formData: [],
-// }
+BusinessRisks.defaultProps = {
+  formFields: [],
+  lesson: {},
+}
