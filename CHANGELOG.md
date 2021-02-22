@@ -7,6 +7,7 @@
 ### Fixed bugs
 
 - NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 - NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
