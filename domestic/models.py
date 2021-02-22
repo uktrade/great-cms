@@ -1,6 +1,7 @@
 from urllib.parse import unquote_plus
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
@@ -17,6 +18,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core import (
     blocks as core_blocks,
+    cache_keys,
     cms_slugs,
     forms as core_forms,
     helpers,
@@ -277,19 +279,27 @@ class GreatDomesticHomePage(
         blank=True,
     )
 
-    def get_sector_list(self):
-        def get_usage_counts(industry_tag):
-            return industry_tag.countryguidepage_set.all().live().count()
+    def _get_industry_tag_usage_counts(self, industry_tag):
+        return industry_tag.countryguidepage_set.all().live().count()
 
-        sectors = [
-            {
-                'id': tag.id,
-                'name': tag.name,
-                'icon': tag.icon,
-                'pages_count': get_usage_counts(tag),
-            }
-            for tag in IndustryTag.objects.all()  #  TODO: annotate with a DB-level count of countryguidepages
-        ]
+    def get_sector_list(self):
+        sectors = cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST)
+        if not sectors:
+            sectors = [
+                {
+                    'id': tag.id,
+                    'name': tag.name,
+                    'icon': tag.icon,
+                    'pages_count': self._get_industry_tag_usage_counts(tag),
+                }
+                for tag in IndustryTag.objects.all()
+            ]
+            cache.set(
+                cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST,
+                sectors,
+                settings.CACHE_EXPIRE_SECONDS_SHORT,
+            )
+
         return sectors
 
     def get_context(self, request):
@@ -297,7 +307,7 @@ class GreatDomesticHomePage(
 
         sector_list = self.get_sector_list()
 
-        sorted_sectors = sorted(sector_list, key=lambda x: x['pages_count'], reverse=True)
+        sorted_sectors = sorted(sector_list, key=lambda x: (x['pages_count']), reverse=True)
         context['sorted_sectors'] = sorted_sectors
         context['top_sectors'] = sorted_sectors[:6]
         context['sector_form'] = domestic_forms.SectorPotentialForm(
