@@ -1527,14 +1527,15 @@ class GreatDomesticHomePageTests(WagtailPageTests):
                     'pages_count': 0,
                 }
             )
-
+        # Quick check our test data is as expected
         self.assertEqual(
             len(expected_sector_list),
             core_models.IndustryTag.objects.count(),
         )
 
+        request = RequestFactory().get('/')
         self.assertEqual(
-            self.great_domestic_homepage.get_sector_list(),
+            self.great_domestic_homepage.get_sector_list(request),
             expected_sector_list,
         )
 
@@ -1547,13 +1548,17 @@ class GreatDomesticHomePageTests(WagtailPageTests):
         },
     )
     def test_get_sector_list__is_cached(self):
+
+        request = RequestFactory().get('/')
+        self.assertFalse(hasattr(request, 'is_preview'))
+
         # nothing in cache at start
         self.assertEqual(
             cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
             None,
         )
 
-        output = self.great_domestic_homepage.get_sector_list()
+        output = self.great_domestic_homepage.get_sector_list(request)
         self.assertEqual(
             len(output),
             core_models.IndustryTag.objects.count(),
@@ -1562,6 +1567,37 @@ class GreatDomesticHomePageTests(WagtailPageTests):
         self.assertEqual(
             cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
             output,
+        )
+
+    @mock.patch('domestic.models.GreatDomesticHomePage._get_sector_list_uncached')
+    def test_get_sector_list__is_not_cached__if_preview(
+        self,
+        mock_get_sector_list_uncached,
+    ):
+
+        mocked_retval = [{'test': 'data'}]
+        mock_get_sector_list_uncached.return_value = mocked_retval
+        request = RequestFactory().get('/')
+        request.is_preview = True  # set by wagtail.core.models.Page.serve_preview()
+
+        self.assertEqual(mock_get_sector_list_uncached.call_count, 0)
+
+        # nothing in cache at start
+        self.assertEqual(
+            cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
+            None,
+        )
+
+        output = self.great_domestic_homepage.get_sector_list(request)
+
+        self.assertEqual(output, mocked_retval)
+
+        self.assertEqual(mock_get_sector_list_uncached.call_count, 1)
+
+        # nothing in cache at end, because preview mode
+        self.assertEqual(
+            cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
+            None,
         )
 
     @mock.patch('domestic.models.GreatDomesticHomePage.get_sector_list')

@@ -282,18 +282,26 @@ class GreatDomesticHomePage(
     def _get_industry_tag_usage_counts(self, industry_tag):
         return industry_tag.countryguidepage_set.all().live().count()
 
-    def get_sector_list(self):
+    def _get_sector_list_uncached(self):
+        return [
+            {
+                'id': tag.id,
+                'name': tag.name,
+                'icon': tag.icon,
+                'pages_count': self._get_industry_tag_usage_counts(tag),
+            }
+            for tag in IndustryTag.objects.all()
+        ]
+
+    def get_sector_list(self, request):
+        # We don't want to go near the cache if we're previewing, so that we don't poison it
+        if getattr(request, 'is_preview', False) is True:  # set by wagtail.core.models.Page.serve_preview()
+            return self._get_sector_list_uncached()
+
+        # But we do want to leverage the cache if we're in proper servign mode
         sectors = cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST)
         if not sectors:
-            sectors = [
-                {
-                    'id': tag.id,
-                    'name': tag.name,
-                    'icon': tag.icon,
-                    'pages_count': self._get_industry_tag_usage_counts(tag),
-                }
-                for tag in IndustryTag.objects.all()
-            ]
+            sectors = self._get_sector_list_uncached()
             cache.set(
                 cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST,
                 sectors,
@@ -305,7 +313,7 @@ class GreatDomesticHomePage(
     def get_context(self, request):
         context = super().get_context(request)
 
-        sector_list = self.get_sector_list()
+        sector_list = self.get_sector_list(request)
 
         sorted_sectors = sorted(sector_list, key=lambda x: (x['pages_count']), reverse=True)
         context['sorted_sectors'] = sorted_sectors
