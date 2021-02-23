@@ -221,6 +221,13 @@ class TravelBusinessPoliciesSerializer(serializers.Serializer):
     visa_information = VisaInformationSerializer(required=False)
 
 
+class FundingCreditOptionsSerializer(serializers.Serializer):
+    amount = serializers.FloatField(required=False)
+    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -238,6 +245,7 @@ class ExportPlanSerializer(serializers.Serializer):
     funding_and_credit = FundingAndCreditSerializer(required=False)
     getting_paid = GettingPaidSerializer(required=False)
     travel_business_policies = TravelBusinessPoliciesSerializer(required=False)
+    funding_credit_options = FundingCreditOptionsSerializer(required=False)
 
     def to_internal_value(self, data):
         internal_val = super().to_internal_value(data)
@@ -282,6 +290,15 @@ class ExportPlanSerializer(serializers.Serializer):
                 self.total_direct_costs
             )
         return estimated_costs_per_unit
+
+    @property
+    def calculate_total_funding(self):
+        self.is_valid()
+        total_funding = 0.00
+        funding_credit_options = self.data.get('funding_credit_options', {})
+        for funding_credit_option in funding_credit_options:
+            total_funding = funding_credit_option.get('amount', 0.00) + total_funding
+        return total_funding
 
     @property
     def calculate_cost_pricing(self):
@@ -378,13 +395,6 @@ class RouteToMarketSerializer(serializers.Serializer):
 class TargetMarketDocumentSerializer(serializers.Serializer):
     document_name = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    companyexportplan = serializers.IntegerField()
-    pk = serializers.IntegerField()
-
-
-class FundingCreditOptionsSerializer(serializers.Serializer):
-    amount = serializers.FloatField(required=False)
-    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 

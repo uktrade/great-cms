@@ -267,6 +267,17 @@ def delete_model_object(sso_session_id, model_name, data):
     return response
 
 
+def get_export_plan_pdf_context(request):
+    context = {
+        'export_plan': request.user.export_plan.data,
+        'user': request.user,
+        'sections': data.SECTION_TITLES,
+        'calculated_pricing': request.user.export_plan.calculated_cost_pricing(),
+        'total_funding': request.user.export_plan.calculate_total_funding(),
+     }
+    return context
+
+
 class ExportPlanParser:
     """
     Parse the export plan details provided by directory-api's exportplan
@@ -312,6 +323,10 @@ class ExportPlanParser:
     def calculated_cost_pricing(self):
         calculated_pricing = serializers.ExportPlanSerializer(data=self.data).calculate_cost_pricing
         return {'calculated_cost_pricing': calculated_pricing}
+
+    def calculate_total_funding(self):
+        total_funding = serializers.ExportPlanSerializer(data=self.data).calculate_total_funding
+        return {'calculated_total_funding': total_funding}
 
     def calculate_ep_progress(self):
         progress_items = self.data.get('ui_progress', {})

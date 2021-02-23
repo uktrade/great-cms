@@ -42,6 +42,7 @@
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 - GP2-1405 - pdf EP Initial boiler plate creation
 
+- GP2-1632 - export plan DL BE p1
 
 ### Fixed bugs
 

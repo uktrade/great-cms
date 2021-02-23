@@ -282,7 +282,6 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
             'estimated_costs_per_unit', ''
         )
         context['funding_credit_options'] = self.request.user.export_plan.data.get('funding_credit_options', [])
-
         return context
 
 
@@ -376,7 +375,7 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
 class PDFDownload(View):
     def get(self, request, *args, **kwargs):
-        context = {'export_plan': request.user.export_plan.data}
+        context = helpers.get_export_plan_pdf_context(request)
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'export_plan.pdf'
