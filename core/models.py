@@ -2,6 +2,7 @@ import hashlib
 import mimetypes
 from urllib.parse import unquote
 
+from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -1108,7 +1109,7 @@ class CaseStudy(ClusterableModel):
             [
                 FieldPanel('title'),
                 FieldPanel('lead_title'),
-                FieldPanel('summary_context'),
+                FieldPanel('summary_context', widget=forms.TextInput(attrs={'placeholder': 'How we did it'})),
                 StreamFieldPanel('body'),
             ],
             heading='Case Study content',
