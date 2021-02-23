@@ -1,26 +1,37 @@
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+<style>
+{% include 'exportplan/pdf_download.css' %}
+</style>
+
 </head>
 <body>
-<h1>
-    <span>Export Plan</span>
-    <span>{% now "jS F Y" %}</span>
-    <span>{% now "h:i a" %}</span>
-</h1>
 
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+  <h1>Export Plan {% now "jS F Y" %} {% now "h:i a" %}</h1>
+</div>
+
+<!-- Content for Static Frame 'footer_frame' -->
+<div id="footer_content">
+  Page <pdf:pagenumber> of <pdf:pagecount>
+</div>
+
+<pdf:toc />
+
+<!-- HTML Content -->
 <h2>
-    Owner: {{ user.get_full_name|default:user.get_username }}
-
+  Owner: {{ user.get_full_name|default:user.get_username }}
 </h2>
 <h2>
-    {{ export_plan.export_commodity_codes.0.commodity_name }}
+  {{ export_plan.export_commodity_codes.0.commodity_name }}
 </h2>
 
 <br>
 <h1>Sections</h1>
 <ul>
 {% for section in sections %}
-    <li>{{ forloop.counter|add:2}} : {{ section }}</li>
+  <li>{{ forloop.counter|add:2}} : {{ section }}</li>
 {% endfor %}
 
 </ul>
