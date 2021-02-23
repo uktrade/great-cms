@@ -3,6 +3,7 @@
 ## Pre-release
 
 - NO TICKET - django 2.2.19 upgrade
+- GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
 
 ### Fixed bugs
 
@@ -14,6 +15,7 @@
 
 - GP2-1593 - Business Risks page elements
 - GP2-1181 - Business Risks page structure
+- GP2-1571 - Case study - Wagtail quote block
 - GP2-1619 - Ensure all pages ported from V1 populate GA360/DataLayer data
 - GP2-1180 - Travel and business policies-page
 - GP2-1404 - Select your product (modal window) - Product and country are not selected
