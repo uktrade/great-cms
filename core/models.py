@@ -1045,13 +1045,16 @@ class CaseStudy(ClusterableModel):
     title = models.CharField(
         max_length=255,
         blank=False,
+        verbose_name='Internal case study title',
     )
 
-    company_name = models.CharField(
+    # Todo: remove this comment: old name company name
+    summary_context = models.CharField(
         max_length=255,
         blank=False,
     )
-    summary = models.TextField(blank=False)  # Deliberately not rich-text / no formatting
+    # Todo: remove this comment: old name summary
+    lead_title = models.TextField(blank=False)  # Deliberately not rich-text / no formatting
     body = StreamField(
         [
             (
@@ -1104,8 +1107,8 @@ class CaseStudy(ClusterableModel):
         MultiFieldPanel(
             [
                 FieldPanel('title'),
-                FieldPanel('company_name'),
-                FieldPanel('summary'),
+                FieldPanel('lead_title'),
+                FieldPanel('summary_context'),
                 StreamFieldPanel('body'),
             ],
             heading='Case Study content',
@@ -1128,7 +1131,7 @@ class CaseStudy(ClusterableModel):
     ]
 
     def __str__(self):
-        display_name = self.title if self.title else self.company_name
+        display_name = self.title if self.title else self.summary_context
         return f'{display_name}'
 
     def save(self, **kwargs):
