@@ -932,13 +932,14 @@ class TradingBlocTaggedCaseStudy(ItemBase):
 def _high_level_validation(value, error_messages):
     TEXT_BLOCK = 'text'  # noqa N806
     MEDIA_BLOCK = 'media'  # noqa N806
+    QUOTE_BLOCK = 'quote'  # noqa N806
 
     # we need to be strict about presence and ordering of these nodes
-    if [node.block_type for node in value] != [MEDIA_BLOCK, TEXT_BLOCK]:
+    if [node.block_type for node in value if node.block_type != QUOTE_BLOCK] != [MEDIA_BLOCK, TEXT_BLOCK]:
         error_messages.append(
             (
                 'This block must contain one Media section (with one or '
-                'two items in it), then one Text section following it.'
+                'two items in it) and/or a Quote section, then one Text section following it.'
             )
         )
 
@@ -1064,9 +1065,16 @@ class CaseStudy(ClusterableModel):
                     features=RICHTEXT_FEATURES__MINIMAL,
                 ),
             ),
+            (
+                'quote',
+                core_blocks.CaseStudyQuoteBlock(),
+            ),
         ],
         validators=[case_study_body_validation],
-        help_text=('This block must contain one Media section (with one or two items in it) and one Text section.'),
+        help_text=(
+            'This block must contain one Media section (with one or two items in it) '
+            'and/or Quote sections, then one Text section.'
+        ),
     )
 
     # We are keeping the personalisation-relevant tags in separate

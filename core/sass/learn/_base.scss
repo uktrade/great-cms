@@ -866,6 +866,18 @@ $desktop: 1024px;
         }
       }
 
+      .quote {
+        i {
+          position: relative;
+          left: -40px;
+          top: 25px;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
       .c-full {
         float: none;
         margin: 0;

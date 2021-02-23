@@ -1,0 +1,21 @@
+{% comment %}
+    Partial which renders out 1...n quote blocks, which is modelled in
+    a StreamField consisting on 1...10 rich text fields with quotes and
+    one author and author's role text fields.
+{% endcomment %}
+
+{% for quote in value.quotes %}
+<div class="quote bg-white br-xs m-t-xs p-t-xs p-b-xs p-r-xs p-f-l">
+    <i class="fas fa-quote-left text-blue-deep-50 block"></i>
+    {{quote}}
+    {% if forloop.last %} {# on last iteration only #}
+    <div class="m-t-xs">
+        <span class="body-m-b block">{{value.attribution}}</span>
+
+        {% if value.role %}
+        <span class="body-m block">{{value.role}}</span>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
