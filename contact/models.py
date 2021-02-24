@@ -1,13 +1,10 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.forms import Select
-
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.snippets.models import register_snippet
 
 from core.cms_panels import SearchEngineOptimisationPanel
-
-from . import fixed_page_slugs
+from . import snippet_slugs
 
 
 class NonPageContentSnippetBase(models.Model):
@@ -46,48 +43,51 @@ class NonPageContentSEOMixin(models.Model):
 
 
 @register_snippet
-class ContactSuccessSnippet(NonPageContentSEOMixin, NonPageContentSnippetBase):
+class ContactSuccessSnippet(
+    NonPageContentSEOMixin,
+    NonPageContentSnippetBase,
+):
 
     topic_mapping = {
         # This limits the slugs and URL paths that can be configured for these snippets.
         # It follows a common pattern from the V1 site
-        fixed_page_slugs.HELP_FORM_SUCCESS: {
+        snippet_slugs.HELP_FORM_SUCCESS: {
             'title': 'Contact domestic form success',
             'page_path': '/contact/domestic/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_EVENTS: {
+        snippet_slugs.HELP_FORM_SUCCESS_EVENTS: {
             'title': 'Contact Events form success',
             'page_path': '/contact/events/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_DSO: {
+        snippet_slugs.HELP_FORM_SUCCESS_DSO: {
             'title': 'Contact Defence and Security Organisation form success',
             'page_path': ('/contact/defence-and-security-organisation/success/'),
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE: {
+        snippet_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE: {
             'title': 'Contact exporting from the UK form success',
             'page_path': '/contact/export-advice/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_FEEDBACK: {
+        snippet_slugs.HELP_FORM_SUCCESS_FEEDBACK: {
             'title': 'Contact feedback form success',
             'page_path': '/contact/feedback/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_FIND_COMPANIES: {
+        snippet_slugs.HELP_FORM_SUCCESS_FIND_COMPANIES: {
             'title': 'Contact find UK companies form success',
             'page_path': '/contact/find-uk-companies/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_INTERNATIONAL: {
+        snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL: {
             'title': 'Contact international form success',
             'page_path': '/contact/international/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_SOO: {
+        snippet_slugs.HELP_FORM_SUCCESS_SOO: {
             'title': 'Contact Selling Online Overseas form success',
             'page_path': '/contact/selling-online-overseas/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_BEIS: {
+        snippet_slugs.HELP_FORM_SUCCESS_BEIS: {
             'title': 'Contact BEIS form success',
             'page_path': 'contact/department-for-business-energy-and-industrial-strategy/success/',
         },
-        fixed_page_slugs.HELP_FORM_SUCCESS_DEFRA: {
+        snippet_slugs.HELP_FORM_SUCCESS_DEFRA: {
             'title': 'Contact DEFRA form success',
             'page_path': 'contact/department-for-environment-food-and-rural-affairs/success/',
         },

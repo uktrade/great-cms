@@ -11,6 +11,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_transfer import urls as wagtailtransfer_urls
 
 import cms_extras.urls
+import contact.urls
 import core.urls
 import exportplan.urls
 import sso.urls
@@ -34,6 +35,7 @@ urlpatterns += [
     path('admin/cms-extras/', decorator_include(skip_ga360, cms_extras.urls, namespace='cms_extras')),
     path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
+    path('contact/', include(contact.urls)),
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),

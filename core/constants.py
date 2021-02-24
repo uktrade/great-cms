@@ -61,3 +61,11 @@ TABLEBLOCK_OPTIONS = {
     'renderer': 'text',
     'autoColumnSize': False,
 }
+
+CONSENT_EMAIL = 'consents_to_email_contact'
+CONSENT_PHONE = 'consents_to_phone_contact'
+
+CONSENT_CHOICES = (
+    (CONSENT_EMAIL, 'I would like to receive additional information by email'),
+    (CONSENT_PHONE, ' I would like to receive additional information by telephone'),
+)
