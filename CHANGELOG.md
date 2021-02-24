@@ -13,6 +13,7 @@
 
 ### Implemented enhancements
 
+- GP2-1553 - floating lesson link
 - GP2-1593 - Business Risks page elements
 - GP2-1181 - Business Risks page structure
 - GP2-1571 - Case study - Wagtail quote block
