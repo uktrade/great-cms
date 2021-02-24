@@ -6,4 +6,5 @@ LOGIN_URL = '/login/'
 EXPORT_PLAN_DASHBOARD_URL = '/export-plan/dashboard/'
 
 PRIVACY_NOTICE_URL = '/privacy-notice/'
+PRIVACY_POLICY_URL = '/privacy-and-cookies/'
 TERMS_URL = '/terms-and-conditions/'

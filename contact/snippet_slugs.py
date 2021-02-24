@@ -1,5 +1,7 @@
-# The following slugs are used with Django-rendered views where we need to
-# map CMS content to Django views, such as each named step in a form wizard.
+# The following slugs are used with Django-rendered views where we need to map CMS content in
+# Snippets to data we can use in those Django views, such a success view in a form wizard.
+# To load the relevant Snippet, you will also need to know the model class involved.
+# See core.mixins.GetSnippetContentMixin for more details
 
 HELP_FORM_SUCCESS = 'contact-success-form'
 HELP_FORM_SUCCESS_BEIS = 'contact-beis-success'
