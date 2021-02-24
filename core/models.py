@@ -212,7 +212,13 @@ class Tag(models.Model):
 @register_snippet
 class IndustryTag(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    icon = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    icon = models.ForeignKey(
+        AltTextImage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     panels = [FieldPanel('name'), ImageChooserPanel('icon')]
 
