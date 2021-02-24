@@ -40,6 +40,7 @@ import {
   travelPlanVisaInformation,
   plannedTravel,
 } from '@src/views/sections/TravelPlan/TravelPlan'
+import { businessRisks } from '@src/views/sections/BusinessRisk/BusinessRisk'
 
 import {
   createDashboard,
@@ -86,6 +87,7 @@ export default {
   travelPlanCultureRules,
   travelPlanVisaInformation,
   plannedTravel,
+  businessRisks,
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,
