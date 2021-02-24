@@ -1049,12 +1049,12 @@ class CaseStudy(ClusterableModel):
         verbose_name='Internal case study title',
     )
 
-    # Todo: remove this comment: old name company name
+    # old name company_name
     summary_context = models.CharField(
         max_length=255,
         blank=False,
     )
-    # Todo: remove this comment: old name summary
+    # old name summary
     lead_title = models.TextField(blank=False)  # Deliberately not rich-text / no formatting
     body = StreamField(
         [

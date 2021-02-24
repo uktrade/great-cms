@@ -4,7 +4,7 @@ import ReactHtmlParser from 'react-html-parser'
 import { createVideoTranscript } from '../VideoTranscript/VideoTranscript'
 import Slider from 'react-slick'
 
-const CaseStudy = ({ content: { heading, company, body, carouselItems, mobileContent } }) => {
+const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -15,7 +15,9 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems, mobileCon
 
       createVideoTranscript({
         element: document.querySelector('.case-study .block-video > div'),
-        source: document.querySelector('.case-study .block-video video source[transcript]')
+        source: document.querySelector(
+          '.case-study .block-video video source[transcript]'
+        ),
       })
     }
   }, [isOpen])
@@ -25,7 +27,7 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems, mobileCon
     let dataLayer = window.dataLayer || []
     dataLayer.push({
       event: 'openCaseStudy',
-      caseStudy: heading
+      caseStudy: heading,
     })
   }
 
@@ -35,36 +37,47 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems, mobileCon
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false
+    arrows: false,
   }
 
   return (
     <>
       <div className="case-study p-t-m p-b-s">
         {isOpen && (
-          <button className="case-study__close" onClick={toggleCaseStudy} autoFocus>
+          <button
+            className="case-study__close"
+            onClick={toggleCaseStudy}
+            autoFocus
+          >
             <i className="fas fa-times"></i>
             <span className="visually-hidden">Close</span>
           </button>
         )}
         <div className="case-study__content media-block">
-          <i className="fas fa-newspaper" />
+          <i className="fa fa-comment" aria-hidden="true"></i>
           <div>
-            <h3 className="h-m m-b-xs p-0">{heading}</h3>
+            <h3 className="cast-study__lead_title  h-m m-b-xs p-0">
+              {heading}
+            </h3>
+            <span className="case-study__company h-s p-0">{company}</span>
+            <div className="case-study__media">
+              <Slider {...settings}>{ReactHtmlParser(carouselItems)}</Slider>
+            </div>
+
             {isOpen && (
               <>
-                <p className="case-study__company h-s p-0">{company}</p>
                 <div className="case-study__mobile body-l">
-                  <Slider {...settings}>{ReactHtmlParser(carouselItems)}</Slider>
-                  {ReactHtmlParser(mobileContent)}
+                  {ReactHtmlParser(body)}
                 </div>
-                <div className="case-study__media body-l" dangerouslySetInnerHTML={{ __html: body }} />
               </>
             )}
           </div>
         </div>
         {!isOpen && (
-          <button className="button button--small button--tertiary case-study__open" onClick={toggleCaseStudy}>
+          <button
+            className="button button--small button--tertiary case-study__open"
+            onClick={toggleCaseStudy}
+          >
             Open case study
           </button>
         )}

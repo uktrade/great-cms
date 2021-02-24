@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0059_add_quote_block_to_case_study_page'),
+        ('core', '0060_merge_0059_migrations'),
     ]
 
     operations = [
