@@ -15,12 +15,12 @@ allure-pytest==2.8.34
 allure-python-commons==2.8.34
     # via allure-pytest
 appdirs==1.4.4
-    # via black
-appnope==0.1.2
-    # via ipython
+    # via
+    #   black
+    #   virtualenv
 arabic-reshaper==2.1.1
     # via xhtml2pdf
-astroid==2.4.2
+astroid==2.5.0
     # via pylint
 attrs==20.3.0
     # via
@@ -58,6 +58,8 @@ certifi==2020.12.5
     #   sentry-sdk
 cffi==1.14.5
     # via cryptography
+cfgv==3.2.0
+    # via pre-commit
 chardet==4.0.0
     # via requests
 click==7.1.2
@@ -104,6 +106,8 @@ directory-sso-api-client==6.5.3
     # via -r requirements.in
 directory-validators==6.0.4
     # via -r requirements.in
+distlib==0.3.1
+    # via virtualenv
 django-debug-toolbar==3.2
     # via -r requirements_test.in
 django-decorator-include==3.0
@@ -175,8 +179,10 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==6.3.0
+faker==6.4.1
     # via factory-boy
+filelock==3.0.12
+    # via virtualenv
 flake8-blind-except==0.1.1
     # via -r requirements_test.in
 flake8-debugger==4.0.0
@@ -225,16 +231,24 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
+identify==1.5.14
+    # via pre-commit
 idna==2.10
     # via requests
 imagesize==1.2.0
     # via sphinx
-importlib-metadata==3.4.0
+importlib-metadata==3.6.0
     # via
     #   flake8
     #   jsonschema
     #   pluggy
+    #   pre-commit
     #   pytest
+    #   virtualenv
+importlib-resources==5.1.0
+    # via
+    #   pre-commit
+    #   virtualenv
 iniconfig==1.1.1
     # via pytest
 ipdb==0.13.4
@@ -269,7 +283,7 @@ jsonschema==3.2.0
     # via great-components
 l18n==2020.6.1
     # via wagtail
-lazy-object-proxy==1.4.3
+lazy-object-proxy==1.5.2
     # via astroid
 locust==1.4.3
     # via -r requirements_test.in
@@ -295,6 +309,8 @@ msgpack==1.0.2
     # via locust
 mypy-extensions==0.4.3
     # via black
+nodeenv==1.5.0
+    # via pre-commit
 oauthlib==3.1.0
     # via requests-oauthlib
 olefile==0.46
@@ -334,6 +350,8 @@ pluggy==0.13.1
     #   pytest
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
+pre-commit==2.10.1
+    # via -r requirements_test.in
 prompt-toolkit==3.0.16
     # via ipython
 psutil==5.8.0
@@ -363,7 +381,7 @@ pylint-django==2.4.2
     # via -r requirements_test.in
 pylint-plugin-utils==0.6
     # via pylint-django
-pylint==2.6.2
+pylint==2.7.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -405,6 +423,8 @@ pytz==2020.1
     #   django-modelcluster
     #   l18n
     #   tzlocal
+pyyaml==5.4.1
+    # via pre-commit
 pyzmq==22.0.3
     # via locust
 readtime==1.1.1
@@ -450,7 +470,6 @@ six==1.15.0
     #   airtable-python-wrapper
     #   allure-pytest
     #   allure-python-commons
-    #   astroid
     #   cryptography
     #   django-extensions
     #   flake8-debugger
@@ -464,6 +483,7 @@ six==1.15.0
     #   requests-mock
     #   sphinx
     #   traitlets
+    #   virtualenv
     #   w3lib
     #   xhtml2pdf
 snowballstemmer==2.1.0
@@ -489,6 +509,7 @@ text-unidecode==1.3
 toml==0.10.2
     # via
     #   black
+    #   pre-commit
     #   pre-commit-hooks
     #   pylint
     #   pytest
@@ -517,6 +538,8 @@ urllib3==1.25.11
     #   sentry-sdk
 user-agents==2.2.0
     # via wagtail-personalisation
+virtualenv==20.4.2
+    # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
 wagtail-cache==1.0.1
@@ -565,7 +588,9 @@ xlsxwriter==1.3.7
 xlwt==1.3.0
     # via tablib
 zipp==3.4.0
-    # via importlib-metadata
+    # via
+    #   importlib-metadata
+    #   importlib-resources
 zope.event==4.5.0
     # via gevent
 zope.interface==5.2.0
