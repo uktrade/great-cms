@@ -151,6 +151,7 @@ CACHES = {
 
 
 CACHE_EXPIRE_SECONDS = env.int('CACHE_EXPIRE_SECONDS', 60 * 30)  # 30 minutes
+CACHE_EXPIRE_SECONDS_SHORT = env.int('CACHE_EXPIRE_SECONDS', 60 * 5)  # 5 minutes
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
