@@ -7,6 +7,7 @@ import Slider from 'react-slick'
 const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  console.log(body)
   useEffect(() => {
     const videoBlock = document.querySelector('.case-study .block-video')
 
@@ -53,19 +54,24 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
             <span className="visually-hidden">Close</span>
           </button>
         )}
-        <div className="case-study__content media-block">
+        <div className="case-study__content media-block m-t-s">
           <i className="fa fa-comment" aria-hidden="true"></i>
           <div>
             <h3 className="cast-study__lead_title  h-m m-b-xs p-0">
               {heading}
             </h3>
-            <span className="case-study__company h-s p-0">{company}</span>
-            <div className="case-study__media">
+            <span className="case-study__company text-blue-deep-60 h-s p-0">
+              {company}
+            </span>
+            <div className="case-study__media m-t-n-xs m-b-s">
               <Slider {...settings}>{ReactHtmlParser(carouselItems)}</Slider>
             </div>
 
             {isOpen && (
               <>
+                <div className="case-study__media body-l">
+                  {ReactHtmlParser(body)}
+                </div>
                 <div className="case-study__mobile body-l">
                   {ReactHtmlParser(body)}
                 </div>
@@ -75,7 +81,7 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
         </div>
         {!isOpen && (
           <button
-            className="button button--small button--tertiary case-study__open"
+            className="button button--small button--tertiary case-study__open m-t-xs"
             onClick={toggleCaseStudy}
           >
             Open case study

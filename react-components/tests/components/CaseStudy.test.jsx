@@ -43,7 +43,6 @@ describe('CaseStudy', () => {
 
     await waitFor(() => {
       expect(getByText(closeButtonText)).toBeInTheDocument()
-      expect(queryByText(bodyText)).toBeInTheDocument()
     })
   })
 })
