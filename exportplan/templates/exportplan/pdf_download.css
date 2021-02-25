@@ -27,10 +27,6 @@
       top: 772pt;
       height: 20pt;
     }
-
-    @top-center {
-      content: 'This page is intentionally left blank.';
-    }
   }
 
   h1 {
