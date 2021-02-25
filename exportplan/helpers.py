@@ -5,6 +5,7 @@ from core import models
 from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
 from exportplan import data, serializers
+from directory_constants import choices
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -267,14 +268,23 @@ def delete_model_object(sso_session_id, model_name, data):
     return response
 
 
+def values_to_labels(values, choices):
+    return ', '.join([choices.get(item) for item in values if item in choices])
+
+
 def get_export_plan_pdf_context(request):
+
     context = {
         'export_plan': request.user.export_plan.data,
         'user': request.user,
         'sections': data.SECTION_TITLES,
         'calculated_pricing': request.user.export_plan.calculated_cost_pricing(),
         'total_funding': request.user.export_plan.calculate_total_funding(),
-     }
+        'getting_paid_payment_method_label': request.user.export_plan.getting_paid_payment_method_label,
+        'getting_paid_incoterms_transport_label': request.user.export_plan.getting_paid_incoterms_transport_label,
+
+    }
+
     return context
 
 
@@ -284,6 +294,8 @@ class ExportPlanParser:
     serializer
 
     """
+    PAYMENT_METHOD_OPTIONS = dict(choices.PAYMENT_METHOD_OPTIONS)
+    ALL_TRANSPORT_OPTIONS = dict(choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS)
 
     def __init__(self, data):
         self.data = data
@@ -338,3 +350,17 @@ class ExportPlanParser:
                 'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
             }
         }
+
+    @property
+    def getting_paid_payment_method_label(self):
+        return values_to_labels(
+            values=self.data.get('getting_paid', {}).get('payment_method', {}).get('methods') or [],
+            choices=self.PAYMENT_METHOD_OPTIONS
+        )
+
+    @property
+    def getting_paid_incoterms_transport_label(self):
+        return values_to_labels(
+            values=[self.data.get('getting_paid', {}).get('incoterms', {}).get('transport')] or [],
+            choices=self.ALL_TRANSPORT_OPTIONS
+        )
