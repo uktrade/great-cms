@@ -1,5 +1,5 @@
 from urllib.parse import unquote_plus
-
+from django.http import HttpResponseNotFound
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -266,7 +266,18 @@ class GreatDomesticHomePage(cms_panels.GreatDomesticHomePagePanels, BaseContentP
         null=True,
         blank=True,
     )
+#Added by CW for ticket GP2-1559    
+class StructuralPage(BaseContentPage):
+    """Structural page to return page not found
+    """
+    # `title` field comes from Page->BaseContentPage
+    folder_page = False
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always HTTP404
+        return HttpResponseNotFound
 
+    def serve(self, request):
+        return HttpResponseNotFound
 
 class TopicLandingBasePage(BaseContentPage):
     """Structural page with limited content, intended for use at

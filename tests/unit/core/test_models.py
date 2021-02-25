@@ -2,6 +2,7 @@ import time
 from unittest import mock
 
 import pytest
+from django.http import HttpResponseNotFound
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
@@ -42,6 +43,7 @@ from .factories import (
     DetailPageFactory,
     LessonPlaceholderPageFactory,
     TopicPageFactory,
+    StructurePageFactory,
 )
 
 
@@ -454,7 +456,19 @@ def test_placeholder_page_redirects_to_module(
         resp = getattr(placeholder_page, page_method)(request)
 
         assert resp._headers['location'] == ('Location', curated_list_page.url)
-
+#Added by CW for GP2-1559
+@pytest.mark.django_db
+def test_structure_page_redirects_to_Http404(
+    rf,
+    domestic_homepage,
+    domestic_site,
+):
+    # The structure pages should never render their own content and instead return Http404
+    structure_page = StructurePageFactory(parent=domestic_homepage)	
+    for page_method in ('serve', 'serve_preview'):
+        request = rf.get('/foo/')
+        resp = getattr(structure_page, page_method)(request)
+        assert resp.status_code == HttpResponseNotFound.status_code
 
 class DetailPageTests(WagtailPageTests):
     def test_parent_page_types(self):
