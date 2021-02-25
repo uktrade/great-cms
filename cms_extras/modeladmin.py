@@ -47,7 +47,7 @@ class CaseStudyAdmin(ModelAdmin):
     # )
     search_fields = (
         'title',
-        'company_name',
+        'summary_context',
         'country_code_tags__name',
         'hs_code_tags__name',
     )

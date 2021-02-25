@@ -3,12 +3,12 @@
 
 {% if case_study %}
 <div id="case_study">
-    <div class="case-study p-t-m p-b-s">
+    <div class="case-study p-t-xs p-b-s">
         <div class="case-study__content media-block">
-            <i class="fas fa-newspaper"></i>
+            <i class="fas fa-quote-left"></i>
             <div>
-                <h3 class="h-m m-b-xs p-0">{{case_study.summary}}</h3>
-                <p class="case-study__company h-xs p-0">{{case_study.company_name}}</p>
+                <h3 class="cast-study__lead_title h-m m-b-xs p-0">{{case_study.lead_title}}</h3>
+                <p class="case-study__company text-blue-deep-60 h-xs p-0">{{case_study.summary_context}}</p>
                 <div class="case-study__media case-study__body">
                     {% comment %} Body is a streamfield {% endcomment %}
                     {% for block in case_study.body %}
@@ -45,9 +45,9 @@
             content: {
                 heading: caseStudy.querySelector('h3').innerText,
                 company: caseStudy.querySelector('.case-study__company').innerText,
-                body: caseStudy.querySelector(".case-study__body").innerHTML,
-                carouselItems: caseStudy.querySelector(".case-study__mobile-content--media").innerHTML,
-                mobileContent: caseStudy.querySelector(".case-study__mobile-content--text").innerHTML,
+                body: caseStudy.querySelector(".case-study__mobile-content--text").innerHTML,
+                carouselItems: caseStudy.querySelector(".case-study__mobile-content--media").innerHTML
+
             }
         })
     </script>

@@ -125,8 +125,8 @@ class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
 
 class CaseStudyFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('word')
-    company_name = factory.Faker('word')
-    summary = factory.fuzzy.FuzzyText(length=200)
+    summary_context = factory.Faker('word')
+    lead_title = factory.fuzzy.FuzzyText(length=200)
 
     # Not bootstrapped:
     # body is a streamfield
