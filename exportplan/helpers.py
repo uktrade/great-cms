@@ -4,8 +4,8 @@ from iso3166 import countries_by_alpha3
 from core import models
 from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
-from exportplan import data, serializers
 from directory_constants import choices
+from exportplan import data, serializers
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -273,7 +273,6 @@ def values_to_labels(values, choices):
 
 
 def get_export_plan_pdf_context(request):
-
     context = {
         'export_plan': request.user.export_plan.data,
         'user': request.user,
@@ -282,7 +281,6 @@ def get_export_plan_pdf_context(request):
         'total_funding': request.user.export_plan.calculate_total_funding(),
         'getting_paid_payment_method_label': request.user.export_plan.getting_paid_payment_method_label,
         'getting_paid_incoterms_transport_label': request.user.export_plan.getting_paid_incoterms_transport_label,
-
     }
 
     return context
@@ -294,6 +292,7 @@ class ExportPlanParser:
     serializer
 
     """
+
     PAYMENT_METHOD_OPTIONS = dict(choices.PAYMENT_METHOD_OPTIONS)
     ALL_TRANSPORT_OPTIONS = dict(choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS)
 
@@ -355,12 +354,12 @@ class ExportPlanParser:
     def getting_paid_payment_method_label(self):
         return values_to_labels(
             values=self.data.get('getting_paid', {}).get('payment_method', {}).get('methods') or [],
-            choices=self.PAYMENT_METHOD_OPTIONS
+            choices=self.PAYMENT_METHOD_OPTIONS,
         )
 
     @property
     def getting_paid_incoterms_transport_label(self):
         return values_to_labels(
             values=[self.data.get('getting_paid', {}).get('incoterms', {}).get('transport')] or [],
-            choices=self.ALL_TRANSPORT_OPTIONS
+            choices=self.ALL_TRANSPORT_OPTIONS,
         )

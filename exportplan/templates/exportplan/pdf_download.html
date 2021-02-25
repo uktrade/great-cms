@@ -68,5 +68,17 @@ Payment Method: {{  getting_paid_payment_method_label }}
 Incoterms: {{  getting_paid_incoterms_transport_label }}
 <br>
 <br>
+Business Objectives
+
+{% for objective in export_plan.company_objectives %}
+  Objective  {{ forloop.counter }} <Br>
+{{ objective.description }}<br>
+Start date:  {{ objective.start_date }}<br>
+End date:  {{ objective.end_date }}<br>
+Owner:  {{ objective.owner }}<br>
+<br><br>
+{{ objective.planned_reviews }}<br><br><br><br>
+{% endfor %}
+
 </body>
 </html>
