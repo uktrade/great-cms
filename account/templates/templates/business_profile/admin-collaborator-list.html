@@ -1,0 +1,77 @@
+{% extends 'business_profile/admin-base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
+
+{% block breadcrumbs %}
+    {% breadcrumbs 'Collaborators' %}
+        <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+    <a href="{% url 'business-profile-admin-invite-collaborator' %}">Profile settings</a>
+    {% endbreadcrumbs %}
+{% endblock %}
+
+
+{% block inner_content %}
+  <h2 class="heading-large margin-top-0">Collaborators</h2>
+  <table>
+    <thead>
+      <tr>
+        <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">People</th>
+        <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">Role</th>
+        <th class="border-light-grey padding-top-15 padding-bottom-15 numeric" scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for collaborator in collaborators %}
+          <tr>
+            <th class="border-white padding-top-15 padding-bottom-10" scope="row">{{ collaborator.name|default:collaborator.company_email }}</th>
+            <td class="border-white padding-top-15 padding-bottom-10">{{ collaborator.role|title }}</td>
+            {% if collaborator.sso_id == request.user.id %}
+                <td class="border-white padding-top-15 padding-bottom-10 numeric">
+                    <a href="{% url 'business-profile-admin-disconnect' %}" class="link">Remove profile from my account</a>
+                </td>
+            {% else %}
+              <td class="border-white padding-top-15 padding-bottom-10 numeric">
+                  <a href="{% url 'business-profile-admin-collaborator-edit' sso_id=collaborator.sso_id %}" class="link">Edit</a>
+              </td>
+            {% endif %}
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% if features.ADMIN_REQUESTS_ON %}
+    <h2 class="heading-large margin-top-90">Requests</h2>
+    <p>People requesting to join the business profile</p>
+    <table>
+        <thead>
+          <tr>
+              <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">People</th>
+              <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">Request</th>
+              <th class="border-light-grey padding-top-15 padding-bottom-15 numeric" scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+	    {% if collaboration_requests %}
+	        {% for collaboration_request in collaboration_requests %}
+	            <tr>
+		        <td class="border-white padding-top-15 padding-bottom-10" scope="row">{{ collaboration_request.name }}</td>
+			<td class="border-white padding-top-15 padding-bottom-10">Request to become {{ collaboration_request.role|lower }}</td>
+			<td class="border-white padding-top-15 padding-bottom-10 numeric">
+			    <form method="post" enctype="multipart/form-data" class="no-default-margin" novalidate="novalidate">
+		                <input type="hidden" name="request_key" value="{{ collaboration_request.uuid }}" />
+			        <button type="submit" class="link background-white margin-right-30" name="{{ form.action.name }}" value="{{ form.APPROVE }}">Approve</button>
+			        <button type="submit" class="link background-white" name="{{ form.action.name }}" value="{{ form.DELETE }}">Delete request</button>
+		            </form>
+			</td>
+		    </tr>
+		{% endfor %}
+	     {% else %}
+		<tr>
+	            <th class="border-white padding-top-15 padding-bottom-10" scope="row">You currently have no requests.</th>
+		</tr>
+	    {% endif %}
+	</tbody>
+    </table>
+{% endif %}
+{% endblock %}

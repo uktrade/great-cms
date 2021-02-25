@@ -1,0 +1,8 @@
+{% extends 'directory_components/404.html' %}
+
+{% load static from staticfiles %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/404.css' %}" media="all" rel="stylesheet" />
+{% endblock %}

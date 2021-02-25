@@ -1,0 +1,49 @@
+{% extends 'business_profile/base-form.html' %}
+
+{% load breadcrumbs from directory_components %}
+
+{% block form_contents %}
+    {% breadcrumbs 'Add expertise' %}
+        <a href="{% url 'about' %}">Home</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+    {% endbreadcrumbs %}
+
+    <div id="selected-expertise-container">
+        {% if company.expertise_industries %}
+            <div>
+                <h2 class="heading-small">Industry expertise</h2>
+                <p>{{ company.expertise_industries }}</p>
+                <p><a href="{% url 'business-profile-expertise-industries' %}">Edit</a></p>
+            </div>
+        {% endif %}
+        {% if company.expertise_regions %}
+            <div>
+                <h2 class="heading-small">Regional expertise</h2>
+                <p>{{ company.expertise_regions }}</p>
+                <p><a href="{% url 'business-profile-expertise-regional' %}">Edit</a></p>
+            </div>
+        {% endif %}
+        {% if company.expertise_countries %}
+            <div>
+                <h2 class="heading-small">International expertise</h2>
+                <p>{{ company.expertise_countries }}</p>
+                <p><a href="{% url 'business-profile-expertise-countries' %}">Edit</a></p>
+            </div>
+        {% endif %}
+        {% if company.expertise_languages %}
+            <div>
+                <h2 class="heading-small">Language expertise</h2>
+                <p>{{ company.expertise_languages }}</p>
+                <p><a href="{% url 'business-profile-expertise-languages' %}">Edit</a></p>
+            </div>
+        {% endif %}
+    </div>
+    <h1 class="heading-large margin-top-0">Add expertise</h1>
+    <div id="business-details-form">
+        {{ block.super }}
+    </div>
+{% endblock %}
+
+{% block form_button %}
+    <button class="button">Continue</button>
+{% endblock %}

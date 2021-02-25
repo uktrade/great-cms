@@ -1,0 +1,33 @@
+{% extends 'business_profile/base-form.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
+
+{% block form_contents %}
+    {% breadcrumbs 'Add regional expertise' %}
+        <a href="{% url 'about' %}">Home</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+    {% endbreadcrumbs %}
+
+    <div id="selected-values-container" class="js-enabled-only">
+      <h2 class="heading-small">Regional expertise selected</h2>
+      <div id="selected-values"></div>
+    </div>
+    <h1 class="heading-medium">Add regional expertise</h1>
+    <div id="business-details-form">
+        {{ block.super }}
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    <link href="{% static 'directory_components/js/vendor/accessible-autocomplete.min.css' %}" media="all" rel="stylesheet" />
+    <script type="text/javascript" src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/expertise.js' %}"></script>
+    <script type="text/javascript">
+      dit.components.expertise({
+        multiselectElement: document.getElementById('id_expertise_regions'),
+        selectedValuesElement: document.getElementById('selected-values'),
+        noResultsLabel: 'No regions selected.',
+      })
+    </script>
+{% endblock %}

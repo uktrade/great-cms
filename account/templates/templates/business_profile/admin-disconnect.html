@@ -1,0 +1,31 @@
+{% extends 'business_profile/admin-base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
+
+{% block breadcrumbs %}
+    {% breadcrumbs 'Remove profile from account' %}
+        <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+		<a href="{% url 'business-profile-admin-invite-collaborator' %}">Profile settings</a>
+    {% endbreadcrumbs %}
+{% endblock %}
+
+
+{% block inner_content %}
+    <h2 class="heading-large margin-top-0 margin-bottom-15">Remove your account from this business profile</h2>
+    {% if is_sole_admin %}
+        <div class="width-two-thirds">
+            <p>You are the only administrator for this business profile.</p>
+            <p>You must choose a new administrator before you can remove this profile from your account</p>
+            <a href="{% url 'business-profile-admin-invite-administrator' %}" class="button margin-top-45 padding-left-60 padding-right-60">Continue</a>
+        </div>
+    {% else %}
+        <p>You will no longer have access to this business profile.</p>
+        <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+            {{ form }}
+            <button class="button">Remove</button>
+        </form>
+        <a class="link" href="{% url 'business-profile-admin-tools' %}">Cancel</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'apps-tabs.html' %}
+
+{% load static from staticfiles %}
+{% load parse_date from profile_tags %}
+{% load success_box from directory_components %}
+{% block head_title %}Business profile Member - Account - great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+
+{% block content %}
+    {{ block.super }}
+    <div class="container">
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                <div>
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class="message-box-with-icon border-medium border-teal width-full background-white margin-top-30">
+                          <div class="message-box-icon font-large white-text background-teal" aria-hidden="true">✓</div>
+                          <div class="message-box-content padding-15-m">
+                              <h3 class="box-heading heading-small teal-text margin-bottom-0">{{ message }}</h3>
+                          </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+                {% if company %}
+                <div class="margin-top-30 margin-bottom-30">
+                    <h2 class="heading-large">{{ company.name }} business profile already exists</h2>
+
+                    <p>
+                        A profile for this business was created on {{ company.created|parse_date:"%Y-%m-%dT%H:%M:%S.%fZ"|date:"M d, Y" }} at {{ company.created|parse_date:"%Y-%m-%dT%H:%M:%S.%fZ"|time:"g:i A" }}.
+                        It was last updated on {{ company.modified|parse_date:"%Y-%m-%dT%H:%M:%S.%fZ"|date:"M d, Y" }} at {{ company.modified|parse_date:"%Y-%m-%dT%H:%M:%S.%fZ"|time:"g:i A" }}.
+                    </p>
+                    <p>
+                        {% if is_profile_published %}
+                        You can now view your <a href="{{ FAB_BUSINESS_PROFILE_URL }}">business profile</a> and <a href="{{ export_opportunities_apply_url }}">find export opportunities</a>.
+                        {% else %}
+                        Your business profile has not been published yet, but you can now <a href="{{ export_opportunities_apply_url }}">find export opportunities</a> and apply on <a href="{% url 'selling-online-overseas' %}">Selling online overseas</a>.
+                        {% endif %}
+                    </p>
+
+                    <p>
+                        You should <a href="{{ contact_us_url }}">contact us</a> if you think this business should not already have a business profile.
+                    </p>
+
+                    <p>
+                        Selected the wrong company? <a href="{% url 'disconnect-account' %}">Change or remove the business from your profile</a>.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if features.ADMIN_REQUESTS_ON %}
+        <div class="margin-top-30 margin-bottom-30 background-stone-30 padding-top-60-l padding-top-30 padding-bottom-60-l padding-bottom-30">
+            <div class="container">
+                <div class="grid-row">
+                    <div class="column-two-thirds">
+                        {% if has_admin_request %}
+                            <h2 class="heading-large margin-top-0">Your request is awaiting approval</h2>
+                            <p>We'll let you know when you've been given approval.</p>
+                            <form method="post" enctype="multipart/form-data" class="no-default-margin" novalidate="novalidate">
+                                You can <button type="submit" class="link" name="{{ form.action.name }}" value="{{ form.SEND_REMINDER }}">resend request</button> or if you are having problems please <a class="link" href="{{ contact_us_url }}">Contact us</a>.
+                            </form>
+                        {% else %}
+                            <h2 class="heading-large margin-top-0">You can request to become administrator for the business profile</h2>
+                            <p>You can send a request to the business profile administrators, so they can give you permission to add or change information about the business. We'll let you know when they do.</p>
+                            <form method="post" enctype="multipart/form-data" class="no-default-margin" novalidate="novalidate">
+                                <button type="submit" class="button padding-left-90 padding-right-90" value="{{ form.SEND_REQUEST}}" name="{{ form.action.name }}">Request</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block feedback_reporter %}
+    <div class="container">
+        <div class="column-two-thirds">
+            <section class="error-reporting">
+                <div class="container">
+                    <a id="error-reporting-section-contact-us" href="{{ services_urls.feedback }}" target="_blank">Is there anything wrong with this page?</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

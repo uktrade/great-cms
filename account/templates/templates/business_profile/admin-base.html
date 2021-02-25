@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs success_box from directory_components %}
+
+{% block head_title %}Business Profile - Admin - great.gov.uk{% endblock %}
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <div class="background-stone-40 padding-bottom-45 margin-bottom-45">
+        <div class="container">
+            {% block breadcrumbs %}{% endblock %}
+            <h1 class="heading-xlarge margin-top-45">Profile settings</h1>
+        </div>
+    </div>
+    <div class="container">
+      {% if messages %}
+          <div>
+          {% for message in messages %}
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                  {% success_box heading="Completed" description=message box_class='width-full background-white margin-top-30' %}
+              {% endif %}
+          {% endfor %}
+          </div>
+      {% endif %}
+       <div class="grid-row grey-text">
+            <div class="column-one-quarter">
+                <section class="margin-bottom-30">
+                    <h6 class="bold-small margin-bottom-15">Collaborator management</h6>
+                    <ul>
+                      {% with name='business-profile-admin-invite-collaborator' %}
+                          <li class="margin-bottom-15{% if request.resolver_match.url_name == name %} bold-small selected-link{% endif %}">
+                              <a href="{% url name %}" class="link">Invite collaborators</a>
+                          </li>
+                      {% endwith %}
+                      {% with name='business-profile-admin-tools' %}
+                          <li class="{% if request.resolver_match.url_name == name %}bold-small selected-link{% endif %}">
+                              <a href="{% url name %}" class="link">Collaborators</a>
+                          </li>
+                      {% endwith %}
+                    </ul>
+                </section>
+		{% if request.user.company.is_publishable %}
+		    <section class="margin-bottom-60">
+		        <h6 class="bold-small margin-bottom-15">Business profile management</h6>
+			<ul>
+			    {% with name='business-profile-publish' %}
+			        <li class="{% if request.resolver_match.url_name == name %}bold-small selected-link{% endif %} margin-bottom-15">
+				    <a href="{% url name %}" class="link">Publish settings</a>
+				</li>
+			    {% endwith %}
+			</ul>
+		    </section>
+		{% endif %}
+                <a href="{% url 'business-profile' %}">Back</a>
+            </div>
+            <div class="column-three-quarters">
+                {% block inner_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

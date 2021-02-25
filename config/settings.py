@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',
+    'account'
 ]
 
 MIDDLEWARE = [

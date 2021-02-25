@@ -1,0 +1,54 @@
+{% extends 'exops/base.html' %}
+{% load parse_date from profile_tags %}
+{% block head_title %}Export Opportunities - Account - great.gov.uk{% endblock %}
+{% block tab_content_main %}
+	<div class="grid-row" id="sso-profile-eig-container">
+		<div class="column-one-quarter" id="sso-profile-eig-buttons">
+			<div class="column-two-thirds">
+				<div class="sso-profile-eig-button-active" id="sso-profile-eig-button-applications">
+					<span>
+						Applications
+					</span>
+				</div>
+				<div class="sso-profile-eig-button-inactive">
+					<a href="{% url 'export-opportunities-email-alerts' %}">
+						Email alerts
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="column-two-thirds">
+			<h1 class="sso-profile-eig-title heading-xlarge">Applications</h1>
+			<br>
+			<div>
+				{% for enquiry in exops_data.enquiries %}
+				<div class="sso-profile-eig-opportunity-item">
+					<div class="sso-profile-eig-opportunity-item-title">
+						<a class="link" href="{{ enquiry.opportunity_url }}">{{ enquiry.title }}</a>
+					</div>
+					<div class="sso-profile-eig-opportunity-item-description">
+						<span>{{ enquiry.description|linebreaks }}</span>
+					</div>
+					<div class="sso-profile-eig-opportunity-item-expires">
+						<strong>Opportunity expires: </strong><span>{{ enquiry.expiration_date|parse_date:"%Y-%m-%d"|date:"d F Y" }}</span>
+					</div>
+					<div class="sso-profile-eig-opportunity-item-application-link">
+						<a class="link" href="{{ enquiry.enquiry_url }}">
+							View your application
+						</a>
+					</div>
+				</div>
+				{% empty %}
+					<div>You have no applications.</div>
+					<br>
+					<br>
+					<div>
+						<a class="button" href="{{ EXPORTING_OPPORTUNITIES_SEARCH_URL }}">Find applications</a>
+					</div>
+					<br>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+{% endblock tab_content_main %}

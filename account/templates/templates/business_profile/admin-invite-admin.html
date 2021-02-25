@@ -1,0 +1,36 @@
+{% extends 'business_profile/admin-base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
+
+{% block breadcrumbs %}
+    {% breadcrumbs 'Remove profile' %}
+        <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+        <a href="{% url 'business-profile-admin-invite-collaborator' %}">Profile settings</a>
+    {% endbreadcrumbs %}
+{% endblock %}
+
+{% block inner_content %}
+    <div class="width-two-thirds">
+        <h2 class="heading-large margin-top-0 margin-bottom-15">Choose a new administrator</h2>
+        <p>You must choose a new administrator before you can remove this profile from your account.</p>
+        <p>Invite a new collaborator to become administrator{% if has_collaborators %} or select one of the collaborators below{% endif %}.</p>
+        <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+            {% if form.non_field_errors %}
+              <div class="error-message margin-bottom-30">
+                <div class="{{ form.error_css_class }}">
+                  {{ form.non_field_errors }}
+                </div>
+              </div>
+            {% endif %}
+            {% if has_collaborators %}
+                {% include 'directory_components/form_widgets/form_field.html' with field=form.sso_id %}
+            <p class="bold-small">Or</p>
+            {% endif %}
+            {% include 'directory_components/form_widgets/form_field.html' with field=form.collaborator_email %}
+            <button class="button">Send invitation</button>
+        </form>
+        <a class="link" href="{% url 'business-profile-admin-tools' %}">Cancel</a>
+    </div>
+{% endblock %}

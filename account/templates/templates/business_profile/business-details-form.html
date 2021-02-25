@@ -1,0 +1,21 @@
+{% extends 'business_profile/base-form.html' %}
+
+{% load breadcrumbs from directory_components %}
+{% load static from staticfiles %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block form_contents %}
+    {% breadcrumbs 'Business details' %}
+        <a href="{% url 'about' %}">Home</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+    {% endbreadcrumbs %}
+    <h1 class="heading-large margin-top-0 margin-bottom-15">Business details</h1>
+    <p>Once you have registered you are unable to change your business type. If your business type has changed you will need to register again with a new account.</p>
+	<div id="business-details-form">
+    	{{ block.super }}
+    </div>
+{% endblock %}
