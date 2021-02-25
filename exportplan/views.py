@@ -179,7 +179,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
-        # To do pass lanaguage from export_plan object rather then  hardcoded
+        # To do pass language from export_plan object rather then  hardcoded
         context['language_data'] = helpers.get_cia_world_factbook_data(
             country=self.request.user.export_plan.export_country_name, key='people,languages'
         )
