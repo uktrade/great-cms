@@ -144,6 +144,23 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
     assert exportplan_data == {'target_markets': [{'country': 'China'}]}
 
 
+def test_export_plan_parser_getting_paid_labels(user, export_plan_data):
+    export_plan_parser = helpers.ExportPlanParser(export_plan_data)
+    assert export_plan_parser.getting_paid_incoterms_transport_label == 'Ex Works (EXW)'
+    assert export_plan_parser.getting_paid_payment_method_label == 'Credit or debit card payments, Merchant services'
+
+
+def test_get_export_plan_pdf_context(user, get_request):
+    pdf_context = helpers.get_export_plan_pdf_context(get_request)
+
+    assert pdf_context['export_plan'] == get_request.user.export_plan.data
+    assert pdf_context['user'] == get_request.user
+    assert pdf_context['sections'] is not None
+    assert pdf_context['calculated_pricing'] is not None
+    assert pdf_context['getting_paid_payment_method_label'] == 'Credit or debit card payments, Merchant services'
+    assert pdf_context['getting_paid_incoterms_transport_label'] == 'Ex Works (EXW)'
+
+
 @mock.patch.object(helpers, 'get_exportplan')
 @mock.patch.object(helpers, 'create_export_plan')
 def test_get_or_create_export_plan_created(

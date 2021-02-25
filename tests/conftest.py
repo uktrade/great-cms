@@ -64,9 +64,9 @@ def export_plan_data(cost_pricing_data):
         'objectives': {'rationale': 'business rationale'},
         'funding_and_credit': {'override_estimated_total_cost': '34.23', 'funding_amount_required': '45.99'},
         'getting_paid': {
-            'payment_method': {'method': ['TTE', 'EFG'], 'notes': 'method 1'},
+            'payment_method': {'methods': ['CREDIT_DEBIT', 'MERCHANT_SERVICES']},
             'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
-            'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
+            'incoterms': {'notes': 'nothing', 'transport': 'EX_WORKS'},
         },
         'business_trips': {'note': 'trip 1'},
         'travel_business_policies': {
