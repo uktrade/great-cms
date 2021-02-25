@@ -9,6 +9,7 @@ from domestic.models import (
     CountryGuidePage,
     DomesticDashboard,
     DomesticHomePage,
+    GreatDomesticHomePage,
     MarketsTopicLandingPage,
     PerformanceDashboardPage,
     TopicLandingPage,
@@ -27,7 +28,7 @@ class RouteSectionFactory(wagtail_factories.StructBlockFactory):
 
 
 class DomesticHomePageFactory(wagtail_factories.PageFactory):
-
+    # This is the MVP Magna homepage for private beta
     title = 'homepage'
     body = factory.fuzzy.FuzzyText(length=255)
     live = True
@@ -35,6 +36,16 @@ class DomesticHomePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = DomesticHomePage
+
+
+class GreatDomesticHomePageFactory(wagtail_factories.PageFactory):
+    # This is the MVP Magna homepage for private beta
+    title = 'homepage'
+    live = True
+    slug = 'homepage'
+
+    class Meta:
+        model = GreatDomesticHomePage
 
 
 class DomesticDashboardFactory(wagtail_factories.PageFactory):

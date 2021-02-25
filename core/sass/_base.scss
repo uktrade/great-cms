@@ -102,3 +102,28 @@ body {
 .no-scoll {
   overflow: hidden ;
 }
+
+.back-to-export-plan {
+
+  @include desktop {
+    display: table;
+    bottom: 20px;
+    position: sticky;
+    top: 600px;
+  }
+}
+
+.back-section {
+  bottom: 0;
+  position: sticky;
+
+  @include breakpoint(sm) {
+    position: relative;
+  }
+}
+
+.lesson-body {
+  @include desktop {
+    display: flex;
+  }
+}

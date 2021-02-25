@@ -243,16 +243,16 @@ def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_
 
 @pytest.mark.django_db
 def test_case_study__str_method():
-    case_study = CaseStudyFactory(title='', company_name='Test Co')
+    case_study = CaseStudyFactory(title='', summary_context='Test Co')
     assert f'{case_study}' == 'Test Co'
 
-    case_study = CaseStudyFactory(title='Alice and Bob export to every continent', company_name='Test Co')
+    case_study = CaseStudyFactory(title='Alice and Bob export to every continent', summary_context='Test Co')
     assert f'{case_study}' == 'Alice and Bob export to every continent'
 
 
 @pytest.mark.django_db
 def test_case_study__timestamps():
-    case_study = CaseStudyFactory(company_name='Test Co')
+    case_study = CaseStudyFactory(summary_context='Test Co')
     created = case_study.created
     modified = case_study.created
     assert created == modified
@@ -291,6 +291,8 @@ _case_study_video_order_error_message = 'The video must come before a still imag
         ([('media', ('image', 'image')), 'text'], None),
         ([('media', ('image', 'video')), 'text'], _case_study_video_order_error_message),
         ([('media', ('video', 'video')), 'text'], _case_study_one_video_only_error_message),
+        (['quote', ('media', ('video', 'image')), 'text'], None),
+        (['quote', 'quote', ('media', ('video', 'image')), 'text'], None),
     ),
     ids=(
         '1. Top-level check: text node only: not fine',
@@ -307,6 +309,8 @@ _case_study_video_order_error_message = 'The video must come before a still imag
         '12. media node (two images) and text node: fine',
         '13. media node (image before video) and text node: not fine',
         '14. media node (two videos) and text node: not fine',
+        '15. quote node, media node (video and image) and text node: fine',
+        '16. 2 quote nodes, media node (video and image) and text node: fine',
     ),
 )
 def test_case_study_body_validation(block_type_values, exception_message):

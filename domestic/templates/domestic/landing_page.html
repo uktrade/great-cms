@@ -41,14 +41,13 @@
 </section>
 
 
-{% comment %} THIS SECTION STILL NEEDS WIRING UP - COMING IN NEXT TICKET {% endcomment %}
 <section class="sector-potential-section padding-bottom-0">
   <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m">
     <div class="container padding-bottom-45-m">
       <div class="width-full width-two-thirds-l">
           <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
           <p>Use our guides to identify new export markets and inform your international sales plan.</p>
-          <form class="sector-potential-form" action="" method="GET">
+          <form class="sector-potential-form" action="{% slugurl 'markets' %}" method="GET">
             {{ sector_form }}
             <button type="submit" class="button margin-top-15 show-markets" id="sector-submit">Show markets</button>
             <span class="verbose">Select a sector to enable the submit button.</span>
@@ -58,11 +57,12 @@
       <div class="container sector-selector-quick-links">
         <hr class="quick-links-separator ">
         <ul class="grid-row">
-          {% for sector in sector_list %}
+          {% for sector in top_sectors %}
             {% if sector.pages_count > 0 %}
             <li>
-              <a href="/?sector={{ sector.name }}" class="quick-link link">
-                <img src="{{ sector.icon.url }}" alt="" class="quick-links-icon">
+              <a href="{% slugurl 'markets' %}?sector={{ sector.name }}" class="quick-link link">
+                {% image sector.icon original as sector_icon_rendition %}
+                <img src="{{ sector_icon_rendition.url }}" alt="" class="quick-links-icon">
                 <span class="sector-name">{{ sector.name }}</span>
                 <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
               </a>

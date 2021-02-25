@@ -2,6 +2,7 @@ import hashlib
 import mimetypes
 from urllib.parse import unquote
 
+from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -212,7 +213,13 @@ class Tag(models.Model):
 @register_snippet
 class IndustryTag(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    icon = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    icon = models.ForeignKey(
+        AltTextImage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     panels = [FieldPanel('name'), ImageChooserPanel('icon')]
 
@@ -864,7 +871,7 @@ class PersonalisationCountryTag(TagBase):
     Tag value will be an ISO-2 Country code ('DE')
     """
 
-    # free_tagging = False  # DISABLED until tag data only comes via data migration
+    free_tagging = False
 
     class Meta:
         verbose_name = 'Country tag for personalisation'
@@ -876,7 +883,7 @@ class PersonalisationRegionTag(TagBase):
     Tag value will be a geographical string ('Europe')
     """
 
-    # free_tagging = False  # DISABLED until tag data only comes via data migration
+    free_tagging = False
 
     class Meta:
         verbose_name = 'Region tag for personalisation'
@@ -888,7 +895,7 @@ class PersonalisationTradingBlocTag(TagBase):
     Tag value will be an Trading blocs
     """
 
-    # free_tagging = False  # DISABLED until tag data only comes via data migration
+    free_tagging = False
 
     class Meta:
         verbose_name = 'Trading bloc tag for personalisation'
@@ -932,13 +939,14 @@ class TradingBlocTaggedCaseStudy(ItemBase):
 def _high_level_validation(value, error_messages):
     TEXT_BLOCK = 'text'  # noqa N806
     MEDIA_BLOCK = 'media'  # noqa N806
+    QUOTE_BLOCK = 'quote'  # noqa N806
 
     # we need to be strict about presence and ordering of these nodes
-    if [node.block_type for node in value] != [MEDIA_BLOCK, TEXT_BLOCK]:
+    if [node.block_type for node in value if node.block_type != QUOTE_BLOCK] != [MEDIA_BLOCK, TEXT_BLOCK]:
         error_messages.append(
             (
                 'This block must contain one Media section (with one or '
-                'two items in it), then one Text section following it.'
+                'two items in it) and/or a Quote section, then one Text section following it.'
             )
         )
 
@@ -1038,13 +1046,16 @@ class CaseStudy(ClusterableModel):
     title = models.CharField(
         max_length=255,
         blank=False,
+        verbose_name='Internal case study title',
     )
 
-    company_name = models.CharField(
+    # old name company_name
+    summary_context = models.CharField(
         max_length=255,
         blank=False,
     )
-    summary = models.TextField(blank=False)  # Deliberately not rich-text / no formatting
+    # old name summary
+    lead_title = models.TextField(blank=False)  # Deliberately not rich-text / no formatting
     body = StreamField(
         [
             (
@@ -1064,9 +1075,16 @@ class CaseStudy(ClusterableModel):
                     features=RICHTEXT_FEATURES__MINIMAL,
                 ),
             ),
+            (
+                'quote',
+                core_blocks.CaseStudyQuoteBlock(),
+            ),
         ],
         validators=[case_study_body_validation],
-        help_text=('This block must contain one Media section (with one or two items in it) and one Text section.'),
+        help_text=(
+            'This block must contain one Media section (with one or two items in it) '
+            'and/or Quote sections, then one Text section.'
+        ),
     )
 
     # We are keeping the personalisation-relevant tags in separate
@@ -1090,8 +1108,8 @@ class CaseStudy(ClusterableModel):
         MultiFieldPanel(
             [
                 FieldPanel('title'),
-                FieldPanel('company_name'),
-                FieldPanel('summary'),
+                FieldPanel('lead_title'),
+                FieldPanel('summary_context', widget=forms.TextInput(attrs={'placeholder': 'How we did it'})),
                 StreamFieldPanel('body'),
             ],
             heading='Case Study content',
@@ -1114,7 +1132,7 @@ class CaseStudy(ClusterableModel):
     ]
 
     def __str__(self):
-        display_name = self.title if self.title else self.company_name
+        display_name = self.title if self.title else self.summary_context
         return f'{display_name}'
 
     def save(self, **kwargs):
