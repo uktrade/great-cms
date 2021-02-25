@@ -1,46 +1,237 @@
-@media print {
-  @page {
-    size: a4 portrait;
-    @frame header_frame {
-      /* Static Frame */
-      -pdf-frame-border: 1;
-      -pdf-frame-content: header_content;
-      left: 40pt;
-      width: 512pt;
-      top: 50pt;
-      height: 40pt;
-    }
-    @frame content_frame {
-      /* Content Frame */
-      -pdf-frame-border: 1;
-      left: 40pt;
-      width: 512pt;
-      top: 90pt;
-      height: 632pt;
-    }
-    @frame footer_frame {
-      /* Another static Frame */
-      -pdf-frame-border: 1;
-      -pdf-frame-content: footer_content;
-      left: 40pt;
-      width: 512pt;
-      top: 772pt;
-      height: 20pt;
-    }
+/*
+XTML2PDF doesn't support CSS vars, and because of the custom @queries, we can't use SCSS.
+Therefore these `vars` are just for reference.
+
+// Colours
+$colour-red-deep-100: #b00d23;
+$colour-stone-100: #dfd5c5;
+$colour-purple-100: #4f0b7b;
+$colour-red-100: #e41f13;
+$colour-red-90: #e93836;
+$colour-red-80: #eb4f4d;
+$colour-red-70: #eb6667;
+$colour-red-60: #ee7c7d;
+$colour-red-50: #f19293;
+$colour-red-40: #f4a7a8;
+$colour-red-30: #f7bdbe;
+$colour-red-20: #f9d3d4;
+$colour-red-10: #fce9e9;
+$colour-blue-deep-100: #1e1348;
+$colour-blue-deep-90: #352b5a;
+$colour-blue-deep-80: #4b426d;
+$colour-blue-deep-70: #635a7f;
+$colour-blue-deep-60: #787191;
+$colour-blue-deep-50: #8f89a4;
+$colour-blue-deep-40: #a5a1b6;
+$colour-blue-deep-30: #bcb8c8;
+$colour-blue-deep-20: #d2d0da;
+$colour-blue-deep-10: #e9e7ed;
+$colour-black-100: #000000;
+$colour-black-90: #181818;
+$colour-black-80: #4a4a4a;
+$colour-black-70: #646464;
+$colour-black-60: #7c7c7c;
+$colour-black-50: #959595;
+$colour-black-40: #979797;
+$colour-black-30: #aeaeae;
+$colour-black-20: #c7c7c7;
+$colour-black-10: #e0e0e0;
+$colour-white-100: #ffffff;
+$colour-aqua-100: #007ea3;
+$colour-aqua-20: #cbe5ee;
+$colour-blue-100: #00549f;
+
+*/
+
+/* Core XHTML2PDF layout */
+@page {
+  size: a4 portrait;
+  /* @frame header_frame {
+    -pdf-frame-border: 1;
+    -pdf-frame-content: header_content;
+    left: 40pt;
+    width: 512pt;
+    top: 50pt;
+    height: 40pt;
+  } */
+  @frame content_frame {
+    -pdf-frame-border: 1;
+    left: 40pt;
+    width: 512pt;
+    top: 40pt;
+    height: 672pt;
+  }
+  @frame footer_frame {
+    -pdf-frame-border: 1;
+    -pdf-frame-content: footer_content;
+    left: 40pt;
+    width: 512pt;
+    top: 772pt;
+    height: 20pt;
   }
 
-  h1 {
-    color: red;
-  }
-  pdftoc.pdftoclevel0 {
-    font-weight: bold;
-    margin-top: 0.5em;
-  }
-  pdftoc.pdftoclevel1 {
-    margin-left: 1em;
-  }
-  pdftoc.pdftoclevel2 {
-    margin-left: 2em;
-    font-style: italic;
-  }
+  /* @frame cover_frame {
+    -pdf-frame-border: 10;
+    -pdf-frame-content: cover_frame;
+    left: 40pt;
+    width: 512pt;
+    top: 90pt;
+    height: 632pt;
+  } */
+}
+
+/* pdftoc.pdftoclevel0 {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+pdftoc.pdftoclevel1 {
+  margin-left: 1em;
+}
+pdftoc.pdftoclevel2 {
+  margin-left: 2em;
+  font-style: italic;
+} */
+
+/* Typography */
+@font-face {
+  /* put in quotes and add # at the beginning */
+  font-family: 'FS Lucas';
+  src: url('/static/fonts/FSLucas-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  /* put in quotes and add # at the beginning */
+  font-family: 'FS Lucas SemiBold';
+  src: url('/static/fonts/FSLucas-SemiBold.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+body {
+  font-family: 'FS Lucas';
+  color: #4b426d;
+  font-size: 12pt;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'FS Lucas SemiBold';
+  font-weight: 500;
+}
+h1,
+.title-alpha {
+  font-size: 27pt;
+}
+h2,
+.title-beta {
+  font-size: 18pt;
+}
+h3 {
+}
+h4 {
+}
+h5 {
+}
+h6 {
+}
+a {
+  color: orange;
+  text-decoration: underline;
+}
+.body-alpha {
+  font-size: 18pt;
+}
+.body-beta {
+  font-size: 12pt;
+}
+.body-gamma {
+  font-size: 9pt;
+}
+.weight-bold {
+  font-weight: 700;
+}
+.weight-semi {
+  font-weight: 500;
+}
+.weight-light {
+  font-weight: 300;
+}
+
+/* Page layouts */
+.page {
+  width: 512pt;
+  height: 632pt;
+}
+
+/* Table layouts */
+/* Defaults */
+.layout {
+}
+.layout td {
+  padding-left: 5pt;
+  padding-right: 5pt;
+  border: 1px solid red;
+}
+.layout td:first-child {
+  padding-left: 0;
+}
+.layout td:last-child {
+  padding-right: 0;
+}
+/* Col layouts */
+.layout--two-col {
+}
+.layout--three-col {
+}
+.align-top {
+  vertical-align: top;
+}
+.align-middle {
+  vertical-align: middle;
+}
+.align-bottom {
+  vertical-align: bottom;
+}
+
+/* Col widths */
+/* 10 col */
+.col-10\/1 {
+  width: 51.2pt;
+}
+.col-10-2 {
+  width: 102.4pt;
+}
+.col-10-3 {
+  width: 153.6pt;
+}
+.col-10-4 {
+  width: 204.8pt;
+}
+.col-10-5 {
+  width: 256pt;
+}
+.col-10-6 {
+  width: 307.2pt;
+}
+.col-10-7 {
+  width: 358.4pt;
+}
+.col-10-8 {
+  width: 409.6pt;
+}
+.col-10-9 {
+  width: 460.8pt;
+}
+.col-10-10 {
+  width: 512pt;
+}
+/* 12 col */
+.col-12-1 {
+  width: 42.6pt;
+}
+.col-12-6 {
+  width: 256pt;
 }

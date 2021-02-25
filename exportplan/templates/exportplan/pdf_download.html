@@ -7,32 +7,73 @@
 </head>
 <body>
 
-<!-- Content for Static Frame 'header_frame' -->
-<div id="header_content">
-  <h1>Export Plan {% now "jS F Y" %} {% now "h:i a" %}</h1>
-</div>
-
 <!-- Content for Static Frame 'footer_frame' -->
 <div id="footer_content">
   Page <pdf:pagenumber> of <pdf:pagecount>
 </div>
 
-<pdf:toc />
+{% comment %} <pdf:toc /> {% endcomment %}
+{% comment %} <pdf:nexttemplate name="content_frame"> {% endcomment %}
 
 <!-- HTML Content -->
-<h2>
-  Owner: {{ user.get_full_name|default:user.get_username }}
-</h2>
-<h2>
-  {{ export_plan.export_commodity_codes.0.commodity_name }}
-</h2>
 
-<br>
-<h1>Sections</h1>
-<ul>
-{% for section in sections %}
-  <li>{{ forloop.counter|add:2}} : {{ section }}</li>
-{% endfor %}
+<table class="layout layout--two-col">
+  <tr>
+    <td class="col-10-7 align-top">
+      <h2>Left col</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+    </td>
+    <td class="col-10-3 align-top">
+      <h2>Right col</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<div class="page">
+  <p>Export Plan {% now "jS F Y" %} {% now "h:i a" %}</p>
+  <p>Company: {{ user.company.name}}</p>
+  <p>Owner: {{ user.get_full_name|default:user.get_username }}</p>
+  <p>Email: {{ user.email}}</p>
+  <p>Product: {{ export_plan.export_commodity_codes.0.commodity_name }}</p>
+  <p>HS Code: {{ export_plan.export_commodity_codes.0.commodity_code }}</p>
+  <p>Exporting to: {{ export_plan.export_countries.0.country_name }}</p>
+  <h2>Funding</h2>
+  <p>Total Costs: GDP {{ export_plan.funding_and_credit.funding_amount_required }}</p>
+  <p>Total Funding: GDP {{ total_funding.calculated_total_funding }}</p>
+  <h2>Cost and Pricing</h2>
+  <p>Direct Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs }}</p>
+  <p>Overhead Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs }}</p>
+  <h2>Getting Paid</h2>
+  <p>Payment Method: {{  getting_paid_payment_method_label }}</p>
+  <p>Incoterms: {{  getting_paid_incoterms_transport_label }}</p>
+</div>
+
+<pdf:nextpage>
+
+<div class="page">
+  <h2>Sections</h2>
+  <ul>
+    {% for section in sections %}
+    <li>{{ forloop.counter|add:2}} : {{ section }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+
+  Summary
+  
+  <h2>Getting Paid</h2>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
+ 
 
 </ul>
 Summary
