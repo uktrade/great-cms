@@ -62,6 +62,7 @@
 - GP2-1405 - pdf EP Initial boiler plate creation
 
 - GP2-1632 - export plan DL BE p1
+- GP2-1705 - fix personalisation bar
 
 ### Fixed bugs
 
