@@ -9,9 +9,10 @@ import {
   SET_NEXT_URL,
   SET_PRODUCT,
   SET_MARKET,
+  SET_LOADED,
 } from '@src/actions'
 import { config } from '@src/config'
-import { combineReducers, reduceReducers } from 'redux'
+import { combineReducers } from 'redux'
 import costAndPricing from '@src/reducers/costsAndPricing'
 
 const saveToExportPlan = (payload) => {
@@ -91,7 +92,6 @@ const exportPlanReducer = (state, action) => {
   const newState = { ...state }
   switch (action.type) {
     case SET_PRODUCT:
-      console.log('Setting export plan product')
       const codeChanged =
         (newState.products &&
           newState.products[0] &&
@@ -118,9 +118,18 @@ const exportPlanReducer = (state, action) => {
   return newState
 }
 
+const dataCacheReducer = (state, action) => {
+  const newState = { ...state }
+  if (action.type === SET_LOADED) {
+    newState.cacheVersion = (newState.cacheVersion || 0) + 1
+    return newState
+  }
+  return newState
+}
+
 const setInitialStateReducer = (state, action) => {
   if (action.type === SET_INITIAL_STATE) {
-    state = action.payload
+    return action.payload
   }
   return state
 }
@@ -140,6 +149,9 @@ export const getProducts = (state) =>
   ((state.exportPlan && state.exportPlan.products) || [])[0]
 export const getMarkets = (state) =>
   ((state.exportPlan && state.exportPlan.markets) || [])[0]
+export const getCacheVersion = (state) =>
+  ((state.dataLoader && state.dataLoader.cacheVersion))
+
 
 const rootReducer = (state, action) => {
   state = baseReducers(state, action)
@@ -147,6 +159,7 @@ const rootReducer = (state, action) => {
   return combineReducers({
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
+    dataLoader: dataCacheReducer,
     costAndPricing,
   })(state, action)
 }

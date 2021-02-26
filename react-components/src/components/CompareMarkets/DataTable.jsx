@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import Services from '@src/Services'
+import actions from '@src/actions'
 import { Tooltip } from '@components/tooltip/Tooltip'
 import { isArray, mapArray, deepAssign } from '../../Helpers'
 
@@ -13,17 +15,14 @@ export default function DataTable(props) {
     comparisonMarkets,
     commodityCode,
     removeMarket,
+    cacheVersion,
   } = props
-  const [lCache, setLCache] = useState(
-    (cache[datasetName] = cache[datasetName] || {})
-  )
-  const isMounted = useRef(true)
 
   const dataIn = (data) => {
     cache[datasetName] = deepAssign(cache[datasetName], data)
-    if (isMounted.current) {
-      setLCache(cache[datasetName])
-    }
+    Services.store.dispatch(
+      actions.setLoaded()
+    )
   }
 
   const flagArray = (array, value) => {
@@ -52,7 +51,7 @@ export default function DataTable(props) {
     return new Promise((resolve, reject) => {
       requestFunction(countries, cache.commodityCode)
         .then((result) => {
-          let outData = {}
+          const outData = {}
           let inData = result
           if (isArray(inData)) {
             inData = mapArray(inData, 'country')
@@ -132,7 +131,6 @@ export default function DataTable(props) {
     if (cache.commodityCode !== commodityCode) {
       cache = { commodityCode }
       cache[datasetName] = {}
-      setLCache(cache[datasetName])
     }
     cache[datasetName] = cache[datasetName] || {}
 
@@ -143,9 +141,7 @@ export default function DataTable(props) {
     if (missingCountries.length) {
       getTableData(missingCountries)
     }
-    return () => {
-      isMounted.current = false
-    }
+
   }, [commodityCode, comparisonMarkets])
 
   const yearDiv = (year, baseYear) => {
@@ -268,7 +264,7 @@ export default function DataTable(props) {
 
   return (
     <span>
-      <table className="m-v-0 border-blue-deep-20 valign-middle">
+      <table className={`m-v-0 border-blue-deep-20 valign-middle cache-version-${cacheVersion}`}>
         <thead>
           <tr>
             <th className="body-l-b">&nbsp;</th>
@@ -321,4 +317,8 @@ DataTable.propTypes = {
   }).isRequired,
   commodityCode: PropTypes.string.isRequired,
   removeMarket: PropTypes.func.isRequired,
+  cacheVersion: PropTypes.number,
+}
+DataTable.defaultProps = {
+  cacheVersion: null
 }

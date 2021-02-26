@@ -2,11 +2,6 @@ import React from 'react'
 import Services from '@src/Services'
 import { normaliseValues, get, millify } from '../../Helpers'
 
-
-const getCountryData = (countries) => {
-  return Services
-
-}
 const rankOutOf = (data, key) => {
   return (
     <>
@@ -134,7 +129,6 @@ export default {
   groups: {
     import: {
       dataFunction: Services.getComTradeData,
-      //splitCountriesSequential: true,
     },
   },
   dataFunction: (countries) => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import { getProducts } from '@src/reducers'
+import { getProducts, getCacheVersion } from '@src/reducers'
 import { connect, Provider } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { analytics, get } from '../../Helpers'
@@ -13,7 +13,7 @@ import ComparisonTables from './ComparisonTables'
 const maxSelectedLength = 3
 
 function CompareMarkets(props) {
-  const { selectedProduct, tabs, ctaContainer, selectedTab } = props
+  const { selectedProduct, tabs, ctaContainer, selectedTab, cacheVersion } = props
   const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
@@ -84,6 +84,7 @@ function CompareMarkets(props) {
         removeMarket={removeMarket}
         triggerButton={triggerButton}
         selectedTab={selectedTab}
+        cacheVersion={cacheVersion}
       />
     )
   }
@@ -113,6 +114,7 @@ function CompareMarkets(props) {
 const mapStateToProps = (state) => {
   return {
     selectedProduct: getProducts(state),
+    cacheVersion: getCacheVersion(state),
   }
 }
 
@@ -123,6 +125,7 @@ CompareMarkets.propTypes = {
     commodity_name: PropTypes.string,
     commodity_code: PropTypes.string,
   }),
+  cacheVersion: PropTypes.number,
   tabs: PropTypes.string.isRequired,
   ctaContainer: PropTypes.instanceOf(Element).isRequired,
   selectedTab: PropTypes.string,
@@ -130,6 +133,7 @@ CompareMarkets.propTypes = {
 
 CompareMarkets.defaultProps = {
   selectedProduct: null,
+  cacheVersion: null,
   selectedTab: null
 }
 
