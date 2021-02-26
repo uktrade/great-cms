@@ -1,6 +1,5 @@
 {% load to_json %}
 
-{{ block.super }}
 <script type="text/javascript">
   magna.travelPlanSnapshot({
     element: document.getElementById('stats-for-target-market'),
@@ -85,11 +84,6 @@
         </ul>
       `
     },
-    lesson: {
-      url: "/",
-      title: "Safety when operating abroad",
-      category: "TBD",
-      duration: "3 minutes",
-    },
+    lesson: {{ lesson_details|to_json|safe }},
   })
 </script>

@@ -1,6 +1,5 @@
 {% load to_json %}
 
-{{ block.super }}
 <script type="text/javascript">
   magna.businessRisks({
     element: document.getElementById('business-risks'),
@@ -28,11 +27,6 @@
     risk_likelihood_options: {{ risk_likelihood_options|to_json }},
     risk_impact_options: {{ risk_impact_options|to_json }},
     companyexportplan: {{ export_plan.pk }},
-    lesson: {
-      url: "/",
-      title: "Safety when operating abroad",
-      category: "TBD",
-      duration: "3 minutes",
-    }
+    lesson: {{ lesson_details|to_json|safe }},
   })
 </script>

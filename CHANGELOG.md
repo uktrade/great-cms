@@ -49,7 +49,7 @@
 - GP2-1423 - Cost and pricing page - content change
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 - GP2-1405 - pdf EP Initial boiler plate creation
-
+- GP2-1705 - fix personalisation bar
 
 ### Fixed bugs
 
