@@ -4,7 +4,7 @@ import ReactHtmlParser from 'react-html-parser'
 import { createVideoTranscript } from '../VideoTranscript/VideoTranscript'
 import Slider from 'react-slick'
 
-const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
+const CaseStudy = ({ content: { heading, company, body, carouselItems, carouselQuotes } }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   console.log(body)
@@ -65,6 +65,9 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
             </span>
             <div className="case-study__media m-t-n-xs m-b-s">
               <Slider {...settings}>{ReactHtmlParser(carouselItems)}</Slider>
+            </div>
+            <div className="case-study__quotes m-t-n-xs m-b-s">
+              <Slider {...settings}>{ReactHtmlParser(carouselQuotes)}</Slider>
             </div>
 
             {isOpen && (

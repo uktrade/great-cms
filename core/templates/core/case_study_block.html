@@ -23,6 +23,13 @@
                             {% endif %}
                         {% endfor %}
                     </div>
+                    <div class="case-study__mobile-content--quotes">
+                        {% for block in case_study.body %}
+                            {% if block.block_type == 'quote' %}
+                                {% include_block block %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                     <div class="case-study__mobile-content--text">
                             {% for block in case_study.body %}
                             {% if block.block_type == 'text' %}
@@ -46,7 +53,8 @@
                 heading: caseStudy.querySelector('h3').innerText,
                 company: caseStudy.querySelector('.case-study__company').innerText,
                 body: caseStudy.querySelector(".case-study__mobile-content--text").innerHTML,
-                carouselItems: caseStudy.querySelector(".case-study__mobile-content--media").innerHTML
+                carouselItems: caseStudy.querySelector(".case-study__mobile-content--media").innerHTML,
+                carouselQuotes: caseStudy.querySelector(".case-study__mobile-content--quotes").innerHTML
 
             }
         })

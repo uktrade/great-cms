@@ -18,6 +18,7 @@
 ### Implemented enhancements
 - GP2-1398 - Data loading performance for compare markets page
 - GP2-1701 - Footer - Account functionality
+- GP2-1574 - Case study - Quote surfacing on mobile devices (carousel)
 - GP2-1553 - floating lesson link
 - GP2-1593 - Business Risks page elements
 - GP2-1181 - Business Risks page structure
