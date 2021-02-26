@@ -4,6 +4,7 @@ import wagtail_factories
 from django.utils.text import slugify
 
 from core import blocks, models
+from domestic import models as domestic_models
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
 
@@ -96,6 +97,16 @@ class LessonPlaceholderPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
+# Added by CW for ticket GP2-1559
+class StructurePageFactory(wagtail_factories.PageFactory):
+    title = 'Structure'
+    live = True
+
+    class Meta:
+        model = domestic_models.StructuralPage
+        django_get_or_create = ['slug', 'parent']
+
+
 class DetailPageFactory(wagtail_factories.PageFactory):
     title = 'Detail page'
     live = True
@@ -125,8 +136,8 @@ class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
 
 class CaseStudyFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('word')
-    summary_context = factory.Faker('word')
-    lead_title = factory.fuzzy.FuzzyText(length=200)
+    company_name = factory.Faker('word')
+    summary = factory.fuzzy.FuzzyText(length=200)
 
     # Not bootstrapped:
     # body is a streamfield
