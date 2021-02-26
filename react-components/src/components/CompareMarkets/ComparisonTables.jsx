@@ -15,6 +15,7 @@ export default function ComparisonTables(props) {
     selectedProduct,
     removeMarket,
     triggerButton,
+    selectedTab,
   } = props
   const [activeTab, setActiveTab] = useState()
 
@@ -26,7 +27,8 @@ export default function ComparisonTables(props) {
   if (tabs && Object.keys(tabs).length > 0) {
     listOfTabs = Object.keys(tabs).filter((key) => tabs[key])
     if (!activeTab && listOfTabs.length) {
-      setActiveTab(listOfTabs[0].toUpperCase())
+      debugger;
+      setActiveTab(selectedTab || listOfTabs[0].toUpperCase())
     }
   }
 
@@ -79,6 +81,10 @@ ComparisonTables.propTypes = {
   }).isRequired,
   removeMarket: PropTypes.func.isRequired,
   triggerButton: PropTypes.instanceOf(Object).isRequired,
+  selectedTab: PropTypes.string,
 }
 
+ComparisonTables.defaultProps = {
+  selectedTab: null
+}
 

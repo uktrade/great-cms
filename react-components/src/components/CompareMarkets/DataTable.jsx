@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip } from '@components/tooltip/Tooltip'
 import { isArray, mapArray, deepAssign } from '../../Helpers'
@@ -17,10 +17,13 @@ export default function DataTable(props) {
   const [lCache, setLCache] = useState(
     (cache[datasetName] = cache[datasetName] || {})
   )
+  const isMounted = useRef(true)
 
   const dataIn = (data) => {
     cache[datasetName] = deepAssign(cache[datasetName], data)
-    setLCache(cache[datasetName])
+    if (isMounted.current) {
+      setLCache(cache[datasetName])
+    }
   }
 
   const flagArray = (array, value) => {
@@ -36,7 +39,9 @@ export default function DataTable(props) {
     // Set the columns in the countries provided - to loading
     const loadingIndicators = {}
     countries.forEach((country) => {
-      loadingIndicators[country] = { loading: flagArray(columnList, 1) }
+      loadingIndicators[country.country_iso2_code] = {
+        loading: flagArray(columnList, 1),
+      }
     })
     dataIn(loadingIndicators)
   }
@@ -47,21 +52,31 @@ export default function DataTable(props) {
     return new Promise((resolve, reject) => {
       requestFunction(countries, cache.commodityCode)
         .then((result) => {
-          let data = result
-          if (isArray(data)) {
-            data = mapArray(data, 'country')
+          let outData = {}
+          let inData = result
+          if (isArray(inData)) {
+            inData = mapArray(inData, 'country')
           }
           countries.forEach((country) => {
-            data[country] = data[country] || {}
-            data[country].loading = flagArray(columnList, 0)
+            const iso2 = country.country_iso2_code
+            outData[iso2] = outData[iso2] || 
+                inData[iso2] ||
+                inData[country.country_name] ||
+                {}
+            outData[iso2].loading = flagArray(
+              columnList,
+              0
+            )
           })
-          dataIn(data)
+          dataIn(outData)
           resolve()
         })
         .catch(() => {
           const clear = {}
           countries.forEach((country) => {
-            clear[country] = { loading: flagArray(columnList, 0) }
+            clear[country.country_iso2_code] = {
+              loading: flagArray(columnList, 0),
+            }
           })
           dataIn(clear)
           reject()
@@ -116,16 +131,20 @@ export default function DataTable(props) {
     // Wipe cache if commodity code changes
     if (cache.commodityCode !== commodityCode) {
       cache = { commodityCode }
+      cache[datasetName] = {}
+      setLCache(cache[datasetName])
     }
     cache[datasetName] = cache[datasetName] || {}
-    const countries = Object.values(comparisonMarkets).map(
-      (country) => country.country_name
+
+    const missingCountries = Object.values(comparisonMarkets).filter(
+      (country) => !cache[datasetName][country.country_iso2_code]
     )
-    const missingCountries = countries.filter((country) => !lCache[country])
-    setLCache(lCache)
 
     if (missingCountries.length) {
       getTableData(missingCountries)
+    }
+    return () => {
+      isMounted.current = false
     }
   }, [commodityCode, comparisonMarkets])
 
@@ -170,7 +189,7 @@ export default function DataTable(props) {
   const years = {}
   Object.values(comparisonMarkets).forEach((market) => {
     const countryData =
-      cache[datasetName] && cache[datasetName][market.country_name]
+      cache[datasetName] && cache[datasetName][market.country_iso2_code]
     if (countryData) {
       Object.values(config.columns).forEach((columnConfig) => {
         if (columnConfig.year) {
@@ -205,7 +224,7 @@ export default function DataTable(props) {
 
   const tableBody = Object.values(comparisonMarkets).map((market) => {
     const countryData =
-      cache[datasetName] && cache[datasetName][market.country_name]
+      cache[datasetName] && cache[datasetName][market.country_iso2_code]
     const countryRow = Object.keys(config.columns).map((columnKey) => {
       const cellConfig = config.columns[columnKey]
       return (

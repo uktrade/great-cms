@@ -43,7 +43,7 @@ cssselect==1.1.0
     # via pyquery
 dateparser==0.7.2
     # via -r requirements.in
-directory-api-client==22.14.0
+directory-api-client==22.15.0
     # via -r requirements.in
 directory-client-core==6.3.0
     # via
@@ -128,7 +128,11 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
+<<<<<<< HEAD
 faker==6.4.1
+=======
+faker==6.5.0
+>>>>>>> First entry
     # via factory-boy
 freezegun==0.1.5
     # via -r requirements.in
@@ -148,7 +152,11 @@ idna==2.10
     # via requests
 imagesize==1.2.0
     # via sphinx
+<<<<<<< HEAD
 importlib-metadata==3.6.0
+=======
+importlib-metadata==3.7.0
+>>>>>>> First entry
     # via jsonschema
 iso3166==1.0.1
     # via -r requirements.in

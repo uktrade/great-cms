@@ -91,20 +91,21 @@ const exportPlanReducer = (state, action) => {
   const newState = { ...state }
   switch (action.type) {
     case SET_PRODUCT:
-      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
-        () => {
-          const codeChanged =
-            (newState.products &&
-              newState.products[0] &&
-              newState.products[0].commodity_code) !==
-            action.payload.commodity_code
-          newState.products = [action.payload]
-          if (codeChanged && config.refreshOnMarketChange) {
-            window.location.reload()
+      console.log('Setting export plan product')
+      const codeChanged =
+        (newState.products &&
+          newState.products[0] &&
+          newState.products[0].commodity_code) !== action.payload.commodity_code
+      newState.products = [action.payload]
+      if (codeChanged) {
+        saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
+          () => {
+            if (config.refreshOnMarketChange) {
+              window.location.reload()
+            }
           }
-        }
-      )
-
+        )
+      }
       break
     case SET_MARKET:
       saveToExportPlan({ export_countries: [action.payload] }).then(() => {

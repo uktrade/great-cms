@@ -13,8 +13,7 @@ import ComparisonTables from './ComparisonTables'
 const maxSelectedLength = 3
 
 function CompareMarkets(props) {
-  const { selectedProduct, tabs, ctaContainer } = props
-
+  const { selectedProduct, tabs, ctaContainer, selectedTab } = props
   const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
@@ -75,7 +74,6 @@ function CompareMarkets(props) {
     ) : (
       <></>
     )
-
   let tabsContainer
   if (selectedProduct && selectedLength) {
     tabsContainer = (
@@ -85,6 +83,7 @@ function CompareMarkets(props) {
         selectedProduct={selectedProduct}
         removeMarket={removeMarket}
         triggerButton={triggerButton}
+        selectedTab={selectedTab}
       />
     )
   }
@@ -126,10 +125,12 @@ CompareMarkets.propTypes = {
   }),
   tabs: PropTypes.string.isRequired,
   ctaContainer: PropTypes.instanceOf(Element).isRequired,
+  selectedTab: PropTypes.string,
 }
 
 CompareMarkets.defaultProps = {
   selectedProduct: null,
+  selectedTab: null
 }
 
 export default function createCompareMarkets({ ...params }) {
@@ -139,6 +140,7 @@ export default function createCompareMarkets({ ...params }) {
       <ConnectedCompareMarkets
         tabs={tabs}
         ctaContainer={params.cta_container}
+        selectedTab={params.selectedTab}
       />
     </Provider>,
     params.element
