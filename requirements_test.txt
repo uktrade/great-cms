@@ -15,13 +15,9 @@ allure-pytest==2.8.34
 allure-python-commons==2.8.34
     # via allure-pytest
 appdirs==1.4.4
-<<<<<<< HEAD
     # via
     #   black
     #   virtualenv
-=======
-    # via black
->>>>>>> First entry
 arabic-reshaper==2.1.1
     # via xhtml2pdf
 astroid==2.5.0
@@ -183,11 +179,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-<<<<<<< HEAD
-faker==6.4.1
-=======
 faker==6.5.0
->>>>>>> First entry
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -245,11 +237,7 @@ idna==2.10
     # via requests
 imagesize==1.2.0
     # via sphinx
-<<<<<<< HEAD
-importlib-metadata==3.6.0
-=======
 importlib-metadata==3.7.0
->>>>>>> First entry
     # via
     #   flake8
     #   jsonschema
