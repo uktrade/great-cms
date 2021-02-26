@@ -69,6 +69,8 @@ Secrets such as API keys and environment specific configurations are placed in `
 
 When setting up the project initially ensure you have postgress app running and have created a db called `greatcms` with a user called `debug`. Instructions shown here - https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
 
+Elevate user debug to superuser `ALTER USER debug WITH SUPERUSER;`
+
 ### Setting up the Chrome Driver
 
 1. Download `Chrome driver` from the official site https://chromedriver.chromium.org/
