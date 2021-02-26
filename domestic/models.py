@@ -186,7 +186,6 @@ class DomesticDashboard(
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
 
 
-# Added by CW for ticket GP2-1559
 class StructuralPage(BaseContentPage):
     """Structural page to return page not found"""
 
@@ -195,10 +194,10 @@ class StructuralPage(BaseContentPage):
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always HTTP404
-        return HttpResponseNotFound
+        return HttpResponseNotFound()
 
     def serve(self, request):
-        return HttpResponseNotFound
+        return HttpResponseNotFound()
 
 
 class GreatDomesticHomePage(

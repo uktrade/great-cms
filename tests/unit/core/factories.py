@@ -97,7 +97,6 @@ class LessonPlaceholderPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
-# Added by CW for ticket GP2-1559
 class StructurePageFactory(wagtail_factories.PageFactory):
     title = 'Structure'
     live = True
