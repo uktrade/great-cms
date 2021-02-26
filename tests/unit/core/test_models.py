@@ -458,7 +458,6 @@ def test_placeholder_page_redirects_to_module(
         assert resp._headers['location'] == ('Location', curated_list_page.url)
 
 
-# Added by CW for GP2-1559
 @pytest.mark.django_db
 def test_structure_page_redirects_to_http404(
     rf,
