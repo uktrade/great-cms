@@ -446,7 +446,7 @@ def test_get_comtrade_data(mock_import_data, client):
     assert response['DE']['import_data_from_uk']['year_on_year_change'] == -9.247934824633912
 
 
-@mock.patch.object(helpers, 'get_country_data')
+@mock.patch.object(api_client.dataservices, 'get_country_data_by_country')
 @pytest.mark.django_db
 def test_get_country_data(mock_country_data, client):
 
@@ -464,11 +464,13 @@ def test_get_country_data(mock_country_data, client):
             'EaseOfDoingBusiness': {'total': 264, 'rank': 22, 'year_2019': 22},
         },
     }
-    mock_country_data.return_value = country_data
-
-    response = helpers.get_country_data(countries_list=['Germany'])
+    mock_country_data.return_value = create_response(status_code=200, json_body=country_data)
+    response = helpers.get_country_data(
+        countries=['Germany'], fields=['ConsumerPriceIndex', 'CorruptionPerceptionsIndex']
+    )
     assert 'DE' in response.keys()
     assert response.get('DE') == country_data['DE']
+    assert response.get('FR') == country_data['FR']
 
 
 def test_build_twitter_link(rf):
