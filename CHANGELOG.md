@@ -2,6 +2,7 @@
 
 ## Pre-release
 
+- GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
 - GP2-1575 - Casestudy rename, reorder and tweak style
 - NO TICKET - django 2.2.19 upgrade
