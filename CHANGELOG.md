@@ -2,6 +2,7 @@
 
 ## Pre-release
 
+- GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
 - GP2-1575 - Casestudy rename, reorder and tweak style
 - NO TICKET - django 2.2.19 upgrade
 - GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
