@@ -5,6 +5,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.http import HttpResponseNotFound
 from django.test import RequestFactory, TestCase
 from wagtail.admin.edit_handlers import ObjectList
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
@@ -41,6 +42,7 @@ from .factories import (
     CaseStudyFactory,
     DetailPageFactory,
     LessonPlaceholderPageFactory,
+    StructurePageFactory,
     TopicPageFactory,
 )
 
@@ -243,16 +245,16 @@ def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_
 
 @pytest.mark.django_db
 def test_case_study__str_method():
-    case_study = CaseStudyFactory(title='', summary_context='Test Co')
+    case_study = CaseStudyFactory(title='', company_name='Test Co')
     assert f'{case_study}' == 'Test Co'
 
-    case_study = CaseStudyFactory(title='Alice and Bob export to every continent', summary_context='Test Co')
+    case_study = CaseStudyFactory(title='Alice and Bob export to every continent', company_name='Test Co')
     assert f'{case_study}' == 'Alice and Bob export to every continent'
 
 
 @pytest.mark.django_db
 def test_case_study__timestamps():
-    case_study = CaseStudyFactory(summary_context='Test Co')
+    case_study = CaseStudyFactory(company_name='Test Co')
     created = case_study.created
     modified = case_study.created
     assert created == modified
@@ -454,6 +456,21 @@ def test_placeholder_page_redirects_to_module(
         resp = getattr(placeholder_page, page_method)(request)
 
         assert resp._headers['location'] == ('Location', curated_list_page.url)
+
+
+# Added by CW for GP2-1559
+@pytest.mark.django_db
+def test_structure_page_redirects_to_http404(
+    rf,
+    domestic_homepage,
+    domestic_site,
+):
+    # The structure pages should never render their own content and instead return Http404
+    structure_page = StructurePageFactory(parent=domestic_homepage)
+    for page_method in ('serve', 'serve_preview'):
+        request = rf.get('/foo/')
+        resp = getattr(structure_page, page_method)(request)
+        assert resp.status_code == HttpResponseNotFound.status_code
 
 
 class DetailPageTests(WagtailPageTests):
