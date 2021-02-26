@@ -422,24 +422,28 @@ def test_millify(amount, expected):
 
 
 @mock.patch.object(api_client.dataservices, 'get_last_year_import_data_by_country')
-@mock.patch.object(exportplan_helpers, 'get_country_data')
 @pytest.mark.django_db
-def test_get_comtrade_data(mock_country_data, mock_import_data, client):
+def test_get_comtrade_data(mock_import_data, client):
     import_data = {
         'DE': [
             {'year': '2019', 'uk_or_world': 'WLD', 'trade_value': '532907699'},
-            {'year': '2019', 'uk_or_world': 'GBR', 'trade_value': '17954090'},
+            {'year': '2018', 'uk_or_world': 'GBR', 'trade_value': '17954090'},
             {'year': '2018', 'uk_or_world': 'WLD', 'trade_value': '507537056'},
-            {'year': '2018', 'uk_or_world': 'GBR', 'trade_value': '19783671'},
+            {'year': '2017', 'uk_or_world': 'GBR', 'trade_value': '19783671'},
         ]
     }
 
-    mock_import_data.return_value = create_response(status_code=200, content=json.dumps(import_data))
+    mock_import_data.return_value = create_response(status_code=200, json_body=import_data)
 
     response = helpers.get_comtrade_data(countries_list=['DE'], commodity_code='123456')
     assert 'DE' in response.keys()
-
     assert ['import_from_world', 'import_data_from_uk'] == list(response['DE'].keys())
+    assert response['DE']['import_from_world']['trade_value_raw'] == 532907699
+    assert response['DE']['import_from_world']['year'] == '2019'
+    assert response['DE']['import_from_world']['year_on_year_change'] == 4.998776483425872
+    assert response['DE']['import_data_from_uk']['trade_value_raw'] == 17954090
+    assert response['DE']['import_data_from_uk']['year'] == '2018'
+    assert response['DE']['import_data_from_uk']['year_on_year_change'] == -9.247934824633912
 
 
 @mock.patch.object(helpers, 'get_country_data')
