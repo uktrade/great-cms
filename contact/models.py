@@ -152,6 +152,6 @@ class ContactSuccessSnippet(
         return f'Contact Success Snippet: {self.internal_title}'
 
     def save(self, *args, **kwargs):
-        field_values = self.topic_mapping[self.slug]
-        self.internal_title = field_values['title']
+        field_values = self.topic_mapping.get(self.slug, {})
+        self.internal_title = field_values.get('title')
         return super().save(*args, **kwargs)
