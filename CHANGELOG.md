@@ -4,6 +4,10 @@
 
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
 - GP2-1559 - Structural page  for marketing articles
+### Fixed bugs
+- NO TICKET - fix wagtail checkbox layout issue
+
+### Implemented enhancements
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
@@ -34,6 +38,20 @@
 - GP2-1180 - Travel and business policies-page
 - GP2-1404 - Select your product (modal window) - Product and country are not selected
 - GP2-1438 - Random picking for case study if they score same
+- GP2-1435 - Split data retrieval on 'Where to export' data table
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
+- no-ticket - django version upgraded to 2.2.18
+- GP2-1424 - Cost and pricing page - local taxes section
+- GP2-1423 - Cost and pricing page - content change
+- GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+- GP2-1405 - pdf EP Initial boiler plate creation
+
+## [1.4.0](https://github.com/uktrade/great-cms/releases/tag/1.4.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
+### Fixed bugs
+- NO TICKET - add document-link back in as rich-text option	- NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+### Implemented enhancements	### Implemented enhancements
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
@@ -65,7 +83,6 @@
 - GP2-1705 - fix personalisation bar
 
 ### Fixed bugs
-
 - GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
