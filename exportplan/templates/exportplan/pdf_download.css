@@ -101,14 +101,12 @@ pdftoc.pdftoclevel2 {
 
 /* Typography */
 @font-face {
-  /* put in quotes and add # at the beginning */
   font-family: 'FS Lucas';
   src: url("{{host_url}}{%  static 'fonts/FSLucas-Regular.ttf' %}");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  /* put in quotes and add # at the beginning */
   font-family: 'FS Lucas SemiBold';
   src: url("{{host_url}}{%  static 'fonts/FSLucas-SemiBold.ttf' %}");
   font-weight: 500;
