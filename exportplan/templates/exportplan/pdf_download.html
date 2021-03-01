@@ -206,12 +206,12 @@
 
   <h2>Business Objectives</h2>
   {% for objective in export_plan.company_objectives %}
-    <p>Objective {{ forloop.counter }}</p>
-    <p>Description: {{ objective.description }}</p>
-    <p>Start date: {{ objective.start_date }}</p>
-    <p>End date: {{ objective.end_date }}</p>
-    <p>Owner: {{ objective.owner }}</p>
-    <p>Reviews: {{ objective.planned_reviews }}</p>
+  <p>Objective {{ forloop.counter }}</p>
+  <p>Description: {{ objective.description }}</p>
+  <p>Start date: {{ objective.start_date }}</p>
+  <p>End date: {{ objective.end_date }}</p>
+  <p>Owner: {{ objective.owner }}</p>
+  <p>Reviews: {{ objective.planned_reviews }}</p>
   {% endfor %}
 </div>
 
