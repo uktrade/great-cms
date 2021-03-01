@@ -891,11 +891,16 @@ $desktop: 1024px;
     }
 
     .slick-dots {
-      top: 10px;
-      bottom: unset;
+      bottom: -20px;
+      top: unset;
+
 
       & li  {
         margin: 0;
+
+        &:before {
+          background-color: transparent;
+        }
 
         & button:before {
           font-size: 10px;
@@ -913,6 +918,7 @@ $desktop: 1024px;
 
         & .slick-slide {
           height: inherit;
+          margin-bottom: 45px;
 
           & > div {
             padding: 0 10px;
