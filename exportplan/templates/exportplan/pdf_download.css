@@ -59,7 +59,7 @@ $colour-blue-100: #00549f;
     left: 40pt;
     width: 512pt;
     top: 40pt;
-    height: 672pt;
+    height: 720pt;
   }
   @frame footer_frame {
     /* -pdf-frame-border: 1; */
@@ -67,7 +67,7 @@ $colour-blue-100: #00549f;
     left: 40pt;
     width: 512pt;
     top: 772pt;
-    height: 20pt;
+    height: 30pt;
   }
 
   /* @frame cover_frame {
@@ -78,6 +78,11 @@ $colour-blue-100: #00549f;
     top: 90pt;
     height: 632pt;
   } */
+}
+
+.page-footer {
+  border-top: 1pt solid #d2d0da;
+  padding-top: 8pt;
 }
 
 /* pdftoc.pdftoclevel0 {
