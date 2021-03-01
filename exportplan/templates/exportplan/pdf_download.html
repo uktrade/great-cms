@@ -1,3 +1,4 @@
+{% load static %}
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style>
@@ -36,7 +37,7 @@
 <table class="layout">
   <tr class="text-align-centre">
     <td class="pad-y-1">
-      <img class="logo logo--cover" src="http://greatcms.trade.great:8020/static/images/pdf_download_logo.jpg" alt="NA" />
+      <img class="logo logo--cover" src="{{host_url}}{%  static "images/pdf_download_logo.jpg"  %}"/>
     </td>
   </tr>
   <tr class="hr hr--red-150"><td></td></tr>
@@ -55,7 +56,7 @@
   </tr>
   <tr class="text-align-right">
     <td class="pad-t-5">
-      <img class="logo logo--great" src="http://greatcms.trade.great:8020/static/images/pdf_download_great-logo.jpg" alt="NA" />
+      <img class="logo logo--great" src="{{host_url}}{%  static "images/pdf_download_great-logo.jpg"  %}" alt="NA" />
     </td>
   </tr>
 </table>
@@ -171,7 +172,7 @@
       <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs }}</p>
       <h6 class="body-gamma pad-y-0">Overhead costs total</h6>
       <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs }}</p>
-      
+
       <h3 class="pad-b-1">Getting paid</h3>
       <h6 class="body-gamma pad-y-0">Payment method</h6>
       <p class="pad-t-0"><strong>{{ getting_paid_payment_method_labe|default:"NA" }}</strong></p>
@@ -232,7 +233,7 @@
 
 
   Summary
-  
+
   <h2>Getting Paid</h2>
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
@@ -240,7 +241,7 @@
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
- 
+
 
 </ul>
 Summary
